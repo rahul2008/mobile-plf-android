@@ -1,25 +1,44 @@
 #!/usr/bin/env groovy
 
-BranchName = env.BRANCH_NAME
-JENKINS_ENV = env.JENKINS_ENV
+def triggers = []
+
+@NonCPS
+def isJobStartedByTimer() {
+    def startedByTimer = false
+    try {
+        def buildCauses = currentBuild.rawBuild.getCauses()
+        for(buildCause in buildCauses) {
+            if(buildCause != null) {
+                def causeDescription = buildCause.getShortDescription()
+                if(causeDescription.contains("Started by timer")) {
+                    startedByTimer = true
+                }
+            }
+        }
+    } catch(err) {
+        echo "Error determining build cause"
+    }
+    return startedByTimer
+}
+
+if (env.BRANCH_NAME == "develop") {
+    triggers << cron('H H(18-20) * * *')
+}
 
 properties([
-    [$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name : 'triggerBy']]],
-    [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '50']]
+    [$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']],
+    pipelineTriggers(triggers),
 ])
 
-def MailRecipient = 'DL_CDP2_Callisto@philips.com, DL_CDP2_MobileUIToolkit@philips.com'
+def getBuildConfig() {
+  return ( env.BRANCH_NAME == 'master' ) ? 'Release' : 'Debug'
+}
 
-node('android && espresso && mobile') {
+stage('Espresso testing') {
     timestamps {
-        stage('Checkout') {
-            checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: false, reference: '', shallow: true, timeout: 30],[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'bbd4d9e8-2a6c-4970-b856-4e4cf901e857', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/uid-android']]])
-            step([$class: 'StashNotifier'])
-        }
-        stage('Unit Tests') {
-           bat "espresso.cmd"
-        }
-        stage('Publish Reports') {
+        node('android && espresso && mobile') {
+            checkout([$class: 'GitSCM', branches: [[name: '*/'+env.BRANCH_NAME]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CheckoutOption', timeout: 30], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'bbd4d9e8-2a6c-4970-b856-4e4cf901e857', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/uid-android']]])
+            bat "espresso.cmd"
            publishHTML(target: [reportDir:'Source/UIKit/uid/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'Unit Tests'])
            publishHTML(target: [reportDir:'Source/UIKit/uid/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'Code Coverage'])
            step([$class: 'ArtifactArchiver', artifacts: 'Source/UIKit/uid/build/reports/coverage/debug/report.xml', excludes: null, fingerprint: true, onlyIfSuccessful: true])
@@ -27,83 +46,91 @@ node('android && espresso && mobile') {
     }
 }
 
-node('android') {
-    timestamps {
+node('android && 25.0.0 && Ubuntu') {
+  timestamps {
+    def APP_ROOT = "Source/CatalogApp"
+    def CONFIG = getBuildConfig()
+    def VERSION = ""
+    def ANDROID_RELEASE_CANDIDATE = ""
+    def ANDROID_VERSION_CODE = ""
+    def STARTED_BY_TIMER = isJobStartedByTimer()
 
-        try {
-            stage('Checkout') {
-                checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: false, reference: '', shallow: true, timeout: 30],[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'bbd4d9e8-2a6c-4970-b856-4e4cf901e857', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/uid-android']]])
-                step([$class: 'StashNotifier'])
-            }
+    stage('Checkout') {
+			checkout([$class: 'GitSCM', branches: [[name: '*/'+env.BRANCH_NAME]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CheckoutOption', timeout: 30], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: false, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'bbd4d9e8-2a6c-4970-b856-4e4cf901e857', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/uid-android']]])
+		}
 
-            if (BranchName =~ /master|develop|release.*/) {
-                stage ('build') {
-                    sh '''#!/bin/bash -l
-                        chmod -R 755 .
-                        cd ./Source/CatalogApp
-                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease artifactoryPublish
-                    '''
-                }
-                stage('HockeyApp upload') {
-                    echo "Uploading to HockeyApp"
-                    sh '''#!/bin/bash -l
-                        chmod -R 755 .
-                        cd ./Source/CatalogApp
-                        ./gradlew -PenvCode=${JENKINS_ENV} uploadReleaseToHockeyApp
-                    '''
-                }
-            } else {
-                stage ('build') {
-                    sh '''#!/bin/bash -l
-                        chmod -R 755 .
-                        cd ./Source/CatalogApp
-                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease
-                    '''
-                }
-            }
-            stage ('save dependencies list') {
-                sh '''#!/bin/bash -l
-                    cd ./Source/CatalogApp
-                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
-                    cd ../UIKit
-                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
-                '''
-            }
+    try {
+      stage('Build') {
+          // Make scripts executable
+          sh """#!/bin/bash -l
+              chmod +x git_version.sh
+              chmod +x set_version.sh
+              chmod +x ${APP_ROOT}/gradlew
+          """
 
-            stage ('reporting') {
-                archiveArtifacts '**/dependencies.lock'
-            }
+          // Determine version
+          if (env.BRANCH_NAME =~ /release\/.*/) {
+              VERSION = sh(returnStdout: true, script: './git_version.sh rc').trim()
+          } else {
+              VERSION = sh(returnStdout: true, script: './git_version.sh snapshot').trim()
+          }
+          currentBuild.description = VERSION
+          ANDROID_RELEASE_CANDIDATE = sh(returnStdout: true, script: "echo ${VERSION} | cut -d. -f4").trim()
+          ANDROID_RELEASE_CANDIDATE = ("0000" + ANDROID_RELEASE_CANDIDATE).substring(ANDROID_RELEASE_CANDIDATE.length())
+          ANDROID_VERSION_CODE = sh(returnStdout: true, script: "echo ${VERSION} | cut -d- -f1 | sed 's/[^0-9]*//g'").trim()
+          ANDROID_VERSION_CODE = (ANDROID_VERSION_CODE + ANDROID_RELEASE_CANDIDATE).toInteger()
 
-            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
-                stage ('callIntegrationPipeline') {
-                    if (BranchName =~ "/") {
-                        BranchName = BranchName.replaceAll('/','%2F')
-                        echo "BranchName changed to ${BranchName}"
-                    }
-                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'uid'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
-                }
-            }
+          // Print environment
+          sh """#!/bin/bash -l
+              echo "---------------------- Printing Environment --------------------------"
+              env | sort
+              echo "----------------------- End of Environment ---------------------------"
 
-        } catch(err) {
-            currentBuild.result = 'FAILURE'
-            error ("Someone just broke the build", err.toString())
-        } finally {
-            stage('informing') {
-                step([$class: 'StashNotifier'])
-                step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
-            }
-            stage('Cleaning workspace') {
-                step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
-            }
+              echo "Started by timer: ${STARTED_BY_TIMER}"
+
+              echo "Android Release Candidate: ${ANDROID_RELEASE_CANDIDATE}"
+              echo "Android Version Code: ${ANDROID_VERSION_CODE}"
+
+              ./set_version.sh ${VERSION} ${ANDROID_VERSION_CODE}
+          """
+
+          // Execute build
+          sh """#!/bin/bash -l
+              echo \"Building VERSION ${VERSION} for branch ${env.BRANCH_NAME} with CONFIG ${CONFIG}\"
+              cd ${APP_ROOT}
+              ./gradlew clean assemble${CONFIG}
+          """
+      }
+
+      stage('Archive Build') {
+        // Archive APK files
+        step([$class: 'ArtifactArchiver', artifacts: APP_ROOT + '/app/build/outputs/apk/*debug.apk', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+
+        // Archive libraries
+        step([$class: 'ArtifactArchiver', artifacts: 'Source/UIKit/uid/build/outputs/aar/uid-debug.aar', excludes: null, fingerprint: true, onlyIfSuccessful: true])
+      }
+
+      if(env.BRANCH_NAME == "develop") {
+        stage('HockeyApp Upload') {
+          sh """#!/bin/bash -l
+            cp Documentation/External/ReleaseNotes.md ${APP_ROOT}/app/build/outputs/apk
+            cd ${APP_ROOT}/app/build/outputs/apk
+            curl -F \"status=2\" -F \"notify=1\" -F \"ipa=@app-debug.apk\" -F \"notes=<ReleaseNotes.md\" -H \"X-hockeyApptoken: b9d6e2f453894b4fbcb161b33a94f6c8\" https://rink.hockeyapp.net/api/2/apps/ecacf68949f344a686bed78d47449973/app_versions/upload
+          """
         }
-    }
-}
+      }
 
-node('master') {
-    stage('Cleaning workspace') {
-        def wrk = pwd() + "@script/"
-        dir("${wrk}") {
-            deleteDir()
-        }
+      currentBuild.result = 'SUCCESS'
+    } catch(err) {
+      currentBuild.result = 'FAILED'
     }
+
+    stage('Send Notifications') {
+      step([$class: 'StashNotifier'])
+      if(STARTED_BY_TIMER) {
+            echo "Started by timer!"
+            step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: emailextrecipients([[$class: 'CulpritsRecipientProvider'], [$class: 'RequesterRecipientProvider']])])
+      }
+    }
+  }
 }

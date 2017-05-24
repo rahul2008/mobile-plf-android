@@ -414,7 +414,7 @@ public class AlertDialogFragment extends DialogFragment {
 
         public AlertDialogFragment create() {
             // so we always have to re-set the theme
-            final AlertDialogFragment dialog = AlertDialogFragment.create(params, theme);
+            final AlertDialogFragment dialog = AlertDialogFragment.create(params, 0);
 
             dialog.setCancelable(params.isCancelable());
             if (params.isCancelable()) {
