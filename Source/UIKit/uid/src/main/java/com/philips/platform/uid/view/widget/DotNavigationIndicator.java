@@ -12,6 +12,7 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -27,13 +28,14 @@ import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
 
 /**
- * This is class which will draw dots based on how many items in viewpager's Adapter.
- * If there are no items in it then it will not be displayed meaning this view's visibility will be GONE
+ * <code>DotNavigationIndicator</code> draw dots based on number of items in viewpager's Adapter.
+ * Adapter must be set on <code>{@link ViewPager}</code>
+ * before calling {@link DotNavigationIndicator#setViewPager(ViewPager)} or {@link DotNavigationIndicator#setCurrentItem(int)}
  */
 public class DotNavigationIndicator extends LinearLayout implements PageIndicator {
     private ViewPager viewPager;
-    private OnPageChangeListener mListener;
-    private int mSelectedIndex;
+    private OnPageChangeListener pageChangeListener;
+    private int selectedIndex;
     private boolean isIconActionDownDetected;
     private boolean isIconActionUpDetected;
     private int iconLeftSpacing;
@@ -88,10 +90,6 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
         if (this.viewPager == viewPager) {
             return;
         }
-        if (this.viewPager != null) {
-            this.viewPager.setOnPageChangeListener(null);
-        }
-
         this.viewPager = viewPager;
         viewPager.addOnPageChangeListener(this);
         drawIndicatorDots();
@@ -103,23 +101,23 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
      */
     @Override
     public void onPageScrollStateChanged(int state) {
-        if (mListener != null) {
-            mListener.onPageScrollStateChanged(state);
+        if (pageChangeListener != null) {
+            pageChangeListener.onPageScrollStateChanged(state);
         }
     }
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        if (mListener != null) {
-            mListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
+        if (pageChangeListener != null) {
+            pageChangeListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
         }
     }
 
     @Override
     public void onPageSelected(int currentPage) {
         setCurrentItem(currentPage);
-        if (mListener != null) {
-            mListener.onPageSelected(currentPage);
+        if (pageChangeListener != null) {
+            pageChangeListener.onPageSelected(currentPage);
         }
     }
 
@@ -143,14 +141,13 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     @Override
     public void setCurrentItem(int position) {
         isViewPagerInitialized();
-        mSelectedIndex = position;
+        selectedIndex = position;
         viewPager.setCurrentItem(position);
 
         int childCount = getChildCount();
         for (int childIndex = 0; childIndex < childCount; childIndex++) {
             View child = getChildAt(childIndex);
-            final boolean isSelected = (childIndex == position);
-            child.setSelected(isSelected);
+            child.setSelected(childIndex == position);
         }
     }
 
@@ -161,7 +158,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
      */
     @Override
     public void setOnPageChangeListener(@NonNull OnPageChangeListener listener) {
-        mListener = listener;
+        pageChangeListener = listener;
     }
 
     @Override
@@ -182,8 +179,12 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
             handleTouchAndDeletePreviousNextToPager(event);
             return true;
         }
-
         return false;
+    }
+
+    private void resetIconTouch() {
+        isIconActionDownDetected = false;
+        isIconActionUpDetected = false;
     }
 
     private void handleTouchAndDeletePreviousNextToPager(final MotionEvent event) {
@@ -199,24 +200,15 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
         }
     }
 
-    private void resetIconTouch() {
-        isIconActionDownDetected = false;
-        isIconActionUpDetected = false;
-    }
-
     private void drawIndicatorDots() {
         removeAllViews();
         final PagerAdapter iconAdapter = viewPager.getAdapter();
         int count = iconAdapter.getCount();
         if (count > 1) {
             for (int itemIndex = 0; itemIndex < count; itemIndex++) {
-                View view = getNavigationDisplayView();
-                addView(view);
+                addView(getNavigationDisplayView());
             }
-            if (mSelectedIndex > count) {
-                mSelectedIndex = count - 1;
-            }
-            setCurrentItem(mSelectedIndex);
+            setCurrentItem(selectedIndex);
             requestLayout();
         } else {
             setVisibility(GONE);
@@ -257,10 +249,11 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     protected void showNext() {
         isViewPagerInitialized();
 
-        if (mSelectedIndex == viewPager.getAdapter().getCount()) {
+        if (selectedIndex == viewPager.getAdapter().getCount()) {
             return;
         }
-        viewPager.setCurrentItem(mSelectedIndex + 1);
+
+        viewPager.setCurrentItem(selectedIndex + 1);
     }
 
     /**
@@ -270,12 +263,13 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     protected void showPrevious() {
         isViewPagerInitialized();
 
-        if (mSelectedIndex == 0) {
+        if (selectedIndex == 0) {
             return;
         }
-        viewPager.setCurrentItem(mSelectedIndex - 1);
+        viewPager.setCurrentItem(selectedIndex - 1);
     }
 
+    @Nullable
     private View getSelectedChild() {
         int childCount = getChildCount();
         for (int childIndex = 0; childIndex < childCount; childIndex++) {
@@ -286,8 +280,8 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     }
 
     private void isViewPagerInitialized() {
-        if (viewPager == null) {
-            throw new IllegalStateException("ViewPager has not been bound.");
+        if (viewPager == null || viewPager.getAdapter() == null) {
+            throw new IllegalStateException("ViewPager or adapter not initialized.");
         }
     }
 }

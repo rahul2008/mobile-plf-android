@@ -35,6 +35,7 @@ import junit.framework.Assert;
 import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -48,8 +49,8 @@ public class DotNavigationIndicatorTest extends BaseTest {
     @Rule
     public ActivityTestRule<BaseTestActivity> mActivityTestRule = new ActivityTestRule<>(BaseTestActivity.class, false, false);
     BaseTestActivity activity;
-    private IdlingResource mIdlingResource;
     DotNavigationFragment dotNavigationFragment;
+    private IdlingResource mIdlingResource;
 
     @Before
     public void setUp() throws Exception {
@@ -60,7 +61,6 @@ public class DotNavigationIndicatorTest extends BaseTest {
         mIdlingResource = activity.getIdlingResource();
         // To prove that the test fails, omit this call:
         Espresso.registerIdlingResources(mIdlingResource);
-//        UIDTestUtils.waitFor(activity.getResources(), UIDTestUtils.UI_LOAD_WAIT_TIME);
     }
 
     @After
@@ -97,6 +97,7 @@ public class DotNavigationIndicatorTest extends BaseTest {
         return onView(withId(com.philips.platform.uid.test.R.id.dot_navigation_pager));
     }
 
+    @Ignore
     @Test
     public void verifyUnselectedCircleColorBasedOnSuppliedTheme() throws Exception {
         initPagerWithSecondItemSelected(1);
