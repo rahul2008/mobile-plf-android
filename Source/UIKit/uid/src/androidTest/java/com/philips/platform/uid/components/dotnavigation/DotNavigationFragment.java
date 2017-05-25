@@ -9,9 +9,9 @@ package com.philips.platform.uid.components.dotnavigation;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.test.espresso.core.deps.guava.annotations.VisibleForTesting;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -54,7 +54,7 @@ public class DotNavigationFragment extends Fragment {
         List<PagerItem> pagerItems = new ArrayList<>();
         pagerItems.clear();
         for (int drawable : drawableArray) {
-            pagerItems.add(new PagerItem(ContextCompat.getDrawable(getContext(), drawable), index));
+            pagerItems.add(new PagerItem(VectorDrawableCompat.create(getResources(), drawable, getContext().getTheme()), index));
             index++;
         }
         return pagerItems;

@@ -58,7 +58,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     }
 
     private void init(final Context context, final AttributeSet attrs, final int defStyleAttr) {
-        setGravity(Gravity.CENTER | Gravity.CENTER_VERTICAL);
+        setGravity(Gravity.CENTER);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDDotNavigation, defStyleAttr, R.style.UIDDotNavigationIndicatorItemStyle);
         backgroundDrawable = typedArray.getDrawable(R.styleable.UIDDotNavigation_uidDotNavigationDrawable);
         //Need to check if this works even for normal drawables and icons along with vector
@@ -114,7 +114,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     }
 
     /**
-     *  {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void onPageScrollStateChanged(int state) {
