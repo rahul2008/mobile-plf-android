@@ -13,6 +13,7 @@ import com.philips.platform.appframework.testmicroappfw.data.TestConfigManager;
 import com.philips.platform.appframework.testmicroappfw.models.Chapter;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.util.ArrayList;
 
@@ -33,6 +34,7 @@ public class TestFragment extends AppFrameworkBaseFragment implements TestContra
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        RALog.d(TAG, " OncreateView called ");
         View view=inflater.inflate(R.layout.test_fragment,container,false);
 
         chapterRecyclerView=(RecyclerView) view.findViewById(R.id.chapter_recyclerview);
@@ -55,6 +57,7 @@ public class TestFragment extends AppFrameworkBaseFragment implements TestContra
 
     @Override
     public void displayChapterList(ArrayList<Chapter> chaptersList) {
+        RALog.d(TAG, " Display Chapter List");
         ChapterAdapter chapterAdapter=new ChapterAdapter(getActivity(), chaptersList, new ChapterAdapter.ChapterListCallback() {
             @Override
             public void onChapterItemClicked(Chapter chapter) {

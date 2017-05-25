@@ -36,6 +36,7 @@ import com.philips.platform.baseapp.screens.dataservices.registration.UserRegist
 import com.philips.platform.baseapp.screens.dataservices.settings.SettingsFragment;
 import com.philips.platform.baseapp.screens.dataservices.utility.Utility;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
@@ -416,7 +417,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
             fragmentTransaction.addToBackStack(tag);
             fragmentTransaction.commit();
         } catch (IllegalStateException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, ILLEGAL_STATE_EXCEPTION, e.getMessage());
+            RALog.e(TAG+ILLEGAL_STATE_EXCEPTION, e.getMessage());
         }
 
     }

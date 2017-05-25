@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 /**
  * Adapter is made for Showing instances of Welcome Fragment
@@ -18,6 +19,7 @@ import com.philips.platform.appframework.R;
  * Addition and removal of new screen should be done here
  */
 public class WelcomePagerAdapter extends FragmentPagerAdapter {
+    public static final String TAG =  WelcomePagerAdapter.class.getSimpleName();
 
     private static final String[] CONTENT = new String[] { "Page 1", "Page 2", "Page 3" };
     private final int PAGER_POSITION_ONE = 0;
@@ -29,7 +31,7 @@ public class WelcomePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-
+        RALog.d(TAG,"getItem");
         switch (position) {
             case PAGER_POSITION_ONE:
                 return WelcomePagerFragment.newInstance(R.string.RA_WelcomeScreen_Title,

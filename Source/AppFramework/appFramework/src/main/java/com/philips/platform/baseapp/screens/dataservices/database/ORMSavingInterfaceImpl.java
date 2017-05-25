@@ -13,6 +13,7 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmConse
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMoment;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSettings;
 import com.philips.platform.baseapp.screens.dataservices.utility.NotifyDBRequestListener;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
@@ -84,7 +85,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
                 OrmConsentDetail ormConsent = OrmTypeChecking.checkOrmType(consentDetail, OrmConsentDetail.class);
                 saving.saveConsentDetail(ormConsent);
             } catch (OrmTypeChecking.OrmTypeException e) {
-                AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, ORM_TYPE_EXCEPTION,e.getMessage());
+                RALog.e(TAG+ ORM_TYPE_EXCEPTION,e.getMessage());
             }
 
         }
@@ -104,7 +105,7 @@ public class ORMSavingInterfaceImpl implements DBSavingInterface {
             updateUCUI(characteristicsList, dbRequestListener);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, ORM_TYPE_EXCEPTION,e.getMessage());
+            RALog.e(TAG+ ORM_TYPE_EXCEPTION,e.getMessage());
             return false;
         }
     }

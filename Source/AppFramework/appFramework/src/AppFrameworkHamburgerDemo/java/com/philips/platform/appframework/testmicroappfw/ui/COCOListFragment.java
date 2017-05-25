@@ -13,6 +13,7 @@ import com.philips.platform.appframework.testmicroappfw.data.TestConfigManager;
 import com.philips.platform.appframework.testmicroappfw.models.Chapter;
 import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,7 @@ import java.util.ArrayList;
  */
 
 public class COCOListFragment extends AppFrameworkBaseFragment implements COCOListContract.View {
+
 
     public static final String SELECTED_CHAPTER = "selected_chapter";
 
@@ -40,6 +42,7 @@ public class COCOListFragment extends AppFrameworkBaseFragment implements COCOLi
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        RALog.d(TAG," OnActivityCreated");
         super.onActivityCreated(savedInstanceState);
         cocoListPresenter=new COCOListPresenter(this, TestConfigManager.getInstance(),getActivity());
         Bundle bundle=getArguments();
@@ -55,6 +58,7 @@ public class COCOListFragment extends AppFrameworkBaseFragment implements COCOLi
 
     @Override
     public void displayCoCoList(ArrayList<CommonComponent> commonComponentsList) {
+        RALog.d(TAG," Display Coco List ");
         CoCoAdapter coCoAdapter=new CoCoAdapter(getActivity(),commonComponentsList);
         cocoRecyclerView.setAdapter(coCoAdapter);
         coCoAdapter.notifyDataSetChanged();

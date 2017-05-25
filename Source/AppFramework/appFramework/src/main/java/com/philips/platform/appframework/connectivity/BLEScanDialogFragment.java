@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -26,6 +27,7 @@ import java.util.Set;
  */
 public class BLEScanDialogFragment extends DialogFragment {
 
+    private static final String TAG ="BLEScanDialogFragment";
     private BLEScanDialogListener bleScanDialogListener;
 
     private LeDeviceListAdapter leDeviceListAdapter;
@@ -44,6 +46,7 @@ public class BLEScanDialogFragment extends DialogFragment {
             for (Appliance appliance : savedApplianceList) {
                 if (appliance instanceof BleReferenceAppliance) {
                     storedpplianceList.add((BleReferenceAppliance) appliance);
+                    RALog.d(TAG,"Added Applicance to appliance list");
                 }
             }
         }

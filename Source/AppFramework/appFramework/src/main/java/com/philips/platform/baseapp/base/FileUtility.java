@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -32,13 +33,13 @@ public class FileUtility {
         try {
             inputStream = context.getAssets().open(context.getString(resId));
         } catch (IOException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, FILE_IO,
-                    e.getMessage());        }
+            RALog.e( FILE_IO,
+                    e.getMessage());       }
         return inputStream;
     }
 
     public File createFileFromInputStream(final int resId) {
-
+        RALog.d(TAG," createFileFromInputStream called");
         try {
             InputStream inputStream = getInputStream(resId);
             String filename = "tempFile";
@@ -56,7 +57,7 @@ public class FileUtility {
             inputStream.close();
             return file;
         } catch (IOException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, FILE_IO,
+            RALog.e( FILE_IO,
                    e.getMessage());
         }
 

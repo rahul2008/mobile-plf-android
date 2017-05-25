@@ -13,6 +13,7 @@ import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -20,7 +21,10 @@ import java.util.Set;
 
 public final class BleReferenceApplianceFactory implements DICommApplianceFactory<BleReferenceAppliance> {
     @NonNull
+    public static final String TAG = "BleReferenceApplianceFactory";
+
     private final BleTransportContext bleTransportContext;
+
 
     public BleReferenceApplianceFactory(@NonNull BleTransportContext bleTransportContext) {
         this.bleTransportContext = bleTransportContext;
@@ -28,6 +32,7 @@ public final class BleReferenceApplianceFactory implements DICommApplianceFactor
 
     @Override
     public boolean canCreateApplianceForNode(NetworkNode networkNode) {
+        RALog.d(TAG," To check if appliance for node be created ");
         return BleReferenceAppliance.MODELNAME.equals(networkNode.getModelName());
     }
 

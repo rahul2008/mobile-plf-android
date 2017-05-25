@@ -10,11 +10,12 @@ import android.content.Context;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 public class SettingsFragmentState extends BaseState {
-
+    public static final String TAG = SettingsFragmentState.class.getSimpleName();
     public SettingsFragmentState() {
         super(AppStates.SETTINGS);
     }
@@ -25,6 +26,7 @@ public class SettingsFragmentState extends BaseState {
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
+        RALog.d(TAG," navigate");
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             ((AppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
                     handleFragmentBackStack(new SettingsFragment(), SettingsFragment.TAG,

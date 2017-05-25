@@ -21,6 +21,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.utils.DataServicesConstants;
 
 import java.net.URL;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
  * All rights reserved.
  */
 public class ConnectivityPresenter implements ConnectivityContract.UserActionsListener {
+    public static final String TAG = ConnectivityPresenter.class.getSimpleName();
     private ConnectivityContract.View connectivityViewListener;
     private Context context;
     private String dataCoreBaseUrl;
@@ -50,6 +52,8 @@ public class ConnectivityPresenter implements ConnectivityContract.UserActionsLi
      */
     @Override
     public void processMoment(String momentValue) {
+        RALog.d(TAG," process moment in data core ");
+
         this.momentValue = momentValue;
         if (canSync(user)) {
             if (TextUtils.isEmpty(momentValue)) {
@@ -77,6 +81,7 @@ public class ConnectivityPresenter implements ConnectivityContract.UserActionsLi
         if (user.getHsdpAccessToken() == null || RegistrationConfiguration.getInstance().getHSDPInfo() == null || !BaseAppUtil.isNetworkAvailable(context)) {
             return false;
         }
+        RALog.d(TAG," can sync data from data core or not ");
         return true;
     }
 
@@ -184,7 +189,7 @@ public class ConnectivityPresenter implements ConnectivityContract.UserActionsLi
      * @param context
      */
     public void loadDataCoreURLFromServiceDiscovery(Context context) {
-
+        RALog.d(TAG," loads data core base url from service discovery");
         AppInfraInterface appInfra = ((AppFrameworkApplication) context.getApplicationContext()).getAppInfra();
         ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
 

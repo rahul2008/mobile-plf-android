@@ -6,7 +6,7 @@
 package com.philips.platform.appframework.homescreen;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
+
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
@@ -23,6 +23,7 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.utility.Constants;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ import java.util.Arrays;
  * based on user selection this class loads the next state of the application.
  */
 public class HamburgerActivityPresenter extends UIBasePresenter {
+    public static final String TAG = HamburgerActivityPresenter.class.getSimpleName();
 
     private FragmentView fragmentView;
     private FragmentLauncher fragmentLauncher;
@@ -66,7 +68,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
             }
         }  catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {
-            Log.d(getClass() + "", e.getMessage());
+            RALog.d(TAG, e.getMessage());
             Toast.makeText(fragmentView.getFragmentActivity(), fragmentView.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
         }
     }
