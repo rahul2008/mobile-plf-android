@@ -5,6 +5,7 @@ import android.content.Context;
 import com.philips.platform.appframework.testmicroappfw.data.TestConfigManager;
 import com.philips.platform.appframework.testmicroappfw.models.Chapter;
 import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,7 @@ import java.util.ArrayList;
  */
 
 public class COCOListPresenter implements COCOListContract.UserActionsListener{
+    public static final String TAG=COCOListPresenter.class.getSimpleName();
 
     private COCOListContract.View view;
 
@@ -29,6 +31,7 @@ public class COCOListPresenter implements COCOListContract.UserActionsListener{
 
     @Override
     public void loadCoCoList(Chapter chapter) {
+        RALog.d(TAG, " Load Coco list ");
         testConfigManager.getCoCoList(chapter, new TestConfigManager.TestConfigCallback() {
             @Override
             public void onChaptersLoaded(ArrayList<Chapter> chaptersList) {

@@ -5,7 +5,7 @@
 */
 package com.philips.platform.baseapp.screens.userregistration;
 
-import android.util.Log;
+
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
@@ -17,10 +17,12 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFound
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 public class UserRegistrationSettingsState extends UserRegistrationState {
+    public static final String TAG = UserRegistrationSettingsState.class.getSimpleName();
 
     private BaseState baseState;
     private String SETTINGS_LOGOUT = "logout";
@@ -35,12 +37,13 @@ public class UserRegistrationSettingsState extends UserRegistrationState {
 
     @Override
     public void onUserLogoutSuccess() {
+        RALog.d(TAG," User logout success");
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         try {
             baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), SETTINGS_LOGOUT);
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {
-            Log.d(getClass() + "", e.getMessage());
+            RALog.d(TAG, e.getMessage());
             Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
         }
         if (baseState != null)

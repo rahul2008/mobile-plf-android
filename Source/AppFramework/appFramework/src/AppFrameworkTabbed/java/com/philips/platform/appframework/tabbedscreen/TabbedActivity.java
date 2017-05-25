@@ -21,6 +21,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.screens.settingscreen.IndexSelectionListener;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -42,6 +43,7 @@ public class TabbedActivity extends AppFrameworkBaseActivity implements Fragment
      */
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        RALog.d(TAG, " OnCreate ");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.af_home_tab_top);
         presenter = new TabbedActivityPresenter(this);
@@ -124,6 +126,7 @@ public class TabbedActivity extends AppFrameworkBaseActivity implements Fragment
 
     @Override
     public void onBackPressed() {
+        RALog.d(TAG," Back Pressed ");
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.pagerTabbedHome);
         boolean backState = false;

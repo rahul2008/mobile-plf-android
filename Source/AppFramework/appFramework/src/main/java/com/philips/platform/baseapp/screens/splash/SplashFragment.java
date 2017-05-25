@@ -25,10 +25,11 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.OnboardingBaseFragment;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 public class SplashFragment extends OnboardingBaseFragment implements BackEventListener, FlowManagerListener {
-    public static String TAG = LaunchActivity.class.getSimpleName();
+    public static String TAG = SplashFragment.class.getSimpleName();
     public static int PERMISSION_ALL = 998;
     private static int SPLASH_TIME_OUT = 3000;
     private final int APP_START = 1;
@@ -45,6 +46,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
+        RALog.d(TAG," onCreateView ");
         View view = inflater.inflate(R.layout.uikit_splash_screen_logo_center_tb,container,false);
         initProgressDialog();
         logo = (ImageView) view.findViewById(R.id.splash_logo);
@@ -65,6 +67,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     }
 
     private void initProgressDialog() {
+        RALog.d(TAG," initProgressDialog ");
         progressDialog = new ProgressDialog(getFragmentActivity());
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(false);
@@ -72,6 +75,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     }
 
     private void showProgressDialog(boolean show) {
+        RALog.d(TAG," showProgressDialog ");
         if (progressDialog.isShowing())
             progressDialog.dismiss();
         else if (show && !getFragmentActivity().isFinishing())
@@ -79,6 +83,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     }
 
     private void initializeFlowManager() {
+        RALog.d(TAG," initializeFlowManager ");
         showProgressDialog(true);
             setFlowManager();
             startTimer();
@@ -102,6 +107,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
 
     @Override
     public void onResume() {
+        RALog.d(TAG," onResume called ");
         super.onResume();
         isVisible = true;
         initializeFlowManager();
@@ -109,6 +115,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     }
 
     private void modifyLayoutforMultiWindow() {
+        RALog.d(TAG," modifyLayoutforMultiWindow called ");
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             if (getFragmentActivity().isInMultiWindowMode()) {
                 logo.getLayoutParams().width = (int) getResources().getDimension(R.dimen.uikit_hamburger_logo_width);
@@ -136,6 +143,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
 
     @Override
     public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
+        RALog.d(TAG," onMultiWindowModeChanged called");
         super.onMultiWindowModeChanged(isInMultiWindowMode);
        if(isInMultiWindowMode){
            modifyLayoutforMultiWindow();
@@ -169,12 +177,14 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
 
     @Override
     public void onStop() {
+        RALog.d(TAG," onMultiWindowModeChanged called");
         super.onStop();
         isVisible = false;
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
+        RALog.d(TAG," onConfigurationChanged called  ");
         super.onConfigurationChanged(newConfig);
         getActivity().getWindow().getDecorView().requestLayout();
     }

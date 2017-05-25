@@ -8,7 +8,7 @@ package com.philips.platform.baseapp.screens.userregistration;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
+
 import android.widget.Toast;
 
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -38,6 +38,7 @@ import com.philips.platform.baseapp.screens.dataservices.utility.SyncScheduler;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPRetailerFlowState;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -59,7 +60,6 @@ import static com.philips.platform.baseapp.screens.utility.Constants.UNSUPPORTED
 public abstract class UserRegistrationState extends BaseState implements UserRegistrationListener, UserRegistrationUIEventListener {
 
     private static final String TAG = UserRegistrationState.class.getSimpleName();
-    final String AI = "appinfra";
     private Context activityContext;
     private User userObject;
     private FragmentLauncher fragmentLauncher;
@@ -129,11 +129,11 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
             //Register GCM token with data services on login success
             if (BaseAppUtil.isDSPollingEnabled(activity.getApplicationContext())) {
-                Log.d(PushNotificationManager.TAG, "Polling is enabled");
+                RALog.d(PushNotificationManager.TAG, "Polling is enabled");
                 SyncScheduler.getInstance().scheduleSync();
 
             } else {
-                Log.d(PushNotificationManager.TAG, "Push notification is enabled");
+                RALog.d(PushNotificationManager.TAG, "Push notification is enabled");
                 ((AppFrameworkApplication) activity.getApplicationContext()).getDataServiceState().registerForReceivingPayload();
                 ((AppFrameworkApplication) activity.getApplicationContext()).getDataServiceState().registerDSForRegisteringToken();
                 PushNotificationManager.getInstance().startPushNotificationRegistration(activity.getApplicationContext());
@@ -144,7 +144,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
                 baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), "URComplete");
             } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                     e) {
-                Log.d(getClass() + "", e.getMessage());
+                RALog.d(TAG, e.getMessage());
                 Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
             }
             if (null != baseState) {
@@ -206,6 +206,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
      * Launch registration fragment
      */
     private void launchUR() {
+        RALog.d(TAG," LaunchUr called ");
         userObject = new User(getApplicationContext());
         userObject.registerUserRegistrationListener(this);
         URLaunchInput urLaunchInput = new URLaunchInput();
@@ -221,6 +222,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
      * For doing dynamic initialisation Of User registration
      */
     public void initializeUserRegistrationLibrary() {
+        RALog.d(TAG," initializeUserRegistrationLibrary called ");
         String languageCode = Locale.getDefault().getLanguage();
         String countryCode = Locale.getDefault().getCountry();
 
@@ -234,6 +236,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     }
 
     public void unregisterUserRegistrationListener() {
+        RALog.d(TAG," unregisterUserRegistrationListener called ");
         userObject.unRegisterUserRegistrationListener(this);
     }
 
@@ -250,11 +253,14 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onUserLogoutSuccess() {
+        RALog.d(TAG," User Logout success  ");
+
     }
 
     @Override
     public void onUserLogoutFailure() {
-        Log.d(TAG, "User logout failed");
+
+        RALog.d(TAG, "User logout failed");
     }
 
     @Override

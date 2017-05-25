@@ -6,7 +6,7 @@
 package com.philips.platform.baseapp.screens.introscreen;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
+
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
