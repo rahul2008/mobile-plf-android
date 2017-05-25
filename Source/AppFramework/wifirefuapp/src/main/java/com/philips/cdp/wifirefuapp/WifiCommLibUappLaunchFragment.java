@@ -2,7 +2,6 @@ package com.philips.cdp.wifirefuapp;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -97,7 +96,7 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 CurrentApplianceManager.getInstance().setCurrentAppliance(applianceAdapter.getItem(position));
-                startActivity(new Intent(activity, DetailActivity.class));
+                getActivity().getSupportFragmentManager().beginTransaction().replace(fragmentLauncher.getParentContainerResourceID(),new WifiCommLinUappWifiDetailFragment(),"WifiDetailFragment").commit();
             }
         });
 
