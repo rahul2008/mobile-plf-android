@@ -52,12 +52,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     }
 
     public DotNavigationIndicator(@NonNull final Context context, final AttributeSet attrs, final int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public DotNavigationIndicator(@NonNull final Context context, final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
+        super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
     }
 
@@ -87,17 +82,28 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
      */
     @Override
     public void setViewPager(@NonNull final ViewPager viewPager) {
+        setViewPager(viewPager, 0);
+    }
+
+    /**
+     * Provide the view pager reference you want to bind with and provide a current position to be highlighted
+     *
+     * @param viewPager       viewpager to bind to indicator
+     * @param initialPosition with initialPosition selected/highlited
+     */
+    @Override
+    public void setViewPager(@NonNull final ViewPager viewPager, int initialPosition) {
         if (this.viewPager == viewPager) {
             return;
         }
         this.viewPager = viewPager;
         viewPager.addOnPageChangeListener(this);
         drawIndicatorDots();
+        setCurrentItem(initialPosition);
     }
 
     /**
-     * @param state
-     * @Inherit
+     *  {@inheritDoc}
      */
     @Override
     public void onPageScrollStateChanged(int state) {
@@ -122,18 +128,6 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     }
 
     /**
-     * Provide the view pager reference you want to bind with and provide a current position to be highlighted
-     *
-     * @param viewPager       viewpager to bind to indicator
-     * @param initialPosition with initialPosition selected/highlited
-     */
-    @Override
-    public void setViewPager(@NonNull final ViewPager viewPager, int initialPosition) {
-        setViewPager(viewPager);
-        setCurrentItem(initialPosition);
-    }
-
-    /**
      * Sets the current page in viewpager  and highlight the corresponding dot
      *
      * @param position to be shown on pager and corresponding dot to be highlighted
@@ -152,9 +146,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     }
 
     /**
-     * Callback interface for responding to changing state of the selected page of viewpager
-     *
-     * @param listener
+     * {@inheritDoc}
      */
     @Override
     public void setOnPageChangeListener(@NonNull OnPageChangeListener listener) {
@@ -208,7 +200,6 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
             for (int itemIndex = 0; itemIndex < count; itemIndex++) {
                 addView(getNavigationDisplayView());
             }
-            setCurrentItem(selectedIndex);
             requestLayout();
         } else {
             setVisibility(GONE);
@@ -225,7 +216,8 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
         lp.leftMargin = iconLeftSpacing;
         lp.rightMargin = iconRightSpacing;
         dotImageView.setLayoutParams(lp);
-        dotImageView.setBackgroundTintList(getDotTint());
+
+        dotImageView.setSupportBackgroundTintList(getDotTint());
 
         return dotImageView;
     }
@@ -237,6 +229,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
 
     protected Drawable getBackgroundDrawable() {
         if (backgroundDrawable != null) {
+            //noinspection ConstantConditions
             return backgroundDrawable.mutate().getConstantState().newDrawable();
         }
         return null;
