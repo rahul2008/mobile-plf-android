@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.security.KeyPairGeneratorSpec;
+import android.security.keystore.KeyGenParameterSpec;
+import android.security.keystore.KeyProperties;
 import android.util.Base64;
 
 import com.philips.platform.appinfra.AppInfra;
@@ -23,12 +25,12 @@ import java.math.BigInteger;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.Key;
-import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.interfaces.RSAPublicKey;
+import java.security.spec.AlgorithmParameterSpec;
 import java.util.Calendar;
 
 import javax.crypto.Cipher;
@@ -49,7 +51,7 @@ public class SecureStorage implements SecureStorageInterface {
 
     private static final String SINGLE_UNIVERSAL_KEY = "AppInfra.SecureStorage key pair";
     private static final String RSA_ENCRYPTION_ALGORITHM = "RSA/ECB/PKCS1Padding";
-    private static final String AES_ENCRYPTION_ALGORITHM = "AES/CTR/NoPadding";
+    private static final String AES_ENCRYPTION_ALGORITHM = "AES/GCM/NoPadding";
     private static final String DATA_FILE_NAME = "AppInfra.Storage.file";
     private static final String KEY_FILE_NAME = "AppInfra.Storage.kfile";
     private static final String SINGLE_AES_KEY_TAG = "AppInfra.aes";
@@ -174,9 +176,7 @@ public class SecureStorage implements SecureStorageInterface {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage", e.getMessage());
             //Log.e("SecureStorage", Log.getStackTraceString(e));
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.DecryptionError);
-            if (null != decryptedString) {  // if exception is thrown at:  decryptedString = new String(decText);
-                decryptedString = null;
-            }
+            decryptedString = null; // if exception is thrown at:  decryptedString = new String(decText);
         }
         postLog(startTime, " duration for executing fetchValueForKey ");
         return decryptedString;
@@ -185,8 +185,8 @@ public class SecureStorage implements SecureStorageInterface {
 
     @Override
     public synchronized boolean removeValueForKey(String userKey) {
-        boolean deleteResultValue = false;
-        boolean deleteResultKey = false;
+        boolean deleteResultValue;
+        boolean deleteResultKey;
         if (null == userKey || userKey.isEmpty()) {
             return false;
         }
@@ -232,9 +232,7 @@ public class SecureStorage implements SecureStorageInterface {
         } catch (Exception e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage SqlCipher Data Key", e.getMessage());
             error.setErrorCode(SecureStorageError.secureStorageError.DecryptionError);
-            if (null != decryptedKey) {  // if exception is thrown at:  decryptedString = new String(decText);
-                decryptedKey = null;
-            }
+            decryptedKey = null; // if exception is thrown at:  decryptedString = new String(decText);
         }
         return decryptedKey;
 
@@ -280,6 +278,7 @@ public class SecureStorage implements SecureStorageInterface {
         return new SecretKeySpec(aesKey.getEncoded(), "AES");
     }
 
+    @SuppressWarnings("deprecation")
     private String generateKeyPair(SecretKey secretKey) {
         try {
             keyStore = KeyStore.getInstance("AndroidKeyStore");
@@ -289,16 +288,30 @@ public class SecureStorage implements SecureStorageInterface {
                 Calendar start = Calendar.getInstance();
                 Calendar end = Calendar.getInstance();
                 end.add(Calendar.YEAR, 50);
-                KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(mContext)
-                        .setAlias(SINGLE_UNIVERSAL_KEY)
-                        .setSubject(new X500Principal("CN=Secure Storage, O=Philips AppInfra"))
-                        .setSerialNumber(BigInteger.ONE)
-                        .setStartDate(start.getTime())
-                        .setEndDate(end.getTime())
-                        .build();
+
+                AlgorithmParameterSpec algorithmParameterSpec;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                    algorithmParameterSpec = new KeyGenParameterSpec.Builder(SINGLE_UNIVERSAL_KEY, KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
+                            .setCertificateSubject(new X500Principal("CN=Secure Storage, O=Philips AppInfra"))
+                            .setCertificateSerialNumber(BigInteger.ONE)
+                            .setKeyValidityStart(start.getTime())
+                            .setKeyValidityEnd(end.getTime())
+                            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_PKCS1)
+                            .build();
+
+                } else {
+                    algorithmParameterSpec = new KeyPairGeneratorSpec.Builder(mContext)
+                            .setAlias(SINGLE_UNIVERSAL_KEY)
+                            .setSubject(new X500Principal("CN=Secure Storage, O=Philips AppInfra"))
+                            .setSerialNumber(BigInteger.ONE)
+                            .setStartDate(start.getTime())
+                            .setEndDate(end.getTime())
+                            .build();
+                }
+
                 final KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", "AndroidKeyStore");
-                generator.initialize(spec);
-                final KeyPair keyPair = generator.generateKeyPair();
+                generator.initialize(algorithmParameterSpec);
+                generator.generateKeyPair();
             }
 
 
@@ -427,9 +440,9 @@ public class SecureStorage implements SecureStorageInterface {
             SharedPreferences prefs = getSharedPreferences(KEY_FILE_NAME);
             if (prefs.contains(SINGLE_AES_KEY_TAG)) { // if  key is present
                 final String encryptedAESString = fetchEncryptedData(SINGLE_AES_KEY_TAG, secureStorageError, KEY_FILE_NAME);
-                final Key key1 = fetchKey(encryptedAESString, secureStorageError);
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "key #######", "########" + key1.toString());
-                cipherInit(CipherEncryptOrDecryptMode, cipher, key1);
+                final Key key = fetchKey(encryptedAESString, secureStorageError);
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "key #######", "########" + key.toString());
+                cipherInit(CipherEncryptOrDecryptMode, cipher, key);
             } else {
                 final SecretKey secretKey = generateAESKey(); // generate AES key
                 final Key key = new SecretKeySpec(secretKey.getEncoded(), "AES");
