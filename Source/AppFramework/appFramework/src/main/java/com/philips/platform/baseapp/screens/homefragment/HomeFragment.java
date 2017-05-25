@@ -7,11 +7,13 @@
 package com.philips.platform.baseapp.screens.homefragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
 
@@ -28,6 +30,7 @@ public class HomeFragment extends AppFrameworkBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("testmicroapp","Current state::"+((AppFrameworkApplication)getActivity().getApplicationContext()).getTargetFlowManager().getCurrentState().toString());
         ((AppFrameworkBaseActivity)getActivity()).updateActionBarIcon(false);
     }
 

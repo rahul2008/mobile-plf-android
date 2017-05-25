@@ -107,7 +107,17 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
     @Override
     protected void onResume() {
         super.onResume();
+        if (((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
+            startCollectingLifecycleData();
+            startPushNotificationFlow();
+        }
+    }
+
+    public void startCollectingLifecycleData() {
         AppFrameworkTagging.getInstance().collectLifecycleData(this);
+    }
+
+    public void startPushNotificationFlow() {
         if (!BaseAppUtil.isDSPollingEnabled(this)) {
             BaseFlowManager baseFlowManager = ((AppFrameworkApplication) getApplicationContext()).getTargetFlowManager();
             if (baseFlowManager != null) {
@@ -117,7 +127,6 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
                 }
             }
         }
-
     }
 
     @Override
