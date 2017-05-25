@@ -23,7 +23,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
@@ -39,13 +43,16 @@ import java.util.List;
 
 public class DebugTestFragment extends AppFrameworkBaseFragment {
     public static final String TAG = DebugTestFragment.class.getSimpleName();
-    private String configurationType[] = {Constants.STAGING, Constants.TESTING, Constants.DEVELOPMENT};
+    private String configurationType[] = {Configuration.STAGING.getValue(),
+            Constants.TESTING, Configuration.DEVELOPMENT.getValue()};
     private List<String> list = Arrays.asList(configurationType);
     private TextView configurationTextView;
     private Spinner spinner;
-    private SharedPreferences sharedPreferences;
     private Context context;
     private UserRegistrationState userRegistrationState;
+    private static final String APPIDENTITY_APP_STATE = "appidentity.appState";
+    private final String AppInfra = "appinfra";
+
 
     @Override
     public String getActionbarTitle() {
@@ -68,15 +75,12 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
 
     private void setUp(final View view) {
         context = getActivity();
-
-        sharedPreferences = context.getSharedPreferences(Constants.PRODUCT_REGISTRATION_PREFERENCES, Context.MODE_PRIVATE);
         initViews(view);
         setSpinnerAdaptor();
-        final int position = list.indexOf(sharedPreferences.getString(Constants.REGISTRATION_ENV_PREFERENCES, Constants.STAGING));
+        final int position = list.indexOf(getAppState());
         setSpinnerSelection(position);
         spinner.setOnItemSelectedListener(getSpinnerListener());
         configurationTextView.setTextColor(ContextCompat.getColor(context, R.color.uikit_white));
-
     }
 
     @NonNull
@@ -87,7 +91,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
             public void onItemSelected(final AdapterView<?> adapter, View v,
                                        final int position, long id) {
 
-                int position1 = list.indexOf(sharedPreferences.getString(Constants.REGISTRATION_ENV_PREFERENCES, Constants.STAGING));
+                int position1 = list.indexOf(getAppState());
                 if (position1 != position) {
 
                     new AlertDialog.Builder(context, R.style.alertDialogStyle)
@@ -103,12 +107,12 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
                                             }
                                             userRegistrationState = new UserRegistrationSettingsState();
                                             userRegistrationState.getUserObject(context).logout(null);
-                                            if (configuration.equalsIgnoreCase(Constants.DEVELOPMENT)) {
-                                                initialiseUserRegistration(Constants.DEVELOPMENT);
+                                            if (configuration.equalsIgnoreCase(Configuration.DEVELOPMENT.getValue())) {
+                                                initialiseUserRegistration(Configuration.DEVELOPMENT.getValue());
                                             } else if (configuration.equalsIgnoreCase(Constants.TESTING)) {
                                                 initialiseUserRegistration(Constants.TESTING);
                                             } else {
-                                                initialiseUserRegistration(Constants.STAGING);
+                                                initialiseUserRegistration(Configuration.STAGING.getValue());
                                             }
                                             configurationTextView.setText(configuration);
                                         }
@@ -120,10 +124,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
                 @Override
                 public void onNothingSelected (AdapterView < ? > arg0){
                 }
-            }
-
-            ;
-
+            };
     }
 
     private void setSpinnerSelection(final int position) {
@@ -149,8 +150,24 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
     }
 
     private void initialiseUserRegistration(final String development) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(Constants.PRODUCT_REGISTRATION_PREFERENCES, development);
-        editor.commit();
+        AppInfraInterface appInfra = ((AppFrameworkApplication) getActivity().getApplicationContext()).getAppInfra();
+        AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
+
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+
+        appConfigurationInterface.setPropertyForKey(APPIDENTITY_APP_STATE,
+                AppInfra, development, configError);
+    }
+
+    protected String getAppState() {
+        AppInfraInterface appInfra = ((AppFrameworkApplication) getActivity().getApplicationContext()).getAppInfra();
+        AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
+
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+
+        return (String) (appConfigurationInterface.getPropertyForKey(APPIDENTITY_APP_STATE,
+                AppInfra, configError));
     }
 }
