@@ -32,4 +32,36 @@ public class ServiceDiscoveryWrapper {
             serviceDiscoveryInterface.getServiceUrlWithCountryPreference(serviceId, listener);
         });
     }
+    public Single<String> getServiceLocaleWithLanguagePreferenceSingle(String serviceId) {
+        return Single.create(emitter -> {
+            ServiceDiscoveryInterface.OnGetServiceLocaleListener listener = new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+                @Override
+                public void onSuccess(String s) {
+                    emitter.onSuccess(s.toString());
+                }
+
+                @Override
+                public void onError(ERRORVALUES errorvalues, String s) {
+                    emitter.onError(null);
+                }
+            };
+            serviceDiscoveryInterface.getServiceLocaleWithLanguagePreference(serviceId, listener);
+        });
+    }
+    public Single<String> getServiceLocaleWithCountryPreferenceSingle(String serviceId) {
+        return Single.create(emitter -> {
+            ServiceDiscoveryInterface.OnGetServiceLocaleListener listener = new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+                @Override
+                public void onSuccess(String s) {
+                    emitter.onSuccess(s.toString());
+                }
+
+                @Override
+                public void onError(ERRORVALUES errorvalues, String s) {
+                    emitter.onError(null);
+                }
+            };
+            serviceDiscoveryInterface.getServiceLocaleWithCountryPreference(serviceId, listener);
+        });
+    }
 }

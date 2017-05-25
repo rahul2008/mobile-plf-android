@@ -39,6 +39,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.AppConfiguration;
@@ -82,6 +83,11 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
+
 
 public class HomeFragment extends RegistrationBaseFragment implements OnClickListener,
         NetworStateListener, SocialProviderLoginHandler, EventListener {
@@ -94,6 +100,11 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Inject
     ServiceDiscoveryInterface serviceDiscoveryInterface;
+
+    @Inject
+    ServiceDiscoveryWrapper serviceDiscoveryWrapper;
+
+    private final CompositeDisposable disposable = new CompositeDisposable();
 
     public static final String WECHAT = "wechat";
     private static final int AUTHENTICATION_FAILED = -30;
@@ -506,49 +517,53 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + countryCode.length());
             showProgressDialog();
 
-            ArrayList<String> var1 = new ArrayList<String>();
-            var1.add("userreg.janrain.api");
-            serviceDiscoveryInterface.getServicesWithCountryPreference(var1,
-                    new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-                @Override
-                public void onSuccess(Map<String, ServiceDiscoveryService> map) {
-
-                    RLog.d("Locale", "Locale WithCountryPreference" + map.get("userreg.janrain.api").getLocale());
-                    mLocale = map.get("userreg.janrain.api").getLocale();
-
-                    serviceDiscoveryInterface.getServiceLocaleWithLanguagePreference("userreg.janrain.api",
-                            new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+            RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
+            disposable.add(serviceDiscoveryWrapper.getServiceLocaleWithLanguagePreferenceSingle("userreg.janrain.api")
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(new DisposableSingleObserver<String>() {
                         @Override
-                        public void onSuccess(String locale) {
-                            mLocale = locale;
+                        public void onSuccess(String verificationUrl) {
+                            updateAppLocale(verificationUrl, countryName);
                         }
 
                         @Override
-                        public void onError(ERRORVALUES errorvalues, String s) {
+                        public void onError(Throwable e) {
                             EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
                             hideProgressDialog();
                         }
-                    });
+                    }));
 
-                    RLog.d(RLog.SERVICE_DISCOVERY, "STRING S : " + mLocale);
-                    String localeArr[] = mLocale.toString().split("_");
-                    RegistrationHelper.getInstance().initializeUserRegistration(mContext);
-                    RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
-                    RLog.d(RLog.SERVICE_DISCOVERY,"Change Country code :" + RegistrationHelper.getInstance().getCountryCode());
-                    handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
-                    mCountryDisplayy.setText(countryName);
-                    hideProgressDialog();
-                }
+            if (mLocale == null) {
+                disposable.add(serviceDiscoveryWrapper.getServiceLocaleWithCountryPreferenceSingle("userreg.janrain.api")
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableSingleObserver<String>() {
+                            @Override
+                            public void onSuccess(String verificationUrl) {
+                                updateAppLocale(verificationUrl, countryName);
+                            }
 
-                @Override
-                public void onError(ERRORVALUES errorvalues, String s) {
-                    EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
-                    hideProgressDialog();
-
-                }
-            });
-
+                            @Override
+                            public void onError(Throwable e) {
+                                EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+                                hideProgressDialog();
+                            }
+                        }));
+            }
         }
+    }
+
+    private void updateAppLocale(String localeString,String countryName) {
+        mLocale = localeString;
+        RLog.d(RLog.SERVICE_DISCOVERY, "STRING S : " + mLocale);
+        String localeArr[] = mLocale.toString().split("_");
+        RegistrationHelper.getInstance().initializeUserRegistration(mContext);
+        RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
+        RLog.d(RLog.SERVICE_DISCOVERY,"Change Country code :" + RegistrationHelper.getInstance().getCountryCode());
+        handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
+        mCountryDisplayy.setText(countryName);
+        hideProgressDialog();
     }
 
     int mFlowId = 0;//1 for create account 2 :Philips sign in 3 : Social login

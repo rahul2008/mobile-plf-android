@@ -18,6 +18,7 @@ import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.janrain.android.Jump;
+import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.EventHelper;
@@ -37,6 +38,11 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
+
 public class UserRegistrationInitializer {
 
     @Inject
@@ -51,9 +57,15 @@ public class UserRegistrationInitializer {
     private boolean mJanrainIntialized = false;
 
     private boolean isRefreshUserSessionInProgress = false;
+
     private String locale;
 
     private static volatile UserRegistrationInitializer mUserRegistrationInitializer;
+
+    @Inject
+    ServiceDiscoveryWrapper serviceDiscoveryWrapper;
+
+    private final CompositeDisposable disposable = new CompositeDisposable();
 
     private UserRegistrationInitializer() {
         URInterface.getComponent().inject(this);
@@ -175,47 +187,54 @@ public class UserRegistrationInitializer {
             public void onSuccess(String s, SOURCE source) {
                 RegistrationHelper.getInstance().setCountryCode(s);
             }
+
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
             }
         });
 
-        ArrayList<String> var1 = new ArrayList<String>();
-        var1.add("userreg.janrain.api");
-        serviceDiscoveryInterface.getServicesWithCountryPreference(var1, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
-            @Override
-            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
-
-                RLog.d("Locale", "Locale WithCountryPreference" + map.get("userreg.janrain.api").getLocale());
-                 locale = map.get("userreg.janrain.api").getLocale();
-
-                serviceDiscoveryInterface.getServiceLocaleWithLanguagePreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+        RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
+        disposable.add(serviceDiscoveryWrapper.getServiceLocaleWithLanguagePreferenceSingle("userreg.janrain.api")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<String>() {
                     @Override
-                    public void onSuccess(String s) {
-                        locale = s;
+                    public void onSuccess(String verificationUrl) {
+                        updateAppLocale(verificationUrl, context,registrationType);
                     }
 
                     @Override
-                    public void onError(ERRORVALUES errorvalues, String s) {
+                    public void onError(Throwable e) {
                         EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
                     }
-                });
-                String localeArr[] = locale.split("_");
-                RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
-                mRegistrationSettings.intializeRegistrationSettings(context,
-                        RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType),
-                        RegistrationHelper.getInstance().getLocale(context).toString());
-            }
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+                }));
 
-            }
-        });
+        if (locale == null) {
+            disposable.add(serviceDiscoveryWrapper.getServiceLocaleWithCountryPreferenceSingle("userreg.janrain.api")
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(new DisposableSingleObserver<String>() {
+                        @Override
+                        public void onSuccess(String verificationUrl) {
+                            updateAppLocale(verificationUrl, context,registrationType);
+                        }
 
+                        @Override
+                        public void onError(Throwable e) {
+                            EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+                        }
+                    }));
+        }
 
+    }
 
-
+    private void updateAppLocale(String localeString, Context context , Configuration registrationType) {
+        locale = localeString;
+        String localeArr[] = locale.split("_");
+        RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
+        mRegistrationSettings.intializeRegistrationSettings(context,
+                RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType),
+                RegistrationHelper.getInstance().getLocale(context).toString());
     }
 
 
