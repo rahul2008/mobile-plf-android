@@ -101,22 +101,29 @@ public abstract class BaseFlowManager {
 
     private void parseFlowManagerJson(final @NonNull Context context, final @NonNull String jsonPath, final @NonNull FlowManagerListener flowManagerListener) {
         this.context = context;
-        mapAppFlowStates(jsonPath, flowManagerListener);
+        mapAppFlowStates(jsonPath);
         flowManagerStack = new FlowManagerStack();
         stateMap = new TreeMap<>();
         conditionMap = new TreeMap<>();
         populateStateMap(stateMap);
         populateConditionMap(conditionMap);
+        postCallBack(flowManagerListener);
+    }
+
+    private void postCallBack(final FlowManagerListener flowManagerListener) {
+        if (flowManagerHandler != null)
+            flowManagerHandler.post(getRunnable(flowManagerListener));
     }
 
     private void parseFlowManagerJson(final @NonNull Context context, final @RawRes int resId, final @NonNull FlowManagerListener flowManagerListener) {
         this.context = context;
-        mapAppFlowStates(context, resId, flowManagerListener);
+        mapAppFlowStates(context, resId);
         flowManagerStack = new FlowManagerStack();
         stateMap = new TreeMap<>();
         conditionMap = new TreeMap<>();
         populateStateMap(stateMap);
         populateConditionMap(conditionMap);
+        postCallBack(flowManagerListener);
     }
 
     /**
@@ -338,20 +345,16 @@ public abstract class BaseFlowManager {
         return isConditionSatisfies;
     }
 
-    private void mapAppFlowStates(final String jsonPath, final FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException {
+    private void mapAppFlowStates(final String jsonPath) throws JsonFileNotFoundException, JsonStructureException {
         final AppFlowParser appFlowParser = new AppFlowParser();
         AppFlowModel appFlowModel = appFlowParser.getAppFlow(jsonPath);
         getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
-        if (flowManagerHandler != null)
-            flowManagerHandler.post(getRunnable(flowManagerListener));
     }
 
-    private void mapAppFlowStates(Context context, final int resId, final FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException {
+    private void mapAppFlowStates(Context context, final int resId) throws JsonFileNotFoundException, JsonStructureException {
         final AppFlowParser appFlowParser = new AppFlowParser(context);
         AppFlowModel appFlowModel = appFlowParser.getAppFlow(resId);
         getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
-        if (flowManagerHandler != null)
-            flowManagerHandler.post(getRunnable(flowManagerListener));
     }
 
     @NonNull
