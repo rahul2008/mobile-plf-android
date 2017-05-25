@@ -25,35 +25,30 @@ import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 public class WelcomeScreenFragmentSelection extends ProductSelectionBaseFragment implements View.OnClickListener {
 
     private String TAG = WelcomeScreenFragmentSelection.class.getSimpleName();
-    private LinearLayout mWelcomeScreenParent;
-    private FrameLayout.LayoutParams mParams;
-    private Button mFindProductBtn;
+    private LinearLayout mWelcomeScreenParent = null;
+    private FrameLayout.LayoutParams mParams = null;
+    private static View mRootView = null;
+    private Button mFindProcuctBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_welcome_screen, container, false);
-        mWelcomeScreenParent = (LinearLayout) view.findViewById(
+        mRootView = inflater.inflate(R.layout.fragment_welcome_screen, container, false);
+        mWelcomeScreenParent = (LinearLayout) mRootView.findViewById(
                 R.id.welcome_screen_parent_one);
-
-        initView(view);
-        return view;
-    }
-
-    private void initView(View view) {
-        mFindProductBtn = (Button) view.findViewById(R.id.find_product_btn);
-        mFindProductBtn.setOnClickListener(this);
-        ProductSelectionLogger.i(TAG, "Product selection welcome screen shown for user to select products\n");
-        mParams = (FrameLayout.LayoutParams) mWelcomeScreenParent.getLayoutParams();
-        Configuration configuration = getResources().getConfiguration();
-        setViewParams(configuration);
-        trackFirstPage(Constants.PAGE_WELCOME_SCREEN);
+        mFindProcuctBtn = (Button) mRootView.findViewById(R.id.find_product_btn);
+        mFindProcuctBtn.setOnClickListener(this);
+        return mRootView;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        ProductSelectionLogger.i(TAG, "Product selection welcome screen shown for user to select products\n");
+        mParams = (FrameLayout.LayoutParams) mWelcomeScreenParent.getLayoutParams();
+        Configuration configuration = getResources().getConfiguration();
+        setViewParams(configuration);
+        trackFirstPage(Constants.PAGE_WELCOME_SCREEN);
     }
 
     @Override

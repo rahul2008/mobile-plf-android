@@ -1,16 +1,12 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:maxWidth="@dimen/view_max_width"
     android:layout_marginBottom="@dimen/savedscreen_product_image_margin">
 
     <LinearLayout
         android:id="@+id/welcome_screen_parent_one"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:maxWidth="@dimen/view_max_width"
         android:paddingLeft="@dimen/view_padding"
         android:paddingRight="@dimen/view_padding"
         android:orientation="vertical">
@@ -18,16 +14,16 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="@dimen/welcome_screen_image_height"
-            android:maxWidth="@dimen/view_max_width"
             android:scaleType="fitXY"
             android:src="@drawable/welcomescreen_image" />
 
         <com.philips.platform.uid.view.widget.Label
             style="@style/UIDLabel.SliderMarginBottom"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="35dp"
             android:maxWidth="@dimen/view_max_width"
+            android:textSize="@dimen/title_text_size_small"
             android:text="@string/Select_Product_Desc"/>
 
         <com.philips.platform.uid.view.widget.Button
@@ -35,9 +31,14 @@
             style="@style/UIDExtraWideButton.Center"
             android:layout_width="match_parent"
             android:layout_marginTop="24dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
             android:layout_height="match_parent"
+            android:layout_weight="4"
             android:maxWidth="@dimen/view_max_width"
+            android:textAllCaps="false"
             android:text="@string/Select_Product_Find"/>
-   </LinearLayout>
+    </LinearLayout>
 
 </ScrollView>
+
