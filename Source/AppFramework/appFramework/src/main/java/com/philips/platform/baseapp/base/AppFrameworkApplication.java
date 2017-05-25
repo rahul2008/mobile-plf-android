@@ -7,7 +7,7 @@ package com.philips.platform.baseapp.base;
 
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.support.multidex.MultiDex;
+import android.os.StrictMode;
 import android.support.multidex.MultiDexApplication;
 
 import com.philips.cdp.localematch.PILLocaleManager;
@@ -55,6 +55,7 @@ public class AppFrameworkApplication extends MultiDexApplication implements Flow
 
     @Override
     public void onCreate() {
+        applyStrictMode();
         if (BuildConfig.BUILD_TYPE.equalsIgnoreCase(LEAK_CANARY_BUILD_TYPE)) {
             if (LeakCanary.isInAnalyzerProcess(this)) {
                 // This proisChinaCountrycess is dedicated to LeakCanary for heap analysis.
@@ -179,8 +180,8 @@ public class AppFrameworkApplication extends MultiDexApplication implements Flow
         return dataSyncScreenState;
     }
 
-    public UserRegistrationState getUserRegistrationState(){
-        if(userRegistrationState==null){
+    public UserRegistrationState getUserRegistrationState() {
+        if (userRegistrationState == null) {
             initUserRegistrationState();
         }
         return userRegistrationState;
@@ -189,9 +190,22 @@ public class AppFrameworkApplication extends MultiDexApplication implements Flow
 
     @Override
     public void onTerminate() {
-        if(connectivityChangeReceiver!= null) {
+        if (connectivityChangeReceiver != null) {
             unregisterReceiver(connectivityChangeReceiver);
         }
         super.onTerminate();
+    }
+
+    private void applyStrictMode() {
+        if (BuildConfig.DEBUG) {
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                    .detectAll()   // or .detectAll() for all detectable problems
+                    .penaltyLog()
+                    .build());
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                    .detectAll()
+                    .penaltyLog()
+                    .build());
+        }
     }
 }

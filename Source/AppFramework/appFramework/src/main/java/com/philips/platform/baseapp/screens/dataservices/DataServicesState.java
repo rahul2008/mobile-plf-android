@@ -226,16 +226,7 @@ public class DataServicesState extends BaseState implements HandleNotificationPa
         return new User(appContext).isUserSignIn();
     }
 
-    public String getVersion(Context c){
-        return c.getResources().getString(R.string.RA_COCO_DS_VERSION);
 
-    }
-
-    public String getComponentID(Context c)
-    {
-        return c.getResources().getString(R.string.RA_COCO_DS);
-
-    }
 }
 
 

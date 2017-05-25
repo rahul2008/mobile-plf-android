@@ -26,6 +26,7 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomen
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSettings;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
 import com.philips.platform.baseapp.screens.dataservices.utility.NotifyDBRequestListener;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.SyncType;
@@ -43,6 +44,8 @@ import static com.philips.platform.baseapp.screens.utility.Constants.SQLITE_EXCE
  * All rights reserved.
  */
 public class OrmSaving {
+    public final String TAG = OrmSaving.class.getSimpleName();
+
 
     @NonNull
     private final Dao<OrmMoment, Integer> momentDao;
@@ -200,7 +203,7 @@ public class OrmSaving {
                 }
             });
         } catch (Exception e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SQLITE_EXCEPTION,e.getMessage());
+            RALog.e(TAG+ SQLITE_EXCEPTION,e.getMessage());
             new NotifyDBRequestListener().notifyFailure(e, dbRequestListener);
             return false;
         }
@@ -223,7 +226,7 @@ public class OrmSaving {
                 }
             });
         } catch (Exception e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SQLITE_EXCEPTION,e.getMessage());
+            RALog.e(TAG+ SQLITE_EXCEPTION,e.getMessage());
             new NotifyDBRequestListener().notifyFailure(e, dbRequestListener);
             return false;
         }

@@ -8,11 +8,14 @@ package com.philips.platform.baseapp.base;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.baseapp.screens.utility.Constants;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 /**
  * This class aims to handle events inside the states and also events when a particular state is loaded
  */
 abstract public class UIBasePresenter {
+    public final String TAG = UIBasePresenter.class.getSimpleName();
+
     /*Event ID */
     protected static final int MENU_OPTION_HOME = 0;
     protected final int MENU_OPTION_SETTINGS = 1;
@@ -63,6 +66,8 @@ abstract public class UIBasePresenter {
     }
 
     protected UIStateData setStateData(final String componentID) {
+        RALog.d(TAG," setStateData called");
+
         switch (componentID) {
             case AppStates.HOME_FRAGMENT:
                 UIStateData homeStateData = new UIStateData();
@@ -110,6 +115,7 @@ abstract public class UIBasePresenter {
                 debugStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return debugStateData;
             default:
+                RALog.d(TAG," default case selected ");
                 homeStateData = new UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
                 return homeStateData;

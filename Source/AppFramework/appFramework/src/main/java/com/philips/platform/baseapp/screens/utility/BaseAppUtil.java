@@ -3,7 +3,7 @@ package com.philips.platform.baseapp.screens.utility;
 import android.content.Context;
 import android.os.Environment;
 import android.text.TextUtils;
-import android.util.Log;
+
 
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -22,18 +22,18 @@ public class BaseAppUtil {
     private File jsonFile;
 
     public boolean createDirIfNotExists() {
+        RALog.d(TAG,"create Dir if it does not exist ");
         boolean ret = false;
         File file = new File(Environment.getExternalStorageDirectory(), "/ReferenceApp");
         jsonFile = new File(file.getPath(), "appflow.json");
         if (!file.exists()) {
             final boolean mkdirs = file.mkdir();
             if (!mkdirs) {
-                Log.e(getClass() + "", "error in creating folders");
+                RALog.e(TAG, "error in creating folders");
             } else {
                 try {
                     ret = jsonFile.createNewFile();
-                } catch (IOException e) {
-                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, FILE_IO,
+                } catch (IOException e) {RALog.d(TAG+  FILE_IO,
                             e.getMessage());                }
             }
         }
@@ -41,12 +41,14 @@ public class BaseAppUtil {
     }
 
     public File getJsonFilePath() {
+        RALog.d(TAG,"getJsonFilePath ");
         File file = new File(Environment.getExternalStorageDirectory(), "/ReferenceApp");
         jsonFile = new File(file.getPath(), "appflow.json");
         return jsonFile;
     }
 
     public String readJsonFileFromSdCard() {
+        RALog.d(TAG,"readJsonFileFromSdCard called ");
         File file = new File(Environment.getExternalStorageDirectory(), "/ReferenceApp");
         StringBuilder text = new StringBuilder();
         File jsonFile = new File(file.getPath(), "appflow.json");
@@ -59,7 +61,7 @@ public class BaseAppUtil {
             }
             br.close();
         } catch (IOException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, FILE_IO,
+            RALog.d(TAG+ FILE_IO,
                     e.getMessage());        }
         return text.toString();
     }
@@ -79,18 +81,27 @@ public class BaseAppUtil {
      * @return
      */
     public static boolean isDSPollingEnabled(Context context){
+
         String isPollingEnabled= (String) ((AppFrameworkApplication)context.getApplicationContext()).getAppInfra().getConfigInterface().getPropertyForKey("PushNotification.polling","ReferenceApp",new AppConfigurationInterface.AppConfigurationError());
         if(!TextUtils.isEmpty(isPollingEnabled) && Boolean.parseBoolean(isPollingEnabled)) {
+            RALog.d("is DSPolling Enabled ", "  True ");
+
             return true;
+
         }
+        RALog.d("is DSPolling Enabled ", "  false ");
         return false;
     }
 
     public static boolean isAutoLogoutEnabled(Context context){
         String isAutoLogoutEnabled= (String) ((AppFrameworkApplication)context.getApplicationContext()).getAppInfra().getConfigInterface().getPropertyForKey("PushNotification.autoLogout","ReferenceApp",new AppConfigurationInterface.AppConfigurationError());
         if(!TextUtils.isEmpty(isAutoLogoutEnabled) && Boolean.parseBoolean(isAutoLogoutEnabled)) {
+            RALog.d("is AutoLogout Enabled ", "  True ");
+
             return true;
         }
+        RALog.d("is AutoLogout Enabled ", "  false ");
+
         return false;
     }
 

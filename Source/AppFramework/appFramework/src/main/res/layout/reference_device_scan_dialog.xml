@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="24dp"
-        android:text="@string/reference_device_scan"
+        android:text="@string/RA_reference_device_scan"
         />
 
     <ProgressBar

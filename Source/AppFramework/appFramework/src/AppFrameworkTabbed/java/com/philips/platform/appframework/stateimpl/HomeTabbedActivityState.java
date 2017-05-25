@@ -14,10 +14,12 @@ import com.philips.platform.appframework.tabbedscreen.TabInterface;
 import com.philips.platform.appframework.tabbedscreen.TabLaunchInput;
 import com.philips.platform.appframework.tabbedscreen.TabSettings;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 public class HomeTabbedActivityState extends BaseState {
+    public static final String TAG =  HomeTabbedActivityState.class.getSimpleName();
 
     private FragmentLauncher fragmentLauncher;
 
@@ -50,6 +52,7 @@ public class HomeTabbedActivityState extends BaseState {
     }
 
     private void launchTabScreen() {
+        RALog.d(TAG, " launchTabScreen");
         TabDependencies tabDependencies = new TabDependencies(((AppFrameworkApplication)fragmentLauncher.getFragmentActivity().getApplicationContext()).getAppInfra());
         TabSettings tabSettings = new TabSettings(fragmentLauncher.getFragmentActivity());
         TabLaunchInput tabLaunchInput = new TabLaunchInput();

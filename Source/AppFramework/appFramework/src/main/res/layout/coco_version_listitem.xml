@@ -12,7 +12,6 @@
         android:gravity="center_vertical"
         android:padding="5dp"
         android:textColor="?attr/uikit_listtextselector"
-        android:text="gg"
         android:textSize="16sp" />
 
     <TextView
@@ -22,7 +21,6 @@
         android:gravity="center_vertical"
         android:padding="5dp"
         android:textColor="?attr/uikit_listtextselector"
-        android:text="hvh"
         android:textSize="14sp" />
     <View
         android:layout_width="match_parent"
