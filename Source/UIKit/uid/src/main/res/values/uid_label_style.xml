@@ -133,5 +133,5 @@
     <style name="UIDLabel.GridViewSettingsText">
         <item name="uidLabelTextSize">@dimen/uid_recyclerview_item_title_text_size</item>
         <item name="android:textColor">?attr/uidTextPrimary</item>
-    </style>
+    </style>z
 </resources>

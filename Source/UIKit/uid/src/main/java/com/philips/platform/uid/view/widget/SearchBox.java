@@ -41,7 +41,6 @@ public class SearchBox extends LinearLayout {
         setOrientation(LinearLayout.HORIZONTAL);
 
         initializeSearch(context);
-
     }
 
     private void initializeSearch(final Context context){
@@ -57,7 +56,7 @@ public class SearchBox extends LinearLayout {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if(actionId == EditorInfo.IME_ACTION_SEARCH){
-                    Toast.makeText(context, "Search", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, autoCompleteTextView.getText(), Toast.LENGTH_SHORT).show();
                     return true;
                 }
                 return false;

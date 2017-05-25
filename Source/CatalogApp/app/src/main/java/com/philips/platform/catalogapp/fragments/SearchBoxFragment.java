@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import com.philips.platform.catalogapp.MainActivity;
 import com.philips.platform.catalogapp.R;
@@ -17,6 +18,10 @@ import com.philips.platform.catalogapp.databinding.FragmentSearchBoxBinding;
 public class SearchBoxFragment extends BaseFragment {
 
     private FragmentSearchBoxBinding fragmentSearchBoxBinding;
+
+    private static final String[] COUNTRIES = new String[]{
+            "Belgium", "Brazil", "Belarus", "France", "Italy", "Germany", "Spain"
+    };
 
     @Override
     public int getPageTitle() {
@@ -27,14 +32,15 @@ public class SearchBoxFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentSearchBoxBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_box, container, false);
         fragmentSearchBoxBinding.setFrag(this);
-        fragmentSearchBoxBinding.searchBox.setMinimumHeight(((MainActivity)getActivity()).getSupportActionBar().getHeight());
         fragmentSearchBoxBinding.searchBox.mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fragmentSearchBoxBinding.searchBox.setVisibility(View.GONE);
-                ((MainActivity)getActivity()).getSupportActionBar().show();
+                ((MainActivity) getActivity()).getSupportActionBar().show();
             }
         });
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(),R.layout.uid_search_item_one_line ,COUNTRIES);
+        fragmentSearchBoxBinding.searchBox.autoCompleteTextView.setAdapter(arrayAdapter);
         return fragmentSearchBoxBinding.getRoot();
     }
 
@@ -49,7 +55,7 @@ public class SearchBoxFragment extends BaseFragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 fragmentSearchBoxBinding.searchBox.setVisibility(View.VISIBLE);
-                ((MainActivity)getActivity()).getSupportActionBar().hide();
+                ((MainActivity) getActivity()).getSupportActionBar().hide();
                 return true;
             }
         });
@@ -57,8 +63,8 @@ public class SearchBoxFragment extends BaseFragment {
     }
 
     @Override
-    public void onStop() {
-        ((MainActivity)getActivity()).getSupportActionBar().show();
-        super.onStop();
+    public void onPause() {
+        ((MainActivity) getActivity()).getSupportActionBar().show();
+        super.onPause();
     }
 }

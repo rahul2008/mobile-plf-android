@@ -4,7 +4,7 @@
     android:id="@+id/search_box"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/uid_shadow_level_two"
+    android:background="@color/uidColorWhite"
     android:orientation="horizontal"
     >
 
@@ -20,12 +20,10 @@
     <android.support.v7.widget.AppCompatAutoCompleteTextView
         android:id="@+id/search_src_text"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="48dp"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:background="@null"
-        android:dropDownAnchor="@id/search_edit_frame"
-        android:dropDownHeight="50dp"
         android:dropDownHorizontalOffset="0dp"
         android:dropDownVerticalOffset="0dp"
         android:ellipsize="end"
@@ -34,9 +32,11 @@
         android:inputType="text|textAutoComplete|textNoSuggestions"
         android:paddingLeft="@dimen/abc_dropdownitem_text_padding_left"
         android:paddingRight="@dimen/abc_dropdownitem_text_padding_right"
-        android:singleLine="true"
+        android:maxLines="1"
         android:textColor="@color/uid_gray_level_75"
-        android:textColorHint="@color/uid_gray_level_35" />
+        android:textColorHint="@color/uid_gray_level_35"
+        android:dropDownWidth="match_parent"
+        />
 
     <FrameLayout
         android:layout_width="24dp"
