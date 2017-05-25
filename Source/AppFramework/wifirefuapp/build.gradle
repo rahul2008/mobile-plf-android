@@ -91,4 +91,5 @@ dependencies {
         transitive = true
     }
     compile 'com.android.support:support-fragment:25.3.1'
+    compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: '5.1.4'+ objcdp.getVersionSuffix(), ext: 'aar', changing: true)
 }

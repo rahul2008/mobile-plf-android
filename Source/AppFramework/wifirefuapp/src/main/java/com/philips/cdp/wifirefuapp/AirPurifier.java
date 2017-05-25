@@ -10,7 +10,7 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 public abstract class AirPurifier extends Appliance {
 
-    public static final String MODELNAME = "AirPurifier";
+    public static final String MODELNAME = "BCM943903";
     AirPort<?> airPort;
 
     public AirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {

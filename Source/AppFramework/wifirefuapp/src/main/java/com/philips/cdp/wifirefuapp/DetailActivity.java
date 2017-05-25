@@ -22,6 +22,7 @@ import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
 import com.philips.cdp.dicommclient.port.common.PairingListener;
+import com.philips.cdp.registration.User;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 
 public class DetailActivity extends AppCompatActivity {
@@ -95,6 +96,9 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        User user= new User(DetailActivity.this);
+        editTextUserId.setText(user.getHsdpUUID().toString());
+        editTextUserToken.setText(user.getAccessToken().toString());
         CurrentApplianceManager.getInstance().addApplianceListener(diCommApplianceListener);
     }
 

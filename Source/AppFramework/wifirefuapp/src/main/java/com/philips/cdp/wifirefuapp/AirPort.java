@@ -12,7 +12,7 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 public abstract class AirPort<T extends AirPortProperties> extends DICommPort<T> {
 
     //This name and ID need to match with the appliance's DiComm protocol port name and ID
-    final String NAME = "air";
+    final String NAME = "Manual ProductStub";
     final int PRODUCTID = 1;
     final Gson jsonParser;
     final Class<T> propertiesClass;
