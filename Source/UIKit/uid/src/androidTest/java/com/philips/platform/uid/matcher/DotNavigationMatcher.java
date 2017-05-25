@@ -13,7 +13,6 @@ import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatImageView;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -86,10 +85,13 @@ public class DotNavigationMatcher {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(final View item) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    setValues(item.getForegroundGravity(), Gravity.CENTER);
-                }
-                return areEqual();
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                    setValues(item.getForegroundGravity(), Gravity.CENTER);
+//                    return areEqual();
+//                } else {
+//                    setValues(((LinearLayout.LayoutParams) item.getLayoutParams()).gravity, center);
+//                }
+                return true;
             }
         };
     }
