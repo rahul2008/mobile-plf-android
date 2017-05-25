@@ -94,8 +94,8 @@ public class SecureStorage implements SecureStorageInterface {
         long startTime = System.currentTimeMillis();
 
 
-        boolean returnResult = true;
-        String encryptedString = null;
+        boolean returnResult;
+        String encryptedString;
         try {
             if (null == userKey || userKey.isEmpty() || userKey.trim().isEmpty() || null == valueToBeEncrypted) {
                 secureStorageError.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
@@ -148,7 +148,7 @@ public class SecureStorage implements SecureStorageInterface {
     @Override
     public synchronized String fetchValueForKey(String userKey, SecureStorageError secureStorageError) {
         long startTime = System.currentTimeMillis();
-        String decryptedString = null;
+        String decryptedString;
         if (null == userKey || userKey.isEmpty()) {
             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
             postLog(startTime, " duration for executing fetchValueForKey ");
@@ -163,13 +163,13 @@ public class SecureStorage implements SecureStorageInterface {
             return null; // if user entered key is not present
         }
         try {
-            final Key key2 = fetchKey(encryptedAESString, secureStorageError);
-            final Cipher cipher2 = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
-            final byte[] ivBlockSize = new byte[cipher2.getBlockSize()];
+            final Key key = fetchKey(encryptedAESString, secureStorageError);
+            final Cipher cipher = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
+            final byte[] ivBlockSize = new byte[cipher.getBlockSize()];
             final IvParameterSpec ivParameterSpec = new IvParameterSpec(ivBlockSize);
-            cipher2.init(Cipher.DECRYPT_MODE, key2, ivParameterSpec);
+            cipher.init(Cipher.DECRYPT_MODE, key, ivParameterSpec);
             final byte[] encryptedValueBytes = Base64.decode(encryptedString, Base64.DEFAULT);
-            final byte[] decText = cipher2.doFinal(encryptedValueBytes); // decrypt string value using AES key
+            final byte[] decText = cipher.doFinal(encryptedValueBytes); // decrypt string value using AES key
             decryptedString = new String(decText);
 
         } catch (Exception e) {
@@ -197,7 +197,7 @@ public class SecureStorage implements SecureStorageInterface {
 
     @Override
     public boolean createKey(KeyTypes keyType, String keyName, SecureStorageError error) {
-        boolean returnResult = true;
+        boolean returnResult;
         try {
             if (null == keyName || keyName.isEmpty() || keyName.trim().isEmpty()) {
                 error.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
@@ -217,7 +217,7 @@ public class SecureStorage implements SecureStorageInterface {
 
     @Override
     public Key getKey(String keyName, SecureStorageError error) {
-        Key decryptedKey = null;
+        Key decryptedKey;
         if (null == keyName || keyName.isEmpty()) {
             error.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
             return null;
@@ -240,7 +240,7 @@ public class SecureStorage implements SecureStorageInterface {
 
     @Override
     public boolean clearKey(String keyName, SecureStorageError error) {
-        boolean deleteResultValue = false;
+        boolean deleteResultValue;
         if (null == keyName || keyName.isEmpty()) {
             return false;
         }
@@ -320,10 +320,8 @@ public class SecureStorage implements SecureStorageInterface {
             final Cipher input = Cipher.getInstance(RSA_ENCRYPTION_ALGORITHM);
             input.init(Cipher.WRAP_MODE, publicKey);
             final byte[] AESbytes = input.wrap(secretKey);  // Wrap AES key using RSA
-            final String aesEncryptedString = Base64.encodeToString(AESbytes, Base64.DEFAULT);
 
-
-            return aesEncryptedString;
+            return Base64.encodeToString(AESbytes, Base64.DEFAULT);
         } catch (Exception e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage", e.getMessage());
         }
