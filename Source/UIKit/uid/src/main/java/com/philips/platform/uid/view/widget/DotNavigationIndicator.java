@@ -54,11 +54,12 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     public DotNavigationIndicator(@NonNull final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
+        setVisibility(GONE);
     }
 
     private void init(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         setGravity(Gravity.CENTER | Gravity.CENTER_VERTICAL);
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDDotNavigation, defStyleAttr, R.style.UIDDotNavigation);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDDotNavigation, defStyleAttr, R.style.UIDDotNavigationIndicatorItemStyle);
         backgroundDrawable = typedArray.getDrawable(R.styleable.UIDDotNavigation_uidDotNavigationDrawable);
         //Need to check if this works even for normal drawables and icons along with vector
 
@@ -66,7 +67,17 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
         iconRightSpacing = typedArray.getDimensionPixelSize(R.styleable.UIDDotNavigation_uidDotNavigationIconSpacingRight, -1);
         dotNavigationIconColorlist = typedArray.getResourceId(R.styleable.UIDDotNavigation_uidDotNavigationIconColorList, -1);
 
+        setContainerMinHeight(context, attrs);
+
         typedArray.recycle();
+    }
+
+    private void setContainerMinHeight(final Context context, final AttributeSet attrs) {
+        final TypedArray minHeightTypedArray = context.obtainStyledAttributes(attrs, new int[]{android.R.attr.minHeight});
+        final int attributeIntValue = minHeightTypedArray.getDimensionPixelSize(0, getResources().getDimensionPixelSize(R.dimen.uid_dot_navigation_indicator_min_height));
+
+        setMinimumHeight(attributeIntValue);
+        minHeightTypedArray.recycle();
     }
 
     @VisibleForTesting
@@ -200,6 +211,8 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
             for (int itemIndex = 0; itemIndex < count; itemIndex++) {
                 addView(getNavigationDisplayView());
             }
+            setCurrentItem(selectedIndex);
+            setVisibility(VISIBLE);
             requestLayout();
         } else {
             setVisibility(GONE);
@@ -209,25 +222,24 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @NonNull
     protected View getNavigationDisplayView() {
-        final AppCompatImageView dotImageView = new AppCompatImageView(getContext(), null, R.attr.dotNavigationStyle);
-        dotImageView.setBackground(getBackgroundDrawable());
+        final AppCompatImageView dotImageView = new AppCompatImageView(getContext(), null, R.attr.uidDotNavigationStyle);
+        dotImageView.setBackground(getIndicatorBackground());
         final LinearLayout.LayoutParams lp = generateDefaultLayoutParams();
 
         lp.leftMargin = iconLeftSpacing;
         lp.rightMargin = iconRightSpacing;
         dotImageView.setLayoutParams(lp);
-
-        dotImageView.setSupportBackgroundTintList(getDotTint());
+        dotImageView.setSupportBackgroundTintList(getIndicatorTintList());
 
         return dotImageView;
     }
 
-    protected ColorStateList getDotTint() {
+    protected ColorStateList getIndicatorTintList() {
         return ThemeUtils.buildColorStateList(getResources(), getContext().getTheme(),
                 dotNavigationIconColorlist != -1 ? dotNavigationIconColorlist : R.color.uid_dot_navigation_icon_color);
     }
 
-    protected Drawable getBackgroundDrawable() {
+    protected Drawable getIndicatorBackground() {
         if (backgroundDrawable != null) {
             //noinspection ConstantConditions
             return backgroundDrawable.mutate().getConstantState().newDrawable();

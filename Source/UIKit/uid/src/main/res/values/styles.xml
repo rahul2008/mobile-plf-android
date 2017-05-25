@@ -66,14 +66,6 @@
         <!--<item name="uidInputTextTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidInputTextHintTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
         -->
-
-    </style>
-
-    <style name="UIDDotNavigation">
-        <item name="uidDotNavigationDrawable">@drawable/uid_dot_navigation_icon</item>
-        <item name="uidDotNavigationIconSpacingLeft">@dimen/uid_dot_navigation_icon_padding</item>
-        <item name="uidDotNavigationIconSpacingRight">@dimen/uid_dot_navigation_icon_padding</item>
-        <item name="uidDotNavigationIconColorList">@color/uid_dot_navigation_icon_color</item>
     </style>
 
 </resources>

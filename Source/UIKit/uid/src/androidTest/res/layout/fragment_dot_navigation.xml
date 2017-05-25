@@ -14,7 +14,15 @@
 
     <com.philips.platform.uid.view.widget.DotNavigationIndicator
         android:id="@+id/pager_indicator"
+        style="@style/UIDDotNavigationIndicatorItemStyle"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/uid_dot_navigation_container_height"
+        android:layout_height="@dimen/uid_dot_navigation_indicator_min_height"
+        android:layout_alignParentBottom="true"/>
+
+    <com.philips.platform.uid.view.widget.DotNavigationIndicator
+        android:id="@+id/empty_pager_indicator"
+        style="@style/UIDDotNavigationIndicatorItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uid_dot_navigation_indicator_min_height"
         android:layout_alignParentBottom="true"/>
 </RelativeLayout>

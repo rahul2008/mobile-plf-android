@@ -15,14 +15,7 @@
             <enum name="Accent" value="3"/>
         </attr>
     </declare-styleable>
-    <declare-styleable name="UIDDotNavigation">
-        <attr name="uidDotNavigationDrawable" format="reference"/>
-        <attr name="uidDotNavigationIconSpacingLeft" format="reference|dimension"/>
-        <attr name="uidDotNavigationIconSpacingRight" format="reference|dimension"/>
-        <attr name="uidDotNavigationIconColorList" format="reference|color"/>
-    </declare-styleable>
 
-    <attr name="dotNavigationStyle"/>
 </resources>
 
 

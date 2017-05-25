@@ -141,14 +141,19 @@ public class DotNavigationMatcher {
         };
     }
 
-    public static Matcher<? super View> sameBackgroundColor(final ColorStateList attributeColor) {
+    public static Matcher<? super View> sameBackgroundColor(final int[] index, final int attributeColor) {
         return new BaseTypeSafteyMatcher<View>() {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
             protected boolean matchesSafely(final View view) {
                 if (view instanceof DotNavigationIndicator) {
                     final AppCompatImageView childAt = (AppCompatImageView) ((DotNavigationIndicator) view).getChildAt(0);
-                    setValues(childAt.getBackgroundTintList(), attributeColor);
+                    final ColorStateList backgroundTintList = childAt.getSupportBackgroundTintList();
+                    int defaultColor = backgroundTintList.getDefaultColor();
+                    if (index.length != 0) {
+                        defaultColor = backgroundTintList.getColorForState(index, backgroundTintList.getDefaultColor());
+                    }
+                    setValues(defaultColor, attributeColor);
                     return areEqual();
                 }
                 return false;

@@ -58,6 +58,7 @@ public class UIDLocaleHelper {
             if (resourceId != -1) {
                 ((EditText) view).setHint(resourceId);
             }
+            textArray.recycle();
         }
     }
 
