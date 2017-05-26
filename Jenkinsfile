@@ -69,8 +69,7 @@ node ('android&&device') {
                 }
                 build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'ail'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
                 // call dls pipeline as well (temporary)
-               build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}"_DLS, parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'ail'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
-
+               build job: "Platform-Infrastructure/ppc/ppc_android/{${BranchName}"_DLS}, parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'ail'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
             }            
         }
         
