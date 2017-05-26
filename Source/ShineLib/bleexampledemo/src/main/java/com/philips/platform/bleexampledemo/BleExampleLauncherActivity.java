@@ -14,18 +14,29 @@ public class BleExampleLauncherActivity extends AppCompatActivity {
 
     private Button launchButton;
 
+    private boolean launchMicroAppUsingButton = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ble_example_launcher);
-        launchButton=(Button)findViewById(R.id.ble_example_launch_button);
-        launchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BleDemoAppMicroAppInterface uAppInterface = new BleDemoAppMicroAppInterface();
-                uAppInterface.init(new BleDemoMicroAppDependencies(null), new BleDemoAppMicroAppSettings(getApplicationContext()));// pass App-infra instance instead of null
-                uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
-            }
-        });
+        if (launchMicroAppUsingButton) {
+            setContentView(R.layout.activity_ble_example_launcher);
+            launchButton = (Button) findViewById(R.id.ble_example_launch_button);
+            launchButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    launchBleMicroApp();
+                }
+            });
+        } else {
+            launchBleMicroApp();
+        }
+
+    }
+
+    private void launchBleMicroApp() {
+        BleDemoAppMicroAppInterface uAppInterface = new BleDemoAppMicroAppInterface();
+        uAppInterface.init(new BleDemoMicroAppDependencies(null), new BleDemoAppMicroAppSettings(getApplicationContext()));// pass App-infra instance instead of null
+        uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
     }
 }
