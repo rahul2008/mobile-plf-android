@@ -125,8 +125,8 @@ public class AppTagging implements AppTaggingInterface {
 	 * Constructing default Object data
 	 **/
 
-	private Map<String, Object> addAnalyticsDataObject() {
-		final Map<String, Object> contextData = new HashMap<>();
+	private HashMap<String, Object> addAnalyticsDataObject() {
+		final HashMap<String, Object> contextData = new HashMap<>();
 
 		contextData.put(AppTaggingConstants.LANGUAGE_KEY, getLanguage());
 
@@ -150,7 +150,7 @@ public class AppTagging implements AppTaggingInterface {
 	 * Removes Sensitive data declared in Adobe json.
 	 **/
 
-	private Map<String, Object> removeSensitiveData(Map<String, Object> data) {
+	private HashMap<String, Object> removeSensitiveData(HashMap<String, Object> data) {
 
 		final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
 				.AppConfigurationError();
@@ -281,7 +281,7 @@ public class AppTagging implements AppTaggingInterface {
 	}
 
 
-	private void track(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
+	private void track(String pageName, HashMap<String, String> paramMap, boolean isTrackPage) {
 		if (checkForSslConnection() || checkForProductionState()) {
 			trackData(pageName, paramMap, isTrackPage);
 		}
@@ -302,25 +302,72 @@ public class AppTagging implements AppTaggingInterface {
 		return false;
 	}
 
-	private void trackData(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
-		Map contextData = addAnalyticsDataObject();
+	private void trackData(String pageName, HashMap<String, String> paramMap, boolean isTrackPage) {
+		HashMap contextData = addAnalyticsDataObject();
 		if (paramMap != null) {
 			paramMap.putAll(contextData);
-			contextData = removeSensitiveData((Map) paramMap);
+			contextData = removeSensitiveData((HashMap) paramMap);
 		}
+
 		if (null != prevPage && isTrackPage) {
 			contextData.put(AppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
 		}
 		if (isTrackPage) {
-			Analytics.trackState(pageName, contextData);
-			contextData.put(PAGE_NAME ,pageName);
+			if(pageName!=null &&  !pageName.isEmpty()){
+
+				if(pageName.getBytes().length>100)
+				{
+					if(getAppStateFromConfig().equalsIgnoreCase("production")) {
+						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "App Tagging","Page name exceeds 100 bytes in length");
+					}
+					else {
+						throw new IllegalArgumentException("App Tagging," +" Page name exceeds 100 bytes in length");
+					}
+
+				}
+				if(pageName.equalsIgnoreCase(prevPage)){
+					if(getAppStateFromConfig().equalsIgnoreCase("production")) {
+						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "App Tagging","Page name and previous page name shouldn't be same");
+					}
+					else {
+						throw new IllegalArgumentException("App Tagging," +" Page name and previous page name shouldn't be same");
+					}
+				}
+				Analytics.trackState(pageName, contextData);
+			}
+			else
+			{
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "App Tagging","Page name should not  be empty ");
+			}
+
+			contextData.put(PAGE_NAME, pageName);
 			prevPage = pageName;
 		} else {
-			Analytics.trackAction(pageName, contextData);
-			contextData.put(ACTION_NAME ,pageName);
-		}
-		sendBroadcast(contextData);  // sending broadcast
+			String event=pageName.replaceAll("\\s+","");
+			if(event!=null &&  !event.isEmpty()){
 
+				if(event.getBytes().length>255)
+				{
+					if(getAppStateFromConfig().equalsIgnoreCase("production")) {
+						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "App Tagging","Event  exceeds 255 bytes in length");
+					}
+					else {
+							throw new IllegalArgumentException("App Tagging," +" Event  exceeds 255 bytes in length");
+					}
+
+				}
+
+				Analytics.trackAction(event, contextData);
+
+			}
+			else
+			{
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "App Tagging","Event  is null ");
+			}
+			contextData.put(ACTION_NAME ,event);
+		}
+
+		sendBroadcast(contextData);  // sending broadcast
 	}
 
 	@Override
@@ -364,7 +411,7 @@ public class AppTagging implements AppTaggingInterface {
 	}
 
 	@Override
-	public void trackPageWithInfo(String pageName, Map<String, String> paramMap) {
+	public void trackPageWithInfo(String pageName, HashMap<String, String> paramMap) {
 		track(pageName, paramMap, true);
 	}
 
@@ -375,18 +422,18 @@ public class AppTagging implements AppTaggingInterface {
 	}
 
 	private void trackWithInfo(String pageName, String key, String value, boolean isTrackPage) {
-		final Map<String, String> trackMap = new HashMap<>();
+		final HashMap<String, String> trackMap = new HashMap<>();
 		trackMap.put(key, value);
 		track(pageName, trackMap, isTrackPage);
 	}
 
 	@Override
-	public void trackActionWithInfo(String pageName, Map<String, String> paramMap) {
+	public void trackActionWithInfo(String pageName, HashMap<String, String> paramMap) {
 		track(pageName, paramMap, false);
 	}
 
 	@Override
-	public void collectLifecycleInfo(Activity context, Map<String, Object> paramDict) {
+	public void collectLifecycleInfo(Activity context, HashMap<String, Object> paramDict) {
 		Config.collectLifecycleData(context, paramDict);
 	}
 
@@ -412,7 +459,7 @@ public class AppTagging implements AppTaggingInterface {
 
 	@Override
 	public void trackSocialSharing(SocialMedium medium, String sharedItem) {
-		final Map<String, String> trackMap = new HashMap<>();
+		final HashMap<String, String> trackMap = new HashMap<>();
 		trackMap.put("socialItem", sharedItem);
 		trackMap.put("socialType", medium.toString());
 		trackActionWithInfo("socialShare", trackMap);
