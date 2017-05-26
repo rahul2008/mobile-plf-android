@@ -8,76 +8,63 @@ package com.philips.platform.catalogapp.fragments;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.databinding.ObservableBoolean;
+import android.databinding.ObservableField;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentNotificationBadgeBinding;
-import com.philips.platform.uid.view.widget.ImageButton;
-import com.philips.platform.uid.view.widget.NotificationBadge;
 
+public class NotificationBadgeFragment extends BaseFragment implements TextWatcher {
 
-public class NotificationBadgeFragment extends BaseFragment {
+    public static final String BADGE_COUNT = "BADGE_COUNT";
+    private FragmentNotificationBadgeBinding notificationBadgeBinding;
+    public final ObservableField<String> badgeCount = new ObservableField<>("1");
 
-    private NotificationBadge defaultBadge;
-    private NotificationBadge smallBadge;
-    private EditText enterNumberField;
-    public ObservableBoolean isAccentColor = new ObservableBoolean(Boolean.TRUE);
-    private String badgeCount = "1";
-    private ImageButton quitEmail;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FragmentNotificationBadgeBinding notificationBadgeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_notification_badge, container, false);
+        notificationBadgeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_notification_badge, container, false);
         notificationBadgeBinding.setFragment(this);
-        defaultBadge = (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_default);
-        smallBadge = (NotificationBadge) notificationBadgeBinding.getRoot().findViewById(R.id.uid_text_small);
-        enterNumberField = (EditText) notificationBadgeBinding.getRoot().findViewById(R.id.edit_input_number);
-        quitEmail = (ImageButton) notificationBadgeBinding.getRoot().findViewById(R.id.quiet_email);
-        quitEmail.setVectorResource(R.drawable.ic_email_icon);
-        defaultBadge.setVisibility(View.VISIBLE);
-        smallBadge.setVisibility(View.VISIBLE);
-        defaultBadge.setText(enterNumberField.getText());
-        smallBadge.setText(enterNumberField.getText());
-        enterNumberField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                badgeCount = enterNumberField.getText().toString();
-                if (badgeCount.length() > 4) {
-                    badgeCount = "9999+";
-                }
-                defaultBadge.setText(badgeCount);
-                smallBadge.setText(badgeCount);
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                // TODO Auto-generated method stub
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-                // TODO Auto-generated method stub
-            }
-        });
+        notificationBadgeBinding.quietEmail.setVectorResource(R.drawable.ic_email_icon);
+        notificationBadgeBinding.editInputNumber.addTextChangedListener(this);
         return notificationBadgeBinding.getRoot();
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            String savedBadgeCount = savedInstanceState.getString(BADGE_COUNT);
+            if (!savedBadgeCount.isEmpty()) {
+                notificationBadgeBinding.uidTextDefault.setVisibility(View.VISIBLE);
+                notificationBadgeBinding.uidTextSmall.setVisibility(View.VISIBLE);
+                badgeCount.set(savedBadgeCount);
+            }
+        } else {
+            badgeCount.set(badgeCount.get());
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(BADGE_COUNT, badgeCount.get());
     }
 
     @Override
     public void onStop() {
         super.onStop();
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(notificationBadgeBinding.getRoot().getWindowToken(), 0);
     }
 
     @Override
@@ -85,18 +72,30 @@ public class NotificationBadgeFragment extends BaseFragment {
         return R.string.page_title_notification_badge;
     }
 
-    private void enableRecyclerViewSeparator() {
-        if (isAccentColor.get()) {
-            //  defaultBadge.setVisibility(View.VISIBLE);
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
 
-        } else {
-            //defaultBadge.setVisibility(View.INVISIBLE);
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        String value = notificationBadgeBinding.editInputNumber.getText().toString();
+        badgeCount.set(getBadgeCount(value));
+        if (badgeCount.get().length() > 4) {
+            badgeCount.set("9999+");
         }
     }
 
-    public void setNotificationBadge(boolean isSeparatorEnabled) {
-        this.isAccentColor.set(isSeparatorEnabled);
-        enableRecyclerViewSeparator();
+    @NonNull
+    private String getBadgeCount(String s) {
+        try {
+            Integer badgeValue = Integer.valueOf(s);
+            return badgeValue == 0 ? "" : "" + badgeValue;
+        } catch (NumberFormatException nfe) {
+            return "";
+        }
+    }
 
+    @Override
+    public void afterTextChanged(Editable s) {
     }
 }
