@@ -68,7 +68,7 @@ public class ProductCatalogFragmentTest extends BaseTest {
     }
 
     private ViewInteraction getProductCatalogTextView() {
-        return onView(withId(R.id.empty_product_catalog_txt));
+        return onView(withId(R.id.iap_productCatalog_emptyProductCatalogText_lebel));
     }
 
     @Test

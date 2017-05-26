@@ -96,7 +96,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         mBackImage = (ImageView) findViewById(R.id.iap_iv_header_back_button);
         Drawable mBackDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_back_arrow);
         mBackImage.setBackground(mBackDrawable);
-        mTitleTextView = (TextView) findViewById(R.id.iap_header_title);
+        mTitleTextView = (TextView) findViewById(R.id.iap_actionBar_headerTitle_lebel);
         setTitle(getString(R.string.iap_app_name));
 
         mCartContainer = (FrameLayout) findViewById(R.id.cart_container);

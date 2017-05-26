@@ -110,8 +110,8 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         public RetailerViewHolder(View itemView) {
             super(itemView);
             mLogo = (NetworkImageView) itemView.findViewById(R.id.iap_retailer_image);
-            mStoreName = (TextView) itemView.findViewById(R.id.iap_online_store_name);
-            mProductAvailability = (TextView) itemView.findViewById(R.id.iap_online_store_availability);
+            mStoreName = (TextView) itemView.findViewById(R.id.iap_retailerItem_onlineStoreName_lebel);
+            mProductAvailability = (TextView) itemView.findViewById(R.id.iap_retailerItem_onlineStoreAvailability_lebel);
             mArrow = (FontIconTextView) itemView.findViewById(R.id.retailer_arrow);
             itemView.setOnClickListener(this);
         }

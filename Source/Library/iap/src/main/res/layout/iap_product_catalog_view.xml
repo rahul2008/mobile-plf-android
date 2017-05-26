@@ -10,12 +10,12 @@
         android:layout_alignParentTop="true" />
 
     <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/empty_product_catalog_txt"
+        android:id="@+id/iap_productCatalog_emptyProductCatalogText_lebel"
         style="@style/UIDLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/iap_no_product_available"
+        android:textColor="?attr/uidTextPrimary"
         android:visibility="gone" />
-
 </RelativeLayout>

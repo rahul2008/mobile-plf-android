@@ -67,7 +67,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private ArrayList<String> mCategorizedProductList;
 
     private ProgressDialog mProgressDialog = null;
-    private TextView mTitleTextView;
+    private TextView  mTitleTextView;
     private TextView mCountText;
 
     private IAPInterface mIapInterface;

@@ -129,31 +129,31 @@ public class ProductDetailFragmentTest extends BaseTest {
     }
 
     private ViewInteraction getTextLabelForProductDescription() {
-        return onView(withId(com.philips.cdp.di.iap.R.id.product_description));
+        return onView(withId(com.philips.cdp.di.iap.R.id.iap_productDetailScreen_productDescription_lebel));
     }
 
     private ViewInteraction getTextLabelForCTN() {
-        return onView(withId(R.id.ctn));
+        return onView(withId(R.id.iap_productDetailsScreen_ctn_lebel));
     }
 
     private ViewInteraction getTextLabelForDiscountedPrice() {
-        return onView(withId(R.id.tv_discounted_price));
+        return onView(withId(R.id.iap_productCatalogItem_discountedPrice_lebel));
     }
 
     private ViewInteraction getTextLabelForIndividualPrice() {
-        return onView(withId(R.id.individual_price));
+        return onView(withId(R.id.iap_productDetailsScreen_individualPrice_lebel));
     }
 
     private ViewInteraction getTextLabelForProductOverview() {
-        return onView(withId(R.id.product_overview));
+        return onView(withId(R.id.iap_productDetailsScreen_productOverview));
     }
 
     private ViewInteraction getAddToCartButton() {
-        return onView(withId(R.id.add_to_cart));
+        return onView(withId(R.id.iap_productDetailsScreen_addToCart_button));
     }
 
     private ViewInteraction getBuyFromRetailerButton() {
-        return onView(withId(R.id.buy_from_retailor));
+        return onView(withId(R.id.iap_productDetailsScreen_buyFromRetailor_button));
     }
 
     private ViewInteraction getScrollViewForProductDetail() {

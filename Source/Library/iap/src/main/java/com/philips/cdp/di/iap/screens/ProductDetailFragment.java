@@ -134,13 +134,13 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
         View rootView = inflater.inflate(R.layout.iap_product_details_screen, container, false);
         mDetailLayout = (ScrollView) rootView.findViewById(R.id.scrollView);
-        mProductDescription = (TextView) rootView.findViewById(R.id.product_description);
-        mCTN = (TextView) rootView.findViewById(R.id.ctn);
-        mPrice = (TextView) rootView.findViewById(R.id.individual_price);
-        mProductOverview = (TextView) rootView.findViewById(R.id.product_overview);
-        mAddToCart = (Button) rootView.findViewById(R.id.add_to_cart);
-        mBuyFromRetailers = (Button) rootView.findViewById(R.id.buy_from_retailor);
-        mProductDiscountedPrice = (TextView) rootView.findViewById(R.id.tv_discounted_price);
+        mProductDescription = (TextView) rootView.findViewById(R.id.iap_productDetailScreen_productDescription_lebel);
+        mCTN = (TextView) rootView.findViewById(R.id.iap_productDetailsScreen_ctn_lebel);
+        mPrice = (TextView) rootView.findViewById(R.id.iap_productDetailsScreen_individualPrice_lebel);
+        mProductOverview = (TextView) rootView.findViewById(R.id.iap_productDetailsScreen_productOverview);
+        mAddToCart = (Button) rootView.findViewById(R.id.iap_productDetailsScreen_addToCart_button);
+        mBuyFromRetailers = (Button) rootView.findViewById(R.id.iap_productDetailsScreen_buyFromRetailor_button);
+        mProductDiscountedPrice = (TextView) rootView.findViewById(R.id.iap_productCatalogItem_discountedPrice_lebel);
         mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
 
         CircleIndicator indicator = (CircleIndicator) rootView.findViewById(R.id.indicator);

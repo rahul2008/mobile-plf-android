@@ -102,7 +102,7 @@ public class DemoAppActivityTest {
            // onData(anything()).inAdapterView(withId(R.id.product_catalog_recycler_view)).atPosition(0).perform(click());
             onView(withId(R.id.product_catalog_recycler_view)).perform(
                     RecyclerViewActions.actionOnItemAtPosition(0, click()));
-            onView(withId(R.id.buy_from_retailor)).perform(click());
+            onView(withId(R.id.iap_productDetailsScreen_buyFromRetailor_button)).perform(click());
         }
     }
 

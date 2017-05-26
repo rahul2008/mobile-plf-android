@@ -21,22 +21,24 @@
             android:paddingTop="@dimen/border24_margin">
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/product_description"
+                android:id="@+id/iap_productDetailScreen_productDescription_lebel"
                 style="@style/iapCentralesansBoldFont"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
+                android:textColor="?attr/uidTextPrimary"
                 app:uidLabelTextSize="@dimen/iap_product_description" />
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/ctn"
+                android:id="@+id/iap_productDetailsScreen_ctn_lebel"
                 style="@style/iapCentralesansBookFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_below="@id/product_description"
+                android:layout_below="@id/iap_productDetailScreen_productDescription_lebel"
                 android:includeFontPadding="false"
                 android:paddingTop="@dimen/border8_margin"
+                android:textColor="?attr/uidTextSecondary"
                 app:uidLabelTextSize="@dimen/iap_product_ctn_16" />
 
             <LinearLayout
@@ -44,14 +46,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignTop="@id/ctn"
-                android:layout_below="@id/product_description"
+                android:layout_alignTop="@id/iap_productDetailsScreen_ctn_lebel"
+                android:layout_below="@id/iap_productDetailScreen_productDescription_lebel"
                 android:layout_marginEnd="@dimen/iap_product_detail_right_padding"
                 android:layout_marginStart="@dimen/iap_image_bottom_margin"
                 android:orientation="vertical">
 
                 <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/tv_discounted_price"
+                    android:id="@+id/iap_productCatalogItem_discountedPrice_lebel"
                     style="@style/iapCentralesansBoldFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -60,7 +62,7 @@
                     app:uidLabelTextSize="@dimen/iap_product_ctn_16" />
 
                 <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/individual_price"
+                    android:id="@+id/iap_productDetailsScreen_individualPrice_lebel"
                     style="@style/iapCentralesansBoldFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -88,7 +90,7 @@
                 android:paddingTop="@dimen/border24_margin" />
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/product_overview"
+                android:id="@+id/iap_productDetailsScreen_productOverview"
                 style="@style/UIDLabel"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -100,13 +102,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_below="@+id/product_overview"
+                android:layout_below="@+id/iap_productDetailsScreen_productOverview"
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/border16_margin_left_right"
                 android:paddingTop="@dimen/border16_margin_left_right">
 
                 <com.philips.platform.uid.view.widget.Button
-                    android:id="@+id/add_to_cart"
+                    android:id="@+id/iap_productDetailsScreen_addToCart_button"
                     style="@style/UIDImageTextButton.Center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -117,11 +119,11 @@
                     android:visibility="visible" />
 
                 <com.philips.platform.uid.view.widget.Button
-                    android:id="@+id/buy_from_retailor"
+                    android:id="@+id/iap_productDetailsScreen_buyFromRetailor_button"
                     style="@style/UIDImageTextButton.Center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/add_to_cart"
+                    android:layout_below="@id/iap_productDetailsScreen_addToCart_button"
                     android:enabled="true"
                     android:text="@string/iap_buy_from_retailers"
                     android:visibility="visible"

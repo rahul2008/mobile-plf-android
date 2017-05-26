@@ -150,11 +150,11 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ProductCatalogViewHolder(View itemView) {
             super(itemView);
             mProductImage = (NetworkImageView) itemView.findViewById(R.id.image);
-            mProductName = (TextView) itemView.findViewById(R.id.tv_product_name);
-            mCTN = (TextView) itemView.findViewById(R.id.tv_ctn);
-            mPrice = (TextView) itemView.findViewById(R.id.tv_price);
+            mProductName = (TextView) itemView.findViewById(R.id.iap_retailerItem_productName_lebel);
+            mCTN = (TextView) itemView.findViewById(R.id.iap_retailerItem_ctn_lebel);
+            mPrice = (TextView) itemView.findViewById(R.id.iap_retailerItem_price_lebel);
             mArrow = (FontIconTextView) itemView.findViewById(R.id.arrow);
-            mDiscountedPrice = (TextView) itemView.findViewById(R.id.tv_discounted_price);
+            mDiscountedPrice = (TextView) itemView.findViewById(R.id.iap_productCatalogItem_discountedPrice_lebel);
             itemView.setOnClickListener(this);
         }
 

@@ -131,7 +131,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
         View rootView = inflater.inflate(R.layout.iap_product_catalog_view, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.product_catalog_recycler_view);
-        mEmptyCatalogText = (TextView) rootView.findViewById(R.id.empty_product_catalog_txt);
+        mEmptyCatalogText = (TextView) rootView.findViewById(R.id.iap_productCatalog_emptyProductCatalogText_lebel);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);

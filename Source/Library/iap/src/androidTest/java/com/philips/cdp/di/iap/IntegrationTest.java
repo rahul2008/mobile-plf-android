@@ -58,7 +58,7 @@ public class IntegrationTest extends BaseTest {
         onView(withId(R.id.product_catalog_recycler_view)).perform(
                 RecyclerViewActions.actionOnItemAtPosition(0, click()));
         TestUtils.pauseTestFor(1000);
-        onView(withId(R.id.buy_from_retailor)).perform(click());
+        onView(withId(R.id.iap_productDetailsScreen_buyFromRetailor_button)).perform(click());
     }
 
 }
