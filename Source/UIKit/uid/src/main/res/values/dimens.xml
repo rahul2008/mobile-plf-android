@@ -230,8 +230,7 @@
     <!-- Dot navigation icon size-->
     <dimen name="uid_dot_navigation_icon_radius">4dp</dimen>
     <dimen name="uid_dot_navigation_icon_size">8dp</dimen>
-    <dimen name="uid_dot_navigation_button_size">16dp</dimen>
-    <dimen name="uid_dot_navigation_icon_padding">4dp</dimen>
+    <dimen name="uid_dot_navigation_icon_margin">4dp</dimen>
     <dimen name="uid_dot_navigation_indicator_min_height">48dp</dimen>
 
 </resources>

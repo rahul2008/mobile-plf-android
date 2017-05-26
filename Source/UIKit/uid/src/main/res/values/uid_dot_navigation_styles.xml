@@ -12,8 +12,8 @@
 
     <style name="UIDDotNavigationIndicatorItemStyle">
         <item name="uidDotNavigationDrawable">@drawable/uid_dot_navigation_icon</item>
-        <item name="uidDotNavigationIconSpacingLeft">@dimen/uid_dot_navigation_icon_padding</item>
-        <item name="uidDotNavigationIconSpacingRight">@dimen/uid_dot_navigation_icon_padding</item>
+        <item name="uidDotNavigationIconSpacingLeft">@dimen/uid_dot_navigation_icon_margin</item>
+        <item name="uidDotNavigationIconSpacingRight">@dimen/uid_dot_navigation_icon_margin</item>
         <item name="uidDotNavigationIconColorList">@color/uid_dot_navigation_icon_color</item>
     </style>
 </resources>

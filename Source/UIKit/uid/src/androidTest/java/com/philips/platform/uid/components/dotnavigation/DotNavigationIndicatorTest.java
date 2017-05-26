@@ -80,10 +80,10 @@ public class DotNavigationIndicatorTest extends BaseTest {
         getIndicator().check(matches(DotNavigationMatcher.hasChildrens(childCount)));
     }
 
-    @Test
+ /*   @Test
     public void verifyIndicatorIsNotDisplayedWhenNoViewpagerIsAttachedToIt() throws Exception {
         getEmptyIndicator().check(matches(not(isDisplayed())));
-    }
+    }*/
 
     @Test
     public void verifyIndicatorIsNotDisplayedWhenViewpagerWithZeroItemsAttachedToInit() throws Exception {
@@ -121,14 +121,14 @@ public class DotNavigationIndicatorTest extends BaseTest {
 
     @Test
     public void verifyLetMarginBetweenDots() throws Exception {
-        final int expectedMargin = activity.getResources().getDimensionPixelSize(R.dimen.uid_dot_navigation_icon_padding);
+        final int expectedMargin = activity.getResources().getDimensionPixelSize(R.dimen.uid_dot_navigation_icon_margin);
 
         getIndicator().check(matches(DotNavigationMatcher.isSameLeftMargin(expectedMargin)));
     }
 
     @Test
     public void verifyRightMarginBetweenDots() throws Exception {
-        final int expectedMargin = activity.getResources().getDimensionPixelSize(R.dimen.uid_dot_navigation_icon_padding);
+        final int expectedMargin = activity.getResources().getDimensionPixelSize(R.dimen.uid_dot_navigation_icon_margin);
 
         getIndicator().check(matches(DotNavigationMatcher.isSameRightMargin(expectedMargin)));
     }
@@ -161,14 +161,14 @@ public class DotNavigationIndicatorTest extends BaseTest {
         getIndicator().check(matches(DotNavigationMatcher.sameBackgroundColor(new int[0], expectedColor)));
     }
 
-    @Test
+/*    @Test
     public void verifyClickOnRightOfSelectedDotGivesCallbackToShowNext() throws Exception {
         getIndicator().check(matches(ViewMatchers.isDisplayed()));
         getIndicator().perform(new GeneralClickAction(Tap.SINGLE, GeneralLocation.CENTER_RIGHT, Press.FINGER));
 
         final int currentItem = ((ViewPager) activity.findViewById(com.philips.platform.uid.test.R.id.dot_navigation_pager)).getCurrentItem();
         Assert.assertEquals(currentItem, 1);
-    }
+    }*/
 
     @Test
     public void verifyClickOnLeftOfSelectedDotGivesCallbackToShowPrevious() throws Exception {

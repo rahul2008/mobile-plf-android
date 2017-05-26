@@ -31,7 +31,37 @@ import com.philips.platform.uid.thememanager.ThemeUtils;
  * <code>DotNavigationIndicator</code> draw dots based on number of items in viewpager's Adapter.
  * Adapter must be set on <code>{@link ViewPager}</code>
  * before calling {@link DotNavigationIndicator#setViewPager(ViewPager)} or {@link DotNavigationIndicator#setCurrentItem(int)}
+ *
+ * <p>The attributes mapping follows below table.</p>
+ * <table border="2" width="85%" align="center" cellpadding="5">
+ * <thead>
+ * <tr><th>ResourceID</th> <th>Configuration</th></tr>
+ * </thead>
+ * <p>
+ * <tbody>
+ * <tr>
+ * <td rowspan="1">uidDotNavigationDrawable</td>
+ * <td rowspan="1">Drawable for navigation icons</td>
+ * </tr>
+ * <tr>
+ * <td rowspan="1">uidDotNavigationIconSpacingLeft</td>
+ * <td rowspan="1">Left margin for icon</td>
+ * </tr>
+ * <tr>
+ * <td rowspan="1">uidDotNavigationIconSpacingRight</td>
+ * <td rowspan="1">Right margin for icon</td>
+ * </tr>
+ * <tr>
+ * <td rowspan="1">uidDotNavigationIconColorList</td>
+ * <td rowspan="1">ColorStatelist for the navigation icons</td>
+ * </tr>
+ * <p>
+ * </tbody>
+ * <p>
+ * </table>
  */
+
+
 public class DotNavigationIndicator extends LinearLayout implements PageIndicator {
     private ViewPager viewPager;
     private OnPageChangeListener pageChangeListener;
@@ -41,7 +71,10 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     private int iconLeftSpacing;
     private int iconRightSpacing;
     private Drawable backgroundDrawable;
-    private int dotNavigationIconColorlist = -1;
+    private int dotNavigationIconColorListID = -1;
+    private boolean isCircularSwipeEnabled;
+
+
 
     public DotNavigationIndicator(@NonNull Context context) {
         this(context, null);
@@ -54,7 +87,6 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     public DotNavigationIndicator(@NonNull final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs, defStyleAttr);
-        setVisibility(GONE);
     }
 
     private void init(final Context context, final AttributeSet attrs, final int defStyleAttr) {
@@ -65,7 +97,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
 
         iconLeftSpacing = typedArray.getDimensionPixelSize(R.styleable.UIDDotNavigation_uidDotNavigationIconSpacingLeft, -1);
         iconRightSpacing = typedArray.getDimensionPixelSize(R.styleable.UIDDotNavigation_uidDotNavigationIconSpacingRight, -1);
-        dotNavigationIconColorlist = typedArray.getResourceId(R.styleable.UIDDotNavigation_uidDotNavigationIconColorList, -1);
+        dotNavigationIconColorListID = typedArray.getResourceId(R.styleable.UIDDotNavigation_uidDotNavigationIconColorList, -1);
 
         setContainerMinHeight(context, attrs);
 
@@ -111,6 +143,16 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
         viewPager.addOnPageChangeListener(this);
         drawIndicatorDots();
         setCurrentItem(initialPosition);
+    }
+
+
+    /**
+     * Enables circular swipe behavior
+     * @param circularSwipeEnabled Configures circular swipe property
+     */
+    @SuppressWarnings("unused")
+    public void setCircularSwipeEnabled(boolean circularSwipeEnabled) {
+        isCircularSwipeEnabled = circularSwipeEnabled;
     }
 
     /**
@@ -179,7 +221,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     private boolean processTouch(final MotionEvent event) {
         if (isIconActionDownDetected && isIconActionUpDetected) {
             resetIconTouch();
-            handleTouchAndDeletePreviousNextToPager(event);
+            handleTouchAndDelegatePreviousNextToPager(event);
             return true;
         }
         return false;
@@ -190,7 +232,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
         isIconActionUpDetected = false;
     }
 
-    private void handleTouchAndDeletePreviousNextToPager(final MotionEvent event) {
+    private void handleTouchAndDelegatePreviousNextToPager(final MotionEvent event) {
         final View selectedChild = getSelectedChild();
         if (selectedChild != null) {
             final MarginLayoutParams marginLayoutParams = (MarginLayoutParams) selectedChild.getLayoutParams();
@@ -236,7 +278,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
 
     protected ColorStateList getIndicatorTintList() {
         return ThemeUtils.buildColorStateList(getResources(), getContext().getTheme(),
-                dotNavigationIconColorlist != -1 ? dotNavigationIconColorlist : R.color.uid_dot_navigation_icon_color);
+                dotNavigationIconColorListID != -1 ? dotNavigationIconColorListID : R.color.uid_dot_navigation_icon_color);
     }
 
     protected Drawable getIndicatorBackground() {
@@ -249,29 +291,37 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
 
     /**
      * This is the method is responsible for showing next item when user clicks/taps on the right side of <br>
-     * highlighted dot. If you want to provide circular behavior then please override this method
+     * highlighted dot.
      */
     protected void showNext() {
         isViewPagerInitialized();
 
-        if (selectedIndex == viewPager.getAdapter().getCount()) {
+        int count = getViewPagerCount();
+        if (!isCircularSwipeEnabled && selectedIndex == count -1) {
             return;
         }
 
-        viewPager.setCurrentItem(selectedIndex + 1);
+        viewPager.setCurrentItem((selectedIndex + 1) % count);
     }
 
     /**
      * This is the method is responsible for showing previous item when user clicks/taps on the left side of <br>
-     * highlighted dot. If you want to provide circular behavior then please override this method
+     * highlighted dot.
      */
     protected void showPrevious() {
         isViewPagerInitialized();
 
-        if (selectedIndex == 0) {
+        if (!isCircularSwipeEnabled && selectedIndex == 0) {
             return;
+        } else if(selectedIndex == 0) {
+            selectedIndex = getViewPagerCount();
         }
+
         viewPager.setCurrentItem(selectedIndex - 1);
+    }
+
+    private int getViewPagerCount() {
+        return viewPager.getAdapter().getCount();
     }
 
     @Nullable

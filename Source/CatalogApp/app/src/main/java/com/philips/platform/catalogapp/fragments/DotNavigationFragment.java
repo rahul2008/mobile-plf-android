@@ -49,7 +49,7 @@ public class DotNavigationFragment extends BaseFragment {
         initPagerItems();
         dotNavigationBinding.dotNavigationPager.setAdapter(new NavigationPager());
         dotNavigationBinding.dotNavigationPager.addOnPageChangeListener(dotNavigationBinding.pagerIndicator);
-        (dotNavigationBinding.pagerIndicator).setViewPager(dotNavigationBinding.dotNavigationPager);
+        dotNavigationBinding.pagerIndicator.setViewPager(dotNavigationBinding.dotNavigationPager);
         return dotNavigationBinding.getRoot();
     }
 
@@ -57,8 +57,7 @@ public class DotNavigationFragment extends BaseFragment {
         int index = 1;
         pagerItems.clear();
         for (int drawable : drawableArray) {
-            pagerItems.add(new PagerItem(VectorDrawableCompat.create(getResources(), drawable, getContext().getTheme()), index));
-            index++;
+            pagerItems.add(new PagerItem(VectorDrawableCompat.create(getResources(), drawable, getContext().getTheme()), index++));
         }
     }
 
