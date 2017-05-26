@@ -33,7 +33,8 @@
     "appconfig.cloudServiceId":"appinfra.appconfigdownload",
     "timesync.ntp.hosts":["0.pool.ntp.org","1.pool.ntp.org","2.pool.ntp.org","3.pool.ntp.org","0.cn.pool.ntp.org"],
     "LANGUAGEPACK.SERVICEID":"appinfra.languagepack",
-    "appinfra.appupdate":true,
+    "appUpdate.serviceId":"appinfra.testing.version",
+    "appUpdate.autoRefresh":true,
     "logging.releaseConfig":{
       "fileName":"AppInfraLog",
       "numberOfFiles":5,

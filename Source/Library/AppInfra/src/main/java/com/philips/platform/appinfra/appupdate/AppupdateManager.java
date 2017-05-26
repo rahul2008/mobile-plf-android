@@ -10,25 +10,29 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.FileUtils;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appupdate.model.AppupdateModel;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
+
 
 public class AppupdateManager implements AppupdateInterface {
 
 	private Context mContext;
 	private AppInfra mAppInfra;
-	private String appUpdateUrl = "https://hashim-rest.herokuapp.com/sd/dev/appupdate/appinfra/version.json";
 	private Handler mHandler;
 	private AppupdateModel mAppUpdateModel;
 	private Gson mGson;
@@ -42,7 +46,7 @@ public class AppupdateManager implements AppupdateInterface {
 		mAppUpdateModel = getAppUpdateModel();
 	}
 
-	private void downloadAppUpdate(final OnRefreshListener refreshListener) {
+	private void downloadAppUpdate(final String appUpdateUrl, final OnRefreshListener refreshListener) {
 		JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, appUpdateUrl, null,
 				new Response.Listener<JSONObject>() {
 					@Override
@@ -50,15 +54,20 @@ public class AppupdateManager implements AppupdateInterface {
 						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AI AppUpate", response.toString());
 						try {
 							final JSONObject resp = response.getJSONObject("android");
-							mFileUtils.saveFile(resp.toString(), AppupdateConstants.LOCALE_FILE_DOWNLOADED, AppupdateConstants.APPUPDATE_PATH);
-							mHandler = getHandler(mContext);
-							new Thread(new Runnable() {
-								@Override
-								public void run() {
-									processResponse(resp.toString(), refreshListener);
-								}
-							}).start();
+							if (resp != null) {
+								mFileUtils.saveFile(resp.toString(), AppupdateConstants.LOCALE_FILE_DOWNLOADED, AppupdateConstants.APPUPDATE_PATH);
+								mHandler = getHandler(mContext);
+								new Thread(new Runnable() {
+									@Override
+									public void run() {
+										processResponse(resp.toString(), refreshListener);
+									}
+								}).start();
+							} else {
+								refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, "No response for Android");
+							}
 						} catch (JSONException e) {
+							refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, "JSON EXCEPTION");
 							mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AI AppUpdate_URL", "JSON EXCEPTION");
 						}
 					}
@@ -68,8 +77,7 @@ public class AppupdateManager implements AppupdateInterface {
 				final String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
 				final String errMsg = " Error Code:" + errorcode + " , Error Message:" + error.toString();
 				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AI AppUpdate_URL", errMsg);
-				refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AIAppUpdate_REFRESH_FAILED, errMsg);
-
+				refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, errMsg);
 			}
 		}, null, null, null);
 		mAppInfra.getRestClient().getRequestQueue().add(jsonRequest);
@@ -78,9 +86,9 @@ public class AppupdateManager implements AppupdateInterface {
 	private void processResponse(String response, OnRefreshListener refreshListener) {
 		mAppUpdateModel = mGson.fromJson(response, AppupdateModel.class);
 		if (mAppUpdateModel != null) {
-			mHandler.post(postRefreshSuccess(refreshListener, OnRefreshListener.AIAppUpdateRefreshResult.AIAppUpdate_REFRESH_SUCCESS));
+			mHandler.post(postRefreshSuccess(refreshListener, OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_SUCCESS));
 		} else {
-			mHandler.post(postRefreshError(refreshListener, OnRefreshListener.AIAppUpdateRefreshResult.AIAppUpdate_REFRESH_FAILED, "Parsing Issue"));
+			mHandler.post(postRefreshError(refreshListener, OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, "Parsing Issue"));
 		}
 	}
 
@@ -106,7 +114,6 @@ public class AppupdateManager implements AppupdateInterface {
 		};
 	}
 
-
 	private AppupdateModel getAppUpdateModel() {
 		if (mAppUpdateModel == null) {
 			mAppUpdateModel = mGson.fromJson(mFileUtils.readFile(getAppUpdatefromCache()), AppupdateModel.class);
@@ -114,7 +121,7 @@ public class AppupdateManager implements AppupdateInterface {
 		return mAppUpdateModel;
 	}
 
-	private File getAppUpdatefromCache() {
+	public File getAppUpdatefromCache() {
 		final File file = mFileUtils.getLanguagePackFilePath(AppupdateConstants.LOCALE_FILE_DOWNLOADED
 				, AppupdateConstants.APPUPDATE_PATH);
 		return file;
@@ -125,8 +132,33 @@ public class AppupdateManager implements AppupdateInterface {
 	}
 
 	@Override
-	public void refresh(OnRefreshListener refreshListener) {
-		downloadAppUpdate(refreshListener);
+	public void refresh(final OnRefreshListener refreshListener) {
+		final AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
+		final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+		final String appupdateServiceId = (String) appConfigurationInterface.getPropertyForKey("appUpdate.serviceId", "appinfra", configError); // throws illegal argument
+		if (null == appupdateServiceId) {
+			refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, "Invalid ServiceID"); // TO DO
+		} else {
+			ServiceDiscoveryInterface mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
+			mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(appupdateServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+
+				@Override
+				public void onSuccess(URL url) {
+					final String appUpdateURL = url.toString();
+					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AppUpdate_URL", url.toString());
+					downloadAppUpdate(appUpdateURL, refreshListener);
+				}
+
+				@Override
+				public void onError(ERRORVALUES error, String message) {
+					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+							"AppUpdate_URL", " Error Code:" + error.toString() + " , Error Message:" + message);
+					final String errMsg = " Error Code:" + error + " , Error Message:" + error.toString();
+					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
+					refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, errMsg);
+				}
+			});
+		}
 	}
 
 	private String getAppVersion() {
@@ -140,19 +172,17 @@ public class AppupdateManager implements AppupdateInterface {
 			String deprecatedVersion = getAppUpdateModel().getVersion().getDeprecatedVersion();
 			String deprecationDate = getAppUpdateModel().getVersion().getDeprecationDate();
 
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 			formatter.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
 			try {
 				Date deprecationdate = formatter.parse(deprecationDate);
 				Date currentDate = new Date();
-				return AIVersion.isverionlessthancloud(getAppVersion(), minVer) ||
-						AIVersion.isbothversionsame(getAppVersion(), deprecatedVersion) && currentDate.after(deprecationdate);
-
+				return AppupdateVersion.isAppVerionLessthanCloud(getAppVersion(), minVer) ||
+						AppupdateVersion.isBothVersionSame(getAppVersion(), deprecatedVersion) && currentDate.after(deprecationdate);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 		}
-
 		return false;
 	}
 
@@ -161,8 +191,8 @@ public class AppupdateManager implements AppupdateInterface {
 		if (getAppUpdateModel() != null && getAppUpdateModel().getVersion() != null) {
 			String minVer = getAppUpdateModel().getVersion().getMinimumVersion();
 			String deprecatedVer = getAppUpdateModel().getVersion().getDeprecatedVersion();
-			return AIVersion.isverionlessthancloud(minVer, getAppVersion()) &&
-					AIVersion.isversionlessthanequalsto(getAppVersion(), deprecatedVer);
+			return AppupdateVersion.isAppVerionLessthanCloud(minVer, getAppVersion()) &&
+					AppupdateVersion.isAppVersionLessthanEqualsto(getAppVersion(), deprecatedVer);
 		}
 		return false;
 	}
@@ -171,7 +201,7 @@ public class AppupdateManager implements AppupdateInterface {
 	public boolean isUpdateAvailable() {
 		if (getAppUpdateModel() != null && getAppUpdateModel().getVersion() != null) {
 			String currentVer = getAppUpdateModel().getVersion().getCurrentVersion();
-			return AIVersion.isverionlessthancloud(getAppVersion(), currentVer);
+			return AppupdateVersion.isAppVerionLessthanCloud(getAppVersion(), currentVer);
 		}
 		return false;
 	}
@@ -223,4 +253,6 @@ public class AppupdateManager implements AppupdateInterface {
 		}
 		return null;
 	}
+
+
 }

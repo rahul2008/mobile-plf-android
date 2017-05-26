@@ -8,7 +8,7 @@ public interface AppupdateInterface {
 
 	interface OnRefreshListener {
 
-		enum AIAppUpdateRefreshResult {AIAppUpdate_REFRESH_SUCCESS, NO_REFRESH_REQUIRED, AIAppUpdate_REFRESH_FAILED}
+		enum AIAppUpdateRefreshResult {AppUpdate_REFRESH_SUCCESS, AppUpdate_REFRESH_FAILED}
 
 		void onError(OnRefreshListener.AIAppUpdateRefreshResult error, String message);
 

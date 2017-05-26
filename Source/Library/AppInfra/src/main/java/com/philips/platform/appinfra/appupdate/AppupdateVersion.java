@@ -1,8 +1,8 @@
 package com.philips.platform.appinfra.appupdate;
 
 
-public class AIVersion {
 
+public class AppupdateVersion {
 
 	private static int compareVersion(String appVer, String cloudVer) {
 		String[] arr1 = appVer.split("\\.");
@@ -31,33 +31,38 @@ public class AIVersion {
 		return 0;
 	}
 
-	static boolean isverionlessthancloud(String version , String cloudver) {
-		if(compareVersion(version,cloudver) == -1) {
+	static boolean isAppVerionLessthanCloud(String version, String cloudver) {
+		if (compareVersion(splitVersion(version), splitVersion(cloudver)) == -1) {
 			return true;
 		}
 		return false;
 	}
 
-	static boolean isversionGreaterthancloud(String version , String cloudver) {
-		if(compareVersion(version,cloudver) == 1) {
+	static boolean isAppVersionGreaterthanCloud(String version, String cloudver) {
+		if (compareVersion(splitVersion(version), splitVersion(cloudver)) == 1) {
 			return true;
 		}
 		return false;
 	}
 
-	static boolean isbothversionsame(String version , String cloudver) {
-		if(compareVersion(version ,cloudver) == 0) {
+	static boolean isBothVersionSame(String version, String cloudver) {
+		if (compareVersion(splitVersion(version), splitVersion(cloudver)) == 0) {
 			return true;
 		}
 		return false;
 	}
 
-	static boolean isversionlessthanequalsto(String verion , String cloudver) {
-		if(compareVersion(verion ,cloudver) == -1 || compareVersion(verion ,cloudver) == 0) {
+	static boolean isAppVersionLessthanEqualsto(String verion, String cloudver) {
+		if (compareVersion(splitVersion(verion), splitVersion(cloudver)) == -1 ||
+				compareVersion(splitVersion(verion), splitVersion(cloudver)) == 0) {
 			return true;
 		}
 		return false;
 	}
 
+	private static String splitVersion(String version) {
+		String arr[] = version.split("\\-");
+		return arr[0];
+	}
 
 }
