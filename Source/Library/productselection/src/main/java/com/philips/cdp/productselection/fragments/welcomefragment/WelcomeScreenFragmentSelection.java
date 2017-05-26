@@ -25,20 +25,23 @@ import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 public class WelcomeScreenFragmentSelection extends ProductSelectionBaseFragment implements View.OnClickListener {
 
     private String TAG = WelcomeScreenFragmentSelection.class.getSimpleName();
-    private LinearLayout mWelcomeScreenParent = null;
-    private FrameLayout.LayoutParams mParams = null;
-    private static View mRootView = null;
+    private LinearLayout mWelcomeScreenParent;
+    private FrameLayout.LayoutParams mParams;
     private Button mFindProcuctBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.fragment_welcome_screen, container, false);
-        mWelcomeScreenParent = (LinearLayout) mRootView.findViewById(
+        View view = inflater.inflate(R.layout.fragment_welcome_screen, container, false);
+        initView(view);
+        return view;
+    }
+
+    private void initView(View view) {
+        mWelcomeScreenParent = (LinearLayout) view.findViewById(
                 R.id.welcome_screen_parent_one);
-        mFindProcuctBtn = (Button) mRootView.findViewById(R.id.find_product_btn);
+        mFindProcuctBtn = (Button) view.findViewById(R.id.find_product_btn);
         mFindProcuctBtn.setOnClickListener(this);
-        return mRootView;
     }
 
     @Override
@@ -74,7 +77,6 @@ public class WelcomeScreenFragmentSelection extends ProductSelectionBaseFragment
 
     @Override
     public void onClick(View v) {
-
         if (v.getId() == R.id.find_product_btn) {
             if (isConnectionAvailable()) {
                 ProductSelectionLogger.i(TAG, "User clicked on find products");

@@ -6,27 +6,17 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.utils.ThemeHelper;
 import com.philips.cdp.uikit.UiKitActivity;
-import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.shamanland.fonticon.FontIconTypefaceHolder;
@@ -55,8 +45,6 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
         super.onCreate(savedInstanceState);
         ProductModelSelectionHelper.getInstance();
         fragmentManager = getSupportFragmentManager();
-        //UIDHelper.setupToolbar(this);
-        //initActionBar();
     }
 
     @Override
@@ -69,44 +57,11 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 backstackFragment();
-               // onBackPressed();
                 return true;
             default:
                 break;
         }
         return true;
-    }
-
-    private void initActionBar() {
-        ActionBar mActionBar = this.getSupportActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
-                ActionBar.LayoutParams.MATCH_PARENT,
-                ActionBar.LayoutParams.WRAP_CONTENT,
-                Gravity.CENTER);
-
-        View mCustomView = LayoutInflater.from(this).inflate(R.layout.actionbar_productselection, null); // layout which contains your button.
-
-        TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
-
-        FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.productselection_UpButton);
-        frameLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                backstackFragment();
-            }
-        });
-
-        ImageView arrowImage = (ImageView) mCustomView
-                .findViewById(R.id.productselection_arrow);
-        arrowImage.setImageDrawable(VectorDrawable.create(this, R.drawable.uikit_up_arrow));
-        arrowImage.bringToFront();
-        mActionBar.setCustomView(mCustomView, params);
-        mActionBar.setDisplayShowCustomEnabled(true);
-
-        Toolbar parent = (Toolbar) mCustomView.getParent();
-        parent.setContentInsetsAbsolute(0, 0);
     }
 
     @Override
@@ -118,7 +73,6 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
     protected void onResume() {
         super.onResume();
         ProductModelSelectionHelper.getInstance().getTaggingInterface().collectLifecycleInfo(this);
-        // Tagging.collectLifecycleData();
     }
 
     @Override
@@ -150,7 +104,6 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
         if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             finish();
         } else {
-//            enableActionBarHome();
             fragmentManager.popBackStack();
             removeCurrentFragment();
         }
@@ -169,7 +122,6 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
         transaction.commit();
     }
 
-
     protected void showFragment(Fragment fragment) {
         try {
             FragmentTransaction fragmentTransaction = fragmentManager
@@ -187,25 +139,6 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
             imm.hideSoftInputFromWindow(getWindow().getCurrentFocus()
                     .getWindowToken(), 0);
         }
-    }
-
-    protected boolean isTablet() {
-        DisplayMetrics metrics = new DisplayMetrics();
-        try {
-            if (this.getWindowManager() != null)
-                this.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        } catch (NullPointerException e) {
-            ProductSelectionLogger.e(TAG, "V4 library known issue is catched");
-        } finally {
-            float yInches = metrics.heightPixels / metrics.ydpi;
-            float xInches = metrics.widthPixels / metrics.xdpi;
-            double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
-            return diagonalInches >= 6.5;
-        }
-    }
-
-    protected void backtoConsumerCare() {
-        finish();
     }
 
     protected void initTheme() {

@@ -22,7 +22,6 @@ public class ProductSelectionActivity extends ProductSelectionBaseActivity {
     private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
     private static final String USER_PREFERENCE = "user_product";
     private static int mEnterAnimation = -1;
-    // private static boolean isFirstTimeWelcomeScreenlaunch = true;
     private static int mExitAnimation = -1;
     private SharedPreferences prefs = null;
     private Toolbar toolbar;
@@ -41,7 +40,6 @@ public class ProductSelectionActivity extends ProductSelectionBaseActivity {
         animateThisScreen();
         if (getCtnFromPreference()) {
             showFragment(new WelcomeScreenFragmentSelection());
-            // isFirstTimeWelcomeScreenlaunch = false;
         } else {
             showFragment(new ProductSelectionListingFragment());
         }

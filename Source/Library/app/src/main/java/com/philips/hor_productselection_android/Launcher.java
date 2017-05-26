@@ -28,7 +28,6 @@ import com.philips.hor_productselection_android.view.CustomDialog;
 import com.philips.hor_productselection_android.view.SampleActivitySelection;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
@@ -39,7 +38,6 @@ import java.util.List;
 public class Launcher extends ProductSelectionBaseActivity implements View.OnClickListener {
 
     private static ArrayList<String> mList = null;
-    private static int RESULT_CODE_THEME_UPDATED = 1;
     private static ConsumerProductInfo productInfo = null;
     private final String TAG = Launcher.class.getSimpleName();
     private ProductModelSelectionHelper mProductSelectionHelper = null;
@@ -58,7 +56,6 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        //AppInfraSingleton.setInstance(new AppInfra.Builder().build(getApplicationContext()));
         mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(this, mAppInfraInterface);
@@ -66,14 +63,9 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         AppTaggingInterface aiAppTaggingInterface = ProductModelSelectionHelper.getInstance().getAPPInfraInstance().getTagging();
         aiAppTaggingInterface.setPreviousPage("demoapp:home");
         aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
-
-
-        LoggingInterface appInfraLogging = ProductModelSelectionHelper.getInstance().getLoggerInterface();
-
         change_theme = (Button) findViewById(R.id.change_theme);
         mAddButton = (ImageButton) findViewById(R.id.addimageButton);
         change_theme.setOnClickListener(this);
-        setViewState();
         if (mList == null)
             mList = new ArrayList<String>();
         initUIReferences();
@@ -123,7 +115,6 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         mButtonFragment = (Button) findViewById(R.id.buttonFragment);
         mAdd = (Button) findViewById(R.id.add_product);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
         mButtonActivity.setOnClickListener(this);
         mButtonFragment.setOnClickListener(this);
         mAdd.setOnClickListener(this);
@@ -140,27 +131,18 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         }
     }
 
-    private void setViewState() {
-//        String preferences = themeUtils.getThemePreferences();
-//        ArrayList<String> prefData = themeUtils.getThemeTokens(preferences);
-//        themeUtils.setColorString(prefData.get(0));
-    }
-
     @Override
     public void onClick(View v) {
-        //setCurrentOrientation API is requiered in order to achieve proper GUI on tablet.
         Configuration configuration = getResources().getConfiguration();
         ProductModelSelectionHelper.getInstance().setCurrentOrientation(configuration);
 
         switch (v.getId()) {
             case R.id.buttonActivity:
                 launchProductSelectionAsActivity();
-                //ProductModelSelectionHelper.getInstance().initializeTagging(true, "ProductSelection", "101", "vertical:productSelection:home");
                 break;
 
             case R.id.buttonFragment:
                 launchProductSelectionAsFragment();
-                //  ProductModelSelectionHelper.getInstance().initializeTagging(true, "ProductSelection", "101", "vertical:productSelection:home");
                 break;
 
             case R.id.addimageButton:
@@ -187,31 +169,12 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
 
 
         mProductSelectionHelper.setLocale("en", "GB");
-        /*ThemeUtil mThemeUtil = new ThemeUtil(getApplicationContext().getSharedPreferences(
-                this.getString(R.string.app_name), Context.MODE_PRIVATE));
-        ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
-                mThemeUtil.getCurrentTheme());
-        uiLauncher.setAnimation(R.anim.abc_fade_in, R.anim.abc_fade_out);*/
-
-
         final ActivityLauncher activityLauncher =
                 new ActivityLauncher
                         (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
                                 themeHelper.getThemeResourceId());
 
         activityLauncher.setCustomAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
-
-       /* ProductModelSelectionHelper.getInstance().setSummaryDataListener(new SummaryDataListener() {
-            @Override
-            public void onSuccess(List<SummaryModel> summaryModels) {
-
-                if (summaryModels != null)
-                    Toast.makeText(Launcher.this, "Summary Size : " + summaryModels.size(), Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(Launcher.this, "Summary returned null", Toast.LENGTH_SHORT).show();
-
-            }
-        });*/
         ProductModelSelectionHelper.getInstance().setProductSelectionListener(new ProductSelectionListener() {
             @Override
             public void onProductModelSelected(SummaryModel productSummaryModel) {
@@ -224,8 +187,6 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
             }
         });
         ProductModelSelectionHelper.getInstance().invokeProductSelection(activityLauncher, productsSelection);
-        //  ProductSelectionLogger.enableLogging();
-
     }
 
 

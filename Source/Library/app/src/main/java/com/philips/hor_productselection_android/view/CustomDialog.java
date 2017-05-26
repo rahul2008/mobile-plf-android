@@ -17,21 +17,16 @@ import java.util.ArrayList;
  */
 public class CustomDialog extends Dialog {
 
-    private Context mContext = null;
     private EditText mCtn = null;
-    private EditText mCategoty = null;
-    private EditText mCatalog = null;
-    private Button mButton = null;
+    private Button mAddCTNBtn = null;
     private ArrayList<String> mList = null;
     private CtnListViewListener mListner = null;
 
     public CustomDialog(Context context, ArrayList<String> list, CtnListViewListener ctnListViewListener) {
         super(context);
-        this.mContext = context;
         mList = list;
         mListner = ctnListViewListener;
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,22 +34,17 @@ public class CustomDialog extends Dialog {
         setContentView(R.layout.dialogview);
         initUI();
         initListeners();
-
-
     }
 
     private void initListeners() {
-        mButton.setOnClickListener(new View.OnClickListener() {
+        mAddCTNBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String product = null;
                 if (mCtn.getText() != null)
                     product = mCtn.getText().toString().trim();
-
-
                 mList.add(product);
                 mListner.updateList(mList);
-
                 dismiss();
             }
         });
@@ -62,8 +52,6 @@ public class CustomDialog extends Dialog {
 
     private void initUI() {
         mCtn = (EditText) findViewById(R.id.ctn_editText);
-        mCategoty = (EditText) findViewById(R.id.category_editText);
-        mCatalog = (EditText) findViewById(R.id.catalog_editText);
-        mButton = (Button) findViewById(R.id.dialog_submit);
+        mAddCTNBtn = (Button) findViewById(R.id.dialog_submit);
     }
 }

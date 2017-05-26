@@ -100,24 +100,12 @@ public class ProductModelSelectionHelper {
         mAppInfraInterface = appInfraInterface;
     }
 
-    /*public void initializeTagging(Boolean taggingEnabled, String appName, String appId, String launchingPage) {
-        Tagging.enableAppTagging(taggingEnabled);
-        Tagging.setTrackingIdentifier(appId);
-        Tagging.setComponentVersionKey(Constants.ATTRIBUTE_KEY_PRODUCT_SELECTION);
-        Tagging.setComponentVersionVersionValue(String.valueOf(BuildConfig.VERSION_NAME));
-        Tagging.setLaunchingPageName(launchingPage);
-
-        Tagging.init(getContext(), appName);
-    }*/
-
     public UiLauncher getLauncherType() {
         return mLauncherType;
     }
 
 
     public AppInfraInterface getAPPInfraInstance() {
-        //return AppInfraSingleton.getInstance();
-
         return mAppInfraInterface;
     }
 

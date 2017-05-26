@@ -90,17 +90,6 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         // setLocaleLanguage();
     }
 
-  /*  private void setLocaleLanguage() {
-        Locale locale = ProductModelSelectionHelper.getInstance().getLocale();
-        if (locale != null) {
-            Locale.setDefault(locale);
-            Configuration config = new Configuration();
-            config.locale = locale;
-            mFragmentActivityContext.getResources().updateConfiguration(config,
-                    mFragmentActivityContext.getResources().getDisplayMetrics());
-        }
-    }*/
-
     protected boolean setPreference(String ctn) {
 
         if (ctn != null && ctn != "") {
@@ -114,24 +103,11 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
             return false;
     }
 
-
-    protected boolean getCtnFromPreference() {
-        String ctn = null;
-        prefs = getActivity().getSharedPreferences(
-                USER_PREFERENCE, Context.MODE_PRIVATE);
-        ctn = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
-        if (ctn != null && ctn != "")
-            return true;
-        else
-            return false;
-    }
-
     private void registerNetWorkReceiver() {
         IntentFilter mfilter = new IntentFilter(
                 "android.net.conn.CONNECTIVITY_CHANGE");
         mNetworkutility = new NetworkReceiver(this);
         getActivity().registerReceiver(mNetworkutility, mfilter);
-
     }
 
     @Override
@@ -213,7 +189,6 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
         if (isConnectionAvailable)
             return true;
         else {
-            // new NetworkAlertView().showNetworkAlert(getActivity());
             mHandler.postAtFrontOfQueue(new Runnable() {
 
                 @Override
@@ -374,29 +349,6 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
             e.printStackTrace();
         }
     }
-
-//    protected void replaceFragmentTablet(Fragment fragment) {
-//        try {
-//            FragmentTransaction fragmentTransaction = mFragmentActivityContext
-//                    .getSupportFragmentManager().beginTransaction();
-////            if (mEnterAnimation != 0 && mExitAnimation != 0) {
-////                fragmentTransaction.setCustomAnimations(mEnterAnimation,
-////                        mExitAnimation, mEnterAnimation, mExitAnimation);
-////            }
-//
-//            Fragment fragmentDetailsTablet = mFragmentActivityContext.getSupportFragmentManager().findFragmentByTag("DetailedScreenFragmentSelection");
-//            if (fragment != null)
-//                fragmentTransaction.remove(fragmentDetailsTablet).commit();
-//
-//            fragmentTransaction.add(R.id.fragmentTabletProductDetailsParent, fragment, "SavedScreenFragmentSelection");
-////            fragmentTransaction.hide(this);
-////            fragmentTransaction.addToBackStack(null);
-//            fragmentTransaction.commit();
-//        } catch (IllegalStateException e) {
-//            ProductSelectionLogger.e(TAG, "IllegalStateException" + e.getMessage());
-//            e.printStackTrace();
-//        }
-//    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {

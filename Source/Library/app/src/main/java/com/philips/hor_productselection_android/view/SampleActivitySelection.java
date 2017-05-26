@@ -52,43 +52,12 @@ public class SampleActivitySelection extends ProductSelectionBaseActivity implem
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-//        setNoActionBarTheme();
         Log.i(TAG, " Multiproduct - SampleActivitySelection onCreate");
-
-
-        /*
-        This module is integrated with Philips Standard UI_Kit. So here Theme is as per UI_Kit only. Vertical apps are free to use
-        their apps specific themes.
-         */
-//        setTheme(getUiKitThemeUtil().getTheme());
-
         setContentView(R.layout.activity_multiproduct_sample);
-       /* DigitalCareConfigManager.getInstance().invokeDigitalCareAsFragment(this, R.id.sampleMainContainer, actionBarClickListener,
-                R.anim.slide_in_bottom, R.anim.slide_out_bottom);*/
-//        FragmentComponentBuilder componentBuilder = new FragmentComponentBuilder();
-//        componentBuilder.setActionbarUpdateListener(actionBarClickListener);
-//        componentBuilder.setEnterAnimation(R.anim.slide_in_bottom);
-//        componentBuilder.setExitAnimation(R.anim.slide_out_bottom);
-//        componentBuilder.setmLayoutResourceID(R.id.sampleMainContainer);
-//        componentBuilder.setFragmentActivity(this);
-
         mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
 
         ProductModelSelectionHelper.getInstance().initialize(this, mAppInfraInterface);
         ProductModelSelectionHelper.getInstance().setLocale("en", "GB");
-
-        //ProductModelSelectionHelper.getInstance().invokeDigitalCareAsFragment(this, R.id.sampleMultiProductContainer, null /*actionBarClickListener*/, R.anim.uikit_popover_fadein, R.anim.uikit_popover_fadeout);
-//        ProductModelSelectionHelper.getInstance().setMultiProductSize(mList.size());
-
-
-//        DigitalCareConfigManager.getInstance().invokeProductSelectionModule(componentBuilder);
-//        try {
-//            initActionBar();
-//        } catch (ClassCastException e) {
-//            Log.e(TAG, "SampleActivitySelection Actionbar: " + e.getMessage());
-//        }
-//        enableActionBarHome();
-
         UIDHelper.setupToolbar(this);
         getTheme().applyStyle(com.philips.cdp.uikit.R.style.Theme_Philips_BrightOrange_Gradient, true);
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
@@ -97,20 +66,10 @@ public class SampleActivitySelection extends ProductSelectionBaseActivity implem
         fragmentManager = getSupportFragmentManager();
     }
 
-//    protected void initActionBar() throws ClassCastException {
-//        mActionBarMenuIcon = (ImageView) findViewById(R.id.sample_home_icon);
-//        mActionBarArrow = (ImageView) findViewById(R.id.sample_back_to_home_img);
-//        mActionBarTitle = (TextView) findViewById(R.id.sample_action_bar_title);
-//
-//        mActionBarMenuIcon.setOnClickListener(this);
-//        mActionBarArrow.setOnClickListener(this);
-//    }
-
     private boolean backstackFragment() {
         if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             finish();
         } else {
-//            enableActionBarHome();
             fragmentManager.popBackStack();
             removeCurrentFragment();
         }
