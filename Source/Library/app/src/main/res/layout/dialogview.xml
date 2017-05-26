@@ -13,17 +13,16 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel.MarginTop"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:gravity="center"
-            android:text="Add Product"
-            android:textColor="?attr/uikit_baseColor"
-            android:textSize="20sp" />
+            android:textSize="30sp"
+            android:text="Add Product"/>
     </FrameLayout>
 
-    <com.philips.cdp.uikit.customviews.PuiEditText
+    <com.philips.platform.uid.view.widget.EditText
         android:id="@+id/ctn_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,18 +30,18 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="4dp"
         android:layout_marginTop="37dp"
-        inputText:uikit_hintText="Add CTN here" />
+        android:hint="Add CTN here"/>
 
-    <com.philips.cdp.uikit.customviews.PuiEditText
+    <com.philips.platform.uid.view.widget.EditText
         android:id="@+id/category_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ctn_editText"
         android:layout_centerHorizontal="true"
         android:layout_margin="4dp"
-        inputText:uikit_hintText="Add Category here" />
+        android:hint="Add Category here"/>
 
-    <com.philips.cdp.uikit.customviews.PuiEditText
+    <com.philips.platform.uid.view.widget.EditText
         android:id="@+id/catalog_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,11 +50,11 @@
         android:layout_below="@+id/category_editText"
         android:layout_margin="4dp"
         android:background="#FFFFFF"
-        inputText:uikit_hintText="Add CATALOG here" />
+        android:hint="Add CATALOG here"/>
 
-    <Button
+    <com.philips.platform.uid.view.widget.Button
+        style="@style/UIDExtraWideButton.Center"
         android:id="@+id/dialog_submit"
-        style="@style/fontButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/catalog_editText"
