@@ -317,7 +317,7 @@ public class AppTagging implements AppTaggingInterface {
 
 				if(pageName.getBytes().length>100)
 				{
-					if(getAppStateFromConfig().equalsIgnoreCase("Production")) {
+					if(getAppStateFromConfig().equalsIgnoreCase("production")) {
 						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "App Tagging","Page name exceeds 100 bytes in length");
 					}
 					else {
@@ -326,18 +326,18 @@ public class AppTagging implements AppTaggingInterface {
 
 				}
 				if(pageName.equalsIgnoreCase(prevPage)){
-					if(getAppStateFromConfig().equalsIgnoreCase("Production")) {
-						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "App Tagging","Page name and previous page name are equal");
+					if(getAppStateFromConfig().equalsIgnoreCase("production")) {
+						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "App Tagging","Page name and previous page name shouldn't be same");
 					}
 					else {
-						throw new IllegalArgumentException("App Tagging," +" Page name and previous page name are equal");
+						throw new IllegalArgumentException("App Tagging," +" Page name and previous page name shouldn't be same");
 					}
 				}
 				Analytics.trackState(pageName, contextData);
 			}
 			else
 			{
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "App Tagging","Page name is null ");
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "App Tagging","Page name should not  be empty ");
 			}
 
 			contextData.put(PAGE_NAME, pageName);
@@ -348,7 +348,7 @@ public class AppTagging implements AppTaggingInterface {
 
 				if(event.getBytes().length>255)
 				{
-					if(getAppStateFromConfig().equalsIgnoreCase("Production")) {
+					if(getAppStateFromConfig().equalsIgnoreCase("production")) {
 						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "App Tagging","Event  exceeds 255 bytes in length");
 					}
 					else {

@@ -178,12 +178,12 @@ public class AIATDemoPage extends AppCompatActivity  {
 					} else {
 						/*AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo("AppTaggingDemoPage", key.getText().toString(), value.getText().toString());*/
 
-						if(page_event_name.getText().toString().length()>0){
+						/*if(page_event_name.getText().toString().length()>0){*/
 							AppInfraApplication.mAIAppTaggingInterface.trackPageWithInfo(page_event_name.getText().toString(), key.getText().toString(), value.getText().toString());
-						}else
+						/*}else
 						{
 							showAlertDialog("Warning", "Page Name shouldn't be Empty");
-						}
+						}*/
 					}
 				}
 

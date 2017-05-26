@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
@@ -162,7 +161,7 @@ public class AppTaggingTest extends MockitoTestCase {
 //        assertEquals(AppTaggingInterface.PrivacyStatus.UNKNOWN, mAppTagging.getPrivacyConsent());
 	}
 
-	public void testTrackPageWithInfo() {
+	/*public void testTrackPageWithInfo() {
 		mAppTagging.trackPageWithInfo("AppTaggingDemoPage", "key1", "value1");
 		doAnswer(new Answer<Object>() {
 			public Object answer(InvocationOnMock invocation) {
@@ -187,7 +186,7 @@ public class AppTaggingTest extends MockitoTestCase {
 				}
 			}).when(mockAppTaggingInterface).trackPageWithInfo("AppTaggingDemoPage", keyValuePair);
 		}
-	}
+	}*/
 
 	public void testMockTrackActionWithInfo() {
 
