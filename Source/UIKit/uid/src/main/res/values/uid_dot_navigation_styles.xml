@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="UIDDotNavigation">
+        <attr name="uidDotNavigationDrawable" format="reference"/>
+        <attr name="uidDotNavigationIconSpacingLeft" format="reference|dimension"/>
+        <attr name="uidDotNavigationIconSpacingRight" format="reference|dimension"/>
+        <attr name="uidDotNavigationIconColorList" format="reference|color"/>
+    </declare-styleable>
+
+    <attr name="uidDotNavigationStyle"/>
+
+    <style name="UIDDotNavigationIndicatorItemStyle">
+        <item name="uidDotNavigationDrawable">@drawable/uid_dot_navigation_icon</item>
+        <item name="uidDotNavigationIconSpacingLeft">@dimen/uid_dot_navigation_icon_margin</item>
+        <item name="uidDotNavigationIconSpacingRight">@dimen/uid_dot_navigation_icon_margin</item>
+        <item name="uidDotNavigationIconColorList">@color/uid_dot_navigation_icon_color</item>
+    </style>
+</resources>

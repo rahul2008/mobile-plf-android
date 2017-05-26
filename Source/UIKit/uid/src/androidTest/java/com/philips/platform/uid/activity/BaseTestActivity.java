@@ -14,6 +14,7 @@ import android.support.annotation.StyleRes;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.core.deps.guava.annotations.VisibleForTesting;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -112,6 +113,7 @@ public class BaseTestActivity extends UIDActivity implements DelayerCallback {
                         final FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(com.philips.platform.uid.test.R.id.container, fragment);
                         fragmentTransaction.commitAllowingStateLoss();
+                        sendMessage();
                     }
                 });
     }

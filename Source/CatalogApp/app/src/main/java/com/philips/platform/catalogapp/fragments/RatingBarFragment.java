@@ -37,4 +37,5 @@ public class RatingBarFragment extends BaseFragment {
         });
         return fragmentRatingbarBinding.getRoot();
     }
+
 }
