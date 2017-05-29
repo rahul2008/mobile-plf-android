@@ -8,37 +8,13 @@ package com.philips.platform.appinfra.tagging;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 
-import java.util.HashMap;
+import java.util.Map;
 
 
 /**
  * The interface Ai app tagging interface.
  */
 public interface AppTaggingInterface {
-
-	/**
-	 * The enum Privacy status.
-	 */
-	enum PrivacyStatus {
-		OPTIN, OPTOUT, UNKNOWN
-	}
-
-
-	enum SocialMedium {
-		Facebook("facebook"),
-		Twitter("twitter"),
-		Mail("mail"),
-		AirDrop("airdrop");
-		private final String socialMedium;
-
-		SocialMedium(String socialMedium) {
-			this.socialMedium = socialMedium;
-		}
-
-		public String toString() {
-			return this.socialMedium;
-		}
-	}
 
 	/**
 	 * Create instance for component ai app tagging interface.
@@ -50,13 +26,6 @@ public interface AppTaggingInterface {
 	 */
 	public AppTaggingInterface createInstanceForComponent(String componentId,
 	                                                      String componentVersion);
-
-	/**
-	 * Sets privacy consent.
-	 *
-	 * @param privacyStatus the privacy status
-	 */
-	public void setPrivacyConsent(PrivacyStatus privacyStatus);
 
 	/**
 	 * Sets previous page.
@@ -73,6 +42,13 @@ public interface AppTaggingInterface {
 	public PrivacyStatus getPrivacyConsent();
 
 	/**
+	 * Sets privacy consent.
+	 *
+	 * @param privacyStatus the privacy status
+	 */
+	public void setPrivacyConsent(PrivacyStatus privacyStatus);
+
+	/**
 	 * Track page with info.
 	 *
 	 * @param pageName the page name
@@ -87,7 +63,7 @@ public interface AppTaggingInterface {
 	 * @param pageName  the page name
 	 * @param paramDict set of key/value pairs to be added to the tracking entry
 	 */
-	public void trackPageWithInfo(String pageName, HashMap<String, String> paramDict);
+	public void trackPageWithInfo(String pageName, Map<String, String> paramDict);
 
 	/**
 	 * Track action with info.
@@ -104,7 +80,7 @@ public interface AppTaggingInterface {
 	 * @param pageName  the page name
 	 * @param paramDict set of key/value pairs to be added to the tracking entry
 	 */
-	public void trackActionWithInfo(String pageName, HashMap<String, String> paramDict);
+	public void trackActionWithInfo(String pageName, Map<String, String> paramDict);
 
 	/**
 	 * Collect LifeCycle info.
@@ -112,7 +88,7 @@ public interface AppTaggingInterface {
 	 * @param context   the page name
 	 * @param paramDict set of key/value pairs to be added to the tracking entry
 	 */
-	public void collectLifecycleInfo(Activity context, HashMap<String, Object> paramDict);
+	public void collectLifecycleInfo(Activity context, Map<String, Object> paramDict);
 
 	/**
 	 * Collect LifeCycle info.
@@ -177,19 +153,18 @@ public interface AppTaggingInterface {
 	void trackTimedActionEnd(String actionEnd);
 
 	/**
-	 * sets Privacy Consent For SensitiveData.
-	 *
-	 * @param valueContent String filename.
-	 */
-	void setPrivacyConsentForSensitiveData(boolean valueContent);
-
-	/**
 	 * get Privacy Consent For SensitiveData.
 	 *
 	 * @return returns consent value true or false
 	 */
 	boolean getPrivacyConsentForSensitiveData();
 
+	/**
+	 * sets Privacy Consent For SensitiveData.
+	 *
+	 * @param valueContent String filename.
+	 */
+	void setPrivacyConsentForSensitiveData(boolean valueContent);
 
 	/**
 	 * @return an String value containing the tracking identifier
@@ -210,6 +185,29 @@ public interface AppTaggingInterface {
 	 * @param receiver BroadcastReceiver
 	 */
 	void registerTaggingData(BroadcastReceiver receiver);
+
+	/**
+	 * The enum Privacy status.
+	 */
+	enum PrivacyStatus {
+		OPTIN, OPTOUT, UNKNOWN
+	}
+
+	enum SocialMedium {
+		Facebook("facebook"),
+		Twitter("twitter"),
+		Mail("mail"),
+		AirDrop("airdrop");
+		private final String socialMedium;
+
+		SocialMedium(String socialMedium) {
+			this.socialMedium = socialMedium;
+		}
+
+		public String toString() {
+			return this.socialMedium;
+		}
+	}
 }
 
 
