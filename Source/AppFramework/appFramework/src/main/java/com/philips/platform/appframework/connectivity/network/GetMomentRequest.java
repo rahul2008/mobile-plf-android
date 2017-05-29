@@ -17,6 +17,7 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -96,7 +97,7 @@ public class GetMomentRequest extends PlatformRequest {
                     value = detailsValue.getString("value");
                     getMomentResponseListener.onGetMomentSuccess(value);
                 } catch (JSONException ex) {
-                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,
+                    RALog.e( TAG,
                             ex.getMessage());                }
             }
         };

@@ -19,6 +19,7 @@ import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
@@ -28,6 +29,7 @@ import java.util.ArrayList;
  * This class contains all initialization & Launching details of IAP
  */
 public abstract class IAPState extends BaseState {
+    public static final String TAG =  IAPState.class.getSimpleName();
 
     /**
      IAP flow constants, values for IAP views should start from 4000 series
@@ -52,6 +54,7 @@ public abstract class IAPState extends BaseState {
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
+        RALog.d(TAG," navigate ");
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         activityContext = fragmentLauncher.getFragmentActivity();
         ((AppFrameworkBaseActivity)activityContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentLaunchState());
@@ -86,6 +89,7 @@ public abstract class IAPState extends BaseState {
     }
 
     private void launchIAP() {
+        RALog.d(TAG," launchIAP ");
         IAPInterface iapInterface = getApplicationContext().getIap().getIapInterface();
         IAPFlowInput iapFlowInput = new IAPFlowInput(getCtnList());
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
@@ -96,6 +100,8 @@ public abstract class IAPState extends BaseState {
 
         } catch (RuntimeException e) {
             //TODO: Deepthi - M -  not to show toast msg from exception, we need to defined string messages for all errors - (Had sent mail to Thiru long time ago. NO response. Will send another one to Bopanna)
+            RALog.e(TAG,e.getMessage());
+
             Toast.makeText(activityContext, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -106,6 +112,7 @@ public abstract class IAPState extends BaseState {
 
     @Override
     public void init(Context context) {
+        RALog.d(TAG," init IAP ");
         applicationContext = context;
         iapInterface = new IAPInterface();
         IAPSettings iapSettings = new IAPSettings(applicationContext);

@@ -11,10 +11,12 @@ import android.content.Intent;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 public class HamburgerActivityState extends BaseState {
+    public static final String TAG = HamburgerActivityState.class.getSimpleName();
 
     public HamburgerActivityState() {
         super(AppStates.HAMBURGER_HOME);
@@ -26,6 +28,7 @@ public class HamburgerActivityState extends BaseState {
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
+        RALog.d(TAG, " navigate");
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
         fragmentLauncher.getFragmentActivity().startActivity(new Intent(fragmentLauncher.getFragmentActivity(), HamburgerActivity.class));
     }

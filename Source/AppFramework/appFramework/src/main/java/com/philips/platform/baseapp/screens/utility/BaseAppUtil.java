@@ -24,18 +24,27 @@ public class BaseAppUtil {
      * @return
      */
     public static boolean isDSPollingEnabled(Context context){
+
         String isPollingEnabled= (String) ((AppFrameworkApplication)context.getApplicationContext()).getAppInfra().getConfigInterface().getPropertyForKey("PushNotification.polling","ReferenceApp",new AppConfigurationInterface.AppConfigurationError());
         if(!TextUtils.isEmpty(isPollingEnabled) && Boolean.parseBoolean(isPollingEnabled)) {
+            RALog.d("is DSPolling Enabled ", "  True ");
+
             return true;
+
         }
+        RALog.d("is DSPolling Enabled ", "  false ");
         return false;
     }
 
     public static boolean isAutoLogoutEnabled(Context context){
         String isAutoLogoutEnabled= (String) ((AppFrameworkApplication)context.getApplicationContext()).getAppInfra().getConfigInterface().getPropertyForKey("PushNotification.autoLogout","ReferenceApp",new AppConfigurationInterface.AppConfigurationError());
         if(!TextUtils.isEmpty(isAutoLogoutEnabled) && Boolean.parseBoolean(isAutoLogoutEnabled)) {
+            RALog.d("is AutoLogout Enabled ", "  True ");
+
             return true;
         }
+        RALog.d("is AutoLogout Enabled ", "  false ");
+
         return false;
     }
 

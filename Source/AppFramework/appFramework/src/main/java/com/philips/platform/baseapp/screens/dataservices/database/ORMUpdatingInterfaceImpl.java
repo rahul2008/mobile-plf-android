@@ -6,6 +6,7 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmChara
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMoment;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSettings;
 import com.philips.platform.baseapp.screens.dataservices.utility.NotifyDBRequestListener;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.Insight;
@@ -70,10 +71,10 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.SETTINGS);
 
         } catch (SQLException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SQLITE_EXCEPTION,e.getMessage());
+           RALog.e(TAG+ SQLITE_EXCEPTION,e.getMessage());
 
         } catch (OrmTypeChecking.OrmTypeException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, ORM_TYPE_EXCEPTION,e.getMessage());
+           RALog.e(TAG+ ORM_TYPE_EXCEPTION,e.getMessage());
         }
     }
 
@@ -82,7 +83,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         try {
             updating.updateDCSync(tableID, isSynced);
         } catch (SQLException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SQLITE_EXCEPTION,e.getMessage());
+           RALog.e(TAG+ SQLITE_EXCEPTION,e.getMessage());
         }
         return false;
     }
@@ -94,7 +95,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             try {
                 updating.updateConsentDetails(consentDetail);
             } catch (SQLException e) {
-                AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SQLITE_EXCEPTION,e.getMessage());
+               RALog.e(TAG+ SQLITE_EXCEPTION,e.getMessage());
 
                 notifyDBRequestListener.notifyFailure(e, dbRequestListener);
                 return false;
@@ -153,7 +154,7 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
             notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.CHARACTERISTICS);
             return true;
         } catch (OrmTypeChecking.OrmTypeException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, ORM_TYPE_EXCEPTION,e.getMessage());
+           RALog.e(TAG+ ORM_TYPE_EXCEPTION,e.getMessage());
 
             return false;
         }

@@ -37,6 +37,7 @@ import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.screens.settingscreen.IndexSelectionListener;
 import com.philips.platform.baseapp.screens.utility.Constants;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -74,6 +75,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        RALog.d(TAG," Oncreate ");
         setTheme(R.style.Theme_Philips_DarkBlue_Gradient_NoActionBar);
         /*
          * Setting Philips UI KIT standard BLUE theme.
@@ -94,6 +96,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
      * For updating the hamburger drawer
      */
     private void renderHamburgerMenu() {
+        RALog.d(TAG, "renderHamburgerMenu ");
         hamburgerUtil = null;
         drawerListView = null;
         loadSlideMenuItems();
@@ -176,6 +179,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
     }
 
     private void initViews() {
+        RALog.d(TAG, " initViews");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         philipsDrawerLayout = (DrawerLayout) findViewById(R.id.philips_drawer_layout);
         drawerListView = (ListView) findViewById(R.id.hamburger_list);
@@ -231,6 +235,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
 
     @Override
     public void onBackPressed() {
+        RALog.d(TAG, " On Back Pressed");
         if(philipsDrawerLayout.isDrawerOpen(navigationView))
         {
             philipsDrawerLayout.closeDrawer(navigationView);
@@ -263,6 +268,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
 
     @Override
     protected void onDestroy() {
+        RALog.d(TAG, " onDestroy ");
         super.onDestroy();
 //        userRegistrationState.unregisterUserRegistrationListener();
     }
@@ -439,6 +445,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
 
     @Override
     public void updateSelectionIndex(int position) {
+        RALog.d(TAG, " Hamburger selection updated to 0 ");
         if(handler!=null)
         handler.post(new Runnable() {
             @Override
