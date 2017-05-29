@@ -43,7 +43,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = "registrationApi"
+archivesBaseName = "registrationApi_DLS"
 
 allprojects {
     repositories {
