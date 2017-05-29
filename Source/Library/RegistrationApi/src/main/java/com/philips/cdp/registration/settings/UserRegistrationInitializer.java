@@ -38,6 +38,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -194,37 +195,30 @@ public class UserRegistrationInitializer {
         });
 
         RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
-        disposable.add(serviceDiscoveryWrapper.getServiceLocaleWithLanguagePreferenceSingle("userreg.janrain.api")
+        serviceDiscoveryWrapper.getServiceLocaleWithLanguagePreferenceSingle("userreg.janrain.api")
+                .map(locale -> {
+                            if (locale == null || locale.isEmpty()) {
+                                return serviceDiscoveryWrapper.getServiceLocaleWithCountryPreferenceSingle("userreg.janrain.api");
+                            } else {
+                                return Single.just(locale);
+                            }
+                        }
+                )
+                .onErrorReturn(
+                        throwable -> serviceDiscoveryWrapper.getServiceLocaleWithCountryPreferenceSingle("userreg.janrain.api"))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<String>() {
+                .subscribeWith(new DisposableSingleObserver<Single<String>>() {
                     @Override
-                    public void onSuccess(String verificationUrl) {
-                        updateAppLocale(verificationUrl, context,registrationType);
+                    public void onSuccess(Single<String> localeStr) {
+                        updateAppLocale(localeStr.blockingGet(), context, registrationType);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
                     }
-                }));
-
-        if (locale == null) {
-            disposable.add(serviceDiscoveryWrapper.getServiceLocaleWithCountryPreferenceSingle("userreg.janrain.api")
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(new DisposableSingleObserver<String>() {
-                        @Override
-                        public void onSuccess(String verificationUrl) {
-                            updateAppLocale(verificationUrl, context,registrationType);
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
-                        }
-                    }));
-        }
+                });
 
     }
 
