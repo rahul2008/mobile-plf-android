@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.discovery;
@@ -42,7 +42,7 @@ public final class DICommClientWrapper {
     }
 
     public static Context getContext() {
-        return DiscoveryManager.getInstance().getContext();
+        return DiscoveryManager.getInstance() != null ? DiscoveryManager.getInstance().getContext() : null;
     }
 
     private static String generateTemporaryAppId() {
