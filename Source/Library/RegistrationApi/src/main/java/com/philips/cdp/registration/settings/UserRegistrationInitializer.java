@@ -18,7 +18,7 @@ import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.janrain.android.Jump;
-import com.philips.cdp.localematch.PILLocaleManager;
+import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.EventHelper;
@@ -28,10 +28,21 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.inject.Inject;
+
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 public class UserRegistrationInitializer {
 
@@ -48,7 +59,14 @@ public class UserRegistrationInitializer {
 
     private boolean isRefreshUserSessionInProgress = false;
 
+    private String locale;
+
     private static volatile UserRegistrationInitializer mUserRegistrationInitializer;
+
+    @Inject
+    ServiceDiscoveryWrapper serviceDiscoveryWrapper;
+
+    private final CompositeDisposable disposable = new CompositeDisposable();
 
     private UserRegistrationInitializer() {
         URInterface.getComponent().inject(this);
@@ -165,25 +183,52 @@ public class UserRegistrationInitializer {
 
         mRegistrationSettings = new RegistrationSettingsURL();
 
-        serviceDiscoveryInterface.getServiceLocaleWithCountryPreference("userreg.janrain.api", new ServiceDiscoveryInterface.OnGetServiceLocaleListener() {
+        serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
-            public void onSuccess(String s) {
-                String localeArr[] = s.split("_");
-                serviceDiscoveryInterface.setHomeCountry(localeArr[1].trim().toUpperCase());
-                RegistrationHelper.getInstance().setCountryCode(localeArr[1].trim().toUpperCase());
-                PILLocaleManager localeManager = new PILLocaleManager(context);
-                localeManager.setInputLocale(localeArr[0].trim(), localeArr[1].trim());
-                mRegistrationSettings.intializeRegistrationSettings(context, RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType), localeArr[0].trim() + "-" + localeArr[1].trim());
-
+            public void onSuccess(String s, SOURCE source) {
+                RegistrationHelper.getInstance().setCountryCode(s);
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
             }
         });
 
+        RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
+        serviceDiscoveryWrapper.getServiceLocaleWithLanguagePreferenceSingle("userreg.janrain.api")
+                .map(locale -> {
+                            if (locale == null || locale.isEmpty()) {
+                                return serviceDiscoveryWrapper.getServiceLocaleWithCountryPreferenceSingle("userreg.janrain.api");
+                            } else {
+                                return Single.just(locale);
+                            }
+                        }
+                )
+                .onErrorReturn(
+                        throwable -> serviceDiscoveryWrapper.getServiceLocaleWithCountryPreferenceSingle("userreg.janrain.api"))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<Single<String>>() {
+                    @Override
+                    public void onSuccess(Single<String> localeStr) {
+                        updateAppLocale(localeStr.blockingGet(), context, registrationType);
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+                    }
+                });
+
+    }
+
+    private void updateAppLocale(String localeString, Context context , Configuration registrationType) {
+        locale = localeString;
+        String localeArr[] = locale.split("_");
+        RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
+        mRegistrationSettings.intializeRegistrationSettings(context,
+                RegistrationConfiguration.getInstance().getRegistrationClientId(registrationType),
+                RegistrationHelper.getInstance().getLocale(context).toString());
     }
 
 

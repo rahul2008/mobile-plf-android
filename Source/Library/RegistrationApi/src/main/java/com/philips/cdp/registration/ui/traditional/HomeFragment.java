@@ -37,9 +37,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.AppConfiguration;
@@ -68,6 +68,7 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.wechat.WeChatAuthenticationListener;
 import com.philips.cdp.registration.wechat.WeChatAuthenticator;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -78,8 +79,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.inject.Inject;
+
+import io.reactivex.Single;
+import io.reactivex.SingleSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Function;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 
 public class HomeFragment extends RegistrationBaseFragment implements OnClickListener,
@@ -93,6 +103,11 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Inject
     ServiceDiscoveryInterface serviceDiscoveryInterface;
+
+    @Inject
+    ServiceDiscoveryWrapper serviceDiscoveryWrapper;
+
+    private final CompositeDisposable disposable = new CompositeDisposable();
 
     public static final String WECHAT = "wechat";
     private static final int AUTHENTICATION_FAILED = -30;
@@ -121,6 +136,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private IWXAPI mWeChatApi;
     private String mWeChatCode;
     private String mShowCountrySelection;
+    private String mLocale;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -500,31 +516,50 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private void changeCountry(String countryName, String countryCode) {
         if (networkUtility.isNetworkAvailable()) {
             serviceDiscoveryInterface.setHomeCountry(countryCode);
+            RegistrationHelper.getInstance().setCountryCode(countryCode);
             RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + countryCode.length());
             showProgressDialog();
-            serviceDiscoveryInterface.getServiceLocaleWithCountryPreference(
-                    "userreg.janrain.api", new ServiceDiscoveryInterface.
-                            OnGetServiceLocaleListener() {
-                        @Override
-                        public void onSuccess(String s) {
-                            RLog.d(RLog.SERVICE_DISCOVERY, "STRING S : " + s);
-                            String localeArr[] = s.toString().split("_");
-                            PILLocaleManager localeManager = new PILLocaleManager(mContext);
-                            localeManager.setInputLocale(localeArr[0].trim(), localeArr[1].trim());
-                            RegistrationHelper.getInstance().initializeUserRegistration(mContext);
-                            RLog.d(RLog.SERVICE_DISCOVERY,"Change Country code :" + RegistrationHelper.getInstance().getCountryCode());
-                            handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
-                            mCountryDisplayy.setText(countryName);
 
+            RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
+
+            serviceDiscoveryWrapper.getServiceLocaleWithLanguagePreferenceSingle("userreg.janrain.api")
+                    .map(locale -> {
+                                if (locale == null || locale.isEmpty()) {
+                                    return serviceDiscoveryWrapper.getServiceLocaleWithCountryPreferenceSingle("userreg.janrain.api");
+                                } else {
+                                    return Single.just(locale);
+                                }
+                            }
+                    )
+                    .onErrorReturn(
+                            throwable -> serviceDiscoveryWrapper.getServiceLocaleWithCountryPreferenceSingle("userreg.janrain.api"))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(new DisposableSingleObserver<Single<String>>() {
+                        @Override
+                        public void onSuccess(Single<String> localeStr) {
+                            updateAppLocale(localeStr.blockingGet(), countryName);
                         }
 
                         @Override
-                        public void onError(ERRORVALUES errorvalues, String s) {
-                            RLog.d(RLog.SERVICE_DISCOVERY,"errorvalues : " + errorvalues);
+                        public void onError(Throwable e) {
+                            EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
                             hideProgressDialog();
                         }
                     });
         }
+    }
+
+    private void updateAppLocale(String localeString,String countryName) {
+        mLocale = localeString;
+        RLog.d(RLog.SERVICE_DISCOVERY, "STRING S : " + mLocale);
+        String localeArr[] = mLocale.toString().split("_");
+        RegistrationHelper.getInstance().initializeUserRegistration(mContext);
+        RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
+        RLog.d(RLog.SERVICE_DISCOVERY,"Change Country code :" + RegistrationHelper.getInstance().getCountryCode());
+        handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
+        mCountryDisplayy.setText(countryName);
+        hideProgressDialog();
     }
 
     int mFlowId = 0;//1 for create account 2 :Philips sign in 3 : Social login

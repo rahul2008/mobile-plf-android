@@ -204,10 +204,7 @@ dependencies {
             {
                 transitive = true
             }
-    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.5.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-            {
-                transitive = true
-            }
+
     compile group: 'com.googlecode.libphonenumber', name: 'libphonenumber', version: '7.7.1'
 
     apt 'com.oguzbabaoglu:butterfork-compiler:1.0.0'
