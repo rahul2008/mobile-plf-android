@@ -12,7 +12,8 @@
     tools:showIn="@layout/fragment_saved_screen">
 
 
-    <com.philips.cdp.productselection.customview.CustomFontTextView
+    <com.philips.platform.uid.view.widget.Label
+        style="@style/UIDLabel.SliderMarginBottom"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
@@ -25,9 +26,9 @@
         android:textSize="@dimen/title_text_size_small"
         custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
 
-    <Button
+    <com.philips.platform.uid.view.widget.Button
+        style="@style/UIDExtraWideButton.Center"
         android:id="@+id/savedscreen_button_settings"
-        style="?attr/uikit_outlinedButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
@@ -37,6 +38,4 @@
         android:layout_weight="4"
         android:text="@string/Confirmation_Change"
         android:textAllCaps="false" />
-
-
 </LinearLayout>

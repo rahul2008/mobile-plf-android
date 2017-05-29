@@ -24,7 +24,8 @@
         android:layout_weight="2"
         android:orientation="vertical">
 
-        <com.philips.cdp.productselection.customview.CustomFontTextView
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel.SliderMarginBottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -33,13 +34,13 @@
             android:layout_marginTop="47dp"
             android:lineSpacingExtra="8dp"
             android:paddingRight="30dp"
-            android:textColor="?attr/uikit_baseColor"
             android:textSize="@dimen/title_text_size_small"
             android:textStyle="bold"
             custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Bold.otf" />
 
 
-        <com.philips.cdp.productselection.customview.CustomFontTextView
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel.SliderMarginBottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

@@ -94,19 +94,21 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
 
     private void injectSummaryDataList() {
         SummaryModel[] summaryList = ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getSummaryModelList();
-        ProductSelectionLogger.i(TAG, "Found " + summaryList.length + " products in region " + ProductModelSelectionHelper.getInstance().getLocale().toString());
-        productList = new ArrayList<SummaryModel>();
+        if(summaryList!=null){
+            ProductSelectionLogger.i(TAG, "Found " + summaryList.length + " products in region " + ProductModelSelectionHelper.getInstance().getLocale().toString());
+            productList = new ArrayList<SummaryModel>();
 
-        for (int i = 0; i < summaryList.length; i++) {
-            productList.add(summaryList[i]);
+            for (int i = 0; i < summaryList.length; i++) {
+                productList.add(summaryList[i]);
+            }
+            if (productList.size() != 0) {
+                mProductAdapter = new ListViewWithOptions(getActivity(), productList);
+                mProductListView.setAdapter(mProductAdapter);
+                mProductAdapter.notifyDataSetChanged();
+            } else
+                ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
+
         }
-        if (productList.size() != 0) {
-            mProductAdapter = new ListViewWithOptions(getActivity(), productList);
-            mProductListView.setAdapter(mProductAdapter);
-            mProductAdapter.notifyDataSetChanged();
-        } else
-            ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
-
     }
 
     @Override

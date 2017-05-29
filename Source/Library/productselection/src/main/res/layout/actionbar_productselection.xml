@@ -19,7 +19,8 @@
     </FrameLayout>
 
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
+        style="@style/UIDLabel.SliderMarginBottom"
         android:id="@+id/productselection_actionbarTitle"
         fontPath="fonts/centralesanslight.ttf"
         android:layout_marginLeft="40dp"

@@ -13,13 +13,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.R;
-import com.philips.cdp.productselection.customview.CustomFontTextView;
 import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenFragmentSelection;
 import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
 import com.philips.cdp.productselection.prx.VolleyWrapper;
@@ -46,8 +46,8 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     private LinearLayout.LayoutParams mProductContainerParams;
     private LinearLayout mProductContainer1 = null;
     private LinearLayout.LayoutParams mProductContainerParams1;
-    private CustomFontTextView mProductName = null;
-    private CustomFontTextView mProductCtn = null;
+    private TextView mProductName = null;
+    private TextView mProductCtn = null;
     private ImageView mProductImage = null;
     private RelativeLayout mRightPanelLayout = null;
     private RelativeLayout mLeftPanelLayout = null;
@@ -106,8 +106,8 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
         View view = inflater.inflate(R.layout.fragment_saved_screen, container, false);
         mSettings = (Button) view.findViewById(R.id.savedscreen_button_settings);
         mRedirectingButton = (Button) view.findViewById(R.id.savedscreen_button_continue);
-        mProductName = (CustomFontTextView) view.findViewById(R.id.savedscreen_productname);
-        mProductCtn = (CustomFontTextView) view.findViewById(R.id.savedscreen_productvariant);
+        mProductName = (TextView) view.findViewById(R.id.savedscreen_productname);
+        mProductCtn = (TextView) view.findViewById(R.id.savedscreen_productvariant);
         mProductImage = (ImageView) view.findViewById(R.id.savedscreen_productimage);
         return view;
     }

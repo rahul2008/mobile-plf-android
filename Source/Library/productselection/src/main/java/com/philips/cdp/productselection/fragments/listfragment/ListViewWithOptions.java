@@ -75,8 +75,8 @@ public class ListViewWithOptions extends BaseAdapter {
 
         Data data = summaryModel.getData();
         final ImageView image = (ImageView) vi.findViewById(R.id.image);
-        TextView name = (TextView) vi.findViewById(R.id.text1Name);
-        TextView value = (TextView) vi.findViewById(R.id.text2value);
+        TextView name = (TextView) vi.findViewById(R.id.product_name_view);
+        TextView value = (TextView) vi.findViewById(R.id.ctn_view);
         TextView from = (TextView) vi.findViewById(R.id.from);
 
         String imagepath = data.getImageURL();

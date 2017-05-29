@@ -5,7 +5,8 @@
     android:id="@+id/productselection_ratingtheme"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="85dp">
+    android:minHeight="85dp"
+    android:background="#ffffff">
 
     <ImageView
         android:id="@+id/image"
@@ -16,16 +17,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginTop="5dp"
-        android:scaleType="fitXY"
-        android:backgroundTint="?attr/uikit_baseColor"/>
-
-
-    <!--<com.shamanland.fonticon.FontIconTextView
-        android:id="@+id/uikit_arrow_right"
-        style="@style/ui_kit_arrow_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />-->
-
+        android:scaleType="fitXY"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -38,23 +30,23 @@
         android:layout_marginRight="@dimen/activity_margin"
         android:paddingRight="20dp">
 
-        <TextView
-            android:id="@+id/text1Name"
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel.SliderMarginBottom"
+            android:id="@+id/product_name_view"
             fontPath="fonts/centralesansbold.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
             android:scrollHorizontally="false"
             android:text="DiamondClean Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod. Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod. Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod."
-            android:textColor="?attr/uikit_listtextselector"
             android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/text2value"
-            fontPath="fonts/centralesansbook.ttf"
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel.SliderMarginBottom"
+            android:id="@+id/ctn_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/text1Name"
+            android:layout_below="@+id/product_name_view"
             android:layout_marginTop="3dp"
             android:layout_toEndOf="@+id/from"
             android:layout_toRightOf="@+id/from"
@@ -63,21 +55,20 @@
             android:textColor="#B9B9B9"
             android:textSize="16sp" />
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel.SliderMarginBottom"
             android:id="@+id/from"
-            fontPath="fonts/centralesansbook.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/text2value"
+            android:layout_alignBaseline="@id/ctn_view"
             android:layout_marginRight="3dp"
             android:layout_toEndOf="@+id/image"
             android:layout_toRightOf="@+id/image"
             android:includeFontPadding="false"
             android:text="from"
             android:visibility="gone"
-            android:textColor="?attr/uikit_listtextselector"
             android:textSize="10sp" />
 
     </RelativeLayout>
 
-</RelativeLayout><!-- From: file:/Users/build/jenkins-slave/workspace/UIKit_Android_release/Source/UiKit/uikitLib/src/main/res/layout/uikit_listview_with_options_custom_layout.xml -->
+</RelativeLayout>

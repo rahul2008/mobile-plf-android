@@ -17,13 +17,13 @@
             android:layout_height="@dimen/savedscreen_top_container_height"
             android:background="?attr/uikit_veryLightColor">
 
-            <com.philips.cdp.productselection.customview.CustomFontTextView
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.SliderMarginBottom"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/savedscreen_productcontainer_marigin"
                 android:gravity="center|left"
                 android:text="@string/Confirmation_Selected"
-                android:textColor="?attr/uikit_baseColor"
                 android:textSize="@dimen/title_text_size_small"
                 custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
         </RelativeLayout>
@@ -58,7 +58,8 @@
                     android:layout_marginTop="@dimen/savedscreen_product_text_container_height"
                     android:layout_weight="5">
 
-                    <com.philips.cdp.productselection.customview.CustomFontTextView
+                    <com.philips.platform.uid.view.widget.Label
+                        style="@style/UIDLabel.SliderMarginBottom"
                         android:id="@+id/savedscreen_productname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -66,13 +67,13 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:lineSpacingExtra="@dimen/savedscreen_product_text_linespacing"
-                        android:textColor="?attr/uikit_baseColor"
                         android:textSize="@dimen/title_text_size_small"
                         android:textStyle="bold"
                         custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Bold.otf" />
 
 
-                    <com.philips.cdp.productselection.customview.CustomFontTextView
+                    <com.philips.platform.uid.view.widget.Label
+                        style="@style/UIDLabel.SliderMarginBottom"
                         android:id="@+id/savedscreen_productvariant"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -84,18 +85,6 @@
                         android:textSize="@dimen/title_text_size_small"
                         android:text="hhhhhi"
                         custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
-
-                    <!--
-
-                                    <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentRight="true"
-                                        android:background="@drawable/green_tick"
-                                        android:scaleType="fitXY"
-                                        android:layout_centerVertical="true"/>
-                    -->
-
 
                 </RelativeLayout>
 
@@ -121,15 +110,9 @@
 
             <include layout="@layout/savedscreen_settings_container" />
 
-            <!--<LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/savedscreen_divider"
-                android:alpha=".1"
-                android:background="?attr/baseColor"></LinearLayout>-->
-
-            <Button
+            <com.philips.platform.uid.view.widget.Button
+                style="@style/UIDExtraWideButton.Center"
                 android:id="@+id/savedscreen_button_continue"
-                style="?attr/uikit_springBoardButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"

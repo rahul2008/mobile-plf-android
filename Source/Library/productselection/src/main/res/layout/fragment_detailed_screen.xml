@@ -22,28 +22,30 @@
             android:paddingLeft="@dimen/activity_margin"
             android:paddingRight="@dimen/activity_margin">
 
-            <com.philips.cdp.productselection.customview.CustomFontTextView
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.SliderMarginBottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/detailed_screen_productname"
-                style="@style/detailedscreeen_product_name"
-
                 custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Bold.otf" />
 
-            <com.philips.cdp.productselection.customview.CustomFontTextView
+            <com.philips.platform.uid.view.widget.Label
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/UIDLabel.SliderMarginBottom"
                 android:id="@+id/detailed_screen_productctn"
-                style="@style/detailedscreeen_product_variant"
                 custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
 
 
-            <Button
+            <com.philips.platform.uid.view.widget.Button
+                style="@style/UIDExtraWideButton.Center"
                 android:id="@+id/detailedscreen_select_button"
-                style="?attr/uikit_springBoardButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:textAllCaps="false"
                 android:text="@string/Product_Details_Select" />
-
 
             <com.philips.cdp.productselection.customview.CustomFontTextView
 
