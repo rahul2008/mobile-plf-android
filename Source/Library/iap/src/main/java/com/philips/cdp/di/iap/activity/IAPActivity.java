@@ -169,7 +169,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         if (themeIndex <= 0) {
             themeIndex = DEFAULT_THEME;
         }
-        UIDHelper.init(new ThemeConfiguration(ContentColor.ULTRA_LIGHT, NavigationColor.VERY_DARK, this));
+        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.VERY_DARK));
         getTheme().applyStyle(themeIndex, true);
     }
 

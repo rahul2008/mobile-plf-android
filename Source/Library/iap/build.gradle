@@ -234,7 +234,7 @@ dependencies {
         transitive = true
     }
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile(group: 'com.philips.cdp', name: 'uid', version: '0.0.6', ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'uid', version: '0.1.1' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     // Tests
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'
