@@ -37,13 +37,6 @@ public class AppupdateVersion {
 		return false;
 	}
 
-	static boolean isAppVersionGreaterthanCloud(String version, String cloudver) {
-		if (compareVersion(splitVersion(version), splitVersion(cloudver)) == 1) {
-			return true;
-		}
-		return false;
-	}
-
 	static boolean isBothVersionSame(String version, String cloudver) {
 		if (compareVersion(splitVersion(version), splitVersion(cloudver)) == 0) {
 			return true;
@@ -51,17 +44,24 @@ public class AppupdateVersion {
 		return false;
 	}
 
-	static boolean isAppVersionLessthanEqualsto(String verion, String cloudver) {
-		if (compareVersion(splitVersion(verion), splitVersion(cloudver)) == -1 ||
-				compareVersion(splitVersion(verion), splitVersion(cloudver)) == 0) {
+	static boolean isAppVersionLessthanEqualsto(String version, String cloudver) {
+		if (compareVersion(splitVersion(version), splitVersion(cloudver)) == -1 ||
+				compareVersion(splitVersion(version), splitVersion(cloudver)) == 0) {
 			return true;
 		}
 		return false;
 	}
 
 	private static String splitVersion(String version) {
-		String arr[] = version.split("\\-");
-		return arr[0];
+		if (version != null) {
+			if (!version.matches("[0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?")) { // application format.
+				throw new IllegalArgumentException("Invalid version format-AppUpdate");
+			} else {
+				String arr[] = version.split("-|_|\\(");  //splitting based on verion format.
+				return arr[0].trim();
+			}
+		}
+		return null;
 	}
 
 }
