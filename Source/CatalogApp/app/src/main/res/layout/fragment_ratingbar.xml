@@ -26,24 +26,23 @@
             <!--Applied Input style to Rating Bar from UIDRatingBar styles.-->
 
             <com.philips.platform.uid.view.widget.RatingBar
-                style="@style/UIDRatingBarInput"
                 android:id="@+id/rating_input"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/layout_margin_left_right"
+                style="@style/UIDRatingBarInput"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/layout_margin_left_right"/>
 
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/reset_rating"
-                android:layout_marginTop="@dimen/layout_margin_left_right"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
+                style="@style/UIDExtraWideButton"
+                android:layout_width="@dimen/rating_bar_reset_button_width"
                 android:layout_height="wrap_content"
-                android:text="@string/ratingbar_reset"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:enabled="@{!frag.isRatingZero}"
                 android:onClick="@{(v) -> frag.inputRatingBar.setRating(0)}"
-                />
+                android:text="@string/ratingbar_reset"/>
 
             <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
@@ -53,27 +52,25 @@
             <!--Applied Standard Display style to Rating Bar from UIDRatingBar styles.-->
 
             <com.philips.platform.uid.view.widget.RatingBar
-                style="@style/UIDRatingBarStandardDisplay"
                 android:id="@+id/rating_display_default"
-                android:layout_marginStart="@dimen/layout_margin_left_right"
-                android:layout_marginTop="@dimen/layout_margin_left_right"
+                style="@style/UIDRatingBarStandardDisplay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:rating="4.5"
-                android:text="@string/ratingbar_rating_text"
-                />
+                android:text="@string/ratingbar_rating_text"/>
 
             <!--Applied Standard Display style to Rating Bar from UIDRatingBar styles.-->
 
             <com.philips.platform.uid.view.widget.RatingBar
-                style="@style/UIDRatingBarStandardDisplay"
                 android:id="@+id/rating_display_star_only"
-                android:layout_marginStart="@dimen/layout_margin_left_right"
-                android:layout_marginTop="@dimen/layout_margin_left_right"
+                style="@style/UIDRatingBarStandardDisplay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:rating="4.5"
-                />
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
+                android:rating="4.5"/>
 
             <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
@@ -83,16 +80,15 @@
             <!--Applied Mini Display style to Rating Bar from UIDRatingBar styles.-->
 
             <com.philips.platform.uid.view.widget.RatingBar
-                style="@style/UIDRatingBarMiniDisplay"
                 android:id="@+id/rating_display_mini"
-                android:layout_marginStart="@dimen/layout_margin_left_right"
-                android:layout_marginTop="@dimen/layout_margin_left_right"
-                android:layout_marginBottom="@dimen/layout_margin_left_right"
+                style="@style/UIDRatingBarMiniDisplay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/layout_margin_left_right"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
+                android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:rating="4.5"
-                android:text="4.5"
-                />
+                android:text="@string/ratingbar_rating_text"/>
 
             <include
                 android:id="@+id/divider"
