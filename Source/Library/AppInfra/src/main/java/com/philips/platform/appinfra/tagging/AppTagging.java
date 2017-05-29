@@ -43,19 +43,17 @@ import java.util.TimeZone;
  */
 public class AppTagging implements AppTaggingInterface {
 
-	private String mLanguage;
+	public static final String PAGE_NAME = "ailPageName";
+	public static final String ACTION_NAME = "ailActionName";
+	public static final String ACTION_TAGGING_DATA = "ACTION_TAGGING_DATA";
+	public static final String EXTRA_TAGGING_DATA = "TAGGING_DATA";
+	private static final String AIL_PRIVACY_CONSENT = "ailPrivacyConsentForSensitiveData";
 	private static String prevPage;
-
 	private final AppInfra mAppInfra;
 	protected String mComponentID;
 	protected String mComponentVersion;
-
+	private String mLanguage;
 	private Locale mLocale;
-	private static final  String AIL_PRIVACY_CONSENT = "ailPrivacyConsentForSensitiveData";
-	public static final  String PAGE_NAME = "ailPageName";
-	public static final  String ACTION_NAME = "ailActionName";
-	public static final String ACTION_TAGGING_DATA = "ACTION_TAGGING_DATA";
-	public static final String EXTRA_TAGGING_DATA = "TAGGING_DATA";
 
 	public AppTagging(AppInfra aAppInfra) {
 		mAppInfra = aAppInfra;
@@ -125,8 +123,8 @@ public class AppTagging implements AppTaggingInterface {
 	 * Constructing default Object data
 	 **/
 
-	private HashMap<String, Object> addAnalyticsDataObject() {
-		final HashMap<String, Object> contextData = new HashMap<>();
+	private Map<String, Object> addAnalyticsDataObject() {
+		final Map<String, Object> contextData = new HashMap<>();
 
 		contextData.put(AppTaggingConstants.LANGUAGE_KEY, getLanguage());
 
@@ -150,7 +148,7 @@ public class AppTagging implements AppTaggingInterface {
 	 * Removes Sensitive data declared in Adobe json.
 	 **/
 
-	private HashMap<String, Object> removeSensitiveData(HashMap<String, Object> data) {
+	private Map<String, Object> removeSensitiveData(Map<String, Object> data) {
 
 		final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
 				.AppConfigurationError();
@@ -239,24 +237,6 @@ public class AppTagging implements AppTaggingInterface {
 		return new AppTaggingWrapper(mAppInfra, componentId, componentVersion);
 	}
 
-
-	@Override
-	public void setPrivacyConsent(PrivacyStatus privacyStatus) {
-		switch (privacyStatus) {
-			case OPTIN:
-				Config.setPrivacyStatus(MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_IN);
-				break;
-			case OPTOUT:
-				Config.setPrivacyStatus(MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_OUT);
-
-				break;
-			case UNKNOWN:
-				Config.setPrivacyStatus(MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_UNKNOWN);
-				break;
-
-		}
-	}
-
 	@Override
 	public void setPreviousPage(String previousPage) {
 		prevPage = previousPage;
@@ -280,8 +260,24 @@ public class AppTagging implements AppTaggingInterface {
 		return mPrivacyStatus;
 	}
 
+	@Override
+	public void setPrivacyConsent(PrivacyStatus privacyStatus) {
+		switch (privacyStatus) {
+			case OPTIN:
+				Config.setPrivacyStatus(MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_IN);
+				break;
+			case OPTOUT:
+				Config.setPrivacyStatus(MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_OUT);
 
-	private void track(String pageName, HashMap<String, String> paramMap, boolean isTrackPage) {
+				break;
+			case UNKNOWN:
+				Config.setPrivacyStatus(MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_UNKNOWN);
+				break;
+
+		}
+	}
+
+	private void track(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
 		if (checkForSslConnection() || checkForProductionState()) {
 			trackData(pageName, paramMap, isTrackPage);
 		}
@@ -302,8 +298,8 @@ public class AppTagging implements AppTaggingInterface {
 		return false;
 	}
 
-	private void trackData(String pageName, HashMap<String, String> paramMap, boolean isTrackPage) {
-		HashMap contextData = addAnalyticsDataObject();
+	private void trackData(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
+		Map contextData = addAnalyticsDataObject();
 		if (paramMap != null) {
 			paramMap.putAll(contextData);
 			contextData = removeSensitiveData((HashMap) paramMap);
@@ -385,12 +381,6 @@ public class AppTagging implements AppTaggingInterface {
 		}
 	}
 
-	// Sets the value of Privacy Consent For Sensitive Data and stores in preferences
-	@Override
-	public void setPrivacyConsentForSensitiveData(boolean valueContent) {
-		mAppInfra.getSecureStorage().storeValueForKey(AIL_PRIVACY_CONSENT, String.valueOf(valueContent), getSecureStorageErrorValue());
-	}
-
 	@Override
 	public boolean getPrivacyConsentForSensitiveData() {
 		final String consentValueString = mAppInfra.getSecureStorage().fetchValueForKey(AIL_PRIVACY_CONSENT, getSecureStorageErrorValue());
@@ -398,6 +388,12 @@ public class AppTagging implements AppTaggingInterface {
 		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
 				"Tagging-consentValue", "" + consentValue);
 		return consentValue;
+	}
+
+	// Sets the value of Privacy Consent For Sensitive Data and stores in preferences
+	@Override
+	public void setPrivacyConsentForSensitiveData(boolean valueContent) {
+		mAppInfra.getSecureStorage().storeValueForKey(AIL_PRIVACY_CONSENT, String.valueOf(valueContent), getSecureStorageErrorValue());
 	}
 
 	private SecureStorage.SecureStorageError getSecureStorageErrorValue() {
@@ -411,7 +407,7 @@ public class AppTagging implements AppTaggingInterface {
 	}
 
 	@Override
-	public void trackPageWithInfo(String pageName, HashMap<String, String> paramMap) {
+	public void trackPageWithInfo(String pageName, Map<String, String> paramMap) {
 		track(pageName, paramMap, true);
 	}
 
@@ -428,12 +424,12 @@ public class AppTagging implements AppTaggingInterface {
 	}
 
 	@Override
-	public void trackActionWithInfo(String pageName, HashMap<String, String> paramMap) {
+	public void trackActionWithInfo(String pageName, Map<String, String> paramMap) {
 		track(pageName, paramMap, false);
 	}
 
 	@Override
-	public void collectLifecycleInfo(Activity context, HashMap<String, Object> paramDict) {
+	public void collectLifecycleInfo(Activity context, Map<String, Object> paramDict) {
 		Config.collectLifecycleData(context, paramDict);
 	}
 
