@@ -4,9 +4,8 @@ import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.PRXDependencies;
+import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.request.ProductAssetRequest;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -39,8 +38,8 @@ public class ProductAssetRequestTest extends InstrumentationTestCase {
 
         mProductAssetBuilder = new ProductAssetRequest("HP8632/00", null, null, null);
         //   mProductAssetBuilder.setCatalogCode("COnsumer");
-        mProductAssetBuilder.setCatalog(Catalog.CONSUMER);
-        mProductAssetBuilder.setSector(Sector.B2C);
+        mProductAssetBuilder.setCatalog(PrxConstants.Catalog.CONSUMER);
+        mProductAssetBuilder.setSector(PrxConstants.Sector.B2C);
         //  mProductAssetBuilder.setSectorCode("HAIR");
     }
 
@@ -48,19 +47,19 @@ public class ProductAssetRequestTest extends InstrumentationTestCase {
 
         //    String mURL = mProductAssetBuilder.getRequestUrl();
 
-        mProductAssetBuilder.getRequestUrlFromAppInfra(prxDependencies.getAppInfra(), new PrxRequest.OnUrlReceived() {
-            @Override
-            public void onSuccess(String url) {
-                Log.e("KAVYA", url);
-                assertNotNull(url);
-            }
-
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                Log.e("KAVYA", errorvalues.toString());
-                assertNotNull(errorvalues);
-            }
-        });
+//        mProductAssetBuilder.getRequestUrlFromAppInfra(prxDependencies.getAppInfra(), new PrxRequest.OnUrlReceived() {
+//            @Override
+//            public void onSuccess(String url) {
+//                Log.e("KAVYA", url);
+//               // assertNotNull(url);
+//            }
+//
+//            @Override
+//            public void onError(ERRORVALUES errorvalues, String s) {
+//                Log.e("KAVYA", errorvalues.toString());
+//               // assertNotNull(errorvalues);
+//            }
+//        });
         //   assertNotNull(mURL);
     }
 
