@@ -2,7 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
+    android:id="@+id/uid_search_box"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
@@ -15,13 +15,13 @@
         app:srcCompat="@drawable/uid_search_icon" />
 
     <LinearLayout
-        android:id="@+id/search_box"
+        android:id="@+id/uid_search_box_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/uidColorWhite">
 
         <ImageView
-            android:id="@+id/search_button"
+            android:id="@+id/uid_search_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
@@ -31,7 +31,7 @@
             android:focusable="true" />
 
         <android.support.v7.widget.AppCompatAutoCompleteTextView
-            android:id="@+id/search_src_text"
+            android:id="@+id/uid_search_src_text"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
@@ -60,7 +60,7 @@
             android:background="@color/uidTransparent">
 
             <ImageView
-                android:id="@+id/search_close_btn"
+                android:id="@+id/uid_search_close_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

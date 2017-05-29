@@ -7,6 +7,8 @@
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.util.AttributeSet;
@@ -29,7 +31,8 @@ public class SearchBox extends LinearLayout {
     public ImageView mSearchIconHolder;
     public AppCompatAutoCompleteTextView autoCompleteTextView;
 
-    private boolean isIconified;
+
+    private boolean isSearchIconified;
     private View searchClearLayout;
 
 
@@ -52,10 +55,10 @@ public class SearchBox extends LinearLayout {
         final LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.uid_search_box, this);
         initBackButton();
-        mCloseButton = (ImageView) findViewById(R.id.search_close_btn);
+        mCloseButton = (ImageView) findViewById(R.id.uid_search_close_btn);
         initCloseIconHolder();
         searchClearLayout = findViewById(R.id.uid_search_clear_layout);
-        autoCompleteTextView = (AppCompatAutoCompleteTextView) findViewById(R.id.search_src_text);
+        autoCompleteTextView = (AppCompatAutoCompleteTextView) findViewById(R.id.uid_search_src_text);
 
         mBackButton.setImageResource(R.drawable.uid_back_icon);
         mCloseButton.setImageResource(R.drawable.uid_texteditbox_clear_icon);
@@ -69,14 +72,15 @@ public class SearchBox extends LinearLayout {
                 return false;
             }
         });
+        setSaveEnabled(true);
     }
 
     private void initBackButton() {
-        mBackButton = (ImageView) findViewById(R.id.search_button);
+        mBackButton = (ImageView) findViewById(R.id.uid_search_button);
         mBackButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                setIconified(true);
+                setSearchIconified(true);
             }
         });
     }
@@ -86,14 +90,14 @@ public class SearchBox extends LinearLayout {
         mSearchIconHolder.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                setIconified(false);
+                setSearchIconified(false);
             }
         });
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if(isIconified) {
+        if(isSearchIconified) {
              super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             return;
         }
@@ -101,20 +105,77 @@ public class SearchBox extends LinearLayout {
         super.onMeasure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), heightMeasureSpec);
     }
 
-    public void setIconified(boolean iconified) {
-        isIconified = iconified;
+    public void setSearchIconified(boolean searchIconified) {
+        isSearchIconified = searchIconified;
         updateViews();
     }
 
     private void updateViews() {
-        int iconHolderVisisblity = isIconified ? View.VISIBLE: View.GONE;
+        int iconHolderVisisblity = isSearchIconified ? View.VISIBLE: View.GONE;
         mSearchIconHolder.setVisibility(iconHolderVisisblity);
 
-        int visibility = isIconified ? View.GONE: View.VISIBLE;
+        int visibility = isSearchIconified ? View.GONE: View.VISIBLE;
         searchClearLayout.setVisibility(visibility);
         mBackButton.setVisibility(visibility);
         mCloseButton.setVisibility(visibility);
         autoCompleteTextView.setVisibility(visibility);
         requestLayout();
     }
+
+    public boolean isSearchIconified() {
+        return isSearchIconified;
+    }
+
+    static class SavedState extends BaseSavedState {
+        boolean isSearchIconified;
+
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        private SavedState(Parcel in) {
+            super(in);
+            this.isSearchIconified = (Boolean) in.readValue(null);
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeValue(this.isSearchIconified);
+        }
+
+        //required field that makes Parcelables from a Parcel
+        public static final Parcelable.Creator<SavedState> CREATOR =
+                new Parcelable.Creator<SavedState>() {
+                    public SavedState createFromParcel(Parcel in) {
+                        return new SavedState(in);
+                    }
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                };
+    }
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        SavedState ss = new SavedState(superState);
+        ss.isSearchIconified = isSearchIconified();
+        return ss;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        if(!(state instanceof SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+        SavedState ss = (SavedState) state;
+        setSearchIconified(ss.isSearchIconified);
+        updateViews();
+        requestLayout();
+        super.onRestoreInstanceState(ss.getSuperState());
+    }
+
+
 }

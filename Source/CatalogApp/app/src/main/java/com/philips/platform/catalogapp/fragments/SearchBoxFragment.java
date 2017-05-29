@@ -4,7 +4,6 @@ package com.philips.platform.catalogapp.fragments;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,13 +35,16 @@ public class SearchBoxFragment extends BaseFragment {
 //        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 //        ((AppCompatActivity)getActivity()).getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         return fragmentSearchBoxBinding.getRoot();
+
     }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.country_search, menu);
         searchBox = (SearchBox) menu.findItem(R.id.country_search).getActionView();
-        searchBox.setIconified(true);
+        searchBox.setSearchIconified(true);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
 }
