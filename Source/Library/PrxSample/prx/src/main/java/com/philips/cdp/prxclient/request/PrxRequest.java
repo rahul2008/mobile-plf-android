@@ -1,8 +1,7 @@
 package com.philips.cdp.prxclient.request;
 
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
+import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -20,8 +19,8 @@ import java.util.Map;
  */
 public abstract class PrxRequest {
 
-    private Sector mSector;
-    private Catalog mCatalog;
+    private PrxConstants.Sector mSector;
+    private PrxConstants.Catalog mCatalog;
     private int maxRetries = 0;
     private int requestTimeOut = 5000;
     private String mCtn;
@@ -42,7 +41,7 @@ public abstract class PrxRequest {
      * @param sector sector.
      * @param catalog catalog.
      */
-    public PrxRequest(String ctn, String serviceID, Sector sector, Catalog catalog) {
+    public PrxRequest(String ctn, String serviceID, PrxConstants.Sector sector, PrxConstants.Catalog catalog) {
         this.mCtn = ctn;
         this.mServiceId = serviceID;
         this.mSector = sector;
@@ -59,22 +58,22 @@ public abstract class PrxRequest {
     /**
      * @return returns the sector.
      */
-    public Sector getSector() {
+    public PrxConstants.Sector getSector() {
         return mSector;
     }
 
     /**
      * @param mSector
      */
-    public void setSector(final Sector mSector) {
+    public void setSector(final PrxConstants.Sector mSector) {
         this.mSector = mSector;
     }
 
-    public Catalog getCatalog() {
+    public PrxConstants.Catalog getCatalog() {
         return mCatalog;
     }
 
-    public void setCatalog(Catalog catalog) {
+    public void setCatalog(PrxConstants.Catalog catalog) {
         this.mCatalog = catalog;
     }
 
