@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/menu_theme_settings"
         android:icon="@drawable/ic_theme_setting_entrance_icon"
         android:title="@string/page_title_theme_settings"
-        app:showAsAction="ifRoom"></item>
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_set_theme_settings"
         android:title="@string/set_theme_settings"
+        android:orderInCategory="100"
         android:visible="false"
-        app:showAsAction="ifRoom"></item>
-    <item
-        android:id="@+id/menu_search_trigger"
-        android:icon="@drawable/uid_search_icon"
-        android:title="@string/page_title_searchbox"
-        android:visible="false"
-        app:showAsAction="ifRoom"></item>
+        app:showAsAction="ifRoom" />
 
 </menu>

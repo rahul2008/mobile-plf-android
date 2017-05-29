@@ -60,6 +60,8 @@
         <item name="android:elevation" tools:targetApi="21">0dp</item>
         <item name="elevation">0dp</item>
         <item name="titleTextColor">?attr/uidNavigationPrimaryTextColor</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+        <item name="contentInsetEndWithActions">0dp</item>
     </style>
 
     <style name="UIDToolbarTitleStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
