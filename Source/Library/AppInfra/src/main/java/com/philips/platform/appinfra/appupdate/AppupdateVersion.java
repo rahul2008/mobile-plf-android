@@ -1,7 +1,6 @@
 package com.philips.platform.appinfra.appupdate;
 
 
-
 public class AppupdateVersion {
 
 	private static int compareVersion(String appVer, String cloudVer) {
