@@ -8,4 +8,11 @@
         android:visible="true"
         app:actionViewClass="com.philips.platform.uid.view.widget.SearchBox"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/country_searc1h"
+        android:orderInCategory="0"
+        android:title="Country search"
+        android:visible="true"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom" />
 </menu>
