@@ -47,7 +47,7 @@ public class ThemeHelper {
     }
 
     public ThemeConfiguration getThemeConfig() {
-        return new ThemeConfiguration( this.initContentTonalRange(), this.initNavigationRange(), mContext);
+        return new ThemeConfiguration( mContext, this.initContentTonalRange(), this.initNavigationRange());
     }
 
 
@@ -89,7 +89,7 @@ public class ThemeHelper {
     public void saveThemeSettings() {
         saveThemeValues(UIDHelper.COLOR_RANGE, randomEnum(ColorRange.class).name());
         saveThemeValues(UIDHelper.NAVIGATION_RANGE, NavigationColor.LIGHT.name());
-        saveThemeValues(UIDHelper.CONTENT_TONAL_RANGE, ContentColor.VERY_LIGHT.name());
+        saveThemeValues(UIDHelper.CONTENT_TONAL_RANGE,ContentColor.VERY_LIGHT.name());
     }
 
     @SuppressLint("CommitPrefEdits")

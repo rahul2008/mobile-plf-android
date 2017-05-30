@@ -61,6 +61,12 @@ dependencies {
         transitive = true
     }
 
+    compile(group: 'com.philips.cdp', name: 'uid', version: '0.1.1' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+            {
+                transitive = true
+            }
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
 }
 
 allprojects {

@@ -47,7 +47,7 @@ public class ThemeHelper {
     }
 
     public ThemeConfiguration getThemeConfig() {
-        return new ThemeConfiguration( this.initContentTonalRange(), this.initNavigationRange(), mContext);
+        return new ThemeConfiguration( mContext, this.initContentTonalRange(), this.initNavigationRange());
     }
 
 
