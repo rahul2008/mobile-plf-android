@@ -164,7 +164,7 @@ public class ChatFragment extends DigitalCareBaseFragment {
             } else {
                 mChatNowBgParams.height = (int) getResources().getDimension(R.dimen.chat_bg_height);
                 mChatNowBG.setLayoutParams(mChatNowBgParams);
-                mChatNowBG.setBackgroundResource(R.drawable.consumercare_live_chat_bg_phone_port);
+                mChatNowBG.setBackgroundResource(R.drawable.chat_to_us);
             }
         } else {
             mChatNowParentLand.setVisibility(View.VISIBLE);
@@ -181,7 +181,7 @@ public class ChatFragment extends DigitalCareBaseFragment {
             } else {
                 mChatNowBgParams.height = (int) getResources().getDimension(R.dimen.chat_bg_height_land);
                 mChatNowBG.setLayoutParams(mChatNowBgParams);
-                mChatNowBG.setBackgroundResource(R.drawable.consumercare_live_chat_bg_phone_land);
+                mChatNowBG.setBackgroundResource(R.drawable.chat_to_us);
             }
         }
     }
