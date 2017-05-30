@@ -1,8 +1,8 @@
 package com.philips.cdp.productselection.productselectiontype;
 
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.PrxConstants.Catalog;
+import com.philips.cdp.prxclient.PrxConstants.Sector;
 
 /**
  * Created by naveen@philips.com on 12-Feb-16.

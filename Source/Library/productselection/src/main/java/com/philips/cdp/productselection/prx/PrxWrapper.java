@@ -2,9 +2,6 @@ package com.philips.cdp.productselection.prx;
 
 import android.content.Context;
 
-import com.philips.cdp.localematch.PILLocaleManager;
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.PRXDependencies;
@@ -17,6 +14,8 @@ import com.philips.cdp.prxclient.request.ProductSummaryRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.cdp.prxclient.PrxConstants.Catalog;
+import com.philips.cdp.prxclient.PrxConstants.Sector;
 
 import java.util.ArrayList;
 import java.util.List;
