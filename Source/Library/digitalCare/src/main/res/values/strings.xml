@@ -33,8 +33,8 @@
     <string name="contact_us_text"> Contact us: </string>
     <string name="opening_hours"> Opening hours </string>
     <string name="live_chat"> Live chat </string>
-    <string name="send_email"> Send email </string>
-    <string name="call_number"> Call </string>
+    <!--<string name="send_email"> Send email </string>
+    <string name="call_number"> Call </string>-->
     <string name="chat_with_philips"> Chat with Philips </string>
     <string name="check_sim"> No SIM card detected. Please check if it is inserted correctly </string>
     <string name="no_data_available"> No data available </string>
@@ -54,11 +54,10 @@
     <string name="product_information"> Product information(on Philips.com) </string>
 
     <!-- Rate This Application   null -->
-    <string name="rate_playstore_headertext"> How would you rate this app? </string>
-    <string name="rate_playstore_buttontext"> Write an app-review </string>
-    <string name="rate_philips_headertext"> Submit a product review </string>
-    <string name="rate_philips_description"> Write a review and help other people make the right choice for them </string>
-    <string name="rate_philips_buttontext"> Sign into My Philips </string>
+    <string name="rate_header_text"> Share your experience </string>
+    <string name="rate_desc_text"> We welcome your feedback. Why not write a review or rate this app? </string>
+    <string name="rate_playstore_buttontext"> Rate this app </string>
+    <string name="rate_philips_buttontext"> Write a review </string>
     <string name="reviewandrewards"> reviewandawards </string>
 
     <!-- Twitter Screen   null -->
@@ -124,10 +123,10 @@
 
     <!-- Registration Screen   null -->
     <string name="login_to_social_media"> Log in with your social media account? </string>
-    <string name="twitter"> On Twitter </string>
+   <!-- <string name="twitter"> On Twitter </string>
     <string name="facebook"> On Facebook </string>
     <string name="linkedin"> On LinkedIn </string>
-    <string name="googleplus"> On Google Plus </string>
+    <string name="googleplus"> On Google Plus </string>-->
     <string name="login_with_philips_account"> Or log in with My Philips account </string>
     <string name="email">  Email address </string>
     <string name="password"> Password </string>
@@ -143,7 +142,8 @@
     <string name="QUESTION_KEY">Question and answer</string>
     <string name="NO_PRODUCT_KEY">No products available</string>
     <string name="NO_SUPPORT_KEY">No support available</string>
-
+    <string name="show_all">Show all</string>
+    <string name="show_less">Show less</string>
 
     <string name="ManualDownLoadConfirmMessage">Press OK to download manual in %s language</string>
     <string name="download_ticker">Downloading Help Manual</string>
@@ -152,5 +152,21 @@
     <string name="PdfWarningMessage">Please install Adobe Reader to view the PDF manual.</string>
 
     <string name="no_call_functionality">No call facility available</string>
+
+
+    <!-- DLS Contact US -->
+
+    <string name="twitter">  Twitter</string>
+    <string name="facebook">  Facebook</string>
+    <string name="send_us_message">Or send as a message</string>
+    <string name="get_in_touch">Get in Touch</string>
+    <string name="callus_help">We\'re here to help and answer any questions you may have</string>
+    <string name="send_email">  Email</string>
+    <string name="call_number">  Call us</string>
+    <string name="chat_to_us">Chat to us</string>
+
+    <string name="linkedin">  LinkedIn </string>
+    <string name="googleplus">  Google Plus </string>
+
 
 </resources>

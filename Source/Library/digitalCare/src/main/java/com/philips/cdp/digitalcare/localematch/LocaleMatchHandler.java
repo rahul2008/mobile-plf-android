@@ -13,18 +13,12 @@ import android.content.Context;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-import com.philips.cdp.localematch.LocaleMatchListener;
-import com.philips.cdp.localematch.enums.LocaleMatchError;
-import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.prxclient.PrxConstants.Sector;
 
 import java.util.HashMap;
 import java.util.Locale;
 
-//import com.philips.cdp.localematch.PILLocale;
-//import com.philips.cdp.localematch.PILLocaleManager;
-
-
-public class LocaleMatchHandler implements LocaleMatchListener {
+public class LocaleMatchHandler  {
 
     private static HashMap<String, String> mPRXMap = null;
     private final String TAG = LocaleMatchHandler.class.getSimpleName();
@@ -121,6 +115,7 @@ public class LocaleMatchHandler implements LocaleMatchListener {
         //mPLocaleManager.refresh(this);
     }
 
+/*
     @Override
     public void onErrorOccurredForLocaleMatch(LocaleMatchError arg0) {
         DigiCareLogger.v(LocaleMatchHandler.class.getSimpleName(),
@@ -143,7 +138,8 @@ public class LocaleMatchHandler implements LocaleMatchListener {
         int mSectorValue = isSectorExistsInLocaleMatch(mSector);
         if (mSectorValue != 0) {
 
-           /* PILLocale mPilLocaleWithCountryFallBack = mPLocaleManager.
+           */
+/* PILLocale mPilLocaleWithCountryFallBack = mPLocaleManager.
                     currentLocaleWithCountryFallbackForPlatform(mContext,
                     arg0, Platform.PRX,
                     setSector(mSectorValue), Catalog.CONSUMER);
@@ -151,7 +147,8 @@ public class LocaleMatchHandler implements LocaleMatchListener {
             if (mPilLocaleWithCountryFallBack == null) {
                 localeFailCallback();
                 return;
-            }*/
+            }*//*
+
             //Locale countryFallbackLocale = new Locale(DigitalCareConfigManager.getInstance().getLocaleFromSeviceDiscovery());
             //DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithCountryFallBack(countryFallbackLocale);
             DigitalCareConfigManager.getInstance().getObserver().notificationReceived();
@@ -161,6 +158,7 @@ public class LocaleMatchHandler implements LocaleMatchListener {
         }
         initializePRXMap();
     }
+*/
 
     private void localeFailCallback() {
         DigiCareLogger.v(TAG, "Sector Not exists");

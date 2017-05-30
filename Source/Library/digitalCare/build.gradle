@@ -196,7 +196,14 @@ dependencies {
     {
            transitive = true
     }
+
+    compile(group: 'com.philips.cdp', name: 'uid', version: '0.0.6', ext: 'aar', changing: true)
+            {
+                transitive = true
+            }
+
     compile 'com.google.android.gms:play-services-maps:10.2.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

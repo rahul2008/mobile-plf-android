@@ -80,13 +80,13 @@ public class ChatFragment extends DigitalCareBaseFragment {
         mChatNowLand = (Button) getActivity().findViewById(
                 R.id.chatNowLand);
 
-        mChatNoThanks = (Button) getActivity().findViewById(
-                R.id.chatNoThanks);
-        mChatNoThanksLand = (Button) getActivity().findViewById(
-                R.id.chatNoThanksLand);
+        //mChatNoThanks = (Button) getActivity().findViewById(
+          //      R.id.chatNoThanks);
+        //mChatNoThanksLand = (Button) getActivity().findViewById(
+        //        R.id.chatNoThanksLand);
 
         mChatDescText = (TextView) getActivity().findViewById(R.id.chatDesc);
-        mHelpText = (TextView) getActivity().findViewById(R.id.helpText);
+       // mHelpText = (TextView) getActivity().findViewById(R.id.helpText);
 
         mChatNowBG = (ImageView) getActivity().findViewById(R.id.chatnow_bg);
 
@@ -98,13 +98,13 @@ public class ChatFragment extends DigitalCareBaseFragment {
 
         mChatNow.setOnClickListener(this);
         mChatNowLand.setOnClickListener(this);
-        mChatNoThanks.setOnClickListener(this);
-        mChatNoThanksLand.setOnClickListener(this);
+       // mChatNoThanks.setOnClickListener(this);
+        //mChatNoThanksLand.setOnClickListener(this);
 
         mChatNow.setTransformationMethod(null);
         mChatNowLand.setTransformationMethod(null);
-        mChatNoThanks.setTransformationMethod(null);
-        mChatNoThanksLand.setTransformationMethod(null);
+        //mChatNoThanks.setTransformationMethod(null);
+        //mChatNoThanksLand.setTransformationMethod(null);
 
         // mImageView = (ImageView) getActivity().findViewById(R.id.imageView);
         mChatNowParentPort = (LinearLayout) getActivity().findViewById(
@@ -114,8 +114,8 @@ public class ChatFragment extends DigitalCareBaseFragment {
 
         mChatNowParentBottom = (LinearLayout.LayoutParams) mChatNowParentPort
                 .getLayoutParams();
-        mHelpTextParams = (LinearLayout.LayoutParams) mChatDescText
-                .getLayoutParams();
+       // mHelpTextParams = (LinearLayout.LayoutParams) mChatDescText
+         //       .getLayoutParams();
         mChatNowBgParams = (FrameLayout.LayoutParams) mChatNowBG
                 .getLayoutParams();
         setButtonParams();
@@ -164,7 +164,7 @@ public class ChatFragment extends DigitalCareBaseFragment {
             } else {
                 mChatNowBgParams.height = (int) getResources().getDimension(R.dimen.chat_bg_height);
                 mChatNowBG.setLayoutParams(mChatNowBgParams);
-                mChatNowBG.setBackgroundResource(R.drawable.consumercare_live_chat_bg_phone_port);
+                mChatNowBG.setBackgroundResource(R.drawable.chat_to_us);
             }
         } else {
             mChatNowParentLand.setVisibility(View.VISIBLE);
@@ -181,7 +181,7 @@ public class ChatFragment extends DigitalCareBaseFragment {
             } else {
                 mChatNowBgParams.height = (int) getResources().getDimension(R.dimen.chat_bg_height_land);
                 mChatNowBG.setLayoutParams(mChatNowBgParams);
-                mChatNowBG.setBackgroundResource(R.drawable.consumercare_live_chat_bg_phone_land);
+                mChatNowBG.setBackgroundResource(R.drawable.chat_to_us);
             }
         }
     }
@@ -192,10 +192,10 @@ public class ChatFragment extends DigitalCareBaseFragment {
         if (id == R.id.chatNow || id == R.id.chatNowLand) {
             DigiCareLogger.i(TAG, "Clicked on ChatNow Button");
             showFragment(new ChatNowFragment());
-        } else if (id == R.id.chatNoThanks || id == R.id.chatNoThanksLand) {
+        } /*else if (id == R.id.chatNoThanks || id == R.id.chatNoThanksLand) {
             DigiCareLogger.i(TAG, "Clicked on Cancel button");
             backstackFragment();
-        }
+        }*/
     }
 
     @Override
@@ -225,7 +225,7 @@ public class ChatFragment extends DigitalCareBaseFragment {
         mChatNowLand.setLayoutParams(chatbuttonparams);
 
         //cancel button params
-        RelativeLayout.LayoutParams cancelbuttonparams = new RelativeLayout.LayoutParams(
+      /*  RelativeLayout.LayoutParams cancelbuttonparams = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
                 .getDimension(R.dimen.support_btn_height) * density));
 
@@ -233,6 +233,6 @@ public class ChatFragment extends DigitalCareBaseFragment {
         ((ViewGroup) mChatNoThanksLand.getParent()).setLayoutParams(chatbuttonparams);
 
         mChatNoThanks.setLayoutParams(cancelbuttonparams);
-        mChatNoThanksLand.setLayoutParams(cancelbuttonparams);
+        mChatNoThanksLand.setLayoutParams(cancelbuttonparams);*/
     }
 }

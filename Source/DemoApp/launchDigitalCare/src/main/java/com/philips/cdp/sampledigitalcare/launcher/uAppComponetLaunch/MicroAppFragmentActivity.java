@@ -6,6 +6,7 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -18,10 +19,11 @@ import com.philips.cdp.digitalcare.CcLaunchInput;
 import com.philips.cdp.digitalcare.CcSettings;
 import com.philips.cdp.digitalcare.listeners.CcListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.prxclient.PrxConstants.Sector;
+import com.philips.cdp.prxclient.PrxConstants.Catalog;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
+import com.philips.cdp.sampledigitalcare.util.ThemeHelper;
 import com.philips.cdp.sampledigitalcare.util.ThemeUtil;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cl.di.dev.pa.R;
@@ -29,6 +31,10 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 //import com.philips.platform.appinfra.AppInfraSingleton;
 
@@ -40,7 +46,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
  */
 
 
-public class MicroAppFragmentActivity extends UiKitActivity implements View.OnClickListener,
+public class MicroAppFragmentActivity extends AppCompatActivity implements View.OnClickListener,
         CcListener {
     private static final String TAG = MicroAppFragmentActivity.class.getSimpleName();
     private ImageView mActionBarMenuIcon = null;
@@ -50,6 +56,7 @@ public class MicroAppFragmentActivity extends UiKitActivity implements View.OnCl
     private CcSettings ccSettings = null;
     private CcLaunchInput ccLaunchInput = null;
     private  AppInfraInterface mAppInfraInterface;
+    private ThemeHelper themeHelper;
 
     private ActionBarListener actionBarListener = new ActionBarListener() {
         @Override
@@ -74,7 +81,7 @@ public class MicroAppFragmentActivity extends UiKitActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+        initTheme();
         if(savedInstanceState!=null){
             // if app killed by vm.
             savedInstanceState =null;
@@ -84,11 +91,11 @@ public class MicroAppFragmentActivity extends UiKitActivity implements View.OnCl
         }
         super.onCreate(savedInstanceState);
 
-        getSupportActionBar().hide();
-        ThemeUtil mThemeUtil = new ThemeUtil(getApplicationContext().getSharedPreferences(
-                this.getString(R.string.app_name), Context.MODE_PRIVATE));
+       // getSupportActionBar().hide();
+        //ThemeUtil mThemeUtil = new ThemeUtil(getApplicationContext().getSharedPreferences(
+          //      this.getString(R.string.app_name), Context.MODE_PRIVATE));
         //setTheme(R.style.Theme_Philips_DarkBlue_WhiteBackground);
-        setTheme(mThemeUtil.getCurrentTheme());
+        //setTheme(mThemeUtil.getCurrentTheme());
 
         DigiCareLogger.i(TAG, " onCreate ++ ");
         setContentView(R.layout.activity_sample);
@@ -245,5 +252,20 @@ public class MicroAppFragmentActivity extends UiKitActivity implements View.OnCl
             finish();
         } else if (_id == R.id.sample_back_to_home_img)
             previousFragment();
+    }
+
+
+
+    protected void initTheme() {
+        UIDHelper.injectCalligraphyFonts();
+        themeHelper = new ThemeHelper(this);
+        ThemeConfiguration config = themeHelper.getThemeConfig();
+        setTheme(themeHelper.getThemeResourceId());
+        UIDHelper.init(config);
+    }
+
+    @Override
+    protected void attachBaseContext(final Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

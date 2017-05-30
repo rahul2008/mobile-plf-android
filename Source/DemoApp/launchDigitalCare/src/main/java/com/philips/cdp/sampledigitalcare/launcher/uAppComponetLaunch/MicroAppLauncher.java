@@ -16,7 +16,6 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,23 +26,31 @@ import com.philips.cdp.digitalcare.CcLaunchInput;
 import com.philips.cdp.digitalcare.CcSettings;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.listeners.CcListener;
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.prxclient.PrxConstants.Sector;
+import com.philips.cdp.prxclient.PrxConstants.Catalog;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.sampledigitalcare.DummyScreen;
 import com.philips.cdp.sampledigitalcare.adapter.Listener;
 import com.philips.cdp.sampledigitalcare.adapter.SampleAdapter;
 import com.philips.cdp.sampledigitalcare.adapter.SimpleItemTouchHelperCallback;
+import com.philips.cdp.sampledigitalcare.util.ThemeHelper;
 import com.philips.cdp.sampledigitalcare.util.ThemeUtil;
 import com.philips.cdp.sampledigitalcare.view.CustomDialog;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.view.widget.ImageButton;
+import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
+import com.shamanland.fonticon.FontIconTypefaceHolder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 //import com.philips.platform.appinfra.AppInfraSingleton;
 
@@ -63,7 +70,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
     private Button mLaunchDigitalCare = null;
     private Button mLaunchAsFragment = null;
     private Button mChangeTheme = null;
-    private ImageButton mAddButton = null;
+    private Button mAddButton = null;
     private RecyclerView mRecyclerView = null;
     private SampleAdapter adapter = null;
 
@@ -73,10 +80,11 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
     private CcSettings ccSettings;
     private CcLaunchInput ccLaunchInput;
     private AppInfraInterface mAppInfraInterface;
-    private ThemeUtil mThemeUtil;
+    private ThemeHelper themeHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        initTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_digital_care);
 
@@ -84,7 +92,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         mLaunchDigitalCare = (Button) findViewById(R.id.launchDigitalCare);
         mLaunchAsFragment = (Button) findViewById(R.id.launchAsFragment);
         mChangeTheme = (Button) findViewById(R.id.change_theme);
-        mAddButton = (ImageButton) findViewById(R.id.addimageButton);
+        mAddButton = (Button) findViewById(R.id.addimageButton);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAddButton.setOnClickListener(this);
 
@@ -92,9 +100,6 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         mLaunchDigitalCare.setOnClickListener(this);
         mLaunchAsFragment.setOnClickListener(this);
         mChangeTheme.setOnClickListener(this);
-        mThemeUtil = new ThemeUtil(getApplicationContext().getSharedPreferences(
-                this.getString(R.string.app_name), Context.MODE_PRIVATE));
-
         // setting country spinner
         mCountry_spinner = (Spinner) findViewById(R.id.spinner2);
         mCountry = getResources().getStringArray(R.array.country);
@@ -184,9 +189,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         mRecyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager =new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
-        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
-                layoutManager.getOrientation());
-        mRecyclerView.addItemDecoration(mDividerItemDecoration);
+        mRecyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(mRecyclerView.getContext()));
         return adapter;
     }
 
@@ -313,7 +316,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                                 (com.philips.platform.uappframework.
                                         launcher.ActivityLauncher.
                                         ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
-                                        mThemeUtil.getCurrentTheme());
+                                        themeHelper.getThemeResourceId());
 
                 activityLauncher.setCustomAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
 
@@ -367,23 +370,13 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                 }
                 break;
             case R.id.change_theme:
-                Resources.Theme theme = super.getTheme();
-                theme.applyStyle(mThemeUtil.getNextTheme(), true);
+                //Resources.Theme theme = super.getTheme();
+                //theme.applyStyle(mThemeUtil.getNextTheme(), true);
+                changeTheme();
                 relaunchActivity();
                 break;
 
         }
-    }
-
-    @Override
-    public Resources.Theme getTheme() {
-        Resources.Theme theme = super.getTheme();
-        if(mThemeUtil ==null){
-            mThemeUtil = new ThemeUtil(getApplicationContext().getSharedPreferences(
-                    this.getString(R.string.app_name), Context.MODE_PRIVATE));
-        }
-        theme.applyStyle(mThemeUtil.getCurrentTheme(), true);
-        return theme;
     }
 
     private void relaunchActivity() {
@@ -395,12 +388,22 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         finish();
     }
 
-   /* private void setDigitalCareLocale(String language, String country) {
 
-        DigitalCareConfigManager.getInstance().setLocale(language, country);
+    protected  void initTheme(){
+        UIDHelper.injectCalligraphyFonts();
+        themeHelper = new ThemeHelper(this);
+        ThemeConfiguration config = themeHelper.getThemeConfig();
+        setTheme(themeHelper.getThemeResourceId());
+        UIDHelper.init(config);
+        FontIconTypefaceHolder.init(getAssets(),"digitalcarefonts/CCIcon.ttf");
+    }
 
+    protected void changeTheme(){
+        themeHelper.changeTheme();
+    }
 
-    }*/
-
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 }

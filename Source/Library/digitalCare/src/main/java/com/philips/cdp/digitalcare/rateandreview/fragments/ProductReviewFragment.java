@@ -100,21 +100,6 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
      * @return
      */
     protected String getProductPageUri() {
-       /* String language = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
-                .getLanguage().toLowerCase();
-
-        String country = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
-                .getCountry().toUpperCase();
-        String countryFallBack = LocaleMatchHandler.getPRXUrl(language + "_" + country);
-        String productPageLink = DigitalCareConfigManager.getInstance().getViewProductDetailsData().getProductInfoLink();
-
-        Uri uri = Uri.parse(String.format(PRODUCT_REVIEW_URL, countryFallBack,
-                productPageLink, getLocalizedReviewUrl(countryFallBack)));
-
-
-        DigiCareLogger.i(TAG, "Product Review page link : " + uri);
-    */
-
 
         return DigitalCareConfigManager.getInstance().getProductReviewUrl();
     }

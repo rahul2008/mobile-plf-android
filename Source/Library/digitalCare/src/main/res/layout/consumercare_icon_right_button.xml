@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/icon_button"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/icon_button_text"
+        style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="40dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:gravity="start|center" />
+
+    <ImageView
+        android:id="@+id/icon_button_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginRight="16dp"
+        android:gravity="center"/>
+
+    <!--<com.shamanland.fonticon.FontIconView-->
+    <!--android:layout_width="35dp"-->
+    <!--android:layout_height="35dp"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_marginRight="16dp"-->
+    <!--android:gravity="center"-->
+    <!--android:id="@+id/icon_button_icon"-->
+    <!--android:textSize="18dp"-->
+    <!--android:textColor="?attr/uidContentPrimary"-->
+    <!--fontPath="digitalcarefonts/CCIcon.ttf"/>-->
+</RelativeLayout>

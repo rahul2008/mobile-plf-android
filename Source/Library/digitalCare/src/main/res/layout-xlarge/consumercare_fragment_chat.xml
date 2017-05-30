@@ -21,31 +21,35 @@
                 <ImageView
                     android:id="@+id/chatnow_bg"
                     android:layout_width="match_parent"
-                    android:layout_height="500dp"
-                    android:contentDescription="@string/chat_desc" />
+                    android:layout_height="500dp" />
 
-                <TextView
-                    android:id="@+id/helpText"
-                    style="@style/chatNowHelpText"
-                    fontPath="digitalcarefonts/CentraleSans-Book.otf"
-                    android:layout_marginLeft="@dimen/activity_margin"
-                    android:layout_marginTop="@dimen/activity_margin" />
             </FrameLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="70dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:orientation="vertical">
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/lbl_chatToUs"
+                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fontPath="fonts/centralesansbold.ttf"
+                android:text="@string/chat_to_us" />
+
+            <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/chatDesc"
-                style="@style/chatNowDesc"
-                fontPath="digitalcarefonts/CentraleSans-Book.otf"
+                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="left"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp"
                 android:text="@string/chat_desc" />
 
             <LinearLayout
@@ -53,36 +57,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
                 android:layout_weight="1"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
-                <RelativeLayout
-                    android:id="@+id/chatNoThanksParent"
-                    style="@style/fontButton"
-                    android:layout_marginLeft="@dimen/activity_margin"
-                    android:layout_marginRight="@dimen/activity_margin"
-                    android:layout_weight="1"
-                    android:padding="2dp">
-
-                    <Button
-                        android:id="@+id/chatNoThanks"
-                        style="?attr/uikit_outlinedButtonStyle"
-                        fontPath="digitalcarefonts/CentraleSans-Bold.otf"
-                        android:layout_width="fill_parent"
-                        android:layout_height="@dimen/support_btn_height"
-                        android:layout_marginTop="0dp"
-                        android:text="@string/cancel" />
-                </RelativeLayout>
-
-                <Button
+                <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/chatNow"
-                    style="@style/fontButton"
-                    fontPath="digitalcarefonts/CentraleSans-Bold.otf"
-                    android:layout_marginLeft="@dimen/activity_margin"
-                    android:layout_marginRight="@dimen/activity_margin"
+                    style="@style/UIDImageTextButton.Center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="@string/chat_now" />
             </LinearLayout>
@@ -91,35 +74,15 @@
                 android:id="@+id/chatNowParentLand"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginRight="350dp"
                 android:layout_weight="1"
                 android:weightSum="2">
 
-                <RelativeLayout
-                    android:id="@+id/chatNoThanksParentLand"
-                    style="@style/fontButton"
-                    android:layout_marginLeft="@dimen/activity_margin"
-                    android:layout_marginRight="@dimen/activity_margin"
-                    android:layout_weight="1"
-                    android:padding="2dp">
 
-                    <Button
-                        android:id="@+id/chatNoThanksLand"
-                        style="?attr/uikit_outlinedButtonStyle"
-                        fontPath="digitalcarefonts/CentraleSans-Bold.otf"
-                        android:layout_width="fill_parent"
-                        android:layout_height="@dimen/support_btn_height"
-                        android:layout_marginTop="0dp"
-                        android:text="@string/cancel" />
-                </RelativeLayout>
-
-                <Button
+                <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/chatNowLand"
-                    style="@style/fontButton"
-                    fontPath="digitalcarefonts/CentraleSans-Bold.otf"
-                    android:layout_marginLeft="@dimen/activity_margin"
-                    android:layout_marginRight="@dimen/activity_margin"
+                    style="@style/UIDImageTextButton.Center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="@string/chat_now" />
             </LinearLayout>

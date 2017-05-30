@@ -57,8 +57,6 @@ public class EmailFragment extends DigitalCareBaseFragment {
                 AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_EMAIL);
         contextData.put(AnalyticsConstants.PAGE_CONTACTUS_EMAIL,
                 getPreviousName());
-       /* AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_EMAIL,
-                getPreviousName(), contextData);*/
         DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
                 (AnalyticsConstants.PAGE_CONTACTUS_EMAIL,
                         contextData);
@@ -84,27 +82,6 @@ public class EmailFragment extends DigitalCareBaseFragment {
             String url = getEmailUrl() + "&origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app";
             DigiCareLogger.d(TAG, url);
             setWebSettingForWebview(url, mWebView, mProgressBar);
-           /* mWebView.setWebViewClient(new WebViewClient() {
-
-                @Override
-                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    view.loadUrl(url);
-                    return true;
-                }
-
-                @Override
-                public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                    super.onPageStarted(view, url, favicon);
-                    mProgressBar.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                public void onPageFinished(WebView view, String url) {
-                    super.onPageFinished(view, url);
-                    mProgressBar.setVisibility(View.GONE);
-                }
-
-            });*/
         }
     }
 

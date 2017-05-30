@@ -44,8 +44,6 @@ public class ProductInformationFragment extends DigitalCareBaseFragment {
             mView = inflater.inflate(R.layout.consumercare_common_webview, container, false);
         }
 
-        /*AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_VIEW_PRODUCT_WEBSITE,
-                getPreviousName());*/
         DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
                 (AnalyticsConstants.PAGE_VIEW_PRODUCT_WEBSITE,
                         getPreviousName(), getPreviousName());

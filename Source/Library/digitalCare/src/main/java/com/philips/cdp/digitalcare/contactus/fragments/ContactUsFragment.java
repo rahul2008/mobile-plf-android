@@ -25,6 +25,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.InflateException;
@@ -50,30 +52,25 @@ import com.philips.cdp.digitalcare.contactus.parser.CdlsParsingCallback;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsResponseParser;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
+import com.philips.cdp.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cdp.digitalcare.request.RequestData;
 import com.philips.cdp.digitalcare.request.ResponseCallback;
 import com.philips.cdp.digitalcare.social.facebook.FacebookWebFragment;
 import com.philips.cdp.digitalcare.social.twitter.TwitterWebFragment;
+import com.philips.cdp.digitalcare.util.CommonRecyclerViewAdapter;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.digitalcare.util.MenuItem;
 import com.philips.cdp.digitalcare.util.Utils;
+import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.shamanland.fonticon.FontIconDrawable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-
-/*import com.philips.cdp.digitalcare.social.twitter.TwitterAuthentication;
-import com.philips.cdp.digitalcare.social.twitter.TwitterAuthenticationCallback;
-import com.philips.cdp.digitalcare.social.twitter.TwitterSupportFragment;*/
-
-/*import com.philips.cdp.digitalcare.social.facebook.FacebookAuthenticate;
- import com.philips.cdp.digitalcare.social.facebook.FacebookHelper;
- import com.philips.cdp.digitalcare.social.facebook.FacebookScreenFragment;
- import com.facebook.Session;
- import com.facebook.SessionState;*/
-
 
 public class ContactUsFragment extends DigitalCareBaseFragment implements
         /*TwitterAuthenticationCallback,*/ OnClickListener, ResponseCallback, Observer {
@@ -86,20 +83,18 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     private static View mView = null;
     private static boolean isFirstTimeCdlsCall = true;
     private SharedPreferences prefs = null;
-    private LinearLayout mContactUsParent = null;
-    private LinearLayout mSocialProviderParent = null;
-    private FrameLayout.LayoutParams mParams = null;
     private Button mChat = null;
-    private Button mEmail = null;
     private Button mCallPhilips = null;
     private CdlsResponseModel mCdlsParsedResponse = null;
     private TextView mFirstRowText = null;
     private TextView mContactUsOpeningHours = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
-    private TextView mLeaveUsMsg = null;
     private String mCdlsResponseStr = null;
     private ProgressDialog mPostProgress = null;
+    RecyclerView mContactUsSocilaProviderButtonsParent = null;
+    private LinearLayout.LayoutParams mSecondContainerParams = null;
+    private LinearLayout mLLSocialParent = null;
     private final Runnable mTwitteroAuthRunnable = new Runnable() {
 
         @Override
@@ -132,7 +127,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         }
     };
     private Configuration config = null;
-    private View mSocialDivider = null;
+    //private View mSocialDivider = null;
     private int mSdkVersion;
     private Utils mUtils = null;
     private AlertDialog mAlertDialog = null;
@@ -148,9 +143,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
       /*  DigiCareLogger.i(TAG, "ContactUsFragment : onCreate");*/
         isFirstTimeCdlsCall = true;
 
-        // mTwitterProgresshandler = new Handler();
-        // if (isConnectionAvailable())
-        // requestCdlsData();
     }
 
     @Override
@@ -172,7 +164,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         } catch (InflateException e) {
             DigiCareLogger.e(TAG, "UI Inflation error : " + e);
         }
-        mSocialDivider = mView.findViewById(R.id.socialDivider);
 
         return mView;
     }
@@ -185,37 +176,26 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                         + mContactUsParent);*/
         // if (mContactUsParent == null) {
         // mTwitterProgresshandler = new Handler();
+        mContactUsSocilaProviderButtonsParent = (RecyclerView) getActivity().findViewById(
+                R.id.contactUsSocialProvideButtonsParent);
 
-        mContactUsParent = (LinearLayout) getActivity().findViewById(
-                R.id.contactUsParent);
+        mSecondContainerParams = (LinearLayout.LayoutParams) mContactUsSocilaProviderButtonsParent
+                .getLayoutParams();
+
         mChat = (Button) getActivity().findViewById(
                 R.id.contactUsChat);
         mCallPhilips = (Button) getActivity().findViewById(
                 R.id.contactUsCall);
-        mEmail = (Button) getActivity().findViewById(
-                R.id.contactUsEmail);
         mContactUsOpeningHours = (TextView) getActivity().findViewById(
                 R.id.contactUsOpeningHours);
         mFirstRowText = (TextView) getActivity()
                 .findViewById(R.id.firstRowText);
-        mSocialProviderParent = (LinearLayout) getActivity().findViewById(
-                R.id.contactUsSocialParent);
-        mLeaveUsMsg = (TextView) getActivity().findViewById(
-                R.id.leaveMsgTitle);
-
-                // mFacebook.setOnClickListener(this);
 
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
+        mLLSocialParent = (LinearLayout) getActivity().findViewById(R.id.contactUsSocialParent);
         mUtils = new Utils();
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
-
-        if(!Utils.isCountryChina()){
-            createSocialProviderMenu();
-        } else{
-            mSocialDivider.setVisibility(View.GONE);
-            mLeaveUsMsg.setVisibility(View.GONE);
-        }
 
 
         final float density = getResources().getDisplayMetrics().density;
@@ -228,8 +208,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         mChat.setTransformationMethod(null);
         mCallPhilips.setOnClickListener(this);
         mCallPhilips.setTransformationMethod(null);
-        mEmail.setOnClickListener(this);
-        mEmail.setTransformationMethod(null);
 
         if (isInternetAvailable && isCdlsUrlNull()) {
             requestCdlsData();
@@ -255,11 +233,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                         + " "
                         + contactNumber);
             }
-            isEmailButtonEnabled();
 
         }
 
-        mParams = (FrameLayout.LayoutParams) mContactUsParent.getLayoutParams();
 
         try {
             /*AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US,
@@ -271,18 +247,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             DigiCareLogger.e(TAG, "IllegaleArgumentException : " + e);
         }
         config = getResources().getConfiguration();
-    }
 
-
-    protected boolean isEmailButtonEnabled() {
-        if (DigitalCareConfigManager.getInstance().getEmailUrl() == null) {
-            mEmail.setVisibility(View.GONE);
-
-        } else {
-            mEmail.setVisibility(View.VISIBLE);
-        }
-
-        return (mEmail.getVisibility() == View.VISIBLE) ? true : false;
+        createContactUsSocialProvideMenu();
+        setViewParams(config);
     }
 
     protected boolean isContactNumberCached() {
@@ -296,22 +263,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         String contactHours = null;
         contactHours = prefs.getString(USER_SELECTED_PRODUCT_CTN_HOURS, "");
         return (contactHours != null && contactHours != "");
-    }
-
-    private void createSocialProviderMenu() {
-        TypedArray titles = getResources().obtainTypedArray
-                (R.array.social_service_provider_menu_title);
-        final TypedArray resources = getResources().obtainTypedArray
-                (R.array.social_service_provider_menu_resources);
-
-        if (titles.length() == 0) {
-            mSocialProviderParent.setVisibility(View.GONE);
-            mSocialDivider.setVisibility(View.GONE);
-        } else {
-            for (int i = 0; i < titles.length(); i++) {
-                createButtonLayout(titles.getResourceId(i, 0), resources.getResourceId(i, 0));
-            }
-        }
     }
 
     @Override
@@ -336,16 +287,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
         return loadCdlsUrl();
     }
-/*
-    @Override
-	public void onTwitterLoginFailed() {
-		DigiCareLogger.d(TAG, "Twitter Authentication Failed");
-	}
-
-	@Override
-	public void onTwitterLoginSuccessful() {
-		showFragment(new TwitterSupportFragment());
-	}*/
 
     private String loadCdlsUrl(){
 
@@ -377,7 +318,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public void onResponseReceived(String response) {
-        isEmailButtonEnabled();
         if (isAdded()) {
             closeProgressDialog();
            /* DigiCareLogger.i(TAG, "onResponseReceived : " + response);*/
@@ -563,46 +503,15 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
             launchFacebookFeature();
 
-
-
-			/*
-             * Session mFacebookSession = Session.getActiveSession();
-			 *
-			 * DigiCareLogger.d(TAG, "Session - getSession from Facebook SDK " +
-			 * mFacebookSession); if (mFacebookSession == null) {
-			 * DigiCareLogger.d(TAG,
-			 * "Session is null so Starting FacebookSession");
-			 * startFacebookSession(); } else if ((mFacebookSession != null) &&
-			 * (mFacebookSession.getState() ==
-			 * SessionState.CLOSED_LOGIN_FAILED)) { DigiCareLogger.d(TAG,
-			 * "Session is state is CLOSED_LOGIN_FAILED" +
-			 * " so Starting Facebook Session"); startFacebookSession(); } else
-			 * if ((mFacebookSession != null) && (mFacebookSession.getState() ==
-			 * SessionState.OPENED)) { DigiCareLogger.d(TAG,
-			 * "Session - getSession from Facebook SDK is not NULL  : " +
-			 * mFacebookSession); showFragment(new FacebookScreenFragment());
-			 * DigiCareLogger.d(TAG, "Session is not null");
-			 *
-			 * }
-			 */
         } else if (tag != null
                 && tag.equalsIgnoreCase(getStringKey(R.string.twitter))
                 && isConnectionAvailable()) {
             DigiCareLogger.i(TAG, "Clicked on the Twitter button");
-            // mTwitter.setClickable(false);
             launchTwitterFeature();
-            /*TwitterAuthentication mTwitter = TwitterAuthentication
-                    .getInstance(getActivity());
-			mTwitter.initSDK(this);
-			mPostProgress = new ProgressDialog(getActivity());
-			mPostProgress.setMessage(getActivity().getResources().getString(
-					R.string.loading));
-			mPostProgress.setCancelable(false);
-			if (!(getActivity().isFinishing()))
-				mPostProgress.show();
-			mTwitterProgresshandler.postDelayed(mTwitteroAuthRunnable, 10000l);*/
 
-        } else if ((id == R.id.contactUsEmail) && isConnectionAvailable()) {
+
+        } else if (tag != null && (tag.equalsIgnoreCase(getStringKey(R.string.send_email))) && isConnectionAvailable()) {
+
             tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_EMAIL);
             DigiCareLogger.i(TAG, "Clicked on the Email button");
             sendEmail();
@@ -712,17 +621,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
 
     private void tagServiceRequest(String serviceChannel) {
-     /*   AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SERVICE_REQUEST,
-                AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, serviceChannel);*/
         DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
                 (AnalyticsConstants.ACTION_SERVICE_REQUEST,
                         AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, serviceChannel);
     }
 
     private void tagTechnicalError() {
-     /*   AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SET_ERROR,
-                AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
-                AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_RESPONSE_CDLS);*/
         DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
                 (AnalyticsConstants.ACTION_SET_ERROR,
                         AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
@@ -745,15 +649,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         tagTechnicalError();
         if (mCallPhilips != null) {
             mCallPhilips.setVisibility(View.GONE);
-//            mCallPhilips
-//                    .setBackgroundResource(R.drawable.consumercare_selector_option_button_faded_bg);
-//            mCallPhilips.setEnabled(false);
         }
 
         TypedArray titles = getResources().obtainTypedArray
                 (R.array.social_service_provider_menu_title);
         boolean isSocialButtonsEnabled = titles.length() > 0 ? true : false;
-        boolean isEmailEnabled = mEmail.getVisibility() == View.VISIBLE ? true : false;
+        //boolean isEmailEnabled = mEmail.getVisibility() == View.VISIBLE ? true : false;
         boolean isChatEnabled = mChat.getVisibility() == View.VISIBLE ? true : false;
         boolean isCallEnabled = mCallPhilips.getVisibility() == View.VISIBLE ? true : false;
 
@@ -761,7 +662,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             showAlert(getResources().getString(R.string.NO_SUPPORT_KEY));
         }*/
 
-        if (!isSocialButtonsEnabled && !isEmailEnabled) {
+        if (!isSocialButtonsEnabled && DigitalCareConfigManager.getInstance().getEmailUrl() == null) {
             showDialog(getResources().getString(R.string.NO_SUPPORT_KEY));
         }
 
@@ -776,12 +677,15 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
             // if (mLeftRightMarginPort != 0)
-            mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
+            //mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
+            mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginPort;
         } else {
             // if (mLeftRightMarginLand != 0)
-            mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
+            //mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
+            mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginPort;
         }
-        mContactUsParent.setLayoutParams(mParams);
+        mContactUsSocilaProviderButtonsParent.setLayoutParams(mSecondContainerParams);
+        //mContactUsParent.setLayoutParams(mParams);
     }
 
     /*
@@ -791,24 +695,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
      * Wouter is working on In-App messaging.
      */
     protected void sendEmail() {
-//        try {
-//            Intent intent = new Intent(Intent.ACTION_SEND);
-//            intent.setType("message/rfc822");
-//            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getResources()
-//                    .getString(R.string.support_email_id)});
-//            intent.putExtra(
-//                    Intent.EXTRA_TEXT, getGmailContentInformation());
-//            intent.setPackage("com.google.android.gm");
-//            getActivity().startActivity(intent);
-//        } catch (ActivityNotFoundException e) {
-//            Intent intent = new Intent(Intent.ACTION_SEND);
-//            intent.setType("message/rfc822");
-//            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getResources()
-//                    .getString(R.string.support_email_id)});
-//            intent.putExtra(
-//                    Intent.EXTRA_TEXT, getGmailContentInformation());
-//            getActivity().startActivity(Intent.createChooser(intent, null));
-//        }
         showFragment(new EmailFragment());
     }
 
@@ -830,38 +716,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
     private String getStringKey(int resId) {
         return getResources().getResourceEntryName(resId);
-    }
-
-    /**
-     * Create RelativeLayout at runTime. RelativeLayout will have button and
-     * image together.
-     */
-    @SuppressLint("NewApi")
-    private void createButtonLayout(int buttonTitleResId, int buttonDrawableResId) {
-
-        final String buttonTitle = getResources().getResourceEntryName(buttonTitleResId);
-        final String buttonDrawable = getResources().getResourceEntryName(buttonDrawableResId);
-
-        final String packageName = getActivity().getPackageName();
-        final int title = getResources().getIdentifier(
-                packageName + ":string/" + buttonTitle, null, null);
-        final int drawable = getResources().getIdentifier(
-                packageName + ":string/" + buttonDrawable, null, null);
-        final float density = getResources().getDisplayMetrics().density;
-
-        final RelativeLayout relativeLayout = createRelativeLayout(buttonTitle, density);
-        final Button button = createButton(density, title, drawable);
-        relativeLayout.addView(button);
-        setButtonParams(button, density);
-        setHelpButtonParams(density);
-        mSocialProviderParent.addView(relativeLayout);
-        setRelativeLayoutParams(relativeLayout, density);
-
-        //Setting tag because we need to get String title for this view
-        // which needs to be handled at button click.
-
-        relativeLayout.setTag(buttonTitle);
-        relativeLayout.setOnClickListener(this);
     }
 
     @SuppressLint("NewApi")
@@ -945,7 +799,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         params.topMargin = (int) getActivity().getResources().getDimension(R.dimen.marginTopButton);
         mCallPhilips.setLayoutParams(params);
         mChat.setLayoutParams(params);
-        mEmail.setLayoutParams(params);
+        //mEmail.setLayoutParams(params);
     }
 
     @Override
@@ -957,15 +811,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     public String setPreviousPageName() {
         return AnalyticsConstants.PAGE_CONTACT_US;
     }
-
-	/*
-     * protected void startFacebookSession() { FacebookHelper mHelper =
-	 * FacebookHelper.getInstance(getActivity());
-	 * mHelper.openFacebookSession(new FacebookAuthenticate() {
-	 *
-	 * @Override public void onSuccess() { showFragment(new
-	 * FacebookScreenFragment()); } }); }
-	 */
 
     @Override
     public void onDestroy() {
@@ -997,4 +842,43 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                             }).show();
 
         }
+
+    private void createContactUsSocialProvideMenu() {
+        final ContactUsFragment context = this;
+
+        TypedArray titles = getResources().obtainTypedArray(R.array.social_service_provider_menu_title);
+        TypedArray resources = getResources().obtainTypedArray(R.array.social_service_provider_menu_resources);
+        ArrayList<MenuItem> menus = new ArrayList<>();
+
+        if (DigitalCareConfigManager.getInstance().getEmailUrl() != null){
+            menus.add(new MenuItem(R.drawable.consumercare_social_fb_icon, R.string.send_email));
+        }
+
+        if(!Utils.isCountryChina())
+            for (int i = 0; i < titles.length(); i++) {
+                menus.add(new MenuItem(resources.getResourceId(i, 0), titles.getResourceId(i, 0)));
+            }
+
+        if(menus.size() == 0){
+            mLLSocialParent.setVisibility(View.GONE);
+            View view = (View) getActivity().findViewById(R.id.dividerContactUsSplit);
+            view.setVisibility(View.GONE);
+        }
+
+        RecyclerView recyclerView = mContactUsSocilaProviderButtonsParent;
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
+        recyclerView.setAdapter(new CommonRecyclerViewAdapter<MenuItem>(menus, R.layout.consumercare_icon_button) {
+            @Override
+            public void bindData(RecyclerView.ViewHolder holder, MenuItem item) {
+                View container = holder.itemView.findViewById(R.id.icon_button);
+                Label label = (Label) container.findViewById(R.id.icon_button_text);
+                label.setText(item.mText);
+                TextView icon = (TextView) container.findViewById(R.id.icon_button_icon);
+                icon.setText(item.mIcon);
+                container.setTag(getResources().getResourceEntryName(item.mText));
+                container.setOnClickListener(context);
+            }
+        });
+    }
 }

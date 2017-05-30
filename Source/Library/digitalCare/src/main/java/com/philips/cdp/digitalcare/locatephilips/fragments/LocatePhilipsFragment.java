@@ -749,30 +749,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         /*DigiCareLogger.i(TAG, where);*/
     }
 
-/*    @Override
-    public void onGpsStatusChanged(int event) {
-        switch (event) {
-            case GpsStatus.GPS_EVENT_STARTED:
-                DigiCareLogger.d(TAG, "GPS_EVENT_STARTED");
-                break;
-
-            case GpsStatus.GPS_EVENT_STOPPED:
-                DigiCareLogger.d(TAG, "GPS_EVENT_STOPPED");
-                break;
-
-            case GpsStatus.GPS_EVENT_FIRST_FIX:
-                DigiCareLogger.d(TAG, "GPS_EVENT_FIRST_FIX");
-                break;
-
-            case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
-                break;
-
-            default:
-                DigiCareLogger.d(TAG, "default method on onGPSStatusChanged");
-                break;
-        }
-    }*/
-
     private boolean checkGooglePlayServices() {
         int result = GooglePlayServicesUtil
                 .isGooglePlayServicesAvailable(getActivity());
@@ -901,10 +877,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                                 contextData.put(AnalyticsConstants.
                                                 ACTION_KEY_LOCATE_PHILIPS_SEARCH_RESULTS,
                                         String.valueOf(count));
-                             /*   AnalyticsTracker
-                                        .trackAction(
-                                                AnalyticsConstants.ACTION_SEND_DATA,
-                                                contextData);*/
                                 DigitalCareConfigManager.getInstance().getTaggingInterface().
                                         trackActionWithInfo(AnalyticsConstants.ACTION_SEND_DATA,
                                                 contextData);
@@ -929,11 +901,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                         R.string.no_data_available));
             }
         } else if (v.getId() == R.id.getdirection) {
-            /*AnalyticsTracker
-                    .trackAction(
-                            AnalyticsConstants.ACTION_SEND_DATA,
-                            AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
-                            AnalyticsConstants.ACTION_VALUE_LOCATE_PHILIPS_SEND_GET_DIRECTIONS);*/
             DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
                     (AnalyticsConstants.ACTION_SEND_DATA,
                             AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
@@ -974,11 +941,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             mSearchBox.setText(null);
         } else if (v.getId() == R.id.call) {
             mLinearLayout.setVisibility(View.GONE);
-           /* AnalyticsTracker
-                    .trackAction(
-                            AnalyticsConstants.ACTION_SEND_DATA,
-                            AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
-                            AnalyticsConstants.ACTION_VALUE_LOCATE_PHILIPS_CALL_LOCATION);*/
             DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
                     (AnalyticsConstants.ACTION_SEND_DATA,
                             AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
@@ -1021,12 +983,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             addressForTag = resultModel.getAddressModel().getAddress2();
         }
         addressForTag = addressForTag.replaceAll(",", " ");
-
-        /*AnalyticsTracker.trackAction(
-                AnalyticsConstants.ACTION_SEND_DATA,
-                AnalyticsConstants.ACTION_KEY_LOCATE_PHILIPS_LOCATION_VIEW,
-                resultModel.getAddressModel().getPhone() + '|'
-                        + addressForTag);*/
 
         DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
                 (AnalyticsConstants.ACTION_SEND_DATA,
