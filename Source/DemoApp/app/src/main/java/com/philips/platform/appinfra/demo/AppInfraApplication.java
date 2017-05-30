@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.StrictMode;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.crittercism.app.Crittercism;
 import com.crittercism.app.CrittercismConfig;
@@ -30,22 +29,35 @@ import java.util.Map;
  * Created by deepakpanigrahi on 5/18/16.
  */
 public class AppInfraApplication extends Application {
+    private static final String CRITTERCISM_APP_ID = "cba7f25561b444e5b0aa29639669532d00555300";
     public static AppTaggingInterface mAIAppTaggingInterface;
     public static AppInfraInterface gAppInfra;
-    private AppInfra mAppInfra;
-    private static final String CRITTERCISM_APP_ID = "cba7f25561b444e5b0aa29639669532d00555300";
-
-
     //SecurDb
     public static String DATABASE_PASSWORD_KEY = "philips@321";
     static SecureStorageInterface mSecureStorage = null;
     SharedPreferences sharedPreferences = null;
     SharedPreferences.Editor editor;
+    private AppInfra mAppInfra;
+    private BroadcastReceiver rec = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null) {
+                if (intent.getAction() == AppTagging.ACTION_TAGGING_DATA) {
+                    Log.d("AppInfra APP", "BroadcastReceiver() {...}.onReceive()");
+                    Map textExtra = (Map) intent.getSerializableExtra(AppTagging.EXTRA_TAGGING_DATA);
+                    Log.d("APPINFRA-TAGGING", textExtra.toString());
+                    Crittercism.leaveBreadcrumb(textExtra.toString());
+                    /*Toast.makeText(getApplicationContext(),
+                            textExtra.toString(), Toast.LENGTH_LONG).show();*/
+                }
+            }
 
+        }
+    };
 
     @Override
     public void onCreate() {
-        super.onCreate();
+
         Crittercism.initialize(getApplicationContext(), CRITTERCISM_APP_ID);
         Crittercism.didCrashOnLastLoad();
         CrittercismConfig config = new CrittercismConfig();
@@ -66,7 +78,7 @@ public class AppInfraApplication extends Application {
                 .penaltyDeath()
                 .build());
 
-
+        super.onCreate();
         LeakCanary.install(this);
 
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
@@ -82,24 +94,6 @@ public class AppInfraApplication extends Application {
         registerActivityLifecycleCallbacks(handler);
         registerComponentCallbacks(handler);
     }
-
-
-    private BroadcastReceiver rec = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if(intent != null) {
-                if(intent.getAction() == AppTagging.ACTION_TAGGING_DATA) {
-                    Log.d("AppInfra APP", "BroadcastReceiver() {...}.onReceive()");
-                    Map textExtra = (Map) intent.getSerializableExtra(AppTagging.EXTRA_TAGGING_DATA);
-                    Log.d("APPINFRA-TAGGING" , textExtra.toString());
-                    Crittercism.leaveBreadcrumb(textExtra.toString());
-                    Toast.makeText(getApplicationContext(),
-                            textExtra.toString(), Toast.LENGTH_LONG).show();
-                }
-            }
-
-        }
-    };
 
     @Override
     public void onTerminate() {

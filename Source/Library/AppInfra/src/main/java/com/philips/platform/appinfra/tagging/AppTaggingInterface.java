@@ -17,30 +17,6 @@ import java.util.Map;
 public interface AppTaggingInterface {
 
 	/**
-	 * The enum Privacy status.
-	 */
-	enum PrivacyStatus {
-		OPTIN, OPTOUT, UNKNOWN
-	}
-
-
-	enum SocialMedium {
-		Facebook("facebook"),
-		Twitter("twitter"),
-		Mail("mail"),
-		AirDrop("airdrop");
-		private final String socialMedium;
-
-		SocialMedium(String socialMedium) {
-			this.socialMedium = socialMedium;
-		}
-
-		public String toString() {
-			return this.socialMedium;
-		}
-	}
-
-	/**
 	 * Create instance for component ai app tagging interface.
 	 * This method to be used by all component to get their respective tagging
 	 *
@@ -50,13 +26,6 @@ public interface AppTaggingInterface {
 	 */
 	public AppTaggingInterface createInstanceForComponent(String componentId,
 	                                                      String componentVersion);
-
-	/**
-	 * Sets privacy consent.
-	 *
-	 * @param privacyStatus the privacy status
-	 */
-	public void setPrivacyConsent(PrivacyStatus privacyStatus);
 
 	/**
 	 * Sets previous page.
@@ -71,6 +40,13 @@ public interface AppTaggingInterface {
 	 * @return the privacy consent
 	 */
 	public PrivacyStatus getPrivacyConsent();
+
+	/**
+	 * Sets privacy consent.
+	 *
+	 * @param privacyStatus the privacy status
+	 */
+	public void setPrivacyConsent(PrivacyStatus privacyStatus);
 
 	/**
 	 * Track page with info.
@@ -177,6 +153,13 @@ public interface AppTaggingInterface {
 	void trackTimedActionEnd(String actionEnd);
 
 	/**
+	 * get Privacy Consent For SensitiveData.
+	 *
+	 * @return returns consent value true or false
+	 */
+	boolean getPrivacyConsentForSensitiveData();
+
+	/**
 	 * sets Privacy Consent For SensitiveData.
 	 *
 	 * @param valueContent String filename.
@@ -184,15 +167,7 @@ public interface AppTaggingInterface {
 	void setPrivacyConsentForSensitiveData(boolean valueContent);
 
 	/**
-	 * get Privacy Consent For SensitiveData.
-	 *
-	 * @return returns consent value true or false
-	 */
-	boolean getPrivacyConsentForSensitiveData();
-
-
-	/**
-	 * @return an NSString value containing the tracking identifier
+	 * @return an String value containing the tracking identifier
 	 * @brief Retrieves the analytics tracking identifier
 	 * @note This method can cause a blocking network call and should not be used from a UI thread.
 	 */
@@ -210,6 +185,29 @@ public interface AppTaggingInterface {
 	 * @param receiver BroadcastReceiver
 	 */
 	void registerTaggingData(BroadcastReceiver receiver);
+
+	/**
+	 * The enum Privacy status.
+	 */
+	enum PrivacyStatus {
+		OPTIN, OPTOUT, UNKNOWN
+	}
+
+	enum SocialMedium {
+		Facebook("facebook"),
+		Twitter("twitter"),
+		Mail("mail"),
+		AirDrop("airdrop");
+		private final String socialMedium;
+
+		SocialMedium(String socialMedium) {
+			this.socialMedium = socialMedium;
+		}
+
+		public String toString() {
+			return this.socialMedium;
+		}
+	}
 }
 
 

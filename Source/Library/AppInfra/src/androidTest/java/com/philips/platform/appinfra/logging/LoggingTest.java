@@ -301,6 +301,112 @@ public class LoggingTest extends MockitoTestCase {
         }
     }
 
+    public void testGetFileHandler() {
+        try {
+            AppInfraLogging appInfraLogging = new AppInfraLogging(mAppInfra);
+            Method method = appInfraLogging.getClass().getDeclaredMethod("getFileHandler");
+            method.setAccessible(true);
+            method.invoke(appInfraLogging);
+
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+   public void testGetCurrentLogFileHandler() {
+        try {
+            AppInfraLogging appInfraLogging = new AppInfraLogging(mAppInfra);
+            Method method = appInfraLogging.getClass().getDeclaredMethod("getCurrentLogFileHandler", Logger.class);
+            method.setAccessible(true);
+            Logger logger = Logger.getLogger("MyLogger");
+            Method method2 = appInfraLogging.getClass().getDeclaredMethod("getFileHandler");
+            method2.setAccessible(true);
+            FileHandler fileHandler = (FileHandler) method2.invoke(appInfraLogging);
+            logger.addHandler(fileHandler);
+            method.invoke(appInfraLogging, logger);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testGetCurrentConsoleFileHandler() {
+        try {
+            AppInfraLogging appInfraLogging = new AppInfraLogging(mAppInfra);
+            Method method = appInfraLogging.getClass().getDeclaredMethod("getCurrentLogConsoleHandler", Logger.class);
+            method.setAccessible(true);
+            Logger logger = Logger.getLogger("MyLogger");
+            ConsoleHandler consoleHandler = new ConsoleHandler();
+            logger.addHandler(consoleHandler);
+            method.invoke(appInfraLogging, logger);
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testComponentLevelLogEnabled() {
+        AppInfra appInfra = new AppInfra.Builder().build(context);
+        AppConfigurationInterface configInterface = new AppConfigurationManager(appInfra) {
+            @Override
+            protected JSONObject getMasterConfigFromApp() {
+                JSONObject result = null;
+                try {
+                    String testJson = ConfigValues.testJson();
+                    result = new JSONObject(testJson);
+                    JSONObject appInfraConfig = result.optJSONObject("APPINFRA");
+                    JSONObject loggingConfig = appInfraConfig.optJSONObject("LOGGING.DEBUGCONFIG");
+                    loggingConfig.put("componentLevelLogEnabled", true);
+                    appInfraConfig.put("LOGGING.DEBUGCONFIG", loggingConfig);
+                    result.put("APPINFRA", appInfraConfig);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return result;
+            }
+        };
+        appInfra = new AppInfra.Builder().setConfig(configInterface).build(context);
+        LoggingInterface loggingInterface = appInfra.getLogging().createInstanceForComponent("DemoAppInfra", "1.5");
+        for (LoggingInterface.LogLevel logLevel : LoggingInterface.LogLevel.values()) {
+            loggingInterface.log(logLevel, null, "message");
+            loggingInterface.log(logLevel, "Event", "Message");
+        }
+
+    }
+
+    /*Testing fallback if logging key values are not present in 'appconfig.json' file
+    * then properties from 'logging.properties' file should be picked
+    * this test case will should be removed when  'logging.properties' file is removed under asset
+     */
+    @Deprecated
+    public void testLogWithoutLoggingPropertiesInAppConfig() {
+
+        AppInfra appInfra = new AppInfra.Builder().build(context);
+        AppConfigurationInterface configInterface = new AppConfigurationManager(appInfra) {
+            @Override
+            protected JSONObject getMasterConfigFromApp() {
+                JSONObject result = null;
+                try {
+                    String testJson = ConfigValues.testJson();
+                    result = new JSONObject(testJson);
+                    JSONObject appInfraConfig = result.optJSONObject("APPINFRA");
+                    JSONObject loggingConfig = appInfraConfig.optJSONObject("LOGGING.DEBUGCONFIG");
+                    appInfraConfig.put("LOGGING.DEBUGCONFIG", null); // removing logging key values
+                    appInfraConfig.put("LOGGING.RELEASECONFIG", null); // removing logging key values
+                    result.put("APPINFRA", appInfraConfig);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return result;
+            }
+        };
+        appInfra = new AppInfra.Builder().setConfig(configInterface).build(context);
+        LoggingInterface loggingInterface = appInfra.getLogging().createInstanceForComponent("DemoAppInfra", "1.5");
+        for (LoggingInterface.LogLevel logLevel : LoggingInterface.LogLevel.values()) {
+            loggingInterface.log(logLevel, null, "message");
+            loggingInterface.log(logLevel, "Event", "Message");
+        }
+    }
+
 
 
 }

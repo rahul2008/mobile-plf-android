@@ -8,10 +8,11 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 
 import org.json.JSONException;
@@ -41,7 +42,7 @@ public class AppTaggingTest extends MockitoTestCase {
 	AppConfigurationManager mConfigInterface;
 
 	AppTagging mAppTagging;
-
+	private AppConfigurationInterface.AppConfigurationError configError;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -51,8 +52,33 @@ public class AppTaggingTest extends MockitoTestCase {
 		assertNotNull(context);
 		mAppInfra = new AppInfra.Builder().build(context);
 		assertNotNull(mAppInfra);
+
 		testConfig("Staging");
 		testAdobeJsonConfig(true);
+
+		mConfigInterface = new AppConfigurationManager(mAppInfra) {
+			@Override
+			protected JSONObject getMasterConfigFromApp() {
+				JSONObject result = null;
+				try {
+					String testJson = ConfigValues.testJson();
+
+					result = new JSONObject(testJson);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return result;
+			}
+
+		};
+		mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
+		configError = new AppConfigurationInterface
+				.AppConfigurationError();
+
+		assertNotNull(configError);
+
+		Object dynAppState = mAppInfra.getConfigInterface().getPropertyForKey("appidentity.appState", "appinfra", configError);
+		assertNotNull(dynAppState.toString());
 
 		mAIAppTaggingInterface = mAppInfra.getTagging().createInstanceForComponent
 				("Component name", "Component ID");
@@ -163,6 +189,9 @@ public class AppTaggingTest extends MockitoTestCase {
 	}
 
 	public void testTrackPageWithInfo() {
+		mAppInfra.getConfigInterface().setPropertyForKey("appidentity.appState", "appinfra",
+				"PRODUCTION", configError);
+
 		mAppTagging.trackPageWithInfo("AppTaggingDemoPage", "key1", "value1");
 		doAnswer(new Answer<Object>() {
 			public Object answer(InvocationOnMock invocation) {
@@ -186,6 +215,37 @@ public class AppTaggingTest extends MockitoTestCase {
 					return null;
 				}
 			}).when(mockAppTaggingInterface).trackPageWithInfo("AppTaggingDemoPage", keyValuePair);
+		}
+	}
+
+
+	public void testTrackPageWithInfo_pagename_exceeds_100() {
+		mAppInfra.getConfigInterface().setPropertyForKey("appidentity.appState", "appinfra",
+				"PRODUCTION", configError);
+
+		mAppTagging.trackPageWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", "key1", "value1");
+		doAnswer(new Answer<Object>() {
+			public Object answer(InvocationOnMock invocation) {
+				Object[] args = invocation.getArguments();
+				return null;
+			}
+		}).when(mockAppTaggingInterface).trackPageWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", "key1", "value1");
+
+		HashMap<String, String> keyValuePair;
+		String[] keyArray = {"key1", "key2", "key3"};
+		String[] valueArray = {"value1", "value2", "value3"};
+		if (keyArray.length > 0 && keyArray.length == valueArray.length) { // number of keys should be same as that of values
+			keyValuePair = new HashMap<String, String>();
+			for (int keyCount = 0; keyCount < keyArray.length; keyCount++) {
+				keyValuePair.put(keyArray[keyCount].trim(), valueArray[keyCount].trim());
+			}
+			mAppTagging.trackPageWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", keyValuePair);
+			doAnswer(new Answer<Object>() {
+				public Object answer(InvocationOnMock invocation) {
+					Object[] args = invocation.getArguments();
+					return null;
+				}
+			}).when(mockAppTaggingInterface).trackPageWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", keyValuePair);
 		}
 	}
 
@@ -214,6 +274,34 @@ public class AppTaggingTest extends MockitoTestCase {
 					return null;
 				}
 			}).when(mockAppTaggingInterface).trackActionWithInfo("AppTaggingDemoPage", keyValuePair);
+		}
+	}
+
+	public void testMockTrackActionWithInfo_eventname_exceeds_255() {
+
+		mAppTagging.trackActionWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", "key1", "value1");
+		doAnswer(new Answer<Object>() {
+			public Object answer(InvocationOnMock invocation) {
+				Object[] args = invocation.getArguments();
+				return null;
+			}
+		}).when(mockAppTaggingInterface).trackActionWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", "key1", "value1");
+
+		HashMap<String, String> keyValuePair;
+		String[] keyArray = {"key1", "key2", "key3"};
+		String[] valueArray = {"value1", "value2", "value3"};
+		if (keyArray.length > 0 && keyArray.length == valueArray.length) { // number of keys should be same as that of values
+			keyValuePair = new HashMap<String, String>();
+			for (int keyCount = 0; keyCount < keyArray.length; keyCount++) {
+				keyValuePair.put(keyArray[keyCount].trim(), valueArray[keyCount].trim());
+			}
+			mAppTagging.trackActionWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", keyValuePair);
+			doAnswer(new Answer<Object>() {
+				public Object answer(InvocationOnMock invocation) {
+					Object[] args = invocation.getArguments();
+					return null;
+				}
+			}).when(mockAppTaggingInterface).trackActionWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", keyValuePair);
 		}
 	}
 
@@ -569,7 +657,7 @@ public class AppTaggingTest extends MockitoTestCase {
 	public void testTaggingDataNeagtiveCase() {
 		mAIAppTaggingInterface.createInstanceForComponent("Testin Tagging" , "Testing Ver");
 		mAIAppTaggingInterface.registerTaggingData(null);
-		mAIAppTaggingInterface.trackPageWithInfo(AppTagging.PAGE_NAME ,"Test Page" ,"Test Name");
+		mAIAppTaggingInterface.trackPageWithInfo("ailPageName_second" ,"Test Page " ,"Test Name");
 		mAIAppTaggingInterface.trackActionWithInfo(AppTagging.ACTION_NAME , "Test Action" , "Test Action");
 		mAIAppTaggingInterface.unregisterTaggingData(null);
 	}

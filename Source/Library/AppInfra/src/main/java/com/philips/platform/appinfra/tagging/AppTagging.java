@@ -43,19 +43,17 @@ import java.util.TimeZone;
  */
 public class AppTagging implements AppTaggingInterface {
 
-	private String mLanguage;
+	public static final String PAGE_NAME = "ailPageName";
+	public static final String ACTION_NAME = "ailActionName";
+	public static final String ACTION_TAGGING_DATA = "ACTION_TAGGING_DATA";
+	public static final String EXTRA_TAGGING_DATA = "TAGGING_DATA";
+	private static final String AIL_PRIVACY_CONSENT = "ailPrivacyConsentForSensitiveData";
 	private static String prevPage;
-
 	private final AppInfra mAppInfra;
 	protected String mComponentID;
 	protected String mComponentVersion;
-
+	private String mLanguage;
 	private Locale mLocale;
-	private static final  String AIL_PRIVACY_CONSENT = "ailPrivacyConsentForSensitiveData";
-	public static final  String PAGE_NAME = "ailPageName";
-	public static final  String ACTION_NAME = "ailActionName";
-	public static final String ACTION_TAGGING_DATA = "ACTION_TAGGING_DATA";
-	public static final String EXTRA_TAGGING_DATA = "TAGGING_DATA";
 
 	public AppTagging(AppInfra aAppInfra) {
 		mAppInfra = aAppInfra;
@@ -239,24 +237,6 @@ public class AppTagging implements AppTaggingInterface {
 		return new AppTaggingWrapper(mAppInfra, componentId, componentVersion);
 	}
 
-
-	@Override
-	public void setPrivacyConsent(PrivacyStatus privacyStatus) {
-		switch (privacyStatus) {
-			case OPTIN:
-				Config.setPrivacyStatus(MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_IN);
-				break;
-			case OPTOUT:
-				Config.setPrivacyStatus(MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_OUT);
-
-				break;
-			case UNKNOWN:
-				Config.setPrivacyStatus(MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_UNKNOWN);
-				break;
-
-		}
-	}
-
 	@Override
 	public void setPreviousPage(String previousPage) {
 		prevPage = previousPage;
@@ -280,6 +260,22 @@ public class AppTagging implements AppTaggingInterface {
 		return mPrivacyStatus;
 	}
 
+	@Override
+	public void setPrivacyConsent(PrivacyStatus privacyStatus) {
+		switch (privacyStatus) {
+			case OPTIN:
+				Config.setPrivacyStatus(MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_IN);
+				break;
+			case OPTOUT:
+				Config.setPrivacyStatus(MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_OPT_OUT);
+
+				break;
+			case UNKNOWN:
+				Config.setPrivacyStatus(MobilePrivacyStatus.MOBILE_PRIVACY_STATUS_UNKNOWN);
+				break;
+
+		}
+	}
 
 	private void track(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
 		if (checkForSslConnection() || checkForProductionState()) {
@@ -306,21 +302,68 @@ public class AppTagging implements AppTaggingInterface {
 		Map contextData = addAnalyticsDataObject();
 		if (paramMap != null) {
 			paramMap.putAll(contextData);
-			contextData = removeSensitiveData((Map) paramMap);
+			contextData = removeSensitiveData((HashMap) paramMap);
 		}
+
 		if (null != prevPage && isTrackPage) {
 			contextData.put(AppTaggingConstants.PREVIOUS_PAGE_NAME, prevPage);
 		}
 		if (isTrackPage) {
-			Analytics.trackState(pageName, contextData);
-			contextData.put(PAGE_NAME ,pageName);
+			if(pageName!=null &&  !pageName.isEmpty()){
+
+				if(pageName.getBytes().length>100)
+				{
+					if(!checkForProductionState()) {
+						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "App Tagging","Page name exceeds 100 bytes in length");
+					}
+					else {
+						throw new IllegalArgumentException("App Tagging," +" Page name exceeds 100 bytes in length");
+					}
+
+				}
+				if(pageName.equalsIgnoreCase(prevPage)){
+					if(!checkForProductionState()) {
+						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "App Tagging","Page name and previous page name shouldn't be same");
+					}
+					else {
+						throw new IllegalArgumentException("App Tagging," +" Page name and previous page name shouldn't be same");
+					}
+				}
+				Analytics.trackState(pageName, contextData);
+			}
+			else
+			{
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "App Tagging","Page name should not  be empty ");
+			}
+
+			contextData.put(PAGE_NAME, pageName);
 			prevPage = pageName;
 		} else {
-			Analytics.trackAction(pageName, contextData);
-			contextData.put(ACTION_NAME ,pageName);
-		}
-		sendBroadcast(contextData);  // sending broadcast
+			String event=pageName.replaceAll("\\s+","");
+			if(event!=null &&  !event.isEmpty()){
 
+				if(event.getBytes().length>255)
+				{
+					if(!checkForProductionState()) {
+						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "App Tagging","Event  exceeds 255 bytes in length");
+					}
+					else {
+							throw new IllegalArgumentException("App Tagging," +" Event  exceeds 255 bytes in length");
+					}
+
+				}
+
+				Analytics.trackAction(event, contextData);
+
+			}
+			else
+			{
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "App Tagging","Event  is null ");
+			}
+			contextData.put(ACTION_NAME ,event);
+		}
+
+		sendBroadcast(contextData);  // sending broadcast
 	}
 
 	@Override
@@ -338,12 +381,6 @@ public class AppTagging implements AppTaggingInterface {
 		}
 	}
 
-	// Sets the value of Privacy Consent For Sensitive Data and stores in preferences
-	@Override
-	public void setPrivacyConsentForSensitiveData(boolean valueContent) {
-		mAppInfra.getSecureStorage().storeValueForKey(AIL_PRIVACY_CONSENT, String.valueOf(valueContent), getSecureStorageErrorValue());
-	}
-
 	@Override
 	public boolean getPrivacyConsentForSensitiveData() {
 		final String consentValueString = mAppInfra.getSecureStorage().fetchValueForKey(AIL_PRIVACY_CONSENT, getSecureStorageErrorValue());
@@ -351,6 +388,12 @@ public class AppTagging implements AppTaggingInterface {
 		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
 				"Tagging-consentValue", "" + consentValue);
 		return consentValue;
+	}
+
+	// Sets the value of Privacy Consent For Sensitive Data and stores in preferences
+	@Override
+	public void setPrivacyConsentForSensitiveData(boolean valueContent) {
+		mAppInfra.getSecureStorage().storeValueForKey(AIL_PRIVACY_CONSENT, String.valueOf(valueContent), getSecureStorageErrorValue());
 	}
 
 	private SecureStorage.SecureStorageError getSecureStorageErrorValue() {
@@ -375,7 +418,7 @@ public class AppTagging implements AppTaggingInterface {
 	}
 
 	private void trackWithInfo(String pageName, String key, String value, boolean isTrackPage) {
-		final Map<String, String> trackMap = new HashMap<>();
+		final HashMap<String, String> trackMap = new HashMap<>();
 		trackMap.put(key, value);
 		track(pageName, trackMap, isTrackPage);
 	}
@@ -412,7 +455,7 @@ public class AppTagging implements AppTaggingInterface {
 
 	@Override
 	public void trackSocialSharing(SocialMedium medium, String sharedItem) {
-		final Map<String, String> trackMap = new HashMap<>();
+		final HashMap<String, String> trackMap = new HashMap<>();
 		trackMap.put("socialItem", sharedItem);
 		trackMap.put("socialType", medium.toString());
 		trackActionWithInfo("socialShare", trackMap);
