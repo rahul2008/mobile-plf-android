@@ -12,9 +12,10 @@
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/savedscreen_product_image_margin"
         android:layout_height="@dimen/productdetails_screen_image"
+        android:overScrollMode="never"
         android:layout_weight="1" />
 
-    <com.philips.cdp.uikit.customviews.CircleIndicator
+    <com.philips.platform.uid.view.widget.DotNavigationIndicator
         android:id="@+id/detailedscreen_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
