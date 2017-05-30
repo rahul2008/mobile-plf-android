@@ -46,7 +46,7 @@ public class NetworkController {
         mIapHurlStack = mNetworkEssentials.getHurlStack(context, mOAuthListener);
     }
 
-    void initStore(Context context, IAPSettings iapSettings) {
+    public void initStore(Context context, IAPSettings iapSettings) {
         mStoreListener = mNetworkEssentials.getStore(context, iapSettings);
     }
 

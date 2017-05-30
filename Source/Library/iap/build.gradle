@@ -5,9 +5,9 @@ apply plugin: 'jacoco'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
-jacoco {
-    toolVersion = "0.7.1.201405082137"
-}
+//jacoco {
+//    toolVersion = "0.7.1.201405082137"
+//}
 
 def coverageSourceDirs = [
         '../iap/src/main/java'
@@ -39,14 +39,17 @@ if (project.hasProperty('envCode')) {
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
+objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = rootProject.name
 
 allprojects {
     repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
+        }
         maven { url objcdp.getArtifactoryUrl() }
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
@@ -72,7 +75,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('aar')
+                publications('aar')
             }
         }
     }
@@ -81,7 +84,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
@@ -118,7 +122,7 @@ publishing {
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
@@ -146,7 +150,8 @@ android {
         versionName objcdp.getVersionWithHash()
         multiDexEnabled true
         testApplicationId "com.philips.cdp.di.iap.test"
-        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        //testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         generatedDensities = []
         // replace the below string with your own Google client ID. Make sure this is consistent
         // with the values used in openid_appauth_idp_configs.xml
@@ -168,6 +173,13 @@ android {
 
     }
 
+    testOptions {
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
+    }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
@@ -221,11 +233,38 @@ dependencies {
     compile(group: 'com.philips.cdp', name: 'prx', version: '3.2.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive = true
     }
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile(group: 'com.philips.cdp', name: 'uid', version: '0.1.1' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     // Tests
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-all:1.10.17'
     testCompile 'org.robolectric:robolectric:3.0'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2';
+    androidTestCompile 'com.google.dexmaker:dexmaker:1.2';
+    // Android runner and rules support
+    androidTestCompile("com.android.support.test:runner:0.5") {
+        exclude module: "com.android.support"
+        exclude module: "support-annotations"
+    }
+    androidTestCompile("com.android.support.test:rules:0.5") {
+        exclude module: "com.android.support"
+        exclude module: "support-annotations"
+    }
+    // Espressosupport
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.0') {
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude module: 'recyclerview-v7'
+    }
+    // add this for intent mocking support
+    // androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
+
+    // add this for webview testing support
+    androidTestCompile 'com.android.support.test.espresso:espresso-web:2.2.2'
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
@@ -260,7 +299,7 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
 
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
     group = "Reporting"
 
     description = "Generate Jacoco coverage reports"
@@ -283,7 +322,12 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
 
     additionalSourceDirs = files(coverageSourceDirs)
     sourceDirectories = files(coverageSourceDirs)
-    executionData = files('build/jacoco/testDebugUnitTest.exec')
+    executionData = files('build/jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec')
+
+//    executionData = fileTree(dir: "$buildDir", includes: [
+//            "jacoco/testDebugUnitTest.exec",
+//            "outputs/code-coverage/connected/*coverage.ec"
+//    ])
 
     reports {
         xml.enabled = true

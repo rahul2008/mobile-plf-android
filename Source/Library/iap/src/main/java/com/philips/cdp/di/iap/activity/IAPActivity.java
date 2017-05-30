@@ -5,7 +5,6 @@
 package com.philips.cdp.di.iap.activity;
 
 import android.app.ProgressDialog;
-import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
@@ -13,10 +12,7 @@ import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -43,12 +39,15 @@ import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class IAPActivity extends UiKitActivity implements ActionBarListener, IAPListener {
-    private final int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
+    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
     private TextView mTitleTextView;
     private TextView mCountText;
     private ImageView mBackImage;
@@ -72,9 +71,46 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     protected void onCreate(Bundle savedInstanceState) {
         initTheme();
         super.onCreate(savedInstanceState);
-        addActionBar();
         setContentView(R.layout.iap_activity);
+
+        actionBar();
+
         addLandingViews(savedInstanceState);
+    }
+
+    private void actionBar() {
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.iap_toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayUseLogoEnabled(false);
+        getSupportActionBar().setDisplayShowCustomEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.iap_header_back_button);
+        frameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                onBackPressed();
+            }
+        });
+
+        mBackImage = (ImageView) findViewById(R.id.iap_iv_header_back_button);
+        Drawable mBackDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_back_arrow);
+        mBackImage.setBackground(mBackDrawable);
+        mTitleTextView = (TextView) findViewById(R.id.iap_actionBar_headerTitle_lebel);
+        setTitle(getString(R.string.iap_app_name));
+
+        mCartContainer = (FrameLayout) findViewById(R.id.cart_container);
+        ImageView mCartIcon = (ImageView) findViewById(R.id.cart_icon);
+        Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
+        mCartIcon.setBackground(mCartIconDrawable);
+        mCartIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFragment(ShoppingCartFragment.TAG);
+            }
+        });
+
+        mCountText = (TextView) findViewById(R.id.item_count);
     }
 
     private void addLandingViews(Bundle savedInstanceState) {
@@ -118,7 +154,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         }
     }
 
-
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
@@ -134,8 +169,10 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         if (themeIndex <= 0) {
             themeIndex = DEFAULT_THEME;
         }
-        setTheme(themeIndex);
+        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.VERY_DARK));
+        getTheme().applyStyle(themeIndex, true);
     }
+
 
     @Override
     protected void onSaveInstanceState(Bundle bundle) {
@@ -276,53 +313,53 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         dismissProgressDialog();
     }
 
-    private void addActionBar() {
-        ActionBar mActionBar = getSupportActionBar();
-        if (mActionBar == null) return;
-
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
-        mActionBar.setDisplayShowCustomEnabled(true);
-
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(
-                ActionBar.LayoutParams.MATCH_PARENT,
-                ActionBar.LayoutParams.WRAP_CONTENT,
-                Gravity.CENTER);
-
-        View mCustomView = LayoutInflater.from(getApplicationContext()).
-                inflate(R.layout.iap_action_bar, null);
-        FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.iap_header_back_button);
-        frameLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                onBackPressed();
-            }
-        });
-
-        mBackImage = (ImageView) mCustomView.findViewById(R.id.iap_iv_header_back_button);
-        Drawable mBackDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_back_arrow);
-        mBackImage.setBackground(mBackDrawable);
-
-        mTitleTextView = (TextView) mCustomView.findViewById(R.id.iap_header_title);
-        setTitle(getString(R.string.iap_app_name));
-
-        mCartContainer = (FrameLayout) mCustomView.findViewById(R.id.cart_container);
-        ImageView mCartIcon = (ImageView) mCustomView.findViewById(R.id.cart_icon);
-        Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
-        mCartIcon.setBackground(mCartIconDrawable);
-        mCartIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFragment(ShoppingCartFragment.TAG);
-            }
-        });
-
-        mCountText = (TextView) mCustomView.findViewById(R.id.item_count);
-
-        mActionBar.setCustomView(mCustomView, params);
-        Toolbar parent = (Toolbar) mCustomView.getParent();
-        parent.setContentInsetsAbsolute(0, 0);
-    }
+//    private void addActionBar() {
+//        ActionBar mActionBar = getSupportActionBar();
+//        if (mActionBar == null) return;
+//
+//        mActionBar.setDisplayShowHomeEnabled(false);
+//        mActionBar.setDisplayShowTitleEnabled(false);
+//        mActionBar.setDisplayShowCustomEnabled(true);
+//
+//        ActionBar.LayoutParams params = new ActionBar.LayoutParams(
+//                ActionBar.LayoutParams.MATCH_PARENT,
+//                ActionBar.LayoutParams.WRAP_CONTENT,
+//                Gravity.CENTER);
+//
+//        View mCustomView = LayoutInflater.from(getApplicationContext()).
+//                inflate(R.layout.iap_action_bar, null);
+//        FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.iap_header_back_button);
+//        frameLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(final View v) {
+//                onBackPressed();
+//            }
+//        });
+//
+//        mBackImage = (ImageView) mCustomView.findViewById(R.id.iap_iv_header_back_button);
+//        Drawable mBackDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_back_arrow);
+//        mBackImage.setBackground(mBackDrawable);
+//
+//        mTitleTextView = (TextView) mCustomView.findViewById(R.id.iap_header_title);
+//        setTitle(getString(R.string.iap_app_name));
+//
+//        mCartContainer = (FrameLayout) mCustomView.findViewById(R.id.cart_container);
+//        ImageView mCartIcon = (ImageView) mCustomView.findViewById(R.id.cart_icon);
+//        Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
+//        mCartIcon.setBackground(mCartIconDrawable);
+//        mCartIcon.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showFragment(ShoppingCartFragment.TAG);
+//            }
+//        });
+//
+//        mCountText = (TextView) mCustomView.findViewById(R.id.item_count);
+//
+//        mActionBar.setCustomView(mCustomView, params);
+//        Toolbar parent = (Toolbar) mCustomView.getParent();
+//        parent.setContentInsetsAbsolute(0, 0);
+//    }
 
     public void showProgressDialog() {
         if (mProgressDialog == null) {
@@ -337,7 +374,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
                     mProgressDialog.show();
                 }
             });
-
         }
     }
 

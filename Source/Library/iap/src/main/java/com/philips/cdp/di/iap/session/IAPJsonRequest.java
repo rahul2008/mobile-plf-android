@@ -49,13 +49,13 @@ public class IAPJsonRequest extends Request<JSONObject> {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
     }
 
-    protected Map<String, String> getParams()
+    public Map<String, String> getParams()
             throws com.android.volley.AuthFailureError {
         return params;
     }
 
     @Override
-    protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+    public Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
         try {
             String jsonString = new String(response.data);
             JSONObject result = null;

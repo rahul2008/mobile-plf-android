@@ -1,6 +1,7 @@
 package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -109,8 +110,8 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
         public RetailerViewHolder(View itemView) {
             super(itemView);
             mLogo = (NetworkImageView) itemView.findViewById(R.id.iap_retailer_image);
-            mStoreName = (TextView) itemView.findViewById(R.id.iap_online_store_name);
-            mProductAvailability = (TextView) itemView.findViewById(R.id.iap_online_store_availability);
+            mStoreName = (TextView) itemView.findViewById(R.id.iap_retailerItem_onlineStoreName_lebel);
+            mProductAvailability = (TextView) itemView.findViewById(R.id.iap_retailerItem_onlineStoreAvailability_lebel);
             mArrow = (FontIconTextView) itemView.findViewById(R.id.retailer_arrow);
             itemView.setOnClickListener(this);
         }
@@ -124,6 +125,9 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
                 IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                         IAPAnalyticsConstant.RETAILER_SELECTED,
                         mStoreList.get(getAdapterPosition()).getName());
+                boolean isSelected = this.itemView.isSelected();
+                this.itemView.setSelected(!isSelected);
+                this.itemView.setBackgroundColor(isSelected ? Color.TRANSPARENT : ContextCompat.getColor(this.itemView.getContext(), R.color.uid_recyclerview_background_selector));
                 mBuyFromRetailersListener.onClickAtRetailer(buyURL, mStoreList.get(getAdapterPosition()).getName());
             }
         }

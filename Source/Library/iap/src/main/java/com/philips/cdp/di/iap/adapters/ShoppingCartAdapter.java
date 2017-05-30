@@ -164,7 +164,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         rowItems.add(new RowItem(mTrashDrawable, descriptions[0]));
         rowItems.add(new RowItem(mInfoDrawable, descriptions[1]));
-        mPopupWindow = new UIKitListPopupWindow(mContext, view, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems);
+        mPopupWindow = new  UIKitListPopupWindow(mContext, view, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems);
 
         mPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

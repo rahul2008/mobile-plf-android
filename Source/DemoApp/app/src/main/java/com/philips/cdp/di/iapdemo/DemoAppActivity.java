@@ -5,13 +5,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -35,10 +34,10 @@ import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
@@ -48,7 +47,7 @@ import java.util.ArrayList;
 public class DemoAppActivity extends UiKitActivity implements View.OnClickListener, IAPListener,
         UserRegistrationUIEventListener, UserRegistrationListener {
 
-    private final int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
+    private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_Bright;
     private DemoApplication mApplicationContext;
 
     private LinearLayout mAddCTNLl;
@@ -68,7 +67,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private ArrayList<String> mCategorizedProductList;
 
     private ProgressDialog mProgressDialog = null;
-    private TextView mTitleTextView;
+    private TextView  mTitleTextView;
     private TextView mCountText;
 
     private IAPInterface mIapInterface;
@@ -85,8 +84,10 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         IAPLog.enableLogging(true);
         mApplicationContext = (DemoApplication) getApplicationContext();
 
-        addActionBar();
+        //addActionBar();
+
         setContentView(R.layout.demo_app_layout);
+        actionBar();
         showAppVersion();
         mEtCTN = (EditText) findViewById(R.id.et_add_ctn);
         mAddCTNLl = (LinearLayout) findViewById(R.id.ll_ctn);
@@ -147,39 +148,75 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         super.onRestart();
     }
 
-    private void addActionBar() {
-        ActionBar mActionBar = getSupportActionBar();
-        if (mActionBar == null) return;
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
-        mActionBar.setDisplayShowCustomEnabled(true);
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
-                ActionBar.LayoutParams.MATCH_PARENT,
-                ActionBar.LayoutParams.WRAP_CONTENT,
-                Gravity.CENTER);
-
-        View mCustomView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.action_bar, null); // layout which contains your button.
-
-        FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.iap_header_back_button);
+    private void actionBar() {
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.demoScreen_toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayUseLogoEnabled(false);
+        getSupportActionBar().setDisplayShowCustomEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.iap_header_back_button);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 onBackPressed();
             }
         });
-        ImageView arrowImage = (ImageView) mCustomView.findViewById(R.id.iap_iv_header_back_button);
-        //noinspection deprecation
-        arrowImage.setBackground(getResources().getDrawable(R.drawable.back_arrow));
 
-        mTitleTextView = (TextView) mCustomView.findViewById(R.id.iap_header_title);
-        setTitle(getString(R.string.demo_app_name));
+        ImageView mBackImage = (ImageView) findViewById(R.id.iap_iv_header_back_button);
+        Drawable mBackDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.back_arrow);
+        mBackImage.setBackground(mBackDrawable);
+        mTitleTextView = (TextView) findViewById(R.id.iap_header_title);
+        setTitle(getString(R.string.iap_app_name));
 
-        mCountText = (TextView) mCustomView.findViewById(R.id.item_count);
+//        FrameLayout mCartContainer = (FrameLayout) findViewById(R.id.cart_container);
+//        ImageView mCartIcon = (ImageView) findViewById(R.id.cart_icon);
+//        Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
+        // mCartIcon.setBackground(mCartIconDrawable);
+//        mCartIcon.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showFragment(ShoppingCartFragment.TAG);
+//            }
+//        });
 
-        mActionBar.setCustomView(mCustomView, params);
-        Toolbar parent = (Toolbar) mCustomView.getParent();
-        parent.setContentInsetsAbsolute(0, 0);
+        mCountText = (TextView) findViewById(R.id.item_count);
     }
+
+//    private void addActionBar() {
+//        ActionBar mActionBar = getSupportActionBar();
+//        if (mActionBar == null) return;
+//        mActionBar.setDisplayShowHomeEnabled(false);
+//        mActionBar.setDisplayShowTitleEnabled(false);
+//        mActionBar.setDisplayShowCustomEnabled(true);
+//        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
+//                ActionBar.LayoutParams.MATCH_PARENT,
+//                ActionBar.LayoutParams.WRAP_CONTENT,
+//                Gravity.CENTER);
+//
+//        View mCustomView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.action_bar, null); // layout which contains your button.
+//
+//        FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.iap_header_back_button);
+//        frameLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(final View v) {
+//                onBackPressed();
+//            }
+//        });
+//        ImageView arrowImage = (ImageView) mCustomView.findViewById(R.id.iap_iv_header_back_button);
+//        //noinspection deprecation
+//        arrowImage.setBackground(getResources().getDrawable(R.drawable.back_arrow));
+//
+//        mTitleTextView = (TextView) mCustomView.findViewById(R.id.iap_header_title);
+//        setTitle(getString(R.string.demo_app_name));
+//
+//        mCountText = (TextView) mCustomView.findViewById(R.id.item_count);
+//
+//        mActionBar.setCustomView(mCustomView, params);
+//        Toolbar parent = (Toolbar) mCustomView.getParent();
+//        parent.setContentInsetsAbsolute(0, 0);
+//    }
 
     @Override
     public void setTitle(CharSequence title) {
@@ -217,6 +254,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         if (isNetworkAvailable(mApplicationContext)) {
             mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput);
             try {
+                showProgressDialog();
                 mIapInterface.launch(new ActivityLauncher
                                 (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME),
                         mIapLaunchInput);

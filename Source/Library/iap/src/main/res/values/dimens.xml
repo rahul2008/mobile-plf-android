@@ -46,8 +46,8 @@
     <dimen name="header_title">19sp</dimen>
     <dimen name="quantity">14sp</dimen>
     <dimen name="header">20sp</dimen>
-    <dimen name="network_image_width">85dp</dimen>
-    <dimen name="network_image_height">75dp</dimen>
+    <dimen name="network_image_width">88dp</dimen>
+    <dimen name="network_image_height">88dp</dimen>
     <dimen name="network_margin_top_bottom">5dp</dimen>
     <dimen name="network_margin_left_right">12dp</dimen>
 
@@ -55,7 +55,7 @@
 
 
     <!-- Product Detail Dimens-->
-    <dimen name="iap_product_detail_image_height">223dp</dimen>
+    <dimen name="iap_product_detail_image_height">288dp</dimen>
     <dimen name="iap_image_bottom_margin">12dp</dimen>
     <dimen name="iap_image_top_margin">4dp</dimen>
     <dimen name="iap_dots_padding">10dp</dimen>
@@ -64,8 +64,8 @@
     <dimen name="iap_product_detail_bottom_padding">20dp</dimen>
     <dimen name="iap_product_detail_left_padding">20dp</dimen>
     <dimen name="iap_product_detail_right_padding">20dp</dimen>
-    <dimen name="iap_product_description">24sp</dimen>
-    <dimen name="iap_product_ctn">20sp</dimen>
+    <dimen name="iap_product_description">20sp</dimen>
+    <dimen name="iap_product_ctn_16">16sp</dimen>
     <dimen name="iap_product_original_price">15sp</dimen>
     <dimen name="iap_product_overview">16sp</dimen>
     <dimen name="iap_shopping_cart_image_margin_top">20dp</dimen>
@@ -103,4 +103,13 @@
     <dimen name="iap_order_header_top_margin">53dp</dimen>
 
     <dimen name="iap_edit_icon_width">18dp</dimen>
+
+    //DLS Compliance
+    <dimen name="border16_margin_left_right">16dp</dimen>
+    <dimen name="border12_margin">12dp</dimen>
+    <dimen name="border4_margin">4dp</dimen>
+    <dimen name="border24_margin">24dp</dimen>
+    <dimen name="border8_margin">8dp</dimen>
+
+
 </resources>

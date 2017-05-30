@@ -46,7 +46,7 @@ public class MockNetworkController extends NetworkController {
     }
 
     @Override
-    void initStore(Context context, IAPSettings iapSettings) {
+    public void initStore(Context context, IAPSettings iapSettings) {
         mStoreListener = new MockStore(mock(Context.class), mock(IAPUser.class)).getStore(iapSettings);
     }
 

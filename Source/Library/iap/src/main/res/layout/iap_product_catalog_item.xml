@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/product_catalog_parent_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="4dp"
-    android:paddingStart="@dimen/network_margin_left_right"
-    android:paddingEnd="@dimen/network_margin_left_right">
+    android:padding="@dimen/border16_margin_left_right">
 
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/image"
         android:layout_width="@dimen/network_image_width"
         android:layout_height="@dimen/network_image_height"
-        android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
-        android:layout_marginEnd="@dimen/iap_shopping_cart_image_right"
-        android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
-        android:paddingStart="@dimen/iap_shopping_cart_image_margin_top"
+        android:layout_marginEnd="@dimen/border12_margin"
         android:src="@drawable/no_icon" />
 
     <LinearLayout
@@ -27,59 +23,55 @@
         android:layout_toStartOf="@id/arrow"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_discounted_price"
-            fontPath="fonts/centralesansbold.ttf"
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/iap_productCatalogItem_discountedPrice_lebel"
+            fontPath="fonts/iapCentralesansBookFont.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="?attr/uikit_baseColor"
-            android:textSize="16sp"
-            android:visibility="gone" />
+            android:textColor="?attr/uidTextPrimary"
+            android:visibility="gone"
+            app:uidLabelTextSize="16sp" />
 
-        <TextView
-            android:id="@+id/tv_price"
-            fontPath="fonts/centralesansbold.ttf"
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/iap_retailerItem_price_lebel"
+            fontPath="fonts/iapCentralesansBookFont.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/uikit_enricher4"
-            android:textSize="16sp" />
+            android:textColor="?attr/uidTextSecondary"
+            app:uidLabelTextSize="16sp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_product_name"
-        fontPath="fonts/centralesansbold.ttf"
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/iap_retailerItem_productName_lebel"
+        fontPath="fonts/iapCentralesansBookFont.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
-        android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
+        android:layout_marginBottom="@dimen/border4_margin"
+        android:lineSpacingExtra="@dimen/border4_margin"
+        android:layout_marginEnd="@dimen/border16_margin_left_right"
+        android:layout_toEndOf="@id/image"
         android:layout_toStartOf="@id/price_container"
-        android:layout_toEndOf="@id/image"
         android:text="DiamondClean"
-        android:textColor="?attr/uikit_baseColor"
-        android:textSize="16sp" />
+        android:textColor="@color/uid_gray_level_75"
+        app:uidLabelTextSize="16sp" />
 
-    <TextView
-        android:id="@+id/tv_ctn"
-        fontPath="fonts/centralesansbook.ttf"
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/iap_retailerItem_ctn_lebel"
+        fontPath="fonts/iapCentralesansBookFont.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_product_name"
-        android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
+        android:layout_below="@id/iap_retailerItem_productName_lebel"
+        android:layout_marginBottom="@dimen/border4_margin"
         android:layout_toEndOf="@id/image"
-        android:textColor="?attr/uikit_baseColor"
-        android:textSize="16sp" />
+        android:text="HX8332/11"
+        android:textColor="@color/uid_gray_level_35"
+        app:uidLabelTextSize="12sp" />
 
     <com.shamanland.fonticon.FontIconTextView
         android:id="@+id/arrow"
         style="@style/iap_right_arrow_product_catalog"
-        android:layout_alignBaseline="@id/tv_ctn" />
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@id/image"
-        android:background="?attr/uikit_listDividerColor" />
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+    />
 
 </RelativeLayout>
