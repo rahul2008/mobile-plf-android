@@ -4,8 +4,6 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
-import com.philips.cdp.localematch.LocaleMatchListener;
-import com.philips.cdp.localematch.enums.LocaleMatchError;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,27 +38,6 @@ public class RegistrationSettingsTest extends InstrumentationTestCase {
         mRegistrationSettings.initialiseConfigParameters(null);
 
 
-
-        mRegistrationSettings.onLocaleMatchRefreshed("locale") ;
-        mRegistrationSettings.onLocaleMatchRefreshed(null);
-
-        mRegistrationSettings.onErrorOccurredForLocaleMatch(LocaleMatchError.DEFAULT) ;
-        mRegistrationSettings.onErrorOccurredForLocaleMatch(LocaleMatchError.SERVER_ERROR) ;
-        mRegistrationSettings.onErrorOccurredForLocaleMatch(LocaleMatchError.INPUT_VALIDATION_ERROR) ;
-        mRegistrationSettings.onErrorOccurredForLocaleMatch(LocaleMatchError.INVALID_INPUT_LOCALE) ;
-        mRegistrationSettings.onErrorOccurredForLocaleMatch(LocaleMatchError.NOT_FOUND) ;
-
-        LocaleMatchListener localeMatchListener = new LocaleMatchListener() {
-            @Override
-            public void onLocaleMatchRefreshed(String s) {
-
-            }
-
-            @Override
-            public void onErrorOccurredForLocaleMatch(LocaleMatchError localeMatchError) {
-
-            }
-        };
         assertNull(mRegistrationSettings.getProductRegisterUrl());
 
         assertNull(mRegistrationSettings.getProductRegisterListUrl());
@@ -81,7 +58,6 @@ public class RegistrationSettingsTest extends InstrumentationTestCase {
 
     @Test
     public void testassignLanguageAndCountryCode(){
-        mRegistrationSettings.assignLanguageAndCountryCode("en_US");
         String locale="en_US";
 
         String localeArr[] = locale.split("_");
