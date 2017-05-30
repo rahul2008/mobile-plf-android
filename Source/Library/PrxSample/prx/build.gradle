@@ -149,10 +149,6 @@ configurations.all {
 }
 
 dependencies {
-    compile(group: 'com.philips.cdp', name: 'localeMatch', version: '2.5.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    {
-        transitive = true
-    }
 
     compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.6.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     {

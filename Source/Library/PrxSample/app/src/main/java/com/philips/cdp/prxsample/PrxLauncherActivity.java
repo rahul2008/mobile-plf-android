@@ -21,9 +21,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.PRXDependencies;
+import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.datamodels.assets.Asset;
 import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
@@ -53,8 +52,8 @@ public class PrxLauncherActivity extends AppCompatActivity {
     private String mRequestTag = null;
     Spinner mSector_spinner_prx, mSector_catalog_prx, spinner_ctn, spinner_country;
     private String mSector[], mCatalog[], mCtn[], mCountry[];
-    Sector selectedSector;
-    Catalog selectedCatalog;
+    PrxConstants.Sector selectedSector;
+    PrxConstants.Catalog selectedCatalog;
 
     PRXDependencies prxDependencies;
     AppInfraInterface mAppInfra;
@@ -100,7 +99,7 @@ public class PrxLauncherActivity extends AppCompatActivity {
         mSector_spinner_prx.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedSector = Sector.valueOf(parent.getAdapter().getItem(position).toString());
+                selectedSector = PrxConstants.Sector.valueOf(parent.getAdapter().getItem(position).toString());
             }
 
             @Override
@@ -149,7 +148,7 @@ public class PrxLauncherActivity extends AppCompatActivity {
         mSector_catalog_prx.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedCatalog = Catalog.valueOf(parent.getAdapter().getItem(position).toString());
+                selectedCatalog = PrxConstants.Catalog.valueOf(parent.getAdapter().getItem(position).toString());
             }
 
             @Override
