@@ -3,11 +3,10 @@ package com.philips.cdp.prodreg.register;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.RegistrationState;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
+import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.registration.User;
 
 import junit.framework.TestCase;
@@ -61,14 +60,14 @@ public class LocalRegisteredProductsTest extends TestCase {
     }
 
     private void addDummyProjects() {
-        registeredProducts.add(new RegisteredProduct("ctn", Sector.B2C, Catalog.CONSUMER));
-        registeredProducts.add(new RegisteredProduct("ctn1", Sector.B2C, Catalog.CONSUMER));
-        registeredProducts.add(new RegisteredProduct("ctn2", Sector.B2C, Catalog.CONSUMER));
+        registeredProducts.add(new RegisteredProduct("ctn", PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER));
+        registeredProducts.add(new RegisteredProduct("ctn1", PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER));
+        registeredProducts.add(new RegisteredProduct("ctn2", PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER));
     }
 
     @Test
     public void testStore() {
-        RegisteredProduct product = new RegisteredProduct("ABC", Sector.B2C, Catalog.CONSUMER);
+        RegisteredProduct product = new RegisteredProduct("ABC", PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER);
         product.setRegistrationState(RegistrationState.REGISTERED);
         localRegisteredProducts.store(product);
         assertEquals(registeredProducts.size(), 4);
@@ -77,7 +76,7 @@ public class LocalRegisteredProductsTest extends TestCase {
 
     @Test
     public void testUpdateRegisteredProducts() {
-        RegisteredProduct product = new RegisteredProduct("ABC", Sector.B2C, Catalog.CONSUMER);
+        RegisteredProduct product = new RegisteredProduct("ABC", PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER);
         product.setRegistrationState(RegistrationState.REGISTERED);
         localRegisteredProducts.updateRegisteredProducts(product);
         assertEquals(registeredProducts.size(), 4);
@@ -86,7 +85,7 @@ public class LocalRegisteredProductsTest extends TestCase {
 
     @Test
     public void testSyncLocalCache() {
-        RegisteredProduct product = new RegisteredProduct("ABC", Sector.B2C, Catalog.CONSUMER);
+        RegisteredProduct product = new RegisteredProduct("ABC", PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER);
         product.setRegistrationState(RegistrationState.REGISTERED);
         when(prodRegCache.getStringData(ProdRegConstants.PRODUCT_REGISTRATION_KEY)).thenReturn("");
         localRegisteredProducts.migrateLegacyCache(new RegisteredProduct[]{product});
