@@ -6,6 +6,7 @@
 package com.philips.cdp.prodreg.tagging;
 
 import com.philips.cdp.product_registration_lib.BuildConfig;
+import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
@@ -37,9 +38,13 @@ public class ProdRegTagging {
     }
 
     public void trackPage(String pageName, String key, String value) {
-        final Map<String, String> commonGoalsMap = new HashMap<>();
-        commonGoalsMap.put(key, value);
-        getAiAppTaggingInterface().trackPageWithInfo(pageName, commonGoalsMap);
+        try {
+            final Map<String, String> commonGoalsMap = new HashMap<>();
+            commonGoalsMap.put(key, value);
+            getAiAppTaggingInterface().trackPageWithInfo(pageName, commonGoalsMap);
+        } catch (IllegalArgumentException e) {
+
+        }
     }
 
     public void trackAction(String event, String key, String value) {

@@ -1,8 +1,8 @@
 package com.philips.cdp.prodreg.model.registerproduct;
 
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
+
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
+import com.philips.cdp.prxclient.PrxConstants;
 
 import junit.framework.TestCase;
 
@@ -25,15 +25,15 @@ public class RegistrationResponseTest extends TestCase {
     RegistrationRequest mRegistrationRequest;
     private String TAG = getClass() + "";
     private String jsonData = "{\"success\": true,\"data\":{\"locale\": \"en_GB\",\"modelNumber\": \"HC5450/83\",\"registrationDate\": \"2014-11-26\",\"dateOfPurchase\": \"2014-06-12\",\"warrantyEndDate\": \"2019-06-12\",\"contractNumber\": \"CQ5A000ef\",\"productRegistrationUuid\": \"eb26c6d8-693f-4ec0-be60-2c603eaad8a3\",\"emailStatus\": \"success\"}}";
-    Sector sector;
-    Catalog catalog;
+    PrxConstants.Sector sector;
+    PrxConstants.Catalog catalog;
 
     @Override
     public void setUp() throws Exception {
         registrationResponse = new RegistrationResponse();
 
-        sector = Sector.B2C;
-        catalog = Catalog.CONSUMER;
+        sector = PrxConstants.Sector.B2C;
+        catalog = PrxConstants.Catalog.CONSUMER;
 
         mRegistrationRequest = new RegistrationRequest(mCTN, mSerialNumber, sector,catalog);
     }

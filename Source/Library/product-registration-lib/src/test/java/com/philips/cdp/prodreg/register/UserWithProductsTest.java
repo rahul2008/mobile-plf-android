@@ -3,8 +3,7 @@ package com.philips.cdp.prodreg.register;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
+
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
@@ -18,6 +17,7 @@ import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponseData;
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
+import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseListener;
@@ -134,7 +134,7 @@ public class UserWithProductsTest extends TestCase {
                 return localRegisteredProducts;
             }
         };
-        Product productMock = new Product("", Sector.B2C, Catalog.CONSUMER);
+        Product productMock = new Product("", PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER);
         userWithProducts.registerProduct(productMock);
         assertEquals(userWithProducts.getRequestType(), (UserWithProducts.PRODUCT_REGISTRATION));
     }
@@ -317,15 +317,15 @@ public class UserWithProductsTest extends TestCase {
         final String serialNumber = "1344";
         final String purchaseDate = "2016-04-15";
         when(productMock.getSerialNumber()).thenReturn(serialNumber);
-        when(productMock.getSector()).thenReturn(Sector.B2C);
-        when(productMock.getCatalog()).thenReturn(Catalog.CONSUMER);
+        when(productMock.getSector()).thenReturn(PrxConstants.Sector.B2C);
+        when(productMock.getCatalog()).thenReturn(PrxConstants.Catalog.CONSUMER);
         when(productMock.getSerialNumber()).thenReturn(serialNumber);
         when(productMock.getPurchaseDate()).thenReturn(purchaseDate);
         when(productMock.getLocale()).thenReturn("en_GB");
         when(userWithProductsMock.getRegistrationChannel()).thenReturn("");
         RegistrationRequest registrationRequest = userWithProducts.getRegistrationRequest(context, productMock);
-        assertEquals(registrationRequest.getCatalog(), Catalog.CONSUMER);
-        assertEquals(registrationRequest.getSector(), Sector.B2C);
+        assertEquals(registrationRequest.getCatalog(), PrxConstants.Catalog.CONSUMER);
+        assertEquals(registrationRequest.getSector(), PrxConstants.Sector.B2C);
         assertEquals(registrationRequest.getCtn(), ctn);
         assertEquals(registrationRequest.getProductSerialNumber(), serialNumber);
         assertEquals(productMock.getPurchaseDate(), registrationRequest.getPurchaseDate());
@@ -492,8 +492,8 @@ public class UserWithProductsTest extends TestCase {
     }
 
     String mCTN = "HD8967/01", mSerialNumber = "1344", mAccessToken = "abq21238xbshs";
-    Sector sector;
-    Catalog catalog;
+    PrxConstants.Sector sector;
+    PrxConstants.Catalog catalog;
 
     @Test
     public void testRegistrationRequest() {

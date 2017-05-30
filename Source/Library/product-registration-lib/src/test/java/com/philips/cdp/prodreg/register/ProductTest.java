@@ -3,14 +3,13 @@ package com.philips.cdp.prodreg.register;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.listener.MetadataListener;
 import com.philips.cdp.prodreg.listener.SummaryListener;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponse;
 import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
 import com.philips.cdp.prodreg.prxrequest.ProductMetadataRequest;
 import com.philips.cdp.prodreg.prxrequest.ProductSummaryRequest;
+import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseListener;
@@ -33,7 +32,7 @@ public class ProductTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        product = new Product("HD8967/01", Sector.B2C, Catalog.CONSUMER);
+        product = new Product("HD8967/01", PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER);
         context = mock(Context.class);
         assertTrue(product.getRequestManager(context) instanceof RequestManager);
     }
@@ -43,7 +42,7 @@ public class ProductTest extends TestCase {
         final ResponseListener responseListener = mock(ResponseListener.class);
         final MetadataListener metadataListener = mock(MetadataListener.class);
         final ProductMetadataRequest productMetadataRequest = mock(ProductMetadataRequest.class);
-        Product product = new Product("HD8967/01", Sector.B2C, Catalog.CONSUMER) {
+        Product product = new Product("HD8967/01", PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER) {
             @NonNull
             @Override
             RequestManager getRequestManager(final Context context) {
@@ -72,7 +71,7 @@ public class ProductTest extends TestCase {
         final ResponseListener responseListener = mock(ResponseListener.class);
         final SummaryListener summaryListener = mock(SummaryListener.class);
         final ProductSummaryRequest productSummaryRequest = mock(ProductSummaryRequest.class);
-        Product product = new Product("HD8967/01", Sector.B2C, Catalog.CONSUMER) {
+        Product product = new Product("HD8967/01", PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER) {
             @NonNull
             @Override
             RequestManager getRequestManager(final Context context) {
@@ -99,7 +98,7 @@ public class ProductTest extends TestCase {
 
     public void testGetPrxResponseListener() {
         final Product productMock = mock(Product.class);
-        Product product = new Product(null, Sector.B2C, Catalog.CONSUMER) {
+        Product product = new Product(null, PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER) {
             @Override
             protected Product getProduct() {
                 return productMock;
@@ -117,7 +116,7 @@ public class ProductTest extends TestCase {
 
     public void testGetPrxResponseListenerSummary() {
         final Product productMock = mock(Product.class);
-        Product product = new Product(null, Sector.B2C, Catalog.CONSUMER) {
+        Product product = new Product(null, PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER) {
             @Override
             protected Product getProduct() {
                 return productMock;

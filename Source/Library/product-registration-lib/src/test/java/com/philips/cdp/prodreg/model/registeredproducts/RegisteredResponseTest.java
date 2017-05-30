@@ -1,8 +1,8 @@
 package com.philips.cdp.prodreg.model.registeredproducts;
 
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
+
 import com.philips.cdp.prodreg.prxrequest.RegistrationRequest;
+import com.philips.cdp.prxclient.PrxConstants;
 
 import junit.framework.TestCase;
 
@@ -26,13 +26,13 @@ public class RegisteredResponseTest extends TestCase {
     private String TAG = getClass() + "";
     private String jsonData = "{\"result_count\": 2,\"results\": [{\"productRegistrationID\": \"2512000064\",\"purchaseDate\": \"2013-03-01\",\"productModelNumber\": \"HX8002/05\",\"contractNumber\": null,\"lastSolicitDate\": null,\"purchasePlace\": null,\"warrantyInMonths\": null,\"id\": 139136402,\"productCatalogLocaleId\": \"nl_NL_CONSUMER\",\"deviceId\": null,\"lastUpdated\": \"2014-02-25 21:31:36.161304 +0000\",\"isPrimaryUser\": true,\"isGenerations\": false,\"deviceName\": \"HX8002/05\",\"productId\": \"HX8002_05_NL_CONSUMER\",\"extendedWarranty\": false,\"lastModified\": \"2013-12-03\",\"slashWinCompetition\": false,\"productSerialNumber\": null,\"created\": \"2014-02-25 21:31:36.161304 +0000\",\"registrationDate\": \"2013-12-03 00:00:00 +0000\",\"uuid\": \"973bd103-6c38-4899-8716-aade4f632cb6\",\"registrationChannel\": \"web\"}],\"stat\": \"ok\"}";
 
-    Sector sector;
-    Catalog catalog;
+    PrxConstants.Sector sector;
+    PrxConstants.Catalog catalog;
     @Override
     public void setUp() throws Exception {
         registeredResponse = new RegisteredResponse();
-        sector = Sector.B2C;
-        catalog = Catalog.CONSUMER;
+        sector = PrxConstants.Sector.B2C;
+        catalog = PrxConstants.Catalog.CONSUMER;
         mRegistrationRequest = new RegistrationRequest(mCTN, mSerialNumber,sector,catalog );
     }
 

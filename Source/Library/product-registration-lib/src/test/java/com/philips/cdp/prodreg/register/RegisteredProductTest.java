@@ -1,8 +1,8 @@
 package com.philips.cdp.prodreg.register;
 
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
+
 import com.philips.cdp.prodreg.constants.RegistrationState;
+import com.philips.cdp.prxclient.PrxConstants;
 
 import junit.framework.TestCase;
 
@@ -25,8 +25,8 @@ public class RegisteredProductTest extends TestCase {
 
     RegisteredProduct registeredProduct;
     String mCTN;
-    Sector mSector;
-    Catalog mCatalog;
+    PrxConstants.Sector mSector;
+    PrxConstants.Catalog mCatalog;
 
     @Before
     protected void setUp() throws Exception {

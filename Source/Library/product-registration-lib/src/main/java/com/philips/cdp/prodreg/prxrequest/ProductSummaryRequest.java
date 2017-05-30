@@ -7,13 +7,11 @@ package com.philips.cdp.prodreg.prxrequest;
 
 import android.net.Uri;
 import android.util.Log;
-
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
+import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -29,7 +27,7 @@ import java.util.Map;
 
 public class ProductSummaryRequest extends PrxRequest {
 
-    public ProductSummaryRequest(String ctn, String serviceID, Sector sector, Catalog catalog) {
+    public ProductSummaryRequest(String ctn, String serviceID, PrxConstants.Sector sector, PrxConstants.Catalog catalog) {
         super(ctn, serviceID, sector, catalog);
     }
 
