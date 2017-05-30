@@ -8,7 +8,6 @@ import android.os.LocaleList;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.coppa.utils.CoppaInterface;
@@ -78,8 +77,6 @@ public class RegistrationCoppaApplication extends Application {
             countryCode = Locale.getDefault().getCountry();
         }
 
-        PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(languageCode, countryCode);
         //   localeManager.setInputLocale("zh", "CN");
 
         initAppIdentity(configuration);
