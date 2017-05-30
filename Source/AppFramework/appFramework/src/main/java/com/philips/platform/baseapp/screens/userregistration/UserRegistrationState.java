@@ -71,12 +71,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     private static final String DEVELOPMENT_SECRET_KEY_DEFAULT = TEST_SECRET_KEY_DEFAULT;
     private static final String DEVELOPMENT_SHARED_KEY_DEFAULT = TEST_SHARED_KEY_DEFAULT;
     private static final String UR_COMPLETE = "URComplete";
-    private static final String APPIDENTITY_APP_STATE = "appidentity.appState";
-    private static final String APPIDENTITY_SECTOR = "appidentity.sector";
-    private static final String SECTOR = "b2c";
-    private static final String SECTOR_VALUE = SECTOR;
-    private static final String APPIDENTITY_SERVICE_DISCOVERY_ENVIRONMENT = "appidentity.serviceDiscoveryEnvironment";
-    private static final String PRODUCTION = "Production";
 
     private Context activityContext;
     private User userObject;
@@ -87,7 +81,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     private static final String HSDP_CONFIGURATION_SHARED = "HSDPConfiguration.Shared";
     private static final String CHINA_CODE = "CN";
     private static final String DEFAULT = "default";
-    private final String AppInfra = "appinfra";
     private String appState;
 
     /**
@@ -173,9 +166,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
         appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
                 UR, hsdpSharedIds, configError);
-
-        appConfigurationInterface.setPropertyForKey(APPIDENTITY_APP_STATE,
-                AppInfra, appState, configError);
     }
 
     private void setTestConfig(AppConfigurationInterface appConfigurationInterface,
@@ -196,9 +186,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
         appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
                 UR, hsdpSharedIds, configError);
-
-        appConfigurationInterface.setPropertyForKey(APPIDENTITY_APP_STATE,
-                AppInfra, appState, configError);
     }
 
     private void setDevConfig(AppConfigurationInterface appConfigurationInterface,
@@ -219,9 +206,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
         appConfigurationInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
                 UR, hsdpSharedIds, configError);
-
-        appConfigurationInterface.setPropertyForKey(APPIDENTITY_APP_STATE,
-                AppInfra, appState, configError);
     }
 
     @Override
