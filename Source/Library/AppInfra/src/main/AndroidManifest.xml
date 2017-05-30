@@ -4,4 +4,14 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+
+    <receiver android:name="HomeCountryUpdateReceiver">
+
+        <intent-filter>
+            <action android:name="com.philips.platform.appinfra.HOME_COUNTRY_UPDATE">
+            </action>
+        </intent-filter>
+
+    </receiver>
+
 </manifest>
