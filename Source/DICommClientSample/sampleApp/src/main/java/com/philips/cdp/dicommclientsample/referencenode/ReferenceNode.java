@@ -4,30 +4,25 @@
  */
 
 /*
- * (C) Koninklijke Philips N.V., 2015, 2016.
+ * (C) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
-package com.philips.cdp.dicommclientsample.airpurifier;
+
+package com.philips.cdp.dicommclientsample.referencenode;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
-public abstract class AirPurifier extends Appliance {
+public class ReferenceNode extends Appliance {
+    public static final String DEVICETYPE = "BCM943903";
 
-    public static final String DEVICETYPE = "AirPurifier";
-    AirPort<?> airPort;
-
-    public AirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
+    public ReferenceNode(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);
     }
 
     @Override
     public String getDeviceType() {
         return DEVICETYPE;
-    }
-
-    public AirPort<?> getAirPort() {
-        return airPort;
     }
 }

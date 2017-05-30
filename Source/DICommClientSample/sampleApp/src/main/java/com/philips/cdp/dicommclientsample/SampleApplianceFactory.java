@@ -1,4 +1,9 @@
 /*
+ * (C) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
  * (C) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
@@ -12,7 +17,9 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
 import com.philips.cdp.dicommclientsample.airpurifier.ComfortAirPurifier;
 import com.philips.cdp.dicommclientsample.airpurifier.JaguarAirPurifier;
+import com.philips.cdp.dicommclientsample.referencenode.ReferenceNode;
 import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CombinedCommunicationStrategy;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
@@ -21,7 +28,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-class SampleApplianceFactory implements DICommApplianceFactory<AirPurifier> {
+class SampleApplianceFactory implements DICommApplianceFactory<Appliance> {
 
     @NonNull
     private final LanTransportContext lanTransportContext;
@@ -40,17 +47,22 @@ class SampleApplianceFactory implements DICommApplianceFactory<AirPurifier> {
     }
 
     @Override
-    public AirPurifier createApplianceForNode(NetworkNode networkNode) {
+    public Appliance createApplianceForNode(NetworkNode networkNode) {
         if (canCreateApplianceForNode(networkNode)) {
-            networkNode.useLegacyHttp();
             final CommunicationStrategy communicationStrategy = new CombinedCommunicationStrategy(
                     lanTransportContext.createCommunicationStrategyFor(networkNode),
                     cloudTransportContext.createCommunicationStrategyFor(networkNode));
 
-            if (ComfortAirPurifier.MODELNUMBER.equals(networkNode.getModelId())) {
-                return new ComfortAirPurifier(networkNode, communicationStrategy);
+            switch (networkNode.getModelName()) {
+                case ComfortAirPurifier.DEVICETYPE:
+                    networkNode.useLegacyHttp();
+                    return new ComfortAirPurifier(networkNode, communicationStrategy);
+                case JaguarAirPurifier.DEVICETYPE:
+                    networkNode.useLegacyHttp();
+                    return new JaguarAirPurifier(networkNode, communicationStrategy);
+                case ReferenceNode.DEVICETYPE:
+                    return new ReferenceNode(networkNode, communicationStrategy);
             }
-            return new JaguarAirPurifier(networkNode, communicationStrategy);
         }
         return null;
     }
@@ -58,7 +70,8 @@ class SampleApplianceFactory implements DICommApplianceFactory<AirPurifier> {
     @Override
     public Set<String> getSupportedModelNames() {
         return Collections.unmodifiableSet(new HashSet<String>() {{
-            add(AirPurifier.MODELNAME);
+            add(AirPurifier.DEVICETYPE);
+            add("BCM943903");
         }});
     }
 }

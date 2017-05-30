@@ -1,10 +1,16 @@
 /*
+ * (C) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
  * (C) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 package com.philips.cdp.dicommclientsample;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
@@ -22,6 +28,7 @@ import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
 import com.philips.cdp.dicommclient.port.common.PairingListener;
+import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclientsample.airpurifier.AirPort;
 import com.philips.cdp.dicommclientsample.airpurifier.AirPortProperties;
 import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
@@ -34,14 +41,14 @@ public class DetailActivity extends AppCompatActivity {
     private EditText editTextUserId;
     private EditText editTextUserToken;
     private SwitchCompat lightSwitch;
-    private AirPurifier currentPurifier;
+    private Appliance currentAppliance;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_detail);
-        currentPurifier = (AirPurifier) CurrentApplianceManager.getInstance().getCurrentAppliance();
+        currentAppliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
 
         editTextName = (EditText) findViewById(R.id.editTextName);
         editTextUserId = (EditText) findViewById(R.id.userId);
@@ -70,8 +77,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-        updateLightSwitchView(currentPurifier.getAirPort());
-        updateDeviceNameView(currentPurifier.getDevicePort());
+        updateView(currentAppliance);
 
         lightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -82,16 +88,20 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void updateNameProperty(final String name) {
-        DevicePort devicePort = currentPurifier.getDevicePort();
+        DevicePort devicePort = currentAppliance.getDevicePort();
         if (devicePort != null) {
             devicePort.setDeviceName(name);
         }
     }
 
     private void updateLightProperty(final boolean isChecked) {
-        AirPort airPort = currentPurifier.getAirPort();
-        if (airPort != null) {
-            airPort.setLight(isChecked);
+        if (currentAppliance instanceof AirPurifier) {
+            AirPurifier airPurifier = (AirPurifier) currentAppliance;
+            AirPort airPort = airPurifier.getAirPort();
+
+            if (airPort != null) {
+                airPort.setLight(isChecked);
+            }
         }
     }
 
@@ -111,49 +121,46 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         public void onAppliancePortUpdate(final Appliance appliance, final DICommPort<?> port) {
-            if (port instanceof AirPort) {
-                updateLightSwitchView((AirPort) port);
-            } else if (port instanceof DevicePort) {
-                updateDeviceNameView((DevicePort) port);
-            }
+            updateView(appliance);
         }
 
         @Override
-        public void onAppliancePortError(final Appliance appliance, final DICommPort<?> port, final com.philips.cdp.dicommclient.request.Error error) {
+        public void onAppliancePortError(final Appliance appliance, final DICommPort<?> port, final Error error) {
         }
     };
 
-    private void updateDeviceNameView(final DevicePort devicePort) {
-        DevicePortProperties properties = devicePort.getPortProperties();
-        if (properties != null) {
-            editTextName.setText(properties.getName());
+    private void updateView(@NonNull final Appliance appliance) {
+        DevicePortProperties devicePortProperties = appliance.getDevicePort().getPortProperties();
+        if (devicePortProperties != null) {
+            editTextName.setText(devicePortProperties.getName());
         }
-    }
 
-    private void updateLightSwitchView(final AirPort<? extends AirPortProperties> port) {
-        AirPortProperties properties = port.getPortProperties();
-        if (properties != null) {
-            lightSwitch.setChecked(properties.getLightOn());
+        if (appliance instanceof AirPurifier) {
+            findViewById(R.id.lightStateContainer).setVisibility(View.VISIBLE);
+            AirPurifier airPurifier = (AirPurifier) appliance;
+            AirPortProperties airPortProperties = airPurifier.getAirPort().getPortProperties();
+            if (airPortProperties != null) {
+                lightSwitch.setChecked(airPortProperties.getLightOn());
+            }
         }
     }
 
     private void startPairing() {
-
-        final AirPurifier purifier = this.currentPurifier;
-        PairingHandler<AirPurifier> pairingHandler = new PairingHandler<>(purifier, new PairingListener<AirPurifier>() {
+        final Appliance purifier = this.currentAppliance;
+        PairingHandler<Appliance> pairingHandler = new PairingHandler<>(purifier, new PairingListener<Appliance>() {
 
             @Override
-            public void onPairingSuccess(final AirPurifier appliance) {
+            public void onPairingSuccess(final Appliance appliance) {
                 Log.d(TAG, "onPairingSuccess() called with: " + "appliance = [" + appliance + "]");
 
-                DiscoveryManager<AirPurifier> discoveryManager = (DiscoveryManager<AirPurifier>) DiscoveryManager.getInstance();
+                DiscoveryManager<Appliance> discoveryManager = (DiscoveryManager<Appliance>) DiscoveryManager.getInstance();
                 discoveryManager.insertApplianceToDatabase(appliance);
 
                 showToast("Pairing successful");
             }
 
             @Override
-            public void onPairingFailed(final AirPurifier appliance) {
+            public void onPairingFailed(final Appliance appliance) {
                 Log.d(TAG, "onPairingFailed() called with: " + "appliance = [" + appliance + "]");
                 showToast("Pairing failed");
             }
@@ -169,22 +176,21 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void startUnpairing() {
-
-        final AirPurifier purifier = this.currentPurifier;
-        PairingHandler<AirPurifier> pairingHandler = new PairingHandler<>(purifier, new PairingListener<AirPurifier>() {
+        final Appliance purifier = this.currentAppliance;
+        PairingHandler<Appliance> pairingHandler = new PairingHandler<>(purifier, new PairingListener<Appliance>() {
 
             @Override
-            public void onPairingSuccess(final AirPurifier appliance) {
+            public void onPairingSuccess(final Appliance appliance) {
                 Log.d(TAG, "onPairingSuccess() called with: " + "appliance = [" + appliance + "]");
 
-                DiscoveryManager<AirPurifier> discoveryManager = (DiscoveryManager<AirPurifier>) DiscoveryManager.getInstance();
+                DiscoveryManager<Appliance> discoveryManager = (DiscoveryManager<Appliance>) DiscoveryManager.getInstance();
                 discoveryManager.insertApplianceToDatabase(appliance);
 
                 showToast("Unpaired successfully");
             }
 
             @Override
-            public void onPairingFailed(final AirPurifier appliance) {
+            public void onPairingFailed(final Appliance appliance) {
                 Log.d(TAG, "onPairingFailed() called with: " + "appliance = [" + appliance + "]");
                 showToast("Pairing failed");
             }

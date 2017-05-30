@@ -1,4 +1,9 @@
 /*
+ * (C) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
  * © Koninklijke Philips N.V., 2015, 2016, 2017.
  *   All rights reserved.
  */
@@ -6,12 +11,11 @@ package com.philips.cdp2.commlib.lan.communication;
 
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.dicommclient.request.GetKeyRequest;
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ExchangeKeyRequest;
+import com.philips.cdp.dicommclient.request.GetKeyRequest;
 import com.philips.cdp.dicommclient.request.Request;
 import com.philips.cdp.dicommclient.request.RequestQueue;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
@@ -20,6 +24,7 @@ import com.philips.cdp.dicommclient.security.DISecurity.EncryptionDecryptionFail
 import com.philips.cdp.dicommclient.subscription.LocalSubscriptionHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.subscription.UdpEventReceiver;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 import java.util.Map;
 
@@ -93,10 +98,10 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
 
     private void exchangeKeyIfNecessary(NetworkNode networkNode) {
         if (networkNode.getEncryptionKey() == null && !isKeyExchangeOngoing) {
-            if (!networkNode.getHttps()) {
-                doKeyExchange(networkNode);
-            } else {
+            if (networkNode.getHttps()) {
                 getKey(networkNode);
+            } else {
+                doKeyExchange(networkNode);
             }
         }
     }
