@@ -177,7 +177,9 @@
     <item name="uidDropdownListDefaultDisabledArrowIconColor">?attr/uidInputTextDisabled</item>
     <item name="uidDropdownListDefaultDisabledIconColor">?attr/uidInputTextDisabled</item>
     <item name="uidGridViewBackgroundDarkBackgroundColor">?attr/uidGridViewBackgroundDark</item>
+      <item name="uidGridViewBackgroundDarkHeaderTextColor">?attr/uidLightTextTertiary</item>
     <item name="uidGridViewBackgroundLightBackgroundColor">?attr/uidGridViewBackgroundLight</item>
+      <item name="uidGridViewBackgroundLightHeaderTextColor">?attr/uidNeutralTextTertiary</item>
     <item name="uidGridViewDefaultNormalHeaderBackgroundColor">?attr/uidNavigationSecondary</item>
     <item name="uidGridViewDefaultNormalSubtitleTextColor">?attr/uidTextSecondary</item>
       <item name="uidGridViewDefaultNormalTitleTextColor">?attr/uidTextPrimary</item>
@@ -331,6 +333,7 @@
       <item name="uidTextBoxDefaultValidatedTextColor">?attr/uidInputValidatedText</item>
     <item name="uidTextBoxDefaultPressedBackgroundColor">?attr/uidInputFocus</item>
       <item name="uidTextBoxDefaultPressedBorderColor">?attr/uidInputBorderFocus</item>
+      <item name="uidTextBoxDefaultPressedOutlineColor">?attr/uidInputOutline</item>
       <item name="uidTextBoxDefaultDisabledBackgroundColor">?attr/uidInputDisabled</item>
     <item name="uidTextBoxDefaultDisabledBorderColor">?attr/uidInputBorderDisabled</item>
     <item name="uidTextBoxDefaultDisabledClearIconColor">?attr/uidInputTextDisabled</item>
@@ -572,7 +575,7 @@
     <item name="uidTextTertiary">#80212121</item>
       <item name="uidTextTertiaryDisabled">#40383838</item>
     <item name="uidThumb">@color/uid_level_white</item>
-    <item name="uidThumbDisabled">@color/uid_level_white</item>
+      <item name="uidThumbDisabled">@color/uid_gray_level_10</item>
     <item name="uidToggleOff">#33696969</item>
     <item name="uidToggleOffDisabled">#1A696969</item>
     <item name="uidToggleOffText">#804D4D4D</item>
@@ -754,7 +757,7 @@
     <item name="uidTextTertiary">#80212121</item>
       <item name="uidTextTertiaryDisabled">#40383838</item>
     <item name="uidThumb">@color/uid_level_white</item>
-    <item name="uidThumbDisabled">@color/uid_gray_level_10</item>
+      <item name="uidThumbDisabled">@color/uid_gray_level_25</item>
     <item name="uidToggleOff">#33696969</item>
     <item name="uidToggleOffDisabled">#1A696969</item>
     <item name="uidToggleOffText">#804D4D4D</item>
@@ -936,7 +939,7 @@
     <item name="uidTextTertiary">#80212121</item>
       <item name="uidTextTertiaryDisabled">#40F5F5F5</item>
     <item name="uidThumb">@color/uid_level_white</item>
-    <item name="uidThumbDisabled">@color/uid_gray_level_20</item>
+      <item name="uidThumbDisabled">@color/uid_gray_level_40</item>
     <item name="uidToggleOff">#33E8E8E8</item>
     <item name="uidToggleOffDisabled">#1AE8E8E8</item>
     <item name="uidToggleOffText">#800E0E0E</item>
@@ -1118,7 +1121,7 @@
     <item name="uidTextTertiary">#CCFFFFFF</item>
       <item name="uidTextTertiaryDisabled">#40F5F5F5</item>
     <item name="uidThumb">@color/uid_level_white</item>
-    <item name="uidThumbDisabled">@color/uid_gray_level_35</item>
+      <item name="uidThumbDisabled">@color/uid_gray_level_55</item>
     <item name="uidToggleOff">#33E8E8E8</item>
     <item name="uidToggleOffDisabled">#1AE8E8E8</item>
     <item name="uidToggleOffText">#80F5F5F5</item>
@@ -1300,7 +1303,7 @@
     <item name="uidTextTertiary">#80FFFFFF</item>
       <item name="uidTextTertiaryDisabled">#40F5F5F5</item>
     <item name="uidThumb">@color/uid_level_white</item>
-    <item name="uidThumbDisabled">@color/uid_gray_level_55</item>
+      <item name="uidThumbDisabled">@color/uid_gray_level_60</item>
     <item name="uidToggleOff">#33E8E8E8</item>
     <item name="uidToggleOffDisabled">#1AE8E8E8</item>
     <item name="uidToggleOffText">#80F5F5F5</item>

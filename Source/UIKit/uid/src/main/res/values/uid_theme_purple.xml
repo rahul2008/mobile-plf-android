@@ -109,14 +109,15 @@
     <item name="uidContentItemDefaultDisabledTitleTextColor">?attr/uidTextDisabled</item>
     <item name="uidDataVisualizationChartsDisabledLegendIndicator1Color">?attr/uidDataColor1Disabled</item>
     <item name="uidDataVisualizationChartsDisabledLegendIndicator2Color">?attr/uidDataColor2Disabled</item>
-    <item name="uidDataVisualizationChartsDisabledLegendIndicator3Color">
-      ?attr/uidDataColor3Disabled
-    </item>
-    <item name="uidDataVisualizationChartsDisabledLegendIndicator4Color">
-      ?attr/uidDataColor4Disabled
-    </item>
-    <item name="uidDataVisualizationChartsDisabledLegendTextColor">?attr/uidTextSecondaryDisabled
-    </item>
+      <item name="uidDataVisualizationChartsDisabledLegendIndicator3Color">
+          ?attr/uidDataColor3Disabled
+      </item>
+      <item name="uidDataVisualizationChartsDisabledLegendIndicator4Color">
+          ?attr/uidDataColor4Disabled
+      </item>
+      <item name="uidDataVisualizationChartsDisabledLegendTextColor">
+          ?attr/uidTextSecondaryDisabled
+      </item>
     <item name="uidDataVisualizationChartsAxisLabelTextColor">?attr/uidTextTertiary</item>
     <item name="uidDataVisualizationChartsGridlinesColor">?attr/uidSeparator</item>
     <item name="uidDataVisualizationChartsLegendIndicator1Color">?attr/uidDataColor1</item>
@@ -124,8 +125,8 @@
     <item name="uidDataVisualizationChartsLegendIndicator3Color">?attr/uidDataColor3</item>
     <item name="uidDataVisualizationChartsLegendIndicator4Color">?attr/uidDataColor4</item>
     <item name="uidDataVisualizationChartsLegendTextColor">?attr/uidTextPrimary</item>
-    <item name="uidDataVisualizationChartsTargetBackgroundColor">?attr/uidChartsTargetBackground
-    </item>
+      <item name="uidDataVisualizationChartsTargetBackgroundColor">?attr/uidChartsTargetBackground
+      </item>
     <item name="uidDataVisualizationChartsTargetLineColor">?attr/uidControlPrimaryDetail</item>
     <item name="uidDataVisualizationChartsTargetTextColor">?attr/uidControlPrimaryDetail</item>
     <item name="uidDataVisualizationChartsValueIconColor">?attr/uidTextPrimary</item>
@@ -139,20 +140,20 @@
     <item name="uidDataVisualizationDefaultDataColor4Color">?attr/uidDataColor4</item>
     <item name="uidDataVisualizationDefaultSubtitleTextColor">?attr/uidTextTertiary</item>
     <item name="uidDataVisualizationDefaultTitleTextColor">?attr/uidTextPrimary</item>
-    <item name="uidDataVisualizationStatusIndicatorBackgroundColor">
-      ?attr/uidStatusIndicatorBackground
-    </item>
+      <item name="uidDataVisualizationStatusIndicatorBackgroundColor">
+          ?attr/uidStatusIndicatorBackground
+      </item>
     <item name="uidDataVisualizationStatusIndicatorReferenceBackgroundColor">?attr/uidStatusIndicatorReferenceBackground</item>
     <item name="uidDataVisualizationStatusIndicatorValueIconColor">?attr/uidControlPrimaryDetail</item>
-    <item name="uidDataVisualizationStatusIndicatorValueIndicatorBackgroundColor">
-      ?attr/uidControlPrimaryDetail
-    </item>
-    <item name="uidDataVisualizationStatusIndicatorValueLabelIconColor">
-      ?attr/uidControlSecondaryDetail
-    </item>
-    <item name="uidDataVisualizationStatusIndicatorValueLabelTextColor">
-      ?attr/uidControlSecondaryDetail
-    </item>
+      <item name="uidDataVisualizationStatusIndicatorValueIndicatorBackgroundColor">
+          ?attr/uidControlPrimaryDetail
+      </item>
+      <item name="uidDataVisualizationStatusIndicatorValueLabelIconColor">
+          ?attr/uidControlSecondaryDetail
+      </item>
+      <item name="uidDataVisualizationStatusIndicatorValueLabelTextColor">
+          ?attr/uidControlSecondaryDetail
+      </item>
     <item name="uidDataVisualizationStatusIndicatorValueTextColor">?attr/uidControlPrimaryDetail</item>
     <item name="uidDatePickerAndroidNormalButtonTextColor">?attr/uidControlBright</item>
     <item name="uidDatePickerAndroidNormalContentTextColor">?attr/uidNeutralTextPrimary</item>
@@ -176,7 +177,9 @@
     <item name="uidDropdownListDefaultDisabledArrowIconColor">?attr/uidInputTextDisabled</item>
     <item name="uidDropdownListDefaultDisabledIconColor">?attr/uidInputTextDisabled</item>
     <item name="uidGridViewBackgroundDarkBackgroundColor">?attr/uidGridViewBackgroundDark</item>
+      <item name="uidGridViewBackgroundDarkHeaderTextColor">?attr/uidLightTextTertiary</item>
     <item name="uidGridViewBackgroundLightBackgroundColor">?attr/uidGridViewBackgroundLight</item>
+      <item name="uidGridViewBackgroundLightHeaderTextColor">?attr/uidNeutralTextTertiary</item>
     <item name="uidGridViewDefaultNormalHeaderBackgroundColor">?attr/uidNavigationSecondary</item>
     <item name="uidGridViewDefaultNormalSubtitleTextColor">?attr/uidTextSecondary</item>
     <item name="uidGridViewDefaultNormalTitleTextColor">?attr/uidTextPrimary</item>
@@ -242,8 +245,8 @@
     <item name="uidSearchBoxAndroidDefaultNormalInputBackgroundColor">?attr/uidInput</item>
     <item name="uidSearchBoxAndroidDefaultNormalInputBorderColor">?attr/uidInputBorder</item>
     <item name="uidSearchBoxAndroidDefaultNormalInputTextColor">?attr/uidInputText</item>
-    <item name="uidSearchBoxAndroidDefaultNormalSearchIconColor">?attr/uidNeutralTextSecondary
-    </item>
+      <item name="uidSearchBoxAndroidDefaultNormalSearchIconColor">?attr/uidNeutralTextSecondary
+      </item>
     <item name="uidSearchBoxAndroidDefaultFocusBackIconColor">?attr/uidNeutralTextSecondary</item>
     <item name="uidSearchBoxAndroidDefaultFocusInputBackgroundColor">?attr/uidInputFocus</item>
     <item name="uidSearchBoxDefaultNormalIconButtonColor">?attr/uidGrayPrimaryText</item>
@@ -258,18 +261,19 @@
     <item name="uidSearchBoxIosMinimalNormalCancelTextColor">?attr/uidControlPrimary</item>
     <item name="uidSearchBoxIosMinimalPressedCancelTextColor">?attr/uidControlPrimaryPressed</item>
     <item name="uidSearchBoxIosProminentNormalCancelTextColor">?attr/uidControlPrimary</item>
-    <item name="uidSearchBoxIosProminentNormalSearchbarBackgroundColor">?attr/uidContentPrimary
-    </item>
-    <item name="uidSearchBoxIosProminentPressedCancelTextColor">?attr/uidControlPrimaryPressed
-    </item>
+      <item name="uidSearchBoxIosProminentNormalSearchbarBackgroundColor">?attr/uidContentPrimary
+      </item>
+      <item name="uidSearchBoxIosProminentPressedCancelTextColor">?attr/uidControlPrimaryPressed
+      </item>
     <item name="uidSeparatorButtonSeparatorNormalBackgroundColor">?attr/uidInputSeparator</item>
-    <item name="uidSeparatorButtonSeparatorDisabledBackgroundColor">
-      ?attr/uidInputSeparatorDisabled
-    </item>
+      <item name="uidSeparatorButtonSeparatorDisabledBackgroundColor">
+          ?attr/uidInputSeparatorDisabled
+      </item>
     <item name="uidSeparatorContentSeparatorNormalBackgroundColor">?attr/uidSeparator</item>
     <item name="uidSeparatorInputSeparatorNormalBackgroundColor">?attr/uidInputSeparator</item>
-    <item name="uidSeparatorInputSeparatorDisabledBackgroundColor">?attr/uidInputSeparatorDisabled
-    </item>
+      <item name="uidSeparatorInputSeparatorDisabledBackgroundColor">
+          ?attr/uidInputSeparatorDisabled
+      </item>
     <item name="uidShadowLevelOneNormalShadowColor">?attr/uidShadowLevelOne</item>
     <item name="uidShadowLevelOneDisabledShadowColor">?attr/uidShadowLevelOneDisabled</item>
     <item name="uidShadowLevelThreeNormalShadowColor">?attr/uidShadowLevelThree</item>
@@ -324,6 +328,7 @@
     <item name="uidTextBoxDefaultValidatedTextColor">?attr/uidInputValidatedText</item>
     <item name="uidTextBoxDefaultPressedBackgroundColor">?attr/uidInputFocus</item>
     <item name="uidTextBoxDefaultPressedBorderColor">?attr/uidInputBorderFocus</item>
+      <item name="uidTextBoxDefaultPressedOutlineColor">?attr/uidInputOutline</item>
     <item name="uidTextBoxDefaultDisabledBackgroundColor">?attr/uidInputDisabled</item>
     <item name="uidTextBoxDefaultDisabledBorderColor">?attr/uidInputBorderDisabled</item>
     <item name="uidTextBoxDefaultDisabledClearIconColor">?attr/uidInputTextDisabled</item>
@@ -562,7 +567,7 @@
     <item name="uidTextTertiary">#80212121</item>
     <item name="uidTextTertiaryDisabled">#40383838</item>
     <item name="uidThumb">@color/uid_level_white</item>
-    <item name="uidThumbDisabled">@color/uid_level_white</item>
+      <item name="uidThumbDisabled">@color/uid_purple_level_10</item>
     <item name="uidToggleOff">#33AB46A4</item>
     <item name="uidToggleOffDisabled">#1AAB46A4</item>
     <item name="uidToggleOffText">#80902C7E</item>
@@ -744,7 +749,7 @@
     <item name="uidTextTertiary">#804D174A</item>
     <item name="uidTextTertiaryDisabled">#406F1E5F</item>
     <item name="uidThumb">@color/uid_level_white</item>
-    <item name="uidThumbDisabled">@color/uid_purple_level_10</item>
+      <item name="uidThumbDisabled">@color/uid_purple_level_25</item>
     <item name="uidToggleOff">#33AB46A4</item>
     <item name="uidToggleOffDisabled">#1AAB46A4</item>
     <item name="uidToggleOffText">#80902C7E</item>
@@ -926,7 +931,7 @@
     <item name="uidTextTertiary">#804D174A</item>
     <item name="uidTextTertiaryDisabled">#40F7F5FF</item>
     <item name="uidThumb">@color/uid_level_white</item>
-    <item name="uidThumbDisabled">@color/uid_purple_level_20</item>
+      <item name="uidThumbDisabled">@color/uid_purple_level_40</item>
     <item name="uidToggleOff">#33EEE6FC</item>
     <item name="uidToggleOffDisabled">#1AEEE6FC</item>
     <item name="uidToggleOffText">#80331138</item>
@@ -1108,7 +1113,7 @@
     <item name="uidTextTertiary">#CCFFFFFF</item>
     <item name="uidTextTertiaryDisabled">#40F7F5FF</item>
     <item name="uidThumb">@color/uid_level_white</item>
-    <item name="uidThumbDisabled">@color/uid_purple_level_35</item>
+      <item name="uidThumbDisabled">@color/uid_purple_level_55</item>
     <item name="uidToggleOff">#33EEE6FC</item>
     <item name="uidToggleOffDisabled">#1AEEE6FC</item>
     <item name="uidToggleOffText">#80F7F5FF</item>
@@ -1290,7 +1295,7 @@
     <item name="uidTextTertiary">#80FFFFFF</item>
     <item name="uidTextTertiaryDisabled">#40F7F5FF</item>
     <item name="uidThumb">@color/uid_level_white</item>
-    <item name="uidThumbDisabled">@color/uid_purple_level_55</item>
+      <item name="uidThumbDisabled">@color/uid_purple_level_60</item>
     <item name="uidToggleOff">#33EEE6FC</item>
     <item name="uidToggleOffDisabled">#1AEEE6FC</item>
     <item name="uidToggleOffText">#80F7F5FF</item>
