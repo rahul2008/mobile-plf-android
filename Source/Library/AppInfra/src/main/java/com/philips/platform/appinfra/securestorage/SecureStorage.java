@@ -102,7 +102,6 @@ public class SecureStorage implements SecureStorageInterface {
                 postLog(startTime, " duration for executing storeValueForKey ");
                 return false;
             }
-            valueToBeEncrypted = getDecodedString(valueToBeEncrypted);
             userKey = getDecodedString(userKey);
             final SecretKey secretKey = generateAESKey(); // generate AES key
             final Key key = new SecretKeySpec(secretKey.getEncoded(), "AES");
