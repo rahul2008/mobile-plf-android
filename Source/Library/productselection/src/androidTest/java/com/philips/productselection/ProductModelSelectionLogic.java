@@ -10,8 +10,6 @@ import android.test.InstrumentationTestCase;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.fragments.detailedscreen.NavigationFragment;
