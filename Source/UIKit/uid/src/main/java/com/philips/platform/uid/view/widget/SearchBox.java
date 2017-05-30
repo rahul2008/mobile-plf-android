@@ -16,6 +16,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -83,6 +84,8 @@ public class SearchBox extends LinearLayout {
             public void onClick(View v) {
                 setSearchIconified(true);
                 autoCompleteTextView.setText(null);
+                setImeVisibility(false);
+                autoCompleteTextView.clearFocus();
             }
         });
     }
@@ -93,6 +96,8 @@ public class SearchBox extends LinearLayout {
             @Override
             public void onClick(View v) {
                 setSearchIconified(false);
+                autoCompleteTextView.requestFocus();
+                setImeVisibility(true);
             }
         });
     }
@@ -179,5 +184,24 @@ public class SearchBox extends LinearLayout {
         super.onRestoreInstanceState(ss.getSuperState());
     }
 
+    private Runnable mShowImeRunnable = new Runnable() {
+        public void run() {
+            InputMethodManager imm = getContext().getSystemService(InputMethodManager.class);
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+        }
+    };
+
+    private void setImeVisibility(final boolean visible) {
+        if (visible) {
+            post(mShowImeRunnable);
+        } else {
+            removeCallbacks(mShowImeRunnable);
+            InputMethodManager imm = getContext().getSystemService(InputMethodManager.class);
+
+            if (imm != null) {
+                imm.hideSoftInputFromWindow(getWindowToken(), 0);
+            }
+        }
+    }
 
 }
