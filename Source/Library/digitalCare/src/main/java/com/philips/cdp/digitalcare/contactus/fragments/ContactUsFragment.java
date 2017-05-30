@@ -72,8 +72,6 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-
-
 public class ContactUsFragment extends DigitalCareBaseFragment implements
         /*TwitterAuthenticationCallback,*/ OnClickListener, ResponseCallback, Observer {
     private static final String CDLS_URL_PORT = "https://www.philips.com/prx/cdls/%s/%s/%s/%s.querytype.(fallback)";
@@ -505,14 +503,15 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
             launchFacebookFeature();
 
-
         } else if (tag != null
                 && tag.equalsIgnoreCase(getStringKey(R.string.twitter))
                 && isConnectionAvailable()) {
             DigiCareLogger.i(TAG, "Clicked on the Twitter button");
             launchTwitterFeature();
 
+
         } else if (tag != null && (tag.equalsIgnoreCase(getStringKey(R.string.send_email))) && isConnectionAvailable()) {
+
             tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_EMAIL);
             DigiCareLogger.i(TAG, "Clicked on the Email button");
             sendEmail();
@@ -622,17 +621,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
 
     private void tagServiceRequest(String serviceChannel) {
-     /*   AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SERVICE_REQUEST,
-                AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, serviceChannel);*/
         DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
                 (AnalyticsConstants.ACTION_SERVICE_REQUEST,
                         AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, serviceChannel);
     }
 
     private void tagTechnicalError() {
-     /*   AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SET_ERROR,
-                AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
-                AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_RESPONSE_CDLS);*/
         DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
                 (AnalyticsConstants.ACTION_SET_ERROR,
                         AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,

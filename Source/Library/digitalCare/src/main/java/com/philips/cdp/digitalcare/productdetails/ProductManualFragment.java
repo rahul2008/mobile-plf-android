@@ -54,8 +54,6 @@ public class ProductManualFragment extends DigitalCareBaseFragment {
         }
         mUrl = getPhilipsProductPageUrl();
 
-        /*AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_VIEW_PRODUCT_MANUAL,
-                getPreviousName());*/
         DigitalCareConfigManager.getInstance().getTaggingInterface().
                 trackPageWithInfo(AnalyticsConstants.PAGE_VIEW_PRODUCT_MANUAL,
                         getPreviousName(), getPreviousName());

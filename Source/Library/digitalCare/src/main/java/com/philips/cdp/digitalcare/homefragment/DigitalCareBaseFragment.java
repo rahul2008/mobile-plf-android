@@ -292,11 +292,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
                         message,
                         getActivity().getResources().getString(
                                 android.R.string.ok));
-                /*AnalyticsTracker
-                        .trackAction(
-                                AnalyticsConstants.ACTION_SET_ERROR,
-                                AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
-                                AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_NETWORK_CONNECITON);*/
                 DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
                         (AnalyticsConstants.ACTION_SET_ERROR,
                                 AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
@@ -315,13 +310,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
                         getActivity(),
                         // null,
                         message);
-                     /*    getActivity().getResources().getString(
-                                android.R.string.yes));
-               AnalyticsTracker
-                        .trackAction(
-                                AnalyticsConstants.ACTION_SET_ERROR,
-                                AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
-                                AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_NETWORK_CONNECITON);*/
 
             }
         });

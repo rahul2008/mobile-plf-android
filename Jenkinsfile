@@ -13,12 +13,7 @@ properties([
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_CDP2_TeamSabers@philips.com'
 
-node_ext = "build_t"
-if (env.triggerBy == "ppc") {
-  node_ext = "build_p"
-}
-
-node ('android_pipeline &&' + node_ext) {
+node ('android&&device&&keystore') {
 	timestamps {
 		stage ('Checkout') {
 			checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: false, reference: '', shallow: true, timeout: 30],[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '4edede71-63a0-455e-a9dd-d250f8955958', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/dcc-android-consumercare-app']]])
@@ -27,38 +22,55 @@ node ('android_pipeline &&' + node_ext) {
 		try {
             if (BranchName =~ /master|develop|release.*/) {
                 stage ('build') {
-                    sh 'chmod -R 755 . && cd ./Source/DemoApp && chmod -R 775 ./gradlew && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean lint assembleRelease cC zipDocuments artifactoryPublish'
+                    sh '''#!/bin/bash -l
+                        chmod -R 755 . 
+                        cd ./Source/DemoApp 
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC zipDocuments artifactoryPublish
+                    '''
                 }
             } else {
                 stage ('build') {
-                    sh 'chmod -R 775 . && cd ./Source/DemoApp && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease'
+                    sh '''#!/bin/bash -l
+                        chmod -R 755 . 
+                        cd ./Source/DemoApp 
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint 
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC
+                    '''
                 }
             }
 			stage ('save dependencies list') {
-			    sh 'chmod -R 775 . && cd ./Source/DemoApp && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
-            	sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+                sh '''#!/bin/bash -l
+    			    cd ./Source/DemoApp 
+                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+                	cd ../Library 
+                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+                '''
             }
-            archiveArtifacts '**/dependencies.lock'
-            currentBuild.result = 'SUCCESS'
+
+
+            stage ('reporting') {
+                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
+                junit allowEmptyResults: true, testResults: 'Source/Library/*/build/test-results/*/*.xml'
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/digitalCare/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests']) 
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/digitalCare/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'coverage debug']) 
+                archiveArtifacts '**/dependencies.lock'
+            }
+
+
         } catch(err) {
             currentBuild.result = 'FAILURE'
-            error ("Someone just broke the build")
+            error ("Someone just broke the build", err.toString())
         }
         
-        try { 
-            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
-            	stage ('callIntegrationPipeline') {
-                    if (BranchName =~ "/") {
-                        BranchName = BranchName.replaceAll('/','%2F')
-                        echo "BranchName changed to ${BranchName}"
-                    }
-            		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'dcc'],[$class: 'StringParameterValue', name: 'libraryName', value: '']]
-                    currentBuild.result = 'SUCCESS'
-            	}            
-            }
-            
-		} catch(err) {
-            currentBuild.result = 'UNSTABLE'
+        if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
+        	stage ('callIntegrationPipeline') {
+                if (BranchName =~ "/") {
+                    BranchName = BranchName.replaceAll('/','%2F')
+                    echo "BranchName changed to ${BranchName}"
+                }
+        		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'dcc'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
+        	}            
         }
 
         stage('informing') {

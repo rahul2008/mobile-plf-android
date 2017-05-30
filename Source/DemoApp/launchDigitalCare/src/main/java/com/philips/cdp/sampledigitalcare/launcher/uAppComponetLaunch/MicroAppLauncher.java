@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.CcDependencies;
 import com.philips.cdp.digitalcare.CcInterface;
@@ -25,8 +26,8 @@ import com.philips.cdp.digitalcare.CcLaunchInput;
 import com.philips.cdp.digitalcare.CcSettings;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.listeners.CcListener;
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
+import com.philips.cdp.prxclient.PrxConstants.Sector;
+import com.philips.cdp.prxclient.PrxConstants.Catalog;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.sampledigitalcare.DummyScreen;
 import com.philips.cdp.sampledigitalcare.adapter.Listener;
@@ -298,7 +299,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
 
 
 
-                String[] ctnList = new String[mList.size()];
+                final String[] ctnList = new String[mList.size()];
                 for (int i = 0; i < mList.size(); i++)
                     ctnList[i] = mList.get(i);
                 //  if (ctnList.length != 0) {
@@ -338,12 +339,18 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
                         } else {
                             ccLaunchInput.setLiveChatUrl(null);
                         }
-                        ccInterface.launch(activityLauncher, ccLaunchInput);
+                        if(!(ctnList.length == 0))
+                            ccInterface.launch(activityLauncher, ccLaunchInput);
+                        else
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_ctn), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onError(ERRORVALUES errorvalues, String s) {
-                        ccInterface.launch(activityLauncher, ccLaunchInput);
+                        if(!(ctnList.length == 0))
+                            ccInterface.launch(activityLauncher, ccLaunchInput);
+                        else
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_ctn), Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
@@ -355,8 +362,12 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
 
                 mLaunchDigitalCare.setVisibility(View.INVISIBLE);
 
-
-                startActivity(new Intent(getApplicationContext(), MicroAppFragmentActivity.class));
+                if(mList.size() != 0) {
+                    startActivity(new Intent(getApplicationContext(), MicroAppFragmentActivity.class));
+                }
+                else{
+                    Toast.makeText(this, getResources().getString(R.string.no_ctn), Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.change_theme:
                 //Resources.Theme theme = super.getTheme();

@@ -857,8 +857,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
                 executeSubcategoryRequest();
 
-                mProgressDialog.cancel();
-                mProgressDialog.dismiss();
+                if (mProgressDialog != null && isAdded()) {
+                    if (mProgressDialog.isShowing()) {
+                        mProgressDialog.cancel();
+                        mProgressDialog.dismiss();
+                    }
+                }
 
             }
 
