@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-ackage com.philips.cdp.dicommclientsample.reference;
+package com.philips.cdp.dicommclientsample.reference;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
