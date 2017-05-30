@@ -7,7 +7,6 @@ import com.android.volley.VolleyError;
 import com.philips.cdp.di.iap.TestUtils;
 import com.philips.cdp.di.iap.session.MockSynchronizedNetwork;
 import com.philips.cdp.di.iap.session.RequestListener;
-import com.philips.cdp.localematch.PILLocale;
 
 import org.junit.Before;
 import org.junit.Test;

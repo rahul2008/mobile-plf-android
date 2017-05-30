@@ -9,7 +9,6 @@ import android.content.Context;
 import com.philips.cdp.di.iap.session.MockIAPHurlStack;
 import com.philips.cdp.di.iap.session.MockSynchronizedNetwork;
 import com.philips.cdp.di.iap.session.SynchronizedNetwork;
-import com.philips.cdp.localematch.PILLocaleManager;
 
 import org.mockito.Mock;
 
@@ -18,8 +17,7 @@ public class MockStoreController extends StoreController {
     private final static String SITE_ID = "US_TUSCANY";
     private SynchronizedNetwork mSynchronizedNetwork;
 
-    @Mock
-    PILLocaleManager mPILLocalManager;
+
 
     public MockStoreController(final Context context, final StoreConfiguration storeConfig) {
         super(context, storeConfig);
@@ -29,16 +27,7 @@ public class MockStoreController extends StoreController {
     String getLocale() {
         return LOCALE;
     }
-
-//    @Override
-//    void refreshPILocaleManager(String language, String countryCode) {
-//        //mLocaleManager = mPILLocalManager;
-//        mSiteID = SITE_ID;
-//        mStoreConfig.getProposition();
-//        mStoreConfig.getRawConfigUrl();
-//        mStoreConfig.generateStoreUrls();
-//    }
-
+    
     @Override
     String getSiteID() {
         return SITE_ID;
