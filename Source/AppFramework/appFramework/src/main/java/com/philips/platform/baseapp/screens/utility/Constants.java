@@ -9,12 +9,6 @@ package com.philips.platform.baseapp.screens.utility;
 public class Constants {
     public static final String isEmailMarketingEnabled = "FragmentLifecycle";
 
-    /**
-     * Debug Test fragment constants
-     * Configuration environment
-     */
-    public static final String TESTING = "Test";
-
     public static final String PRODUCT_REGISTRATION_PREFERENCES = "prod_demo";
     public static final String REGISTRATION_ENV_PREFERENCES = "prod_demo";
 

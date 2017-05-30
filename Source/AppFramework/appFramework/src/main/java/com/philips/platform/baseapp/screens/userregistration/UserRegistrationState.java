@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
@@ -35,8 +34,8 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.dataservices.utility.SyncScheduler;
+import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
-import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -91,6 +90,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     private static final String CHINA_CODE = "CN";
     private static final String DEFAULT = "default";
     private final String AppInfra = "appinfra";
+    private String appState;
 
     /**
      * AppFlowState constructor
@@ -123,12 +123,13 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     @Override
     public void init(Context context) {
         this.applicationContext = context;
+        appState = ((AppFrameworkApplication) context.getApplicationContext()).getAppState();
         initHSDP(getConfiguration());
 
         initializeUserRegistrationLibrary();
     }
 
-    private void initHSDP(Configuration configuration) {
+    private void initHSDP(AppStateConfiguration configuration) {
         AppInfraInterface appInfra = ((AppFrameworkApplication) applicationContext).getAppInfra();
         AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
 
@@ -151,7 +152,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
                 setDevConfig(appConfigurationInterface, configError);
                 break;
 
-            case TESTING:
+            case TEST:
                 setTestConfig(appConfigurationInterface, configError);
                 break;
 
@@ -183,12 +184,11 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
                 UR, hsdpSharedIds, configError);
 
         appConfigurationInterface.setPropertyForKey(APPIDENTITY_APP_STATE,
-                AppInfra, getAppState(), configError);
+                AppInfra, appState, configError);
     }
 
     private void setTestConfig(AppConfigurationInterface appConfigurationInterface,
                                AppConfigurationInterface.AppConfigurationError configError) {
-        String appState = getAppState();
         Map<String, String> hsdpAppNames = new HashMap<>();
         hsdpAppNames.put(DEFAULT, PROPOSITION_NAME);
 
@@ -230,7 +230,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
                 UR, hsdpSharedIds, configError);
 
         appConfigurationInterface.setPropertyForKey(APPIDENTITY_APP_STATE,
-                AppInfra, getAppState(), configError);
+                AppInfra, appState, configError);
     }
 
     @Override
@@ -373,25 +373,14 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         return c.getResources().getString(R.string.RA_COCO_UR);
     }
 
-    public Configuration getConfiguration() {
-        if (getAppState().equalsIgnoreCase(Configuration.STAGING.getValue()))
-            return Configuration.STAGING;
-        else if (getAppState().equalsIgnoreCase(Configuration.DEVELOPMENT.getValue()))
-            return Configuration.DEVELOPMENT;
-        else if (getAppState().equalsIgnoreCase(Constants.TESTING))
-            return Configuration.TESTING;
+    public AppStateConfiguration getConfiguration() {
+        if (appState.equalsIgnoreCase(AppStateConfiguration.STAGING.getValue()))
+            return AppStateConfiguration.STAGING;
+        else if (appState.equalsIgnoreCase(AppStateConfiguration.DEVELOPMENT.getValue()))
+            return AppStateConfiguration.DEVELOPMENT;
+        else if (appState.equalsIgnoreCase(AppStateConfiguration.TEST.getValue()))
+            return AppStateConfiguration.TEST;
 
-        return Configuration.STAGING;
-    }
-
-    protected String getAppState() {
-        AppInfraInterface appInfra = ((AppFrameworkApplication) applicationContext).getAppInfra();
-        AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
-
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-
-        return (String) (appConfigurationInterface.getPropertyForKey(APPIDENTITY_APP_STATE,
-                AppInfra, configError));
+        return AppStateConfiguration.STAGING;
     }
 }

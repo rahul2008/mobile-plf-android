@@ -119,6 +119,10 @@ public class AppFrameworkApplication extends MultiDexApplication implements Flow
         return appInfra;
     }
 
+    public String getAppState() {
+        return getAppInfra().getAppIdentity().getAppState().toString();
+    }
+
     public IAPState getIap() {
         return iapState;
     }
@@ -140,7 +144,6 @@ public class AppFrameworkApplication extends MultiDexApplication implements Flow
             this.targetFlowManager = new FlowManager();
             this.targetFlowManager.initialize(getApplicationContext(), tempFile.getPath(), this);
         }
-
     }
 
     @Override
