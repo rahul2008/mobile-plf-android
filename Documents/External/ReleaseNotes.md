@@ -14,7 +14,8 @@ Version 6.0.0
 * To be filled in at release
 
 ### Breaking Changes
-See backwards compatibility
+* NetworkNode.getModelName() and NetworkNode.setModelName(String modelName) are renamed to NetworkNode.getDeviceType() and NetworkNode.setDeviceType(String deviceType)
+* See backwards compatibility
 
 ### Defects solved
 * NA

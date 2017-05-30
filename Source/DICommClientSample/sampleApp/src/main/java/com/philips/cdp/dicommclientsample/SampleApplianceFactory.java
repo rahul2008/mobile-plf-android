@@ -4,6 +4,11 @@
  */
 
 /*
+ * (C) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
  * (C) Koninklijke Philips N.V., 2015, 2016.
  * All rights reserved.
  */
@@ -43,7 +48,7 @@ class SampleApplianceFactory implements DICommApplianceFactory<Appliance> {
 
     @Override
     public boolean canCreateApplianceForNode(NetworkNode networkNode) {
-        return getSupportedModelNames().contains(networkNode.getModelName());
+        return getSupportedModelNames().contains(networkNode.getDeviceType());
     }
 
     @Override
@@ -53,7 +58,7 @@ class SampleApplianceFactory implements DICommApplianceFactory<Appliance> {
                     lanTransportContext.createCommunicationStrategyFor(networkNode),
                     cloudTransportContext.createCommunicationStrategyFor(networkNode));
 
-            switch (networkNode.getModelName()) {
+            switch (networkNode.getDeviceType()) {
                 case ComfortAirPurifier.DEVICETYPE:
                     networkNode.useLegacyHttp();
                     return new ComfortAirPurifier(networkNode, communicationStrategy);
@@ -71,7 +76,7 @@ class SampleApplianceFactory implements DICommApplianceFactory<Appliance> {
     public Set<String> getSupportedModelNames() {
         return Collections.unmodifiableSet(new HashSet<String>() {{
             add(AirPurifier.DEVICETYPE);
-            add("BCM943903");
+            add(ReferenceNode.DEVICETYPE);
         }});
     }
 }

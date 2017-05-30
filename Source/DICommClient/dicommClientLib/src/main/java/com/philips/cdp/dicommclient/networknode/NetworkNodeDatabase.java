@@ -1,4 +1,9 @@
 /*
+ * (C) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
  * © Koninklijke Philips N.V., 2015, 2017.
  *   All rights reserved.
  */
@@ -73,7 +78,7 @@ public class NetworkNodeDatabase {
                     networkNode.setPairedState(NetworkNode.getPairedStatusKey(pairedStatus));
                     networkNode.setLastPairedTime(lastPairedTime);
                     networkNode.setIpAddress(ipAddress);
-                    networkNode.setModelName(modelName);
+                    networkNode.setDeviceType(modelName);
                     networkNode.setModelId(modelId);
 
                     result.add(networkNode);
@@ -120,7 +125,7 @@ public class NetworkNodeDatabase {
             }
 
             values.put(KEY_IP_ADDRESS, networkNode.getIpAddress());
-            values.put(KEY_MODEL_NAME, networkNode.getModelName());
+            values.put(KEY_MODEL_NAME, networkNode.getDeviceType());
             values.put(KEY_MODEL_ID, networkNode.getModelId());
             values.put(KEY_HTTPS, networkNode.getHttps());
 
