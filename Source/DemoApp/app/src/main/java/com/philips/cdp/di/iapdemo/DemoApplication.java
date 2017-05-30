@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.LocaleList;
 import android.util.Log;
 
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.HSDPInfo;
@@ -92,22 +91,6 @@ public class DemoApplication extends Application {
         SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
         editor.putString("reg_environment", configuration.getValue());
         editor.commit();
-
-
-        String languageCode;
-        String countryCode;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            languageCode = LocaleList.getDefault().get(0).getLanguage();
-            countryCode = LocaleList.getDefault().get(0).getCountry();
-        } else {
-            languageCode = Locale.getDefault().getLanguage();
-            countryCode = Locale.getDefault().getCountry();
-        }
-
-        PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(languageCode, countryCode);
-        //localeManager.setInputLocale("zh", "CN");
-
         initAppIdentity(configuration);
         URDependancies urDependancies = new URDependancies(mAppInfra);
         URSettings urSettings = new URSettings(this);

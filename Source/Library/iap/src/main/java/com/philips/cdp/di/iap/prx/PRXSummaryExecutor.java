@@ -13,9 +13,8 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.PRXDependencies;
+import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.error.PrxError;
@@ -121,9 +120,9 @@ public class PRXSummaryExecutor {
         String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale();
 
         ProductSummaryRequest productSummaryRequest = new ProductSummaryRequest(code, null);
-        productSummaryRequest.setSector(Sector.B2C);
+        productSummaryRequest.setSector(PrxConstants.Sector.B2C);
         // productSummaryRequest.setLocaleMatchResult(locale);
-        productSummaryRequest.setCatalog(Catalog.CONSUMER);
+        productSummaryRequest.setCatalog(PrxConstants.Catalog.CONSUMER);
         return productSummaryRequest;
     }
 
