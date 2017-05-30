@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -171,7 +172,7 @@ public class SecureStorageTest extends MockitoTestCase {
     }
 
     public void testLargeValue() throws Exception {
-        String valueStored = getString();
+        String valueStored = getLargeString();
         String keyStored= "keyLarge";
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored,sse));
@@ -180,7 +181,7 @@ public class SecureStorageTest extends MockitoTestCase {
         assertEquals(valueStored, actual);
     }
 
-    private String getString() {
+    private String getLargeString() {
         ClassLoader classLoader = getClass().getClassLoader();
         URL resource = classLoader.getResource("big_string");
         File file = new File(resource.getPath());
@@ -219,7 +220,7 @@ public class SecureStorageTest extends MockitoTestCase {
         assertNull(mSecureStorage.decryptData(null, sse));
         assertEquals(SecureStorageInterface.SecureStorageError.secureStorageError.NullData, sse.getErrorCode());
 
-       /* sse = new SecureStorageInterface.SecureStorageError();
+        sse = new SecureStorageInterface.SecureStorageError();
         byte[] plainByte = "abcd".getBytes();
         byte[] encBytes = mSecureStorage.encryptData(plainByte, sse);
         byte[] decBytes = mSecureStorage.decryptData(encBytes, sse);
@@ -231,6 +232,6 @@ public class SecureStorageTest extends MockitoTestCase {
         byte[] encBtyes1 = mSecureStorage.encryptData(plainByte1, sse);
         byte[] decBtyes1 = mSecureStorage.decryptData(encBtyes1, sse);
         assertTrue(Arrays.equals(plainByte1, decBtyes1));
-        assertNull(sse.getErrorCode());*/
+        assertNull(sse.getErrorCode());
     }
 }
