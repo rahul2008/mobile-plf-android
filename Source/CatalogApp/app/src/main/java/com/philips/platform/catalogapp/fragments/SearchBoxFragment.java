@@ -18,6 +18,8 @@ public class SearchBoxFragment extends BaseFragment {
 
     private FragmentSearchBoxBinding fragmentSearchBoxBinding;
     private SearchBox searchBox;
+    String query;
+    boolean searchIconExpanded = true;
 
     private static final String[] COUNTRIES = new String[]{
             "Belgium", "Brazil", "Belarus", "France", "Italy", "Germany", "Spain"
@@ -34,6 +36,11 @@ public class SearchBoxFragment extends BaseFragment {
         fragmentSearchBoxBinding.setFrag(this);
 //        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 //        ((AppCompatActivity)getActivity()).getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+
+        if (savedInstanceState != null) {
+            query = savedInstanceState.getString("query");
+            searchIconExpanded = savedInstanceState.getBoolean("iconified");
+        }
         return fragmentSearchBoxBinding.getRoot();
 
     }
@@ -42,9 +49,17 @@ public class SearchBoxFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.country_search, menu);
-        searchBox = (SearchBox) menu.findItem(R.id.country_search).getActionView();
-        searchBox.setSearchIconified(true);
+            searchBox = (SearchBox) menu.findItem(R.id.country_search).getActionView();
+        searchBox.setSearchIconified(searchIconExpanded);
+        searchBox.autoCompleteTextView.setText(query);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean("iconified",searchBox.isSearchIconified());
+        outState.putString("query", String.valueOf(searchBox.autoCompleteTextView.getText()));
+        super.onSaveInstanceState(outState);
     }
 
 }

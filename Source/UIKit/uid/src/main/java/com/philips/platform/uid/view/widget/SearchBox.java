@@ -56,7 +56,7 @@ public class SearchBox extends LinearLayout {
         inflater.inflate(R.layout.uid_search_box, this);
         initBackButton();
         mCloseButton = (ImageView) findViewById(R.id.uid_search_close_btn);
-        initCloseIconHolder();
+        initSearchIconHolder();
         searchClearLayout = findViewById(R.id.uid_search_clear_layout);
         autoCompleteTextView = (AppCompatAutoCompleteTextView) findViewById(R.id.uid_search_src_text);
 
@@ -72,6 +72,7 @@ public class SearchBox extends LinearLayout {
                 return false;
             }
         });
+        updateViews();
         setSaveEnabled(true);
     }
 
@@ -81,11 +82,12 @@ public class SearchBox extends LinearLayout {
             @Override
             public void onClick(View v) {
                 setSearchIconified(true);
+                autoCompleteTextView.setText(null);
             }
         });
     }
 
-    private void initCloseIconHolder() {
+    private void initSearchIconHolder() {
         mSearchIconHolder = (ImageView) findViewById(R.id.uid_search_icon_holder);
         mSearchIconHolder.setOnClickListener(new OnClickListener() {
             @Override
