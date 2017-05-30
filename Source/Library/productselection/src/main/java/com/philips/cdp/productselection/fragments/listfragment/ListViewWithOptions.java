@@ -77,7 +77,6 @@ public class ListViewWithOptions extends BaseAdapter {
         final ImageView image = (ImageView) vi.findViewById(R.id.image);
         TextView name = (TextView) vi.findViewById(R.id.product_name_view);
         TextView value = (TextView) vi.findViewById(R.id.ctn_view);
-        TextView from = (TextView) vi.findViewById(R.id.from);
 
         String imagepath = data.getImageURL();
         int imageWidth = (int) (85 * Resources.getSystem().getDisplayMetrics().density);

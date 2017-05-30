@@ -1,20 +1,15 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/productListContainer"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ffffff">
+    android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:id="@+id/productListContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <ListView
+        android:id="@+id/productListView"
+        android:layout_width="wrap_content"
+        android:layout_height="1000dp"
+        android:divider="?attr/uidSeparator"
+        android:dividerHeight="@dimen/uid_divider_Height"
+        android:listSelector="?attr/uidListPressed"
+        android:saveEnabled="true" />
 
-        <ListView
-            android:id="@+id/productListView"
-            android:layout_width="wrap_content"
-            android:layout_height="1000dp"
-            android:dividerHeight="1dp"
-            android:saveEnabled="true"></ListView>
-
-    </RelativeLayout>
-</ScrollView>
+</RelativeLayout>
