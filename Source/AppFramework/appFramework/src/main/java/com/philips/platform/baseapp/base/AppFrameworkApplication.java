@@ -67,32 +67,33 @@ public class AppFrameworkApplication extends MultiDexApplication {
 
     /**
      * Initialize app states
+     *
      * @param callback
      */
     public void initialize(AppInitializationCallback.AppStatesInitializationCallback callback) {
 
-        RALog.d(LOG, "UR state begin::" + System.currentTimeMillis());
+        RALog.d(LOG, "UR state begin::");
         initUserRegistrationState();
-        RALog.d(LOG, "UR state end::" + System.currentTimeMillis());
-        RALog.d(LOG, "China flow state begin::" + System.currentTimeMillis());
+        RALog.d(LOG, "UR state end::");
+        RALog.d(LOG, "China flow state begin::");
         determineChinaFlow();
-        RALog.d(LOG, "China flow state end::" + System.currentTimeMillis());
-        RALog.d(LOG, "PR state begin::" + System.currentTimeMillis());
+        RALog.d(LOG, "China flow state end::");
+        RALog.d(LOG, "PR state begin::");
         productRegistrationState = new ProductRegistrationState();
         productRegistrationState.init(this);
-        RALog.d(LOG, "PR state end::" + System.currentTimeMillis());
-        RALog.d(LOG, "IAP state begin::" + System.currentTimeMillis());
+        RALog.d(LOG, "PR state end::");
+        RALog.d(LOG, "IAP state begin::");
         iapState = new IAPRetailerFlowState();
         iapState.init(this);
-        RALog.d(LOG, "IAP state end::" + System.currentTimeMillis());
-        RALog.d(LOG, "DS state begin::" + System.currentTimeMillis());
+        RALog.d(LOG, "IAP state end::");
+        RALog.d(LOG, "DS state begin::");
         initDataServiceState();
-        RALog.d(LOG, "DS state end::" + System.currentTimeMillis());
+        RALog.d(LOG, "DS state end::");
         /*
          * Initializing tagging class and its interface. Interface initialization needs
          * context to gets started.
          */
-        RALog.d(LOG, "PN state begin::" + System.currentTimeMillis());
+        RALog.d(LOG, "PN state begin::");
         if (BaseAppUtil.isDSPollingEnabled(getApplicationContext())) {
             RALog.d(PushNotificationManager.TAG, "Polling is enabled");
         } else {
@@ -105,7 +106,7 @@ public class AppFrameworkApplication extends MultiDexApplication {
                     new IntentFilter(
                             ConnectivityManager.CONNECTIVITY_ACTION));
         }
-        RALog.d("test", "onCreate end::" + System.currentTimeMillis());
+        RALog.d("test", "onCreate end::");
         callback.onAppStatesInitialization();
     }
 
