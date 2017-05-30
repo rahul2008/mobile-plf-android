@@ -6,6 +6,7 @@ import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
+import com.philips.platform.datasync.subjectProfile.UCoreCreateSubjectProfileRequest;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +24,8 @@ import retrofit.mime.TypedString;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -62,7 +65,24 @@ public class PushNotificationControllerTest {
     }
 
     @Test
-    public void registerPushNotificationTest() throws Exception {
+    public void createSubjectProfileResponseOKTest() throws Exception {
+        mResponse = new Response("", 200, "OK", new ArrayList<Header>(), null);
+        registerPushNotificationTest();
+    }
+
+    @Test
+    public void createSubjectProfileResponseNoContentTest() throws Exception {
+        mResponse = new Response("", 201, "OK", new ArrayList<Header>(), null);
+        registerPushNotificationTest();
+    }
+
+    @Test
+    public void createSubjectProfileResponseCreatedTest() throws Exception {
+        mResponse = new Response("", 204, "OK", new ArrayList<Header>(), null);
+        registerPushNotificationTest();
+    }
+
+    public void registerPushNotificationTest() {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(true);
         when(mUCoreAccessProvider.getAccessToken()).thenReturn(TEST_ACCESS_TOKEN);
         when(mUCoreAccessProvider.getUserId()).thenReturn(TEST_USER_ID);
@@ -74,6 +94,7 @@ public class PushNotificationControllerTest {
         assertTrue(uCorePushNotification.getAppVariant() != null);
         assertTrue(uCorePushNotification.getProtocolAddress() != null);
         assertTrue(uCorePushNotification.getProtocolProvider() != null);
+        when(mPushNotificationClient.registerDeviceToken(eq(TEST_USER_ID), eq(TEST_USER_ID), eq(13), any(UCorePushNotification.class))).thenReturn(mResponse);
         mPushNotificationController.registerPushNotification(uCorePushNotification);
     }
 

@@ -33,6 +33,7 @@ import com.philips.platform.core.dbinterfaces.DBDeletingInterface;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.dbinterfaces.DBSavingInterface;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
+import com.philips.platform.core.events.CreateSubjectProfileRequestEvent;
 import com.philips.platform.core.events.DataClearRequest;
 import com.philips.platform.core.events.DatabaseConsentSaveRequest;
 import com.philips.platform.core.events.DatabaseConsentUpdateRequest;
@@ -40,7 +41,11 @@ import com.philips.platform.core.events.DatabaseSettingsSaveRequest;
 import com.philips.platform.core.events.DatabaseSettingsUpdateRequest;
 import com.philips.platform.core.events.DeleteAllMomentsRequest;
 import com.philips.platform.core.events.DeleteInsightFromDB;
+import com.philips.platform.core.events.DeleteSubjectProfileRequestEvent;
 import com.philips.platform.core.events.FetchInsightsFromDB;
+import com.philips.platform.core.events.GetPairedDeviceRequestEvent;
+import com.philips.platform.core.events.GetSubjectProfileListRequestEvent;
+import com.philips.platform.core.events.GetSubjectProfileRequestEvent;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
 import com.philips.platform.core.events.LoadSettingsRequest;
@@ -51,7 +56,9 @@ import com.philips.platform.core.events.MomentUpdateRequest;
 import com.philips.platform.core.events.MomentsDeleteRequest;
 import com.philips.platform.core.events.MomentsSaveRequest;
 import com.philips.platform.core.events.MomentsUpdateRequest;
+import com.philips.platform.core.events.PairDevicesRequestEvent;
 import com.philips.platform.core.events.RegisterDeviceToken;
+import com.philips.platform.core.events.UnPairDeviceRequestEvent;
 import com.philips.platform.core.events.UnRegisterDeviceToken;
 import com.philips.platform.core.events.UserCharacteristicsSaveRequest;
 import com.philips.platform.core.injection.AppComponent;
@@ -61,7 +68,9 @@ import com.philips.platform.core.injection.DaggerAppComponent;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
+import com.philips.platform.core.listeners.DevicePairingListener;
 import com.philips.platform.core.listeners.RegisterDeviceTokenListener;
+import com.philips.platform.core.listeners.SubjectProfileListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.DataServicesConstants;
@@ -724,6 +733,38 @@ public class DataServicesManager {
      */
     public void handlePushNotificationPayload(JSONObject jsonObject) throws JSONException {
         synchronize();
+    }
+
+    //Create Subject Profile
+    public void createSubjectProfile(String firstName, String dateOfBirth, String gender,
+                                     double weight, String creationDate, SubjectProfileListener subjectProfileListener) {
+        mEventing.post(new CreateSubjectProfileRequestEvent(firstName, dateOfBirth, gender, weight, creationDate, subjectProfileListener));
+    }
+
+    public void getSubjectProfiles(SubjectProfileListener subjectProfileListener) {
+        mEventing.post(new GetSubjectProfileListRequestEvent(subjectProfileListener));
+    }
+
+    public void getSubjectProfile(String subjectID, SubjectProfileListener subjectProfileListener) {
+        mEventing.post(new GetSubjectProfileRequestEvent(subjectID, subjectProfileListener));
+    }
+
+    public void deleteSubjectProfile(String subjectID, SubjectProfileListener subjectProfileListener) {
+        mEventing.post(new DeleteSubjectProfileRequestEvent(subjectID, subjectProfileListener));
+    }
+
+    //Device Pairing
+    public void pairDevices(String deviceID, String deviceType, List<String> subjectIds,
+                            List<String> standardObservationNames, DevicePairingListener devicePairingListener) {
+        mEventing.post(new PairDevicesRequestEvent(deviceID, deviceType, standardObservationNames, subjectIds, devicePairingListener));
+    }
+
+    public void unPairDevice(String deviceID, DevicePairingListener devicePairingListener) {
+        mEventing.post(new UnPairDeviceRequestEvent(deviceID, devicePairingListener));
+    }
+
+    public void getPairedDevices(DevicePairingListener devicePairingListener) {
+        mEventing.post(new GetPairedDeviceRequestEvent(devicePairingListener));
     }
 
     //Service Discovery
