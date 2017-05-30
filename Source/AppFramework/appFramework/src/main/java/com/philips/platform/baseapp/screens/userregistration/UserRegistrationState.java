@@ -8,12 +8,10 @@ package com.philips.platform.baseapp.screens.userregistration;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
-
 import android.widget.Toast;
 
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -136,13 +134,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
 
-        appConfigurationInterface.setPropertyForKey(
-                APPIDENTITY_SECTOR, AppInfra, SECTOR_VALUE, configError);
-
-        appConfigurationInterface.setPropertyForKey(
-                APPIDENTITY_SERVICE_DISCOVERY_ENVIRONMENT, AppInfra,
-                PRODUCTION, configError);
-
         switch (configuration){
             case STAGING:
                 setStageConfig(appConfigurationInterface, configError);
@@ -237,21 +228,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     public void onUserRegistrationComplete(Activity activity) {
 
         if (null != activity) {
-            new User(activity.getApplicationContext()).refreshLoginSession(new RefreshLoginSessionHandler() {
-                @Override
-                public void onRefreshLoginSessionSuccess() {
-                }
-
-                @Override
-                public void onRefreshLoginSessionFailedWithError(int i) {
-
-                }
-
-                @Override
-                public void onRefreshLoginSessionInProgress(String s) {
-
-                }
-            });
             getApplicationContext().determineChinaFlow();
 
             //Register GCM token with data services on login success
