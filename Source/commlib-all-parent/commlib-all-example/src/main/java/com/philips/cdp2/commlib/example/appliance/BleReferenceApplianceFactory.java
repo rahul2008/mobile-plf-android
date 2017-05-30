@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Koninklijke Philips N.V.
+ * (C) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp2.commlib.example.appliance;
@@ -25,7 +25,7 @@ public final class BleReferenceApplianceFactory implements DICommApplianceFactor
 
     @Override
     public boolean canCreateApplianceForNode(NetworkNode networkNode) {
-        return BleReferenceAppliance.MODELNAME.equals(networkNode.getModelName());
+        return BleReferenceAppliance.DEVICETYPE.equals(networkNode.getDeviceType());
     }
 
     @Override
@@ -41,7 +41,7 @@ public final class BleReferenceApplianceFactory implements DICommApplianceFactor
     @Override
     public Set<String> getSupportedModelNames() {
         return Collections.unmodifiableSet(new HashSet<String>() {{
-            add(BleReferenceAppliance.MODELNAME);
+            add(BleReferenceAppliance.DEVICETYPE);
         }});
     }
 }

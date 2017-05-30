@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Koninklijke Philips N.V.
+ * (C) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp2.commlib.ble.discovery;
@@ -127,7 +127,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         networkNode.setBootId(-1L);
         networkNode.setCppId(device.getAddress()); // TODO cloud identifier; hijacked MAC address for now
         networkNode.setName(device.getName()); // TODO Friendly name, e.g. 'Vacuum cleaner'
-        networkNode.setModelName(device.getDeviceTypeName()); // TODO model name, e.g. 'Polaris'
+        networkNode.setDeviceType(device.getDeviceTypeName()); // TODO model name, e.g. 'Polaris'
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 
         // Model id, e.g. 'FC8932'

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Koninklijke Philips N.V.
+ * (C) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp2.commlib.example.appliance;
@@ -10,7 +10,7 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 public class BleReferenceAppliance extends Appliance {
 
-    public static final String MODELNAME = "ReferenceNode";
+    public static final String DEVICETYPE = "ReferenceNode";
     private final TimePort timePort;
 
     public BleReferenceAppliance(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
@@ -22,7 +22,7 @@ public class BleReferenceAppliance extends Appliance {
 
     @Override
     public String getDeviceType() {
-        return MODELNAME;
+        return DEVICETYPE;
     }
 
     public TimePort getTimePort() {
