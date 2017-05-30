@@ -3791,22 +3791,22 @@
     },
     "thumb-disabled": {
       "ultra-light": {
-        "color": "white"
+        "reference": "content-tertiary"
       },
       "very-light": {
-        "color-code": 10
+        "reference": "content-tertiary"
       },
       "light": {
-        "color-code": 20
+        "reference": "content-tertiary"
       },
       "bright": {
-        "color-code": 35
+        "reference": "content-tertiary"
       },
       "very-dark": {
-        "color-code": 55
+        "color-code": 60
       },
       "very-dark-gray": {
-        "color-code": 55
+        "color-code": 60
       }
     },
     "toggle-off": {
@@ -4218,5 +4218,5 @@
         "color": "white"
       }
     }
-  }
+    }
 ]

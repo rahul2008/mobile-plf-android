@@ -30,7 +30,7 @@ class DLSResourceConstants {
     static final String PATH_SEMANTIC_BRUSH_JSON = "${PATH_RES}/brushes.json"
     static final String PATH_COMPONENT_JSON = "${PATH_RES}/components.json"
     static final String PATH_COLOR_RANGES_JSON = "${PATH_RES}/color_ranges.json"
-    static final String PATH_VALIDATION_JSON = "${PATH_RES}/validation.CONCEPT.json"
+    static final String PATH_VALIDATION_JSON = "${PATH_RES}/validation.json"
 
     static final String PATH_OUT = "generated"
     static final String PATH_OUT_THEME_FILE = "${PATH_OUT}/uid_theme_%s.xml"
