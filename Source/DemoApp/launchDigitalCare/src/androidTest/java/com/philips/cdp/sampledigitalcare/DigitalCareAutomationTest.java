@@ -1,7 +1,7 @@
-/*
 package com.philips.cdp.sampledigitalcare;
 
 
+import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -21,8 +21,10 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.philips.cdp.sampledigitalcare.Matchers.withRecyclerView;
 import static org.hamcrest.CoreMatchers.anything;
+import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -31,6 +33,14 @@ public class DigitalCareAutomationTest {
     @Rule
     public ActivityTestRule<MicroAppLauncher> mActivityTestRule = new ActivityTestRule<>(MicroAppLauncher.class);
 
+    @Test
+    public void microAppLauncherTest() {
+        ViewInteraction button = onView(
+                allOf(withId(R.id.change_theme), withText("Change Theme")));
+        button.perform(scrollTo(), click());
+
+    }
+    /*
     @Test
     public void productInformationTest() {
         // launch screen
@@ -114,11 +124,9 @@ public class DigitalCareAutomationTest {
     }
 
     private DigitalCareAutomationTest waiting(long millis) {
-         */
-/*Added a sleep statement to match the app's execution delay.
+         *//*Added a sleep statement to match the app's execution delay.
          The recommended way to handle such scenarios is to use Espresso idling resources:
          https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html*//*
-
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
@@ -152,7 +160,6 @@ public class DigitalCareAutomationTest {
             onView(withId(id)).check(matches(isDisplayed()));
         }
         return waiting(millis);
-    }
+    }*/
 }
 
-*/
