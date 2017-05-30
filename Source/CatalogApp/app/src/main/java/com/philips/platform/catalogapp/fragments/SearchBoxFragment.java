@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,7 +15,7 @@ import com.philips.platform.catalogapp.databinding.FragmentSearchBoxBinding;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.SearchBox;
 
-public class SearchBoxFragment extends BaseFragment {
+public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandListener{
 
     private FragmentSearchBoxBinding fragmentSearchBoxBinding;
     private SearchBox searchBox;
@@ -38,7 +37,6 @@ public class SearchBoxFragment extends BaseFragment {
         fragmentSearchBoxBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_box, container, false);
         fragmentSearchBoxBinding.setFrag(this);
         navIconToggler = new UIDNavigationIconToggler(getActivity());
-        navIconToggler.hideNavigationIcon();
 //        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 //        ((AppCompatActivity)getActivity()).getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
@@ -58,15 +56,8 @@ public class SearchBoxFragment extends BaseFragment {
             searchBox = (SearchBox) menu.findItem(R.id.country_search).getActionView();
         searchBox.setSearchIconified(searchIconExpanded);
         searchBox.autoCompleteTextView.setText(query);
+        searchBox.setExpandListener(this);
         super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.country_search) {
-            navIconToggler.hideNavigationIcon();
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -76,4 +67,13 @@ public class SearchBoxFragment extends BaseFragment {
         super.onSaveInstanceState(outState);
     }
 
+    @Override
+    public void onSearchExpanded() {
+        navIconToggler.hideNavigationIcon();
+    }
+
+    @Override
+    public void onSearchCollapsed() {
+        navIconToggler.restoreNavigationIcon();
+    }
 }

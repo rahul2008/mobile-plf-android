@@ -12,7 +12,7 @@
         android:id="@+id/country_searc1h"
         android:orderInCategory="0"
         android:title="Country search"
-        android:visible="true"
+        android:visible="false"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom" />
 </menu>

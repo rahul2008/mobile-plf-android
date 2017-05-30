@@ -35,7 +35,13 @@ public class SearchBox extends LinearLayout {
 
     private boolean isSearchIconified;
     private View searchClearLayout;
+    private ExpandListener expandListener;
 
+    public interface ExpandListener {
+        void onSearchExpanded();
+
+        void onSearchCollapsed();
+    }
 
     public SearchBox(Context context) {
         this(context, null);
@@ -82,6 +88,9 @@ public class SearchBox extends LinearLayout {
         mBackButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (expandListener != null) {
+                    expandListener.onSearchCollapsed();
+                }
                 setSearchIconified(true);
                 autoCompleteTextView.setText(null);
                 setImeVisibility(false);
@@ -95,6 +104,9 @@ public class SearchBox extends LinearLayout {
         mSearchIconHolder.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (expandListener != null) {
+                    expandListener.onSearchExpanded();
+                }
                 setSearchIconified(false);
                 autoCompleteTextView.requestFocus();
                 setImeVisibility(true);
@@ -104,8 +116,8 @@ public class SearchBox extends LinearLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if(isSearchIconified) {
-             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (isSearchIconified) {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             return;
         }
         int width = MeasureSpec.getSize(widthMeasureSpec);
@@ -118,10 +130,10 @@ public class SearchBox extends LinearLayout {
     }
 
     private void updateViews() {
-        int iconHolderVisisblity = isSearchIconified ? View.VISIBLE: View.GONE;
+        int iconHolderVisisblity = isSearchIconified ? View.VISIBLE : View.GONE;
         mSearchIconHolder.setVisibility(iconHolderVisisblity);
 
-        int visibility = isSearchIconified ? View.GONE: View.VISIBLE;
+        int visibility = isSearchIconified ? View.GONE : View.VISIBLE;
         searchClearLayout.setVisibility(visibility);
         mBackButton.setVisibility(visibility);
         mCloseButton.setVisibility(visibility);
@@ -157,6 +169,7 @@ public class SearchBox extends LinearLayout {
                     public SavedState createFromParcel(Parcel in) {
                         return new SavedState(in);
                     }
+
                     public SavedState[] newArray(int size) {
                         return new SavedState[size];
                     }
@@ -173,7 +186,7 @@ public class SearchBox extends LinearLayout {
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
-        if(!(state instanceof SavedState)) {
+        if (!(state instanceof SavedState)) {
             super.onRestoreInstanceState(state);
             return;
         }
@@ -184,9 +197,13 @@ public class SearchBox extends LinearLayout {
         super.onRestoreInstanceState(ss.getSuperState());
     }
 
+    public void setExpandListener(ExpandListener listener) {
+        expandListener = listener;
+    }
+
     private Runnable mShowImeRunnable = new Runnable() {
         public void run() {
-            InputMethodManager imm = getContext().getSystemService(InputMethodManager.class);
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
         }
     };
@@ -196,12 +213,11 @@ public class SearchBox extends LinearLayout {
             post(mShowImeRunnable);
         } else {
             removeCallbacks(mShowImeRunnable);
-            InputMethodManager imm = getContext().getSystemService(InputMethodManager.class);
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 
             if (imm != null) {
                 imm.hideSoftInputFromWindow(getWindowToken(), 0);
             }
         }
     }
-
 }
