@@ -33,7 +33,7 @@ public class SearchBox extends LinearLayout {
     public AppCompatAutoCompleteTextView autoCompleteTextView;
 
 
-    private boolean isSearchIconified;
+    private boolean isSearchIconified = true;
     private View searchClearLayout;
     private ExpandListener expandListener;
 
@@ -88,9 +88,7 @@ public class SearchBox extends LinearLayout {
         mBackButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (expandListener != null) {
-                    expandListener.onSearchCollapsed();
-                }
+                callCollapseListener();
                 setSearchIconified(true);
                 autoCompleteTextView.setText(null);
                 setImeVisibility(false);
@@ -104,9 +102,7 @@ public class SearchBox extends LinearLayout {
         mSearchIconHolder.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (expandListener != null) {
-                    expandListener.onSearchExpanded();
-                }
+                callExpandListener();
                 setSearchIconified(false);
                 autoCompleteTextView.requestFocus();
                 setImeVisibility(true);
@@ -125,8 +121,37 @@ public class SearchBox extends LinearLayout {
     }
 
     public void setSearchIconified(boolean searchIconified) {
+        handleSearchExapnsion(searchIconified);
         isSearchIconified = searchIconified;
         updateViews();
+    }
+
+    private void handleSearchExapnsion(boolean searchIconified) {
+        if (shouldExpand(searchIconified)) {
+            callExpandListener();
+        } else if (shouldCollapse(searchIconified)) {
+            callCollapseListener();
+        }
+    }
+
+    private void callCollapseListener() {
+        if (expandListener != null) {
+            expandListener.onSearchCollapsed();
+        }
+    }
+
+    private void callExpandListener() {
+        if (expandListener != null) {
+            expandListener.onSearchExpanded();
+        }
+    }
+
+    private boolean shouldCollapse(boolean searchIconified) {
+        return !isSearchIconified && searchIconified;
+    }
+
+    private boolean shouldExpand(boolean searchIconified) {
+        return isSearchIconified && !searchIconified;
     }
 
     private void updateViews() {

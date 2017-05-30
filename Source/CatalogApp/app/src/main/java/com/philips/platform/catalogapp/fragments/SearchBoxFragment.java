@@ -20,7 +20,7 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
     private FragmentSearchBoxBinding fragmentSearchBoxBinding;
     private SearchBox searchBox;
     String query;
-    boolean searchIconExpanded = true;
+    boolean searchIconExpanded = false;
     private UIDNavigationIconToggler navIconToggler;
 
     private static final String[] COUNTRIES = new String[]{
@@ -54,9 +54,9 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.country_search, menu);
             searchBox = (SearchBox) menu.findItem(R.id.country_search).getActionView();
+        searchBox.setExpandListener(this);
         searchBox.setSearchIconified(searchIconExpanded);
         searchBox.autoCompleteTextView.setText(query);
-        searchBox.setExpandListener(this);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
