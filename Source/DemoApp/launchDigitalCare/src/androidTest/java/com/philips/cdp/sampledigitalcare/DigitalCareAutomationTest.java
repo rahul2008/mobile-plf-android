@@ -1,3 +1,4 @@
+/*
 package com.philips.cdp.sampledigitalcare;
 
 
@@ -113,9 +114,11 @@ public class DigitalCareAutomationTest {
     }
 
     private DigitalCareAutomationTest waiting(long millis) {
-         /*Added a sleep statement to match the app's execution delay.
+         */
+/*Added a sleep statement to match the app's execution delay.
          The recommended way to handle such scenarios is to use Espresso idling resources:
-         https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html*/
+         https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html*//*
+
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
@@ -152,3 +155,4 @@ public class DigitalCareAutomationTest {
     }
 }
 
+*/
