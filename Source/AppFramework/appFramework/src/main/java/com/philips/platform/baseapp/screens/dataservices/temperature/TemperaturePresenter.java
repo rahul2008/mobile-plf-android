@@ -31,6 +31,7 @@ import com.philips.platform.baseapp.screens.dataservices.database.datatypes.Mome
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentType;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMoment;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
@@ -52,6 +53,8 @@ import static com.philips.platform.baseapp.screens.utility.Constants.SQLITE_EXCE
 
 
 public class TemperaturePresenter {
+    public static final String TAG = TemperaturePresenter.class.getSimpleName();
+
     private final DBRequestListener dbRequestListener;
     private DataServicesManager mDataServices;
 
@@ -152,8 +155,8 @@ public class TemperaturePresenter {
                                  final int selectedItem) {
         List<RowItem> rowItems = new ArrayList<>();
 
-        final String delete = mContext.getResources().getString(R.string.delete);
-        final String update = mContext.getResources().getString(R.string.update);
+        final String delete = mContext.getResources().getString(R.string.RA_delete);
+        final String update = mContext.getResources().getString(R.string.RA_update);
         final String[] descriptions = new String[]{delete, update};
 
         rowItems.add(new RowItem(descriptions[0]));
@@ -198,7 +201,7 @@ public class TemperaturePresenter {
                 DSLog.i(DSLog.LOG, "e = " + e.getMessage());
             }
         } catch (SQLException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SQLITE_EXCEPTION,
+            RALog.e(TAG+SQLITE_EXCEPTION,
                     e.getMessage());
         }
     }
@@ -239,7 +242,7 @@ public class TemperaturePresenter {
     void addOrUpdateMoment(final int addOrUpdate, final Moment moment) {
         final Dialog dialog = new Dialog(mContext);
         dialog.setContentView(R.layout.af_datasync_create_moment_pop_up);
-        dialog.setTitle(mContext.getResources().getString(R.string.create_moment));
+        dialog.setTitle(mContext.getResources().getString(R.string.RA_create_moment));
 
         mTemperature = (EditText) dialog.findViewById(R.id.temperature_detail);
         mLocation = (EditText) dialog.findViewById(R.id.location_detail);
@@ -252,7 +255,7 @@ public class TemperaturePresenter {
             mTemperature.setText(String.valueOf(helper.getTemperature(moment)));
             mLocation.setText(helper.getNotes(moment));
             mPhase.setText(helper.getTime(moment));
-            mDialogButton.setText(R.string.update);
+            mDialogButton.setText(R.string.RA_update);
         }
 
         mDialogButton.setOnClickListener(new View.OnClickListener() {
@@ -263,7 +266,7 @@ public class TemperaturePresenter {
                 if (!isValid) {
                     mTemperature.setText("");
                     Toast.makeText(mContext,
-                            R.string.invalid_temperature, Toast.LENGTH_SHORT).show();
+                            R.string.RA_invalid_temperature, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -281,7 +284,7 @@ public class TemperaturePresenter {
                             Dao<OrmMoment, Integer> momentDao =DatabaseHelper.getInstance(mContext).getMomentDao();
                             momentDao.refresh((OrmMoment) moment);
                         } catch (SQLException e) {
-                            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SQLITE_EXCEPTION,
+                            RALog.e(TAG + SQLITE_EXCEPTION,
                                     e.getMessage());                        }
                         updateMoment((OrmMoment) moment);
                         break;

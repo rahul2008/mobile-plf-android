@@ -9,16 +9,20 @@ package com.philips.platform.appframework.connectivity.appliance;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 public class BleReferenceAppliance extends Appliance {
 
     public static final String MODELNAME = "ReferenceNode";
+    public static final String TAG = "BleReferenceAppliance";
+
     private final DeviceMeasurementPort deviceMeasurementPort;
 
     public BleReferenceAppliance(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);
         deviceMeasurementPort=new DeviceMeasurementPort(communicationStrategy);
         addPort(deviceMeasurementPort);
+        RALog.d(TAG,"Adding device Measurement port to appliance");
 
     }
 

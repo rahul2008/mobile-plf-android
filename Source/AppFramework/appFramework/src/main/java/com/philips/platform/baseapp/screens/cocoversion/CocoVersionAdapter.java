@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,8 @@ import java.util.ArrayList;
  */
 
 public class CocoVersionAdapter extends RecyclerView.Adapter<CocoVersionAdapter.CocoInfoViewHolder> {
+    public static final String TAG =CocoVersionAdapter.class.getSimpleName();
+
     private ArrayList<CocoVersionItem> cocoVersionsItemList = null;
     private Context context;
 
@@ -35,6 +38,7 @@ public class CocoVersionAdapter extends RecyclerView.Adapter<CocoVersionAdapter.
 
     @Override
     public void onBindViewHolder(CocoInfoViewHolder holder, int position) {
+        RALog.d(TAG, " onBindViewHolder called  ");
         CocoVersionItem cocos = cocoVersionsItemList.get(position);
         holder.CocoName.setText(cocos.title);
         holder.CocoVersion.setText(cocos.Version);

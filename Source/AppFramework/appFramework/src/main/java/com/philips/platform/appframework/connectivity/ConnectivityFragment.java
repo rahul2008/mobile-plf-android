@@ -20,7 +20,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -40,9 +39,11 @@ import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceApplianceFactory;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
+import com.philips.platform.baseapp.screens.utility.RALog;
+
+import java.lang.ref.WeakReference;
 
 import static com.philips.platform.baseapp.screens.utility.Constants.DEVICE_DATAPARSING;
 
@@ -55,11 +56,13 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     private DICommApplianceFactory applianceFactory;
     private TextView connectionState;
     private BluetoothAdapter mBluetoothAdapter;
+    private Handler handler=new Handler();
     private static final int REQUEST_ENABLE_BT = 1;
     private BLEScanDialogFragment bleScanDialogFragment;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1001;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1002;
-
+    private WeakReference<ConnectivityFragment> connectivityFragmentWeakReference;
+    private Context mContext;
 
     /**
      * Presenter object for Connectivity
@@ -70,15 +73,23 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext=context;
+    }
+
+    @Override
     public String getActionbarTitle() {
         return getResources().getString(R.string.RA_ConnectivityScreen_Menu_Title);
     }
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
+        RALog.d(TAG,"Connectivity Fragment Oncreate");
         super.onCreate(savedInstanceState);
         // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
         // BluetoothAdapter through BluetoothManager.
+        connectivityFragmentWeakReference=new WeakReference<ConnectivityFragment>(this);
         final BluetoothManager bluetoothManager =
                 (BluetoothManager) getActivity().getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
@@ -113,6 +124,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
      */
     private void setUpCommCentral() {
         // Setup CommCentral
+        RALog.i(TAG,"Setup CommCentral ");
         final BleTransportContext bleTransportContext = new BleTransportContext(getActivity());
         this.applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
 
@@ -123,9 +135,9 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     private final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener<BleReferenceAppliance>() {
         @Override
         public void onApplianceFound(@NonNull BleReferenceAppliance foundAppliance) {
-            Log.d(TAG, "Device found :" + foundAppliance.getName());
+            RALog.d(TAG, "Device found :" + foundAppliance.getName());
             bleScanDialogFragment.addDevice(foundAppliance);
-            Toast.makeText(getActivity(), "Device found name:" + foundAppliance.getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "Device found name:" + foundAppliance.getName(), Toast.LENGTH_SHORT).show();
 
         }
 
@@ -164,6 +176,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
      * Start scanning nearby devices using given strategy
      */
     private void startDiscovery() {
+        RALog.i(TAG,"Ble device discovery started ");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -194,7 +207,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                                     bleScanDialogFragment.hideProgressBar();
                                     if (bleScanDialogFragment.getDeviceCount() == 0) {
                                         bleScanDialogFragment.dismiss();
-                                        Toast.makeText(getActivity(), R.string.no_device_found, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), R.string.RA_no_device_found, Toast.LENGTH_SHORT).show();
 
                                     }
 
@@ -202,22 +215,40 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                             }
                         }
                     }, 30000);
+                    handler.postDelayed(stopDiscoveryRunnable,30000);
                     updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Disconnected));
                 } catch (MissingPermissionException e) {
-                    Log.e(TAG, "Permission missing");
+                    RALog.e(TAG, "Permission missing");
                 }
             }
         }, 100);
 
     }
 
+    private Runnable stopDiscoveryRunnable=new Runnable() {
+        @Override
+        public void run() {
+            if (commCentral != null && connectivityFragmentWeakReference!=null&& isAdded()) {
+                commCentral.stopDiscovery();
+                if (bleScanDialogFragment != null) {
+                    bleScanDialogFragment.hideProgressBar();
+                    if (bleScanDialogFragment.getDeviceCount() == 0) {
+                        bleScanDialogFragment.dismiss();
+                        Toast.makeText(mContext, R.string.RA_no_device_found, Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }
+            }
+        }
+    };
 
     @Override
     public void onProcessMomentError(String errorText) {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
-        Toast.makeText(getActivity(), errorText, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, errorText, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -251,7 +282,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                         editText.setText(Integer.toString(-1));
                     }
                 } catch (Exception e) {
-                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, DEVICE_DATAPARSING,
+                    RALog.d(DEVICE_DATAPARSING,
                             e.getMessage());              }
             }
         });
@@ -264,7 +295,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getActivity(), "Error while reading measurement from reference board" + error.getErrorMessage(), Toast.LENGTH_SHORT);
+                Toast.makeText(mContext, "Error while reading measurement from reference board" + error.getErrorMessage(), Toast.LENGTH_SHORT);
             }
         });
 
@@ -322,7 +353,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                     // permission was granted, yay!
                     checkForAccessCoarseLocation();
                 } else {
-                    Toast.makeText(getActivity(), "Need permission", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Need permission", Toast.LENGTH_SHORT).show();
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                 }
@@ -335,10 +366,20 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                     startDiscovery();
                 } else {
                     // permission denied, boo!
-                    Toast.makeText(getActivity(), "Need permission", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Need permission", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        RALog.d(TAG," Connectivity Fragment Destroyed");
+        if(handler!=null){
+            handler.removeCallbacks(stopDiscoveryRunnable);
+        }
+        connectivityFragmentWeakReference=null;
+        super.onDestroy();
     }
 
     @Override

@@ -6,7 +6,7 @@
 package com.philips.platform.baseapp.screens.introscreen.welcomefragment;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
+
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
@@ -20,11 +20,13 @@ import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetExc
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.utility.Constants;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 
 public class WelcomeFragmentPresenter extends UIBasePresenter{
+    public static String TAG = WelcomeFragmentPresenter.class.getSimpleName();
 
     private final int MENU_OPTION_HOME = 0;
     private SharedPreferenceUtility sharedPreferenceUtility;
@@ -57,9 +59,9 @@ public class WelcomeFragmentPresenter extends UIBasePresenter{
             }
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {
-            Log.d(getClass() + "", e.getMessage());
+            RALog.d(TAG, e.getMessage());
             if(null != welcomeFragmentView) {
-                Toast.makeText(welcomeFragmentView.getFragmentActivity(), welcomeFragmentView.getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                Toast.makeText(welcomeFragmentView.getFragmentActivity(), welcomeFragmentView.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
             }
         }
     }

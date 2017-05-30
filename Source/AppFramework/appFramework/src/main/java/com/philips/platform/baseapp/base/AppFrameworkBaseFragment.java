@@ -10,13 +10,16 @@ import android.support.v4.app.Fragment;
 import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 /**
  * AppFrameworkBaseFragment is the <b>Base class</b> for all fragments.
  */
 public abstract class AppFrameworkBaseFragment extends Fragment{
+    private static final String TAG = AppFrameworkBaseFragment.class.getName();
 
     protected UIBasePresenter fragmentPresenter;
+
     private TextView actionBarTitle = null;
 
     public abstract String getActionbarTitle();
@@ -29,7 +32,8 @@ public abstract class AppFrameworkBaseFragment extends Fragment{
 
      @Override
     public void onResume() {
-        super.onResume();
+         RALog.d(TAG," onResume called");
+         super.onResume();
         setActionbarTitle();
     }
 
@@ -38,6 +42,8 @@ public abstract class AppFrameworkBaseFragment extends Fragment{
      * selection/creation.
      */
     private void setActionbarTitle() {
+        RALog.d(TAG," setActionbarTitle called");
+
         if (actionBarTitle == null) {
             actionBarTitle = (TextView) getActivity().findViewById(R.id.af_actionbar_title);
         }

@@ -18,6 +18,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmCharacteristics;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
@@ -37,6 +38,8 @@ import android.support.v4.app.Fragment;
 import static com.philips.platform.baseapp.screens.utility.Constants.JSON_PARSING_EXCEPTION;
 
 public class CharacteristicsDialogFragment extends Fragment implements View.OnClickListener, DBFetchRequestListner<Characteristics>,DBRequestListener<Characteristics>,DBChangeListener {
+    public static final String TAG = CharacteristicsDialogFragment.class.getSimpleName();
+
     Button mBtnOk,mBtnEdit;
     private Context mContext;
     private EditText mEtCharacteristics;
@@ -172,7 +175,7 @@ public class CharacteristicsDialogFragment extends Fragment implements View.OnCl
                     mEtCharacteristics.setText(jsonObj);
                 } catch (Exception e) {
                     DSLog.i(DSLog.LOG, "Inder Exception onSuccess= " + e.getMessage());
-                    AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, JSON_PARSING_EXCEPTION,
+                    RALog.e(TAG+ JSON_PARSING_EXCEPTION,
                             e.getMessage());
                 }
             }
