@@ -25,7 +25,7 @@
                 style="@style/BaseLayoutMargins.Dimens"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
                     style="@style/TestButtonTexts"
                     android:layout_weight="1"
                     android:gravity="center_vertical|start"
@@ -49,7 +49,7 @@
                 style="@style/BaseLayoutMargins.Dimens"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
                     style="@style/TestButtonTexts"
                     android:layout_weight="1"
                     android:gravity="center_vertical|start"
@@ -73,7 +73,7 @@
                 style="@style/BaseLayoutMargins.Dimens"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
                     style="@style/TestButtonTexts"
                     android:layout_weight="1"
                     android:gravity="center_vertical|start"
@@ -160,8 +160,6 @@
                 android:orientation="vertical"
                 android:visibility="@{frag.showExtraWideButtons ? View.VISIBLE : View.GONE}">
 
-                <include layout="@layout/divider_layout"/>
-
                 <com.philips.platform.uid.view.widget.Label
                     style="@style/ButtonsCategoryStyle"
                     android:text="@string/buttons_text_left_aligned_category"/>
@@ -229,8 +227,6 @@
                     app:uidComponentType="Accent"/>
             </LinearLayout>
 
-            <include layout="@layout/divider_layout"/>
-
             <com.philips.platform.uid.view.widget.Label
                 style="@style/ButtonsCategoryStyle"
                 android:text="@string/buttons_icon_only"/>
@@ -264,8 +260,6 @@
                     android:enabled="@{frag.isButtonsEnabled}"
                     app:uidImageButtonDrawableSrc="@android:drawable/ic_dialog_info"/>
             </LinearLayout>
-
-            <include layout="@layout/divider_layout"/>
 
             <RelativeLayout
                 style="@style/ButtonsCategoryStyle"
