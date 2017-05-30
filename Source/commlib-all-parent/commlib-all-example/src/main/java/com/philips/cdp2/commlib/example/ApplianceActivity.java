@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp2.commlib.example;
@@ -15,8 +15,8 @@ import android.widget.TextView;
 
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp2.commlib.core.port.time.TimePort;
 import com.philips.cdp2.commlib.example.appliance.BleReferenceAppliance;
-import com.philips.cdp2.commlib.example.appliance.TimePort;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
