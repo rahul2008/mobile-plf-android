@@ -15,10 +15,9 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.PRXDependencies;
+import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.datamodels.assets.Asset;
 import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
@@ -178,9 +177,9 @@ public class PRXAssetExecutor {
         //  String locale = HybrisDelegate.getInstance(mContext).getStore().getLocale();//Check
 
         ProductAssetRequest productAssetBuilder = new ProductAssetRequest(code, null);
-        productAssetBuilder.setSector(Sector.B2C);
+        productAssetBuilder.setSector(PrxConstants.Sector.B2C);
         //productAssetBuilder.setLocaleMatchResult(locale);
-        productAssetBuilder.setCatalog(Catalog.CONSUMER);
+        productAssetBuilder.setCatalog(PrxConstants.Catalog.CONSUMER);
         productAssetBuilder.setRequestTimeOut(NetworkConstants.DEFAULT_TIMEOUT_MS);
         return productAssetBuilder;
     }
