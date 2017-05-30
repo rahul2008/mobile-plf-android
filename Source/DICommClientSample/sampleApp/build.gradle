@@ -1,4 +1,9 @@
 /*
+ * (C) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
  * (c) Koninklijke Philips N.V., 2017.
  *     All rights reserved.
  */
@@ -94,4 +99,5 @@ dependencies {
     }
 
     compile deps.support.appcompatv7
+    compile group: 'joda-time', name: 'joda-time', version: '2.9.7'
 }

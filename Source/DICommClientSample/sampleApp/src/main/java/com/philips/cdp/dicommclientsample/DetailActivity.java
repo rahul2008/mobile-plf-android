@@ -4,6 +4,11 @@
  */
 
 /*
+ * (C) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
  * (C) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
@@ -18,12 +23,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.port.DICommPort;
+import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
@@ -32,14 +39,23 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclientsample.airpurifier.AirPort;
 import com.philips.cdp.dicommclientsample.airpurifier.AirPortProperties;
 import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
+import com.philips.cdp.dicommclientsample.reference.WifiReferenceAppliance;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.port.time.TimePort;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 public class DetailActivity extends AppCompatActivity {
     private static final String TAG = "DetailActivity";
 
+    private final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm:ss");
+
     private EditText editTextName;
     private EditText editTextUserId;
     private EditText editTextUserToken;
+    private TextView timeTextView;
     private SwitchCompat lightSwitch;
     private Appliance currentAppliance;
 
@@ -53,6 +69,7 @@ public class DetailActivity extends AppCompatActivity {
         editTextName = (EditText) findViewById(R.id.editTextName);
         editTextUserId = (EditText) findViewById(R.id.userId);
         editTextUserToken = (EditText) findViewById(R.id.userToken);
+        timeTextView = (TextView) findViewById(R.id.timeTextView);
 
         lightSwitch = (SwitchCompat) findViewById(R.id.switchLight);
         final Button buttonSet = (Button) findViewById(R.id.buttonSet);
@@ -85,6 +102,37 @@ public class DetailActivity extends AppCompatActivity {
                 updateLightProperty(isChecked);
             }
         });
+
+        startTimePortSubscription();
+    }
+
+    private void startTimePortSubscription() {
+        if (currentAppliance instanceof WifiReferenceAppliance) {
+            WifiReferenceAppliance wifiReferenceAppliance = (WifiReferenceAppliance) currentAppliance;
+            wifiReferenceAppliance.getTimePort().addPortListener(new DICommPortListener<TimePort>() {
+
+                @Override
+                public void onPortUpdate(TimePort timePort) {
+                    final String datetime = timePort.getPortProperties().datetime;
+                    if (datetime == null) {
+                        return;
+                    }
+                    DateTime dt = new DateTime(datetime);
+                    String dateTimeString = DATETIME_FORMATTER.print(dt);
+
+                    timeTextView.setVisibility(View.VISIBLE);
+                    timeTextView.setText(dateTimeString);
+                    Log.d(TAG, "Time port update: " + timePort.getPortProperties().datetime);
+                }
+
+                @Override
+                public void onPortError(TimePort port, Error error, String errorData) {
+                    timeTextView.setVisibility(View.VISIBLE);
+                    timeTextView.setText("Error: " + errorData);
+                }
+            });
+            wifiReferenceAppliance.subscribe();
+        }
     }
 
     private void updateNameProperty(final String name) {
