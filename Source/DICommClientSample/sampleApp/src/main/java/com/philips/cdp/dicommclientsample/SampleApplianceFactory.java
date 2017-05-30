@@ -1,15 +1,5 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
- * All rights reserved.
- */
-
-/*
- * (C) 2015-2017 Koninklijke Philips N.V.
- * All rights reserved.
- */
-
-/*
- * (C) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -22,7 +12,7 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
 import com.philips.cdp.dicommclientsample.airpurifier.ComfortAirPurifier;
 import com.philips.cdp.dicommclientsample.airpurifier.JaguarAirPurifier;
-import com.philips.cdp.dicommclientsample.referencenode.ReferenceNode;
+import com.philips.cdp.dicommclientsample.reference.WifiReferenceAppliance;
 import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CombinedCommunicationStrategy;
@@ -65,8 +55,8 @@ class SampleApplianceFactory implements DICommApplianceFactory<Appliance> {
                 case JaguarAirPurifier.DEVICETYPE:
                     networkNode.useLegacyHttp();
                     return new JaguarAirPurifier(networkNode, communicationStrategy);
-                case ReferenceNode.DEVICETYPE:
-                    return new ReferenceNode(networkNode, communicationStrategy);
+                case WifiReferenceAppliance.DEVICETYPE:
+                    return new WifiReferenceAppliance(networkNode, communicationStrategy);
             }
         }
         return null;
@@ -76,7 +66,7 @@ class SampleApplianceFactory implements DICommApplianceFactory<Appliance> {
     public Set<String> getSupportedModelNames() {
         return Collections.unmodifiableSet(new HashSet<String>() {{
             add(AirPurifier.DEVICETYPE);
-            add(ReferenceNode.DEVICETYPE);
+            add(WifiReferenceAppliance.DEVICETYPE);
         }});
     }
 }
