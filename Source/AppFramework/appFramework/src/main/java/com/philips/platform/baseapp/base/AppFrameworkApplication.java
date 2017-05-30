@@ -32,13 +32,13 @@ import com.philips.platform.receivers.ConnectivityChangeReceiver;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.squareup.leakcanary.LeakCanary;
 
-import java.io.File;
 import java.util.Locale;
 
 /**
  * Application class is used for initialization
  */
-public class AppFrameworkApplication extends MultiDexApplication implements FlowManagerListener {
+public class AppFrameworkApplication extends MultiDexApplication {
+    private static final String LOG = AppFrameworkApplication.class.getSimpleName();
     private static final String LEAK_CANARY_BUILD_TYPE = "leakCanary";
     public AppInfraInterface appInfra;
     public static LoggingInterface loggingInterface;
@@ -47,8 +47,6 @@ public class AppFrameworkApplication extends MultiDexApplication implements Flow
     private IAPState iapState;
     private DataServicesState dataSyncScreenState;
     private ProductRegistrationState productRegistrationState;
-    private boolean isSdCardFileCreated;
-    private File tempFile;
     private static boolean isChinaCountry = false;
     private PushNotificationManager pushNotificationManager;
     private ConnectivityChangeReceiver connectivityChangeReceiver;
@@ -64,28 +62,38 @@ public class AppFrameworkApplication extends MultiDexApplication implements Flow
             }
             LeakCanary.install(this);
         }
-        isSdCardFileCreated = new BaseAppUtil().createDirIfNotExists();
-        final int resId = R.string.com_philips_app_fmwk_app_flow_url;
-        FileUtility fileUtility = new FileUtility(this);
-        tempFile = fileUtility.createFileFromInputStream(resId);
         super.onCreate();
-        appInfra = new AppInfra.Builder().build(getApplicationContext());
-        loggingInterface = appInfra.getLogging();
-        RALog.init(appInfra);
-        RALog.enableLogging();
-        setLocale();
+    }
+
+    /**
+     * Initialize app states
+     *
+     * @param callback
+     */
+    public void initialize(AppInitializationCallback.AppStatesInitializationCallback callback) {
+
+        RALog.d(LOG, "UR state begin::");
         initUserRegistrationState();
+        RALog.d(LOG, "UR state end::");
+        RALog.d(LOG, "China flow state begin::");
         determineChinaFlow();
+        RALog.d(LOG, "China flow state end::");
+        RALog.d(LOG, "PR state begin::");
         productRegistrationState = new ProductRegistrationState();
         productRegistrationState.init(this);
+        RALog.d(LOG, "PR state end::");
+        RALog.d(LOG, "IAP state begin::");
         iapState = new IAPRetailerFlowState();
         iapState.init(this);
+        RALog.d(LOG, "IAP state end::");
+        RALog.d(LOG, "DS state begin::");
         initDataServiceState();
+        RALog.d(LOG, "DS state end::");
         /*
          * Initializing tagging class and its interface. Interface initialization needs
          * context to gets started.
          */
-        AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
+        RALog.d(LOG, "PN state begin::");
         if (BaseAppUtil.isDSPollingEnabled(getApplicationContext())) {
             RALog.d(PushNotificationManager.TAG, "Polling is enabled");
         } else {
@@ -98,7 +106,8 @@ public class AppFrameworkApplication extends MultiDexApplication implements Flow
                     new IntentFilter(
                             ConnectivityManager.CONNECTIVITY_ACTION));
         }
-
+        RALog.d("test", "onCreate end::");
+        callback.onAppStatesInitialization();
     }
 
     public void initUserRegistrationState() {
@@ -135,17 +144,9 @@ public class AppFrameworkApplication extends MultiDexApplication implements Flow
         return targetFlowManager;
     }
 
-    public void setTargetFlowManager() {
-        if (tempFile != null && tempFile.exists()) {
-            this.targetFlowManager = new FlowManager();
-            this.targetFlowManager.initialize(getApplicationContext(), tempFile.getPath(), this);
-        }
-
-    }
-
-    @Override
-    public void onParseSuccess() {
-
+    public void setTargetFlowManager(FlowManagerListener flowManagerListener) {
+        this.targetFlowManager = new FlowManager();
+        this.targetFlowManager.initialize(getApplicationContext(), R.raw.appflow, flowManagerListener);
     }
 
     public boolean isChinaFlow() {
@@ -180,13 +181,6 @@ public class AppFrameworkApplication extends MultiDexApplication implements Flow
         return dataSyncScreenState;
     }
 
-    public UserRegistrationState getUserRegistrationState() {
-        if (userRegistrationState == null) {
-            initUserRegistrationState();
-        }
-        return userRegistrationState;
-    }
-
 
     @Override
     public void onTerminate() {
@@ -207,5 +201,20 @@ public class AppFrameworkApplication extends MultiDexApplication implements Flow
                     .penaltyLog()
                     .build());
         }
+    }
+
+    /***
+     * Initializar app infra
+     *
+     * @param appInfraInitializationCallback
+     */
+    public void initializeAppInfra(AppInitializationCallback.AppInfraInitializationCallback appInfraInitializationCallback) {
+        appInfra = new AppInfra.Builder().build(getApplicationContext());
+        loggingInterface = appInfra.getLogging();
+        RALog.init(appInfra);
+        RALog.enableLogging();
+        setLocale();
+        AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
+        appInfraInitializationCallback.onAppInfraInitialization();
     }
 }

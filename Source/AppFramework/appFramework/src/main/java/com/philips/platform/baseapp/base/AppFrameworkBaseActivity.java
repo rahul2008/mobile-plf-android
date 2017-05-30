@@ -120,7 +120,17 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
         super.onResume();
         RALog.d(TAG," onResume called");
 
+        if (((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
+            startCollectingLifecycleData();
+            startPushNotificationFlow();
+        }
+    }
+
+    public void startCollectingLifecycleData() {
         AppFrameworkTagging.getInstance().collectLifecycleData(this);
+    }
+
+    public void startPushNotificationFlow() {
         if (!BaseAppUtil.isDSPollingEnabled(this)) {
             BaseFlowManager baseFlowManager = ((AppFrameworkApplication) getApplicationContext()).getTargetFlowManager();
             if (baseFlowManager != null) {
@@ -130,7 +140,6 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
                 }
             }
         }
-
     }
 
     @Override
