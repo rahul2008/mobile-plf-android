@@ -21,7 +21,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -1269,7 +1268,13 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 		});
 	}
 
-
+	public void testGetCountry() {
+		String countryCode = "en";
+		mServiceDiscoveryManager.setHomeCountry(countryCode);
+		String country = mServiceDiscoveryManager.getHomeCountry();
+		assertTrue(country != null);
+		assertEquals(countryCode,country);
+	}
 
 
 }

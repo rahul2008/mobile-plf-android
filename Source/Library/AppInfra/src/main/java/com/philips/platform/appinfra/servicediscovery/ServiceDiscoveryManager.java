@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -380,6 +381,13 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     @Override
+    public String getHomeCountry() {
+        String country = fetchFromSecureStorage(COUNTRY);
+        country = TextUtils.isEmpty(country) ? null : country;
+        return country;
+    }
+
+    @Override
     public void setHomeCountry(String countryCode) {
         if (countryCode != null && countryCode.length() == 2) {
             final String country = fetchFromSecureStorage(COUNTRY);
@@ -395,6 +403,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Force Refresh is done", "Force Refresh is done");
                     }
                 });
+
             } else {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SAME COUNTRY", "Entered Country code is same as old one");
             }

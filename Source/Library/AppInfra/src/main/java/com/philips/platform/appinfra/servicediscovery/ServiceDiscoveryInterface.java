@@ -94,6 +94,13 @@ public interface ServiceDiscoveryInterface {
     void getHomeCountry(OnGetHomeCountryListener listener);
 
     /**
+     * Fetches the Persistently stored Home country, the value is taken from the variable which has been set by setHomeCountry API.
+     * Changing the country automatically clears the cached service list and triggers a refresh.
+     *
+     */
+    String getHomeCountry();
+
+    /**
      * Persistently store Home country, overwrites any existing country value.
      * Changing the country automatically clears the cached service list and triggers a refresh.
      *
