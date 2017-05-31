@@ -5,13 +5,14 @@
 */
 package com.philips.platform.baseapp.screens.splash;
 
-import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,22 +23,24 @@ import android.widget.TextView;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.base.AppInitializationCallback;
 import com.philips.platform.baseapp.base.OnboardingBaseFragment;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-public class SplashFragment extends OnboardingBaseFragment implements BackEventListener, FlowManagerListener {
+public class SplashFragment extends OnboardingBaseFragment implements BackEventListener {
     public static String TAG = SplashFragment.class.getSimpleName();
-    public static int PERMISSION_ALL = 998;
     private static int SPLASH_TIME_OUT = 3000;
     private final int APP_START = 1;
     UIBasePresenter presenter;
     private boolean isVisible = false;
     ImageView logo;
     TextView title;
-    private ProgressDialog progressDialog;
+    private Handler handler = new Handler();
+
+
     /*
      * 'Android N' doesn't support single parameter in "Html.fromHtml". So adding the if..else condition and
      * suppressing "deprecation" for 'else' block.
@@ -47,11 +50,9 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         RALog.d(TAG," onCreateView ");
-        View view = inflater.inflate(R.layout.uikit_splash_screen_logo_center_tb,container,false);
-        initProgressDialog();
+        View view = inflater.inflate(R.layout.uikit_splash_screen_logo_center_tb, container, false);
         logo = (ImageView) view.findViewById(R.id.splash_logo);
-        logo.setImageDrawable(VectorDrawableCompat.create(getResources(),R.drawable.uikit_philips_logo, getActivity().getTheme()));
-        initProgressDialog();
+        logo.setImageDrawable(VectorDrawableCompat.create(getResources(), R.drawable.uikit_philips_logo, getActivity().getTheme()));
         String splashScreenTitle = getResources().getString(R.string.RA_SplashScreen_Title);
         CharSequence titleText;
 
@@ -66,39 +67,31 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
         return view;
     }
 
-    private void initProgressDialog() {
-        RALog.d(TAG," initProgressDialog ");
-        progressDialog = new ProgressDialog(getFragmentActivity());
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage(getActivity().getResources().getString(R.string.RA_Settings_Progress_Title));
-    }
-
-    private void showProgressDialog(boolean show) {
-        RALog.d(TAG," showProgressDialog ");
-        if (progressDialog.isShowing())
-            progressDialog.dismiss();
-        else if (show && !getFragmentActivity().isFinishing())
-            progressDialog.show();
-    }
-
     private void initializeFlowManager() {
         RALog.d(TAG," initializeFlowManager ");
-        showProgressDialog(true);
-            setFlowManager();
-            startTimer();
+        setFlowManager();
     }
 
     private void setFlowManager() {
-        getApplicationContext().setTargetFlowManager();
+        getApplicationContext().setTargetFlowManager(new FlowManagerListener() {
+            @Override
+            public void onParseSuccess() {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        presenter = new SplashPresenter(SplashFragment.this);
+                        presenter.onEvent(APP_START);
+                    }
+                }, 200);
+            }
+        });
     }
-
 
 
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(getActivity() instanceof LaunchActivity) {
+        if (getActivity() instanceof LaunchActivity) {
             final LaunchActivity launchActivity = (LaunchActivity) getActivity();
             launchActivity.hideActionBar();
         }
@@ -110,7 +103,35 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
         RALog.d(TAG," onResume called ");
         super.onResume();
         isVisible = true;
-        initializeFlowManager();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Looper.prepare();
+                ((AppFrameworkApplication) getActivity().getApplicationContext()).initializeAppInfra(new AppInitializationCallback.AppInfraInitializationCallback() {
+                    @Override
+                    public void onAppInfraInitialization() {
+                        if (getActivity() instanceof LaunchActivity) {
+                            ((LaunchActivity)getActivity()).startCollectingLifecycleData();
+                            ((LaunchActivity)getActivity()).startPushNotificationFlow();
+                        }
+                        ((AppFrameworkApplication) getActivity().getApplicationContext()).initialize(new AppInitializationCallback.AppStatesInitializationCallback() {
+                            @Override
+                            public void onAppStatesInitialization() {
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        initializeFlowManager();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+
+                Looper.loop();
+            }
+        });
+        thread.start();
         modifyLayoutforMultiWindow();
     }
 
@@ -120,7 +141,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
             if (getFragmentActivity().isInMultiWindowMode()) {
                 logo.getLayoutParams().width = (int) getResources().getDimension(R.dimen.uikit_hamburger_logo_width);
                 logo.getLayoutParams().height = (int) getResources().getDimension(R.dimen.uikit_hamburger_logo_height);
-                logo.setPadding(0,0,0,20);
+                logo.setPadding(0, 0, 0, 20);
                 logo.setImageDrawable(VectorDrawableCompat.create(getResources(), R.drawable.uikit_philips_logo, getActivity().getTheme()));
                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -145,34 +166,12 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
         RALog.d(TAG," onMultiWindowModeChanged called");
         super.onMultiWindowModeChanged(isInMultiWindowMode);
-       if(isInMultiWindowMode){
-           modifyLayoutforMultiWindow();
-       }
-        else {
-           getActivity().getWindow().getDecorView().requestLayout();
-       }
+        if (isInMultiWindowMode) {
+            modifyLayoutforMultiWindow();
+        } else {
+            getActivity().getWindow().getDecorView().requestLayout();
+        }
 
-    }
-
-    private void startTimer() {
-        new Handler().postDelayed(new Runnable() {
-
-            /*
-             * Showing splash screen with a timer. This will be useful when you
-             * want to show case your app logo / company
-             */
-
-            @Override
-            public void run() {
-                if (isVisible) {
-                    // This method will be executed once the timer is over
-                    // Start your app main activity
-                    showProgressDialog(false);
-                    presenter = new SplashPresenter(SplashFragment.this);
-                    presenter.onEvent(APP_START);
-                }
-            }
-        }, SPLASH_TIME_OUT);
     }
 
     @Override
@@ -194,18 +193,9 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
         return true;
     }
 
-    @Override
-    public void onParseSuccess() {
-
-    }
 
     public AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) getFragmentActivity().getApplicationContext();
-    }
-
-    public void permissionGranted() {
-        setFlowManager();
-        startTimer();
     }
 
     @Override
@@ -213,6 +203,5 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
         super.onDestroyView();
         logo = null;
         title = null;
-        progressDialog = null;
     }
 }

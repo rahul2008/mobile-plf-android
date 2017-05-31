@@ -234,7 +234,7 @@ Receive free product accessories</string>
     <string name="RA_COCO_UIKIT" translatable="false">uit : Mobile UI Toolkit Non DLS</string>
 
     <string name="RA_COCO_DS" translatable="false">dsc : Data Services </string>
-
+    <string name="something_wrong">Something went wrong</string>
 
 
 </resources>
