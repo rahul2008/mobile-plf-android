@@ -81,7 +81,9 @@ public class CheckBox extends AppCompatCheckBox {
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDCheckBox, defStyleAttr, R.style.UIDCheckBox);
         getCheckBoxPaddingStartFromAttributes(context, typedArray);
-        applyRippleTint(theme);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            applyRippleTint(theme);
+        }
         typedArray.recycle();
     }
 

@@ -14,7 +14,6 @@ import android.support.annotation.StyleRes;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.core.deps.guava.annotations.VisibleForTesting;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -33,6 +32,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -61,8 +61,8 @@ public class BaseTestActivity extends UIDActivity implements DelayerCallback {
     }
 
     static String toProperCase(String s) {
-        return s.substring(0, 1).toUpperCase() +
-                s.substring(1).toLowerCase();
+        return s.substring(0, 1).toUpperCase(Locale.getDefault()) +
+                s.substring(1).toLowerCase(Locale.getDefault());
     }
 
     @Override
