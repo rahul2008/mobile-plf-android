@@ -826,7 +826,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     @Override
-    public void unRegisterHomeCountry(final BroadcastReceiver receiver) {
+    public void unRegisterHomeCountrySet(final BroadcastReceiver receiver) {
         if(receiver != null && mAppInfra.getAppInfraContext() != null)  {
             LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
                     .unregisterReceiver(receiver);
@@ -837,7 +837,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     @Override
-    public void registerHomeCountry(final BroadcastReceiver receiver) {
+    public void registerOnHomeCountrySet(final BroadcastReceiver receiver) {
         if(receiver != null && mAppInfra.getAppInfraContext() != null)  {
             LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
                     .registerReceiver(receiver, new IntentFilter(ACTION_HOME_COUNTRY_UPDATE));

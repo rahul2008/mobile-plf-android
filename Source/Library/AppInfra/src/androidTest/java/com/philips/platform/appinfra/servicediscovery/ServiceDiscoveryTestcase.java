@@ -151,7 +151,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 	public void testsetHomeCountry() {
 		try {
 			method = ServiceDiscoveryManager.class.getDeclaredMethod("setHomeCountry", String.class);
-			mServiceDiscoveryManager.registerHomeCountry(new TestReceiver());
+			mServiceDiscoveryManager.registerOnHomeCountrySet(new TestReceiver());
 			method.setAccessible(true);
 			method.invoke(mServiceDiscoveryManager, "CN");
 			mServiceDiscoveryInterface.setHomeCountry("CN");

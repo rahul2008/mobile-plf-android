@@ -260,12 +260,12 @@ public interface ServiceDiscoveryInterface {
      * UnRegister for the updating home country .
      * @param receiver BroadcastReceiver
      */
-    void unRegisterHomeCountry(BroadcastReceiver receiver);
+    void unRegisterHomeCountrySet(BroadcastReceiver receiver);
 
     /**
      * Register for the home country update.
      *
      * @param receiver BroadcastReceiver
      */
-    void registerHomeCountry(BroadcastReceiver receiver);
+    void registerOnHomeCountrySet(BroadcastReceiver receiver);
 }

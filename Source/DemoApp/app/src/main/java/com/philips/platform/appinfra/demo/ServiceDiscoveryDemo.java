@@ -94,7 +94,7 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 
 
         receiver = new HomeCountryUpdateReceiver();
-        mServiceDiscoveryInterface.registerHomeCountry(receiver);
+        mServiceDiscoveryInterface.registerOnHomeCountrySet(receiver);
 
         setHomeCountry.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -321,6 +321,6 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mServiceDiscoveryInterface.unRegisterHomeCountry(receiver);
+        mServiceDiscoveryInterface.unRegisterHomeCountrySet(receiver);
     }
 }
