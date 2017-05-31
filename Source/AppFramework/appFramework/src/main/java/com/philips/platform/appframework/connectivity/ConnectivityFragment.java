@@ -39,7 +39,6 @@ import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceApplianceFactory;
-import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
@@ -116,6 +115,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         btnStartConnectivity.setOnClickListener(this);
         connectionState = (TextView) rootView.findViewById(R.id.connectionState);
         setUpCommCentral();
+        startAppTagging(TAG);
         return rootView;
     }
 

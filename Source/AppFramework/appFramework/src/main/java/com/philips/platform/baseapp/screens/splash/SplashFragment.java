@@ -12,7 +12,6 @@ import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,7 @@ import android.widget.TextView;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.base.AppInitializationCallback;
 import com.philips.platform.baseapp.base.OnboardingBaseFragment;
 import com.philips.platform.baseapp.base.UIBasePresenter;
@@ -49,7 +49,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        RALog.d(TAG," onCreateView ");
+        RALog.d(TAG, " onCreateView ");
         View view = inflater.inflate(R.layout.uikit_splash_screen_logo_center_tb, container, false);
         logo = (ImageView) view.findViewById(R.id.splash_logo);
         logo.setImageDrawable(VectorDrawableCompat.create(getResources(), R.drawable.uikit_philips_logo, getActivity().getTheme()));
@@ -67,8 +67,12 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
         return view;
     }
 
+    protected void startAppTagging() {
+        AppFrameworkTagging.getInstance().trackPage(TAG);
+    }
+
     private void initializeFlowManager() {
-        RALog.d(TAG," initializeFlowManager ");
+        RALog.d(TAG, " initializeFlowManager ");
         setFlowManager();
     }
 
@@ -100,7 +104,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
 
     @Override
     public void onResume() {
-        RALog.d(TAG," onResume called ");
+        RALog.d(TAG, " onResume called ");
         super.onResume();
         isVisible = true;
         Thread thread = new Thread(new Runnable() {
@@ -110,9 +114,10 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
                 ((AppFrameworkApplication) getActivity().getApplicationContext()).initializeAppInfra(new AppInitializationCallback.AppInfraInitializationCallback() {
                     @Override
                     public void onAppInfraInitialization() {
+                        startAppTagging();
                         if (getActivity() instanceof LaunchActivity) {
-                            ((LaunchActivity)getActivity()).startCollectingLifecycleData();
-                            ((LaunchActivity)getActivity()).startPushNotificationFlow();
+                            ((LaunchActivity) getActivity()).startCollectingLifecycleData();
+                            ((LaunchActivity) getActivity()).startPushNotificationFlow();
                         }
                         ((AppFrameworkApplication) getActivity().getApplicationContext()).initialize(new AppInitializationCallback.AppStatesInitializationCallback() {
                             @Override
@@ -136,7 +141,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     }
 
     private void modifyLayoutforMultiWindow() {
-        RALog.d(TAG," modifyLayoutforMultiWindow called ");
+        RALog.d(TAG, " modifyLayoutforMultiWindow called ");
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             if (getFragmentActivity().isInMultiWindowMode()) {
                 logo.getLayoutParams().width = (int) getResources().getDimension(R.dimen.uikit_hamburger_logo_width);
@@ -164,7 +169,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
 
     @Override
     public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
-        RALog.d(TAG," onMultiWindowModeChanged called");
+        RALog.d(TAG, " onMultiWindowModeChanged called");
         super.onMultiWindowModeChanged(isInMultiWindowMode);
         if (isInMultiWindowMode) {
             modifyLayoutforMultiWindow();
@@ -176,14 +181,14 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
 
     @Override
     public void onStop() {
-        RALog.d(TAG," onMultiWindowModeChanged called");
+        RALog.d(TAG, " onMultiWindowModeChanged called");
         super.onStop();
         isVisible = false;
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        RALog.d(TAG," onConfigurationChanged called  ");
+        RALog.d(TAG, " onConfigurationChanged called  ");
         super.onConfigurationChanged(newConfig);
         getActivity().getWindow().getDecorView().requestLayout();
     }
