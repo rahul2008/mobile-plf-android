@@ -9,12 +9,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.platform.appinfra.appupdate.AppupdateInterface;
+import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
 
 public class AppUpdateActivity extends AppCompatActivity {
 
 	private Button appUpdateRefresh;
-	private AppupdateInterface appupdateInterface;
+	private AppUpdateInterface appupdateInterface;
 	private TextView tvappversionval;
 	private TextView tvminversionval;
 	private TextView tvToBeDeprecatedDate;
@@ -54,12 +54,12 @@ public class AppUpdateActivity extends AppCompatActivity {
 		tvMinimumOSverion = (TextView) findViewById(R.id.tvMinimumOSverion);
 
 
-		appupdateInterface = AppInfraApplication.gAppInfra.getAppupdate();
+		appupdateInterface = AppInfraApplication.gAppInfra.getAppUpdate();
 
 		appUpdateRefresh.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				appupdateInterface.refresh(new AppupdateInterface.OnRefreshListener() {
+				appupdateInterface.refresh(new AppUpdateInterface.OnRefreshListener() {
 					@Override
 					public void onError(AIAppUpdateRefreshResult error, String message) {
 						Toast.makeText(AppUpdateActivity.this, error.toString(), Toast.LENGTH_LONG).show();

@@ -14,8 +14,8 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityManager;
-import com.philips.platform.appinfra.appupdate.AppupdateInterface;
-import com.philips.platform.appinfra.appupdate.AppupdateManager;
+import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
+import com.philips.platform.appinfra.appupdate.AppUpdateManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
@@ -53,7 +53,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 	private RestInterface mRestInterface;
 	private ABTestClientInterface mAbtesting;
 	private final String AppInfraComponentID = "ail";
-	private AppupdateInterface mAppupdateInterface;
+	private AppUpdateInterface mAppupdateInterface;
 
 
 	/**
@@ -82,7 +82,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 		private AppConfigurationInterface configInterface;
 		private RestInterface mRestInterface;
 		private LanguagePackInterface languagePack;
-		private AppupdateInterface appupdateInterface;
+		private AppUpdateInterface appupdateInterface;
 
 		/**
 		 * Instantiates a new Builder.
@@ -262,19 +262,19 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 				}
 			});
 			ai.setLanguagePackInterface(languagePack == null ? new LanguagePackManager(ai) : languagePack);
-			ai.setAppupdateInterface(appupdateInterface == null ? new AppupdateManager(ai) : appupdateInterface);
+			ai.setAppupdateInterface(appupdateInterface == null ? new AppUpdateManager(ai) : appupdateInterface);
 
-			AppupdateManager appupdateManager = new AppupdateManager(ai);
+			AppUpdateManager appUpdateManager = new AppUpdateManager(ai);
 			try {
 				AppConfigurationInterface.AppConfigurationError configurationError = new AppConfigurationInterface.AppConfigurationError();
 				Object isappUpdateRq = appConfigurationManager.getPropertyForKey("appUpdate.autoRefresh", "appinfra", configurationError);
 				if (isappUpdateRq != null && isappUpdateRq instanceof Boolean) {
 					final Boolean isautorefreshEnabled = (Boolean) isappUpdateRq;
-					File appupdateCache = appupdateManager.getAppUpdatefromCache();
+					File appupdateCache = appUpdateManager.getAppUpdatefromCache();
 					if (appupdateCache != null && appupdateCache.exists() && appupdateCache.length() > 0) {
 						Log.i("AppUpdate Auto Refresh", "Cache is available");
 					} else if (isautorefreshEnabled) {
-						appupdateManager.refresh(new AppupdateInterface.OnRefreshListener() {
+						appUpdateManager.refresh(new AppUpdateInterface.OnRefreshListener() {
 							@Override
 							public void onError(AIAppUpdateRefreshResult error, String message) {
 								Log.e("AppConfiguration", "Auto refresh failed- Appupdate"+" "+error);
@@ -353,7 +353,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 	}
 
 	@Override
-	public AppupdateInterface getAppupdate() {
+	public AppUpdateInterface getAppUpdate() {
 		return mAppupdateInterface;
 	}
 
@@ -367,7 +367,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 		this.mLanguagePackInterface = languagePackInterface;
 	}
 
-	public void setAppupdateInterface(AppupdateInterface appupdateInterface) {
+	public void setAppupdateInterface(AppUpdateInterface appupdateInterface) {
 		this.mAppupdateInterface = appupdateInterface;
 	}
 

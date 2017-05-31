@@ -3,7 +3,7 @@ package com.philips.platform.appinfra;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
-import com.philips.platform.appinfra.appupdate.AppupdateInterface;
+import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -96,5 +96,5 @@ public interface AppInfraInterface {
      *  Gets the appupdate interface.
      * @return appupdate interface
      */
-    AppupdateInterface getAppupdate();
+    AppUpdateInterface getAppUpdate();
 }
