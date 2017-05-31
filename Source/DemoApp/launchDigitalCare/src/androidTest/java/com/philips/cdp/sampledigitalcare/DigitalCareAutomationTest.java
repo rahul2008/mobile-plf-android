@@ -9,6 +9,7 @@ import android.test.suitebuilder.annotation.LargeTest;
 import com.philips.cdp.sampledigitalcare.launcher.uAppComponetLaunch.MicroAppLauncher;
 import com.philips.cl.di.dev.pa.R;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +28,7 @@ import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
+@Ignore
 @RunWith(AndroidJUnit4.class)
 public class DigitalCareAutomationTest {
     private int millis = 1000;
