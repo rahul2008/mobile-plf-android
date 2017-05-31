@@ -19,6 +19,7 @@ import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.store.StoreListener;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -26,7 +27,7 @@ import org.mockito.MockitoAnnotations;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-
+@Ignore
 public class ProductCatalogFragmentTest extends BaseTest {
     MockNetworkController mNetworkController;
     private HybrisDelegate mHybrisDelegate;
