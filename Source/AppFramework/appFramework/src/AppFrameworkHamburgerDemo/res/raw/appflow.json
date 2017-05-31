@@ -114,15 +114,6 @@
             ]
           },
           {
-            "eventId": "debug",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "debug"
-              }
-            ]
-          },
-          {
             "eventId": "iap",
             "nextStates": [
               {
@@ -155,6 +146,15 @@
               {
                 "condition": [],
                 "nextState": "connectivity"
+              }
+            ]
+          },
+          {
+            "eventId": "testmicroapp",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "testmicroapp"
               }
             ]
           },

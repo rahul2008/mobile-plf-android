@@ -10,6 +10,7 @@ import android.net.ConnectivityManager;
 import android.os.StrictMode;
 import android.support.multidex.MultiDexApplication;
 
+import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
@@ -135,13 +136,34 @@ public class AppFrameworkApplication extends MultiDexApplication {
         return iapState;
     }
 
+    private void setLocale() {
+        String languageCode = Locale.getDefault().getLanguage();
+        String countryCode = Locale.getDefault().getCountry();
+
+        PILLocaleManager localeManager = new PILLocaleManager(this);
+        localeManager.setInputLocale(languageCode, countryCode);
+    }
+
     public BaseFlowManager getTargetFlowManager() {
         return targetFlowManager;
     }
 
+<<<<<<< HEAD
+    public void setTargetFlowManager() {
+        if (tempFile != null && tempFile.exists()) {
+            this.targetFlowManager = new FlowManager();
+            this.targetFlowManager.initialize(getApplicationContext(), tempFile.getPath(), this);
+        }
+    }
+
+    @Override
+    public void onParseSuccess() {
+
+=======
     public void setTargetFlowManager(FlowManagerListener flowManagerListener) {
         this.targetFlowManager = new FlowManager();
         this.targetFlowManager.initialize(getApplicationContext(), R.raw.appflow, flowManagerListener);
+>>>>>>> develop
     }
 
     public boolean isChinaFlow() {
@@ -208,6 +230,7 @@ public class AppFrameworkApplication extends MultiDexApplication {
         loggingInterface = appInfra.getLogging();
         RALog.init(appInfra);
         RALog.enableLogging();
+        setLocale();
         AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
         appInfraInitializationCallback.onAppInfraInitialization();
     }

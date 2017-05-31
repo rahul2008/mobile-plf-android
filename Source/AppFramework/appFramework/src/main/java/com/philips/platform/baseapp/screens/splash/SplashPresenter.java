@@ -73,7 +73,7 @@ public class SplashPresenter extends UIBasePresenter implements UIStateListener 
         return getApplicationContext().getTargetFlowManager();
     }
 
-    protected FragmentLauncher getFragmentLauncher() {
+    public FragmentLauncher getFragmentLauncher() {
         return new FragmentLauncher(uiView.getFragmentActivity(), uiView.getContainerId(), uiView.getActionBarListener());
     }
     protected AppFrameworkApplication getApplicationContext() {

@@ -8,8 +8,6 @@ package com.philips.platform.baseapp.screens.productregistration;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.launcher.PRDependencies;
 import com.philips.cdp.prodreg.launcher.PRInterface;
@@ -18,6 +16,7 @@ import com.philips.cdp.prodreg.listener.ProdRegUiListener;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
+import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
@@ -56,7 +55,7 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
     }
 
     public  ArrayList<Product> getProductList(){
-        Product product = new Product(getCtnList().get(0), Sector.B2C, Catalog.CONSUMER);
+        Product product = new Product(getCtnList().get(0), PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER);
         product.setSerialNumber("");
         product.setPurchaseDate("");
         product.setFriendlyName("");

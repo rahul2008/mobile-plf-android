@@ -16,9 +16,8 @@ import com.philips.cdp.digitalcare.CcLaunchInput;
 import com.philips.cdp.digitalcare.CcSettings;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.listeners.CcListener;
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
+import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
@@ -124,8 +123,8 @@ public class SupportFragmentState extends BaseState implements CcListener {
     {
         RALog.d(TAG,"launchCC called ");
         ProductModelSelectionType productsSelection = new com.philips.cdp.productselection.productselectiontype.HardcodedProductList(getCtnList());
-        productsSelection.setCatalog(Catalog.CARE);
-        productsSelection.setSector(Sector.B2C);
+        productsSelection.setCatalog(PrxConstants.Catalog.CARE);
+        productsSelection.setSector(PrxConstants.Sector.B2C);
         final CcInterface ccInterface = new CcInterface();
 
         if (ccSettings == null) ccSettings = new CcSettings(activityContext);

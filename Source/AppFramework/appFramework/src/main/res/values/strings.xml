@@ -43,6 +43,8 @@
     <string name="RA_Logout_Failed">Logout failed. Please try again</string>
     <string name="RA_CTN_Null">CTN is null. Please pass CTN</string>
 
+    <string name="RA_change_config_desc" translatable="false">Configuration can only be changed at launch time. You need to relaunch the app to change it.</string>
+
     <!-- Home Fragment strings-->
     <string name="RA_HomeScreen_Header_Text">Example Title</string>
     <string name="RA_HomeScreen_Body_Text">Example bodytext lorem ipsum dolor sit amet consectetuer adipiscing elit.</string>
@@ -143,6 +145,7 @@
         <item>@string/RA_DataServices_Menu_Title</item>
         <item>@string/RA_ConnectivityScreen_Menu_Title</item>
         <item>@string/RA_Coco_Version</item>
+        <item>@string/RA_Debug_and_Test_Menu_Title</item>
 
     </string-array>
 
@@ -231,7 +234,7 @@ Receive free product accessories</string>
     <string name="RA_COCO_UIKIT" translatable="false">uit : Mobile UI Toolkit Non DLS</string>
 
     <string name="RA_COCO_DS" translatable="false">dsc : Data Services </string>
-
+    <string name="something_wrong">Something went wrong</string>
 
 
 </resources>
