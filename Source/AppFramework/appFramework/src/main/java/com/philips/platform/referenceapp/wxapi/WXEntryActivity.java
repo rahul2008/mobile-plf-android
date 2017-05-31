@@ -8,6 +8,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
@@ -34,6 +35,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     private IWXAPI api;
 
     public void onCreate(Bundle savedInstanceState) {
+        RALog.d(TAG," on create called ");
         super.onCreate(savedInstanceState);
 
         AppConfigurationInterface.AppConfigurationError configError = new
@@ -73,6 +75,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 weChatCode = sendResp.code;
             } catch (Exception e) {
                 RLog.e(TAG, Arrays.toString(e.getStackTrace()));
+                RALog.e(TAG,"error in  response received ");
             }
         }
         sendMessage(error_code, weChatCode);

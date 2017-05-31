@@ -32,6 +32,7 @@ import com.philips.platform.baseapp.screens.dataservices.utility.SyncScheduler;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.baseapp.screens.utility.TaggingConstants;
 import com.philips.platform.referenceapp.PushNotificationManager;
@@ -45,6 +46,7 @@ import java.util.ArrayList;
  */
 
 public class SettingsAdapter extends BaseAdapter {
+    public static final String TAG =  SettingsAdapter.class.getSimpleName();
     private Context activityContext;
     private LayoutInflater inflater = null;
     private UserRegistrationState userRegistrationState;
@@ -96,6 +98,7 @@ public class SettingsAdapter extends BaseAdapter {
     @SuppressWarnings("deprecation")
     @Override
     public int getItemViewType(int position) {
+
         if (settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.RA_Settings_Login)).toString())
                 || settingsItemList.get(position).title.toString().equalsIgnoreCase(Html.fromHtml(getString(R.string.RA_Settings_Logout)).toString())) {
             return LOGIN_VIEW;
@@ -106,6 +109,7 @@ public class SettingsAdapter extends BaseAdapter {
     @NonNull
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
+        RALog.d(TAG," getView ");
         int type = getItemViewType(position);
         VerticalViewHolder verticalViewHolder = null;
         if (convertView == null) {
@@ -164,6 +168,7 @@ public class SettingsAdapter extends BaseAdapter {
     }
 
     protected void loginButtonView(View vi) {
+        RALog.d(TAG," loginButtonView ");
         btn_settings_logout = (UIKitButton) vi.findViewById(R.id.btn_settings_logout);
         if (isUserLoggedIn) {
             btn_settings_logout.setText(getString(R.string.RA_Settings_Logout));
@@ -186,6 +191,7 @@ public class SettingsAdapter extends BaseAdapter {
     }
 
     private void notificationSection(int position, VerticalViewHolder viewHolder) {
+        RALog.d(TAG,"notificationSection called ");
         if (null != viewHolder.name && null != viewHolder.value && null != viewHolder.description && null != viewHolder.number && null != viewHolder.on_off && null != viewHolder.arrow) {
             viewHolder.name.setVisibility(View.VISIBLE);
             viewHolder.name.setText(settingsItemList.get(position).title);
@@ -281,6 +287,7 @@ public class SettingsAdapter extends BaseAdapter {
     }
 
     protected void logoutAlert() {
+        RALog.d(TAG ," Logout Alert called");
         if (logoutAlertDialog != null && logoutAlertDialog.isShowing()) {
             return;
         }
@@ -307,11 +314,14 @@ public class SettingsAdapter extends BaseAdapter {
                                     PushNotificationManager.getInstance().deregisterTokenWithBackend(activityContext.getApplicationContext(), new PushNotificationManager.DeregisterTokenListener() {
                                         @Override
                                         public void onSuccess() {
+                                            RALog.d(TAG ," Logout Success is returned ");
                                             doLogout();
                                         }
 
                                         @Override
                                         public void onError() {
+                                            RALog.d(TAG ," Logout Error is returned ");
+
                                             doLogout();
                                         }
                                     });
@@ -342,6 +352,7 @@ public class SettingsAdapter extends BaseAdapter {
     }
 
     public void doLogout() {
+        RALog.d(TAG ," do logout called ");
         userRegistrationState.getUserObject(activityContext).logout(new LogoutHandler() {
             @Override
             public void onLogoutSuccess() {
@@ -369,6 +380,8 @@ public class SettingsAdapter extends BaseAdapter {
 
             @Override
             public void onLogoutFailure(final int i, final String s) {
+                RALog.d(TAG ," onLogoutFailure  ");
+
                 progressDialog.cancel();
                 Toast.makeText(activityContext, getString(R.string.RA_Logout_Failed), Toast.LENGTH_LONG).show();
             }

@@ -114,15 +114,6 @@
             ]
           },
           {
-            "eventId": "debug",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "debug"
-              }
-            ]
-          },
-          {
             "eventId": "iap",
             "nextStates": [
               {
@@ -157,8 +148,7 @@
                 "nextState": "connectivity"
               }
             ]
-          },
-          {
+          },{
             "eventId": "coco_version_info",
             "nextStates": [
               {

@@ -32,10 +32,12 @@ import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
 import com.philips.cdp.uikit.utils.HamburgerUtil;
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.screens.settingscreen.IndexSelectionListener;
 import com.philips.platform.baseapp.screens.utility.Constants;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -73,6 +75,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        RALog.d(TAG, " OnCreate ");
         setTheme(R.style.Theme_Philips_DarkBlue_Gradient_NoActionBar);
         /*
          * Setting Philips UI KIT standard BLUE theme.
@@ -93,6 +96,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
      * For updating the hamburger drawer
      */
     private void renderHamburgerMenu() {
+        RALog.d(TAG, " render HamburgerMenu ");
         hamburgerUtil = null;
         drawerListView = null;
         loadSlideMenuItems();
@@ -186,6 +190,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
     }
 
     private void setDrawerAdapter() {
+        RALog.d(TAG, "  Set Drawer Adapter  ");
         adapter = null;
         TextView totalCountView = (TextView) findViewById(R.id.hamburger_count);
         adapter = new HamburgerAdapter(this,
@@ -230,6 +235,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
 
     @Override
     public void onBackPressed() {
+        RALog.d(TAG, " on Back Pressed  ");
         if(philipsDrawerLayout.isDrawerOpen(navigationView))
         {
             philipsDrawerLayout.closeDrawer(navigationView);
@@ -243,6 +249,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
             } else if (currentFrag instanceof BackEventListener) {
                 backState = ((BackEventListener) currentFrag).handleBackEvent();
                 if (!backState) {
+                    ((AppFrameworkApplication)getApplicationContext()).getTargetFlowManager().getBackState();
                     adapter.setSelectedIndex(0);
                     super.onBackPressed();
                 }
@@ -261,6 +268,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
 
     @Override
     protected void onDestroy() {
+        RALog.d(TAG, " onDestroy ");
         super.onDestroy();
 //        userRegistrationState.unregisterUserRegistrationListener();
     }
@@ -316,7 +324,9 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
      */
     public void updateActionBarIcon(boolean b)
     {
+        RALog.d(TAG, " updateActionBarIcon ");
         if (b) {
+            RALog.d(TAG, " setting back arrow in hamburger menu ");
             hamburgerIcon.setImageDrawable(VectorDrawable.create(this, R.drawable.left_arrow));
             hamburgerIcon.setTag(String.valueOf(R.drawable.left_arrow));
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
@@ -326,6 +336,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
                 }
             });
         } else {
+            RALog.d(TAG, " setting options in hamburger menu ");
             hamburgerIcon.setImageDrawable(VectorDrawable.create(HamburgerActivity.this, R.drawable.uikit_hamburger_icon));
             hamburgerIcon.setTag(String.valueOf(R.drawable.uikit_hamburger_icon));
             hamburgerClick.setOnClickListener(new View.OnClickListener() {
@@ -438,6 +449,8 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
 
     @Override
     public void updateSelectionIndex(int position) {
+        RALog.d(TAG, " setting selection index to 0  hamburger menu ");
+
         if(handler!=null)
             handler.post(new Runnable() {
             @Override

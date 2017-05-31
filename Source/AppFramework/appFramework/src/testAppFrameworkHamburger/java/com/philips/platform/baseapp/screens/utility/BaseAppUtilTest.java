@@ -27,15 +27,6 @@ public class BaseAppUtilTest extends TestCase {
         baseAppUtil = new BaseAppUtil();
     }
 
-    @Test
-    public void testGetJsonFilePath(){
-        assertTrue(baseAppUtil.getJsonFilePath().toString().contains("/ReferenceApp/appflow.json"));
-    }
-
-    @Test
-    public void testReadJsonFileFromSdCard(){
-        assertNotNull(baseAppUtil.readJsonFileFromSdCard());
-    }
 
     @Test
     public void testIsNetworkAvailable(){

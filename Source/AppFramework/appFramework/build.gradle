@@ -336,15 +336,15 @@ dependencies {
     compile "com.j256.ormlite:ormlite-android:5.0"
     compile 'com.android.support:multidex:1.0.1'
 
-    compile(group: 'com.philips.cdp', name: 'product-registration-lib_DLS', version: '2.4.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'product-registration-lib_DLS', version: '2.4.0' + objcdp.getVersionSuffix(), ext: 'aar') {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'digitalCare_DLS', version: '7.4.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'digitalCare_DLS', version: '7.4.0' + objcdp.getVersionSuffix(), ext: 'aar') {
         transitive=true
     }
 
-    compile(group: 'com.philips.cdp', name: 'iap_DLS', version: '5.3.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'iap_DLS', version: '5.3.0' + objcdp.getVersionSuffix(), ext: 'aar') {
         transitive=true
     }
 

@@ -28,6 +28,7 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomen
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSettings;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
 import com.philips.platform.baseapp.screens.dataservices.utility.NotifyDBRequestListener;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.Insight;
@@ -145,7 +146,7 @@ public class OrmDeleting {
             syncDao.createOrUpdate(new OrmDCSync(SyncType.CONSENT.getId(), SyncType.CONSENT.getDescription(), true));
 
         } catch (SQLException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SQLITE_EXCEPTION,e.getMessage());
+            RALog.e(TAG+SQLITE_EXCEPTION,e.getMessage());
         }
     }
 
@@ -154,7 +155,7 @@ public class OrmDeleting {
             settingsDao.createOrUpdate(new OrmSettings("en_US" ,"metric"));
             syncDao.createOrUpdate(new OrmDCSync(SyncType.SETTINGS.getId(), SyncType.SETTINGS.getDescription(), true));
         } catch (SQLException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SQLITE_EXCEPTION,e.getMessage());
+            RALog.e(TAG+SQLITE_EXCEPTION,e.getMessage());
         }
     }
 
@@ -162,7 +163,7 @@ public class OrmDeleting {
         try {
             syncDao.createOrUpdate(new OrmDCSync(SyncType.CHARACTERISTICS.getId(), SyncType.CHARACTERISTICS.getDescription(), true));
         } catch (SQLException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SQLITE_EXCEPTION,e.getMessage());
+            RALog.e(TAG+SQLITE_EXCEPTION,e.getMessage());
         }
     }
 
@@ -312,7 +313,7 @@ public class OrmDeleting {
                 }
             });
         } catch (Exception e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SQLITE_EXCEPTION,e.getMessage());
+            RALog.e(TAG+SQLITE_EXCEPTION,e.getMessage());
             //dbRequestListener.onFailure(e);
             new NotifyDBRequestListener().notifyFailure(e,dbRequestListener);
             return false;
@@ -333,7 +334,7 @@ public class OrmDeleting {
                 }
             });
         } catch (Exception e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SQLITE_EXCEPTION,e.getMessage());
+            RALog.e(TAG+SQLITE_EXCEPTION,e.getMessage());
             new NotifyDBRequestListener().notifyFailure(e, dbRequestListener);
             return false;
         }

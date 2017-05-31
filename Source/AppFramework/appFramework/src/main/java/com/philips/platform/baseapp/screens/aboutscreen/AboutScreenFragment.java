@@ -17,6 +17,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
 import com.philips.platform.baseapp.base.AppFrameworkTagging;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 /**
  * About screen to display content and version number
@@ -32,6 +33,7 @@ public class AboutScreenFragment extends AppFrameworkBaseFragment
 
     @Override
     public void onResume() {
+        RALog.d(TAG, " onResume");
         super.onResume();
         updateActionBar();
     }
