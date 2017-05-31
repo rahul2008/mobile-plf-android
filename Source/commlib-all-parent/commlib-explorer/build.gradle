@@ -13,10 +13,34 @@ buildscript { bs ->
 }
 
 repositories {
-    maven { url repos.jcenter }
-    maven { url repos.release }
-    maven { url repos.stage }
-    maven { url repos.snapshot }
+    maven {
+        url repos.jcenter
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url repos.release
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url repos.snapshot
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url repos.stage
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
     maven {
         url 'https://dl.bintray.com/rwslinkman/maven/'
     }
