@@ -4,9 +4,10 @@
  */
 
 /*
- * © Koninklijke Philips N.V., 2015, 2016, 2017.
- *   All rights reserved.
+ * (C) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
+
 package com.philips.cdp2.commlib.lan.communication;
 
 import android.support.annotation.NonNull;
@@ -98,16 +99,12 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
 
     private void exchangeKeyIfNecessary(NetworkNode networkNode) {
         if (networkNode.getEncryptionKey() == null && !isKeyExchangeOngoing) {
-            if (networkNode.getHttps()) {
-                getKey(networkNode);
-            } else {
-                doKeyExchange(networkNode);
-            }
+            doKeyExchange(networkNode);
         }
     }
 
-    private void doKeyExchange(final NetworkNode networkNode) {
-        ExchangeKeyRequest request = new ExchangeKeyRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), networkNode.getHttps(), new ResponseHandler() {
+    private void doKeyExchange(final @NonNull NetworkNode networkNode) {
+        ResponseHandler responseHandler = new ResponseHandler() {
 
             @Override
             public void onSuccess(String key) {
@@ -119,25 +116,12 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
             public void onError(Error error, String errorData) {
                 isKeyExchangeOngoing = false;
             }
-        });
-        isKeyExchangeOngoing = true;
-        mRequestQueue.addRequestInFrontOfQueue(request);
-    }
+        };
 
-    private void getKey(final NetworkNode networkNode) {
-        GetKeyRequest request = new GetKeyRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), networkNode.getHttps(), new ResponseHandler() {
+        Request request = networkNode.getHttps() ?
+                new GetKeyRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), networkNode.getHttps(), responseHandler) :
+                new ExchangeKeyRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), networkNode.getHttps(), responseHandler);
 
-            @Override
-            public void onSuccess(String key) {
-                networkNode.setEncryptionKey(key);
-                isKeyExchangeOngoing = false;
-            }
-
-            @Override
-            public void onError(Error error, String errorData) {
-                isKeyExchangeOngoing = false;
-            }
-        });
         isKeyExchangeOngoing = true;
         mRequestQueue.addRequestInFrontOfQueue(request);
     }
