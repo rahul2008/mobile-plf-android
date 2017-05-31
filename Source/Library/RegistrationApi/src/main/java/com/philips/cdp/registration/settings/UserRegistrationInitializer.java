@@ -28,13 +28,8 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -206,12 +201,13 @@ public class UserRegistrationInitializer {
                 )
                 .onErrorReturn(
                         throwable -> serviceDiscoveryWrapper.getServiceLocaleWithCountryPreferenceSingle("userreg.janrain.api"))
+                .map(stringSingle -> stringSingle.blockingGet())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<Single<String>>() {
+                .subscribeWith(new DisposableSingleObserver<String>() {
                     @Override
-                    public void onSuccess(Single<String> localeStr) {
-                        updateAppLocale(localeStr.blockingGet(), context, registrationType);
+                    public void onSuccess(String localeStr) {
+                        updateAppLocale(localeStr, context, registrationType);
                     }
 
                     @Override
@@ -219,6 +215,7 @@ public class UserRegistrationInitializer {
                         EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
                     }
                 });
+
 
     }
 
