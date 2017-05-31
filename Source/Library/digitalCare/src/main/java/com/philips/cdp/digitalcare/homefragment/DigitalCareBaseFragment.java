@@ -514,6 +514,11 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
      * seletion/creation.
      */
     private void setActionbarTitle() {
+
+        if(getActionbarTitle() == null || !isAdded()) {
+            return;
+        }
+
         if (mContainerId == 0) {
             TextView actionBarTitle =
 
