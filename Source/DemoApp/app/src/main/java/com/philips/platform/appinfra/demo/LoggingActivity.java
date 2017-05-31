@@ -19,6 +19,8 @@ import android.widget.Toast;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import package1.component1.Component1;
@@ -120,12 +122,26 @@ public class LoggingActivity extends AppCompatActivity {
                         }
 
                         for (int logcount = 1; logcount <= totalLogCount; logcount++) {
-                            AILoggingInterface.log(currentLogLevel, eventText.getText().toString(), msgText.getText().toString());
+                            HashMap<String, String> map= new HashMap<String, String>();
+                            map.put("key1","val1");
+                            map.put("key2","val2");
 
+                            HashMap<String, Integer> map2= new HashMap<String, Integer>();
+                            map2.put("key1",new Integer(2));
+                            map2.put("key2",3);
+
+                            AILoggingInterface.log(currentLogLevel, eventText.getText().toString(), msgText.getText().toString(), map);
+                            AILoggingInterface.log(currentLogLevel, eventText.getText().toString(), msgText.getText().toString(), map2);
                             // Component1 component1= new Component1(AppInfraApplication.gAppInfra);
                             // AILoggingInterface.log(currentLogLevel, "back", "back");
                         }
-                     /*   /////////////
+                        Map<String, String> sd= new HashMap<String, String>();
+                        sd.put("key1","val1");
+                        sd.put("key2","val2");
+                        //AILoggingInterface.log(currentLogLevel, eventText.getText().toString(),sd);
+                      //  AILoggingInterface.log(currentLogLevel,eventText.getText().toString(),"",sd);
+
+                        /*   /////////////
                        AppInfra ai = (AppInfra)AppInfraApplication.gAppInfra;
                         Component1 c1 = new Component1(ai);
 
