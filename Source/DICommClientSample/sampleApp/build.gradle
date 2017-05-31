@@ -6,12 +6,30 @@ buildscript { bs ->
     apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
     apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
     repositories {
-        maven { url repos.jcenter }
+        maven {
+            url repos.jcenter
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
     }
 
     repositories {
-        maven { url repos.jcenter }
-        maven { url repos.plugin }
+        maven {
+            url repos.jcenter
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url repos.plugin
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
     }
 
     dependencies {
@@ -42,8 +60,20 @@ archivesBaseName = rootProject.name
 version = objcdp.getVersion()
 
 repositories {
-    maven { url repos.jcenter }
-    maven { url objcdp.getArtifactoryUrl() }
+    maven {
+        url repos.jcenter
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url objcdp.getArtifactoryUrl()
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
 }
 
 android {
