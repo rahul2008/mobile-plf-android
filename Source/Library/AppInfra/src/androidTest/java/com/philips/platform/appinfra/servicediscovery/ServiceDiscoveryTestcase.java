@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.ACTION_HOME_COUNTRY_UPDATE;
 import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.HOME_COUNTRY_DATA;
 
 /**
@@ -1287,6 +1288,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 		public void onReceive(Context context, Intent intent) {
 			String countryCode = (String) intent.getExtras().get(HOME_COUNTRY_DATA);
 			assertEquals(countryCode,"CN");
+			assertTrue(intent.getAction().equals(ACTION_HOME_COUNTRY_UPDATE));
 		}
 	}
 }
