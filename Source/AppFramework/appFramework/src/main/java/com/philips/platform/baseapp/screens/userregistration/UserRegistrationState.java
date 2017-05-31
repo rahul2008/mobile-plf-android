@@ -10,7 +10,6 @@ import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
@@ -281,12 +280,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
      */
     public void initializeUserRegistrationLibrary() {
         RALog.d(TAG," initializeUserRegistrationLibrary called ");
-        String languageCode = Locale.getDefault().getLanguage();
-        String countryCode = Locale.getDefault().getCountry();
-
-        PILLocaleManager localeManager = new PILLocaleManager(applicationContext);
-        localeManager.setInputLocale(languageCode, countryCode);
-
         URDependancies urDependancies = new URDependancies(((AppFrameworkApplication)applicationContext).getAppInfra());
         URSettings urSettings = new URSettings(applicationContext);
         URInterface urInterface = new URInterface();

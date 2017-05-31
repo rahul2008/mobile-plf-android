@@ -10,7 +10,6 @@ import android.net.ConnectivityManager;
 import android.os.StrictMode;
 import android.support.multidex.MultiDexApplication;
 
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
@@ -136,14 +135,6 @@ public class AppFrameworkApplication extends MultiDexApplication {
         return iapState;
     }
 
-    private void setLocale() {
-        String languageCode = Locale.getDefault().getLanguage();
-        String countryCode = Locale.getDefault().getCountry();
-
-        PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(languageCode, countryCode);
-    }
-
     public BaseFlowManager getTargetFlowManager() {
         return targetFlowManager;
     }
@@ -217,7 +208,6 @@ public class AppFrameworkApplication extends MultiDexApplication {
         loggingInterface = appInfra.getLogging();
         RALog.init(appInfra);
         RALog.enableLogging();
-        setLocale();
         AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
         appInfraInitializationCallback.onAppInfraInitialization();
     }
