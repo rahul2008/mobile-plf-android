@@ -9,7 +9,6 @@ import android.support.multidex.MultiDexApplication;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Configuration;
@@ -73,7 +72,7 @@ public class DataSyncApplication extends MultiDexApplication {
         LeakCanary.install(this);
         mDataServicesManager = DataServicesManager.getInstance();
         initAppInfra();
-        setLocale();
+
         initializeUserRegistrationLibrary(Configuration.STAGING);
         initHSDP();
         init();
@@ -248,7 +247,6 @@ public class DataSyncApplication extends MultiDexApplication {
         editor.putString("reg_environment", configuration.getValue());
         editor.apply();
 
-        setLocale();
         initAppIdentity(configuration);
         URDependancies urDependancies = new URDependancies(gAppInfra);
         URSettings urSettings = new URSettings(this);
@@ -342,13 +340,6 @@ public class DataSyncApplication extends MultiDexApplication {
 
     }
 
-    private void setLocale() {
-        String languageCode = Locale.getDefault().getLanguage();
-        String countryCode = Locale.getDefault().getCountry();
-
-        PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(languageCode, countryCode);
-    }
 
     public void initHSDP() {
         gAppInfra.
