@@ -30,6 +30,7 @@ import com.philips.cdp.prxclient.response.ResponseData;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -43,6 +44,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
+@Ignore
 @RunWith(RobolectricTestRunner.class)
 public class ProductCatalogPresenterTest implements ProductCatalogPresenter.ProductCatalogListener, IAPListener {
     @Mock

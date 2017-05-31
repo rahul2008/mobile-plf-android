@@ -15,6 +15,7 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.platform.appinfra.AppInfra;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
+@Ignore
 public class IntegrationTest extends BaseTest {
 
     public ActivityTestRule<DemoTestActivity> mActivityTestRule = new ActivityTestRule<>(DemoTestActivity.class);

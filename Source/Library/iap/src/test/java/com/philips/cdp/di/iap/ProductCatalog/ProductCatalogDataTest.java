@@ -8,10 +8,12 @@ import com.philips.cdp.di.iap.products.ProductCatalogData;
 
 import junit.framework.TestCase;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
+@Ignore
 @RunWith(RobolectricTestRunner.class)
 public class ProductCatalogDataTest extends TestCase {
 
