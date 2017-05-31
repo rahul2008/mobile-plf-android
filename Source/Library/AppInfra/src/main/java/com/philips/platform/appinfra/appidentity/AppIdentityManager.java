@@ -6,10 +6,9 @@
 package com.philips.platform.appinfra.appidentity;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.appinfra.R;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -50,11 +49,12 @@ public class AppIdentityManager implements AppIdentityInterface {
 
 
 	private void validateAppVersion() {
-		PackageInfo pInfo;
+		//PackageInfo pInfo;
 		try {
-			pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-			mAppVersion = String.valueOf(pInfo.versionName);
-		} catch (PackageManager.NameNotFoundException e) {
+			//pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+			//mAppVersion = String.valueOf(pInfo.versionName);
+			mAppVersion = BuildConfig.VERSION_NAME;
+		} catch (NullPointerException e) {
 			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity", e.getMessage());
 		}
 		if (mAppVersion != null && !mAppVersion.isEmpty()) {
