@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
@@ -67,6 +69,7 @@ public class TrackOrderFragment extends InAppBaseFragment
     public void onResume() {
         super.onResume();
         setTitleAndBackButtonVisibility(R.string.iap_track_order, true);
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.TRACK_ORDER_PAGE_NAME);
     }
 
     @Override
