@@ -233,4 +233,5 @@
     <dimen name="uid_searchbox_button_padding">20dp</dimen>
     <dimen name="uid_searchbox_button_padding_end">28dp</dimen>
     <dimen name="uid_searchbox_search_text_offset">0dp</dimen>
+    <dimen name="uid_searchbox_back_icon_margin">16dp</dimen>
 </resources>

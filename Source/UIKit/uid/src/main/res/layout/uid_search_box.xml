@@ -27,7 +27,7 @@
             android:layout_height="@dimen/uid_searchbox_button_dimen"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/uid_searchbox_button_padding_end"
-            android:layout_marginStart="@dimen/uid_searchbox_button_padding"
+            android:layout_marginStart="@dimen/uid_searchbox_back_icon_margin"
             android:background="@color/uidTransparent"
             android:focusable="true" />
 
