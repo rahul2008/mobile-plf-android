@@ -20,6 +20,8 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.OrderDetailAdapter;
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.controller.OrderController;
 import com.philips.cdp.di.iap.model.AbstractModel;
 import com.philips.cdp.di.iap.response.orders.ContactsResponse;
@@ -72,6 +74,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     public void onResume() {
         super.onResume();
         setTitleAndBackButtonVisibility(R.string.iap_order_details, true);
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_DETAIL_PAGE_NAME);
     }
 
     @Override
