@@ -24,10 +24,59 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
     boolean searchIconExpanded = true;
     private UIDNavigationIconToggler navIconToggler;
 
-    private static final String[] COUNTRIES = new String[]{
-            "Belgium", "Brazil", "Belarus", "France", "Italy", "Germany", "Spain"
+    private static final String[] STATES = new String[]{
+            "Alabama",
+            "Alaska",
+            "Arizona",
+            "Arkansas",
+            "California",
+            "Colorado",
+            "Connecticut",
+            "Delaware",
+            "Florida",
+            "Georgia",
+            "Hawaii",
+            "Idaho",
+            "Illinois",
+            "Indiana",
+            "Iowa",
+            "Kansas",
+            "Kentucky",
+            "Louisiana",
+            "Maine",
+            "Maryland",
+            "Massachusetts",
+            "Michigan",
+            "Minnesota",
+            "Mississippi",
+            "Missouri",
+            "Montana",
+            "Nebraska",
+            "Nevada",
+            "New Hampshire",
+            "New Jersey",
+            "New Mexico",
+            "New York",
+            "North Carolina",
+            "North Dakota",
+            "Ohio",
+            "Oklahoma",
+            "Oregon",
+            "Pennsylvania",
+            "Rhode Island",
+            "South Carolina",
+            "South Dakota",
+            "Tennessee",
+            "Texas",
+            "Utah",
+            "Vermont",
+            "Virginia",
+            "Washington",
+            "West Virginia",
+            "Wisconsin",
+            "Wyoming"
     };
-    private ArrayAdapter<String> countryAdapter;
+    private ArrayAdapter<String> stateAdapter;
 
     @Override
     public int getPageTitle() {
@@ -49,8 +98,8 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
     }
 
     private void setListAdapter() {
-        countryAdapter = new ArrayAdapter<>(getActivity(), R.layout.uid_search_item_one_line ,COUNTRIES);
-        fragmentSearchBoxBinding.countryList.setAdapter(countryAdapter);
+        stateAdapter = new ArrayAdapter<>(getActivity(), R.layout.uid_search_item_one_line , STATES);
+        fragmentSearchBoxBinding.countryList.setAdapter(stateAdapter);
     }
 
     @Override
@@ -61,7 +110,7 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
         searchBox.setExpandListener(this);
         searchBox.setSearchIconified(searchIconExpanded);
         searchBox.searchTextView.setText(query);
-        searchBox.setAdapter(countryAdapter);
+        searchBox.setAdapter(stateAdapter);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
