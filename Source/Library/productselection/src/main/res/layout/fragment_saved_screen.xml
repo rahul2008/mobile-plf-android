@@ -95,6 +95,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:text="Selected"
+                        android:layout_marginBottom="16dp"
                         android:textSize="@dimen/title_text_size_small"
                         custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
 
@@ -102,6 +103,8 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <include layout="@layout/uid_horizontal_separator"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -120,12 +123,13 @@
                 custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
 
             <com.philips.platform.uid.view.widget.Button
-                style="@style/UIDExtraWideButton.Center"
+                style="@style/UIDPrimaryControl.Secondary"
                 android:id="@+id/savedscreen_button_settings"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/Confirmation_Change"
-                android:textAllCaps="false" />
+                android:textAllCaps="false"
+                app:uidComponentType="Secondary"/>
 
             <com.philips.platform.uid.view.widget.Button
                 style="@style/UIDExtraWideButton.Center"
@@ -134,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/savedscreen_product_text_container_height"
                 android:text="@string/Continue_Btntxt"
-                android:textAllCaps="false" />
+                android:textAllCaps="false"/>
         </LinearLayout>
         
         <View

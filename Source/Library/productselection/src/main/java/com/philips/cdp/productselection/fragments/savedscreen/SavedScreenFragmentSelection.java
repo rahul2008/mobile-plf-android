@@ -40,7 +40,6 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     private static final String TAG = SavedScreenFragmentSelection.class.getSimpleName();
     private Button mSettings = null;
     private Button mRedirectingButton = null;
-    private LinearLayout mProductContainer = null;
     private LinearLayout mProductContainerBelow = null;
     private LinearLayout.LayoutParams mProductContainerBelowParams;
     private TextView mProductName = null;
@@ -60,7 +59,6 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mProductContainer = (LinearLayout) getActivity().findViewById(R.id.savedScreen_screen_child_one);
         mProductContainerBelow = (LinearLayout) getActivity().findViewById(R.id.savedScreen_screen_parent);
         mProductContainerBelowParams = (LinearLayout.LayoutParams) mProductContainerBelow.getLayoutParams();
         mProductName.setText(mUserSelectedProduct.getData().getProductTitle());
@@ -142,7 +140,6 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     @Override
     public void setViewParams(Configuration config) {
 
-
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
             mProductContainerBelowParams.leftMargin = mProductContainerBelowParams.rightMargin = mLeftRightMarginPort;
         } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -158,9 +155,6 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
             View listViewSparator = ((View) getActivity().findViewById(R.id.listViewSeperator));
             if (listViewSparator != null)
                 listViewSparator.setVisibility(View.GONE);
-//            Fragment fragmentTablet = getActivity().getSupportFragmentManager().findFragmentById(R.id.productListContainerTablet);
-//            fragmentTablet.
-
             if (isListViewRequiredInTablet()) {
                 mLeftPanelLayout.setVisibility(View.VISIBLE);
                 mRightPanelLayout.setVisibility(View.GONE);
@@ -172,14 +166,12 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
                 mRightPanelLayout.setVisibility(View.VISIBLE);
                 mLeftPanelLayout.setVisibility(View.GONE);
             }
-//            mRightPanelLayoutParams.leftMargin = mRightPanelLayoutParams.rightMargin = mLeftRightMarginPort;
         } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             ((View) getActivity().findViewById(R.id.listViewSeperator)).setVisibility(View.VISIBLE);
             mLeftPanelLayout.setVisibility(View.VISIBLE);
             mRightPanelLayout.setVisibility(View.VISIBLE);
             mRightPanelLayoutParams.weight = 0.60f;
             mLeftPanelLayoutParams.weight = 0.39f;
-//            mRightPanelLayoutParams.leftMargin = mRightPanelLayoutParams.rightMargin = 0;
         }
         mRightPanelLayout.setLayoutParams(mRightPanelLayoutParams);
         mLeftPanelLayout.setLayoutParams(mLeftPanelLayoutParams);
@@ -210,27 +202,17 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     public void onClick(View v) {
         if (isConnectionAvailable()) {
             if (v.getId() == R.id.savedscreen_button_settings) {
-//                if (isConnectionAvailable()) {
-              /*  Tagging.trackAction(Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
-                        Constants.ACTION_VALUE_CHANGE_PRODUCT);*/
                 ProductModelSelectionHelper.getInstance().getTaggingInterface().trackActionWithInfo
                         (Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
                                 Constants.ACTION_VALUE_CHANGE_PRODUCT);
                 removeDetailsScreen();
-//                }
             } else if (v.getId() == R.id.savedscreen_button_continue) {
-              /*  Tagging.trackAction(Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
-                        Constants.ACTION_VALUE_CONTINUE);*/
                 ProductModelSelectionHelper.getInstance().getTaggingInterface().trackActionWithInfo
                         (Constants.ACTION_KEY_SEND_DATA, Constants.ACTION_NAME_SPECIAL_EVENT,
                                 Constants.ACTION_VALUE_CONTINUE);
                 setPreference(mUserSelectedProduct.getData().getCtn());
                 ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
                 clearBackStackHistory(getActivity());
-
-//                    if (!isLaunchedAsTabletLandscape()) {
-//                        removeProdSelectionScreens();
-//                    }
             }
         }
     }
