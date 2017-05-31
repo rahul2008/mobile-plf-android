@@ -69,8 +69,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private ServiceDiscoveryInterface.OnGetHomeCountryListener.ERRORVALUES errorvalues;
     private String mCountry;
     private String mCountrySourceType;
-    public static final String ACTION_HOME_COUNTRY_UPDATE = "ACTION_HOME_COUNTRY_UPDATE";
-    public static final String HOME_COUNTRY_DATA = "ail.servicediscovery.sethomecountry";
+    public static final String ACTION_HOME_COUNTRY_UPDATE = "ail.servicediscovery.sethomecountry";
+    public static final String HOME_COUNTRY_DATA = "HOME_COUNTRY_DATA";
     /**
      * Instantiates a new Service discovery manager.
      *
