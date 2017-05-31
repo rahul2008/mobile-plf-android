@@ -20,14 +20,14 @@
         android:largeHeap="true"
         android:resizeableActivity="true"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Philips.DarkBlue.WhiteBackground"
+        android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
         android:allowBackup="false"
         tools:replace="android:theme,android:label,android:allowBackup">
 
         <activity
             android:name="com.philips.platform.baseapp.screens.introscreen.LaunchActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|locale|layoutDirection"
-            android:theme="@style/Theme.Philips.DarkBlue.Gradient">
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

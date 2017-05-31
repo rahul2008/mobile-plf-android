@@ -5,11 +5,13 @@
 */
 package com.philips.platform.baseapp.base;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
@@ -19,6 +21,10 @@ import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 import java.util.List;
 
@@ -34,6 +40,13 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
     private FragmentTransaction fragmentTransaction;
 
     public abstract int getContainerId();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        UIDHelper.init(new ThemeConfiguration(ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT, this));
+        getTheme().applyStyle(R.style.Theme_Philips_DarkBlue_NoActionBar, true);
+        super.onCreate(savedInstanceState);
+    }
 
     public void handleFragmentBackStack(Fragment fragment, String fragmentTag, int fragmentAddState) {
         RALog.d(TAG," handleFragmentBackStack called");
