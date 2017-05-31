@@ -77,6 +77,8 @@ public class TrackOrderFragment extends InAppBaseFragment
         if (v.getId() == R.id.btn_track) {
             if (mOrderTrackUrl != null) {
                 launchFedex();
+                IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
+                        IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.TRACK_SHIPMENT_SELECTED);
             }
         }
     }
