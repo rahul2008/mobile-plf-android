@@ -1282,12 +1282,12 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 		assertEquals(countryCode,country);
 	}
 
-	class TestReceiver extends BroadcastReceiver{
+	class TestReceiver extends BroadcastReceiver {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			String countryCode = (String) intent.getExtras().get(HOME_COUNTRY_DATA);
-			assertEquals(countryCode,"CN");
+			assertEquals(countryCode, "CN");
 			assertTrue(intent.getAction().equals(ACTION_HOME_COUNTRY_UPDATE));
 		}
 	}
