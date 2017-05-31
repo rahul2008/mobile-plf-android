@@ -79,8 +79,8 @@ node ('android&&device') {
 
             stage('Cleaning workspace') {
                 step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
-            }            
-
+            }     
+        }
 	} // end timestamps
 } // end node ('android')
 
