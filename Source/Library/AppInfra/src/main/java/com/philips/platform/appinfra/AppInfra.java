@@ -267,27 +267,31 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 			AppupdateManager appupdateManager = new AppupdateManager(ai);
 			try {
 				AppConfigurationInterface.AppConfigurationError configurationError = new AppConfigurationInterface.AppConfigurationError();
-				boolean isappUpdateRq = (boolean) appConfigurationManager.getPropertyForKey("appUpdate.autoRefresh", "appinfra", configurationError);
-				File appupdateCache = appupdateManager.getAppUpdatefromCache();
-				if (appupdateCache != null && appupdateCache.exists() && appupdateCache.length() > 0) {
-					Log.i("AppUpdate Auto Refresh", "Cache is available");
-				} else if (isappUpdateRq) {
-					appupdateManager.refresh(new AppupdateInterface.OnRefreshListener() {
-						@Override
-						public void onError(AIAppUpdateRefreshResult error, String message) {
+				Object isappUpdateRq = appConfigurationManager.getPropertyForKey("appUpdate.autoRefresh", "appinfra", configurationError);
+				if (isappUpdateRq != null && isappUpdateRq instanceof Boolean) {
+					final Boolean isautorefreshEnabled = (Boolean) isappUpdateRq;
+					File appupdateCache = appupdateManager.getAppUpdatefromCache();
+					if (appupdateCache != null && appupdateCache.exists() && appupdateCache.length() > 0) {
+						Log.i("AppUpdate Auto Refresh", "Cache is available");
+					} else if (isautorefreshEnabled) {
+						appupdateManager.refresh(new AppupdateInterface.OnRefreshListener() {
+							@Override
+							public void onError(AIAppUpdateRefreshResult error, String message) {
+								Log.e("AppConfiguration", "Auto refresh failed- Appupdate"+" "+error);
+							}
 
-						}
-
-						@Override
-						public void onSuccess(AIAppUpdateRefreshResult result) {
-
-						}
-					});
+							@Override
+							public void onSuccess(AIAppUpdateRefreshResult result) {
+								Log.e("AppConfiguration", "Auto refresh failed- Appupdate"+" "+result);
+							}
+						});
+					}
+				} else {
+					Log.e("AppConfiguration", "Auto refresh failed- Appupdate");
 				}
 			} catch (IllegalArgumentException exception) {
 				Log.e("AppConfiguration", exception.toString());
 			}
-
 			return ai;
 		}
 	}

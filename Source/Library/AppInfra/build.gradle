@@ -216,7 +216,7 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     testCompile 'junit:junit:4.12'
     // Optional -- Mockito framework
-    testCompile 'org.mockito:mockito-core:1.10.19'
+    testCompile 'org.mockito:mockito-core:2.7.22'
     androidTestCompile('junit:junit:4.11') {
         exclude module: 'hamcrest-core'
     }
@@ -226,7 +226,7 @@ dependencies {
     compile 'com.android.volley:volley:1.0.0'
 
 
-    testCompile 'org.robolectric:robolectric:3.0'
+    testCompile "org.robolectric:robolectric:3.3.2"
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
     compile 'com.android.support:support-v4:24.2.1'
 }

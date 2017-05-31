@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.FileUtils;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.appupdate.model.AppupdateModel;
+import com.philips.platform.appinfra.appupdate.model.AppUpdateModel;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -34,16 +34,16 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 
-public class AppupdateManager implements AppupdateInterface {
+public class AppUpdateManager implements AppUpdateInterface {
 
 	private Context mContext;
 	private AppInfra mAppInfra;
 	private Handler mHandler;
-	private AppupdateModel mAppUpdateModel;
+	private AppUpdateModel mAppUpdateModel;
 	private Gson mGson;
 	private FileUtils mFileUtils;
 
-	public AppupdateManager(AppInfra appInfra) {
+	public AppUpdateManager(AppInfra appInfra) {
 		this.mAppInfra = appInfra;
 		this.mContext = appInfra.getAppInfraContext();
 		mGson = new Gson();
@@ -60,7 +60,7 @@ public class AppupdateManager implements AppupdateInterface {
 						try {
 							final JSONObject resp = response.getJSONObject("android");
 							if (resp != null) {
-								mFileUtils.saveFile(resp.toString(), AppupdateConstants.LOCALE_FILE_DOWNLOADED, AppupdateConstants.APPUPDATE_PATH);
+								mFileUtils.saveFile(resp.toString(), AppUpdateConstants.LOCALE_FILE_DOWNLOADED, AppUpdateConstants.APPUPDATE_PATH);
 								mHandler = getHandler(mContext);
 								new Thread(new Runnable() {
 									@Override
@@ -90,7 +90,7 @@ public class AppupdateManager implements AppupdateInterface {
 	}
 
 	private void processResponse(String response, OnRefreshListener refreshListener) {
-		mAppUpdateModel = mGson.fromJson(response, AppupdateModel.class);
+		mAppUpdateModel = mGson.fromJson(response, AppUpdateModel.class);
 		if (mAppUpdateModel != null) {
 			mHandler.post(postRefreshSuccess(refreshListener, OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_SUCCESS));
 		} else {
@@ -120,16 +120,16 @@ public class AppupdateManager implements AppupdateInterface {
 		};
 	}
 
-	private AppupdateModel getAppUpdateModel() {
+	private AppUpdateModel getAppUpdateModel() {
 		if (mAppUpdateModel == null) {
-			mAppUpdateModel = mGson.fromJson(mFileUtils.readFile(getAppUpdatefromCache()), AppupdateModel.class);
+			mAppUpdateModel = mGson.fromJson(mFileUtils.readFile(getAppUpdatefromCache()), AppUpdateModel.class);
 		}
 		return mAppUpdateModel;
 	}
 
 	public File getAppUpdatefromCache() {
-		final File file = mFileUtils.getLanguagePackFilePath(AppupdateConstants.LOCALE_FILE_DOWNLOADED
-				, AppupdateConstants.APPUPDATE_PATH);
+		final File file = mFileUtils.getLanguagePackFilePath(AppUpdateConstants.LOCALE_FILE_DOWNLOADED
+				, AppUpdateConstants.APPUPDATE_PATH);
 		return file;
 	}
 
@@ -139,31 +139,35 @@ public class AppupdateManager implements AppupdateInterface {
 
 	@Override
 	public void refresh(final OnRefreshListener refreshListener) {
-		final AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
-		final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
-		final String appupdateServiceId = (String) appConfigurationInterface.getPropertyForKey("appUpdate.serviceId", "appinfra", configError); // throws illegal argument
-		if (null == appupdateServiceId) {
-			refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, "Invalid ServiceID"); // TO DO
-		} else {
-			ServiceDiscoveryInterface mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
-			mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(appupdateServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+		try {
+			final AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
+			final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+			final String appupdateServiceId = (String) appConfigurationInterface.getPropertyForKey("appUpdate.serviceId", "appinfra", configError);
+			if (appupdateServiceId == null) {
+				refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, "Could not read service id");
+			} else {
+				ServiceDiscoveryInterface mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
+				mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(appupdateServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
-				@Override
-				public void onSuccess(URL url) {
-					final String appUpdateURL = url.toString();
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AppUpdate_URL", url.toString());
-					downloadAppUpdate(appUpdateURL, refreshListener);
-				}
+					@Override
+					public void onSuccess(URL url) {
+						final String appUpdateURL = url.toString();
+						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AppUpdate_URL", url.toString());
+						downloadAppUpdate(appUpdateURL, refreshListener);
+					}
 
-				@Override
-				public void onError(ERRORVALUES error, String message) {
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
-							"AppUpdate_URL", " Error Code:" + error.toString() + " , Error Message:" + message);
-					final String errMsg = " Error Code:" + error + " , Error Message:" + error.toString();
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
-					refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, errMsg);
-				}
-			});
+					@Override
+					public void onError(ERRORVALUES error, String message) {
+						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+								"AppUpdate_URL", " Error Code:" + error.toString() + " , Error Message:" + message);
+						final String errMsg = " Error Code:" + error + " , Error Message:" + error.toString();
+						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
+						refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, errMsg);
+					}
+				});
+			}
+		} catch (IllegalArgumentException exception) {
+			refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, "App configuration error");
 		}
 	}
 
@@ -183,8 +187,8 @@ public class AppupdateManager implements AppupdateInterface {
 			try {
 				Date deprecationdate = formatter.parse(deprecationDate);
 				Date currentDate = new Date();
-				return AppupdateVersion.isAppVerionLessthanCloud(getAppVersion(), minVer) ||
-						AppupdateVersion.isBothVersionSame(getAppVersion(), deprecatedVersion) && currentDate.after(deprecationdate);
+				return AppUpdateVersion.isAppVerionLessthanCloud(getAppVersion(), minVer) ||
+						AppUpdateVersion.isBothVersionSame(getAppVersion(), deprecatedVersion) && currentDate.after(deprecationdate);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -197,8 +201,8 @@ public class AppupdateManager implements AppupdateInterface {
 		if (getAppUpdateModel() != null && getAppUpdateModel().getVersion() != null) {
 			String minVer = getAppUpdateModel().getVersion().getMinimumVersion();
 			String deprecatedVer = getAppUpdateModel().getVersion().getDeprecatedVersion();
-			return AppupdateVersion.isAppVerionLessthanCloud(minVer, getAppVersion()) &&
-					AppupdateVersion.isAppVersionLessthanEqualsto(getAppVersion(), deprecatedVer);
+			return AppUpdateVersion.isAppVerionLessthanCloud(minVer, getAppVersion()) &&
+					AppUpdateVersion.isAppVersionLessthanEqualsto(getAppVersion(), deprecatedVer);
 		}
 		return false;
 	}
@@ -207,7 +211,7 @@ public class AppupdateManager implements AppupdateInterface {
 	public boolean isUpdateAvailable() {
 		if (getAppUpdateModel() != null && getAppUpdateModel().getVersion() != null) {
 			String currentVer = getAppUpdateModel().getVersion().getCurrentVersion();
-			return AppupdateVersion.isAppVerionLessthanCloud(getAppVersion(), currentVer);
+			return AppUpdateVersion.isAppVerionLessthanCloud(getAppVersion(), currentVer);
 		}
 		return false;
 	}

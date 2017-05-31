@@ -76,6 +76,8 @@ public class AppUpdateActivity extends AppCompatActivity {
 		fetchappupdateValues.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+
+
 				tvappversionval.setText(AppInfraApplication.gAppInfra.getAppIdentity().getAppVersion());
 				tvminversionval.setText(appupdateInterface.getMinimumVersion());
 				tvisDeprecated.setText(String.valueOf(appupdateInterface.isDeprecated()));

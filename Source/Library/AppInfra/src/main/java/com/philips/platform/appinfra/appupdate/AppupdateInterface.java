@@ -8,7 +8,7 @@ package com.philips.platform.appinfra.appupdate;
 /**
  *  AppUpdate Interface.
  */
-public interface AppupdateInterface {
+public interface AppUpdateInterface {
 
 	/**
 	 * download appuppdate json file.
