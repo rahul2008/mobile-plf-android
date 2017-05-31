@@ -11,12 +11,17 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Adapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,12 +35,13 @@ public class SearchBox extends LinearLayout {
     public ImageView mBackButton;
     public ImageView mCloseButton;
     public ImageView mSearchIconHolder;
-    public AppCompatAutoCompleteTextView autoCompleteTextView;
+    public AppCompatAutoCompleteTextView searchTextView;
 
 
     private boolean isSearchIconified = true;
     private View searchClearLayout;
     private ExpandListener expandListener;
+    private Filter searchFilter;
 
     public interface ExpandListener {
         void onSearchExpanded();
@@ -65,15 +71,16 @@ public class SearchBox extends LinearLayout {
         mCloseButton = (ImageView) findViewById(R.id.uid_search_close_btn);
         initSearchIconHolder();
         searchClearLayout = findViewById(R.id.uid_search_clear_layout);
-        autoCompleteTextView = (AppCompatAutoCompleteTextView) findViewById(R.id.uid_search_src_text);
+        searchTextView = (AppCompatAutoCompleteTextView) findViewById(R.id.uid_search_src_text);
+        searchTextView.addTextChangedListener(new SearchTextWatcher());
 
         mBackButton.setImageResource(R.drawable.uid_back_icon);
         mCloseButton.setImageResource(R.drawable.uid_texteditbox_clear_icon);
-        autoCompleteTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        searchTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    Toast.makeText(context, autoCompleteTextView.getText(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, searchTextView.getText(), Toast.LENGTH_SHORT).show();
                     return true;
                 }
                 return false;
@@ -90,9 +97,9 @@ public class SearchBox extends LinearLayout {
             public void onClick(View v) {
                 callCollapseListener();
                 setSearchIconified(true);
-                autoCompleteTextView.setText(null);
+                searchTextView.setText(null);
                 setImeVisibility(false);
-                autoCompleteTextView.clearFocus();
+                searchTextView.clearFocus();
             }
         });
     }
@@ -104,7 +111,7 @@ public class SearchBox extends LinearLayout {
             public void onClick(View v) {
                 callExpandListener();
                 setSearchIconified(false);
-                autoCompleteTextView.requestFocus();
+                searchTextView.requestFocus();
                 setImeVisibility(true);
             }
         });
@@ -124,6 +131,23 @@ public class SearchBox extends LinearLayout {
         handleSearchExapnsion(searchIconified);
         isSearchIconified = searchIconified;
         updateViews();
+    }
+
+    /**
+     * <p>Changes the list of data used for search. </p>
+     * <p>
+     * The adapter is used only for filtering the results and calling proper filterable callbacks.
+     * The list refresh responsibility still holds with Adapter.
+     *
+     * @param adapter the adapter holding the list data
+     * @see android.widget.Filterable
+     * @see android.widget.Adapter
+     */
+    @SuppressWarnings("unused")
+    public <T extends Adapter & Filterable> void setAdapter(T adapter) {
+        if (adapter != null) {
+            searchFilter = adapter.getFilter();
+        }
     }
 
     private void handleSearchExapnsion(boolean searchIconified) {
@@ -162,7 +186,7 @@ public class SearchBox extends LinearLayout {
         searchClearLayout.setVisibility(visibility);
         mBackButton.setVisibility(visibility);
         mCloseButton.setVisibility(visibility);
-        autoCompleteTextView.setVisibility(visibility);
+        searchTextView.setVisibility(visibility);
         requestLayout();
     }
 
@@ -170,36 +194,6 @@ public class SearchBox extends LinearLayout {
         return isSearchIconified;
     }
 
-    static class SavedState extends BaseSavedState {
-        boolean isSearchIconified;
-
-        SavedState(Parcelable superState) {
-            super(superState);
-        }
-
-        private SavedState(Parcel in) {
-            super(in);
-            this.isSearchIconified = (Boolean) in.readValue(null);
-        }
-
-        @Override
-        public void writeToParcel(Parcel out, int flags) {
-            super.writeToParcel(out, flags);
-            out.writeValue(this.isSearchIconified);
-        }
-
-        //required field that makes Parcelables from a Parcel
-        public static final Parcelable.Creator<SavedState> CREATOR =
-                new Parcelable.Creator<SavedState>() {
-                    public SavedState createFromParcel(Parcel in) {
-                        return new SavedState(in);
-                    }
-
-                    public SavedState[] newArray(int size) {
-                        return new SavedState[size];
-                    }
-                };
-    }
 
     @Override
     public Parcelable onSaveInstanceState() {
@@ -244,5 +238,60 @@ public class SearchBox extends LinearLayout {
                 imm.hideSoftInputFromWindow(getWindowToken(), 0);
             }
         }
+    }
+
+    private void performFiltering(CharSequence s) {
+        if (searchFilter != null) {
+            searchFilter.filter(s);
+        }
+    }
+
+    private class SearchTextWatcher implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            SearchBox.this.performFiltering(s);
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    }
+
+    static class SavedState extends BaseSavedState {
+        boolean isSearchIconified;
+
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        private SavedState(Parcel in) {
+            super(in);
+            this.isSearchIconified = (Boolean) in.readValue(null);
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeValue(this.isSearchIconified);
+        }
+
+        //required field that makes Parcelables from a Parcel
+        public static final Parcelable.Creator<SavedState> CREATOR =
+                new Parcelable.Creator<SavedState>() {
+                    public SavedState createFromParcel(Parcel in) {
+                        return new SavedState(in);
+                    }
+
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                };
     }
 }

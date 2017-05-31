@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentSearchBoxBinding;
@@ -26,6 +27,7 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
     private static final String[] COUNTRIES = new String[]{
             "Belgium", "Brazil", "Belarus", "France", "Italy", "Germany", "Spain"
     };
+    private ArrayAdapter<String> countryAdapter;
 
     @Override
     public int getPageTitle() {
@@ -37,17 +39,19 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
         fragmentSearchBoxBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_box, container, false);
         fragmentSearchBoxBinding.setFrag(this);
         navIconToggler = new UIDNavigationIconToggler(getActivity());
-//        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-//        ((AppCompatActivity)getActivity()).getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState != null) {
             query = savedInstanceState.getString("query");
             searchIconExpanded = savedInstanceState.getBoolean("iconified");
         }
+        setListAdapter();
         return fragmentSearchBoxBinding.getRoot();
-
     }
 
+    private void setListAdapter() {
+        countryAdapter = new ArrayAdapter<>(getActivity(), R.layout.uid_search_item_one_line ,COUNTRIES);
+        fragmentSearchBoxBinding.countryList.setAdapter(countryAdapter);
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -56,14 +60,15 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
             searchBox = (SearchBox) menu.findItem(R.id.country_search).getActionView();
         searchBox.setExpandListener(this);
         searchBox.setSearchIconified(searchIconExpanded);
-        searchBox.autoCompleteTextView.setText(query);
+        searchBox.searchTextView.setText(query);
+        searchBox.setAdapter(countryAdapter);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putBoolean("iconified",searchBox.isSearchIconified());
-        outState.putString("query", String.valueOf(searchBox.autoCompleteTextView.getText()));
+        outState.putString("query", String.valueOf(searchBox.searchTextView.getText()));
         super.onSaveInstanceState(outState);
     }
 
