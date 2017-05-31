@@ -62,6 +62,8 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             "Refresh"};
 
     private HashMap<String, String> parameters;
+    private HomeCountryUpdateReceiver receiver;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +89,10 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         editTextData = idEditText.getText().toString();
 
         resultView = (TextView) findViewById(R.id.textView2);
+
+
+        receiver = new HomeCountryUpdateReceiver();
+        mServiceDiscoveryInterface.registerHomeCountry(receiver);
 
         setHomeCountry.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -305,5 +311,11 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 //        }
         resultView.setText(" URL Model   : " + mMap);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mServiceDiscoveryInterface.unRegisterHomeCountry(receiver);
     }
 }

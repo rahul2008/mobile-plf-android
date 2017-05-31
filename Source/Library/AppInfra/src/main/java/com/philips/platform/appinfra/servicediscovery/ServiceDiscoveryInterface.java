@@ -5,6 +5,8 @@
  */
 package com.philips.platform.appinfra.servicediscovery;
 
+import android.content.BroadcastReceiver;
+
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import java.net.URL;
@@ -253,4 +255,17 @@ public interface ServiceDiscoveryInterface {
     void refresh(OnRefreshListener listener);
 
     void refresh(OnRefreshListener listener, boolean forceRefresh);
+
+    /**
+     * UnRegister for the Tagging data .
+     * @param receiver BroadcastReceiver
+     */
+    void unRegisterHomeCountry(BroadcastReceiver receiver);
+
+    /**
+     * Register for the Tagging data.
+     *
+     * @param receiver BroadcastReceiver
+     */
+    void registerHomeCountry(BroadcastReceiver receiver);
 }

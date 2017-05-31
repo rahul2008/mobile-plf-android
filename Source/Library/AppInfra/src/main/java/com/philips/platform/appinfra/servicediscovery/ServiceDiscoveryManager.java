@@ -5,9 +5,13 @@
  */
 package com.philips.platform.appinfra.servicediscovery;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
@@ -65,7 +69,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private ServiceDiscoveryInterface.OnGetHomeCountryListener.ERRORVALUES errorvalues;
     private String mCountry;
     private String mCountrySourceType;
-
+    public static final String ACTION_HOME_COUNTRY_UPDATE = "ACTION_HOME_COUNTRY_UPDATE";
+    public static final String HOME_COUNTRY_DATA = "HOME_COUNTRY_DATA";
     /**
      * Instantiates a new Service discovery manager.
      *
@@ -388,13 +393,14 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     @Override
-    public void setHomeCountry(String countryCode) {
+    public void setHomeCountry(final String countryCode) {
         if (countryCode != null && countryCode.length() == 2) {
             final String country = fetchFromSecureStorage(COUNTRY);
             if (!countryCode.equals(country)) { // entered country is different then existing
                 this.countryCode = countryCode;
                 countryCodeSource = OnGetHomeCountryListener.SOURCE.STOREDPREFERENCE;
                 saveToSecureStore(countryCode, countryCodeSource.toString());
+                sendBroadcast(countryCode);
                 serviceDiscovery = null;  // if there is no internet then also old SD value must be cleared.
                 mRequestItemManager.clearCacheServiceDiscovery(); // clear SD cache
                 queueResultListener(true, new AbstractDownloadItemListener() {
@@ -806,6 +812,39 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Sending the broadcast event .
+     * @param data Updated home country code
+     */
+    private void sendBroadcast(final String data) {
+        Intent intent = new Intent(ACTION_HOME_COUNTRY_UPDATE);
+        intent.putExtra(HOME_COUNTRY_DATA, data);
+        LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
+                .sendBroadcast(intent);
+    }
+
+    @Override
+    public void unRegisterHomeCountry(final BroadcastReceiver receiver) {
+        if(receiver != null && mAppInfra.getAppInfraContext() != null)  {
+            LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
+                    .unregisterReceiver(receiver);
+        } else {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                    "unregister Home country update", "" + "context is null");
+        }
+    }
+
+    @Override
+    public void registerHomeCountry(final BroadcastReceiver receiver) {
+        if(receiver != null && mAppInfra.getAppInfraContext() != null)  {
+            LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
+                    .registerReceiver(receiver, new IntentFilter(ACTION_HOME_COUNTRY_UPDATE));
+        } else {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                    "unregister Home country update ", "" + "context is null");
+        }
     }
 
     /**
