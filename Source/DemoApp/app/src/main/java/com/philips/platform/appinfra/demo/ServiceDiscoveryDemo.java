@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -59,7 +60,8 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             "Get Url by language with replaced url",
             "Get replaced Url by country with multiple service id",
             "Get replaced Url by Language with multiple service id",
-            "Refresh"};
+            "Refresh",
+            "Get home country Synchronous"};
 
     private HashMap<String, String> parameters;
     private HomeCountryUpdateReceiver receiver;
@@ -190,6 +192,9 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
                         }
                     });
 
+                } else if(requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get home country Synchronous")){
+                    String homeCountry = mServiceDiscoveryInterface.getHomeCountry();
+                    Toast.makeText(ServiceDiscoveryDemo.this, "Home country is " + homeCountry, Toast.LENGTH_SHORT).show();
                 }
 //                else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Replace Url")) {
 //                    Map<String, String> parameters = new HashMap<>();
