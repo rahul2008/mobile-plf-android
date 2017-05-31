@@ -12,11 +12,13 @@ def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_App_chassis@philips.com'
 
 node ('android&&device') {
 	timestamps {
-		stage ('Checkout') {
-           checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '4edede71-63a0-455e-a9dd-d250f8955958', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/ail-android-appinfra']]])
-		}
 		
         try {
+
+            stage ('Checkout') {
+               checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '4edede71-63a0-455e-a9dd-d250f8955958', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/ail-android-appinfra']]])
+            }
+
 			if (BranchName =~ /master|develop|release.*/) {
 			     stage ('build') {
                     sh '''#!/bin/bash -l
@@ -53,31 +55,40 @@ node ('android&&device') {
                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/AppInfra/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'coverage tests']) 
                 archiveArtifacts '**/dependencies.lock'
             }
-            
-        } //end try
+        
+            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
+                stage ('callIntegrationPipeline') {
+                    if (BranchName =~ "/") {
+                        BranchName = BranchName.replaceAll('/','%2F')
+                        echo "BranchName changed to ${BranchName}"
+                    }
+                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'ail'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
+                    // call dls pipeline as well (temporary)
+                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}_DLS", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'ail'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
 
-        catch(err) {
+                }            
+            }           
+        } catch(err) {
             currentBuild.result = 'FAILURE'    
             error ("Someone just broke the build", err.toString())
-        }
-		
-        if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
-            stage ('callIntegrationPipeline') {
-                if (BranchName =~ "/") {
-                    BranchName = BranchName.replaceAll('/','%2F')
-                    echo "BranchName changed to ${BranchName}"
-                }
-                build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'ail'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
-                // call dls pipeline as well (temporary)
-                build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}_DLS", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'ail'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
+        } finally {     
+            stage('informing') {
+            	step([$class: 'StashNotifier'])
+            	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
+            }
 
-            }            
+            stage('Cleaning workspace') {
+                step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
+            }     
         }
-        
-        stage('informing') {
-        	step([$class: 'StashNotifier'])
-        	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
-        }
-
 	} // end timestamps
 } // end node ('android')
+
+node('master') {
+    stage('Cleaning workspace') {
+        def wrk = pwd() + "@script/"
+        dir("${wrk}") {
+            deleteDir()
+        }
+    }
+}

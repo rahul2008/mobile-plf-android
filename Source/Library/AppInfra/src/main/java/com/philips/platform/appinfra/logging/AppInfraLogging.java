@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
@@ -99,6 +100,45 @@ public class AppInfraLogging implements LoggingInterface {
             }
         }
 
+    }
+
+    /**
+     * Logs message on console and file .
+     *
+     * @param level   the level {VERBOSE, DEBUG, INFO, WARNING, ERROR}
+     * @param eventId the Event name or Tag
+     * @param message the message
+     * @param map the dictionary
+     */
+    @Override
+    public void log(LogLevel level, String eventId, String message, Map<String, ?> map) {
+        Object[] params = new Object[2];
+
+        // native Java logger mapping of LOG levels
+        if (null == mJavaLogger) {
+            createLogger("");
+        }
+        if (null != mJavaLogger) {
+            params[0]=message;
+            params[1]=map;
+            switch (level) {
+                case ERROR:
+                    mJavaLogger.log(Level.SEVERE, eventId, params);
+                    break;
+                case WARNING:
+                    mJavaLogger.log(Level.WARNING, eventId, params);
+                    break;
+                case INFO:
+                    mJavaLogger.log(Level.INFO, eventId, params);
+                    break;
+                case DEBUG:
+                    mJavaLogger.log(Level.CONFIG, eventId, params);
+                    break;
+                case VERBOSE:
+                    mJavaLogger.log(Level.FINE, eventId, params);
+                    break;
+            }
+        }
     }
 
 

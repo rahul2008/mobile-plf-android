@@ -6,6 +6,8 @@
 
 package com.philips.platform.appinfra.logging;
 
+import java.util.Map;
+
 /**
  * The Logging Interface
  */
@@ -31,6 +33,15 @@ public interface LoggingInterface {
      * @param message the message
      */
     public void log(LogLevel level, String eventId, String message);
+
+    /**
+     * Logs message on console and file .
+     * @param level   the level {VERBOSE, DEBUG, INFO, WARNING, ERROR}
+     * @param eventId the Event name or Tag
+     * @param message the message
+     * @param map the dictionary
+     */
+    public void log(LogLevel level, String eventId, String message,  Map <String,?> map);
 
 
 

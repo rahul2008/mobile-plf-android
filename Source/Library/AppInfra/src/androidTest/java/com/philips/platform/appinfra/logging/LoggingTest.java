@@ -14,6 +14,8 @@ import org.mockito.stubbing.Answer;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -25,7 +27,7 @@ import static org.mockito.Mockito.mock;
  * Created by 310238114 on 8/9/2016.
  */
 public class LoggingTest extends MockitoTestCase {
-    LoggingInterface loggingInterface;
+    LoggingInterface loggingInterface ;
     LoggingInterface loggingInterfaceMock;
     AppConfigurationInterface mConfigInterface = null;
     private Context context;
@@ -62,15 +64,15 @@ public class LoggingTest extends MockitoTestCase {
         };
         assertNotNull(mConfigInterface);
 
-        mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).build(context);
-        loggingInterface = mAppInfra.getLogging().createInstanceForComponent("ail", "1.5");
+        mAppInfra= new AppInfra.Builder().setConfig(mConfigInterface).build(context);
+        loggingInterface = mAppInfra.getLogging().createInstanceForComponent("ail","1.5");
 
 //       testLogger.setAppInfra(mAppInfra);
 //        loggingInterface = mAppInfra.getLogging();
         assertNotNull(mAppInfra);
         assertNotNull(loggingInterface);
 
-        loggingInterface.log(LoggingInterface.LogLevel.INFO, "Event", "Message");
+        loggingInterface.log(LoggingInterface.LogLevel.INFO,"Event","Message");
         loggingInterfaceMock = mock(AppInfraLogging.class);
        /* loggingInterface = mock(AppInfraLogging.class);
         doAnswer(new Answer<Object>() {
@@ -88,75 +90,77 @@ public class LoggingTest extends MockitoTestCase {
         }).when( loggingInterface).log(LoggingInterface.LogLevel.INFO,"Event","Message");*/
     }
 
-    public void testLogInitialize() {
-        assertNotNull(loggingInterface.createInstanceForComponent("Component Name", "Component version"));
-        loggingInterface.log(LoggingInterface.LogLevel.INFO, "Event", "Message");
+    public void testLogInitialize(){
+        assertNotNull(loggingInterface.createInstanceForComponent("Component Name","Component version"));
+        loggingInterface.log(LoggingInterface.LogLevel.INFO,"Event","Message");
 
         assertNotNull(loggingInterfaceMock);
-        loggingInterfaceMock.log(LoggingInterface.LogLevel.INFO, "Event", "Message");
+        loggingInterfaceMock.log(LoggingInterface.LogLevel.INFO,"Event","Message");
         doAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) {
                 Object[] args = invocation.getArguments();
                 return null;
             }
-        }).when(loggingInterfaceMock).createInstanceForComponent("Component Name mock", "Component version");
+        }).when(loggingInterfaceMock).createInstanceForComponent("Component Name mock","Component version");
 
         doAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) {
                 Object[] args = invocation.getArguments();
-                LoggingInterface.LogLevel logLevel = (LoggingInterface.LogLevel) args[0];
+                LoggingInterface.LogLevel logLevel= (LoggingInterface.LogLevel)args[0];
                 assertNotNull(logLevel);
                 return null;
             }
-        }).when(loggingInterfaceMock).log(LoggingInterface.LogLevel.INFO, "Event", "Message");
+        }).when( loggingInterfaceMock).log(LoggingInterface.LogLevel.INFO,"Event","Message");
     }
 
 
-    public void testLogwithConsole() {
+    public void testLogwithConsole(){
 
         for (LoggingInterface.LogLevel logLevel : LoggingInterface.LogLevel.values()) {
-            loggingInterface.log(logLevel, null, "message");
-            loggingInterface.log(logLevel, "Event", "Message");
+            loggingInterface.log(logLevel, null,"message");
+            loggingInterface.log(logLevel, "Event","Message");
 
         }
 
         for (LoggingInterface.LogLevel logLevel : LoggingInterface.LogLevel.values()) {
-            loggingInterfaceMock.log(logLevel, null, "message");
-            loggingInterfaceMock.log(logLevel, "Event", "Message");
+            loggingInterfaceMock.log(logLevel, null,"message");
+            loggingInterfaceMock.log(logLevel, "Event","Message");
 
         }
+
 
 
         for (LoggingInterface.LogLevel loglevel : LoggingInterface.LogLevel.values()) {
             doAnswer(new Answer<Object>() {
                 public Object answer(InvocationOnMock invocation) {
                     Object[] args = invocation.getArguments();
-                    LoggingInterface.LogLevel logLevel = (LoggingInterface.LogLevel) args[0];
+                    LoggingInterface.LogLevel logLevel= (LoggingInterface.LogLevel)args[0];
                     assertNotNull(logLevel);
                     return null;
                 }
-            }).when(loggingInterfaceMock).log(loglevel, null, "message");
+            }).when(loggingInterfaceMock).log(loglevel, null,"message");
             doAnswer(new Answer<Object>() {
                 public Object answer(InvocationOnMock invocation) {
                     Object[] args = invocation.getArguments();
-                    LoggingInterface.LogLevel logLevel = (LoggingInterface.LogLevel) args[0];
+                    LoggingInterface.LogLevel logLevel= (LoggingInterface.LogLevel)args[0];
                     assertNotNull(logLevel);
                     return null;
                 }
-            }).when(loggingInterfaceMock).log(loglevel, "Event", "Message");
+            }).when(loggingInterfaceMock).log(loglevel, "Event","Message");
 
         }
 
 
+
         for (LoggingInterface.LogLevel logLevel : LoggingInterface.LogLevel.values()) {
-            loggingInterface.log(logLevel, null, "message");
-            loggingInterface.log(logLevel, "Event", "Message");
+            loggingInterface.log(logLevel, null,"message");
+            loggingInterface.log(logLevel, "Event","Message");
 
         }
 
         for (LoggingInterface.LogLevel logLevel : LoggingInterface.LogLevel.values()) {
-            loggingInterfaceMock.log(logLevel, null, "message");
-            loggingInterfaceMock.log(logLevel, "Event", "Message");
+            loggingInterfaceMock.log(logLevel, null,"message");
+            loggingInterfaceMock.log(logLevel, "Event","Message");
 
         }
 
@@ -164,19 +168,19 @@ public class LoggingTest extends MockitoTestCase {
             doAnswer(new Answer<Object>() {
                 public Object answer(InvocationOnMock invocation) {
                     Object[] args = invocation.getArguments();
-                    LoggingInterface.LogLevel logLevel = (LoggingInterface.LogLevel) args[0];
+                    LoggingInterface.LogLevel logLevel= (LoggingInterface.LogLevel)args[0];
                     assertNotNull(logLevel);
                     return null;
                 }
-            }).when(loggingInterfaceMock).log(logLevel, null, "message");
+            }).when(loggingInterfaceMock).log(logLevel, null,"message");
             doAnswer(new Answer<Object>() {
                 public Object answer(InvocationOnMock invocation) {
                     Object[] args = invocation.getArguments();
-                    LoggingInterface.LogLevel logLevel = (LoggingInterface.LogLevel) args[0];
+                    LoggingInterface.LogLevel logLevel= (LoggingInterface.LogLevel)args[0];
                     assertNotNull(logLevel);
                     return null;
                 }
-            }).when(loggingInterfaceMock).log(logLevel, "Event", "Message");
+            }).when(loggingInterfaceMock).log(logLevel, "Event","Message");
 
         }
     }
@@ -184,10 +188,11 @@ public class LoggingTest extends MockitoTestCase {
     public void testLogwithFile() {
 
         for (LoggingInterface.LogLevel logLevel : LoggingInterface.LogLevel.values()) {
-            loggingInterface.log(logLevel, null, "message");
-            loggingInterface.log(logLevel, "Event", "Message");
+            loggingInterface.log(logLevel, null,"message");
+            loggingInterface.log(logLevel, "Event","Message");
 
         }
+
 
 
         for (LoggingInterface.LogLevel logLevel : LoggingInterface.LogLevel.values()) {
@@ -231,6 +236,7 @@ public class LoggingTest extends MockitoTestCase {
                 loggingInterfaceMock.log(logLevel, "Event", "Message");
 
             }
+
 
 
             for (LoggingInterface.LogLevel loglevel1 : LoggingInterface.LogLevel.values()) {
@@ -277,9 +283,68 @@ public class LoggingTest extends MockitoTestCase {
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
-
     }
 
+    public void testLogForDictionary(){
+        try {
+            Method method = loggingInterface.getClass().getDeclaredMethod("log", LoggingInterface.LogLevel.class,String.class,String.class,Map.class);
+            method.setAccessible(true);
+            String event= new String("Log Event");
+            String msg= new String("Log message");
+            Map<String,String> map = new HashMap<>();
+            map.put("key1","val1");
+            map.put("key2","val2");
+            method.invoke(loggingInterface, LoggingInterface.LogLevel.DEBUG,event,msg,map);
+
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testLogForDictionary_emptymap(){
+        try {
+            Method method = loggingInterface.getClass().getDeclaredMethod("log", LoggingInterface.LogLevel.class,String.class,String.class,Map.class);
+            method.setAccessible(true);
+            String event= new String("Log Event");
+            String msg= new String("Log message");
+            method.invoke(loggingInterface, LoggingInterface.LogLevel.DEBUG,event,msg,null);
+
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testLogForDictionary_emptymsg(){
+        try {
+            Method method = loggingInterface.getClass().getDeclaredMethod("log", LoggingInterface.LogLevel.class,String.class,String.class,Map.class);
+            method.setAccessible(true);
+            String event= new String("Log Event");
+            String msg= new String("Log message");
+            Map<String,String> map = new HashMap<>();
+            map.put("key1","val1");
+            map.put("key2","val2");
+            method.invoke(loggingInterface, LoggingInterface.LogLevel.DEBUG,event,null,map);
+
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testLogForDictionary_emptymsgAndMap(){
+        try {
+            Method method = loggingInterface.getClass().getDeclaredMethod("log", LoggingInterface.LogLevel.class,String.class,String.class,Map.class);
+            method.setAccessible(true);
+            String event= new String("Log Event");
+            String msg= new String("Log message");
+            Map<String,String> map = new HashMap<>();
+            map.put("key1","val1");
+            map.put("key2","val2");
+            method.invoke(loggingInterface, LoggingInterface.LogLevel.DEBUG,event,null,null);
+
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
     public void testGetFileHandler() {
         try {
             AppInfraLogging appInfraLogging = new AppInfraLogging(mAppInfra);
@@ -385,6 +450,7 @@ public class LoggingTest extends MockitoTestCase {
             loggingInterface.log(logLevel, "Event", "Message");
         }
     }
+
 
 
 }
