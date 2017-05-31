@@ -6,6 +6,8 @@ package com.philips.cdp.di.iap.screens;
 
 import android.os.Bundle;
 
+import com.philips.cdp.di.iap.analytics.IAPAnalytics;
+import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 
@@ -24,6 +26,7 @@ public class WebTrackUrl extends WebFragment {
     @Override
     public void onResume() {
         super.onResume();
+        IAPAnalytics.trackPage(IAPAnalyticsConstant.ORDER_DETAIL_PAGE_NAME);
     }
 
     public static WebTrackUrl createInstance(Bundle args, AnimationType animType) {

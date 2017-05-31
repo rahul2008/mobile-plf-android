@@ -66,6 +66,7 @@ public class IAPAnalyticsConstant {
     public static final String REVOKED_VOUCHER_CODE = "revokedVoucherCode";
     public static final String REDEEM_VOUCHER_SELECTED = "redeemVoucherSelected";
 
+    public static final String TRACK_SHIPMENT_SELECTED = "trackShipmentSelected";
     public static final String ERROR = "error";
     public static final String SERVER = "Server_";
     public static final String HYBRIS = "Hybris_";

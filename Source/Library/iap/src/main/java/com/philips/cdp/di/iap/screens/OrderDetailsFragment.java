@@ -115,6 +115,10 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
                 mTrackOrderLayout.setVisibility(View.GONE);
             if (bundle.containsKey(IAPConstant.ORDER_DETAIL)) {
                 mOrderDetail = bundle.getParcelable(IAPConstant.ORDER_DETAIL);
+                if (mOrderDetail != null) {
+                    IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA, IAPAnalyticsConstant.PURCHASE_ID,
+                            mOrderDetail.getCode());
+                }
                 updateUIwithDetails(mOrderDetail);
             }
         }
