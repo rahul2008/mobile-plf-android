@@ -12,13 +12,13 @@ import org.json.JSONObject;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
 
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
@@ -301,6 +301,50 @@ public class LoggingTest extends MockitoTestCase {
         }
     }
 
+    public void testLogForDictionary_emptymap(){
+        try {
+            Method method = loggingInterface.getClass().getDeclaredMethod("log", LoggingInterface.LogLevel.class,String.class,String.class,Map.class);
+            method.setAccessible(true);
+            String event= new String("Log Event");
+            String msg= new String("Log message");
+            method.invoke(loggingInterface, LoggingInterface.LogLevel.DEBUG,event,msg,null);
+
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testLogForDictionary_emptymsg(){
+        try {
+            Method method = loggingInterface.getClass().getDeclaredMethod("log", LoggingInterface.LogLevel.class,String.class,String.class,Map.class);
+            method.setAccessible(true);
+            String event= new String("Log Event");
+            String msg= new String("Log message");
+            Map<String,String> map = new HashMap<>();
+            map.put("key1","val1");
+            map.put("key2","val2");
+            method.invoke(loggingInterface, LoggingInterface.LogLevel.DEBUG,event,null,map);
+
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testLogForDictionary_emptymsgAndMap(){
+        try {
+            Method method = loggingInterface.getClass().getDeclaredMethod("log", LoggingInterface.LogLevel.class,String.class,String.class,Map.class);
+            method.setAccessible(true);
+            String event= new String("Log Event");
+            String msg= new String("Log message");
+            Map<String,String> map = new HashMap<>();
+            map.put("key1","val1");
+            map.put("key2","val2");
+            method.invoke(loggingInterface, LoggingInterface.LogLevel.DEBUG,event,null,null);
+
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
     public void testGetFileHandler() {
         try {
             AppInfraLogging appInfraLogging = new AppInfraLogging(mAppInfra);
