@@ -15,4 +15,6 @@
     <string name="Continue_Btntxt">Continue</string>
     <string name="No_Internet">No internet connection. Please check if your connection is working in your phone’s wifi settings or data settings</string>
     <string name="myphilips_CC">MyPhilips account</string>
+
+    <string name="Confirmation_Selected_new">Product Selected</string>
 </resources>

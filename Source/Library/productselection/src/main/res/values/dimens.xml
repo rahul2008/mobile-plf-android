@@ -28,4 +28,6 @@
     <dimen name="view_max_width">680dp</dimen>
     <dimen name="view_padding">16dp</dimen>
 
+    <dimen name="scroll_view_bottom">30dp</dimen>
+
 </resources>

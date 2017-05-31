@@ -43,9 +43,6 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     private LinearLayout mProductContainer = null;
     private LinearLayout mProductContainerBelow = null;
     private LinearLayout.LayoutParams mProductContainerBelowParams;
-    private LinearLayout.LayoutParams mProductContainerParams;
-    private LinearLayout mProductContainer1 = null;
-    private LinearLayout.LayoutParams mProductContainerParams1;
     private TextView mProductName = null;
     private TextView mProductCtn = null;
     private ImageView mProductImage = null;
@@ -64,13 +61,8 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
         super.onActivityCreated(savedInstanceState);
 
         mProductContainer = (LinearLayout) getActivity().findViewById(R.id.savedScreen_screen_child_one);
-        mProductContainerParams = (LinearLayout.LayoutParams) mProductContainer.getLayoutParams();
-
         mProductContainerBelow = (LinearLayout) getActivity().findViewById(R.id.savedScreen_screen_parent);
         mProductContainerBelowParams = (LinearLayout.LayoutParams) mProductContainerBelow.getLayoutParams();
-
-        mProductContainer1 = (LinearLayout) getActivity().findViewById(R.id.savedScreen_screen_child_two);
-        mProductContainerParams1 = (LinearLayout.LayoutParams) mProductContainer1.getLayoutParams();
         mProductName.setText(mUserSelectedProduct.getData().getProductTitle());
         mProductCtn.setText(mUserSelectedProduct.getData().getCtn());
         loadProductImage(mProductImage);

@@ -1,97 +1,83 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/savedscreen_product_image_margin"
-    android:background="#ffffff">
-
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/savedScreen_screen_parent_one"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical">`
 
-        <RelativeLayout
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/savedscreen_top_container_height"
-            android:background="?attr/uikit_veryLightColor">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textColor="@android:color/black"
+            android:text="@string/Confirmation_Selected_new"
+            android:paddingLeft="@dimen/view_padding"
+            android:layout_marginBottom="16dp"
+            android:paddingRight="@dimen/view_padding"
+            app:uidLabelTextSize="20sp"
+            android:textStyle="bold"/>
 
-            <com.philips.platform.uid.view.widget.Label
-                style="@style/UIDLabel.SliderMarginBottom"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/savedscreen_productcontainer_marigin"
-                android:gravity="center|left"
-                android:text="@string/Confirmation_Selected"
-                android:textSize="@dimen/title_text_size_small"
-                custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
-        </RelativeLayout>
+      <include layout="@layout/uid_horizontal_separator"/>
 
         <LinearLayout
-            android:id="@+id/savedScreen_screen_parent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:paddingLeft="@dimen/view_padding"
+            android:paddingRight="@dimen/view_padding"
+            android:layout_marginTop="16dp"
+            android:id="@+id/savedScreen_screen_parent"
+            android:orientation="horizontal">
 
-            <LinearLayout xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/savedScreen_screen_child_one"
+            <ImageView
+                android:id="@+id/savedscreen_productimage"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_marginTop="16dp"
+                android:layout_height="@dimen/savedscreen_productcontainer_height"
+                android:layout_margin="@dimen/savedscreen_product_image_margin"/>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/savedscreen_productcontainer_marigin"
-                android:layout_marginRight="@dimen/savedscreen_productcontainer_marigin"
-                android:orientation="horizontal"
-                android:weightSum="18"
-                tools:showIn="@layout/fragment_saved_screen">
+                android:id="@+id/savedScreen_screen_child_one"
+                android:layout_marginRight="15dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/savedscreen_productimage"
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel.SliderMarginBottom"
+                    android:id="@+id/savedscreen_productname"
                     android:layout_width="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_height="@dimen/savedscreen_productcontainer_height"
-                    android:layout_margin="@dimen/savedscreen_product_image_margin"
-                    android:layout_weight="6" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:lineSpacingExtra="@dimen/savedscreen_product_text_linespacing"
+                    android:textSize="@dimen/title_text_size_small"
+                    android:textStyle="bold"/>
 
-                <RelativeLayout
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel.SliderMarginBottom"
+                    android:id="@+id/savedscreen_productvariant"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/savedscreen_product_text_container_height"
-                    android:layout_weight="5">
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/savedscreen_productname"
+                    android:textSize="@dimen/title_text_size_small"
+                    android:text="hhhhhi"
+                    custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
 
-                    <com.philips.platform.uid.view.widget.Label
-                        style="@style/UIDLabel.SliderMarginBottom"
-                        android:id="@+id/savedscreen_productname"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:lineSpacingExtra="@dimen/savedscreen_product_text_linespacing"
-                        android:textSize="@dimen/title_text_size_small"
-                        android:textStyle="bold"
-                        custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Bold.otf" />
-
-
-                    <com.philips.platform.uid.view.widget.Label
-                        style="@style/UIDLabel.SliderMarginBottom"
-                        android:id="@+id/savedscreen_productvariant"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_below="@id/savedscreen_productname"
-                        android:layout_marginTop="10dp"
-                        android:textColor="#B9B9B9"
-                        android:textSize="@dimen/title_text_size_small"
-                        android:text="hhhhhi"
-                        custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="7">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -103,28 +89,57 @@
                         android:foregroundGravity="right|center"
                         android:scaleType="fitXY" />
 
-                </RelativeLayout>
+                    <com.philips.platform.uid.view.widget.Label
+                        style="@style/UIDLabel.SliderMarginBottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="Selected"
+                        android:textSize="@dimen/title_text_size_small"
+                        custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
 
-
+                </LinearLayout>
             </LinearLayout>
 
-            <include layout="@layout/savedscreen_settings_container" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/view_padding"
+            android:paddingRight="@dimen/view_padding"
+            android:orientation="vertical">
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.SliderMarginBottom"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="24dp"
+                android:text="@string/Confirmation_Change_Selection"
+                android:textSize="@dimen/title_text_size_small"
+                custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
+
+            <com.philips.platform.uid.view.widget.Button
+                style="@style/UIDExtraWideButton.Center"
+                android:id="@+id/savedscreen_button_settings"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/Confirmation_Change"
+                android:textAllCaps="false" />
 
             <com.philips.platform.uid.view.widget.Button
                 style="@style/UIDExtraWideButton.Center"
                 android:id="@+id/savedscreen_button_continue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
                 android:layout_marginTop="@dimen/savedscreen_product_text_container_height"
                 android:text="@string/Continue_Btntxt"
                 android:textAllCaps="false" />
         </LinearLayout>
+        
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/scroll_view_bottom"/>
 
     </LinearLayout>
-
-
 </ScrollView>

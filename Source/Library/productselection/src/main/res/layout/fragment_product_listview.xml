@@ -1,12 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/productListContainer"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <ListView
         android:id="@+id/productListView"
         android:layout_width="wrap_content"
-        android:layout_height="1000dp"
+        android:layout_height="match_parent"
         android:divider="?attr/uidSeparator"
         android:dividerHeight="@dimen/uid_divider_Height"
         android:listSelector="?attr/uidListPressed"
