@@ -81,7 +81,7 @@
     <string name="progress_bar_scale">Scale</string>
 
     <!--Labels-->
-    <string name="page_title_label">Labels</string>
+    <string name="page_title_label">Label</string>
     <string name="label_input_field">Name</string>
     <string name="label_text">Label text</string>
     <string name="label_description">Description label</string>
@@ -216,4 +216,10 @@
     <string name="page_title_dot_navigation">Dot navigation</string>
     <string name="page_number">Page %d</string>
     <string name="setting_list_one">Setting List 1</string>
+    <string name="description_label">Description label</string>
+    <string name="volume_down">Volume down</string>
+    <string name="volume_up">Volume up</string>
+    <string name="label_item_text_one">Item 1</string>
+    <string name="label_item_text_two">Item 2</string>
+    <string name="label_item_text_three">Item 3</string>
 </resources>
