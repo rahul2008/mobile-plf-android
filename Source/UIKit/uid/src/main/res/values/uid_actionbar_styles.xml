@@ -45,10 +45,7 @@
 
         <item name="buttonGravity">top</item>
         <item name="titleTextAppearance">@style/UIDToolbarTitleStyle</item>
-        <item name="android:maxButtonHeight" tools:targetApi="n">
-            @dimen/uid_navigation_bar_icon_maxsize
-        </item>
-        <item name="maxButtonHeight">@dimen/uid_navigation_bar_icon_maxsize</item>
+        <item name="maxButtonHeight">?attr/actionBarSize</item>
         <item name="toolbarNavigationButtonStyle">@style/UIDToolbarNavigationButton</item>
 
         <item name="background">?attr/uidNavigationPrimaryBackgroundColor</item>

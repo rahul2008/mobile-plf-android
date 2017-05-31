@@ -143,7 +143,9 @@ public class SearchBox extends LinearLayout {
             return;
         }
         int width = MeasureSpec.getSize(widthMeasureSpec);
-        super.onMeasure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), heightMeasureSpec);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+        super.onMeasure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
+                MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
     }
 
     public void setSearchIconified(boolean searchIconified) {
