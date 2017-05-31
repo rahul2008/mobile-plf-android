@@ -91,7 +91,7 @@ public class SearchBox extends LinearLayout {
     }
 
     private void initBackButton() {
-        mBackButton = (ImageView) findViewById(R.id.uid_search_button);
+        mBackButton = (ImageView) findViewById(R.id.uid_search_back_button);
         mBackButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

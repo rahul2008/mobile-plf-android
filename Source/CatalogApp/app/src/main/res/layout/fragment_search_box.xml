@@ -17,6 +17,7 @@
 
         <ListView
             android:id="@+id/country_list"
+            android:background="@color/uidColorWhite"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
