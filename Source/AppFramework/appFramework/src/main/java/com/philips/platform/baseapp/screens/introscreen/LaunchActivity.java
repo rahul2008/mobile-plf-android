@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,8 +49,8 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchVi
 
         super.onCreate(savedInstanceState);
         presenter = new LaunchActivityPresenter(this);
-        initCustomActionBar();
         setContentView(R.layout.af_launch_activity);
+        initCustomActionBar();
         presenter.onEvent(LaunchActivityPresenter.APP_LAUNCH_STATE);
     }
 
@@ -59,31 +60,30 @@ public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchVi
     }
 
     private void initCustomActionBar() {
-        ActionBar mActionBar = getSupportActionBar();
-        if (mActionBar != null) {
-            mActionBar.setDisplayShowHomeEnabled(false);
-            mActionBar.setDisplayShowTitleEnabled(false);
-            mActionBar.setDisplayShowCustomEnabled(true);
-            ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the text view in the ActionBar !
-                    ActionBar.LayoutParams.MATCH_PARENT,
-                    ActionBar.LayoutParams.WRAP_CONTENT,
-                    Gravity.CENTER);
-            View mCustomView = LayoutInflater.from(this).inflate(R.layout.af_home_action_bar, null); // layout which contains your button.
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the text view in the ActionBar !
+                ActionBar.LayoutParams.MATCH_PARENT,
+                ActionBar.LayoutParams.WRAP_CONTENT,
+                Gravity.CENTER);
+        View mCustomView = LayoutInflater.from(this).inflate(R.layout.af_home_action_bar, null); // layout which contains your button.
 
 
-            final FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.home_action_bar_button_layout);
-            frameLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    onBackPressed();
-                }
-            });
-            final ImageView arrowImage = (ImageView) mCustomView
-                    .findViewById(R.id.home_action_bar_arrow_left);
-            textView = (TextView) mCustomView.findViewById(R.id.home_action_bar_text);
-            arrowImage.setBackground(VectorDrawable.create(this, R.drawable.left_arrow));
-            mActionBar.setCustomView(mCustomView, params);
-        }
+        final FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.home_action_bar_button_layout);
+        frameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                onBackPressed();
+            }
+        });
+        final ImageView arrowImage = (ImageView) mCustomView
+                .findViewById(R.id.home_action_bar_arrow_left);
+        textView = (TextView) mCustomView.findViewById(R.id.home_action_bar_text);
+        arrowImage.setBackground(VectorDrawable.create(this, R.drawable.left_arrow));
+        actionBar.setCustomView(mCustomView, params);
     }
 
     @Override

@@ -76,7 +76,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         RALog.d(TAG, " OnCreate ");
-        setTheme(R.style.Theme_Philips_DarkBlue_Gradient_NoActionBar);
+//        setTheme(R.style.Theme_Philips_DarkBlue_Gradient_NoActionBar);
         /*
          * Setting Philips UI KIT standard BLUE theme.
          */

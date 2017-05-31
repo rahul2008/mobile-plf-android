@@ -5,5 +5,5 @@
     <color name="colorAccent">#FF4081</color>
 
     <!--This 'transparent' is required, bcz consumer care is using this keywork-->
-    <color name="transparent">@color/activity_background_color</color>
+    <color name="transparent">@android:color/transparent</color>
 </resources>
