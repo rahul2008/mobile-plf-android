@@ -26,7 +26,6 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.platform.uid.R;
 
@@ -43,11 +42,16 @@ public class SearchBox extends LinearLayout {
     private View searchClearLayout;
     private ExpandListener expandListener;
     private Filter searchFilter;
+    private QuerySubmitListener querySubmitListener;
 
     public interface ExpandListener {
         void onSearchExpanded();
 
         void onSearchCollapsed();
+    }
+
+    public interface QuerySubmitListener {
+        void onQuerySubmit(CharSequence charSequence);
     }
 
     public SearchBox(Context context) {
@@ -72,6 +76,7 @@ public class SearchBox extends LinearLayout {
         mCloseButton = (ImageView) findViewById(R.id.uid_search_close_btn);
         initSearchIconHolder();
         searchClearLayout = findViewById(R.id.uid_search_clear_layout);
+        initClearIcon();
         searchTextView = (AppCompatAutoCompleteTextView) findViewById(R.id.uid_search_src_text);
         searchTextView.addTextChangedListener(new SearchTextWatcher());
 
@@ -81,7 +86,9 @@ public class SearchBox extends LinearLayout {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    Toast.makeText(context, searchTextView.getText(), Toast.LENGTH_SHORT).show();
+                    if(querySubmitListener!=null){
+                        querySubmitListener.onQuerySubmit(searchTextView.getText());
+                    }
                     return true;
                 }
                 return false;
@@ -89,6 +96,17 @@ public class SearchBox extends LinearLayout {
         });
         updateViews();
         setSaveEnabled(true);
+    }
+
+    private void initClearIcon() {
+        searchClearLayout.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchTextView.setText("");
+                searchTextView.requestFocus();
+                setImeVisibility(true);
+            }
+        });
     }
 
     private void initBackButton() {
@@ -129,7 +147,7 @@ public class SearchBox extends LinearLayout {
     }
 
     public void setSearchIconified(boolean searchIconified) {
-        handleSearchExapnsion(searchIconified);
+        handleSearchExpansion(searchIconified);
         isSearchIconified = searchIconified;
         updateViews();
     }
@@ -155,7 +173,7 @@ public class SearchBox extends LinearLayout {
         }
     }
 
-    private void handleSearchExapnsion(boolean searchIconified) {
+    private void handleSearchExpansion(boolean searchIconified) {
         if (shouldExpand(searchIconified)) {
             callExpandListener();
         } else if (shouldCollapse(searchIconified)) {
@@ -190,7 +208,7 @@ public class SearchBox extends LinearLayout {
         int visibility = isSearchIconified ? View.GONE : View.VISIBLE;
         searchClearLayout.setVisibility(visibility);
         mBackButton.setVisibility(visibility);
-        mCloseButton.setVisibility(visibility);
+        updateCloseButton();
         searchTextView.setVisibility(visibility);
         requestLayout();
     }
@@ -223,6 +241,10 @@ public class SearchBox extends LinearLayout {
 
     public void setExpandListener(ExpandListener listener) {
         expandListener = listener;
+    }
+
+    public void setQuerySubmitListener(QuerySubmitListener listener) {
+        querySubmitListener = listener;
     }
 
     private Runnable mShowImeRunnable = new Runnable() {
@@ -261,12 +283,18 @@ public class SearchBox extends LinearLayout {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             SearchBox.this.performFiltering(s);
+            SearchBox.this.updateCloseButton();
         }
 
         @Override
         public void afterTextChanged(Editable s) {
 
         }
+    }
+
+    private void updateCloseButton() {
+        final boolean showClose = !TextUtils.isEmpty(searchTextView.getText());
+        mCloseButton.setVisibility(showClose ? VISIBLE : GONE);
     }
 
     static class SavedState extends BaseSavedState {

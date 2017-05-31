@@ -10,13 +10,14 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentSearchBoxBinding;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.SearchBox;
 
-public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandListener{
+public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandListener, SearchBox.QuerySubmitListener{
 
     private FragmentSearchBoxBinding fragmentSearchBoxBinding;
     private SearchBox searchBox;
@@ -106,8 +107,9 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.country_search, menu);
-            searchBox = (SearchBox) menu.findItem(R.id.country_search).getActionView();
+        searchBox = (SearchBox) menu.findItem(R.id.country_search).getActionView();
         searchBox.setExpandListener(this);
+        searchBox.setQuerySubmitListener(this);
         searchBox.setSearchIconified(searchIconExpanded);
         searchBox.searchTextView.setText(query);
         searchBox.setAdapter(stateAdapter);
@@ -129,5 +131,10 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
     @Override
     public void onSearchCollapsed() {
         navIconToggler.restoreNavigationIcon();
+    }
+
+    @Override
+    public void onQuerySubmit(CharSequence sequence) {
+        Toast.makeText(getActivity(), sequence, Toast.LENGTH_SHORT).show();
     }
 }
