@@ -1,7 +1,7 @@
 package com.philips.cdp.prodreg.prxrequest;
 
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
+
+import com.philips.cdp.prxclient.PrxConstants;
 
 import junit.framework.TestCase;
 
@@ -15,8 +15,8 @@ import org.mockito.Mock;
 public class RegistrationRequestTest extends TestCase {
 
     RegistrationRequest registrationRequest;
-    Sector sector;
-    Catalog catalog;
+    PrxConstants.Sector sector;
+    PrxConstants.Catalog catalog;
     @Mock
     String mCtn = "HD8967/01", mSerialNumber = "1344", mAccessToken = "abq21238xbshs";
 
@@ -24,8 +24,8 @@ public class RegistrationRequestTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        sector = Sector.B2C;
-        catalog = Catalog.CONSUMER;
+        sector = PrxConstants.Sector.B2C;
+        catalog = PrxConstants.Catalog.CONSUMER;
         registrationRequest = new RegistrationRequest(mCtn, mSerialNumber,sector,catalog);
     }
 

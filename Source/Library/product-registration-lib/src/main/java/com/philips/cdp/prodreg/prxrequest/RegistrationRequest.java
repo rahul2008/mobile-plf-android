@@ -5,12 +5,11 @@
 */
 package com.philips.cdp.prodreg.prxrequest;
 
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.model.registerproduct.RegistrationResponse;
 import com.philips.cdp.prxclient.Logger.PrxLogger;
+import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -43,7 +42,7 @@ public class RegistrationRequest extends PrxRequest {
 
     private String shouldSendEmailAfterRegistration = "true";
 
-    public RegistrationRequest(String ctn, String serviceID, Sector sector, Catalog catalog) {
+    public RegistrationRequest(String ctn, String serviceID, PrxConstants.Sector sector, PrxConstants.Catalog catalog) {
         super(ctn, serviceID, sector, catalog);
         this.ctn = ctn;
         this.serviceID = serviceID;

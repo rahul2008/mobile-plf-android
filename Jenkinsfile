@@ -21,22 +21,48 @@ node ('android&&device') {
 		try {
             if (BranchName =~ /master|develop|release.*/) {
                 stage ('build') {
-                    sh 'chmod -R 775 . && cd ./Source/DemoApp && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} lint test jacocoTestReport assembleRelease zipDocuments artifactoryPublish'
+                    sh '''#!/bin/bash -l
+                        chmod -R 775 . 
+                        cd ./Source/DemoApp 
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test jacocoTestReport  zipDocuments artifactoryPublish
+                    ''' 
                 }
-            } else {
+            } 
+            else {
                 stage ('build') {
-                    sh 'chmod -R 775 . && cd ./Source/DemoApp && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug assembleRelease'
+                    sh '''#!/bin/bash -l
+                        chmod -R 775 . 
+                        cd ./Source/DemoApp 
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint 
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test jacocoTestReport 
+                    '''
                 }
             }
+
 			stage ('save dependencies list') {
-            	sh 'chmod -R 775 . && cd ./Source/DemoApp && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
-            	sh 'chmod -R 775 . && cd ./Source/Library && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+                sh '''#!/bin/bash -l
+            	   chmod -R 775 . 
+                   cd ./Source/DemoApp 
+                   ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+            	   ../Library 
+                   ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+                '''
             }
-            archiveArtifacts '**/dependencies.lock'
-            currentBuild.result = 'SUCCESS'
+
+            stage ('reporting') {
+                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
+                junit allowEmptyResults: true, testResults: 'Source/Library/*/build/test-results/*/*.xml'
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/product-registration-lib/build/reports/jacoco/jacocoTestReport/html', reportFiles: 'index.html', reportName: 'jacocoTestReport']) 
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/product-registration-lib/build/reports/tests/testDebugUnitTest/debug', reportFiles: 'index.html', reportName: 'unit test debug']) 
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/product-registration-lib/build/reports/tests/testReleaseUnitTest/release', reportFiles: 'index.html', reportName: 'unit test release']) 
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/product-registration-lib/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'coverage debug']) 
+                archiveArtifacts '**/dependencies.lock'
+            }
+
         } catch(err) {
             currentBuild.result = 'FAILURE'
-            error ("Someone just broke the build")
+            error ("Someone just broke the build", err.toString())
         }
 
         if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {

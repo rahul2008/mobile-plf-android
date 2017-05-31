@@ -5,10 +5,9 @@
 */
 package com.philips.cdp.prodreg.register;
 
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.constants.RegistrationState;
+import com.philips.cdp.prxclient.PrxConstants;
 
 import java.io.Serializable;
 import java.util.List;
@@ -30,7 +29,7 @@ public class RegisteredProduct extends Product implements Serializable {
      * @param sector  Sector as Enum's
      * @param catalog Catalog as Enum's
      */
-    public RegisteredProduct(final String ctn, final Sector sector, final Catalog catalog) {
+    public RegisteredProduct(final String ctn, final PrxConstants.Sector sector, final PrxConstants.Catalog catalog) {
         super(ctn, sector, catalog);
     }
 

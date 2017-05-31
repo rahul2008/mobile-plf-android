@@ -19,8 +19,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.R;
 import com.philips.cdp.prodreg.activity.MainActivity;
 import com.philips.cdp.prodreg.constants.ProdRegError;
@@ -33,6 +31,7 @@ import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.register.UserWithProducts;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
+import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -188,7 +187,7 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
     }
 
     private void registerProduct(final boolean isActivity, final String type) {
-        Product product = new Product(mCtn.getText().toString(), Sector.B2C, Catalog.CONSUMER);
+        Product product = new Product(mCtn.getText().toString(), PrxConstants.Sector.B2C, PrxConstants.Catalog.CONSUMER);
         product.setSerialNumber(mSerialNumber.getText().toString());
         product.setPurchaseDate(mPurchaseDate.getText().toString());
         product.setFriendlyName(mFriendlyName.getText().toString());

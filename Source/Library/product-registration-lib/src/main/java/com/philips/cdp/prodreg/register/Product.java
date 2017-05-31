@@ -8,8 +8,6 @@ package com.philips.cdp.prodreg.register;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.listener.MetadataListener;
@@ -19,6 +17,7 @@ import com.philips.cdp.prodreg.model.summary.ProductSummaryResponse;
 import com.philips.cdp.prodreg.prxrequest.ProductMetadataRequest;
 import com.philips.cdp.prodreg.prxrequest.ProductSummaryRequest;
 import com.philips.cdp.prxclient.PRXDependencies;
+import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -33,13 +32,13 @@ public class Product implements Serializable {
     protected String productModelNumber;
     protected String productSerialNumber;
     protected String purchaseDate;
-    private Sector sector;
-    private Catalog catalog;
+    private PrxConstants.Sector sector;
+    private PrxConstants.Catalog catalog;
     private String locale;
     private boolean shouldSendEmailAfterRegistration = true;
     private String friendlyName;
 
-    public Product(String productModelNumber, Sector sector, Catalog catalog) {
+    public Product(String productModelNumber, PrxConstants.Sector sector, PrxConstants.Catalog catalog) {
         this.productModelNumber = productModelNumber;
         this.sector = sector;
         this.catalog = catalog;
@@ -154,7 +153,7 @@ public class Product implements Serializable {
      * API return Sector
      * @return return sector as Enum's
      */
-    public Sector getSector() {
+    public PrxConstants.Sector getSector() {
         return sector;
     }
 
@@ -162,7 +161,7 @@ public class Product implements Serializable {
      * API return Catalog
      * @return return catalog as Enum's
      */
-    public Catalog getCatalog() {
+    public PrxConstants.Catalog getCatalog() {
         return catalog;
     }
 

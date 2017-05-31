@@ -3,7 +3,6 @@ package com.philips.platform.prdemoapp;
 import android.app.Application;
 import android.support.multidex.MultiDex;
 
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.prodreg.launcher.PRDependencies;
 import com.philips.cdp.prodreg.launcher.PRInterface;
 import com.philips.cdp.prodreg.launcher.PRSettings;
@@ -32,7 +31,6 @@ public class ProductRegistrationApplication extends Application {
         super.onCreate();
         MultiDex.install(this);
         initAppInfra();
-        setLocale();
         initProductRegistration();
         initRegistration(Configuration.EVALUATION);
         RLog.enableLogging();
@@ -51,11 +49,7 @@ public class ProductRegistrationApplication extends Application {
      * @param configuration The environment ype as required by UR
      */
     public void initRegistration(Configuration configuration) {
-        String languageCode = Locale.getDefault().getLanguage();
-        String countryCode = Locale.getDefault().getCountry();
 
-        PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(languageCode, countryCode);
 
         initAppIdentity(configuration);
         URDependancies urDependancies = new URDependancies(mAppInfraInterface);
@@ -65,13 +59,7 @@ public class ProductRegistrationApplication extends Application {
 
     }
 
-    private void setLocale() {
-        String languageCode = Locale.getDefault().getLanguage();
-        String countryCode = Locale.getDefault().getCountry();
 
-        PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(languageCode, countryCode);
-    }
 
     @SuppressWarnings("deprecation")
     private void initAppInfra() {
