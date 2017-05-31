@@ -1,17 +1,15 @@
 package com.philips.platform.appinfra.appupdate;
 
 
-import android.content.Context;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 
 import com.android.volley.Network;
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.FileUtils;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
-import com.philips.platform.appinfra.appupdate.model.AppupdateModel;
-import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
-import com.philips.platform.appinfra.servicediscovery.RequestManager;
+;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import junit.framework.TestCase;
@@ -19,13 +17,9 @@ import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 
 import java.io.File;
 import java.net.URL;
@@ -37,7 +31,7 @@ public class AppupdateManagerTest extends TestCase {
 
 	private AppInfra mAppInfra;
 
-	private AppupdateInterface appupdateInterface;
+	private AppUpdateInterface appupdateInterface;
 
 	private Handler handlerMock;
 	@Mock
@@ -53,6 +47,8 @@ public class AppupdateManagerTest extends TestCase {
 
 	Gson mGson;
 
+	AppUpdateManager appUpdateManager;
+
 	@Before
 	public void setUp() throws Exception {
 
@@ -66,9 +62,9 @@ public class AppupdateManagerTest extends TestCase {
 		when(handlerMock.post(runnableMock)).thenReturn(true);
 		appConfigurationInterface = Mockito.mock(AppConfigurationInterface.class);
 
-		appupdateInterface = mock(AppupdateInterface.class);
+		appupdateInterface = mock(AppUpdateInterface.class);
 		Mockito.when(mAppInfra.getConfigInterface()).thenReturn(appConfigurationInterface);
-		Mockito.when(mAppInfra.getAppupdate()).thenReturn(appupdateInterface);
+		Mockito.when(mAppInfra.getAppUpdate()).thenReturn(appupdateInterface);
 		serviceDiscoveryInterface = Mockito.mock(ServiceDiscoveryInterface.class);
 	}
 
@@ -83,6 +79,21 @@ public class AppupdateManagerTest extends TestCase {
 
 	@Test
 	public void refresh() throws Exception {
+
+		AppUpdateInterface.OnRefreshListener onRefreshListener = Mockito.mock(AppUpdateInterface.OnRefreshListener.class);
+		final ServiceDiscoveryInterface.OnGetServiceUrlListener onGetServiceUrlListener =
+				Mockito.mock(ServiceDiscoveryInterface.OnGetServiceUrlListener.class);
+
+		appUpdateManager = new AppUpdateManager(mAppInfra) {
+
+			@NonNull
+			@Override
+			protected ServiceDiscoveryInterface.OnGetServiceUrlListener getServiceDiscoveryListener
+					(OnRefreshListener refreshListener) {
+				return onGetServiceUrlListener;
+			}
+		};
+
 
 		/*final RequestManager requestManager = mock(RequestManager.class);
 		final AppupdateInterface.OnRefreshListener responseListener = mock(AppupdateInterface.OnRefreshListener.class);

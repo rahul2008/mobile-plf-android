@@ -8,6 +8,7 @@ package com.philips.platform.appinfra.appupdate;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -147,29 +148,35 @@ public class AppUpdateManager implements AppUpdateInterface {
 				refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, "Could not read service id");
 			} else {
 				ServiceDiscoveryInterface mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
-				mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(appupdateServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-
-					@Override
-					public void onSuccess(URL url) {
-						final String appUpdateURL = url.toString();
-						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AppUpdate_URL", url.toString());
-						downloadAppUpdate(appUpdateURL, refreshListener);
-					}
-
-					@Override
-					public void onError(ERRORVALUES error, String message) {
-						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
-								"AppUpdate_URL", " Error Code:" + error.toString() + " , Error Message:" + message);
-						final String errMsg = " Error Code:" + error + " , Error Message:" + error.toString();
-						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
-						refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, errMsg);
-					}
-				});
+				mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(appupdateServiceId, getServiceDiscoveryListener(refreshListener));
 			}
 		} catch (IllegalArgumentException exception) {
 			refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, "App configuration error");
 		}
 	}
+
+
+	@NonNull
+	protected ServiceDiscoveryInterface.OnGetServiceUrlListener getServiceDiscoveryListener(final OnRefreshListener refreshListener) {
+		return new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+			@Override
+			public void onSuccess(URL url) {
+				final String appUpdateURL = url.toString();
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AppUpdate_URL", url.toString());
+				downloadAppUpdate(appUpdateURL, refreshListener);
+			}
+
+			@Override
+			public void onError(ERRORVALUES error, String message) {
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+						"AppUpdate_URL", " Error Code:" + error.toString() + " , Error Message:" + message);
+				final String errMsg = " Error Code:" + error + " , Error Message:" + error.toString();
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
+				refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, errMsg);
+			}
+		};
+	}
+
 
 	private String getAppVersion() {
 		return mAppInfra.getAppIdentity().getAppVersion();
