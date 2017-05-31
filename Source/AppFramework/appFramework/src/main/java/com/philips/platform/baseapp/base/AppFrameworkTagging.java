@@ -9,13 +9,8 @@
 package com.philips.platform.baseapp.base;
 
 import android.app.Activity;
-import android.content.Context;
 
-import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /*
  * This class is wrapper which is implementing all the possible Analytics related tracking part. It is considered that
@@ -28,6 +23,7 @@ public class AppFrameworkTagging {
     private static AppFrameworkTagging appFrameworkTagging;
     private AppTaggingInterface appTaggingInterface;
     private AppFrameworkApplication context;
+    private static String previousPage;
 
     private AppFrameworkTagging() {
     }
@@ -36,7 +32,7 @@ public class AppFrameworkTagging {
      * Single instance of Tagging is required.
      */
     public static AppFrameworkTagging getInstance() {
-        if(appFrameworkTagging == null) {
+        if (appFrameworkTagging == null) {
             appFrameworkTagging = new AppFrameworkTagging();
         }
         return appFrameworkTagging;
@@ -55,14 +51,17 @@ public class AppFrameworkTagging {
     }
 
     public void trackPage(String currPage) {
-        if(currPage == null) {
+        if (currPage == null || currPage.equalsIgnoreCase(previousPage)) {
             return;
         }
-        getTaggingInterface(context).trackPageWithInfo(currPage, null);
+        previousPage=currPage;
+        if (getTaggingInterface(context) != null) {
+            getTaggingInterface(context).trackPageWithInfo(currPage, null);
+        }
     }
 
     public void trackAction(String currPage) {
-        if(currPage == null) {
+        if (currPage == null) {
             return;
         }
         getTaggingInterface(context).trackActionWithInfo(currPage, null);
@@ -73,7 +72,7 @@ public class AppFrameworkTagging {
     }
 
     public void collectLifecycleData(Activity activity) {
-        if(activity == null) {
+        if (activity == null) {
             return;
         }
         getTaggingInterface(context).collectLifecycleInfo(activity);
