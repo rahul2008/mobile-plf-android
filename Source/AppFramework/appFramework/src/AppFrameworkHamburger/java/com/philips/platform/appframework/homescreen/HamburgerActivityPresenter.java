@@ -111,6 +111,8 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
                 return CONNECTIVITY;
             case MENU_OPTION_COCOVERSION:
                 return COCO_VERSION_INFO;
+            case MENU_OPTION_DEBUG:
+                return HOME_DEBUG;
             default:
                 return HOME_FRAGMENT;
         }

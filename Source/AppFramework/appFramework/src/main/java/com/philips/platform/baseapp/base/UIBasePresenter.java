@@ -26,7 +26,7 @@ abstract public class UIBasePresenter {
     protected final int MENU_OPTION_PR = 9;
     protected final int MENU_OPTION_CONNECTIVITY = 6;
 
-    protected final int MENU_OPTION_TEST = 8;
+    protected final int MENU_OPTION_DEBUG = 8;
     protected final int MENU_OPTION_COCOVERSION = 7;
 
 
@@ -42,6 +42,7 @@ abstract public class UIBasePresenter {
     protected final String CONNECTIVITY = "connectivity";
     protected final String TESTMICROAPP = "testmicroapp";
     protected final String COCO_VERSION_INFO="coco_version_info";
+    protected final String HOME_DEBUG="debug";
 
     private UIView uiView;
 
@@ -109,6 +110,10 @@ abstract public class UIBasePresenter {
                 UIStateData CocoVersionStateData = new UIStateData();
                 CocoVersionStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return CocoVersionStateData;
+            case AppStates.DEBUG:
+                UIStateData debugStateData = new UIStateData();
+                debugStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
+                return debugStateData;
             default:
                 RALog.d(TAG," default case selected ");
                 homeStateData = new UIStateData();

@@ -148,9 +148,22 @@ public class AppFrameworkApplication extends MultiDexApplication {
         return targetFlowManager;
     }
 
+<<<<<<< HEAD
+    public void setTargetFlowManager() {
+        if (tempFile != null && tempFile.exists()) {
+            this.targetFlowManager = new FlowManager();
+            this.targetFlowManager.initialize(getApplicationContext(), tempFile.getPath(), this);
+        }
+    }
+
+    @Override
+    public void onParseSuccess() {
+
+=======
     public void setTargetFlowManager(FlowManagerListener flowManagerListener) {
         this.targetFlowManager = new FlowManager();
         this.targetFlowManager.initialize(getApplicationContext(), R.raw.appflow, flowManagerListener);
+>>>>>>> develop
     }
 
     public boolean isChinaFlow() {
