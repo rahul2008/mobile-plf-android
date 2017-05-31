@@ -24,6 +24,9 @@ import com.philips.cdp.dicommclient.port.common.PairingListener;
 import com.philips.cdp.registration.User;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by philips on 5/25/17.
  */
@@ -118,8 +121,10 @@ public class WifiCommLinUappWifiDetailFragment extends Fragment {
 //            if (port instanceof AirPort) {
 //                updateLightSwitchView((AirPort) port);
 //            } else if (port instanceof DevicePort) {
-//                updateDeviceNameView((DevicePort) port);
-//            }
+                //updateDeviceNameView((DevicePort) port);
+            //}
+
+            Log.d(TAG,"onPortUpdate" + appliance.getName() + "::::::Port type" + port.getClass());
         }
 
         @Override
@@ -131,6 +136,9 @@ public class WifiCommLinUappWifiDetailFragment extends Fragment {
         DevicePortProperties properties = devicePort.getPortProperties();
         if (properties != null) {
             editTextName.setText(properties.getName());
+            Map<String, Object> props = new HashMap<>();
+            props.put("NAME","Manual ProductStub");
+            devicePort.putProperties(props);
         }
     }
 

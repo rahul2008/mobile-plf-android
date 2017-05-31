@@ -9,35 +9,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center">
+<Button
+    android:id="@+id/consentButton"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentTop="true"
+    android:text="ConsentScreen"/>
 
-        <TextView
-            android:id="@+id/welcome_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Hello world"
-            android:textColor="@android:color/white"
-            android:layout_above="@+id/dummyframelayout"/>
-
-        <FrameLayout
-            android:id="@+id/dummyframelayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
+            <!--<TextView
+                android:textStyle="bold"
+                android:textSize="50px"
+                android:id="@+id/discoveredDeviceListHeader"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:text="Some Dummy"/>
+                android:text="Paired Device(s)" />
+
+            <ListView
+                android:id="@+id/discoveredDevicesListView"
+                android:layout_width="match_parent"
+                android:layout_height="150dp" />
 
             <TextView
-                android:id="@+id/textViewAppId"
+
+                android:id="@+id/availableDeviceListHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                tools:text="Dummy"/>
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textSize="50px"
 
-        </FrameLayout>
+                android:text="Available Device(s)" />
+
+            <ListView
+                android:layout_below="@id/discoveredDevicesListView"
+                android:id="@+id/availableDevicesListView"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                />-->
 
         <ListView
             android:layout_marginTop="20dp"
