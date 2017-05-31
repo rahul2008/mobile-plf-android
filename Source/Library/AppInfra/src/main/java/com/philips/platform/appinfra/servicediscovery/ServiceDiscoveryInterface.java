@@ -257,13 +257,13 @@ public interface ServiceDiscoveryInterface {
     void refresh(OnRefreshListener listener, boolean forceRefresh);
 
     /**
-     * UnRegister for the Tagging data .
+     * UnRegister for the updating home country .
      * @param receiver BroadcastReceiver
      */
     void unRegisterHomeCountry(BroadcastReceiver receiver);
 
     /**
-     * Register for the Tagging data.
+     * Register for the home country update.
      *
      * @param receiver BroadcastReceiver
      */
