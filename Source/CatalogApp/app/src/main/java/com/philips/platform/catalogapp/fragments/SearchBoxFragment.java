@@ -21,7 +21,7 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
     private FragmentSearchBoxBinding fragmentSearchBoxBinding;
     private SearchBox searchBox;
     String query;
-    boolean searchIconExpanded = false;
+    boolean searchIconExpanded = true;
     private UIDNavigationIconToggler navIconToggler;
 
     private static final String[] COUNTRIES = new String[]{

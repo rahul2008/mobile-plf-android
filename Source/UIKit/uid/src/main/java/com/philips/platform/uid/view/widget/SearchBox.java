@@ -12,6 +12,7 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -147,6 +148,10 @@ public class SearchBox extends LinearLayout {
     public <T extends Adapter & Filterable> void setAdapter(T adapter) {
         if (adapter != null) {
             searchFilter = adapter.getFilter();
+            Editable text = searchTextView.getText();
+            if(!TextUtils.isEmpty(text)) {
+                searchFilter.filter(text);
+            }
         }
     }
 
