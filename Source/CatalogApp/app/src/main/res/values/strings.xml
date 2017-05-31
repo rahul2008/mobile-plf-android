@@ -82,7 +82,7 @@
 
     <!--Labels-->
     <string name="page_title_label">Label</string>
-    <string name="label_input_field">Name</string>
+    <string name="label_input_field">Input text</string>
     <string name="label_text">Label text</string>
     <string name="label_description">Description label</string>
     <string name="label_item_text">Item text</string>
