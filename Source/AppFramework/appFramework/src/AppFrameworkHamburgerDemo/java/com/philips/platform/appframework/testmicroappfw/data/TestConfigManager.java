@@ -9,6 +9,7 @@ import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
 import com.philips.platform.appframework.testmicroappfw.models.TestFwConfig;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,6 +48,7 @@ public class TestConfigManager {
     }
 
     public void loadChapterList(Context context, Handler handler, TestConfigCallback testConfigCallback){
+        RALog.d(TAG, " Load Chapter List ");
         if(testFwConfig!=null){
             testConfigCallback.onChaptersLoaded(testFwConfig.getChaptersList());
         }else {
@@ -57,6 +59,7 @@ public class TestConfigManager {
     }
 
     public String loadJSONFromAsset(Context context) {
+        RALog.d(TAG, " Load Json from Asset ");
         String json = null;
         try {
             InputStream is = context.getAssets().open("json/TestFwConfig.json");
@@ -66,7 +69,7 @@ public class TestConfigManager {
             is.close();
             json = new String(buffer, "UTF-8");
         } catch (IOException ex) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, FILE_IO,
+           RALog.e(TAG+ FILE_IO,
                     ex.getMessage());
             return null;
         }

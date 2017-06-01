@@ -114,6 +114,15 @@
             ]
           },
           {
+            "eventId": "debug",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "debug"
+              }
+            ]
+          },
+          {
             "eventId": "iap",
             "nextStates": [
               {

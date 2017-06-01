@@ -19,6 +19,7 @@ import com.philips.platform.appframework.connectivity.models.MomentDetail;
 import com.philips.platform.appframework.connectivity.models.UserMoment;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -119,7 +120,7 @@ public class PostMomentRquest extends PlatformRequest {
             parent.put(UserMoment.TYPE, "Example");
             return parent;
         } catch (JSONException e) {
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SERVER_DATAPARSING,
+            RALog.e(TAG+ SERVER_DATAPARSING,
                     e.getMessage());            return null;
         }
     }

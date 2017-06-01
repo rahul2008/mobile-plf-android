@@ -7,7 +7,7 @@ package com.philips.platform.baseapp.screens.consumercare;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
+
 import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.CcDependencies;
@@ -16,9 +16,8 @@ import com.philips.cdp.digitalcare.CcLaunchInput;
 import com.philips.cdp.digitalcare.CcSettings;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.listeners.CcListener;
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
+import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
@@ -33,6 +32,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -44,6 +44,8 @@ import java.util.Arrays;
  * This class contains all initialization & Launching details of Consumer Care
  */
 public class SupportFragmentState extends BaseState implements CcListener {
+    public static final String TAG = SupportFragmentState.class.getSimpleName();
+
     final String SUPPORT_PR = "pr";
     private Context activityContext;
     private CcSettings ccSettings;
@@ -61,6 +63,7 @@ public class SupportFragmentState extends BaseState implements CcListener {
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
+        RALog.d(TAG," navigate called ");
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         this.activityContext = getFragmentActivity();
         /*
@@ -95,6 +98,7 @@ public class SupportFragmentState extends BaseState implements CcListener {
     //TODO - As per Raymond communication, we should not go to multiple CTNs because this is going to add one more
     //product selection screen. Which is not considered in for testing by Madan's team.
     public void updateDataModel() {
+        RALog.d(TAG," updateDataModel called ");
         if(getApplicationContext().isChinaFlow()) {
             String[] ctnList = new String[new ArrayList<>(Arrays.asList(activityContext.getResources().getStringArray(R.array.productselection_ctnlist_china))).size()];
             ctnList = (new ArrayList<>(Arrays.asList(activityContext.getResources().getStringArray(R.array.productselection_ctnlist_china))).toArray(ctnList));
@@ -117,10 +121,10 @@ public class SupportFragmentState extends BaseState implements CcListener {
     }
     private void launchCC()
     {
-
+        RALog.d(TAG,"launchCC called ");
         ProductModelSelectionType productsSelection = new com.philips.cdp.productselection.productselectiontype.HardcodedProductList(getCtnList());
-        productsSelection.setCatalog(Catalog.CARE);
-        productsSelection.setSector(Sector.B2C);
+        productsSelection.setCatalog(PrxConstants.Catalog.CARE);
+        productsSelection.setSector(PrxConstants.Sector.B2C);
         final CcInterface ccInterface = new CcInterface();
 
         if (ccSettings == null) ccSettings = new CcSettings(activityContext);
@@ -165,8 +169,8 @@ public class SupportFragmentState extends BaseState implements CcListener {
                 baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), SUPPORT_PR);
             } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                     e) {
-                Log.d(getClass() + "", e.getMessage());
-                Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                RALog.e(TAG , e.getMessage());
+                Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
             }
             if (baseState != null)
                 baseState.navigate(new FragmentLauncher(getFragmentActivity(), ((AppFrameworkBaseActivity) getFragmentActivity()).getContainerId(), (ActionBarListener) getFragmentActivity()));
@@ -185,14 +189,5 @@ public class SupportFragmentState extends BaseState implements CcListener {
         return false;
     }
 
-    public String getVersion(Context c)
-    {
-        return c.getResources().getString(R.string.RA_COCO_CC_VERSION);
 
-    }
-    public String getComponentID(Context c)
-    {
-        return c.getResources().getString(R.string.RA_COCO_CC);
-
-    }
 }

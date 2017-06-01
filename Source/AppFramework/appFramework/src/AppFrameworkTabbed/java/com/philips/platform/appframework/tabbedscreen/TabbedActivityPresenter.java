@@ -8,7 +8,7 @@ package com.philips.platform.appframework.tabbedscreen;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
+
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
@@ -25,6 +25,7 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.base.UIBasePresenter;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
      */
     @Override
     public void onEvent(int componentID) {
+        RALog.d(TAG," OnEvent ");
         appFrameworkApplication = getApplicationContext();
         String eventState = getEventState(componentID);
         try {
@@ -67,8 +69,8 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
             baseState.navigate(fragmentLauncher);
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {
-            Log.d(getClass() + "", e.getMessage());
-            Toast.makeText(fragmentView.getFragmentActivity(), fragmentView.getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+            RALog.e(TAG, e.getMessage());
+            Toast.makeText(fragmentView.getFragmentActivity(), fragmentView.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -81,7 +83,7 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             //Logger.e(TAG, "IllegalStateException" + e.getMessage());
-            AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, UI_RENDERING,
+            RALog.e(TAG+ UI_RENDERING,
                     e.getMessage());        }
     }
 

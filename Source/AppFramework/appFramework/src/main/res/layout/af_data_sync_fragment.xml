@@ -59,7 +59,7 @@
         android:layout_above="@+id/tv_set_consents"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="10dp"
-        android:text="@string/set_characteristics"
+        android:text="@string/RA_set_characteristics"
         android:textSize="20dp" />
 
     <TextView
@@ -106,7 +106,7 @@
         android:layout_gravity="end"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="10dp"
-        android:text="@string/consent"
+        android:text="@string/RA_consent"
         android:textSize="20dp" />
 
 

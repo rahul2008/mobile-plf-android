@@ -5,7 +5,7 @@
 */
 package com.philips.platform.baseapp.screens.settingscreen;
 
-import android.util.Log;
+
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
@@ -21,6 +21,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetExc
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.utility.Constants;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 /**
@@ -28,6 +29,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  *
  */
 public class SettingsFragmentPresenter extends UIBasePresenter{
+    public static final String TAG = SettingsFragmentPresenter.class.getSimpleName();
 
     private static final String SETTINGS_LOGIN = "login";
     private final SettingsView settingsView;
@@ -52,6 +54,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter{
      */
     @Override
     public void onEvent(int componentID) {
+        RALog.d(TAG, "onEvent called ");
         final UIStateData uiStateData = setStateData(componentID);
         String eventState = getEventState(componentID);
         if (settingsView != null) {
@@ -60,8 +63,8 @@ public class SettingsFragmentPresenter extends UIBasePresenter{
                 baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), eventState);
             } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                     e) {
-                Log.d(getClass() + "", e.getMessage());
-                Toast.makeText(settingsView.getFragmentActivity(), settingsView.getFragmentActivity().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                RALog.d(TAG, e.getMessage());
+                Toast.makeText(settingsView.getFragmentActivity(), settingsView.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
             }
         }
         if (baseState != null) {
@@ -98,6 +101,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter{
 
 
     protected String getEventState(final int componentID) {
+        RALog.d(TAG, "getEventState called ");
         switch (componentID) {
             case Constants.LOGOUT_BUTTON_CLICK_CONSTANT:
                 return SETTINGS_LOGOUT;

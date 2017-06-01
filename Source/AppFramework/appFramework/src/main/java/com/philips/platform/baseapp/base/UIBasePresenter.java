@@ -8,11 +8,14 @@ package com.philips.platform.baseapp.base;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.baseapp.screens.utility.Constants;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 /**
  * This class aims to handle events inside the states and also events when a particular state is loaded
  */
 abstract public class UIBasePresenter {
+    public final String TAG = UIBasePresenter.class.getSimpleName();
+
     /*Event ID */
     protected static final int MENU_OPTION_HOME = 0;
     protected final int MENU_OPTION_SETTINGS = 1;
@@ -23,7 +26,7 @@ abstract public class UIBasePresenter {
     protected final int MENU_OPTION_PR = 9;
     protected final int MENU_OPTION_CONNECTIVITY = 6;
 
-    //protected final int MENU_OPTION_TEST = 8;
+    protected final int MENU_OPTION_DEBUG = 8;
     protected final int MENU_OPTION_COCOVERSION = 7;
     protected final int MENU_OPTION_WIFIREFUAPP = 8;
 
@@ -40,6 +43,7 @@ abstract public class UIBasePresenter {
     protected final String CONNECTIVITY = "connectivity";
     protected final String TESTMICROAPP = "testmicroapp";
     protected final String COCO_VERSION_INFO="coco_version_info";
+    protected final String HOME_DEBUG="debug";
     protected final String WIFIREFUAPP = "wifirefuapp";
 
     private UIView uiView;
@@ -64,6 +68,8 @@ abstract public class UIBasePresenter {
     }
 
     protected UIStateData setStateData(final String componentID) {
+        RALog.d(TAG," setStateData called");
+
         switch (componentID) {
             case AppStates.HOME_FRAGMENT:
                 UIStateData homeStateData = new UIStateData();
@@ -106,7 +112,12 @@ abstract public class UIBasePresenter {
                 UIStateData CocoVersionStateData = new UIStateData();
                 CocoVersionStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return CocoVersionStateData;
+            case AppStates.DEBUG:
+                UIStateData debugStateData = new UIStateData();
+                debugStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
+                return debugStateData;
             default:
+                RALog.d(TAG," default case selected ");
                 homeStateData = new UIStateData();
                 homeStateData.setFragmentLaunchType(Constants.ADD_HOME_FRAGMENT);
                 return homeStateData;

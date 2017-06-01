@@ -57,7 +57,7 @@ public class SplashPresenterTest extends TestCase{
             }
 
             @Override
-            protected FragmentLauncher getFragmentLauncher() {
+            public FragmentLauncher getFragmentLauncher() {
                 return fragmentLauncherMock;
             }
 

@@ -25,6 +25,7 @@ import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
 import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.lang.ref.WeakReference;
@@ -50,6 +51,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
     }
 
     private ArrayList<SettingListItem> buildSettingsScreenList() {
+        RALog.d(TAG , "buildSettingsScreenList ");
         ArrayList<SettingListItem> settingScreenItemList = new ArrayList<SettingListItem>();
         settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Settings_Screen_Header_Title), SettingListItemType.HEADER, false));
         settingScreenItemList.add(formDataSection(getResourceString(R.string.RA_Vertical_App_Setting_A), SettingListItemType.CONTENT, false));
@@ -75,6 +77,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
 
     @Override
     public void onResume() {
+        RALog.d(TAG," OnResume called ");
         super.onResume();
         ((AppFrameworkBaseActivity) getActivity()).updateActionBarIcon(false);
     }
@@ -107,6 +110,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
         setProgressBarVisibility(true);
         Thread t = new Thread(new BuildModel());
         t.start();
+        RALog.d(TAG," BuildModel thread started ");
     }
 
     public class BuildModel implements Runnable {
@@ -148,6 +152,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
 
     @Override
     public void onDetach() {
+        RALog.d(TAG, " onDetach");
         super.onDetach();
         settingsFragmentWeakReference = null;
         adapter = null;
@@ -155,6 +160,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
 
     @Override
     public void onDestroyView() {
+        RALog.d(TAG, " onDestroyView ");
         super.onDestroyView();
         settingsFragmentWeakReference = null;
         adapter = null;
@@ -207,6 +213,7 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
     }
 
     public void setProgressBarVisibility(boolean isVisible) {
+        RALog.d(TAG,"setProgressBarVisibility called ");
         if (isVisible) {
             settingsProgressBar.setVisibility(View.VISIBLE);
             list.setVisibility(View.GONE);

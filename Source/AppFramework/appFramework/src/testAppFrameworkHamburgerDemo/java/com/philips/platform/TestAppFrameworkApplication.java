@@ -11,10 +11,11 @@ import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
+import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.base.FileUtility;
+import com.philips.platform.baseapp.base.AppInitializationCallback;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 
@@ -55,14 +56,23 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        initializeAppInfra(new AppInitializationCallback.AppInfraInitializationCallback() {
+            @Override
+            public void onAppInfraInitialization() {
+
+            }
+        });
+        initialize(new AppInitializationCallback.AppStatesInitializationCallback() {
+            @Override
+            public void onAppStatesInitialization() {
+
+            }
+        });
         appInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = appInfra.getLogging();
         setLocale();
         userRegistrationOnBoardingState = new UserRegistrationOnBoardingState();
         userRegistrationOnBoardingState.init(this);
-        final int resId = R.string.com_philips_app_fmwk_app_flow_url;
-        FileUtility fileUtility = new FileUtility(this);
-        tempFile = fileUtility.createFileFromInputStream(resId);
         setTargetFlowManager();
 
     }
@@ -83,10 +93,13 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
         localeManager.setInputLocale(languageCode, countryCode);
     }
     public void setTargetFlowManager() {
-        if (tempFile != null) {
-            this.targetFlowManager = new FlowManager();
-            this.targetFlowManager.initialize(getApplicationContext(), tempFile.getPath(), this);
-        }
+        this.targetFlowManager = new FlowManager();
+        this.targetFlowManager.initialize(getApplicationContext(), R.raw.appflow, new FlowManagerListener() {
+            @Override
+            public void onParseSuccess() {
+
+            }
+        });
     }
 
 }

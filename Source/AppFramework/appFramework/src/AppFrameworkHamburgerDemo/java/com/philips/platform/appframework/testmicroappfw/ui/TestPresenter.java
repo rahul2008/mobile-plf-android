@@ -6,6 +6,7 @@ import android.os.Handler;
 import com.philips.platform.appframework.testmicroappfw.data.TestConfigManager;
 import com.philips.platform.appframework.testmicroappfw.models.Chapter;
 import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.util.ArrayList;
 
@@ -14,6 +15,7 @@ import java.util.ArrayList;
  */
 
 public class TestPresenter implements TestContract.UserActionsListener {
+    public static final String TAG=TestPresenter.class.getSimpleName();
 
     private TestContract.View testView;
 
@@ -30,6 +32,7 @@ public class TestPresenter implements TestContract.UserActionsListener {
 
     @Override
     public void loadChapterList() {
+        RALog.d(TAG, " Load chapter List");
         testConfigManager.loadChapterList(context,new Handler(),new TestConfigManager.TestConfigCallback() {
             @Override
             public void onChaptersLoaded(ArrayList<Chapter> chaptersList) {

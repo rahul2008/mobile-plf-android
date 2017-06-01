@@ -11,8 +11,10 @@ import com.philips.platform.appframework.flowmanager.AppConditions;
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 public class ConditionAppLaunch extends BaseCondition {
+    public final String TAG = ConditionAppLaunch.class.getSimpleName();
 
     public ConditionAppLaunch() {
         super(AppConditions.CONDITION_APP_LAUNCH);
@@ -20,6 +22,7 @@ public class ConditionAppLaunch extends BaseCondition {
 
     @Override
     public boolean isSatisfied(final Context context) {
+        RALog.d(TAG," isSatisfied called");
         AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) context;
         final BaseFlowManager targetFlowManager = appFrameworkApplication.getTargetFlowManager();
         final boolean isUserLoggedIn = targetFlowManager.getCondition(AppConditions.IS_LOGGED_IN).isSatisfied(context);
