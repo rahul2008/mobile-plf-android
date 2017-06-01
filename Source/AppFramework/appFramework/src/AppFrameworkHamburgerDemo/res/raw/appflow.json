@@ -166,6 +166,15 @@
                 "nextState": "coco_version_info"
               }
             ]
+          },
+          {
+            "eventId": "debug",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "debug"
+              }
+            ]
           }
         ]
       },
