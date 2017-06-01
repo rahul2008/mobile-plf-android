@@ -41,7 +41,11 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     private Button mSettings = null;
     private Button mRedirectingButton = null;
     private LinearLayout mProductContainerBelow = null;
+    private LinearLayout mBottomLayoutContainer = null;
+    private LinearLayout mTitleCOntainer = null;
     private LinearLayout.LayoutParams mProductContainerBelowParams;
+    private LinearLayout.LayoutParams mBottomLayoutContainerParams;
+    private LinearLayout.LayoutParams mTitleLayoutContainerParams;
     private TextView mProductName = null;
     private TextView mProductCtn = null;
     private ImageView mProductImage = null;
@@ -49,6 +53,7 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     private RelativeLayout mLeftPanelLayout = null;
     private LinearLayout.LayoutParams mLeftPanelLayoutParams = null;
     private LinearLayout.LayoutParams mRightPanelLayoutParams = null;
+
 
     /**
      * setting Listeners & setting the values & controls to the inflated view's of the screen "fragment_saved_screen.xml"
@@ -60,7 +65,11 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
         super.onActivityCreated(savedInstanceState);
 
         mProductContainerBelow = (LinearLayout) getActivity().findViewById(R.id.savedScreen_screen_parent);
+        mBottomLayoutContainer = (LinearLayout) getActivity().findViewById(R.id.bottom_layout_container);
+        mTitleCOntainer = (LinearLayout) getActivity().findViewById(R.id.title_view_container);
         mProductContainerBelowParams = (LinearLayout.LayoutParams) mProductContainerBelow.getLayoutParams();
+        mBottomLayoutContainerParams = (LinearLayout.LayoutParams) mBottomLayoutContainer.getLayoutParams();
+        mTitleLayoutContainerParams = (LinearLayout.LayoutParams) mBottomLayoutContainer.getLayoutParams();
         mProductName.setText(mUserSelectedProduct.getData().getProductTitle());
         mProductCtn.setText(mUserSelectedProduct.getData().getCtn());
         loadProductImage(mProductImage);
@@ -142,40 +151,20 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
 
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
             mProductContainerBelowParams.leftMargin = mProductContainerBelowParams.rightMargin = mLeftRightMarginPort;
+            mBottomLayoutContainerParams.leftMargin = mBottomLayoutContainerParams.rightMargin = mLeftRightMarginPort;
+            mTitleLayoutContainerParams.leftMargin = mBottomLayoutContainerParams.rightMargin = mLeftRightMarginPort;
+
         } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             mProductContainerBelowParams.leftMargin = mProductContainerBelowParams.rightMargin = mLeftRightMarginLand;
+            mBottomLayoutContainerParams.leftMargin = mBottomLayoutContainerParams.rightMargin = mLeftRightMarginLand;
+            mTitleLayoutContainerParams.leftMargin = mTitleLayoutContainerParams.rightMargin = mLeftRightMarginLand;
         }
 
         mProductContainerBelow.setLayoutParams(mProductContainerBelowParams);
+        mProductContainerBelow.setLayoutParams(mBottomLayoutContainerParams);
+        mTitleCOntainer.setLayoutParams(mTitleLayoutContainerParams);
     }
 
-    private void guiAlignmentTablet(Configuration config) {
-
-        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            View listViewSparator = ((View) getActivity().findViewById(R.id.listViewSeperator));
-            if (listViewSparator != null)
-                listViewSparator.setVisibility(View.GONE);
-            if (isListViewRequiredInTablet()) {
-                mLeftPanelLayout.setVisibility(View.VISIBLE);
-                mRightPanelLayout.setVisibility(View.GONE);
-                mLeftPanelLayoutParams.weight = 1.0f;
-                mRightPanelLayoutParams.weight = 0.0f;
-            } else {
-                mLeftPanelLayoutParams.weight = 0.0f;
-                mRightPanelLayoutParams.weight = 1.0f;
-                mRightPanelLayout.setVisibility(View.VISIBLE);
-                mLeftPanelLayout.setVisibility(View.GONE);
-            }
-        } else if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            ((View) getActivity().findViewById(R.id.listViewSeperator)).setVisibility(View.VISIBLE);
-            mLeftPanelLayout.setVisibility(View.VISIBLE);
-            mRightPanelLayout.setVisibility(View.VISIBLE);
-            mRightPanelLayoutParams.weight = 0.60f;
-            mLeftPanelLayoutParams.weight = 0.39f;
-        }
-        mRightPanelLayout.setLayoutParams(mRightPanelLayoutParams);
-        mLeftPanelLayout.setLayoutParams(mLeftPanelLayoutParams);
-    }
 
     @Override
     public String getActionbarTitle() {
