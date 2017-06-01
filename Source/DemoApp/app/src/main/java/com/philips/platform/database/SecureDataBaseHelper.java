@@ -53,6 +53,12 @@ public class SecureDataBaseHelper<T> extends SecureDbOrmLiteSqliteOpenHelper {
     }
 
 
+    public String getAppVersion()
+    {
+      return getSecureDbAppVersion();
+    }
+
+
 
 
 }
