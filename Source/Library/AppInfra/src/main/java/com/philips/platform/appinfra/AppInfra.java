@@ -49,7 +49,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
     private AppConfigurationInterface configInterface;
     private RestInterface mRestInterface;
     private ABTestClientInterface mAbtesting;
-    private final String AppInfraComponentID ="ail";
+    private final String AppInfraComponentID ="ail:";
 
 
     /**
@@ -336,7 +336,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
 
     private void setLogging(LoggingInterface log) {
         logger = log;
-        appInfraLogger = logger.createInstanceForComponent("ail "+getComponentId(),
+        appInfraLogger = logger.createInstanceForComponent(getComponentId(),
                 getVersion());
     }
 
