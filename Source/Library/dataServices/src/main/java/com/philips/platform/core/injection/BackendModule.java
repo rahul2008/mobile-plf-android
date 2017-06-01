@@ -39,6 +39,7 @@ import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.consent.ConsentsMonitor;
 import com.philips.platform.datasync.consent.ConsentsSegregator;
+import com.philips.platform.datasync.devicePairing.DevicePairingMonitor;
 import com.philips.platform.datasync.insights.InsightDataFetcher;
 import com.philips.platform.datasync.insights.InsightDataSender;
 import com.philips.platform.datasync.insights.InsightMonitor;
@@ -143,8 +144,8 @@ public class BackendModule {
     Backend providesBackend(
             @NonNull final ConsentsMonitor consentsMonitor,
             @NonNull final UserCharacteristicsMonitor userCharacteristicsMonitor,
-            @NonNull final SettingsMonitor settingsMonitor ,@NonNull final InsightMonitor insightMonitor, @NonNull final PushNotificationMonitor pushNotificationMonitor) {
-        return new Backend(consentsMonitor, userCharacteristicsMonitor,settingsMonitor,insightMonitor,pushNotificationMonitor);
+            @NonNull final SettingsMonitor settingsMonitor , @NonNull final InsightMonitor insightMonitor, @NonNull final PushNotificationMonitor pushNotificationMonitor, @NonNull final DevicePairingMonitor devicePairingMonitor) {
+        return new Backend(consentsMonitor, userCharacteristicsMonitor,settingsMonitor,insightMonitor,pushNotificationMonitor,devicePairingMonitor);
     }
 
     @Provides

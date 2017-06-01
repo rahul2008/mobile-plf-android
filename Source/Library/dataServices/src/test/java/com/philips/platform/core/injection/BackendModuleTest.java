@@ -28,6 +28,7 @@ import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.consent.ConsentsMonitor;
 import com.philips.platform.datasync.consent.ConsentsSegregator;
+import com.philips.platform.datasync.devicePairing.DevicePairingMonitor;
 import com.philips.platform.datasync.insights.InsightDataFetcher;
 import com.philips.platform.datasync.insights.InsightDataSender;
 import com.philips.platform.datasync.insights.InsightMonitor;
@@ -88,6 +89,9 @@ public class BackendModuleTest {
     SettingsMonitor settingsMonitor;
     @Mock
     InsightMonitor mInsightMonitor;
+
+    @Mock
+    DevicePairingMonitor devicePairingMonitor;
 
     ExecutorService executorService;
 
@@ -201,7 +205,7 @@ public class BackendModuleTest {
 
     @Test
     public void ShouldReturnBackend_WhenProvidesBackendIsCalled() throws Exception {
-        final Backend backend = backendModule.providesBackend(consentsMonitor, userCharacteristicsMonitor, settingsMonitor, mInsightMonitor ,pushNotificationMonitor);
+        final Backend backend = backendModule.providesBackend(consentsMonitor, userCharacteristicsMonitor, settingsMonitor, mInsightMonitor ,pushNotificationMonitor,devicePairingMonitor);
         assertThat(backend).isNotNull();
         assertThat(backend).isInstanceOf(Backend.class);
     }
