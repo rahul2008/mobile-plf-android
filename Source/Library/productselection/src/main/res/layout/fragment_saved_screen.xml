@@ -47,9 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:layout_marginTop="16dp"
-                android:background="@color/transparent"
-                android:layout_height="@dimen/savedscreen_productcontainer_height"
-                android:layout_margin="@dimen/savedscreen_product_image_margin"/>
+                android:layout_height="@dimen/savedscreen_productcontainer_height"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -112,6 +110,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/view_padding"
             android:paddingRight="@dimen/view_padding"
+            android:layout_marginTop="16dp"
             android:id="@+id/bottom_layout_container"
             android:orientation="vertical">
 
