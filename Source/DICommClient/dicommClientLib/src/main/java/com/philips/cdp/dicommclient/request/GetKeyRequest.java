@@ -1,17 +1,38 @@
 /*
+ * (C) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
+ * (C) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
+ * (C) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
  * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.request;
 
+import android.support.annotation.VisibleForTesting;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.philips.cdp.dicommclient.port.common.SecurityPortProperties;
+import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp.dicommclient.util.GsonProvider;
 import com.philips.cdp2.commlib.lan.communication.LanRequest;
 import com.philips.cdp2.commlib.lan.communication.LanRequestType;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.HashMap;
+
+import static android.content.ContentValues.TAG;
 
 public class GetKeyRequest extends LanRequest {
 
@@ -24,19 +45,24 @@ public class GetKeyRequest extends LanRequest {
 
     @Override
     public Response execute() {
-        Response response = super.execute();
+        Response response = doExecute();
         String responseData = response.getResponseMessage();
 
-        JSONObject json;
         try {
-            json = new JSONObject(responseData);
-            String key = json.getString("key");
-            return new Response(key, null, mResponseHandler);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+            Gson gson = GsonProvider.get();
+            SecurityPortProperties securityPortProperties = gson.fromJson(responseData, SecurityPortProperties.class);
+            if (securityPortProperties.getKey() == null || securityPortProperties.getKey().equals("")) {
+                return new Response("Key missing in response", Error.REQUEST_FAILED, mResponseHandler);
+            }
+            return new Response(securityPortProperties.getKey(), null, mResponseHandler);
+        } catch (JsonSyntaxException e) {
+            DICommLog.e(TAG, e.getMessage());
+            return new Response(e.getMessage(), Error.REQUEST_FAILED, mResponseHandler);
         }
-        return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
+    }
+
+    @VisibleForTesting
+    Response doExecute() {
+        return super.execute();
     }
 }
