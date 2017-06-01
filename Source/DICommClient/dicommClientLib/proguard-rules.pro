@@ -29,3 +29,9 @@
     protected void ssdpCallback(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String);
     native <methods>;
 }
+
+# Joda time does not include this by itself
+-dontwarn org.joda.convert.**
+-dontwarn org.joda.time.**
+-keep class org.joda.time.** { *; }
+-keep interface org.joda.time.** { *; }
