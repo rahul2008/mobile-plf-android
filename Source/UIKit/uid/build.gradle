@@ -2,11 +2,11 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
-def supportLibraryVer = '24.2.0';
+def supportLibraryVer = '25.3.1'
 def minSdkVer = 19
-def compileSdkVer = 24
-def targetSdkVer = 24
-def buildToolsVer = '24.0.0'
+def compileSdkVer = 25
+def targetSdkVer = 25
+def buildToolsVer = "25.0.2"
 def jUnitVer = 4.12
 
 buildscript {
@@ -21,7 +21,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.3.2'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
     }
