@@ -30,7 +30,7 @@ import java.io.UnsupportedEncodingException;
  */
 public class NetworkWrapper {
 
-    private static final String TAG = NetworkWrapper.class.getSimpleName();
+    private static final String TAG = "prx "+NetworkWrapper.class.getSimpleName();
     private PRXDependencies mPrxDependencies;
 
     public NetworkWrapper(PRXDependencies prxDependencies) {

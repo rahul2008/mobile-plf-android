@@ -95,13 +95,13 @@ public abstract class PrxRequest {
                 new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
                     @Override
                     public void onSuccess(URL url) {
-                        PrxLogger.i("SUCCESS ***", "" + url);
+                        PrxLogger.i("prx SUCCESS ***", "" + url);
                         listener.onSuccess(url.toString());
                     }
 
                     @Override
                     public void onError(ERRORVALUES error, String message) {
-                        PrxLogger.i("ERRORVALUES ***", "" + message);
+                        PrxLogger.i("prx ERRORVALUES ***", "" + message);
                         listener.onError(error, message);
                     }
                 }, replaceUrl);

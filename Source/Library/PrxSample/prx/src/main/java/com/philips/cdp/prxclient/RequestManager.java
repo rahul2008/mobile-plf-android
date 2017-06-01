@@ -34,6 +34,22 @@ public class RequestManager {
     }
 
     public String getLibVersion() {
-        return BuildConfig.VERSION_NAME;
+        String mAppVersion=null;
+        try {
+            mAppVersion = BuildConfig.VERSION_NAME;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (mAppVersion != null && !mAppVersion.isEmpty()) {
+            if (!mAppVersion.matches("[0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?")) {
+                throw new IllegalArgumentException("AppVersion should in this format " +
+                        "\" [0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?]\" ");
+            }
+        } else {
+            throw new IllegalArgumentException("Prx Appversion cannot be null");
+        }
+        return mAppVersion;
     }
+
+
 }

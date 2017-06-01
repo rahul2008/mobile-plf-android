@@ -63,7 +63,7 @@ public class PrxLauncherActivity extends AppCompatActivity {
     private TextView priceTextView;
     private TextView productTitleText;
     private TextView subtitelText;
-
+    RequestManager mRequestManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +72,10 @@ public class PrxLauncherActivity extends AppCompatActivity {
         Button mSummaryButton = (Button) findViewById(R.id.summary_reqst_button);
         Button msupportButton = (Button) findViewById(R.id.support_rqst_button);
         Button mAssetButton = (Button) findViewById(R.id.assets_reqst_button);
+        TextView appversion = (TextView) findViewById(R.id.appversion);
+        mRequestManager = new RequestManager();
+        appversion.setText(mRequestManager.getLibVersion());
+
         imageView = (ImageView) findViewById(R.id.imageView);
 
         descTextView = (TextView) findViewById(R.id.descText);
@@ -202,7 +206,6 @@ public class PrxLauncherActivity extends AppCompatActivity {
     }
 
     private void onRequestManagerCalled(PrxRequest prxRequest) {
-        RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(prxDependencies);
         Log.d(TAG, "Positive Request");
         mRequestManager.executeRequest(prxRequest, new ResponseListener() {
