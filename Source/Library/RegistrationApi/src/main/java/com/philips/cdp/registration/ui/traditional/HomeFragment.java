@@ -533,18 +533,21 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                     )
                     .onErrorReturn(
                             throwable -> serviceDiscoveryWrapper.getServiceLocaleWithCountryPreferenceSingle("userreg.janrain.api"))
+                    .map(Single::blockingGet)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(new DisposableSingleObserver<Single<String>>() {
+                    .subscribeWith(new DisposableSingleObserver<String>() {
                         @Override
-                        public void onSuccess(Single<String> localeStr) {
-                            updateAppLocale(localeStr.blockingGet(), countryName);
+                        public void onSuccess(String localeStr) {
+                            updateAppLocale(localeStr, countryName);
                         }
 
                         @Override
                         public void onError(Throwable e) {
                             EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
                             hideProgressDialog();
+                            mRegError.setError(e.getMessage());
+                            scrollViewAutomatically(mRegError, mSvRootLayout);
                         }
                     });
         }
