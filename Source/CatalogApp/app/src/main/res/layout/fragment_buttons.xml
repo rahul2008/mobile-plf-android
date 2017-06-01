@@ -274,18 +274,16 @@
                     android:paddingStart="0dp"
                     android:text="@string/social_media_icons"/>
 
-                <com.philips.platform.uid.view.widget.ImageButton
+                <ImageButton
                     android:id="@+id/show_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
                     android:clickable="false"
                     android:gravity="center"
-                    app:srcCompat="@drawable/ic_right_arrow_show_more"
-                    app:uidImageButtonColorList="@null"
-                    app:uidImageButtonDrawableHeight="@dimen/show_more_icon_size"
-                    app:uidImageButtonDrawableWidth="@dimen/show_more_icon_size"/>
+                    app:srcCompat="@drawable/ic_right_arrow_show_more"/>
             </RelativeLayout>
 
             <LinearLayout

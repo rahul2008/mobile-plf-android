@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
+import com.philips.platform.catalogapp.MainActivity;
+
 public abstract class BaseFragment extends Fragment {
 
     public abstract int getPageTitle();
@@ -24,5 +26,9 @@ public abstract class BaseFragment extends Fragment {
         super.onResume();
 
         (getActivity()).setTitle(getPageTitle());
+    }
+
+    protected void showFragment(final BaseFragment fragment) {
+        ((MainActivity) getActivity()).getNavigationController().switchFragment(fragment);
     }
 }
