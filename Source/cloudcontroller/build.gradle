@@ -169,7 +169,7 @@ dependencies {
 apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion = '0.7.1.201405082137'
+    toolVersion = versions.jacoco
 }
 
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
