@@ -60,7 +60,7 @@
                 android:orientation="vertical">
 
                 <com.philips.platform.uid.view.widget.Label
-                    style="@style/UIDLabel.SliderMarginBottom"
+                    style="@style/UIDLabel"
                     android:id="@+id/savedscreen_productname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -69,10 +69,11 @@
                     android:textStyle="bold"/>
 
                 <com.philips.platform.uid.view.widget.Label
-                    style="@style/UIDLabel.SliderMarginBottom"
+                    style="@style/UIDLabel"
                     android:id="@+id/savedscreen_productvariant"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dip"
                     android:layout_below="@id/savedscreen_productname"
                     app:uidLabelTextSize="12sp"
                     android:text="hhhhhi"
@@ -81,6 +82,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dip"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -91,7 +93,7 @@
                         android:scaleType="fitXY" />
 
                     <com.philips.platform.uid.view.widget.Label
-                        style="@style/UIDLabel.SliderMarginBottom"
+                        style="@style/UIDLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"

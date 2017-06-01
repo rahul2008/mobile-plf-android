@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:inputText="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/darker_gray"
     android:padding="10dp">
 
     <FrameLayout
@@ -14,11 +15,14 @@
         android:layout_alignParentTop="true">
 
         <com.philips.platform.uid.view.widget.Label
-            style="@style/UIDLabel.MarginTop"
+            style="@style/UIDLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="30sp"
+            app:uidLabelTextSize="25sp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="5dip"
+            android:textStyle="bold"
             android:text="Add Product"/>
     </FrameLayout>
 
@@ -49,7 +53,6 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/category_editText"
         android:layout_margin="4dp"
-        android:background="#FFFFFF"
         android:hint="Add CATALOG here"/>
 
     <com.philips.platform.uid.view.widget.Button

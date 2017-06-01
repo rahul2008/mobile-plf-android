@@ -18,10 +18,10 @@
             android:paddingRight="@dimen/view_padding">
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/UIDLabel.SliderMarginBottom"
+                style="@style/UIDLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="24dip"
                 app:uidLabelTextSize="20sp"
                 android:id="@+id/detailed_screen_productname"/>
 
@@ -29,7 +29,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:uidLabelTextSize="12sp"
-                style="@style/UIDLabel.SliderMarginBottom"
+                android:layout_marginTop="4dip"
+                style="@style/UIDLabel"
                 android:id="@+id/detailed_screen_productctn"/>
 
             <include layout="@layout/fragment_detailedscreen_image_navigation" />
@@ -45,6 +46,10 @@
                 android:text="@string/Product_Details_Select" />
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/scroll_view_bottom"/>
 
     </LinearLayout>
 </ScrollView>

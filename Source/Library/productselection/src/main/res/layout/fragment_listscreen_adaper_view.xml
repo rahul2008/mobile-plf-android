@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/productselection_ratingtheme"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
         android:paddingRight="20dp">
 
         <com.philips.platform.uid.view.widget.Label
-            style="@style/UIDLabel.SliderMarginBottom"
+            style="@style/UIDLabel"
             android:id="@+id/product_name_view"
             fontPath="fonts/centralesansbold.ttf"
             android:layout_width="wrap_content"
@@ -40,12 +40,13 @@
             android:textSize="16sp"/>
 
         <com.philips.platform.uid.view.widget.Label
-            style="@style/UIDLabel.SliderMarginBottom"
+            style="@style/UIDLabel"
             android:id="@+id/ctn_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/product_name_view"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="4dp"
+            app:uidLabelTextSize="12sp"
             android:layout_toEndOf="@+id/from"
             android:layout_toRightOf="@+id/from"
             android:includeFontPadding="false"
