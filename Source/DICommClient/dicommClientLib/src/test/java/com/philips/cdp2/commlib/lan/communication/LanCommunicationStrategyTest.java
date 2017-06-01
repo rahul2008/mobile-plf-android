@@ -18,6 +18,11 @@
  * All rights reserved.
  */
 
+/*
+ * (C) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp2.commlib.lan.communication;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -99,6 +104,42 @@ public class LanCommunicationStrategyTest {
     }
 
     @Test
+    public void whenUnsubscribingViaHttpAndNoKeyPresent_ThenKeyIsExchangeIsStarted() throws Exception {
+        setupForHttpWithoutKeyPresent();
+
+        lanCommunicationStrategy.unsubscribe(PORT_NAME, PRODUCT_ID, null);
+
+        verify(requestQueueMock).addRequestInFrontOfQueue(isA(ExchangeKeyRequest.class));
+    }
+
+    @Test
+    public void whenUnsubscribingViaHttpAndKeyPresent_ThenNoKeyIsExchangeIsStarted() throws Exception {
+        setupForHttpWithKeyPresent();
+
+        lanCommunicationStrategy.unsubscribe(PORT_NAME, PRODUCT_ID, null);
+
+        verify(requestQueueMock, never()).addRequestInFrontOfQueue(any(LanRequest.class));
+    }
+
+    @Test
+    public void whenUnsubscribingViaHttpsAndNoKeyPresent_ThenKeyRetrievalIsStarted() throws Exception {
+        setupForHttpsWithoutKeyPresent();
+
+        lanCommunicationStrategy.unsubscribe(PORT_NAME, PRODUCT_ID, null);
+
+        verify(requestQueueMock).addRequestInFrontOfQueue(isA(GetKeyRequest.class));
+    }
+
+    @Test
+    public void whenUnsubscribingViaHttpsAndKeyPresent_ThenNoKeyRetrievalIsStarted() throws Exception {
+        setupForHttpsWithKeyPresent();
+
+        lanCommunicationStrategy.unsubscribe(PORT_NAME, PRODUCT_ID, null);
+
+        verify(requestQueueMock, never()).addRequestInFrontOfQueue(any(LanRequest.class));
+    }
+
+    @Test
     public void whenPuttingViaHttpAndNoKeyPresent_ThenKeyIsExchangeIsStarted() throws Exception {
         setupForHttpWithoutKeyPresent();
 
@@ -166,6 +207,78 @@ public class LanCommunicationStrategyTest {
         setupForHttpsWithKeyPresent();
 
         lanCommunicationStrategy.getProperties(PORT_NAME, PRODUCT_ID, null);
+
+        verify(requestQueueMock, never()).addRequestInFrontOfQueue(any(LanRequest.class));
+    }
+
+    @Test
+    public void whenAddingViaHttpAndNoKeyPresent_ThenKeyIsExchangeIsStarted() throws Exception {
+        setupForHttpWithoutKeyPresent();
+
+        lanCommunicationStrategy.addProperties(null, PORT_NAME, PRODUCT_ID, null);
+
+        verify(requestQueueMock).addRequestInFrontOfQueue(isA(ExchangeKeyRequest.class));
+    }
+
+    @Test
+    public void whenAddingViaHttpAndKeyPresent_ThenNoKeyIsExchangeIsStarted() throws Exception {
+        setupForHttpWithKeyPresent();
+
+        lanCommunicationStrategy.addProperties(null, PORT_NAME, PRODUCT_ID, null);
+
+        verify(requestQueueMock, never()).addRequestInFrontOfQueue(any(LanRequest.class));
+    }
+
+    @Test
+    public void whenAddingViaHttpsAndNoKeyPresent_ThenKeyRetrievalIsStarted() throws Exception {
+        setupForHttpsWithoutKeyPresent();
+
+        lanCommunicationStrategy.addProperties(null, PORT_NAME, PRODUCT_ID, null);
+
+        verify(requestQueueMock).addRequestInFrontOfQueue(isA(GetKeyRequest.class));
+    }
+
+    @Test
+    public void whenAddingViaHttpsAndKeyPresent_ThenNoKeyRetrievalIsStarted() throws Exception {
+        setupForHttpsWithKeyPresent();
+
+        lanCommunicationStrategy.addProperties(null, PORT_NAME, PRODUCT_ID, null);
+
+        verify(requestQueueMock, never()).addRequestInFrontOfQueue(any(LanRequest.class));
+    }
+
+    @Test
+    public void whenDeletingViaHttpAndNoKeyPresent_ThenKeyIsExchangeIsStarted() throws Exception {
+        setupForHttpWithoutKeyPresent();
+
+        lanCommunicationStrategy.deleteProperties(PORT_NAME, PRODUCT_ID, null);
+
+        verify(requestQueueMock).addRequestInFrontOfQueue(isA(ExchangeKeyRequest.class));
+    }
+
+    @Test
+    public void whenDeletingViaHttpAndKeyPresent_ThenNoKeyIsExchangeIsStarted() throws Exception {
+        setupForHttpWithKeyPresent();
+
+        lanCommunicationStrategy.deleteProperties(PORT_NAME, PRODUCT_ID, null);
+
+        verify(requestQueueMock, never()).addRequestInFrontOfQueue(any(LanRequest.class));
+    }
+
+    @Test
+    public void whenDeletingViaHttpsAndNoKeyPresent_ThenKeyRetrievalIsStarted() throws Exception {
+        setupForHttpsWithoutKeyPresent();
+
+        lanCommunicationStrategy.deleteProperties(PORT_NAME, PRODUCT_ID, null);
+
+        verify(requestQueueMock).addRequestInFrontOfQueue(isA(GetKeyRequest.class));
+    }
+
+    @Test
+    public void whenDeletingViaHttpsAndKeyPresent_ThenNoKeyRetrievalIsStarted() throws Exception {
+        setupForHttpsWithKeyPresent();
+
+        lanCommunicationStrategy.deleteProperties(PORT_NAME, PRODUCT_ID, null);
 
         verify(requestQueueMock, never()).addRequestInFrontOfQueue(any(LanRequest.class));
     }
