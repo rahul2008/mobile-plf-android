@@ -12,12 +12,11 @@ def MailRecipient = 'DL_CDP2_Callisto@philips.com, DL_App_chassis@philips.com'
 
 node ('android&&device') {
 	timestamps {
-		stage ('Checkout') {
-			checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: false, reference: '', shallow: true, timeout: 30],[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '4edede71-63a0-455e-a9dd-d250f8955958', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/usr-android-user-registration']]])
-			step([$class: 'StashNotifier'])
-		}
-
 		try {
+            stage ('Checkout') {
+                checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: false, reference: '', shallow: true, timeout: 30],[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '4edede71-63a0-455e-a9dd-d250f8955958', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/usr-android-user-registration']]])
+                step([$class: 'StashNotifier'])
+            }
     		if (BranchName =~ /master|develop|release.*/) {
     			stage ('build') {
                     sh '''#!/bin/bash -l
@@ -27,8 +26,7 @@ node ('android&&device') {
                         ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test zipDocuments artifactoryPublish
                     '''
                 }
-    		}	
-    		else {
+    		} else {
     			stage ('build') {
                     sh '''#!/bin/bash -l
                         chmod -R 775 . 
@@ -37,7 +35,6 @@ node ('android&&device') {
                         ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test
                     '''
     			}
-    		
             }
 
     		stage ('save dependencies list') {
@@ -60,25 +57,35 @@ node ('android&&device') {
                 archiveArtifacts '**/dependencies.lock'
             }
 
-        }
-
-        catch(err) {
+            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
+                stage ('callIntegrationPipeline') {
+                    if (BranchName =~ "/") {
+                        BranchName = BranchName.replaceAll('/','%2F')
+                        echo "BranchName changed to ${BranchName}"
+                    }
+                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'usr'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false 
+                }            
+            }
+        } catch(err) {
             currentBuild.result = 'FAILURE'
             error ("Someone just broke the build", err.toString())
+        } finally {
+        	stage('informing') {
+                step([$class: 'StashNotifier'])
+            	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
+            }
+            stage('Cleaning workspace') {
+                step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
+            }
         }
-
-        if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
-        	stage ('callIntegrationPipeline') {
-                if (BranchName =~ "/") {
-                    BranchName = BranchName.replaceAll('/','%2F')
-                    echo "BranchName changed to ${BranchName}"
-                }
-        		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'usr'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false 
-        	}            
-        }
-
-    	step([$class: 'StashNotifier'])
-    	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
-
 	}
+}
+
+node('master') {
+    stage('Cleaning workspace') {
+        def wrk = pwd() + "@script/"
+        dir("${wrk}") {
+            deleteDir()
+        }
+    }
 }
