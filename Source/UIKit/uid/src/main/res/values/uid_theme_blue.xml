@@ -163,11 +163,11 @@
       <item name="uidDatePickerAndroidNormalOnHeaderTextColor">?attr/uidNavigationText</item>
     <item name="uidDatePickerIosNormalTextColor">?attr/uidTextPrimary</item>
       <item name="uidDialogAlertDefaultBackgroundColor">?attr/uidPopup</item>
-      <item name="uidDialogAlertDefaultBodyIconColor">?attr/uidTextSecondary</item>
-    <item name="uidDialogAlertDefaultBodyTextColor">?attr/uidTextSecondary</item>
-    <item name="uidDialogAlertDefaultCloseIconColor">?attr/uidTextPrimary</item>
-      <item name="uidDialogAlertDefaultTitleIconColor">?attr/uidTextPrimary</item>
-      <item name="uidDialogAlertDefaultTitleTextColor">?attr/uidTextPrimary</item>
+      <item name="uidDialogAlertDefaultBodyIconColor">?attr/uidNeutralTextSecondary</item>
+      <item name="uidDialogAlertDefaultBodyTextColor">?attr/uidNeutralTextSecondary</item>
+      <item name="uidDialogAlertDefaultCloseIconColor">?attr/uidNeutralTextPrimary</item>
+      <item name="uidDialogAlertDefaultTitleIconColor">?attr/uidNeutralTextPrimary</item>
+      <item name="uidDialogAlertDefaultTitleTextColor">?attr/uidNeutralTextPrimary</item>
     <item name="uidDimLayerStrongBackgroundColor">?attr/uidDimStrong</item>
     <item name="uidDimLayerSubtleBackgroundColor">?attr/uidDimSubtle</item>
     <item name="uidDotNavigationDefaultNormalOnBackgroundColor">?attr/uidDotActive</item>
@@ -687,7 +687,7 @@
     <item name="uidInputTextTertiary">#800D3459</item>
       <item name="uidInputToolbar">#0D212121</item>
       <item name="uidInputValidatedBackground">#FFF1D3</item>
-      <item name="uidInputValidatedBorder">@null</item>
+      <item name="uidInputValidatedBorder">#00FFFFFF</item>
     <item name="uidInputValidatedText">@color/uid_signal_orange_level_75</item>
     <item name="uidLightSecondaryText">@color/uid_blue_level_5</item>
     <item name="uidLightTextDisabled">#59FFFFFF</item>
@@ -869,7 +869,7 @@
     <item name="uidInputTextTertiary">#800D3459</item>
       <item name="uidInputToolbar">#0D212121</item>
       <item name="uidInputValidatedBackground">#FFF1D3</item>
-      <item name="uidInputValidatedBorder">@null</item>
+      <item name="uidInputValidatedBorder">#00FFFFFF</item>
     <item name="uidInputValidatedText">@color/uid_signal_orange_level_75</item>
     <item name="uidLightSecondaryText">@color/uid_blue_level_5</item>
     <item name="uidLightTextDisabled">#59FFFFFF</item>
@@ -1051,7 +1051,7 @@
     <item name="uidInputTextTertiary">#800D3459</item>
       <item name="uidInputToolbar">#0D212121</item>
       <item name="uidInputValidatedBackground">#FFF1D3</item>
-      <item name="uidInputValidatedBorder">@null</item>
+      <item name="uidInputValidatedBorder">#00FFFFFF</item>
     <item name="uidInputValidatedText">@color/uid_signal_orange_level_75</item>
     <item name="uidLightSecondaryText">@color/uid_blue_level_5</item>
     <item name="uidLightTextDisabled">#59FFFFFF</item>
@@ -1233,7 +1233,7 @@
     <item name="uidInputTextTertiary">#80FFFFFF</item>
       <item name="uidInputToolbar">#1FFFFFFF</item>
     <item name="uidInputValidatedBackground">#FFF1D3</item>
-      <item name="uidInputValidatedBorder">@null</item>
+      <item name="uidInputValidatedBorder">#00FFFFFF</item>
     <item name="uidInputValidatedText">@color/uid_signal_orange_level_75</item>
     <item name="uidLightSecondaryText">@color/uid_blue_level_5</item>
     <item name="uidLightTextDisabled">#59FFFFFF</item>

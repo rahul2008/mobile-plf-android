@@ -99,6 +99,14 @@
         <item name="android:textColor">?attr/uidTextTertiary</item>
     </style>
 
+    <style name="UIDLabel.GridViewHeaderText.UIDGridViewHeaderBackgroundDarkTitleText">
+        <item name="android:textColor">?attr/uidGridViewBackgroundDarkHeaderTextColor</item>
+    </style>
+
+    <style name="UIDLabel.GridViewHeaderText.UIDGridViewHeaderLightBackgroundTitleText">
+        <item name="android:textColor">?attr/uidGridViewBackgroundLightHeaderTextColor</item>
+    </style>
+
     <style name="UIDLabel.GridViewTitleText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -133,5 +141,6 @@
     <style name="UIDLabel.GridViewSettingsText">
         <item name="uidLabelTextSize">@dimen/uid_recyclerview_item_title_text_size</item>
         <item name="android:textColor">?attr/uidTextPrimary</item>
+        <item name="android:background">?attr/uidContentTertiaryBackgroundColor</item>
     </style>
 </resources>
