@@ -44,7 +44,7 @@ public class StateListAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -52,8 +52,8 @@ public class StateListAdapter extends BaseAdapter implements Filterable {
         View view = convertView;
         if(convertView == null) {
             view = View.inflate(context, R.layout.uid_search_item_one_line, null);
-            ((TextView)view).setText((CharSequence) getItem(position));
         }
+        ((TextView)view).setText((CharSequence) getItem(position));
         return view;
     }
 
