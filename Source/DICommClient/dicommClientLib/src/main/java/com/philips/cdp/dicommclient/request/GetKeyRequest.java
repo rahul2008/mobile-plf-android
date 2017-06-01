@@ -9,6 +9,11 @@
  */
 
 /*
+ * (C) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
  * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
@@ -33,7 +38,6 @@ public class GetKeyRequest extends LanRequest {
 
     private static final String SECURITY_PORTNAME = "security";
     private static final int SECURITY_PRODUCTID = 0;
-    private static final String KEY_PROPERTY = "key";
 
     public GetKeyRequest(String applianceIpAddress, int protocolVersion, boolean isHttps, ResponseHandler responseHandler) {
         super(applianceIpAddress, protocolVersion, isHttps, SECURITY_PORTNAME, SECURITY_PRODUCTID, LanRequestType.GET, new HashMap<String, Object>(), responseHandler, null);

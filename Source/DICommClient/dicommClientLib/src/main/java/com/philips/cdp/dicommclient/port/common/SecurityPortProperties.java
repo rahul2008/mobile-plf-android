@@ -10,6 +10,8 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
+import android.support.annotation.Nullable;
+
 import com.philips.cdp2.commlib.core.port.PortProperties;
 
 public class SecurityPortProperties implements PortProperties {
@@ -17,14 +19,12 @@ public class SecurityPortProperties implements PortProperties {
     private String diffie;
     private String hellman;
 
+    @Nullable
     public String getKey() {
         return key;
     }
 
-    public void setKey(String key) {
-        this.key = key;
-    }
-
+    @Nullable
     public String getDiffie() {
         return diffie;
     }
@@ -33,11 +33,8 @@ public class SecurityPortProperties implements PortProperties {
         this.diffie = diffie;
     }
 
+    @Nullable
     public String getHellman() {
         return hellman;
-    }
-
-    public void setHellman(String hellman) {
-        this.hellman = hellman;
     }
 }
