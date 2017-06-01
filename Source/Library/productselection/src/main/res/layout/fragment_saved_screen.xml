@@ -47,6 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:layout_height="@dimen/savedscreen_productcontainer_height"/>
 
             <LinearLayout
@@ -86,6 +87,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/green_tick"
+
                         android:scaleType="fitXY" />
 
                     <com.philips.platform.uid.view.widget.Label
@@ -110,7 +112,6 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/view_padding"
             android:paddingRight="@dimen/view_padding"
-            android:layout_marginTop="16dp"
             android:id="@+id/bottom_layout_container"
             android:orientation="vertical">
 

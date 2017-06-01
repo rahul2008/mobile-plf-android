@@ -109,7 +109,6 @@ public class ListViewWithOptions extends BaseAdapter {
         });
         name.setText(data.getProductTitle());
         value.setText(data.getCtn());
-       /* from.setText("from");*/
         vi.setTag(position);
         notifyDataSetChanged();
         return vi;

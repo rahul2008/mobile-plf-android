@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -49,11 +48,6 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
     private TextView mProductName = null;
     private TextView mProductCtn = null;
     private ImageView mProductImage = null;
-    private RelativeLayout mRightPanelLayout = null;
-    private RelativeLayout mLeftPanelLayout = null;
-    private LinearLayout.LayoutParams mLeftPanelLayoutParams = null;
-    private LinearLayout.LayoutParams mRightPanelLayoutParams = null;
-
 
     /**
      * setting Listeners & setting the values & controls to the inflated view's of the screen "fragment_saved_screen.xml"
@@ -74,18 +68,11 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
         mProductCtn.setText(mUserSelectedProduct.getData().getCtn());
         loadProductImage(mProductImage);
 
-        /* These views are required for tablet design(GUI).*/
-        mLeftPanelLayout = (RelativeLayout) getActivity().findViewById(R.id.fragmentTabletProductList);
-        mRightPanelLayout = (RelativeLayout) getActivity().findViewById(R.id.fragmentTabletProductDetailsParent);
-
         mSettings.setOnClickListener(this);
         mRedirectingButton.setOnClickListener(this);
 
         Configuration configuration = getResources().getConfiguration();
         setViewParams(configuration);
-
-
-        // Tagging.trackPage(Constants.PAGE_CONFIRMATION_SCREEN, getPreviousName());
         ProductModelSelectionHelper.getInstance().getTaggingInterface().trackPageWithInfo
                 (Constants.PAGE_CONFIRMATION_SCREEN, getPreviousName(), getPreviousName());
         setPreviousPageName(Constants.PAGE_CONFIRMATION_SCREEN);
@@ -135,9 +122,7 @@ public class SavedScreenFragmentSelection extends ProductSelectionBaseFragment i
                     }
                 });
 
-
         VolleyWrapper.getInstance(getActivity()).addToRequestQueue(request);
-
     }
 
     @Override
