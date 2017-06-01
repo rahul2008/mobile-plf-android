@@ -15,7 +15,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.2'
+        classpath 'com.android.tools.build:gradle:2.2.0'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
     }
@@ -105,7 +105,7 @@ android {
     defaultConfig {
         applicationId "com.philips.platform.catalogapp"
         minSdkVersion "${minSdkVer}"
-        targetSdkVersion targetSdkVer
+        targetSdkVersion "${targetSdkVer}"
         versionCode 1
         versionName version
 
@@ -131,6 +131,7 @@ android {
 
     lintOptions {
         disable 'GoogleAppIndexingWarning'
+        disable 'InvalidPackage'
     }
 
     buildTypes {
