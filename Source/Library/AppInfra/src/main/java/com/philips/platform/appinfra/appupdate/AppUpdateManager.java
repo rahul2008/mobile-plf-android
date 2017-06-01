@@ -52,33 +52,15 @@ public class AppUpdateManager implements AppUpdateInterface {
 		mAppUpdateModel = getAppUpdateModel();
 	}
 
-	private void downloadAppUpdate(final String appUpdateUrl, final OnRefreshListener refreshListener) {
+	protected void downloadAppUpdate(final String appUpdateUrl, final OnRefreshListener refreshListener) {
 		JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, appUpdateUrl, null,
-				new Response.Listener<JSONObject>() {
-					@Override
-					public void onResponse(final JSONObject response) {
-						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AI AppUpate", response.toString());
-						try {
-							final JSONObject resp = response.getJSONObject("android");
-							if (resp != null) {
-								mFileUtils.saveFile(resp.toString(), AppUpdateConstants.LOCALE_FILE_DOWNLOADED, AppUpdateConstants.APPUPDATE_PATH);
-								mHandler = getHandler(mContext);
-								new Thread(new Runnable() {
-									@Override
-									public void run() {
-										processResponse(resp.toString(), refreshListener);
-									}
-								}).start();
-							} else {
-								refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED,
-										"Android appupdate info is missing in response");
-							}
-						} catch (JSONException e) {
-							refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, "JSON EXCEPTION");
-							mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AI AppUpdate_URL", "JSON EXCEPTION");
-						}
-					}
-				}, new Response.ErrorListener() {
+				getJsonResponseListener(refreshListener), getJsonErrorListener(refreshListener), null, null, null);
+		mAppInfra.getRestClient().getRequestQueue().add(jsonRequest);
+	}
+
+	@NonNull
+	protected Response.ErrorListener getJsonErrorListener(final OnRefreshListener refreshListener) {
+		return new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
 				final String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
@@ -86,8 +68,36 @@ public class AppUpdateManager implements AppUpdateInterface {
 				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AI AppUpdate_URL", errMsg);
 				refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, errMsg);
 			}
-		}, null, null, null);
-		mAppInfra.getRestClient().getRequestQueue().add(jsonRequest);
+		};
+	}
+
+	@NonNull
+	protected Response.Listener<JSONObject> getJsonResponseListener(final OnRefreshListener refreshListener) {
+		return new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(final JSONObject response) {
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AI AppUpate", response.toString());
+				try {
+					final JSONObject resp = response.getJSONObject("android");
+					if (resp != null) {
+						mFileUtils.saveFile(resp.toString(), AppUpdateConstants.LOCALE_FILE_DOWNLOADED, AppUpdateConstants.APPUPDATE_PATH);
+						mHandler = getHandler(mContext);
+						new Thread(new Runnable() {
+							@Override
+							public void run() {
+								processResponse(resp.toString(), refreshListener);
+							}
+						}).start();
+					} else {
+						refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED,
+								"Android appupdate info is missing in response");
+					}
+				} catch (JSONException e) {
+					refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, "JSON EXCEPTION");
+					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AI AppUpdate_URL", "JSON EXCEPTION");
+				}
+			}
+		};
 	}
 
 	private void processResponse(String response, OnRefreshListener refreshListener) {
@@ -270,6 +280,5 @@ public class AppUpdateManager implements AppUpdateInterface {
 		}
 		return null;
 	}
-
 
 }
