@@ -9,13 +9,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.philips.platform.catalogapp.R;
+import com.philips.platform.catalogapp.dataUtils.StateListAdapter;
 import com.philips.platform.catalogapp.databinding.FragmentSearchBoxBinding;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.SearchBox;
+
+import java.util.Arrays;
 
 public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandListener, SearchBox.QuerySubmitListener{
 
@@ -77,7 +79,7 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
             "Wisconsin",
             "Wyoming"
     };
-    private ArrayAdapter<String> stateAdapter;
+    private StateListAdapter stateAdapter;
 
     @Override
     public int getPageTitle() {
@@ -99,7 +101,7 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
     }
 
     private void setListAdapter() {
-        stateAdapter = new ArrayAdapter<>(getActivity(), R.layout.uid_search_item_one_line , STATES);
+        stateAdapter = new StateListAdapter(getActivity(), Arrays.asList(STATES));
         fragmentSearchBoxBinding.countryList.setAdapter(stateAdapter);
     }
 

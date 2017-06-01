@@ -5,6 +5,5 @@
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:ellipsize="marquee"
-    android:singleLine="true"
     android:textAppearance="?android:attr/textAppearanceLargePopupMenu"
     android:textColor="@color/uid_gray_level_75"/>

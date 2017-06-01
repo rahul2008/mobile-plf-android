@@ -212,6 +212,10 @@ public class SearchBox extends LinearLayout {
         mBackButton.setVisibility(visibility);
         updateCloseButton();
         searchTextView.setVisibility(visibility);
+        if(visibility == View.VISIBLE) {
+            searchTextView.requestFocus();
+        }
+        searchTextView.requestFocus();
         requestLayout();
     }
 
