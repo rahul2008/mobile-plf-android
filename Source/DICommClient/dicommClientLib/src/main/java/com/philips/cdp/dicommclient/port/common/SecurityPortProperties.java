@@ -3,11 +3,6 @@
  * All rights reserved.
  */
 
-/*
- * (C) 2015-2017 Koninklijke Philips N.V.
- * All rights reserved.
- */
-
 package com.philips.cdp.dicommclient.port.common;
 
 import android.support.annotation.Nullable;

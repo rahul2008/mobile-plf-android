@@ -3,21 +3,6 @@
  * All rights reserved.
  */
 
-/*
- * (C) 2015-2017 Koninklijke Philips N.V.
- * All rights reserved.
- */
-
-/*
- * (C) 2015-2017 Koninklijke Philips N.V.
- * All rights reserved.
- */
-
-/*
- * © Koninklijke Philips N.V., 2015, 2016.
- *   All rights reserved.
- */
-
 package com.philips.cdp.dicommclient.request;
 
 import android.support.annotation.VisibleForTesting;

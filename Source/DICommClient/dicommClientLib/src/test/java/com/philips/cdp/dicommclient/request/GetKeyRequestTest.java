@@ -3,11 +3,6 @@
  * All rights reserved.
  */
 
-/*
- * (C) 2015-2017 Koninklijke Philips N.V.
- * All rights reserved.
- */
-
 package com.philips.cdp.dicommclient.request;
 
 import com.philips.cdp.dicommclient.util.DICommLog;

@@ -3,16 +3,6 @@
  * All rights reserved.
  */
 
-/*
- * (C) 2015-2017 Koninklijke Philips N.V.
- * All rights reserved.
- */
-
-/*
- * (C) 2015-2017 Koninklijke Philips N.V.
- * All rights reserved.
- */
-
 package com.philips.cdp2.commlib.lan.communication;
 
 import android.support.annotation.NonNull;
