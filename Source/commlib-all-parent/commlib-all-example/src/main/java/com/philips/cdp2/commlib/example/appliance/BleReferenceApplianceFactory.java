@@ -1,5 +1,5 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp2.commlib.example.appliance;
@@ -25,15 +25,18 @@ public final class BleReferenceApplianceFactory implements DICommApplianceFactor
 
     @Override
     public boolean canCreateApplianceForNode(NetworkNode networkNode) {
-        return BleReferenceAppliance.DEVICETYPE.equals(networkNode.getDeviceType());
+        return getSupportedModelNames().contains(networkNode.getDeviceType());
     }
 
     @Override
     public BleReferenceAppliance createApplianceForNode(NetworkNode networkNode) {
         if (canCreateApplianceForNode(networkNode)) {
-            final CommunicationStrategy communicationStrategy = bleTransportContext.createCommunicationStrategyFor(networkNode);
 
-            return new BleReferenceAppliance(networkNode, communicationStrategy);
+            switch (networkNode.getDeviceType()) {
+                case BleReferenceAppliance.DEVICETYPE:
+                    final CommunicationStrategy bleCommunicationStrategy = bleTransportContext.createCommunicationStrategyFor(networkNode);
+                    return new BleReferenceAppliance(networkNode, bleCommunicationStrategy);
+            }
         }
         return null;
     }
