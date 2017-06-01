@@ -3,6 +3,7 @@ package com.philips.cdp.wifirefuapp;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,15 +16,21 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.philips.cdp.cloudcontroller.CloudController;
+import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
+import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp.wifirefuapp.consents.ConsentDialogFragment;
+import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.platform.core.listeners.DevicePairingListener;
-import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DataServicesError;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -47,6 +54,8 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
     private View view;
     private Activity activity;
     private Button consentButton;
+    private CommCentral commCentral;
+
     /*ListView availableDevicesListView;
     AvailableDevicesAdapter availableDevicesAdapter;
     ArrayList<Device> mDeviceAvailableLists = new ArrayList<Device>();
@@ -80,7 +89,34 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
 */
 
         consentButton = (Button) view.findViewById(R.id.consentButton);
+        consentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(fragmentLauncher.getParentContainerResourceID(),new ConsentDialogFragment(),"WiFiConsentFragment").commit();
+            }
+        });
+        initiliazeDiComm();
         return view;
+    }
+    private void initiliazeDiComm() {
+        final CloudController cloudController = setupCloudController();
+        final LanTransportContext lanTransportContext = new LanTransportContext(getActivity().getApplicationContext());
+        final SampleApplianceFactory applianceFactory = new SampleApplianceFactory(lanTransportContext);
+        this.commCentral = new CommCentral(applianceFactory, lanTransportContext);
+        if(DiscoveryManager.getInstance() == null){
+            DICommClientWrapper.initializeDICommLibrary(getActivity().getApplicationContext(), applianceFactory, null, cloudController);
+        }
+
+    }
+
+    @NonNull
+    private CloudController setupCloudController() {
+        final CloudController cloudController = new DefaultCloudController(getActivity().getApplicationContext(), new SampleKpsConfigurationInfo());
+
+        String ICPClientVersion = cloudController.getICPClientVersion();
+        DICommLog.i(DICommLog.ICPCLIENT, "ICPClientVersion :" + ICPClientVersion);
+
+        return cloudController;
     }
 
 /*    public void setPairedDevices(Device pairedDevice) {
@@ -185,26 +221,20 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
 
         discoveryManager = DiscoveryManager.getInstance();
 
-        consentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DataServicesManager.getInstance().getPairedDevices(WifiCommLibUappLaunchFragment.this);
-            }
-        });
-
-        //((TextView) view.findViewById(R.id.textViewAppId)).setText(DICommClientWrapper.getAppId());
     }
 
     private DiscoveryEventListener discoveryEventListener = new DiscoveryEventListener() {
 
         @Override
         public void onDiscoveredAppliancesListChanged() {
+            Log.v("Discovered Devices",""+discoveryManager.getAllDiscoveredAppliances().get(discoveryManager.getAllDiscoveredAppliances().size()-1));
             activity.runOnUiThread(new Runnable() {
 
                 @Override
                 public void run() {
                     applianceAdapter.clear();
                     applianceAdapter.addAll(discoveryManager.getAllDiscoveredAppliances());
+
                 }
             });
 

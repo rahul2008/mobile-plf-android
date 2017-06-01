@@ -8,17 +8,8 @@ package com.philips.platform.baseapp.base;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.StrictMode;
-import android.support.annotation.NonNull;
 import android.support.multidex.MultiDexApplication;
 
-import com.philips.cdp.cloudcontroller.CloudController;
-import com.philips.cdp.cloudcontroller.DefaultCloudController;
-import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
-import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp.wifirefuapp.SampleApplianceFactory;
-import com.philips.cdp.wifirefuapp.SampleKpsConfigurationInfo;
-import com.philips.cdp2.commlib.core.CommCentral;
-import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
@@ -56,7 +47,6 @@ public class AppFrameworkApplication extends MultiDexApplication {
     private static boolean isChinaCountry = false;
     private PushNotificationManager pushNotificationManager;
     private ConnectivityChangeReceiver connectivityChangeReceiver;
-    private CommCentral commCentral;
 
     @Override
     public void onCreate() {
@@ -115,30 +105,11 @@ public class AppFrameworkApplication extends MultiDexApplication {
         }
         RALog.d("test", "onCreate end::");
         callback.onAppStatesInitialization();
-        initiliazeDiComm();
+
 
     }
 
-    private void initiliazeDiComm() {
-        final CloudController cloudController = setupCloudController();
-        final LanTransportContext lanTransportContext = new LanTransportContext(this);
-        final SampleApplianceFactory applianceFactory = new SampleApplianceFactory(lanTransportContext);
-        this.commCentral = new CommCentral(applianceFactory, lanTransportContext);
 
-//        if (null == DICommClientWrapper.getContext()) {
-            DICommClientWrapper.initializeDICommLibrary(this, applianceFactory, null, cloudController);
-//        }
-    }
-
-    @NonNull
-    private CloudController setupCloudController() {
-        final CloudController cloudController = new DefaultCloudController(this, new SampleKpsConfigurationInfo());
-
-        String ICPClientVersion = cloudController.getICPClientVersion();
-        DICommLog.i(DICommLog.ICPCLIENT, "ICPClientVersion :" + ICPClientVersion);
-
-        return cloudController;
-    }
 
     public void initUserRegistrationState() {
         userRegistrationState = new UserRegistrationOnBoardingState();
