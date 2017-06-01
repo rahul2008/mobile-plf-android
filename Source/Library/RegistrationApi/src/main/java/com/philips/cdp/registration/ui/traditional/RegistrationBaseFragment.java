@@ -361,24 +361,26 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
     protected void scrollViewAutomatically(final View view, final ScrollView scrollView) {
         view.requestFocus();
-        scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        if (scrollView != null) {
+            scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
-            @SuppressWarnings("deprecation")
-            @Override
-            public void onGlobalLayout() {
-                new Handler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        scrollView.scrollTo(0, view.getTop());
+                @SuppressWarnings("deprecation")
+                @Override
+                public void onGlobalLayout() {
+                    new Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollView.scrollTo(0, view.getTop());
+                        }
+                    });
+                    if (Build.VERSION.SDK_INT < JELLY_BEAN) {
+                        view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    } else {
+                        view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
-                });
-                if (Build.VERSION.SDK_INT < JELLY_BEAN) {
-                    view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                } else {
-                    view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
-            }
-        });
+            });
+        }
     }
 
 }

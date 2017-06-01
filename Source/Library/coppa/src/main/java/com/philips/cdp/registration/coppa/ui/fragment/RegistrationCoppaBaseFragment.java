@@ -343,24 +343,26 @@ public abstract class RegistrationCoppaBaseFragment extends Fragment {
 
     protected void scrollViewAutomatically(final View view, final ScrollView scrollView) {
         view.requestFocus();
+        if (scrollView != null) {
 
-        scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            scrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
-            @Override
-            public void onGlobalLayout() {
-                new Handler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        scrollView.scrollTo(0, view.getTop());
+                @Override
+                public void onGlobalLayout() {
+                    new Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollView.scrollTo(0, view.getTop());
+                        }
+                    });
+                    if (Build.VERSION.SDK_INT < JELLY_BEAN) {
+                        //noinspection deprecation
+                        view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    } else {
+                        view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
-                });
-                if (Build.VERSION.SDK_INT < JELLY_BEAN) {
-                    //noinspection deprecation
-                    view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                } else {
-                    view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
-            }
-        });
+            });
+        }
     }
 }
