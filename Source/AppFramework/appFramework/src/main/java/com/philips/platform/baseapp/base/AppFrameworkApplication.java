@@ -5,10 +5,10 @@
 */
 package com.philips.platform.baseapp.base;
 
+import android.app.Application;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.StrictMode;
-import android.support.multidex.MultiDexApplication;
 
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -36,7 +36,7 @@ import java.util.Locale;
 /**
  * Application class is used for initialization
  */
-public class AppFrameworkApplication extends MultiDexApplication {
+public class AppFrameworkApplication extends Application {
     private static final String LOG = AppFrameworkApplication.class.getSimpleName();
     private static final String LEAK_CANARY_BUILD_TYPE = "leakCanary";
     public AppInfraInterface appInfra;

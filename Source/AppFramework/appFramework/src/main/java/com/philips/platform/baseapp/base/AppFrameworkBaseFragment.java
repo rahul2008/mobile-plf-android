@@ -56,4 +56,8 @@ public abstract class AppFrameworkBaseFragment extends Fragment{
         if (actionBarTitle != null)
             actionBarTitle.setText(titleText);
     }
+
+    protected void startAppTagging(String pageName) {
+        AppFrameworkTagging.getInstance().trackPage(pageName);
+    }
 }

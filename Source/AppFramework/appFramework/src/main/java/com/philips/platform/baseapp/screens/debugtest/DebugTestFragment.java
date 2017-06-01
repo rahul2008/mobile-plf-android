@@ -8,8 +8,6 @@ package com.philips.platform.baseapp.screens.debugtest;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,6 +27,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
+import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
@@ -66,7 +65,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppFrameworkBaseActivity)getActivity()).updateActionBarIcon(false);
+        ((AppFrameworkBaseActivity) getActivity()).updateActionBarIcon(false);
     }
 
     @Nullable
@@ -74,7 +73,12 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.af_debug_fragment, container, false);
         setUp(view);
+        startAppTagging();
         return view;
+    }
+
+    protected void startAppTagging() {
+        AppFrameworkTagging.getInstance().trackPage(TAG);
     }
 
     private void setUp(final View view) {
@@ -122,10 +126,11 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
                             .show();
                 }
             }
-                @Override
-                public void onNothingSelected (AdapterView < ? > arg0){
-                }
-            };
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        };
     }
 
     private void setSpinnerSelection(final int position) {

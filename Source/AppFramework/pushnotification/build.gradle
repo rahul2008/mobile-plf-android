@@ -14,7 +14,7 @@ buildscript {
 
     dependencies {
         classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.3.1'
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12"
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
@@ -74,12 +74,12 @@ artifactory {
 
 android {
 
-    compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
 
@@ -96,7 +96,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.google.android.gms:play-services-gcm:10.2.0'
     compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.6.0'+objcdp.getVersionSuffix(), ext: 'aar'){
         exclude group: 'com.android.support'
