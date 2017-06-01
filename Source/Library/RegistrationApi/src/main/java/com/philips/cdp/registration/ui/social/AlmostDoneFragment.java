@@ -437,12 +437,20 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void phoneNumberAlreadyInuseError(){
-        loginIdEditText.setErrDescription(mContext.getResources().getString(R.string.reg_CreateAccount_Using_Phone_Alreadytxt));
+        handleOnUIThread(() -> {
+            loginIdEditText.setErrDescription(mContext.getResources().getString(R.string.reg_CreateAccount_Using_Phone_Alreadytxt));
+            loginIdEditText.showInvalidAlert();
+            loginIdEditText.showErrPopUp();
+        });
     }
 
     @Override
     public void emailAlreadyInuseError(){
-        loginIdEditText.setErrDescription(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
+        handleOnUIThread(() -> {
+            loginIdEditText.setErrDescription(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
+            loginIdEditText.showInvalidAlert();
+            loginIdEditText.showErrPopUp();
+        });
     }
 
     @Override

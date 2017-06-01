@@ -14,7 +14,6 @@ import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -27,7 +26,7 @@ import javax.inject.Inject;
 import static com.philips.cdp.registration.ui.traditional.LogoutFragment.BAD_RESPONSE_ERROR_CODE;
 import static com.philips.cdp.registration.ui.utils.RegConstants.EMAIL_ADDRESS_ALREADY_USE_CODE;
 
-public class AlmostDonePresenter implements NetworStateListener,SocialProviderLoginHandler,UpdateUserDetailsHandler {
+public class AlmostDonePresenter implements NetworStateListener, SocialProviderLoginHandler, UpdateUserDetailsHandler {
 
     @Inject
     User mUser;
@@ -59,9 +58,9 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
     }
 
-   public void cleanUp(){
-       RegistrationHelper.getInstance().unRegisterNetworkListener(this);
-   }
+    public void cleanUp() {
+        RegistrationHelper.getInstance().unRegisterNetworkListener(this);
+    }
 
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
@@ -85,14 +84,14 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
         }
     }
 
-    public void handleAcceptTermsAndReceiveMarketingOpt(){
+    public void handleAcceptTermsAndReceiveMarketingOpt() {
         if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
-            if (isEmailExist && almostDoneContract.getPreferenceStoredState((mEmail))){
+            if (isEmailExist && almostDoneContract.getPreferenceStoredState((mEmail))) {
                 almostDoneContract.hideAcceptTermsView();
-            }else if(mBundle !=null && mBundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR)!=null){
+            } else if (mBundle != null && mBundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR) != null) {
                 almostDoneContract.updateABTestingUIFlow();
             }
-        }else{
+        } else {
             almostDoneContract.hideAcceptTermsView();
         }
         updateTermsAndReceiveMarketingOpt();
@@ -125,12 +124,12 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
     private void handleLoginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         almostDoneContract.hideMarketingOptSpinner();
         if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
-            if (RegistrationHelper.getInstance().isChinaFlow()){
+            if (RegistrationHelper.getInstance().isChinaFlow()) {
                 almostDoneContract.phoneNumberAlreadyInuseError();
-            }else {
+            } else {
                 almostDoneContract.emailAlreadyInuseError();
             }
-           almostDoneContract.showLoginFailedError();
+            almostDoneContract.showLoginFailedError();
         }
     }
 
@@ -157,7 +156,7 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
     private void handleContinueSocialProviderFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         almostDoneContract.hideMarketingOptSpinner();
         if (null != userRegistrationFailureInfo.getDisplayNameErrorMessage()) {
-            almostDoneContract.displayNameErrorMessage(userRegistrationFailureInfo,mDisplayName);
+            almostDoneContract.displayNameErrorMessage(userRegistrationFailureInfo, mDisplayName);
             return;
         }
         if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
@@ -169,9 +168,9 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
 
     private void emailAlreadyInUse(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
-            if (RegistrationHelper.getInstance().isChinaFlow()){
+            if (RegistrationHelper.getInstance().isChinaFlow()) {
                 almostDoneContract.phoneNumberAlreadyInuseError();
-            }else {
+            } else {
                 almostDoneContract.emailAlreadyInuseError();
             }
         }
@@ -192,7 +191,7 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
             mProvider = Character.toUpperCase(mProvider.charAt(0)) + mProvider.substring(1);
         }
         if (isEmailExist) {
-           almostDoneContract.emailFieldHide();
+            almostDoneContract.emailFieldHide();
         } else {
             if (bundle == null) {
                 almostDoneContract.enableContinueBtn();
@@ -204,9 +203,9 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
 
     private void handleSocialTwoStepError(Bundle bundle) {
         try {
-            if(bundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR)!=null) {
+            if (bundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR) != null) {
                 JSONObject mPreRegJson = new JSONObject(bundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR));
-                performSocialTwoStepError(mPreRegJson,bundle);
+                performSocialTwoStepError(mPreRegJson, bundle);
             }
             if (null == mGivenName) {
                 mGivenName = mDisplayName;
@@ -217,8 +216,8 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
         }
     }
 
-    private void performSocialTwoStepError(JSONObject mPreRegJson,Bundle mBundle) {
-        try{
+    private void performSocialTwoStepError(JSONObject mPreRegJson, Bundle mBundle) {
+        try {
             if (null != mPreRegJson) {
                 mProvider = mBundle.getString(RegConstants.SOCIAL_PROVIDER);
                 mRegistrationToken = mBundle.getString(RegConstants.SOCIAL_REGISTRATION_TOKEN);
@@ -247,7 +246,7 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
                     setEmailExist(false);
                 }
             }
-        }catch (JSONException e){
+        } catch (JSONException e) {
             RLog.e(RLog.EXCEPTION, "AlmostDoneFragment Exception : " + e.getMessage());
         }
     }
@@ -277,18 +276,18 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
     }
 
     public void updateUser(boolean isReMarketingOptCheck) {
-        if(Jump.getSignedInUser()!=null){
+        if (Jump.getSignedInUser() != null) {
             almostDoneContract.showMarketingOptSpinner();
             mUser.updateReceiveMarketingEmail(this, isReMarketingOptCheck);
         }
     }
 
-    public void register(boolean isReMarketingOptCheck,String email) {
+    public void register(boolean isReMarketingOptCheck, String email) {
         if (isOnline()) {
             almostDoneContract.hideErrorMessage();
             almostDoneContract.showMarketingOptSpinner();
-            mUser.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName, isEmailExist?mEmail:email, true,
-                        isReMarketingOptCheck, this, mRegistrationToken);
+            mUser.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName, isEmailExist ? mEmail : email, true,
+                    isReMarketingOptCheck, this, mRegistrationToken);
         }
     }
 
@@ -297,23 +296,23 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
             almostDoneContract.storePreference(mEmail);
             return;
         }
-        if(mUser.getMobile()!=null && !mUser.getMobile().equalsIgnoreCase("null")){
+        if (mUser.getMobile() != null && !mUser.getMobile().equalsIgnoreCase("null")) {
             almostDoneContract.storePreference(mUser.getMobile());
-        }else if(mUser.getEmail()!=null && !mUser.getEmail().equalsIgnoreCase("null")){
+        } else if (mUser.getEmail() != null && !mUser.getEmail().equalsIgnoreCase("null")) {
             almostDoneContract.storePreference(mUser.getEmail());
         }
     }
 
-    public boolean isValidEmail(){
+    public boolean isValidEmail() {
         return FieldsValidator.isValidEmail(mEmail);
     }
 
-    public boolean isEmailVerificationStatus(){
+    public boolean isEmailVerificationStatus() {
         return mUser.getEmailVerificationStatus();
     }
 
-    public void handleClearUserData(){
-         mUser.logout(null);
+    public void handleClearUserData() {
+        mUser.logout(null);
     }
 
     public void handleUpdateMarketingOpt() {
@@ -339,12 +338,12 @@ public class AlmostDonePresenter implements NetworStateListener,SocialProviderLo
     public void handleSocialTermsAndCondition() {
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() && almostDoneContract.isAcceptTermsContainerVisible()) {
             if (almostDoneContract.isAcceptTermsChecked()) {
-                  register(almostDoneContract.isMarketingOptChecked(), almostDoneContract.getMobileNumber());
+                register(almostDoneContract.isMarketingOptChecked(), almostDoneContract.getMobileNumber());
             } else {
                 almostDoneContract.showTermsAndConditionError();
             }
         } else {
-              register(almostDoneContract.isMarketingOptChecked(),almostDoneContract.getMobileNumber());
+            register(almostDoneContract.isMarketingOptChecked(), almostDoneContract.getMobileNumber());
         }
     }
 
