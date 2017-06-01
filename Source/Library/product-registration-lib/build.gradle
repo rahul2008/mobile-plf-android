@@ -23,7 +23,7 @@ buildscript {
                 password = "123qweasdzxc"
             }
         }
-
+    }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
