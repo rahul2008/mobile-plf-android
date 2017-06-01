@@ -8,9 +8,15 @@
  * All rights reserved.
  */
 
+/*
+ * (C) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cdp2.commlib.lan.communication;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -30,7 +36,7 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import java.util.Map;
 
 public class LanCommunicationStrategy extends CommunicationStrategy {
-    private final RequestQueue mRequestQueue;
+    private RequestQueue mRequestQueue;
     private DISecurity diSecurity;
     private boolean isKeyExchangeOngoing;
     private LocalSubscriptionHandler mLocalSubscriptionHandler;
@@ -40,8 +46,13 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
         this.networkNode = networkNode;
         this.diSecurity = new DISecurity(networkNode);
         this.diSecurity.setEncryptionDecryptionFailedListener(mEncryptionDecryptionFailedListener);
-        mRequestQueue = new RequestQueue();
+        mRequestQueue = createRequestQueue();
         mLocalSubscriptionHandler = new LocalSubscriptionHandler(diSecurity, UdpEventReceiver.getInstance());
+    }
+
+    @VisibleForTesting
+    RequestQueue createRequestQueue() {
+        return new RequestQueue();
     }
 
     @Override
