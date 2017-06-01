@@ -336,7 +336,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
 
     private void setLogging(LoggingInterface log) {
         logger = log;
-        appInfraLogger = logger.createInstanceForComponent(getComponentId(),
+        appInfraLogger = logger.createInstanceForComponent("ail "+getComponentId(),
                 getVersion());
     }
 
