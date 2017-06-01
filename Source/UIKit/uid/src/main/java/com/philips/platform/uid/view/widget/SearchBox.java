@@ -41,6 +41,7 @@ public class SearchBox extends LinearLayout {
     private boolean isSearchIconified = true;
     private View searchClearLayout;
     private ExpandListener expandListener;
+    private FilterQueryChangedListener filterQueryChangedListener;
     private Filter searchFilter;
     private QuerySubmitListener querySubmitListener;
 
@@ -50,8 +51,12 @@ public class SearchBox extends LinearLayout {
         void onSearchCollapsed();
     }
 
+    public interface FilterQueryChangedListener {
+        void onQueryTextChanged(CharSequence newQuery);
+    }
+
     public interface QuerySubmitListener {
-        void onQuerySubmit(CharSequence charSequence);
+        void onQuerySubmit(CharSequence query);
     }
 
     public SearchBox(Context context) {
@@ -116,7 +121,7 @@ public class SearchBox extends LinearLayout {
             public void onClick(View v) {
                 callCollapseListener();
                 setSearchIconified(true);
-                searchTextView.setText(null);
+                searchTextView.setText("");
                 setImeVisibility(false);
                 searchTextView.clearFocus();
             }
@@ -165,12 +170,14 @@ public class SearchBox extends LinearLayout {
      * @see android.widget.Adapter
      */
     @SuppressWarnings("unused")
-    public <T extends Adapter & Filterable> void setAdapter(T adapter) {
+    public <T extends Adapter & Filterable & FilterQueryChangedListener> void setAdapter(T adapter) {
         if (adapter != null) {
             searchFilter = adapter.getFilter();
             Editable text = searchTextView.getText();
+            filterQueryChangedListener = adapter;
             if(!TextUtils.isEmpty(text)) {
                 searchFilter.filter(text);
+                filterQueryChangedListener.onQueryTextChanged(text);
             }
         }
     }
@@ -276,6 +283,9 @@ public class SearchBox extends LinearLayout {
     private void performFiltering(CharSequence s) {
         if (searchFilter != null) {
             searchFilter.filter(s);
+        }
+        if (filterQueryChangedListener != null) {
+            filterQueryChangedListener.onQueryTextChanged(s);
         }
     }
 

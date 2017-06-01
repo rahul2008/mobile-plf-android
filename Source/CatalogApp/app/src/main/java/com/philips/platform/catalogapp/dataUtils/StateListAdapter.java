@@ -16,16 +16,20 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.philips.platform.catalogapp.R;
+import com.philips.platform.uid.text.utils.UIDSpans;
+import com.philips.platform.uid.text.utils.UIDStringUtils;
+import com.philips.platform.uid.view.widget.SearchBox;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StateListAdapter extends BaseAdapter implements Filterable {
+public class StateListAdapter extends BaseAdapter implements Filterable, SearchBox.FilterQueryChangedListener {
 
     private Context context;
     private List<String> statesList;
     private List<String> filteredList = new ArrayList<>();
     private Filter stateFilter = new StateListFilter();
+    private String query;
 
     public StateListAdapter(Context context, List<String> list) {
         statesList = list;
@@ -38,7 +42,7 @@ public class StateListAdapter extends BaseAdapter implements Filterable {
     }
 
     @Override
-    public Object getItem(int position) {
+    public CharSequence getItem(int position) {
         return filteredList.get(position);
     }
 
@@ -50,10 +54,10 @@ public class StateListAdapter extends BaseAdapter implements Filterable {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        if(convertView == null) {
-            view = View.inflate(context, R.layout.uid_search_item_one_line, null);
+        if (convertView == null) {
+            view = View.inflate(context, R.layout.uid_list_item_one_line, null);
         }
-        ((TextView)view).setText((CharSequence) getItem(position));
+        ((TextView) view).setText(UIDSpans.boldSubString(true, context, (String) getItem(position), query));
         return view;
     }
 
@@ -62,15 +66,20 @@ public class StateListAdapter extends BaseAdapter implements Filterable {
         return stateFilter;
     }
 
+    @Override
+    public void onQueryTextChanged(CharSequence newQuery) {
+        query = newQuery.toString();
+    }
+
     private class StateListFilter extends Filter {
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
             ArrayList<String> resultList = new ArrayList<>();
-            if(!TextUtils.isEmpty(constraint)) {
-                for(String state: statesList) {
-                    if(state.toLowerCase().contains(String.valueOf(constraint).toLowerCase())) {
+            if (!TextUtils.isEmpty(constraint)) {
+                for (String state : statesList) {
+                    if (UIDStringUtils.containsSubString(true, state, constraint.toString()) >= 0) {
                         resultList.add(state);
                     }
                 }
@@ -85,7 +94,5 @@ public class StateListAdapter extends BaseAdapter implements Filterable {
             filteredList = (List<String>) results.values;
             StateListAdapter.this.notifyDataSetChanged();
         }
-
-
     }
 }
