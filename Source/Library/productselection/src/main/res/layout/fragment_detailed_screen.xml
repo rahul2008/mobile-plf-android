@@ -1,7 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:id="@+id/detailed_screen_parent"
@@ -9,32 +9,30 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/fragment_detailedscreen_image_navigation" />
-
-
         <LinearLayout
             android:id="@+id/detailed_screen_parent_one"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/activity_margin"
-            android:paddingRight="@dimen/activity_margin">
+            android:paddingLeft="@dimen/view_padding"
+            android:paddingRight="@dimen/view_padding">
 
             <com.philips.platform.uid.view.widget.Label
                 style="@style/UIDLabel.SliderMarginBottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/detailed_screen_productname"
-                custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Bold.otf" />
+                android:layout_marginTop="24dp"
+                app:uidLabelTextSize="20sp"
+                android:id="@+id/detailed_screen_productname"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:uidLabelTextSize="12sp"
                 style="@style/UIDLabel.SliderMarginBottom"
-                android:id="@+id/detailed_screen_productctn"
-                custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
+                android:id="@+id/detailed_screen_productctn"/>
 
+            <include layout="@layout/fragment_detailedscreen_image_navigation" />
 
             <com.philips.platform.uid.view.widget.Button
                 style="@style/UIDExtraWideButton.Center"
@@ -42,31 +40,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:textAllCaps="false"
                 android:text="@string/Product_Details_Select" />
-
-            <com.philips.cdp.productselection.customview.CustomFontTextView
-
-                style="@style/detailedscreeen_product_spec1"
-                android:text="1000 W"
-                custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Book.otf" />
-
-            <com.philips.cdp.productselection.customview.CustomFontTextView
-                style="@style/detailedscreeen_product_spec2"
-                android:text="3.4 L Bowl"
-                custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Book.otf" />
-
-            <com.philips.cdp.productselection.customview.CustomFontTextView
-
-                style="@style/detailedscreeen_product_spec3"
-                android:text="8 accessories"
-                custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Book.otf" />
-
 
         </LinearLayout>
 
     </LinearLayout>
-
-
 </ScrollView>

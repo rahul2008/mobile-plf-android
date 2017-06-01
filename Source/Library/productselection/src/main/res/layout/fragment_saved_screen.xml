@@ -65,7 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:textSize="@dimen/title_text_size_small"
+                    app:uidLabelTextSize="16sp"
                     android:textStyle="bold"/>
 
                 <com.philips.platform.uid.view.widget.Label
@@ -74,7 +74,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/savedscreen_productname"
-                    android:textSize="@dimen/title_text_size_small"
+                    app:uidLabelTextSize="12sp"
                     android:text="hhhhhi"
                     custom:multiproductFontAssetName="multiproductfonts/CentraleSans-Light.otf" />
 

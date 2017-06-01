@@ -1,6 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginBottom="@dimen/savedscreen_product_image_margin">
 
     <LinearLayout
@@ -23,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="35dp"
             android:maxWidth="@dimen/view_max_width"
-            android:textSize="@dimen/title_text_size_small"
+            app:uidLabelTextSize="16sp"
             android:text="@string/Select_Product_Desc"/>
 
         <com.philips.platform.uid.view.widget.Button
