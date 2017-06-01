@@ -6,25 +6,30 @@
 
         <import type="android.graphics.Color"/>
 
+        <import type="java.util.Date"/>
+
+        <import type="android.view.View"/>
+
         <variable
             name="fragment"
             type="com.philips.platform.catalogapp.fragments.PickersFragment"/>
 
         <variable
             name="dateTimePickerDate"
-            type="android.databinding.ObservableField"/>
+            type="java.lang.Object"/>
 
         <variable
             name="rangePickerStartDate"
-            type="android.databinding.ObservableField"/>
+            type="java.lang.Object"/>
 
         <variable
             name="rangePickerEndDate"
-            type="android.databinding.ObservableField"/>
+            type="java.lang.Object"/>
 
         <variable
             name="timeslotPickerTime"
-            type="android.databinding.ObservableField"/>
+            type="java.lang.Object"/>
+
     </data>
 
     <LinearLayout
@@ -40,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/listview_row_height"
             android:layout_gravity="center"
-            android:gravity="left|center_vertical"
+            android:gravity="start|center_vertical"
             android:orientation="horizontal"
             android:paddingEnd="@dimen/uid_date_picker_margin_left_right"
             android:paddingStart="@dimen/uid_date_picker_margin_left_right">
@@ -61,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/uid_date_margin_start"
                 android:onClick="@{(v) ->fragment.showDatePicker(dateTimePickerDate, false)}"
-                android:text="@{fragment.getFormattedDate(fragment.dateTimePickerDate)}"
+                android:text="@{fragment.getFormattedDate(fragment.dateTimePickerDate.get())}"
                 android:textColor="?attr/uidTextPrimary"/>
 
             <com.philips.platform.uid.view.widget.Label
@@ -70,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:onClick="@{(v) ->fragment.showTimePicker(dateTimePickerDate, false)}"
-                android:text="@{fragment.getFormattedTime(fragment.dateTimePickerDate)}"
+                android:text="@{fragment.getFormattedTime(fragment.dateTimePickerDate.get())}"
                 android:textColor="?attr/uidTextPrimary"
                 android:visibility="@{fragment.disableTimePicker}"/>
         </LinearLayout>
@@ -83,7 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/listview_row_height"
             android:layout_gravity="center"
-            android:gravity="left|left|center_vertical"
+            android:gravity="start|center_vertical"
             android:orientation="horizontal"
             android:paddingEnd="@dimen/uid_date_picker_margin_left_right"
             android:paddingStart="@dimen/uid_date_picker_margin_left_right">
@@ -122,7 +127,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/listview_row_height"
             android:layout_gravity="center"
-            android:gravity="left|left|center_vertical"
+            android:gravity="start|center_vertical"
             android:orientation="horizontal"
             android:paddingEnd="@dimen/uid_date_picker_margin_left_right"
             android:paddingStart="@dimen/uid_date_picker_margin_left_right">
