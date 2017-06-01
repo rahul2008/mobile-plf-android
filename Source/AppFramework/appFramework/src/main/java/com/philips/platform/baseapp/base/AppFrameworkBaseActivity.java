@@ -43,7 +43,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        UIDHelper.init(new ThemeConfiguration(ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT, this));
+        UIDHelper.init(new ThemeConfiguration(this,ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT));
         getTheme().applyStyle(R.style.Theme_Philips_DarkBlue_NoActionBar, true);
         super.onCreate(savedInstanceState);
     }
