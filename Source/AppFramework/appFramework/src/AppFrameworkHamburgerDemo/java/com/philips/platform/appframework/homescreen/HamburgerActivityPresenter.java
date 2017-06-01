@@ -6,7 +6,6 @@
 package com.philips.platform.appframework.homescreen;
 
 import android.support.annotation.NonNull;
-
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;

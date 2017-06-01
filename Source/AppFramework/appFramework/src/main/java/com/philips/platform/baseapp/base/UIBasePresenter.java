@@ -23,12 +23,12 @@ abstract public class UIBasePresenter {
     protected final int MENU_OPTION_SUPPORT = 3;
     protected final int MENU_OPTION_ABOUT = 4;
     protected final int MENU_OPTION_DATA_SYNC = 5;
-    protected final int MENU_OPTION_PR = 9;
+    protected final int MENU_OPTION_PR = 10;
     protected final int MENU_OPTION_CONNECTIVITY = 6;
 
     protected final int MENU_OPTION_DEBUG = 8;
     protected final int MENU_OPTION_COCOVERSION = 7;
-    protected final int MENU_OPTION_WIFIREFUAPP = 8;
+    protected final int MENU_OPTION_WIFIREFUAPP = 9;
 
 
     /* event to state map */

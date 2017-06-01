@@ -7,15 +7,14 @@ package com.philips.platform.baseapp.base;
 
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.support.annotation.NonNull;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.multidex.MultiDexApplication;
 
 import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.wifirefuapp.SampleApplianceFactory;
 import com.philips.cdp.wifirefuapp.SampleKpsConfigurationInfo;
 import com.philips.cdp2.commlib.core.CommCentral;
@@ -41,8 +40,6 @@ import com.philips.platform.receivers.ConnectivityChangeReceiver;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.squareup.leakcanary.LeakCanary;
 
-import java.util.Locale;
-
 /**
  * Application class is used for initialization
  */
@@ -63,7 +60,7 @@ public class AppFrameworkApplication extends MultiDexApplication {
 
     @Override
     public void onCreate() {
-        applyStrictMode();
+        //applyStrictMode();
         if (BuildConfig.BUILD_TYPE.equalsIgnoreCase(LEAK_CANARY_BUILD_TYPE)) {
             if (LeakCanary.isInAnalyzerProcess(this)) {
                 // This proisChinaCountrycess is dedicated to LeakCanary for heap analysis.
