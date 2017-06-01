@@ -77,6 +77,11 @@ public class SHNServiceBatteryTest {
     }
 
     @Test
+    public void getServiceReturnsService() {
+        assertEquals(mockedShnService, shnServiceBattery.getShnService());
+    }
+
+    @Test
     public void getBatteryWithResultOkTest(){
         shnServiceBattery.getBatteryLevel(mockedShnIntegerResultListener);
 
