@@ -3,10 +3,6 @@
  * All rights reserved.
  */
 
-/*
- * (C) Koninklijke Philips N.V., 2017.
- * All rights reserved.
- */
 package com.philips.cdp2.commlibexplorer.appliance;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
