@@ -18,7 +18,7 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 24)
+@Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 public class BaseAppUtilTest extends TestCase {
     BaseAppUtil baseAppUtil;
 
@@ -27,15 +27,6 @@ public class BaseAppUtilTest extends TestCase {
         baseAppUtil = new BaseAppUtil();
     }
 
-    @Test
-    public void testGetJsonFilePath(){
-        assertTrue(baseAppUtil.getJsonFilePath().toString().contains("/ReferenceApp/appflow.json"));
-    }
-
-    @Test
-    public void testReadJsonFileFromSdCard(){
-        assertNotNull(baseAppUtil.readJsonFileFromSdCard());
-    }
 
     @Test
     public void testIsNetworkAvailable(){

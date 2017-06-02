@@ -16,7 +16,7 @@ import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
-import com.philips.platform.baseapp.base.AppFrameworkTagging;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 /**
  * About screen to display content and version number
@@ -32,6 +32,7 @@ public class AboutScreenFragment extends AppFrameworkBaseFragment
 
     @Override
     public void onResume() {
+        RALog.d(TAG, " onResume");
         super.onResume();
         updateActionBar();
     }
@@ -52,12 +53,9 @@ public class AboutScreenFragment extends AppFrameworkBaseFragment
         version.setText(getResources().getString(R.string.RA_About_App_Version) +BuildConfig.VERSION_NAME);
         TextView  content =(TextView)view.findViewById(R.id.about_content);
         content.setText(R.string.RA_About_Description);
-        startAppTagging();
+        startAppTagging(TAG);
         return view;
 
     }
 
-    protected void startAppTagging() {
-        AppFrameworkTagging.getInstance().trackPage(TAG);
-    }
 }

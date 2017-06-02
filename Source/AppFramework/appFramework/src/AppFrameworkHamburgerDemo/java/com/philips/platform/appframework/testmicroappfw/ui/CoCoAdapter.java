@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.util.ArrayList;
 
@@ -18,6 +19,7 @@ import java.util.ArrayList;
  */
 
 public class CoCoAdapter extends RecyclerView.Adapter<CoCoAdapter.ChapterViewHolder> {
+    public static final String TAG = CoCoAdapter.class.getSimpleName();
 
     private ArrayList<CommonComponent> commonComponentsList;
 
@@ -36,6 +38,7 @@ public class CoCoAdapter extends RecyclerView.Adapter<CoCoAdapter.ChapterViewHol
 
     @Override
     public void onBindViewHolder(ChapterViewHolder holder, int position) {
+        RALog.d(TAG, " OnBindViewHolder");
         CommonComponent chapter = commonComponentsList.get(position);
         holder.chapterTextView.setText(chapter.getCocoName());
     }

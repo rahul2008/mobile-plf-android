@@ -39,6 +39,7 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomen
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMomentType;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSettings;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.Settings;
@@ -147,7 +148,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             try {
                 ormDCSyncDao.createOrUpdate(new OrmDCSync(tableType.getId(), tableType.getDescription(), true));
             } catch (SQLException e) {
-                AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SQLITE_EXCEPTION,e.getMessage());
+                RALog.e( SQLITE_EXCEPTION,e.getMessage());
             }
         }
 
@@ -158,7 +159,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             try {
                 ormDCSyncDao.createOrUpdate(new OrmDCSync(type.getId(), type.getDescription(), true));
             } catch (SQLException e) {
-                AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SQLITE_EXCEPTION,e.getMessage());
+                RALog.e( SQLITE_EXCEPTION,e.getMessage());
             }
 
     }
@@ -178,7 +179,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             try {
                 settingDao = getDao(OrmSettings.class);
             } catch (SQLException e) {
-                AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
+                RALog.e( TAG,e.getMessage());
             }
         }
         return settingDao;
@@ -189,7 +190,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             try {
                 ormDCSyncDao = getDao(OrmDCSync.class);
             } catch (SQLException e) {
-                AppFrameworkApplication.loggingInterface.log(LoggingInterface.LogLevel.DEBUG, TAG,e.getMessage());
+                RALog.e( TAG,e.getMessage());
             }
         }
         return ormDCSyncDao;

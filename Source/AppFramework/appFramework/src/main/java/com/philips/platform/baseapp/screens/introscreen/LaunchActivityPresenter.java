@@ -6,7 +6,7 @@
 package com.philips.platform.baseapp.screens.introscreen;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
+
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
@@ -23,6 +23,7 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.splash.SplashState;
 import com.philips.platform.baseapp.screens.utility.Constants;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 /**
@@ -30,6 +31,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  * it takes care of scenarios in which we can complete onboarding or skip it for time being
  */
 public class LaunchActivityPresenter extends UIBasePresenter implements UIStateListener{
+    public static final String TAG =  LaunchActivityPresenter.class.getSimpleName();
 
     public static final int APP_LAUNCH_STATE = 890;
     private LaunchView launchView;
@@ -49,6 +51,8 @@ public class LaunchActivityPresenter extends UIBasePresenter implements UIStateL
      */
     @Override
     public void onEvent(int componentID) {
+        RALog.e(TAG, " onEvent called ");
+
         showActionBar();
         String event = getEvent(componentID);
         fragmentLauncher = getFragmentLauncher();
@@ -67,7 +71,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements UIStateL
             }
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {
-            Log.d(getClass() + "", e.getMessage());
+            RALog.e(TAG, e.getMessage());
             Toast.makeText(launchView.getFragmentActivity(), launchView.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
         }
     }
@@ -83,6 +87,7 @@ public class LaunchActivityPresenter extends UIBasePresenter implements UIStateL
 
     // TODO: Deepthi  can we make it abstract if its common
     protected String getEvent(final int componentID) {
+        RALog.e(TAG, " getEvent called ");
         switch (componentID) {
             case Constants.BACK_BUTTON_CLICK_CONSTANT:
                 return LAUNCH_BACK_PRESSED;

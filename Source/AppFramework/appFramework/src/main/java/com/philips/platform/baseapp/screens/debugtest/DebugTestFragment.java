@@ -7,12 +7,12 @@
 package com.philips.platform.baseapp.screens.debugtest;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,32 +21,41 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
+import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
+import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
-import com.philips.platform.baseapp.screens.utility.Constants;
+import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * This fragment if for internal testing of dynamic configuration change of User registration
- *
  */
 
 public class DebugTestFragment extends AppFrameworkBaseFragment {
     public static final String TAG = DebugTestFragment.class.getSimpleName();
-    private String configurationType[] = {Constants.STAGING, Constants.EVALUATION, Constants.TESTING, Constants.DEVELOPMENT, Constants.PRODUCTION};
+    private String configurationType[] =
+            {
+                    AppStateConfiguration.STAGING.getValue(),
+                    AppStateConfiguration.TEST.getValue(),
+                    AppStateConfiguration.DEVELOPMENT.getValue()
+            };
     private List<String> list = Arrays.asList(configurationType);
     private TextView configurationTextView;
     private Spinner spinner;
-    private SharedPreferences sharedPreferences;
     private Context context;
-    private TextView version;
     private UserRegistrationState userRegistrationState;
+    private static final String APPIDENTITY_APP_STATE = "appidentity.appState";
+    private final String AppInfra = "appinfra";
+    private String appState;
+
 
     @Override
     public String getActionbarTitle() {
@@ -56,7 +65,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppFrameworkBaseActivity)getActivity()).updateActionBarIcon(false);
+        ((AppFrameworkBaseActivity) getActivity()).updateActionBarIcon(false);
     }
 
     @Nullable
@@ -64,20 +73,23 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.af_debug_fragment, container, false);
         setUp(view);
+        startAppTagging();
         return view;
     }
 
-    private void setUp(final View view) {
-        context = getActivity();
+    protected void startAppTagging() {
+        AppFrameworkTagging.getInstance().trackPage(TAG);
+    }
 
-        sharedPreferences = context.getSharedPreferences(Constants.PRODUCT_REGISTRATION_PREFERENCES, Context.MODE_PRIVATE);
+    private void setUp(final View view) {
+        appState = ((AppFrameworkApplication) getActivity().getApplicationContext()).getAppState();
+        context = getActivity();
         initViews(view);
         setSpinnerAdaptor();
-        final int position = list.indexOf(sharedPreferences.getString(Constants.REGISTRATION_ENV_PREFERENCES, Constants.EVALUATION));
+        final int position = list.indexOf(appState);
         setSpinnerSelection(position);
         spinner.setOnItemSelectedListener(getSpinnerListener());
         configurationTextView.setTextColor(ContextCompat.getColor(context, R.color.uikit_white));
-
     }
 
     @NonNull
@@ -85,28 +97,33 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
         return new AdapterView.OnItemSelectedListener() {
 
             @Override
-            public void onItemSelected(AdapterView<?> adapter, View v,
-                                       int position, long id) {
-                final String configuration = adapter.getItemAtPosition(position).toString();
-                if (adapter != null && ((TextView) adapter.getChildAt(position)) != null) {
-                    ((TextView) adapter.getChildAt(position)).setTextColor(Color.WHITE);
-                }
-                int position1 = list.indexOf(sharedPreferences.getString(Constants.REGISTRATION_ENV_PREFERENCES, Constants.EVALUATION));
-                if (position1 != position) {
-                    userRegistrationState = new UserRegistrationSettingsState();
-                    userRegistrationState.getUserObject(context).logout(null);
-                    if (configuration.equalsIgnoreCase(Constants.DEVELOPMENT)) {
-                        initialiseUserRegistration(Constants.DEVELOPMENT);
-                    } else if (configuration.equalsIgnoreCase(Constants.TESTING)) {
-                        initialiseUserRegistration(Constants.TESTING);
-                    } else if (configuration.equalsIgnoreCase(Constants.EVALUATION)) {
-                        initialiseUserRegistration(Constants.EVALUATION);
-                    } else if (configuration.equalsIgnoreCase(Constants.STAGING)) {
-                        initialiseUserRegistration(Constants.STAGING);
-                    } else if (configuration.equalsIgnoreCase(Constants.PRODUCTION)) {
-                        initialiseUserRegistration(Constants.PRODUCTION);
-                    }
-                    configurationTextView.setText(configuration);
+            public void onItemSelected(final AdapterView<?> adapter, View v,
+                                       final int position, long id) {
+                final int appStatePosition = list.indexOf(appState);
+                if (appStatePosition != position) {
+
+                    new AlertDialog.Builder(context, R.style.alertDialogStyle)
+                            .setTitle(getString(R.string.RA_Change_Configuration))
+                            .setMessage(context.getResources().getString(R.string.RA_change_config_desc))
+
+                            .setPositiveButton(getString(R.string.RA_OK),
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            final String configuration = adapter.getItemAtPosition(position).toString();
+                                            userRegistrationState = new UserRegistrationSettingsState();
+                                            userRegistrationState.getUserObject(context).logout(null);
+                                            if (configuration.equalsIgnoreCase(AppStateConfiguration.DEVELOPMENT.getValue())) {
+                                                setState(AppStateConfiguration.DEVELOPMENT.getValue());
+                                            } else if (configuration.equalsIgnoreCase(AppStateConfiguration.TEST.getValue())) {
+                                                setState(AppStateConfiguration.TEST.getValue());
+                                            } else if (configuration.equalsIgnoreCase(AppStateConfiguration.STAGING.getValue())) {
+                                                setState(AppStateConfiguration.STAGING.getValue());
+                                            }
+                                            configurationTextView.setText(configuration);
+                                        }
+                                    })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
                 }
             }
 
@@ -134,15 +151,18 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
     }
 
     private void initViews(final View view) {
-        version = (TextView) view.findViewById(R.id.version);
-        version.setText(getResources().getString(R.string.RA_About_App_Version) + BuildConfig.VERSION_NAME);
         spinner = (Spinner) view.findViewById(R.id.spinner);
         configurationTextView = (TextView) view.findViewById(R.id.configuration);
     }
 
-    private void initialiseUserRegistration(final String development) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(Constants.PRODUCT_REGISTRATION_PREFERENCES, development);
-        editor.commit();
+    private void setState(final String state) {
+        AppInfraInterface appInfra = ((AppFrameworkApplication) getActivity().getApplicationContext()).getAppInfra();
+        AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
+
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+
+        appConfigurationInterface.setPropertyForKey(APPIDENTITY_APP_STATE,
+                AppInfra, state, configError);
     }
 }

@@ -23,7 +23,7 @@ import org.robolectric.annotation.Config;
 import static junit.framework.Assert.assertNotNull;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 24)
+@Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 public class SplashFragmentTest {
     private LaunchActivityMock launchActivity;
     private SplashFragment splashFragment;

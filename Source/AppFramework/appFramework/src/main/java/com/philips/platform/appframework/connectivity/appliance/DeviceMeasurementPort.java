@@ -5,7 +5,6 @@
 */
 package com.philips.platform.appframework.connectivity.appliance;
 
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,6 +12,7 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 public class DeviceMeasurementPort extends DICommPort<DeviceMeasurementPortProperties> {
     private static final String TAG = "DeviceMeasurementPort";
@@ -55,6 +55,7 @@ public class DeviceMeasurementPort extends DICommPort<DeviceMeasurementPortPrope
 
     private DeviceMeasurementPortProperties parseResponse(String response) {
         if (response == null || response.isEmpty()) {
+            RALog.e(TAG," DeviceMeasurementPortProperties response if null ");
             return null;
         }
         Gson gson = new GsonBuilder().create();
@@ -62,7 +63,7 @@ public class DeviceMeasurementPort extends DICommPort<DeviceMeasurementPortPrope
         try {
             deviceMeasurementPortProperties = gson.fromJson(response, DeviceMeasurementPortProperties.class);
         } catch (JsonSyntaxException | JsonIOException e) {
-            Log.e(TAG, e.getMessage());
+            RALog.e(TAG, e.getMessage());
         }
 
         return deviceMeasurementPortProperties;

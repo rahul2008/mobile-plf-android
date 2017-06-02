@@ -5,7 +5,7 @@
 */
 package com.philips.platform.baseapp.screens.splash;
 
-import android.util.Log;
+
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
@@ -22,6 +22,7 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.introscreen.LaunchView;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 /**
@@ -29,6 +30,8 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  * The wait timer for splash screen is 3 secs ( configurable by verticals)
  */
 public class SplashPresenter extends UIBasePresenter implements UIStateListener {
+    public static final String TAG = SplashPresenter.class.getSimpleName();
+
     private final LaunchView uiView;
     private String APP_START = "onSplashTimeOut";
     private BaseState baseState;
@@ -46,6 +49,7 @@ public class SplashPresenter extends UIBasePresenter implements UIStateListener 
      */
     @Override
     public void onEvent(int componentID) {
+        RALog.d(TAG,"onEvent called ");
         try {
             final BaseState splashState = getTargetFlowManager().getState(AppStates.SPLASH);
             baseState = getTargetFlowManager().getNextState(splashState, APP_START);
@@ -60,7 +64,7 @@ public class SplashPresenter extends UIBasePresenter implements UIStateListener 
             }
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {
-            Log.d(getClass() + "", e.getMessage());
+            RALog.d(TAG, e.getMessage());
             Toast.makeText(uiView.getFragmentActivity(), uiView.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
         }
     }
@@ -69,7 +73,7 @@ public class SplashPresenter extends UIBasePresenter implements UIStateListener 
         return getApplicationContext().getTargetFlowManager();
     }
 
-    protected FragmentLauncher getFragmentLauncher() {
+    public FragmentLauncher getFragmentLauncher() {
         return new FragmentLauncher(uiView.getFragmentActivity(), uiView.getContainerId(), uiView.getActionBarListener());
     }
     protected AppFrameworkApplication getApplicationContext() {

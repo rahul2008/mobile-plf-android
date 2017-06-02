@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,10 +26,11 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoStateException
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.base.OnboardingBaseFragment;
 import com.philips.platform.baseapp.base.UIBasePresenter;
-import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 import com.philips.platform.baseapp.screens.introscreen.pager.WelcomePagerAdapter;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.shamanland.fonticon.FontIconView;
 
@@ -40,11 +40,10 @@ import com.shamanland.fonticon.FontIconView;
  * <p/>
  * <b>To use the Introduction screen flow, start the mActivity with IntroudctionScreenActivity as the Intent</b><br>
  * <pre>&lt;To make the start , skip ,left and right button visibility in each screen, please use the onPageSelected
- *
  */
 public class WelcomeFragment extends OnboardingBaseFragment implements View.OnClickListener, WelcomeFragmentView, BackEventListener {
 
-    public static String TAG = LaunchActivity.class.getSimpleName();
+    public static String TAG = WelcomeFragment.class.getSimpleName();
 
     private FontIconView leftArrow;
     private FontIconView rightArrow;
@@ -55,6 +54,7 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
     private ViewPager pager;
 
     public void onBackPressed() {
+        RALog.d(TAG, " On Back Pressed");
         if (pager.getCurrentItem() == 0) {
             AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) getFragmentActivity().getApplication();
             try {
@@ -64,7 +64,7 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
                 getActivity().finishAffinity();
             } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                     e) {
-                Log.d(getClass() + "", e.getMessage());
+                RALog.d(TAG, e.getMessage());
                 Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
             }
         } else {
@@ -140,11 +140,17 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
                 pager.arrowScroll(View.FOCUS_LEFT);
             }
         });
+        startAppTagging();
         return view;
     }
 
+    protected void startAppTagging() {
+        AppFrameworkTagging.getInstance().trackPage(TAG);
+    }
+
     protected void startLogging() {
-        ((AppFrameworkApplication)getFragmentActivity().getApplicationContext()).getLoggingInterface().log(LoggingInterface.LogLevel.INFO, TAG,
+        RALog.d(TAG, " start Logging ");
+        ((AppFrameworkApplication) getFragmentActivity().getApplicationContext()).getLoggingInterface().log(LoggingInterface.LogLevel.INFO, TAG,
                 " IntroductionScreen Activity Created ");
     }
 

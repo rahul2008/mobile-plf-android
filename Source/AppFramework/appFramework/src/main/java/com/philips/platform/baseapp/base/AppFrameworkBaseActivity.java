@@ -16,6 +16,7 @@ import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragment;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -25,6 +26,8 @@ import java.util.List;
  * AppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
  */
 public abstract class AppFrameworkBaseActivity extends UiKitActivity implements ActionBarListener {
+    private static final String TAG = AppFrameworkBaseActivity.class.getName();
+
     public UIBasePresenter presenter;
     //  private int cartItemCount = 0;
     int containerId;
@@ -33,12 +36,13 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
     public abstract int getContainerId();
 
     public void handleFragmentBackStack(Fragment fragment, String fragmentTag, int fragmentAddState) {
+        RALog.d(TAG," handleFragmentBackStack called");
         containerId = getContainerId();
         try {
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             switch (fragmentAddState) {
                 case Constants.ADD_HOME_FRAGMENT:
-
+                    RALog.d(TAG," Added as ADD_HOME_FRAGMENT");
                     if (null == getSupportFragmentManager().findFragmentByTag(HomeFragment.TAG)) {
                         addToBackStack(containerId, fragment, fragmentTag);
                     } else {
@@ -47,6 +51,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
 
                     break;
                 case Constants.ADD_FROM_HAMBURGER:
+                    RALog.d(TAG," Added as ADD_FROM_HAMBURGER");
 
                     getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     addToBackStack(containerId, new HomeFragment(), HomeFragment.TAG);
@@ -55,6 +60,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
 
                     break;
                 case Constants.CLEAR_TILL_HOME:
+                    RALog.d(TAG," Added as CLEAR_TILL_HOME");
 
                     getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     addToBackStack(containerId, new HomeFragment(), HomeFragment.TAG);
@@ -62,11 +68,13 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
                     break;
             }
         } catch (Exception e) {
-
+            RALog.e(TAG,e.getMessage());
         }
     }
 
     public void addFragment(Fragment fragment, String fragmentTag) {
+        RALog.d(TAG," addFragment called");
+
         containerId = getContainerId();
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(containerId, fragment, fragmentTag);
@@ -75,6 +83,8 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
     }
 
     private void addToBackStack(int containerID, Fragment fragment, String fragmentTag) {
+        RALog.d(TAG," addToBackStack called");
+
         fragmentTransaction.replace(containerID, fragment, fragmentTag);
         fragmentTransaction.addToBackStack(fragmentTag);
         fragmentTransaction.commit();
@@ -106,8 +116,21 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
 
     @Override
     protected void onResume() {
+
         super.onResume();
+        RALog.d(TAG," onResume called");
+
+        if (((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
+            startCollectingLifecycleData();
+            startPushNotificationFlow();
+        }
+    }
+
+    public void startCollectingLifecycleData() {
         AppFrameworkTagging.getInstance().collectLifecycleData(this);
+    }
+
+    public void startPushNotificationFlow() {
         if (!BaseAppUtil.isDSPollingEnabled(this)) {
             BaseFlowManager baseFlowManager = ((AppFrameworkApplication) getApplicationContext()).getTargetFlowManager();
             if (baseFlowManager != null) {
@@ -117,12 +140,12 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
                 }
             }
         }
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        RALog.d(TAG," onPause called");
         AppFrameworkTagging.getInstance().pauseCollectingLifecycleData();
     }
 

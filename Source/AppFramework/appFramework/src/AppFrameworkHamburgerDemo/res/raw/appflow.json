@@ -150,11 +150,29 @@
             ]
           },
           {
+            "eventId": "testmicroapp",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "testmicroapp"
+              }
+            ]
+          },
+          {
             "eventId": "coco_version_info",
             "nextStates": [
               {
                 "condition": [],
                 "nextState": "coco_version_info"
+              }
+            ]
+          },
+          {
+            "eventId": "debug",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "debug"
               }
             ]
           }

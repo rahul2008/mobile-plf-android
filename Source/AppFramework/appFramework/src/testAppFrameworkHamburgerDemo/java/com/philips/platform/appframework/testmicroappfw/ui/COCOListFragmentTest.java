@@ -29,7 +29,7 @@ import org.robolectric.annotation.Config;
 import java.util.ArrayList;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 24)
+@Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 public class COCOListFragmentTest extends TestCase {
     private HamburgerActivity hamburgerActivity = null;
     private COCOListFragmentMock cocoListFragment;

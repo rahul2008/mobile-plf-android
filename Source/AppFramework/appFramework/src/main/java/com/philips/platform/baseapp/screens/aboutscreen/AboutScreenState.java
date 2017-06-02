@@ -10,6 +10,7 @@ import android.content.Context;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
@@ -17,6 +18,7 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
  * This class has UI extended from UIKIT about screen , It shows the current version of the app
  */
 public class AboutScreenState extends BaseState {
+    public static final String TAG =AboutScreenState.class.getSimpleName();
 
     FragmentLauncher fragmentLauncher;
 
@@ -30,6 +32,7 @@ public class AboutScreenState extends BaseState {
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
+        RALog.d(TAG, " navigate called ");
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         ((AppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).
                 handleFragmentBackStack( new AboutScreenFragment(), AboutScreenFragment.TAG,getUiStateData().getFragmentLaunchState());
