@@ -1,29 +1,15 @@
 package com.philips.productselection;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.philips.cdp.localematch.enums.Catalog;
-import com.philips.cdp.localematch.enums.Sector;
-import com.philips.cdp.productselection.ProductModelSelectionHelper;
-import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.fragments.detailedscreen.NavigationFragment;
 import com.philips.cdp.productselection.fragments.detailedscreen.adapter.ProductAdapter;
-import com.philips.cdp.productselection.launchertype.ActivityLauncher;
-import com.philips.cdp.productselection.listeners.ProductSelectionListener;
-import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
-import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
-import com.philips.cdp.productselection.utils.ProductSelectionLogger;
-import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
-import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 
 import org.json.JSONException;

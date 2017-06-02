@@ -111,6 +111,7 @@ android {
         versionName "1.0.4"
         multiDexEnabled true
 
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
 
     lintOptions {
@@ -137,4 +138,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.0.0'
     compile(group: 'com.philips.cdp', name: 'Tagging', version: '3.0.0', ext: 'aar')
    // compile 'adobeMobileLibrary:adobeMobileLibrary:4.5.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 }
