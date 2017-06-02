@@ -773,8 +773,8 @@ public class DataServicesManager {
         mServiceDiscoveryInterface = mAppInfraInterface.getServiceDiscovery();
         mAppConfigurationError = new AppConfigurationInterface.AppConfigurationError();
 
-        fetchBaseUrlFromServiceDiscovery();
-        fetchCoachingServiceUrlFromServiceDiscovery();
+        //fetchBaseUrlFromServiceDiscovery();
+        //fetchCoachingServiceUrlFromServiceDiscovery();
     }
 
     /**
