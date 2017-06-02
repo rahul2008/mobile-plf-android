@@ -3,8 +3,8 @@
  * All rights reserved.
  */
 buildscript { bs ->
-    apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
-    apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
+    apply from: projectDir.absolutePath + '/../../common/gradle/project-build.gradle', to: bs
+    apply from: projectDir.absolutePath + '/../../common/gradle/module.gradle'
     repositories {
         maven { url repos.jcenter }
         maven { url repos.plugin }
@@ -22,7 +22,7 @@ apply plugin: 'jacoco'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
-apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
+apply from: projectDir.absolutePath + '/../../common/gradle/module-tasks.gradle'
 
 def environment = 'production'
 if (project.hasProperty('envCode')) {

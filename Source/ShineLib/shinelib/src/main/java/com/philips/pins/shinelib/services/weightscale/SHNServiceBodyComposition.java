@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 
@@ -13,6 +13,7 @@ import com.philips.pins.shinelib.SHNObjectResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
+import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
 import com.philips.pins.shinelib.framework.SHNFactory;
 import com.philips.pins.shinelib.utility.SHNLogger;
@@ -56,14 +57,14 @@ public class SHNServiceBodyComposition implements SHNService.SHNServiceListener,
 
     private SHNService shnService;
 
-    private static Set<UUID> getRequiredCharacteristics() {
-        Set<UUID> requiredCharacteristicUUIDs = new HashSet<>();
-        requiredCharacteristicUUIDs.add(BODY_COMPOSITION_FEATURES_CHARACTERISTIC_UUID);
-        requiredCharacteristicUUIDs.add(BODY_COMPOSITION_MEASUREMENT_CHARACTERISTIC_UUID);
+    private static Set<SHNCharacteristicInfo> getRequiredCharacteristics() {
+        Set<SHNCharacteristicInfo> requiredCharacteristicUUIDs = new HashSet<>();
+        requiredCharacteristicUUIDs.add(new SHNCharacteristicInfo(BODY_COMPOSITION_FEATURES_CHARACTERISTIC_UUID, true));
+        requiredCharacteristicUUIDs.add(new SHNCharacteristicInfo(BODY_COMPOSITION_MEASUREMENT_CHARACTERISTIC_UUID, true));
         return requiredCharacteristicUUIDs;
     }
 
-    private static Set<UUID> getOptionalCharacteristics() {
+    private static Set<SHNCharacteristicInfo> getOptionalCharacteristics() {
         return new HashSet<>();
     }
 

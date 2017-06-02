@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 
@@ -14,6 +14,7 @@ import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.SHNTemperatureMeasurementIntervalResultListener;
 import com.philips.pins.shinelib.SHNTemperatureMeasurementResultListener;
+import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
 import com.philips.pins.shinelib.framework.SHNFactory;
 
@@ -54,20 +55,20 @@ public class SHNServiceHealthThermometer implements SHNService.SHNServiceListene
         shnService.registerSHNServiceListener(this);
     }
 
-    private static Set<UUID> getRequiredCharacteristics() {
-        Set<UUID> requiredCharacteristicUUIDs = new HashSet<>();
+    private static Set<SHNCharacteristicInfo> getRequiredCharacteristics() {
+        Set<SHNCharacteristicInfo> requiredCharacteristicUUIDs = new HashSet<>();
 
-        requiredCharacteristicUUIDs.add(CHARACTERISTIC_TEMPERATURE_MEASUREMENT_UUID);
+        requiredCharacteristicUUIDs.add(new SHNCharacteristicInfo(CHARACTERISTIC_TEMPERATURE_MEASUREMENT_UUID, true));
 
         return requiredCharacteristicUUIDs;
     }
 
-    private static Set<UUID> getOptionalCharacteristics() {
-        Set<UUID> optionalCharacteristicUUIDs = new HashSet<>();
+    private static Set<SHNCharacteristicInfo> getOptionalCharacteristics() {
+        Set<SHNCharacteristicInfo> optionalCharacteristicUUIDs = new HashSet<>();
 
-        optionalCharacteristicUUIDs.add(CHARACTERISTIC_TEMPERATURE_TYPE_UUID);
-        optionalCharacteristicUUIDs.add(CHARACTERISTIC_INTERMEDIATE_TEMPERATURE_UUID);
-        optionalCharacteristicUUIDs.add(CHARACTERISTIC_MEASUREMENT_INTERVAL_UUID);
+        optionalCharacteristicUUIDs.add(new SHNCharacteristicInfo(CHARACTERISTIC_TEMPERATURE_TYPE_UUID, true));
+        optionalCharacteristicUUIDs.add(new SHNCharacteristicInfo(CHARACTERISTIC_INTERMEDIATE_TEMPERATURE_UUID, true));
+        optionalCharacteristicUUIDs.add(new SHNCharacteristicInfo(CHARACTERISTIC_MEASUREMENT_INTERVAL_UUID, true));
 
         return optionalCharacteristicUUIDs;
     }

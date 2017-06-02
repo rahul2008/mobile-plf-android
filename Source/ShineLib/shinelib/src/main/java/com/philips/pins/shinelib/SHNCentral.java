@@ -255,11 +255,11 @@ public class SHNCentral {
         return new DataMigrater();
     }
 
-    /* package */ void registerBondStatusListenerForAddress(SHNBondStatusListener shnBondStatusListener, String address) {
+    public void registerBondStatusListenerForAddress(SHNBondStatusListener shnBondStatusListener, String address) {
         shnBondStatusListeners.put(address, new WeakReference<>(shnBondStatusListener));
     }
 
-    /* package */ void unregisterBondStatusListenerForAddress(SHNBondStatusListener shnBondStatusListener, String address) {
+    public void unregisterBondStatusListenerForAddress(SHNBondStatusListener shnBondStatusListener, String address) {
         shnBondStatusListeners.remove(address);
     }
 
@@ -368,7 +368,7 @@ public class SHNCentral {
         dataMigrater.execute(context, createPersistentStorageFactory(sharedPreferencesProvider));
     }
 
-    /* package */ interface SHNBondStatusListener {
+    public interface SHNBondStatusListener {
         void onBondStatusChanged(BluetoothDevice device, int bondState, int previousBondState);
     }
 

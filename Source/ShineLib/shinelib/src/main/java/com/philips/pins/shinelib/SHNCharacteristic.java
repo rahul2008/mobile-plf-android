@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 
@@ -11,6 +11,7 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
+import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.LinkedList;
@@ -21,7 +22,7 @@ public class SHNCharacteristic {
     private static final String TAG = SHNCharacteristic.class.getSimpleName();
     private static final boolean ENABLE_DEBUG_LOGGING = false;
     private static final UUID CLIENT_CHARACTERISTIC_CONFIG_UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
-    private final UUID uuid;
+    private SHNCharacteristicInfo characteristicInfo;
     private BluetoothGattCharacteristic bluetoothGattCharacteristic;
     private BTGatt btGatt;
     private State state;
@@ -34,11 +35,11 @@ public class SHNCharacteristic {
 
     public enum State {Inactive, Active}
 
-    public SHNCharacteristic(UUID characteristicUUID) {
-        this.uuid = characteristicUUID;
+    public SHNCharacteristic(@NonNull final SHNCharacteristicInfo characteristicInfo) {
+        this.characteristicInfo = characteristicInfo;
         this.state = State.Inactive;
         this.pendingCompletions = new LinkedList<>();
-        DebugLog("created: " + uuid);
+        DebugLog("created: " + characteristicInfo.getUUID());
     }
 
     public State getState() {
@@ -46,18 +47,22 @@ public class SHNCharacteristic {
     }
 
     public UUID getUuid() {
-        return uuid;
+        return characteristicInfo.getUUID();
+    }
+
+    public boolean isEncrypted() {
+        return characteristicInfo.isEncrypted();
     }
 
     public void connectToBLELayer(BTGatt btGatt, BluetoothGattCharacteristic bluetoothGattCharacteristic) {
-        DebugLog("connectToBLELayer: " + uuid);
+        DebugLog("connectToBLELayer: " + characteristicInfo.getUUID());
         this.btGatt = btGatt;
         this.bluetoothGattCharacteristic = bluetoothGattCharacteristic;
         state = State.Active;
     }
 
     public void disconnectFromBLELayer() {
-        DebugLog("disconnectFromBLELayer: " + uuid);
+        DebugLog("disconnectFromBLELayer: " + characteristicInfo.getUUID());
         bluetoothGattCharacteristic = null;
         btGatt = null;
         state = State.Inactive;
@@ -76,9 +81,9 @@ public class SHNCharacteristic {
     public void write(byte[] data, SHNCommandResultReporter resultReporter) {
         if (state == State.Active) {
             pendingCompletions.add(resultReporter);
-            btGatt.writeCharacteristic(bluetoothGattCharacteristic, data);
+            btGatt.writeCharacteristic(bluetoothGattCharacteristic, characteristicInfo.isEncrypted(), data);
         } else {
-            SHNLogger.w(TAG, "Error write; characteristic not active: " + uuid);
+            SHNLogger.w(TAG, "Error write; characteristic not active: " + characteristicInfo.getUUID());
             if (resultReporter != null) {
                 resultReporter.reportResult(SHNResult.SHNErrorInvalidState, null);
             }
@@ -88,9 +93,9 @@ public class SHNCharacteristic {
     public void read(@NonNull final SHNCommandResultReporter resultReporter) {
         if (state == State.Active) {
             pendingCompletions.add(resultReporter);
-            btGatt.readCharacteristic(bluetoothGattCharacteristic);
+            btGatt.readCharacteristic(bluetoothGattCharacteristic, characteristicInfo.isEncrypted());
         } else {
-            SHNLogger.w(TAG, "Error read; characteristic not active: " + uuid);
+            SHNLogger.w(TAG, "Error read; characteristic not active: " + characteristicInfo.getUUID());
             if (resultReporter != null) {
                 resultReporter.reportResult(SHNResult.SHNErrorInvalidState, null);
             }
