@@ -1,7 +1,8 @@
 /*
- * (C) Koninklijke Philips N.V., 2015, 2016.
+ * (C) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.cdp.dicommclientsample.airpurifier;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -10,7 +11,7 @@ import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 public abstract class AirPurifier extends Appliance {
 
-    public static final String MODELNAME = "AirPurifier";
+    public static final String DEVICETYPE = "AirPurifier";
     AirPort<?> airPort;
 
     public AirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
@@ -19,7 +20,7 @@ public abstract class AirPurifier extends Appliance {
 
     @Override
     public String getDeviceType() {
-        return MODELNAME;
+        return DEVICETYPE;
     }
 
     public AirPort<?> getAirPort() {

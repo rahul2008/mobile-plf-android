@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * (C) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -325,7 +325,7 @@ public class DiscoveryManager<T extends Appliance> {
 
         NetworkNode networkNode = createNetworkNode(deviceModel);
         if (networkNode == null) return false;
-        DICommLog.i(DICommLog.SSDP, "Discovered appliance - name: " + networkNode.getName() + "   modelname: " + networkNode.getModelName());
+        DICommLog.i(DICommLog.SSDP, "Discovered appliance - name: " + networkNode.getName() + "   devicetype: " + networkNode.getDeviceType());
         if (mAllAppliancesMap.containsKey(networkNode.getCppId())) {
             updateExistingAppliance(networkNode);
         } else {
@@ -651,7 +651,7 @@ public class DiscoveryManager<T extends Appliance> {
         networkNode.setIpAddress(ipAddress);
         networkNode.setName(name);
         networkNode.setModelId(modelNumber);
-        networkNode.setModelName(modelName);
+        networkNode.setDeviceType(modelName);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
         networkNode.setHomeSsid(networkSsid);
 
@@ -673,8 +673,8 @@ public class DiscoveryManager<T extends Appliance> {
             DICommLog.d(DICommLog.DISCOVERY, "Not a valid networkNode - name is null");
             return false;
         }
-        if (networkNode.getModelName() == null || networkNode.getModelName().isEmpty()) {
-            DICommLog.d(DICommLog.DISCOVERY, "Not a valid networkNode - modelName is null");
+        if (networkNode.getDeviceType() == null || networkNode.getDeviceType().isEmpty()) {
+            DICommLog.d(DICommLog.DISCOVERY, "Not a valid networkNode - devicetype is null");
             return false;
         }
         return true;

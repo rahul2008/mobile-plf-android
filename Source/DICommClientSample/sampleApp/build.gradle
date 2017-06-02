@@ -1,7 +1,8 @@
 /*
- * (c) Koninklijke Philips N.V., 2017.
- *     All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
+
 buildscript { bs ->
     apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
     apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
@@ -124,4 +125,6 @@ dependencies {
     }
 
     compile deps.support.appcompatv7
+    compile deps.support.design
+    compile deps.joda_time
 }

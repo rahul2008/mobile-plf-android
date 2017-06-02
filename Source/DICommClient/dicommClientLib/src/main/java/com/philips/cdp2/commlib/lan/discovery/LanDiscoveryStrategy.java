@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, 2017 Koninklijke Philips N.V.
+ * (C) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp2.commlib.lan.discovery;
@@ -96,7 +96,7 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
             return;
         }
 
-        DICommLog.i(DICommLog.SSDP, "Discovered appliance - name: " + networkNode.getName() + ", modelname: " + networkNode.getModelName());
+        DICommLog.i(DICommLog.SSDP, "Discovered appliance - name: " + networkNode.getName() + ", deviceType: " + networkNode.getDeviceType());
 
         if (this.networkNodeCache.containsKey(networkNode.getCppId())) {
             notifyNetworkNodeUpdated(networkNode);
@@ -261,7 +261,7 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         networkNode.setIpAddress(ipAddress);
         networkNode.setName(name);
         networkNode.setModelId(modelNumber);
-        networkNode.setModelName(modelName);
+        networkNode.setDeviceType(modelName);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
         networkNode.setHomeSsid(networkSsid);
 
@@ -284,8 +284,8 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
             DICommLog.d(DICommLog.DISCOVERY, "Not a valid networkNode - name is null");
             return false;
         }
-        if (networkNode.getModelName() == null || networkNode.getModelName().isEmpty()) {
-            DICommLog.d(DICommLog.DISCOVERY, "Not a valid networkNode - modelName is null");
+        if (networkNode.getDeviceType() == null || networkNode.getDeviceType().isEmpty()) {
+            DICommLog.d(DICommLog.DISCOVERY, "Not a valid networkNode - deviceType is null");
             return false;
         }
         return true;
