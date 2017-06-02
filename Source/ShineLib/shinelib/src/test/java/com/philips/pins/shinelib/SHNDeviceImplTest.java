@@ -780,7 +780,7 @@ public class SHNDeviceImplTest {
     }
 
     @Test
-    public void whenBondingShineLibSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting() {
+    public void whenBondingAppSHNDeviceInStateConnectingGATTCallbackIndicatedConnectedThenStateIsConnecting() {
         shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE, SHNDeviceImpl.SHNBondInitiator.APP);
         shnDevice.registerSHNDeviceListener(mockedSHNDeviceListener);
 

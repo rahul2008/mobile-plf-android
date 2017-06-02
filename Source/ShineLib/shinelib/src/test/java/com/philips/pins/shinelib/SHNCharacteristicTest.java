@@ -120,9 +120,32 @@ public class SHNCharacteristicTest {
     }
 
     @Test
+    public void whenWriteIsCalledAndCharacteristicIsEncryptedThenWriteCharacteristicOnBTGattIsCalledWithEncryption() {
+        byte[] data = new byte[]{'d', 'a', 't', 'a'};
+
+        shnCharacteristic = new SHNCharacteristic(new SHNCharacteristicInfo(characteristicUUID, true));
+        shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
+
+        shnCharacteristic.write(data, null);
+        verify(mockedBTGatt).writeCharacteristic(mockedBluetoothGattCharacteristic, true, data);
+    }
+
+    @Test
+    public void whenWriteIsCalledAndCharacteristicIsUnencryptedThenWriteCharacteristicOnBTGattIsCalledWithoutEncryption() {
+        byte[] data = new byte[]{'d', 'a', 't', 'a'};
+
+        shnCharacteristic = new SHNCharacteristic(new SHNCharacteristicInfo(characteristicUUID, false));
+        shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
+
+        shnCharacteristic.write(data, null);
+        verify(mockedBTGatt).writeCharacteristic(mockedBluetoothGattCharacteristic, false, data);
+    }
+
+    @Test
     public void whenWriteIsCalledThenWriteCharacteristicOnBTGattIsCalled() {
         byte[] data = new byte[]{'d', 'a', 't', 'a'};
 
+        shnCharacteristic = new SHNCharacteristic(new SHNCharacteristicInfo(characteristicUUID, true));
         shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
 
         shnCharacteristic.write(data, null);
@@ -130,10 +153,19 @@ public class SHNCharacteristicTest {
     }
 
     @Test
-    public void whenReadIsCalledThenReadCharacteristicOnBTGattIsCalled() {
+    public void whenReadIsCalledAndCharacteristicIsEncryptedThenReadCharacteristicOnBTGattIsCalledWithEncryption() {
+        shnCharacteristic = new SHNCharacteristic(new SHNCharacteristicInfo(characteristicUUID, true));
         shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
         shnCharacteristic.read(resultReporterMock);
-        verify(mockedBTGatt).readCharacteristic(mockedBluetoothGattCharacteristic, shnCharacteristic.isEncrypted());
+        verify(mockedBTGatt).readCharacteristic(mockedBluetoothGattCharacteristic, true);
+    }
+
+    @Test
+    public void whenReadIsCalledAndCharacteristicIsUnencryptedThenReadCharacteristicOnBTGattIsCalledWithoutEncryption() {
+        shnCharacteristic = new SHNCharacteristic(new SHNCharacteristicInfo(characteristicUUID, false));
+        shnCharacteristic.connectToBLELayer(mockedBTGatt, mockedBluetoothGattCharacteristic);
+        shnCharacteristic.read(resultReporterMock);
+        verify(mockedBTGatt).readCharacteristic(mockedBluetoothGattCharacteristic, false);
     }
 
     @Test

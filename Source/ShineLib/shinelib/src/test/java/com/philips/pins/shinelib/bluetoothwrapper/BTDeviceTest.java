@@ -18,6 +18,8 @@ import org.robolectric.RuntimeEnvironment;
 import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -89,6 +91,7 @@ public class BTDeviceTest {
     public void whenBluetoothDeviceCreateBondIsCalledWhenBondAlreadyExistsThenReturnFalse() {
         when(bluetoothDevice.getBondState()).thenReturn(BluetoothDevice.BOND_BONDED);
 
+        verify(bluetoothDevice, never()).createBond();
         assertEquals(btDevice.createBond(), false);
     }
 }
