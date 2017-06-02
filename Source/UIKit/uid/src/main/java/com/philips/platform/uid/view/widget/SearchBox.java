@@ -32,10 +32,10 @@ import com.philips.platform.uid.R;
 
 public class SearchBox extends LinearLayout {
 
-    public ImageView mBackButton;
-    public ImageView mCloseButton;
-    public ImageView mSearchIconHolder;
-    public AppCompatAutoCompleteTextView searchTextView;
+    private ImageView mBackButton;
+    private ImageView mCloseButton;
+    private ImageView mSearchIconHolder;
+    private AppCompatAutoCompleteTextView searchTextView;
 
 
     private boolean isSearchIconified = true;
@@ -44,6 +44,8 @@ public class SearchBox extends LinearLayout {
     private FilterQueryChangedListener filterQueryChangedListener;
     private Filter searchFilter;
     private QuerySubmitListener querySubmitListener;
+    private CharSequence query;
+
 
     public interface ExpandListener {
         void onSearchExpanded();
@@ -91,7 +93,7 @@ public class SearchBox extends LinearLayout {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    if(querySubmitListener!=null){
+                    if (querySubmitListener != null) {
                         querySubmitListener.onQuerySubmit(searchTextView.getText());
                     }
                     return true;
@@ -175,7 +177,7 @@ public class SearchBox extends LinearLayout {
             searchFilter = adapter.getFilter();
             Editable text = searchTextView.getText();
             filterQueryChangedListener = adapter;
-            if(!TextUtils.isEmpty(text)) {
+            if (!TextUtils.isEmpty(text)) {
                 searchFilter.filter(text);
                 filterQueryChangedListener.onQueryTextChanged(text);
             }
@@ -219,7 +221,7 @@ public class SearchBox extends LinearLayout {
         mBackButton.setVisibility(visibility);
         updateCloseButton();
         searchTextView.setVisibility(visibility);
-        if(visibility == View.VISIBLE) {
+        if (visibility == View.VISIBLE) {
             searchTextView.requestFocus();
         }
         searchTextView.requestFocus();
@@ -230,6 +232,13 @@ public class SearchBox extends LinearLayout {
         return isSearchIconified;
     }
 
+    public void setQuery(CharSequence query) {
+        this.query = query;
+    }
+
+    public CharSequence getQuery() {
+        return query;
+    }
 
     @Override
     public Parcelable onSaveInstanceState() {
