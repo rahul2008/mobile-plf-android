@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * (C) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -34,7 +34,7 @@ public class NetworkNode extends Observable implements Parcelable {
     private ConnectionState mConnectionState;
 
     private String mName;
-    private String mModelName;
+    private String mDeviceType;
     private String mModelId;
     private String mHomeSsid;
     private long mBootId;
@@ -92,26 +92,26 @@ public class NetworkNode extends Observable implements Parcelable {
     }
 
     /**
-     * The modelname defines the category of the product (e.g. AirPurifier)
-     * Different products can have the same modelname, but their modeltype
+     * The device type defines the category of the product (e.g. AirPurifier)
+     * Different products can have the same device type, but their model id
      * will be different.
      *
-     * @return model name
+     * @return device type
      */
-    public synchronized String getModelName() {
-        return mModelName;
+    public synchronized String getDeviceType() {
+        return mDeviceType;
     }
 
-    public synchronized void setModelName(String modelName) {
-        this.mModelName = modelName;
+    public synchronized void setDeviceType(String deviceType) {
+        this.mDeviceType = deviceType;
     }
 
     /**
-     * The modeltype defines one particular type of product (e.g. AC7342).
-     * Different products will have a different modeltype, but their
-     * modelname can be the same.
+     * The model id defines one particular type of product (e.g. AC7342).
+     * Different products will have a different model id, but their
+     * device type can be the same.
      *
-     * @return model type
+     * @return model id
      */
     public synchronized String getModelId() {
         return mModelId;
@@ -193,7 +193,7 @@ public class NetworkNode extends Observable implements Parcelable {
         mCppId = in.readString();
         mConnectionState = ConnectionState.values()[in.readInt()];
         mName = in.readString();
-        mModelName = in.readString();
+        mDeviceType = in.readString();
         mModelId = in.readString();
         mHomeSsid = in.readString();
         mBootId = in.readLong();
@@ -213,7 +213,7 @@ public class NetworkNode extends Observable implements Parcelable {
         dest.writeString(mCppId);
         dest.writeInt(mConnectionState.ordinal());
         dest.writeString(mName);
-        dest.writeString(mModelName);
+        dest.writeString(mDeviceType);
         dest.writeString(mModelId);
         dest.writeString(mHomeSsid);
         dest.writeLong(mBootId);
@@ -245,7 +245,7 @@ public class NetworkNode extends Observable implements Parcelable {
         StringBuilder builder = new StringBuilder();
         builder.append("name: ").append(getName()).append("   ipAddress: ").append(getIpAddress())
                 .append("   cppId: ").append(getCppId()).append("   bootId: ").append(getBootId())
-                .append("   modelName: ").append(getModelName()).append("   modelId: ").append(getModelId())
+                .append("   deviceType: ").append(getDeviceType()).append("   modelId: ").append(getModelId())
                 .append("   paired: ").append(getPairedState())
                 .append("   connectedState: ").append(getConnectionState()).append("   HomeSsid: ")
                 .append(getHomeSsid());
