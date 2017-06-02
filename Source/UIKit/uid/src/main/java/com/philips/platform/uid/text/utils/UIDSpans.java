@@ -28,16 +28,16 @@ public class UIDSpans {
      * @param subString  which needs to be looked in primary string.
      * @return SpannableString if given string contains the substring. Else returns the same string.
      */
-    public static CharSequence boldSubString(boolean ignoreCase, Context context, String string, String subString) {
+    public static CharSequence boldSubString(boolean ignoreCase, Context context, final CharSequence string, final CharSequence subString) {
         if (TextUtils.isEmpty(string) || TextUtils.isEmpty(subString)) {
             return string;
         }
 
-        int subStringIndex = UIDStringUtils.containsSubString(ignoreCase, string, subString);
+        int subStringIndex = UIDStringUtils.indexOfSubString(ignoreCase, string, subString);
         if (subStringIndex >= 0) {
             CalligraphyTypefaceSpan span = new CalligraphyTypefaceSpan(getTypefaceFromPath(context, FONT_PATH_CENTRALESANS_BOLD));
             SpannableString result = SpannableString.valueOf(string);
-            result.setSpan(span, subStringIndex, subStringIndex + subString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            result.setSpan(span, subStringIndex, subStringIndex + subString.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
             return result;
         }
         return string;

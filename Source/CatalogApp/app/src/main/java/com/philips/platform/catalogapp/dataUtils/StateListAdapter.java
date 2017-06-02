@@ -26,10 +26,10 @@ import java.util.List;
 public class StateListAdapter extends BaseAdapter implements Filterable, SearchBox.FilterQueryChangedListener {
 
     private Context context;
-    private List<String> statesList;
+    final private List<String> statesList;
     private List<String> filteredList = new ArrayList<>();
     private Filter stateFilter = new StateListFilter();
-    private String query;
+    private CharSequence query;
 
     public StateListAdapter(Context context, List<String> list) {
         statesList = list;
@@ -57,7 +57,7 @@ public class StateListAdapter extends BaseAdapter implements Filterable, SearchB
         if (convertView == null) {
             view = View.inflate(context, R.layout.uid_list_item_one_line, null);
         }
-        ((TextView) view).setText(UIDSpans.boldSubString(true, context, (String) getItem(position), query));
+        ((TextView) view).setText(UIDSpans.boldSubString(true, context, getItem(position), query));
         return view;
     }
 
@@ -68,7 +68,7 @@ public class StateListAdapter extends BaseAdapter implements Filterable, SearchB
 
     @Override
     public void onQueryTextChanged(CharSequence newQuery) {
-        query = newQuery.toString();
+        query = newQuery;
     }
 
     private class StateListFilter extends Filter {
@@ -79,7 +79,7 @@ public class StateListAdapter extends BaseAdapter implements Filterable, SearchB
             ArrayList<String> resultList = new ArrayList<>();
             if (!TextUtils.isEmpty(constraint)) {
                 for (String state : statesList) {
-                    if (UIDStringUtils.containsSubString(true, state, constraint.toString()) >= 0) {
+                    if (UIDStringUtils.indexOfSubString(true, state, constraint) >= 0) {
                         resultList.add(state);
                     }
                 }
