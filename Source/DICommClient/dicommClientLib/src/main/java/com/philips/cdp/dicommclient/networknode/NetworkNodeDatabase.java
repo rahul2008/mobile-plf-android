@@ -3,11 +3,6 @@
  * All rights reserved.
  */
 
-/*
- * © Koninklijke Philips N.V., 2015, 2017.
- *   All rights reserved.
- */
-
 package com.philips.cdp.dicommclient.networknode;
 
 import android.content.ContentValues;
