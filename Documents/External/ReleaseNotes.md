@@ -19,7 +19,7 @@ Version 6.0.0
 * See backwards compatibility
 
 ### Defects solved
-* \#49699 Software Version incorrectly required in device port
+* \#49699 Software Version and ModelId incorrectly required in device port
 
 ### Residual anomalies
 * To be filled in at release
