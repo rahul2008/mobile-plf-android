@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.dataUtils.StateListAdapter;
@@ -113,7 +112,7 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
         searchBox.setExpandListener(this);
         searchBox.setQuerySubmitListener(this);
         searchBox.setSearchIconified(searchIconExpanded);
-        searchBox.searchTextView.setText(query);
+        searchBox.setQuery(query);
         searchBox.setAdapter(stateAdapter);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -121,7 +120,7 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putBoolean("iconified",searchBox.isSearchIconified());
-        outState.putString("query", String.valueOf(searchBox.searchTextView.getText()));
+        outState.putString("query", String.valueOf(searchBox.getQuery()));
         super.onSaveInstanceState(outState);
     }
 
@@ -137,6 +136,6 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
 
     @Override
     public void onQuerySubmit(CharSequence query) {
-        Toast.makeText(getActivity(), query, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), query, Toast.LENGTH_SHORT).show();
     }
 }
