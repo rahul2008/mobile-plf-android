@@ -394,9 +394,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                 if (supportModel == null && getActivity() != null) {
                     showAlert(getString(R.string.NO_SUPPORT_KEY));
                 } else {
-                    FaqListFragment faqListFragment = new FaqListFragment();
-                    faqListFragment.setSupportModel(supportModel);
+                    FaqListFragment faqListFragment = new FaqListFragment(getActivity());
                     showFragment(faqListFragment);
+                    faqListFragment.setSupportModel(supportModel);
                 }
             }
         });
