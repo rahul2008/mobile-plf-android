@@ -24,9 +24,8 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.janrain.android.Jump;
-import com.philips.cdp.registration.B;
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
@@ -51,71 +50,71 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 
 import javax.inject.Inject;
 
-import butterfork.Bind;
-import butterfork.ButterFork;
-import butterfork.OnClick;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class AlmostDoneFragment extends RegistrationBaseFragment implements AlmostDoneContract,
         OnUpdateListener, XCheckBox.OnCheckedChangeListener {
 
-    @Bind(B.id.tv_reg_sign_in_with)
+    @BindView(R2.id.tv_reg_sign_in_with)
     TextView signInWithTextView;
 
-    @Bind(B.id.ll_reg_almost_done)
+    @BindView(R2.id.ll_reg_almost_done)
     LinearLayout almostDoneContainer;
 
-    @Bind(B.id.fl_reg_receive_philips_news)
+    @BindView(R2.id.fl_reg_receive_philips_news)
     FrameLayout periodicOffersCheck;
 
-    @Bind(B.id.ll_reg_accept_terms)
+    @BindView(R2.id.ll_reg_accept_terms)
     LinearLayout acceptTermsContainer;
 
-    @Bind(B.id.cb_reg_accept_terms)
+    @BindView(R2.id.cb_reg_accept_terms)
     XCheckBox acceptTermsCheck;
 
-    @Bind(B.id.cb_reg_accept_terms_error)
+    @BindView(R2.id.cb_reg_accept_terms_error)
     XRegError acceptTermserrorMessage;
 
-    @Bind(B.id.rl_reg_btn_continue_container)
+    @BindView(R2.id.rl_reg_btn_continue_container)
     RelativeLayout continueBtnContainer;
 
-    @Bind(B.id.cb_reg_receive_philips_news)
+    @BindView(R2.id.cb_reg_receive_philips_news)
     XCheckBox marketingOptCheck;
 
-    @Bind(B.id.reg_error_msg)
+    @BindView(R2.id.reg_error_msg)
     XRegError errorMessage;
 
-    @Bind(B.id.rl_reg_email_field)
+    @BindView(R2.id.rl_reg_email_field)
     LoginIdEditText loginIdEditText;
 
-    @Bind(B.id.reg_btn_continue)
+    @BindView(R2.id.reg_btn_continue)
     XButton continueButton;
 
-    @Bind(B.id.pb_reg_marketing_opt_spinner)
+    @BindView(R2.id.pb_reg_marketing_opt_spinner)
     ProgressBar marketingProgressBar;
 
-    @Bind(B.id.sv_root_layout)
+    @BindView(R2.id.sv_root_layout)
     ScrollView rootLayout;
 
-    @Bind(B.id.tv_join_now)
+    @BindView(R2.id.tv_join_now)
     TextView joinNowView;
 
-    @Bind(B.id.reg_view_accep_terms_line)
+    @BindView(R2.id.reg_view_accep_terms_line)
     View acceptTermsViewLine;
 
-    @Bind(B.id.tv_reg_accept_terms)
+    @BindView(R2.id.tv_reg_accept_terms)
     TextView acceptTermsView;
 
-    @Bind(B.id.tv_reg_first_to_know)
+    @BindView(R2.id.tv_reg_first_to_know)
     TextView firstToKnowView;
 
-    @Bind(B.id.tv_reg_philips_news)
+    @BindView(R2.id.tv_reg_philips_news)
     TextView receivePhilipsNewsView;
 
-    @Bind(B.id.reg_view_line)
+    @BindView(R2.id.reg_view_line)
     View fieldViewLine;
 
-    @Bind(B.id.reg_recieve_email_line)
+    @BindView(R2.id.reg_recieve_email_line)
     View receivePhilipsNewsLineView;
 
     @Inject
@@ -144,7 +143,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
         almostDonePresenter = new AlmostDonePresenter(this,mUser);
         View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
-        ButterFork.bind(this, view);
+        ButterKnife.bind(this, view);
         initUI(view);
         almostDonePresenter.parseRegistrationInfo(mBundle);
         almostDonePresenter.updateUIControls();
@@ -350,7 +349,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         });
     }
 
-    @OnClick(B.id.reg_btn_continue)
+    @OnClick(R2.id.reg_btn_continue)
     public void continueButtonClicked() {
         RLog.d(RLog.ONCLICK, "AlmostDoneFragment : Continue");
         loginIdEditText.clearFocus();
