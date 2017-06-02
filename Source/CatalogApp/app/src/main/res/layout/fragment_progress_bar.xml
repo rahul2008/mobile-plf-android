@@ -34,6 +34,7 @@
                     android:layout_marginStart="@dimen/progress_bar_margin_left_right"
                     android:text="@string/display_labels"/>
 
+                <!--suppress AndroidUnknownAttribute -->
                 <com.philips.platform.uid.view.widget.Switch
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

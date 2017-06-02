@@ -184,6 +184,9 @@
     <string name="notification_bar_action_2">Action 2</string>
     <string name="notification_bar_notification_show">Show notification</string>
     <string name="notification_bar_notification_hide">Hide notification</string>
+    <string name="info_notification_bar_content">There are additional capabilities which are not displayed currently. Please refer the DLS hub.</string>
+    <string name="info_notification_got_it">Got it</string>
+    <string name="info_notification_note">Note</string>
 
     <!--Notification Badge-->
     <string name="page_title_notification_badge">Notification badge</string>
