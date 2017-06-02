@@ -22,7 +22,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.dicommclient.R;
 import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
