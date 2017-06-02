@@ -5,10 +5,9 @@
 
 package com.philips.cdp2.commlib.example;
 
-import com.philips.cdp2.commlib.core.activity.ReferenceApplianceActivity;
-import com.philips.cdp2.commlib.core.appliance.ReferenceAppliance;
+import com.philips.cdp2.commlib.example.appliance.ReferenceAppliance;
 
-import static com.philips.cdp2.commlib.core.appliance.ReferenceAppliance.CPPID;
+import static com.philips.cdp2.commlib.example.appliance.ReferenceAppliance.CPPID;
 
 public class BleReferenceApplianceActivity extends ReferenceApplianceActivity {
 

@@ -35,7 +35,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.philips.cdp2.commlib.core.appliance.ReferenceAppliance.CPPID;
+import static com.philips.cdp2.commlib.example.appliance.ReferenceAppliance.CPPID;
 
 public class DiscoveryActivity extends AppCompatActivity {
 

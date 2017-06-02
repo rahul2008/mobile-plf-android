@@ -6,7 +6,6 @@
 package com.philips.cdp2.commlib.example.appliance;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp2.commlib.core.appliance.ReferenceAppliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 public class BleReferenceAppliance extends ReferenceAppliance {

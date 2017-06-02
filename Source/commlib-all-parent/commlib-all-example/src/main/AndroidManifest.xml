@@ -30,6 +30,11 @@
         <activity
             android:name=".BleReferenceApplianceActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".FirmwareUpgradeActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>
