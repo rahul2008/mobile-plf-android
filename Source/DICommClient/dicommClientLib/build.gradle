@@ -188,12 +188,9 @@ dependencies {
         testCompile(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cloudcontroller + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     }
 
-    compile deps.support.appcompatv7
-    compile deps.support.design
     provided deps.support.annotations
 
     compile deps.gson
-    compile deps.joda_time
 
     testCompile deps.junit
     testCompile deps.powermock_mockito
