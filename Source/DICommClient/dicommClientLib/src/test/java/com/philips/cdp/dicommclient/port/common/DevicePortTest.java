@@ -1,12 +1,12 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016, 2017.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.port.common;
 
-import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
+import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 import org.junit.Test;
 import org.mockito.Mock;
@@ -29,6 +29,12 @@ public class DevicePortTest extends RobolectricTest {
             "   \"serial\":\"testSerial\",\n" +
             "   \"ctn\":\"testCtn\",\n" +
             "   \"allowuploads\":true\n" +
+            "}";
+
+    private String minimalValidDataset = "{  \n" +
+            "   \"name\":\"testName\",\n" +
+            "   \"type\":\"testType\",\n" +
+            "   \"modelid\":\"testModelid\"\n" +
             "}";
 
     @Override
@@ -61,6 +67,14 @@ public class DevicePortTest extends RobolectricTest {
     }
 
     @Test
+    public void test_ShouldReturnProperties_WhenProcessResponse_WithMinimalDataset() throws Exception {
+        devicePort.processResponse(minimalValidDataset);
+        DevicePortProperties properties = devicePort.getPortProperties();
+
+        assertThat(properties).isNotNull();
+    }
+
+    @Test
     public void test_ShouldReturnProperties_WhenProcessResponse_WithInvalidData() throws Exception {
         devicePort.processResponse(validData);
         DevicePortProperties properties = devicePort.getPortProperties();
@@ -72,5 +86,10 @@ public class DevicePortTest extends RobolectricTest {
         assertThat(properties.getSerial()).isEqualTo("testSerial");
         assertThat(properties.getCtn()).isEqualTo("testCtn");
         assertThat(properties.isAllowuploads()).isTrue();
+    }
+
+    @Test
+    public void test_ShouldReturnTrue_WhenSupportsSubscription() throws Exception {
+        assertThat(devicePort.supportsSubscription()).isTrue();
     }
 }
