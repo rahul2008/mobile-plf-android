@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 
@@ -14,6 +14,9 @@ import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.util.Date;
 
+/**
+ * @publicPluginApi
+ */
 public class SHNTemperatureMeasurement {
     private final Flags flags;
     private final float temperature;

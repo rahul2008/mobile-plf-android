@@ -24,6 +24,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * @publicPluginApi
+ */
 public class SHNServiceHealthThermometer implements SHNService.SHNServiceListener, SHNCharacteristic.SHNCharacteristicChangedListener {
     private final static String TAG = SHNServiceHealthThermometer.class.getSimpleName();
     final static UUID SERVICE_HEALTH_THERMOMETER_UUID                = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x1809));

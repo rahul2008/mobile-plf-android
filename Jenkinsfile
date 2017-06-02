@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 /* following line is mandatory for the platform CI pipeline integration */
 properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$class: 'StringParameterDefinition', defaultValue: '', description: 'triggerBy', name: 'triggerBy']]]])
 
@@ -12,7 +17,7 @@ node('Android') {
 
     Slack.notify('#conartists') {
         stage('Build') {
-            sh "$gradle --refresh-dependencies assembleRelease assembleDebug saveResDep"
+            sh "$gradle --refresh-dependencies assembleRelease assembleDebug saveResDep generateJavadoc"
         }
 
         stage('Unit test') {
@@ -28,7 +33,9 @@ node('Android') {
             step([$class: 'JUnitResultArchiver', testResults: 'Source/ShineLib/*/build/test-results/*/*.xml'])
             step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
             step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class,**/R$*.class,**/BuildConfig.class,**/Manifest*.*,**/*Activity*.*,**/*Fragment*.*'])
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'Source/ShineLib/build/report/shinelib/pitest/debug/', reportFiles: 'index.html', reportName: 'Pitest'])
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'Source/ShineLib/build/report/shinelib/pitest/debug/', reportFiles: 'index.html', reportName: 'Pitest'])
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'Documents/External/shinelib-api', reportFiles: 'index.html', reportName: 'Bluelib Public API'])
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'Documents/External/shinelib-plugin-api', reportFiles: 'index.html', reportName: 'Bluelib Plugin API'])
         }
 
         stage('Archive artifacts') {

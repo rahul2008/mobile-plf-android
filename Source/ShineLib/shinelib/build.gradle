@@ -2,12 +2,25 @@
  * Copyright (c) Koninklijke Philips N.V., 2016, 2017
  * All rights reserved.
  */
+
 buildscript { bs ->
     apply from: projectDir.absolutePath + '/../../common/gradle/project-build.gradle', to: bs
     apply from: projectDir.absolutePath + '/../../common/gradle/module.gradle'
     repositories {
-        maven { url repos.jcenter }
-        maven { url repos.plugin }
+        maven {
+            url repos.jcenter
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url repos.plugin
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
     }
 
     dependencies {
@@ -39,8 +52,20 @@ archivesBaseName = rootProject.name
 version = objcdp.getVersion()
 
 repositories {
-    maven { url repos.jcenter }
-    maven { url objcdp.getArtifactoryUrl() }
+    maven {
+        url repos.jcenter
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url objcdp.getArtifactoryUrl()
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
 }
 
 artifactory {
@@ -146,56 +171,25 @@ dependencies {
     }
 }
 
-def javaDocClassesForPublicApi = ['SHNCentral',
-                                  'SHNBluetoothHardwareUnavailableException',
-                                  'SHNDeviceDefinitionInfo', // for plugin registration via SHNCentral
-                                  'SharedPreferencesProvider',
-                                  'SHNDeviceScanner',
-                                  'SHNDeviceAssociation',
-                                  'SHNAssociationProcedure',
-                                  'SHNUserConfiguration',
-                                  'SHNDevice',
-                                  'SHNCapability',
-                                  'SHNCapabilityType', 'SHNCapabilityBattery', 'SHNCapabilityDeviceInformation', 'SHNCapabilityLogSynchronization', 'SHNCapabilityFirmwareUpdate', 'SHNFirmwareInfoResultListener', 'SHNFirmwareInfo', 'SHNCapabilityDataStreaming', 'SHNCapabilityDeviceDiagnostics', 'SHNCapabilityUserConfiguration',
-                                  'SHNData',
-                                  'SHNDataType', 'SHNDataBloodPressure', 'SHNDataHeartRate', 'SHNDataWeight', 'SHNDataBodyTemperature', 'SHNTemperatureType',
-                                  'SHNResult', 'SHNResultListener', 'SHNIntegerResultListener', 'SHNStringResultListener', 'SHNSetResultListener', 'SHNMapResultListener', 'SHNObjectResultListener']
-
-def javaDocClassesForPluginApi = javaDocClassesForPublicApi + [
-        'SHNAssociationProcedurePlugin',
-        'SHNDeviceScannerInternal',
-        'SHNInternalScanRequest',
-        'SHNDeviceFoundInfo',
-        'BleScanRecord',
-        'PersistentStorage',
-        'PersistentStorageFactory',
-        'PersistentStorageCleaner',
-        'Timer',
-
-        // existing building blocks
-        'SHNDeviceImpl',
-        'SHNAssociationProcedureNearestDevice',
-        'SHNCapabilityLogSyncHealthThermometer', 'SHNServiceHealthThermometer', 'SHNTemperatureMeasurement', 'SHNTemperatureMeasurementInterval', 'SHNTemperatureMeasurementResultListener',
-        'SHNCapabilityLogSyncWeightScale', 'SHNServiceWeightScale', 'SHNWeightMeasurement', 'SHNWeightScaleFeatures', 'SHNServiceBodyComposition', 'SHNBodyCompositionMeasurement', 'SHNBodyCompositionFeatures',
-
-        'SHNCapabilityDeviceInformationImpl', 'SHNCapabilityDeviceInformationCached', 'SHNServiceDeviceInformation',
-        'SHNCapabilityBatteryImpl', 'SHNServiceBattery',
-        'CapabilityFirmwareUpdateDiComm', 'DiCommFirmwarePort',
-        'SHNDeviceTimeAdjusterCurrentTimeService', 'SHNServiceCurrentTime'
-]
-
 task generateJavadocPublicApi(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    destinationDir = file("../../../Documents/External/BluelibApi/")
-    for (file in javaDocClassesForPublicApi) {
-        include("**/" + file + ".java")
+    destinationDir = file("${project.rootDir}/../../Documents/External/${project.name}-api/")
+
+    include {
+        if (it.isDirectory) {
+            return true
+        }
+        return it.file.text.contains("* @publicApi")
     }
 
     options {
         memberLevel = JavadocMemberLevel.PUBLIC
         links("http://docs.oracle.com/javase/7/docs/api/");
         linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference");
+        docEncoding = 'UTF-8'
+        encoding = 'UTF-8'
+        charSet = 'UTF-8'
     }
 
     failOnError false
@@ -204,15 +198,31 @@ task generateJavadocPublicApi(type: Javadoc) {
 task generateJavadocPluginApi(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    destinationDir = file("../../../Documents/External/BluelibPluginApi/")
-    for (file in javaDocClassesForPluginApi) {
-        include("**/" + file + ".java")
+    destinationDir = file("${project.rootDir}/../../Documents/External/${project.name}-plugin-api/")
+
+    include {
+        if (it.isDirectory) {
+            return true
+        }
+
+        if (it.file.text.contains("* @publicPluginApi")) {
+            return true
+        }
+
+        if (it.file.text.contains("* @publicApi")) {
+            return true
+        }
+
+        return false
     }
 
     options {
         memberLevel = JavadocMemberLevel.PUBLIC
         links("http://docs.oracle.com/javase/7/docs/api/");
         linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference");
+        docEncoding = 'UTF-8'
+        encoding = 'UTF-8'
+        charSet = 'UTF-8'
     }
 
     failOnError false

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 
@@ -7,6 +7,8 @@ package com.philips.pins.shinelib;
 
 /**
  * Interface that provides information about a firmware image during firmware upload.
+ *
+ * @publicApi
  */
 public class SHNFirmwareInfo {
 

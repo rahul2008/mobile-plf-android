@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 
@@ -13,6 +13,8 @@ import com.philips.pins.shinelib.SHNUserConfiguration;
 /**
  * Interface to set user specific information to a peripheral. This interface is deprecated. Please
  * refer to {@link SHNCentral#getSHNUserConfiguration()} and {@link SHNUserConfiguration}.
+ *
+ * @publicApi
  */
 @Deprecated
 public interface SHNCapabilityUserConfiguration extends SHNCapability {

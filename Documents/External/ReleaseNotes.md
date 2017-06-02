@@ -1,12 +1,32 @@
 BlueLib(/ShineLib) for Android - Release Notes
 =======================================
 
-Version 2.4.0
+Version 2.3.5
 -------------
-### API Changes
-* SHNSharedConnectionDevice wraps a SHNDevice and does bookkeeping to count the number of times connect has been called. This allows a wrapped SHNDevice to be used in multiple places without having to worry if another piece of code still needs a currently open connection. Just make sure to balance your calls to connect() and disconnect().
 
-### New features
+### Functionality Delivered
+* NA
+
+### Backwards Compatibility
+* NA
+
+### Features not covered
+* To be filled in at release
+
+### Breaking Changes
+See backwards compatibility
+
+### Defects solved
+* [35185] Filting on UUID will now be done by the Android OS which reduce the amount of wrong results from discovery on certain phones. (For example on the Nexus 6P)
+
+### Residual anomalies
+* To be filled in at release
+
+### Risks and mitigations
+* NA
+
+Version 2.3.4
+-------------
 No changes.
 
 Version 2.3.3

@@ -1,10 +1,11 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
 package com.philips.pins.shinelib.utility;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.nio.ByteBuffer;
@@ -23,9 +24,10 @@ import java.util.UUID;
  * <p/>
  * Starting from Android 6 the Bluetooth API includes an interface to the data in the scanrecord.
  * This is a different interface that should not be confused with {@code BleScanRecord}.
+ *
+ * @publicPluginApi
  */
 public class BleScanRecord {
-    private static final String TAG = "BleScanRecord";
     private byte[] scanRecord;
     private List<UUID> uuids;
     private byte[] manufacturerSpecificData;
@@ -65,13 +67,11 @@ public class BleScanRecord {
     /**
      * Returns the list of {@link java.util.UUID} present in the raw advertisement and scan data received from the peripheral.
      *
-     * @return list of UUIDs. null if there are no UUIDs in the raw advertisement and scan data received.
+     * @return list of UUIDs.
      */
-    @Nullable
+    @NonNull
     public List<UUID> getUuids() {
-        if (uuids != null)
-            return Collections.unmodifiableList(uuids);
-        return null;
+        return Collections.unmodifiableList(uuids == null ? Collections.<UUID>emptyList() : uuids);
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2016, 2017.
  * All rights reserved.
  */
 
@@ -23,6 +23,8 @@ import java.util.concurrent.TimeoutException;
  * Note that only peripherals serviced by a plugin that is registered with {@link SHNCentral} are exposed by {@code SHNDeviceScanner}.
  * The matching behaviour of the scanner is under control of the {@link SHNDeviceDefinitionInfo#useAdvertisedDataMatcher()} method in the corresponding
  * peripheral's device definition info. {@code SHNDeviceScanner} can be obtained via {@link SHNCentral#getShnDeviceScanner()}.
+ *
+ * @publicApi
  */
 public class SHNDeviceScanner {
     private static final String TAG = "SHNDeviceScanner";

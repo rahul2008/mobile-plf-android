@@ -1,11 +1,9 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2017.
  * All rights reserved.
  */
 
 package com.philips.pins.shinelib.services.weightscale;
-
-
 
 import com.philips.pins.shinelib.datatypes.SHNHeightUnit;
 import com.philips.pins.shinelib.datatypes.SHNWeightUnit;
@@ -18,8 +16,7 @@ import java.nio.ByteBuffer;
 import java.util.Date;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * @publicPluginApi
  */
 public class SHNWeightMeasurement {
 

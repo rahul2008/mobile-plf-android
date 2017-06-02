@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2017.
  * All rights reserved.
  */
 
@@ -26,8 +26,6 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
  */
 public class SHNServiceBattery implements SHNService.SHNServiceListener {
 

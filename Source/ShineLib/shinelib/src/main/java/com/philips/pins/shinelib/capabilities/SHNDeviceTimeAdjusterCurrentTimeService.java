@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 
@@ -11,12 +11,15 @@ import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.services.SHNServiceCurrentTime;
 import com.philips.pins.shinelib.utility.ExactTime256WithAdjustReason;
 
+/**
+ * @publicPluginApi
+ */
 public class SHNDeviceTimeAdjusterCurrentTimeService implements SHNDeviceTimeAdjuster {
     private long timeDelta;
     private final SHNServiceCurrentTime shnServiceCurrentTime;
     private SHNService.State adjusterServiceState = SHNService.State.Unavailable;
 
-    private final SHNServiceCurrentTime.SHNServiceCurrentTimeListener shnServiceCurrentTimeListener =  new SHNServiceCurrentTime.SHNServiceCurrentTimeListener() {
+    private final SHNServiceCurrentTime.SHNServiceCurrentTimeListener shnServiceCurrentTimeListener = new SHNServiceCurrentTime.SHNServiceCurrentTimeListener() {
         @Override
         public void onServiceStateChanged(final SHNServiceCurrentTime shnServiceCurrentTime, SHNService.State state) {
             if (state == SHNService.State.Available && adjusterServiceState != SHNService.State.Available) {

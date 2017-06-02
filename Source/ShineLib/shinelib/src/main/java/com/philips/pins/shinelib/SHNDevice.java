@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2016, 2017.
  * All rights reserved.
  */
 
@@ -17,6 +17,8 @@ import java.util.UUID;
  * This interface provides a means to connect and disconnect to the peripheral.
  * State updates can be received through the {@code SHNDeviceListener} interface.
  * To receive updates an instance of the listener has to be registered with the SHNDevice instance.
+ *
+ * @publicApi
  */
 public interface SHNDevice {
     /**

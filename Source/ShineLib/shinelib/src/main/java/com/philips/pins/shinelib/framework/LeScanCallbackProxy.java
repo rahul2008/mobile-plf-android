@@ -7,6 +7,7 @@ package com.philips.pins.shinelib.framework;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.support.annotation.NonNull;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BleUtilities;
 
@@ -19,25 +20,32 @@ import java.util.UUID;
  */
 public class LeScanCallbackProxy implements BluetoothAdapter.LeScanCallback {
 
+    @NonNull
+    private final BleUtilities bleUtilities;
+
     public interface LeScanCallback {
         void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord);
     }
 
     private LeScanCallback leScanCallback;
 
+    public LeScanCallbackProxy(final @NonNull BleUtilities bleUtilities) {
+        this.bleUtilities = bleUtilities;
+    }
+
     public boolean startLeScan(LeScanCallback leScanCallback, Object callbackParameter) {
         this.leScanCallback = leScanCallback;
-        return BleUtilities.startLeScan(this);
+        return bleUtilities.startLeScan(this);
     }
 
     public boolean startLeScan(UUID[] serviceUUIDs, LeScanCallback leScanCallback) {
         this.leScanCallback = leScanCallback;
-        return BleUtilities.startLeScan(serviceUUIDs, this);
+        return bleUtilities.startLeScan(serviceUUIDs, this);
     }
 
     public void stopLeScan(LeScanCallback leScanCallback) {
         if (leScanCallback == this.leScanCallback) {
-            BleUtilities.stopLeScan(this);
+            bleUtilities.stopLeScan(this);
             this.leScanCallback = null;
         }
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2017.
  * All rights reserved.
  */
 
@@ -27,8 +27,7 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ * @publicPluginApi
  */
 public class SHNServiceWeightScale implements SHNService.SHNServiceListener, SHNCharacteristic.SHNCharacteristicChangedListener {
     public static final UUID WEIGHT_SCALE_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x181D));

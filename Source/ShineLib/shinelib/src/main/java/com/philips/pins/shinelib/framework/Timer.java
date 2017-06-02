@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2017.
  * All rights reserved.
  */
 
@@ -7,6 +7,9 @@ package com.philips.pins.shinelib.framework;
 
 import android.os.Handler;
 
+/**
+ * @publicPluginApi
+ */
 public class Timer {
     private static Handler tempStaticHandler; // TODO: remove when constructor is made private and all clients use CreateTimer
     private final Handler handler;

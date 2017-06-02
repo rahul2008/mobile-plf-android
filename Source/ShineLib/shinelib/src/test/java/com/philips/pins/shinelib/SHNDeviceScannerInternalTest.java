@@ -1,8 +1,12 @@
+/*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -46,11 +50,11 @@ import static org.powermock.api.mockito.PowerMockito.doReturn;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
 public class SHNDeviceScannerInternalTest {
-    private static final long STOP_SCANNING_AFTER_10_SECONDS = 10000l;
+    private static final long STOP_SCANNING_AFTER_10_SECONDS = 10000L;
     public static final String MOCKED_BLUETOOTH_DEVICE_NAME = "Mocked Bluetooth Device";
 
     @Mock
-    private Context mockedContext;
+    private Context contextMock;
 
     @Mock
     private SHNDevice deviceMock;
@@ -59,10 +63,7 @@ public class SHNDeviceScannerInternalTest {
     private SHNCentral shnCentralMock;
 
     @Mock
-    private BluetoothManager bluetoothManagerMock;
-
-    @Mock
-    private BluetoothAdapter bluetoothAdapterMock;
+    private BleUtilities bleUtilitiesMock;
 
     @Mock
     private SHNInternalScanRequest internalScanRequestMock1;
@@ -78,13 +79,12 @@ public class SHNDeviceScannerInternalTest {
     private boolean resultForMatchesOnAdvertisedData;
     private boolean resultForUseAdvertisedDataMatcher;
     private LeScanCallbackProxy leScanCallbackProxy;
-
     private SHNDeviceScannerInternal shnDeviceScannerInternal;
 
     @Before
     public void setUp() {
         initMocks(this);
-
+        
         mockedHandler = new MockedHandler();
 
         when(shnCentralMock.getInternalHandler()).thenReturn(mockedHandler.getMock());
@@ -97,13 +97,14 @@ public class SHNDeviceScannerInternalTest {
             }
         }).when(shnCentralMock).runOnUserHandlerThread(any(Runnable.class));
         doReturn(deviceMock).when(shnCentralMock).createSHNDeviceForAddressAndDefinition(anyString(), any(SHNDeviceDefinitionInfo.class));
-        doReturn(bluetoothManagerMock).when(mockedContext).getSystemService(Context.BLUETOOTH_SERVICE);
-        doReturn(bluetoothAdapterMock).when(bluetoothManagerMock).getAdapter();
-        doReturn(true).when(bluetoothAdapterMock).startLeScan(any(BluetoothAdapter.LeScanCallback.class));
-        doNothing().when(bluetoothAdapterMock).stopLeScan(any(BluetoothAdapter.LeScanCallback.class));
+
+        doReturn(bleUtilitiesMock).when(shnCentralMock).getBleUtilities();
+
+        doReturn(true).when(bleUtilitiesMock).startLeScan(any(BluetoothAdapter.LeScanCallback.class));
+        doReturn(true).when(bleUtilitiesMock).startLeScan(any(UUID[].class), any(BluetoothAdapter.LeScanCallback.class));
+        doNothing().when(bleUtilitiesMock).stopLeScan(any(BluetoothAdapter.LeScanCallback.class));
 
         when(deviceMock.getDeviceTypeName()).thenReturn(MOCKED_BLUETOOTH_DEVICE_NAME);
-
 
         testDeviceDefinitionInfos = new ArrayList<>();
         testDeviceDefinitionInfos.add(new SHNDeviceDefinitionInfo() {
@@ -139,11 +140,8 @@ public class SHNDeviceScannerInternalTest {
                 return resultForMatchesOnAdvertisedData;
             }
         });
-        resultForMatchesOnAdvertisedData = false;
-        resultForUseAdvertisedDataMatcher = false;
-        BleUtilities.init(mockedContext);
 
-        leScanCallbackProxy = new LeScanCallbackProxy();
+        leScanCallbackProxy = new LeScanCallbackProxy(bleUtilitiesMock);
         shnDeviceScannerInternal = new TestSHNDeviceScannerInternal(shnCentralMock, testDeviceDefinitionInfos);
     }
 
@@ -152,7 +150,7 @@ public class SHNDeviceScannerInternalTest {
         boolean startScanning = shnDeviceScannerInternal.startScanning(null, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
 
         assertThat(startScanning).isTrue();
-        verify(bluetoothAdapterMock).startLeScan(any(BluetoothAdapter.LeScanCallback.class));
+        verify(bleUtilitiesMock).startLeScan(any(UUID[].class), any(BluetoothAdapter.LeScanCallback.class));
     }
 
     @Test
@@ -161,7 +159,7 @@ public class SHNDeviceScannerInternalTest {
         boolean startScanning = shnDeviceScannerInternal.startScanning(null, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
 
         assertThat(startScanning).isTrue();
-        verify(bluetoothAdapterMock).startLeScan(any(BluetoothAdapter.LeScanCallback.class));
+        verify(bleUtilitiesMock, times(1)).startLeScan(any(UUID[].class), any(BluetoothAdapter.LeScanCallback.class));
     }
 
     @Test
@@ -170,12 +168,12 @@ public class SHNDeviceScannerInternalTest {
         SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
         assertTrue(shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS));
         ArgumentCaptor<BluetoothAdapter.LeScanCallback> leScanCallbackStartArgumentCaptor = ArgumentCaptor.forClass(BluetoothAdapter.LeScanCallback.class);
-        verify(bluetoothAdapterMock).startLeScan(leScanCallbackStartArgumentCaptor.capture());
+        verify(bleUtilitiesMock).startLeScan(any(UUID[].class), leScanCallbackStartArgumentCaptor.capture());
 
         // Stop scanning and verify that the same scancallback object is used to cancel callbacks
         shnDeviceScannerInternal.stopScanning();
         ArgumentCaptor<BluetoothAdapter.LeScanCallback> leScanCallbackStopArgumentCaptor = ArgumentCaptor.forClass(BluetoothAdapter.LeScanCallback.class);
-        verify(bluetoothAdapterMock).stopLeScan(leScanCallbackStopArgumentCaptor.capture());
+        verify(bleUtilitiesMock).stopLeScan(leScanCallbackStopArgumentCaptor.capture());
 
         assertEquals(leScanCallbackStartArgumentCaptor.getValue(), leScanCallbackStopArgumentCaptor.getValue());
     }
@@ -193,9 +191,9 @@ public class SHNDeviceScannerInternalTest {
     public void whenScanning_ThenScanningIsStoppedAutomaticallyAfterTheMaxScanTime() {
         SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
         assertTrue(shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS));
-        verify(bluetoothAdapterMock).startLeScan(any(BluetoothAdapter.LeScanCallback.class));
+        verify(bleUtilitiesMock).startLeScan(any(UUID[].class), any(BluetoothAdapter.LeScanCallback.class));
 
-        // The scanner has a timer runnung to restart scanning. Some Androids don't report a device multiple times.
+        // The scanner has a timer running to restart scanning. Some Androids don't report a device multiple times.
         mockedHandler.executeFirstScheduledExecution(); // first scan restart after 3 seconds
         mockedHandler.executeFirstScheduledExecution(); // second scan restart after 3 seconds
         mockedHandler.executeFirstScheduledExecution(); // third scan restart after 3 seconds
@@ -208,7 +206,7 @@ public class SHNDeviceScannerInternalTest {
         SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
         shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
 
-        BluetoothDevice mockedBluetoothDevice = (BluetoothDevice) Utility.makeThrowingMock(BluetoothDevice.class);
+        BluetoothDevice mockedBluetoothDevice = Utility.makeThrowingMock(BluetoothDevice.class);
         doReturn("12:34:56:78:90:AB").when(mockedBluetoothDevice).getAddress();
         doReturn("Mocked Bluetooth Device").when(mockedBluetoothDevice).getName();
 
@@ -223,7 +221,7 @@ public class SHNDeviceScannerInternalTest {
         SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
         shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
 
-        BluetoothDevice mockedBluetoothDevice = (BluetoothDevice) Utility.makeThrowingMock(BluetoothDevice.class);
+        BluetoothDevice mockedBluetoothDevice = Utility.makeThrowingMock(BluetoothDevice.class);
         doReturn("12:34:56:78:90:AB").when(mockedBluetoothDevice).getAddress();
         doReturn("Mocked Bluetooth Device").when(mockedBluetoothDevice).getName();
 
@@ -246,12 +244,9 @@ public class SHNDeviceScannerInternalTest {
         SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
         shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
 
-        BluetoothDevice mockedBluetoothDevice = (BluetoothDevice) Utility.makeThrowingMock(BluetoothDevice.class);
+        BluetoothDevice mockedBluetoothDevice = Utility.makeThrowingMock(BluetoothDevice.class);
         doReturn("12:34:56:78:90:AB").when(mockedBluetoothDevice).getAddress();
         doReturn("Mocked Bluetooth Device").when(mockedBluetoothDevice).getName();
-//        when(mockedBluetoothDevice.get)
-
-//if (deviceDefinition.getDeviceTypeName().equals(deviceFoundInfo.getShnDevice().getDeviceTypeName()))
 
         leScanCallbackProxy.onLeScan(mockedBluetoothDevice, -50, new byte[]{0x03, 0x03, 0x0A, 0x18}); // advertisement of the primary uuid for the device info service
 
@@ -264,17 +259,19 @@ public class SHNDeviceScannerInternalTest {
 
     @Test
     public void whenDuringScanningADeviceIsFoundWithNOTMatchingPrimaryServiceUUID16_ThenItIsNotReported() {
+        resultForUseAdvertisedDataMatcher = true;
+
         SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
         shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
 
-        BluetoothDevice mockedBluetoothDevice = (BluetoothDevice) Utility.makeThrowingMock(BluetoothDevice.class);
+        BluetoothDevice mockedBluetoothDevice = Utility.makeThrowingMock(BluetoothDevice.class);
         doReturn("12:34:56:78:90:AB").when(mockedBluetoothDevice).getAddress();
         doReturn("Mocked Bluetooth Device").when(mockedBluetoothDevice).getName();
 
         leScanCallbackProxy.onLeScan(mockedBluetoothDevice, -50, new byte[]{0x03, 0x03, 0x0A, 0x17}); // advertisement of the primary uuid for an unknown service
 
         ArgumentCaptor<SHNDeviceFoundInfo> shnDeviceFoundInfoArgumentCaptor = ArgumentCaptor.forClass(SHNDeviceFoundInfo.class);
-        verify(mockedSHNDeviceScannerListener, times(0)).deviceFound(any(SHNDeviceScanner.class), shnDeviceFoundInfoArgumentCaptor.capture());
+        verify(mockedSHNDeviceScannerListener, never()).deviceFound(any(SHNDeviceScanner.class), shnDeviceFoundInfoArgumentCaptor.capture());
     }
 
     @Test
@@ -284,14 +281,15 @@ public class SHNDeviceScannerInternalTest {
 
     @Test
     public void whenThePluginScannerDataMatcherReturnsTrue_ThenTheScannerReportsDeviceFound() {
+        resultForUseAdvertisedDataMatcher = true;
+        resultForMatchesOnAdvertisedData = true;
+
         SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
         shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
 
-        BluetoothDevice mockedBluetoothDevice = (BluetoothDevice) Utility.makeThrowingMock(BluetoothDevice.class);
+        BluetoothDevice mockedBluetoothDevice = Utility.makeThrowingMock(BluetoothDevice.class);
         doReturn("12:34:56:78:90:AB").when(mockedBluetoothDevice).getAddress();
         doReturn("Mocked Bluetooth Device").when(mockedBluetoothDevice).getName();
-        resultForUseAdvertisedDataMatcher = true;
-        resultForMatchesOnAdvertisedData = true;
 
         leScanCallbackProxy.onLeScan(mockedBluetoothDevice, -50, new byte[]{}); // advertisement of the primary uuid for an unknown service
 
@@ -300,14 +298,15 @@ public class SHNDeviceScannerInternalTest {
 
     @Test
     public void whenThePluginScannerDataMatcherReturnsFalse_ThenTheScannerDoesNotReportTheDeviceFound() {
+        resultForUseAdvertisedDataMatcher = true;
+        resultForMatchesOnAdvertisedData = false;
+
         SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
         shnDeviceScannerInternal.startScanning(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
 
-        BluetoothDevice mockedBluetoothDevice = (BluetoothDevice) Utility.makeThrowingMock(BluetoothDevice.class);
+        BluetoothDevice mockedBluetoothDevice = Utility.makeThrowingMock(BluetoothDevice.class);
         doReturn("12:34:56:78:90:AB").when(mockedBluetoothDevice).getAddress();
         doReturn("Mocked Bluetooth Device").when(mockedBluetoothDevice).getName();
-        resultForUseAdvertisedDataMatcher = true;
-        resultForMatchesOnAdvertisedData = false;
 
         leScanCallbackProxy.onLeScan(mockedBluetoothDevice, -50, new byte[]{});
 
