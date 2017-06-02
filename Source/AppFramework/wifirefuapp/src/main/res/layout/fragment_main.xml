@@ -53,6 +53,15 @@
             android:id="@+id/listViewAppliances"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
+        <Button
+            android:id="@+id/fetchListOfPairedDevices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/consentButton"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="65dp"
+            android:text="Fetch Paired" />
     </RelativeLayout>
 
 </ScrollView>

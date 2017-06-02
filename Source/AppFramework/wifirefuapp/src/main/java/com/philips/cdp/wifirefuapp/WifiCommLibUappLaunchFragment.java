@@ -31,6 +31,7 @@ import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.platform.core.listeners.DevicePairingListener;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DataServicesError;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -53,7 +54,7 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
     private ArrayAdapter<Appliance> applianceAdapter;
     private View view;
     private Activity activity;
-    private Button consentButton;
+    private Button consentButton,fetchPairedDevices;
     private CommCentral commCentral;
 
     /*ListView availableDevicesListView;
@@ -89,6 +90,14 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
 */
 
         consentButton = (Button) view.findViewById(R.id.consentButton);
+        fetchPairedDevices = (Button) view.findViewById(R.id.fetchListOfPairedDevices);
+        fetchPairedDevices.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //DataServicesManager.getInstance().getPairedDevices(WifiCommLibUappLaunchFragment.this);
+                DataServicesManager.getInstance().createSubjectProfile("Rakesh",);
+            }
+        });
         consentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,61 +128,6 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
         return cloudController;
     }
 
-/*    public void setPairedDevices(Device pairedDevice) {
-
-
-        dialogToConnect();
-
-        if (!mDevicePairedList.contains(pairedDevice)) {
-            mDevicePairedList.add(pairedDevice);
-            pairedDevicesAdapter.setData(mDevicePairedList);
-        }
-    }
-
-    private void dialogToConnect(){
-        final String[] status = {"Connecting...","Sending data to backend...","Recieving acknowledgmnet from backend..."};
-
-        for(int iCount=0;iCount<status.length;iCount++){
-            final String msg= status[iCount];
-
-
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    mProgressDialog.setMessage(msg);
-                    mProgressDialog.show();
-
-
-                }
-            }, 2000);
-
-
-        }
-        mProgressDialog.dismiss();
-
-    }
-
-
-    public void setAvailableDevices(Device availableDevice) {
-
-        if (!mDeviceAvailableLists.contains(availableDevice)) {
-            mDeviceAvailableLists.add(availableDevice);
-            availableDevicesAdapter.setData(mDeviceAvailableLists);
-        }
-    }
-
-    private ArrayList<Device> getAvailableDevices() {
-        ArrayList<Device> availableDevices = new ArrayList<Device>();
-        Device device1 = new Device("1", "uGrow");
-        Device device2 = new Device("2", "baby Care");
-        Device device3 = new Device("3", "Reference device");
-        Device device4 = new Device("4", "TP link");
-        availableDevices.add(device1);
-        availableDevices.add(device2);
-        availableDevices.add(device3);
-        availableDevices.add(device4);
-        return availableDevices;
-    }*/
     @Override
     public void onStart() {
         super.onStart();
