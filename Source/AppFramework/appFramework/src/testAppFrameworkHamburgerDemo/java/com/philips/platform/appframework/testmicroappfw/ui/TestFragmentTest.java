@@ -29,7 +29,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import java.util.ArrayList;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 24)
+@Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 public class TestFragmentTest extends TestCase implements TestConfigManager.TestConfigCallback{
     private HamburgerActivity hamburgerActivity = null;
     private TestFragment testFragment;

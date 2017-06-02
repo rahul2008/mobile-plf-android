@@ -1,9 +1,4 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
-package com.philips.platform.baseapp.screens.aboutscreen;
+package com.philips.platform.baseapp.screens.debugtest;
 
 import android.support.v4.app.FragmentManager;
 
@@ -12,6 +7,7 @@ import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
+import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -24,31 +20,34 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import static org.junit.Assert.*;
+
+
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
-public class AboutScreenStateTest extends TestCase {
-
-    private AboutScreenState aboutScreenState;
+public class DebugTestFragmentStateTest extends TestCase {
     private FragmentLauncher fragmentLauncher;
-    private HamburgerActivity launchActivity;
+    private HamburgerActivity hamburgerActivity;
+    private DebugTestFragmentState debugTestFragmentStateTest;
 
     @Before
     public void setUp() throws Exception{
         super.setUp();
-        aboutScreenState = new AboutScreenState();
-        UIStateData iapStateData = new UIStateData();
-        iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
-        aboutScreenState.setUiStateData(iapStateData);
+        debugTestFragmentStateTest = new DebugTestFragmentState();
+        UIStateData debugFragmentStateData = new UIStateData();
+        debugFragmentStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
+        debugTestFragmentStateTest.setUiStateData(debugFragmentStateData);
 
-        launchActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
-        fragmentLauncher = new FragmentLauncher(launchActivity, R.id.frame_container, launchActivity);
+        hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
+        fragmentLauncher = new FragmentLauncher(hamburgerActivity, R.id.frame_container, hamburgerActivity);
     }
 
     @Test
-    public void launchAboutState(){
-        aboutScreenState.navigate(fragmentLauncher);
-        FragmentManager fragmentManager = launchActivity.getSupportFragmentManager();
+    public void launchSettingsState(){
+        debugTestFragmentStateTest.navigate(fragmentLauncher);
+        FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
         int fragmentCount = fragmentManager.getBackStackEntryCount();
         assertEquals(1,fragmentCount);
     }
+
 }
