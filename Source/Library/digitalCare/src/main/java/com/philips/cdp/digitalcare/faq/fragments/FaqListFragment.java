@@ -1,5 +1,6 @@
 package com.philips.cdp.digitalcare.faq.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
@@ -49,6 +50,15 @@ public class FaqListFragment extends DigitalCareBaseFragment {
     private View view = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
+    private Activity mContext = null;
+
+    public FaqListFragment(){
+
+    }
+
+    public FaqListFragment(Activity context) {
+        mContext = context;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -206,15 +216,15 @@ public class FaqListFragment extends DigitalCareBaseFragment {
         RichTexts richTexts = supportData.getRichTexts();
         List<RichText> richText = richTexts.getRichText();
         if (richText != null && richText.size() == 0) {
-            new AlertDialog.Builder(getActivity(), R.style.alertDialogStyle)
+            new AlertDialog.Builder(mContext, R.style.alertDialogStyle)
                     .setTitle(null)
-                    .setMessage(getActivity().getResources().getString(R.string.NO_SUPPORT_KEY))
+                    .setMessage(mContext.getResources().getString(R.string.NO_SUPPORT_KEY))
                     .setPositiveButton(android.R.string.yes,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,
                                                     int which) {
                                     dialog.dismiss();
-                                    getActivity().onBackPressed();
+                                    mContext.onBackPressed();
                                 }
                             }).show();
             DigiCareLogger.d(TAG, "No Support Data");
