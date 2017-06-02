@@ -12,7 +12,7 @@ public class AppInfraTest extends MockitoTestCase {
 
     AppInfra mAppInfra;
     private Context context;
-    private final String AppInfraID = "ail"; // Please refer http://devportal.spssvr1.htce.nl.philips.com/assets/
+    private final String AppInfraID = "ail:"; // Please refer http://devportal.spssvr1.htce.nl.philips.com/assets/
 
     @Override
     protected void setUp() throws Exception {
