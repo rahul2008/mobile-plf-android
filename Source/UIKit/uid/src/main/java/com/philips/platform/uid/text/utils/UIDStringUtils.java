@@ -55,11 +55,6 @@ public class UIDStringUtils {
             return false;
         }
 
-        //Empty substring
-        if (subStr.length() == 0) {
-            return true;
-        }
-
         //Invalid start point
         if (strOffset < 0 || subStrOffset < 0 || length < 0) {
             return false;
