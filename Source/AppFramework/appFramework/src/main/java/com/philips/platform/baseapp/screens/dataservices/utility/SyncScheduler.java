@@ -3,10 +3,12 @@ package com.philips.platform.baseapp.screens.dataservices.utility;
 import android.os.Handler;
 
 import com.philips.platform.baseapp.screens.dataservices.reciever.ScheduleSyncReceiver;
+import com.philips.platform.baseapp.screens.utility.RALog;
 
 import static com.janrain.android.engage.JREngage.getApplicationContext;
 
 public class SyncScheduler {
+    private static String TAG=SyncScheduler.class.getName();
     ScheduleSyncReceiver mScheduleSyncReceiver;
     private static volatile SyncScheduler sSyncScheduler;
     final Handler handler = new Handler();
@@ -38,7 +40,7 @@ public class SyncScheduler {
                 try {
                     mScheduleSyncReceiver.onReceive(getApplicationContext());
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    RALog.e(TAG,e.getMessage());
                 } finally {
                     handler.postDelayed(this, ScheduleSyncReceiver.DATA_FETCH_FREQUENCY);
                 }

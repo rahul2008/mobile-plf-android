@@ -22,15 +22,16 @@ import com.philips.platform.baseapp.screens.utility.RALog;
  */
 
 public class HomeFragment extends AppFrameworkBaseFragment {
-    public static final String TAG =  HomeFragment.class.getSimpleName();
+    public static final String TAG = HomeFragment.class.getSimpleName();
+
     public HomeFragment() {
     }
 
     @Override
     public void onResume() {
-        RALog.d(TAG," OnResume Called ");
+        RALog.d(TAG, " OnResume Called ");
         super.onResume();
-        ((AppFrameworkBaseActivity)getActivity()).updateActionBarIcon(false);
+        ((AppFrameworkBaseActivity) getActivity()).updateActionBarIcon(false);
     }
 
     @Override
@@ -44,8 +45,10 @@ public class HomeFragment extends AppFrameworkBaseFragment {
 
         View rootView = inflater.inflate(R.layout.af_home_fragment, container, false);
         setDateToView();
+        startAppTagging(TAG);
         return rootView;
     }
+
 
     private void setDateToView() {
         Bundle bundle = getArguments();

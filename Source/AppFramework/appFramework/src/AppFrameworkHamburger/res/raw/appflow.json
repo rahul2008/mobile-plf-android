@@ -159,6 +159,15 @@
             ]
           },
           {
+            "eventId": "debug",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "debug"
+              }
+            ]
+          },
+          {
             "eventId": "wifirefuapp",
             "nextStates": [
               {
