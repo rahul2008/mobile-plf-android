@@ -1,14 +1,24 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016, 2017.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.port.common;
+
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
+/**
+ * The DevicePort is a mandatory port that is available on all DIComm appliances. It contains basic information about the appliance.
+ *
+ * @publicApi
+ * @see com.philips.cdp.dicommclient.port.DICommPort
+ * @see DevicePortProperties
+ */
 public class DevicePort extends DICommPort<DevicePortProperties> {
 
     private final String DEVICEPORT_NAME = "device";
@@ -36,6 +46,7 @@ public class DevicePort extends DICommPort<DevicePortProperties> {
     }
 
     @Override
+    @NonNull
     public String getDICommPortName() {
         return DEVICEPORT_NAME;
     }
@@ -50,6 +61,7 @@ public class DevicePort extends DICommPort<DevicePortProperties> {
         return true;
     }
 
+    @Nullable
     private DevicePortProperties parseResponse(String response) {
         if (response == null || response.isEmpty()) {
             return null;
@@ -65,8 +77,7 @@ public class DevicePort extends DICommPort<DevicePortProperties> {
         if (devicePortInfo != null &&
                 (devicePortInfo.getName() == null
                         || devicePortInfo.getType() == null
-                        || devicePortInfo.getModelid() == null
-                        || devicePortInfo.getSwversion() == null)
+                        || devicePortInfo.getModelid() == null)
                 ) {
             return null;
         } else {
