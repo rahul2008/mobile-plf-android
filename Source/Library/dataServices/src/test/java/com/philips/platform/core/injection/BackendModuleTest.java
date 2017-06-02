@@ -40,6 +40,7 @@ import com.philips.platform.datasync.settings.SettingsDataFetcher;
 import com.philips.platform.datasync.settings.SettingsDataSender;
 import com.philips.platform.datasync.settings.SettingsMonitor;
 import com.philips.platform.datasync.settings.SettingsSegregator;
+import com.philips.platform.datasync.subjectProfile.SubjectProfileMonitor;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
@@ -92,6 +93,9 @@ public class BackendModuleTest {
 
     @Mock
     DevicePairingMonitor devicePairingMonitor;
+
+    @Mock
+    SubjectProfileMonitor subjectProfileMonitor;
 
     ExecutorService executorService;
 
@@ -205,7 +209,7 @@ public class BackendModuleTest {
 
     @Test
     public void ShouldReturnBackend_WhenProvidesBackendIsCalled() throws Exception {
-        final Backend backend = backendModule.providesBackend(consentsMonitor, userCharacteristicsMonitor, settingsMonitor, mInsightMonitor ,pushNotificationMonitor,devicePairingMonitor);
+        final Backend backend = backendModule.providesBackend(consentsMonitor, userCharacteristicsMonitor, settingsMonitor, mInsightMonitor ,pushNotificationMonitor,devicePairingMonitor,subjectProfileMonitor);
         assertThat(backend).isNotNull();
         assertThat(backend).isInstanceOf(Backend.class);
     }
