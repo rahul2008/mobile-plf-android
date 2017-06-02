@@ -76,8 +76,7 @@ public class DevicePort extends DICommPort<DevicePortProperties> {
 
         if (devicePortInfo != null &&
                 (devicePortInfo.getName() == null
-                        || devicePortInfo.getType() == null
-                        || devicePortInfo.getModelid() == null)
+                        || devicePortInfo.getType() == null)
                 ) {
             return null;
         } else {

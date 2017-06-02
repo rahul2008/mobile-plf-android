@@ -33,8 +33,7 @@ public class DevicePortTest extends RobolectricTest {
 
     private String minimalValidDataset = "{  \n" +
             "   \"name\":\"testName\",\n" +
-            "   \"type\":\"testType\",\n" +
-            "   \"modelid\":\"testModelid\"\n" +
+            "   \"type\":\"testType\"\n" +
             "}";
 
     @Override
