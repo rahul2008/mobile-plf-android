@@ -280,7 +280,7 @@ public class LanguagePackTest extends MockitoTestCase {
 
         languagePackUtil.saveFile(getLanguageResponse(), LanguagePackConstants.LOCALE_FILE_DOWNLOADED ,
                 LanguagePackConstants.LANGUAGE_PACK_PATH);
-        File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_DOWNLOADED,
+        File file = languagePackUtil.getFilePath(LanguagePackConstants.LOCALE_FILE_DOWNLOADED,
                 LanguagePackConstants.LANGUAGE_PACK_PATH);
         assertNotNull(file);
         assertEquals(getLanguageResponse(), languagePackUtil.readFile(file));
@@ -290,7 +290,8 @@ public class LanguagePackTest extends MockitoTestCase {
                 LanguagePackConstants.LANGUAGE_PACK_PATH);
         assertEquals(getLanguageResponse(), languagePackUtil.readFile(file));
 
-        assertTrue(languagePackUtil.deleteFile(LanguagePackConstants.LOCALE_FILE_DOWNLOADED));
+        assertTrue(languagePackUtil.deleteFile(LanguagePackConstants.LOCALE_FILE_DOWNLOADED,
+                LanguagePackConstants.LOCALE_FILE_DOWNLOADED));
     }
 
     public void testLanguagePackUtilSaveLocaleMetaData() {
@@ -326,7 +327,6 @@ public class LanguagePackTest extends MockitoTestCase {
 
 
     public void testGetDefaultLocale() {
-
         try {
             Method method = mLanguagePackManager.getClass().getDeclaredMethod("getDefaultLocale");
             method.setAccessible(true);

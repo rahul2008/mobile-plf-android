@@ -62,7 +62,7 @@ public class AppUpdateActivity extends AppCompatActivity {
 				appupdateInterface.refresh(new AppUpdateInterface.OnRefreshListener() {
 					@Override
 					public void onError(AIAppUpdateRefreshResult error, String message) {
-						Toast.makeText(AppUpdateActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+						Toast.makeText(AppUpdateActivity.this, message, Toast.LENGTH_LONG).show();
 					}
 
 					@Override

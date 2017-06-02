@@ -157,7 +157,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 	}
 
 	private boolean isLanguagePackDownloadRequired(LanguagePackModel selectedLanguageModel) {
-		final File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_INFO,LanguagePackConstants.LANGUAGE_PACK_PATH);
+		final File file = languagePackUtil.getFilePath(LanguagePackConstants.LOCALE_FILE_INFO,LanguagePackConstants.LANGUAGE_PACK_PATH);
 		final String json = languagePackUtil.readFile(file);
 		final LanguagePackMetadata languagePackMetadata = gson.fromJson(json, LanguagePackMetadata.class);
 		if (languagePackMetadata == null) {
@@ -246,7 +246,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 
 	@Override
 	public void activate(final OnActivateListener onActivateListener) {
-		final File file = languagePackUtil.getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_INFO,LanguagePackConstants.LANGUAGE_PACK_PATH);
+		final File file = languagePackUtil.getFilePath(LanguagePackConstants.LOCALE_FILE_INFO,LanguagePackConstants.LANGUAGE_PACK_PATH);
 		final LanguagePackMetadata languagePackMetadata = gson.fromJson(languagePackUtil.readFile(file), LanguagePackMetadata.class);
 		if (languagePackMetadata != null) {
 			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Language pack metadata info",
@@ -281,8 +281,8 @@ public class LanguagePackManager implements LanguagePackInterface {
 			@Override
 			public void run() {
 				if (onActivateListener != null)
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "LP Activated path", languagePackUtil.getLanguagePackFilePath(LOCALE_FILE_ACTIVATED,LanguagePackConstants.LANGUAGE_PACK_PATH).getAbsolutePath());
-				onActivateListener.onSuccess(languagePackUtil.getLanguagePackFilePath(LOCALE_FILE_ACTIVATED,LanguagePackConstants.LANGUAGE_PACK_PATH).getAbsolutePath());
+					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "LP Activated path", languagePackUtil.getFilePath(LOCALE_FILE_ACTIVATED,LanguagePackConstants.LANGUAGE_PACK_PATH).getAbsolutePath());
+				onActivateListener.onSuccess(languagePackUtil.getFilePath(LOCALE_FILE_ACTIVATED,LanguagePackConstants.LANGUAGE_PACK_PATH).getAbsolutePath());
 			}
 		};
 	}

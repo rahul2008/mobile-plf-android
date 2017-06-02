@@ -30,7 +30,7 @@ public class FileUtils {
 		this.context = context;
 	}
 
-	public File getLanguagePackFilePath(String fileName, String filePath) {
+	public File getFilePath(String fileName, String filePath) {
 		final ContextWrapper contextWrapper = new ContextWrapper(context);
 		final File directory = contextWrapper.getCacheDir();
 		final File file = new File(directory, filePath);
@@ -54,7 +54,7 @@ public class FileUtils {
 	public void saveFile(String response, String fileName, String filePath) {
 		FileWriter fileWriter = null;
 		try {
-			fileWriter = new FileWriter(getLanguagePackFilePath(fileName ,filePath));
+			fileWriter = new FileWriter(getFilePath(fileName ,filePath));
 			fileWriter.write(response);
 			fileWriter.close();
 		} catch (IOException e) {
@@ -89,8 +89,8 @@ public class FileUtils {
 		return (bytes.length == 0 ? null : new String(bytes));
 	}
 
-	public boolean deleteFile(String fileName) {
-		final File file = getLanguagePackFilePath(fileName, LanguagePackConstants.LANGUAGE_PACK_PATH);
+	public boolean deleteFile(String fileName , String filePath) {
+		final File file = getFilePath(fileName, filePath);
 		return file.delete();
 	}
 
@@ -109,8 +109,8 @@ public class FileUtils {
 
 
 	public boolean renameOnActivate() {
-		final File from = getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_DOWNLOADED,LanguagePackConstants.LANGUAGE_PACK_PATH);
-		final File to = new File(getLanguagePackFilePath(LanguagePackConstants.LOCALE_FILE_ACTIVATED,LanguagePackConstants.LANGUAGE_PACK_PATH), "");
+		final File from = getFilePath(LanguagePackConstants.LOCALE_FILE_DOWNLOADED,LanguagePackConstants.LANGUAGE_PACK_PATH);
+		final File to = new File(getFilePath(LanguagePackConstants.LOCALE_FILE_ACTIVATED,LanguagePackConstants.LANGUAGE_PACK_PATH), "");
 		if (from.exists()) {
 			if (to.exists()) {
 				to.delete();

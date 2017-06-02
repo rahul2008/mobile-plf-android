@@ -139,7 +139,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 	}
 
 	public File getAppUpdatefromCache() {
-		final File file = mFileUtils.getLanguagePackFilePath(AppUpdateConstants.LOCALE_FILE_DOWNLOADED
+		final File file = mFileUtils.getFilePath(AppUpdateConstants.LOCALE_FILE_DOWNLOADED
 				, AppUpdateConstants.APPUPDATE_PATH);
 		return file;
 	}
@@ -151,9 +151,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 	@Override
 	public void refresh(final OnRefreshListener refreshListener) {
 		try {
-			final AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
-			final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
-			final String appupdateServiceId = (String) appConfigurationInterface.getPropertyForKey("appUpdate.serviceId", "appinfra", configError);
+			final String appupdateServiceId = getServiceIdFromAppConfig();
 			if (appupdateServiceId == null) {
 				refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, "Could not read service id");
 			} else {
@@ -163,6 +161,12 @@ public class AppUpdateManager implements AppUpdateInterface {
 		} catch (IllegalArgumentException exception) {
 			refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, "App configuration error");
 		}
+	}
+
+	protected String getServiceIdFromAppConfig() {
+		final AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
+		final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+		return (String) appConfigurationInterface.getPropertyForKey("appUpdate.serviceId", "appinfra", configError);
 	}
 
 
@@ -181,7 +185,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
 						"AppUpdate_URL", " Error Code:" + error.toString() + " , Error Message:" + message);
 				final String errMsg = " Error Code:" + error + " , Error Message:" + error.toString();
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AI AppUpdate_URL", errMsg);
 				refreshListener.onError(OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, errMsg);
 			}
 		};
@@ -207,7 +211,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 				return AppUpdateVersion.isAppVerionLessthanCloud(getAppVersion(), minVer) ||
 						AppUpdateVersion.isBothVersionSame(getAppVersion(), deprecatedVersion) && currentDate.after(deprecationdate);
 			} catch (ParseException e) {
-				e.printStackTrace();
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AI AppUpdate_URL", "Parse Exception");
 			}
 		}
 		return false;
