@@ -54,6 +54,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 		try {
 			pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
 			mAppVersion = String.valueOf(pInfo.versionName);
+			//mAppVersion = BuildConfig.VERSION_NAME;
 		} catch (PackageManager.NameNotFoundException e) {
 			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity", e.getMessage());
 		}

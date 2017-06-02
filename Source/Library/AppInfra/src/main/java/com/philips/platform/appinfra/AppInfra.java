@@ -49,7 +49,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
     private AppConfigurationInterface configInterface;
     private RestInterface mRestInterface;
     private ABTestClientInterface mAbtesting;
-    private final String AppInfraComponentID ="ail";
+    private final String AppInfraComponentID ="ail:";
 
 
     /**
