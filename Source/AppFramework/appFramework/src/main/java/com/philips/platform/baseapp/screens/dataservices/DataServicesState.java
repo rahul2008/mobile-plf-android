@@ -5,12 +5,17 @@
 */
 package com.philips.platform.baseapp.screens.dataservices;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.support.v7.app.NotificationCompat;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
-import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
@@ -42,6 +47,7 @@ import com.philips.platform.baseapp.screens.dataservices.reciever.ScheduleSyncRe
 import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.baseapp.screens.dataservices.utility.SyncScheduler;
+import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.core.listeners.RegisterDeviceTokenListener;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -189,6 +195,37 @@ public class DataServicesState extends BaseState implements HandleNotificationPa
     @Override
     public void handlePayload(JSONObject payloadObject) throws JSONException {
         DataServicesManager.getInstance().handlePushNotificationPayload(payloadObject);
+    }
+
+    @Override
+    public void handlePushNotification(String message, String title) {
+        sendNotification(message,title);
+    }
+
+    /**
+     * Create and show a simple notification containing the received GCM message.
+     *
+     * @param message GCM message received.
+     */
+    private void sendNotification(String message,String title) {
+        Intent intent = new Intent(mcontext, LaunchActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(mcontext, 0 /* Request code */, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(mcontext)
+                .setSmallIcon(android.R.drawable.stat_notify_chat)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager =
+                (NotificationManager) mcontext.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 
     @Override

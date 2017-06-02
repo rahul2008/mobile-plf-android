@@ -248,7 +248,9 @@ public class PushNotificationManager {
      * @param data
      */
     public void sendPayloadToCoCo(Bundle data) {
+        
         if (payloadListener != null) {
+            String message = data.getString("IsSilent");
             Set<String> set = data.keySet();
             if (set.contains(PushNotificationConstants.PLATFORM_KEY)) {
                 try {
