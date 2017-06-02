@@ -15,26 +15,17 @@ import android.view.ViewGroup;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentProgressBarBinding;
-import com.philips.platform.uid.drawable.SeparatorDrawable;
-import com.philips.platform.uid.view.widget.ProgressBar;
 
 public class ProgressBarFragment extends BaseFragment {
 
     public ObservableBoolean showLabels = new ObservableBoolean(Boolean.TRUE);
     public ObservableInt progress = new ObservableInt(50);
     public ObservableInt secondaryProgress = new ObservableInt(progress.get() + 10);
-    public ObservableInt circularProgressBarSize = new ObservableInt(ProgressBar.CircularProgressBarSize.BIG.ordinal());
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FragmentProgressBarBinding fragmentProgressBarBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_progress_bar, container, false);
         fragmentProgressBarBinding.setFrag(this);
-
-        SeparatorDrawable separatorDrawable = new SeparatorDrawable(getContext());
-        fragmentProgressBarBinding.getRoot().findViewById(R.id.divider1).setBackground(separatorDrawable);
-        fragmentProgressBarBinding.getRoot().findViewById(R.id.divider2).setBackground(separatorDrawable);
 
         return fragmentProgressBarBinding.getRoot();
     }
@@ -46,12 +37,6 @@ public class ProgressBarFragment extends BaseFragment {
 
     public void toggleLabels(boolean checked) {
         showLabels.set(checked);
-    }
-
-    public void setCircularProgresSize(int progress, boolean fromUser) {
-        if (fromUser) {
-            circularProgressBarSize.set(progress);
-        }
     }
 
     public void setProgress(int progress, boolean frmUser) {

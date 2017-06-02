@@ -171,7 +171,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/listview_row_height"
             android:layout_gravity="center"
-            android:gravity="left"
+            android:gravity="start"
             android:onClick="@{(v) ->fragment.showTimePicker(timeslotPickerTime, false)}"
             android:orientation="horizontal"
             android:paddingEnd="@dimen/uid_date_picker_margin_left_right"

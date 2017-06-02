@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/layout_margin_left_right"
                 android:layout_marginRight="@dimen/layout_margin_left_right"
-                android:layout_marginTop="@dimen/label_textbox_margin">
+                android:layout_marginTop="@dimen/label_margin_top">
 
                 <com.philips.platform.uid.view.widget.Label
                     style="@style/UIDLabel.MarginEnd"
