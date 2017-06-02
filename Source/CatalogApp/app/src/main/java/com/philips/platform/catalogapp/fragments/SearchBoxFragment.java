@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -105,16 +104,17 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.country_search, menu);
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.menu_set_theme_settings).setVisible(false);
+        menu.findItem(R.id.menu_theme_settings).setVisible(false);
+        menu.findItem(R.id.country_search).setVisible(true);
         searchBox = (SearchBox) menu.findItem(R.id.country_search).getActionView();
         searchBox.setExpandListener(this);
         searchBox.setQuerySubmitListener(this);
         searchBox.setSearchIconified(searchIconExpanded);
         searchBox.setQuery(query);
         searchBox.setAdapter(stateAdapter);
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
