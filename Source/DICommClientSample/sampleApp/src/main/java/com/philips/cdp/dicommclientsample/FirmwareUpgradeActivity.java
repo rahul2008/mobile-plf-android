@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp2.commlib.core.activity;
+package com.philips.cdp.dicommclientsample;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,7 +28,7 @@ import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.core.appliance.ReferenceAppliance;
+import com.philips.cdp.dicommclientsample.reference.ReferenceAppliance;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortListener;
 

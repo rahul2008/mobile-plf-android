@@ -3,9 +3,10 @@
  * All rights reserved.
  */
 
-package com.philips.cdp2.commlib.core.appliance;
+package com.philips.cdp.dicommclientsample.reference;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.time.TimePort;
 

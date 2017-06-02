@@ -11,9 +11,4 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
 
-    <application>
-        <activity
-            android:name="com.philips.cdp2.commlib.core.activity.FirmwareUpgradeActivity"
-            android:screenOrientation="portrait" />
-    </application>
 </manifest>

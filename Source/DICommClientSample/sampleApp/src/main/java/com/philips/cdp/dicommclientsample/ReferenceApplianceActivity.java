@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp2.commlib.core.activity;
+package com.philips.cdp.dicommclientsample;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp2.commlib.core.appliance.ReferenceAppliance;
+import com.philips.cdp.dicommclientsample.reference.ReferenceAppliance;
 import com.philips.cdp2.commlib.core.port.time.TimePort;
 
 import org.joda.time.DateTime;
