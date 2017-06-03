@@ -38,13 +38,13 @@ public class SearchBox extends LinearLayout {
     private AppCompatAutoCompleteTextView searchTextView;
 
 
-    private boolean isSearchIconified = true;
+    private boolean isSearchIconified;
     private View searchClearLayout;
     private ExpandListener expandListener;
     private FilterQueryChangedListener filterQueryChangedListener;
     private Filter searchFilter;
     private QuerySubmitListener querySubmitListener;
-    private CharSequence query;
+    private int maxWidth;
 
 
     public interface ExpandListener {
@@ -145,19 +145,48 @@ public class SearchBox extends LinearLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+
+        switch (heightMode) {
+            case MeasureSpec.AT_MOST:
+            case MeasureSpec.UNSPECIFIED:
+                height = Math.min(getPreferredHeight(), height);
+                break;
+        }
+        heightMode = MeasureSpec.EXACTLY;
+
+        //Match the height in case iconified, avoid screen flickering in toggling iconified
         if (isSearchIconified) {
-            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+            super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(height, heightMode));
             return;
         }
+
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         int width = MeasureSpec.getSize(widthMeasureSpec);
-        int height = MeasureSpec.getSize(heightMeasureSpec);
-        super.onMeasure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY),
-                MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
+
+        switch (widthMode) {
+            case MeasureSpec.AT_MOST:
+                if (maxWidth > 0) {
+                    width = Math.min(maxWidth, width);
+                }
+                break;
+            case MeasureSpec.EXACTLY:
+                if (maxWidth > 0) {
+                    width = Math.min(maxWidth, width);
+                }
+                break;
+        }
+        widthMode = MeasureSpec.EXACTLY;
+
+        super.onMeasure(MeasureSpec.makeMeasureSpec(width, widthMode),
+                MeasureSpec.makeMeasureSpec(height, heightMode));
     }
 
     public void setSearchIconified(boolean searchIconified) {
         handleSearchExpansion(searchIconified);
         isSearchIconified = searchIconified;
+        requestLayout();
         updateViews();
     }
 
@@ -168,7 +197,7 @@ public class SearchBox extends LinearLayout {
      * The list refresh responsibility still holds with Adapter.
      *
      * @param adapter the adapter holding the list data
-     * @see android.widget.Filterable
+     * @see android.widget.Filterable§
      * @see android.widget.Adapter
      */
     @SuppressWarnings("unused")
@@ -209,7 +238,7 @@ public class SearchBox extends LinearLayout {
     }
 
     private boolean shouldExpand(boolean searchIconified) {
-        return isSearchIconified && !searchIconified;
+        return (!isSearchIconified && !searchIconified);
     }
 
     private void updateViews() {
@@ -233,11 +262,19 @@ public class SearchBox extends LinearLayout {
     }
 
     public void setQuery(CharSequence query) {
-        this.query = query;
+        searchTextView.setText(query);
     }
 
     public CharSequence getQuery() {
-        return query;
+        return searchTextView.getText();
+    }
+
+    public void setMaxWidth(int maxWidth) {
+         this.maxWidth = maxWidth;
+    }
+
+    private int getPreferredHeight() {
+       return getContext().getResources().getDimensionPixelSize(R.dimen.uid_searchbox_height);
     }
 
     @Override
@@ -255,10 +292,10 @@ public class SearchBox extends LinearLayout {
             return;
         }
         SavedState ss = (SavedState) state;
+        super.onRestoreInstanceState(ss.getSuperState());
         setSearchIconified(ss.isSearchIconified);
         updateViews();
         requestLayout();
-        super.onRestoreInstanceState(ss.getSuperState());
     }
 
     public void setExpandListener(ExpandListener listener) {
