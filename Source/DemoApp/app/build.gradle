@@ -15,7 +15,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
     }
@@ -97,15 +97,15 @@ publishing {
     }
 }
 android {
-    compileSdkVersion 24
-    buildToolsVersion '24.0.3'
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         applicationId "com.philips.cdp.di.iapdemo"
-        minSdkVersion 19
-        targetSdkVersion 24
+        minSdkVersion 21
+        targetSdkVersion 25
         multiDexEnabled true
-        renderscriptTargetApi 20
+        renderscriptTargetApi 25
         renderscriptSupportModeEnabled true
         // replace the below string with your own Google client ID. Make sure this is consistent
         // with the values used in openid_appauth_idp_configs.xml
@@ -193,7 +193,7 @@ android {
 
 dependencies {
     compile project(':iap')
-    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:customtabs:**.**.**'
     compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.1.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive = true
