@@ -207,7 +207,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
                                     bleScanDialogFragment.hideProgressBar();
                                     if (bleScanDialogFragment.getDeviceCount() == 0) {
                                         bleScanDialogFragment.dismiss();
-                                        Toast.makeText(getActivity(), R.string.RA_no_device_found, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext, R.string.RA_no_device_found, Toast.LENGTH_SHORT).show();
 
                                     }
 
@@ -266,7 +266,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
-        dialog = ProgressDialog.show(getActivity(), "", message);
+        dialog = ProgressDialog.show(mContext, "", message);
     }
 
 
