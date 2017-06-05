@@ -29,7 +29,7 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class AddCTNTest {
+public class AddCTNTest extends AutomationTestHelper {
 
     @Rule
     public ActivityTestRule<Launcher> mActivityTestRule = new ActivityTestRule<>(Launcher.class);
@@ -65,8 +65,9 @@ public class AddCTNTest {
                 allOf(withId(R.id.find_product_btn), withText("Find product"),
                         withParent(withId(R.id.welcome_screen_parent_one))));
         sleepTwoSec();
-        button3.perform(scrollTo(), click());
-
+        if(exists(button3)){
+            button3.perform(scrollTo(), click());
+        }
         ViewInteraction relativeLayout = onView(
                 allOf(withId(R.id.productselection_ratingtheme),
                         childAtPosition(
@@ -89,22 +90,6 @@ public class AddCTNTest {
                                 withParent(withId(R.id.savedScreen_screen_parent_one))))));
         button5.perform(scrollTo(), click());
 
-    }
-
-    private void sleepFourSec() {
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void sleepTwoSec() {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     private static Matcher<View> childAtPosition(

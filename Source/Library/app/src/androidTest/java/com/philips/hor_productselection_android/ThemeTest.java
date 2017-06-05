@@ -27,7 +27,7 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class ThemeTest {
+public class ThemeTest extends AutomationTestHelper{
 
     @Rule
     public ActivityTestRule<Launcher> mActivityTestRule = new ActivityTestRule<>(Launcher.class);
@@ -51,7 +51,9 @@ public class ThemeTest {
                 allOf(withId(R.id.find_product_btn), withText("Find product"),
                         withParent(withId(R.id.welcome_screen_parent_one))));
         sleepTwoSec();
-        button4.perform(scrollTo(), click());
+        if(exists(button4)){
+           button4.perform(scrollTo(), click());
+        }
 
         ViewInteraction relativeLayout = onView(
                 allOf(withId(R.id.productselection_ratingtheme),
@@ -75,22 +77,6 @@ public class ThemeTest {
                                 withParent(withId(R.id.savedScreen_screen_parent_one))))));
         button6.perform(scrollTo(), click());
 
-    }
-
-    private void sleepFourSec() {
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void sleepTwoSec() {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     private static Matcher<View> childAtPosition(

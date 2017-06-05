@@ -1,6 +1,5 @@
 package com.philips.hor_productselection_android;
 
-import android.support.annotation.CheckResult;
 import android.support.test.espresso.AmbiguousViewMatcherException;
 import android.support.test.espresso.NoMatchingRootException;
 import android.support.test.espresso.NoMatchingViewException;
@@ -19,7 +18,6 @@ import static org.hamcrest.core.IsInstanceOf.any;
 
 public class AutomationTestHelper {
 
-    @CheckResult
     protected boolean exists(ViewInteraction interaction) {
         try {
             interaction.perform(new ViewAction() {
