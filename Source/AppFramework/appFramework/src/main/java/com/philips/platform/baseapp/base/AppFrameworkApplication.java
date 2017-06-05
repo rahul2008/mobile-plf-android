@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.StrictMode;
 
+import com.philips.cdp.uikit.utils.UikitLocaleHelper;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
@@ -17,6 +18,7 @@ import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
@@ -30,8 +32,6 @@ import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.receivers.ConnectivityChangeReceiver;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.squareup.leakcanary.LeakCanary;
-
-import java.util.Locale;
 
 /**
  * Application class is used for initialization
@@ -48,6 +48,7 @@ public class AppFrameworkApplication extends Application {
     private ProductRegistrationState productRegistrationState;
     private static boolean isChinaCountry = false;
     private PushNotificationManager pushNotificationManager;
+    private LanguagePackInterface languagePackInterface;
     private ConnectivityChangeReceiver connectivityChangeReceiver;
 
     @Override
@@ -210,5 +211,28 @@ public class AppFrameworkApplication extends Application {
         RALog.enableLogging();
         AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
         appInfraInitializationCallback.onAppInfraInitialization();
+        languagePackInterface = appInfra.getLanguagePack();
+        languagePackInterface.refresh(new LanguagePackInterface.OnRefreshListener() {
+            @Override
+            public void onError(AILPRefreshResult ailpRefreshResult, String s) {
+                RALog.e(LOG,ailpRefreshResult.toString()+"---"+s);
+            }
+
+            @Override
+            public void onSuccess(AILPRefreshResult ailpRefreshResult) {
+                languagePackInterface.activate(new LanguagePackInterface.OnActivateListener() {
+                    @Override
+                    public void onSuccess(String s) {
+                        UikitLocaleHelper.getUikitLocaleHelper().setFilePath(s);
+                        RALog.d(LOG,"Success langauge pack activate "+"---"+s);
+                    }
+
+                    @Override
+                    public void onError(AILPActivateResult ailpActivateResult, String s) {
+                        RALog.e(LOG,ailpActivateResult.toString()+"---"+s);
+                    }
+                });
+            }
+        });
     }
 }
