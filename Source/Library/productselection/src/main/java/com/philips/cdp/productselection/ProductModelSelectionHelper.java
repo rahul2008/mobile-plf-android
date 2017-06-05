@@ -3,6 +3,7 @@ package com.philips.cdp.productselection;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 
@@ -37,6 +38,8 @@ public class ProductModelSelectionHelper {
     private UiLauncher mLauncherType = null;
     private ProductModelSelectionType mProductModelSelectionType = null;
     private AppInfraInterface mAppInfraInterface;
+    private static boolean isTabletLandscape = false;
+    private static Configuration mVerticalOrientation = null;
 
     /*
      * Initialize everything(resources, variables etc) required for product selection.
@@ -217,7 +220,18 @@ public class ProductModelSelectionHelper {
     }
 
     public boolean isLaunchedAsActivity() {
-
         return mLauncherType instanceof ActivityLauncher;
     }
+
+    public void setCurrentOrientation(Configuration config) {
+        mVerticalOrientation = config;
+    }
+    public String getProductSelectionLibVersion() {
+        return BuildConfig.VERSION_NAME;
+    }
+
+    public UiLauncher getLauncherType() {
+        return mLauncherType;
+    }
+
 }
