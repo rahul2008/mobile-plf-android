@@ -53,7 +53,7 @@ public class ChangeProductTest extends AutomationTestHelper{
                 allOf(withId(R.id.find_product_btn), withText("Find product"),
                         withParent(withId(R.id.welcome_screen_parent_one))));
         sleepTwoSec();
-        if(exists(button6)){ button2.perform(scrollTo(), click());
+        if(exists(button6)){
             button6.perform(scrollTo(), click());
         }
 
