@@ -190,6 +190,10 @@ android {
     }
     lintOptions {
         abortOnError false
+        checkReleaseBuilds false
+        disable 'MissingTranslation'
+        disable 'TypographyFractions','TypographyQuotes'
+
     }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'

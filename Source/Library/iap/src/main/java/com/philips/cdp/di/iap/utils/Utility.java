@@ -74,7 +74,7 @@ public class Utility {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(pContext);
         SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
         prefsEditor.putString(key, value);
-        prefsEditor.commit();
+        prefsEditor.apply();
     }
 
     public static String getCountryFromPreferenceForKey(Context pContext, String key) {

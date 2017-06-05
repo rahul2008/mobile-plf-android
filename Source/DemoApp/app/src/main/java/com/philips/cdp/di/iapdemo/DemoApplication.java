@@ -90,7 +90,7 @@ public class DemoApplication extends Application {
         }
         SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
         editor.putString("reg_environment", configuration.getValue());
-        editor.commit();
+        editor.apply();
         initAppIdentity(configuration);
         URDependancies urDependancies = new URDependancies(mAppInfra);
         URSettings urSettings = new URSettings(this);
@@ -151,7 +151,7 @@ public class DemoApplication extends Application {
                         configError);
 
                 editor.putString("reg_hsdp_environment", configuration.getValue());
-                editor.commit();
+                editor.apply();
                 break;
             case DEVELOPMENT:
                 mAppInfra.
@@ -186,12 +186,12 @@ public class DemoApplication extends Application {
                         "https://ugrow-ds-development.cloud.pcftest.com",
                         configError);
                 editor.putString("reg_hsdp_environment", configuration.getValue());
-                editor.commit();
+                editor.apply();
 
                 break;
             case PRODUCTION:
                 SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
-                prefs.edit().remove("reg_hsdp_environment").commit();
+                prefs.edit().remove("reg_hsdp_environment").apply();
                 break;
             case STAGING:
                 mAppInfra.
@@ -223,12 +223,12 @@ public class DemoApplication extends Application {
                         "https://ugrow-ds-staging.eu-west.philips-healthsuite.com",
                         configError);
                 editor.putString("reg_hsdp_environment", configuration.getValue());
-                editor.commit();
+                editor.apply();
 
                 break;
             case TESTING:
                 prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
-                prefs.edit().remove("reg_hsdp_environment").commit();
+                prefs.edit().remove("reg_hsdp_environment").apply();
                 break;
         }
 

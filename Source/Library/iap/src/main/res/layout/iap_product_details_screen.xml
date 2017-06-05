@@ -82,7 +82,7 @@
 
                 <TextView
                     android:id="@+id/individual_price"
-                    fontPath="fonts/centralesansbold.ttf"
+                    style="@style/iapCentralesansBoldFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"

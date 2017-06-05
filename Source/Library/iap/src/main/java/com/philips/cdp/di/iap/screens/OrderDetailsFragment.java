@@ -4,6 +4,7 @@
  */
 package com.philips.cdp.di.iap.screens;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
@@ -300,11 +301,12 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
         if (detail.getStatusDisplay() != null && detail.getStatusDisplay().equalsIgnoreCase(IAPConstant.ORDER_COMPLETED)) {
             if (detail.getConsignments() != null && detail.getConsignments().size() > 0) {
-                String text = String.format(mContext.getString(R.string.iap_order_completed_text),
+                @SuppressLint("StringFormatMatches")
+                String text = String.format(getString(R.string.iap_order_completed_text),
                         detail.getConsignments().get(0).getTrackingID());
                 mShippingStatus.setText(text);
             } else {
-                mShippingStatus.setText(mContext.getString(R.string.iap_order_completed_text_without_track_id));
+                mShippingStatus.setText(getString(R.string.iap_order_completed_text_without_track_id));
             }
         }
     }

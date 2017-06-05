@@ -32,4 +32,9 @@
     <issue id="UselessParent" severity="ignore" />
     <issue id="RelativeOverlap" severity="ignore" />
     <issue id="InefficientWeight" severity="ignore" />
+    <issue id="StringFormatInvalid" severity="ignore" />
+    <issue id="GradleCompatible" severity="ignore" />
+    <issue id="InvalidPackage">
+            <ignore regexp="okio-1.6.0.jar"/>
+    </issue>
 </lint>
