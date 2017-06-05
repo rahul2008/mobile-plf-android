@@ -31,8 +31,10 @@ import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.platform.core.listeners.DevicePairingListener;
+import com.philips.platform.core.listeners.SubjectProfileListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DataServicesError;
+import com.philips.platform.datasync.subjectProfile.UCoreSubjectProfile;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
@@ -44,7 +46,7 @@ import java.util.Map;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class WifiCommLibUappLaunchFragment extends Fragment implements BackEventListener ,DevicePairingListener{
+public class WifiCommLibUappLaunchFragment extends Fragment implements BackEventListener ,DevicePairingListener,SubjectProfileListener{
 
 
     public static String TAG = WifiCommLibUappLaunchFragment.class.getSimpleName();
@@ -95,7 +97,7 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
             @Override
             public void onClick(View v) {
                 //DataServicesManager.getInstance().getPairedDevices(WifiCommLibUappLaunchFragment.this);
-                DataServicesManager.getInstance().createSubjectProfile("Rakesh",);
+                DataServicesManager.getInstance().createSubjectProfile("Rakesh","25-06-1988","Male",78.00,"02-06-2017",WifiCommLibUappLaunchFragment.this);
             }
         });
         consentButton.setOnClickListener(new View.OnClickListener() {
@@ -242,6 +244,11 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
     @Override
     public void onError(DataServicesError dataServicesError) {
         Log.d(TAG,"::::Error : "+dataServicesError.getErrorMessage());
+    }
+
+    @Override
+    public void onGetSubjectProfiles(List<UCoreSubjectProfile> list) {
+        Log.d(TAG,"::::boolean response : "+list.size());
     }
 
     @Override

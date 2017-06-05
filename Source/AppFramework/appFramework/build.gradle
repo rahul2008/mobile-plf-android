@@ -356,7 +356,7 @@ dependencies {
         transitive=true
     }
 
-    compile(group: 'com.philips.cdp', name: 'dataServices', version: '1.1.0' + objcdp.getVersionSuffix(), ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'dataServices', version: '1.1.0-SNAPSHOT.20170602140820', ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
