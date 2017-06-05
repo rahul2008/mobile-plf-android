@@ -1,5 +1,6 @@
 package com.philips.hor_productselection_android;
 
+
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -26,22 +27,22 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class AutomationTestCases {
+public class HappyFlowTest {
 
     @Rule
     public ActivityTestRule<Launcher> mActivityTestRule = new ActivityTestRule<>(Launcher.class);
 
     @Test
-    public void automationFLow() {
+    public void happyFlowTest() {
         ViewInteraction button = onView(
                 allOf(withId(R.id.buttonActivity), withText("launch as Activity"), isDisplayed()));
         button.perform(click());
-
-        sleep();
+        sleepFourSec();
 
         ViewInteraction button2 = onView(
                 allOf(withId(R.id.find_product_btn), withText("Find product"),
                         withParent(withId(R.id.welcome_screen_parent_one))));
+        sleepTwoSec();
         button2.perform(scrollTo(), click());
 
         ViewInteraction relativeLayout = onView(
@@ -64,11 +65,20 @@ public class AutomationTestCases {
                         withParent(allOf(withId(R.id.bottom_layout_container),
                                 withParent(withId(R.id.savedScreen_screen_parent_one))))));
         button4.perform(scrollTo(), click());
+
     }
 
-    private void sleep() {
+    private void sleepFourSec() {
         try {
             Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sleepTwoSec() {
+        try {
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
