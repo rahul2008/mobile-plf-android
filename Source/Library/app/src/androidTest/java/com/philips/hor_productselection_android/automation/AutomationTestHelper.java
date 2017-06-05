@@ -1,4 +1,4 @@
-package com.philips.hor_productselection_android;
+package com.philips.hor_productselection_android.automation;
 
 import android.support.test.espresso.AmbiguousViewMatcherException;
 import android.support.test.espresso.NoMatchingRootException;
