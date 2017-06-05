@@ -281,6 +281,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
+                    android:background="@null"
                     android:clickable="false"
                     android:gravity="center"
                     app:srcCompat="@drawable/ic_right_arrow_show_more"/>
