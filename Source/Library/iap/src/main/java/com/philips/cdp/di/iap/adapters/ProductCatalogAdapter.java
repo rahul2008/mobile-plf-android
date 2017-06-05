@@ -51,7 +51,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        ProductCatalogData productCatalogData = mProductCatalogList.get(position);
+        ProductCatalogData productCatalogData = mProductCatalogList.get(holder.getAdapterPosition());
         ProductCatalogViewHolder productHolder = (ProductCatalogViewHolder) holder;
 
         String imageURL = productCatalogData.getImageURL();
@@ -89,7 +89,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         productHolder.mArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                setTheProductDataForDisplayingInProductDetailPage(position);
+                setTheProductDataForDisplayingInProductDetailPage(holder.getAdapterPosition());
             }
         });
     }

@@ -29,7 +29,7 @@
 
         <TextView
             android:id="@+id/tv_discounted_price"
-            fontPath="fonts/centralesansbold.ttf"
+            style="@style/iapCentralesansBoldFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="?attr/uikit_baseColor"
@@ -38,7 +38,7 @@
 
         <TextView
             android:id="@+id/tv_price"
-            fontPath="fonts/centralesansbold.ttf"
+            style="@style/iapCentralesansBoldFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/uikit_enricher4"
@@ -47,7 +47,7 @@
 
     <TextView
         android:id="@+id/tv_product_name"
-        fontPath="fonts/centralesansbold.ttf"
+        style="@style/iapCentralesansBoldFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/iap_shopping_cart_image_margin_top"
@@ -60,7 +60,7 @@
 
     <TextView
         android:id="@+id/tv_ctn"
-        fontPath="fonts/centralesansbook.ttf"
+        style="@style/iapCentralesansBookFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_product_name"
