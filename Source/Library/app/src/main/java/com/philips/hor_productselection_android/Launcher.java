@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.activity.ProductSelectionBaseActivity;
+import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
@@ -28,7 +29,6 @@ import com.philips.hor_productselection_android.view.SampleActivitySelection;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -173,7 +173,6 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
                         (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
                                 themeHelper.getThemeResourceId());
 
-        activityLauncher.setCustomAnimation(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
         ProductModelSelectionHelper.getInstance().setProductSelectionListener(new ProductSelectionListener() {
             @Override
             public void onProductModelSelected(SummaryModel productSummaryModel) {

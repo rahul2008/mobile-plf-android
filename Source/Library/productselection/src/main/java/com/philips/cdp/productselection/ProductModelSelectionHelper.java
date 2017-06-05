@@ -1,17 +1,17 @@
 package com.philips.cdp.productselection;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.appcompat.BuildConfig;
 import android.util.DisplayMetrics;
 
 import com.philips.cdp.productselection.activity.ProductSelectionActivity;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
 import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
+import com.philips.cdp.productselection.launchertype.ActivityLauncher;
+import com.philips.cdp.productselection.launchertype.FragmentLauncher;
+import com.philips.cdp.productselection.launchertype.UiLauncher;
 import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
@@ -23,16 +23,9 @@ import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uappframework.launcher.UiLauncher;
 
 import java.util.List;
 import java.util.Locale;
-
-//import com.philips.cdp.productselection.launchertype.UiLauncher;
-//import com.philips.platform.appinfra.AppInfraSingleton;
-
 
 public class ProductModelSelectionHelper {
 
@@ -40,12 +33,9 @@ public class ProductModelSelectionHelper {
     private static ProductModelSelectionHelper mProductModelSelectionHelper = null;
     private Context mContext = null;
     private static Locale mLocale = null;
-    private static boolean isTabletLandscape = false;
-    private static Configuration mVerticalOrientation = null;
     private ProductSelectionListener mProductSelectionListener = null;
     private UiLauncher mLauncherType = null;
     private ProductModelSelectionType mProductModelSelectionType = null;
-    private ProgressDialog mProgressDialog = null;
     private AppInfraInterface mAppInfraInterface;
 
     /*
@@ -100,11 +90,6 @@ public class ProductModelSelectionHelper {
         mAppInfraInterface = appInfraInterface;
     }
 
-    public UiLauncher getLauncherType() {
-        return mLauncherType;
-    }
-
-
     public AppInfraInterface getAPPInfraInstance() {
         return mAppInfraInterface;
     }
@@ -154,7 +139,7 @@ public class ProductModelSelectionHelper {
                     } else if (uiLauncher instanceof FragmentLauncher) {
                         FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
                         invokeAsFragment(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getParentContainerResourceID(),
-                                null, uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
+                                fragmentLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
                     }
                 } else {
                     if (mProductSelectionListener != null)
@@ -203,11 +188,6 @@ public class ProductModelSelectionHelper {
         }
     }
 
-    /*  Thsi is required to set, in order to achieve proper GUI for tablet. */
-    public void setCurrentOrientation(Configuration config) {
-        mVerticalOrientation = config;
-    }
-
     private void invokeAsActivity(int startAnimation, int endAnimation, ActivityLauncher.ActivityOrientation orientation) {
         if (mContext == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale before component invocation");
@@ -236,14 +216,8 @@ public class ProductModelSelectionHelper {
         }
     }
 
-    public String getProductSelectionLibVersion() {
-        return BuildConfig.VERSION_NAME;
-    }
-
     public boolean isLaunchedAsActivity() {
 
         return mLauncherType instanceof ActivityLauncher;
     }
-
-
 }
