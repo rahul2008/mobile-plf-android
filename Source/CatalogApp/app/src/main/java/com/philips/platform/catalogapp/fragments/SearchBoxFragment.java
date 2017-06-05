@@ -136,6 +136,7 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
 
     @Override
     public void onQuerySubmit(CharSequence query) {
-//        Toast.makeText(getActivity(), query, Toast.LENGTH_SHORT).show();
+
     }
+
 }
