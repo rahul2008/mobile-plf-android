@@ -4,13 +4,13 @@ android {
     signingConfigs {
         release
     }
-    compileSdkVersion 24
-    buildToolsVersion '25'
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         applicationId "com.philips.platform.appinfra.demo"
-        minSdkVersion 19
-        targetSdkVersion 24
+        minSdkVersion 21
+        targetSdkVersion 25
         versionCode 1
         versionName "1.5.6"
         resConfigs "en", "nl", "en-rGB", "zh-rCN"
