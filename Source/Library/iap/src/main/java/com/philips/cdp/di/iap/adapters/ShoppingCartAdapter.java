@@ -45,7 +45,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Resources mResources;
     private ArrayList<ShoppingCartData> mData = new ArrayList<>();
     private OutOfStockListener mOutOfStock;
-//    private DeliveryModes mDeliveryMode;
+    //    private DeliveryModes mDeliveryMode;
     private UIKitListPopupWindow mPopupWindow;
     private ShoppingCartData shoppingCartDataForProductDetailPage;
 
@@ -164,7 +164,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         rowItems.add(new RowItem(mTrashDrawable, descriptions[0]));
         rowItems.add(new RowItem(mInfoDrawable, descriptions[1]));
-        mPopupWindow = new  UIKitListPopupWindow(mContext, view, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems);
+        mPopupWindow = new UIKitListPopupWindow(mContext, view, UIKitListPopupWindow.UIKIT_Type.UIKIT_BOTTOMLEFT, rowItems);
 
         mPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -199,7 +199,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             return;
         if (holder instanceof ShoppingCartProductHolder) {
             //Product Layout
-            final ShoppingCartData cartData = mData.get(position);
+            final ShoppingCartData cartData = mData.get(holder.getAdapterPosition());
             ShoppingCartProductHolder shoppingCartProductHolder = (ShoppingCartProductHolder) holder;
             String imageURL = cartData.getImageURL();
             shoppingCartProductHolder.mTvProductTitle.setText(cartData.getProductTitle());
@@ -214,12 +214,12 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             shoppingCartProductHolder.mDotsLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
-                    bindDeleteOrInfoPopUP(view, position);
+                    bindDeleteOrInfoPopUP(view, holder.getItemViewType());
                 }
             });
             //Add arrow mark
             shoppingCartProductHolder.mTvQuantity.setCompoundDrawables(null, null, countArrow, null);
-            bindCountView(shoppingCartProductHolder.mQuantityLayout, position);
+            bindCountView(shoppingCartProductHolder.mQuantityLayout, holder.getAdapterPosition());
         } else {
             //Footer Layout
             FooterShoppingCartViewHolder shoppingCartFooter = (FooterShoppingCartViewHolder) holder;
