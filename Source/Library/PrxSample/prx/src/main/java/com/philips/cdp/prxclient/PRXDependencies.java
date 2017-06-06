@@ -16,6 +16,7 @@ public class PRXDependencies {
     private String mParentTLA;
     public LoggingInterface mAppInfraLogging;
 
+    @Deprecated
     public PRXDependencies(Context context, AppInfraInterface appInfra) {
         this.mAppInfraInterface = appInfra;
         this.mContext = context;
