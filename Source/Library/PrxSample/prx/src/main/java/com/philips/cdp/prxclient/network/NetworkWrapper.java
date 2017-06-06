@@ -1,5 +1,7 @@
 package com.philips.cdp.prxclient.network;
 
+import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
@@ -10,12 +12,13 @@ import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
-import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.PRXDependencies;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseData;
 import com.philips.cdp.prxclient.response.ResponseListener;
+import com.philips.platform.appinfra.logging.AppInfraLogging;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.request.GsonCustomRequest;
 
 import org.json.JSONException;
@@ -32,15 +35,17 @@ public class NetworkWrapper {
 
     private static final String TAG = "prx "+NetworkWrapper.class.getSimpleName();
     private PRXDependencies mPrxDependencies;
+    private LoggingInterface mPrxLogging;
 
     public NetworkWrapper(PRXDependencies prxDependencies) {
         mPrxDependencies = prxDependencies;
+        mPrxLogging = prxDependencies.mAppInfraLogging;
     }
 
     public void executeCustomJsonRequest(final PrxRequest prxRequest, final ResponseListener listener) {
-        PrxLogger.d(TAG, "Custom JSON Request call..");
+        mPrxLogging.log(LoggingInterface.LogLevel.INFO,TAG ,"Custom JSON Request call..");
         if (listener == null) {
-            PrxLogger.e(TAG, "ResponseListener is null");
+            mPrxLogging.log(LoggingInterface.LogLevel.INFO,TAG ,"ResponseListener is null");
         } else {
             final Response.Listener<JSONObject> responseListener = getVolleyResponseListener(prxRequest, listener);
             final Response.ErrorListener errorListener = getVolleyErrorListener(listener);
