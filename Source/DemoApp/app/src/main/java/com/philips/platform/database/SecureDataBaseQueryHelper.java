@@ -10,8 +10,6 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
 
-import net.sqlcipher.database.SQLiteDatabase;
-
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -278,7 +276,7 @@ public class SecureDataBaseQueryHelper<T> {
                         public Void call() throws Exception {
 
                             List<AddressBook> addressBooksList = new ArrayList<>();
-                            for (int i = 0; i < 10000; i++) {
+                            for (int i = 0; i < 1000; i++) {
                                 addressBooksList.add(new AddressBook("A", "AZ", "BANGALORE", "98484848488"));
                             }
 
