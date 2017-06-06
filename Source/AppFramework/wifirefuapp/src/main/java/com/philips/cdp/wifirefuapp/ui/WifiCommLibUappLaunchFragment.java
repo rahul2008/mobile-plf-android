@@ -1,4 +1,4 @@
-package com.philips.cdp.wifirefuapp;
+package com.philips.cdp.wifirefuapp.ui;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,7 +26,10 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp.wifirefuapp.R;
 import com.philips.cdp.wifirefuapp.consents.ConsentDialogFragment;
+import com.philips.cdp.wifirefuapp.devicesetup.SampleApplianceFactory;
+import com.philips.cdp.wifirefuapp.devicesetup.SampleKpsConfigurationInfo;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
@@ -97,7 +100,8 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
             @Override
             public void onClick(View v) {
                 //DataServicesManager.getInstance().getPairedDevices(WifiCommLibUappLaunchFragment.this);
-                DataServicesManager.getInstance().createSubjectProfile("Fwuser","2013-05-05","Male",3.456,"2015-10-01T12:11:10.123+0100",WifiCommLibUappLaunchFragment.this);
+                //DataServicesManager.getInstance().createSubjectProfile("Fwuser","2013-05-05","Male",3.456,"2015-10-01T12:11:10.123+0100",WifiCommLibUappLaunchFragment.this);
+                DataServicesManager.getInstance().getSubjectProfiles(WifiCommLibUappLaunchFragment.this);
             }
         });
         consentButton.setOnClickListener(new View.OnClickListener() {
@@ -183,7 +187,6 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
 
         @Override
         public void onDiscoveredAppliancesListChanged() {
-            Log.v("Discovered Devices",""+discoveryManager.getAllDiscoveredAppliances().get(discoveryManager.getAllDiscoveredAppliances().size()-1));
             activity.runOnUiThread(new Runnable() {
 
                 @Override
@@ -248,7 +251,7 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
 
     @Override
     public void onGetSubjectProfiles(List<UCoreSubjectProfile> list) {
-        Log.d(TAG,"::::boolean response : "+list.size());
+        Log.d(TAG,"::::Subject profile list response : "+list.size());
     }
 
     @Override

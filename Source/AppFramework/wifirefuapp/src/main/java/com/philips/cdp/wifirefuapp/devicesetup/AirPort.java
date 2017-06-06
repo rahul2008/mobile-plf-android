@@ -2,7 +2,7 @@
  * (C) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
-package com.philips.cdp.wifirefuapp;
+package com.philips.cdp.wifirefuapp.devicesetup;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;

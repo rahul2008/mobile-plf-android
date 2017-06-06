@@ -1,4 +1,4 @@
-package com.philips.cdp.wifirefuapp;
+package com.philips.cdp.wifirefuapp.ui;
 
 
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;

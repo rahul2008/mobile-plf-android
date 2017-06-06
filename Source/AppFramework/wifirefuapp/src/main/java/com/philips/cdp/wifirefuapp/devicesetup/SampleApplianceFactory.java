@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.wifirefuapp;
+package com.philips.cdp.wifirefuapp.devicesetup;
 
 import android.support.annotation.NonNull;
 

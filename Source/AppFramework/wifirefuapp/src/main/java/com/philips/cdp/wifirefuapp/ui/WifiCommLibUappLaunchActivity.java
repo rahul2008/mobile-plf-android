@@ -1,4 +1,4 @@
-package com.philips.cdp.wifirefuapp;
+package com.philips.cdp.wifirefuapp.ui;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -14,9 +14,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.wifirefuapp.R;
 import com.philips.platform.uappframework.listener.BackEventListener;
-
-import static com.philips.cdp.wifirefuapp.WifiCommLibUappInterface.WELCOME_MESSAGE;
 
 
 public class WifiCommLibUappLaunchActivity extends AppCompatActivity {
@@ -35,9 +34,9 @@ public class WifiCommLibUappLaunchActivity extends AppCompatActivity {
             WifiCommLibUappLaunchFragment sampleFragment = new WifiCommLibUappLaunchFragment();
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
-                String message = extras.getString(WELCOME_MESSAGE);
+                String message = extras.getString(WifiCommLibUappInterface.WELCOME_MESSAGE);
                 Bundle bundle = new Bundle();
-                bundle.putString(WELCOME_MESSAGE, message);
+                bundle.putString(WifiCommLibUappInterface.WELCOME_MESSAGE, message);
                 sampleFragment.setArguments(bundle);
             }
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

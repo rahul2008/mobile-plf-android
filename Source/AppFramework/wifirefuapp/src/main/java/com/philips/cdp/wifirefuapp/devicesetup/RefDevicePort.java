@@ -1,4 +1,4 @@
-package com.philips.cdp.wifirefuapp;
+package com.philips.cdp.wifirefuapp.devicesetup;
 
 import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.port.common.DevicePortProperties;

@@ -1,4 +1,4 @@
-package com.philips.cdp.wifirefuapp;
+package com.philips.cdp.wifirefuapp.ui;
 
 import android.content.Context;
 import android.content.Intent;

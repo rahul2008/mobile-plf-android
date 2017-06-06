@@ -1,4 +1,4 @@
-package com.philips.cdp.wifirefuapp;
+package com.philips.cdp.wifirefuapp.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,6 +22,10 @@ import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
 import com.philips.cdp.dicommclient.port.common.PairingListener;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.wifirefuapp.R;
+import com.philips.cdp.wifirefuapp.devicesetup.AirPort;
+import com.philips.cdp.wifirefuapp.devicesetup.AirPortProperties;
+import com.philips.cdp.wifirefuapp.devicesetup.AirPurifier;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 
 import java.util.HashMap;
