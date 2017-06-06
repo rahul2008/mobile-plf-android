@@ -109,14 +109,9 @@
     <item name="uidContentItemDefaultDisabledTitleTextColor">?attr/uidTextDisabled</item>
     <item name="uidDataVisualizationChartsDisabledLegendIndicator1Color">?attr/uidDataColor1Disabled</item>
     <item name="uidDataVisualizationChartsDisabledLegendIndicator2Color">?attr/uidDataColor2Disabled</item>
-    <item name="uidDataVisualizationChartsDisabledLegendIndicator3Color">
-      ?attr/uidDataColor3Disabled
-    </item>
-    <item name="uidDataVisualizationChartsDisabledLegendIndicator4Color">
-      ?attr/uidDataColor4Disabled
-    </item>
-    <item name="uidDataVisualizationChartsDisabledLegendTextColor">?attr/uidTextSecondaryDisabled
-    </item>
+    <item name="uidDataVisualizationChartsDisabledLegendIndicator3Color">?attr/uidDataColor3Disabled</item>
+    <item name="uidDataVisualizationChartsDisabledLegendIndicator4Color">?attr/uidDataColor4Disabled</item>
+    <item name="uidDataVisualizationChartsDisabledLegendTextColor">?attr/uidTextSecondaryDisabled</item>
     <item name="uidDataVisualizationChartsAxisLabelTextColor">?attr/uidTextTertiary</item>
     <item name="uidDataVisualizationChartsGridlinesColor">?attr/uidSeparator</item>
     <item name="uidDataVisualizationChartsLegendIndicator1Color">?attr/uidDataColor1</item>
@@ -124,8 +119,7 @@
     <item name="uidDataVisualizationChartsLegendIndicator3Color">?attr/uidDataColor3</item>
     <item name="uidDataVisualizationChartsLegendIndicator4Color">?attr/uidDataColor4</item>
     <item name="uidDataVisualizationChartsLegendTextColor">?attr/uidTextPrimary</item>
-    <item name="uidDataVisualizationChartsTargetBackgroundColor">?attr/uidChartsTargetBackground
-    </item>
+    <item name="uidDataVisualizationChartsTargetBackgroundColor">?attr/uidChartsTargetBackground</item>
     <item name="uidDataVisualizationChartsTargetLineColor">?attr/uidControlPrimaryDetail</item>
     <item name="uidDataVisualizationChartsTargetTextColor">?attr/uidControlPrimaryDetail</item>
     <item name="uidDataVisualizationChartsValueIconColor">?attr/uidTextPrimary</item>
@@ -139,20 +133,12 @@
     <item name="uidDataVisualizationDefaultDataColor4Color">?attr/uidDataColor4</item>
     <item name="uidDataVisualizationDefaultSubtitleTextColor">?attr/uidTextTertiary</item>
     <item name="uidDataVisualizationDefaultTitleTextColor">?attr/uidTextPrimary</item>
-    <item name="uidDataVisualizationStatusIndicatorBackgroundColor">
-      ?attr/uidStatusIndicatorBackground
-    </item>
+    <item name="uidDataVisualizationStatusIndicatorBackgroundColor">?attr/uidStatusIndicatorBackground</item>
     <item name="uidDataVisualizationStatusIndicatorReferenceBackgroundColor">?attr/uidStatusIndicatorReferenceBackground</item>
     <item name="uidDataVisualizationStatusIndicatorValueIconColor">?attr/uidControlPrimaryDetail</item>
-    <item name="uidDataVisualizationStatusIndicatorValueIndicatorBackgroundColor">
-      ?attr/uidControlPrimaryDetail
-    </item>
-    <item name="uidDataVisualizationStatusIndicatorValueLabelIconColor">
-      ?attr/uidControlSecondaryDetail
-    </item>
-    <item name="uidDataVisualizationStatusIndicatorValueLabelTextColor">
-      ?attr/uidControlSecondaryDetail
-    </item>
+    <item name="uidDataVisualizationStatusIndicatorValueIndicatorBackgroundColor">?attr/uidControlPrimaryDetail</item>
+    <item name="uidDataVisualizationStatusIndicatorValueLabelIconColor">?attr/uidControlSecondaryDetail</item>
+    <item name="uidDataVisualizationStatusIndicatorValueLabelTextColor">?attr/uidControlSecondaryDetail</item>
     <item name="uidDataVisualizationStatusIndicatorValueTextColor">?attr/uidControlPrimaryDetail</item>
     <item name="uidDatePickerAndroidNormalButtonTextColor">?attr/uidControlBright</item>
     <item name="uidDatePickerAndroidNormalContentTextColor">?attr/uidNeutralTextPrimary</item>
@@ -162,11 +148,6 @@
     <item name="uidDatePickerAndroidNormalOnHeaderTextColor">?attr/uidNavigationText</item>
     <item name="uidDatePickerIosNormalTextColor">?attr/uidTextPrimary</item>
     <item name="uidDialogAlertDefaultBackgroundColor">?attr/uidPopup</item>
-    <item name="uidDialogAlertDefaultBodyIconColor">?attr/uidNeutralTextSecondary</item>
-    <item name="uidDialogAlertDefaultBodyTextColor">?attr/uidNeutralTextSecondary</item>
-    <item name="uidDialogAlertDefaultCloseIconColor">?attr/uidNeutralTextPrimary</item>
-    <item name="uidDialogAlertDefaultTitleIconColor">?attr/uidNeutralTextPrimary</item>
-    <item name="uidDialogAlertDefaultTitleTextColor">?attr/uidNeutralTextPrimary</item>
     <item name="uidDimLayerStrongBackgroundColor">?attr/uidDimStrong</item>
     <item name="uidDimLayerSubtleBackgroundColor">?attr/uidDimSubtle</item>
     <item name="uidDotNavigationDefaultNormalOnBackgroundColor">?attr/uidDotActive</item>
@@ -244,8 +225,7 @@
     <item name="uidSearchBoxAndroidDefaultNormalInputBackgroundColor">?attr/uidInput</item>
     <item name="uidSearchBoxAndroidDefaultNormalInputBorderColor">?attr/uidInputBorder</item>
     <item name="uidSearchBoxAndroidDefaultNormalInputTextColor">?attr/uidInputText</item>
-    <item name="uidSearchBoxAndroidDefaultNormalSearchIconColor">?attr/uidNeutralTextSecondary
-    </item>
+    <item name="uidSearchBoxAndroidDefaultNormalSearchIconColor">?attr/uidNeutralTextSecondary</item>
     <item name="uidSearchBoxAndroidDefaultFocusBackIconColor">?attr/uidNeutralTextSecondary</item>
     <item name="uidSearchBoxAndroidDefaultFocusInputBackgroundColor">?attr/uidInputFocus</item>
     <item name="uidSearchBoxDefaultNormalIconButtonColor">?attr/uidGrayPrimaryText</item>
@@ -260,18 +240,13 @@
     <item name="uidSearchBoxIosMinimalNormalCancelTextColor">?attr/uidControlPrimary</item>
     <item name="uidSearchBoxIosMinimalPressedCancelTextColor">?attr/uidControlPrimaryPressed</item>
     <item name="uidSearchBoxIosProminentNormalCancelTextColor">?attr/uidControlPrimary</item>
-    <item name="uidSearchBoxIosProminentNormalSearchbarBackgroundColor">?attr/uidContentPrimary
-    </item>
-    <item name="uidSearchBoxIosProminentPressedCancelTextColor">?attr/uidControlPrimaryPressed
-    </item>
+    <item name="uidSearchBoxIosProminentNormalSearchbarBackgroundColor">?attr/uidContentPrimary</item>
+    <item name="uidSearchBoxIosProminentPressedCancelTextColor">?attr/uidControlPrimaryPressed</item>
     <item name="uidSeparatorButtonSeparatorNormalBackgroundColor">?attr/uidInputSeparator</item>
-    <item name="uidSeparatorButtonSeparatorDisabledBackgroundColor">
-      ?attr/uidInputSeparatorDisabled
-    </item>
+    <item name="uidSeparatorButtonSeparatorDisabledBackgroundColor">?attr/uidInputSeparatorDisabled</item>
     <item name="uidSeparatorContentSeparatorNormalBackgroundColor">?attr/uidSeparator</item>
     <item name="uidSeparatorInputSeparatorNormalBackgroundColor">?attr/uidInputSeparator</item>
-    <item name="uidSeparatorInputSeparatorDisabledBackgroundColor">?attr/uidInputSeparatorDisabled
-    </item>
+    <item name="uidSeparatorInputSeparatorDisabledBackgroundColor">?attr/uidInputSeparatorDisabled</item>
     <item name="uidShadowLevelOneNormalShadowColor">?attr/uidShadowLevelOne</item>
     <item name="uidShadowLevelOneDisabledShadowColor">?attr/uidShadowLevelOneDisabled</item>
     <item name="uidShadowLevelThreeNormalShadowColor">?attr/uidShadowLevelThree</item>
@@ -582,6 +557,11 @@
     <item name="uidValidatedMessageText">@color/uid_signal_orange_level_60</item>
     <item name="uidWizardOn">@color/uid_pink_level_45</item>
     <item name="uidWizardOnText">@color/uid_level_white</item>
+    <item name="uidDialogAlertDefaultBodyIconColor">#CC212121</item>
+    <item name="uidDialogAlertDefaultBodyTextColor">#CC212121</item>
+    <item name="uidDialogAlertDefaultCloseIconColor">@color/uid_gray_level_75</item>
+    <item name="uidDialogAlertDefaultTitleIconColor">@color/uid_gray_level_75</item>
+    <item name="uidDialogAlertDefaultTitleTextColor">@color/uid_gray_level_75</item>
   </style>
   <style name="Theme.DLS.Pink.VeryLight">
     <item name="uidChartsTargetBackground">#4DEC8BA1</item>
@@ -764,6 +744,11 @@
     <item name="uidValidatedMessageText">@color/uid_signal_red_level_75</item>
     <item name="uidWizardOn">@color/uid_pink_level_45</item>
     <item name="uidWizardOnText">@color/uid_level_white</item>
+    <item name="uidDialogAlertDefaultBodyIconColor">#CC212121</item>
+    <item name="uidDialogAlertDefaultBodyTextColor">#CC212121</item>
+    <item name="uidDialogAlertDefaultCloseIconColor">@color/uid_gray_level_75</item>
+    <item name="uidDialogAlertDefaultTitleIconColor">@color/uid_gray_level_75</item>
+    <item name="uidDialogAlertDefaultTitleTextColor">@color/uid_gray_level_75</item>
   </style>
   <style name="Theme.DLS.Pink.Light">
     <item name="uidChartsTargetBackground">#4DEC8BA1</item>
@@ -946,6 +931,11 @@
     <item name="uidValidatedMessageText">@color/uid_signal_red_level_75</item>
     <item name="uidWizardOn">@color/uid_pink_level_75</item>
     <item name="uidWizardOnText">@color/uid_level_white</item>
+    <item name="uidDialogAlertDefaultBodyIconColor">#CC212121</item>
+    <item name="uidDialogAlertDefaultBodyTextColor">#CC212121</item>
+    <item name="uidDialogAlertDefaultCloseIconColor">@color/uid_gray_level_75</item>
+    <item name="uidDialogAlertDefaultTitleIconColor">@color/uid_gray_level_75</item>
+    <item name="uidDialogAlertDefaultTitleTextColor">@color/uid_gray_level_75</item>
   </style>
   <style name="Theme.DLS.Pink.Bright">
     <item name="uidChartsTargetBackground">#4DE85D80</item>
@@ -1128,6 +1118,11 @@
     <item name="uidValidatedMessageText">@color/uid_signal_yellow_level_15</item>
     <item name="uidWizardOn">@color/uid_level_white</item>
     <item name="uidWizardOnText">@color/uid_pink_level_45</item>
+    <item name="uidDialogAlertDefaultBodyIconColor">#CC212121</item>
+    <item name="uidDialogAlertDefaultBodyTextColor">#CC212121</item>
+    <item name="uidDialogAlertDefaultCloseIconColor">@color/uid_gray_level_75</item>
+    <item name="uidDialogAlertDefaultTitleIconColor">@color/uid_gray_level_75</item>
+    <item name="uidDialogAlertDefaultTitleTextColor">@color/uid_gray_level_75</item>
   </style>
   <style name="Theme.DLS.Pink.VeryDark">
     <item name="uidChartsTargetBackground">#4DBE2A5D</item>
@@ -1310,5 +1305,10 @@
     <item name="uidValidatedMessageText">@color/uid_signal_orange_level_30</item>
     <item name="uidWizardOn">@color/uid_pink_level_45</item>
     <item name="uidWizardOnText">@color/uid_level_white</item>
+    <item name="uidDialogAlertDefaultBodyIconColor">#CC212121</item>
+    <item name="uidDialogAlertDefaultBodyTextColor">#CC212121</item>
+    <item name="uidDialogAlertDefaultCloseIconColor">@color/uid_gray_level_75</item>
+    <item name="uidDialogAlertDefaultTitleIconColor">@color/uid_gray_level_75</item>
+    <item name="uidDialogAlertDefaultTitleTextColor">@color/uid_gray_level_75</item>
   </style>
 </resources>

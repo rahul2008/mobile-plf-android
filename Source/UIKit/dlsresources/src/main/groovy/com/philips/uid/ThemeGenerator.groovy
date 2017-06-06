@@ -6,11 +6,13 @@
 
 package com.philips.uid
 
+import component.override.ComponentOverrideManager
 import groovy.xml.MarkupBuilder
 
 class ThemeGenerator {
 
     def invalidComponentRefList = new ArrayList()
+
     def createThemeXml(
             def allBrushAttributes, def allComponentAttributes, def dataValidationThemeValues) {
         def colorsXmlInput = new XmlParser().parseText(new File(DLSResourceConstants.PATH_OUT_COLORS_FILE).text)
@@ -49,8 +51,9 @@ class ThemeGenerator {
                 colorLevel = colorLevel + DLSResourceConstants.COLOR_OFFSET
             }
 
+            def compMngr = ComponentOverrideManager.getManagerInstance()
             allComponentAttributes.each {
-                if (BrushParser.isSupportedAction(it.attrName)) {
+                if (BrushParser.isSupportedAction(it.attrName) && !compMngr.overridesTR(it.attrName)) {
                     def reference = it.attributeMap.get(it.attrName).getAttributeValue(allBrushAttributes)
                     if (reference == "@null") {
                         invalidComponentRefList.add(it.attrName)
@@ -91,6 +94,23 @@ class ThemeGenerator {
                     }
                 }
             }
+            //Add overridden component attributes
+            ComponentOverrideManager.getManagerInstance().overrideList.each {
+                def brush = it.brush
+                def compName = it.name
+                def value = "null"
+                def newTonalRange = it.getOverridenTonalRange(tonalRange.toString())
+                //Search for the brush from list
+                allBrushAttributes.each {
+                    if(it.attrName == brush) {
+                        TonalRange themeValue =  it.attributeMap.get(newTonalRange).clone();
+                        dataValidation.decorateValidations(themeValue, dataValidationThemeValues, it.attrName, colorName, newTonalRange)
+                        value = themeValue.getValue("${colorName}", colorsXmlInput, allBrushAttributes)
+                        item("${DLSResourceConstants.ITEM_NAME}": compName, value)
+                    }
+                }
+            }
+
         }
     }
 
