@@ -1,7 +1,8 @@
 /*
- * (C) Koninklijke Philips N.V., 2017.
+ * (C) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.cdp2.commlibexplorer.appliance;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
@@ -30,7 +31,7 @@ public class GenericApplianceFactory implements DICommApplianceFactory<GenericAp
     @Override
     public GenericAppliance createApplianceForNode(NetworkNode networkNode) {
         CommunicationStrategy strategy = transportContext.createCommunicationStrategyFor(networkNode);
-        ApplianceSpecification applianceSpec = supportedAppliances.findSpecification(networkNode.getModelId(), networkNode.getModelName());
+        ApplianceSpecification applianceSpec = supportedAppliances.findSpecification(networkNode.getModelId(), networkNode.getDeviceType());
 
         GenericAppliance genericAppliance = new GenericAppliance(networkNode, strategy);
         genericAppliance.readApplianceSpecification(applianceSpec, strategy);
