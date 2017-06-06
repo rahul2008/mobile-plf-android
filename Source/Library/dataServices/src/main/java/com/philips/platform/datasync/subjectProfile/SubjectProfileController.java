@@ -57,7 +57,8 @@ public class SubjectProfileController {
         if (mSubjectProfileClient == null) return false;
 
         try {
-            Response response = mSubjectProfileClient.createSubjectProfile(uCoreCreateSubjectProfileRequest);
+            Response response = mSubjectProfileClient.createSubjectProfile(mUCoreAccessProvider.getUserId(),
+                    uCoreCreateSubjectProfileRequest);
             mEventing.post(new SubjectProfileResponseEvent(isResponseSuccess(response)));
         } catch (RetrofitError error) {
             mEventing.post(new SubjectProfileErrorResponseEvent(createDataServicesError(error.getResponse().getStatus(), error.getMessage())));
@@ -79,7 +80,7 @@ public class SubjectProfileController {
         if (mSubjectProfileClient == null) return false;
 
         try {
-            UCoreSubjectProfileList uCoreSubjectProfileList = mSubjectProfileClient.getSubjectProfiles();
+            UCoreSubjectProfileList uCoreSubjectProfileList = mSubjectProfileClient.getSubjectProfiles(mUCoreAccessProvider.getUserId());
             mEventing.post(new GetSubjectProfileListResponseEvent(uCoreSubjectProfileList));
         } catch (RetrofitError error) {
             mEventing.post(new SubjectProfileErrorResponseEvent(createDataServicesError(error.getResponse().getStatus(), error.getMessage())));
@@ -101,7 +102,7 @@ public class SubjectProfileController {
         if (mSubjectProfileClient == null) return false;
 
         try {
-            UCoreSubjectProfile uCoreSubjectProfile = mSubjectProfileClient.getSubjectProfile(subjectID);
+            UCoreSubjectProfile uCoreSubjectProfile = mSubjectProfileClient.getSubjectProfile(mUCoreAccessProvider.getUserId(), subjectID);
             mEventing.post(new GetSubjectProfileResponseEvent(uCoreSubjectProfile));
         } catch (RetrofitError error) {
             mEventing.post(new SubjectProfileErrorResponseEvent(createDataServicesError(error.getResponse().getStatus(), error.getMessage())));
@@ -123,7 +124,7 @@ public class SubjectProfileController {
         if (mSubjectProfileClient == null) return false;
 
         try {
-            Response response = mSubjectProfileClient.deleteSubjectProfile(subjectID);
+            Response response = mSubjectProfileClient.deleteSubjectProfile(mUCoreAccessProvider.getUserId(), subjectID);
             mEventing.post(new SubjectProfileResponseEvent(isResponseSuccess(response)));
         } catch (RetrofitError error) {
             mEventing.post(new SubjectProfileErrorResponseEvent(createDataServicesError(error.getResponse().getStatus(), error.getMessage())));
