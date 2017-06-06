@@ -13,6 +13,7 @@ import com.philips.pins.shinelib.SHNIntegerResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
+import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
 import com.philips.pins.shinelib.framework.SHNFactory;
 import com.philips.pins.shinelib.utility.SHNLogger;
@@ -25,7 +26,6 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * @publicPluginApi
  */
 public class SHNServiceBattery implements SHNService.SHNServiceListener {
 
@@ -68,13 +68,13 @@ public class SHNServiceBattery implements SHNService.SHNServiceListener {
         shnService.registerSHNServiceListener(this);
     }
 
-    private static Set<UUID> getRequiredCharacteristics() {
-        Set<UUID> requiredCharacteristicUUIDs = new HashSet<>();
-        requiredCharacteristicUUIDs.add(SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID);
+    private static Set<SHNCharacteristicInfo> getRequiredCharacteristics() {
+        Set<SHNCharacteristicInfo> requiredCharacteristicUUIDs = new HashSet<>();
+        requiredCharacteristicUUIDs.add(new SHNCharacteristicInfo(SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID, false));
         return requiredCharacteristicUUIDs;
     }
 
-    private static Set<UUID> getOptionalCharacteristics() {
+    private static Set<SHNCharacteristicInfo> getOptionalCharacteristics() {
         return new HashSet<>();
     }
 

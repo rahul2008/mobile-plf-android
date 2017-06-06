@@ -5,6 +5,8 @@
 
 package com.philips.pins.shinelib.services;
 
+import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -21,17 +23,17 @@ public class SHNServiceMoonshineStreaming extends SHNServiceByteStreaming {
         super(SERVICE_UUID, getRequiredCharacteristics(), getOptionalCharacteristics());
     }
 
-    private static Set<UUID> getRequiredCharacteristics() {
-        Set<UUID> requiredCharacteristicUUIDs = new HashSet<>();
-        requiredCharacteristicUUIDs.add(RX_CHARACTERISTIC_UUID);
-        requiredCharacteristicUUIDs.add(RX_ACK_CHARACTERISTIC_UUID);
-        requiredCharacteristicUUIDs.add(TX_CHARACTERISTIC_UUID);
-        requiredCharacteristicUUIDs.add(TX_ACK_CHARACTERISTIC_UUID);
-        requiredCharacteristicUUIDs.add(PROT_CFG_CHARACTERISTIC_UUID);
+    private static Set<SHNCharacteristicInfo> getRequiredCharacteristics() {
+        Set<SHNCharacteristicInfo> requiredCharacteristicUUIDs = new HashSet<>();
+        requiredCharacteristicUUIDs.add(new SHNCharacteristicInfo(RX_CHARACTERISTIC_UUID, true));
+        requiredCharacteristicUUIDs.add(new SHNCharacteristicInfo(RX_ACK_CHARACTERISTIC_UUID, true));
+        requiredCharacteristicUUIDs.add(new SHNCharacteristicInfo(TX_CHARACTERISTIC_UUID, true));
+        requiredCharacteristicUUIDs.add(new SHNCharacteristicInfo(TX_ACK_CHARACTERISTIC_UUID, true));
+        requiredCharacteristicUUIDs.add(new SHNCharacteristicInfo(PROT_CFG_CHARACTERISTIC_UUID, true));
         return requiredCharacteristicUUIDs;
     }
 
-    private static Set<UUID> getOptionalCharacteristics() {
+    private static Set<SHNCharacteristicInfo> getOptionalCharacteristics() {
         return new HashSet<>();
     }
 

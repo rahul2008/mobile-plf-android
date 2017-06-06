@@ -12,6 +12,7 @@ import com.philips.pins.shinelib.SHNCommandResultReporter;
 import com.philips.pins.shinelib.SHNObjectResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNService;
+import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
 import com.philips.pins.shinelib.framework.SHNFactory;
 import com.philips.pins.shinelib.utility.ExactTime256WithAdjustReason;
@@ -69,16 +70,16 @@ public class SHNServiceCurrentTime {
         this.shnServiceCurrentTimeListener = shnServiceCurrentTimeListener;
     }
 
-    private Set<UUID> getRequiredCharacteristics() {
-        Set<UUID> uuids = new HashSet<>();
-        uuids.add(CURRENT_TIME_CHARACTERISTIC_UUID);
+    private Set<SHNCharacteristicInfo> getRequiredCharacteristics() {
+        Set<SHNCharacteristicInfo> uuids = new HashSet<>();
+        uuids.add(new SHNCharacteristicInfo(CURRENT_TIME_CHARACTERISTIC_UUID, false));
         return uuids;
     }
 
-    private Set<UUID> getOptionalCharacteristics() {
-        Set<UUID> uuids = new HashSet<>();
-        uuids.add(LOCAL_TIME_INFO_CHARACTERISTIC_UUID);
-        uuids.add(REFERENCE_TIME_INFO_CHARACTERISTIC_UUID);
+    private Set<SHNCharacteristicInfo> getOptionalCharacteristics() {
+        Set<SHNCharacteristicInfo> uuids = new HashSet<>();
+        uuids.add(new SHNCharacteristicInfo(LOCAL_TIME_INFO_CHARACTERISTIC_UUID, false));
+        uuids.add(new SHNCharacteristicInfo(REFERENCE_TIME_INFO_CHARACTERISTIC_UUID, false));
         return uuids;
     }
 

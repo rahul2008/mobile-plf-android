@@ -13,6 +13,7 @@ import com.philips.pins.shinelib.SHNObjectResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
+import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
 import com.philips.pins.shinelib.framework.SHNFactory;
 import com.philips.pins.shinelib.services.SHNServiceBattery;
@@ -55,14 +56,14 @@ public class SHNServiceWeightScale implements SHNService.SHNServiceListener, SHN
 
     private SHNService shnService;
 
-    private static Set<UUID> getRequiredCharacteristics() {
-        Set<UUID> requiredCharacteristicUUIDs = new HashSet<>();
-        requiredCharacteristicUUIDs.add(WEIGHT_SCALE_FEATURE_CHARACTERISTIC_UUID);
-        requiredCharacteristicUUIDs.add(WEIGHT_MEASUREMENT_CHARACTERISTIC_UUID);
+    private static Set<SHNCharacteristicInfo> getRequiredCharacteristics() {
+        Set<SHNCharacteristicInfo> requiredCharacteristicUUIDs = new HashSet<>();
+        requiredCharacteristicUUIDs.add(new SHNCharacteristicInfo(WEIGHT_SCALE_FEATURE_CHARACTERISTIC_UUID, true));
+        requiredCharacteristicUUIDs.add(new SHNCharacteristicInfo(WEIGHT_MEASUREMENT_CHARACTERISTIC_UUID, true));
         return requiredCharacteristicUUIDs;
     }
 
-    private static Set<UUID> getOptionalCharacteristics() {
+    private static Set<SHNCharacteristicInfo> getOptionalCharacteristics() {
         return new HashSet<>();
     }
 

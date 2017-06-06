@@ -1,7 +1,7 @@
 BlueLib(/ShineLib) for Android - Release Notes
 =======================================
 
-Version 2.3.5
+Version 3.0.0
 -------------
 
 ### Functionality Delivered
@@ -14,10 +14,11 @@ Version 2.3.5
 * NA
 
 ### Breaking Changes
-See backwards compatibility
+When creating plugins, where previously only service UUIDs were communicated, now the new SHNCharacteristicInfo needs to be used. This class not only defines the UUID, but also whether or not the characteristic requires encryption, which is information that is now needed during connection establishment.
 
 ### Defects solved
-* [35185] Filting on UUID will now be done by the Android OS which reduce the amount of wrong results from discovery on certain phones. (For example on the Nexus 6P)
+* [35185] Filtering on UUID will now be done by the Android OS which reduce the amount of wrong results from discovery on certain phones. (For example on the Nexus 6P)
+* [18935] BlueLib can you successfully bond with a OnePlus2.
 
 ### Residual anomalies
 * NA

@@ -1,3 +1,8 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015, 2016, 2017.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.services.battery;
 
 import com.philips.pins.shinelib.SHNCharacteristic;
@@ -6,6 +11,7 @@ import com.philips.pins.shinelib.SHNIntegerResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
+import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.framework.SHNFactory;
 import com.philips.pins.shinelib.services.SHNServiceBattery;
 
@@ -27,10 +33,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class SHNServiceBatteryTest {
 
@@ -68,7 +70,7 @@ public class SHNServiceBatteryTest {
 
         assertNotNull(requiredSetArgumentCaptor.getValue());
         assertEquals(1, requiredSetArgumentCaptor.getValue().size());
-        assertTrue(requiredSetArgumentCaptor.getValue().contains(SHNServiceBattery.SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID));
+        assertTrue(requiredSetArgumentCaptor.getValue().contains(new SHNCharacteristicInfo(SHNServiceBattery.SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID, false)));
 
         assertNotNull(optionalSetArgumentCaptor.getValue());
         assertEquals(0, optionalSetArgumentCaptor.getValue().size());
