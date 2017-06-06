@@ -1,5 +1,29 @@
 Release notes for Android-CloudController
 
+Version 5.1.5
+-------------
+### Functionality Delivered
+* NA
+
+### Backwards Compatibility
+* NA
+
+### Features not covered
+* NA
+
+### Breaking Changes
+* See backwards compatibility
+
+### Defects solved
+* NA
+
+### Residual anomalies
+* None
+
+### Risks and mitigations
+* NA
+
+
 Version 5.1.4
 -------------
 ### Bugs fixed:
