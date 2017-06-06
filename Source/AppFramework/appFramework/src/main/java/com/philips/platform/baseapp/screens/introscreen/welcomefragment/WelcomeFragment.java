@@ -6,23 +6,13 @@
 
 package com.philips.platform.baseapp.screens.introscreen.welcomefragment;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.app.admin.DevicePolicyManager;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,9 +56,8 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
     public void onBackPressed() {
         RALog.d(TAG, " On Back Pressed");
         if (pager.getCurrentItem() == 0) {
-            AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) getFragmentActivity().getApplication();
             try {
-                BaseFlowManager targetFlowManager = appFrameworkApplication.getTargetFlowManager();
+                BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
                 targetFlowManager.getBackState(targetFlowManager.getCurrentState());
                 targetFlowManager.clearStates();
                 getActivity().finishAffinity();
@@ -160,7 +149,7 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
 
     protected void startLogging() {
         RALog.d(TAG, " start Logging ");
-        ((AppFrameworkApplication) getFragmentActivity().getApplicationContext()).getLoggingInterface().log(LoggingInterface.LogLevel.INFO, TAG,
+        getApplicationContext().getLoggingInterface().log(LoggingInterface.LogLevel.INFO, TAG,
                 " IntroductionScreen Activity Created ");
     }
 
@@ -177,126 +166,8 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
         return true;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        createDialog();
-    }
-
-    protected void createDialog() {
-        {
-            if(getDoNotShowValue(JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED)) {
-                Log.i("testing", "---- case 0 ");
-                return;
-            }
-            final Dialog dialog = new Dialog(getActivity());
-            dialog.setContentView(R.layout.af_custom_dialog_security);
-            dialog.setTitle(getString(R.string.RA_SECURITY_SECURE_YOUR_DATA));
-            TextView dialogDescTextView = (TextView)dialog.findViewById(R.id.textDesc);
-            final CheckBox checkBox = (CheckBox) dialog.findViewById(R.id.checkBox);
-            Button btnActivateScreen = (Button) dialog.findViewById(R.id.btnActivateScreen);
-            Button btnNoThanks = (Button) dialog.findViewById(R.id.btnNoThanks);
-            checkBox.setText(getString(R.string.RA_SECURITY_DONT_SHOW_MESSAGE));
-
-            boolean isScreenLockDisabled = !isScreenLockEnabled();
-            Log.i("testing", "isScreenLockEnabled - " + isScreenLockEnabled());
-            Log.i("testing", "isScreenLockDisabled - " + isScreenLockDisabled);
-
-            boolean isDeviceRooted = isDeviceRooted();
-
-            Log.i("testing", "isRooted - " + isDeviceRooted);
-
-            if(isScreenLockDisabled && isDeviceRooted) {
-                Log.i("testing", "----- case 1 ");
-                dialogDescTextView.setText(getString(R.string.RA_SECURITY_PASSCODE_AND_JAILBREAK_VIOLATION));
-                activateScreenLockListener(btnActivateScreen, dialog);
-                btnActivateScreen.setVisibility(View.VISIBLE);
-                checkBoxListener(checkBox, JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED);
-            }
-            else if(isDeviceRooted && !getDoNotShowValue(JAIL_BROKEN_ENABLED)) {
-                Log.i("testing", "----- case 2 ");
-                dialogDescTextView.setText(getString(R.string.RA_SECURITY_JAILBREAK_VIOLATION));
-                btnActivateScreen.setVisibility(View.GONE);
-                checkBoxListener(checkBox, JAIL_BROKEN_ENABLED);
-            }
-            else if(isScreenLockDisabled && !getDoNotShowValue(SCREEN_LOCK_DISABLED)) {
-                Log.i("testing", "----- case 3 ");
-                dialogDescTextView.setText(getString(R.string.RA_SECURITY_SCREEN_LOCK));
-                btnActivateScreen.setVisibility(View.VISIBLE);
-                activateScreenLockListener(btnActivateScreen, dialog);
-                checkBoxListener(checkBox, SCREEN_LOCK_DISABLED);
-            }
-            noThanksClickListener(btnNoThanks, dialog);
-            dialog.show();
-
-            Log.i("testing", "Key -> " + JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED + "---- Value ->" +
-                    getDoNotShowValue(JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED));
-            Log.i("testing", "Key -> " + JAIL_BROKEN_ENABLED + "---- Value ->" + getDoNotShowValue(JAIL_BROKEN_ENABLED));
-            Log.i("testing", "Key -> " + SCREEN_LOCK_DISABLED + "---- Value ->" + getDoNotShowValue(SCREEN_LOCK_DISABLED));
-        }
-    }
-
-    protected void checkBoxListener(CheckBox checkBox, final String key) {
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                setDoNotShowValue(key, b);
-            }
-        });
-    }
-
-    @NonNull
-    private Boolean isScreenLockEnabled() {
-        return getApplicationContext().getAppInfra().getSecureStorage().deviceHasPasscode();
-    }
-
-    @NonNull
-    private Boolean isDeviceRooted() {
-        String isDeviceRooted = getApplicationContext().getAppInfra().getSecureStorage().getDeviceCapability();
-        return Boolean.parseBoolean(isDeviceRooted);
-    }
 
     private AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) getFragmentActivity().getApplication();
-    }
-
-    protected void activateScreenLockListener(Button btnActivateScreen, final Dialog dialog) {
-        btnActivateScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                Intent intent = new Intent(DevicePolicyManager.ACTION_SET_NEW_PASSWORD);
-                startActivity(intent);
-            }
-        });
-    }
-
-    protected void noThanksClickListener(Button btnNoThanks, final Dialog dialog) {
-        btnNoThanks.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-    }
-
-    private static final String JAIL_BROKEN_ENABLED = "JAIL_BROKEN";
-    private static final String SCREEN_LOCK_DISABLED = "SCREEN_LOCK";
-    private static final String JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED = "JAIL_BROKEN_SCREEN_LOCK";
-
-    protected void setDoNotShowValue(String key, Boolean value) {
-        Log.i("testing", "setDoNotShowValue Key -> " + key + "---- Value ->" + value);
-        SharedPreferences.Editor editor = getPreferences().edit();
-        editor.putBoolean(key, value);
-        editor.commit();
-    }
-
-    protected boolean getDoNotShowValue(String key) {
-        Log.i("testing", "getDoNotShowValue Key -> " + key + "---- Value ->" + getPreferences().getBoolean(key, false));
-        return getPreferences().getBoolean(key, false);
-    }
-
-    private SharedPreferences getPreferences() {
-        return getActivity().getPreferences(Activity.MODE_PRIVATE);
     }
 }
