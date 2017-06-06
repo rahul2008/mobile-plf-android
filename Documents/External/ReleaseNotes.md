@@ -11,7 +11,7 @@ Version 2.3.5
 * NA
 
 ### Features not covered
-* To be filled in at release
+* NA
 
 ### Breaking Changes
 See backwards compatibility
@@ -20,7 +20,7 @@ See backwards compatibility
 * [35185] Filting on UUID will now be done by the Android OS which reduce the amount of wrong results from discovery on certain phones. (For example on the Nexus 6P)
 
 ### Residual anomalies
-* To be filled in at release
+* NA
 
 ### Risks and mitigations
 * NA
