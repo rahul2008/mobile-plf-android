@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="fragment"
-            type="com.philips.platform.catalogapp.fragments.GridViewFragment"/>
+            type="com.philips.platform.catalogapp.fragments.GridViewFragment" />
     </data>
 
     <LinearLayout
@@ -25,11 +25,12 @@
                 style="@style/UIDLabel.MarginStart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
                 android:paddingEnd="0dp"
                 android:paddingStart="0dp"
                 android:text="@string/page_title_gridview_settings"
-                android:textColor="?attr/uidTextPrimary"/>
+                android:textColor="?attr/uidTextPrimary" />
 
             <ImageButton
                 android:id="@+id/show_more"
@@ -41,12 +42,12 @@
                 android:background="@null"
                 android:clickable="false"
                 android:gravity="center"
-                app:srcCompat="@drawable/ic_right_arrow_show_more"/>
+                app:srcCompat="@drawable/ic_right_arrow_show_more" />
         </RelativeLayout>
 
         <include
             android:id="@+id/divider"
-            layout="@layout/uid_horizontal_separator"/>
+            layout="@layout/uid_horizontal_separator" />
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/uid_gridview_header"
@@ -54,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="@string/gridview_header"/>
+            android:text="@string/gridview_header" />
 
         <GridView
             android:id="@+id/gridView"
@@ -64,7 +65,7 @@
             android:columnWidth="@dimen/grid_column_width"
             android:gravity="center"
             android:numColumns="auto_fit"
-            android:stretchMode="columnWidth"/>
+            android:stretchMode="columnWidth" />
     </LinearLayout>
 
 </layout>

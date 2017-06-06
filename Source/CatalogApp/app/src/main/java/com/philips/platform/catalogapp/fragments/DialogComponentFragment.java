@@ -57,7 +57,7 @@ public class DialogComponentFragment extends BaseFragment implements View.OnClic
         if (isWithTitle) {
             builder.setTitle(R.string.dialog_screen_title_text);
             if (showIcon) {
-                builder.setIcon(R.drawable.ic_location);
+                builder.setIcon(R.drawable.alert_dialog_icon);
             }
         }
         alertDialogFragment = builder.setCancelable(false).create();
