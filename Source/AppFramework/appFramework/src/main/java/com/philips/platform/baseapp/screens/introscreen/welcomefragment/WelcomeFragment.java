@@ -16,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -166,10 +167,9 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
 
     @Override
     public void onClick(View v) {
-
-//        if (presenter != null) {
-//            presenter.onEvent(v.getId());
-//        }
+        if (presenter != null) {
+            presenter.onEvent(v.getId());
+        }
     }
 
     @Override
@@ -178,50 +178,44 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
         return true;
     }
 
-//    enum SECURE_STORAGE {
-//        SCREEN_LOCK,
-//        ROOTED,
-//        ROOTED_SCREEN_LOCK
-//    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        createDialog();
+    }
 
-    private void createDialog(int dialogDesc) {
+    private void createDialog() {
         {
             final Dialog dialog = new Dialog(getActivity());
             dialog.setContentView(R.layout.af_custom_dialog_security);
             dialog.setTitle(getString(R.string.RA_SECURITY_SECURE_YOUR_DATA));
-            TextView dialogDescTextView = (TextView)dialog.findViewById(R.id.textTitle);
+            TextView dialogDescTextView = (TextView)dialog.findViewById(R.id.textDesc);
             CheckBox checkBox = (CheckBox) dialog.findViewById(R.id.checkBox);
             Button btnActivateScreen = (Button) dialog.findViewById(R.id.btnActivateScreen);
             Button btnNoThanks = (Button) dialog.findViewById(R.id.btnNoThanks);
-            dialogDescTextView.setText(getString(dialogDesc));
             checkBox.setText(getString(R.string.RA_SECURITY_DONT_SHOW_MESSAGE));
 
-//            switch (secureStorage) {
-//                case SCREEN_LOCK:
-//
-//                    break;
-//
-//                case ROOTED:
-//
-//                    break;
-//
-//                case ROOTED_SCREEN_LOCK:
-//
-//                    break;
-//            }
-
             boolean isScreenLockDisabled = !isScreenLockEnabled();
+            Log.i("testing", "isScreenLockEnabled - " + isScreenLockEnabled());
+            Log.i("testing", "isScreenLockDisabled - " + isScreenLockDisabled);
 
             boolean isDeviceRooted = isDeviceRooted();
 
-//            if
+            Log.i("testing", "isRooted - " + isDeviceRooted);
 
-//            if(!isScreenLockEnabled) {
+            if(isScreenLockDisabled && isDeviceRooted) {
+                dialogDescTextView.setText(getString(R.string.RA_SECURITY_PASSCODE_AND_JAILBREAK_VIOLATION));
                 activateScreenLockListener(btnActivateScreen, dialog);
-//            }
-
+            }
+            else if(isDeviceRooted) {
+                dialogDescTextView.setText(getString(R.string.RA_SECURITY_JAILBREAK_VIOLATION));
+                btnActivateScreen.setVisibility(View.GONE);
+            }
+            else if(isScreenLockDisabled) {
+                dialogDescTextView.setText(getString(R.string.RA_SECURITY_SCREEN_LOCK));
+                activateScreenLockListener(btnActivateScreen, dialog);
+            }
             noThanksClickListener(btnNoThanks, dialog);
-
             dialog.show();
         }
     }
@@ -234,7 +228,7 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
     @NonNull
     private Boolean isDeviceRooted() {
         String isDeviceRooted = getApplicationContext().getAppInfra().getSecureStorage().getDeviceCapability();
-        return Boolean.getBoolean(isDeviceRooted);
+        return Boolean.parseBoolean(isDeviceRooted);
     }
 
     private AppFrameworkApplication getApplicationContext() {
@@ -245,9 +239,9 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
         btnActivateScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dialog.dismiss();
                 Intent intent = new Intent(DevicePolicyManager.ACTION_SET_NEW_PASSWORD);
                 startActivity(intent);
-
             }
         });
     }
