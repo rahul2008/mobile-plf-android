@@ -1,7 +1,8 @@
 /*
- * (C) Koninklijke Philips N.V., 2016.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.cdp2.commlib.ble.discovery;
 
 import android.content.Context;

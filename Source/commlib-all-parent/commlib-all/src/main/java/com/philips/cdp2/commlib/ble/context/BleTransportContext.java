@@ -1,7 +1,8 @@
 /*
- * Copyright (c) 2016 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.cdp2.commlib.ble.context;
 
 import android.content.Context;
@@ -36,7 +37,7 @@ public class BleTransportContext implements TransportContext {
      *
      * @param context the context
      */
-    public BleTransportContext(@NonNull final Context context)  {
+    public BleTransportContext(@NonNull final Context context) {
         this(context, false);
     }
 
