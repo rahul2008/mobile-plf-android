@@ -181,7 +181,6 @@ android {
         disable 'InvalidPackage'
         disable 'GradleCompatible'
         disable 'MissingTranslation'
-        disable 'StringFormatInvalid'
         disable 'TypographyFractions','TypographyQuotes'
         absolutePaths false
     }
