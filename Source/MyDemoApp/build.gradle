@@ -26,10 +26,10 @@ allprojects {
 
 
 allprojects {
-    ext.compileSdkVer = 24
-    ext.buildToolsVer = '23.0.3'
-    ext.minSdkVer = 19
-    ext.targetSdkVer = 22
+    ext.compileSdkVer = 25
+    ext.buildToolsVer = '25.0.2'
+    ext.minSdkVer = 21
+    ext.targetSdkVer = 25
     ext.appVersion = '0.0.1'
     ext.appVersionCode = 2
 

@@ -20,7 +20,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.1', changing: true
     }
@@ -120,12 +120,12 @@ android {
 
     defaultConfig {
         applicationId "cdp.philips.com.mydemoapp"
-        minSdkVersion 19
-        targetSdkVersion 23
+        minSdkVersion 21
+        targetSdkVersion 25
         versionCode 6
         versionName "0.1.10"
         vectorDrawables.useSupportLibrary = true
-        renderscriptTargetApi 23
+        renderscriptTargetApi 25
         renderscriptSupportModeEnabled true
         generatedDensities = []
         multiDexEnabled true
@@ -241,11 +241,11 @@ dependencies {
     }
 
     //Android Support Libraries
-    compile 'com.android.support:support-annotations:23.2.0'
-    compile 'com.android.support:customtabs:**.**.**'
+    compile 'com.android.support:support-annotations:25.3.1'
+    compile 'com.android.support:customtabs:25.3.1'
     compile 'com.android.support:multidex:1.0.1'
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.android.support:appcompat-v7:+'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:appcompat-v7:25.3.1'
 
     //3rd Party
     compile "com.j256.ormlite:ormlite-core:5.0"
