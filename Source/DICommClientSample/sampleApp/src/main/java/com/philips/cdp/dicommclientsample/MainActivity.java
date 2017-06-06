@@ -2,6 +2,7 @@
  * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.cdp.dicommclientsample;
 
 import android.content.Intent;
@@ -24,8 +25,8 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
-import com.philips.cdp.dicommclientsample.reference.WifiReferenceAppliance;
+import com.philips.cdp.dicommclientsample.appliance.airpurifier.AirPurifier;
+import com.philips.cdp.dicommclientsample.appliance.reference.WifiReferenceAppliance;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 
 public class MainActivity extends AppCompatActivity {

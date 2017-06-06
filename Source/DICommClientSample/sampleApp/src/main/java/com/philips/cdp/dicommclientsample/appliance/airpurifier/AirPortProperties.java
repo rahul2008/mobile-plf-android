@@ -1,8 +1,8 @@
 /*
- * (C) Koninklijke Philips N.V., 2016.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
-package com.philips.cdp.dicommclientsample.airpurifier;
+package com.philips.cdp.dicommclientsample.appliance.airpurifier;
 
 import com.philips.cdp2.commlib.core.port.PortProperties;
 

@@ -18,8 +18,8 @@ import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp.dicommclientsample.reference.ReferenceAppliance;
-import com.philips.cdp2.commlib.core.port.time.TimePort;
+import com.philips.cdp.dicommclientsample.appliance.reference.ReferenceAppliance;
+import com.philips.cdp.dicommclientsample.port.time.TimePort;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;

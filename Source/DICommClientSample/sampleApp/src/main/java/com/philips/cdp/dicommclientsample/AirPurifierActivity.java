@@ -2,6 +2,7 @@
  * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.cdp.dicommclientsample;
 
 import android.os.Bundle;
@@ -24,9 +25,9 @@ import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
 import com.philips.cdp.dicommclient.port.common.PairingListener;
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.cdp.dicommclientsample.airpurifier.AirPort;
-import com.philips.cdp.dicommclientsample.airpurifier.AirPortProperties;
-import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
+import com.philips.cdp.dicommclientsample.appliance.airpurifier.AirPort;
+import com.philips.cdp.dicommclientsample.appliance.airpurifier.AirPortProperties;
+import com.philips.cdp.dicommclientsample.appliance.airpurifier.AirPurifier;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 
 public class AirPurifierActivity extends AppCompatActivity {

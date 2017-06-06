@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp2.commlib.core.port.time;
+package com.philips.cdp.dicommclientsample.port.time;
 
 import com.philips.cdp2.commlib.core.port.PortProperties;
 
