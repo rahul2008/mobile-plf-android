@@ -8,9 +8,9 @@ package com.philips.platform.appinfra.appupdate;
 /**
  *  Constants used in AppUpdate .
  */
-class AppUpdateConstants {
+public class AppUpdateConstants {
 
-	static final String APPUPDATE_PATH = "/AppInfra/AIAppupdate";
-	static final String LOCALE_FILE_DOWNLOADED = "downloadedappupdate.json";
+	public static final String APPUPDATE_PATH = "/AppInfra/AIAppupdate";
+	public static final String LOCALE_FILE_DOWNLOADED = "downloadedappupdate.json";
 
 }

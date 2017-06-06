@@ -14,6 +14,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityManager;
+import com.philips.platform.appinfra.appupdate.AppUpdateConstants;
 import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
@@ -266,23 +267,23 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 
 			AppUpdateManager appUpdateManager = new AppUpdateManager(ai);
 			try {
-				AppConfigurationInterface.AppConfigurationError configurationError = new AppConfigurationInterface.AppConfigurationError();
-				Object isappUpdateRq = appConfigurationManager.getPropertyForKey("appUpdate.autoRefresh", "appinfra", configurationError);
+				Object isappUpdateRq = getAutoRefreshValue(appConfigurationManager);
 				if (isappUpdateRq != null && isappUpdateRq instanceof Boolean) {
 					final Boolean isautorefreshEnabled = (Boolean) isappUpdateRq;
-					File appupdateCache = appUpdateManager.getAppUpdatefromCache();
+					File appupdateCache = appUpdateManager.getAppUpdatefromCache(AppUpdateConstants.LOCALE_FILE_DOWNLOADED
+							, AppUpdateConstants.APPUPDATE_PATH);
 					if (appupdateCache != null && appupdateCache.exists() && appupdateCache.length() > 0) {
 						Log.i("AppUpdate Auto Refresh", "Cache is available");
 					} else if (isautorefreshEnabled) {
 						appUpdateManager.refresh(new AppUpdateInterface.OnRefreshListener() {
 							@Override
 							public void onError(AIAppUpdateRefreshResult error, String message) {
-								Log.e("AppConfiguration", "Auto refresh failed- Appupdate"+" "+error);
+								Log.e("AppConfiguration", "Auto refresh failed- Appupdate" + " " + error);
 							}
 
 							@Override
 							public void onSuccess(AIAppUpdateRefreshResult result) {
-								Log.e("AppConfiguration", "Auto refresh failed- Appupdate"+" "+result);
+								Log.e("AppConfiguration", "Auto refresh failed- Appupdate" + " " + result);
 							}
 						});
 					}
@@ -294,6 +295,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 			}
 			return ai;
 		}
+
 	}
 
 
@@ -433,6 +435,11 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 	@Override
 	public String getVersion() {
 		return BuildConfig.VERSION_NAME;
+	}
+
+	public static Object getAutoRefreshValue(AppConfigurationManager appConfigurationManager) {
+		AppConfigurationInterface.AppConfigurationError configurationError = new AppConfigurationInterface.AppConfigurationError();
+		return appConfigurationManager.getPropertyForKey("appUpdate.autoRefresh", "appinfra", configurationError);
 	}
 
 }

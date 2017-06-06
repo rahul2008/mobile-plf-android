@@ -14,6 +14,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.FileUtils;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -25,6 +26,7 @@ import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 
 import java.io.File;
 import java.net.URL;
@@ -71,11 +73,10 @@ public class AppUpdateManager implements AppUpdateInterface {
 		};
 	}
 
-	@NonNull
 	protected Response.Listener<JSONObject> getJsonResponseListener(final OnRefreshListener refreshListener) {
 		return new Response.Listener<JSONObject>() {
 			@Override
-			public void onResponse(final JSONObject response) {
+			public void onResponse(JSONObject response) {
 				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AI AppUpate", response.toString());
 				try {
 					final JSONObject resp = response.getJSONObject("android");
@@ -133,14 +134,14 @@ public class AppUpdateManager implements AppUpdateInterface {
 
 	private AppUpdateModel getAppUpdateModel() {
 		if (mAppUpdateModel == null) {
-			mAppUpdateModel = mGson.fromJson(mFileUtils.readFile(getAppUpdatefromCache()), AppUpdateModel.class);
+			mAppUpdateModel = mGson.fromJson(mFileUtils.readFile(getAppUpdatefromCache(AppUpdateConstants.LOCALE_FILE_DOWNLOADED
+					, AppUpdateConstants.APPUPDATE_PATH)), AppUpdateModel.class);
 		}
 		return mAppUpdateModel;
 	}
 
-	public File getAppUpdatefromCache() {
-		final File file = mFileUtils.getFilePath(AppUpdateConstants.LOCALE_FILE_DOWNLOADED
-				, AppUpdateConstants.APPUPDATE_PATH);
+	public File getAppUpdatefromCache(String fileName, String filePath) {
+		final File file = mFileUtils.getFilePath(fileName, filePath);
 		return file;
 	}
 
@@ -171,7 +172,8 @@ public class AppUpdateManager implements AppUpdateInterface {
 
 
 	@NonNull
-	protected ServiceDiscoveryInterface.OnGetServiceUrlListener getServiceDiscoveryListener(final OnRefreshListener refreshListener) {
+	protected ServiceDiscoveryInterface.OnGetServiceUrlListener getServiceDiscoveryListener
+			(final OnRefreshListener refreshListener) {
 		return new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 			@Override
 			public void onSuccess(URL url) {
