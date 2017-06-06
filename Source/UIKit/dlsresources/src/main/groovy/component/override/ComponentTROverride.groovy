@@ -4,6 +4,8 @@ import com.philips.uid.BrushParser
 import com.philips.uid.DLSResourceConstants
 
 public class ComponentTROverride {
+    private final DEFAULT_OVERRIDE_TONAL_RANGE = "ultra-light"
+
     String name
     String brush
     HashMap<String, String> overrideMap = new HashMap<>();
@@ -11,7 +13,7 @@ public class ComponentTROverride {
     public ComponentTROverride(String name, String brush) {
         this.name = name
         this.brush = brush
-        generateDefaultOverrides(DLSResourceConstants.TONAL_RANGES[0])
+        generateDefaultOverrides(DEFAULT_OVERRIDE_TONAL_RANGE)
 //        println( name + ":" + overrideMap)
     }
 
@@ -29,7 +31,7 @@ public class ComponentTROverride {
 
     public void generateDefaultOverrides(String targetTonalRange) {
         DLSResourceConstants.TONAL_RANGES.each {
-            overrideMap.put(BrushParser.getCapitalizedValue("$it"), BrushParser.getCapitalizedValue(targetTonalRange));
+            putOverride(BrushParser.getCapitalizedValue("$it"), BrushParser.getCapitalizedValue(targetTonalRange));
         }
     }
 
