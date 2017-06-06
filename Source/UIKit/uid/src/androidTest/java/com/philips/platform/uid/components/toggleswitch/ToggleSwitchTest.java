@@ -73,7 +73,7 @@ public class ToggleSwitchTest extends BaseTest {
 
     @Test
     public void verifyThumbHighlightColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(context, R.attr.uidThumbDefaultNormalBackgroundColor);
+        final int expectedColor = UIDTestUtils.getAttributeColor(context, R.attr.uidThumbDefaultPressedBorderColor);
         getToggleSwitch().
                 check(matches(FunctionDrawableMatchers.
                         isSameRippleColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.state_enabled, expectedColor)));
