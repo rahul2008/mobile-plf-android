@@ -1,9 +1,28 @@
 CommLib-all for Android - Release Notes
 =======================================
 
-Version 1.3.0
+Version 1.3.1
 -------------
-No changes.
+### Functionality Delivered
+* NA
+
+### Backwards Compatibility
+* NA
+
+### Features not covered
+* NA
+
+### Breaking Changes
+* See backwards compatibility
+
+### Defects solved
+* NA
+
+### Residual anomalies
+* NA
+
+### Risks and mitigations
+* NA
 
 Version 1.3.0
 -------------
