@@ -1,12 +1,18 @@
 /*
- * © Koninklijke Philips N.V., 2015.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.port.common;
 
 import com.philips.cdp2.commlib.core.port.PortProperties;
 
+/**
+ * Data object holding the properties of the {@link DevicePort}.
+ *
+ * @publicApi
+ * @see DevicePort
+ */
 public class DevicePortProperties implements PortProperties {
     private String name;
     private String type;
