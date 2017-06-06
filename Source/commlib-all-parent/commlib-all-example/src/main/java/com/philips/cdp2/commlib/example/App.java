@@ -14,18 +14,18 @@ import com.philips.cdp2.commlib.example.appliance.BleReferenceApplianceFactory;
 
 public final class App extends Application {
     private CommCentral commCentral;
-    private DICommApplianceFactory applianceFactory;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
         final BleTransportContext bleTransportContext = new BleTransportContext(this, false);
-        this.applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
-        this.commCentral = new CommCentral(this.applianceFactory, bleTransportContext);
+        final DICommApplianceFactory applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
+
+        this.commCentral = new CommCentral(applianceFactory, bleTransportContext);
     }
 
     public CommCentral getCommCentral() {
-        return commCentral;
+        return this.commCentral;
     }
 }

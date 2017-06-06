@@ -83,8 +83,7 @@ dependencies {
 
     compile deps.support.appcompatv7
     compile deps.support.design
-
-    compile group: 'joda-time', name: 'joda-time', version: '2.9.7'
+    compile deps.joda_time
 
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

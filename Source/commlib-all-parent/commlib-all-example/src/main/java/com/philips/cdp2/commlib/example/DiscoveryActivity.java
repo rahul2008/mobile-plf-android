@@ -36,6 +36,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.philips.cdp2.commlib.example.appliance.ReferenceAppliance.CPPID;
+
 public class DiscoveryActivity extends AppCompatActivity {
 
     private static final String TAG = "DiscoveryActivity";
@@ -142,8 +144,8 @@ public class DiscoveryActivity extends AppCompatActivity {
         listViewAppliances.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                Intent applianceActivityIntent = new Intent(DiscoveryActivity.this, ApplianceActivity.class);
-                applianceActivityIntent.putExtra(ApplianceActivity.CPPID, applianceAdapter.getItem(position).getNetworkNode().getCppId());
+                Intent applianceActivityIntent = new Intent(DiscoveryActivity.this, BleReferenceApplianceActivity.class);
+                applianceActivityIntent.putExtra(CPPID, applianceAdapter.getItem(position).getNetworkNode().getCppId());
 
                 startActivity(applianceActivityIntent);
             }

@@ -120,7 +120,7 @@ public class BleDiscoveryStrategyTestSteps {
         DICommApplianceFactory testApplianceFactory = new DICommApplianceFactory() {
             @Override
             public boolean canCreateApplianceForNode(NetworkNode networkNode) {
-                return applianceTypes.contains(networkNode.getModelName());
+                return applianceTypes.contains(networkNode.getDeviceType());
             }
 
             @Override
@@ -129,7 +129,7 @@ public class BleDiscoveryStrategyTestSteps {
                     return new Appliance(networkNode, new BleCommunicationStrategy(networkNode.getCppId(), bleDeviceCache, callbackHandlerMock)) {
                         @Override
                         public String getDeviceType() {
-                            return networkNode.getModelName();
+                            return networkNode.getDeviceType();
                         }
                     };
                 }

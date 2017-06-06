@@ -8,6 +8,7 @@ package com.philips.cdp2.commlib.example;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -21,27 +22,27 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortListener;
-import com.philips.cdp2.commlib.example.appliance.BleReferenceAppliance;
+import com.philips.cdp2.commlib.example.appliance.ReferenceAppliance;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
-
-import static com.philips.cdp2.commlib.example.ApplianceActivity.CPPID;
+import java.util.Locale;
 
 public class FirmwareUpgradeActivity extends AppCompatActivity {
     private static final String TAG = "FirmwareUpgradeActivity";
 
     private static final long DEFAULT_TIMEOUT_MILLIS = 30000L;
 
-    private BleReferenceAppliance bleReferenceAppliance;
     private ProgressBar firmwareUploadProgressBar;
     private ListView firmwareImagesListView;
     private TextView firmwareSearchLocationTextView;
@@ -54,6 +55,8 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
     private Button btnCancel;
     private ArrayAdapter<File> fwImageAdapter;
 
+    private ReferenceAppliance currentAppliance;
+
     private FilenameFilter upgradeFilesFilter = new FilenameFilter() {
         @Override
         public boolean accept(File dir, String name) {
@@ -65,19 +68,16 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.btnUploadFirmware:
-                    uploadSelectedFirmware();
-                    break;
-                case R.id.btnDeployFirmware:
-                    deployFirmware();
-                    break;
-                case R.id.btnCancelFirmware:
-                    cancelFirmware();
-                    break;
-                default:
-                    Log.d(TAG, "Unknown view clicked");
-                    break;
+            int viewId = view.getId();
+
+            if (viewId == R.id.btnUploadFirmware) {
+                uploadSelectedFirmware();
+            } else if (viewId == R.id.btnDeployFirmware) {
+                deployFirmware();
+            } else if (viewId == R.id.btnCancelFirmware) {
+                cancelFirmware();
+            } else {
+                DICommLog.w(TAG, "Unknown view clicked.");
             }
         }
     };
@@ -92,7 +92,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
         @Override
         public void onPortError(FirmwarePort port, Error error, String errorData) {
             stateTextView.setText(port.getPortProperties().getState().toString());
-            statusTextView.setText("Error: " + error.getErrorMessage());
+            statusTextView.setText(String.format(Locale.US, "Error: %s", error.getErrorMessage()));
         }
     };
 
@@ -122,7 +122,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
             Log.i(TAG, "onDownloadFailed(" + exception.getMessage() + ")");
 
             updateButtons(true, false, false);
-            statusTextView.setText(getString(R.string.uploading_firmware_failed) + exception.getMessage());
+            statusTextView.setText(String.format(Locale.US, "%s%s", getString(R.string.uploading_firmware_failed), exception.getMessage()));
         }
 
         @Override
@@ -138,7 +138,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
             Log.i(TAG, "onFirmwareAvailable(" + version + ")");
 
             updateButtons(true, false, false);
-            statusTextView.setText(getString(R.string.new_firmware_available) + version);
+            statusTextView.setText(String.format(Locale.US, "%s%s", getString(R.string.new_firmware_available), version));
         }
 
         @Override
@@ -146,7 +146,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
             Log.i(TAG, "onDeployFailed(" + exception.getMessage() + ")");
 
             updateButtons(true, false, false);
-            statusTextView.setText(getString(R.string.deploy_firmware_failed) + exception.getMessage());
+            statusTextView.setText(String.format(Locale.US, "%s%s", getString(R.string.deploy_firmware_failed), exception.getMessage()));
         }
 
         @Override
@@ -174,12 +174,15 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
         statusTextView = (TextView) findViewById(R.id.txtFirmwareStatusMsg);
         timeoutEditText = (EditText) findViewById(R.id.timeoutEditText);
 
-        bleReferenceAppliance = (BleReferenceAppliance) ((App) getApplication()).getCommCentral().getApplianceManager().findApplianceByCppId(getIntent().getExtras().getString(CPPID));
+        currentAppliance = (ReferenceAppliance) CurrentApplianceManager.getInstance().getCurrentAppliance();
 
-        if (bleReferenceAppliance == null) {
+        if (currentAppliance == null) {
             finish();
         } else {
-            getSupportActionBar().setTitle(bleReferenceAppliance.getNetworkNode().getName());
+            final ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setTitle(currentAppliance.getNetworkNode().getName());
+            }
 
             btnUpload.setOnClickListener(clickListener);
             btnDeploy.setOnClickListener(clickListener);
@@ -198,17 +201,17 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
 
         readFirmwareFiles();
 
-        bleReferenceAppliance.getFirmwarePort().addPortListener(portListener);
-        bleReferenceAppliance.getFirmwarePort().reloadProperties();
+        currentAppliance.getFirmwarePort().addPortListener(portListener);
+        currentAppliance.getFirmwarePort().reloadProperties();
 
-        bleReferenceAppliance.getFirmwarePort().addFirmwarePortListener(firmwarePortListener);
-        bleReferenceAppliance.enableCommunication();
+        currentAppliance.getFirmwarePort().addFirmwarePortListener(firmwarePortListener);
+        currentAppliance.enableCommunication();
 
         checkUpgradeSupport();
     }
 
     private void checkUpgradeSupport() {
-        final FirmwarePort firmwarePort = bleReferenceAppliance.getFirmwarePort();
+        final FirmwarePort firmwarePort = currentAppliance.getFirmwarePort();
         firmwarePort.addPortListener(new DICommPortListener() {
             @Override
             public void onPortUpdate(DICommPort port) {
@@ -231,9 +234,9 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
 
         cancelFirmware();
 
-        bleReferenceAppliance.getFirmwarePort().removePortListener(portListener);
-        bleReferenceAppliance.getFirmwarePort().removeFirmwarePortListener(firmwarePortListener);
-        bleReferenceAppliance.disableCommunication();
+        currentAppliance.getFirmwarePort().removePortListener(portListener);
+        currentAppliance.getFirmwarePort().removeFirmwarePortListener(firmwarePortListener);
+        currentAppliance.disableCommunication();
     }
 
     private void updateButtons(boolean isUploadEnabled, boolean isDeployEnabled, boolean isCancelEnabled) {
@@ -256,11 +259,13 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
             fwImageAdapter = new ArrayAdapter<File>(this, android.R.layout.simple_spinner_dropdown_item, files) {
                 @NonNull
                 @Override
-                public View getView(final int position, final View convertView, final ViewGroup parent) {
+                public View getView(final int position, final View convertView, final @NonNull ViewGroup parent) {
                     View view = super.getView(position, convertView, parent);
                     File file = getItem(position);
 
-                    ((TextView) view.findViewById(android.R.id.text1)).setText(file.getName());
+                    if (file != null) {
+                        ((TextView) view.findViewById(android.R.id.text1)).setText(file.getName());
+                    }
 
                     return view;
                 }
@@ -278,7 +283,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
             File firmwareFile = fwImageAdapter.getItem(selectedItemPosition);
             final byte[] firmwareBytes = fileToBytes(firmwareFile);
 
-            bleReferenceAppliance.getFirmwarePort().pushLocalFirmware(firmwareBytes, getTimeoutInMillisFromUi());
+            currentAppliance.getFirmwarePort().pushLocalFirmware(firmwareBytes, getTimeoutInMillisFromUi());
         }
     }
 
@@ -286,7 +291,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
         byte[] bytes = new byte[(int) firmwareFile.length()];
         try (InputStream inputStream = new FileInputStream(firmwareFile)) {
             int offset = 0;
-            int numRead = 0;
+            int numRead;
             while ((numRead = inputStream.read(bytes, offset, bytes.length - offset)) > 0) {
                 offset += numRead;
             }
@@ -297,11 +302,11 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
     }
 
     private void deployFirmware() {
-        bleReferenceAppliance.getFirmwarePort().deployFirmware(getTimeoutInMillisFromUi());
+        currentAppliance.getFirmwarePort().deployFirmware(getTimeoutInMillisFromUi());
     }
 
     private void cancelFirmware() {
-        bleReferenceAppliance.getFirmwarePort().cancel(getTimeoutInMillisFromUi());
+        currentAppliance.getFirmwarePort().cancel(getTimeoutInMillisFromUi());
     }
 
     private long getTimeoutInMillisFromUi() {
