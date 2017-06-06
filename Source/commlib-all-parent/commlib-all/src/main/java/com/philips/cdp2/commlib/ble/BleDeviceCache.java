@@ -5,7 +5,6 @@
 package com.philips.cdp2.commlib.ble;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.pins.shinelib.SHNDevice;
@@ -95,7 +94,7 @@ public class BleDeviceCache {
      * @param expirationCallback     the callback that is invoked when the expiration for the cached data was reached
      * @param expirationPeriodMillis the expiration period in milliseconds
      */
-    public void add(@NonNull SHNDevice device, @NonNull NetworkNode networkNode, @NonNull ExpirationCallback expirationCallback, long expirationPeriodMillis) {
+    public void addDevice(@NonNull SHNDevice device, @NonNull NetworkNode networkNode, @NonNull ExpirationCallback expirationCallback, long expirationPeriodMillis) {
         if (expirationPeriodMillis <= 0L) {
             throw new IllegalArgumentException("Expiration period must be a positive non-zero value.");
         }
@@ -114,24 +113,11 @@ public class BleDeviceCache {
         deviceMap.clear();
     }
 
-    public boolean contains(final @NonNull String cppId) {
-        return deviceMap.containsKey(cppId);
-    }
-
-    public
-    @Nullable
-    CacheData findByCppId(final @NonNull String cppId) {
+    public CacheData getCacheData(@NonNull final String cppId) {
         return deviceMap.get(cppId);
     }
 
-    public
-    @Nullable
-    CacheData findByAddress(final @NonNull String address) {
-        for (CacheData cacheData : deviceMap.values()) {
-            if (address.equals(cacheData.getDevice().getAddress())) {
-                return cacheData;
-            }
-        }
-        return null;
+    public boolean contains(@NonNull final String cppId) {
+        return deviceMap.containsKey(cppId);
     }
 }

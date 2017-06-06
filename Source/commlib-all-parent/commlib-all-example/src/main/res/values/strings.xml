@@ -47,6 +47,4 @@
     <string name="uploading_firmware_failed">"Uploading firmware failed: "</string>
     <string name="uploading_firmware_image">Uploading firmware image to device</string>
     <string name="lblFirmwareCanUpgrade">Can upgrade:</string>
-    <string name="lblApplianceBleAddress">BLE address:</string>
-    <string name="lblErrorMessage">"Error: "</string>
 </resources>

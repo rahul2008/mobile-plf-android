@@ -1,13 +1,7 @@
 CommLib-all for Android - Release Notes
 =======================================
 
-Version 1.4.0
--------------
-### New features
-* \#9379 Adapt BleDiscoveryStrategy to retrieve all required device properties
-* \#9383 During discovery, devices in BleDeviceCache must be connected to only once
-
-Version 1.3.1
+Version 1.3.0
 -------------
 No changes.
 
@@ -15,7 +9,7 @@ Version 1.3.0
 -------------
 
 ### New features
-* \#9326 Discovery can now filter on model ids. This is also showcased in the commlib-all test app.
+* 9326 Discovery can now filter on model ids. This is also showcased in the commlib-all test app.
 
 ### Bugs fixed
 

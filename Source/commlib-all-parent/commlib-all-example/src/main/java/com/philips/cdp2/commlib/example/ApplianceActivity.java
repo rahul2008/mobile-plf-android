@@ -6,6 +6,7 @@ package com.philips.cdp2.commlib.example;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -65,66 +66,11 @@ public final class ApplianceActivity extends AppCompatActivity {
         } else {
             getSupportActionBar().setTitle(bleReferenceAppliance.getNetworkNode().getName());
 
+            setupAppliance(bleReferenceAppliance);
+
             findViewById(R.id.btnGetTime).setEnabled(true);
             findViewById(R.id.btnSetTime).setEnabled(true);
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        bleReferenceAppliance.getTimePort().addPortListener(timePortListener);
-
-        boolean stayConnected = ((CompoundButton) findViewById(R.id.switchStayConnected)).isChecked();
-
-        if (stayConnected) {
-            bleReferenceAppliance.enableCommunication();
-        } else {
-            bleReferenceAppliance.disableCommunication();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        bleReferenceAppliance.getTimePort().removePortListener(timePortListener);
-    }
-
-    private final DICommPortListener<TimePort> timePortListener = new DICommPortListener<TimePort>() {
-        @Override
-        public void onPortUpdate(TimePort timePort) {
-            final String datetime = timePort.getPortProperties().datetime;
-            if (datetime == null) {
-                return;
-            }
-            DateTime dt = new DateTime(datetime);
-            String dateTimeString = DATETIME_FORMATTER.print(dt);
-
-            updateResult(dateTimeString);
-            onPortEvent(timePort);
-        }
-
-        @Override
-        public void onPortError(TimePort timePort, Error error, final String s) {
-            Log.e(TAG, "Time port error: " + error.getErrorMessage() + " (" + s + ")");
-
-            updateResult(getString(R.string.lblResultPortError, s));
-            onPortEvent(timePort);
-        }
-
-        private void onPortEvent(TimePort timePort) {
-            if (switchLoopGet.isChecked()) {
-                timePort.reloadProperties();
-            }
-        }
-    };
-
-    private void updateResult(final String result) {
-        requestCount++;
-        txtPerformanceProgress.setText("Count: " + requestCount);
-        txtResult.setText("Last result: " + result);
     }
 
     private final View.OnClickListener buttonClickListener = new View.OnClickListener() {
@@ -167,7 +113,6 @@ public final class ApplianceActivity extends AppCompatActivity {
             }
         }
     };
-
     private final CompoundButton.OnCheckedChangeListener subscriptionCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
@@ -191,4 +136,46 @@ public final class ApplianceActivity extends AppCompatActivity {
             }
         }
     };
+
+    private void setupAppliance(@NonNull BleReferenceAppliance appliance) {
+        boolean stayConnected = ((CompoundButton) findViewById(R.id.switchStayConnected)).isChecked();
+
+        if (stayConnected) {
+            appliance.enableCommunication();
+        } else {
+            appliance.disableCommunication();
+        }
+
+        appliance.getTimePort().addPortListener(new DICommPortListener<TimePort>() {
+
+            @Override
+            public void onPortUpdate(TimePort timePort) {
+                final String datetime = timePort.getPortProperties().datetime;
+                if (datetime == null) {
+                    return;
+                }
+                DateTime dt = new DateTime(datetime);
+                String dateTimeString = DATETIME_FORMATTER.print(dt);
+
+                updateResult(dateTimeString);
+
+                if (switchLoopGet.isChecked()) {
+                    timePort.reloadProperties();
+                }
+            }
+
+            @Override
+            public void onPortError(TimePort timePort, Error error, final String s) {
+                Log.e(TAG, "Time port error: " + error.getErrorMessage() + " (" + s + ")");
+
+                updateResult(getString(R.string.lblResultPortError, s));
+            }
+        });
+    }
+
+    private void updateResult(final String result) {
+        requestCount++;
+        txtPerformanceProgress.setText("Count: " + requestCount);
+        txtResult.setText("Last result: " + result);
+    }
 }

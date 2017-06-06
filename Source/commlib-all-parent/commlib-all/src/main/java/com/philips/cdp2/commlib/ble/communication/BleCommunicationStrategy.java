@@ -25,8 +25,8 @@ import com.philips.pins.shinelib.SHNDevice;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.philips.cdp.dicommclient.util.GsonProvider.EMPTY_JSON_OBJECT_STRING;
 
@@ -36,23 +36,20 @@ import static com.philips.cdp.dicommclient.util.GsonProvider.EMPTY_JSON_OBJECT_S
 public class BleCommunicationStrategy extends CommunicationStrategy {
 
     private static final long DEFAULT_SUBSCRIPTION_POLLING_INTERVAL = 2000;
-    public static final long CONNECT_TIMEOUT_MILLIS = 60000L;
-    private static final String TAG = "BleCommunicationStrategy";
 
     @NonNull
     private final String cppId;
     @NonNull
     private final BleDeviceCache deviceCache;
     @NonNull
-    private final ScheduledExecutorService requestExecutor;
+    private final ScheduledThreadPoolExecutor requestExecutor;
+    @NonNull
+    private AtomicBoolean disconnectAfterRequest = new AtomicBoolean(true);
     @NonNull
     private Handler callbackHandler;
 
     private final long subscriptionPollingInterval;
     private Map<PortParameters, PollingSubscription> subscriptionsCache = new ConcurrentHashMap<>();
-
-    private boolean isCommunicationEnabled;
-    private final Object connectionLock = new Object();
 
     /**
      * Instantiates a new Ble communication strategy with a sensible default subscription polling interval value.
@@ -88,18 +85,18 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
         this.deviceCache = deviceCache;
         this.callbackHandler = callbackHandler;
         this.subscriptionPollingInterval = subscriptionPollingInterval;
-        this.requestExecutor = Executors.newSingleThreadScheduledExecutor();
+        this.requestExecutor = new ScheduledThreadPoolExecutor(1);
     }
 
     @Override
     public void getProperties(final String portName, final int productId, final ResponseHandler responseHandler) {
-        final BleRequest request = new BleGetRequest(deviceCache, cppId, portName, productId, responseHandler, callbackHandler);
+        final BleRequest request = new BleGetRequest(deviceCache, cppId, portName, productId, responseHandler, callbackHandler, disconnectAfterRequest);
         dispatchRequest(request);
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
-        final BleRequest request = new BlePutRequest(deviceCache, cppId, portName, productId, dataMap, responseHandler, callbackHandler);
+        final BleRequest request = new BlePutRequest(deviceCache, cppId, portName, productId, dataMap, responseHandler, callbackHandler, disconnectAfterRequest);
         dispatchRequest(request);
     }
 
@@ -164,14 +161,10 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
     @Override
     public void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
         if (isAvailable()) {
-            synchronized (connectionLock) {
-                if (!isCommunicationEnabled) {
-                    SHNDevice device = deviceCache.findByCppId(cppId).getDevice();
-                    device.connect(CONNECT_TIMEOUT_MILLIS);
-                    isCommunicationEnabled = true;
-                }
-            }
+            SHNDevice device = deviceCache.getCacheData(cppId).getDevice();
+            device.connect();
         }
+        disconnectAfterRequest.set(false);
     }
 
     /**
@@ -180,15 +173,11 @@ public class BleCommunicationStrategy extends CommunicationStrategy {
      */
     @Override
     public void disableCommunication() {
-        if (isAvailable()) {
-            synchronized (connectionLock) {
-                if (isCommunicationEnabled) {
-                    SHNDevice device = deviceCache.findByCppId(cppId).getDevice();
-                    device.disconnect();
-                    isCommunicationEnabled = false;
-                }
-            }
+        if (isAvailable() && requestExecutor.getQueue().isEmpty() && requestExecutor.getActiveCount() == 0) {
+            SHNDevice device = deviceCache.getCacheData(cppId).getDevice();
+            device.disconnect();
         }
+        disconnectAfterRequest.set(true);
     }
 
     @VisibleForTesting

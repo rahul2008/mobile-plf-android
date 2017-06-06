@@ -70,14 +70,14 @@ public class BleDeviceCacheTest {
 
     @Test
     public void whenAddingADevice_ThenCacheShouldContainData() throws Exception {
-        bleDeviceCache.add(deviceMock, networkNodeMock, null, DEVICE_EXPIRATION_MILLIS);
+        bleDeviceCache.addDevice(deviceMock, networkNodeMock, null, DEVICE_EXPIRATION_MILLIS);
 
         assertTrue(bleDeviceCache.contains("my-cpp-id"));
     }
 
     @Test
     public void whenAddingADevice_AndDeviceIsExpired_ThenCallbackShouldBeInvoked() throws Exception {
-        bleDeviceCache.add(deviceMock, networkNodeMock, expirationCallbackMock, DEVICE_EXPIRATION_MILLIS);
+        bleDeviceCache.addDevice(deviceMock, networkNodeMock, expirationCallbackMock, DEVICE_EXPIRATION_MILLIS);
 
         scheduledCallable.call();
 
@@ -86,9 +86,9 @@ public class BleDeviceCacheTest {
 
     @Test
     public void whenAddingADeviceTwice_ThenTheTimerShouldReset() throws Exception {
-        bleDeviceCache.add(deviceMock, networkNodeMock, expirationCallbackMock, DEVICE_EXPIRATION_MILLIS);
+        bleDeviceCache.addDevice(deviceMock, networkNodeMock, expirationCallbackMock, DEVICE_EXPIRATION_MILLIS);
         Callable firstScheduledCallable = scheduledCallable;
-        bleDeviceCache.add(deviceMock, networkNodeMock, expirationCallbackMock, DEVICE_EXPIRATION_MILLIS);
+        bleDeviceCache.addDevice(deviceMock, networkNodeMock, expirationCallbackMock, DEVICE_EXPIRATION_MILLIS);
         Callable secondScheduledCallable = scheduledCallable;
 
         verify(scheduledFutureMock).cancel(true);

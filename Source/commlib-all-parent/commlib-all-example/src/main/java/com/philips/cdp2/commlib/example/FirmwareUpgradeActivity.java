@@ -7,7 +7,6 @@ package com.philips.cdp2.commlib.example;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,7 +25,6 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortListener;
-import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties;
 import com.philips.cdp2.commlib.example.appliance.BleReferenceAppliance;
 
 import java.io.File;
@@ -34,7 +32,6 @@ import java.io.FileInputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Locale;
 
 import static com.philips.cdp2.commlib.example.ApplianceActivity.CPPID;
 
@@ -93,11 +90,8 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
 
         @Override
         public void onPortError(FirmwarePort port, Error error, String errorData) {
-            FirmwarePortProperties properties = port.getPortProperties();
-            if (properties != null) {
-                stateTextView.setText(port.getPortProperties().getState().toString());
-            }
-            statusTextView.setText(String.format(Locale.US, "%s%s", getString(R.string.lblErrorMessage), error.getErrorMessage()));
+            stateTextView.setText(port.getPortProperties().getState().toString());
+            statusTextView.setText("Error: " + error.getErrorMessage());
         }
     };
 
@@ -127,7 +121,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
             Log.i(TAG, "onDownloadFailed(" + exception.getMessage() + ")");
 
             updateButtons(true, false, false);
-            statusTextView.setText(String.format("%s%s", getString(R.string.uploading_firmware_failed), exception.getMessage()));
+            statusTextView.setText(getString(R.string.uploading_firmware_failed) + exception.getMessage());
         }
 
         @Override
@@ -143,7 +137,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
             Log.i(TAG, "onFirmwareAvailable(" + version + ")");
 
             updateButtons(true, false, false);
-            statusTextView.setText(String.format(Locale.US, "%s%s", getString(R.string.new_firmware_available), version));
+            statusTextView.setText(getString(R.string.new_firmware_available) + version);
         }
 
         @Override
@@ -151,7 +145,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
             Log.i(TAG, "onDeployFailed(" + exception.getMessage() + ")");
 
             updateButtons(true, false, false);
-            statusTextView.setText(String.format(Locale.US, "%s%s", getString(R.string.deploy_firmware_failed), exception.getMessage()));
+            statusTextView.setText(getString(R.string.deploy_firmware_failed) + exception.getMessage());
         }
 
         @Override
@@ -184,10 +178,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
         if (bleReferenceAppliance == null) {
             finish();
         } else {
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setTitle(bleReferenceAppliance.getNetworkNode().getName());
-            }
+            getSupportActionBar().setTitle(bleReferenceAppliance.getNetworkNode().getName());
 
             btnUpload.setOnClickListener(clickListener);
             btnDeploy.setOnClickListener(clickListener);
@@ -264,13 +255,11 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
             fwImageAdapter = new ArrayAdapter<File>(this, android.R.layout.simple_spinner_dropdown_item, files) {
                 @NonNull
                 @Override
-                public View getView(final int position, final View convertView, final @NonNull ViewGroup parent) {
+                public View getView(final int position, final View convertView, final ViewGroup parent) {
                     View view = super.getView(position, convertView, parent);
                     File file = getItem(position);
 
-                    if (file != null) {
-                        ((TextView) view.findViewById(android.R.id.text1)).setText(file.getName());
-                    }
+                    ((TextView) view.findViewById(android.R.id.text1)).setText(file.getName());
 
                     return view;
                 }
@@ -296,7 +285,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
         byte[] bytes = new byte[(int) firmwareFile.length()];
         try (InputStream inputStream = new FileInputStream(firmwareFile)) {
             int offset = 0;
-            int numRead;
+            int numRead = 0;
             while ((numRead = inputStream.read(bytes, offset, bytes.length - offset)) > 0) {
                 offset += numRead;
             }

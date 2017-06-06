@@ -2,13 +2,26 @@
  * Copyright (c) Koninklijke Philips N.V., 2016, 2017
  * All rights reserved.
  */
+
 buildscript { bs ->
     apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
     apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
 
     repositories {
-        maven { url repos.jcenter }
-        maven { url repos.plugin }
+        maven {
+            url repos.jcenter
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url repos.plugin
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
     }
 
     dependencies {
@@ -45,8 +58,20 @@ artifacts {
 }
 
 repositories {
-    maven { url repos.jcenter }
-    maven { url objcdp.getArtifactoryUrl() }
+    maven {
+        url repos.jcenter
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url objcdp.getArtifactoryUrl()
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
 }
 
 artifactory {
@@ -118,6 +143,30 @@ android {
     publishNonDefault true
 }
 
+task generateJavadocPublicApi(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    destinationDir = file("${project.rootDir}/../../Documents/External/${project.name}-api/")
+
+    include {
+        if (it.isDirectory) {
+            return true
+        }
+        return true //it.file.text.contains("* @publicApi")
+    }
+
+    options {
+        memberLevel = JavadocMemberLevel.PUBLIC
+        links("http://docs.oracle.com/javase/7/docs/api/")
+        linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference")
+        docEncoding = 'UTF-8'
+        encoding = 'UTF-8'
+        charSet = 'UTF-8'
+    }
+
+    failOnError false
+}
+
 dependencies {
     compile deps.support.supportv4
     provided deps.support.annotations
@@ -137,7 +186,6 @@ dependencies {
     }
 
     testCompile deps.mockito
-    testCompile deps.junit
 
     testCompile 'info.cukes:cucumber-java:1.2.2'
     testCompile 'info.cukes:cucumber-junit:1.2.2'
