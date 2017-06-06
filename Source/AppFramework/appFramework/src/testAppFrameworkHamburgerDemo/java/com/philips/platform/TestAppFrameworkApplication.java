@@ -7,7 +7,6 @@ package com.philips.platform;
 
 import android.content.Context;
 
-import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
@@ -30,7 +29,7 @@ import java.util.Locale;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 24)
+@Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 public class TestAppFrameworkApplication extends AppFrameworkApplication {
 
     private File tempFile;
@@ -70,7 +69,6 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
         });
         appInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = appInfra.getLogging();
-        setLocale();
         userRegistrationOnBoardingState = new UserRegistrationOnBoardingState();
         userRegistrationOnBoardingState.init(this);
         setTargetFlowManager();
@@ -85,13 +83,6 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
         iapState = state;
     }
 
-    private void setLocale() {
-        String languageCode = Locale.getDefault().getLanguage();
-        String countryCode = Locale.getDefault().getCountry();
-
-        PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(languageCode, countryCode);
-    }
     public void setTargetFlowManager() {
         this.targetFlowManager = new FlowManager();
         this.targetFlowManager.initialize(getApplicationContext(), R.raw.appflow, new FlowManagerListener() {
