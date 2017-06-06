@@ -6,8 +6,17 @@
 package com.philips.platform.baseapp.screens.userregistration;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.admin.DevicePolicyManager;
 import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
@@ -238,6 +247,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
                 baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
             }
         }
+        createDialog();
     }
 
     @Override
@@ -291,7 +301,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         userObject.unRegisterUserRegistrationListener(this);
     }
 
-
     @Override
     public void onPrivacyPolicyClick(Activity activity) {
 
@@ -335,5 +344,73 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
             return AppStateConfiguration.TEST;
 
         return AppStateConfiguration.STAGING;
+    }
+
+    protected void createDialog() {
+        {
+            final Dialog dialog = new Dialog(activityContext);
+            dialog.setContentView(R.layout.af_custom_dialog_security);
+            dialog.setTitle(activityContext.getString(R.string.RA_SECURITY_SECURE_YOUR_DATA));
+            TextView dialogDescTextView = (TextView)dialog.findViewById(R.id.textDesc);
+            CheckBox checkBox = (CheckBox) dialog.findViewById(R.id.checkBox);
+            Button btnActivateScreen = (Button) dialog.findViewById(R.id.btnActivateScreen);
+            Button btnNoThanks = (Button) dialog.findViewById(R.id.btnNoThanks);
+            checkBox.setText(activityContext.getString(R.string.RA_SECURITY_DONT_SHOW_MESSAGE));
+
+            boolean isScreenLockDisabled = !isScreenLockEnabled();
+            Log.i("testing", "isScreenLockEnabled - " + isScreenLockEnabled());
+            Log.i("testing", "isScreenLockDisabled - " + isScreenLockDisabled);
+
+            boolean isDeviceRooted = isDeviceRooted();
+
+            Log.i("testing", "isRooted - " + isDeviceRooted);
+
+            if(isScreenLockDisabled && isDeviceRooted) {
+                dialogDescTextView.setText(activityContext.getString(R.string.RA_SECURITY_PASSCODE_AND_JAILBREAK_VIOLATION));
+                activateScreenLockListener(btnActivateScreen, dialog);
+            }
+            else if(isDeviceRooted) {
+                dialogDescTextView.setText(activityContext.getString(R.string.RA_SECURITY_JAILBREAK_VIOLATION));
+                btnActivateScreen.setVisibility(View.GONE);
+            }
+            else if(isScreenLockDisabled) {
+                dialogDescTextView.setText(activityContext.getString(R.string.RA_SECURITY_SCREEN_LOCK));
+                activateScreenLockListener(btnActivateScreen, dialog);
+            }
+            noThanksClickListener(btnNoThanks, dialog);
+            dialog.show();
+        }
+    }
+
+
+    protected void activateScreenLockListener(Button btnActivateScreen, final Dialog dialog) {
+        btnActivateScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                Intent intent = new Intent(DevicePolicyManager.ACTION_SET_NEW_PASSWORD);
+                activityContext.startActivity(intent);
+            }
+        });
+    }
+
+    protected void noThanksClickListener(Button btnNoThanks, final Dialog dialog) {
+        btnNoThanks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    @NonNull
+    private Boolean isScreenLockEnabled() {
+        return getApplicationContext().getAppInfra().getSecureStorage().deviceHasPasscode();
+    }
+
+    @NonNull
+    private Boolean isDeviceRooted() {
+        String isDeviceRooted = getApplicationContext().getAppInfra().getSecureStorage().getDeviceCapability();
+        return Boolean.parseBoolean(isDeviceRooted);
     }
 }
