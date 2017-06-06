@@ -58,7 +58,7 @@ node ('android&&keystore') {
                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/AppFramework/appFramework/build/reports/tests/testAppFrameworkHamburgerReleaseUnitTest', reportFiles: 'index.html', reportName: 'AppFramework Hamburger Release UnitTest']) 
                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/AppFramework/appFramework/build/reports/tests/testAppFrameworkTabbedDebugUnitTest', reportFiles: 'index.html', reportName: 'AppFramework Tabbed Debug UnitTest']) 
                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/AppFramework/appFramework/build/reports/tests/testAppFrameworkTabbedLeakCanaryUnitTest', reportFiles: 'index.html', reportName: 'AppFramework Tabbed LeakCanary UnitTest']) 
-                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'rap/Source/AppFramework/appFramework/build/reports/tests/testAppFrameworkTabbedReleaseUnitTest', reportFiles: 'index.html', reportName: 'AppFramework Tabbed Release UnitTest']) 
+                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/AppFramework/appFramework/build/reports/tests/testAppFrameworkTabbedReleaseUnitTest', reportFiles: 'index.html', reportName: 'AppFramework Tabbed Release UnitTest']) 
                 archiveArtifacts '**/dependencies.lock'
                 archiveArtifacts '**/build/**/*.apk'
             }
