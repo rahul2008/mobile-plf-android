@@ -270,69 +270,69 @@
         <item name="uidNotificationBarWhiteNormalButtonTextColor">?attr/uidColorLevel75</item>-->
     </style>
 
-    <style name="Base.Light">
-        <!--  <item name="uidContentPrimary">?attr/uidColorLevel35</item>
-          <item name="uidControlPrimaryDetail">@color/uidColorWhite</item>
+    <!--  <style name="Base.Light">
+          <item name="uidContentPrimary">?attr/uidColorLevel35</item>
+           <item name="uidControlPrimaryDetail">@color/uidColorWhite</item>
 
-          <item name="uidContentSecondary">?attr/uidColorLevel30</item>
-          <item name="uidNavigationPrimaryColor">?attr/uidColorLevel25</item>
-          <item name="uidNavigationSecondaryColor">?attr/uidColorLevel30</item>
+           <item name="uidContentSecondary">?attr/uidColorLevel30</item>
+           <item name="uidNavigationPrimaryColor">?attr/uidColorLevel25</item>
+           <item name="uidNavigationSecondaryColor">?attr/uidColorLevel30</item>
 
-          <item name="uidApplicationBackground">?attr/uidColorLevel40</item>
+           <item name="uidApplicationBackground">?attr/uidColorLevel40</item>
 
-          <item name="uidControlPrimaryEnabledColor">?attr/uidColorLevel75</item>
-          <item name="uidControlPrimaryPressedColor">?attr/uidColorLevel85</item>
-          <item name="uidControlPrimaryTextDisabledAlpha">@dimen/uid_alpha_per_70</item>
-          <item name="uidControlPrimaryTextPressedColor">?attr/uidColorLevel85</item>
+           <item name="uidControlPrimaryEnabledColor">?attr/uidColorLevel75</item>
+           <item name="uidControlPrimaryPressedColor">?attr/uidColorLevel85</item>
+           <item name="uidControlPrimaryTextDisabledAlpha">@dimen/uid_alpha_per_70</item>
+           <item name="uidControlPrimaryTextPressedColor">?attr/uidColorLevel85</item>
 
-          <item name="uidControlPrimaryAlternateEnabledColor">@color/uidColorWhite</item>
-          <item name="uidControlPrimaryAlternateTextColor">?attr/uidColorLevel75</item>
-          <item name="uidControlPrimaryAltTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
+           <item name="uidControlPrimaryAlternateEnabledColor">@color/uidColorWhite</item>
+           <item name="uidControlPrimaryAlternateTextColor">?attr/uidColorLevel75</item>
+           <item name="uidControlPrimaryAltTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
 
-          <item name="uidControlSecondaryColor">?attr/uidColorLevel45</item>
-          <item name="uidControlSecondaryPressedColor">?attr/uidColorLevel55</item>
-          <item name="uidControlSecondaryEnabledColor">?attr/uidColorLevel45</item>
-          <item name="uidControlSecondaryTextColor">@color/uidColorWhite</item>
-          <item name="uidControlSecondaryDisabledAlpha">@dimen/uid_alpha_per_50</item>
-          <item name="uidControlSecondaryTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
+           <item name="uidControlSecondaryColor">?attr/uidColorLevel45</item>
+           <item name="uidControlSecondaryPressedColor">?attr/uidColorLevel55</item>
+           <item name="uidControlSecondaryEnabledColor">?attr/uidColorLevel45</item>
+           <item name="uidControlSecondaryTextColor">@color/uidColorWhite</item>
+           <item name="uidControlSecondaryDisabledAlpha">@dimen/uid_alpha_per_50</item>
+           <item name="uidControlSecondaryTextDisabledAlpha">@dimen/uid_alpha_per_50</item>
 
-          <item name="uidContentTertiary">?attr/uidColorLevel40</item>
+           <item name="uidContentTertiary">?attr/uidColorLevel40</item>
 
-          <item name="uidInputTextTextDisabledColor">@color/uidColorWhite</item>
-          <item name="uidInputTextHintTextDisabledColor">@color/uidColorWhite</item>
-          <item name="uidInputTextBorderPressedColorAlpha">@dimen/uid_edittext_border_20_alpha</item>
+           <item name="uidInputTextTextDisabledColor">@color/uidColorWhite</item>
+           <item name="uidInputTextHintTextDisabledColor">@color/uidColorWhite</item>
+           <item name="uidInputTextBorderPressedColorAlpha">@dimen/uid_edittext_border_20_alpha</item>
 
-          <item name="uidSwitchTrackOffAlpha">@dimen/uid_alpha_per_70</item>
-          <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel20</item>
-          <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_25</item>
+           <item name="uidSwitchTrackOffAlpha">@dimen/uid_alpha_per_70</item>
+           <item name="uidSwitchThumbDisabledColor">?attr/uidColorLevel20</item>
+           <item name="uidSwitchTrackDisabledAlpha">@dimen/uid_alpha_per_25</item>
 
-          <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
+           <item name="uidProgressIndicatorButtonBackgroundColor">?attr/uidColorLevel75</item>
 
-          <item name="uidCheckBoxBackgroundCheckedEnabledColor">?attr/uidColorLevel75</item>
-          <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_50</item>
-          <item name="uidCheckBoxRippleAlpha">@dimen/uid_alpha_per_20</item>
+           <item name="uidCheckBoxBackgroundCheckedEnabledColor">?attr/uidColorLevel75</item>
+           <item name="uidCheckBoxTickDisabledAlpha">@dimen/uid_alpha_per_50</item>
+           <item name="uidCheckBoxRippleAlpha">@dimen/uid_alpha_per_20</item>
 
 
-          <item name="uidSocialIconPrimaryButtonIconColor">@color/uidColorWhite</item>
-          <item name="uidSocialIconPrimaryButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
-          </item>
-          <item name="uidSocialIconPrimaryButtonPressedColor">?attr/uidControlPrimaryPressedColor
-          </item>
+           <item name="uidSocialIconPrimaryButtonIconColor">@color/uidColorWhite</item>
+           <item name="uidSocialIconPrimaryButtonNormalFillColor">?attr/uidControlPrimaryEnabledColor
+           </item>
+           <item name="uidSocialIconPrimaryButtonPressedColor">?attr/uidControlPrimaryPressedColor
+           </item>
 
-          <item name="uidSocialIconWhiteButtonNormalFillColor">@color/uidColorWhite
-          </item>
-          <item name="uidSocialIconWhiteButtonIconColor">?attr/uidColorLevel35</item>
-          <item name="uidSocialIconWhitePressedColor">?attr/uidColorLevel10</item>
+           <item name="uidSocialIconWhiteButtonNormalFillColor">@color/uidColorWhite
+           </item>
+           <item name="uidSocialIconWhiteButtonIconColor">?attr/uidColorLevel35</item>
+           <item name="uidSocialIconWhitePressedColor">?attr/uidColorLevel10</item>
 
-          <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
-          <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_20</item>
+           <item name="uidSeparatorColor">?attr/uidTextPrimary</item>
+           <item name="uidSeparatorAlpha">@dimen/uid_alpha_per_20</item>
 
-          <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_30</item>
-          <item name="uidControlTrackOff">@color/uidColorWhite</item>
+           <item name="uidControlTrackOffAlpha">@dimen/uid_alpha_per_30</item>
+           <item name="uidControlTrackOff">@color/uidColorWhite</item>
 
-        <item name="uidNotificationBarWhiteNormalButtonTextColor">?attr/uidColorLevel75</item>-->
+         <item name="uidNotificationBarWhiteNormalButtonTextColor">?attr/uidColorLevel75</item>
     </style>
-
+-->
     <style name="Base.Bright">
         <!--  <item name="uidContentPrimary">?attr/uidColorLevel50</item>
           <item name="uidControlPrimaryDetail">@color/uidColorWhite</item>

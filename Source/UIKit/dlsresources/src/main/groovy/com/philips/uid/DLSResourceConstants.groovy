@@ -23,7 +23,7 @@ class DLSResourceConstants {
     static final COLOR_RANGES = [GroupBlue: 'group_blue', Blue: 'blue', Aqua: 'aqua',
                                  Green    : 'green', Orange: 'orange', Pink: 'pink', Purple: 'purple', Gray: 'gray']
 
-    static final TONAL_RANGES = ['ultra-light', 'very-light', 'light', 'bright', 'very-dark']
+    static final TONAL_RANGES = ['ultra-light', 'very-light'/*, 'light'*/, 'bright', 'very-dark']
 
     //Path constants
     static final String PATH_RES = "src/main/resources"
