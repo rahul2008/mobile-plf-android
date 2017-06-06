@@ -1,7 +1,8 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.cdp2.commlib.ble.discovery;
 
 import android.Manifest;
@@ -49,9 +50,11 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
     private final Context context;
     private final BleDeviceCache bleDeviceCache;
     private final SHNDeviceScanner deviceScanner;
-    private Set<String> modelIds;
     private ScheduledExecutorService executor;
     private ScheduledFuture discoveryStoppedFuture;
+
+    @VisibleForTesting
+    Set<String> modelIds;
 
     private ExpirationCallback expirationCallback = new ExpirationCallback() {
         @Override
