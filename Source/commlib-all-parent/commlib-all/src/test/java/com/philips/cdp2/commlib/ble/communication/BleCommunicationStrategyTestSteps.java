@@ -76,7 +76,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class BleCommunicationStrategyTestSteps {
-    private static final int TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS = 100;
+    private static final int TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS = 300;
 
     private class QueuedRequest {
         BleRequest request;
