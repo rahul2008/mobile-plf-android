@@ -97,7 +97,7 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
             @Override
             public void onClick(View v) {
                 //DataServicesManager.getInstance().getPairedDevices(WifiCommLibUappLaunchFragment.this);
-                DataServicesManager.getInstance().createSubjectProfile("Rakesh","25-06-1988","Male",78.00,"02-06-2017",WifiCommLibUappLaunchFragment.this);
+                DataServicesManager.getInstance().createSubjectProfile("Fwuser","2013-05-05","Male",3.456,"2015-10-01T12:11:10.123+0100",WifiCommLibUappLaunchFragment.this);
             }
         });
         consentButton.setOnClickListener(new View.OnClickListener() {

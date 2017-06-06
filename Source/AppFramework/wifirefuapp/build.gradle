@@ -1,8 +1,11 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.neenbedankt.android-apt'
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'}
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'
+        }
         maven {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/plugins-release-local"
             credentials {
@@ -14,35 +17,32 @@ buildscript {
 
     dependencies {
         classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.3.1'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     }
 }
-
-
 def environment = 'production'
 if (project.hasProperty('envCode')) {
     environment = envCode
 }
-
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
+objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = project.name
-
 allprojects {
     repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
+        maven {
+            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
+        }
         maven { url objcdp.getArtifactoryUrl() }
         group = 'com.philips.cdp'
     }
 }
 group = 'com.philips.cdp'
 version = objcdp.getVersion()
-
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -54,6 +54,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-arpks5qhm771a2mfbm4e829va12olmtf'
+        ]
 
     }
     buildTypes {
@@ -63,33 +66,50 @@ android {
         }
     }
 }
-
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile "com.j256.ormlite:ormlite-core:5.0"
-    compile "com.j256.ormlite:ormlite-android:5.0"
+    compile 'com.j256.ormlite:ormlite-core:5.0'
+    compile 'com.j256.ormlite:ormlite-android:5.0'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:25.3.1'
     testCompile 'junit:junit:4.12'
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.6.0'+objcdp.getVersionSuffix(), ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.6.0' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.3.1' + objcdp.getVersionSuffix(), ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.3.1' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
     compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.4.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'dataServices', version: '1.1.0-SNAPSHOT.20170602140820', ext: 'aar') {
-        exclude group: 'com.android.support'
-        transitive = true
-    }
+    //    compile('com.philips.cdp:dataServices:1.1.0-SNAPSHOT.20170602140820@aar') {
+    //        exclude group: 'com.android.support'
+    //        transitive = true
+    //    }
     compile 'com.android.support:support-fragment:25.3.1'
-    compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: '5.1.4'+ objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: '5.1.4' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    //compile project(':dataServices-1.1.0-SNAPSHOT.20170605113558')
+    compile 'net.danlew:android.joda:2.9.2'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    //3rd party
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'net.danlew:android.joda:2.9.2'
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'com.squareup.okhttp:okhttp:2.5.0'
+    compile 'javax.inject:javax.inject:1'
+    compile 'com.google.dagger:dagger:2.10'
+    apt "com.google.dagger:dagger-compiler:2.10"
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+    provided 'javax.annotation:jsr250-api:1.0'
+    testApt "com.google.dagger:dagger-compiler:2.10"
+    compile project(':dataServices-release-updated')
+}
+repositories {
+    flatDir { dirs 'libs' }
 }

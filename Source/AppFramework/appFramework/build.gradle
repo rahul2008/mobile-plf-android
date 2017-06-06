@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply plugin: 'jacoco'
+apply plugin: 'com.neenbedankt.android-apt'
 
 jacoco {
     toolVersion = "0.7.1.201405082137"
@@ -324,10 +325,9 @@ configurations.all {
 }
 
 dependencies {
-    compile ('com.android.support:support-annotations:25.3.1') {
+    compile('com.android.support:support-annotations:25.3.1') {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
@@ -337,31 +337,27 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.dagger'
     }
-
     debugCompile 'com.facebook.stetho:stetho:1.2.0'
-
-    compile "com.j256.ormlite:ormlite-core:5.0"
-    compile "com.j256.ormlite:ormlite-android:5.0"
+    compile 'com.j256.ormlite:ormlite-core:5.0'
+    compile 'com.j256.ormlite:ormlite-android:5.0'
     compile 'com.android.support:multidex:1.0.1'
-
     compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.4.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive = true
     }
-
     compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.4.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-        transitive=true
-    }
-
-    compile(group: 'com.philips.cdp', name: 'iap', version: '5.3.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-        transitive=true
-    }
-
-    compile(group: 'com.philips.cdp', name: 'dataServices', version: '1.1.0-SNAPSHOT.20170602140820', ext: 'aar') {
-        exclude group: 'com.android.support'
         transitive = true
     }
+    compile(group: 'com.philips.cdp', name: 'iap', version: '5.3.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+        transitive = true
+    }
+    //    compile('com.philips.cdp:dataServices:1.1.0-SNAPSHOT.20170602140820@aar') {
 
-    compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.3.1' + objcdp.getVersionSuffix(), ext: 'aar'){
+    //        exclude group: 'com.android.support'
+
+    //        transitive = true
+
+    //    }
+    compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.3.1' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
@@ -374,6 +370,20 @@ dependencies {
     testCompile "com.squareup.assertj:assertj-android:${androidAssertJVer}"
     compile project(':pushnotification')
     compile project(path: ':wifirefuapp')
+    //compile project(':dataServices-1.1.0-SNAPSHOT.20170605113558')
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    //3rd party
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'net.danlew:android.joda:2.9.2'
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'com.squareup.okhttp:okhttp:2.5.0'
+    compile 'javax.inject:javax.inject:1'
+    compile 'com.google.dagger:dagger:2.10'
+    apt "com.google.dagger:dagger-compiler:2.10"
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+    provided 'javax.annotation:jsr250-api:1.0'
+    testApt "com.google.dagger:dagger-compiler:2.10"
+    compile project(':dataServices-release-updated')
 }
 
 task copyToLib(type: Copy) {
