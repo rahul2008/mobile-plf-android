@@ -28,7 +28,7 @@ public class SampleApplianceFactory implements DICommApplianceFactory<AirPurifie
 
     @Override
     public boolean canCreateApplianceForNode(NetworkNode networkNode) {
-        return getSupportedModelNames().contains(networkNode.getModelName());
+        return getSupportedModelNames().contains("");
     }
 
     @Override
