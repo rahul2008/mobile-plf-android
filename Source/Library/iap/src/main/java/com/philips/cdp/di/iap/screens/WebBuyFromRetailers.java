@@ -21,11 +21,11 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
-import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
+import com.philips.platform.uid.view.widget.ProgressBar;
 
 public class WebBuyFromRetailers extends InAppBaseFragment {
     public static final String TAG = WebBuyFromRetailers.class.getName();
-    private CircularLineProgressBar mProgress;
+    private ProgressBar mProgress;
     private WebView mWebView;
     private String mUrl;
 
@@ -34,8 +34,7 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
         ViewGroup group = (ViewGroup) inflater.inflate(R.layout.iap_web_payment, container, false);
 
         mWebView = (WebView) group.findViewById(R.id.wv_payment);
-        mProgress = (CircularLineProgressBar) group.findViewById(R.id.cl_progress);
-        mProgress.startAnimation(70);
+        mProgress = (ProgressBar) group.findViewById(R.id.cl_progress);
         mUrl = getArguments().getString(IAPConstant.IAP_BUY_URL);
         initializeWebView();
         return group;

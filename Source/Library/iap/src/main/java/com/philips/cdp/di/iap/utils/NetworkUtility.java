@@ -10,8 +10,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
@@ -20,10 +22,13 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 public class NetworkUtility {
     private static NetworkUtility mNetworkUtility;
     private ErrorDialogFragment mModalAlertDemoFragment;
+    private AlertDialogFragment alertDialogFragment;
+    public static final String ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
 
     public static NetworkUtility getInstance() {
         synchronized (NetworkUtility.class) {
@@ -48,7 +53,10 @@ public class NetworkUtility {
         IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                 IAPAnalyticsConstant.IN_APP_NOTIFICATION_POP_UP, pErrorDescription);
         if (!((Activity) context).isFinishing()) {
-            if (mModalAlertDemoFragment == null) {
+
+            showDLSDialog(context, pButtonText, pErrorString, pErrorDescription, pFragmentManager);
+        }
+           /* if (mModalAlertDemoFragment == null) {
                 mModalAlertDemoFragment = new ErrorDialogFragment();
                 mModalAlertDemoFragment.setShowsDialog(false);
             }
@@ -67,7 +75,7 @@ public class NetworkUtility {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        }*/
     }
 
     public void showErrorMessage(final Message msg, FragmentManager pFragmentManager, Context context) {
@@ -122,10 +130,36 @@ public class NetworkUtility {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public IAPNetworkError createIAPErrorMessage(String pServer,String errorMessage) {
+    public IAPNetworkError createIAPErrorMessage(String pServer, String errorMessage) {
         VolleyError volleyError = new ServerError();
         IAPNetworkError error = new IAPNetworkError(volleyError, -1, null);
-        error.setCustomErrorMessage(pServer,errorMessage);
+        error.setCustomErrorMessage(pServer, errorMessage);
         return error;
+    }
+
+    private void showDLSDialog(final Context context, String pButtonText, String pErrorString, String pErrorDescription, final FragmentManager pFragmentManager) {
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(context)
+                .setMessage(pErrorDescription).
+                        setPositiveButton(pButtonText, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dismissAlertFragmentDialog(pFragmentManager);
+                            }
+                        });
+
+        builder.setTitle(pErrorString);
+
+        alertDialogFragment = builder.setCancelable(false).create();
+        alertDialogFragment.show(pFragmentManager, ALERT_DIALOG_TAG);
+
+    }
+
+    private void dismissAlertFragmentDialog(FragmentManager fragmentManager) {
+        if (alertDialogFragment != null) {
+            alertDialogFragment.dismiss();
+        } else {
+            final AlertDialogFragment wtf = (AlertDialogFragment) fragmentManager.findFragmentByTag(ALERT_DIALOG_TAG);
+            wtf.dismiss();
+        }
     }
 }
