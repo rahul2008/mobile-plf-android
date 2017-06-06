@@ -11,7 +11,7 @@ Version 3.0.0
 * NA
 
 ### Features not covered
-* To be filled in at release
+* NA
 
 ### Breaking Changes
 When creating plugins, where previously only service UUIDs were communicated, now the new SHNCharacteristicInfo needs to be used. This class not only defines the UUID, but also whether or not the characteristic requires encryption, which is information that is now needed during connection establishment.
@@ -21,7 +21,7 @@ When creating plugins, where previously only service UUIDs were communicated, no
 * [18935] BlueLib can you successfully bond with a OnePlus2.
 
 ### Residual anomalies
-* To be filled in at release
+* NA
 
 ### Risks and mitigations
 * NA
