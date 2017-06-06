@@ -38,7 +38,7 @@ public class BleReferenceApplianceFactoryTest {
     @Before
     public void setUp(){
         bleReferenceApplianceFactory=new BleReferenceApplianceFactory(bleTransportContext);
-        when(networkNode.getModelName())
+        when(networkNode.getDeviceType())
                 .thenReturn(BleReferenceAppliance.MODELNAME);
         when(bleTransportContext.createCommunicationStrategyFor(networkNode)).thenReturn(communicationStrategy);
     }
@@ -55,7 +55,7 @@ public class BleReferenceApplianceFactoryTest {
 
     @Test
     public void createApplianceForNode_For_Null(){
-        when(networkNodeModelNameNull.getModelName())
+        when(networkNodeModelNameNull.getDeviceType())
                 .thenReturn("");
         assertNull(bleReferenceApplianceFactory.createApplianceForNode(networkNodeModelNameNull));
     }
