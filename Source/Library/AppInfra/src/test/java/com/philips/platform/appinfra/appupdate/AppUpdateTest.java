@@ -2,6 +2,7 @@ package com.philips.platform.appinfra.appupdate;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.media.MediaMetadataCompat;
 
 import com.android.volley.Network;
 import com.google.gson.Gson;
@@ -19,6 +20,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -69,9 +71,8 @@ public class AppUpdateTest extends TestCase {
 
 	@Test
 	public void testServiceIdKey() {
-		AppUpdateInterface.OnRefreshListener onRefreshListener = Mockito.mock(AppUpdateInterface.OnRefreshListener.class);
 		when(mAppUpdateManager.getServiceIdFromAppConfig()).thenReturn(null);
-		//Mockito.verify(mAppUpdateManager.refresh(onRefreshListener))..onError(AppUpdateInterface.OnRefreshListener.AIAppUpdateRefreshResult.AppUpdate_REFRESH_FAILED, "Invalid ServiceID");
+		assertNull(mAppUpdateManager.getServiceIdFromAppConfig());
 	}
 
 //	@Test

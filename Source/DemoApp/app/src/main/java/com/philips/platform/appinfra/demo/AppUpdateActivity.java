@@ -10,6 +10,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
+import com.philips.platform.appinfra.appupdate.AppUpdateManager;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class AppUpdateActivity extends AppCompatActivity {
 
@@ -76,8 +80,6 @@ public class AppUpdateActivity extends AppCompatActivity {
 		fetchappupdateValues.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
-
 				tvappversionval.setText(AppInfraApplication.gAppInfra.getAppIdentity().getAppVersion());
 				tvminversionval.setText(appupdateInterface.getMinimumVersion());
 				tvisDeprecated.setText(String.valueOf(appupdateInterface.isDeprecated()));
@@ -87,7 +89,10 @@ public class AppUpdateActivity extends AppCompatActivity {
 				tvToBeDeprecatedMessage.setText(appupdateInterface.getToBeDeprecatedMessage());
 				tvUpdateMessage.setText(appupdateInterface.getUpdateMessage());
 				tvMinimumOSverion.setText(appupdateInterface.getMinimumOSverion());
-				tvToBeDeprecatedDate.setText(appupdateInterface.getToBeDeprecatedDate());
+				SimpleDateFormat formatter = new SimpleDateFormat(AppUpdateManager.APPUPDATE_DATE_FORMAT
+						, Locale.ENGLISH);
+				String s = formatter.format(appupdateInterface.getToBeDeprecatedDate());
+				tvToBeDeprecatedDate.setText(s);
 			}
 		});
 

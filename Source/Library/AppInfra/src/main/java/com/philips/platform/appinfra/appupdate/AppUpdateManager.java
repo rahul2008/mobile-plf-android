@@ -14,7 +14,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.FileUtils;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -45,6 +44,8 @@ public class AppUpdateManager implements AppUpdateInterface {
 	private AppUpdateModel mAppUpdateModel;
 	private Gson mGson;
 	private FileUtils mFileUtils;
+	public static final String APPUPDATE_DATE_FORMAT = "yyyy-MM-dd";
+
 
 	public AppUpdateManager(AppInfra appInfra) {
 		this.mAppInfra = appInfra;
@@ -256,9 +257,17 @@ public class AppUpdateManager implements AppUpdateInterface {
 	}
 
 	@Override
-	public String getToBeDeprecatedDate() {
+	public Date getToBeDeprecatedDate() {
 		if (getAppUpdateModel() != null && getAppUpdateModel().getVersion() != null) {
-			return getAppUpdateModel().getVersion().getDeprecationDate();
+			SimpleDateFormat formatter = new SimpleDateFormat(APPUPDATE_DATE_FORMAT
+					, Locale.ENGLISH);
+			formatter.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
+			try {
+				return formatter.parse(getAppUpdateModel().getVersion().getDeprecationDate());
+			} catch (ParseException e) {
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+						"AI AppUpdate_URL", "Date Parse Exception");
+			}
 		}
 		return null;
 	}

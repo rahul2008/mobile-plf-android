@@ -5,6 +5,8 @@
  */
 package com.philips.platform.appinfra.appupdate;
 
+import java.util.Date;
+
 /**
  *  AppUpdate Interface.
  */
@@ -74,7 +76,7 @@ public interface AppUpdateInterface {
 	 * To be deprecated date.
 	 * @return
 	 */
-	String getToBeDeprecatedDate();
+	Date getToBeDeprecatedDate();
 
 	/**
 	 * current version message.
