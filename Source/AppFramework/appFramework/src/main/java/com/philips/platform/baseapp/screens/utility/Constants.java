@@ -52,6 +52,7 @@ public class Constants {
     public static final String UNSUPPORTED_ENCODING_EXCEPTION="unsupported_encoding_exception";
 
 
-
+    public static final String UR_LOGIN_COMPLETED = "UR_LOGIN_COMPLETED";
+    public static final String SHARED_PREF = "SHARED_PREF";
 
 }

@@ -7,6 +7,7 @@ package com.philips.platform.baseapp.screens.userregistration;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.dataservices.utility.SyncScheduler;
 import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
+import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -42,6 +44,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.UR;
 
 /**
@@ -205,7 +208,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onUserRegistrationComplete(Activity activity) {
-
+        setUrCompleted();
         if (null != activity) {
             getApplicationContext().determineChinaFlow();
 
@@ -334,5 +337,15 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     private AppFrameworkApplication getApplicationContext() {
         return (AppFrameworkApplication) getFragmentActivity().getApplication();
+    }
+
+    protected void setUrCompleted() {
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        editor.putBoolean(Constants.UR_LOGIN_COMPLETED, true);
+        editor.commit();
+    }
+
+    private SharedPreferences getSharedPreferences() {
+        return getFragmentActivity().getSharedPreferences(Constants.SHARED_PREF, MODE_PRIVATE);
     }
 }

@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,14 +28,17 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
+import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * This is the home fragment the main landing page of the application , once onboarding is completed.
  * All the fragments are added on top of this , handleBack event from all other fragemnts ends up  landing here
  */
 
-public class HomeFragment extends AppFrameworkBaseFragment implements UserRegistrationUIEventListener {
+public class HomeFragment extends AppFrameworkBaseFragment {
     public static final String TAG = HomeFragment.class.getSimpleName();
     private static final String JAIL_BROKEN_ENABLED = "JAIL_BROKEN";
     private static final String SCREEN_LOCK_DISABLED = "SCREEN_LOCK";
@@ -58,10 +62,18 @@ public class HomeFragment extends AppFrameworkBaseFragment implements UserRegist
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.af_home_fragment, container, false);
         setDateToView();
         startAppTagging(TAG);
+
+        boolean isUrLoginSuccess = getPreferences().getBoolean(Constants.UR_LOGIN_COMPLETED, false);
+        Log.i("testing", "HomeFragment onCreateView -- isUrLoginSuccess " + isUrLoginSuccess);
+        if(isUrLoginSuccess) {
+            setUrCompleted();
+            createDialog();
+            // Making is false because only after login only this dialog has to be shown.
+        }
+
         return rootView;
     }
 
@@ -70,26 +82,16 @@ public class HomeFragment extends AppFrameworkBaseFragment implements UserRegist
         Bundle bundle = getArguments();
     }
 
-    @Override
-    public void onUserRegistrationComplete(Activity activity) {
-        createDialog();
-    }
-
-    @Override
-    public void onPrivacyPolicyClick(Activity activity) {
-
-    }
-
-    @Override
-    public void onTermsAndConditionClick(Activity activity) {
-
-    }
-
     protected void createDialog() {
         {
+            Log.i("testing", "HomeFragment User Registration Successfully Done");
             boolean isScreenLockDisabled = !isScreenLockEnabled();
             boolean isDeviceRooted = isDeviceRooted();
+
+            Log.i("testing", "HomeFragment isRooted - " + isDeviceRooted + " -- isScreenLockDisabled - " + isScreenLockDisabled);
+
             if(getDoNotShowValue(JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED)) {
+                Log.i("testing", "HomeFragment case 1");
                 return;
             }
             final Dialog dialog = new Dialog(getActivity());
@@ -103,24 +105,31 @@ public class HomeFragment extends AppFrameworkBaseFragment implements UserRegist
 
             if(isScreenLockDisabled && isDeviceRooted &&
                     !getDoNotShowValue(JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED)) {
+                Log.i("testing", "HomeFragment case 2");
                 dialogDescTextView.setText(getActivity().getString(R.string.RA_SECURITY_PASSCODE_AND_JAILBREAK_VIOLATION));
                 activateScreenLockListener(btnActivateScreen, dialog);
                 btnActivateScreen.setVisibility(View.VISIBLE);
                 checkBoxListener(checkBox, JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED);
+                noThanksClickListener(btnNoThanks, dialog);
+                dialog.show();
             }
             else if(isDeviceRooted && !getDoNotShowValue(JAIL_BROKEN_ENABLED)) {
+                Log.i("testing", "HomeFragment case 3");
                 dialogDescTextView.setText(getActivity().getString(R.string.RA_SECURITY_JAILBREAK_VIOLATION));
                 btnActivateScreen.setVisibility(View.GONE);
                 checkBoxListener(checkBox, JAIL_BROKEN_ENABLED);
+                noThanksClickListener(btnNoThanks, dialog);
+                dialog.show();
             }
             else if(isScreenLockDisabled && !getDoNotShowValue(SCREEN_LOCK_DISABLED)) {
+                Log.i("testing", "HomeFragment case 4");
                 dialogDescTextView.setText(getActivity().getString(R.string.RA_SECURITY_SCREEN_LOCK));
                 btnActivateScreen.setVisibility(View.VISIBLE);
                 activateScreenLockListener(btnActivateScreen, dialog);
                 checkBoxListener(checkBox, SCREEN_LOCK_DISABLED);
+                noThanksClickListener(btnNoThanks, dialog);
+                dialog.show();
             }
-            noThanksClickListener(btnNoThanks, dialog);
-            dialog.show();
         }
     }
 
@@ -178,10 +187,17 @@ public class HomeFragment extends AppFrameworkBaseFragment implements UserRegist
     }
 
     protected boolean getDoNotShowValue(String key) {
+        Log.i("testing", "HomeFragment getDoNotShowValue key - " + key + "     value - "+ getPreferences().getBoolean(key, false));
         return getPreferences().getBoolean(key, false);
     }
 
     private SharedPreferences getPreferences() {
-        return getActivity().getPreferences(Activity.MODE_PRIVATE);
+        return getActivity().getSharedPreferences(Constants.SHARED_PREF, MODE_PRIVATE);
+    }
+
+    protected void setUrCompleted() {
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.putBoolean(Constants.UR_LOGIN_COMPLETED, false);
+        editor.commit();
     }
 }
