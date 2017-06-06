@@ -46,18 +46,18 @@ public class CocoVersionFragmentTest extends TestCase {
 
     }
 
-    @Test
-    public void testcocoVersionFragment() {
+//    @Test
+//    public void testcocoVersionFragment() {
+//
+//        assertNotNull(cocoVersionFragment);
+//    }
 
-        assertNotNull(cocoVersionFragment);
-    }
-
-    @Test
-    public void testShowCoCoName() {
-        cocoVersionAdapter.onBindViewHolder(candyViewHolder, 0);
-        assertEquals("ail : App Infrastructure Library", candyViewHolder.CocoName.getText().toString());
-
-    }
+//    @Test
+//    public void testShowCoCoName() {
+//        cocoVersionAdapter.onBindViewHolder(candyViewHolder, 0);
+//        assertEquals("ail : App Infrastructure Library", candyViewHolder.CocoName.getText().toString());
+//
+//    }
 
 
     @Test

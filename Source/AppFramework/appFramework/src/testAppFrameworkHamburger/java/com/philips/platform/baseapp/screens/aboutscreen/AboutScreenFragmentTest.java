@@ -32,7 +32,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 24)
+@Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 public class AboutScreenFragmentTest {
     private HamburgerActivity hamburgerActivity = null;
     private FrameLayout hamburgerClick = null;
@@ -72,10 +72,10 @@ public class AboutScreenFragmentTest {
 
     public static class AboutScreenFragmentMock extends AboutScreenFragment{
        View view;
-       @Override
-       protected void startAppTagging() {
-
-       }
+//       @Override
+//       protected void startAppTagging() {
+//
+//       }
 
        @Override
        public void onResume() {
