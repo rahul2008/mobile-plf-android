@@ -192,6 +192,16 @@ public class ProductModelSelectionLogic extends InstrumentationTestCase {
             }
 
             @Override
+            public void registerFragmentLifecycleCallbacks(FragmentLifecycleCallbacks cb, boolean recursive) {
+
+            }
+
+            @Override
+            public void unregisterFragmentLifecycleCallbacks(FragmentLifecycleCallbacks cb) {
+
+            }
+
+            @Override
             public void dump(String prefix, FileDescriptor fd, PrintWriter writer, String[] args) {
 
             }
@@ -299,6 +309,16 @@ public class ProductModelSelectionLogic extends InstrumentationTestCase {
             @Override
             public boolean isDestroyed() {
                 return false;
+            }
+
+            @Override
+            public void registerFragmentLifecycleCallbacks(FragmentLifecycleCallbacks cb, boolean recursive) {
+
+            }
+
+            @Override
+            public void unregisterFragmentLifecycleCallbacks(FragmentLifecycleCallbacks cb) {
+
             }
 
             @Override
@@ -412,6 +432,16 @@ public class ProductModelSelectionLogic extends InstrumentationTestCase {
             }
 
             @Override
+            public void registerFragmentLifecycleCallbacks(FragmentLifecycleCallbacks cb, boolean recursive) {
+
+            }
+
+            @Override
+            public void unregisterFragmentLifecycleCallbacks(FragmentLifecycleCallbacks cb) {
+
+            }
+
+            @Override
             public void dump(String prefix, FileDescriptor fd, PrintWriter writer, String[] args) {
 
             }
@@ -518,6 +548,16 @@ public class ProductModelSelectionLogic extends InstrumentationTestCase {
             @Override
             public boolean isDestroyed() {
                 return false;
+            }
+
+            @Override
+            public void registerFragmentLifecycleCallbacks(FragmentLifecycleCallbacks cb, boolean recursive) {
+
+            }
+
+            @Override
+            public void unregisterFragmentLifecycleCallbacks(FragmentLifecycleCallbacks cb) {
+
             }
 
             @Override
