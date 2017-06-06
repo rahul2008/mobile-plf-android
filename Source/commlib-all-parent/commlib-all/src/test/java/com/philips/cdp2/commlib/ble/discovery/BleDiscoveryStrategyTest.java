@@ -1,5 +1,5 @@
 /*
- * © 2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -12,8 +12,10 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.pins.shinelib.SHNCentral;
+import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
 import com.philips.pins.shinelib.SHNDeviceScanner;
+import com.philips.pins.shinelib.utility.BleScanRecord;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -46,41 +48,49 @@ public class BleDiscoveryStrategyTest {
     @Mock
     SHNDeviceFoundInfo mockDeviceFoundInfo;
     @Mock
+    private BleScanRecord mockBleScanRecord;
+    @Mock
+    private SHNDevice mockDevice;
+    @Mock
     BleDeviceCache.CacheData mockCacheData;
+
+    private NetworkNode networkNode;
 
     @Before
     public void setUp() {
         initMocks(this);
         enableMockedHandler(mockHandler);
 
+        networkNode = new NetworkNode();
+        networkNode.setCppId("ADDR");
+
         when(mockCentral.getShnDeviceScanner()).thenReturn(mockScanner);
 
-        strategyUnderTest = new BleDiscoveryStrategy(mockContext, mockCache, mockCentral);
+        when(mockDeviceFoundInfo.getShnDevice()).thenReturn(mockDevice);
+        when(mockDevice.getAddress()).thenReturn("ADDR");
+
+        when(mockDeviceFoundInfo.getBleScanRecord()).thenReturn(mockBleScanRecord);
+
+        when(mockCache.getCacheData("ADDR")).thenReturn(mockCacheData);
+        when(mockCacheData.getNetworkNode()).thenReturn(networkNode);
+
+        strategyUnderTest = new BleDiscoveryStrategy(mockContext, mockCache, mockScanner);
     }
 
     @Test
-    public void findDeviceAgain() {
-        when(mockDeviceFoundInfo.getDeviceAddress()).thenReturn("ADDR");
-        when(mockCache.findByAddress("ADDR")).thenReturn(mockCacheData);
-        NetworkNode networkNode = new NetworkNode();
-        when(mockCacheData.getNetworkNode()).thenReturn(networkNode);
+    public void whenADeviceIsFoundANetworkNodeShouldBeDiscovered() {
         strategyUnderTest.addDiscoveryListener(listener);
-
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
 
         verify(listener).onNetworkNodeDiscovered(networkNode);
     }
 
     @Test
-    public void findDeviceAgainWithInvalidModelId() {
+    public void whenADeviceIsFoundWhichModelIdDoesntMatchTheFilterNoNetworkNodesShouldBeDiscovered() {
         strategyUnderTest.modelIds = new HashSet<>();
         strategyUnderTest.modelIds.add("NOT A MODEL");
-        when(mockDeviceFoundInfo.getDeviceAddress()).thenReturn("ADDR");
-        when(mockCache.findByAddress("ADDR")).thenReturn(mockCacheData);
-        NetworkNode networkNode = new NetworkNode();
-        when(mockCacheData.getNetworkNode()).thenReturn(networkNode);
-        strategyUnderTest.addDiscoveryListener(listener);
 
+        strategyUnderTest.addDiscoveryListener(listener);
         strategyUnderTest.deviceFound(mockScanner, mockDeviceFoundInfo);
 
         verify(listener, never()).onNetworkNodeDiscovered(networkNode);

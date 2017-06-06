@@ -50,9 +50,11 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
     private final Context context;
     private final BleDeviceCache bleDeviceCache;
     private final SHNDeviceScanner deviceScanner;
-    private Set<String> modelIds;
     private ScheduledExecutorService executor;
     private ScheduledFuture discoveryStoppedFuture;
+
+    @VisibleForTesting
+    Set<String> modelIds;
 
     private ExpirationCallback expirationCallback = new ExpirationCallback() {
         @Override
