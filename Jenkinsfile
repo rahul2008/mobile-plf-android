@@ -48,7 +48,7 @@ node ('android&&keystore') {
 
             stage ('reporting and archiving') {
                 androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
-                junit allowEmptyResults: true, testResults: 'Source/Library/*/build/test-results/*/*.xml'
+                junit allowEmptyResults: true, testResults: 'Source/AppFramework/*/build/test-results/*/*.xml'
                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/AppFramework/appFramework/build/reports/coverage/AppFrameworkHamburger/debug', reportFiles: 'index.html', reportName: 'coverage debug AppFrameworkHamburger']) 
                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/AppFramework/appFramework/build/reports/coverage/AppFrameworkHamburgerDemo/debug', reportFiles: 'index.html', reportName: 'coverage debug AppFrameworkHamburgerDemo']) 
                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/AppFramework/appFramework/build/reports/coverage/AppFrameworkTabbed/debug', reportFiles: 'index.html', reportName: 'coverage debug AppFrameworkTabbed']) 
