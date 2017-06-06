@@ -177,6 +177,12 @@ android {
     }
     lintOptions {
         abortOnError false
+        checkReleaseBuilds false
+        disable 'InvalidPackage'
+        disable 'GradleCompatible'
+        disable 'MissingTranslation'
+        disable 'TypographyFractions','TypographyQuotes'
+        absolutePaths false
     }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
