@@ -41,21 +41,11 @@ import java.util.List;
 
 public class DebugTestFragment extends AppFrameworkBaseFragment {
     public static final String TAG = DebugTestFragment.class.getSimpleName();
-    private String configurationType[] =
-            {
-                    AppStateConfiguration.STAGING.getValue(),
-                    AppStateConfiguration.TEST.getValue(),
-                    AppStateConfiguration.DEVELOPMENT.getValue()
-            };
-    private List<String> list = Arrays.asList(configurationType);
+//    private List<String> list;
     private TextView configurationTextView;
     private Spinner spinner;
     private Context context;
-    private UserRegistrationState userRegistrationState;
-    private static final String APPIDENTITY_APP_STATE = "appidentity.appState";
     private final String AppInfra = "appinfra";
-    private String appState;
-
 
     @Override
     public String getActionbarTitle() {
@@ -72,34 +62,45 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.af_debug_fragment, container, false);
-        setUp(view);
+        setUpView(view);
         startAppTagging();
         return view;
+    }
+
+    @NonNull
+    protected List<String> getList(String configurationType[]) {
+        return Arrays.asList(configurationType);
     }
 
     protected void startAppTagging() {
         AppFrameworkTagging.getInstance().trackPage(TAG);
     }
 
-    private void setUp(final View view) {
-        appState = ((AppFrameworkApplication) getActivity().getApplicationContext()).getAppState();
+    protected void setUpView(final View view) {
+        String configurationType[] =
+                {
+                        AppStateConfiguration.STAGING.getValue(),
+                        AppStateConfiguration.TEST.getValue(),
+                        AppStateConfiguration.DEVELOPMENT.getValue()
+                };
+
         context = getActivity();
         initViews(view);
-        setSpinnerAdaptor();
-        final int position = list.indexOf(appState);
-        setSpinnerSelection(position);
-        spinner.setOnItemSelectedListener(getSpinnerListener());
-        configurationTextView.setTextColor(ContextCompat.getColor(context, R.color.uikit_white));
+        setSpinnerAdaptor(configurationType);
+        int position = getList(configurationType).indexOf(getApplicationContext().getAppState());
+        setSpinnerSelection(position, configurationType);
+        getSpinner().setOnItemSelectedListener(getSpinnerListener(getList(configurationType)));
+        getConfigurationTextView().setTextColor(ContextCompat.getColor(context, R.color.uikit_white));
     }
 
     @NonNull
-    private AdapterView.OnItemSelectedListener getSpinnerListener() {
+    protected AdapterView.OnItemSelectedListener getSpinnerListener(final List<String> list) {
         return new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(final AdapterView<?> adapter, View v,
                                        final int position, long id) {
-                final int appStatePosition = list.indexOf(appState);
+                final int appStatePosition = list.indexOf(getApplicationContext().getAppState());
                 if (appStatePosition != position) {
 
                     new AlertDialog.Builder(context, R.style.alertDialogStyle)
@@ -109,17 +110,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
                             .setPositiveButton(getString(R.string.RA_OK),
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
-                                            final String configuration = adapter.getItemAtPosition(position).toString();
-                                            userRegistrationState = new UserRegistrationSettingsState();
-                                            userRegistrationState.getUserObject(context).logout(null);
-                                            if (configuration.equalsIgnoreCase(AppStateConfiguration.DEVELOPMENT.getValue())) {
-                                                setState(AppStateConfiguration.DEVELOPMENT.getValue());
-                                            } else if (configuration.equalsIgnoreCase(AppStateConfiguration.TEST.getValue())) {
-                                                setState(AppStateConfiguration.TEST.getValue());
-                                            } else if (configuration.equalsIgnoreCase(AppStateConfiguration.STAGING.getValue())) {
-                                                setState(AppStateConfiguration.STAGING.getValue());
-                                            }
-                                            configurationTextView.setText(configuration);
+                                            settingState(adapter, position);
                                         }
                                     })
                             .setIcon(android.R.drawable.ic_dialog_alert)
@@ -133,36 +124,72 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
         };
     }
 
-    private void setSpinnerSelection(final int position) {
-        if (position >= 0) {
-            spinner.setSelection(position);
+    protected void settingState(AdapterView<?> adapter, int position) {
+        final String configuration = adapter.getItemAtPosition(position).toString();
+        getUserRegistration().getUserObject(context).logout(null);
+        if (configuration.equalsIgnoreCase(AppStateConfiguration.DEVELOPMENT.getValue())) {
+            setState(AppStateConfiguration.DEVELOPMENT.getValue());
+        } else if (configuration.equalsIgnoreCase(AppStateConfiguration.TEST.getValue())) {
+            setState(AppStateConfiguration.TEST.getValue());
+        } else if (configuration.equalsIgnoreCase(AppStateConfiguration.STAGING.getValue())) {
+            setState(AppStateConfiguration.STAGING.getValue());
+        }
+        getConfigurationTextView().setText(configuration);
+    }
 
-            configurationTextView.setText(configurationType[position]);
+    private TextView getConfigurationTextView() {
+        return configurationTextView;
+    }
+
+    protected UserRegistrationSettingsState getUserRegistration() {
+        return new UserRegistrationSettingsState();
+    }
+
+    protected void setSpinnerSelection(int position, String configurationType[]) {
+        if (position >= 0) {
+            getSpinner().setSelection(position);
+
+            getConfigurationTextView().setText(configurationType[position]);
         } else {
-            configurationTextView.setText(configurationType[0]);
+            getConfigurationTextView().setText(configurationType[0]);
         }
     }
 
-    private void setSpinnerAdaptor() {
-        final ArrayAdapter<String> configType = new ArrayAdapter<>(context,
-                android.R.layout.simple_spinner_item, configurationType);
-        configType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(configType);
+    protected void setSpinnerAdaptor(String configurationType[]) {
+        ArrayAdapter<String> configType = getArrayAdapter(configurationType);
+        getSpinner().setAdapter(configType);
     }
 
-    private void initViews(final View view) {
+    protected Spinner getSpinner() {
+        return spinner;
+    }
+
+    @NonNull
+    protected ArrayAdapter<String> getArrayAdapter(String[] configurationType) {
+        ArrayAdapter<String> configType = new ArrayAdapter<>(context,
+                android.R.layout.simple_spinner_item, configurationType);
+        configType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        return configType;
+    }
+
+    protected void initViews(final View view) {
         spinner = (Spinner) view.findViewById(R.id.spinner);
         configurationTextView = (TextView) view.findViewById(R.id.configuration);
     }
 
-    private void setState(final String state) {
-        AppInfraInterface appInfra = ((AppFrameworkApplication) getActivity().getApplicationContext()).getAppInfra();
-        AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
+    protected void setState(final String state) {
+        String APPIDENTITY_APP_STATE = "appidentity.appState";
 
+        AppInfraInterface appInfra = getApplicationContext().getAppInfra();
+        AppConfigurationInterface appConfigurationInterface = appInfra.getConfigInterface();
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
 
         appConfigurationInterface.setPropertyForKey(APPIDENTITY_APP_STATE,
                 AppInfra, state, configError);
+    }
+
+    protected AppFrameworkApplication getApplicationContext() {
+        return (AppFrameworkApplication) getActivity().getApplicationContext();
     }
 }

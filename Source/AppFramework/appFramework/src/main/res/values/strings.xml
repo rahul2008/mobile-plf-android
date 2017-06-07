@@ -145,7 +145,7 @@
         <item>@string/RA_DataServices_Menu_Title</item>
         <item>@string/RA_ConnectivityScreen_Menu_Title</item>
         <item>@string/RA_Coco_Version</item>
-        <item>@string/RA_Debug_and_Test_Menu_Title</item>
+        <item>@string/RA_DebugScreen_Title</item>
 
     </string-array>
 
@@ -196,10 +196,8 @@
     <string name="RA_Cancel">Cancel</string>
     <string name="RA_Warning">WARNING</string>
     <string name="RA_SupportScreen_Title">Support</string>
-    <string name="RA_DebugAndTestScreen_Title">Debug and Test</string>
     <string name="RA_ConnectivityScreen_Title">Connectivity</string>
     <string name="RA_PhilipsShopScreen_Title">Products</string>
-    <string name="RA_Debug_and_Test_Menu_Title">Debug and Test</string>
     <string name="RA_HomeScreen_Menu_Title">Mobile App home</string>
     <string name="RA_Setting_Philips_Promo_Title">Receive Philip\'s promotional communications based on my preferences and online behaviour</string>
     <string name="BA_Add_Edit_Temp">Add  or Edit Temperature </string>
