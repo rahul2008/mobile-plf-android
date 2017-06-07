@@ -5,12 +5,15 @@
  */
 package com.philips.platform.appinfra.logging;
 
+import android.util.Log;
+
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.logging.Formatter;
 import java.util.logging.Handler;
@@ -55,6 +58,7 @@ public class LogFormatter extends Formatter {
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ", Locale.ENGLISH);
 
     public String format(LogRecord record) {
+        Map<String, Object> dictionary = null;
         final StringBuilder builder = new StringBuilder(1000);
         builder.append("[");
         if (mappInfra != null && mappInfra.getTime() != null) {
@@ -77,13 +81,22 @@ public class LogFormatter extends Formatter {
         builder.append("[").append(formatMessage(record)).append("]"); // this we assume as event
         //builder.append("[").append(record.getSourceClassName()).append("] ");
         //builder.append("[").append(record.getSourceMethodName()).append("] ");
-        final Object[] eventNameList = record.getParameters(); // this we assume as message
+        final Object[] params = record.getParameters(); // this we assume as message
         String eventName = "NA";// Default event name
-        if (null != eventNameList && eventNameList.length > 0) {
-            eventName = (String) eventNameList[0];
+        if (null != params && params.length > 0) {
+            eventName = (String) params[0];  // params[0] is message
+            if (params.length == 2) {
+                try {
+                    dictionary = (Map<String, Object>) params[1];
+                } catch (Exception e) {
+                    Log.v("AILOG", "Not a valid Map(Dictionary)");
+                }
+            }
         }
         builder.append("[").append(eventName).append("]");
-
+        if (null != dictionary) {
+            builder.append("[").append(dictionary).append("]"); // optional Map/dictionary
+        }
         builder.append("\n");
         return builder.toString();
     }

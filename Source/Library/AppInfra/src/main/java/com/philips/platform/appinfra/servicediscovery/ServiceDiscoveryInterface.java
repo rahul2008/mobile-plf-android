@@ -5,6 +5,8 @@
  */
 package com.philips.platform.appinfra.servicediscovery;
 
+import android.content.BroadcastReceiver;
+
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import java.net.URL;
@@ -92,6 +94,13 @@ public interface ServiceDiscoveryInterface {
      * @param listener country code to persistently store, code must be according to ISO 3166-1
      */
     void getHomeCountry(OnGetHomeCountryListener listener);
+
+    /**
+     * Fetches the Persistently stored Home country, the value is taken from the variable which has been set by setHomeCountry API.
+     * Changing the country automatically clears the cached service list and triggers a refresh.
+     *
+     */
+    String getHomeCountry();
 
     /**
      * Persistently store Home country, overwrites any existing country value.
@@ -246,4 +255,17 @@ public interface ServiceDiscoveryInterface {
     void refresh(OnRefreshListener listener);
 
     void refresh(OnRefreshListener listener, boolean forceRefresh);
+
+    /**
+     * UnRegister for the updating home country .
+     * @param receiver BroadcastReceiver
+     */
+    void unRegisterHomeCountrySet(BroadcastReceiver receiver);
+
+    /**
+     * Register for the home country update.
+     *
+     * @param receiver BroadcastReceiver
+     */
+    void registerOnHomeCountrySet(BroadcastReceiver receiver);
 }
