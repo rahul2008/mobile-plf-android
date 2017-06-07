@@ -87,7 +87,7 @@ public class PrxLauncherActivity extends AppCompatActivity {
         listview = (ListView) findViewById(R.id.details);
 
         mAppInfra = new AppInfra.Builder().build(this);
-        prxDependencies = new PRXDependencies(getApplicationContext(), mAppInfra);
+        prxDependencies = new PRXDependencies(getApplicationContext(), mAppInfra,"PRX DEMO");
         // setting sector spinner
         mSector_spinner_prx = (Spinner) findViewById(R.id.prxSpinnerSector);
         mSector = getResources().getStringArray(R.array.sector_list);
