@@ -4,7 +4,12 @@ apply plugin: 'spoon'
 
 buildscript {
     repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+}
     }
 
     dependencies {

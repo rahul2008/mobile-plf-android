@@ -12,45 +12,77 @@ def MailRecipient = 'DL_CDP2_Callisto@philips.com, DL_CDP2_MobileUIToolkit@phili
 
 node ('android') {
 	timestamps {
-		stage ('Checkout') {
-			checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: false, reference: '', shallow: true, timeout: 30], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'bbd4d9e8-2a6c-4970-b856-4e4cf901e857', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/uit-android']]])
-			step([$class: 'StashNotifier'])
-		}
 		try {
+
+            stage ('Checkout') {
+                checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: false, reference: '', shallow: true, timeout: 30], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'bbd4d9e8-2a6c-4970-b856-4e4cf901e857', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/uit-android']]])
+                step([$class: 'StashNotifier'])
+            }
             if (BranchName =~ /master|develop|release.*/) {
                 stage ('build') {
-                    sh 'chmod -R 775 . && cd ./Source/CatalogApp && chmod -R 775 ./gradlew && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease zipDocuments artifactoryPublish'
+                    sh '''#!/bin/bash -l
+                        chmod -R 775 . 
+                        cd ./Source/CatalogApp 
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease zipDocuments artifactoryPublish
+                    '''
                 }
             } else {
                 stage ('build') {
-                    sh 'chmod -R 775 . && cd ./Source/CatalogApp && chmod -R 775 ./gradlew && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease'
+                    sh '''#!/bin/bash -l
+                        chmod -R 775 . 
+                        cd ./Source/CatalogApp 
+                        ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease 
+                    '''
                 }
             }
 			stage ('save dependencies list') {
-            	sh 'chmod -R 775 . && cd ./Source/CatalogApp && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
-            	sh 'chmod -R 775 . && cd ./Source/UiKit && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+                sh '''#!/bin/bash -l
+            	   chmod -R 775 . 
+                   cd ./Source/CatalogApp 
+                   ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+            	   cd ../UiKit 
+                   ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+                '''
             }
-            archiveArtifacts '**/dependencies.lock'
-            currentBuild.result = 'SUCCESS'
+
+           stage ('reporting') {
+                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
+                junit allowEmptyResults: true, testResults: 'Source/Library/*/build/test-results/*/*.xml'
+                // publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/UiKit/uikitlib/build/reports/tests/debug', reportFiles: 'index.html', reportName: 'unit test debug']) 
+                archiveArtifacts '**/dependencies.lock'
+            }
+
+            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
+                stage ('callIntegrationPipeline') {
+                    if (BranchName =~ "/") {
+                        BranchName = BranchName.replaceAll('/','%2F')
+                        echo "BranchName changed to ${BranchName}"
+                    }
+                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'uit'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
+                }            
+            }
         } catch(err) {
             currentBuild.result = 'FAILURE'
-            error ("Someone just broke the build")
-        }        
-			
-        if (env.triggerBy != "ppc" && !(BranchName =~ "eature")) {
-        	stage ('callIntegrationPipeline') {
-                if (BranchName =~ "/") {
-                    BranchName = BranchName.replaceAll('/','%2F')
-                    echo "BranchName changed to ${BranchName}"
-                }
-        		build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'uit'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
-        	}            
-        }
-
-        stage('informing') {
-        	step([$class: 'StashNotifier'])
-        	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
-        }
-
+            error ("Someone just broke the build", err.toString())
+        } finally {
+            stage('informing') {
+                step([$class: 'StashNotifier'])
+                step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
+            }
+            stage('Cleaning workspace') {
+                step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
+            }       
+        }     
 	} 
+}
+
+node('master') {
+    stage('Cleaning workspace') {
+        def wrk = pwd() + "@script/"
+        dir("${wrk}") {
+            deleteDir()
+        }
+    }
 }
