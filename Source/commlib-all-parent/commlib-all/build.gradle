@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016, 2017
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -202,7 +202,7 @@ pitest {
     ]  /* specify target classes to be mutated */
     pitestVersion = versions.pitest
     avoidCallsTo = ['com.philips.cdp.dicommclient.util.DICommLog']
-    threads = 8 /* specify number of threads */
+    threads = 1 /* specify number of threads */
     outputFormats = ['XML', 'HTML'] /* specify output format */
     reportDir = "${rootDir.absolutePath}/build/report/${project.name}/pitest/"
     timestampedReports = false

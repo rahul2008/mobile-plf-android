@@ -1,7 +1,8 @@
 /*
- * (C) Koninklijke Philips N.V., 2016.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.cdp2.commlib.ble.communication;
 
 import android.os.Handler;
@@ -75,7 +76,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class BleCommunicationStrategyTestSteps {
-    private static final int TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS = 100;
+    private static final int TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS = 300;
 
     private class QueuedRequest {
         BleRequest request;

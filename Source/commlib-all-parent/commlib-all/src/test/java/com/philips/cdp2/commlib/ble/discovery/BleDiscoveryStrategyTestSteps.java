@@ -1,5 +1,5 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -58,7 +58,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class BleDiscoveryStrategyTestSteps {
-    private static final int TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS = 100;
+    private static final int TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS = 300;
     private CommCentral commCentral;
 
     @Mock

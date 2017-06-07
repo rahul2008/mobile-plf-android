@@ -1,7 +1,8 @@
 /*
- * Copyright (c) Koninklijke Philips N.V. 2016, 2017
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.cdp2.commlib.ble.communication;
 
 import android.os.Handler;
