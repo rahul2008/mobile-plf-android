@@ -1,5 +1,5 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -19,6 +19,7 @@ import java.util.List;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_BOOT_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_CPP_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_DEVICE_NAME;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_DEVICE_TYPE;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_HTTPS;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_IP_ADDRESS;
@@ -26,7 +27,6 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_LASTKNOWN_NETWORK;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_LAST_PAIRED;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_MODEL_ID;
-import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_MODEL_NAME;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
 
 public class NetworkNodeDatabase {
@@ -59,7 +59,7 @@ public class NetworkNodeDatabase {
                     int pairedStatus = cursor.getInt(cursor.getColumnIndex(KEY_IS_PAIRED));
                     long lastPairedTime = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_LAST_PAIRED));
                     String ipAddress = cursor.getString(cursor.getColumnIndex(KEY_IP_ADDRESS));
-                    String modelName = cursor.getString(cursor.getColumnIndex(KEY_MODEL_NAME));
+                    String deviceType = cursor.getString(cursor.getColumnIndex(KEY_DEVICE_TYPE));
                     String modelId = cursor.getString(cursor.getColumnIndex(KEY_MODEL_ID));
                     boolean https = cursor.getShort(cursor.getColumnIndex(KEY_HTTPS)) == 1;
 
@@ -73,7 +73,7 @@ public class NetworkNodeDatabase {
                     networkNode.setPairedState(NetworkNode.getPairedStatusKey(pairedStatus));
                     networkNode.setLastPairedTime(lastPairedTime);
                     networkNode.setIpAddress(ipAddress);
-                    networkNode.setDeviceType(modelName);
+                    networkNode.setDeviceType(deviceType);
                     networkNode.setModelId(modelId);
 
                     result.add(networkNode);
@@ -120,7 +120,7 @@ public class NetworkNodeDatabase {
             }
 
             values.put(KEY_IP_ADDRESS, networkNode.getIpAddress());
-            values.put(KEY_MODEL_NAME, networkNode.getDeviceType());
+            values.put(KEY_DEVICE_TYPE, networkNode.getDeviceType());
             values.put(KEY_MODEL_ID, networkNode.getModelId());
             values.put(KEY_HTTPS, networkNode.getHttps());
 

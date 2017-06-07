@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2017.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.networknode;
@@ -30,7 +30,7 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_IS_PAIRED = "is_paired";
     public static final String KEY_LAST_PAIRED = "last_paired";
     public static final String KEY_IP_ADDRESS = "ip_address";
-    public static final String KEY_MODEL_NAME = "model_name";
+    public static final String KEY_DEVICE_TYPE = "model_name"; // Value explicitly not renamed to prevent schema update
     public static final String KEY_MODEL_ID = "model_id";
     public static final String KEY_HTTPS = "https";
 
@@ -56,7 +56,7 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_IS_PAIRED + " SMALLINT NOT NULL DEFAULT 0,"
                 + KEY_LAST_PAIRED + " NUMERIC,"
                 + KEY_IP_ADDRESS + " TEXT,"
-                + KEY_MODEL_NAME + " TEXT,"
+                + KEY_DEVICE_TYPE + " TEXT,"
                 + KEY_MODEL_ID + " TEXT,"
                 + KEY_HTTPS + " SMALLINT NOT NULL DEFAULT 0,"
                 + "PRIMARY KEY(" + KEY_ID + ")"
@@ -99,10 +99,10 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db); // This will recreate the original table
 
         db.execSQL("INSERT INTO " + TABLE_NETWORK_NODE + "(" + KEY_ID + "," + KEY_CPP_ID + "," + KEY_BOOT_ID + "," + KEY_ENCRYPTION_KEY + "," +
-                KEY_DEVICE_NAME + "," + KEY_LASTKNOWN_NETWORK + "," + KEY_IS_PAIRED + "," + KEY_LAST_PAIRED + "," + KEY_IP_ADDRESS + "," + KEY_MODEL_NAME + "," + KEY_MODEL_ID + "," + KEY_HTTPS +")\n" +
-                   "SELECT " + KEY_ID + "," + KEY_CPP_ID + "," + KEY_BOOT_ID + "," + KEY_ENCRYPTION_KEY + "," +
-                KEY_DEVICE_NAME + "," + KEY_LASTKNOWN_NETWORK + "," + KEY_IS_PAIRED + "," + KEY_LAST_PAIRED + "," + KEY_IP_ADDRESS + "," + KEY_MODEL_NAME + ",model_type," + KEY_HTTPS +"\n" +
-                   "FROM tmp_" + TABLE_NETWORK_NODE + ";");
+                KEY_DEVICE_NAME + "," + KEY_LASTKNOWN_NETWORK + "," + KEY_IS_PAIRED + "," + KEY_LAST_PAIRED + "," + KEY_IP_ADDRESS + "," + KEY_DEVICE_TYPE + "," + KEY_MODEL_ID + "," + KEY_HTTPS + ")\n" +
+                "SELECT " + KEY_ID + "," + KEY_CPP_ID + "," + KEY_BOOT_ID + "," + KEY_ENCRYPTION_KEY + "," +
+                KEY_DEVICE_NAME + "," + KEY_LASTKNOWN_NETWORK + "," + KEY_IS_PAIRED + "," + KEY_LAST_PAIRED + "," + KEY_IP_ADDRESS + "," + KEY_DEVICE_TYPE + ",model_type," + KEY_HTTPS + "\n" +
+                "FROM tmp_" + TABLE_NETWORK_NODE + ";");
 
         db.execSQL("DROP TABLE tmp_" + TABLE_NETWORK_NODE + ";");
 

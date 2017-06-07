@@ -1,5 +1,5 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -635,7 +635,7 @@ public class DiscoveryManager<T extends Appliance> {
         String cppId = ssdpDevice.getCppId();
         String ipAddress = deviceModel.getIpAddress();
         String name = ssdpDevice.getFriendlyName();
-        String modelName = ssdpDevice.getModelName();
+        String deviceType = ssdpDevice.getModelName();
         String networkSsid = mNetwork.getLastKnownNetworkSsid();
         Long bootId = -1l;
         String modelNumber = ssdpDevice.getModelNumber();
@@ -651,7 +651,7 @@ public class DiscoveryManager<T extends Appliance> {
         networkNode.setIpAddress(ipAddress);
         networkNode.setName(name);
         networkNode.setModelId(modelNumber);
-        networkNode.setDeviceType(modelName);
+        networkNode.setDeviceType(deviceType);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
         networkNode.setHomeSsid(networkSsid);
 

@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016, 2017.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 package com.philips.cdp.dicommclient.discovery;
 
@@ -522,7 +522,7 @@ public class DiscoveryManagerTest extends RobolectricTest {
         }
 
         @Override
-        public Set<String> getSupportedModelNames() {
+        public Set<String> getSupportedDeviceTypes() {
             return null;
         }
     }
