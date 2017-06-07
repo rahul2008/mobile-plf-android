@@ -15,12 +15,10 @@ import android.support.test.rule.ActivityTestRule;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.components.BaseTest;
 import com.philips.platform.uid.matcher.SearchBoxMatcher;
-import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.utils.TestConstants;
-import com.philips.platform.uid.view.widget.SearchBox;
 
 import org.junit.Before;
 import org.junit.Rule;

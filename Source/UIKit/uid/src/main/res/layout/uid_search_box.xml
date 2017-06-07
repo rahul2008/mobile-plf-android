@@ -43,7 +43,7 @@
             android:dropDownWidth="match_parent"
             android:ellipsize="end"
             android:hint="Search"
-            android:imeOptions="actionSearch"
+            android:imeOptions="actionSearch|flagNoExtractUi"
             android:inputType="text|textAutoComplete|textNoSuggestions"
             android:maxLines="1"
             android:textColor="@color/uid_gray_level_75"
