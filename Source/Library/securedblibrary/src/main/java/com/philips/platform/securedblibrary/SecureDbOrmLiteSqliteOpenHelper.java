@@ -11,7 +11,6 @@ import com.j256.ormlite.misc.IOUtils;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.table.DatabaseTableConfigLoader;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -48,7 +47,6 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
     private String databaseKey;
     private Context context;
     private char[] key;
-    private LoggingInterface appInfraLogger;
 
     /**
      * @param context         Associated content from the application. This is needed to locate the database.
@@ -66,14 +64,8 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
         createKey();
         key = getKeyValue(databaseKey,mAppInfraInterface);
         connectionSource = new AndroidConnectionSource(this,key,mAppInfraInterface);
-        appInfraLogger = mAppInfraInterface.getLogging().createInstanceForComponent("sdb:",
-                getSecureDbAppVersion());
-        getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, "{}: constructed connectionSource {}",null);
+        mAppInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, "{}: constructed connectionSource {}",null);
 
-    }
-
-    public LoggingInterface getSecureDBLogInstance() {
-        return appInfraLogger;
     }
 
     /**
@@ -204,7 +196,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
     public ConnectionSource getConnectionSource() {
         if (!isOpen) {
             // we don't throw this exception, but log it for debugging purposes
-            getSecureDBLogInstance().log(LoggingInterface.LogLevel.WARNING,""+new IllegalStateException(),"Getting connectionSource was called after closed");
+            mAppInfraInterface.getLogging().log(LoggingInterface.LogLevel.WARNING,""+new IllegalStateException(),"Getting connectionSource was called after closed");
         }
         return connectionSource;
     }
@@ -385,6 +377,7 @@ private void createKey()
 
 
     }
+
 
     public String getSecureDbAppVersion() {
         String mAppVersion=null;
