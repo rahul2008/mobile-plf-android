@@ -8,7 +8,7 @@ package com.philips.cdp2.commlib.example.appliance;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
-import com.philips.cdp2.commlib.core.port.time.TimePort;
+import com.philips.cdp2.commlib.example.port.time.TimePort;
 
 public abstract class ReferenceAppliance extends Appliance {
     public static final String CPPID = "cppid";
