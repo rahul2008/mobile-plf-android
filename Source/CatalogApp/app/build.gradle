@@ -13,13 +13,13 @@ buildscript {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "com.philips.cdp.ui.catalog"
-        minSdkVersion 19
-        targetSdkVersion 22
+        minSdkVersion 21
+        targetSdkVersion 25
         versionCode 24
         versionName "1.0.24"
 
@@ -59,9 +59,9 @@ dependencies {
 //    compile 'com.android.support:design:23.1.1'
 //    compile 'com.shamanland:fonticon:0.1.8'
 
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2'
-    androidTestCompile 'com.android.support.test:runner:0.3'
-    androidTestCompile 'com.android.support.test:rules:0.3'
+//    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2'
+//    androidTestCompile 'com.android.support.test:runner:0.3'
+//    androidTestCompile 'com.android.support.test:rules:0.3'
 
     compile project(':uikitLib')
 }
@@ -76,7 +76,7 @@ spoon {
     debug = true
 
     // To run a single test class
-    className = 'com.philips.cdp.ui.catalog.HamburgerMenuTest'
+//    className = 'com.philips.cdp.ui.catalog.HamburgerMenuTest'
 //    className = 'com.philips.cdp.ui.catalog.RegularButtonPressedTest'
 //    className = 'com.philips.cdp.ui.catalog.OutlineButtonTest'
 //    className = 'com.philips.cdp.ui.catalog.OutlineButtonPressedTest'
