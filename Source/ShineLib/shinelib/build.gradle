@@ -257,6 +257,7 @@ pitest {
             'com.philips.pins.shinelib.utility.QuickTestConnectionTest',
             'com.philips.pins.shinelib.capabilities.DiCommFirmwarePortStateWaiterTest',
             'com.philips.pins.shinelib.bluetoothwrapper.BTGattTest',
+            'com.philips.pins.shinelib.bluetoothwrapper.BTDeviceTest',
     ]
     pitestVersion = versions.pitest
     avoidCallsTo = [
