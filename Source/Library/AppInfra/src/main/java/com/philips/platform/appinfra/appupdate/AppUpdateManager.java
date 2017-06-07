@@ -195,7 +195,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 	}
 
 
-	private String getAppVersion() {
+	protected String getAppVersion() {
 		return mAppInfra.getAppIdentity().getAppVersion();
 	}
 
@@ -211,6 +211,9 @@ public class AppUpdateManager implements AppUpdateInterface {
 			try {
 				Date deprecationdate = formatter.parse(deprecationDate);
 				Date currentDate = new Date();
+				System.out.println("KAVYA -min"+" "+minVer);
+				System.out.println("KAVYA -deprecated ver"+" "+deprecatedVersion);
+				System.out.println("KAVYA-deprecation date" + " "+deprecationDate);
 				return AppUpdateVersion.isAppVerionLessthanCloud(getAppVersion(), minVer) ||
 						AppUpdateVersion.isBothVersionSame(getAppVersion(), deprecatedVersion) && currentDate.after(deprecationdate);
 			} catch (ParseException e) {

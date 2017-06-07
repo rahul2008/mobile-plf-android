@@ -91,8 +91,12 @@ public class AppUpdateActivity extends AppCompatActivity {
 				tvMinimumOSverion.setText(appupdateInterface.getMinimumOSverion());
 				SimpleDateFormat formatter = new SimpleDateFormat(AppUpdateManager.APPUPDATE_DATE_FORMAT
 						, Locale.ENGLISH);
-				String s = formatter.format(appupdateInterface.getToBeDeprecatedDate());
-				tvToBeDeprecatedDate.setText(s);
+				if(appupdateInterface.getToBeDeprecatedDate() != null) {
+					String s = formatter.format(appupdateInterface.getToBeDeprecatedDate());
+					tvToBeDeprecatedDate.setText(s);
+				} else {
+					tvToBeDeprecatedDate.setText(null);
+				}
 			}
 		});
 

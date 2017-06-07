@@ -283,7 +283,7 @@ public class AppInfra implements AppInfraInterface, ComponentVersionInfo, Serial
 
 							@Override
 							public void onSuccess(AIAppUpdateRefreshResult result) {
-								Log.e("AppConfiguration", "Auto refresh failed- Appupdate" + " " + result);
+								Log.e("AppConfiguration", "Auto refresh success- Appupdate" + " " + result);
 							}
 						});
 					}
