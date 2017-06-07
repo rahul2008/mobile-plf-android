@@ -2,8 +2,8 @@ package com.philips.cdp.productselection.prx;
 
 import android.content.Context;
 
+import com.philips.cdp.productselection.utils.Constants;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
-import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.PRXDependencies;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
@@ -63,7 +63,7 @@ public class PrxWrapper {
         summaryBuilder.setCatalog(mCatalogCode);
         //  summaryBuilder.setLocale(mLocale);
 
-        PRXDependencies prxDependencies = new PRXDependencies(mContext, mAppInfraInterface);
+        PRXDependencies prxDependencies = new PRXDependencies(mContext, mAppInfraInterface, Constants.COMPONENT_NAME_PS);
 
         RequestManager requestManager = new RequestManager();
         requestManager.init(prxDependencies);
@@ -101,11 +101,10 @@ public class PrxWrapper {
         // assetBuilder.setLocale(mLocale);
         assetBuilder.setCatalog(mCatalogCode);
 
-        PRXDependencies prxDependencies = new PRXDependencies(mContext, mAppInfraInterface);
+        PRXDependencies prxDependencies = new PRXDependencies(mContext, mAppInfraInterface,Constants.COMPONENT_NAME_PS);
 
         RequestManager requestManager = new RequestManager();
         requestManager.init(prxDependencies);
-        PrxLogger.enablePrxLogger(true);
         requestManager.executeRequest(assetBuilder, new ResponseListener() {
             @Override
             public void onResponseSuccess(ResponseData responseData) {
@@ -145,10 +144,12 @@ public class PrxWrapper {
             summaryBuilder.setCatalog(mCatalogCode);
             //summaryBuilder.setLocale(mLocale);
 
-            PRXDependencies prxDependencies = new PRXDependencies(mContext, mAppInfraInterface);
+            PRXDependencies prxDependencies = new PRXDependencies(mContext, mAppInfraInterface,Constants.COMPONENT_NAME_PS);
 
             RequestManager requestManager = new RequestManager();
             requestManager.init(prxDependencies);
+            //PrxLogger.enablePrxLogger(true);
+
             final String finalI = ctnList[i];
             final int ctnPosition = i;
             final int ctnListLength = ctnList.length;
