@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -57,8 +56,6 @@ public class MainActivity extends Activity implements OnClickListener {
         view_All_btn = (Button) findViewById(R.id.retrieveAll_btn);
         update_all_btn = (Button) findViewById(R.id.updateAll_btn);
         update_btn = (Button) findViewById(R.id.updateById_btn);
-        TextView version=(TextView) findViewById(R.id.appversion);
-        version.setText(secureDataBaseHelper.getAppVersion());
 
         // Attachment of onClickListner for them
         add_btn.setOnClickListener(this);

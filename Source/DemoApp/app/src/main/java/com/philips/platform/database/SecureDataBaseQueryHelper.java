@@ -3,6 +3,7 @@ package com.philips.platform.database;
 import android.content.Context;
 import android.util.Log;
 
+import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.misc.TransactionManager;
 import com.j256.ormlite.stmt.DeleteBuilder;
@@ -10,6 +11,7 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -353,12 +355,15 @@ public class SecureDataBaseQueryHelper<T> {
         beginTransaction();
         try {
             Dao<T, Object> dao = getHelper().getDao(clazz);
-
-            List<T> list = dao.queryForAll();
-            int deleteCount = dao.delete(list);
+            int deleteCount = 0;
+            CloseableIterator<T> iterator = dao.iterator();
+            while (iterator.hasNext()) {
+                deleteCount = deleteCount + dao.delete(iterator.next());
+            }
+            iterator.close();
             setTransactionSuccessful();
             return deleteCount;
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         } finally {
             endTransaction();

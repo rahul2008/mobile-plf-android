@@ -48,7 +48,6 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
     private String databaseKey;
     private Context context;
     private char[] key;
-    private LoggingInterface appInfraLogger;
 
     /**
      * @param context         Associated content from the application. This is needed to locate the database.
@@ -66,14 +65,8 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
         createKey();
         key = getKeyValue(databaseKey,mAppInfraInterface);
         connectionSource = new AndroidConnectionSource(this,key,mAppInfraInterface);
-        appInfraLogger = mAppInfraInterface.getLogging().createInstanceForComponent("sdb:",
-                getSecureDbAppVersion());
-        getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, "{}: constructed connectionSource {}",null);
+        mAppInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, "{}: constructed connectionSource {}",null);
 
-    }
-
-    public LoggingInterface getSecureDBLogInstance() {
-        return appInfraLogger;
     }
 
     /**
@@ -204,7 +197,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
     public ConnectionSource getConnectionSource() {
         if (!isOpen) {
             // we don't throw this exception, but log it for debugging purposes
-            getSecureDBLogInstance().log(LoggingInterface.LogLevel.WARNING,""+new IllegalStateException(),"Getting connectionSource was called after closed");
+            mAppInfraInterface.getLogging().log(LoggingInterface.LogLevel.WARNING,""+new IllegalStateException(),"Getting connectionSource was called after closed");
         }
         return connectionSource;
     }
@@ -384,23 +377,5 @@ private void createKey()
         return null;
 
 
-    }
-
-    public String getSecureDbAppVersion() {
-        String mAppVersion=null;
-        try {
-            mAppVersion = BuildConfig.VERSION_NAME;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (mAppVersion != null && !mAppVersion.isEmpty()) {
-            if (!mAppVersion.matches("[0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?")) {
-                throw new IllegalArgumentException("AppVersion should in this format " +
-                        "\" [0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?]\" ");
-            }
-        } else {
-            throw new IllegalArgumentException("Prx Appversion cannot be null");
-        }
-        return mAppVersion;
     }
 }
