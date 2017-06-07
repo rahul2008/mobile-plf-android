@@ -84,4 +84,5 @@ node('Android') {
         }
     }
     Pipeline.trigger(env.triggerBy, env.BRANCH_NAME, "CommLibBle", "cba")
+    Pipeline.trigger(env.triggerBy, env.BRANCH_NAME + "_DLS", "CommLibBle", "cba")
 }
