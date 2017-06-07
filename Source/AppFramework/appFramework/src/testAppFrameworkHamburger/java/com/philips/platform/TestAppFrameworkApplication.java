@@ -13,6 +13,7 @@ import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppInitializationCallback;
 import com.philips.platform.baseapp.screens.inapppurchase.IAPState;
@@ -20,10 +21,9 @@ import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnB
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
-
-import java.util.Locale;
 
 import static junit.framework.Assert.assertTrue;
 
@@ -34,7 +34,7 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
     public AppInfraInterface appInfra;
     private UserRegistrationOnBoardingState userRegistrationOnBoardingState;
     private IAPState iapState;
-
+    private LanguagePackInterface languagePackInterface;
     @Test
     public void shouldPass() {
         assertTrue(true);
@@ -65,8 +65,8 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
 
             }
         });
-        appInfra = new AppInfra.Builder().build(getApplicationContext());
-        loggingInterface = appInfra.getLogging();
+        appInfra = Mockito.mock(AppInfra.class);
+
         userRegistrationOnBoardingState = new UserRegistrationOnBoardingState();
         userRegistrationOnBoardingState.init(this);
         setTargetFlowManager();
@@ -90,5 +90,17 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
             }
         });
     }
+
+    @Test
+    public void testLanguagePack() {
+        appInfra = Mockito.mock(AppInfra.class);
+        languagePackInterface = Mockito.mock(LanguagePackInterface.class);
+        Mockito.when(appInfra.getLanguagePack()).thenReturn(languagePackInterface);
+        LanguagePackInterface.OnRefreshListener onRefreshListener = Mockito.mock(LanguagePackInterface.OnRefreshListener.class);
+        languagePackInterface.refresh(onRefreshListener);
+        //Mockito.when(onRefreshListener.onSuccess())
+
+    }
+
 
 }
