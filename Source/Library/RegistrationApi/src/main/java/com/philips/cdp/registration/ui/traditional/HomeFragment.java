@@ -68,7 +68,6 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.wechat.WeChatAuthenticationListener;
 import com.philips.cdp.registration.wechat.WeChatAuthenticator;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -79,15 +78,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.inject.Inject;
 
 import io.reactivex.Single;
-import io.reactivex.SingleSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -318,7 +314,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                         }
                         RLog.d("HomeFragment", "social providers : " + providers);
                     }
-                    handleUiState(false);
+                    handleUiState();
                 }
             });
         }
@@ -438,7 +434,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mCountrySelectionContainer= (RelativeLayout) view.findViewById(R.id.reg_country_selection);
         mUser = new User(mContext);
         linkifyTermAndPolicy(mTvWelcomeDesc);
-        handleUiState(false);
+        handleUiState();
         initServiceDiscovery();
         showCountrySelection();
     }
@@ -488,20 +484,35 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             trackMultipleActionsLogin(AppTagingConstants.MY_PHILIPS);
             launchSignInFragment();
         } else if (v.getId() == R.id.tv_country_displat) {
-            final CountryPicker picker = new CountryPicker();
+
+            handleCountrySelection();
+        }
+    }
+
+    final CountryPicker picker = new CountryPicker();
+    private void handleCountrySelection() {
+        if (networkUtility.isNetworkAvailable()) {
             picker.setListener(new CountryChangeListener() {
 
                 @Override
                 public void onSelectCountry(String name, String code) {
 
                     RLog.i(RLog.ONCLICK, "HomeFragment :Country Name: " + name + " - Code: ");
-                    changeCountry(name,code.trim().toUpperCase());
+                    changeCountry(name, code.trim().toUpperCase());
                     picker.getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                     picker.dismiss();
 
                 }
             });
-            picker.show(getRegistrationFragment().getFragmentManager(), "COUNTRY_PICKER");
+
+
+            if(picker!=null &&  picker.getDialog()!=null
+                    && picker.getDialog().isShowing()) {
+            } else {
+                picker.show(getRegistrationFragment().getFragmentManager(), "COUNTRY_PICKER");
+            }
+        }else{
+            handleUiState();
         }
     }
 
@@ -731,7 +742,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }
     }
 
-    private void handleUiState(boolean isNetwork) {
+    private void handleUiState() {
         if (networkUtility.isNetworkAvailable()) {
             mRegError.hideError();
             enableControls(true);
@@ -1090,7 +1101,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         if (!isOnline) {
             hideProviderProgress();
         }
-        handleUiState(true);
+        handleUiState();
     }
 
     private void trackSocialProviderPage() {
