@@ -14,6 +14,9 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityManager;
+import com.philips.platform.appinfra.appupdate.AppUpdateConstants;
+import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
+import com.philips.platform.appinfra.appupdate.AppUpdateManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
@@ -31,6 +34,7 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
+import java.io.File;
 import java.io.Serializable;
 
 /**
@@ -50,6 +54,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
     private RestInterface mRestInterface;
     private ABTestClientInterface mAbtesting;
     private final String AppInfraComponentID ="ail:";
+    private AppUpdateInterface mAppupdateInterface;
 
 
     /**
@@ -78,6 +83,8 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         private AppConfigurationInterface configInterface;
         private RestInterface mRestInterface;
         private LanguagePackInterface languagePack;
+        private AppUpdateInterface appupdateInterface;
+
 
         /**
          * Instantiates a new Builder.
@@ -95,6 +102,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             configInterface = null;
             mRestInterface = null;
             languagePack = null;
+            appupdateInterface = null;
         }
 
 
@@ -257,8 +265,39 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             });
             ai.setLanguagePackInterface(languagePack == null? new LanguagePackManager(ai) : languagePack);
 
+            ai.setAppupdateInterface(appupdateInterface == null ? new AppUpdateManager(ai) : appupdateInterface);
+
+            AppUpdateManager appUpdateManager = new AppUpdateManager(ai);
+            try {
+                Object isappUpdateRq = getAutoRefreshValue(appConfigurationManager);
+                if (isappUpdateRq != null && isappUpdateRq instanceof Boolean) {
+                    final Boolean isautorefreshEnabled = (Boolean) isappUpdateRq;
+                    File appupdateCache = appUpdateManager.getAppUpdatefromCache(AppUpdateConstants.LOCALE_FILE_DOWNLOADED
+                            , AppUpdateConstants.APPUPDATE_PATH);
+                    if (appupdateCache != null && appupdateCache.exists() && appupdateCache.length() > 0) {
+                        Log.i("AppUpdate Auto Refresh", "Cache is available");
+                    } else if (isautorefreshEnabled) {
+                        appUpdateManager.refresh(new AppUpdateInterface.OnRefreshListener() {
+                            @Override
+                            public void onError(AIAppUpdateRefreshResult error, String message) {
+                                Log.e("AppConfiguration", "Auto refresh failed- Appupdate" + " " + error);
+                            }
+
+                            @Override
+                            public void onSuccess(AIAppUpdateRefreshResult result) {
+                                Log.e("AppConfiguration", "Auto refresh success- Appupdate" + " " + result);
+                            }
+                        });
+                    }
+                } else {
+                    Log.e("AppConfiguration", "Auto refresh failed- Appupdate");
+                }
+            } catch (IllegalArgumentException exception) {
+                Log.e("AppConfiguration", exception.toString());
+            }
             return ai;
         }
+
     }
 
 
@@ -317,6 +356,11 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         return mLanguagePackInterface;
     }
 
+    @Override
+    public AppUpdateInterface getAppUpdate() {
+        return mAppupdateInterface;
+    }
+
     private AppInfra(Context pContext) {
         appInfraContext = pContext;
     }
@@ -366,7 +410,10 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
 
     private void setServiceDiscoveryInterface(ServiceDiscoveryInterface mServiceDiscoveryInterfac) {
         mServiceDiscoveryInterface = mServiceDiscoveryInterfac;
+    }
 
+    public void setAppupdateInterface(AppUpdateInterface appupdateInterface) {
+        this.mAppupdateInterface = appupdateInterface;
     }
 
 
@@ -394,4 +441,8 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         return BuildConfig.VERSION_NAME;
     }
 
+    public static Object getAutoRefreshValue(AppConfigurationManager appConfigurationManager) {
+        AppConfigurationInterface.AppConfigurationError configurationError = new AppConfigurationInterface.AppConfigurationError();
+        return appConfigurationManager.getPropertyForKey("appUpdate.autoRefresh", "appinfra", configurationError);
+    }
 }
