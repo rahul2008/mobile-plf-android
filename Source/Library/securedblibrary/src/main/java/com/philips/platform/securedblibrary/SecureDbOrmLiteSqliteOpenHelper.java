@@ -11,7 +11,6 @@ import com.j256.ormlite.misc.IOUtils;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.table.DatabaseTableConfigLoader;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -377,5 +376,24 @@ private void createKey()
         return null;
 
 
+    }
+
+
+    public String getSecureDbAppVersion() {
+        String mAppVersion=null;
+        try {
+            mAppVersion = BuildConfig.VERSION_NAME;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (mAppVersion != null && !mAppVersion.isEmpty()) {
+            if (!mAppVersion.matches("[0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?")) {
+                throw new IllegalArgumentException("AppVersion should in this format " +
+                        "\" [0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?]\" ");
+            }
+        } else {
+            throw new IllegalArgumentException("Prx Appversion cannot be null");
+        }
+        return mAppVersion;
     }
 }

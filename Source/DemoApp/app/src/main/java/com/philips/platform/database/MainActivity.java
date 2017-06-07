@@ -17,8 +17,6 @@ import android.widget.Toast;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.securedblibrary.ormlite.sqlcipher.android.apptools.OpenHelperManager;
 
-import net.sqlcipher.database.SQLiteDatabase;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
