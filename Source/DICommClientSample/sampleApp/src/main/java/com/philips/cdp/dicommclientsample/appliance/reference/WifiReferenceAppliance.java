@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.dicommclientsample.reference;
+package com.philips.cdp.dicommclientsample.appliance.reference;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;

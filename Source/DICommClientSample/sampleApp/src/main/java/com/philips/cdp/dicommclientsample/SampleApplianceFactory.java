@@ -9,10 +9,10 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclientsample.airpurifier.AirPurifier;
-import com.philips.cdp.dicommclientsample.airpurifier.ComfortAirPurifier;
-import com.philips.cdp.dicommclientsample.airpurifier.JaguarAirPurifier;
-import com.philips.cdp.dicommclientsample.reference.WifiReferenceAppliance;
+import com.philips.cdp.dicommclientsample.appliance.airpurifier.AirPurifier;
+import com.philips.cdp.dicommclientsample.appliance.airpurifier.ComfortAirPurifier;
+import com.philips.cdp.dicommclientsample.appliance.airpurifier.JaguarAirPurifier;
+import com.philips.cdp.dicommclientsample.appliance.reference.WifiReferenceAppliance;
 import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CombinedCommunicationStrategy;

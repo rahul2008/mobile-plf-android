@@ -3,16 +3,14 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.dicommclientsample.reference;
+package com.philips.cdp.dicommclientsample.appliance.reference;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclientsample.port.time.TimePort;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
-import com.philips.cdp2.commlib.core.port.time.TimePort;
 
 public abstract class ReferenceAppliance extends Appliance {
-    public static final String CPPID = "cppid";
-
     private final TimePort timePort;
 
     public ReferenceAppliance(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {

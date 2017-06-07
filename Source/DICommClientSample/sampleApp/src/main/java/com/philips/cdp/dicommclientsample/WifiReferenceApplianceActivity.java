@@ -6,7 +6,7 @@
 package com.philips.cdp.dicommclientsample;
 
 import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
-import com.philips.cdp.dicommclientsample.reference.ReferenceAppliance;
+import com.philips.cdp.dicommclientsample.appliance.reference.ReferenceAppliance;
 
 public class WifiReferenceApplianceActivity extends ReferenceApplianceActivity {
 
