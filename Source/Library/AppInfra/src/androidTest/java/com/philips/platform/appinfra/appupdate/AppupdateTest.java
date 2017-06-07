@@ -431,7 +431,7 @@ public class AppupdateTest extends MockitoTestCase {
 		};
 		assertFalse(mAppUpdateManager.isDeprecated());
 		assertFalse(mAppUpdateManager.isToBeDeprecated());
-		assertEquals(testDeprecatedMessage, mAppUpdateInterface.getToBeDeprecatedMessage());
+		assertEquals(testDeprecatedMessage, mAppUpdateManager.getToBeDeprecatedMessage());
 	}
 
 	public void testIsUpdateAvailable() {
@@ -545,8 +545,6 @@ public class AppupdateTest extends MockitoTestCase {
 
 	public void testgetDeprecatedDate() {
 		deleteFile();
-
-
 		String testResponse = "{  \n" +
 				"   \"version\":{  \n" +
 				"      \"minimumVersion\":\"1.2.5\",\n" +
