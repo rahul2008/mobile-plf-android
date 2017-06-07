@@ -23,7 +23,7 @@ import java.net.URL;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class AppUpdateTest extends MockitoTestCase {
+public class AppupdateTest extends MockitoTestCase {
 
 	private Context mContext;
 	private AppInfra mAppInfra;
