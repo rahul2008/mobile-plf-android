@@ -80,9 +80,9 @@ public class UIDStringUtils {
             }
 
             //Same comparison as java framework
-            if (ignoreCase
-                    && Character.toUpperCase(c1) == Character.toUpperCase(c2)
-                    && Character.toLowerCase(c1) == Character.toLowerCase(c2)) {
+            if (ignoreCase &&
+                     (Character.toUpperCase(c1) == Character.toUpperCase(c2)
+                    || Character.toLowerCase(c1) == Character.toLowerCase(c2))) {
                 continue;
             }
             return false;
