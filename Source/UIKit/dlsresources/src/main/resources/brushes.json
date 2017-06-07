@@ -261,28 +261,6 @@
         "opacity": 0.35
       }
     },
-    "content-background": {
-      "ultra-light": {
-        "reference": "content-primary",
-        "offset": -25
-      },
-      "very-light": {
-        "reference": "content-primary",
-        "offset": -15
-      },
-      "light": {
-        "reference": "content-primary",
-        "offset": -15
-      },
-      "bright": {
-        "reference": "content-primary",
-        "offset": -15
-      },
-      "very-dark": {
-        "reference": "content-primary",
-        "offset": -25
-      }
-    },
     "content-primary": {
       "ultra-light": {
         "color": "white"
@@ -359,10 +337,10 @@
         "color-code": 55
       },
       "very-dark": {
-        "color-code": 85
+        "color-code": 90
       },
       "very-dark-gray": {
-        "color-code": 85
+        "color-code": 90
       }
     },
     "control-accent": {
@@ -383,6 +361,10 @@
         "color-range": "accent"
       },
       "very-dark": {
+        "color-code": 45,
+        "color-range": "accent"
+      },
+      "very-dark-gray": {
         "color-code": 45,
         "color-range": "accent"
       }
@@ -489,6 +471,26 @@
       "very-dark-gray": {
         "reference": "control-accent",
         "offset": 10
+      }
+    },
+    "control-accent-text": {
+      "ultra-light": {
+        "color": "white"
+      },
+      "very-light": {
+        "color": "white"
+      },
+      "light": {
+        "color": "white"
+      },
+      "bright": {
+        "color": "white"
+      },
+      "very-dark": {
+        "color": "white"
+      },
+      "very-dark-gray": {
+        "color": "white"
       }
     },
     "control-bright": {
@@ -619,7 +621,7 @@
       },
       "very-dark-gray": {
         "reference": "control-primary",
-        "opacity": 0.6
+        "opacity": 0.35
       }
     },
     "control-primary-focus": {
@@ -724,6 +726,52 @@
       "very-dark-gray": {
         "reference": "control-primary",
         "offset": 10
+      }
+    },
+    "control-primary-text": {
+      "ultra-light": {
+        "color": "white"
+      },
+      "very-light": {
+        "color": "white"
+      },
+      "light": {
+        "color": "white"
+      },
+      "bright": {
+        "color": "white"
+      },
+      "very-dark": {
+        "color": "white"
+      },
+      "very-dark-gray": {
+        "color-code": 10
+      }
+    },
+    "control-primary-text-disabled": {
+      "ultra-light": {
+        "reference": "control-primary-text",
+        "opacity": 0.5
+      },
+      "very-light": {
+        "reference": "control-primary-text",
+        "opacity": 0.5
+      },
+      "light": {
+        "reference": "control-primary-text",
+        "opacity": 0.5
+      },
+      "bright": {
+        "reference": "control-primary-text",
+        "opacity": 0.5
+      },
+      "very-dark": {
+        "reference": "control-primary-text",
+        "opacity": 0.5
+      },
+      "very-dark-gray": {
+        "reference": "control-primary-text",
+        "opacity": 0.5
       }
     },
     "control-primary-track-off": {
@@ -1352,6 +1400,98 @@
         "opacity": 0.7
       }
     },
+    "fallback-color": {
+      "ultra-light": {
+        "color-code": 60,
+        "color-range": "signal-red"
+      },
+      "very-light": {
+        "color-code": 60,
+        "color-range": "signal-red"
+      },
+      "light": {
+        "color-code": 60,
+        "color-range": "signal-red"
+      },
+      "bright": {
+        "color-code": 60,
+        "color-range": "signal-red"
+      },
+      "very-dark": {
+        "color-code": 60,
+        "color-range": "signal-red"
+      },
+      "very-dark-gray": {
+        "color-code": 60,
+        "color-range": "signal-red"
+      }
+    },
+    "gray-primary-text": {
+      "ultra-light": {
+        "color-code": 75,
+        "color-range": "gray"
+      },
+      "very-light": {
+        "color-code": 75,
+        "color-range": "gray"
+      },
+      "light": {
+        "color-code": 75,
+        "color-range": "gray"
+      },
+      "bright": {
+        "color-code": 75,
+        "color-range": "gray"
+      },
+      "very-dark": {
+        "color-code": 75,
+        "color-range": "gray"
+      }
+    },
+    "gray-secondary-text": {
+      "ultra-light": {
+        "color-code": 65,
+        "color-range": "gray"
+      },
+      "very-light": {
+        "color-code": 65,
+        "color-range": "gray"
+      },
+      "light": {
+        "color-code": 65,
+        "color-range": "gray"
+      },
+      "bright": {
+        "color-code": 65,
+        "color-range": "gray"
+      },
+      "very-dark": {
+        "color-code": 65,
+        "color-range": "gray"
+      }
+    },
+    "gray-tertiary-text": {
+      "ultra-light": {
+        "reference": "gray-secondary-text",
+        "opacity": 0.7
+      },
+      "very-light": {
+        "reference": "gray-secondary-text",
+        "opacity": 0.7
+      },
+      "light": {
+        "reference": "gray-secondary-text",
+        "opacity": 0.7
+      },
+      "bright": {
+        "reference": "gray-secondary-text",
+        "opacity": 0.7
+      },
+      "very-dark": {
+        "reference": "gray-secondary-text",
+        "opacity": 0.7
+      }
+    },
     "grid-view-background-dark": {
       "ultra-light": {
         "color-code": 90
@@ -1401,6 +1541,9 @@
       },
       "very-dark": {
         "color-code": 10
+      },
+      "very-dark-gray": {
+        "color-code": 10
       }
     },
     "hyperlink-normal": {
@@ -1418,6 +1561,9 @@
       },
       "very-dark": {
         "color-code": 20
+      },
+      "very-dark-gray": {
+        "color-code": 20
       }
     },
     "hyperlink-pressed": {
@@ -1434,6 +1580,9 @@
         "color": "white"
       },
       "very-dark": {
+        "color": "white"
+      },
+      "very-dark-gray": {
         "color": "white"
       }
     },
@@ -1455,6 +1604,10 @@
         "opacity": 0.7
       },
       "very-dark": {
+        "color-code": 20,
+        "opacity": 0.7
+      },
+      "very-dark-gray": {
         "color-code": 20,
         "opacity": 0.7
       }
@@ -1527,8 +1680,8 @@
         "color-code": 10
       },
       "very-dark-gray": {
-        "color-code": 85,
-        "opacity": 0.3
+        "color-code": 90,
+        "opacity": 0.1
       }
     },
     "input-border": {
@@ -1549,7 +1702,8 @@
         "reference": "no-color"
       },
       "very-dark-gray": {
-        "color-code": 45
+        "color-code": 15,
+        "opacity": 0.25
       }
     },
     "input-border-disabled": {
@@ -1570,7 +1724,8 @@
         "reference": "no-color"
       },
       "very-dark-gray": {
-        "color-code": 60
+        "color-code": 15,
+        "opacity": 0.1
       }
     },
     "input-border-focus": {
@@ -1590,7 +1745,7 @@
         "reference": "no-color"
       },
       "very-dark-gray": {
-        "color-code": 50
+        "color-code": 40
       }
     },
     "input-border-hover": {
@@ -1653,8 +1808,8 @@
         "opacity": 0.35
       },
       "very-dark-gray": {
-        "color-code": 85,
-        "opacity": 0.15
+        "color-code": 90,
+        "opacity": 0.05
       }
     },
     "input-focus": {
@@ -1674,8 +1829,8 @@
         "color": "white"
       },
       "very-dark-gray": {
-        "color-code": 85,
-        "opacity": 0.3
+        "color-code": 90,
+        "opacity": 0.2
       }
     },
     "input-hint-text": {
@@ -1827,7 +1982,7 @@
         "color-range": "gray"
       },
       "very-dark-gray": {
-        "reference": "text-secondary"
+        "reference": "text-primary"
       }
     },
     "input-text-disabled": {
@@ -1950,18 +2105,49 @@
         "reference": "light-text-tertiary"
       }
     },
+    "input-toolbar": {
+      "ultra-light": {
+        "color-code": 75,
+        "color-range": "gray",
+        "opacity": 0.05
+      },
+      "very-light": {
+        "color-code": 75,
+        "color-range": "gray",
+        "opacity": 0.05
+      },
+      "light": {
+        "color-code": 75,
+        "color-range": "gray",
+        "opacity": 0.05
+      },
+      "bright": {
+        "color-code": 75,
+        "color-range": "gray",
+        "opacity": 0.05
+      },
+      "very-dark": {
+        "color": "white",
+        "opacity": 0.12
+      },
+      "very-dark-gray": {
+        "color-code": 15,
+        "color-range": "gray",
+        "opacity": 0.12
+      }
+    },
     "input-validated-background": {
       "ultra-light": {
         "color-range": "validation"
       },
       "very-light": {
-        "reference": "no-color"
+        "color-range": "validation"
       },
       "light": {
-        "reference": "no-color"
+        "color-range": "validation"
       },
       "bright": {
-        "reference": "no-color"
+        "color-range": "validation"
       },
       "very-dark": {
         "color-range": "validation"
@@ -1973,16 +2159,16 @@
         "color-range": "validation"
       },
       "very-light": {
-        "reference": "no-color"
+        "color-range": "validation"
       },
       "light": {
-        "reference": "no-color"
+        "color-range": "validation"
       },
       "bright": {
-        "reference": "no-color"
+        "color-range": "validation"
       },
       "very-dark": {
-        "reference": "no-color"
+        "color-range": "validation"
       }
     },
     "input-validated-text": {
@@ -2093,7 +2279,7 @@
       },
       "very-dark-gray": {
         "color-code": 15,
-        "opacity": 0.8
+        "opacity": 0.7
       }
     },
     "light-text-tertiary": {
@@ -2122,65 +2308,84 @@
         "opacity": 0.5
       }
     },
-    "list-avatar-disabled": {
+    "list-focus": {
       "ultra-light": {
-        "opacity": 0.35
+        "color-code": 75,
+        "color-range": "gray",
+        "opacity": 0.05
       },
       "very-light": {
-        "opacity": 0.35
+        "color-code": 75,
+        "opacity": 0.05
       },
       "light": {
-        "opacity": 0.35
+        "color-code": 75,
+        "opacity": 0.05
       },
       "bright": {
-        "opacity": 0.35
+        "color": "white",
+        "opacity": 0.1
       },
       "very-dark": {
-        "opacity": 0.35
+        "color": "white",
+        "opacity": 0.1
+      },
+      "very-dark-gray": {
+        "color": "white",
+        "opacity": 0.15
       }
     },
     "list-hover": {
       "ultra-light": {
-        "reference": "text-primary",
-        "opacity": 0.05
-      },
-      "very-light": {
-        "color-code": 5,
-        "opacity": 0.2
-      },
-      "light": {
-        "color-code": 5,
+        "color-code": 75,
+        "color-range": "gray",
         "opacity": 0.1
       },
+      "very-light": {
+        "color-code": 75,
+        "opacity": 0.15
+      },
+      "light": {
+        "color-code": 75,
+        "opacity": 0.15
+      },
       "bright": {
-        "color-code": 5,
-        "opacity": 0.06
+        "color": "white",
+        "opacity": 0.15
       },
       "very-dark": {
-        "color-code": 30,
-        "opacity": 0.08
+        "color": "white",
+        "opacity": 0.15
+      },
+      "very-dark-gray": {
+        "color": "white",
+        "opacity": 0.15
       }
     },
-    "list-pressed": {
+    "list-selected": {
       "ultra-light": {
-        "reference": "control-primary",
+        "color-code": 45,
         "opacity": 0.1
       },
       "very-light": {
-        "reference": "control-primary",
-        "opacity": 0.25
+        "color-code": 45,
+        "opacity": 0.15
       },
       "light": {
-        "reference": "control-primary",
-        "opacity": 0.35
+        "color-code": 45,
+        "opacity": 0.15
       },
       "bright": {
-        "reference": "control-primary",
-        "opacity": 0.35
+        "color-code": 75,
+        "opacity": 0.15
       },
       "very-dark": {
-        "reference": "control-primary",
-        "opacity": 0.25
+        "color-code": 45,
+        "opacity": 0.15
+      },
+      "very-dark-gray": {
+        "color-code": 40,
+        "opacity": 0.15
       }
     },
     "menu-text-disabled": {
@@ -2320,7 +2525,7 @@
         "color-code": 70
       },
       "very-dark-gray": {
-        "color-code": 70
+        "color-code": 65
       }
     },
     "navigation-secondary": {
@@ -2340,7 +2545,7 @@
         "color-code": 75
       },
       "very-dark-gray": {
-        "reference": "content-secondary"
+        "color-code": 70
       }
     },
     "navigation-text": {
@@ -2486,6 +2691,32 @@
       }
     },
     "no-color": {
+      "ultra-light": {
+        "color": "white",
+        "opacity": 0
+      },
+      "very-light": {
+        "color": "white",
+        "opacity": 0
+      },
+      "light": {
+        "color": "white",
+        "opacity": 0
+      },
+      "bright": {
+        "color": "white",
+        "opacity": 0
+      },
+      "very-dark": {
+        "color": "white",
+        "opacity": 0
+      },
+      "very-dark-gray": {
+        "color": "white",
+        "opacity": 0
+      }
+    },
+    "not-yet-defined": {
       "ultra-light": {
         "color": "white",
         "opacity": 0
@@ -3039,22 +3270,42 @@
       }
     },
     "signal-bad": {
-      "ultra-light": {},
-      "very-light": {},
-      "light": {},
-      "bright": {},
-      "very-dark": {},
+      "ultra-light": {
+        "reference": "not-yet-defined"
+      },
+      "very-light": {
+        "reference": "not-yet-defined"
+      },
+      "light": {
+        "reference": "not-yet-defined"
+      },
+      "bright": {
+        "reference": "not-yet-defined"
+      },
+      "very-dark": {
+        "reference": "not-yet-defined"
+      },
       "very-dark-gray": {
         "color-code": 60,
         "color-range": "signal-red"
       }
     },
     "signal-neutral": {
-      "ultra-light": {},
-      "very-light": {},
-      "light": {},
-      "bright": {},
-      "very-dark": {},
+      "ultra-light": {
+        "reference": "not-yet-defined"
+      },
+      "very-light": {
+        "reference": "not-yet-defined"
+      },
+      "light": {
+        "reference": "not-yet-defined"
+      },
+      "bright": {
+        "reference": "not-yet-defined"
+      },
+      "very-dark": {
+        "reference": "not-yet-defined"
+      },
       "very-dark-gray": {
         "color-code": 45,
         "color-range": "signal-orange"
@@ -3299,21 +3550,24 @@
         "color-code": 20
       }
     },
-    "tabs-selected": {
+    "tabs-on": {
       "ultra-light": {
-        "color-code": 75
+        "reference": "color-text-bright"
       },
       "very-light": {
-        "color-code": 75
+        "reference": "color-text-verydark-primary"
       },
       "light": {
-        "color": "white"
+        "reference": "color-text-verydark-primary"
       },
       "bright": {
-        "color": "white"
+        "reference": "light-text-primary"
       },
       "very-dark": {
-        "color": "white"
+        "reference": "light-text-primary"
+      },
+      "very-dark-gray": {
+        "reference": "light-text-primary"
       }
     },
     "text-disabled": {
@@ -3397,6 +3651,32 @@
         "reference": "light-text-primary"
       }
     },
+    "text-primary-disabled": {
+      "ultra-light": {
+        "reference": "text-primary",
+        "opacity": 0.35
+      },
+      "very-light": {
+        "reference": "text-primary",
+        "opacity": 0.35
+      },
+      "light": {
+        "reference": "text-primary",
+        "opacity": 0.35
+      },
+      "bright": {
+        "reference": "text-primary",
+        "opacity": 0.35
+      },
+      "very-dark": {
+        "reference": "text-primary",
+        "opacity": 0.35
+      },
+      "very-dark-gray": {
+        "reference": "text-primary",
+        "opacity": 0.35
+      }
+    },
     "text-secondary": {
       "ultra-light": {
         "reference": "neutral-text-secondary"
@@ -3416,6 +3696,29 @@
       },
       "very-dark-gray": {
         "reference": "light-text-secondary"
+      }
+    },
+    "text-secondary-disabled": {
+      "ultra-light": {
+        "color-code": 65,
+        "color-range": "gray",
+        "opacity": 0.35
+      },
+      "very-light": {
+        "color-code": 65,
+        "opacity": 0.35
+      },
+      "light": {
+        "color-code": 5,
+        "opacity": 0.35
+      },
+      "bright": {
+        "color-code": 5,
+        "opacity": 0.35
+      },
+      "very-dark": {
+        "color-code": 5,
+        "opacity": 0.35
       }
     },
     "text-tertiary": {
@@ -3439,26 +3742,31 @@
         "reference": "light-text-tertiary"
       }
     },
-    "text-validated": {
+    "text-tertiary-disabled": {
       "ultra-light": {
-        "color-code": 60,
-        "color-range": "validation"
+        "color-code": 65,
+        "color-range": "gray",
+        "opacity": 0.25
       },
       "very-light": {
-        "color-code": 75,
-        "color-range": "validation"
+        "color-code": 65,
+        "opacity": 0.25
       },
       "light": {
-        "color-code": 75,
-        "color-range": "validation"
+        "color-code": 5,
+        "opacity": 0.25
       },
       "bright": {
-        "color-code": 15,
-        "color-range": "validation"
+        "color-code": 5,
+        "opacity": 0.25
       },
       "very-dark": {
-        "color-code": 30,
-        "color-range": "validation"
+        "color-code": 5,
+        "opacity": 0.25
+      },
+      "very-dark-gray": {
+        "color-code": 15,
+        "opacity": 0.35
       }
     },
     "thumb": {
@@ -3483,22 +3791,22 @@
     },
     "thumb-disabled": {
       "ultra-light": {
-        "color": "white"
+        "reference": "content-tertiary"
       },
       "very-light": {
-        "color-code": 10
+        "reference": "content-tertiary"
       },
       "light": {
-        "color-code": 20
+        "reference": "content-tertiary"
       },
       "bright": {
-        "color-code": 35
+        "reference": "content-tertiary"
       },
       "very-dark": {
-        "color-code": 55
+        "color-code": 60
       },
       "very-dark-gray": {
-        "color-code": 55
+        "color-code": 60
       }
     },
     "toggle-off": {
@@ -3521,6 +3829,10 @@
       "very-dark": {
         "color-code": 10,
         "opacity": 0.2
+      },
+      "very-dark-gray": {
+        "color-code": 50,
+        "opacity": 0.55
       }
     },
     "toggle-off-disabled": {
@@ -3543,6 +3855,10 @@
       "very-dark": {
         "color-code": 10,
         "opacity": 0.1
+      },
+      "very-dark-gray": {
+        "color-code": 50,
+        "opacity": 0.15
       }
     },
     "toggle-off-hover": {
@@ -3565,6 +3881,9 @@
       "very-dark": {
         "color-code": 10,
         "opacity": 0.35
+      },
+      "very-dark-gray": {
+        "color-code": 50
       }
     },
     "toggle-off-text": {
@@ -3590,6 +3909,10 @@
       "very-dark": {
         "color-code": 5,
         "opacity": 0.5
+      },
+      "very-dark-gray": {
+        "color-code": 10,
+        "opacity": 0.5
       }
     },
     "toggle-off-text-disabled": {
@@ -3614,6 +3937,10 @@
       "very-dark": {
         "color-code": 5,
         "opacity": 0.2
+      },
+      "very-dark-gray": {
+        "color-code": 10,
+        "opacity": 0.15
       }
     },
     "toggle-off-text-hover": {
@@ -3634,6 +3961,9 @@
       },
       "very-dark": {
         "color-code": 5
+      },
+      "very-dark-gray": {
+        "color-code": 10
       }
     },
     "toggle-on": {
@@ -3651,6 +3981,9 @@
       },
       "very-dark": {
         "color": "white"
+      },
+      "very-dark-gray": {
+        "color": "45"
       }
     },
     "toggle-on-disabled": {
@@ -3673,6 +4006,10 @@
       "very-dark": {
         "color-code": 10,
         "opacity": 0.2
+      },
+      "very-dark-gray": {
+        "color-code": 45,
+        "opacity": 0.35
       }
     },
     "toggle-on-text": {
@@ -3690,6 +4027,9 @@
       },
       "very-dark": {
         "color-code": 75
+      },
+      "very-dark-gray": {
+        "color-code": 10
       }
     },
     "toggle-on-text-disabled": {
@@ -3712,6 +4052,10 @@
       "very-dark": {
         "color-code": 75,
         "opacity": 0.7
+      },
+      "very-dark-gray": {
+        "color-code": 10,
+        "opacity": 0.15
       }
     },
     "toggle-separator": {
@@ -3732,6 +4076,10 @@
         "opacity": 0.3
       },
       "very-dark": {
+        "color-code": 35,
+        "opacity": 0.2
+      },
+      "very-dark-gray": {
         "color-code": 35,
         "opacity": 0.2
       }
@@ -3756,6 +4104,10 @@
       "very-dark": {
         "color-code": 35,
         "opacity": 0.1
+      },
+      "very-dark-gray": {
+        "color-code": 35,
+        "opacity": 0.2
       }
     },
     "tooltip-dark": {
@@ -3866,5 +4218,5 @@
         "color": "white"
       }
     }
-  }
+    }
 ]

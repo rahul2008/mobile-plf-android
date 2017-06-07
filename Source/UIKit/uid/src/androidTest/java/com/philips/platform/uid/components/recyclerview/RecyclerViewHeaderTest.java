@@ -53,13 +53,13 @@ public class RecyclerViewHeaderTest {
 
     @Test
     public void verifyHeaderTextColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidTextTertiary);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidContentItemDefaultNormalDescriptorTextColor);
         getHeader().check(matches(TextViewPropertiesMatchers.isSameTextColor(expectedColor)));
     }
 
     @Test
     public void verifyHeaderBGColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidContentTertiary);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidContentTertiaryBackgroundColor);
         getHeader().check(matches(TextViewPropertiesMatchers.sameBackgroundColor(expectedColor)));
     }
 

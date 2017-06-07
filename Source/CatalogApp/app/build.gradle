@@ -20,7 +20,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.3.2'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.1', changing: true
     }
@@ -33,9 +33,10 @@ if (project.hasProperty('envCode')) {
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
+objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = rootProject.name + "App"
 
 group = 'com.philips.cdp'
@@ -72,7 +73,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('apk')
+                publications('apk')
             }
         }
     }
@@ -81,7 +82,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 publishing {
@@ -93,7 +95,7 @@ publishing {
 
             artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
@@ -116,13 +118,13 @@ hockeyapp {
 }
 
 android {
-    compileSdkVersion 24
+    compileSdkVersion 25
     buildToolsVersion "${buildToolsVer}"
 
     defaultConfig {
         applicationId "com.philips.platform.catalogapp"
         minSdkVersion "${minSdkVer}"
-        targetSdkVersion targetSdkVer
+        targetSdkVersion "${targetSdkVer}"
         versionCode 1
         versionName version
 
@@ -219,4 +221,5 @@ dependencies {
 
     compile 'com.github.bumptech.glide:glide:3.7.0'
     androidTestCompile 'org.apache.commons:commons-lang3:3.4'
+
 }

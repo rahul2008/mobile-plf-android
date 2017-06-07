@@ -22,11 +22,10 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public class RecyclerViewItemTwoLineTest {
-    Resources testResources;
     private static final int ULTRA_LIGHT = 0;
-
     @Rule
     public ActivityTestRule<BaseTestActivity> testRule = new ActivityTestRule<BaseTestActivity>(BaseTestActivity.class, false, false);
+    Resources testResources;
     private BaseTestActivity activity;
 
     @Before
@@ -86,8 +85,7 @@ public class RecyclerViewItemTwoLineTest {
 
     @Test
     public void verifyDescriptionTextColor() {
-
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidTextSecondary);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidContentItemDefaultNormalDescriptorTextColor);
 
         getDescription().check(matches(TextViewPropertiesMatchers.isSameTextColor(expectedColor)));
     }

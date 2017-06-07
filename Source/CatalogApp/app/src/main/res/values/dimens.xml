@@ -75,5 +75,6 @@
     <dimen name="dot_navigation_item_icon_size">48dp</dimen>
     <dimen name="dot_navigation_item_text_height">24dp</dimen>
     <dimen name="dot_navigation_item_text_size">16sp</dimen>
+    <dimen name="rating_bar_reset_button_width">224dp</dimen>
 
 </resources>

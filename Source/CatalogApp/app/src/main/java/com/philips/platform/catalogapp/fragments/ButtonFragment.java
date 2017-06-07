@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.platform.catalogapp.MainActivity;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentButtonsBinding;
 import com.philips.platform.uid.view.widget.Button;
@@ -40,7 +39,6 @@ public class ButtonFragment extends BaseFragment {
         shareDrawable = getShareIcon();
         restoreViews(savedInstanceState);
         fragmentBinding.imageShare.setImageDrawable(shareDrawable);
-        fragmentBinding.showMore.setVectorResource(R.drawable.ic_right_arrow_show_more);
         fragmentBinding.quietIconOnly.setVectorResource(R.drawable.ic_share_icon);
         fragmentBinding.socialIconFacebook.setImageDrawable(VectorDrawableCompat.create(getResources(), R.drawable.uid_social_media_facebook_icon, getContext().getTheme()));
         fragmentBinding.socialIconTwitter.setImageDrawable(VectorDrawableCompat.create(getResources(), R.drawable.uid_social_media_wechat_icon, getContext().getTheme()));
@@ -49,7 +47,7 @@ public class ButtonFragment extends BaseFragment {
     }
 
     public void showGridFragment() {
-        ((MainActivity) getActivity()).getNavigationController().switchFragment(new SocialIconsListFragment());
+        showFragment(new SocialIconsListFragment());
     }
 
     private void restoreViews(Bundle savedInstance) {

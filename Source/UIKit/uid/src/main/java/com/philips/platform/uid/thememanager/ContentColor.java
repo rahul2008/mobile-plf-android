@@ -27,12 +27,12 @@ public enum ContentColor implements ThemeConfig {
             theme.applyStyle(R.style.Base_VeryLight, true);
         }
     },
-    LIGHT {
+    /*LIGHT {
         @Override
         public void injectStyle(Resources.Theme theme) {
             theme.applyStyle(R.style.Base_Light, true);
         }
-    },
+    },*/
     BRIGHT {
         @Override
         public void injectStyle(Resources.Theme theme) {

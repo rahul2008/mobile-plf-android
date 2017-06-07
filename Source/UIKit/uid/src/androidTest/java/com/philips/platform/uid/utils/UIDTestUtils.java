@@ -48,6 +48,7 @@ public class UIDTestUtils {
         return alpha;
     }
 
+    @SuppressWarnings("ResourceType")
     public static int getColorWithAlphaFromAttrs(Context context, int colorAttr, int alphaAttr) {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(new int[]{colorAttr, alphaAttr});
         if (typedArray != null) {

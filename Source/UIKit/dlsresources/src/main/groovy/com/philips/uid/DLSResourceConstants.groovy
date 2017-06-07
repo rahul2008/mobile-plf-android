@@ -23,14 +23,14 @@ class DLSResourceConstants {
     static final COLOR_RANGES = [GroupBlue: 'group_blue', Blue: 'blue', Aqua: 'aqua',
                                  Green    : 'green', Orange: 'orange', Pink: 'pink', Purple: 'purple', Gray: 'gray']
 
-    static final TONAL_RANGES = ['ultra-light', 'very-light', 'light', 'bright', 'very-dark']
+    static final TONAL_RANGES = ['ultra-light', 'very-light'/*, 'light'*/, 'bright', 'very-dark']
 
     //Path constants
     static final String PATH_RES = "src/main/resources"
     static final String PATH_SEMANTIC_BRUSH_JSON = "${PATH_RES}/brushes.json"
     static final String PATH_COMPONENT_JSON = "${PATH_RES}/components.json"
     static final String PATH_COLOR_RANGES_JSON = "${PATH_RES}/color_ranges.json"
-    static final String PATH_VALIDATION_JSON = "${PATH_RES}/validation.CONCEPT.json"
+    static final String PATH_VALIDATION_JSON = "${PATH_RES}/validation.json"
 
     static final String PATH_OUT = "generated"
     static final String PATH_OUT_THEME_FILE = "${PATH_OUT}/uid_theme_%s.xml"

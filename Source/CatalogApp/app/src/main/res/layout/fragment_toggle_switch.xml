@@ -1,79 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="frag"
+            type="com.philips.platform.catalogapp.fragments.ToggleSwitchFragment"/>
+    </data>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <LinearLayout
-            style="@style/BaseLayoutMargins.Dimens"
-            android:orientation="horizontal">
-
-            <com.philips.platform.uid.view.widget.Label
-                style="@style/TestButtonTexts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="@string/switch_text"/>
-
-            <com.philips.platform.uid.view.widget.Switch
-                android:id="@+id/toggle_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/layout_margin_left_right"
-                android:layout_weight="1"/>
-        </LinearLayout>
-
-        <include layout="@layout/divider_layout"/>
-        <!--Switch disabled on-->
-        <LinearLayout
-            style="@style/BaseLayoutMargins.Dimens"
-            android:orientation="horizontal">
-
-            <com.philips.platform.uid.view.widget.Label
-                style="@style/TestButtonTexts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="@string/switch_disabled_on"/>
-
-            <com.philips.platform.uid.view.widget.Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/layout_margin_left_right"
-                android:layout_weight="1"
-                android:checked="true"
-                android:enabled="false"/>
-        </LinearLayout>
-
-        <include layout="@layout/divider_layout"/>
 
         <LinearLayout
-            style="@style/BaseLayoutMargins.Dimens"
-            android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/BaseLayoutMargins.Dimens"
+                android:orientation="horizontal">
+
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/TestButtonTexts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/disabled"/>
+
+                <com.philips.platform.uid.view.widget.Switch
+                    android:id="@+id/toggle_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_weight="1"
+                    android:onCheckedChanged="@{(v, isChecked) -> frag.disableSwitches(isChecked)}"/>
+            </LinearLayout>
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/TestButtonTexts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="@string/switch_disabled_off"/>
+                style="@style/ButtonsCategoryStyle"
+                android:text="@string/page_title_toggle_switch"/>
 
-            <com.philips.platform.uid.view.widget.Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/layout_margin_left_right"
-                android:layout_weight="1"
-                android:checked="false"
-                android:enabled="false"/>
+            <!--Switch disabled on-->
+            <LinearLayout
+                style="@style/BaseLayoutMargins.Dimens"
+                android:orientation="horizontal">
+
+                <com.philips.platform.uid.view.widget.Switch
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right"
+                    android:checked="true"
+                    android:enabled="@{frag.isSwitchEnabled}"
+                    android:text="@string/setting_list_one"
+                    android:textColor="?attr/uidTextPrimary"
+                    android:textSize="@dimen/button_toggle_text_size"
+                    app:fontPath="fonts/centralesansbook.ttf"/>
+            </LinearLayout>
+
         </LinearLayout>
-
-        <include layout="@layout/divider_layout"/>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+</layout>

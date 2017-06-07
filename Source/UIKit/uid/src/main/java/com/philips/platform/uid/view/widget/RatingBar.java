@@ -1,6 +1,5 @@
 package com.philips.platform.uid.view.widget;
 
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -24,29 +23,26 @@ import java.lang.reflect.Method;
 
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
-
-
 /**
  * UID RatingBar.
- *
+ * <p>
  * <P>UID RatingBar is an extension of AppCompatRatingBar with added styles. UIDLibrary provides 3 styles for RatingBar that can be used.
  * <BR>UIDRatingBarInput
  * <BR>UIDRatingBarStandardDisplay
  * <BR>UIDRatingBarMiniDisplay
- *
+ * <p>
  * <P> A RatingBar can be prefixed with a Label by calling setText() or using attribute android:text. IsIndicator should be true in order to prefix the label.
- *
  */
 
 public class RatingBar extends AppCompatRatingBar {
 
+    private static final String FONT_PATH = "fonts/centralesansmedium.ttf";
     private int widthOffset = 0;
     private Paint paint;
     private String text = null;
     private int height;
     private int width;
     private int textColor;
-    private static final String FONT_PATH = "fonts/centralesansmedium.ttf";
     private ColorDrawable transparentDrawable = new ColorDrawable(Color.TRANSPARENT);
 
     public RatingBar(Context context) {
@@ -81,40 +77,40 @@ public class RatingBar extends AppCompatRatingBar {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        if(isIndicator() && text!=null){
+        if (isIndicator() && text != null) {
             widthOffset = (int) (paint.measureText(text) + getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_display_padding));
         }
-        if(isLayoutRTL()){
-            setPadding(0,0,widthOffset,0);
-        }else {
-            setPadding(widthOffset,0,0,0);
+        if (isLayoutRTL()) {
+            setPadding(0, 0, widthOffset, 0);
+        } else {
+            setPadding(widthOffset, 0, 0, 0);
         }
-        setMeasuredDimension(resolveSizeAndState(width * getNumStars(), widthMeasureSpec, 0)+widthOffset, height);
+        setMeasuredDimension(resolveSizeAndState(width * getNumStars(), widthMeasureSpec, 0) + widthOffset, height);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if(isIndicator() && text!=null){
-            float cx = isLayoutRTL() ? canvas.getWidth():0;
-            drawTextCentred(canvas, paint, text,cx,canvas.getHeight()/2);
+        if (isIndicator() && text != null) {
+            float cx = isLayoutRTL() ? canvas.getWidth() : 0;
+            drawTextCentred(canvas, paint, text, cx, canvas.getHeight() / 2);
         }
     }
 
-    private void drawTextCentred(Canvas canvas, Paint paint, String text, float cx, float cy){
+    private void drawTextCentred(Canvas canvas, Paint paint, String text, float cx, float cy) {
         Rect textBounds = new Rect();
         paint.getTextBounds(text, 0, text.length(), textBounds);
-        float x = isLayoutRTL() ? cx - textBounds.centerX():cx+ textBounds.centerX();
-        canvas.drawText(text, x, cy- textBounds.exactCenterY(), paint);
+        float x = isLayoutRTL() ? cx - textBounds.centerX() : cx + textBounds.centerX();
+        canvas.drawText(text, x, cy - textBounds.exactCenterY(), paint);
     }
 
     private boolean isLayoutRTL() {
         return ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL;
     }
 
-    private void initializePaint(){
+    private void initializePaint() {
         paint = new Paint(Paint.LINEAR_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
-        if(textColor != -1){
+        if (textColor != -1) {
             paint.setColor(textColor);
         }
         paint.setTypeface(TypefaceUtils.load(getContext().getAssets(), FONT_PATH));
@@ -134,13 +130,13 @@ public class RatingBar extends AppCompatRatingBar {
         Drawable[] d = new Drawable[3];
 
         if (isIndicator()) {
-            d[0] = getBitmapFromVector( R.drawable.uid_ratingbar_display_off);
+            d[0] = getBitmapFromVector(R.drawable.uid_ratingbar_display_off);
             d[1] = transparentDrawable;
-            d[2] = getBitmapFromVector( R.drawable.uid_ratingbar_display_on);
+            d[2] = getBitmapFromVector(R.drawable.uid_ratingbar_display_on);
         } else {
-            d[0] = getBitmapFromVector( R.drawable.uid_ratingbar_input_off);
+            d[0] = getBitmapFromVector(R.drawable.uid_ratingbar_input_off);
             d[1] = transparentDrawable;
-            d[2] = getBitmapFromVector( R.drawable.uid_ratingbar_input_on);
+            d[2] = getBitmapFromVector(R.drawable.uid_ratingbar_input_on);
         }
 
         LayerDrawable star = new LayerDrawable(d);
@@ -192,7 +188,6 @@ public class RatingBar extends AppCompatRatingBar {
 
     /**
      * This API will help you to get the paint object that is used to draw the label in Rating Bar.
-     *
      */
     public Paint getPaint() {
         return paint;
@@ -203,7 +198,7 @@ public class RatingBar extends AppCompatRatingBar {
      *
      * @param text String to be set to the Rating Bar label
      */
-    public void setText(String text){
+    public void setText(String text) {
         this.text = text;
         requestLayout();
         invalidate();
@@ -214,7 +209,7 @@ public class RatingBar extends AppCompatRatingBar {
      *
      * @param resID String resource ID to be set to the Rating Bar label
      */
-    public void setText(int resID){
+    public void setText(int resID) {
         text = String.valueOf(getResources().getText(resID));
         requestLayout();
         invalidate();

@@ -39,7 +39,7 @@
     <string name="page_title_preview">Preview</string>
     <string name="page_title_buttons">Buttons</string>
     <string name="page_title_textbox">TextBox</string>
-    <string name="page_title_settings">Settings</string>
+    <string name="page_title_toggle_switch">Toggle Switch</string>
     <string name="page_title_alertDialog">Alert</string>
 
     <string name="hint_text">Frits Philips</string>
@@ -75,14 +75,16 @@
 
     <!--Settings page for ProgressBar-->
     <string name="progress_bar_linear_subtitle">Linear progress indicators</string>
-    <string name="progress_bar_circular_subtitle">Circular progress indicators</string>
+    <string name="progress_bar_circular_small_subtitle">Circular progress indicators - small</string>
+    <string name="progress_bar_circular_medium_subtitle">Circular progress indicators - medium</string>
+    <string name="progress_bar_circular_large_subtitle">Circular progress indicators - large</string>
     <string name="page_title_progress_bar">Progress indicator</string>
     <string name="progress_bar_value">Value</string>
     <string name="progress_bar_scale">Scale</string>
 
     <!--Labels-->
-    <string name="page_title_label">Labels</string>
-    <string name="label_input_field">Name</string>
+    <string name="page_title_label">Label</string>
+    <string name="label_input_field">Input text</string>
     <string name="label_text">Label text</string>
     <string name="label_description">Description label</string>
     <string name="label_item_text">Item text</string>
@@ -182,6 +184,9 @@
     <string name="notification_bar_action_2">Action 2</string>
     <string name="notification_bar_notification_show">Show notification</string>
     <string name="notification_bar_notification_hide">Hide notification</string>
+    <string name="info_notification_bar_content">There are additional capabilities which are not displayed currently. Please refer the DLS hub.</string>
+    <string name="info_notification_got_it">Got it</string>
+    <string name="info_notification_note">Note</string>
 
     <!--Notification Badge-->
     <string name="page_title_notification_badge">Notification badge</string>
@@ -215,4 +220,11 @@
 
     <string name="page_title_dot_navigation">Dot navigation</string>
     <string name="page_number">Page %d</string>
+    <string name="setting_list_one">Setting List 1</string>
+    <string name="description_label">Description label</string>
+    <string name="volume_down">Volume down</string>
+    <string name="volume_up">Volume up</string>
+    <string name="label_item_text_one">Item 1</string>
+    <string name="label_item_text_two">Item 2</string>
+    <string name="label_item_text_three">Item 3</string>
 </resources>
