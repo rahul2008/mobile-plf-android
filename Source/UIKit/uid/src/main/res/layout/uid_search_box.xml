@@ -47,7 +47,8 @@
             android:inputType="text|textAutoComplete|textNoSuggestions"
             android:maxLines="1"
             android:textColor="@color/uid_gray_level_75"
-            android:textColorHint="@color/uid_gray_level_35" />
+            android:textColorHint="@color/uid_gray_level_35"
+            android:textSize="@dimen/uid_searchbox_text_size"/>
 
         <FrameLayout
             android:id="@+id/uid_search_clear_layout"

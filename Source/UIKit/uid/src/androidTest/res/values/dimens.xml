@@ -148,4 +148,5 @@
     <dimen name="searchbox_button_padding_end">28dp</dimen>
     <dimen name="searchbox_search_text_offset">0dp</dimen>
     <dimen name="searchbox_back_icon_margin">16dp</dimen>
+    <dimen name="searchbox_font_size">20sp</dimen>
 </resources>

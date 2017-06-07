@@ -29,12 +29,14 @@ import android.widget.TextView;
 
 import com.philips.platform.uid.R;
 
+import uk.co.chrisjenx.calligraphy.TypefaceUtils;
+
 
 public class SearchBox extends LinearLayout {
 
-    private ImageView mBackButton;
-    private ImageView mCloseButton;
-    private ImageView mSearchIconHolder;
+    private ImageView backButton;
+    private ImageView closeButton;
+    private ImageView searchIconHolder;
     private AppCompatAutoCompleteTextView searchTextView;
 
 
@@ -46,6 +48,7 @@ public class SearchBox extends LinearLayout {
     private QuerySubmitListener querySubmitListener;
     private int maxWidth;
 
+    private static final String FONT_PATH_CENTRALESANS_MEDIUM = "fonts/centralesansmedium.ttf";
 
     public interface ExpandListener {
         void onSearchExpanded();
@@ -76,36 +79,33 @@ public class SearchBox extends LinearLayout {
         initializeSearch(context);
     }
 
+    public ImageView getBackButton() {
+        return backButton;
+    }
+
+    public AppCompatAutoCompleteTextView getSearchTextView() {
+        return searchTextView;
+    }
+
+    public View getSearchClearLayout() {
+        return searchClearLayout;
+    }
+
     private void initializeSearch(final Context context) {
         final LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.uid_search_box, this);
         initBackButton();
-        mCloseButton = (ImageView) findViewById(R.id.uid_search_close_btn);
         initSearchIconHolder();
-        searchClearLayout = findViewById(R.id.uid_search_clear_layout);
         initClearIcon();
-        searchTextView = (AppCompatAutoCompleteTextView) findViewById(R.id.uid_search_src_text);
-        searchTextView.addTextChangedListener(new SearchTextWatcher());
-
-        mBackButton.setImageResource(R.drawable.uid_back_icon);
-        mCloseButton.setImageResource(R.drawable.uid_texteditbox_clear_icon);
-        searchTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    if (querySubmitListener != null) {
-                        querySubmitListener.onQuerySubmit(searchTextView.getText());
-                    }
-                    return true;
-                }
-                return false;
-            }
-        });
+        initSearchTextView(context);
         updateViews();
         setSaveEnabled(true);
     }
 
     private void initClearIcon() {
+        searchClearLayout = findViewById(R.id.uid_search_clear_layout);
+        closeButton = (ImageView) findViewById(R.id.uid_search_close_btn);
+        closeButton.setImageResource(R.drawable.uid_texteditbox_clear_icon);
         searchClearLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,8 +117,9 @@ public class SearchBox extends LinearLayout {
     }
 
     private void initBackButton() {
-        mBackButton = (ImageView) findViewById(R.id.uid_search_back_button);
-        mBackButton.setOnClickListener(new OnClickListener() {
+        backButton = (ImageView) findViewById(R.id.uid_search_back_button);
+        backButton.setImageResource(R.drawable.uid_back_icon);
+        backButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 callCollapseListener();
@@ -131,8 +132,8 @@ public class SearchBox extends LinearLayout {
     }
 
     private void initSearchIconHolder() {
-        mSearchIconHolder = (ImageView) findViewById(R.id.uid_search_icon_holder);
-        mSearchIconHolder.setOnClickListener(new OnClickListener() {
+        searchIconHolder = (ImageView) findViewById(R.id.uid_search_icon_holder);
+        searchIconHolder.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 callExpandListener();
@@ -141,6 +142,24 @@ public class SearchBox extends LinearLayout {
                 setImeVisibility(true);
             }
         });
+    }
+
+    private void initSearchTextView(Context context){
+        searchTextView = (AppCompatAutoCompleteTextView) findViewById(R.id.uid_search_src_text);
+        searchTextView.addTextChangedListener(new SearchTextWatcher());
+        searchTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    if (querySubmitListener != null) {
+                        querySubmitListener.onQuerySubmit(searchTextView.getText());
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+        searchTextView.setTypeface(TypefaceUtils.load(context.getAssets(),FONT_PATH_CENTRALESANS_MEDIUM));
     }
 
     @Override
@@ -243,11 +262,11 @@ public class SearchBox extends LinearLayout {
 
     private void updateViews() {
         int iconHolderVisisblity = isSearchIconified ? View.VISIBLE : View.GONE;
-        mSearchIconHolder.setVisibility(iconHolderVisisblity);
+        searchIconHolder.setVisibility(iconHolderVisisblity);
 
         int visibility = isSearchIconified ? View.GONE : View.VISIBLE;
         searchClearLayout.setVisibility(visibility);
-        mBackButton.setVisibility(visibility);
+        backButton.setVisibility(visibility);
         updateCloseButton();
         searchTextView.setVisibility(visibility);
         if (visibility == View.VISIBLE) {
@@ -356,7 +375,7 @@ public class SearchBox extends LinearLayout {
 
     private void updateCloseButton() {
         final boolean showClose = !TextUtils.isEmpty(searchTextView.getText());
-        mCloseButton.setVisibility(showClose ? VISIBLE : GONE);
+        closeButton.setVisibility(showClose ? VISIBLE : GONE);
     }
 
     static class SavedState extends BaseSavedState {
