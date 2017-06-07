@@ -56,8 +56,9 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
     public void onBackPressed() {
         RALog.d(TAG, " On Back Pressed");
         if (pager.getCurrentItem() == 0) {
+            AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication) getFragmentActivity().getApplication();
             try {
-                BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+                BaseFlowManager targetFlowManager = appFrameworkApplication.getTargetFlowManager();
                 targetFlowManager.getBackState(targetFlowManager.getCurrentState());
                 targetFlowManager.clearStates();
                 getActivity().finishAffinity();
@@ -149,7 +150,7 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
 
     protected void startLogging() {
         RALog.d(TAG, " start Logging ");
-        getApplicationContext().getLoggingInterface().log(LoggingInterface.LogLevel.INFO, TAG,
+        ((AppFrameworkApplication) getFragmentActivity().getApplicationContext()).getLoggingInterface().log(LoggingInterface.LogLevel.INFO, TAG,
                 " IntroductionScreen Activity Created ");
     }
 
@@ -164,10 +165,5 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
     public boolean handleBackEvent() {
         onBackPressed();
         return true;
-    }
-
-
-    private AppFrameworkApplication getApplicationContext() {
-        return (AppFrameworkApplication) getFragmentActivity().getApplication();
     }
 }
