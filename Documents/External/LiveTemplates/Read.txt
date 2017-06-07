@@ -1,0 +1,9 @@
+* How To Use Live templates?
+Ans: Import settings.jar file. Follow below steps.
+
+1.Goto Android Studio File->Import Settings
+2.It will browse for settings .jar path, select proper settings.jar file (you taken from someone else shared settings.jar).
+3. You can type abbreviation and use live templates shared by others.
+
+
+
