@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +21,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.listener.UserRegistrationListener;
-import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
@@ -67,7 +64,6 @@ public class HomeFragment extends AppFrameworkBaseFragment {
         startAppTagging(TAG);
 
         boolean isUrLoginSuccess = getPreferences().getBoolean(Constants.UR_LOGIN_COMPLETED, false);
-        Log.i("testing", "HomeFragment onCreateView -- isUrLoginSuccess " + isUrLoginSuccess);
         if(isUrLoginSuccess) {
             setUrCompleted();
             createDialog();
@@ -84,14 +80,10 @@ public class HomeFragment extends AppFrameworkBaseFragment {
 
     protected void createDialog() {
         {
-            Log.i("testing", "HomeFragment User Registration Successfully Done");
             boolean isScreenLockDisabled = !isScreenLockEnabled();
             boolean isDeviceRooted = isDeviceRooted();
 
-            Log.i("testing", "HomeFragment isRooted - " + isDeviceRooted + " -- isScreenLockDisabled - " + isScreenLockDisabled);
-
             if(getDoNotShowValue(JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED)) {
-                Log.i("testing", "HomeFragment case 1");
                 return;
             }
             final Dialog dialog = new Dialog(getActivity());
@@ -105,7 +97,6 @@ public class HomeFragment extends AppFrameworkBaseFragment {
 
             if(isScreenLockDisabled && isDeviceRooted &&
                     !getDoNotShowValue(JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED)) {
-                Log.i("testing", "HomeFragment case 2");
                 dialogDescTextView.setText(getActivity().getString(R.string.RA_SECURITY_PASSCODE_AND_JAILBREAK_VIOLATION));
                 activateScreenLockListener(btnActivateScreen, dialog);
                 btnActivateScreen.setVisibility(View.VISIBLE);
@@ -114,7 +105,6 @@ public class HomeFragment extends AppFrameworkBaseFragment {
                 dialog.show();
             }
             else if(isDeviceRooted && !getDoNotShowValue(JAIL_BROKEN_ENABLED)) {
-                Log.i("testing", "HomeFragment case 3");
                 dialogDescTextView.setText(getActivity().getString(R.string.RA_SECURITY_JAILBREAK_VIOLATION));
                 btnActivateScreen.setVisibility(View.GONE);
                 checkBoxListener(checkBox, JAIL_BROKEN_ENABLED);
@@ -122,7 +112,6 @@ public class HomeFragment extends AppFrameworkBaseFragment {
                 dialog.show();
             }
             else if(isScreenLockDisabled && !getDoNotShowValue(SCREEN_LOCK_DISABLED)) {
-                Log.i("testing", "HomeFragment case 4");
                 dialogDescTextView.setText(getActivity().getString(R.string.RA_SECURITY_SCREEN_LOCK));
                 btnActivateScreen.setVisibility(View.VISIBLE);
                 activateScreenLockListener(btnActivateScreen, dialog);
@@ -187,7 +176,6 @@ public class HomeFragment extends AppFrameworkBaseFragment {
     }
 
     protected boolean getDoNotShowValue(String key) {
-        Log.i("testing", "HomeFragment getDoNotShowValue key - " + key + "     value - "+ getPreferences().getBoolean(key, false));
         return getPreferences().getBoolean(key, false);
     }
 
