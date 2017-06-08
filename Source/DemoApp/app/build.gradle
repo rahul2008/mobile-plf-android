@@ -120,7 +120,7 @@ android {
 
     defaultConfig {
         applicationId "com.philips.cdp.demo"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 24
         versionCode 3
         versionName "2.0.1"

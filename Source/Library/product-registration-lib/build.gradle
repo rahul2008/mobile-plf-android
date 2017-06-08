@@ -154,7 +154,7 @@ android {
     buildToolsVersion "24.0.3"
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 24
         versionCode 1
         versionName objcdp.getVersionWithHash()
