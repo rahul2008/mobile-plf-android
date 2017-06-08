@@ -150,4 +150,12 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
 
     }
 
+    @Override
+    public boolean handleBackPress() {
+        if(!searchBox.isSearchIconified()){
+            searchBox.setSearchIconified(true);
+            return true;
+        }
+        return super.handleBackPress();
+    }
 }
