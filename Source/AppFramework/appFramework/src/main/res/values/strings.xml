@@ -161,6 +161,14 @@
         <item>@string/RA_Demo_Menu_Title</item>
     </string-array>
 
+    <string name="RA_SECURITY_SCREEN_LOCK" translatable="false"> We’ve detected the screenlock of your mobile phone is to enabled, thereby making it easier for others to access your data. We recommend enabling your screenlock.</string>
+    <string name="RA_SECURITY_JAILBREAK_VIOLATION" translatable="false"> We’ve detected that you have rooted the device or jailbroken, thereby making it easier for others to access your data and no security on your application data. </string>
+    <string name="RA_SECURITY_PASSCODE_AND_JAILBREAK_VIOLATION" translatable="false"> We’ve detected that you have jailbroken and not activated screenlock, thereby making it easier for others to access your data. We recommend enabling your screenlock. </string>
+    <string name="RA_SECURITY_SECURE_YOUR_DATA" translatable="false"> Secure your data </string>
+    <string name="RA_SECURITY_NO_THANKS" translatable="false"> No thanks </string>
+    <string name="RA_SECURITY_ACTIVATE_SCREEN_LOCK" translatable="false"> Activate screenlock </string>
+    <string name="RA_SECURITY_DONT_SHOW_MESSAGE" translatable="false"> Don\'t show this message again</string>
+
     <string name="RA_Settings_Menu_Title">Settings</string>
     <string name="RA_Philips_Shop_Menu_Title">Philips Shop</string>
     <string name="RA_Support_Menu_Title">Support</string>
