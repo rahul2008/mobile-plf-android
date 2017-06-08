@@ -16,6 +16,7 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.DeliveryModeAdapter;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.addresses.DeliveryModes;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
 
 import java.util.List;
 
@@ -54,4 +55,21 @@ public class DeliveryModeDialog {
             }
         });
     }
+
+
+    /*private void showDialog(final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon) {
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(mContext)
+                .setMessage(showLargeContent ? R.string.dialog_screen_long_content_text : R.string.dialog_screen_short_content_text).
+                        setPositiveButton(R.string.dialog_screen_positive_button_text, this).
+                        setNegativeButton(R.string.dialog_screen_negative_button_text, this);
+        if (isWithTitle) {
+            builder.setTitle(R.string.dialog_screen_title_text);
+            if (showIcon) {
+                builder.setIcon(R.drawable.ic_location);
+            }
+        }
+        alertDialogFragment = builder.setCancelable(false).create();
+        alertDialogFragment.show(getFragmentManager(), ALERT_DIALOG_TAG);
+    }
+*/
 }

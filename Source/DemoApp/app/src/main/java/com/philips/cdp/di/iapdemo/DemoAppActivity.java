@@ -40,6 +40,10 @@ import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 import java.util.ArrayList;
 
@@ -47,27 +51,27 @@ import java.util.ArrayList;
 public class DemoAppActivity extends UiKitActivity implements View.OnClickListener, IAPListener,
         UserRegistrationUIEventListener, UserRegistrationListener {
 
-    private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_Bright;
+    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_VeryLight;
     private DemoApplication mApplicationContext;
 
     private LinearLayout mAddCTNLl;
 
     private FrameLayout mShoppingCart;
-    private EditText mEtCTN;
+    private com.philips.platform.uid.view.widget.EditText mEtCTN;
 
-    private Button mRegister;
-    private Button mShopNow;
-    private Button mShopNowCategorized;
-    private Button mBuyDirect;
-    private Button mPurchaseHistory;
-    private Button mLaunchFragment;
-    private Button mLaunchProductDetail;
-    private Button mAddCtn;
+    private com.philips.platform.uid.view.widget.Button mRegister;
+    private com.philips.platform.uid.view.widget.Button mShopNow;
+    private com.philips.platform.uid.view.widget.Button mShopNowCategorized;
+    private com.philips.platform.uid.view.widget.Button mBuyDirect;
+    private com.philips.platform.uid.view.widget.Button mPurchaseHistory;
+    private com.philips.platform.uid.view.widget.Button mLaunchFragment;
+    private com.philips.platform.uid.view.widget.Button mLaunchProductDetail;
+    private com.philips.platform.uid.view.widget.Button mAddCtn;
 
     private ArrayList<String> mCategorizedProductList;
 
     private ProgressDialog mProgressDialog = null;
-    private TextView  mTitleTextView;
+    private TextView mTitleTextView;
     private TextView mCountText;
 
     private IAPInterface mIapInterface;
@@ -78,7 +82,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(DEFAULT_THEME);
+        initTheme();
         super.onCreate(savedInstanceState);
 
         IAPLog.enableLogging(true);
@@ -89,35 +93,35 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         setContentView(R.layout.demo_app_layout);
         actionBar();
         showAppVersion();
-        mEtCTN = (EditText) findViewById(R.id.et_add_ctn);
+        mEtCTN = (com.philips.platform.uid.view.widget.EditText) findViewById(R.id.et_add_ctn);
         mAddCTNLl = (LinearLayout) findViewById(R.id.ll_ctn);
 
-        mRegister = (Button) findViewById(R.id.btn_register);
+        mRegister = (com.philips.platform.uid.view.widget.Button) findViewById(R.id.btn_register);
         mRegister.setOnClickListener(this);
 
-        mLaunchFragment = (Button) findViewById(R.id.btn_fragment_launch);
+        mLaunchFragment = (com.philips.platform.uid.view.widget.Button) findViewById(R.id.btn_fragment_launch);
         mLaunchFragment.setOnClickListener(this);
         mLaunchFragment.setVisibility(View.GONE);
 
-        mBuyDirect = (Button) findViewById(R.id.btn_buy_direct);
+        mBuyDirect = (com.philips.platform.uid.view.widget.Button) findViewById(R.id.btn_buy_direct);
         mBuyDirect.setOnClickListener(this);
 
-        mShopNow = (Button) findViewById(R.id.btn_shop_now);
+        mShopNow = (com.philips.platform.uid.view.widget.Button) findViewById(R.id.btn_shop_now);
         mShopNow.setOnClickListener(this);
 
-        mPurchaseHistory = (Button) findViewById(R.id.btn_purchase_history);
+        mPurchaseHistory = (com.philips.platform.uid.view.widget.Button) findViewById(R.id.btn_purchase_history);
         mPurchaseHistory.setOnClickListener(this);
 
-        mLaunchProductDetail = (Button) findViewById(R.id.btn_launch_product_detail);
+        mLaunchProductDetail = (com.philips.platform.uid.view.widget.Button) findViewById(R.id.btn_launch_product_detail);
         mLaunchProductDetail.setOnClickListener(this);
 
         mShoppingCart = (FrameLayout) findViewById(R.id.shopping_cart_icon);
         mShoppingCart.setOnClickListener(this);
 
-        mShopNowCategorized = (Button) findViewById(R.id.btn_categorized_shop_now);
+        mShopNowCategorized = (com.philips.platform.uid.view.widget.Button) findViewById(R.id.btn_categorized_shop_now);
         mShopNowCategorized.setOnClickListener(this);
 
-        mAddCtn = (Button) findViewById(R.id.btn_add_ctn);
+        mAddCtn = (com.philips.platform.uid.view.widget.Button) findViewById(R.id.btn_add_ctn);
         mAddCtn.setOnClickListener(this);
 
         mCategorizedProductList = new ArrayList<>();
@@ -133,6 +137,15 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
         mIapInterface = new IAPInterface();
         mIapInterface.init(mIapDependencies, mIAPSettings);
+    }
+
+    private void initTheme() {
+        int themeIndex = getIntent().getIntExtra(IAPConstant.IAP_KEY_ACTIVITY_THEME, DEFAULT_THEME);
+        if (themeIndex <= 0) {
+            themeIndex = DEFAULT_THEME;
+        }
+        UIDHelper.init(new ThemeConfiguration(this, ContentColor.VERY_LIGHT, NavigationColor.VERY_DARK));
+        getTheme().applyStyle(themeIndex, true);
     }
 
     @Override

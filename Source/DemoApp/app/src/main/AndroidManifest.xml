@@ -13,10 +13,12 @@
         android:allowBackup="false"
         android:label="@string/demo_app_name"
         android:resizeableActivity="true"
+        android:theme="@style/Theme.DLS"
         android:supportsRtl="true"
         tools:replace="android:allowBackup, android:label, android:supportsRtl, android:resizeableActivity">
         <activity
             android:name=".DemoAppActivity"
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:screenOrientation="portrait">
             <intent-filter>
