@@ -125,7 +125,6 @@ public class SearchBox extends LinearLayout {
                 callCollapseListener();
                 setSearchIconified(true);
                 searchTextView.setText("");
-                setImeVisibility(false);
                 searchTextView.clearFocus();
             }
         });
@@ -139,7 +138,6 @@ public class SearchBox extends LinearLayout {
                 callExpandListener();
                 setSearchIconified(false);
                 searchTextView.requestFocus();
-                setImeVisibility(true);
             }
         });
     }
@@ -204,6 +202,7 @@ public class SearchBox extends LinearLayout {
 
     public void setSearchIconified(boolean searchIconified) {
         handleSearchExpansion(searchIconified);
+        setImeVisibility(!searchIconified);
         isSearchIconified = searchIconified;
         requestLayout();
         updateViews();

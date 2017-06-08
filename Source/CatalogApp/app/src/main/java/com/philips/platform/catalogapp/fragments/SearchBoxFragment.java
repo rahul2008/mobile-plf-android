@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.dataUtils.StateListAdapter;
@@ -101,6 +102,12 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
     private void setListAdapter() {
         stateAdapter = new StateListAdapter(getActivity(), Arrays.asList(STATES));
         fragmentSearchBoxBinding.countryList.setAdapter(stateAdapter);
+        fragmentSearchBoxBinding.countryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                searchBox.setSearchIconified(true);
+            }
+        });
     }
 
     @Override
