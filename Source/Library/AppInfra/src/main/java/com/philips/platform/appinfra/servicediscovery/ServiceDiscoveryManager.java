@@ -46,6 +46,8 @@ import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryMan
 public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
 
+    public static final String AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION = "ail.servicediscovery.homecountryChanged";
+    public static final String AIL_HOME_COUNTRY = "ail.servicediscovery.homeCountry";
     private static final String COUNTRY = "country";
     private static final String COUNTRY_SOURCE = "country_source";
     private static final String URL_TAG_TEST = "apps%2b%2benv%2btest";
@@ -69,8 +71,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private ServiceDiscoveryInterface.OnGetHomeCountryListener.ERRORVALUES errorvalues;
     private String mCountry;
     private String mCountrySourceType;
-    public static final String ACTION_HOME_COUNTRY_UPDATE = "ail.servicediscovery.sethomecountry";
-    public static final String HOME_COUNTRY_DATA = "HOME_COUNTRY_DATA";
     /**
      * Instantiates a new Service discovery manager.
      *
@@ -819,8 +819,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
      * @param data Updated home country code
      */
     private void sendBroadcast(final String data) {
-        Intent intent = new Intent(ACTION_HOME_COUNTRY_UPDATE);
-        intent.putExtra(HOME_COUNTRY_DATA, data);
+        Intent intent = new Intent(AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION);
+        intent.putExtra(AIL_HOME_COUNTRY, data);
         LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
                 .sendBroadcast(intent);
     }
@@ -840,7 +840,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     public void registerOnHomeCountrySet(final BroadcastReceiver receiver) {
         if(receiver != null && mAppInfra.getAppInfraContext() != null)  {
             LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
-                    .registerReceiver(receiver, new IntentFilter(ACTION_HOME_COUNTRY_UPDATE));
+                    .registerReceiver(receiver, new IntentFilter(AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION));
         } else {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
                     "unregister Home country update ", "" + "context is null");

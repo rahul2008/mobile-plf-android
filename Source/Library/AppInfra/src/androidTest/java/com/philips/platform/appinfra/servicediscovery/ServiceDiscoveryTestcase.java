@@ -25,8 +25,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.ACTION_HOME_COUNTRY_UPDATE;
-import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.HOME_COUNTRY_DATA;
+import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AIL_HOME_COUNTRY;
+import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION;
 
 /**
  * Created by 310238655 on 6/28/2016.
@@ -67,6 +67,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 		testConfig();
 		mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
 		mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
+		mServiceDiscoveryManager.registerOnHomeCountrySet(new TestReceiver());
 		mRequestItemManager = new RequestManager(context, mAppInfra);
 		assertNotNull(mRequestItemManager);
 		mserviceDiscovery = new ServiceDiscovery();
@@ -151,7 +152,6 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 	public void testsetHomeCountry() {
 		try {
 			method = ServiceDiscoveryManager.class.getDeclaredMethod("setHomeCountry", String.class);
-			mServiceDiscoveryManager.registerOnHomeCountrySet(new TestReceiver());
 			method.setAccessible(true);
 			method.invoke(mServiceDiscoveryManager, "CN");
 			mServiceDiscoveryInterface.setHomeCountry("CN");
@@ -1275,7 +1275,8 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 	}
 
 	public void testGetCountry() {
-		String countryCode = "en";
+		String countryCode = "CN";
+		mServiceDiscoveryManager.registerOnHomeCountrySet(new TestReceiver());
 		mServiceDiscoveryManager.setHomeCountry(countryCode);
 		String country = mServiceDiscoveryManager.getHomeCountry();
 		assertTrue(country != null);
@@ -1286,9 +1287,9 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			String countryCode = (String) intent.getExtras().get(HOME_COUNTRY_DATA);
+			String countryCode = (String) intent.getExtras().get(AIL_HOME_COUNTRY);
 			assertEquals(countryCode, "CN");
-			assertTrue(intent.getAction().equals(ACTION_HOME_COUNTRY_UPDATE));
+			assertTrue(intent.getAction().equals(AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION));
 		}
 	}
 }
