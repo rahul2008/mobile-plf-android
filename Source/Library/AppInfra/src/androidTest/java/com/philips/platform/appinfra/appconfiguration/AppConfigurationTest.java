@@ -483,10 +483,11 @@ public class AppConfigurationTest extends MockitoTestCase {
         }
         if ((testJsonNew().toString()).equalsIgnoreCase(newJSON.toString())) {
             Log.v("MIGRATION", "SUCCESS");
+            assertEquals(testJsonNew().toString(), newJSON.toString());
         } else {
             Log.v("MIGRATION", "FAILURE");
+            assertNotSame(testJsonNew().toString(), newJSON.toString());
         }
-        assertEquals(testJsonNew().toString(), newJSON.toString());
     }
 
 

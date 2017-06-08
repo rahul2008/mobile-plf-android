@@ -19,13 +19,11 @@ public class AppInfraLaunchActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_app_infra_launch);
         appInfraLaunch=(Button) findViewById(R.id.appinfra);
         appInfraLaunch.setOnClickListener(this);
-
     }
 
 
     @Override
     public void onClick(View v) {
-
         AILDemouAppInterface uAppInterface = new AILDemouAppInterface();
         uAppInterface.init(new AILDemouAppDependencies(AppInfraApplication.gAppInfra), new AILDemouAppSettings(getApplicationContext()));// pass App-infra instance instead of null
         uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);// pass launch input if required

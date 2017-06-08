@@ -92,7 +92,6 @@ public class AppConfigurationManager implements AppConfigurationInterface {
             dynamicConfigJsonCache = getDynamicJSONFromDevice();
         }
         return dynamicConfigJsonCache;
-
     }
 
     private JSONObject getStaticConfigJsonCache() {
@@ -524,8 +523,6 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         if (null != loggingInterface) {
             loggingInterface.log(level, event, message);
         }
-
-
     }
 
 }

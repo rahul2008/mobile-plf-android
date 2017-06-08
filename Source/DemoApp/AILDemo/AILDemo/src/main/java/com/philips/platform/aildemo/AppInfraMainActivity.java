@@ -21,14 +21,22 @@ import java.util.ArrayList;
 
 public class AppInfraMainActivity extends AppCompatActivity {
 
+    AppInfra mAppInfra;
     ListView listView;
     String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging","AppIdentity",
-            "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client" , " A/B Testing", "Content Loader","WhiteBox API","Internet Check"};
+            "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client", " A/B Testing", "Content Loader", "WhiteBox API", "Internet Check", "Language Pack",
+            "Resolution locale","App Update"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_infra_main);
+//        mAppInfra = new AppInfra.Builder().build(getApplicationContext());
+        mAppInfra = (AppInfra)AppInfraApplication.gAppInfra;
+        final TextView componentIDTextView = (TextView) findViewById(R.id.appInfraComponentID);
+        componentIDTextView.setText(mAppInfra.getComponentId());
+        final TextView versionTextView = (TextView) findViewById(R.id.appInfraVersion);
+        versionTextView.setText(mAppInfra.getVersion());
         listView = (ListView) findViewById(R.id.listViewAppInfraComponents);
         listView.setAdapter(new AppInfraListAdapter());
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -140,7 +148,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 //                AppTagging.enableAppTagging(true);
 //                //Mandatory to set
 //                AppTagging.setTrackingIdentifier(ANALYTICS_APP_ID);
-//                AppTagging.init(Locale.CHINA, getActivity(), "App Framwork com.philips.platform.appinfra.com.philips.platform.appinfra.com.philips.platform.aildemo app");
+//                AppTagging.init(Locale.CHINA, getActivity(), "App Framwork demo app");
                 Intent i = new Intent(AppInfraMainActivity.this, AIATDemoPage.class);
                 startActivity(i);
                 break;
@@ -188,8 +196,8 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 startActivity(restClientActivity);
                 break;
 
-            case 9:
-                Intent abTesting = new Intent(AppInfraMainActivity.this, AbTestingDemo.class);
+            case 9 :
+                Intent abTesting = new Intent(AppInfraMainActivity.this , AbTestingDemo.class );
                 startActivity(abTesting);
                 break;
 
@@ -209,7 +217,24 @@ public class AppInfraMainActivity extends AppCompatActivity {
                         InternetCheckActivity.class);
                 startActivity(secureDbIntent);
                 break;
+
+            case 13:
+                Intent languagePackIntent = new Intent(AppInfraMainActivity.this,
+                        LanguagePackActivity.class);
+                startActivity(languagePackIntent);
+                break;
+            case 14:
+                Intent resolutionLocaleIntent = new Intent(AppInfraMainActivity.this,
+                        ResolutionLocaleActivity.class);
+                startActivity(resolutionLocaleIntent);
+                break;
+
+            case 15:
+                Intent appUpdateIntent = new Intent(AppInfraMainActivity.this , AppUpdateActivity.class);
+                startActivity(appUpdateIntent);
+                break;
         }
+
     }
 
     class AppInfraListAdapter extends BaseAdapter {
