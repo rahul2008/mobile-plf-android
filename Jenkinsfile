@@ -10,6 +10,7 @@ properties([
 
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_App_chassis@philips.com,amit.mohanty@philips.com'
+def errors = []
 
 
 node ('android&&device&&keystore') {
@@ -65,10 +66,17 @@ node ('android&&device&&keystore') {
                 }            
             }
             
-		} catch(err) {
-            currentBuild.result = 'FAILURE'
-            error ("Someone just broke the build", err.toString())
+        } catch(err) {
+            errors << "errors found: ${err}"      
         } finally {
+            if (errors.size() > 0) {
+                stage ('error reporting') {
+                    currentBuild.result = 'FAILURE'
+                    for (int i = 0; i < errors.size(); i++) {
+                        echo errors[i]; 
+                    }
+                }                
+            } 
             stage('informing') {
             	step([$class: 'StashNotifier'])
             	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
