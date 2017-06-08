@@ -4,7 +4,9 @@
  *
  */
 
-package com.philips.uid;
+package com.philips.uid
+
+import component.override.ComponentOverrideManager
 
 public class Control {
     String component;
@@ -34,7 +36,9 @@ public class Control {
         if (parent != null) {
             attrName = String.format("%s_%s", parent, attrName);
         }
-        return attrName.replace('-', '_').toLowerCase();
+        def attributedName = attrName.replace('-', '_').toLowerCase()
+        ComponentOverrideManager.getManagerInstance().updateOverrideList(attributedName, property.value)
+        return attributedName;
     }
 
     public String getStates() {

@@ -10,13 +10,14 @@ import android.content.res.Resources;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
-import android.support.v4.content.ContextCompat;
 
 import com.philips.platform.uid.DialogTestFragment;
+import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.components.BaseTest;
 import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
+import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -26,8 +27,6 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.philips.platform.uid.test.R.color.Gray65;
-import static com.philips.platform.uid.test.R.color.Gray75;
 
 public class AlertTest extends BaseTest {
 
@@ -209,15 +208,16 @@ public class AlertTest extends BaseTest {
      ******************************************************/
     @Test
     public void verifyTextColorOfAlertTitle() {
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidDialogAlertDefaultTitleTextColor);
 
-        final int expectedColor = ContextCompat.getColor(activity, Gray75);
         getAlertTitle().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
     public void verifyTextColorOfAlertContent() {
 
-        final int expectedColor = ContextCompat.getColor(activity, Gray65);
+
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidDialogAlertDefaultBodyTextColor);
         getAlertContent().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 

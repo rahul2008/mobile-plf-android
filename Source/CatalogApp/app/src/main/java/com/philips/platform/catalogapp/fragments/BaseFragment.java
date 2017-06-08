@@ -9,7 +9,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
+import com.philips.platform.catalogapp.MainActivity;
+
 import com.philips.platform.catalogapp.NavigationController;
+
 
 public abstract class BaseFragment extends Fragment implements NavigationController.BackPressListener {
 
@@ -26,6 +29,11 @@ public abstract class BaseFragment extends Fragment implements NavigationControl
         super.onResume();
         (getActivity()).setTitle(getPageTitle());
     }
+
+    protected void showFragment(final BaseFragment fragment) {
+        ((MainActivity) getActivity()).getNavigationController().switchFragment(fragment);
+    }
+
 
     @Override
     public boolean handleBackPress() {

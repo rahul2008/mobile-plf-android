@@ -22,13 +22,13 @@ public enum NavigationColor implements ThemeConfig{
         public void injectStyle(final Resources.Theme theme) {
             injectNavigationColor(theme, R.style.UIDNavigationbarVeryLight);
         }
-    },
+    },/*
     LIGHT {
         @Override
         public void injectStyle(final Resources.Theme theme) {
             injectNavigationColor(theme, R.style.UIDNavigationbarLight);
         }
-    },
+    },*/
     BRIGHT {
         @Override
         public void injectStyle(final Resources.Theme theme) {

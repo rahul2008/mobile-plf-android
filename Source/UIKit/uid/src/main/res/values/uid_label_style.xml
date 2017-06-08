@@ -43,25 +43,25 @@
     <style name="UIDLabel.RecyclerViewItemOneLineTitleText">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="uidLabelTextSize">@dimen/uid_recyclerview_item_title_text_size</item>
-        <item name="android:textColor">?attr/uidTextPrimary</item>
+        <item name="android:textColor">?attr/uidContentItemDefaultNormalTitleTextColor</item>
     </style>
 
     <style name="UIDLabel.RecyclerViewItemMultipleLinesTitleText">
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
         <item name="uidLabelTextSize">@dimen/uid_recyclerview_item_title_text_size</item>
-        <item name="android:textColor">?attr/uidTextPrimary</item>
+        <item name="android:textColor">?attr/uidContentItemDefaultNormalTitleTextColor</item>
     </style>
 
     <style name="UIDLabel.RecyclerViewItemSubtitleText">
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
         <item name="uidLabelTextSize">@dimen/uid_recyclerview_item_subtitle_text_size</item>
-        <item name="android:textColor">?attr/uidTextPrimary</item>
+        <item name="android:textColor">?attr/uidContentItemDefaultNormalSubtitleTextColor</item>
     </style>
 
     <style name="UIDLabel.RecyclerViewItemDescriptionText">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="uidLabelTextSize">@dimen/uid_recyclerview_item_description_text_size</item>
-        <item name="android:textColor">?attr/uidTextSecondary</item>
+        <item name="android:textColor">?attr/uidContentItemDefaultNormalDescriptorTextColor</item>
     </style>
 
     <style name="UIDLabel.RecyclerViewHeaderText">
@@ -69,8 +69,8 @@
         <item name="uidLabelTextSize">@dimen/uid_recyclerview_header_text_size</item>
         <item name="android:paddingStart">@dimen/uid_recyclerview_margin_left_right</item>
         <item name="android:minHeight">@dimen/uid_recyclerview_header_height</item>
-        <item name="android:textColor">?attr/uidListViewDefaultNormalHeaderTextColor</item>
-        <item name="android:background">?attr/uidListViewDefaultNormalHeaderBackgroundColor</item>
+        <item name="android:textColor">?attr/uidContentItemDefaultNormalDescriptorTextColor</item>
+        <item name="android:background">?attr/uidContentTertiaryBackgroundColor</item>
     </style>
 
     <style name="UIDLabel.RecyclerViewHeader">
@@ -97,6 +97,14 @@
         <item name="android:paddingStart">@dimen/uid_gridview_margin_left_right</item>
         <item name="android:minHeight">@dimen/uid_gridview_header_height</item>
         <item name="android:textColor">?attr/uidTextTertiary</item>
+    </style>
+
+    <style name="UIDLabel.GridViewHeaderText.UIDGridViewHeaderBackgroundDarkTitleText">
+        <item name="android:textColor">?attr/uidGridViewBackgroundDarkHeaderTextColor</item>
+    </style>
+
+    <style name="UIDLabel.GridViewHeaderText.UIDGridViewHeaderLightBackgroundTitleText">
+        <item name="android:textColor">?attr/uidGridViewBackgroundLightHeaderTextColor</item>
     </style>
 
     <style name="UIDLabel.GridViewTitleText">
@@ -133,5 +141,6 @@
     <style name="UIDLabel.GridViewSettingsText">
         <item name="uidLabelTextSize">@dimen/uid_recyclerview_item_title_text_size</item>
         <item name="android:textColor">?attr/uidTextPrimary</item>
+        <item name="android:background">?attr/uidContentTertiaryBackgroundColor</item>
     </style>
 </resources>

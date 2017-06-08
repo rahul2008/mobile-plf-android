@@ -55,7 +55,7 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
         itemsMap = new LinkedHashMap<Integer, String>();
         itemsMap.put(0, getString(R.string.page_title_buttons));
         itemsMap.put(1, getString(R.string.page_title_textbox));
-        itemsMap.put(2, getString(R.string.page_title_settings));
+        itemsMap.put(2, getString(R.string.page_title_toggle_switch));
         itemsMap.put(3, getString(R.string.page_title_alertDialog));
         itemsMap.put(4, getString(R.string.page_title_progress_bar));
         itemsMap.put(5, getString(R.string.page_title_label));
@@ -68,7 +68,8 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
         itemsMap.put(12, getString(R.string.page_title_language_pack));
         itemsMap.put(13, getString(R.string.page_title_ratingbar));
         itemsMap.put(14, getString(R.string.page_title_notification_badge));
-        itemsMap.put(15, getString(R.string.page_title_searchbox));
+        itemsMap.put(15, getString(R.string.page_title_dot_navigation));
+        itemsMap.put(16, getString(R.string.page_title_searchbox));
         return sortMap(itemsMap);
     }
 
@@ -140,6 +141,9 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
                 navigationController.switchFragment(new NotificationBadgeFragment());
                 break;
             case 15:
+                navigationController.switchFragment(new DotNavigationFragment());
+                break;
+            case 16:
                 navigationController.switchFragment(new SearchBoxFragment());
                 break;
         }

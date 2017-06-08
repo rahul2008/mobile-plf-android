@@ -7,10 +7,6 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowNoTitle">true</item>
         <item name="colorControlHighlight">@android:color/transparent</item>
-
-        <item name="android:alertDialogStyle">@style/UIDAlertDialog</item>
-        <item name="alertDialogStyle">@style/UIDAlertDialog</item>
-
         <item name="android:timePickerDialogTheme" tools:targetApi="lollipop">
             @style/UIDDatePickerDialogTheme
         </item>
@@ -71,7 +67,6 @@
         <!--<item name="uidInputTextTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidInputTextHintTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
         -->
-
-
     </style>
+
 </resources>

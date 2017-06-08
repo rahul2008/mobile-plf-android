@@ -31,7 +31,6 @@ import com.philips.platform.uid.utils.ClearEditTextIconHandler;
 import com.philips.platform.uid.utils.EditTextIconHandler;
 import com.philips.platform.uid.utils.PasswordEditTextIconHandler;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
-import com.philips.platform.uid.utils.UIDUtils;
 
 public class EditText extends AppCompatEditText {
     private final static int DRAWABLE_FILL_INDEX = 0;

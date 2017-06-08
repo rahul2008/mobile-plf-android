@@ -46,8 +46,8 @@
             android:imeOptions="actionSearch|flagNoExtractUi"
             android:inputType="text|textAutoComplete|textNoSuggestions"
             android:maxLines="1"
-            android:textColor="@color/uid_gray_level_75"
-            android:textColorHint="@color/uid_gray_level_35"
+            android:textColor="?attr/uidSearchBoxAndroidDefaultNormalInputTextColor"
+            android:textColorHint="?attr/uidSearchBoxAndroidDefaultNormalHintTextColor"
             android:textSize="@dimen/uid_searchbox_text_size"/>
 
         <FrameLayout

@@ -172,9 +172,9 @@ public class ButtonWithProgressIndicatorsTest {
         setUpDefaultTheme();
 
         simulateSetProgressText("Hello ");
-        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlPrimaryDetail);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlPrimaryDetail);
         //To check progress text is displayed
-        getProgressText().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
+        getProgressText().check(matches(TextViewPropertiesMatchers.isSameTextColor(expectedColor)));
     }
 
     @Test
@@ -182,9 +182,9 @@ public class ButtonWithProgressIndicatorsTest {
         setUpDefaultTheme();
 
         simulateSetProgressText("Hello ");
-        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidColorLevel45);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlPrimaryDetail);
 
-        getProgressText().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
+        getProgressText().check(matches(TextViewPropertiesMatchers.isSameTextColor(expectedColor)));
     }
 
     @Test
@@ -192,9 +192,9 @@ public class ButtonWithProgressIndicatorsTest {
         setUpDefaultTheme();
 
         simulateSetProgressText("Hello ");
-        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlPrimaryText);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidButtonPrimaryNormalTextColor);
 
-        getButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
+        getButton().check(matches(TextViewPropertiesMatchers.isSameTextColor(expectedColor)));
     }
 
     @Test
@@ -211,10 +211,10 @@ public class ButtonWithProgressIndicatorsTest {
     public void verifyButtonFillColor() {
         setUpDefaultTheme();
 
-        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidButtonPrimaryNormalBackgroundColor);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidButtonPrimaryNormalBackgroundColor);
 
         getButton().check(matches(FunctionDrawableMatchers
-                .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, android.R.attr.state_enabled, color)));
+                .isSameColorFromColorList(TestConstants.FUNCTION_GET_SUPPORT_BACKROUND_TINT_LIST, android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test

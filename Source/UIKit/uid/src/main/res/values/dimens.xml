@@ -3,19 +3,19 @@
     <dimen name="uid_page_marging_left_right">24dp</dimen>
 
     <!--Percentage for opacity-->
-    <item name="uid_alpha_per_100" format="float" type="dimen">1</item>
-    <item name="uid_alpha_per_10" format="float" type="dimen">0.1</item>
-    <item name="uid_alpha_per_15" format="float" type="dimen">0.15</item>
     <item name="uid_alpha_per_20" format="float" type="dimen">0.20</item>
     <item name="uid_alpha_per_25" format="float" type="dimen">0.25</item>
-    <item name="uid_alpha_per_30" format="float" type="dimen">0.30</item>
     <item name="uid_alpha_per_35" format="float" type="dimen">0.35</item>
-    <item name="uid_alpha_per_40" format="float" type="dimen">0.40</item>
     <item name="uid_alpha_per_45" format="float" type="dimen">0.45</item>
     <item name="uid_alpha_per_50" format="float" type="dimen">0.50</item>
     <item name="uid_alpha_per_60" format="float" type="dimen">0.60</item>
     <item name="uid_alpha_per_70" format="float" type="dimen">0.70</item>
     <item name="uid_alpha_per_80" format="float" type="dimen">0.80</item>
+    <item name="uid_alpha_per_100" format="float" type="dimen">1</item>
+    <!--<item name="uid_alpha_per_10" format="float" type="dimen">0.1</item>
+    <item name="uid_alpha_per_15" format="float" type="dimen">0.15</item>
+    <item name="uid_alpha_per_30" format="float" type="dimen">0.30</item>
+    <item name="uid_alpha_per_40" format="float" type="dimen">0.40</item>-->
 
     <!--Switch dimensions-->
     <dimen name="uid_switch_thumb_radius">24dp</dimen>
@@ -51,9 +51,9 @@
 
     <!--TextBox-->
     <dimen name="uid_edittext_corner_radius">2dp</dimen>
-    <dimen name="uid_edittext_fill_corner_radius">4dp</dimen>
+    <dimen name="uid_edittext_fill_corner_radius">2dp</dimen>
     <dimen name="uid_edittext_height">48dp</dimen>
-    <dimen name="uid_edittext_stroke_width">4dp</dimen>
+    <dimen name="uid_edittext_stroke_width">1dp</dimen>
     <dimen name="uid_edittext_text_padding">12dp</dimen>
     <dimen name="uid_edittext_min_width">24dp</dimen>
     <dimen name="uid_edittext_text_size">16sp</dimen>
@@ -235,4 +235,11 @@
     <dimen name="uid_searchbox_search_text_offset">0dp</dimen>
     <dimen name="uid_searchbox_back_icon_margin">16dp</dimen>
     <dimen name="uid_searchbox_text_size">20sp</dimen>
+
+    <!-- Dot navigation icon size-->
+    <dimen name="uid_dot_navigation_icon_radius">4dp</dimen>
+    <dimen name="uid_dot_navigation_icon_size">8dp</dimen>
+    <dimen name="uid_dot_navigation_icon_margin">4dp</dimen>
+    <dimen name="uid_dot_navigation_indicator_min_height">48dp</dimen>
+
 </resources>

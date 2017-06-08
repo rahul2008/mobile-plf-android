@@ -79,7 +79,8 @@ class DataValidation {
             themeValue.colorCode = entry.value.colorCode
         }
         if (entry.value.reference != null) {
-            themeValue.reference = entry.value.reference
+            def reference = BrushParser.getAttributeName(entry.value.reference)
+            themeValue.reference = reference
         }
         if (entry.value.opacity != null) {
             themeValue.opacity = entry.value.opacity
@@ -87,6 +88,7 @@ class DataValidation {
         if (entry.value.offset != null) {
             themeValue.offset = entry.value.offset
         }
+
     }
 
     def getAttributeNames(datavalidationMap) {

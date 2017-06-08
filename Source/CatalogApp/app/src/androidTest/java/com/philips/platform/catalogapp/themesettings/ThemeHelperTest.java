@@ -61,8 +61,8 @@ public class ThemeHelperTest {
     public void verifyThemeIsBlueUltraLightWhenSaved() throws Exception {
         final MainActivity mainActivity = activityTestRule.launchActivity(getLaunchIntent(NavigationColor.ULTRA_LIGHT.ordinal(), ColorRange.GROUP_BLUE.ordinal()));
         final SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mainActivity);
-        setTheme(mainActivity, ContentColor.LIGHT, ColorRange.BLUE);
+        setTheme(mainActivity, ContentColor.BRIGHT, ColorRange.BLUE);
         themeHelper = new ThemeHelper(defaultSharedPreferences);
-        assertEquals(R.style.Theme_DLS_Blue_Light, themeHelper.getThemeResourceId(mainActivity.getResources(), mainActivity.getPackageName()));
+        assertEquals(R.style.Theme_DLS_Blue_Bright, themeHelper.getThemeResourceId(mainActivity.getResources(), mainActivity.getPackageName()));
     }
 }

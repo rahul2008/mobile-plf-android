@@ -32,6 +32,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -60,8 +61,8 @@ public class BaseTestActivity extends UIDActivity implements DelayerCallback {
     }
 
     static String toProperCase(String s) {
-        return s.substring(0, 1).toUpperCase() +
-                s.substring(1).toLowerCase();
+        return s.substring(0, 1).toUpperCase(Locale.getDefault()) +
+                s.substring(1).toLowerCase(Locale.getDefault());
     }
 
     @Override
@@ -112,6 +113,7 @@ public class BaseTestActivity extends UIDActivity implements DelayerCallback {
                         final FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(com.philips.platform.uid.test.R.id.container, fragment);
                         fragmentTransaction.commitAllowingStateLoss();
+                        sendMessage();
                     }
                 });
     }

@@ -163,7 +163,7 @@ public class EditTextTest {
 
     @Test
     public void verifyFocusedTextBoxBorderColor() {
-        int expectedBorderColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidTextBoxDefaultFocusFocusBorderColor);
+        int expectedBorderColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidTextBoxDefaultFocusBorderColor);
         getTextBox().check(matches(FunctionDrawableMatchers.isSameStrokeColor(TestConstants.FUNCTION_GET_BACKGROUND, android.R.attr.state_focused, expectedBorderColor, R.id.uid_texteditbox_stroke_drawable)));
     }
 

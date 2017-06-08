@@ -21,7 +21,6 @@ import android.util.AttributeSet;
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
-import com.philips.platform.uid.utils.UIDUtils;
 
 public class ImageButton extends AppCompatButton {
     private ColorStateList drawableColorlist;

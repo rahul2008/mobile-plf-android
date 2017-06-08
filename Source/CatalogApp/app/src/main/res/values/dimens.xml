@@ -72,5 +72,9 @@
     <dimen name="notifaction_badge_edit_text_margin_top_bottom">12dp</dimen>
     <dimen name="notification_default_margin">50dp</dimen>
     <dimen name="notification_small_margin">40dp</dimen>
+    <dimen name="dot_navigation_item_icon_size">48dp</dimen>
+    <dimen name="dot_navigation_item_text_height">24dp</dimen>
+    <dimen name="dot_navigation_item_text_size">16sp</dimen>
+    <dimen name="rating_bar_reset_button_width">224dp</dimen>
 
 </resources>
