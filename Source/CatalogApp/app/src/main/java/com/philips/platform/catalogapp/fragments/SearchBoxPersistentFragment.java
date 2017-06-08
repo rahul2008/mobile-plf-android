@@ -102,7 +102,7 @@ public class SearchBoxPersistentFragment extends BaseFragment {
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.menu_set_theme_settings).setVisible(false);
-        menu.findItem(R.id.menu_theme_settings).setVisible(false);
+        menu.findItem(R.id.menu_theme_settings).setVisible(true);
         menu.findItem(R.id.country_search).setVisible(false);
         searchBox = (SearchBox) menu.findItem(R.id.country_search).getActionView();
         searchBox.setQuery(query);
