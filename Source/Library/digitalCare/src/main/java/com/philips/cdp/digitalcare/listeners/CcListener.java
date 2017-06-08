@@ -11,25 +11,23 @@ public interface CcListener {
 
     /**
      * @param mainMenuItem
-     * @return Click Event of the Button in  the Support Screen
+     * @return Click Event of the Main menu Button in  the Support Screen
      */
     boolean onMainMenuItemClicked(String mainMenuItem);
 
 
     /**
-     * Returns the booleanValue onClick on the Products Menu
      *
      * @param productMenu
-     * @return
+     * @return Click Event of the product menu Button in  the product information Screen
      */
     boolean onProductMenuItemClicked(String productMenu);
 
 
     /**
-     * Retuns the click event onPressing the respective SocialProvider Button.
      *
      * @param socialProviderItem
-     * @return
+     * @return Click Event of the social provider menu Button in  the contact us Screen
      */
     boolean onSocialProviderItemClicked(String socialProviderItem);
 }
