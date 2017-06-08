@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 
-import static java.lang.Thread.sleep;
 import static org.mockito.Mockito.mock;
 
 
@@ -121,7 +120,6 @@ public class SecureStorageTest extends MockitoTestCase {
         String keyStored= "key";
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored,sse));
-        sleep(3);
 //        assertEquals(valueStored, mSecureStorage.fetchValueForKey(keyStored));
         assertTrue(mSecureStorage.removeValueForKey(keyStored));
         assertNull(mSecureStorage.fetchValueForKey(keyStored,sse));
@@ -135,7 +133,6 @@ public class SecureStorageTest extends MockitoTestCase {
         for(iCount=0;iCount<10;iCount++){
             assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored,sse));
         }
-        sleep(4);
         for(iCount=0;iCount<10;iCount++) {
 //            assertEquals(valueStored, mSecureStorage.fetchValueForKey(keyStored));
         }

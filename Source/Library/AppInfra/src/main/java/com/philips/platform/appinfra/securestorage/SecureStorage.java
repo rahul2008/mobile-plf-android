@@ -32,7 +32,6 @@ import java.security.SecureRandom;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.AlgorithmParameterSpec;
 import java.util.Calendar;
-import java.util.TreeMap;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -64,12 +63,10 @@ public class SecureStorage implements SecureStorageInterface {
     private SharedPreferences.Editor editor;
     private Cipher encryptCipher = null;
     private Cipher decryptCipher = null;
-    private TreeMap<String,String> secureStorageCache;
 
     public SecureStorage(AppInfra bAppInfra) {
         mAppInfra = bAppInfra;
         mContext = mAppInfra.getAppInfraContext();
-        secureStorageCache = new TreeMap<>();
     }
 
     /**
@@ -102,10 +99,6 @@ public class SecureStorage implements SecureStorageInterface {
             }
             userKey = getDecodedString(userKey);
             final String userKeyFinal = userKey;
-            secureStorageCache.put(userKey, valueToBeEncrypted);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
                     boolean returnResult;
                     try {
                         final SecretKey secretKey = generateAESKey(); // generate AES key
@@ -128,7 +121,6 @@ public class SecureStorage implements SecureStorageInterface {
                             secureStorageError.setErrorCode(SecureStorageError.secureStorageError.StoreError);
                         }
                         encryptedString = returnResult ? encryptedString : null; // if save of encryption data fails return null
-                        secureStorageCache.remove(userKeyFinal);
                         final boolean isDebuggable = (0 != (mContext.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
                         if (isDebuggable) {
                             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, "Encrypted Data", encryptedString);
@@ -137,12 +129,9 @@ public class SecureStorage implements SecureStorageInterface {
                     catch (Exception e) {
                         secureStorageError.setErrorCode(SecureStorageError.secureStorageError.EncryptionError);
                         returnResult = false;
-                        secureStorageCache.remove(userKeyFinal);
                         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage", e.getMessage());
                         //Log.e("SecureStorage", Log.getStackTraceString(e));
                     }
-                }
-            }).start();
 
         postLog(startTime, " duration for executing storeValueForKey ");
         return true;
@@ -165,33 +154,28 @@ public class SecureStorage implements SecureStorageInterface {
             return null;
         }
         userKey = getDecodedString(userKey);
-        String storedValueInCache = secureStorageCache.get(userKey);
-        if (storedValueInCache == null) {
-            final String encryptedString = fetchEncryptedData(userKey, secureStorageError, DATA_FILE_NAME);
-            final String encryptedAESString = fetchEncryptedData(userKey, secureStorageError, KEY_FILE_NAME);
-            if (null == encryptedString || null == encryptedAESString) {
-                secureStorageError.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
-                postLog(startTime, " duration for executing fetchValueForKey ");
-                return null; // if user entered key is not present
-            }
-            try {
-                final Key key = fetchKey(encryptedAESString, secureStorageError);
-                final Cipher cipher = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
-                final byte[] ivBlockSize = new byte[cipher.getBlockSize()];
-                final IvParameterSpec ivParameterSpec = new IvParameterSpec(ivBlockSize);
-                cipher.init(Cipher.DECRYPT_MODE, key, ivParameterSpec);
-                final byte[] encryptedValueBytes = Base64.decode(encryptedString, Base64.DEFAULT);
-                final byte[] decText = cipher.doFinal(encryptedValueBytes); // decrypt string value using AES key
-                decryptedString = new String(decText);
+        final String encryptedString = fetchEncryptedData(userKey, secureStorageError, DATA_FILE_NAME);
+        final String encryptedAESString = fetchEncryptedData(userKey, secureStorageError, KEY_FILE_NAME);
+        if (null == encryptedString || null == encryptedAESString) {
+            secureStorageError.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
+            postLog(startTime, " duration for executing fetchValueForKey ");
+            return null; // if user entered key is not present
+        }
+        try {
+            final Key key = fetchKey(encryptedAESString, secureStorageError);
+            final Cipher cipher = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
+            final byte[] ivBlockSize = new byte[cipher.getBlockSize()];
+            final IvParameterSpec ivParameterSpec = new IvParameterSpec(ivBlockSize);
+            cipher.init(Cipher.DECRYPT_MODE, key, ivParameterSpec);
+            final byte[] encryptedValueBytes = Base64.decode(encryptedString, Base64.DEFAULT);
+            final byte[] decText = cipher.doFinal(encryptedValueBytes); // decrypt string value using AES key
+            decryptedString = new String(decText);
 
-            } catch (Exception e) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage", e.getMessage());
-                //Log.e("SecureStorage", Log.getStackTraceString(e));
-                secureStorageError.setErrorCode(SecureStorageError.secureStorageError.DecryptionError);
-                decryptedString = null; // if exception is thrown at:  decryptedString = new String(decText);
-            }
-        } else {
-            decryptedString = storedValueInCache;
+        } catch (Exception e) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SecureStorage", e.getMessage());
+            //Log.e("SecureStorage", Log.getStackTraceString(e));
+            secureStorageError.setErrorCode(SecureStorageError.secureStorageError.DecryptionError);
+            decryptedString = null; // if exception is thrown at:  decryptedString = new String(decText);
         }
         postLog(startTime, " duration for executing fetchValueForKey ");
         return decryptedString;
