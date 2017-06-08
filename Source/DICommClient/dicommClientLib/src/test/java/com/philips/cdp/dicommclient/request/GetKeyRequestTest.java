@@ -18,6 +18,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class GetKeyRequestTest {
+
     @Mock
     ResponseHandler responseHandlerMock;
 
@@ -69,7 +70,7 @@ public class GetKeyRequestTest {
         Response getKeyRequestResponse = getKeyRequest.execute();
         getKeyRequestResponse.notifyResponseHandler();
 
-        verify(responseHandlerMock).onError(Error.REQUEST_FAILED, "Key missing in response");
+        verify(responseHandlerMock).onError(Error.REQUEST_FAILED, GetKeyRequest.KEY_MISSING_IN_RESPONSE_MESSAGE);
     }
 
     @Test
@@ -84,6 +85,36 @@ public class GetKeyRequestTest {
         Response getKeyRequestResponse = getKeyRequest.execute();
         getKeyRequestResponse.notifyResponseHandler();
 
-        verify(responseHandlerMock).onError(Error.REQUEST_FAILED, "Key missing in response");
+        verify(responseHandlerMock).onError(Error.REQUEST_FAILED, GetKeyRequest.KEY_MISSING_IN_RESPONSE_MESSAGE);
+    }
+
+    @Test
+    public void whenRequestFailed_andResponseMessageIsNull_thenErrorIsReported() throws Exception {
+        GetKeyRequest getKeyRequest = new GetKeyRequest("don't care", 1, false, responseHandlerMock) {
+            @Override
+            Response doExecute() {
+                return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
+            }
+        };
+
+        Response getKeyRequestResponse = getKeyRequest.execute();
+        getKeyRequestResponse.notifyResponseHandler();
+
+        verify(responseHandlerMock).onError(Error.REQUEST_FAILED, null);
+    }
+
+    @Test
+    public void whenRequestFailed_andResponseMessageIsNotNull_thenErrorIsReportedWithThatResponseMessage() throws Exception {
+        GetKeyRequest getKeyRequest = new GetKeyRequest("don't care", 1, false, responseHandlerMock) {
+            @Override
+            Response doExecute() {
+                return new Response("tha message", Error.REQUEST_FAILED, mResponseHandler);
+            }
+        };
+
+        Response getKeyRequestResponse = getKeyRequest.execute();
+        getKeyRequestResponse.notifyResponseHandler();
+
+        verify(responseHandlerMock).onError(eq(Error.REQUEST_FAILED), eq("tha message"));
     }
 }

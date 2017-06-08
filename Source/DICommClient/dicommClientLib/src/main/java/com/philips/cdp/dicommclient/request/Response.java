@@ -8,6 +8,7 @@ package com.philips.cdp.dicommclient.request;
 public class Response {
 
 	private final String mResponse;
+
 	private final Error mError;
 	private final ResponseHandler mResponseHandler;
 
@@ -28,4 +29,8 @@ public class Response {
 	public String getResponseMessage(){
 		return mResponse;
 	}
+
+    public Error getError() {
+        return mError;
+    }
 }

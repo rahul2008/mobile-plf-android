@@ -21,6 +21,7 @@ import static android.content.ContentValues.TAG;
 
 public class GetKeyRequest extends LanRequest {
 
+    public static final String KEY_MISSING_IN_RESPONSE_MESSAGE = "Key missing in response";
     private static final String SECURITY_PORTNAME = "security";
     private static final int SECURITY_PRODUCTID = 0;
 
@@ -33,16 +34,20 @@ public class GetKeyRequest extends LanRequest {
         Response response = doExecute();
         String responseData = response.getResponseMessage();
 
-        try {
-            Gson gson = GsonProvider.get();
-            SecurityPortProperties securityPortProperties = gson.fromJson(responseData, SecurityPortProperties.class);
-            if (securityPortProperties.getKey() == null || securityPortProperties.getKey().equals("")) {
-                return new Response("Key missing in response", Error.REQUEST_FAILED, mResponseHandler);
+        if (response.getError() == null) {
+            try {
+                Gson gson = GsonProvider.get();
+                SecurityPortProperties securityPortProperties = gson.fromJson(responseData, SecurityPortProperties.class);
+                if (securityPortProperties.getKey() == null || securityPortProperties.getKey().equals("")) {
+                    return new Response("Key missing in response", Error.REQUEST_FAILED, mResponseHandler);
+                }
+                return new Response(securityPortProperties.getKey(), null, mResponseHandler);
+            } catch (JsonSyntaxException e) {
+                DICommLog.e(TAG, e.getMessage());
+                return new Response(e.getMessage(), Error.REQUEST_FAILED, mResponseHandler);
             }
-            return new Response(securityPortProperties.getKey(), null, mResponseHandler);
-        } catch (JsonSyntaxException e) {
-            DICommLog.e(TAG, e.getMessage());
-            return new Response(e.getMessage(), Error.REQUEST_FAILED, mResponseHandler);
+        } else {
+            return new Response(responseData, Error.REQUEST_FAILED, mResponseHandler);
         }
     }
 
