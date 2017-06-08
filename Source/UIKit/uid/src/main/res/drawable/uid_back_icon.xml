@@ -5,7 +5,7 @@
     android:viewportWidth="24"
     android:viewportHeight="24">
     <path
-        android:strokeColor="?attr/uidControlPrimary"
+        android:strokeColor="?attr/uidSearchBoxAndroidDefaultFocusBackIconColor"
         android:strokeWidth="2"
         android:strokeMiterLimit="10"
         android:pathData="M 17.1 1.7 L 6.9 12 L 17.1 22.3 " />
