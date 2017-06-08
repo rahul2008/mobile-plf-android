@@ -6,7 +6,6 @@
 package com.philips.platform.appinfra.securestorage;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.MockitoTestCase;
@@ -18,8 +17,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 
+import static java.lang.Thread.sleep;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 
 /**
@@ -108,19 +107,6 @@ public class SecureStorageTest extends MockitoTestCase {
 
     }
 
-    public void testSharedPreferences(){
-        final SharedPreferences sharedPreferencesMock = mock(SharedPreferences.class);
-        when(sharedPreferencesMock.getString("key",null)).thenReturn("value");
-        when(sharedPreferencesMock.getString("",null)).thenReturn(null);
-        when(sharedPreferencesMock.getString(null,null)).thenReturn(null);
-        SecureStorage secureStorage = new SecureStorage(mAppInfra){
-
-            private SharedPreferences getSharedPreferences() {
-                return sharedPreferencesMock;
-            }
-        };
-    }
-
     public void testRemoveValueForKey() throws Exception {
 
         assertFalse(mSecureStorage.removeValueForKey(""));
@@ -135,6 +121,7 @@ public class SecureStorageTest extends MockitoTestCase {
         String keyStored= "key";
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored,sse));
+        sleep(3);
 //        assertEquals(valueStored, mSecureStorage.fetchValueForKey(keyStored));
         assertTrue(mSecureStorage.removeValueForKey(keyStored));
         assertNull(mSecureStorage.fetchValueForKey(keyStored,sse));
@@ -148,6 +135,7 @@ public class SecureStorageTest extends MockitoTestCase {
         for(iCount=0;iCount<10;iCount++){
             assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored,sse));
         }
+        sleep(4);
         for(iCount=0;iCount<10;iCount++) {
 //            assertEquals(valueStored, mSecureStorage.fetchValueForKey(keyStored));
         }
