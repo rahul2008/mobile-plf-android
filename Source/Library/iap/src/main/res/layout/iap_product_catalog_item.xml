@@ -41,16 +41,19 @@
             app:uidLabelTextSize="16sp" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/product_detail_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/image">
+
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/iap_retailerItem_productName_lebel"
         fontPath="fonts/iapCentralesansBookFont.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/border4_margin"
-        android:lineSpacingExtra="@dimen/border4_margin"
-        android:layout_marginEnd="@dimen/border16_margin_left_right"
-        android:layout_toEndOf="@id/image"
-        android:layout_toStartOf="@id/price_container"
         android:text="DiamondClean"
         android:textColor="@color/uid_gray_level_75"
         app:uidLabelTextSize="16sp" />
@@ -60,12 +63,11 @@
         fontPath="fonts/iapCentralesansBookFont.ttf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/iap_retailerItem_productName_lebel"
-        android:layout_marginBottom="@dimen/border4_margin"
-        android:layout_toEndOf="@id/image"
         android:text="HX8332/11"
         android:textColor="@color/uid_gray_level_35"
         app:uidLabelTextSize="12sp" />
+
+    </LinearLayout>
 
     <com.shamanland.fonticon.FontIconTextView
         android:id="@+id/arrow"
