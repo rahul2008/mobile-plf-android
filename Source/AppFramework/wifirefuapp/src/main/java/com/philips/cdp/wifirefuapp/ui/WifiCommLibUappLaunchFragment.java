@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
-import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
@@ -30,6 +29,7 @@ import com.philips.cdp.wifirefuapp.R;
 import com.philips.cdp.wifirefuapp.consents.ConsentDialogFragment;
 import com.philips.cdp.wifirefuapp.devicesetup.SampleApplianceFactory;
 import com.philips.cdp.wifirefuapp.devicesetup.SampleKpsConfigurationInfo;
+import com.philips.cdp.wifirefuapp.pojo.PairDevicePojo;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
@@ -49,7 +49,7 @@ import java.util.Map;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class WifiCommLibUappLaunchFragment extends Fragment implements BackEventListener ,DevicePairingListener,SubjectProfileListener{
+public class WifiCommLibUappLaunchFragment extends Fragment implements BackEventListener ,DevicePairingListener,SubjectProfileListener,FragmentViewListener{
 
 
     public static String TAG = WifiCommLibUappLaunchFragment.class.getSimpleName();
@@ -61,16 +61,8 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
     private Activity activity;
     private Button consentButton,fetchPairedDevices;
     private CommCentral commCentral;
-
-    /*ListView availableDevicesListView;
-    AvailableDevicesAdapter availableDevicesAdapter;
-    ArrayList<Device> mDeviceAvailableLists = new ArrayList<Device>();
-
-    ListView pairedDevicesListView;
-    PairedDevicesAdapter pairedDevicesAdapter;
-    ArrayList<Device> mDevicePairedList = new ArrayList<Device>();
-
-    private ProgressDialog mProgressDialog;*/
+    private WifiCommLibUappLaunchFragmentPresenter wifiCommLibUappLaunchFragmentPresenter;
+    private PairDevicePojo pairDevicePojo;
 
     @Override
     public void onAttach(Context context) {
@@ -82,17 +74,6 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_main, container, false);
-/*
-        mProgressDialog =  new ProgressDialog(activity);
-        availableDevicesListView = (ListView) view.findViewById(availableDevicesListView);
-        mDeviceAvailableLists = getAvailableDevices();
-        availableDevicesAdapter = new AvailableDevicesAdapter(activity, mDeviceAvailableLists,WifiCommLibUappLaunchFragment.this); // initialize with available devices
-        availableDevicesListView.setAdapter(availableDevicesAdapter);
-
-        pairedDevicesListView = (ListView) view.findViewById(R.id.discoveredDevicesListView);
-        pairedDevicesAdapter = new PairedDevicesAdapter(activity, mDevicePairedList, WifiCommLibUappLaunchFragment.this);
-        pairedDevicesListView.setAdapter(pairedDevicesAdapter);
-*/
 
         consentButton = (Button) view.findViewById(R.id.consentButton);
         fetchPairedDevices = (Button) view.findViewById(R.id.fetchListOfPairedDevices);
@@ -143,12 +124,8 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
     @Override
     public void onResume() {
         super.onResume();
+        wifiCommLibUappLaunchFragmentPresenter = new WifiCommLibUappLaunchFragmentPresenter(WifiCommLibUappLaunchFragment.this);
         setUpDiscoveryManager();
-        discoveryManager.addDiscoveryEventListener(discoveryEventListener);
-        discoveryManager.start();
-
-        applianceAdapter.clear();
-        applianceAdapter.addAll(discoveryManager.getAllDiscoveredAppliances());
     }
 
     @Override
@@ -159,6 +136,7 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
     }
 
     private void setUpDiscoveryManager() {
+
         applianceAdapter = new ArrayAdapter<Appliance>(activity, android.R.layout.simple_list_item_2, android.R.id.text1) {
             public View getView(final int position, final View convertView, final ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -174,13 +152,25 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
         listViewAppliances.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                CurrentApplianceManager.getInstance().setCurrentAppliance(applianceAdapter.getItem(position));
-                getActivity().getSupportFragmentManager().beginTransaction().replace(fragmentLauncher.getParentContainerResourceID(),new WifiCommLinUappWifiDetailFragment(),"WifiDetailFragment").commit();
+                //CurrentApplianceManager.getInstance().setCurrentAppliance(applianceAdapter.getItem(position));
+                wifiCommLibUappLaunchFragmentPresenter.onPairDevice(getPairDevicePojo(discoveryManager.getAllDiscoveredAppliances().get(position)));
             }
         });
 
         discoveryManager = DiscoveryManager.getInstance();
+        discoveryManager.addDiscoveryEventListener(discoveryEventListener);
+        discoveryManager.start();
 
+        applianceAdapter.clear();
+        applianceAdapter.addAll(discoveryManager.getAllDiscoveredAppliances());
+
+    }
+
+    private PairDevicePojo getPairDevicePojo(Appliance appliance) {
+        pairDevicePojo = new PairDevicePojo();
+        pairDevicePojo.setDeviceID(appliance.getNetworkNode().getCppId());
+        pairDevicePojo.setDeviceType(appliance.getNetworkNode().getDeviceType());
+        return pairDevicePojo;
     }
 
     private DiscoveryEventListener discoveryEventListener = new DiscoveryEventListener() {
@@ -257,5 +247,10 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
     @Override
     public void onGetPairedDevicesResponse(List<String> list) {
             Log.d(TAG,"::::Size of paired devices : "+list.size());
+    }
+
+    @Override
+    public Context getActivityContext() {
+        return getActivity();
     }
 }

@@ -25,10 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * Created by sangamesh on 08/11/16.
- */
-
 public class ConsentDialogFragment extends Fragment implements DBRequestListener<ConsentDetail>,DBFetchRequestListner<ConsentDetail>,DBChangeListener, View.OnClickListener {
 
     private RecyclerView mRecyclerView;
