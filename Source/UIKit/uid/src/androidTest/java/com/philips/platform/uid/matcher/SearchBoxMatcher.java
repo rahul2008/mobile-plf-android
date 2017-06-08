@@ -9,10 +9,15 @@ package com.philips.platform.uid.matcher;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.text.AndroidCharacter;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.philips.platform.uid.R;
+import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.view.widget.SearchBox;
 
 import org.hamcrest.Matcher;
@@ -135,6 +140,55 @@ public class SearchBoxMatcher {
                 SearchBox searchBox = (SearchBox) view;
                 AutoCompleteTextView textView = searchBox.getSearchTextView();
                 return TextViewPropertiesMatchers.isSameTypeface(activity, textView.getTypeface(), fontPath).matches(textView);
+            }
+        };
+    }
+
+    public static Matcher<View> isSameTextColor(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+
+            @Override
+            protected boolean matchesSafely(View view) {
+                SearchBox searchBox = (SearchBox) view;
+                View textView = searchBox.getSearchTextView();
+                return TextViewPropertiesMatchers.isSameTextColor(expectedValue).matches(textView);
+            }
+        };
+    }
+
+    public static Matcher<View> isSameHintTextColor(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+
+            @Override
+            protected boolean matchesSafely(View view) {
+                SearchBox searchBox = (SearchBox) view;
+                View textView = searchBox.getSearchTextView();
+                return TextViewPropertiesMatchers.isSameHintTextColor(android.R.attr.state_enabled, expectedValue).matches(textView);
+            }
+        };
+    }
+
+    public static Matcher<View> isSameFillColor(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+
+            @Override
+            protected boolean matchesSafely(View view) {
+                SearchBox searchBox = (SearchBox) view;
+                LinearLayout searchBoxViewById = (LinearLayout) searchBox.findViewById(com.philips.platform.uid.test.R.id.uid_search_box_layout);
+                return ViewPropertiesMatchers.hasSameColorDrawableBackgroundColor(expectedValue).matches(searchBoxViewById);
+            }
+        };
+    }
+
+    public static Matcher<View> isSameIconColor(final int expectedValue) {
+        return new BaseTypeSafteyMatcher<View>() {
+
+            @Override
+            protected boolean matchesSafely(View view) {
+                SearchBox searchBox = (SearchBox) view;
+                ImageView backIcon = searchBox.getBackButton();
+                Drawable drawable = backIcon.getDrawable();
+                return DrawableMatcher.isSameStrokeColor(new int[android.R.attr.state_enabled], expectedValue).matches(drawable);
             }
         };
     }
