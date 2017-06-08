@@ -42,6 +42,7 @@ import java.io.Serializable;
  */
 public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Serializable {
 
+    private final String AppInfraComponentID = "ail:";
     private SecureStorageInterface secureStorage;
     private LoggingInterface logger;
     private AppTaggingInterface tagging;
@@ -53,7 +54,6 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
     private AppConfigurationInterface configInterface;
     private RestInterface mRestInterface;
     private ABTestClientInterface mAbtesting;
-    private final String AppInfraComponentID ="ail:";
     private AppUpdateInterface mAppupdateInterface;
 
 
@@ -63,6 +63,153 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
     private Context appInfraContext;
     private LanguagePackInterface mLanguagePackInterface;
 
+
+    private AppInfra(Context pContext) {
+        appInfraContext = pContext;
+    }
+
+    private static void postLog(long startTime, String message) {
+        long endTime = System.currentTimeMillis();
+        long methodDuration = (endTime - startTime);
+        Log.d("", message + methodDuration);
+    }
+
+    public static Object getAutoRefreshValue(AppConfigurationManager appConfigurationManager) {
+        AppConfigurationInterface.AppConfigurationError configurationError = new AppConfigurationInterface.AppConfigurationError();
+        return appConfigurationManager.getPropertyForKey("appUpdate.autoRefresh", "appinfra", configurationError);
+    }
+
+    public Context getAppInfraContext() {
+        return appInfraContext;
+    }
+
+    @Override
+    public TimeInterface getTime() {
+        return mTimeSyncInterface;
+    }
+
+    private void setTime(TimeInterface mTimeSyncInterface) {
+        this.mTimeSyncInterface = mTimeSyncInterface;
+    }
+
+    @Override
+    public SecureStorageInterface getSecureStorage() {
+        return secureStorage;
+    }
+
+    private void setSecureStorage(SecureStorageInterface sec) {
+        secureStorage = sec;
+    }
+
+    @Override
+    public AppIdentityInterface getAppIdentity() {
+        return appIdentity;
+    }
+
+    private void setAppIdentity(AppIdentityInterface identity) {
+        appIdentity = identity;
+
+    }
+
+    @Override
+    public InternationalizationInterface getInternationalization() {
+        return local;
+    }
+
+    @Override
+    public LoggingInterface getLogging() {
+        return logger;
+    }
+
+    private void setLogging(LoggingInterface log) {
+        logger = log;
+        appInfraLogger = logger.createInstanceForComponent(getComponentId(),
+                getVersion());
+    }
+
+    @Override
+    public ServiceDiscoveryInterface getServiceDiscovery() {
+        return mServiceDiscoveryInterface;
+    }
+
+    @Override
+    public AppConfigurationInterface getConfigInterface() {
+        return configInterface;
+    }
+
+    public void setConfigInterface(AppConfigurationInterface configInterface) {
+        this.configInterface = configInterface;
+    }
+
+    @Override
+    public RestInterface getRestClient() {
+        return mRestInterface;
+    }
+
+    @Override
+    public ABTestClientInterface getAbTesting() {
+        return mAbtesting;
+    }
+
+    private void setAbTesting(ABTestClientInterface abTesting) {
+        mAbtesting = abTesting;
+    }
+
+    @Override
+    public LanguagePackInterface getLanguagePack() {
+        return mLanguagePackInterface;
+    }
+
+    @Override
+    public AppUpdateInterface getAppUpdate() {
+        return mAppupdateInterface;
+    }
+
+    public void setLanguagePackInterface(LanguagePackInterface languagePackInterface) {
+        this.mLanguagePackInterface = languagePackInterface;
+    }
+
+    private void setRestInterface(RestInterface restInterface) {
+        mRestInterface = restInterface;
+
+    }
+
+    private void setLocal(InternationalizationInterface locale) {
+        local = locale;
+
+    }
+
+    private void setServiceDiscoveryInterface(ServiceDiscoveryInterface mServiceDiscoveryInterfac) {
+        mServiceDiscoveryInterface = mServiceDiscoveryInterfac;
+    }
+
+    public void setAppupdateInterface(AppUpdateInterface appupdateInterface) {
+        this.mAppupdateInterface = appupdateInterface;
+    }
+
+
+    public AppTaggingInterface getTagging() {
+        return tagging;
+    }
+
+    private void setTagging(AppTaggingInterface tagg) {
+        tagging = tagg;
+
+    }
+
+    public LoggingInterface getAppInfraLogInstance() { // this log should be used withing App Infra library
+        return appInfraLogger;
+    }
+
+    @Override
+    public String getComponentId() {
+        return AppInfraComponentID;
+    }
+
+    @Override
+    public String getVersion() {
+        return BuildConfig.VERSION_NAME;
+    }
 
     /**
      * The type Builder.
@@ -201,6 +348,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
 
         public AppInfra build(Context pContext) {
             Log.v("APPINFRA INT", "AI Intitialization Starts");
+            long startTime = System.currentTimeMillis();
             final AppInfra ai = new AppInfra(pContext);
             final AppConfigurationManager appConfigurationManager=new AppConfigurationManager(ai);
             ai.setConfigInterface(configInterface == null ? appConfigurationManager : configInterface);
@@ -295,154 +443,9 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             } catch (IllegalArgumentException exception) {
                 Log.e("AppConfiguration", exception.toString());
             }
+            postLog(startTime, "App-infra initialization ends with ");
             return ai;
         }
 
-    }
-
-
-    public Context getAppInfraContext() {
-        return appInfraContext;
-    }
-
-    @Override
-    public TimeInterface getTime() {
-        return mTimeSyncInterface;
-    }
-
-    @Override
-    public SecureStorageInterface getSecureStorage() {
-        return secureStorage;
-    }
-
-    @Override
-    public AppIdentityInterface getAppIdentity() {
-        return appIdentity;
-    }
-
-    @Override
-    public InternationalizationInterface getInternationalization() {
-        return local;
-    }
-
-    @Override
-    public LoggingInterface getLogging() {
-        return logger;
-    }
-
-
-    @Override
-    public ServiceDiscoveryInterface getServiceDiscovery() {
-        return mServiceDiscoveryInterface;
-    }
-
-    @Override
-    public AppConfigurationInterface getConfigInterface() {
-        return configInterface;
-    }
-
-    @Override
-    public RestInterface getRestClient() {
-        return mRestInterface;
-    }
-
-    @Override
-    public ABTestClientInterface getAbTesting() {
-        return mAbtesting;
-    }
-
-    @Override
-    public LanguagePackInterface getLanguagePack() {
-        return mLanguagePackInterface;
-    }
-
-    @Override
-    public AppUpdateInterface getAppUpdate() {
-        return mAppupdateInterface;
-    }
-
-    private AppInfra(Context pContext) {
-        appInfraContext = pContext;
-    }
-
-
-    public void setLanguagePackInterface(LanguagePackInterface languagePackInterface) {
-        this.mLanguagePackInterface = languagePackInterface;
-    }
-
-    private void setTime(TimeInterface mTimeSyncInterface) {
-        this.mTimeSyncInterface = mTimeSyncInterface;
-    }
-
-    private void setSecureStorage(SecureStorageInterface sec) {
-        secureStorage = sec;
-    }
-
-    private void setLogging(LoggingInterface log) {
-        logger = log;
-        appInfraLogger = logger.createInstanceForComponent(getComponentId(),
-                getVersion());
-    }
-
-    private void setTagging(AppTaggingInterface tagg) {
-        tagging = tagg;
-
-    }
-
-    private void setRestInterface(RestInterface restInterface) {
-        mRestInterface = restInterface;
-
-    }
-
-    private void setAppIdentity(AppIdentityInterface identity) {
-        appIdentity = identity;
-
-    }
-
-    private void setAbTesting(ABTestClientInterface abTesting) {
-        mAbtesting = abTesting;
-    }
-
-    private void setLocal(InternationalizationInterface locale) {
-        local = locale;
-
-    }
-
-    private void setServiceDiscoveryInterface(ServiceDiscoveryInterface mServiceDiscoveryInterfac) {
-        mServiceDiscoveryInterface = mServiceDiscoveryInterfac;
-    }
-
-    public void setAppupdateInterface(AppUpdateInterface appupdateInterface) {
-        this.mAppupdateInterface = appupdateInterface;
-    }
-
-
-    public AppTaggingInterface getTagging() {
-        return tagging;
-    }
-
-
-    public LoggingInterface getAppInfraLogInstance() { // this log should be used withing App Infra library
-        return appInfraLogger;
-    }
-
-
-    public void setConfigInterface(AppConfigurationInterface configInterface) {
-        this.configInterface = configInterface;
-    }
-
-    @Override
-    public String getComponentId() {
-        return AppInfraComponentID;
-    }
-
-    @Override
-    public String getVersion() {
-        return BuildConfig.VERSION_NAME;
-    }
-
-    public static Object getAutoRefreshValue(AppConfigurationManager appConfigurationManager) {
-        AppConfigurationInterface.AppConfigurationError configurationError = new AppConfigurationInterface.AppConfigurationError();
-        return appConfigurationManager.getPropertyForKey("appUpdate.autoRefresh", "appinfra", configurationError);
     }
 }
