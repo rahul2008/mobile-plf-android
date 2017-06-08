@@ -37,6 +37,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
@@ -58,7 +59,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class BleDiscoveryStrategyTestSteps {
-    private static final int TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS = 300;
+    private static final long TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS = TimeUnit.SECONDS.toMillis(10);
     private CommCentral commCentral;
 
     @Mock
