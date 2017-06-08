@@ -214,7 +214,7 @@ dependencies {
            transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'uid', version: '0.0.6', ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'uid', version: '0.1.1' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
             {
                 transitive = true
             }
