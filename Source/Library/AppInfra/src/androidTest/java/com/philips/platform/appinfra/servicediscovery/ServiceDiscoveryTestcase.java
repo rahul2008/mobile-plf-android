@@ -1,6 +1,8 @@
 package com.philips.platform.appinfra.servicediscovery;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.ConfigValues;
@@ -21,8 +23,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
+
+import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AIL_HOME_COUNTRY;
+import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION;
 
 /**
  * Created by 310238655 on 6/28/2016.
@@ -63,6 +67,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 		testConfig();
 		mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
 		mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
+		mServiceDiscoveryManager.registerOnHomeCountrySet(new TestReceiver());
 		mRequestItemManager = new RequestManager(context, mAppInfra);
 		assertNotNull(mRequestItemManager);
 		mserviceDiscovery = new ServiceDiscovery();
@@ -1269,7 +1274,22 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 		});
 	}
 
+	public void testGetCountry() {
+		String countryCode = "CN";
+		mServiceDiscoveryManager.registerOnHomeCountrySet(new TestReceiver());
+		mServiceDiscoveryManager.setHomeCountry(countryCode);
+		String country = mServiceDiscoveryManager.getHomeCountry();
+		assertTrue(country != null);
+		assertEquals(countryCode,country);
+	}
 
+	class TestReceiver extends BroadcastReceiver {
 
-
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String countryCode = (String) intent.getExtras().get(AIL_HOME_COUNTRY);
+			assertEquals(countryCode, "CN");
+			assertTrue(intent.getAction().equals(AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION));
+		}
+	}
 }

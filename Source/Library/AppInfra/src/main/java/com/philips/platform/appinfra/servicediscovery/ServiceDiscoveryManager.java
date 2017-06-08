@@ -5,10 +5,15 @@
  */
 package com.philips.platform.appinfra.servicediscovery;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -41,6 +46,8 @@ import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryMan
 public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
 
+    public static final String AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION = "ail.servicediscovery.homecountryChanged";
+    public static final String AIL_HOME_COUNTRY = "ail.servicediscovery.homeCountry";
     private static final String COUNTRY = "country";
     private static final String COUNTRY_SOURCE = "country_source";
     private static final String URL_TAG_TEST = "apps%2b%2benv%2btest";
@@ -64,7 +71,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private ServiceDiscoveryInterface.OnGetHomeCountryListener.ERRORVALUES errorvalues;
     private String mCountry;
     private String mCountrySourceType;
-
     /**
      * Instantiates a new Service discovery manager.
      *
@@ -380,13 +386,21 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     }
 
     @Override
-    public void setHomeCountry(String countryCode) {
+    public String getHomeCountry() {
+        String country = fetchFromSecureStorage(COUNTRY);
+        country = TextUtils.isEmpty(country) ? null : country;
+        return country;
+    }
+
+    @Override
+    public void setHomeCountry(final String countryCode) {
         if (countryCode != null && countryCode.length() == 2) {
             final String country = fetchFromSecureStorage(COUNTRY);
             if (!countryCode.equals(country)) { // entered country is different then existing
                 this.countryCode = countryCode;
                 countryCodeSource = OnGetHomeCountryListener.SOURCE.STOREDPREFERENCE;
                 saveToSecureStore(countryCode, countryCodeSource.toString());
+                sendBroadcast(countryCode);
                 serviceDiscovery = null;  // if there is no internet then also old SD value must be cleared.
                 mRequestItemManager.clearCacheServiceDiscovery(); // clear SD cache
                 queueResultListener(true, new AbstractDownloadItemListener() {
@@ -395,6 +409,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Force Refresh is done", "Force Refresh is done");
                     }
                 });
+
             } else {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SAME COUNTRY", "Entered Country code is same as old one");
             }
@@ -797,6 +812,39 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Sending the broadcast event .
+     * @param data Updated home country code
+     */
+    private void sendBroadcast(final String data) {
+        Intent intent = new Intent(AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION);
+        intent.putExtra(AIL_HOME_COUNTRY, data);
+        LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
+                .sendBroadcast(intent);
+    }
+
+    @Override
+    public void unRegisterHomeCountrySet(final BroadcastReceiver receiver) {
+        if(receiver != null && mAppInfra.getAppInfraContext() != null)  {
+            LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
+                    .unregisterReceiver(receiver);
+        } else {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                    "unregister Home country update", "" + "context is null");
+        }
+    }
+
+    @Override
+    public void registerOnHomeCountrySet(final BroadcastReceiver receiver) {
+        if(receiver != null && mAppInfra.getAppInfraContext() != null)  {
+            LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
+                    .registerReceiver(receiver, new IntentFilter(AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION));
+        } else {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                    "unregister Home country update ", "" + "context is null");
+        }
     }
 
     /**
