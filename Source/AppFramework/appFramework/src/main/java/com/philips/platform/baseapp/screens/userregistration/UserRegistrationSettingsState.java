@@ -5,7 +5,6 @@
 */
 package com.philips.platform.baseapp.screens.userregistration;
 
-import android.util.Log;
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
