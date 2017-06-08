@@ -6,7 +6,7 @@
         android:id="@+id/app_actionbar"
         layout="@layout/action_bar" />
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/appversion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

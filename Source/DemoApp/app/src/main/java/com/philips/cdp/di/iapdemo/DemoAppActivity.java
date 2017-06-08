@@ -51,7 +51,7 @@ import java.util.ArrayList;
 public class DemoAppActivity extends UiKitActivity implements View.OnClickListener, IAPListener,
         UserRegistrationUIEventListener, UserRegistrationListener {
 
-    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_VeryLight;
+    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
     private DemoApplication mApplicationContext;
 
     private LinearLayout mAddCTNLl;
@@ -144,7 +144,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         if (themeIndex <= 0) {
             themeIndex = DEFAULT_THEME;
         }
-        UIDHelper.init(new ThemeConfiguration(this, ContentColor.VERY_LIGHT, NavigationColor.VERY_DARK));
+        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.VERY_DARK));
         getTheme().applyStyle(themeIndex, true);
     }
 

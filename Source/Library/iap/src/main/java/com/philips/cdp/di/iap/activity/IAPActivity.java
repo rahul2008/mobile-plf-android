@@ -47,7 +47,7 @@ import com.philips.platform.uid.thememanager.UIDHelper;
 import java.util.ArrayList;
 
 public class IAPActivity extends UiKitActivity implements ActionBarListener, IAPListener {
-    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_VeryLight;
+    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
     private TextView mTitleTextView;
     private TextView mCountText;
     private ImageView mBackImage;
