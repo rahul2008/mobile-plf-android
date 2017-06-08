@@ -25,6 +25,8 @@ import org.mockito.Mockito;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
@@ -96,11 +98,30 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
         appInfra = Mockito.mock(AppInfra.class);
         languagePackInterface = Mockito.mock(LanguagePackInterface.class);
         Mockito.when(appInfra.getLanguagePack()).thenReturn(languagePackInterface);
-        LanguagePackInterface.OnRefreshListener onRefreshListener = Mockito.mock(LanguagePackInterface.OnRefreshListener.class);
-        languagePackInterface.refresh(onRefreshListener);
-        //Mockito.when(onRefreshListener.onSuccess())
+        languagePackInterface.refresh(new LanguagePackInterface.OnRefreshListener() {
+            @Override
+            public void onError(AILPRefreshResult ailpRefreshResult, String s) {
+
+            }
+
+            @Override
+            public void onSuccess(AILPRefreshResult ailpRefreshResult) {
+                assertEquals(ailpRefreshResult, AILPRefreshResult.REFRESHED_FROM_SERVER);
+
+                languagePackInterface.activate(new LanguagePackInterface.OnActivateListener() {
+                    @Override
+                    public void onSuccess(String s) {
+                        assertNotNull(s);
+                    }
+
+                    @Override
+                    public void onError(AILPActivateResult ailpActivateResult, String s) {
+
+                    }
+                });
+            }
+        });
 
     }
-
 
 }
