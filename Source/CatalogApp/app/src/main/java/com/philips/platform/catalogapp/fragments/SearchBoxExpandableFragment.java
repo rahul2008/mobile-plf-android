@@ -12,15 +12,15 @@ import android.widget.AdapterView;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.dataUtils.StateListAdapter;
-import com.philips.platform.catalogapp.databinding.FragmentSearchBoxBinding;
+import com.philips.platform.catalogapp.databinding.FragmentSearchBoxExpandableBinding;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.SearchBox;
 
 import java.util.Arrays;
 
-public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandListener, SearchBox.QuerySubmitListener{
+public class SearchBoxExpandableFragment extends BaseFragment implements SearchBox.ExpandListener, SearchBox.QuerySubmitListener{
 
-    private FragmentSearchBoxBinding fragmentSearchBoxBinding;
+    private FragmentSearchBoxExpandableBinding fragmentSearchBoxExpandableBinding;
     private SearchBox searchBox;
     String query;
     boolean searchIconExpanded = true;
@@ -87,8 +87,8 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        fragmentSearchBoxBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_box, container, false);
-        fragmentSearchBoxBinding.setFrag(this);
+        fragmentSearchBoxExpandableBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_box_expandable, container, false);
+        fragmentSearchBoxExpandableBinding.setFrag(this);
         navIconToggler = new UIDNavigationIconToggler(getActivity());
 
         if (savedInstanceState != null) {
@@ -96,13 +96,13 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
             searchIconExpanded = savedInstanceState.getBoolean("iconified");
         }
         setListAdapter();
-        return fragmentSearchBoxBinding.getRoot();
+        return fragmentSearchBoxExpandableBinding.getRoot();
     }
 
     private void setListAdapter() {
         stateAdapter = new StateListAdapter(getActivity(), Arrays.asList(STATES));
-        fragmentSearchBoxBinding.countryList.setAdapter(stateAdapter);
-        fragmentSearchBoxBinding.countryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        fragmentSearchBoxExpandableBinding.countryList.setAdapter(stateAdapter);
+        fragmentSearchBoxExpandableBinding.countryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 searchBox.setSearchIconified(true);
@@ -134,15 +134,15 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
     @Override
     public void onSearchExpanded() {
         navIconToggler.hideNavigationIcon();
-        fragmentSearchBoxBinding.countryList.setVisibility(View.VISIBLE);
-        fragmentSearchBoxBinding.searchDescription.setVisibility(View.GONE);
+        fragmentSearchBoxExpandableBinding.countryList.setVisibility(View.VISIBLE);
+        fragmentSearchBoxExpandableBinding.searchDescription.setVisibility(View.GONE);
     }
 
     @Override
     public void onSearchCollapsed() {
         navIconToggler.restoreNavigationIcon();
-        fragmentSearchBoxBinding.countryList.setVisibility(View.GONE);
-        fragmentSearchBoxBinding.searchDescription.setVisibility(View.VISIBLE);
+        fragmentSearchBoxExpandableBinding.countryList.setVisibility(View.GONE);
+        fragmentSearchBoxExpandableBinding.searchDescription.setVisibility(View.VISIBLE);
     }
 
     @Override

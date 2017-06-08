@@ -28,9 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.philips.platform.uid.R;
-
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
-
 
 public class SearchBox extends LinearLayout {
 
