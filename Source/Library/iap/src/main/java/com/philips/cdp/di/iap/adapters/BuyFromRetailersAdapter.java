@@ -66,7 +66,7 @@ public class BuyFromRetailersAdapter extends RecyclerView.Adapter<BuyFromRetaile
             holder.mProductAvailability.setTextColor(ContextCompat.getColor(mContext, R.color.uikit_enricher4));
         }
 
-        final String buyURL = storeEntity.getBuyURL();
+        final String buyURL = storeEntity.getBuyURL()+"source = mobile";
         holder.mArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
