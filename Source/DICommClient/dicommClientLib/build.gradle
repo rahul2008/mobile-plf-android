@@ -1,5 +1,5 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -32,7 +32,6 @@ buildscript { bs ->
 
 apply plugin: 'com.android.library'
 apply plugin: 'pl.droidsonroids.pitest'
-apply plugin: 'jacoco'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
@@ -212,10 +211,6 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestCompile 'com.squareup.assertj:assertj-android:1.1.1'
-}
-
-jacoco {
-    toolVersion = versions.jacoco
 }
 
 pitest {
