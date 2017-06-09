@@ -15,7 +15,6 @@ import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkConstants;
-import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.PRXDependencies;
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.RequestManager;
@@ -57,7 +56,6 @@ public class PRXAssetExecutor {
     }
 
     public void build() {
-        PrxLogger.enablePrxLogger(true);
         executeRequest(prepareAssetBuilder(mCTN));
     }
 

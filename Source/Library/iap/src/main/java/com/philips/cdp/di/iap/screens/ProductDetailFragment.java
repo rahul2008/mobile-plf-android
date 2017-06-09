@@ -284,11 +284,11 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private void handleViews() {
         setTitleAndBackButtonVisibility("Product Detail", true);
         if (ControllerFactory.getInstance().isPlanB()) {
-            mBuyFromRetailers.setText(R.string.iap_buy_now);
+          //  mBuyFromRetailers.setText(R.string.iap_buy_now);
             mAddToCart.setVisibility(View.GONE);
             setCartIconVisibility(false);
         } else {
-            mBuyFromRetailers.setText(R.string.iap_buy_from_retailers);
+          //  mBuyFromRetailers.setText(R.string.iap_buy_from_retailers);
             mAddToCart.setVisibility(View.VISIBLE);
             mAddToCart.setOnClickListener(this);
             Drawable shoppingCartIcon = VectorDrawable.create(mContext, R.drawable.iap_shopping_cart);

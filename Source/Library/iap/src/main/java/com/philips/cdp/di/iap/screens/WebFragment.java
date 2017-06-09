@@ -18,14 +18,14 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.philips.cdp.di.iap.R;
-import com.philips.cdp.uikit.customviews.CircularLineProgressBar;
+import com.philips.platform.uid.view.widget.ProgressBar;
 
 public abstract class WebFragment extends InAppBaseFragment {
 
     public static final String TAG = WebPaymentFragment.class.getName();
     protected WebView mWebView;
     private String mUrl;
-    private CircularLineProgressBar mProgress;
+    private ProgressBar mProgress;
     private boolean mShowProgressBar = true;
 
 
@@ -37,8 +37,7 @@ public abstract class WebFragment extends InAppBaseFragment {
         mWebView.setWebViewClient(new IAPWebViewClient());
         mWebView.getSettings().setJavaScriptEnabled(true);
 
-        mProgress = (CircularLineProgressBar) viewGroup.findViewById(R.id.cl_progress);
-        mProgress.startAnimation(70);
+        mProgress = (ProgressBar) viewGroup.findViewById(R.id.cl_progress);
 
         mUrl = getWebUrl();
         return viewGroup;
