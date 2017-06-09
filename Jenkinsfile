@@ -9,13 +9,14 @@ properties([
 ])
 
 def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_App_chassis@philips.com '
+def errors = []
 
 node ('android&&device') {
 	timestamps {        
 		try {
             stage ('Checkout') {
                 echo "branch to checkout ${BranchName}"
-                checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://git@bitbucket.atlas.philips.com:7999/pr/hor-productregistration-android.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/'+BranchName]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://tfsemea1.ta.philips.com:22/tfs/TPC_Region24/CDP2/_git/prg-android']]])
                 step([$class: 'StashNotifier'])
             }
             if (BranchName =~ /master|develop|release.*/) {
@@ -69,9 +70,16 @@ node ('android&&device') {
                 }            
             } 
         } catch(err) {
-            currentBuild.result = 'FAILURE'
-            error ("Someone just broke the build", err.toString())
-        } finally {         
+            errors << "errors found: ${err}"      
+        } finally {
+            if (errors.size() > 0) {
+                stage ('error reporting') {
+                    currentBuild.result = 'FAILURE'
+                    for (int i = 0; i < errors.size(); i++) {
+                        echo errors[i]; 
+                    }
+                }                
+            }             
             stage('informing') {
             	step([$class: 'StashNotifier'])
             	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
