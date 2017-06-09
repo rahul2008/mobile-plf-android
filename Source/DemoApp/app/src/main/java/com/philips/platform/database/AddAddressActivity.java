@@ -19,7 +19,7 @@ public class AddAddressActivity extends Activity implements OnClickListener {
     SecureDataBaseQueryHelper secureDataBaseQueryHelper;
 
     private EditText firstname_et, lastname_et, address_et, contact_et;
-    private Button reset_btn, submit_btn;
+    private Button reset_btn, submit_btn, bulk_insert;
 
 
     @Override
@@ -37,10 +37,12 @@ public class AddAddressActivity extends Activity implements OnClickListener {
 
         reset_btn = (Button) findViewById(R.id.reset_btn);
         submit_btn = (Button) findViewById(R.id.submit_btn);
+        bulk_insert = (Button) findViewById(R.id.bulk_insert);
 
 
         reset_btn.setOnClickListener(this);
         submit_btn.setOnClickListener(this);
+        bulk_insert.setOnClickListener(this);
     }
 
 
@@ -57,28 +59,27 @@ public class AddAddressActivity extends Activity implements OnClickListener {
 
         switch (v.getId()) {
             case R.id.submit_btn:
-               if (firstname_et.getText().toString().length() > 0 || lastname_et.getText().toString().length() > 0 || address_et.getText().toString().length() > 0 || contact_et.getText().toString().length() > 0) {
+
+                if (firstname_et.getText().toString().length() > 0 || lastname_et.getText().toString().length() > 0 || address_et.getText().toString().length() > 0 || contact_et.getText().toString().length() > 0) {
                     AddressBook addressBook = new AddressBook();
                     addressBook.firstName = firstname_et.getText().toString();
                     addressBook.lastName = lastname_et.getText().toString();
                     addressBook.address = address_et.getText().toString();
                     addressBook.contactNumber = contact_et.getText().toString();
-
-
                     secureDataBaseQueryHelper.createOrInsert(AddressBook.class, addressBook);
-
-
                     reset();
                     showDialog();
                 } else {
                     Toast.makeText(this, "Enter all fields", Toast.LENGTH_SHORT).show();
                 }
-
-               /*secureDataBaseQueryHelper.bulkInsert();*/
                 break;
 
             case R.id.reset_btn:
                 reset();
+                break;
+
+            case R.id.bulk_insert:
+                secureDataBaseQueryHelper.bulkInsert();
                 break;
         }
 
