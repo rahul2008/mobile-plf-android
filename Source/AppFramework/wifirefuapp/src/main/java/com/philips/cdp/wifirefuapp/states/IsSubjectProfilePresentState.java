@@ -66,7 +66,7 @@ public class IsSubjectProfilePresentState extends BaseState implements SubjectPr
 
         }
         else {
-            stateContext.setState(new CheckConsentState(context));
+            stateContext.setState(new CheckConsentState(pairDevicePojo,context));
         }
         if(null != stateContext) {
             stateContext.start();

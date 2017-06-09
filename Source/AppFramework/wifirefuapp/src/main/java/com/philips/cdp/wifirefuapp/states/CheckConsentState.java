@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.philips.cdp.wifirefuapp.consents.ConsentDialogFragment;
 import com.philips.cdp.wifirefuapp.consents.OrmConsentDetail;
-import com.philips.cdp.wifirefuapp.ui.WifiCommLibCreateSubjectProfileFragment;
+import com.philips.cdp.wifirefuapp.pojo.PairDevicePojo;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.SyncType;
@@ -27,10 +27,13 @@ public class CheckConsentState extends BaseState implements DBRequestListener<Co
     private Context context;
     private ProgressDialog mProgressDialog;
     List<OrmConsentDetail> list;
+    StateContext stateContext;
+    private PairDevicePojo pairDevicePojo;
 
-    public CheckConsentState(Context context) {
+    public CheckConsentState(PairDevicePojo pairDevicePojo,Context context) {
         super(context);
         this.context = context;
+        this.pairDevicePojo = pairDevicePojo;
     }
 
     @Override
@@ -69,15 +72,24 @@ public class CheckConsentState extends BaseState implements DBRequestListener<Co
     @Override
     public void onFetchSuccess(List<? extends ConsentDetail> list) {
         dismissProgressDialog();
-
+        stateContext = new StateContext();
+        boolean accepted = false;
         for (OrmConsentDetail ormConsentDetail: (ArrayList<OrmConsentDetail>) list) {
-            if(!ormConsentDetail.getStatus().toString().equals(ConsentDetailStatusType.ACCEPTED.name())){
-                ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().add(new ConsentDialogFragment(),"ConsentFragment").commit();
+            if(ormConsentDetail.getStatus().toString().equals(ConsentDetailStatusType.ACCEPTED.name())){
+                accepted = true;
             }
             else {
-                ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().add(new WifiCommLibCreateSubjectProfileFragment(),"CreateSubjectProfileFragment").commit();
+                accepted = false;
             }
         }
+        if(accepted){
+            ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().add(new ConsentDialogFragment(), "ConsentFragment").commit();
+        }else {
+            stateContext.setState(new CreateSubjectProfileState(pairDevicePojo,context));
+            stateContext.start();
+        }
+
+
     }
 
     @Override
