@@ -8,20 +8,17 @@ node('Android') {
 
     Slack = load "Source/common/jenkins/Slack.groovy"
     Pipeline = load "Source/common/jenkins/Pipeline.groovy"
+    def gradle = 'cd ./Source/cloudcontroller && ./gradlew -PenvCode=${JENKINS_ENV}'
 
     Slack.notify('#conartists') {
         stage('Build') {
-            sh 'cd ./Source/cloudcontroller && ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} assembleRelease'
+            sh "$gradle --refresh-dependencies assembleRelease"
         }
 
-        stage('Unit test') {
+        stage('Test') {
             sh 'find . -path "**build/test-results" -exec rm -r "{}" \\;'
-            sh 'cd ./Source/cloudcontroller && ./gradlew -PenvCode=${JENKINS_ENV} test || true'
+            sh "$gradle lintDebug || true"
             step([$class: 'JUnitResultArchiver', testResults: '**/testDebugUnitTest/*.xml'])
-        }
-
-        stage('Lint') {
-            sh 'cd ./Source/cloudcontroller && ./gradlew -PenvCode=${JENKINS_ENV} lintDebug || true'
             step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
         }
 
@@ -31,12 +28,12 @@ node('Android') {
 
         if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME == "master" || env.BRANCH_NAME =~ "release") {
             stage('Publish') {
-                sh 'cd ./Source/cloudcontroller && ./gradlew -PenvCode=${JENKINS_ENV} zipDocuments artifactoryPublish'
+                sh "$gradle zipDocuments artifactoryPublish"
             }
         }
 
         stage('Save Dependencies') {
-            sh 'cd ./Source/cloudcontroller && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep'
+            sh "$gradle saveResDep"
             archiveArtifacts '**/dependencies.lock'
         }
     }
