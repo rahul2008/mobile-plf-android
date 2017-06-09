@@ -36,6 +36,10 @@ apply plugin: 'maven-publish'
 
 apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
 
+task wrapper(type: Wrapper) {
+    distributionUrl = "https://services.gradle.org/distributions/gradle-3.3-all.zip"
+}
+
 def environment = 'production'
 if (project.hasProperty('envCode')) {
     environment = envCode
