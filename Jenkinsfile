@@ -48,13 +48,11 @@ node('Android') {
         }
 
         stage('Tests') {
-            sh 'rm -rf android-shinelib/Source/ShineLib/shinelib/build/test-results'
-            sh 'rm -rf dicomm-android/Source/DICommClient/dicommClientLib/build/test-results'
-            sh 'rm -rf android-commlib-all/Source/commlib-all-parent/commlib-all/build/test-results'
+            sh 'find . -path "**build/test-results" -exec rm -r "{}" \\;'
             sh "$gradle commlib-all:testDebug commlib-all:lintDebug || true"
             sh "$gradle commlib-all:pitestDebug"
 
-            step([$class: 'JUnitResultArchiver', testResults: '**/build/test-results/*/*.xml'])
+            step([$class: 'JUnitResultArchiver', testResults: '**/testDebugUnitTest/*.xml'])
             step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
             step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class,**/R$*.class,**/BuildConfig.class,**/Manifest*.*,**/*Activity*.*,**/*Fragment*.*'])
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'android-commlib-all/Source/commlib-all-parent/build/report/commlib-all/pitest/debug/', reportFiles: 'index.html', reportName: 'Pitest'])
