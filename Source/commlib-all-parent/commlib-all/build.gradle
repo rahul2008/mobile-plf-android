@@ -32,7 +32,6 @@ buildscript { bs ->
 
 apply plugin: 'com.android.library'
 apply plugin: 'pl.droidsonroids.pitest'
-apply plugin: 'jacoco'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
@@ -189,10 +188,6 @@ dependencies {
 
     testCompile 'info.cukes:cucumber-java:1.2.2'
     testCompile 'info.cukes:cucumber-junit:1.2.2'
-}
-
-jacoco {
-    toolVersion = versions.jacoco
 }
 
 pitest {
