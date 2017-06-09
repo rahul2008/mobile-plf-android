@@ -8,8 +8,8 @@ package com.philips.cdp.prodreg.prxrequest;
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
+import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.registeredproducts.RegisteredResponse;
-import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.request.RequestType;
@@ -58,7 +58,7 @@ public class RegisteredProductsRequest extends PrxRequest {
         PRUiHelper.getInstance().getAppInfraInstance().getServiceDiscovery().getServiceUrlWithCountryPreference(mServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                PrxLogger.i("Registration Request","Registration Request :error :"+errorvalues.toString() + ":  message : "+s );
+                ProdRegLogger.i("Registration Request","Registration Request :error :"+errorvalues.toString() + ":  message : "+s );
             }
             @Override
             public void onSuccess(URL url) {

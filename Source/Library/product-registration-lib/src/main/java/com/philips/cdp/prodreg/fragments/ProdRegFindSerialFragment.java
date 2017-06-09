@@ -15,11 +15,11 @@ import com.android.volley.toolbox.ImageLoader;
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.imagehandler.ImageRequestHandler;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
+import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.model.metadata.MetadataSerNumbSampleContent;
 import com.philips.cdp.prodreg.model.metadata.ProductMetadataResponseData;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.product_registration_lib.R;
-import com.philips.cdp.prxclient.Logger.PrxLogger;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -131,7 +131,7 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
         if (productMetadataResponseData != null) {
             final MetadataSerNumbSampleContent serialNumberSampleContent = productMetadataResponseData.getSerialNumberSampleContent();
             final String asset = serialNumberSampleContent.getAsset();
-            PrxLogger.i("Success values ***", serialNumberSampleContent.getAsset());
+            ProdRegLogger.i("Success values ***", serialNumberSampleContent.getAsset());
             if (asset != null) {
                 PRUiHelper.getInstance().getAppInfraInstance().getServiceDiscovery().
                         getServiceUrlWithCountryPreference(ProdRegConstants.PRODUCTMETADATAREQUEST_SERVICE_ID,
@@ -139,12 +139,12 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
                                     public void onSuccess(URL url) {
 
                                         String uriSubString = (url.getProtocol() + urlBaseSeparator + url.getHost()).concat(asset);
-                                        PrxLogger.i("Success values ***", uriSubString);
+                                        ProdRegLogger.i("Success values ***", uriSubString);
                                         onUrlReceived.onSuccess(uriSubString);
                                     }
 
                                     public void onError(ERRORVALUES error, String message) {
-                                        PrxLogger.i("ERRORVALUES ***", "" + message);
+                                        ProdRegLogger.i("ERRORVALUES ***", "" + message);
                                     }
                                 });
             }
