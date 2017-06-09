@@ -52,7 +52,7 @@ node('Android') {
             sh "$gradle commlib-all:testDebug commlib-all:lintDebug || true"
             sh "$gradle commlib-all:pitestDebug"
 
-            step([$class: 'JUnitResultArchiver', testResults: '**/testDebugUnitTest/*/*.xml'])
+            step([$class: 'JUnitResultArchiver', testResults: '**/testDebugUnitTest/*.xml'])
             step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
             step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class,**/R$*.class,**/BuildConfig.class,**/Manifest*.*,**/*Activity*.*,**/*Fragment*.*'])
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'android-commlib-all/Source/commlib-all-parent/build/report/commlib-all/pitest/debug/', reportFiles: 'index.html', reportName: 'Pitest'])
