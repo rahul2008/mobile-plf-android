@@ -47,6 +47,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
     private String databaseKey;
     private Context context;
     private char[] key;
+    private LoggingInterface appInfraLogger;
 
     /**
      * @param context         Associated content from the application. This is needed to locate the database.
@@ -63,9 +64,16 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
         this.databaseKey = databaseKey;
         createKey();
         key = getKeyValue(databaseKey,mAppInfraInterface);
-        connectionSource = new AndroidConnectionSource(this,key,mAppInfraInterface);
-        mAppInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, "{}: constructed connectionSource {}",null);
+        appInfraLogger = mAppInfraInterface.getLogging().createInstanceForComponent("sdb:",
+                getSecureDbAppVersion());
+        connectionSource = new AndroidConnectionSource(this,key,appInfraLogger);
+        getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, "{}: constructed connectionSource {}",null);
 
+
+    }
+
+    private LoggingInterface getSecureDBLogInstance() {
+        return appInfraLogger;
     }
 
     /**
@@ -120,7 +128,11 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
         this.databaseKey = databaseKey;
         createKey();
         key = getKeyValue(databaseKey,mAppInfraInterface);
-        connectionSource = new AndroidConnectionSource(this,key,mAppInfraInterface);
+        appInfraLogger = mAppInfraInterface.getLogging().createInstanceForComponent("sdb:",
+                getSecureDbAppVersion());
+        connectionSource = new AndroidConnectionSource(this,key,appInfraLogger);
+        getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, "{}: constructed connectionSource {}",null);
+
         if (stream == null) {
             return;
         }
@@ -196,7 +208,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
     public ConnectionSource getConnectionSource() {
         if (!isOpen) {
             // we don't throw this exception, but log it for debugging purposes
-            mAppInfraInterface.getLogging().log(LoggingInterface.LogLevel.WARNING,""+new IllegalStateException(),"Getting connectionSource was called after closed");
+            getSecureDBLogInstance().log(LoggingInterface.LogLevel.WARNING,""+new IllegalStateException(),"Getting connectionSource was called after closed");
         }
         return connectionSource;
     }
@@ -378,7 +390,6 @@ private void createKey()
 
     }
 
-
     public String getSecureDbAppVersion() {
         String mAppVersion=null;
         try {
@@ -392,7 +403,7 @@ private void createKey()
                         "\" [0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?]\" ");
             }
         } else {
-            throw new IllegalArgumentException("Prx Appversion cannot be null");
+            throw new IllegalArgumentException("Secure DB Appversion cannot be null");
         }
         return mAppVersion;
     }

@@ -9,7 +9,6 @@ import com.j256.ormlite.support.BaseConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.support.DatabaseConnectionProxyFactory;
-import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
 
@@ -34,14 +33,16 @@ public class AndroidConnectionSource extends BaseConnectionSource implements Con
 	private final DatabaseType databaseType = new SqliteAndroidDatabaseType();
 	private static DatabaseConnectionProxyFactory connectionProxyFactory;
 	private boolean cancelQueriesEnabled = false;
-	private  AppInfraInterface mAppInfraInterface;
+	private  LoggingInterface loggingInterface;
 	private char[] key;
 
-	public AndroidConnectionSource(SQLiteOpenHelper helper,char[] key, AppInfraInterface mAppInfraInterface) {
+	public AndroidConnectionSource(SQLiteOpenHelper helper,char[] key,LoggingInterface loggingInterface) {
 		this.helper = helper;
 		this.sqliteDatabase = null;
 		this.key=key;
-		this.mAppInfraInterface=mAppInfraInterface;
+		this.loggingInterface=loggingInterface;
+
+
 	}
 
 	public AndroidConnectionSource(SQLiteDatabase sqliteDatabase,char[] key) {
@@ -87,9 +88,9 @@ public class AndroidConnectionSource extends BaseConnectionSource implements Con
 			if (connectionProxyFactory != null) {
 				connection = connectionProxyFactory.createProxy(connection);
 			}
-			mAppInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, "created connection {} for db {}, helper {}",null);
+			loggingInterface.log(LoggingInterface.LogLevel.DEBUG, "created connection {} for db {}, helper {}",null);
 		} else {
-			mAppInfraInterface.getLogging().log(LoggingInterface.LogLevel.DEBUG, "{}: returning read-write connection {}, helper {}",null);
+			loggingInterface.log(LoggingInterface.LogLevel.DEBUG, "{}: returning read-write connection {}, helper {}",null);
 		}
 		return connection;
 	}
