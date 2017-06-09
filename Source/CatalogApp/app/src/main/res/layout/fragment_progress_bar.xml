@@ -286,7 +286,7 @@
 
                 <com.philips.platform.uid.view.widget.ProgressBarWithLabel
                     style="@style/UIDProgressBarHorizontalDeterminateWithMargins"
-                    android:layout_marginTop="@dimen/progress_bar_margin_top_big"
+                    android:layout_marginTop="40dp"
                     android:progress="@{frag.progress}"
                     android:secondaryProgress="@{frag.secondaryProgress}"
                     android:text="@string/label_left_bottom"
