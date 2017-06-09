@@ -18,8 +18,12 @@
     <uses-permission android:name="com.tencent.mm.plugin.permission.WRITE"/>
     <uses-permission android:name="com.tencent.mm.permission.MM_MESSAGE"/>
 
+    <instrumentation android:name="android.test.InstrumentationTestRunner"
+        android:targetPackage="com.philips.cdp.registration"
+        android:label="androidTest" />
 
     <application>
+        <uses-library android:name="android.test.runner" />
 
         <!-- Regitration Api start -->
         <activity
