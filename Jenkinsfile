@@ -21,7 +21,7 @@ node('Android') {
         }
 
         stage('Unit test') {
-            sh 'rm -rf ./Source/ShineLib/shinelib/build/test-results/debug ./Source/ShineLib/pluginreferenceboard/build/test-results/debug'
+            sh 'find . -path "**build/test-results" -exec rm -r "{}" \\;'
             sh "$gradle test lintDebug || true"
         }
 
@@ -30,7 +30,7 @@ node('Android') {
         }
 
         stage("Gather reports") {
-            step([$class: 'JUnitResultArchiver', testResults: 'Source/ShineLib/*/build/test-results/*/*.xml'])
+            step([$class: 'JUnitResultArchiver', testResults: '**/testDebugUnitTest/*.xml'])
             step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
             step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class,**/R$*.class,**/BuildConfig.class,**/Manifest*.*,**/*Activity*.*,**/*Fragment*.*'])
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'Source/ShineLib/build/report/shinelib/pitest/debug/', reportFiles: 'index.html', reportName: 'Pitest'])
