@@ -11,7 +11,6 @@ import com.j256.ormlite.misc.IOUtils;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.table.DatabaseTableConfigLoader;
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -65,10 +64,11 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
         this.databaseKey = databaseKey;
         createKey();
         key = getKeyValue(databaseKey,mAppInfraInterface);
-        connectionSource = new AndroidConnectionSource(this,key,mAppInfraInterface);
         appInfraLogger = mAppInfraInterface.getLogging().createInstanceForComponent("sdb:",
                 getSecureDbAppVersion());
+        connectionSource = new AndroidConnectionSource(this,key,appInfraLogger);
         getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, "{}: constructed connectionSource {}",null);
+
 
     }
 
@@ -128,7 +128,11 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
         this.databaseKey = databaseKey;
         createKey();
         key = getKeyValue(databaseKey,mAppInfraInterface);
-        connectionSource = new AndroidConnectionSource(this,key,mAppInfraInterface);
+        appInfraLogger = mAppInfraInterface.getLogging().createInstanceForComponent("sdb:",
+                getSecureDbAppVersion());
+        connectionSource = new AndroidConnectionSource(this,key,appInfraLogger);
+        getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, "{}: constructed connectionSource {}",null);
+
         if (stream == null) {
             return;
         }
@@ -399,7 +403,7 @@ private void createKey()
                         "\" [0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?]\" ");
             }
         } else {
-            throw new IllegalArgumentException("Prx Appversion cannot be null");
+            throw new IllegalArgumentException("Secure DB Appversion cannot be null");
         }
         return mAppVersion;
     }

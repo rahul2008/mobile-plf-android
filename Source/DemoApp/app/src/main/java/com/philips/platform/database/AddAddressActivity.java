@@ -57,7 +57,6 @@ public class AddAddressActivity extends Activity implements OnClickListener {
 
         switch (v.getId()) {
             case R.id.submit_btn:
-
                if (firstname_et.getText().toString().length() > 0 || lastname_et.getText().toString().length() > 0 || address_et.getText().toString().length() > 0 || contact_et.getText().toString().length() > 0) {
                     AddressBook addressBook = new AddressBook();
                     addressBook.firstName = firstname_et.getText().toString();
@@ -75,7 +74,7 @@ public class AddAddressActivity extends Activity implements OnClickListener {
                     Toast.makeText(this, "Enter all fields", Toast.LENGTH_SHORT).show();
                 }
 
-               // secureDataBaseQueryHelper.bulkInsert();
+               /*secureDataBaseQueryHelper.bulkInsert();*/
                 break;
 
             case R.id.reset_btn:
