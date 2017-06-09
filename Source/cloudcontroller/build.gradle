@@ -1,7 +1,8 @@
 /*
- * Copyright 2016 (c) Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 buildscript { bs ->
     apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
     apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
@@ -34,6 +35,10 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
 apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
+
+task wrapper(type: Wrapper) {
+    distributionUrl = "https://services.gradle.org/distributions/gradle-3.3-all.zip"
+}
 
 def environment = 'production'
 if (project.hasProperty('envCode')) {
@@ -164,12 +169,6 @@ dependencies {
     }
     testCompile 'org.powermock:powermock-api-mockito:1.6.4'
     testCompile 'org.powermock:powermock-module-junit4:1.6.4'
-}
-
-apply plugin: 'jacoco'
-
-jacoco {
-    toolVersion = versions.jacoco
 }
 
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
