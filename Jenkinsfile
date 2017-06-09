@@ -17,7 +17,7 @@ node('Android') {
         stage('Unit test') {
             sh 'find . -path "**build/test-results" -exec rm -r "{}" \\;'
             sh 'cd ./Source/cloudcontroller && ./gradlew -PenvCode=${JENKINS_ENV} test || true'
-            step([$class: 'JUnitResultArchiver', testResults: '**/testDebugUnitTest/*/*.xml'])
+            step([$class: 'JUnitResultArchiver', testResults: '**/testDebugUnitTest/*.xml'])
         }
 
         stage('Lint') {
