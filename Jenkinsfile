@@ -12,11 +12,11 @@ node('Android') {
 
     Slack.notify('#conartists') {
         stage('Build') {
+            sh 'find . -path "**build/test-results" -exec rm -r "{}" \\;'
             sh "$gradle --refresh-dependencies assembleRelease"
         }
 
         stage('Test') {
-            sh 'find . -path "**build/test-results" -exec rm -r "{}" \\;'
             sh "$gradle lintDebug || true"
             step([$class: 'JUnitResultArchiver', testResults: '**/testDebugUnitTest/*.xml'])
             step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
