@@ -17,7 +17,7 @@ node('Android') {
         }
 
         stage('Test') {
-            sh "$gradle lintDebug || true"
+            sh "$gradle check || true"
             step([$class: 'JUnitResultArchiver', testResults: '**/testDebugUnitTest/*.xml'])
             step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
         }
