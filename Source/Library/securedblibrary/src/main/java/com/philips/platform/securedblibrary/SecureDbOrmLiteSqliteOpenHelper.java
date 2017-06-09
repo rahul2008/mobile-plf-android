@@ -72,7 +72,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
 
     }
 
-    public LoggingInterface getSecureDBLogInstance() {
+    private LoggingInterface getSecureDBLogInstance() {
         return appInfraLogger;
     }
 
