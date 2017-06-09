@@ -229,10 +229,10 @@ public class MainActivity extends UIDActivity {
 
     @Override
     public void onBackPressed() {
-        navigationController.processBackButton();
         if (navigationController.updateStack()) {
             super.onBackPressed();
         }
+        navigationController.processBackButton();
     }
 
     public NavigationController getNavigationController() {

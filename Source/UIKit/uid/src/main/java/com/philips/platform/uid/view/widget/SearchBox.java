@@ -270,6 +270,7 @@ public class SearchBox extends LinearLayout {
             searchTextView.requestFocus();
         }
         searchTextView.requestFocus();
+        searchTextView.setText("");
         requestLayout();
     }
 
