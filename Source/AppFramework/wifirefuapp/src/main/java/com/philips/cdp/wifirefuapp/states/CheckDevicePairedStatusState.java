@@ -1,5 +1,7 @@
 package com.philips.cdp.wifirefuapp.states;
 
+import android.widget.Toast;
+
 import com.philips.cdp.wifirefuapp.pojo.PairDevicePojo;
 import com.philips.platform.core.listeners.DevicePairingListener;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -45,13 +47,20 @@ public class CheckDevicePairedStatusState extends BaseState implements DevicePai
         stateContext = new StateContext();
 
         if(isDevicePaired(list)){
-
+            final List<String> listOfDevices = list;
+            context.getFragmentActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(context.getFragmentActivity(),"Device paired already"+listOfDevices.size(),Toast.LENGTH_SHORT).show();
+                }
+            });
         }
         else {
             stateContext.setState(new IsSubjectProfilePresentState(pairDevicePojo,context));
+            stateContext.start();
         }
 
-        stateContext.start();
+
     }
 
     private boolean isDevicePaired(List<String> list) {

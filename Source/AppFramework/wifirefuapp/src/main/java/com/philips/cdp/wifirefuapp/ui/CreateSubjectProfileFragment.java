@@ -8,16 +8,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.philips.cdp.wifirefuapp.R;
+import com.philips.cdp.wifirefuapp.pojo.PairDevicePojo;
 import com.philips.cdp.wifirefuapp.pojo.SubjectProfilePojo;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
-public class CreateSubjectProfileFragment extends Fragment implements View.OnClickListener {
+public class CreateSubjectProfileFragment extends Fragment implements View.OnClickListener,SubjectProfileViewListener {
 
     private View view;
     private EditText firstName,dob,gender,weight,creationDate;
     private Button createProfileButton;
     private  CreateSubjectProfileFragmentPresenter createProfilePresenter;
+    private PairDevicePojo pairDevicePojo;
+    private FragmentLauncher fragmentLauncher;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -25,7 +31,7 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
 
         setUpViews();
         createProfileButton.setOnClickListener(this);
-        createProfilePresenter = new CreateSubjectProfileFragmentPresenter();
+        createProfilePresenter = new CreateSubjectProfileFragmentPresenter(this);
         return view;
     }
 
@@ -56,9 +62,7 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
     @Override
     public void onClick(View v) {
         if(v.equals(createProfileButton)){
-            if(validate()){
-                createProfilePresenter.createProfile(createSubjectProfilePojo());
-            }
+                createProfilePresenter.createProfile();
         }
     }
 
@@ -75,4 +79,36 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
         }
         return null;
     }
+
+    public void setFragmentLauncher(FragmentLauncher fragmentLauncher){
+        this.fragmentLauncher = fragmentLauncher;
+    }
+    @Override
+    public PairDevicePojo getDevicePojo() {
+        pairDevicePojo.setDeviceID(this.getArguments().getString("DeviceID"));
+        pairDevicePojo.setDeviceType(this.getArguments().getString("DeviceType"));
+        return pairDevicePojo;
+    }
+
+    @Override
+    public FragmentLauncher getFragmentLauncher() {
+        return fragmentLauncher;
+    }
+
+    @Override
+    public boolean validateViews() {
+        return validate();
+    }
+
+    @Override
+    public SubjectProfilePojo getSubjectProfilePojo() {
+        return createSubjectProfilePojo();
+    }
+
+    @Override
+    public void showToastMessage() {
+        Toast.makeText(getActivity(),"Please check the values entered",Toast.LENGTH_SHORT).show();
+    }
+
+
 }

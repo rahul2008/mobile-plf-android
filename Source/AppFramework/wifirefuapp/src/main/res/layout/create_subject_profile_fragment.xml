@@ -28,8 +28,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="First Name"
                 android:inputType="textPersonName"
-                android:text="Name" />
+                android:text="UserTest" />
 
         </LinearLayout>
 
@@ -54,8 +55,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Name" />
+                android:hint="Date of birth"
+                android:inputType="date"
+                android:text="2013-05-05" />
         </LinearLayout>
 
         <LinearLayout
@@ -78,8 +80,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="Gender"
                 android:inputType="textPersonName"
-                android:text="Name" />
+                android:text="Male" />
         </LinearLayout>
 
         <LinearLayout
@@ -102,8 +105,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Name" />
+                android:hint="Weight"
+                android:inputType="number|numberSigned|numberDecimal"
+                android:text="78.88" />
         </LinearLayout>
 
         <LinearLayout
@@ -126,8 +130,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Name" />
+                android:hint="Creation Date"
+                android:inputType="datetime"
+                android:text="2015-10-01T12:11:10.123+0100" />
         </LinearLayout>
 
         <Button

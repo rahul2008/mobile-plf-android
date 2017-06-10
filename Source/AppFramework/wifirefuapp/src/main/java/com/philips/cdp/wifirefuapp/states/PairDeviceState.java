@@ -1,5 +1,8 @@
 package com.philips.cdp.wifirefuapp.states;
 
+import android.util.Log;
+import android.widget.Toast;
+
 import com.philips.cdp.wifirefuapp.pojo.PairDevicePojo;
 import com.philips.platform.core.listeners.DevicePairingListener;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -29,7 +32,12 @@ public class PairDeviceState extends BaseState implements DevicePairingListener 
 
     @Override
     public void onResponse(boolean b) {
-
+        context.getFragmentActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context.getFragmentActivity(),"Successfully paired",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -39,7 +47,8 @@ public class PairDeviceState extends BaseState implements DevicePairingListener 
 
     @Override
     public void onGetPairedDevicesResponse(List<String> list) {
-
+        Toast.makeText(context.getFragmentActivity(),"Successfully paired"+list.size(),Toast.LENGTH_SHORT).show();
+        Log.d("Pair Device","list of paired devices"+list.get(list.size()-1));
     }
 
     @Override
