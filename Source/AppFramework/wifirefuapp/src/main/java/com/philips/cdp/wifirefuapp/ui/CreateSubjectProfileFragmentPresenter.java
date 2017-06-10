@@ -32,7 +32,8 @@ public class CreateSubjectProfileFragmentPresenter implements SubjectProfileList
             @Override
             public void run() {
                 mProgressDialog= new ProgressDialog(subjectProfileViewListener.getFragmentLauncher().getFragmentActivity());
-                mProgressDialog = new ProgressDialog(subjectProfileViewListener.getFragmentLauncher().getFragmentActivity());
+                mProgressDialog.setCancelable(false);
+                mProgressDialog.setMessage("Creating subject profile..please wait.");
                 if(mProgressDialog!=null && !mProgressDialog.isShowing()) {
                     mProgressDialog.show();
                 }

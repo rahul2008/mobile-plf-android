@@ -14,12 +14,17 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.philips.cdp.wifirefuapp.R;
+import com.philips.cdp.wifirefuapp.pojo.PairDevicePojo;
+import com.philips.cdp.wifirefuapp.states.CreateSubjectProfileState;
+import com.philips.cdp.wifirefuapp.states.StateContext;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +41,8 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
     ArrayList<? extends ConsentDetail> consentDetails;
     private Context mContext;
     private DataServicesManager mDataServicesManager;
+    private FragmentLauncher fragmentLauncher;
+    private PairDevicePojo pairDevicePojo;
 
     @Nullable
     @Override
@@ -63,6 +70,13 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
 
     }
 
+    public void setFragmentLauncher(FragmentLauncher fragmentLauncher){
+        this.fragmentLauncher = fragmentLauncher;
+    }
+
+    public void setDeviceDetails(PairDevicePojo pairDevicePojo){
+        this.pairDevicePojo = pairDevicePojo;
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -70,9 +84,32 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
 
     @Override
     public void onSuccess(final List<? extends ConsentDetail> data) {
-
+        dismissProgressDialog();
+        if(isConsentAccepted(data)){
+        }
         refreshUi((ArrayList<OrmConsentDetail>) data);
 
+    }
+
+    private boolean isConsentAccepted(List<? extends ConsentDetail> data) {
+        boolean isAccepted = false;
+        StateContext stateContext = new StateContext();
+        for (ConsentDetail ormConsentDetail: data) {
+            if(ormConsentDetail.getStatus().toString().equalsIgnoreCase(ConsentDetailStatusType.ACCEPTED.name())){
+                isAccepted = true;
+            }
+            else {
+                isAccepted = false;
+                break;
+            }
+        }
+        if(!isAccepted){
+            Toast.makeText(getActivity(),"Consents not accepted, please accept to continue",Toast.LENGTH_SHORT).show();
+        }else {
+            stateContext.setState(new CreateSubjectProfileState(pairDevicePojo,fragmentLauncher));
+            stateContext.start();
+        }
+        return isAccepted;
     }
 
     @Override
@@ -93,7 +130,7 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
         int i = v.getId();
         if (i == R.id.btnOK) {
             lConsentAdapter.updateConsent();
-            dismissConsentDialog();
+            showProgressDialog();
 
         } else if (i == R.id.btnCancel) {
             dismissConsentDialog();
@@ -131,6 +168,7 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
 
     private void showProgressDialog() {
         if(mProgressDialog!=null && !mProgressDialog.isShowing()) {
+            mProgressDialog.setMessage("Updating Consent Data...Please wait");
              mProgressDialog.show();
         }
     }

@@ -95,7 +95,10 @@ public class CheckConsentState extends BaseState implements DBRequestListener<Co
             }
         }
         if(!accepted){
-            context.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(context.getParentContainerResourceID(),new ConsentDialogFragment(), "ConsentFragmentUApp").commit();
+            ConsentDialogFragment consentDialogFragment = new ConsentDialogFragment();
+            consentDialogFragment.setFragmentLauncher(context);
+            consentDialogFragment.setDeviceDetails(pairDevicePojo);
+            context.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(context.getParentContainerResourceID(),consentDialogFragment, "ConsentFragmentUApp").commit();
         }else {
             stateContext.setState(new CreateSubjectProfileState(pairDevicePojo,context));
             stateContext.start();

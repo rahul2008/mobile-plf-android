@@ -172,7 +172,7 @@ public class LaunchFragment extends Fragment implements BackEventListener ,Devic
     //TODO : Remove, done to test the device pair as discovery is not working
     private PairDevicePojo getPairPojo(){
         pairDevicePojo = new PairDevicePojo();
-        pairDevicePojo.setDeviceID("1c5a6bfffecc9129");
+        pairDevicePojo.setDeviceID("1c5a6bfffecc9132");
         pairDevicePojo.setDeviceType("Manual ProductStub");
         return pairDevicePojo;
     }
