@@ -32,8 +32,6 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
         setUpViews();
         createProfileButton.setOnClickListener(this);
         createProfilePresenter = new CreateSubjectProfileFragmentPresenter(this);
-        pairDevicePojo.setDeviceID(this.getArguments().getString("DeviceID"));
-        pairDevicePojo.setDeviceType(this.getArguments().getString("DeviceType"));
         return view;
     }
 
@@ -46,6 +44,9 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
         createProfileButton = (Button) view.findViewById(R.id.create_subject_profile_button);
     }
 
+    public void setDeviceDetails(PairDevicePojo pairDevicePojo){
+        this.pairDevicePojo = pairDevicePojo;
+    }
     private boolean validate() {
         String firstNameText = firstName.getText().toString();
         String dobText = dob.getText().toString();

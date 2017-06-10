@@ -1,7 +1,5 @@
 package com.philips.cdp.wifirefuapp.states;
 
-import android.os.Bundle;
-
 import com.philips.cdp.wifirefuapp.pojo.PairDevicePojo;
 import com.philips.cdp.wifirefuapp.ui.CreateSubjectProfileFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -25,10 +23,7 @@ public class CreateSubjectProfileState extends BaseState {
     void start(StateContext stateContext) {
         CreateSubjectProfileFragment createFrofileFragment = new CreateSubjectProfileFragment();
         createFrofileFragment.setFragmentLauncher(context);
-        Bundle profileBundle = new Bundle();
-        profileBundle.putString("DeviceID",pairDevicePojo.getDeviceID());
-        profileBundle.putString("DeviceType",pairDevicePojo.getDeviceType());
-        createFrofileFragment.setArguments(profileBundle);
+        createFrofileFragment.setDeviceDetails(pairDevicePojo);
         context.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(context.getParentContainerResourceID(),createFrofileFragment,"CreateSubjectProfileFragment").commit();
 
     }
