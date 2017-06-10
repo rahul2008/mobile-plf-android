@@ -18,11 +18,11 @@ import java.util.List;
 
 public class CreateSubjectProfileFragmentPresenter implements SubjectProfileListener{
 
-    private SubjectProfileViewListener subjectProfileViewListener;
+    private CreateSubjectProfileViewListener subjectProfileViewListener;
     private StateContext stateContext;
     private ProgressDialog mProgressDialog;
 
-    public CreateSubjectProfileFragmentPresenter(SubjectProfileViewListener subjectProfileViewListener){
+    public CreateSubjectProfileFragmentPresenter(CreateSubjectProfileViewListener subjectProfileViewListener){
         this.subjectProfileViewListener = subjectProfileViewListener;
 
     }

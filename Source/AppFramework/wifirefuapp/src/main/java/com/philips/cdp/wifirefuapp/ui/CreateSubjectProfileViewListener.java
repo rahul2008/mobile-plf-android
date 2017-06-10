@@ -4,7 +4,7 @@ import com.philips.cdp.wifirefuapp.pojo.PairDevicePojo;
 import com.philips.cdp.wifirefuapp.pojo.SubjectProfilePojo;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
-public interface SubjectProfileViewListener {
+public interface CreateSubjectProfileViewListener {
     PairDevicePojo getDevicePojo();
     FragmentLauncher getFragmentLauncher();
     boolean validateViews();

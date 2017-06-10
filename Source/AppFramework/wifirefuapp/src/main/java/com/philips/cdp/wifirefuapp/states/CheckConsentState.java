@@ -49,6 +49,8 @@ public class CheckConsentState extends BaseState implements DBRequestListener<Co
             @Override
             public void run() {
                 mProgressDialog = new ProgressDialog(context.getFragmentActivity());
+                mProgressDialog.setCancelable(false);
+                mProgressDialog.setMessage("Checking Consent");
                 if(mProgressDialog!=null && !mProgressDialog.isShowing()) {
                     mProgressDialog.show();
                 }

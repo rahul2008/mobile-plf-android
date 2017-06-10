@@ -1,10 +1,12 @@
-package com.philips.cdp.wifirefuapp.ui;
+package com.philips.cdp.wifirefuapp.uappdependencies;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
+import com.philips.cdp.wifirefuapp.ui.LaunchFragment;
+import com.philips.cdp.wifirefuapp.ui.WifiCommLibUappLaunchActivity;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -40,13 +42,13 @@ public class WifiCommLibUappInterface implements UappInterface {
         } else {
             final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             FragmentTransaction fragmentTransaction = (fragmentLauncher.getFragmentActivity()).getSupportFragmentManager().beginTransaction();
-            UappLaunchFragment sampleFragment = new UappLaunchFragment();
+            LaunchFragment sampleFragment = new LaunchFragment();
             Bundle bundle = new Bundle();
             bundle.putString(WELCOME_MESSAGE,sampleMicroAppLaunchInput.getWelcomeMessage());
             sampleFragment.setArguments(bundle);
             sampleFragment.setFragmentLauncher(fragmentLauncher);
-            fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), sampleFragment, UappLaunchFragment.TAG);
-            fragmentTransaction.addToBackStack(UappLaunchFragment.TAG);
+            fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), sampleFragment, LaunchFragment.TAG);
+            fragmentTransaction.addToBackStack(LaunchFragment.TAG);
             fragmentTransaction.commitAllowingStateLoss();
         }
     }

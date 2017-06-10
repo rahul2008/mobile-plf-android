@@ -35,6 +35,8 @@ public class IsSubjectProfilePresentState extends BaseState implements SubjectPr
             @Override
             public void run() {
                 mProgressDialog = new ProgressDialog(context.getFragmentActivity());
+                mProgressDialog.setCancelable(false);
+                mProgressDialog.setMessage("Checking if subject profile is present");
                 if(mProgressDialog!=null && !mProgressDialog.isShowing()) {
                     mProgressDialog.show();
                 }

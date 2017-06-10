@@ -1,4 +1,4 @@
-package com.philips.cdp.wifirefuapp.ui;
+package com.philips.cdp.wifirefuapp.uappdependencies;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.uappinput.UappDependencies;

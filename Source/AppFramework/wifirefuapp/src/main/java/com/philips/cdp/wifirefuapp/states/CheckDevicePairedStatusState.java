@@ -38,6 +38,8 @@ public class CheckDevicePairedStatusState extends BaseState implements DevicePai
             @Override
             public void run() {
                 mProgressDialog = new ProgressDialog(context.getFragmentActivity());
+                mProgressDialog.setCancelable(false);
+                mProgressDialog.setMessage("Checking device paired status");
                 if(mProgressDialog!=null && !mProgressDialog.isShowing()) {
                     mProgressDialog.show();
                 }

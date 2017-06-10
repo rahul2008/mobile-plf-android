@@ -7,13 +7,13 @@ import com.philips.cdp.wifirefuapp.states.CheckDevicePairedStatusState;
 import com.philips.cdp.wifirefuapp.states.StateContext;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
-public class UappLaunchFragmentPresenter {
+public class LaunchFragmentPresenter {
 
-    FragmentViewListener fragmentViewListener;
+    LaunchFragmentViewListener fragmentViewListener;
     StateContext stateContext;
     Context context;
 
-    public UappLaunchFragmentPresenter(FragmentViewListener fragmentViewListener){
+    public LaunchFragmentPresenter(LaunchFragmentViewListener fragmentViewListener){
         this.fragmentViewListener = fragmentViewListener;
 
     }

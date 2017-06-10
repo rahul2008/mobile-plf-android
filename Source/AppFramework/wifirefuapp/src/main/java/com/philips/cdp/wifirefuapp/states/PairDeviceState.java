@@ -37,6 +37,8 @@ public class PairDeviceState extends BaseState implements DevicePairingListener 
             @Override
             public void run() {
                 mProgressDialog = new ProgressDialog(context.getFragmentActivity());
+                mProgressDialog.setCancelable(false);
+                mProgressDialog.setMessage("Pairing device");
                 if(mProgressDialog!=null && !mProgressDialog.isShowing()) {
                     mProgressDialog.show();
                 }

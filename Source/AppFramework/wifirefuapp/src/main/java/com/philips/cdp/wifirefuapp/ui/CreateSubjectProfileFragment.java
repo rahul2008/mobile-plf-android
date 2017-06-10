@@ -15,7 +15,7 @@ import com.philips.cdp.wifirefuapp.pojo.PairDevicePojo;
 import com.philips.cdp.wifirefuapp.pojo.SubjectProfilePojo;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
-public class CreateSubjectProfileFragment extends Fragment implements View.OnClickListener,SubjectProfileViewListener {
+public class CreateSubjectProfileFragment extends Fragment implements View.OnClickListener,CreateSubjectProfileViewListener {
 
     private View view;
     private EditText firstName,dob,gender,weight,creationDate;

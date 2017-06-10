@@ -29,6 +29,7 @@ import com.philips.cdp.wifirefuapp.R;
 import com.philips.cdp.wifirefuapp.devicesetup.SampleApplianceFactory;
 import com.philips.cdp.wifirefuapp.devicesetup.SampleKpsConfigurationInfo;
 import com.philips.cdp.wifirefuapp.pojo.PairDevicePojo;
+import com.philips.cdp.wifirefuapp.uappdependencies.WifiCommLibUappInterface;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
@@ -47,10 +48,10 @@ import java.util.Map;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class UappLaunchFragment extends Fragment implements BackEventListener ,DevicePairingListener,SubjectProfileListener,FragmentViewListener{
+public class LaunchFragment extends Fragment implements BackEventListener ,DevicePairingListener,SubjectProfileListener,LaunchFragmentViewListener {
 
 
-    public static String TAG = UappLaunchFragment.class.getSimpleName();
+    public static String TAG = LaunchFragment.class.getSimpleName();
     private FragmentLauncher fragmentLauncher;
     private TextView welcomeTextView;
     private DiscoveryManager<?> discoveryManager;
@@ -59,7 +60,7 @@ public class UappLaunchFragment extends Fragment implements BackEventListener ,D
     private Activity activity;
     private Button consentButton,fetchPairedDevices;
     private CommCentral commCentral;
-    private UappLaunchFragmentPresenter uappLaunchFragmentPresenter;
+    private LaunchFragmentPresenter uappLaunchFragmentPresenter;
     private PairDevicePojo pairDevicePojo;
 
     @Override
@@ -78,10 +79,10 @@ public class UappLaunchFragment extends Fragment implements BackEventListener ,D
         fetchPairedDevices.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //DataServicesManager.getInstance().getPairedDevices(UappLaunchFragment.this);
-                //DataServicesManager.getInstance().createSubjectProfile("Fwuser","2013-05-05","Male",3.456,"2015-10-01T12:11:10.123+0100",UappLaunchFragment.this);
-                //DataServicesManager.getInstance().getSubjectProfiles(UappLaunchFragment.this);
-                //DataServicesManager.getInstance().deleteSubjectProfile("12a1a43a-68c7-4a10-90b3-1223259fff7a",UappLaunchFragment.this);
+                //DataServicesManager.getInstance().getPairedDevices(LaunchFragment.this);
+                //DataServicesManager.getInstance().createSubjectProfile("Fwuser","2013-05-05","Male",3.456,"2015-10-01T12:11:10.123+0100",LaunchFragment.this);
+                //DataServicesManager.getInstance().getSubjectProfiles(LaunchFragment.this);
+                //DataServicesManager.getInstance().deleteSubjectProfile("12a1a43a-68c7-4a10-90b3-1223259fff7a",LaunchFragment.this);
                 //getActivity().getSupportFragmentManager().beginTransaction().add(new ConsentDialogFragment(), "ConsentFragmentUApp").commit();
             }
         });
@@ -126,7 +127,7 @@ public class UappLaunchFragment extends Fragment implements BackEventListener ,D
     @Override
     public void onResume() {
         super.onResume();
-        uappLaunchFragmentPresenter = new UappLaunchFragmentPresenter(UappLaunchFragment.this);
+        uappLaunchFragmentPresenter = new LaunchFragmentPresenter(LaunchFragment.this);
         setUpDiscoveryManager();
     }
 

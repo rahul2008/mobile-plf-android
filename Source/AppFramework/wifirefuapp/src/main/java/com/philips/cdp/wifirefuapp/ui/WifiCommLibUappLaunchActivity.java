@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.wifirefuapp.R;
+import com.philips.cdp.wifirefuapp.uappdependencies.WifiCommLibUappInterface;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 
@@ -31,7 +32,7 @@ public class WifiCommLibUappLaunchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
-            UappLaunchFragment sampleFragment = new UappLaunchFragment();
+            LaunchFragment sampleFragment = new LaunchFragment();
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 String message = extras.getString(WifiCommLibUappInterface.WELCOME_MESSAGE);

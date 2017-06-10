@@ -1,4 +1,4 @@
-package com.philips.cdp.wifirefuapp.ui;
+package com.philips.cdp.wifirefuapp.uappdependencies;
 
 
 import android.content.Context;
