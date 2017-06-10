@@ -1,5 +1,6 @@
 package com.philips.cdp.wifirefuapp.states;
 
+import android.app.ProgressDialog;
 import android.widget.Toast;
 
 import com.philips.cdp.wifirefuapp.pojo.PairDevicePojo;
@@ -19,6 +20,7 @@ public class CheckDevicePairedStatusState extends BaseState implements DevicePai
     private PairDevicePojo pairDevicePojo;
     private StateContext stateContext;
     private FragmentLauncher context;
+    private ProgressDialog mProgressDialog;
 
     public CheckDevicePairedStatusState(PairDevicePojo pairDevicePojo,FragmentLauncher context){
         super(context);
@@ -27,23 +29,47 @@ public class CheckDevicePairedStatusState extends BaseState implements DevicePai
     }
 
     private void getPairedDevices(){
+        showProgressDialog();
         DataServicesManager.getInstance().getPairedDevices(this);
     }
 
+    private void showProgressDialog() {
+        context.getFragmentActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mProgressDialog = new ProgressDialog(context.getFragmentActivity());
+                if(mProgressDialog!=null && !mProgressDialog.isShowing()) {
+                    mProgressDialog.show();
+                }
 
+            }
+        });
+    }
+
+    private void dismissProgressDialog() {
+        context.getFragmentActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(mProgressDialog!=null && mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+
+            }
+        });
+    }
     @Override
     public void onResponse(boolean b) {
-
+        dismissProgressDialog();
     }
 
     @Override
     public void onError(DataServicesError dataServicesError) {
-
+        dismissProgressDialog();
     }
 
     @Override
     public void onGetPairedDevicesResponse(List<String> list) {
-
+        dismissProgressDialog();
         stateContext = new StateContext();
 
         if(isDevicePaired(list)){

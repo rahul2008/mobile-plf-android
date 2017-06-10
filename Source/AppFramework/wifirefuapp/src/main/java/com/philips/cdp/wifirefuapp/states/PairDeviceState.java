@@ -1,5 +1,6 @@
 package com.philips.cdp.wifirefuapp.states;
 
+import android.app.ProgressDialog;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ public class PairDeviceState extends BaseState implements DevicePairingListener 
     private List<UCoreSubjectProfile> subjectProfileList;
     private PairDevicePojo pairDevicePojo;
     private FragmentLauncher context;
+    private ProgressDialog mProgressDialog;
 
     public PairDeviceState(PairDevicePojo pairDevicePojo, List<UCoreSubjectProfile> subjectProfileList, FragmentLauncher context){
         super(context);
@@ -30,8 +32,34 @@ public class PairDeviceState extends BaseState implements DevicePairingListener 
         this.pairDevicePojo = pairDevicePojo;
     }
 
+    private void showProgressDialog() {
+        context.getFragmentActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mProgressDialog = new ProgressDialog(context.getFragmentActivity());
+                if(mProgressDialog!=null && !mProgressDialog.isShowing()) {
+                    mProgressDialog.show();
+                }
+
+            }
+        });
+    }
+
+    private void dismissProgressDialog() {
+        context.getFragmentActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(mProgressDialog!=null && mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+
+            }
+        });
+    }
+
     @Override
     public void onResponse(boolean b) {
+        dismissProgressDialog();
         context.getFragmentActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -42,11 +70,12 @@ public class PairDeviceState extends BaseState implements DevicePairingListener 
 
     @Override
     public void onError(DataServicesError dataServicesError) {
-
+        dismissProgressDialog();
     }
 
     @Override
     public void onGetPairedDevicesResponse(List<String> list) {
+        dismissProgressDialog();
         Toast.makeText(context.getFragmentActivity(),"Successfully paired"+list.size(),Toast.LENGTH_SHORT).show();
         Log.d("Pair Device","list of paired devices"+list.get(list.size()-1));
     }
@@ -58,7 +87,7 @@ public class PairDeviceState extends BaseState implements DevicePairingListener 
 
 
     protected void pairDevice(){
-
+        showProgressDialog();
         DataServicesManager.getInstance().pairDevices(pairDevicePojo.getDeviceID(),pairDevicePojo.getDeviceType(), getSubjectProfileIdList(subjectProfileList),getSubjectProfileIdList(subjectProfileList),this);
     }
 

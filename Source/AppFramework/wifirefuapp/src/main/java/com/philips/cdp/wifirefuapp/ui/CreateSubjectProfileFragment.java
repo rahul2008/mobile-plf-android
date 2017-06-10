@@ -32,6 +32,8 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
         setUpViews();
         createProfileButton.setOnClickListener(this);
         createProfilePresenter = new CreateSubjectProfileFragmentPresenter(this);
+        pairDevicePojo.setDeviceID(this.getArguments().getString("DeviceID"));
+        pairDevicePojo.setDeviceType(this.getArguments().getString("DeviceType"));
         return view;
     }
 
@@ -85,8 +87,6 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
     }
     @Override
     public PairDevicePojo getDevicePojo() {
-        pairDevicePojo.setDeviceID(this.getArguments().getString("DeviceID"));
-        pairDevicePojo.setDeviceType(this.getArguments().getString("DeviceType"));
         return pairDevicePojo;
     }
 

@@ -1,5 +1,7 @@
 package com.philips.cdp.wifirefuapp.states;
 
+import android.app.ProgressDialog;
+
 import com.philips.cdp.wifirefuapp.consents.ConsentDialogFragment;
 import com.philips.cdp.wifirefuapp.consents.OrmConsentDetail;
 import com.philips.cdp.wifirefuapp.pojo.PairDevicePojo;
@@ -21,7 +23,7 @@ import java.util.List;
 public class CheckConsentState extends BaseState implements DBRequestListener<ConsentDetail>,DBFetchRequestListner<ConsentDetail>,DBChangeListener{
 
     private FragmentLauncher context;
-    //private ProgressDialog mProgressDialog;
+    private ProgressDialog mProgressDialog;
     List<OrmConsentDetail> list;
     StateContext stateContext;
     private PairDevicePojo pairDevicePojo;
@@ -34,8 +36,6 @@ public class CheckConsentState extends BaseState implements DBRequestListener<Co
 
     @Override
     public void start(StateContext stateContext) {
-       // mProgressDialog = new ProgressDialog(context);
-        //((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().add(new ConsentDialogFragment(),"ConsentFragment").commit();
         fetchConsent();
     }
 
@@ -45,24 +45,37 @@ public class CheckConsentState extends BaseState implements DBRequestListener<Co
     }
 
     private void showProgressDialog() {
-//        if(mProgressDialog!=null && !mProgressDialog.isShowing()) {
-//            mProgressDialog.show();
-//        }
+        context.getFragmentActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mProgressDialog = new ProgressDialog(context.getFragmentActivity());
+                if(mProgressDialog!=null && !mProgressDialog.isShowing()) {
+                    mProgressDialog.show();
+                }
+
+            }
+        });
     }
 
     private void dismissProgressDialog() {
-//        if(mProgressDialog!=null && mProgressDialog.isShowing()) {
-//            mProgressDialog.dismiss();
-//        }
+        context.getFragmentActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(mProgressDialog!=null && mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+
+            }
+        });
     }
     @Override
     public void dBChangeSuccess(SyncType syncType) {
-
+        dismissProgressDialog();
     }
 
     @Override
     public void dBChangeFailed(Exception e) {
-
+        dismissProgressDialog();
     }
 
     @Override
@@ -91,16 +104,16 @@ public class CheckConsentState extends BaseState implements DBRequestListener<Co
 
     @Override
     public void onFetchFailure(Exception e) {
-
+        dismissProgressDialog();
     }
 
     @Override
     public void onSuccess(List<? extends ConsentDetail> list) {
-
+        dismissProgressDialog();
     }
 
     @Override
     public void onFailure(Exception e) {
-
+        dismissProgressDialog();
     }
 }
