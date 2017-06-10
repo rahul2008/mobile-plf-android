@@ -1,10 +1,8 @@
 package com.philips.cdp.wifirefuapp.states;
 
-import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
-
 import com.philips.cdp.wifirefuapp.pojo.PairDevicePojo;
 import com.philips.cdp.wifirefuapp.ui.CreateSubjectProfileFragment;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 /**
  * Created by philips on 6/8/17.
@@ -12,10 +10,10 @@ import com.philips.cdp.wifirefuapp.ui.CreateSubjectProfileFragment;
 
 public class CreateSubjectProfileState extends BaseState {
 
-    private Context context;
+    private FragmentLauncher context;
     private PairDevicePojo pairDevicePojo;
 
-    public CreateSubjectProfileState(PairDevicePojo pairDevicePojo,Context context) {
+    public CreateSubjectProfileState(PairDevicePojo pairDevicePojo,FragmentLauncher context) {
         super(context);
         this.context = context;
         this.pairDevicePojo = pairDevicePojo;
@@ -23,6 +21,6 @@ public class CreateSubjectProfileState extends BaseState {
 
     @Override
     void start(StateContext stateContext) {
-        ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction().add(new CreateSubjectProfileFragment(),"CreateSubjectProfileFragment").commit();
+        context.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(context.getParentContainerResourceID(),new CreateSubjectProfileFragment(),"CreateSubjectProfileFragment").commit();
     }
 }

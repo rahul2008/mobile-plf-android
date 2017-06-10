@@ -23,15 +23,19 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.create_subject_profile_fragment, container, false);
 
+        setUpViews();
+        createProfileButton.setOnClickListener(this);
+        createProfilePresenter = new CreateSubjectProfileFragmentPresenter();
+        return view;
+    }
+
+    private void setUpViews() {
         firstName = (EditText) view.findViewById(R.id.subject_profile_first_name_edittext);
         dob = (EditText) view.findViewById(R.id.subject_date_of_birth_editText);
         gender = (EditText) view.findViewById(R.id.subject_gender_editText);
         weight = (EditText) view.findViewById(R.id.subject_weight_editText);
         creationDate = (EditText) view.findViewById(R.id.subject_creation_date_editText);
         createProfileButton = (Button) view.findViewById(R.id.create_subject_profile_button);
-        createProfileButton.setOnClickListener(this);
-        createProfilePresenter = new CreateSubjectProfileFragmentPresenter();
-        return view;
     }
 
     private boolean validate() {

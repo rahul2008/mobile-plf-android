@@ -1,12 +1,11 @@
 package com.philips.cdp.wifirefuapp.states;
 
-import android.content.Context;
-
 import com.philips.cdp.wifirefuapp.pojo.PairDevicePojo;
 import com.philips.platform.core.listeners.SubjectProfileListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DataServicesError;
 import com.philips.platform.datasync.subjectProfile.UCoreSubjectProfile;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.List;
 
@@ -17,9 +16,9 @@ import java.util.List;
 public class IsSubjectProfilePresentState extends BaseState implements SubjectProfileListener {
 
     private PairDevicePojo pairDevicePojo;
-    private Context context;
+    private FragmentLauncher context;
 
-    public IsSubjectProfilePresentState(PairDevicePojo pairDevicePojo, Context context){
+    public IsSubjectProfilePresentState(PairDevicePojo pairDevicePojo, FragmentLauncher context){
         super(context);
         this.context = context;
         this.pairDevicePojo = pairDevicePojo;

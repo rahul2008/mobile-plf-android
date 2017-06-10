@@ -1,11 +1,10 @@
 package com.philips.cdp.wifirefuapp.states;
 
-import android.content.Context;
-
 import com.philips.cdp.wifirefuapp.pojo.PairDevicePojo;
 import com.philips.platform.core.listeners.DevicePairingListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DataServicesError;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.List;
 
@@ -17,9 +16,9 @@ public class CheckDevicePairedStatusState extends BaseState implements DevicePai
 
     private PairDevicePojo pairDevicePojo;
     private StateContext stateContext;
-    private Context context;
+    private FragmentLauncher context;
 
-    public CheckDevicePairedStatusState(PairDevicePojo pairDevicePojo,Context context){
+    public CheckDevicePairedStatusState(PairDevicePojo pairDevicePojo,FragmentLauncher context){
         super(context);
         this.context = context;
         this.pairDevicePojo = pairDevicePojo;

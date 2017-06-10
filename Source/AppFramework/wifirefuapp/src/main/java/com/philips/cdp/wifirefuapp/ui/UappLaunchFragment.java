@@ -26,7 +26,6 @@ import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp.wifirefuapp.R;
-import com.philips.cdp.wifirefuapp.consents.ConsentDialogFragment;
 import com.philips.cdp.wifirefuapp.devicesetup.SampleApplianceFactory;
 import com.philips.cdp.wifirefuapp.devicesetup.SampleKpsConfigurationInfo;
 import com.philips.cdp.wifirefuapp.pojo.PairDevicePojo;
@@ -35,7 +34,6 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.platform.core.listeners.DevicePairingListener;
 import com.philips.platform.core.listeners.SubjectProfileListener;
-import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DataServicesError;
 import com.philips.platform.datasync.subjectProfile.UCoreSubjectProfile;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -49,10 +47,10 @@ import java.util.Map;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class WifiCommLibUappLaunchFragment extends Fragment implements BackEventListener ,DevicePairingListener,SubjectProfileListener,FragmentViewListener{
+public class UappLaunchFragment extends Fragment implements BackEventListener ,DevicePairingListener,SubjectProfileListener,FragmentViewListener{
 
 
-    public static String TAG = WifiCommLibUappLaunchFragment.class.getSimpleName();
+    public static String TAG = UappLaunchFragment.class.getSimpleName();
     private FragmentLauncher fragmentLauncher;
     private TextView welcomeTextView;
     private DiscoveryManager<?> discoveryManager;
@@ -61,7 +59,7 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
     private Activity activity;
     private Button consentButton,fetchPairedDevices;
     private CommCentral commCentral;
-    private WifiCommLibUappLaunchFragmentPresenter wifiCommLibUappLaunchFragmentPresenter;
+    private UappLaunchFragmentPresenter uappLaunchFragmentPresenter;
     private PairDevicePojo pairDevicePojo;
 
     @Override
@@ -80,15 +78,19 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
         fetchPairedDevices.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //DataServicesManager.getInstance().getPairedDevices(WifiCommLibUappLaunchFragment.this);
-                //DataServicesManager.getInstance().createSubjectProfile("Fwuser","2013-05-05","Male",3.456,"2015-10-01T12:11:10.123+0100",WifiCommLibUappLaunchFragment.this);
-                DataServicesManager.getInstance().getSubjectProfiles(WifiCommLibUappLaunchFragment.this);
+                //DataServicesManager.getInstance().getPairedDevices(UappLaunchFragment.this);
+                //DataServicesManager.getInstance().createSubjectProfile("Fwuser","2013-05-05","Male",3.456,"2015-10-01T12:11:10.123+0100",UappLaunchFragment.this);
+                //DataServicesManager.getInstance().getSubjectProfiles(UappLaunchFragment.this);
+                //DataServicesManager.getInstance().deleteSubjectProfile("12a1a43a-68c7-4a10-90b3-1223259fff7a",UappLaunchFragment.this);
+                //getActivity().getSupportFragmentManager().beginTransaction().add(new ConsentDialogFragment(), "ConsentFragmentUApp").commit();
             }
         });
         consentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(fragmentLauncher.getParentContainerResourceID(),new ConsentDialogFragment(),"WiFiConsentFragment").commit();
+
+                //getActivity().getSupportFragmentManager().beginTransaction().replace(fragmentLauncher.getParentContainerResourceID(),new ConsentDialogFragment(),"WiFiConsentFragment").commit();
+                uappLaunchFragmentPresenter.onPairDevice(getPairPojo());
             }
         });
         initiliazeDiComm();
@@ -124,7 +126,7 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
     @Override
     public void onResume() {
         super.onResume();
-        wifiCommLibUappLaunchFragmentPresenter = new WifiCommLibUappLaunchFragmentPresenter(WifiCommLibUappLaunchFragment.this);
+        uappLaunchFragmentPresenter = new UappLaunchFragmentPresenter(UappLaunchFragment.this);
         setUpDiscoveryManager();
     }
 
@@ -153,7 +155,7 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 //CurrentApplianceManager.getInstance().setCurrentAppliance(applianceAdapter.getItem(position));
-                wifiCommLibUappLaunchFragmentPresenter.onPairDevice(getPairDevicePojo(discoveryManager.getAllDiscoveredAppliances().get(position)));
+                uappLaunchFragmentPresenter.onPairDevice(getPairDevicePojo(discoveryManager.getAllDiscoveredAppliances().get(position)));
             }
         });
 
@@ -166,10 +168,17 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
 
     }
 
+    //TODO : Remove, done to test the device pair as discovery is not working
+    private PairDevicePojo getPairPojo(){
+        pairDevicePojo = new PairDevicePojo();
+        pairDevicePojo.setDeviceID("1c5a6bfffecc9128");
+        pairDevicePojo.setDeviceType("Manual ProductStub");
+        return pairDevicePojo;
+    }
     private PairDevicePojo getPairDevicePojo(Appliance appliance) {
         pairDevicePojo = new PairDevicePojo();
         pairDevicePojo.setDeviceID(appliance.getNetworkNode().getCppId());
-        pairDevicePojo.setDeviceType(appliance.getNetworkNode().getDeviceType());
+        pairDevicePojo.setDeviceType(appliance.getDeviceType());
         return pairDevicePojo;
     }
 
@@ -241,7 +250,7 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
 
     @Override
     public void onGetSubjectProfiles(List<UCoreSubjectProfile> list) {
-        Log.d(TAG,"::::Subject profile list response : "+list.size());
+        Log.d(TAG,"::::Subject profile list response : "+list.get(list.size()-1).getGuid());
     }
 
     @Override
@@ -252,5 +261,10 @@ public class WifiCommLibUappLaunchFragment extends Fragment implements BackEvent
     @Override
     public Context getActivityContext() {
         return getActivity();
+    }
+
+    @Override
+    public FragmentLauncher getFragmentLauncher() {
+        return fragmentLauncher;
     }
 }

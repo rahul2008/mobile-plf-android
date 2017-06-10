@@ -31,7 +31,7 @@ public class WifiCommLibUappLaunchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
-            WifiCommLibUappLaunchFragment sampleFragment = new WifiCommLibUappLaunchFragment();
+            UappLaunchFragment sampleFragment = new UappLaunchFragment();
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 String message = extras.getString(WifiCommLibUappInterface.WELCOME_MESSAGE);

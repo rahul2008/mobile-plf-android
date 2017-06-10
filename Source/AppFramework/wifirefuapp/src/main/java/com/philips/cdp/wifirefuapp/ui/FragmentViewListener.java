@@ -2,6 +2,8 @@ package com.philips.cdp.wifirefuapp.ui;
 
 import android.content.Context;
 
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+
 /**
  * Created by philips on 6/8/17.
  */
@@ -9,4 +11,6 @@ import android.content.Context;
 public interface FragmentViewListener {
 
     Context getActivityContext();
+
+    FragmentLauncher getFragmentLauncher();
 }

@@ -40,13 +40,13 @@ public class WifiCommLibUappInterface implements UappInterface {
         } else {
             final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             FragmentTransaction fragmentTransaction = (fragmentLauncher.getFragmentActivity()).getSupportFragmentManager().beginTransaction();
-            WifiCommLibUappLaunchFragment sampleFragment = new WifiCommLibUappLaunchFragment();
+            UappLaunchFragment sampleFragment = new UappLaunchFragment();
             Bundle bundle = new Bundle();
             bundle.putString(WELCOME_MESSAGE,sampleMicroAppLaunchInput.getWelcomeMessage());
             sampleFragment.setArguments(bundle);
             sampleFragment.setFragmentLauncher(fragmentLauncher);
-            fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), sampleFragment, WifiCommLibUappLaunchFragment.TAG);
-            fragmentTransaction.addToBackStack(WifiCommLibUappLaunchFragment.TAG);
+            fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), sampleFragment, UappLaunchFragment.TAG);
+            fragmentTransaction.addToBackStack(UappLaunchFragment.TAG);
             fragmentTransaction.commitAllowingStateLoss();
         }
     }

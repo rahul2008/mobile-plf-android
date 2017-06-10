@@ -1,14 +1,14 @@
 package com.philips.cdp.wifirefuapp.states;
 
-import android.content.Context;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 /**
  * Created by philips on 6/8/17.
  */
 
 public abstract class BaseState {
-    Context context;
-    public BaseState(Context context){
+    FragmentLauncher context;
+    public BaseState(FragmentLauncher context){
         this.context =context;
     }
     abstract void start(StateContext stateContext);

@@ -5,14 +5,15 @@ import android.content.Context;
 import com.philips.cdp.wifirefuapp.pojo.PairDevicePojo;
 import com.philips.cdp.wifirefuapp.states.CheckDevicePairedStatusState;
 import com.philips.cdp.wifirefuapp.states.StateContext;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
-public class WifiCommLibUappLaunchFragmentPresenter {
+public class UappLaunchFragmentPresenter {
 
     FragmentViewListener fragmentViewListener;
     StateContext stateContext;
     Context context;
 
-    public WifiCommLibUappLaunchFragmentPresenter(FragmentViewListener fragmentViewListener){
+    public UappLaunchFragmentPresenter(FragmentViewListener fragmentViewListener){
         this.fragmentViewListener = fragmentViewListener;
 
     }
@@ -20,13 +21,15 @@ public class WifiCommLibUappLaunchFragmentPresenter {
 
     public void onPairDevice(PairDevicePojo pairDevicePojo) {
         stateContext = new StateContext();
-        stateContext.setState(new CheckDevicePairedStatusState(pairDevicePojo,getActivityContext()));
+        stateContext.setState(new CheckDevicePairedStatusState(pairDevicePojo,getFragmentLauncher()));
         stateContext.start();
     }
 
     public Context getActivityContext(){
         return fragmentViewListener.getActivityContext();
     }
-
+    public FragmentLauncher getFragmentLauncher(){
+        return fragmentViewListener.getFragmentLauncher();
+    }
 
 }
