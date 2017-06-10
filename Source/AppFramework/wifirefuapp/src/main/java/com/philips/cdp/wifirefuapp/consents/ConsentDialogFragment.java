@@ -84,8 +84,14 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
 
     @Override
     public void onSuccess(final List<? extends ConsentDetail> data) {
+        StateContext stateContext = new StateContext();
+
         dismissProgressDialog();
         if(isConsentAccepted(data)){
+            Toast.makeText(getActivity(),"Consents not accepted, please accept to continue",Toast.LENGTH_SHORT).show();
+        } else {
+            stateContext.setState(new CreateSubjectProfileState(pairDevicePojo,fragmentLauncher));
+            stateContext.start();
         }
         refreshUi((ArrayList<OrmConsentDetail>) data);
 
@@ -93,7 +99,7 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
 
     private boolean isConsentAccepted(List<? extends ConsentDetail> data) {
         boolean isAccepted = false;
-        StateContext stateContext = new StateContext();
+
         for (ConsentDetail ormConsentDetail: data) {
             if(ormConsentDetail.getStatus().toString().equalsIgnoreCase(ConsentDetailStatusType.ACCEPTED.name())){
                 isAccepted = true;
@@ -102,12 +108,6 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
                 isAccepted = false;
                 break;
             }
-        }
-        if(!isAccepted){
-            Toast.makeText(getActivity(),"Consents not accepted, please accept to continue",Toast.LENGTH_SHORT).show();
-        }else {
-            stateContext.setState(new CreateSubjectProfileState(pairDevicePojo,fragmentLauncher));
-            stateContext.start();
         }
         return isAccepted;
     }
