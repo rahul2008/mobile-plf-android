@@ -58,7 +58,7 @@ public class LaunchFragment extends Fragment implements BackEventListener ,Devic
     private ArrayAdapter<Appliance> applianceAdapter;
     private View view;
     private Activity activity;
-    private Button consentButton,fetchPairedDevices;
+    private Button testPairDevice,fetchPairedDevices;
     private CommCentral commCentral;
     private LaunchFragmentPresenter uappLaunchFragmentPresenter;
     private PairDevicePojo pairDevicePojo;
@@ -74,7 +74,7 @@ public class LaunchFragment extends Fragment implements BackEventListener ,Devic
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        consentButton = (Button) view.findViewById(R.id.consentButton);
+        testPairDevice = (Button) view.findViewById(R.id.consentButton);
         fetchPairedDevices = (Button) view.findViewById(R.id.fetchListOfPairedDevices);
         fetchPairedDevices.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +86,7 @@ public class LaunchFragment extends Fragment implements BackEventListener ,Devic
                 //getActivity().getSupportFragmentManager().beginTransaction().add(new ConsentDialogFragment(), "ConsentFragmentUApp").commit();
             }
         });
-        consentButton.setOnClickListener(new View.OnClickListener() {
+        testPairDevice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

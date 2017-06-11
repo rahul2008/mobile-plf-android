@@ -15,7 +15,7 @@
     android:layout_height="wrap_content"
     android:layout_alignParentTop="true"
     android:layout_margin="5dp"
-    android:text="ConsentScreen"/>
+    android:text="Test Pair Device"/>
             <!--<TextView
                 android:textStyle="bold"
                 android:textSize="50px"
@@ -61,7 +61,8 @@
             android:layout_alignBottom="@+id/consentButton"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="65dp"
-            android:text="Fetch Paired" />
+            android:text="Fetch Paired"
+            android:visibility="gone" />
     </RelativeLayout>
 
 </ScrollView>
