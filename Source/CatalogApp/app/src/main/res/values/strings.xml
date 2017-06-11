@@ -238,4 +238,7 @@
         Ut euismod ligula ut pharetra tempor <a href="mailto:someone@example.com">drop an email</a>.
         Cras vel dapibus libero</string>
     <string name="links_button_page">Button page</string>
+
+    <!--WebFragment-->
+    <string name="no_internet">No internet connection</string>
 </resources>

@@ -24,6 +24,13 @@ import com.philips.platform.uid.utils.UIDLocaleHelper;
 
 public class Label extends AppCompatTextView {
     private UIDClickableSpan[] pressedLinks;
+    private UIDClickableSpanWrapper.ClickInterceptor externalClickInterceptor;
+    private UIDClickableSpanWrapper.ClickInterceptor clickInterceptor = new UIDClickableSpanWrapper.ClickInterceptor() {
+        @Override
+        public boolean interceptClick(CharSequence tag) {
+            return (externalClickInterceptor != null && externalClickInterceptor.interceptClick(tag));
+        }
+    };
 
     public Label(final Context context) {
         this(context, null);
@@ -61,6 +68,7 @@ public class Label extends AppCompatTextView {
                 spanEnd = ((Spanned) text).getSpanEnd(span);
                 UIDClickableSpanWrapper urlSpanWrapper = new UIDClickableSpanWrapper(span);
                 urlSpanWrapper.setColors(getLinkTextColors());
+                urlSpanWrapper.setClickInterceptor(clickInterceptor);
                 string.setSpan(urlSpanWrapper, spanStart, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             return string;
@@ -106,5 +114,9 @@ public class Label extends AppCompatTextView {
                 pressedLinks = null;
             }
         }
+    }
+
+    public void setSpanClickInterceptor(UIDClickableSpanWrapper.ClickInterceptor externalClickInterceptor) {
+        this.externalClickInterceptor = externalClickInterceptor;
     }
 }

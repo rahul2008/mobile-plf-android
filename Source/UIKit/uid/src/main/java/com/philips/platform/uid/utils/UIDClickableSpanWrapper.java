@@ -10,7 +10,13 @@ import android.text.style.URLSpan;
 import android.view.View;
 
 public class UIDClickableSpanWrapper extends UIDClickableSpan {
+
+    public interface ClickInterceptor {
+        boolean interceptClick(CharSequence tag);
+    }
+
     private final ClickableSpan wrappedSpan;
+    private ClickInterceptor clickInterceptor;
 
     public UIDClickableSpanWrapper(ClickableSpan clickableSpan) {
         this(clickableSpan, null);
@@ -21,10 +27,15 @@ public class UIDClickableSpanWrapper extends UIDClickableSpan {
         this.wrappedSpan = clickableSpan;
     }
 
+    public void setClickInterceptor(ClickInterceptor clickInterceptor) {
+        this.clickInterceptor = clickInterceptor;
+    }
+
     @Override
     public void onClick(View widget) {
         super.onClick(widget);
-        if (wrappedSpan != null) {
+        if (wrappedSpan != null &&
+                (clickInterceptor == null || !clickInterceptor.interceptClick(getTag()))) {
             wrappedSpan.onClick(widget);
         }
     }
@@ -32,7 +43,7 @@ public class UIDClickableSpanWrapper extends UIDClickableSpan {
     @Override
     public CharSequence getTag() {
         if (wrappedSpan instanceof URLSpan) {
-            return ((URLSpan)wrappedSpan).getURL();
+            return ((URLSpan) wrappedSpan).getURL();
         }
         return super.getTag();
     }

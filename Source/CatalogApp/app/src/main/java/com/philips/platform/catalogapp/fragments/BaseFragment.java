@@ -25,7 +25,10 @@ public abstract class BaseFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        (getActivity()).setTitle(getPageTitle());
+        int pageTitle = getPageTitle();
+        if(pageTitle >0) {
+            (getActivity()).setTitle(pageTitle);
+        }
     }
 
     protected void showFragment(final BaseFragment fragment) {

@@ -188,6 +188,11 @@ public class NavigationController {
         UIDHelper.setTitle(mainActivity, titleId);
     }
 
+
+    public void setTitleText(CharSequence title) {
+        UIDHelper.setTitle(mainActivity, title);
+    }
+
     //Needed only untill we have hamburger
     public Toolbar getToolbar() {
         return toolbar;
