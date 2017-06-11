@@ -9,12 +9,22 @@ package com.philips.platform.uid.view.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.Layout;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.URLSpan;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 
 import com.philips.platform.uid.R;
+import com.philips.platform.uid.utils.UIDClickableSpan;
+import com.philips.platform.uid.utils.UIDClickableSpanWrapper;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
 
 public class Label extends AppCompatTextView {
+    private UIDClickableSpan[] pressedLinks;
+
     public Label(final Context context) {
         this(context, null);
     }
@@ -32,5 +42,69 @@ public class Label extends AppCompatTextView {
         TypedArray attrsArray = context.obtainStyledAttributes(attrs, R.styleable.UIDLabel, defStyleAttr, R.style.UIDLabel);
         UIDLocaleHelper.setTextFromResourceID(context, this, attrs);
         attrsArray.recycle();
+    }
+
+    @Override
+    public void setText(CharSequence text, BufferType type) {
+        super.setText(decorateSpans(text), type);
+    }
+
+    private CharSequence decorateSpans(CharSequence text) {
+        if (text instanceof Spanned) {
+            int spanStart;
+            int spanEnd;
+            SpannableString string = SpannableString.valueOf(text);
+            URLSpan[] urlSpans = string.getSpans(0, text.length(), URLSpan.class);
+            for (URLSpan span : urlSpans) {
+                string.removeSpan(span);
+                spanStart = ((Spanned) text).getSpanStart(span);
+                spanEnd = ((Spanned) text).getSpanEnd(span);
+                UIDClickableSpanWrapper urlSpanWrapper = new UIDClickableSpanWrapper(span);
+                urlSpanWrapper.setColors(getLinkTextColors());
+                string.setSpan(urlSpanWrapper, spanStart, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            return string;
+        }
+        return text;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        updateSpans(event);
+        return super.onTouchEvent(event);
+    }
+
+    private void updateSpans(MotionEvent event) {
+        if (!(getText() instanceof Spannable))
+            return;
+        int action = event.getAction();
+        Spannable sequence = (Spannable) getText();
+        if (action == MotionEvent.ACTION_DOWN) {
+            int x = (int) event.getX();
+            int y = (int) event.getY();
+
+            x -= getTotalPaddingLeft();
+            y -= getTotalPaddingTop();
+
+            x += getScrollX();
+            y += getScrollY();
+
+            Layout layout = getLayout();
+            int line = layout.getLineForVertical(y);
+            int off = layout.getOffsetForHorizontal(line, x);
+
+            pressedLinks = sequence.getSpans(off, off, UIDClickableSpan.class);
+
+            if (pressedLinks.length != 0) {
+                if (action == MotionEvent.ACTION_DOWN) {
+                    pressedLinks[0].setPressed(true);
+                }
+            }
+        } else if (action == MotionEvent.ACTION_UP) {
+            if (pressedLinks != null && pressedLinks.length != 0) {
+                pressedLinks[0].setPressed(false);
+                pressedLinks = null;
+            }
+        }
     }
 }
