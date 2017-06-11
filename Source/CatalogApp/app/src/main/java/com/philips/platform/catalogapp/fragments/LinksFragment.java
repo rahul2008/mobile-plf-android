@@ -48,8 +48,12 @@ public class LinksFragment extends BaseFragment {
     }
 
     private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null;
+        Context context = getContext();
+        if (context != null) {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            return cm.getActiveNetworkInfo() != null;
+        }
+        return false;
     }
 
     private void launchWebFragment(CharSequence tag) {

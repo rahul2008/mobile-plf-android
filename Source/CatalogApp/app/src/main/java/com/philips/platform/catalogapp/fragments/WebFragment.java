@@ -4,6 +4,8 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -16,6 +18,7 @@ public class WebFragment extends BaseFragment {
     public static final String KEY_URL = "url";
     private WebView webView;
     private String url;
+    private String pageTitle;
 
     @Nullable
     @Override
@@ -25,7 +28,9 @@ public class WebFragment extends BaseFragment {
         Bundle arguments = getArguments();
         url = arguments.getString(KEY_URL);
         setWebViewClient();
-        webView.loadUrl(url);
+        if (savedInstanceState == null) {
+            webView.loadUrl(url);
+        }
         return binding.getRoot();
     }
 
@@ -34,12 +39,48 @@ public class WebFragment extends BaseFragment {
         return 0;
     }
 
-    public void setWebViewClient() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(pageTitle != null) {
+            (getActivity()).setTitle(pageTitle);
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.setGroupVisible(R.id.main_menus, false);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        webView.saveState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        webView.restoreState(savedInstanceState);
+    }
+
+    @Override
+    public boolean handleBackPress() {
+        if(webView.canGoBack()) {
+            webView.goBack();
+            return true;
+        }
+        return super.handleBackPress();
+    }
+
+    private void setWebViewClient() {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
                 if(getActivity() != null) {
-                    (getActivity()).setTitle(view.getTitle());
+                    pageTitle = view.getTitle();
+                    (getActivity()).setTitle(pageTitle);
                 }
             }
         });

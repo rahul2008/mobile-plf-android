@@ -11,7 +11,10 @@ import android.support.v4.app.Fragment;
 
 import com.philips.platform.catalogapp.MainActivity;
 
-public abstract class BaseFragment extends Fragment {
+import com.philips.platform.catalogapp.NavigationController;
+
+
+public abstract class BaseFragment extends Fragment implements NavigationController.BackPressListener {
 
     public abstract int getPageTitle();
 
@@ -33,5 +36,11 @@ public abstract class BaseFragment extends Fragment {
 
     protected void showFragment(final BaseFragment fragment) {
         ((MainActivity) getActivity()).getNavigationController().switchFragment(fragment);
+    }
+
+
+    @Override
+    public boolean handleBackPress() {
+        return false;
     }
 }

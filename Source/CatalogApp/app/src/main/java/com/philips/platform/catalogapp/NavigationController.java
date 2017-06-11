@@ -38,6 +38,10 @@ public class NavigationController {
     private int titleResource;
     private Toolbar toolbar;
 
+    public interface BackPressListener{
+        boolean handleBackPress();
+    }
+
     public NavigationController(final MainActivity mainActivity, final Intent intent, final ViewDataBinding activityMainBinding) {
         this.mainActivity = mainActivity;
         fragmentPreference = PreferenceManager.getDefaultSharedPreferences(mainActivity);
@@ -244,14 +248,20 @@ public class NavigationController {
         themeSettingsIconVisible = savedInstanceState.getBoolean(THEMESETTINGS_BUTTON_DISPLAYED);
     }
 
-    public void updateStack() {
+    public boolean updateStack() {
+        boolean shouldHandleBack = true;
         if (hasBackStack()) {
             final List<Fragment> fragments = supportFragmentManager.getFragments();
             final Fragment fragment = fragments.get(fragments.size() - 1);
-            if (fragment != null) {
-                removeFragmentInPreference(fragment.getClass().getName());
+            if (fragment instanceof BackPressListener) {
+                if(fragment.isVisible() && fragment.isAdded() && ((BackPressListener) fragment).handleBackPress()){
+                    shouldHandleBack = false;
+                } else {
+                    removeFragmentInPreference(fragment.getClass().getName());
+                }
             }
         }
+        return shouldHandleBack;
     }
 
     private void removeFragmentInPreference(String fragmentName) {
