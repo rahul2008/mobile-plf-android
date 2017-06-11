@@ -58,6 +58,7 @@
         <item name="uidImageButtonStyle">@style/UIDImageButton</item>
         <item name="uidEditTextStyle">@style/UIDEditTextBox</item>
         <item name="uidRatingBarStyle">@style/UIDRatingBarStyle</item>
+        <item name="uidLabelStyle">@style/UIDLabel</item>
 
         <item name="uidIndeterminateLinearPBStyle">@style/UIDIndeterminateLinearProgress</item>
         <item name="uidButtonDisabledAlpha">@dimen/uid_alpha_per_100</item>

@@ -68,8 +68,8 @@
 
     <style name="UIDLabel.TestButtonTexts">
         <item name="android:layout_height">wrap_content</item>
-        <item name="uidLabelTextColor">?attr/uidTextPrimary</item>
-        <item name="uidLabelTextSize">@dimen/button_toggle_text_size</item>
+        <item name="android:textColor">?attr/uidTextPrimary</item>
+        <item name="android:textSize">@dimen/button_toggle_text_size</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/layout_margin_left_right</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>

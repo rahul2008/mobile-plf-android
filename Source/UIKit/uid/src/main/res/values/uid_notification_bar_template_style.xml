@@ -3,7 +3,7 @@
 
     <style name="UIDNotificationBarTitle" parent="UIDLabel">
         <item name="fontPath">fonts/centralesansmedium.ttf</item>
-        <item name="uidLabelTextSize">@dimen/uid_notification_bar_title_text_size</item>
+        <item name="android:textSize">@dimen/uid_notification_bar_title_text_size</item>
         <item name="android:textColor">?attr/uidNotificationBarWhiteNormalPrimaryTextColor</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:textAlignment">viewStart</item>
@@ -19,7 +19,7 @@
     <style name="UIDNotificationBarContent" parent="UIDNotificationBarTitle">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:textColor">?attr/uidNotificationBarWhiteNormalSecondaryTextColor</item>
-        <item name="uidLabelTextSize">@dimen/uid_notification_bar_content_text_size</item>
+        <item name="android:textSize">@dimen/uid_notification_bar_content_text_size</item>
         <item name="android:layout_marginTop">@dimen/uid_notification_bar_margin_top_content</item>
     </style>
 

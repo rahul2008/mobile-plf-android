@@ -5,6 +5,8 @@
         <attr name="uidButtonDisabledAlpha" format="reference|float"/>
         <attr name="uidProgressIndicatorButtonBackgroundColor" format="reference|color"/>
         <attr name="uidProgressIndicatorButtonBackgroundAlpha" format="reference|float"/>
+        <attr name="uid_state_error" format="boolean"/>
+        <attr name="uid_state_visited" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="UIDComponentType">

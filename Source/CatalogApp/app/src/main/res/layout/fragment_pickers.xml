@@ -190,8 +190,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/uid_date_margin_start"
                 android:text="@string/start"
-                android:textColor="?attr/uidTextPrimary"
-                app:uidLabelTextAlpha="1.0"/>
+                android:textColor="?attr/uidTextPrimary"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/timeslotPicker"
@@ -199,8 +198,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:text="@{fragment.getFormattedTime(fragment.timeslotPickerTime)}"
-                android:textColor="?attr/uidTextPrimary"
-                app:uidLabelTextAlpha="1.0"/>
+                android:textColor="?attr/uidTextPrimary"/>
         </LinearLayout>
 
 
