@@ -32,7 +32,7 @@ import java.util.Map;
  * Created by 310190722 on 9/8/2015.
  */
 
-public class RefreshSecretTest extends RegistrationApiInstrumentationBase {
+public class RefreshSecretTest extends InstrumentationTestCase {
 
     private DhpAuthenticationManagementClient authenticationManagementClient;
 
