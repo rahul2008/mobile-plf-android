@@ -12,6 +12,8 @@ import android.view.ViewGroup;
  * Suitable for using for title in actionbar or toolbar.
  */
 public class ActionBarTextView extends AppCompatTextView {
+    private boolean forceGravity;
+
     public ActionBarTextView(Context context) {
         super(context);
         setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
@@ -25,6 +27,25 @@ public class ActionBarTextView extends AppCompatTextView {
     public ActionBarTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+    }
+
+    /**
+     * Sets the gravity for the text and doesn't apply any computations to make it centric
+     * @param gravity text gravity
+     */
+    public void setForcedGravity(int gravity) {
+        setGravity(gravity);
+        this.forceGravity = true;
+    }
+
+    /**
+     * Removes any gravity if set via {@link #setForcedGravity(int)}.
+     * It tries to put the text in center relative to its parent.
+     */
+    @SuppressWarnings("unused")
+    public void removeForcedGravity() {
+        setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+        this.forceGravity = false;
     }
 
     @Override
@@ -48,6 +69,10 @@ public class ActionBarTextView extends AppCompatTextView {
     }
 
     private float getTranslateX() {
+        if (forceGravity) {
+            return 0;
+        }
+
         float translateX = 0;
         if (getText() == null) {
             return 0;
