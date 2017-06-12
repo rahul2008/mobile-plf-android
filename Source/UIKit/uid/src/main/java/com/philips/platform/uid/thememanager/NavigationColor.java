@@ -15,12 +15,14 @@ public enum NavigationColor implements ThemeConfig{
         @Override
         public void injectStyle(final Resources.Theme theme) {
             injectNavigationColor(theme, R.style.UIDNavigationbarUltraLight);
+            NavigationColor.injectNavigationColor(theme, R.style.UIDStatusBarLight);
         }
     },
     VERY_LIGHT {
         @Override
         public void injectStyle(final Resources.Theme theme) {
             injectNavigationColor(theme, R.style.UIDNavigationbarVeryLight);
+            NavigationColor.injectNavigationColor(theme, R.style.UIDStatusBarLight);
         }
     },/*
     LIGHT {
@@ -33,12 +35,14 @@ public enum NavigationColor implements ThemeConfig{
         @Override
         public void injectStyle(final Resources.Theme theme) {
             injectNavigationColor(theme, R.style.UIDNavigationbarBright);
+            NavigationColor.injectNavigationColor(theme, R.style.UIDStatusBarDark);
         }
     },
     VERY_DARK {
         @Override
         public void injectStyle(final Resources.Theme theme) {
             injectNavigationColor(theme, R.style.UIDNavigationbarVeryDark);
+            NavigationColor.injectNavigationColor(theme, R.style.UIDStatusBarDark);
         }
     };
 
