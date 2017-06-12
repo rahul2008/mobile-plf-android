@@ -2,8 +2,6 @@ package com.philips.platform.uid.components.inlinevalidation;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.test.rule.ActivityTestRule;
 
 import com.philips.platform.uid.R;
@@ -41,7 +39,7 @@ public class ValidationEditTextTest extends BaseTest{
         int expectedTextColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidTextBoxDefaultValidatedBorderColor);
         ValidationEditText validationEditText = new ValidationEditText(activity);
         validationEditText.setError(true);
-        int[] attrs = {R.attr.state_error, android.R.attr.state_enabled, -android.R.attr.state_focused};
+        int[] attrs = {R.attr.uid_state_error, android.R.attr.state_enabled, -android.R.attr.state_focused};
         assertTrue(FunctionDrawableMatchers.isSameStrokeColor(TestConstants.FUNCTION_GET_BACKGROUND, attrs, expectedTextColor, R.id.uid_texteditbox_stroke_drawable).matches(validationEditText));
     }
 
@@ -50,7 +48,7 @@ public class ValidationEditTextTest extends BaseTest{
         int expectedTextColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidTextBoxDefaultValidatedBackgroundColor);
         ValidationEditText validationEditText = new ValidationEditText(activity);
         validationEditText.setError(true);
-        int[] attrs = {R.attr.state_error, android.R.attr.state_enabled, -android.R.attr.state_focused};
+        int[] attrs = {R.attr.uid_state_error, android.R.attr.state_enabled, -android.R.attr.state_focused};
         assertTrue(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_BACKGROUND, attrs, expectedTextColor, R.id.uid_texteditbox_fill_drawable, false).matches(validationEditText));
     }
 
@@ -59,7 +57,7 @@ public class ValidationEditTextTest extends BaseTest{
         int expectedTextColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidTextBoxDefaultValidatedTextColor);
         ValidationEditText validationEditText = new ValidationEditText(activity);
         validationEditText.setError(true);
-        int[] attrs = {R.attr.state_error, android.R.attr.state_enabled, -android.R.attr.state_focused};
+        int[] attrs = {R.attr.uid_state_error, android.R.attr.state_enabled, -android.R.attr.state_focused};
         assertTrue(FunctionDrawableMatchers.isSameColorFromColorList(TestConstants.FUNCTION_GET_TEXT_COLORS, attrs, expectedTextColor).matches(validationEditText));
     }
 }

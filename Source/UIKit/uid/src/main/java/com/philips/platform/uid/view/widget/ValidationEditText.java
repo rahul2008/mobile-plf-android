@@ -15,7 +15,7 @@ import com.philips.platform.uid.R;
 
 public class ValidationEditText extends EditText {
 
-    private static final int[] ERROR_STATE_SET = {R.attr.state_error};
+    private static final int[] ERROR_STATE_SET = {R.attr.uid_state_error};
     private boolean isInErrorState;
 
     public ValidationEditText(@NonNull Context context) {

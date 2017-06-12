@@ -3,7 +3,7 @@
 
     <style name="UIDLabelInlineValidation">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
-        <item name="uidLabelTextSize">@dimen/uid_inline_label_text_size</item>
+        <item name="android:textSize">@dimen/uid_inline_label_text_size</item>
         <item name="android:textColor">?attr/uidTextValidationTextColor</item>
     </style>
 </resources>
