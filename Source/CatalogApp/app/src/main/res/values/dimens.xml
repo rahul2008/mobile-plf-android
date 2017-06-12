@@ -29,8 +29,8 @@
     <dimen name="button_label_margin_bottom">8dp</dimen>
 
     <!--ProgressBar test page-->
-    <dimen name="progress_bar_margin_top">60dp</dimen>
-    <dimen name="progress_bar_margin_top_big">84dp</dimen>
+    <dimen name="progress_bar_margin_top">24dp</dimen>
+    <dimen name="progress_bar_margin_top_big">24dp</dimen>
     <dimen name="progress_bar_margin_left_right">24dp</dimen>
     <dimen name="progress_bar_circular_area_margin_top">24dp</dimen>
     <dimen name="progress_bar_circular_area_margin_bottom">20dp</dimen>

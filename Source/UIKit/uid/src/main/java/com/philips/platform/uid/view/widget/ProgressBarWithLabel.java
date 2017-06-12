@@ -16,29 +16,20 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.philips.platform.uid.R;
-import com.philips.platform.uid.utils.UIDUtils;
 
 public class ProgressBarWithLabel extends FrameLayout {
 
-    public enum LabelPosition {TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, CENTER, BOTTOM_CENTER}
+    private enum LabelPosition {TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT, CENTER, BOTTOM_CENTER}
 
     private boolean isLinearProgressBarEnabled = false;
     private boolean isIndeterminateProgressIndicator = false;
     private LabelPosition labelPosition = LabelPosition.TOP_LEFT;
-    private Label labelTopLeft;
-    private Label labelTopRight;
-    private Label labelBottomLeft;
-    private Label labelBottomRight;
     private ProgressBar progressBar;
     private int textSize;
     private int textColor;
-    private float textAlpha;
     private String text;
     private int progress;
     private int secondaryProgress;
-    private IndeterminateLinearProgressBar indeterminateLinearProgressBar;
-    private Label labelCenter;
-    private Label labelBottomCenter;
     private ProgressBar.CircularProgressBarSize circularProgressBarSize;
     private Label label;
 
@@ -53,7 +44,7 @@ public class ProgressBarWithLabel extends FrameLayout {
     public ProgressBarWithLabel(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        obtainStyleAttributes(context, attrs, defStyleAttr);
+        obtainStyleAttributes(context, attrs);
 
         int id;
         if (isLinearProgressBarEnabled) {
@@ -69,7 +60,7 @@ public class ProgressBarWithLabel extends FrameLayout {
         setAttributes();
     }
 
-    private void obtainStyleAttributes(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+    private void obtainStyleAttributes(final Context context, final AttributeSet attrs) {
         final TypedArray obtainStyledAttributes = context.obtainStyledAttributes(attrs, R.styleable.UIDProgressIndicatorWithLabel);
         isLinearProgressBarEnabled = obtainStyledAttributes.getBoolean(R.styleable.UIDProgressIndicatorWithLabel_uidIsLinearProgressBar, false);
         isIndeterminateProgressIndicator = obtainStyledAttributes.getBoolean(R.styleable.UIDProgressIndicatorWithLabel_uidIsIndeterminateProgressIndicator, false);
@@ -78,7 +69,6 @@ public class ProgressBarWithLabel extends FrameLayout {
 
         textSize = obtainStyledAttributes.getDimensionPixelSize(R.styleable.UIDProgressIndicatorWithLabel_android_textSize, -1);
         textColor = obtainStyledAttributes.getColor(R.styleable.UIDProgressIndicatorWithLabel_android_textColor, -1);
-        textAlpha = obtainStyledAttributes.getFloat(R.styleable.UIDProgressIndicatorWithLabel_uidLabelTextAlpha, -1);
         progress = obtainStyledAttributes.getInt(R.styleable.UIDProgressIndicatorWithLabel_android_progress, 0);
         secondaryProgress = obtainStyledAttributes.getInt(R.styleable.UIDProgressIndicatorWithLabel_android_secondaryProgress, 0);
         circularProgressBarSize = ProgressBar.CircularProgressBarSize.values()[obtainStyledAttributes.getInt(R.styleable.UIDProgressIndicatorWithLabel_uidCircularProgressBarSize, 0)];
@@ -90,9 +80,8 @@ public class ProgressBarWithLabel extends FrameLayout {
         if (textSize != -1) {
             setTextSize(textSize);
         }
-
-        if (textColor != -1 && textAlpha != -1) {
-            setTextColor(UIDUtils.modulateColorAlpha(textColor, textAlpha));
+        if (textColor != -1) {
+            setTextColor(textColor);
         }
 
         setText(text);
@@ -104,9 +93,7 @@ public class ProgressBarWithLabel extends FrameLayout {
     private void initializeLinearProgressBarViews() {
         label = (Label) getRootView().findViewById(getLinearProgressBarLabelID());
 
-        if (isIndeterminateProgressIndicator) {
-            indeterminateLinearProgressBar = (IndeterminateLinearProgressBar) findViewById(R.id.uid_indeterminate_linear_progress_indicator);
-        } else {
+        if (!isIndeterminateProgressIndicator) {
             progressBar = (ProgressBar) findViewById(R.id.uid_determinate_linear_progress_indicator);
         }
     }
@@ -207,7 +194,7 @@ public class ProgressBarWithLabel extends FrameLayout {
 
     /**
      * Sets the text color of the selected label
-     * @param textColor
+     * @param textColor color for the label
      */
     public void setTextColor(int textColor) {
         label.setTextColor(textColor);
@@ -215,7 +202,7 @@ public class ProgressBarWithLabel extends FrameLayout {
 
     /**
      * Sets the progress on the determinate progress bar
-     * @param progress
+     * @param progress progress to be set on progressbar
      */
     public void setProgress(int progress) {
         if (!isIndeterminateProgressIndicator) {
@@ -225,7 +212,7 @@ public class ProgressBarWithLabel extends FrameLayout {
 
     /**
      * Sets the secondary progress on the determinate progress bar
-     * @param progress
+     * @param progress for the secondary progress
      */
     public void setSecondaryProgress(int progress) {
         if (!isIndeterminateProgressIndicator) {
@@ -233,7 +220,7 @@ public class ProgressBarWithLabel extends FrameLayout {
         }
     }
 
-    static class SavedState extends BaseSavedState {
+    private static class SavedState extends BaseSavedState {
         public static final Parcelable.Creator<ProgressBarWithLabel.SavedState> CREATOR
                 = new Parcelable.Creator<ProgressBarWithLabel.SavedState>() {
             public ProgressBarWithLabel.SavedState createFromParcel(Parcel in) {

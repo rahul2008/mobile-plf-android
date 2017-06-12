@@ -1,9 +1,7 @@
 package com.philips.platform.uid.matcher;
 
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
@@ -21,7 +19,7 @@ public class InputValidationMatcher {
                 InputValidationLayout layout = (InputValidationLayout) view;
                 layout.showError();
                 Label errorView = layout.getErrorLabelView();
-                return TextViewPropertiesMatchers.isSameTextColor(R.attr.state_error, expectedValue).matches(errorView);
+                return TextViewPropertiesMatchers.isSameTextColor(R.attr.uid_state_error, expectedValue).matches(errorView);
             }
         };
     }
