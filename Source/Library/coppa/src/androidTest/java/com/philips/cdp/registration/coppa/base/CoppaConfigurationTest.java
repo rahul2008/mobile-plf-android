@@ -1,16 +1,18 @@
 package com.philips.cdp.registration.coppa.base;
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
+
+import com.philips.cdp.registration.coppa.RegistrationApiInstrumentationBase;
 
 import org.json.JSONObject;
 import org.junit.Before;
 import org.mockito.Mock;
 
-/**
- * Created by 310230979  on 8/30/2016.
- */
-public class CoppaConfigurationTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNull;
+
+
+public class CoppaConfigurationTest extends RegistrationApiInstrumentationBase {
 
     CoppaConfiguration mCoppaConfiguration;
 
@@ -19,8 +21,8 @@ public class CoppaConfigurationTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        mCoppaConfiguration = new CoppaConfiguration();
+        super.setUp();
+              mCoppaConfiguration = new CoppaConfiguration();
     }
 
     public void testConfirmation() throws Exception {
@@ -90,6 +92,8 @@ public class CoppaConfigurationTest extends InstrumentationTestCase {
     public void testGetCoppaCommunicationSentAt(){
         assertNull(mCoppaConfiguration.getCoppaCommunicationSentAt());
     }
+
+
 
     public void testGetCurrentConsentsArray(){
         assertNull(mCoppaConfiguration.getCurrentConsentsArray());

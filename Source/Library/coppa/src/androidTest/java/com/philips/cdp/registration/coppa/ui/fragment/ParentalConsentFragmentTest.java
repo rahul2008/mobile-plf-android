@@ -1,8 +1,8 @@
 package com.philips.cdp.registration.coppa.ui.fragment;
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
 import android.view.View;
+
+import com.philips.cdp.registration.coppa.RegistrationApiInstrumentationBase;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,17 +10,20 @@ import org.junit.Test;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.Assert.assertNotNull;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ParentalConsentFragmentTest extends InstrumentationTestCase {
+public class ParentalConsentFragmentTest extends RegistrationApiInstrumentationBase {
 
     ParentalConsentFragment parentalConsentFragment;
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+       super.setUp();
         parentalConsentFragment = new ParentalConsentFragment();
     }
 

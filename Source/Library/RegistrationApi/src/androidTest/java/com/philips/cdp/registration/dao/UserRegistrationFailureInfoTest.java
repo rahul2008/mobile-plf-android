@@ -5,9 +5,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 
-/**
- * Created by 310243576 on 8/10/2016.
- */
+
 public class UserRegistrationFailureInfoTest extends ActivityInstrumentationTestCase2<RegistrationActivity> {
 
     UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();

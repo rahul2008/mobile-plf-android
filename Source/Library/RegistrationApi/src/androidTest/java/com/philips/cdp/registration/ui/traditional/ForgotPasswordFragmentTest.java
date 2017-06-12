@@ -1,8 +1,6 @@
 package com.philips.cdp.registration.ui.traditional;
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
-
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 import org.junit.Before;
@@ -11,17 +9,19 @@ import org.junit.Test;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import static junit.framework.Assert.assertNotNull;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ForgotPasswordFragmentTest extends InstrumentationTestCase{
+public class ForgotPasswordFragmentTest extends RegistrationApiInstrumentationBase {
 
     ForgotPasswordFragment forgotPasswordFragment;
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+      super.setUp();
         forgotPasswordFragment= new ForgotPasswordFragment();
     }
     @Test

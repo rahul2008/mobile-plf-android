@@ -1,10 +1,9 @@
 package com.philips.cdp.registration.update;
 
 import android.content.Context;
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
 
 import com.janrain.android.capture.CaptureApiError;
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 import com.philips.cdp.registration.dao.ConsumerInterest;
 import com.philips.cdp.registration.handlers.UpdateConsumerInterestHandler;
 
@@ -12,20 +11,20 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-/**
- * Created by 310243576 on 9/16/2016.
- */
-public class ConsumerInterestUpdateTest extends InstrumentationTestCase{
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.Assert.assertNotNull;
+
+
+public class ConsumerInterestUpdateTest extends RegistrationApiInstrumentationBase {
 
     ConsumerInterestUpdate mConsumerInterestUpdate;
     Context mContext;
 
     @Override
     protected void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+
         super.setUp();
-        System.setProperty("dexmaker.dexcache", getInstrumentation()
-                .getTargetContext().getCacheDir().getPath());
+
         mContext = getInstrumentation().getTargetContext();
         mConsumerInterestUpdate = new ConsumerInterestUpdate();
         assertNotNull(mConsumerInterestUpdate);

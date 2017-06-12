@@ -1,25 +1,25 @@
 package com.philips.cdp.registration.coppa.utils;
 
-import android.support.annotation.StringRes;
-import android.support.multidex.MultiDex;
-import android.support.v4.app.FragmentActivity;
-import android.test.InstrumentationTestCase;
 
+import android.support.v4.app.FragmentActivity;
+
+import com.philips.cdp.registration.coppa.RegistrationApiInstrumentationBase;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 import org.junit.Before;
-import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import static junit.framework.Assert.assertNotNull;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class CoppaInterfaceTest extends InstrumentationTestCase {
+public class CoppaInterfaceTest extends RegistrationApiInstrumentationBase {
 
     CoppaInterface coppaInterface;
     FragmentActivity fragmentActivity;
@@ -27,12 +27,12 @@ public class CoppaInterfaceTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+       super.setUp();
         coppaInterface = new CoppaInterface();
         fragmentActivity = new FragmentActivity();
         actionBarListener = new ActionBarListener() {
             @Override
-            public void updateActionBar(@StringRes final int i, final boolean b) {
+            public void updateActionBar( final int i, final boolean b) {
 
             }
 
@@ -43,12 +43,12 @@ public class CoppaInterfaceTest extends InstrumentationTestCase {
         };
     }
 
-    @Test
+
     public void testAssert() {
         assertNotNull(coppaInterface);
     }
 
-    @Test
+
     public void testLaunchAsFragment() {
         Method method = null;
         FragmentLauncher fragmentLauncher = new FragmentLauncher(fragmentActivity, 1, actionBarListener);

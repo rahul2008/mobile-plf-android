@@ -13,9 +13,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 
-/**
- * Created by 310202337 on 11/27/2015.
- */
+
 public class DIUserProfileTest extends ActivityInstrumentationTestCase2<RegistrationActivity> {
 
     DIUserProfile diUserProfile = new DIUserProfile();

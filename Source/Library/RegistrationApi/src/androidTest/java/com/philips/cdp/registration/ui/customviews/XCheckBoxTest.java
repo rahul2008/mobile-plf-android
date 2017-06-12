@@ -1,7 +1,6 @@
 package com.philips.cdp.registration.ui.customviews;
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,16 +8,19 @@ import org.junit.Test;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.Assert.assertNotNull;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class XCheckBoxTest extends InstrumentationTestCase{
+public class XCheckBoxTest extends RegistrationApiInstrumentationBase {
 
     XCheckBox xCheckBox;
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+       super.setUp();
         xCheckBox= new XCheckBox(getInstrumentation().getContext());
     }
     @Test

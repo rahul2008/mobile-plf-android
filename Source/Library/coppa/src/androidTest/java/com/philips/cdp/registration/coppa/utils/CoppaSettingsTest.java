@@ -1,24 +1,23 @@
 package com.philips.cdp.registration.coppa.utils;
 
 import android.content.Context;
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
+
+import com.philips.cdp.registration.coppa.RegistrationApiInstrumentationBase;
 
 import org.junit.Before;
 
-/**
- * Created by 310243576 on 8/25/2016.
- */
-public class CoppaSettingsTest extends InstrumentationTestCase{
+import static junit.framework.Assert.assertNotNull;
+
+
+public class CoppaSettingsTest extends RegistrationApiInstrumentationBase {
     CoppaSettings mCoppaSettings;
     Context mContext;
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+
         super.setUp();
-        System.setProperty("dexmaker.dexcache", getInstrumentation()
-                .getTargetContext().getCacheDir().getPath());
+
         mCoppaSettings = new CoppaSettings(mContext);
     }
 

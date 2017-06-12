@@ -1,25 +1,29 @@
 package com.philips.cdp.registration.ui.customviews;
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.Assert.assertNotNull;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class XHavingProblemsTest extends InstrumentationTestCase{
+public class XHavingProblemsTest extends RegistrationApiInstrumentationBase {
 
     XHavingProblems xHavingProblems;
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+     super.setUp();
         xHavingProblems= new XHavingProblems(getInstrumentation().getContext());
     }
     @Test
     public void testAssert(){
         assertNotNull(xHavingProblems);
     }
+
+
 }

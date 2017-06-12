@@ -1,22 +1,24 @@
 package com.philips.cdp.registration.coppa.ui.customviews;
 
 import android.app.AlertDialog;
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
+
+import com.philips.cdp.registration.coppa.RegistrationApiInstrumentationBase;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import static junit.framework.Assert.assertNotNull;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class RegCoppaAlertDialogTest extends InstrumentationTestCase{
+public class RegCoppaAlertDialogTest extends RegistrationApiInstrumentationBase {
     RegCoppaAlertDialog regCoppaAlertDialog;
     AlertDialog dialogBuilder;
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+     super.setUp();
 
         regCoppaAlertDialog =  new RegCoppaAlertDialog();
 

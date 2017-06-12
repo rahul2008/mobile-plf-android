@@ -1,45 +1,48 @@
-package com.philips.dhpclient.response;
-
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
-
-import org.junit.Before;
-
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * Created by 310243576 on 8/24/2016.
- */
-public class DhpUserRegistrationResponseTest extends InstrumentationTestCase{
-
-    DhpUserRegistrationResponse mDhpUserRegistrationResponse;
-    DhpUserRegistrationResponse mDhpUserRegistrationResponse1;
-
-    Map<String, Object> mRawResponse;
-
-    @Before
-    public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-        super.setUp();
-        mRawResponse = new HashMap<String,Object>();
-        mDhpUserRegistrationResponse = new DhpUserRegistrationResponse("sample",mRawResponse);
-        mDhpUserRegistrationResponse1 = new DhpUserRegistrationResponse("sample",mRawResponse);
-
-
-    }
-
-    public void testDhpUserRegistrationResponse(){
-        assertNotNull(mDhpUserRegistrationResponse);
-        mDhpUserRegistrationResponse = new DhpUserRegistrationResponse("sample","sample",mRawResponse);
-        assertNotNull(mDhpUserRegistrationResponse);
-        assertTrue(mDhpUserRegistrationResponse.equals(mDhpUserRegistrationResponse));
-        assertFalse(mDhpUserRegistrationResponse.equals(mDhpUserRegistrationResponse1));
-        assertFalse(mDhpUserRegistrationResponse.equals(mRawResponse));
-        assertFalse(mDhpUserRegistrationResponse.equals(null));
-
-
-        assertNotNull(mDhpUserRegistrationResponse.hashCode());
-    }
-}
+//package com.philips.dhpclient.response;
+//
+//
+//
+//import com.philips.dhpclient.HSDPInstrumentationBase;
+//
+//
+//import java.util.HashMap;
+//import java.util.Map;
+//
+//import static junit.framework.Assert.assertFalse;
+//import static junit.framework.Assert.assertNotNull;
+//import static junit.framework.Assert.assertTrue;
+//
+//import org.junit.Before;
+//import org.junit.Test;
+//
+//
+//public class DhpUserRegistrationResponseTest extends HSDPInstrumentationBase {
+//
+//    DhpUserRegistrationResponse mDhpUserRegistrationResponse;
+//    DhpUserRegistrationResponse mDhpUserRegistrationResponse1;
+//
+//    Map<String, Object> mRawResponse;
+//
+//    @Before
+//    public void setUp() throws Exception {
+//          super.setUp();
+//        mRawResponse = new HashMap<String,Object>();
+//        mDhpUserRegistrationResponse = new DhpUserRegistrationResponse("sample",mRawResponse);
+//        mDhpUserRegistrationResponse1 = new DhpUserRegistrationResponse("sample",mRawResponse);
+//
+//
+//    }
+//
+//    public void testDhpUserRegistrationResponse(){
+//        assertNotNull(mDhpUserRegistrationResponse);
+//        mDhpUserRegistrationResponse = new DhpUserRegistrationResponse("sample","sample",mRawResponse);
+//        assertNotNull(mDhpUserRegistrationResponse);
+//        assertTrue(mDhpUserRegistrationResponse.equals(mDhpUserRegistrationResponse));
+//        assertFalse(mDhpUserRegistrationResponse.equals(mDhpUserRegistrationResponse1));
+//        assertFalse(mDhpUserRegistrationResponse.equals(mRawResponse));
+//        assertFalse(mDhpUserRegistrationResponse.equals(null));
+//
+//
+//        assertNotNull(mDhpUserRegistrationResponse.hashCode());
+//    }
+//}
