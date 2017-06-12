@@ -4,20 +4,21 @@
  *  * in whole or in part is prohibited without the prior written
  *  * consent of the copyright holder.
  * /
- *//*
+ */
 
 
 package com.philips.dhpclient.test;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.philips.cdp.servertime.ServerTime;
 import com.philips.dhpclient.DhpApiClientConfiguration;
 import com.philips.dhpclient.DhpAuthenticationManagementClient;
 import com.philips.dhpclient.response.DhpAuthenticationResponse;
 import com.philips.dhpclient.response.DhpResponse;
 import com.philips.dhpclient.util.MapUtils;
+import com.philips.ntputils.ServerTime;
 
 import org.json.JSONException;
 import org.mockito.Mockito;
@@ -26,10 +27,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-*/
+
 /**
  * Created by 310190722 on 9/8/2015.
- *//*
+ */
 
 public class RefreshSecretTest extends RegistrationApiInstrumentationBase {
 
@@ -43,11 +44,11 @@ public class RefreshSecretTest extends RegistrationApiInstrumentationBase {
 
     @Override
     protected void setUp() throws Exception {
+        MultiDex.install(getInstrumentation().getTargetContext());
         super.setUp();
         System.setProperty("dexmaker.dexcache", getInstrumentation()
                 .getTargetContext().getCacheDir().getPath());
-        ServerTime.init(getInstrumentation()
-                .getTargetContext());
+
         authenticationManagementClient = new DhpAuthenticationManagementClient(dhpApiClientConfiguration);
     }
 
@@ -56,61 +57,61 @@ public class RefreshSecretTest extends RegistrationApiInstrumentationBase {
                 , "2016-03-28 07:20:31", "3kr6baw3tqbuyg58"));
     }
 
-    public void testRefreshSecretResponseNotNull() {
-        DhpAuthenticationResponse response = getServerMockResponse();
-        assertNotNull(response);
-    }
+//    public void testRefreshSecretResponseNotNull() {
+//        DhpAuthenticationResponse response = getServerMockResponse();
+//        assertNotNull(response);
+//    }
 
-    public void testRefreshSecretResponseSize() {
-        DhpAuthenticationResponse response = getServerMockResponse();
-        assertTrue(response.rawResponse.size() > 0);
-    }
+//    public void testRefreshSecretResponseSize() {
+//        DhpAuthenticationResponse response = getServerMockResponse();
+//        assertTrue(response.rawResponse.size() > 0);
+//    }
 
-    public void testUserId() {
-        DhpAuthenticationResponse response = getServerMockResponse();
-        assertNotNull(response.userId);
-    }
+//    public void testUserId() {
+//        DhpAuthenticationResponse response = getServerMockResponse();
+//        assertNotNull(response.userId);
+//    }
+//
+//    public void testResponseMessage() {
+//        DhpAuthenticationResponse response = getServerMockResponse();
+//        assertNotNull(response.message);
+//    }
 
-    public void testResponseMessage() {
-        DhpAuthenticationResponse response = getServerMockResponse();
-        assertNotNull(response.message);
-    }
+//    public void testAccessToken() {
+//        DhpAuthenticationResponse response = getServerMockResponse();
+//        assertNotNull(response.accessToken);
+//    }
+//
+//    public void testExpiresIn() {
+//        DhpAuthenticationResponse response = getServerMockResponse();
+//        assertNotNull(response.expiresIn);
+//    }
 
-    public void testAccessToken() {
-        DhpAuthenticationResponse response = getServerMockResponse();
-        assertNotNull(response.accessToken);
-    }
+//    public void testRefreshToken() {
+//        DhpAuthenticationResponse response = getServerMockResponse();
+//        assertNotNull(response.refreshToken);
+//    }
+//
+//    public void testResponseCode() {
+//        DhpAuthenticationResponse response = getServerMockResponse();
+//        assertNotNull(response.responseCode);
+//    }
 
-    public void testExpiresIn() {
-        DhpAuthenticationResponse response = getServerMockResponse();
-        assertNotNull(response.expiresIn);
-    }
+//    public void testRawResponse() {
+//        DhpAuthenticationResponse response = getServerMockResponse();
+//        assertNotNull(response.rawResponse);
+//    }
 
-    public void testRefreshToken() {
-        DhpAuthenticationResponse response = getServerMockResponse();
-        assertNotNull(response.refreshToken);
-    }
+//    public void testHsdpUserUUID() {
+//        DhpAuthenticationResponse dhpAuthenticationResponse = getServerMockResponse();
+//        String userUUID = MapUtils.extract(dhpAuthenticationResponse.rawResponse, "exchange.user.userUUID");
+//        assertNotNull(userUUID);
+//    }
 
-    public void testResponseCode() {
-        DhpAuthenticationResponse response = getServerMockResponse();
-        assertNotNull(response.responseCode);
-    }
-
-    public void testRawResponse() {
-        DhpAuthenticationResponse response = getServerMockResponse();
-        assertNotNull(response.rawResponse);
-    }
-
-    public void testHsdpUserUUID() {
-        DhpAuthenticationResponse dhpAuthenticationResponse = getServerMockResponse();
-        String userUUID = MapUtils.extract(dhpAuthenticationResponse.rawResponse, "exchange.user.userUUID");
-        assertNotNull(userUUID);
-    }
-
-    public void testRefreshSecretSuccesResponse() {
-        DhpAuthenticationResponse response = getServerMockResponse();
-        assertEquals("200",response.responseCode);
-    }
+//    public void testRefreshSecretSuccesResponse() {
+//        DhpAuthenticationResponse response = getServerMockResponse();
+//        assertEquals("200",response.responseCode);
+//    }
 
 
     private Map<String, Object> readStream(String in) throws IOException, JSONException {
@@ -145,4 +146,4 @@ public class RefreshSecretTest extends RegistrationApiInstrumentationBase {
         return dhpAuthenticationResponse;
     }
 }
-*/
+
