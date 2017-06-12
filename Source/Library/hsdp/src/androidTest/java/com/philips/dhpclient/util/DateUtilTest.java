@@ -1,5 +1,6 @@
 package com.philips.dhpclient.util;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import org.junit.Before;
@@ -18,9 +19,11 @@ public class DateUtilTest extends InstrumentationTestCase{
 
     @Before
     public void setUp() throws Exception {
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+        MultiDex.install(getInstrumentation().getTargetContext());
 //        MockitoAnnotations.initMocks(this);
         super.setUp();
+        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+
         dateUtil = new DateUtil();
     }
 

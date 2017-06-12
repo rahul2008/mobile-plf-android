@@ -10,10 +10,12 @@ import org.junit.Before;
 public class CoppaConstantsTest extends InstrumentationTestCase{
 
     CoppaConstants coppaConstants;
-
-    @Before
-    public void setUp() throws Exception {
+    @Override
+    protected void setUp() throws Exception {
         MultiDex.install(getInstrumentation().getTargetContext());
+        super.setUp();
+
+        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
         coppaConstants= new CoppaConstants();
     }
     public void testLanuchFragment(){

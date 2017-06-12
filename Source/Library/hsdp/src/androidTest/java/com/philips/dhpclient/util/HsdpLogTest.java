@@ -1,5 +1,6 @@
 package com.philips.dhpclient.util;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
@@ -16,8 +17,11 @@ public class HsdpLogTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+        MultiDex.install(getInstrumentation().getTargetContext());
+
         super.setUp();
+        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+
         mHsdpLog = new HsdpLog();
     }
 

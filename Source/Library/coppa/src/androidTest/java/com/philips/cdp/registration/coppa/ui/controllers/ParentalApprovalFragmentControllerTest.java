@@ -40,10 +40,10 @@ public class ParentalApprovalFragmentControllerTest extends InstrumentationTestC
 
     }
 
-    @Test
-    public void testParentalApprovalFragmentController() {
-        assertNotNull(coppaExtension);
-    }
+//    @Test
+//    public void testParentalApprovalFragmentController() {
+//        assertNotNull(coppaExtension);
+//    }
 
     /*@Test
     public void testIsCountryUs() {

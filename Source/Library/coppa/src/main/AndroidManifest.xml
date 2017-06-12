@@ -1,8 +1,13 @@
 <manifest package="com.philips.cdp.registration.coppa"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <instrumentation android:name="android.test.InstrumentationTestRunner"
+        android:targetPackage="com.philips.cdp.registration.coppa"
+        android:label="androidTest" />
 
     <application>
+        <uses-library android:name="android.test.runner" />
+
         <activity
             android:name=".ui.activity.RegistrationCoppaActivity"
             android:configChanges="orientation|screenSize"/>

@@ -21,8 +21,9 @@ public class DhpUserRegistrationResponseTest extends InstrumentationTestCase{
     @Before
     public void setUp() throws Exception {
         MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
         super.setUp();
+        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+
         mRawResponse = new HashMap<String,Object>();
         mDhpUserRegistrationResponse = new DhpUserRegistrationResponse("sample",mRawResponse);
         mDhpUserRegistrationResponse1 = new DhpUserRegistrationResponse("sample",mRawResponse);

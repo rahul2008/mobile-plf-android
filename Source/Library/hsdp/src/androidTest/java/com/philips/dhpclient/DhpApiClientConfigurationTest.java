@@ -17,9 +17,10 @@ public class DhpApiClientConfigurationTest extends InstrumentationTestCase{
     public void setUp() throws Exception {
         MultiDex.install(getInstrumentation().getTargetContext());
         // Necessary to get Mockito framework working
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 //        MockitoAnnotations.initMocks(this);
         super.setUp();
+        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+
         mDhpApiClientConfiguration = new DhpApiClientConfiguration("apiBaseUrl", "dhpApplicationName", "signingKey","signingSecret");
         assertNotNull(mDhpApiClientConfiguration);
     }

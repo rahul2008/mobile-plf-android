@@ -3,8 +3,13 @@ package com.philips.dhpclient.request;
 import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
+import junit.framework.TestCase;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,28 +19,33 @@ import java.util.Map;
 /**
  * Created by 310243576 on 8/24/2016.
  */
-public class DhpUserIdentityTest extends InstrumentationTestCase {
+@RunWith(org.mockito.junit.MockitoJUnitRunner.class)
+public class DhpUserIdentityTest extends TestCase {
 
+    @Mock
     DhpUserIdentity mDhpUserIdentity ;
+    @Mock
     DhpUserIdentity.Address primaryAddress;
 
 
+    @Mock
     Map<String,Object> mRawResponse;
+    @Mock
     List<DhpUserIdentity.Photo> photos;
 
+    @Mock
     DhpUserIdentity.Profile profile;
+    @Mock
     DhpUserIdentity.Profile profile1;
+
     double height =12234;
+
     double weight=12344;
+
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-        super.setUp();
-         primaryAddress = new DhpUserIdentity.Address("country");
+        primaryAddress = new DhpUserIdentity.Address("country");
          photos = new ArrayList<DhpUserIdentity.Photo>();
-
-
 
         profile = new DhpUserIdentity.Profile("givenName","middleName","familyName","birthday","currentLocation","displayName",
                 "locale","gender","timeZone","preferredLanguage",height,weight,primaryAddress,photos);

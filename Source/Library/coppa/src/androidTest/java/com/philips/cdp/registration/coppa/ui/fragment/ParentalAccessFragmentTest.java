@@ -17,10 +17,12 @@ import java.lang.reflect.Method;
 public class ParentalAccessFragmentTest extends InstrumentationTestCase {
 
     ParentalConsentFragment parentalConsentFragment;
-    @Before
-    public void setUp() throws Exception {
+    @Override
+    protected void setUp() throws Exception {
         MultiDex.install(getInstrumentation().getTargetContext());
-        parentalConsentFragment = new ParentalConsentFragment();
+        super.setUp();
+
+        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath()); parentalConsentFragment = new ParentalConsentFragment();
     }
     @Test
     public void testAssert(){

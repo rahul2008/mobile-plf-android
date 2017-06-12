@@ -26,9 +26,12 @@ public class CoppaLaunchInputTest extends InstrumentationTestCase{
     @Mock
     UserRegistrationUIEventListener mUserRegistrationCoppaUIEventListener;
 
-    @Before
-    public void setUp() throws Exception {
+    @Override
+    protected void setUp() throws Exception {
         MultiDex.install(getInstrumentation().getTargetContext());
+        super.setUp();
+
+        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
         coppaLaunchInput = new CoppaLaunchInput();
     }
 

@@ -20,8 +20,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
 import static com.philips.cdp.registration.ui.utils.RegConstants.EMAIL_ADDRESS_ALREADY_USE_CODE;
 import static junit.framework.Assert.assertEquals;
@@ -29,8 +27,6 @@ import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
 public class AlmostDonePresenterTest {
 
     @Mock
@@ -54,7 +50,6 @@ public class AlmostDonePresenterTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        URInterface.setComponent(mockRegistrationComponent);
         presenter = new AlmostDonePresenter(mockContract, mockUser);
         userRegistrationFailureInfo = new UserRegistrationFailureInfo();
         registrationSettingsURL = new RegistrationSettingsURL();

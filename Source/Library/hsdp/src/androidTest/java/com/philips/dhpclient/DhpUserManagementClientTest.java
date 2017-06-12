@@ -25,9 +25,9 @@ public class DhpUserManagementClientTest extends InstrumentationTestCase{
     @Before
     public void setUp() throws Exception {
         MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 //        MockitoAnnotations.initMocks(this);
         super.setUp();
+        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 
         mDhpApiClientConfiguration = new DhpApiClientConfiguration("apiBaseUrl","dhpApplicationName","signingKey","signingSecret");
         mDhpUserManagementClient = new DhpUserManagementClient(mDhpApiClientConfiguration);

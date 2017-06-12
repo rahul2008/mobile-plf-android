@@ -3,7 +3,6 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'jacoco'
 apply plugin: 'com.jakewharton.butterknife'
@@ -32,7 +31,6 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.1', changing: true
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'me.tatarka:gradle-retrolambda:3.6.0'
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.6.0'
     }
@@ -161,6 +159,8 @@ android {
         testApplicationId "com.philips.cdp.registration.test"
         multiDexEnabled true
         testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]
@@ -224,17 +224,19 @@ dependencies {
 
     compile group: 'com.googlecode.libphonenumber', name: 'libphonenumber', version: '7.7.1'
 
-    apt 'com.jakewharton:butterknife-compiler:8.6.0'
     compile 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    annotationProcessor 'org.immutables:value:2.4.4'
 
-    apt 'com.google.dagger:dagger-compiler:2.10'
-    compile 'com.google.dagger:dagger:2.10'
-    provided 'javax.annotation:jsr250-api:1.0'
-    androidTestApt 'com.github.frankiesardo:android-auto-value-processor:0.1'
+
+    compile 'com.google.dagger:dagger:2.0'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.0'
+    annotationProcessor 'com.github.frankiesardo:android-auto-value-processor:0.1'
     androidTestCompile 'com.github.frankiesardo:android-auto-value:0.1'
-    testApt 'com.github.frankiesardo:android-auto-value-processor:0.1'
+    annotationProcessor 'com.github.frankiesardo:android-auto-value-processor:0.1'
     testCompile 'com.github.frankiesardo:android-auto-value:0.1'
+
+    provided 'javax.annotation:jsr250-api:1.0'
 
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.5.1'
@@ -246,7 +248,14 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile "org.robolectric:robolectric:3.3.1"
+// Android JUnit Runner
+    androidTestCompile 'com.android.support.test:runner:0.5'
+
+// JUnit4 Rules
+    androidTestCompile 'com.android.support.test:rules:0.5'
+//    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
+//        exclude group: 'javax.inject'
+//    }
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

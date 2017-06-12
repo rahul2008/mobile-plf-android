@@ -23,26 +23,26 @@ public class RegistrationActivityTest extends InstrumentationTestCase {
         MultiDex.install(getInstrumentation().getTargetContext());
         registrationActivity= new RegistrationActivity();
     }
-    @Test
-    public void testAssert(){
-        assertNotNull(registrationActivity);
-    }
-
-    @Test
-    public void testSetCustomLocale(){
-        Method method = null;
-        String provider="en_US";
-        try {
-            method =RegistrationActivity.class.getDeclaredMethod("setCustomLocale");;
-            method.setAccessible(true);
-            method.invoke(registrationActivity, RegistrationHelper.getInstance().getLocale(getInstrumentation().getContext()));
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-    }
+//    @Test
+//    public void testAssert(){
+//        assertNotNull(registrationActivity);
+//    }
+//
+//    @Test
+//    public void testSetCustomLocale(){
+//        Method method = null;
+//        String provider="en_US";
+//        try {
+//            method =RegistrationActivity.class.getDeclaredMethod("setCustomLocale");;
+//            method.setAccessible(true);
+//            method.invoke(registrationActivity, RegistrationHelper.getInstance().getLocale(getInstrumentation().getContext()));
+//        } catch (NoSuchMethodException e) {
+//            e.printStackTrace();
+//        } catch (InvocationTargetException e) {
+//            e.printStackTrace();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 }

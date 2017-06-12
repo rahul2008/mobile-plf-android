@@ -15,9 +15,10 @@ public class DhpCommunicationExceptionTest extends InstrumentationTestCase {
     @Before
     public void setUp() throws Exception {
         MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 //        MockitoAnnotations.initMocks(this);
         super.setUp();
+        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+
         Throwable e = new Throwable();
         mDhpCommunicationException =new DhpCommunicationException(e);
 
