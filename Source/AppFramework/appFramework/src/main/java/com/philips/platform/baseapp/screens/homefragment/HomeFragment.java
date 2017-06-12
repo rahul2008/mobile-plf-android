@@ -63,14 +63,17 @@ public class HomeFragment extends AppFrameworkBaseFragment {
         setDateToView();
         startAppTagging(TAG);
 
+        initialiseSecurityDialog();
+
+        return rootView;
+    }
+
+    protected void initialiseSecurityDialog() {
         boolean isUrLoginSuccess = getPreferences().getBoolean(Constants.UR_LOGIN_COMPLETED, false);
         if(isUrLoginSuccess) {
             setUrCompleted();
             createDialog();
-            // Making is false because only after login only this dialog has to be shown.
         }
-
-        return rootView;
     }
 
 
@@ -78,13 +81,13 @@ public class HomeFragment extends AppFrameworkBaseFragment {
         Bundle bundle = getArguments();
     }
 
-    protected void createDialog() {
+    protected boolean createDialog() {
         {
             boolean isScreenLockDisabled = !isScreenLockEnabled();
             boolean isDeviceRooted = isDeviceRooted();
 
             if(getDoNotShowValue(JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED)) {
-                return;
+                return false;
             }
             final Dialog dialog = new Dialog(getActivity());
             dialog.setContentView(R.layout.af_custom_dialog_security);
@@ -120,6 +123,7 @@ public class HomeFragment extends AppFrameworkBaseFragment {
                 dialog.show();
             }
         }
+        return true;
     }
 
     protected void checkBoxListener(CheckBox checkBox, final String key) {
@@ -135,12 +139,12 @@ public class HomeFragment extends AppFrameworkBaseFragment {
     }
 
     @NonNull
-    private Boolean isScreenLockEnabled() {
+    protected Boolean isScreenLockEnabled() {
         return getApplicationContext().getAppInfra().getSecureStorage().deviceHasPasscode();
     }
 
     @NonNull
-    private Boolean isDeviceRooted() {
+    protected Boolean isDeviceRooted() {
         String isDeviceRooted = getApplicationContext().getAppInfra().getSecureStorage().getDeviceCapability();
         return Boolean.parseBoolean(isDeviceRooted);
     }
@@ -179,11 +183,12 @@ public class HomeFragment extends AppFrameworkBaseFragment {
         return getPreferences().getBoolean(key, false);
     }
 
-    private SharedPreferences getPreferences() {
+    protected SharedPreferences getPreferences() {
         return getActivity().getSharedPreferences(Constants.SHARED_PREF, MODE_PRIVATE);
     }
 
     protected void setUrCompleted() {
+        // Making is false because only after login only this dialog has to be shown.
         SharedPreferences.Editor editor = getPreferences().edit();
         editor.putBoolean(Constants.UR_LOGIN_COMPLETED, false);
         editor.commit();
