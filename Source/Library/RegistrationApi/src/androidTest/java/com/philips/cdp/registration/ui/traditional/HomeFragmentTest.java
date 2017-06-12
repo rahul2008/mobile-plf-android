@@ -1,10 +1,9 @@
 package com.philips.cdp.registration.ui.traditional;
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
 import android.text.SpannableString;
 import android.widget.LinearLayout;
 
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 import org.junit.Before;
@@ -14,11 +13,13 @@ import org.mockito.Mock;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import static junit.framework.Assert.assertNotNull;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class HomeFragmentTest extends InstrumentationTestCase {
+public class HomeFragmentTest extends RegistrationApiInstrumentationBase {
 
     HomeFragment homeFragment;
     @Mock
@@ -26,7 +27,7 @@ public class HomeFragmentTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+       super.setUp();
         homeFragment = new HomeFragment();
     }
     @Test

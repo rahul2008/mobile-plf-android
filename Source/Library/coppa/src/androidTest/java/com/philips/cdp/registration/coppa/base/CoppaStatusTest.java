@@ -1,18 +1,18 @@
 package com.philips.cdp.registration.coppa.base;
 
 import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
+
+import com.philips.cdp.registration.coppa.RegistrationApiInstrumentationBase;
 
 import org.junit.Test;
 
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 
-/**
- * Created by 310230979  on 8/30/2016.
- */
-public class CoppaStatusTest extends InstrumentationTestCase{
+
+public class CoppaStatusTest extends RegistrationApiInstrumentationBase {
 
 
     @Test

@@ -1,27 +1,27 @@
 package com.philips.cdp.registration.settings;
 
 import android.content.Context;
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
 
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * Created by 310243576 on 9/6/2016.
- */
-public class RegistrationSettingsTest extends InstrumentationTestCase {
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+
+
+public class RegistrationSettingsTest extends RegistrationApiInstrumentationBase {
 
     Context mContext;
     RegistrationSettings mRegistrationSettings;
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation()
-                .getTargetContext().getCacheDir().getPath());
-        mContext =  getInstrumentation()
+        super.setUp();
+          mContext =  getInstrumentation()
                 .getTargetContext();
         mRegistrationSettings = new RegistrationSettings() {
             @Override

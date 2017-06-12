@@ -18,9 +18,7 @@ import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 
 import org.json.JSONObject;
 
-/**
- * Created by 310202337 on 11/27/2015.
- */
+
 public class ContinueSocialProviderLoginTest extends ActivityInstrumentationTestCase2<RegistrationActivity> {
     RegisterSocial continueSocialProviderLogin;
 

@@ -2,12 +2,11 @@ package com.philips.cdp.registration.ui.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
 import android.text.SpannableString;
 import android.text.style.ClickableSpan;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 import com.philips.cdp.registration.configuration.Configuration;
 
 import org.junit.Before;
@@ -17,10 +16,12 @@ import org.mockito.Mock;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-/**
- * Created by 310243576 on 8/17/2016.
- */
-public class RegUtilityTest extends InstrumentationTestCase {
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+
+
+public class RegUtilityTest extends RegistrationApiInstrumentationBase {
 
     @Mock
     RegUtility regUtility;
@@ -40,9 +41,7 @@ public class RegUtilityTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-//        MockitoAnnotations.initMocks(this);
+
         super.setUp();
 
         regUtility = new RegUtility();

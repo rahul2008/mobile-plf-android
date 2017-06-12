@@ -1,19 +1,20 @@
 package com.philips.cdp.registration.ui.utils;
 
 import android.content.Context;
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-/**
- * Created by 310243576 on 8/18/2016.
- */
-public class JanrainErrorMessageTest extends InstrumentationTestCase {
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+
+
+public class JanrainErrorMessageTest extends RegistrationApiInstrumentationBase {
 
     @Mock
     JanrainErrorMessage janrainErrorMessage;
@@ -61,10 +62,7 @@ public class JanrainErrorMessageTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-//        MockitoAnnotations.initMocks(this);
-        super.setUp();
+           super.setUp();
         context = getInstrumentation().getTargetContext();
 
         janrainErrorMessage = new JanrainErrorMessage(context);

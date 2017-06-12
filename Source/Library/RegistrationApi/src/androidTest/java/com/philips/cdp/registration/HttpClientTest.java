@@ -33,9 +33,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-/**
- * Created by 310202337 on 11/23/2015.
- */
+
 public class HttpClientTest extends ActivityInstrumentationTestCase2<RegistrationActivity> {
 
     public HttpClientTest() {

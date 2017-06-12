@@ -23,9 +23,7 @@ import org.json.JSONObject;
 
 import static com.janrain.android.utils.LogUtils.throwDebugException;
 
-/**
- * Created by 310202337 on 4/12/2016.
- */
+
 public class CoppaConfigurationTest extends ActivityInstrumentationTestCase2<RegistrationCoppaActivity> {
 
         private static LoggingInterface mLoggingInterface;

@@ -2,30 +2,33 @@ package com.philips.cdp.registration.ui.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
 
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 
 import org.junit.Before;
+import org.junit.Test;
 
-/**
- * Created by 310243576 on 9/6/2016.
- */
-public class URLaunchInputTest extends InstrumentationTestCase{
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+
+
+public class URLaunchInputTest extends RegistrationApiInstrumentationBase {
     Context mContext;
     URLaunchInput mURLaunchInput;
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-        super.setUp();
+          super.setUp();
         mContext = getInstrumentation().getTargetContext();
         mURLaunchInput = new URLaunchInput();
     }
+    @Test
     public void testURLaunch(){
 
         UserRegistrationUIEventListener mUserRegistrationUIEventListener = new UserRegistrationUIEventListener() {
@@ -56,7 +59,7 @@ public class URLaunchInputTest extends InstrumentationTestCase{
         mURLaunchInput.enableAddtoBackStack(false);
         assertFalse(mURLaunchInput.isAddtoBackStack());
     }
-
+@Test
     public void testIsAccountSettingsTrue(){
         mURLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
         assertEquals(RegistrationLaunchMode.ACCOUNT_SETTINGS,mURLaunchInput.getEndPointScreen());

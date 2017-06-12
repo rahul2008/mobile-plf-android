@@ -1,22 +1,20 @@
 package com.philips.cdp.registration.coppa.base;
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
+import com.philips.cdp.registration.coppa.RegistrationApiInstrumentationBase;
 
 import org.junit.Test;
 
-/**
- * Created by 310243576 on 8/20/2016.
- */
-public class CoppaResendErrorTest extends InstrumentationTestCase{
+import static junit.framework.Assert.assertEquals;
+
+
+public class CoppaResendErrorTest extends RegistrationApiInstrumentationBase {
     CoppaResendError mCoppaResendError ;
 
     @Override
-    protected void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+    public void setUp() throws Exception {
+
         super.setUp();
-        System.setProperty("dexmaker.dexcache", getInstrumentation()
-                .getTargetContext().getCacheDir().getPath());
+
     mCoppaResendError = new CoppaResendError();
     }
 

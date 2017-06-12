@@ -1,22 +1,23 @@
 package com.philips.cdp.registration.ui.traditional;
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import static junit.framework.Assert.assertNotNull;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class LogoutFragmentTest extends InstrumentationTestCase{
+public class LogoutFragmentTest extends RegistrationApiInstrumentationBase {
 
     LogoutFragment  logoutFragment;
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+       super.setUp();
         logoutFragment=new LogoutFragment();
     }
     @Test

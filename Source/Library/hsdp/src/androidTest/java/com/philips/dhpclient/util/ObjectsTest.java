@@ -1,5 +1,7 @@
+
 package com.philips.dhpclient.util;
 
+import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
 
 import org.junit.Before;
@@ -22,9 +24,11 @@ public class ObjectsTest extends InstrumentationTestCase{
 
     @Before
     public void setUp() throws Exception {
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+        MultiDex.install(getInstrumentation().getTargetContext());
 //        MockitoAnnotations.initMocks(this);
         super.setUp();
+        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+
         objects = new Objects();
     }
 

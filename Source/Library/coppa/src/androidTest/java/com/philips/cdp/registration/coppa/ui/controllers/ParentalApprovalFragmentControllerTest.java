@@ -2,20 +2,19 @@ package com.philips.cdp.registration.coppa.ui.controllers;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.coppa.R;
+import com.philips.cdp.registration.coppa.RegistrationApiInstrumentationBase;
 import com.philips.cdp.registration.coppa.base.CoppaExtension;
 import com.philips.cdp.registration.coppa.ui.fragment.ParentalApprovalFragment;
 
-import org.junit.Test;
 import org.mockito.Mock;
 
-/**
- * Created by 310243576 on 8/20/2016.
- */
-public class ParentalApprovalFragmentControllerTest extends InstrumentationTestCase {
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.Assert.assertNotNull;
+
+
+public class ParentalApprovalFragmentControllerTest extends RegistrationApiInstrumentationBase {
 
     Context mContext;
     @Mock
@@ -26,11 +25,8 @@ public class ParentalApprovalFragmentControllerTest extends InstrumentationTestC
     ParentalApprovalFragment parentalApprovalFragment;
 
     @Override
-    protected void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+    public void setUp() throws Exception {
         super.setUp();
-        System.setProperty("dexmaker.dexcache", getInstrumentation()
-                .getTargetContext().getCacheDir().getPath());
         mContext = getInstrumentation().getTargetContext();
         parentalApprovalFragment = new ParentalApprovalFragment();
         //mParentalApprovalFragmentController = new ParentalApprovalFragmentController(parentalApprovalFragment);
@@ -40,7 +36,7 @@ public class ParentalApprovalFragmentControllerTest extends InstrumentationTestC
 
     }
 
-    @Test
+
     public void testParentalApprovalFragmentController() {
         assertNotNull(coppaExtension);
     }
