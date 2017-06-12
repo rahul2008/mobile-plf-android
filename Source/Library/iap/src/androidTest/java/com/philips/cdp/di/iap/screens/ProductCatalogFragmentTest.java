@@ -28,7 +28,6 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-@Ignore
 public class ProductCatalogFragmentTest extends BaseTest {
     MockNetworkController mNetworkController;
     private HybrisDelegate mHybrisDelegate;
@@ -41,7 +40,7 @@ public class ProductCatalogFragmentTest extends BaseTest {
 
     @Before
     public void setUp() {
-
+        turnOnScreen();
         DemoTestActivity activity = mActivityTestRule.launchActivity(getLaunchIntent(IAPFlows.IAP_PRODUCT_CATALOG_VIEW, CTNs, R.style.Theme_DLS_GroupBlue_UltraLight));
         mContext = activity;
         MockitoAnnotations.initMocks(this);

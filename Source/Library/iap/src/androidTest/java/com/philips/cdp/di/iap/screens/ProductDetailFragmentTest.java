@@ -19,7 +19,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-@Ignore
+
 public class ProductDetailFragmentTest extends BaseTest {
 
     public ActivityTestRule<DemoTestActivity> mActivityTestRule = new ActivityTestRule<>(DemoTestActivity.class);
@@ -28,6 +28,7 @@ public class ProductDetailFragmentTest extends BaseTest {
 
     @Before
     public void setUp() {
+        turnOnScreen();
         DemoTestActivity activity;
         activity = mActivityTestRule.launchActivity(getLaunchIntent(IAPFlows.IAP_PRODUCT_DETAIL_VIEW, CTNs, R.style.Theme_DLS_GroupBlue_UltraLight));
         //  activity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
