@@ -4,20 +4,24 @@ apply plugin: 'maven-publish'
 
 buildscript {
     repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
-        maven {
-            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/plugins-release-local"
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
-                password = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
             }
         }
     }
-
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.1', changing: true
     }
 }
 
@@ -40,9 +44,19 @@ version = objcdp.getVersion()
 allprojects {
     repositories {
         maven {
-            url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local'
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
         }
-        maven { url objcdp.getArtifactoryUrl() }
+        maven {
+            url objcdp.getArtifactoryUrl()
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
 
         flatDir {
             dirs 'libs'
@@ -183,6 +197,8 @@ android {
         disable 'MissingTranslation'
         disable 'TypographyFractions','TypographyQuotes'
         absolutePaths false
+        lintConfig file('lint.xml')
+
     }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
@@ -200,8 +216,8 @@ android {
 
 dependencies {
     compile project(':iap')
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:customtabs:**.**.**'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:customtabs:25.3.1'
     compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.1.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive = true
     }
