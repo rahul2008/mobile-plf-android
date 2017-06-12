@@ -33,14 +33,15 @@
                 android:gravity="center_vertical|start"
                 android:layout_marginEnd="@dimen/layout_margin_left_right"
                 android:layout_marginStart="@dimen/layout_margin_left_right"
-                android:textColorHighlight="#0f0f"
+                android:textColorHighlight="#0000"
                 android:text="@string/links_description" />
 
             <com.philips.platform.uid.view.widget.Label
-                style="@style/UIDLabel"
+                android:id="@+id/button_link"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|start"
+                android:textColorHighlight="#0000"
                 android:layout_marginTop="@dimen/button_first_last_element_gap"
                 android:text="@string/links_button_page"
                 android:layout_marginEnd="@dimen/layout_margin_left_right"

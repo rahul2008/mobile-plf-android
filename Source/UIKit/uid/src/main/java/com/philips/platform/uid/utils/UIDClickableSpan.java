@@ -40,6 +40,10 @@ public class UIDClickableSpan extends ClickableSpan {
         }
     }
 
+    public ColorStateList getColors() {
+        return colorList;
+    }
+
     public void setPressed(boolean pressed) {
         this.pressed = pressed;
     }
@@ -78,10 +82,10 @@ public class UIDClickableSpan extends ClickableSpan {
         int linkColor = defColor;
         if (colorList != null) {
             linkColor = defaultColor;
-            if (pressed) {
-                linkColor = pressedColor;
-            } else if (isVisited()) {
+            if (isVisited()) {
                 linkColor = visitedColor;
+            } else if (pressed) {
+                linkColor = pressedColor;
             }
         }
         return linkColor;

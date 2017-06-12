@@ -7,12 +7,14 @@
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -57,6 +59,31 @@ public class Label extends AppCompatTextView {
     }
 
     private CharSequence decorateSpans(CharSequence text) {
+
+        if (text instanceof Spannable) {
+            int spanStart;
+            int spanEnd;
+            Spannable string = (Spannable) text;
+            ClickableSpan[] clickableSpans = string.getSpans(0, text.length(), ClickableSpan.class);
+            for (ClickableSpan span : clickableSpans) {
+                spanStart = string.getSpanStart(span);
+                spanEnd = string.getSpanEnd(span);
+                ColorStateList linkColors = null;
+                if(span instanceof UIDClickableSpan) {
+                    linkColors = ((UIDClickableSpan) span).getColors();
+                }
+                linkColors = linkColors != null? linkColors: getLinkTextColors();
+                if (spanStart >= 0 && spanEnd >= 0) {
+                    string.removeSpan(span);
+                    UIDClickableSpanWrapper urlSpanWrapper = new UIDClickableSpanWrapper(span);
+                    urlSpanWrapper.setColors(linkColors);
+                    urlSpanWrapper.setClickInterceptor(clickInterceptor);
+                    string.setSpan(urlSpanWrapper, spanStart, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+            }
+            return string;
+        }
+
         if (text instanceof Spanned) {
             int spanStart;
             int spanEnd;
