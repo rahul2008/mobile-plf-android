@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
+import com.philips.platform.appinfra.appupdate.AppUpdateManager;
 import com.philips.platform.appinfra.demo.R;
 
 import java.text.SimpleDateFormat;

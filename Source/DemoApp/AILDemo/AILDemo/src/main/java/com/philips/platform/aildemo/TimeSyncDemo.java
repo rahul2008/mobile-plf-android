@@ -40,7 +40,7 @@ public class TimeSyncDemo extends AppCompatActivity {
       //  AppInfraApplication.gAppInfra.getTagging().createInstanceForComponent("TimeSyncComponentID", "TimeSyncComponentVersion");
     //    AppInfraApplication.gAppInfra.getTagging().trackVideoStart("Time Synce");
 
-        AILDemouAppInterface.mAppInfra.trackPageWithInfo("TimeSyncDemo", "TimeSyncDemoKey", "TimeSyncDemoVersion");
+        AILDemouAppInterface.mAppInfra.getTagging().trackPageWithInfo("TimeSyncDemo", "TimeSyncDemoKey", "TimeSyncDemoVersion");
 
         localTimeTextvalue.setText(getDeviceTime());
 //        utcTimeTextvalue.setText(mTimeSyncInterface.getUTCTime());

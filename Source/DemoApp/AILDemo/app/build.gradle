@@ -144,7 +144,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.philips.platform.aildemolaunch"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.5.6"
