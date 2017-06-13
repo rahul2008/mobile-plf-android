@@ -250,7 +250,7 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
                 backState = ((BackEventListener) currentFrag).handleBackEvent();
                 if (!backState) {
                     ((AppFrameworkApplication)getApplicationContext()).getTargetFlowManager().getBackState();
-                    adapter.setSelectedIndex(0);
+                  //  adapter.setSelectedIndex(0);
                     super.onBackPressed();
                 }
             } else {
