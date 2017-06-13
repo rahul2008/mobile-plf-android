@@ -14,19 +14,24 @@ jacoco {
 
 buildscript {
     repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
-        maven {
-            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/plugins-release-local"
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
-                password = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
             }
         }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.2'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.1', changing: true
         classpath 'com.oguzbabaoglu:butterfork-plugin:1.0.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'me.tatarka:gradle-retrolambda:3.6.0'
@@ -47,8 +52,20 @@ archivesBaseName = "registrationApi"
 
 allprojects {
     repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
-        maven { url objcdp.getArtifactoryUrl() }
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url objcdp.getArtifactoryUrl()
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
     }
 
     apply plugin: 'com.jfrog.artifactory'
@@ -74,6 +91,7 @@ artifactory {
             publishBuildInfo = true
             publishArtifacts = true
             publications ('aar')
+            properties = ['git.commitid': objcdp.getCommitHashLong()]
         }
     }
 
@@ -122,11 +140,12 @@ publishing {
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
+                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleGroup)
-                    dependencyNode.appendNode('artifactId', it.moduleName)
-                    dependencyNode.appendNode('version', it.moduleVersion)
+                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
+                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
+                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
                 }
             }
         }
