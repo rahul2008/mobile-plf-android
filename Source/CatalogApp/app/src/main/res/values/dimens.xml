@@ -60,6 +60,8 @@
     <string name="gridview_item_opacity">0.35</string>
 
     <!-- Radio Button-->
+    <dimen name="radiobutton_list_margin_top_bottom">14dp</dimen>
+    <dimen name="radiobutton_margin_left">4dp</dimen>
     <dimen name="radio_button_height">48dp</dimen>
     <dimen name="radio_button_text_padding_left_right">16dp</dimen>
 

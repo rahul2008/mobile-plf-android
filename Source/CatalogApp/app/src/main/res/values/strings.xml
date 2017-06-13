@@ -227,4 +227,11 @@
     <string name="label_item_text_one">Item 1</string>
     <string name="label_item_text_two">Item 2</string>
     <string name="label_item_text_three">Item 3</string>
+
+    <!--Radiobutton-->
+    <string name="page_title_radiobutton">Radio button</string>
+    <string name="radiobutton_selection_item_1">Selection item 1</string>
+    <string name="radiobutton_selection_item_2">Selection item 2</string>
+    <string name="radiobutton_selection_item_3">Selection item 3</string>
+    <string name="radiobutton_selection_item_4">Multi-line label item lorem ipsum dolor sit amet </string>
 </resources>
