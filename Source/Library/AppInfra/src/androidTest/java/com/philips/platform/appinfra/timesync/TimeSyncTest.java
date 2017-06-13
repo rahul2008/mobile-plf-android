@@ -99,5 +99,17 @@ public class TimeSyncTest extends MockitoTestCase {
 
     }
 
+    public void testisSynchronized() {
+        if(mTimeSyncSntpClient.isSynchronized()){
+            assertTrue(mTimeSyncSntpClient.isSynchronized());
+        }
+        else
+        {
+            assertFalse(mTimeSyncSntpClient.isSynchronized());
+        }
+
+
+    }
+
 
 }

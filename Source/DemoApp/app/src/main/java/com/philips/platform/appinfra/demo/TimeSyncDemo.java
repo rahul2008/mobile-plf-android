@@ -30,6 +30,8 @@ public class TimeSyncDemo extends AppCompatActivity {
         final TextView localTimeTextvalue = (TextView) findViewById(R.id.localtimevalue);
 
         final TextView UTCtimeVal = (TextView) findViewById(R.id.utctimetextvalue);
+        final TextView isSynchronized = (TextView) findViewById(R.id.isSynchronized);
+
 
         Button localTimeUpdateButton = (Button) findViewById(R.id.localtimebutton);
         Button refreshButton = (Button) findViewById(R.id.refreshbutton);
@@ -61,6 +63,12 @@ public class TimeSyncDemo extends AppCompatActivity {
                 formatter.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
                 System.out.println("KAVYA DEMO"+" "+formatter.format(date));
                 UTCtimeVal.setText(formatter.format(date));
+                if(mTimeSyncInterface.isSynchronized()){
+                    isSynchronized.setText("Synchronized");
+                }else{
+                    isSynchronized.setText("Not Synchronized");
+                }
+
             }
         });
     }

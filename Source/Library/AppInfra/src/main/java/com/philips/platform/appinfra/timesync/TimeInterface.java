@@ -23,4 +23,11 @@ public interface TimeInterface {
      * Calls UTCtime and update local Offset variable (Offset=UTCtime-Devicetime)
      */
     public void refreshTime();
+
+    /**
+     * isSynchronized.
+     * @return the boolean value true or false refresh time is Synchronized or not
+     */
+    public boolean isSynchronized();
+
 }

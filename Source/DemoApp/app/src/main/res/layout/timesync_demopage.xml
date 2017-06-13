@@ -53,4 +53,14 @@
         android:layout_gravity="center_horizontal"
         android:padding="20dp"
         android:text="Refresh" />
+
+    <TextView
+        android:id="@+id/isSynchronized"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="5dp"
+        />
+
+
 </LinearLayout>

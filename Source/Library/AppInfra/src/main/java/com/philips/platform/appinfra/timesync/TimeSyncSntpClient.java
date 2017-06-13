@@ -11,8 +11,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.SntpClient;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
-
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.R;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -45,6 +47,18 @@ public class TimeSyncSntpClient implements TimeInterface {
     public static final String UTC = "UTC";
     public static final String DATE_FORMAT = "yyyy-MM-dd'T' K mm:ss.SSS Z";
 
+    private boolean isSynchronized=false;
+
+
+    final Handler responseHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            isSynchronized=(boolean) msg.obj;
+            Log.e("Timesync"," handler isSynchronized:"+isSynchronized);
+        }
+    };
+
+
     public TimeSyncSntpClient(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
         mRefreshInProgressLock = new ReentrantLock();
@@ -69,6 +83,10 @@ public class TimeSyncSntpClient implements TimeInterface {
         final SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putLong(OFFSET, pOffset);
         editor.apply();
+        Log.e("TimeSync"," inside saveOffset ");
+        Message msg = new Message();
+        msg.obj = true;
+        responseHandler.sendMessage(msg);
     }
 
     private long getOffset() {
@@ -200,7 +218,10 @@ public class TimeSyncSntpClient implements TimeInterface {
 //                                mAppInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, "TimeSyncError",
 //                                        "Network connectivity not found");
 //                            }
-                            Log.e("TIMESYNC", "Network connectivity not found");
+                            Log.e("TimeSync", "Network connectivity not found");
+                            Message msg = new Message();
+                            msg.obj = false;
+                            responseHandler.sendMessage(msg);
                         }
                     } catch (IllegalArgumentException e) {
                         if (mAppInfra != null && mAppInfra.getAppInfraLogInstance() != null)
@@ -212,18 +233,27 @@ public class TimeSyncSntpClient implements TimeInterface {
         }
     }
 
+    @Override
+    public boolean isSynchronized() {
+        return isSynchronized;
+    }
+
     private void registerReciever() {
         final DateTimeChangedReceiver receiver = new DateTimeChangedReceiver();
         final IntentFilter registeReceiver = new IntentFilter();
         registeReceiver.addAction("android.intent.action.DATE_CHANGED");
         registeReceiver.addAction("android.intent.action.TIME_SET");
+        registeReceiver.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        registeReceiver.addAction("android.net.wifi.WIFI_STATE_CHANGED");
+        registeReceiver.addAction("android.net.wifi.STATE_CHANGE");
         mAppInfra.getAppInfraContext().registerReceiver(receiver, registeReceiver);
     }
 
     public class DateTimeChangedReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(final Context context, final Intent intent) {
-
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "DateTimeChangedReceiver",
+                    "Received DateTimeChangedReceiver BroadcastReceiver");
             new Thread(new Runnable() {
                 @Override
                 public void run() {
