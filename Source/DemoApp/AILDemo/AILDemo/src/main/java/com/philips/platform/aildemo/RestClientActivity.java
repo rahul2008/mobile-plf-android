@@ -19,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.rest.RestInterface;
 import com.philips.platform.appinfra.rest.TokenProviderInterface;
 import com.philips.platform.appinfra.rest.request.StringRequest;
@@ -90,7 +91,7 @@ public class RestClientActivity extends AppCompatActivity {
         invoke.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 int methodType= Request.Method.GET ;
+                 int methodType=Request.Method.GET ;
 
 
                 for (String key : headers.keySet()) {

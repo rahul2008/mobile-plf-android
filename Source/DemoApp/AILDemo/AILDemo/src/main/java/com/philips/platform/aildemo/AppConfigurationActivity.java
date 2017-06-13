@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.demo.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,7 +35,7 @@ public class AppConfigurationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
 
-        mConfigInterface =  AILDemouAppInterface.mAppInfra.getConfigInterface();
+        mConfigInterface = AILDemouAppInterface.mAppInfra.getConfigInterface();
 
 
         // setting language spinner

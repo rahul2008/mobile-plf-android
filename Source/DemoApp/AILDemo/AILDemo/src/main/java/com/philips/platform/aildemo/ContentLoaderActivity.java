@@ -23,6 +23,7 @@ import com.philips.platform.appinfra.contentloader.ContentInterface;
 import com.philips.platform.appinfra.contentloader.ContentLoader;
 import com.philips.platform.appinfra.contentloader.ContentLoaderInterface;
 import com.philips.platform.appinfra.contentloader.model.ContentArticle;
+import com.philips.platform.appinfra.demo.R;
 
 import java.util.List;
 
@@ -80,7 +81,7 @@ public class ContentLoaderActivity extends AppCompatActivity {
                             }
 
                             @Override
-                            public void onSuccess(ContentLoaderInterface.OnRefreshListener.REFRESH_RESULT result) {
+                            public void onSuccess(REFRESH_RESULT result) {
                                 Log.i("CL onSuccess:", "" + result);
                                 textViewResponse.setText(result.toString() + "\nPlease see response data with tag 'CL REFRSH RESP' in console log");
                             }

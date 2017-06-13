@@ -1,4 +1,4 @@
-package com.philips.platform.appinfra.demo;
+package com.philips.platform.aildemo;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 
 public class LanguagePackActivity extends AppCompatActivity {
@@ -21,7 +22,7 @@ public class LanguagePackActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_language_pack);
-        mLanguagePack = AppInfraApplication.gAppInfra.getLanguagePack();
+        mLanguagePack = AILDemouAppInterface.mAppInfra.getLanguagePack();
         overviewfileStatus= (TextView) findViewById(R.id.overviewfileStatus);
         activatedUrl= (TextView) findViewById(R.id.activatedUrl);
 

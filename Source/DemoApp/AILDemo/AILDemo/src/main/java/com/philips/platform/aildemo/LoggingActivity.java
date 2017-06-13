@@ -11,13 +11,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 public class LoggingActivity extends AppCompatActivity {
@@ -87,8 +89,7 @@ public class LoggingActivity extends AppCompatActivity {
             }
         });
 
-        final CheckBox consoleLogEnabled =(CheckBox) findViewById(R.id.appInfraLogConsole);
-        final CheckBox fileLogEnabled =(CheckBox) findViewById(R.id.appInfraLogFile);
+
         final EditText eventText= (EditText) findViewById(R.id.appInfraLogEvent);
         final EditText msgText= (EditText) findViewById(R.id.appInfraLogMessage);
         final EditText logCount= (EditText) findViewById(R.id.appInfraLogCount);
@@ -107,16 +108,7 @@ public class LoggingActivity extends AppCompatActivity {
                         Toast.makeText(LoggingActivity.this, "Event name or message is not valid",
                                 Toast.LENGTH_SHORT).show();
                     } else {
-                        if (consoleLogEnabled.isChecked()) {
-                            AILoggingInterface.enableConsoleLog(true);
-                        } else {
-                            AILoggingInterface.enableConsoleLog(false);
-                        }
-                        if (fileLogEnabled.isChecked()) {
-                            AILoggingInterface.enableFileLog(true);
-                        } else {
-                            AILoggingInterface.enableFileLog(false);
-                        }
+
                         int totalLogCount = 1;
 
                         try {
@@ -126,12 +118,34 @@ public class LoggingActivity extends AppCompatActivity {
                         }
 
                         for (int logcount = 1; logcount <= totalLogCount; logcount++) {
-                            AILoggingInterface.log(currentLogLevel, eventText.getText().toString(), msgText.getText().toString());
+                            HashMap<String, String> map= new HashMap<String, String>();
+                            map.put("key1","val1");
+                            map.put("key2","val2");
 
+                            HashMap<String, Integer> map2= new HashMap<String, Integer>();
+                            map2.put("key1",new Integer(2));
+                            map2.put("key2",3);
+
+                            AILoggingInterface.log(currentLogLevel, eventText.getText().toString(), msgText.getText().toString(), map);
+                            AILoggingInterface.log(currentLogLevel, eventText.getText().toString(), msgText.getText().toString(), map2);
                             // Component1 component1= new Component1(AppInfraApplication.gAppInfra);
                             // AILoggingInterface.log(currentLogLevel, "back", "back");
                         }
+                        Map<String, String> sd= new HashMap<String, String>();
+                        sd.put("key1","val1");
+                        sd.put("key2","val2");
+                        //AILoggingInterface.log(currentLogLevel, eventText.getText().toString(),sd);
+                      //  AILoggingInterface.log(currentLogLevel,eventText.getText().toString(),"",sd);
+
+                        /*   /////////////
+                       AppInfra ai = (AppInfra)AppInfraApplication.gAppInfra;
+                        Component1 c1 = new Component1(ai);
+
+                                Component2 c2 = new Component2(ai);*/
+                        ////////////
                     }
+
+
                 }
             }
         });

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.rest.RestInterface;
 
 

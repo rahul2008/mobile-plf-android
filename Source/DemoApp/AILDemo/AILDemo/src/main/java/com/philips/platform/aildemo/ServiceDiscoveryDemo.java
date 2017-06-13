@@ -10,8 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
@@ -59,9 +61,12 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             "Get Url by language with replaced url",
             "Get replaced Url by country with multiple service id",
             "Get replaced Url by Language with multiple service id",
-            "Refresh"};
+            "Refresh",
+            "Get home country Synchronous"};
 
     private HashMap<String, String> parameters;
+    private HomeCountryUpdateReceiver receiver;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +92,10 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
         editTextData = idEditText.getText().toString();
 
         resultView = (TextView) findViewById(R.id.textView2);
+
+
+        receiver = new HomeCountryUpdateReceiver();
+        mServiceDiscoveryInterface.registerOnHomeCountrySet(receiver);
 
         setHomeCountry.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,6 +193,9 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
                         }
                     });
 
+                } else if(requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Get home country Synchronous")){
+                    String homeCountry = mServiceDiscoveryInterface.getHomeCountry();
+                    Toast.makeText(ServiceDiscoveryDemo.this, "Home country is " + homeCountry, Toast.LENGTH_SHORT).show();
                 }
 //                else if (requestTypeSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Replace Url")) {
 //                    Map<String, String> parameters = new HashMap<>();
@@ -305,5 +317,11 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 //        }
         resultView.setText(" URL Model   : " + mMap);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mServiceDiscoveryInterface.unRegisterHomeCountrySet(receiver);
     }
 }
