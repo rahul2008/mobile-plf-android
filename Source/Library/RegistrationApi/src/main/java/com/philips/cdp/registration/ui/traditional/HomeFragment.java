@@ -78,6 +78,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.function.Consumer;
 
 import javax.inject.Inject;
 
@@ -525,37 +526,51 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
             RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
 
-            serviceDiscoveryWrapper.getServiceLocaleWithLanguagePreferenceSingle("userreg.janrain.api")
-                    .map(locale -> {
-                                if (locale == null || locale.isEmpty()) {
-                                    return serviceDiscoveryWrapper.getServiceLocaleWithCountryPreferenceSingle("userreg.janrain.api");
-                                } else {
-                                    return Single.just(locale);
-                                }
-                            }
-                    )
-                    .onErrorReturn(
-                            throwable -> serviceDiscoveryWrapper.getServiceLocaleWithCountryPreferenceSingle("userreg.janrain.api"))
-                    .map(Single::blockingGet)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(new DisposableSingleObserver<String>() {
-                        @Override
-                        public void onSuccess(String localeStr) {
-                            updateAppLocale(localeStr, countryName);
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
-                            hideProgressDialog();
-                            mRegError.setError(e.getMessage());
-                            scrollViewAutomatically(mRegError, mSvRootLayout);
-                        }
-                    });
+            getLocaleServiceDiscovery(countryName);
         }
     }
 
+    private void getLocaleServiceDiscovery(final String countryName) {
+        serviceDiscoveryWrapper.getServiceLocaleWithLanguagePreferenceSingle("userreg.janrain.api")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<String>() {
+                    @Override
+                    public void onSuccess(String verificationUrl) {
+                        if(!verificationUrl.isEmpty()){
+                            updateAppLocale(verificationUrl, countryName);
+                        return;
+                        }
+                        getLocaleServiceDiscoveryByCountry(countryName);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        getLocaleServiceDiscoveryByCountry(countryName);
+                    }
+                });
+    }
+
+    private void getLocaleServiceDiscoveryByCountry(String countryName) {
+        serviceDiscoveryWrapper.getServiceLocaleWithCountryPreferenceSingle("userreg.janrain.api")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<String>() {
+                    @Override
+                    public void onSuccess(String verificationUrl) {
+                        updateAppLocale(verificationUrl, countryName);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+                        hideProgressDialog();
+                        mRegError.setError(e.getMessage());
+                        scrollViewAutomatically(mRegError, mSvRootLayout);
+
+                    }
+                });
+    }
     private void updateAppLocale(String localeString,String countryName) {
         mLocale = localeString;
         RLog.d(RLog.SERVICE_DISCOVERY, "STRING S : " + mLocale);
