@@ -17,6 +17,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
@@ -46,13 +47,6 @@ public class DownloadAndShowPDFHelper {
         mHelpManualUrl = urlPDF;
 
         if (null != mContext) {
-//            mHelpManualUrl = getURLHelpManualPDFFile(mContext);
-
-//            if (isAquacleanEnabled(mContext)) {
-//                mHelpManualFileName = mContext.getString(R.string.help_manual_aquaclean_pdf);
-//            } else {
-//                mHelpManualFileName = mContext.getString(R.string.help_manual_pdf);
-//            }
 
             mHelpManualFileName = pdfName;
 
@@ -84,15 +78,11 @@ public class DownloadAndShowPDFHelper {
                             mContext.startService(downloadService);
                         }
                     });
-//                    mAlertDialog.setOnDialogClickListener(mContext);
-//                    mAlertDialog.setDialogId(AppConstants.OK_RESEND_DIALOG);
-//                    mAlertDialog.setAlertDialogType(XAlertDialog.DIALOG_TYPE.TWO);
                 } else {
                     mAlertDialog = new AlertDialog.Builder(mContext);
                     mAlertDialog.setMessage(mContext.getResources().getString(
                             R.string.no_internet));
                 }
-//                mAlertDialog.show();
             }
         }
     }
@@ -116,8 +106,10 @@ public class DownloadAndShowPDFHelper {
         try {
             DigiCareLogger.d(TAG, " manualUrl " + manualFilename);
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(Uri.fromFile(file), "application/pdf");
-            intent.setPackage(PACKAGENAME_ADOBE_READER);
+            //intent.setDataAndType(Uri.fromFile(file), "application/pdf");
+            intent.setDataAndType(FileProvider.getUriForFile(ctx, "com.philips.cdp.digitalcare.ccpdffilesprovider", file), "application/pdf");
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            //intent.setPackage(PACKAGENAME_ADOBE_READER);
             ctx.startActivity(intent);
             DigiCareLogger.d(TAG, "Opening Manual PDF in Adobe Reader - " + manualFilename);
         } catch (Exception e) {

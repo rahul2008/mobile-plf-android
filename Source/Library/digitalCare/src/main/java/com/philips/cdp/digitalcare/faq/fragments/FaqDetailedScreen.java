@@ -194,19 +194,10 @@ public class FaqDetailedScreen extends DigitalCareBaseFragment {
                     DigiCareLogger.d(TAG, "OnPage Finished invoked with URL " + url);
                     mProgressBar.setVisibility(View.GONE);
                     enableWebView();
-
-                  /*  mWebView.getSettings().setDefaultFontSize((int) getActivity().getResources().
-                            getDimension(R.dimen.title_text_size_small));*/
-//                    mWebView.loadUrl("javascript:try{document.getElementsByClassName('group faqfeedback_group')[0].style.display='none'}catch(e){}");
-//                    Inject javascript code to the url given
-                    //Not display the element
-                    /*try {*/
                     setPaddingForWebdata();
                     mWebView.loadUrl("javascript:(function(){" + "document.getElementsByClassName('group faqfeedback_group')[0].remove();})()");
                     mWebView.loadUrl("javascript:window.CallToAnAndroidFunction.setVisible()");
-                    /*} catch (NullPointerException ex) {
-                        DigiCareLogger.e(TAG, "JavaScript Injection issue : " + ex);
-                    }*/
+
                 }
 
             });

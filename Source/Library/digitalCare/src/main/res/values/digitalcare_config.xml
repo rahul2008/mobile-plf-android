@@ -3,6 +3,11 @@
 
     <!-- UiTheme Start -->
     <drawable name="consumercare_background">#FFFFFF</drawable>
+    <!--compat for API v19 arrtibute color not able to use in shapes-->
+    <color name="button_background">#003478</color>
+    <color name="button_background_pressed">#005A8B</color>
+    <color name="actionbar_background_start">@color/button_background</color>
+    <color name="actionbar_background_end">@color/button_background_pressed</color>
     <!-- UiTheme End -->
 
     <!--

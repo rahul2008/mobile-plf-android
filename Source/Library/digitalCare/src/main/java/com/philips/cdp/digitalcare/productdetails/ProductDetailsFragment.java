@@ -286,16 +286,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         return imageBitmap;
     }
 
-    /*private View.OnClickListener videoModel = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(strMyVideo));
-            intent.setDataAndType(Uri.parse(strMyVideo), "video/mp4");
-            activity.startActivity(intent);
-        }
-    };*/
-
     private void addNewVideo(int counter, final String video, View child, ImageView videoThumbnail, ImageView videoPlay,
                              ImageView videoLeftArrow, ImageView videoRightArrow) {
         String tag = counter + "";

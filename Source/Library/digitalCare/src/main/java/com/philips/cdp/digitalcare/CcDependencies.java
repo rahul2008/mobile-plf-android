@@ -4,10 +4,15 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
 /**
- * Created by 310190678 on 8/17/2016.
+ * class to get the dependency modules
+ * Created by sampath.kumar on 8/17/2016.
  */
 public class CcDependencies extends UappDependencies {
 
+    /**
+     * gets the dependency module
+     * @param appInfra
+     */
     public CcDependencies(AppInfraInterface appInfra) {
         super(appInfra);
     }

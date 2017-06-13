@@ -194,32 +194,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         } else
             createMainMenu();
 
-        DigitalCareConfigManager digitalCareConfigManager = DigitalCareConfigManager.getInstance();
-
-       /* if (!isFirstTimeProductComponentlaunch && mCtnFromPreference == "") {
-            if (isProductSelectionFirstTime) {
-
-                if (digitalCareConfigManager.getUiLauncher() instanceof FragmentLauncher) {
-                    if (isfragmentFirstTimeVisited) {
-                        isfragmentFirstTimeVisited = false;
-                        launchProductSelectionComponent();
-                    }
-                } else {
-                    launchProductSelectionComponent();
-                }
-            }
-        }
-
-        if (isFirstTimeProductComponentlaunch && (DigitalCareConfigManager.getInstance().
-        getProductModelSelectionType() != null) && (DigitalCareConfigManager.getInstance().getProductModelSelectionType().getHardCodedProductList().length > 1) && mCtnFromPreference == "") {
-            isFirstTimeProductComponentlaunch = false;
-            if (digitalCareConfigManager.getUiLauncher() instanceof FragmentLauncher)
-                isfragmentFirstTimeVisited = false;
-            launchProductSelectionComponent();
-
-        }*/
-
-
         return mView;
     }
 
@@ -231,12 +205,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
             DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCatalog
                     (DigitalCareConfigManager.getInstance().getProductModelSelectionType().
                             getCatalog().toString());
-          /*  if (DigitalCareConfigManager.getInstance().getProductModelSelectionType().
-          getHardCodedProductList().length == 1)
-                DigitalCareConfigManager.getInstance().getConsumerProductInfo().setCtn
-                (DigitalCareConfigManager.getInstance().getProductModelSelectionType().
-                getHardCodedProductList()[0]);
-        */
         }
 
         mCtnFromPreference = prefs.getString(USER_SELECTED_PRODUCT_CTN, "");
@@ -1183,12 +1151,14 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                     DigiCareLogger.v(TAG,"Response from Service Discovery : Service ID : 'cc.prx.category' - "+serviceDiscoveryService.getConfigUrls());
                 }
 
-                serviceDiscoveryService = map.get("cc.cdls");
-                if(serviceDiscoveryService != null){
-                    DigitalCareConfigManager.getInstance().setCdlsUrl(serviceDiscoveryService.getConfigUrls());
-                    DigiCareLogger.v(TAG,"Response from Service Discovery : Service ID : 'cc.cdls' - "+serviceDiscoveryService.getConfigUrls());
-                }
+                if(!(DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSubCategory() == null )) {
 
+                    serviceDiscoveryService = map.get("cc.cdls");
+                    if (serviceDiscoveryService != null) {
+                        DigitalCareConfigManager.getInstance().setCdlsUrl(serviceDiscoveryService.getConfigUrls());
+                        DigiCareLogger.v(TAG, "Response from Service Discovery : Service ID : 'cc.cdls' - " + serviceDiscoveryService.getConfigUrls());
+                    }
+                }
                 serviceDiscoveryService = map.get("cc.emailformurl");
                 if(serviceDiscoveryService != null){
                     DigitalCareConfigManager.getInstance().setEmailUrl(serviceDiscoveryService.getConfigUrls());
@@ -1203,15 +1173,19 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
                 executeSubcategoryRequest();
 
-                mProgressDialog.cancel();
-                mProgressDialog.dismiss();
+                if (mProgressDialog != null && isAdded()) {
+                    if (mProgressDialog.isShowing()) {
+                        mProgressDialog.cancel();
+                        mProgressDialog.dismiss();
+                    }
+                }
 
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
                 DigiCareLogger.v(TAG,"Error Response from Service Discovery :"+s);
-                DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo(AnalyticsConstants.ACTION_SET_ERROR, AnalyticsConstants.ACTION_KEY_SERVICE_DISCOVERY_ERROR, s);
+                DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo(AnalyticsConstants.ACTION_SET_ERROR, AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR, s);
             }
         }, hm);
     }

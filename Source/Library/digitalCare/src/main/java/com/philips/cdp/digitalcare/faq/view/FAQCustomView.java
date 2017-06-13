@@ -13,12 +13,15 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -314,11 +317,12 @@ public class FAQCustomView implements Serializable {
         DigiCareLogger.d("FaqDeta", " : " + topMarginOfQuestionType);
         // questionTypeView.setBackgroundColor(Color.parseColor("#C8E7EE"));
         // questionTypeView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.faq_question_background));
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            questionTypeView.setBackgroundResource(R.drawable.consumercare_faq_header_bg);
-        } else {
-            questionTypeView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.consumercare_faq_header_bg));
-        }
+        Drawable wrap = DrawableCompat.wrap(ContextCompat.getDrawable(mContext, R.drawable.consumercare_faq_header_bg));
+
+        int color = getUltalightColor();
+
+        DrawableCompat.setTint(wrap, color);
+        questionTypeView.setBackground(wrap);
 
         questionTypeParams.setMargins(0, topMarginOfQuestionType, 0, 0);
 
@@ -363,6 +367,13 @@ public class FAQCustomView implements Serializable {
         questionTypeView.addView(arrowImage);
 
         return questionTypeView;
+    }
+
+    private int getUltalightColor() {
+        TypedArray typedArray = mContext.obtainStyledAttributes(new int[]{R.attr.uikit_veryLightColor});
+        int color = typedArray.getColor(0, -1);
+        typedArray.recycle();
+        return color;
     }
 
     @SuppressWarnings("unchecked")

@@ -5,7 +5,9 @@ import com.philips.cdp.productselection.productselectiontype.ProductModelSelecti
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 /**
- * Created by 310190678 on 8/17/2016.
+ *
+ * class for getting inputs from vertical apps
+ * Created by sampath.kumar on 8/17/2016.
  */
 public class CcLaunchInput extends UappLaunchInput {
 
@@ -17,6 +19,10 @@ public class CcLaunchInput extends UappLaunchInput {
         return productModelSelectionType;
     }
 
+    /**
+     * sets the product model selection type with catalog, sector and ctn list.
+     * @param productModelSelectionType
+     */
     public void setProductModelSelectionType(ProductModelSelectionType productModelSelectionType) {
         this.productModelSelectionType = productModelSelectionType;
     }
@@ -25,6 +31,10 @@ public class CcLaunchInput extends UappLaunchInput {
         return consumerCareListener;
     }
 
+    /**
+     * sets the listener for consumercare
+     * @param consumerCareListener
+     */
     public void setConsumerCareListener(CcListener consumerCareListener) {
         this.consumerCareListener = consumerCareListener;
     }
@@ -33,6 +43,10 @@ public class CcLaunchInput extends UappLaunchInput {
         return  liveChatUrl;
     }
 
+    /**
+     * sets the live chat url where vertical can customize the url
+     * @param liveChatUrl
+     */
     public void setLiveChatUrl(String liveChatUrl) {
         this.liveChatUrl = liveChatUrl;
     }

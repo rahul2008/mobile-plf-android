@@ -71,7 +71,7 @@ public class AnalyticsConstants {
      **************/
     public static final String ACTION_KEY_USER_ERROR = "userError";
     public static final String ACTION_KEY_TECHNICAL_ERROR = "technicalError";
-    public static final String ACTION_KEY_SERVICE_DISCOVERY_ERROR = "serviceDiscoveryError";
+    
     public static final String ACTION_KEY_SOCIAL_TYPE = "socialType";
     public static final String ACTION_KEY_SERVICE_CHANNEL = "serviceChannel";
     public static final String ACTION_KEY_PHOTO = "photo"; // TODO: Has to be

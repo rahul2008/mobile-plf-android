@@ -23,11 +23,6 @@
 -keep public class com.philips.cdp.tagging.** {*;}
 
 
-#LocaleMatch
-
--keep public class com.philips.cdp.localematch.** {*;}
-
-
 #Network
 -keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }

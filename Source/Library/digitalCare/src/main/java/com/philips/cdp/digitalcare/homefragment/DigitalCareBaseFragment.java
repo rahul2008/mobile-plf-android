@@ -28,7 +28,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -84,6 +86,14 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
             webView.getSettings().setAllowFileAccessFromFileURLs(true);
             webView.getSettings().setDomStorageEnabled(true);
         }
+
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return false;
+            }
+        });
+
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
@@ -282,11 +292,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
                         message,
                         getActivity().getResources().getString(
                                 android.R.string.ok));
-                /*AnalyticsTracker
-                        .trackAction(
-                                AnalyticsConstants.ACTION_SET_ERROR,
-                                AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
-                                AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_NETWORK_CONNECITON);*/
                 DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
                         (AnalyticsConstants.ACTION_SET_ERROR,
                                 AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
@@ -305,13 +310,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
                         getActivity(),
                         // null,
                         message);
-                     /*    getActivity().getResources().getString(
-                                android.R.string.yes));
-               AnalyticsTracker
-                        .trackAction(
-                                AnalyticsConstants.ACTION_SET_ERROR,
-                                AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
-                                AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_NETWORK_CONNECITON);*/
 
             }
         });
@@ -349,15 +347,20 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
      */
     @SuppressWarnings("static-access")
     protected String getAppName() {
-        String appName = getActivity().getResources().getString(R.string.app_name);
-        try {
-            int metaData = PackageManager.GET_META_DATA;
-            ApplicationInfo appInfo = getActivity().getPackageManager().getApplicationInfo
-                    (getActivity().getPackageName(),
-                            metaData);
-            appName = appInfo.loadLabel(getActivity().getPackageManager()).toString();
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+        String appName = "";
+
+        if(isAdded()) {
+            appName = getActivity().getResources().getString(R.string.app_name);
+
+            try {
+                int metaData = PackageManager.GET_META_DATA;
+                ApplicationInfo appInfo = getActivity().getPackageManager().getApplicationInfo
+                        (getActivity().getPackageName(),
+                                metaData);
+                appName = appInfo.loadLabel(getActivity().getPackageManager()).toString();
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
         }
         return appName;
     }
@@ -511,6 +514,11 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
      * seletion/creation.
      */
     private void setActionbarTitle() {
+
+        if(getActionbarTitle() == null || !isAdded()) {
+            return;
+        }
+
         if (mContainerId == 0) {
             TextView actionBarTitle =
 

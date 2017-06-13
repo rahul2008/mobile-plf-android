@@ -64,16 +64,6 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-/*import com.philips.cdp.digitalcare.social.twitter.TwitterAuthentication;
-import com.philips.cdp.digitalcare.social.twitter.TwitterAuthenticationCallback;
-import com.philips.cdp.digitalcare.social.twitter.TwitterSupportFragment;*/
-
-/*import com.philips.cdp.digitalcare.social.facebook.FacebookAuthenticate;
- import com.philips.cdp.digitalcare.social.facebook.FacebookHelper;
- import com.philips.cdp.digitalcare.social.facebook.FacebookScreenFragment;
- import com.facebook.Session;
- import com.facebook.SessionState;*/
-
 
 public class ContactUsFragment extends DigitalCareBaseFragment implements
         /*TwitterAuthenticationCallback,*/ OnClickListener, ResponseCallback, Observer {
@@ -336,16 +326,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
         return loadCdlsUrl();
     }
-/*
-    @Override
-	public void onTwitterLoginFailed() {
-		DigiCareLogger.d(TAG, "Twitter Authentication Failed");
-	}
-
-	@Override
-	public void onTwitterLoginSuccessful() {
-		showFragment(new TwitterSupportFragment());
-	}*/
 
     private String loadCdlsUrl(){
 
@@ -563,44 +543,11 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
             launchFacebookFeature();
 
-
-
-			/*
-             * Session mFacebookSession = Session.getActiveSession();
-			 *
-			 * DigiCareLogger.d(TAG, "Session - getSession from Facebook SDK " +
-			 * mFacebookSession); if (mFacebookSession == null) {
-			 * DigiCareLogger.d(TAG,
-			 * "Session is null so Starting FacebookSession");
-			 * startFacebookSession(); } else if ((mFacebookSession != null) &&
-			 * (mFacebookSession.getState() ==
-			 * SessionState.CLOSED_LOGIN_FAILED)) { DigiCareLogger.d(TAG,
-			 * "Session is state is CLOSED_LOGIN_FAILED" +
-			 * " so Starting Facebook Session"); startFacebookSession(); } else
-			 * if ((mFacebookSession != null) && (mFacebookSession.getState() ==
-			 * SessionState.OPENED)) { DigiCareLogger.d(TAG,
-			 * "Session - getSession from Facebook SDK is not NULL  : " +
-			 * mFacebookSession); showFragment(new FacebookScreenFragment());
-			 * DigiCareLogger.d(TAG, "Session is not null");
-			 *
-			 * }
-			 */
         } else if (tag != null
                 && tag.equalsIgnoreCase(getStringKey(R.string.twitter))
                 && isConnectionAvailable()) {
             DigiCareLogger.i(TAG, "Clicked on the Twitter button");
-            // mTwitter.setClickable(false);
             launchTwitterFeature();
-            /*TwitterAuthentication mTwitter = TwitterAuthentication
-                    .getInstance(getActivity());
-			mTwitter.initSDK(this);
-			mPostProgress = new ProgressDialog(getActivity());
-			mPostProgress.setMessage(getActivity().getResources().getString(
-					R.string.loading));
-			mPostProgress.setCancelable(false);
-			if (!(getActivity().isFinishing()))
-				mPostProgress.show();
-			mTwitterProgresshandler.postDelayed(mTwitteroAuthRunnable, 10000l);*/
 
         } else if ((id == R.id.contactUsEmail) && isConnectionAvailable()) {
             tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_EMAIL);
@@ -712,17 +659,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
 
     private void tagServiceRequest(String serviceChannel) {
-     /*   AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SERVICE_REQUEST,
-                AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, serviceChannel);*/
         DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
                 (AnalyticsConstants.ACTION_SERVICE_REQUEST,
                         AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, serviceChannel);
     }
 
     private void tagTechnicalError() {
-     /*   AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SET_ERROR,
-                AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
-                AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_RESPONSE_CDLS);*/
         DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
                 (AnalyticsConstants.ACTION_SET_ERROR,
                         AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
@@ -791,24 +733,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
      * Wouter is working on In-App messaging.
      */
     protected void sendEmail() {
-//        try {
-//            Intent intent = new Intent(Intent.ACTION_SEND);
-//            intent.setType("message/rfc822");
-//            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getResources()
-//                    .getString(R.string.support_email_id)});
-//            intent.putExtra(
-//                    Intent.EXTRA_TEXT, getGmailContentInformation());
-//            intent.setPackage("com.google.android.gm");
-//            getActivity().startActivity(intent);
-//        } catch (ActivityNotFoundException e) {
-//            Intent intent = new Intent(Intent.ACTION_SEND);
-//            intent.setType("message/rfc822");
-//            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getResources()
-//                    .getString(R.string.support_email_id)});
-//            intent.putExtra(
-//                    Intent.EXTRA_TEXT, getGmailContentInformation());
-//            getActivity().startActivity(Intent.createChooser(intent, null));
-//        }
         showFragment(new EmailFragment());
     }
 
@@ -957,15 +881,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     public String setPreviousPageName() {
         return AnalyticsConstants.PAGE_CONTACT_US;
     }
-
-	/*
-     * protected void startFacebookSession() { FacebookHelper mHelper =
-	 * FacebookHelper.getInstance(getActivity());
-	 * mHelper.openFacebookSession(new FacebookAuthenticate() {
-	 *
-	 * @Override public void onSuccess() { showFragment(new
-	 * FacebookScreenFragment()); } }); }
-	 */
 
     @Override
     public void onDestroy() {
