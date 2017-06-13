@@ -26,19 +26,12 @@
                 android:layout_gravity="center_vertical" />
         </FrameLayout>
 
-
-        <com.philips.platform.uid.view.widget.Label
+        <com.philips.platform.uid.view.widget.ActionBarTextView
             android:id="@+id/iap_actionBar_headerTitle_lebel"
-            android:layout_width="wrap_content"
-            fontPath="fonts/iapCentralesansBookFont.ttf"
+            style="@style/UIDToolbarBarTitleText"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:maxEms="10"
-            android:maxLines="1"
-            android:textColor="?attr/uidNavigationText"
-            android:textSize="@dimen/header" />
+            android:textIsSelectable="true"/>
 
         <FrameLayout
             android:id="@+id/cart_container"

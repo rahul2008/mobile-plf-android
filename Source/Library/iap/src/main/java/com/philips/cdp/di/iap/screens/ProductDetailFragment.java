@@ -46,6 +46,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -143,7 +144,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mProductDiscountedPrice = (TextView) rootView.findViewById(R.id.iap_productCatalogItem_discountedPrice_lebel);
         mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
 
-        CircleIndicator indicator = (CircleIndicator) rootView.findViewById(R.id.indicator);
+        DotNavigationIndicator indicator = (DotNavigationIndicator) rootView.findViewById(R.id.indicator);
         mImageAdapter = new ImageAdapter(mContext, new ArrayList<String>());
         mViewPager.setAdapter(mImageAdapter);
         indicator.setViewPager(mViewPager);
@@ -282,7 +283,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     private void handleViews() {
-        setTitleAndBackButtonVisibility("Product Detail", true);
+        setTitleAndBackButtonVisibility(mContext.getResources().getString(R.string.iap_product_detail_title), true);
         if (ControllerFactory.getInstance().isPlanB()) {
           //  mBuyFromRetailers.setText(R.string.iap_buy_now);
             mAddToCart.setVisibility(View.GONE);
@@ -417,7 +418,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             }
             mDetailLayout.setVisibility(View.GONE);
             //Hard coded strring provided because we dont have
-            setTitleAndBackButtonVisibility("Product Detail", false);
+            setTitleAndBackButtonVisibility(mContext.getResources().getString(R.string.iap_product_detail_title), false);
             showErrorDialog(msg);
         } else {
             if (msg.what == RequestCode.SEARCH_PRODUCT) {
@@ -437,7 +438,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
             if (mProductSummary != null) {
                 mProductTitle = mProductSummary.getData().getProductTitle();
-                setTitleAndBackButtonVisibility("Product Detail", false);
+                setTitleAndBackButtonVisibility(mContext.getResources().getString(R.string.iap_product_detail_title), false);
                 if (mProductTitle == null) {
                     trackErrorTag(IAPAnalyticsConstant.PRX + mCTNValue + "_" + IAPAnalyticsConstant.PRODUCT_TITLE_MISSING);
                 }

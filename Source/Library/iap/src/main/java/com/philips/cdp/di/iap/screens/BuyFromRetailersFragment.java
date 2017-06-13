@@ -71,7 +71,7 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
     public void onResume() {
         super.onResume();
         IAPAnalytics.trackPage(IAPAnalyticsConstant.RETAILERS_LIST_PAGE_NAME);
-        setTitleAndBackButtonVisibility(R.string.iap_retailer_title, true);
+        setTitleAndBackButtonVisibility(R.string.iap_select_retailer, true);
         if (mStoreEntity != null) {
             BuyFromRetailersAdapter mAdapter = new BuyFromRetailersAdapter(mContext, getFragmentManager(), mStoreEntity, this);
             mRecyclerView.setAdapter(mAdapter);
