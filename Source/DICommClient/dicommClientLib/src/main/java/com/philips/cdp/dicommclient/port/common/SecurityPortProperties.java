@@ -1,5 +1,5 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -10,6 +10,10 @@ import android.support.annotation.Nullable;
 import com.philips.cdp2.commlib.core.port.PortProperties;
 
 public class SecurityPortProperties implements PortProperties {
+    public static final String DIFFIE = "diffie";
+    public static final String HELLMAN = "hellman";
+    public static final String KEY = "key";
+
     private String key;
     private String diffie;
     private String hellman;

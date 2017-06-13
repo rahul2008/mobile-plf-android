@@ -23,7 +23,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-
 @PrepareForTest({DICommLog.class})
 @RunWith(PowerMockRunner.class)
 public class GetKeyRequestTest {
@@ -34,6 +33,7 @@ public class GetKeyRequestTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+
         PowerMockito.mockStatic(DICommLog.class);
     }
 
@@ -127,7 +127,7 @@ public class GetKeyRequestTest {
     }
 
     @Test
-    public void whenPerformingRequest_thenDontForwardToLogger() {
+    public void whenLoggingImplicitly_thenDontForwardToLogger() {
         GetKeyRequest getKeyRequest = new GetKeyRequest("don't care", 42, true, responseHandlerMock) {
             @Override
             Response doExecute() {
@@ -135,11 +135,22 @@ public class GetKeyRequestTest {
             }
         };
 
-        // Implicit logging
         Response getKeyRequestResponse = getKeyRequest.execute();
         getKeyRequestResponse.notifyResponseHandler();
 
-        // Explicit logging
+        PowerMockito.verifyStatic(never());
+        DICommLog.log(any(DICommLog.Verbosity.class), anyString(), anyString());
+    }
+
+    @Test
+    public void whenLoggingExplicitly_thenDontForwardToLogger() {
+        GetKeyRequest getKeyRequest = new GetKeyRequest("don't care", 42, true, responseHandlerMock) {
+            @Override
+            Response doExecute() {
+                return new Response("don't care", null, mResponseHandler);
+            }
+        };
+
         getKeyRequest.log(DICommLog.Verbosity.ERROR, "TEST", "This should not be logged!");
 
         PowerMockito.verifyStatic(never());

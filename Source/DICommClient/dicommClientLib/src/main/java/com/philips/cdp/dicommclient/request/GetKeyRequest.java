@@ -36,9 +36,9 @@ public class GetKeyRequest extends LanRequest {
         String responseData = response.getResponseMessage();
 
         if (response.getError() == null) {
+            final Gson gson = GsonProvider.get();
             try {
-                Gson gson = GsonProvider.get();
-                SecurityPortProperties securityPortProperties = gson.fromJson(responseData, SecurityPortProperties.class);
+                final SecurityPortProperties securityPortProperties = gson.fromJson(responseData, SecurityPortProperties.class);
                 final String key = securityPortProperties.getKey();
 
                 if (key == null || key.isEmpty()) {
