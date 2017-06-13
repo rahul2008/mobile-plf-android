@@ -283,7 +283,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     }
 
     private void handleViews() {
-        setTitleAndBackButtonVisibility("Product Detail", true);
+        setTitleAndBackButtonVisibility(mContext.getResources().getString(R.string.iap_product_detail_title), true);
         if (ControllerFactory.getInstance().isPlanB()) {
           //  mBuyFromRetailers.setText(R.string.iap_buy_now);
             mAddToCart.setVisibility(View.GONE);
@@ -418,7 +418,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
             }
             mDetailLayout.setVisibility(View.GONE);
             //Hard coded strring provided because we dont have
-            setTitleAndBackButtonVisibility("Product Detail", false);
+            setTitleAndBackButtonVisibility(mContext.getResources().getString(R.string.iap_product_detail_title), false);
             showErrorDialog(msg);
         } else {
             if (msg.what == RequestCode.SEARCH_PRODUCT) {
@@ -438,7 +438,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
             if (mProductSummary != null) {
                 mProductTitle = mProductSummary.getData().getProductTitle();
-                setTitleAndBackButtonVisibility("Product Details", false);
+                setTitleAndBackButtonVisibility(mContext.getResources().getString(R.string.iap_product_detail_title), false);
                 if (mProductTitle == null) {
                     trackErrorTag(IAPAnalyticsConstant.PRX + mCTNValue + "_" + IAPAnalyticsConstant.PRODUCT_TITLE_MISSING);
                 }
