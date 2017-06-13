@@ -9,22 +9,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/uid_searchbox_view_height"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginBottom="@dimen/uid_searchbox_layout_margin"
     android:layout_marginEnd="@dimen/uid_searchbox_layout_margin"
     android:layout_marginStart="@dimen/uid_searchbox_layout_margin"
     android:layout_marginTop="@dimen/uid_searchbox_layout_margin"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="?attr/uidTextBoxDefaultNormalBackgroundColor">
 
     <ImageView
         android:layout_width="@dimen/uid_searchbox_button_dimen"
         android:layout_height="@dimen/uid_searchbox_button_dimen"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/uid_searchbox_button_padding_end"
-        android:layout_marginStart="@dimen/uid_searchbox_button_padding_start" />
+        android:layout_marginStart="@dimen/uid_searchbox_button_padding"
+        app:srcCompat="@drawable/uid_search_icon"
+        android:tint="?attr/uidSearchBoxAndroidDefaultNormalHintTextColor"/>
 
-    <com.philips.platform.uid.view.widget.EditText
+    <com.philips.platform.uid.view.widget.Label
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:hint="@string/uid_searchbox_hint"/>
+        android:text="@string/uid_searchbox_hint"
+        android:textColor="?attr/uidSearchBoxAndroidDefaultNormalHintTextColor"
+        android:textSize="@dimen/uid_searchbox_text_size"
+        android:gravity="center"
+        android:paddingEnd="@dimen/uid_searchbox_button_padding"/>
 
 </LinearLayout>

@@ -15,6 +15,10 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <com.philips.platform.uid.view.widget.SearchBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
         <com.philips.platform.uid.view.widget.Label
             style="@style/UIDLabel"
             android:id="@+id/search_description"
