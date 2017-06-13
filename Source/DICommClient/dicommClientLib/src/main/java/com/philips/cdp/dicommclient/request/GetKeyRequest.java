@@ -1,10 +1,11 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.request;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.google.gson.Gson;
@@ -17,11 +18,11 @@ import com.philips.cdp2.commlib.lan.communication.LanRequestType;
 
 import java.util.HashMap;
 
-import static android.content.ContentValues.TAG;
+import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.ERROR;
 
 public class GetKeyRequest extends LanRequest {
 
-    public static final String KEY_MISSING_IN_RESPONSE_MESSAGE = "Key missing in response";
+    static final String KEY_MISSING_IN_RESPONSE_MESSAGE = "Key missing in response";
     private static final String SECURITY_PORTNAME = "security";
     private static final int SECURITY_PRODUCTID = 0;
 
@@ -38,12 +39,14 @@ public class GetKeyRequest extends LanRequest {
             try {
                 Gson gson = GsonProvider.get();
                 SecurityPortProperties securityPortProperties = gson.fromJson(responseData, SecurityPortProperties.class);
-                if (securityPortProperties.getKey() == null || securityPortProperties.getKey().equals("")) {
+                final String key = securityPortProperties.getKey();
+
+                if (key == null || key.isEmpty()) {
                     return new Response("Key missing in response", Error.REQUEST_FAILED, mResponseHandler);
                 }
                 return new Response(securityPortProperties.getKey(), null, mResponseHandler);
             } catch (JsonSyntaxException e) {
-                DICommLog.e(TAG, e.getMessage());
+                log(ERROR, DICommLog.SECURITY, e.getMessage());
                 return new Response(e.getMessage(), Error.REQUEST_FAILED, mResponseHandler);
             }
         } else {
@@ -54,5 +57,10 @@ public class GetKeyRequest extends LanRequest {
     @VisibleForTesting
     Response doExecute() {
         return super.execute();
+    }
+
+    @Override
+    protected void log(DICommLog.Verbosity verbosity, @NonNull String tag, @NonNull String message) {
+        // Logging disabled
     }
 }

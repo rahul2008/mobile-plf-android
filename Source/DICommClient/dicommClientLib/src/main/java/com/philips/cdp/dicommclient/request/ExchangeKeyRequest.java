@@ -1,19 +1,23 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.request;
-
-import java.util.HashMap;
-
-import org.json.JSONObject;
 
 import com.philips.cdp.dicommclient.security.ByteUtil;
 import com.philips.cdp.dicommclient.security.EncryptionUtil;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.lan.communication.LanRequest;
 import com.philips.cdp2.commlib.lan.communication.LanRequestType;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+
+import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.DEBUG;
+import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.ERROR;
+import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.INFO;
 
 public class ExchangeKeyRequest extends LanRequest {
 
@@ -39,17 +43,17 @@ public class ExchangeKeyRequest extends LanRequest {
         try {
             json = new JSONObject(responseData);
             String shellman = json.getString("hellman");
-            DICommLog.d(DICommLog.SECURITY, "result hellmam= " + shellman + "     Length:= " + shellman.length());
+            log(DEBUG, DICommLog.SECURITY, "result hellman= " + shellman + ", length= " + shellman.length());
 
             String skeyEnc = json.getString("key");
-            DICommLog.d(DICommLog.SECURITY, "encrypted key= " + skeyEnc + "    length:= " + skeyEnc.length());
+            log(DEBUG, DICommLog.SECURITY, "encrypted key= " + skeyEnc + ", length= " + skeyEnc.length());
 
             String key = EncryptionUtil.extractEncryptionKey(shellman, skeyEnc, mRandomValue);
-            DICommLog.i(DICommLog.SECURITY, "decryted key= " + key);
+            log(INFO, DICommLog.SECURITY, "decrypted key= " + key);
 
             return new Response(key, null, mResponseHandler);
         } catch (Exception e) {
-            DICommLog.e(DICommLog.SECURITY, "Exception during key exchange");
+            log(ERROR, DICommLog.SECURITY, "Exception during key exchange");
         }
         return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
     }

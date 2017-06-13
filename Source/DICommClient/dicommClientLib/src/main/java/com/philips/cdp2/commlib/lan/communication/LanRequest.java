@@ -12,6 +12,7 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkRequest;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.philips.cdp.dicommclient.request.Response;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp.dicommclient.util.DICommLog.Verbosity;
 import com.philips.cdp.dicommclient.util.GsonProvider;
 import com.philips.cl.di.common.ssdp.contants.ConnectionLibContants;
 
@@ -47,6 +49,11 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.X509TrustManager;
+
+import static com.philips.cdp.dicommclient.util.DICommLog.LOCALREQUEST;
+import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.DEBUG;
+import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.ERROR;
+import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.INFO;
 
 public class LanRequest extends Request {
 
@@ -106,19 +113,20 @@ public class LanRequest extends Request {
         if (dataMap == null || dataMap.size() <= 0) return null;
 
         String data = GsonProvider.get().toJson(dataMap);
-        DICommLog.i(DICommLog.LOCALREQUEST, "Data to send: " + data);
+        log(INFO, LOCALREQUEST, "Data to send: " + data);
 
         if (!mHttps && mDISecurity != null) {
             return mDISecurity.encryptData(data);
         }
-        DICommLog.i(DICommLog.LOCALREQUEST, "Not encrypting data");
+        log(INFO, LOCALREQUEST, "Not encrypting data");
+
         return data;
     }
 
     @Override
     public Response execute() {
-        DICommLog.d(DICommLog.LOCALREQUEST, "Start request LOCAL");
-        DICommLog.i(DICommLog.LOCALREQUEST, "Url: " + mUrl + ", Requesttype: " + mRequestType);
+        log(DEBUG, LOCALREQUEST, "Start request LOCAL");
+        log(INFO, LOCALREQUEST, "Url: " + mUrl + ", Requesttype: " + mRequestType);
 
         String result = "";
         InputStream inputStream = null;
@@ -130,13 +138,13 @@ public class LanRequest extends Request {
             URL urlConn = new URL(mUrl);
             conn = LanRequest.createConnection(urlConn, mRequestType.getMethod(), CONNECTION_TIMEOUT, GETWIFI_TIMEOUT);
             if (conn == null) {
-                DICommLog.e(DICommLog.LOCALREQUEST, "Request failed - no wificonnection available");
+                log(ERROR, LOCALREQUEST, "Request failed - no wificonnection available");
                 return new Response(null, Error.NO_TRANSPORT_AVAILABLE, mResponseHandler);
             }
 
             if (mRequestType == LanRequestType.PUT || mRequestType == LanRequestType.POST) {
                 if (mDataMap == null || mDataMap.isEmpty()) {
-                    DICommLog.e(DICommLog.LOCALREQUEST, "Request failed - no data for Put or Post");
+                    log(ERROR, LOCALREQUEST, "Request failed - no data for Put or Post");
                     return new Response(null, Error.NO_REQUEST_DATA, mResponseHandler);
                 }
                 out = appendDataToRequestIfAvailable(conn);
@@ -149,7 +157,7 @@ public class LanRequest extends Request {
                 responseCode = conn.getResponseCode();
             } catch (Exception e) {
                 responseCode = HttpURLConnection.HTTP_BAD_GATEWAY;
-                DICommLog.e(DICommLog.LOCALREQUEST, "Failed to get responsecode");
+                log(ERROR, LOCALREQUEST, "Failed to get responsecode");
             }
 
             if (responseCode == HttpURLConnection.HTTP_OK) {
@@ -163,42 +171,46 @@ public class LanRequest extends Request {
             } else {
                 inputStream = conn.getErrorStream();
                 result = convertInputStreamToString(inputStream);
-                DICommLog.e(DICommLog.LOCALREQUEST, "REQUEST_FAILED - " + result);
+                log(ERROR, LOCALREQUEST, "REQUEST_FAILED - " + result);
                 return new Response(result, Error.REQUEST_FAILED, mResponseHandler);
             }
         } catch (IOException e) {
-            DICommLog.e(DICommLog.LOCALREQUEST, e.getMessage() != null ? e.getMessage() : "IOException");
+            log(ERROR, LOCALREQUEST, e.getMessage() != null ? e.getMessage() : "IOException");
             return new Response(null, Error.IOEXCEPTION, mResponseHandler);
         } finally {
             closeAllConnections(inputStream, out, conn);
-            DICommLog.d(DICommLog.LOCALREQUEST, "Stop request LOCAL - responsecode: " + responseCode);
+            log(DEBUG, LOCALREQUEST, "Stop request LOCAL - responsecode: " + responseCode);
         }
+    }
+
+    protected void log(final Verbosity verbosity, final @NonNull String tag, final @NonNull String message) {
+        DICommLog.log(verbosity, tag, message);
     }
 
     private Response handleHttpOk(InputStream inputStream) throws IOException {
         String cypher = convertInputStreamToString(inputStream);
 
         if (TextUtils.isEmpty(cypher)) {
-            DICommLog.e(DICommLog.LOCALREQUEST, "Request failed - null response");
+            log(ERROR, LOCALREQUEST, "Request failed - null response");
             return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
         }
 
         String data = decryptData(cypher);
         if (data == null) {
-            DICommLog.e(DICommLog.LOCALREQUEST, "Request failed - failed to decrypt");
+            log(ERROR, LOCALREQUEST, "Request failed - failed to decrypt");
             return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
         }
 
-        DICommLog.i(DICommLog.LOCALREQUEST, "Received data: " + data);
+        log(INFO, LOCALREQUEST, "Received data: " + data);
         return new Response(data, null, mResponseHandler);
     }
 
     private Response handleBadRequest(InputStream inputStream) throws IOException {
         String errorMessage = convertInputStreamToString(inputStream);
-        DICommLog.e(DICommLog.LOCALREQUEST, "BAD REQUEST - " + errorMessage);
+        log(ERROR, LOCALREQUEST, "BAD REQUEST - " + errorMessage);
 
         if (!mHttps && mDISecurity != null) {
-            DICommLog.e(DICommLog.LOCALREQUEST, "Request not properly encrypted - notifying listener");
+            log(ERROR, LOCALREQUEST, "Request not properly encrypted - notifying listener");
             mDISecurity.notifyEncryptionFailedListener();
         }
 
@@ -223,6 +235,7 @@ public class LanRequest extends Request {
         out = new OutputStreamWriter(conn.getOutputStream(), Charset.defaultCharset());
         out.write(data);
         out.flush();
+
         return out;
     }
 
@@ -266,7 +279,6 @@ public class LanRequest extends Request {
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkRequest.Builder request = new NetworkRequest.Builder();
         request.addTransportType(NetworkCapabilities.TRANSPORT_WIFI);
-        //request.addCapability(NetworkCapabilities.NET_CAPABILITY_WIFI_P2P);
 
         WifiNetworkCallback networkCallback = new WifiNetworkCallback(LOCK, connectionManager);
 
@@ -274,7 +286,7 @@ public class LanRequest extends Request {
             connectionManager.registerNetworkCallback(request.build(), networkCallback);
             try {
                 LOCK.wait(lockTimeout);
-                Log.e(DICommLog.WIFI, "Timeout error occurred");
+                DICommLog.e(DICommLog.WIFI, "Timeout error occurred");
             } catch (InterruptedException ignored) {
             }
         }
