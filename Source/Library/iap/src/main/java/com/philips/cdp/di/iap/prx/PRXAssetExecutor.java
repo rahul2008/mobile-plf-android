@@ -61,7 +61,7 @@ public class PRXAssetExecutor {
 
     public void executeRequest(final ProductAssetRequest productAssetBuilder) {
         RequestManager mRequestManager = new RequestManager();
-        PRXDependencies prxDependencies = new PRXDependencies(mContext, CartModelContainer.getInstance().getAppInfraInstance());
+        PRXDependencies prxDependencies = new PRXDependencies(mContext, CartModelContainer.getInstance().getAppInfraInstance(), IAPAnalyticsConstant.COMPONENT_NAME);
         mRequestManager.init(prxDependencies);
         mRequestManager.executeRequest(productAssetBuilder, new ResponseListener() {
             @Override

@@ -63,7 +63,7 @@ public class PRXSummaryExecutor {
 
     protected void executeRequest(final String ctn, final ProductSummaryRequest productSummaryBuilder) {
         RequestManager mRequestManager = new RequestManager();
-        PRXDependencies prxDependencies = new PRXDependencies(mContext, CartModelContainer.getInstance().getAppInfraInstance());
+        PRXDependencies prxDependencies = new PRXDependencies(mContext, CartModelContainer.getInstance().getAppInfraInstance(), IAPAnalyticsConstant.COMPONENT_NAME);
         mRequestManager.init(prxDependencies);
         mRequestManager.executeRequest(productSummaryBuilder, new ResponseListener() {
             @Override

@@ -41,7 +41,7 @@ public class ProductCatalogFragmentTest extends BaseTest {
 
     @Before
     public void setUp() {
-
+        turnOnScreen();
         DemoTestActivity activity = mActivityTestRule.launchActivity(getLaunchIntent(IAPFlows.IAP_PRODUCT_CATALOG_VIEW, CTNs, R.style.Theme_DLS_GroupBlue_UltraLight));
         mContext = activity;
         MockitoAnnotations.initMocks(this);

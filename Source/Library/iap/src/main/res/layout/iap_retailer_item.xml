@@ -21,7 +21,7 @@
         android:layout_toEndOf="@id/iap_retailer_image"
         android:includeFontPadding="false"
         android:textColor="?attr/uidTextPrimary"
-        app:uidLabelTextSize="@dimen/iap_retailers_store_name_size" />
+        android:textSize="@dimen/iap_retailers_store_name_size" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/iap_retailerItem_onlineStoreAvailability_lebel"
@@ -31,7 +31,7 @@
         android:layout_below="@id/iap_retailerItem_onlineStoreName_lebel"
         android:layout_toEndOf="@id/iap_retailer_image"
         android:textColor="?attr/uidTextSecondary"
-        app:uidLabelTextSize="@dimen/iap_retailers_store_name_size" />
+        android:textSize="@dimen/iap_retailers_store_name_size" />
 
     <com.shamanland.fonticon.FontIconTextView
         android:id="@+id/retailer_arrow"

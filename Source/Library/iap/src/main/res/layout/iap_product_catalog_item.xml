@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:textColor="?attr/uidTextPrimary"
             android:visibility="gone"
-            app:uidLabelTextSize="16sp" />
+            android:textSize="16sp" />
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/iap_retailerItem_price_lebel"
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="?attr/uidTextSecondary"
-            app:uidLabelTextSize="16sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:text="DiamondClean"
         android:textColor="@color/uid_gray_level_75"
-        app:uidLabelTextSize="16sp" />
+        android:textSize="16sp" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/iap_retailerItem_ctn_lebel"
@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:text="HX8332/11"
         android:textColor="@color/uid_gray_level_35"
-        app:uidLabelTextSize="12sp" />
+        android:textSize="12sp" />
 
     </LinearLayout>
 

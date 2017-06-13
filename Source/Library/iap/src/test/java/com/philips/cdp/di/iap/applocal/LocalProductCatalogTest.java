@@ -74,7 +74,7 @@ public class LocalProductCatalogTest {
         mLocalProductCatalog.getCategorizedProductList(new ArrayList<String>());
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void testGetCategorizedProduct() throws Exception {
         ArrayList<String> ctnList = new ArrayList<>();
         ctnList.add("HX8071/10");

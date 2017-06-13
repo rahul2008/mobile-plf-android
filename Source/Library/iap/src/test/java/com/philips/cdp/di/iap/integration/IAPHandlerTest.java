@@ -5,6 +5,7 @@
 package com.philips.cdp.di.iap.integration;
 
 import android.app.Application;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
@@ -58,83 +59,98 @@ public class IAPHandlerTest {
         mIAPSettings = new IAPSettings(mContext);
         mMockIAPHandler = new MockIAPHandler(mIAPDependencies, mIAPSettings);
 
-        //Service discovery
-        mServiceDiscoveryInterface = new ServiceDiscoveryInterface() {
-            @Override
-            public void getHomeCountry(OnGetHomeCountryListener onGetHomeCountryListener) {
-
-            }
-
-            @Override
-            public void setHomeCountry(String s) {
-
-            }
-
-            @Override
-            public void getServiceUrlWithLanguagePreference(String s, OnGetServiceUrlListener onGetServiceUrlListener) {
-
-            }
-
-            @Override
-            public void getServiceUrlWithLanguagePreference(String s, OnGetServiceUrlListener onGetServiceUrlListener, Map<String, String> map) {
-
-            }
-
-            @Override
-            public void getServicesWithLanguagePreference(ArrayList<String> arrayList, OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
-
-            }
-
-            @Override
-            public void getServicesWithLanguagePreference(ArrayList<String> arrayList, OnGetServiceUrlMapListener onGetServiceUrlMapListener, Map<String, String> map) {
-
-            }
-
-            @Override
-            public void getServiceUrlWithCountryPreference(String s, OnGetServiceUrlListener onGetServiceUrlListener) {
-
-            }
-
-            @Override
-            public void getServiceUrlWithCountryPreference(String s, OnGetServiceUrlListener onGetServiceUrlListener, Map<String, String> map) {
-
-            }
-
-            @Override
-            public void getServicesWithCountryPreference(ArrayList<String> arrayList, OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
-
-            }
-
-            @Override
-            public void getServicesWithCountryPreference(ArrayList<String> arrayList, OnGetServiceUrlMapListener onGetServiceUrlMapListener, Map<String, String> map) {
-
-            }
-
-            @Override
-            public void getServiceLocaleWithLanguagePreference(String s, OnGetServiceLocaleListener onGetServiceLocaleListener) {
-
-            }
-
-            @Override
-            public void getServiceLocaleWithCountryPreference(String s, OnGetServiceLocaleListener onGetServiceLocaleListener) {
-
-            }
-
-            @Override
-            public URL applyURLParameters(URL url, Map<String, String> map) {
-                return null;
-            }
-
-            @Override
-            public void refresh(OnRefreshListener onRefreshListener) {
-
-            }
-
-            @Override
-            public void refresh(OnRefreshListener onRefreshListener, boolean b) {
-
-            }
-        };
+//        //Service discovery
+//        mServiceDiscoveryInterface = new ServiceDiscoveryInterface() {
+//            @Override
+//            public void getHomeCountry(OnGetHomeCountryListener onGetHomeCountryListener) {
+//
+//            }
+//
+//            @Override
+//            public String getHomeCountry() {
+//                return null;
+//            }
+//
+//            @Override
+//            public void setHomeCountry(String s) {
+//
+//            }
+//
+//            @Override
+//            public void getServiceUrlWithLanguagePreference(String s, OnGetServiceUrlListener onGetServiceUrlListener) {
+//
+//            }
+//
+//            @Override
+//            public void getServiceUrlWithLanguagePreference(String s, OnGetServiceUrlListener onGetServiceUrlListener, Map<String, String> map) {
+//
+//            }
+//
+//            @Override
+//            public void getServicesWithLanguagePreference(ArrayList<String> arrayList, OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
+//
+//            }
+//
+//            @Override
+//            public void getServicesWithLanguagePreference(ArrayList<String> arrayList, OnGetServiceUrlMapListener onGetServiceUrlMapListener, Map<String, String> map) {
+//
+//            }
+//
+//            @Override
+//            public void getServiceUrlWithCountryPreference(String s, OnGetServiceUrlListener onGetServiceUrlListener) {
+//
+//            }
+//
+//            @Override
+//            public void getServiceUrlWithCountryPreference(String s, OnGetServiceUrlListener onGetServiceUrlListener, Map<String, String> map) {
+//
+//            }
+//
+//            @Override
+//            public void getServicesWithCountryPreference(ArrayList<String> arrayList, OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
+//
+//            }
+//
+//            @Override
+//            public void getServicesWithCountryPreference(ArrayList<String> arrayList, OnGetServiceUrlMapListener onGetServiceUrlMapListener, Map<String, String> map) {
+//
+//            }
+//
+//            @Override
+//            public void getServiceLocaleWithLanguagePreference(String s, OnGetServiceLocaleListener onGetServiceLocaleListener) {
+//
+//            }
+//
+//            @Override
+//            public void getServiceLocaleWithCountryPreference(String s, OnGetServiceLocaleListener onGetServiceLocaleListener) {
+//
+//            }
+//
+//            @Override
+//            public URL applyURLParameters(URL url, Map<String, String> map) {
+//                return null;
+//            }
+//
+//            @Override
+//            public void refresh(OnRefreshListener onRefreshListener) {
+//
+//            }
+//
+//            @Override
+//            public void refresh(OnRefreshListener onRefreshListener, boolean b) {
+//
+//            }
+//
+//            @Override
+//            public void unRegisterHomeCountrySet(BroadcastReceiver broadcastReceiver) {
+//
+//            }
+//
+//            @Override
+//            public void registerOnHomeCountrySet(BroadcastReceiver broadcastReceiver) {
+//
+//            }
+//        };
 
         //IAP Listener
         mIapListener = new IAPListener() {
