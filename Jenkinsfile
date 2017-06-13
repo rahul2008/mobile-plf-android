@@ -13,7 +13,7 @@ def errors = []
 
 
 
-node ('android&&keystore') {
+node ('android&&docker') {
 	timestamps {
 		try {
             stage ('Checkout') {
@@ -24,7 +24,7 @@ node ('android&&keystore') {
     			stage ('build') {
                     sh '''#!/bin/bash -l
                         chmod -R 775 . 
-                        cd ./Source/Library/PrxSample 
+                        cd ./Source/Library/PrxSample
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
                         ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease zipDocuments artifactoryPublish
                     '''
