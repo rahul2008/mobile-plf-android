@@ -438,7 +438,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
             if (mProductSummary != null) {
                 mProductTitle = mProductSummary.getData().getProductTitle();
-                setTitleAndBackButtonVisibility("Product Detail", false);
+                setTitleAndBackButtonVisibility("Product Details", false);
                 if (mProductTitle == null) {
                     trackErrorTag(IAPAnalyticsConstant.PRX + mCTNValue + "_" + IAPAnalyticsConstant.PRODUCT_TITLE_MISSING);
                 }
