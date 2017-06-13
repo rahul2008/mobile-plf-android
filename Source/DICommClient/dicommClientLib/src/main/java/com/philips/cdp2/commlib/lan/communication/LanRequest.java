@@ -82,9 +82,11 @@ public class LanRequest extends Request {
         // Accept all certificates, DO NOT DO THIS FOR PRODUCTION CODE
         sslContext.init(null, new X509TrustManager[]{new X509TrustManager() {
             public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                DICommLog.w(LOCALREQUEST, "Accepting client certificate - auth type: " + authType);
             }
 
             public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                DICommLog.w(LOCALREQUEST, "Accepting server certificate - auth type: " + authType);
             }
 
             public X509Certificate[] getAcceptedIssuers() {
@@ -128,7 +130,7 @@ public class LanRequest extends Request {
         log(DEBUG, LOCALREQUEST, "Start request LOCAL");
         log(INFO, LOCALREQUEST, "Url: " + mUrl + ", Requesttype: " + mRequestType);
 
-        String result = "";
+        String result;
         InputStream inputStream = null;
         OutputStreamWriter out = null;
         HttpURLConnection conn = null;
@@ -229,9 +231,6 @@ public class LanRequest extends Request {
         if (data == null) return null;
 
         OutputStreamWriter out;
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
-            conn.setDoOutput(true);
-        }
         out = new OutputStreamWriter(conn.getOutputStream(), Charset.defaultCharset());
         out.write(data);
         out.flush();
