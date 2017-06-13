@@ -23,17 +23,17 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
-import com.philips.cdp.registration.B;
 import com.philips.cdp.registration.HttpClientService;
 import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
+import com.philips.cdp.registration.ui.customviews.OtpEditTextWithResendButton;
 import com.philips.cdp.registration.ui.customviews.XMobileHavingProblems;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.customviews.OtpEditTextWithResendButton;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
@@ -47,9 +47,9 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import butterfork.Bind;
-import butterfork.ButterFork;
-import butterfork.OnClick;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static android.view.View.GONE;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.ACTIVATION_NOT_VERIFIED;
@@ -70,25 +70,25 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Inject
     ServiceDiscoveryInterface serviceDiscoveryInterface;
 
-    @Bind(B.id.ll_reg_create_account_fields)
+    @BindView(R2.id.ll_reg_create_account_fields)
     LinearLayout phoneNumberEditTextContainer;
 
-    @Bind(B.id.rl_reg_singin_options)
+    @BindView(R2.id.rl_reg_singin_options)
     RelativeLayout verifyButtonContainer;
 
-    @Bind(B.id.btn_reg_Verify)
+    @BindView(R2.id.btn_reg_Verify)
     Button verifyButton;
 
-    @Bind(B.id.rl_reg_name_field)
+    @BindView(R2.id.rl_reg_name_field)
     OtpEditTextWithResendButton otpEditTextAndResendButton;
 
-    @Bind(B.id.pb_reg_activate_spinner)
+    @BindView(R2.id.pb_reg_activate_spinner)
     ProgressBar spinnerProgress;
 
-    @Bind(B.id.view_reg_verify_hint)
+    @BindView(R2.id.view_reg_verify_hint)
     XMobileHavingProblems havingProblems;
 
-    @Bind(B.id.reg_error_msg)
+    @BindView(R2.id.reg_error_msg)
     XRegError errorMessage;
 
     private Context context;
@@ -108,7 +108,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         mobileVerifyCodePresenter = new MobileVerifyCodePresenter(this);
         user = new User(context);
         View view = inflater.inflate(R.layout.reg_mobile_activatiom_fragment, container, false);
-        ButterFork.bind(this, view);
+        ButterKnife.bind(this, view);
         otpEditTextAndResendButton.setOnUpdateListener(this);
         mobileVerifyCodePresenter.startResendTimer();
         handleOrientation(view);
@@ -197,7 +197,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         AppTagging.trackMultipleActions(SEND_DATA, map);
     }
 
-    @OnClick(B.id.btn_reg_Verify)
+    @OnClick(R2.id.btn_reg_Verify)
     public void verifyClicked() {
         spinnerProgress.setVisibility(View.VISIBLE);
         disableVerifyButton();
@@ -205,7 +205,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         mobileVerifyCodePresenter.verifyMobileNumber(user.getJanrainUUID(), otpEditTextAndResendButton.getNumber());
     }
 
-    @OnClick(B.id.rl_reg_name_field)
+    @OnClick(R2.id.rl_reg_name_field)
     public void resendButtonClicked() {
         otpEditTextAndResendButton.showResendSpinnerAndDisableResendButton();
         disableVerifyButton();

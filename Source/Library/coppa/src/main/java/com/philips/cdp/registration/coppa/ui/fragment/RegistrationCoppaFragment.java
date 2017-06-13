@@ -373,6 +373,7 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
         mFragmentManager = null;
         RegistrationCoppaBaseFragment.mWidth = 0;
         RegistrationCoppaBaseFragment.mHeight = 0;
+        setUserRegistrationUIEventListener(null);
         super.onDestroy();
     }
 

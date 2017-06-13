@@ -1,17 +1,17 @@
 package com.philips.cdp.registration.coppa.ui.customviews;
 
 import android.content.Context;
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
 
+import com.philips.cdp.registration.coppa.RegistrationApiInstrumentationBase;
 import com.philips.cdp.registration.coppa.listener.NumberPickerListener;
 
 import org.junit.Before;
 
-/**
- * Created by 310230979 on 9/8/2016.
- */
-public class XNumberPickerDialogTest extends InstrumentationTestCase{
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.Assert.assertNotNull;
+
+
+public class XNumberPickerDialogTest extends RegistrationApiInstrumentationBase {
 
     Context mContext;
     XNumberPickerDialog mXNumberPickerDialog;
@@ -19,9 +19,7 @@ public class XNumberPickerDialogTest extends InstrumentationTestCase{
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-        super.setUp();
+           super.setUp();
         mContext = getInstrumentation().getTargetContext();
         mXNumberPickerDialog= new XNumberPickerDialog(mNumberPickerListener);
         mNumberPickerListener= new NumberPickerListener() {

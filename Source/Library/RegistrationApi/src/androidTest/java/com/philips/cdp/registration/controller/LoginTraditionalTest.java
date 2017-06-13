@@ -1,9 +1,8 @@
 package com.philips.cdp.registration.controller;
 
 import android.content.Context;
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
 
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
@@ -15,17 +14,15 @@ import org.junit.Test;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-/**
- * Created by 310243576 on 8/30/2016.
- */
-public class LoginTraditionalTest extends InstrumentationTestCase {
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.Assert.assertNotNull;
+
+
+public class LoginTraditionalTest extends RegistrationApiInstrumentationBase {
     Context context;
     LoginTraditional loginTraditional;
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation()
-                .getTargetContext().getCacheDir().getPath());
         context =  getInstrumentation()
                 .getTargetContext();
         TraditionalLoginHandler traditionalLoginHandler = new TraditionalLoginHandler() {

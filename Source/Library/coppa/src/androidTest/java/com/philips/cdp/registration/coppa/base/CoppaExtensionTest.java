@@ -1,28 +1,29 @@
 package com.philips.cdp.registration.coppa.base;
 
 import android.content.Context;
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
+
+import com.philips.cdp.registration.coppa.RegistrationApiInstrumentationBase;
 
 import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-/**
- * Created by 310243576 on 8/24/2016.
- */
-public class CoppaExtensionTest extends InstrumentationTestCase {
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+
+
+public class CoppaExtensionTest extends RegistrationApiInstrumentationBase {
 
     CoppaExtension mCoppaConsentUpdater;
     Context mContext;
 
     @Override
-    protected void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+    public void setUp() throws Exception {
+
         super.setUp();
-        System.setProperty("dexmaker.dexcache", getInstrumentation()
-                .getTargetContext().getCacheDir().getPath());
+
         mContext = getInstrumentation().getTargetContext();
         mCoppaConsentUpdater = new CoppaExtension(mContext);
         assertNotNull(mCoppaConsentUpdater);

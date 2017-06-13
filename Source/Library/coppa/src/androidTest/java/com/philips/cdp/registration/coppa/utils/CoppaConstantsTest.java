@@ -1,19 +1,19 @@
 package com.philips.cdp.registration.coppa.utils;
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
+import com.philips.cdp.registration.coppa.RegistrationApiInstrumentationBase;
 
 import org.junit.Before;
-/**
- * Created by 310230979  on 8/31/2016.
- */
-public class CoppaConstantsTest extends InstrumentationTestCase{
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+
+public class CoppaConstantsTest extends RegistrationApiInstrumentationBase {
 
     CoppaConstants coppaConstants;
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+    super.setUp();
         coppaConstants= new CoppaConstants();
     }
     public void testLanuchFragment(){

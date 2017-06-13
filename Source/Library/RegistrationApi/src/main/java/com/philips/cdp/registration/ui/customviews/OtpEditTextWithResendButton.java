@@ -23,32 +23,32 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.B;
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
-import butterfork.Bind;
-import butterfork.ButterFork;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class OtpEditTextWithResendButton extends RelativeLayout implements TextWatcher,
         OnFocusChangeListener {
 
-    @Bind(B.id.et_reg_verify)
+    @BindView(R2.id.et_reg_verify)
     EditText mEtVerify;
 
-    @Bind(B.id.btn_reg_resend)
+    @BindView(R2.id.btn_reg_resend)
     Button mBtResend;
 
-    @Bind(B.id.tv_reg_verify_err)
+    @BindView(R2.id.tv_reg_verify_err)
     TextView mTvErrDescriptionView;
 
-    @Bind(B.id.rl_reg_parent_verified_field)
+    @BindView(R2.id.rl_reg_parent_verified_field)
     RelativeLayout mRlEtEmail;
 
-    @Bind(B.id.pb_reg_verify_spinner)
+    @BindView(R2.id.pb_reg_verify_spinner)
     ProgressBar mProgressBar;
 
-    @Bind(B.id.fl_reg_verify_field_err)
+    @BindView(R2.id.fl_reg_verify_field_err)
     FrameLayout mFlInvalidFieldAlert;
 
     private Context mContext;
@@ -72,7 +72,7 @@ public class OtpEditTextWithResendButton extends RelativeLayout implements TextW
     public final void initUi(int resourceId) {
         LayoutInflater li = LayoutInflater.from(mContext);
         View view = li.inflate(resourceId, this, true);
-        ButterFork.bind(this, view);
+        ButterKnife.bind(this, view);
         mEtVerify.setOnFocusChangeListener(this);
         mEtVerify.addTextChangedListener(this);
         mEtVerify.setFocusable(true);

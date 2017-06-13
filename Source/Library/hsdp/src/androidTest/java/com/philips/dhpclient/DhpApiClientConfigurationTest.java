@@ -1,7 +1,10 @@
+
 package com.philips.dhpclient;
 
 import android.support.multidex.MultiDex;
 import android.test.InstrumentationTestCase;
+
+import com.philips.dhpclient.DhpApiClientConfiguration;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +12,7 @@ import org.junit.Test;
 /**
  * Created by 310243576 on 8/19/2016.
  */
-public class DhpApiClientConfigurationTest extends InstrumentationTestCase{
+public class DhpApiClientConfigurationTest extends InstrumentationTestCase {
 
     DhpApiClientConfiguration mDhpApiClientConfiguration;
 
@@ -17,9 +20,10 @@ public class DhpApiClientConfigurationTest extends InstrumentationTestCase{
     public void setUp() throws Exception {
         MultiDex.install(getInstrumentation().getTargetContext());
         // Necessary to get Mockito framework working
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 //        MockitoAnnotations.initMocks(this);
         super.setUp();
+        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+
         mDhpApiClientConfiguration = new DhpApiClientConfiguration("apiBaseUrl", "dhpApplicationName", "signingKey","signingSecret");
         assertNotNull(mDhpApiClientConfiguration);
     }

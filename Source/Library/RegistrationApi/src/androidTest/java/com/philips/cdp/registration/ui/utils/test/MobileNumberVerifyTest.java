@@ -1,20 +1,19 @@
 package com.philips.cdp.registration.ui.utils.test;
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
-
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 
 import org.junit.Before;
 
-/**
- * Created by 310190722 on 10/17/2016.
- */
-public class MobileNumberVerifyTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+
+
+public class MobileNumberVerifyTest extends RegistrationApiInstrumentationBase {
 
     @Before
     protected void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+
         super.setUp();
     }
 

@@ -1,34 +1,34 @@
 package com.philips.cdp.registration.ui.traditional;
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
-
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 
 import org.junit.Before;
-import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.Assert.assertNotNull;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class RegistrationActivityTest extends InstrumentationTestCase {
+public class RegistrationActivityTest extends RegistrationApiInstrumentationBase {
 
     RegistrationActivity registrationActivity;
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+       super.setUp();
         registrationActivity= new RegistrationActivity();
     }
-    @Test
+
     public void testAssert(){
         assertNotNull(registrationActivity);
     }
 
-    @Test
+
     public void testSetCustomLocale(){
         Method method = null;
         String provider="en_US";

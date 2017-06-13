@@ -1,17 +1,17 @@
 package com.philips.cdp.registration.events;
 
 import android.content.Context;
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
+
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-/**
- * Created by 310243576 on 8/18/2016.
- */
-public class NetworkStateHelperTest extends InstrumentationTestCase{
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.Assert.assertNotNull;
+
+public class NetworkStateHelperTest extends RegistrationApiInstrumentationBase {
     @Mock
     NetworkStateHelper mNetworkStateHelper;
 
@@ -20,17 +20,10 @@ public class NetworkStateHelperTest extends InstrumentationTestCase{
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        // Necessary to get Mockito framework working
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-//        MockitoAnnotations.initMocks(this);
         super.setUp();
-
         assertNotNull(mNetworkStateHelper.getInstance());
-
         mNetworkStateHelper = mNetworkStateHelper.getInstance();
         context = getInstrumentation().getTargetContext();
-
     }
     @Test
     public void testGetInstance() throws Exception {

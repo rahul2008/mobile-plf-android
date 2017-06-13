@@ -27,38 +27,38 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.B;
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
-import butterfork.Bind;
-import butterfork.ButterFork;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class PasswordView extends RelativeLayout implements TextWatcher, OnClickListener,
         OnFocusChangeListener {
 
     private Context mContext;
 
-    @Bind(B.id.tv_reg_password_err)
+    @BindView(R2.id.tv_reg_password_err)
     TextView mTvErrDescriptionView;
 
-    @Bind(B.id.et_reg_password)
+    @BindView(R2.id.et_reg_password)
     EditText mEtPassword;
 
-    @Bind(B.id.rl_reg_parent_verified_field)
+    @BindView(R2.id.rl_reg_parent_verified_field)
     RelativeLayout mRlEtPassword;
 
-    @Bind(B.id.tv_password_mask)
+    @BindView(R2.id.tv_password_mask)
     TextView mTvMaskPassword;
 
-    @Bind(B.id.iv_reg_close)
+    @BindView(R2.id.iv_reg_close)
     TextView mTvCloseIcon;
 
-    @Bind(B.id.fl_reg_password_field_err)
+    @BindView(R2.id.fl_reg_password_field_err)
     FrameLayout mFlInvalidFieldAlert;
 
     private boolean mValidPassword;
@@ -84,7 +84,7 @@ public class PasswordView extends RelativeLayout implements TextWatcher, OnClick
     public final void initUi(int resourceId) {
         LayoutInflater li = LayoutInflater.from(mContext);
         View view = li.inflate(resourceId, this, true);
-        ButterFork.bind(this, view);
+        ButterKnife.bind(this, view);
         mEtPassword.setOnClickListener(this);
         mEtPassword.setOnFocusChangeListener(this);
         mEtPassword.addTextChangedListener(this);

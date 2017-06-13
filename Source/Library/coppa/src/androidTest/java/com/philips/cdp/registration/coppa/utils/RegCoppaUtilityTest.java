@@ -1,8 +1,8 @@
 package com.philips.cdp.registration.coppa.utils;
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
 import android.text.SpannableString;
+
+import com.philips.cdp.registration.coppa.RegistrationApiInstrumentationBase;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,16 +10,18 @@ import org.junit.Test;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import static junit.framework.Assert.assertNotNull;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class RegCoppaUtilityTest extends InstrumentationTestCase{
+public class RegCoppaUtilityTest extends RegistrationApiInstrumentationBase {
 
     RegCoppaUtility regCoppaUtility;
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+   super.setUp();
         regCoppaUtility= new RegCoppaUtility();
     }
     @Test

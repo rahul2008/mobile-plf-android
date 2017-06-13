@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
-import com.philips.cdp.registration.B;
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.ui.customviews.LoginIdEditText;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
@@ -18,9 +18,9 @@ import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.traditional.WelcomeFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 
-import butterfork.Bind;
-import butterfork.ButterFork;
-import butterfork.OnClick;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -29,19 +29,19 @@ import static com.philips.cdp.registration.app.tagging.AppTagingConstants.REGIST
 
 public class AddSecureEmailFragment extends RegistrationBaseFragment implements AddSecureEmailContract {
 
-    @Bind(B.id.btn_reg_secure_data_email)
+    @BindView(R2.id.btn_reg_secure_data_email)
     Button addRecoveryEmailButton;
 
-    @Bind(B.id.btn_reg_secure_data_email_later)
+    @BindView(R2.id.btn_reg_secure_data_email_later)
     Button maybeLaterButton;
 
-    @Bind(B.id.rl_reg_securedata_email_field)
+    @BindView(R2.id.rl_reg_securedata_email_field)
     LoginIdEditText recoveryEmail;
 
-    @Bind(B.id.reg_error_msg)
+    @BindView(R2.id.reg_error_msg)
     XRegError recoveryErrorTextView;
 
-    @Bind(B.id.add_email_progress)
+    @BindView(R2.id.add_email_progress)
     ProgressBar addEmailProgress;
 
     private AddSecureEmailPresenter addSecureEmailPresenter;
@@ -52,7 +52,7 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
         trackActionStatus(REGISTRATION_ACTIVATION_SMS, "", "");
         addSecureEmailPresenter = new AddSecureEmailPresenter(this);
         View view = inflater.inflate(R.layout.reg_fragment_secure_email, container, false);
-        ButterFork.bind(this, view);
+        ButterKnife.bind(this, view);
         setUpRecoveryEmail();
         return view;
     }
@@ -78,13 +78,13 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
     }
 
 
-    @OnClick(B.id.btn_reg_secure_data_email)
+    @OnClick(R2.id.btn_reg_secure_data_email)
     public void addEmailButtonClicked() {
         recoveryErrorTextView.setVisibility(GONE);
         addSecureEmailPresenter.addEmailClicked(recoveryEmail.getEmailId());
     }
 
-    @OnClick(B.id.btn_reg_secure_data_email_later)
+    @OnClick(R2.id.btn_reg_secure_data_email_later)
     public void maybeLaterButtonClicked() {
         addSecureEmailPresenter.maybeLaterClicked();
     }

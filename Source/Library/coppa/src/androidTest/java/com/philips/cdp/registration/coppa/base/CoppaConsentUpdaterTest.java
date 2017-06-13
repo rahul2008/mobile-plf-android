@@ -1,11 +1,9 @@
 package com.philips.cdp.registration.coppa.base;
 
-import android.test.InstrumentationTestCase;
+import com.philips.cdp.registration.coppa.RegistrationApiInstrumentationBase;
 
-/**
- * Created by 310243576 on 8/20/2016.
- */
-public class CoppaConsentUpdaterTest extends InstrumentationTestCase {
+
+public class CoppaConsentUpdaterTest extends RegistrationApiInstrumentationBase {
 //    CoppaConsentUpdater mCoppaConsentUpdater;
 //    Context mContext;
 //

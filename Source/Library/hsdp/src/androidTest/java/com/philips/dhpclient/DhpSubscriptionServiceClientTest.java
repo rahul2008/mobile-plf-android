@@ -1,3 +1,4 @@
+
 package com.philips.dhpclient;
 
 import android.support.multidex.MultiDex;
@@ -23,9 +24,10 @@ public class DhpSubscriptionServiceClientTest extends InstrumentationTestCase{
     @Before
     public void setUp() throws Exception {
         MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 //        MockitoAnnotations.initMocks(this);
         super.setUp();
+        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+
         DhpApiClientConfiguration dhpApiClientConfiguration = new DhpApiClientConfiguration("apiBaseUrl","dhpApplicationName","signingKey","signingSecret");
     mDhpSubscriptionServiceClient = new DhpSubscriptionServiceClient(dhpApiClientConfiguration);
         mDhpTermsAndConditionsResponse = new DhpSubscriptionServiceClient.DhpTermsAndConditionsResponse("responseCode","acceptedTermsVersion");
