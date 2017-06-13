@@ -18,8 +18,6 @@ import com.philips.cdp2.commlib.lan.communication.LanRequestType;
 
 import java.util.HashMap;
 
-import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.ERROR;
-
 public class GetKeyRequest extends LanRequest {
 
     static final String KEY_MISSING_IN_RESPONSE_MESSAGE = "Key missing in response";
@@ -46,7 +44,7 @@ public class GetKeyRequest extends LanRequest {
                 }
                 return new Response(securityPortProperties.getKey(), null, mResponseHandler);
             } catch (JsonSyntaxException e) {
-                log(ERROR, DICommLog.SECURITY, e.getMessage());
+                DICommLog.e(DICommLog.SECURITY, e.getMessage());
                 return new Response(e.getMessage(), Error.REQUEST_FAILED, mResponseHandler);
             }
         } else {
