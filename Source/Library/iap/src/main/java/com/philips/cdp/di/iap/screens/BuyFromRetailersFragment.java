@@ -22,6 +22,7 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFromRetailersAdapter.BuyFromRetailersListener {
 
@@ -30,6 +31,9 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
     private Context mContext;
     private RecyclerView mRecyclerView;
     private ArrayList<StoreEntity> mStoreEntity;
+    private static final String ICELEADS_HATCH = "iceleads";
+    private static final String CHANNEL_ADVISOR = "wheretobuy";
+    private static final String CHANNEL_SIGHT = "channelsight";
 
     public static BuyFromRetailersFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
         BuyFromRetailersFragment fragment = new BuyFromRetailersFragment();
@@ -78,8 +82,20 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
     @Override
     public void onClickAtRetailer(String buyURL, String name) {
         Bundle bundle = new Bundle();
-        bundle.putString(IAPConstant.IAP_BUY_URL, buyURL);
+        bundle.putString(IAPConstant.IAP_BUY_URL, uuidWithSupplierLink(buyURL));
         bundle.putString(IAPConstant.IAP_STORE_NAME, name);
         addFragment(WebBuyFromRetailers.createInstance(bundle, AnimationType.NONE), null);
+    }
+
+    private String uuidWithSupplierLink(String buyURL) {
+        String supplierLinkWithUUID = null;
+        if (buyURL.contains(ICELEADS_HATCH)) {
+            supplierLinkWithUUID = buyURL + "&CID=";
+        } else if (buyURL.contains(CHANNEL_ADVISOR)) {
+            supplierLinkWithUUID = buyURL + "&guid=";
+        } else if (buyURL.contains(CHANNEL_SIGHT)) {
+            supplierLinkWithUUID = buyURL + "&subTag=";
+        }
+        return supplierLinkWithUUID + String.valueOf(UUID.randomUUID());
     }
 }
