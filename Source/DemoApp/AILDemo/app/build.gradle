@@ -166,8 +166,7 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'com.android.support:design:25.1.1'
-    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.5.0-SNAPSHOT.20170512192420', ext: 'aar')
-
+    compile 'com.philips.cdp:uAppFwLib:1.4.4-SNAPSHOT@aar'
     compile project(':AILDemo')
     compile(group: 'adobeMobileLibrary', name: 'adobeMobileLibrary', version: '4.8.3')
     compile 'com.squareup.leakcanary:leakcanary-android:1.5'
