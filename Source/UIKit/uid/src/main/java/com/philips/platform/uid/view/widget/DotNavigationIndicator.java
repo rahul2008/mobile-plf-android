@@ -80,7 +80,6 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
         @Override
         public void onChanged() {
             drawIndicatorDots();
-            drawIndicatorDots();
             setCurrentItem(initialPosition);
         }
     };

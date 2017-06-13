@@ -154,7 +154,7 @@ public class DotNavigationMatcher {
             protected boolean matchesSafely(final View view) {
                 if (view instanceof DotNavigationIndicator) {
                     final AppCompatImageView childAt = (AppCompatImageView) ((DotNavigationIndicator) view).getChildAt(0);
-                    final ColorStateList backgroundTintList = childAt.getSupportBackgroundTintList();
+                    final ColorStateList backgroundTintList = childAt.getBackgroundTintList();
                     int defaultColor = backgroundTintList.getDefaultColor();
                     if (index.length != 0) {
                         defaultColor = backgroundTintList.getColorForState(index, backgroundTintList.getDefaultColor());
