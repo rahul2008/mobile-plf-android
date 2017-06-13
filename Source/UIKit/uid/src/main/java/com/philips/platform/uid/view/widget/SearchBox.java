@@ -36,7 +36,7 @@ public class SearchBox extends LinearLayout {
     private ImageView closeButton;
     private ImageView searchIconHolder;
     private AppCompatAutoCompleteTextView searchTextView;
-
+    private View searchBoxView;
 
     private boolean isSearchIconified;
     private View searchClearLayout;
@@ -94,6 +94,7 @@ public class SearchBox extends LinearLayout {
         inflater.inflate(R.layout.uid_search_box, this);
         initBackButton();
         initSearchIconHolder();
+        initSearchBoxView();
         initClearIcon();
         initSearchTextView(context);
         updateViews();
@@ -131,6 +132,18 @@ public class SearchBox extends LinearLayout {
     private void initSearchIconHolder() {
         searchIconHolder = (ImageView) findViewById(R.id.uid_search_icon_holder);
         searchIconHolder.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callExpandListener();
+                setSearchIconified(false);
+                searchTextView.requestFocus();
+            }
+        });
+    }
+
+    private void initSearchBoxView(){
+        searchBoxView = findViewById(R.id.uid_search_box_view);
+        searchBoxView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 callExpandListener();

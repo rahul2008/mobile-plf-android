@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ (C) Koninklijke Philips N.V., 2017.
+  ~ All rights reserved.
+  ~
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/uid_searchbox_view_height"
+    android:layout_marginBottom="@dimen/uid_searchbox_layout_margin"
+    android:layout_marginEnd="@dimen/uid_searchbox_layout_margin"
+    android:layout_marginStart="@dimen/uid_searchbox_layout_margin"
+    android:layout_marginTop="@dimen/uid_searchbox_layout_margin"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="@dimen/uid_searchbox_button_dimen"
+        android:layout_height="@dimen/uid_searchbox_button_dimen"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/uid_searchbox_button_padding_end"
+        android:layout_marginStart="@dimen/uid_searchbox_button_padding_start" />
+
+    <com.philips.platform.uid.view.widget.EditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="@string/uid_searchbox_hint"/>
+
+</LinearLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ (C) Koninklijke Philips N.V., 2017.
+  ~ All rights reserved.
+  ~
+  -->
+
+<resources>
+    <string name="uid_searchbox_hint">Search</string>
+</resources>

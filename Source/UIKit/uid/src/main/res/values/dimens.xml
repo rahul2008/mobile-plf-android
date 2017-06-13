@@ -235,6 +235,9 @@
     <dimen name="uid_searchbox_search_text_offset">0dp</dimen>
     <dimen name="uid_searchbox_back_icon_margin">16dp</dimen>
     <dimen name="uid_searchbox_text_size">20sp</dimen>
+    <dimen name="uid_searchbox_layout_margin">8dp</dimen>
+    <dimen name="uid_searchbox_view_height">40dp</dimen>
+    <dimen name="uid_searchbox_button_padding_start">12dp</dimen>
 
     <!-- Dot navigation icon size-->
     <dimen name="uid_dot_navigation_icon_radius">4dp</dimen>

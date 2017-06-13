@@ -8,21 +8,21 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/uid_search_icon_holder"
+        android:id="@id/uid_search_icon_holder"
         style="?attr/actionButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:srcCompat="@drawable/uid_search_icon"
-        android:layout_gravity="center_vertical"/>
+        android:layout_gravity="center_vertical"
+        app:srcCompat="@drawable/uid_search_icon" />
 
     <LinearLayout
-        android:id="@+id/uid_search_box_layout"
+        android:id="@id/uid_search_box_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/uidSearchBoxAndroidDefaultFocusInputBackgroundColor">
 
         <ImageView
-            android:id="@+id/uid_search_back_button"
+            android:id="@id/uid_search_back_button"
             android:layout_width="@dimen/uid_searchbox_button_dimen"
             android:layout_height="@dimen/uid_searchbox_button_dimen"
             android:layout_gravity="center_vertical"
@@ -32,7 +32,7 @@
             android:focusable="true" />
 
         <android.support.v7.widget.AppCompatAutoCompleteTextView
-            android:id="@+id/uid_search_src_text"
+            android:id="@id/uid_search_src_text"
             android:layout_width="@dimen/uid_searchbox_search_text_offset"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
@@ -42,16 +42,16 @@
             android:dropDownVerticalOffset="@dimen/uid_searchbox_search_text_offset"
             android:dropDownWidth="match_parent"
             android:ellipsize="end"
-            android:hint="Search"
+            android:hint="@string/uid_searchbox_hint"
             android:imeOptions="actionSearch|flagNoExtractUi"
             android:inputType="text|textAutoComplete|textNoSuggestions"
             android:maxLines="1"
             android:textColor="?attr/uidSearchBoxAndroidDefaultNormalInputTextColor"
             android:textColorHint="?attr/uidSearchBoxAndroidDefaultNormalHintTextColor"
-            android:textSize="@dimen/uid_searchbox_text_size"/>
+            android:textSize="@dimen/uid_searchbox_text_size" />
 
         <FrameLayout
-            android:id="@+id/uid_search_clear_layout"
+            android:id="@id/uid_search_clear_layout"
             android:layout_width="@dimen/uid_searchbox_button_dimen"
             android:layout_height="@dimen/uid_searchbox_button_dimen"
             android:layout_gravity="center_vertical"
@@ -60,7 +60,7 @@
             android:background="@color/uidTransparent">
 
             <ImageView
-                android:id="@+id/uid_search_close_btn"
+                android:id="@id/uid_search_close_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -68,5 +68,9 @@
                 android:focusable="true" />
         </FrameLayout>
     </LinearLayout>
+
+    <include
+        android:id="@id/uid_search_box_view"
+        layout="@layout/uid_search_box_view" />
 
 </LinearLayout>

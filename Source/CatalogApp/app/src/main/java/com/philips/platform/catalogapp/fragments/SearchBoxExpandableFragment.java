@@ -25,6 +25,7 @@ public class SearchBoxExpandableFragment extends BaseFragment implements SearchB
     String query;
     boolean searchIconExpanded = true;
     private UIDNavigationIconToggler navIconToggler;
+    private StateListAdapter stateAdapter;
 
     private static final String[] STATES = new String[]{
             "Alabama",
@@ -78,7 +79,6 @@ public class SearchBoxExpandableFragment extends BaseFragment implements SearchB
             "Wisconsin",
             "Wyoming"
     };
-    private StateListAdapter stateAdapter;
 
     @Override
     public int getPageTitle() {
