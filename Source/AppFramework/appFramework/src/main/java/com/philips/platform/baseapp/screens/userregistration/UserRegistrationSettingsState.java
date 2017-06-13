@@ -5,7 +5,6 @@
 */
 package com.philips.platform.baseapp.screens.userregistration;
 
-import android.util.Log;
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
@@ -17,6 +16,7 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFound
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -47,6 +47,10 @@ public class UserRegistrationSettingsState extends UserRegistrationState {
             RALog.d(TAG, e.getMessage());
             Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private AppFrameworkApplication getApplicationContext() {
+        return (AppFrameworkApplication) getFragmentActivity().getApplication();
     }
 
 }
