@@ -46,6 +46,7 @@ import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
+import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -143,7 +144,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mProductDiscountedPrice = (TextView) rootView.findViewById(R.id.iap_productCatalogItem_discountedPrice_lebel);
         mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
 
-        CircleIndicator indicator = (CircleIndicator) rootView.findViewById(R.id.indicator);
+        DotNavigationIndicator indicator = (DotNavigationIndicator) rootView.findViewById(R.id.indicator);
         mImageAdapter = new ImageAdapter(mContext, new ArrayList<String>());
         mViewPager.setAdapter(mImageAdapter);
         indicator.setViewPager(mViewPager);

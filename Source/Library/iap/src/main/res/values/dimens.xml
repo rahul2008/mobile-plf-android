@@ -110,6 +110,7 @@
     <dimen name="border4_margin">4dp</dimen>
     <dimen name="border24_margin">24dp</dimen>
     <dimen name="border8_margin">8dp</dimen>
+    <dimen name="text_specing">2dp</dimen>
 
 
 </resources>

@@ -144,8 +144,9 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         if (themeIndex <= 0) {
             themeIndex = DEFAULT_THEME;
         }
-        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.VERY_DARK));
         getTheme().applyStyle(themeIndex, true);
+        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT));
+
     }
 
     @Override

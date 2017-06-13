@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
-                android:textColor="?attr/uidTextPrimary"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="@dimen/iap_product_description" />
 
             <com.philips.platform.uid.view.widget.Label
@@ -38,7 +38,7 @@
                 android:layout_below="@id/iap_productDetailScreen_productDescription_lebel"
                 android:includeFontPadding="false"
                 android:paddingTop="@dimen/border8_margin"
-                android:textColor="?attr/uidTextSecondary"
+                android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
                 android:textSize="@dimen/iap_product_ctn_16" />
 
             <LinearLayout
@@ -79,10 +79,10 @@
                 android:layout_below="@+id/price_container"
                 android:layout_marginTop="@dimen/border24_margin" />
 
-            <com.philips.cdp.uikit.customviews.CircleIndicator
+            <com.philips.platform.uid.view.widget.DotNavigationIndicator
                 android:id="@+id/indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_below="@id/pager"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
@@ -96,6 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/indicator"
                 android:includeFontPadding="false"
+                android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
                 android:paddingBottom="@dimen/border16_margin_left_right" />
 
             <LinearLayout

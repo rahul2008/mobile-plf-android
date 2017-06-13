@@ -12,15 +12,22 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/border12_margin" />
 
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/iap_retailer_image"
+        android:id="@+id/iap_retailerItem_description_layout"
+        android:orientation="vertical"
+        android:layout_centerVertical="true">
+
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/iap_retailerItem_onlineStoreName_lebel"
         style="@style/iapCentralesansBookFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/border4_margin"
-        android:layout_toEndOf="@id/iap_retailer_image"
         android:includeFontPadding="false"
-        android:textColor="?attr/uidTextPrimary"
+        android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
         android:textSize="@dimen/iap_retailers_store_name_size" />
 
     <com.philips.platform.uid.view.widget.Label
@@ -28,10 +35,9 @@
         style="@style/iapCentralesansBookFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/iap_retailerItem_onlineStoreName_lebel"
-        android:layout_toEndOf="@id/iap_retailer_image"
-        android:textColor="?attr/uidTextSecondary"
+        android:textColor="?attr/uidContentItemDefaultNormalSubtleBodyTextColor"
         android:textSize="@dimen/iap_retailers_store_name_size" />
+    </LinearLayout>
 
     <com.shamanland.fonticon.FontIconTextView
         android:id="@+id/retailer_arrow"
