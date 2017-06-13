@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:layout_margin="16dp">
+
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:text="@string/RA_SECURITY_SECURE_YOUR_DATA"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/textDesc"
+        android:text="@string/RA_SECURITY_PASSCODE_AND_JAILBREAK_VIOLATION"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:textSize="16dp"
+        android:layout_marginTop="25dp"/>
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/RA_SECURITY_DONT_SHOW_MESSAGE"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:textSize="16dp"
+        android:textColor="#000000"/>
+
+    <Button
+        android:id="@+id/btnActivateScreen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/RA_SECURITY_ACTIVATE_SCREEN_LOCK"
+        android:textSize="20dp"
+        android:background="#000000"
+        android:textColor="#ffffff"/>
+
+    <Button
+        android:id="@+id/btnNoThanks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/RA_SECURITY_NO_THANKS"
+        android:layout_below="@+id/btnActivateScreen"
+        android:background="#ffffff"
+        android:textSize="20dp"
+        android:textColor="#000000"/>
+    </LinearLayout>
