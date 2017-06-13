@@ -1,0 +1,11 @@
+diff a/Source/UIKit/uid/src/main/res/values-v21/dimens.xml b/Source/UIKit/uid/src/main/res/values-v21/dimens.xml	(rejected hunks)
+@@ -10,4 +10,8 @@
+     <!--Notification bar text leading-->
+     <dimen name="uid_notification_bar_line_spacing">6dp</dimen>
+     <integer name="uid_notification_bar_line_space_multiplier">1</integer>
++
++    <!--radiobutton text leading-->
++    <dimen name="uid_radiobutton_line_spacing">6dp</dimen>
++    <integer name="uid_radiobutton_font_spacing_multiplier">1</integer>
+ </resources>
+\ No newline at end of file

@@ -141,4 +141,8 @@
         <attr name="android:text"/>
         <attr name="uidRatingBarStarOnColor" format="color|reference"/>
     </declare-styleable>
+
+    <declare-styleable name="UIDRadioButton">
+        <attr name="uidRadioButtonPaddingStart" format="dimension"/>
+    </declare-styleable>
 </resources>

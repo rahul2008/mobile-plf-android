@@ -61,6 +61,7 @@
         <item name="uidIndeterminateLinearPBStyle">@style/UIDIndeterminateLinearProgress</item>
         <item name="uidButtonDisabledAlpha">@dimen/uid_alpha_per_100</item>
 
+        <item name="uidRadioButtonStyle">@style/UIDRadioButton</item>
         <!-- Moved to based temporarily to avoid crash-->
         <!--<item name="uidInputTextTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidInputTextHintTextDisabledAlpha">@dimen/uid_alpha_per_35</item>

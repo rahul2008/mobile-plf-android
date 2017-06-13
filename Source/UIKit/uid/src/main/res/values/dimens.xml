@@ -233,4 +233,12 @@
     <dimen name="uid_dot_navigation_icon_margin">4dp</dimen>
     <dimen name="uid_dot_navigation_indicator_min_height">48dp</dimen>
 
+    <!--RadioButton-->
+    <dimen name="uid_radiobutton_margin_left_right">12dp</dimen>
+    <dimen name="uid_radiobutton_height">48dp</dimen>
+    <dimen name="uid_radiobutton_text_size">16sp</dimen>
+    <dimen name="uid_radiobutton_border_ripple_radius">20dp</dimen>
+    <dimen name="uid_radiobutton_line_spacing">0dp</dimen>
+    <integer name="uid_radiobutton_font_spacing_multiplier">1</integer>
+
 </resources>
