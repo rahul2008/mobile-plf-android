@@ -205,7 +205,7 @@ public class AppFrameworkApplication extends Application {
      * @param appInfraInitializationCallback
      */
     public void initializeAppInfra(AppInitializationCallback.AppInfraInitializationCallback appInfraInitializationCallback) {
-        appInfra = new AppInfra.Builder().build(getApplicationContext());
+        appInfra = getAppInfraInstance();
         loggingInterface = appInfra.getLogging();
         RALog.init(appInfra);
         RALog.enableLogging();
@@ -222,9 +222,9 @@ public class AppFrameworkApplication extends Application {
             public void onSuccess(AILPRefreshResult ailpRefreshResult) {
                 languagePackInterface.activate(new LanguagePackInterface.OnActivateListener() {
                     @Override
-                    public void onSuccess(String s) {
-                        UikitLocaleHelper.getUikitLocaleHelper().setFilePath(s);
-                        RALog.d(LOG,"Success langauge pack activate "+"---"+s);
+                    public void onSuccess(String filePath) {
+                        UikitLocaleHelper.getUikitLocaleHelper().setFilePath(filePath);
+                        RALog.d(LOG,"Success langauge pack activate "+"---"+filePath);
                     }
 
                     @Override
@@ -234,5 +234,9 @@ public class AppFrameworkApplication extends Application {
                 });
             }
         });
+    }
+
+    protected AppInfra getAppInfraInstance() {
+        return new AppInfra.Builder().build(getApplicationContext());
     }
 }
