@@ -18,6 +18,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -85,6 +86,29 @@ public class PublicKeyPinTest extends RobolectricTest {
             }
         }
         assertTrue(didReturnError);
+    }
+
+    @Test
+    public void equalsObject_thenReturnsFalse() throws Exception {
+        PublicKeyPin publicKeyPin = new PublicKeyPin("rFjc3wG7lTZe43zeYTvPq8k4xdDEutCmIhI5dn4oCeE=");
+
+        assertFalse(publicKeyPin.equals(new Object()));
+    }
+
+    @Test
+    public void equalsOtherPublicKeyPin_thenReturnsFalse() throws Exception {
+        PublicKeyPin publicKeyPin1 = new PublicKeyPin("rFjc3wG7lTZe43zeYTvPq8k4xdDEutCmIhI5dn4oCeE=");
+        PublicKeyPin publicKeyPin2 = new PublicKeyPin("dFjc3wG7lTZe43zeYTvPq8k4xdDEutCmIhI5dn4oCeE=");
+
+        assertFalse(publicKeyPin1.equals(publicKeyPin2));
+    }
+
+    @Test
+    public void equalsSamePublicKeyPin_thenReturnsTrue() throws Exception {
+        PublicKeyPin publicKeyPin1 = new PublicKeyPin("rFjc3wG7lTZe43zeYTvPq8k4xdDEutCmIhI5dn4oCeE=");
+        PublicKeyPin publicKeyPin2 = new PublicKeyPin("rFjc3wG7lTZe43zeYTvPq8k4xdDEutCmIhI5dn4oCeE=");
+
+        assertTrue(publicKeyPin1.equals(publicKeyPin2));
     }
 
     private static Certificate certificateFromPem(String pemCertificate) {

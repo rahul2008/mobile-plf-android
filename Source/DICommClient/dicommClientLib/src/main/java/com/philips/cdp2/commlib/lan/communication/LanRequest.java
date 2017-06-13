@@ -37,14 +37,13 @@ import java.nio.charset.Charset;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLHandshakeException;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.X509TrustManager;
 
@@ -73,17 +72,7 @@ public class LanRequest extends Request {
         if (sslContext != null) return;
         sslContext = SSLContext.getInstance("TLS");
         // Accept all certificates, DO NOT DO THIS FOR PRODUCTION CODE
-        sslContext.init(null, new X509TrustManager[]{new X509TrustManager() {
-            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-            }
-
-            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-            }
-
-            public X509Certificate[] getAcceptedIssuers() {
-                return new X509Certificate[0];
-            }
-        }}, new SecureRandom());
+        sslContext.init(null, new X509TrustManager[]{new SslPinTrustManager()}, new SecureRandom());
     }
 
     public LanRequest(String applianceIpAddress, int protocolVersion, boolean isHttps, String portName, int productId, LanRequestType requestType, Map<String, Object> dataMap,
@@ -166,6 +155,9 @@ public class LanRequest extends Request {
                 DICommLog.e(DICommLog.LOCALREQUEST, "REQUEST_FAILED - " + result);
                 return new Response(result, Error.REQUEST_FAILED, mResponseHandler);
             }
+        } catch (SSLHandshakeException e) {
+            DICommLog.e(DICommLog.LOCALREQUEST, e.getMessage() != null ? e.getMessage() : "SSLHandshakeException");
+            return new Response(null, Error.INSECURE_CONNECTION, mResponseHandler);
         } catch (IOException e) {
             DICommLog.e(DICommLog.LOCALREQUEST, e.getMessage() != null ? e.getMessage() : "IOException");
             return new Response(null, Error.IOEXCEPTION, mResponseHandler);
