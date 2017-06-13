@@ -5,6 +5,7 @@
 package com.philips.cdp.di.iap.integration;
 
 import android.app.Application;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
@@ -63,6 +64,11 @@ public class IAPHandlerTest {
             @Override
             public void getHomeCountry(OnGetHomeCountryListener onGetHomeCountryListener) {
 
+            }
+
+            @Override
+            public String getHomeCountry() {
+                return null;
             }
 
             @Override
@@ -132,6 +138,16 @@ public class IAPHandlerTest {
 
             @Override
             public void refresh(OnRefreshListener onRefreshListener, boolean b) {
+
+            }
+
+            @Override
+            public void unRegisterHomeCountrySet(BroadcastReceiver broadcastReceiver) {
+
+            }
+
+            @Override
+            public void registerOnHomeCountrySet(BroadcastReceiver broadcastReceiver) {
 
             }
         };

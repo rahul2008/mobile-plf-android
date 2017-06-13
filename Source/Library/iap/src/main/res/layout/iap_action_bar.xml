@@ -38,7 +38,7 @@
             android:maxEms="10"
             android:maxLines="1"
             android:textColor="?attr/uidNavigationText"
-            app:uidLabelTextSize="@dimen/header" />
+            android:textSize="@dimen/header" />
 
         <FrameLayout
             android:id="@+id/cart_container"
