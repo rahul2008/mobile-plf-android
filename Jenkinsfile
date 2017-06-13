@@ -13,7 +13,7 @@ def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_App_chassis@philips.com,ami
 def errors = []
 
 
-node ('android&&device&&keystore') {
+node ('android&&device') {
 	timestamps {
 		try {
             stage ('Checkout') {
