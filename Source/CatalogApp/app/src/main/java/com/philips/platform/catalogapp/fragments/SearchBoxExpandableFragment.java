@@ -23,7 +23,7 @@ public class SearchBoxExpandableFragment extends BaseFragment implements SearchB
     private FragmentSearchBoxExpandableBinding fragmentSearchBoxExpandableBinding;
     private SearchBox searchBox;
     String query;
-    boolean searchIconExpanded = true;
+    boolean searchBoxExpanded = true;
     private UIDNavigationIconToggler navIconToggler;
     private StateListAdapter stateAdapter;
 
@@ -93,7 +93,7 @@ public class SearchBoxExpandableFragment extends BaseFragment implements SearchB
 
         if (savedInstanceState != null) {
             query = savedInstanceState.getString("query");
-            searchIconExpanded = savedInstanceState.getBoolean("iconified");
+            searchBoxExpanded = savedInstanceState.getBoolean("expanded");
         }
         setListAdapter();
         return fragmentSearchBoxExpandableBinding.getRoot();
@@ -120,14 +120,14 @@ public class SearchBoxExpandableFragment extends BaseFragment implements SearchB
         searchBox.setExpandListener(this);
         searchBox.setQuerySubmitListener(this);
         searchBox.setSearchIconified(true);
-        searchBox.setSearchCollapsed(searchIconExpanded);
+        searchBox.setSearchCollapsed(searchBoxExpanded);
         searchBox.setQuery(query);
         searchBox.setAdapter(stateAdapter);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putBoolean("iconified",searchBox.isSearchCollapsed());
+        outState.putBoolean("expanded",searchBox.isSearchCollapsed());
         outState.putString("query", String.valueOf(searchBox.getQuery()));
         super.onSaveInstanceState(outState);
     }
@@ -156,7 +156,8 @@ public class SearchBoxExpandableFragment extends BaseFragment implements SearchB
         if(!searchBox.isSearchCollapsed()){
             searchBox.setSearchCollapsed(true);
             return true;
+        } else {
+            return super.handleBackPress();
         }
-        return super.handleBackPress();
     }
 }

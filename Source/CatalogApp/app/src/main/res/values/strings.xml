@@ -218,6 +218,7 @@
     <string name="search_box_content">Please search for the states of USA</string>
     <string name="search_box_expandable">Expandable</string>
     <string name="search_box_persistent">Persistent in navigation bar</string>
+    <string name="page_title_searchbox_persistent"></string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
