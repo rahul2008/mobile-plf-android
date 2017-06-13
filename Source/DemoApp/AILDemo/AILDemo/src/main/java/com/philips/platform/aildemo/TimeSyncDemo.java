@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
@@ -36,9 +37,10 @@ public class TimeSyncDemo extends AppCompatActivity {
 
         mTimeSyncInterface = AILDemouAppInterface.mAppInfra.getTime();
 
-        AILDemouAppInterface.mAIAppTaggingInterface.createInstanceForComponent("TimeSyncComponentID", "TimeSyncComponentVersion");
+      //  AppInfraApplication.gAppInfra.getTagging().createInstanceForComponent("TimeSyncComponentID", "TimeSyncComponentVersion");
+    //    AppInfraApplication.gAppInfra.getTagging().trackVideoStart("Time Synce");
 
-        AILDemouAppInterface.mAIAppTaggingInterface.trackPageWithInfo("TimeSyncDemo", "TimeSyncDemoKey", "TimeSyncDemoVersion");
+        AILDemouAppInterface.mAppInfra.trackPageWithInfo("TimeSyncDemo", "TimeSyncDemoKey", "TimeSyncDemoVersion");
 
         localTimeTextvalue.setText(getDeviceTime());
 //        utcTimeTextvalue.setText(mTimeSyncInterface.getUTCTime());

@@ -1,4 +1,4 @@
-package com.philips.platform.appinfra.demo;
+package com.philips.platform.aildemo;
 
 
 import android.os.Bundle;
@@ -9,8 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
-import com.philips.platform.appinfra.appupdate.AppUpdateManager;
+import com.philips.platform.appinfra.demo.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -58,7 +57,7 @@ public class AppUpdateActivity extends AppCompatActivity {
 		tvMinimumOSverion = (TextView) findViewById(R.id.tvMinimumOSverion);
 
 
-		appupdateInterface = AppInfraApplication.gAppInfra.getAppUpdate();
+		appupdateInterface = AILDemouAppInterface.mAppInfra.getAppUpdate();
 
 		appUpdateRefresh.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -80,7 +79,7 @@ public class AppUpdateActivity extends AppCompatActivity {
 		fetchappupdateValues.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				tvappversionval.setText(AppInfraApplication.gAppInfra.getAppIdentity().getAppVersion());
+				tvappversionval.setText(AILDemouAppInterface.mAppInfra.getAppIdentity().getAppVersion());
 				tvminversionval.setText(appupdateInterface.getMinimumVersion());
 				tvisDeprecated.setText(String.valueOf(appupdateInterface.isDeprecated()));
 				tvisToBeDeprecated.setText(String.valueOf(appupdateInterface.isToBeDeprecated()));

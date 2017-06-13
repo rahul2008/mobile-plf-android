@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 /**
@@ -22,10 +23,10 @@ public class AppIndentityDemoPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appidentity);
-        AppInfraInterface appInfra =  AILDemouAppInterface.mAppInfra;
+        AppInfraInterface appInfra = AILDemouAppInterface.mAppInfra;
         mAppIdentityInterface = appInfra.getAppIdentity();
         AppTaggingInterface mAppTaggingInterface;
-        mAppTaggingInterface =  AILDemouAppInterface.mAIAppTaggingInterface.createInstanceForComponent("AppIndentityID", "AppIndentityIDVersion");
+        mAppTaggingInterface = AILDemouAppInterface.mAppInfra.getTagging().createInstanceForComponent("AppIndentityID", "AppIndentityIDVersion");
 
         mAppTaggingInterface.trackPageWithInfo("AppIndentityPageDemoPage", "AppIndentityKEy", "AppIndentityValue");
 

@@ -14,6 +14,7 @@ import android.widget.Spinner;
 
 import com.philips.platform.appinfra.contentloader.ContentLoader;
 import com.philips.platform.appinfra.contentloader.model.ContentArticle;
+import com.philips.platform.appinfra.demo.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +89,7 @@ public class ContentLoaderCreateActivity extends AppCompatActivity {
                             break;
 
                     }
-                    ContentLoader mContentLoader = new ContentLoader(getApplicationContext(), EditTextServiceId.getText().toString().trim(), magAge, contentClass, ContentType, AILDemouAppInterface.mAppInfra,contentLoaderLimitOptional);
+                    ContentLoader  mContentLoader = new ContentLoader(getApplicationContext(), EditTextServiceId.getText().toString().trim(), magAge, contentClass, ContentType, AILDemouAppInterface.mAppInfra,contentLoaderLimitOptional);
 
                     if(!ContentLoaderServiceIdList.isEmpty() && ContentLoaderServiceIdList.contains(EditTextServiceId.getText().toString().trim()))
                     {
@@ -97,7 +98,7 @@ public class ContentLoaderCreateActivity extends AppCompatActivity {
                     else {
                         ContentLoaderServiceIdList.add(mContentLoader.getmServiceId());
                         ContentLoaderList.add(mContentLoader);
-                        Intent i = new Intent(ContentLoaderCreateActivity.this, ContentLoaderList.class);
+                        Intent i = new Intent(ContentLoaderCreateActivity.this, com.philips.platform.aildemo.ContentLoaderList.class);
                         startActivity(i);
                     }
                 }
@@ -107,7 +108,7 @@ public class ContentLoaderCreateActivity extends AppCompatActivity {
         existingCLs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(ContentLoaderCreateActivity.this, ContentLoaderList.class);
+                Intent i = new Intent(ContentLoaderCreateActivity.this, com.philips.platform.aildemo.ContentLoaderList.class);
                 startActivity(i);
             }
         });

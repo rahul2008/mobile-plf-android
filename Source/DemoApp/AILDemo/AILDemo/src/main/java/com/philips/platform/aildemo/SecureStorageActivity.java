@@ -14,17 +14,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 
-public class SecureStorageActivity extends AppCompatActivity {
+public class SecureStorageActivity extends AppCompatActivity  {
     SecureStorageInterface mSecureStorage=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secure_storage);
-        AppInfraInterface appInfra = AILDemouAppInterface.mAppInfra;
+        AppInfraInterface appInfra = AppInfraApplication.gAppInfra;
         mSecureStorage = appInfra.getSecureStorage();
 
         final EditText userKey = (EditText) findViewById(R.id.Key_editText);

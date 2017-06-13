@@ -17,6 +17,9 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.demo.R;
+
 import java.util.ArrayList;
 
 public class AppInfraMainActivity extends AppCompatActivity {
@@ -32,7 +35,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_infra_main);
 //        mAppInfra = new AppInfra.Builder().build(getApplicationContext());
-        mAppInfra = (AppInfra)AppInfraApplication.gAppInfra;
+        mAppInfra = (AppInfra)AILDemouAppInterface.mAppInfra;
         final TextView componentIDTextView = (TextView) findViewById(R.id.appInfraComponentID);
         componentIDTextView.setText(mAppInfra.getComponentId());
         final TextView versionTextView = (TextView) findViewById(R.id.appInfraVersion);

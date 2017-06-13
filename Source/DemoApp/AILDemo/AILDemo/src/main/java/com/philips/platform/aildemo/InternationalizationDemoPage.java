@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 

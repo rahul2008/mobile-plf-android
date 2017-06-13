@@ -17,11 +17,13 @@ import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.VideoView;
 
+import com.philips.platform.appinfra.demo.R;
+
 
 public class AndroidMediaPlayerExample extends Activity {
     ProgressBar progressBar = null;
     VideoView videoView = null;
-    String videoUrl = "android.resource://com.philips.platform.aildemo/" + R.raw.demotagging;
+    String videoUrl = "android.resource://com.philips.platform.appinfra.demo/" + R.raw.demotagging;
     Context context = null;
 
     @Override
@@ -32,8 +34,6 @@ public class AndroidMediaPlayerExample extends Activity {
         setContentView(R.layout.mediaplayer_demo);
         videoView = (VideoView) findViewById(R.id.videoview);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
-        int rawId = getResources().getIdentifier("demotagging", "raw", getPackageName());
-        String videoUrl = "android.resource://" + "com.philips.platform.aildemolaunch" + "/" + R.raw.demotagging;
         Uri videoUri = Uri.parse(videoUrl);
         videoView.setVideoURI(videoUri);
         MediaController mediaController = null;
@@ -54,8 +54,8 @@ public class AndroidMediaPlayerExample extends Activity {
                                                    int arg2) {
                         // TODO Auto-generated method stub
                         Log.i("VedioonVideoSizeChanged", "onVideoSizeChanged" + arg1 + " " + arg2);
-//                        AppInfraApplication.mAIAppTaggingInterface.trackVideoStart("Tagging_trackVideoStart");
-                        AILDemouAppInterface.mAIAppTaggingInterface.trackTimedActionStart("Tagging_trackTimedAction");
+//                        AILDemouAppInterface.mAppInfra.trackVideoStart("Tagging_trackVideoStart");
+                        AILDemouAppInterface.mAppInfra.trackTimedActionStart("Tagging_trackTimedAction");
                         progressBar.setVisibility(View.GONE);
                         mp.start();
                     }
@@ -66,9 +66,9 @@ public class AndroidMediaPlayerExample extends Activity {
                     public void onCompletion(MediaPlayer mediaPlayer) {
                         Log.i("VedioonCompletion", "onVideoonCompletion");
                         if (getIntent().getBooleanExtra("VideoStart", false)) {
-                            AILDemouAppInterface.mAIAppTaggingInterface.trackVideoEnd("Tagging_trackVideoEnd");
+                            AILDemouAppInterface.mAppInfra.trackVideoEnd("Tagging_trackVideoEnd");
                         } else {
-                            AILDemouAppInterface.mAIAppTaggingInterface.trackTimedActionEnd("Tagging_trackTimedAction");
+                            AILDemouAppInterface.mAppInfra.trackTimedActionEnd("Tagging_trackTimedAction");
                         }
 
 
