@@ -20,8 +20,9 @@ public class DhpResponseTest extends InstrumentationTestCase{
     @Before
     public void setUp() throws Exception {
         MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
         super.setUp();
+        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+
         mRawResponse = new HashMap<String,Object>();
         mDhpResponse = new DhpResponse(mRawResponse);
         mDhpResponse1 = new DhpResponse(mRawResponse);

@@ -1,18 +1,18 @@
 package com.philips.cdp.registration.handlers;
 
 import android.content.Context;
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
 
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 import com.philips.cdp.registration.User;
 
 import org.junit.Before;
 import org.mockito.Mock;
 
-/**
- * Created by 310243576 on 8/18/2016.
- */
-public class RefreshandUpdateUserHandlerTest extends InstrumentationTestCase {
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.Assert.assertNotNull;
+
+
+public class RefreshandUpdateUserHandlerTest extends RegistrationApiInstrumentationBase {
 
     @Mock
     RefreshandUpdateUserHandler refreshandUpdateUserHandler;
@@ -28,11 +28,7 @@ public class RefreshandUpdateUserHandlerTest extends InstrumentationTestCase {
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().
-                getCacheDir().getPath());
-//        MockitoAnnotations.initMocks(this);
-        super.setUp();
+              super.setUp();
         context = getInstrumentation().getTargetContext();
         handler= new RefreshUserHandler() {
             @Override

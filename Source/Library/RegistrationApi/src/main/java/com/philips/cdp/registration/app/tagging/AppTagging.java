@@ -22,7 +22,9 @@ public class AppTagging {
 
     public static void trackPage(String currPage) {
         final Map<String, String> commonGoalsMap = getCommonGoalsMap();
-        appTaggingInterface.trackPageWithInfo(currPage, commonGoalsMap);
+        try {
+            appTaggingInterface.trackPageWithInfo(currPage, commonGoalsMap);
+        } catch (IllegalArgumentException exception) {}
     }
 
     public static void trackFirstPage(String currPage) {
@@ -32,13 +34,17 @@ public class AppTagging {
     public static void trackAction(String state, String key, String value) {
         final Map<String, String> commonGoalsMap = getCommonGoalsMap();
         commonGoalsMap.put(key, value);
-        appTaggingInterface.trackActionWithInfo(state, commonGoalsMap);
+        try {
+            appTaggingInterface.trackActionWithInfo(state, commonGoalsMap);
+        } catch (IllegalArgumentException exception) {}
     }
 
     public static void trackMultipleActions(String state, Map<String, String> map) {
         final Map<String, String> commonGoalsMap = getCommonGoalsMap();
         commonGoalsMap.putAll(map);
-        appTaggingInterface.trackActionWithInfo(state, map);
+        try {
+            appTaggingInterface.trackActionWithInfo(state, map);
+        } catch (IllegalArgumentException exception) {}
     }
 
     public static Map<String, String> getCommonGoalsMap() {

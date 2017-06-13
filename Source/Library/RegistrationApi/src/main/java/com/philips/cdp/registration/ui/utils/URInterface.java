@@ -79,6 +79,7 @@ public class URInterface implements UappInterface {
                 registrationFragment.setUserRegistrationUIEventListener
                         (((URLaunchInput) uappLaunchInput).
                                 getUserRegistrationUIEventListener());
+                ((URLaunchInput) uappLaunchInput).setUserRegistrationUIEventListener(null);
             }
 
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
@@ -117,6 +118,7 @@ public class URInterface implements UappInterface {
 
             RegistrationActivity.setUserRegistrationUIEventListener(((URLaunchInput) uappLaunchInput).
                     getUserRegistrationUIEventListener());
+            ((URLaunchInput) uappLaunchInput).setUserRegistrationUIEventListener(null);
             Intent registrationIntent = new Intent(RegistrationHelper.getInstance().
                     getUrSettings().getContext(), RegistrationActivity.class);
             Bundle bundle = new Bundle();

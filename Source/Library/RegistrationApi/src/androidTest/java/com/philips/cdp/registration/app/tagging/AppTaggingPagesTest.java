@@ -1,22 +1,20 @@
 package com.philips.cdp.registration.app.tagging;
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 
 import org.junit.Before;
 import org.junit.Test;
-/**
- * Created by 310230979  on 8/30/2016.
- */
 
-public class AppTaggingPagesTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+
+
+
+public class AppTaggingPagesTest extends RegistrationApiInstrumentationBase {
 
     AppTaggingPages appTaggingPages;
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
         super.setUp();
         appTaggingPages = new AppTaggingPages();
     }

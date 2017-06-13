@@ -1,20 +1,21 @@
 package com.philips.cdp.registration.ui.utils;
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import static junit.framework.Assert.assertNotNull;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class RegAlertDialogTest extends InstrumentationTestCase{
+public class RegAlertDialogTest extends RegistrationApiInstrumentationBase {
 RegAlertDialog regAlertDialog;
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+        super.setUp();
         regAlertDialog= new RegAlertDialog();
     }
     @Test

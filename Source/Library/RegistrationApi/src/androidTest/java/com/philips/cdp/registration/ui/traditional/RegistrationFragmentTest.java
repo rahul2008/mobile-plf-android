@@ -1,7 +1,6 @@
 package com.philips.cdp.registration.ui.traditional;
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 
 import org.junit.Before;
 
@@ -9,11 +8,11 @@ import org.junit.Before;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class RegistrationFragmentTest extends InstrumentationTestCase{
+public class RegistrationFragmentTest extends RegistrationApiInstrumentationBase {
     RegistrationFragment registrationFragment;
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+        super.setUp();
         registrationFragment= new RegistrationFragment();
     }
 

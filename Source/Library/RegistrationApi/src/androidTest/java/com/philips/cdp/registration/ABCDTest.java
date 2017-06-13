@@ -1,13 +1,15 @@
 package com.philips.cdp.registration;
 
 import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
 
 import org.junit.Before;
-/**
- * Created by 310230979  on 8/31/2016.
- */
-public class ABCDTest extends InstrumentationTestCase{
+import org.junit.Test;
+
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+
+public class ABCDTest extends RegistrationApiInstrumentationBase{
 
     ABCD abcd;
     @Before
@@ -17,6 +19,7 @@ public class ABCDTest extends InstrumentationTestCase{
         assertNotNull(abcd);
 
     }
+    @Test
     public void testmP(){
         abcd.setmP("abcd");
         assertEquals("abcd",abcd.getmP());

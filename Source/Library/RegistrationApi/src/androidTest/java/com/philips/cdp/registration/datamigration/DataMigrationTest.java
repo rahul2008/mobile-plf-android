@@ -9,9 +9,7 @@ import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-/**
- * Created by 310243576 on 8/11/2016.
- */
+
 public class DataMigrationTest extends ActivityInstrumentationTestCase2<RegistrationActivity> {
 
     DataMigration continueSocialProviderLogin;

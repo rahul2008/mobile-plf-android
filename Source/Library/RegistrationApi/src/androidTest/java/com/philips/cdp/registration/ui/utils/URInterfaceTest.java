@@ -1,8 +1,6 @@
 package com.philips.cdp.registration.ui.utils;
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
-
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
@@ -13,16 +11,18 @@ import org.junit.Test;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import static junit.framework.Assert.assertNotNull;
+
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class URInterfaceTest extends InstrumentationTestCase {
+public class URInterfaceTest extends RegistrationApiInstrumentationBase {
     URInterface urInterface;
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+        super.setUp();
         urInterface = new URInterface();
     }
 

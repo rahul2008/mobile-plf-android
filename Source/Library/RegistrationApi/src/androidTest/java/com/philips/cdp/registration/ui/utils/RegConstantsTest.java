@@ -1,21 +1,19 @@
 package com.philips.cdp.registration.ui.utils;
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 
-/**
- * Created by 310230979  on 8/30/2016.
- */
-public class RegConstantsTest extends InstrumentationTestCase {
+import static junit.framework.Assert.assertEquals;
+
+
+public class RegConstantsTest extends RegistrationApiInstrumentationBase {
 
     RegConstants mRegConstants;
 
     @Override
     protected void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+
         super.setUp();
-        System.setProperty("dexmaker.dexcache", getInstrumentation()
-                .getTargetContext().getCacheDir().getPath());
+
         mRegConstants = new RegConstants();
     }
 

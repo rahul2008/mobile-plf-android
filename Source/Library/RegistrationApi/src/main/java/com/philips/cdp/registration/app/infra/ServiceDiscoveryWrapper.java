@@ -26,7 +26,8 @@ public class ServiceDiscoveryWrapper {
 
                 @Override
                 public void onError(ERRORVALUES errorvalues, String s) {
-                    emitter.onError(new RuntimeException(s));
+
+                    emitter.onError(new Throwable(s));
                 }
             };
             serviceDiscoveryInterface.getServiceUrlWithCountryPreference(serviceId, listener);
@@ -42,7 +43,8 @@ public class ServiceDiscoveryWrapper {
 
                 @Override
                 public void onError(ERRORVALUES errorvalues, String s) {
-                    emitter.onError(new RuntimeException(s));
+
+                    emitter.onError(new Throwable(s));
                 }
             };
             serviceDiscoveryInterface.getServiceLocaleWithLanguagePreference(serviceId, listener);
@@ -58,7 +60,7 @@ public class ServiceDiscoveryWrapper {
 
                 @Override
                 public void onError(ERRORVALUES errorvalues, String s) {
-                    emitter.onError(new RuntimeException(s));
+                    emitter.onError(new Throwable(s));
                 }
             };
             serviceDiscoveryInterface.getServiceLocaleWithCountryPreference(serviceId, listener);

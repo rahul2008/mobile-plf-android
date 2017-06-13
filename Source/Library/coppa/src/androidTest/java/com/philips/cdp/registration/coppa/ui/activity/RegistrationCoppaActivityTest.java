@@ -1,35 +1,36 @@
 package com.philips.cdp.registration.coppa.ui.activity;
 
 import android.content.pm.ActivityInfo;
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
+
+import com.philips.cdp.registration.coppa.RegistrationApiInstrumentationBase;
 
 import org.junit.Before;
-import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import static junit.framework.Assert.assertNotNull;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class RegistrationCoppaActivityTest extends InstrumentationTestCase {
+public class RegistrationCoppaActivityTest extends RegistrationApiInstrumentationBase {
 
     RegistrationCoppaActivity mRegistrationCoppaActivity;
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+     super.setUp();
         mRegistrationCoppaActivity = new RegistrationCoppaActivity();
     }
 
-    @Test
+
     public void testRegistrationcopp() {
         assertNotNull(mRegistrationCoppaActivity);
     }
 
-    @Test
+
     public void testSetOrientation() {
         Method method = null;
         try {
@@ -48,7 +49,7 @@ public class RegistrationCoppaActivityTest extends InstrumentationTestCase {
         }
     }
 
-    @Test
+
     public void testInitUi() {
         Method method = null;
         try {
@@ -65,7 +66,7 @@ public class RegistrationCoppaActivityTest extends InstrumentationTestCase {
         }
     }
 
-    @Test
+
     public void testWriteDataToFile() {
         Method method = null;
         Boolean is = true;

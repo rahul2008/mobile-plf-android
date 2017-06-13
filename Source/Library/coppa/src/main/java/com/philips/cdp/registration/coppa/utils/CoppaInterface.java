@@ -71,6 +71,7 @@ public class CoppaInterface extends URInterface {
                 registrationFragment.setUserRegistrationUIEventListener
                         (((CoppaLaunchInput) uappLaunchInput).
                                 getUserRegistrationUIEventListener());
+                ((CoppaLaunchInput) uappLaunchInput).setUserRegistrationUIEventListener(null);
             }
             final FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
             fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(),
@@ -101,6 +102,7 @@ public class CoppaInterface extends URInterface {
 
             RegistrationCoppaActivity.setUserRegistrationUIEventListener(((CoppaLaunchInput) uappLaunchInput).
                     getUserRegistrationUIEventListener());
+            ((CoppaLaunchInput) uappLaunchInput).setUserRegistrationUIEventListener(null);
             Intent registrationIntent = new Intent(RegistrationHelper.getInstance().
                     getUrSettings().getContext(), RegistrationCoppaActivity.class);
             Bundle bundle = new Bundle();

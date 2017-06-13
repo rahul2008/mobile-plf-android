@@ -158,6 +158,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RegistrationBaseFragment.mWidth = 0;
         RegistrationBaseFragment.mHeight = 0;
         setPrevTiltle();
+        setUserRegistrationUIEventListener(null);
         super.onDestroy();
     }
 

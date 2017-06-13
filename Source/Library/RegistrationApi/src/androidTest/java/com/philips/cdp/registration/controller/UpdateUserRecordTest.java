@@ -1,23 +1,20 @@
 package com.philips.cdp.registration.controller;
 
 import android.content.Context;
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
+
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * Created by 310243576 on 8/31/2016.
- */
-public class UpdateUserRecordTest extends InstrumentationTestCase {
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+
+public class UpdateUserRecordTest extends RegistrationApiInstrumentationBase {
 
     Context mContext;
     UpdateUserRecord updateUserRecord;
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
         super.setUp();
         mContext = getInstrumentation().getTargetContext();
 //        updateUserRecord = new UpdateUserRecord(mContext);

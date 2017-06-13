@@ -1,11 +1,11 @@
 package com.philips.cdp.registration.dao;
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
-
 import com.janrain.android.Jump;
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 
 import org.mockito.Mock;
+
+import static junit.framework.Assert.assertEquals;
 
 /*
  *  Copyright (c) Koninklijke Philips N.V., 2016
@@ -14,14 +14,13 @@ import org.mockito.Mock;
  *  * consent of the copyright holder.
  * /
  */
-public class SignInSocialFailureInfoTest extends InstrumentationTestCase {
+public class SignInSocialFailureInfoTest extends RegistrationApiInstrumentationBase {
     SignInSocialFailureInfo signInSocialFailureInfo;
     @Mock
     Jump.SignInResultHandler.SignInError error;
 
     @Override
     protected void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
         signInSocialFailureInfo = new SignInSocialFailureInfo();
     }
 

@@ -2,15 +2,14 @@ package com.philips.cdp.registration;
 
 import android.content.Context;
 import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
 
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * Created by 310243576 on 9/1/2016.
- */
-public class AppIdentityInfoTest extends InstrumentationTestCase{
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.Assert.assertEquals;
+
+public class AppIdentityInfoTest extends RegistrationApiInstrumentationBase{
     Context mContext;
     AppIdentityInfo mAppIdentityInfo;
 

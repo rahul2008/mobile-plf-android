@@ -1,21 +1,23 @@
 package com.philips.cdp.registration.ui.customviews;
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.Assert.assertNotNull;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class XRegErrorTest extends InstrumentationTestCase{
+public class XRegErrorTest extends RegistrationApiInstrumentationBase {
     XRegError xRegError;
     String mSigninErrMsg;
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+        super.setUp();
         xRegError = new XRegError(getInstrumentation().getContext());
     }
     @Test

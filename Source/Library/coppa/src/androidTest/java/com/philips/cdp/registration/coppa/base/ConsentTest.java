@@ -8,22 +8,21 @@
 
 package com.philips.cdp.registration.coppa.base;
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
 
-/**
- * Created by 310202337 on 3/29/2016.
- */
-public class ConsentTest extends InstrumentationTestCase{
+import com.philips.cdp.registration.coppa.RegistrationApiInstrumentationBase;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+
+
+public class ConsentTest extends RegistrationApiInstrumentationBase {
 
      Consent mConsent;
 
     @Override
-    protected void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        super.setUp();
+    public void setUp() throws Exception {
 
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+        super.setUp();
         mConsent = new Consent();
     }
 

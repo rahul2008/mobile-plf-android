@@ -1,20 +1,20 @@
 package com.philips.cdp.registration.controller;
 
 import android.content.Context;
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
 
 import com.janrain.android.capture.CaptureApiError;
+import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-/**
- * Created by 310243576 on 8/18/2016.
- */
-public class RefreshLoginSessionTest extends InstrumentationTestCase{
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.Assert.assertNotNull;
+
+
+public class RefreshLoginSessionTest extends RegistrationApiInstrumentationBase {
     @Mock
     RefreshLoginSession mRefreshLoginSessionTest;
 
@@ -26,9 +26,6 @@ public class RefreshLoginSessionTest extends InstrumentationTestCase{
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
-        System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-//        MockitoAnnotations.initMocks(this);
         super.setUp();
         context = getInstrumentation().getTargetContext();
 

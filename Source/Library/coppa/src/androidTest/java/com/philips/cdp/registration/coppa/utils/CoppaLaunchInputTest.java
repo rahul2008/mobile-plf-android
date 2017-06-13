@@ -1,19 +1,19 @@
 package com.philips.cdp.registration.coppa.utils;
 
-import android.support.multidex.MultiDex;
-import android.test.InstrumentationTestCase;
 
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.coppa.RegistrationApiInstrumentationBase;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 
 import org.junit.Before;
 import org.mockito.Mock;
 
-/**
- * Created by 310230979  on 8/31/2016.
- */
-public class CoppaLaunchInputTest extends InstrumentationTestCase{
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+
+
+public class CoppaLaunchInputTest extends RegistrationApiInstrumentationBase {
 
     CoppaLaunchInput coppaLaunchInput;
 
@@ -28,7 +28,7 @@ public class CoppaLaunchInputTest extends InstrumentationTestCase{
 
     @Before
     public void setUp() throws Exception {
-        MultiDex.install(getInstrumentation().getTargetContext());
+        super.setUp();
         coppaLaunchInput = new CoppaLaunchInput();
     }
 

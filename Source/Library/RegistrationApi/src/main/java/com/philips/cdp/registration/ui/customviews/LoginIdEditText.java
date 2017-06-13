@@ -23,8 +23,8 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.philips.cdp.registration.B;
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -33,27 +33,27 @@ import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
-import butterfork.Bind;
-import butterfork.ButterFork;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class LoginIdEditText extends RelativeLayout implements TextWatcher, OnClickListener,
         OnFocusChangeListener {
 
     private Context mContext;
 
-    @Bind(B.id.et_reg_email)
+    @BindView(R2.id.et_reg_email)
     EditText mEtEmail;
 
-    @Bind(B.id.tv_reg_email_err)
+    @BindView(R2.id.tv_reg_email_err)
     TextView mTvErrDescriptionView;
 
-    @Bind(B.id.rl_reg_parent_verified_field)
+    @BindView(R2.id.rl_reg_parent_verified_field)
     RelativeLayout mRlEtEmail;
 
-    @Bind(B.id.iv_reg_close)
+    @BindView(R2.id.iv_reg_close)
     TextView mTvCloseIcon;
 
-    @Bind(B.id.fl_reg_email_field_err)
+    @BindView(R2.id.fl_reg_email_field_err)
     FrameLayout mFlInvalidFieldAlert;
 
     private boolean mValidEmail;
@@ -79,7 +79,7 @@ public class LoginIdEditText extends RelativeLayout implements TextWatcher, OnCl
         RLog.d(RLog.SERVICE_DISCOVERY,"China Flow : "+ RegistrationHelper.getInstance().isChinaFlow());
         LayoutInflater li = LayoutInflater.from(mContext);
         View view = li.inflate(resourceId, this, true);
-        ButterFork.bind(this, view);
+        ButterKnife.bind(this);
         mEtEmail.setOnClickListener(this);
         mEtEmail.setOnFocusChangeListener(this);
         mEtEmail.addTextChangedListener(this);
