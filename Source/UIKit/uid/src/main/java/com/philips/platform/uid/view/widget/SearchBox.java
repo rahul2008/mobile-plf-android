@@ -37,8 +37,9 @@ public class SearchBox extends LinearLayout {
     private ImageView searchIconHolder;
     private AppCompatAutoCompleteTextView searchTextView;
     private View searchBoxView;
-
     private boolean isSearchIconified;
+
+    private boolean isSearchCollapsed = true;
     private View searchClearLayout;
     private ExpandListener expandListener;
     private FilterQueryChangedListener filterQueryChangedListener;
@@ -122,7 +123,7 @@ public class SearchBox extends LinearLayout {
             @Override
             public void onClick(View v) {
                 callCollapseListener();
-                setSearchIconified(true);
+                setSearchCollapsed(true);
                 searchTextView.setText("");
                 searchTextView.clearFocus();
             }
@@ -135,7 +136,7 @@ public class SearchBox extends LinearLayout {
             @Override
             public void onClick(View v) {
                 callExpandListener();
-                setSearchIconified(false);
+                setSearchCollapsed(false);
                 searchTextView.requestFocus();
             }
         });
@@ -147,7 +148,7 @@ public class SearchBox extends LinearLayout {
             @Override
             public void onClick(View v) {
                 callExpandListener();
-                setSearchIconified(false);
+                setSearchCollapsed(false);
                 searchTextView.requestFocus();
             }
         });
@@ -185,7 +186,7 @@ public class SearchBox extends LinearLayout {
         heightMode = MeasureSpec.EXACTLY;
 
         //Match the height in case iconified, avoid screen flickering in toggling iconified
-        if (isSearchIconified) {
+        if (isSearchCollapsed) {
             super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(height, heightMode));
             return;
         }
@@ -211,11 +212,15 @@ public class SearchBox extends LinearLayout {
                 MeasureSpec.makeMeasureSpec(height, heightMode));
     }
 
-    public void setSearchIconified(boolean searchIconified) {
-        handleSearchExpansion(searchIconified);
-        setImeVisibility(!searchIconified);
-        isSearchIconified = searchIconified;
-        requestLayout();
+    public void setSearchCollapsed(boolean searchCollapsed) {
+        handleSearchExpansion(searchCollapsed);
+        setImeVisibility(!searchCollapsed);
+        isSearchCollapsed = searchCollapsed;
+        updateViews();
+    }
+
+    public void setSearchIconified(boolean searchIconified){
+        this.isSearchIconified = searchIconified;
         updateViews();
     }
 
@@ -242,10 +247,10 @@ public class SearchBox extends LinearLayout {
         }
     }
 
-    private void handleSearchExpansion(boolean searchIconified) {
-        if (shouldExpand(searchIconified)) {
+    private void handleSearchExpansion(boolean searchCollapsed) {
+        if (shouldExpand(searchCollapsed)) {
             callExpandListener();
-        } else if (shouldCollapse(searchIconified)) {
+        } else if (shouldCollapse(searchCollapsed)) {
             callCollapseListener();
         }
     }
@@ -262,19 +267,27 @@ public class SearchBox extends LinearLayout {
         }
     }
 
-    private boolean shouldCollapse(boolean searchIconified) {
-        return !isSearchIconified && searchIconified;
+    private boolean shouldCollapse(boolean searchCollapsed) {
+        return !isSearchCollapsed && searchCollapsed;
     }
 
-    private boolean shouldExpand(boolean searchIconified) {
-        return (!isSearchIconified && !searchIconified);
+    private boolean shouldExpand(boolean searchCollapsed) {
+        return (!isSearchCollapsed && !searchCollapsed);
     }
 
     private void updateViews() {
-        int iconHolderVisisblity = isSearchIconified ? View.VISIBLE : View.GONE;
-        searchIconHolder.setVisibility(iconHolderVisisblity);
 
-        int visibility = isSearchIconified ? View.GONE : View.VISIBLE;
+        int collapsedVisibility = isSearchCollapsed ? View.VISIBLE : View.GONE;
+
+        if(isSearchIconified){
+            searchIconHolder.setVisibility(collapsedVisibility);
+            searchBoxView.setVisibility(View.GONE);
+        }else {
+            searchBoxView.setVisibility(collapsedVisibility);
+            searchIconHolder.setVisibility(View.GONE);
+        }
+
+        int visibility = isSearchCollapsed ? View.GONE : View.VISIBLE;
         searchClearLayout.setVisibility(visibility);
         backButton.setVisibility(visibility);
         updateCloseButton();
@@ -287,8 +300,8 @@ public class SearchBox extends LinearLayout {
         requestLayout();
     }
 
-    public boolean isSearchIconified() {
-        return isSearchIconified;
+    public boolean isSearchCollapsed() {
+        return isSearchCollapsed;
     }
 
     public void setQuery(CharSequence query) {
@@ -311,7 +324,7 @@ public class SearchBox extends LinearLayout {
     public Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
         SavedState ss = new SavedState(superState);
-        ss.isSearchIconified = isSearchIconified();
+        ss.isSearchCollapsed = isSearchCollapsed();
         return ss;
     }
 
@@ -323,7 +336,7 @@ public class SearchBox extends LinearLayout {
         }
         SavedState ss = (SavedState) state;
         super.onRestoreInstanceState(ss.getSuperState());
-        setSearchIconified(ss.isSearchIconified);
+        setSearchCollapsed(ss.isSearchCollapsed);
         updateViews();
         requestLayout();
     }
@@ -390,7 +403,7 @@ public class SearchBox extends LinearLayout {
     }
 
     static class SavedState extends BaseSavedState {
-        boolean isSearchIconified;
+        boolean isSearchCollapsed;
 
         SavedState(Parcelable superState) {
             super(superState);
@@ -398,13 +411,13 @@ public class SearchBox extends LinearLayout {
 
         private SavedState(Parcel in) {
             super(in);
-            this.isSearchIconified = (Boolean) in.readValue(null);
+            this.isSearchCollapsed = (Boolean) in.readValue(null);
         }
 
         @Override
         public void writeToParcel(Parcel out, int flags) {
             super.writeToParcel(out, flags);
-            out.writeValue(this.isSearchIconified);
+            out.writeValue(this.isSearchCollapsed);
         }
 
         //required field that makes Parcelables from a Parcel

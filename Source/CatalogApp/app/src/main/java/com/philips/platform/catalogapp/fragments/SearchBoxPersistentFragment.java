@@ -111,7 +111,7 @@ public class SearchBoxPersistentFragment extends BaseFragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putBoolean("iconified",searchBox.isSearchIconified());
+        outState.putBoolean("iconified",searchBox.isSearchCollapsed());
         outState.putString("query", String.valueOf(searchBox.getQuery()));
         super.onSaveInstanceState(outState);
     }

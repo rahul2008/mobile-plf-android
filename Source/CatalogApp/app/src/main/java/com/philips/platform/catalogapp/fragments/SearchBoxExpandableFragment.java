@@ -105,7 +105,7 @@ public class SearchBoxExpandableFragment extends BaseFragment implements SearchB
         fragmentSearchBoxExpandableBinding.countryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                searchBox.setSearchIconified(true);
+                searchBox.setSearchCollapsed(true);
             }
         });
     }
@@ -119,14 +119,15 @@ public class SearchBoxExpandableFragment extends BaseFragment implements SearchB
         searchBox = (SearchBox) menu.findItem(R.id.country_search).getActionView();
         searchBox.setExpandListener(this);
         searchBox.setQuerySubmitListener(this);
-        searchBox.setSearchIconified(searchIconExpanded);
+        searchBox.setSearchIconified(true);
+        searchBox.setSearchCollapsed(searchIconExpanded);
         searchBox.setQuery(query);
         searchBox.setAdapter(stateAdapter);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putBoolean("iconified",searchBox.isSearchIconified());
+        outState.putBoolean("iconified",searchBox.isSearchCollapsed());
         outState.putString("query", String.valueOf(searchBox.getQuery()));
         super.onSaveInstanceState(outState);
     }
@@ -152,8 +153,8 @@ public class SearchBoxExpandableFragment extends BaseFragment implements SearchB
 
     @Override
     public boolean handleBackPress() {
-        if(!searchBox.isSearchIconified()){
-            searchBox.setSearchIconified(true);
+        if(!searchBox.isSearchCollapsed()){
+            searchBox.setSearchCollapsed(true);
             return true;
         }
         return super.handleBackPress();
