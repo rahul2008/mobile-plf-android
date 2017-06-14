@@ -33,7 +33,7 @@ public final class BleReferenceApplianceFactory implements DICommApplianceFactor
     @Override
     public boolean canCreateApplianceForNode(NetworkNode networkNode) {
         RALog.d(TAG," To check if appliance for node be created ");
-        return BleReferenceAppliance.MODELNAME.equals(networkNode.getModelName());
+        return BleReferenceAppliance.MODELNAME.equals(networkNode.getDeviceType());
     }
 
     @Override
