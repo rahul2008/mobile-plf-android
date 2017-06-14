@@ -27,6 +27,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
+ * @author Abhishek Gadewar
+ *
  * Class to manage push notification related operations
  */
 public class PushNotificationManager {
@@ -248,9 +250,14 @@ public class PushNotificationManager {
      * @param data
      */
     public void sendPayloadToCoCo(Bundle data) {
+
         if (payloadListener != null) {
+
+            for (String key : data.keySet()) {
+                PNLog.d(TAG, key + " is a key in the bundle" + " value " + data.get(key));
+            }
             Set<String> set = data.keySet();
-            if (set.contains(PushNotificationConstants.PLATFORM_KEY)) {
+            if (set.contains(PushNotificationConstants.PLATFORM_KEY) ) {
                 try {
                     JSONObject jsonObject = new JSONObject(data.getString(PushNotificationConstants.PLATFORM_KEY));
                     Iterator iterator = jsonObject.keys();
@@ -260,6 +267,8 @@ public class PushNotificationManager {
                             case PushNotificationConstants.DSC:
                                 JSONObject dscobject = jsonObject.getJSONObject(key);
                                 payloadListener.handlePayload(dscobject);
+                                PNLog.d(TAG, " THIS is a SILENT notification");
+                                //  payloadListener.handlePushNotification(data.getString("message"),data.getString("Description is this "));
                                 break;
                             default:
                                 PNLog.d(TAG, "Common component is not designed for handling this key");
@@ -269,11 +278,18 @@ public class PushNotificationManager {
                     PNLog.d(TAG, "Exception while parsing payload:" + e.getMessage());
                 }
             } else {
+                PNLog.d(TAG, " THIS is a NOT A silent  notification");
+
+                payloadListener.handlePushNotification(data.getString("alert"));
+
+            }
+                /*else
+                {
                 PNLog.d(TAG, "Data sync key is absent in payload");
             }
         }else{
             PNLog.d(TAG, "No component registered for receiving push notification");
+        }*/
         }
-    }
+    }}
 
-}
