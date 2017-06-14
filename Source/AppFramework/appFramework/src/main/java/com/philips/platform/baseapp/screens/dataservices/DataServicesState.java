@@ -230,7 +230,7 @@ public class DataServicesState extends BaseState implements HandleNotificationPa
         Random r = new Random();
         int i1 = r.nextInt(80 - 65) + 65;
         notificationManager.notify(i1 /* ID of notification */, notificationBuilder.build());
-        RALog.d("RICHA ", "creating notification "+i1);
+        RALog.d(TAG, "creating notification number  "+i1);
     }
 
     @Override
