@@ -10,5 +10,5 @@ import org.json.JSONObject;
 public interface HandleNotificationPayloadInterface {
     void handlePayload(JSONObject payloadObject) throws JSONException;
 
-    void handlePushNotification(String message,String title);
+    void handlePushNotification(String message);
 }
