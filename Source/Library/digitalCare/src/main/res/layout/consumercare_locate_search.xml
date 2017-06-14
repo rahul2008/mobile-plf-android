@@ -16,7 +16,7 @@
         android:textColor="@color/black"
         android:textColorHint="@android:color/darker_gray"></EditText>
 
-    <com.shamanland.fonticon.FontIconView
+    <ImageView
         android:id="@+id/search_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,13 +27,10 @@
         android:clickable="true"
         android:contentDescription="@string/img_description"
         android:padding="8dp"
-        android:text="@string/icon_magnifier"
-        android:textSize="@dimen/locate_philips_icon_size"
-        android:textColor="?attr/uikit_baseColor"
-        fontPath="digitalcarefonts/CCIcon.ttf"
-        android:visibility="visible"  />
+        android:src="@drawable/consumercare_ic_menu_search"
+        android:visibility="visible" />
 
-    <com.shamanland.fonticon.FontIconView
+    <ImageView
         android:id="@+id/arabic_search_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,13 +41,10 @@
         android:clickable="true"
         android:contentDescription="@string/img_description"
         android:padding="8dp"
-        android:text="@string/icon_magnifier"
-        android:textSize="@dimen/locate_philips_icon_size"
-        android:textColor="?attr/uikit_baseColor"
-        fontPath="digitalcarefonts/CCIcon.ttf"
+        android:src="@drawable/consumercare_ic_menu_search"
         android:visibility="gone" />
 
-    <com.shamanland.fonticon.FontIconView
+    <ImageView
         android:id="@+id/marker_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,32 +52,24 @@
         android:layout_alignEnd="@id/search_box"
         android:layout_alignRight="@id/search_box"
         android:layout_alignTop="@id/search_box"
-        android:padding="8dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
         android:clickable="true"
         android:contentDescription="@string/img_description"
-        android:text="@string/icon_marker"
-        android:textSize="@dimen/locate_philips_icon_size"
-        android:textColor="?attr/uikit_baseColor"
-        fontPath="digitalcarefonts/CCIcon.ttf"
+        android:src="@drawable/consumercare_marker"
         android:visibility="gone" />
 
-    <com.shamanland.fonticon.FontIconView
+    <ImageView
         android:id="@+id/arabic_marker_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/search_box"
         android:layout_alignTop="@id/search_box"
         android:layout_marginEnd="40dp"
-        android:padding="8dp"
         android:layout_toRightOf="@+id/arabic_search_icon"
         android:clickable="true"
         android:contentDescription="@string/img_description"
-        android:text="@string/icon_marker"
-        android:textSize="@dimen/locate_philips_icon_size"
-        android:textColor="?attr/uikit_baseColor"
-        fontPath="digitalcarefonts/CCIcon.ttf"
+        android:src="@drawable/consumercare_marker"
         android:visibility="gone" />
 
 </RelativeLayout>
