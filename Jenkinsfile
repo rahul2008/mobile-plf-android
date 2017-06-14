@@ -11,7 +11,7 @@ properties([
 def MailRecipient = 'DL_CDP2_Callisto@philips.com, DL_App_Framework.com@philips.com'
 def errors = []
 
-node ('android&&keystore') {
+node ('android&&docker') {
     timestamps {
         try {
             stage ('Checkout') {
