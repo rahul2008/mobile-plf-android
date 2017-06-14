@@ -30,8 +30,8 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  * Welcome presenter handles the events inside welcome fragment
  * it takes care of scenarios in which we can complete onboarding or skip it for time being
  */
-public class LaunchActivityPresenterAbstract extends AbstractUIBasePresenter implements UIStateListener{
-    public static final String TAG =  LaunchActivityPresenterAbstract.class.getSimpleName();
+public class LaunchActivityPresenter extends AbstractUIBasePresenter implements UIStateListener{
+    public static final String TAG =  LaunchActivityPresenter.class.getSimpleName();
 
     public static final int APP_LAUNCH_STATE = 890;
     private LaunchView launchView;
@@ -39,7 +39,7 @@ public class LaunchActivityPresenterAbstract extends AbstractUIBasePresenter imp
     private String LAUNCH_BACK_PRESSED = "back";
     private String APP_LAUNCH = "onAppLaunch";
 
-    public LaunchActivityPresenterAbstract(LaunchView launchView) {
+    public LaunchActivityPresenter(LaunchView launchView) {
         super(launchView);
         this.launchView = launchView;
     }

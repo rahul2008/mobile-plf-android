@@ -47,10 +47,10 @@ public class LaunchActivityAbstract extends AbstractAppFrameworkBaseActivity imp
         RALog.d(TAG," onCreate called  ");
 
         super.onCreate(savedInstanceState);
-        presenter = new LaunchActivityPresenterAbstract(this);
+        presenter = new LaunchActivityPresenter(this);
         initCustomActionBar();
         setContentView(R.layout.af_launch_activity);
-        presenter.onEvent(LaunchActivityPresenterAbstract.APP_LAUNCH_STATE);
+        presenter.onEvent(LaunchActivityPresenter.APP_LAUNCH_STATE);
     }
 
     @Override
