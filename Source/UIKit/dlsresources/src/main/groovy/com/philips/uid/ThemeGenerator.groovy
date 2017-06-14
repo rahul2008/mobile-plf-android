@@ -122,8 +122,8 @@ class ThemeGenerator {
                     def brushName = reference.substring(reference.indexOf("/") + 1)
 //
                     //Take for overriden colors like Dialogs
-                    if(compMngr.overridesTR(it.attrName)) {
-                        newTonalRange = compMngr.getOverridenTonalRange("${it.attrName}",tonalRange)
+                    if (compMngr.overridesTR(it.attrName)) {
+                        newTonalRange = compMngr.getOverridenTonalRange("${it.attrName}", tonalRange)
                     }
 
                     allBrushAttributes.each {
@@ -134,6 +134,7 @@ class ThemeGenerator {
                             value = themeValue.getValue("${colorName}", colorsXmlInput, allBrushAttributes)
                             if (!attrsList.contains(compName)) {
                                 item("${DLSResourceConstants.ITEM_NAME}": compName, value)
+                                getMkp().comment brushName
                             }
                         }
 //                    item("${DLSResourceConstants.ITEM_NAME}": it.attrName, reference)
