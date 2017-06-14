@@ -3,7 +3,14 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
+
 package com.philips.platform.referenceapp.utils;
+
+/**
+ * @author Abhishek Gadewar
+ *
+ * Class to manage push notification related Constants
+ */
 
 public class PushNotificationConstants {
 
