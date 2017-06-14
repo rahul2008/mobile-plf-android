@@ -1,12 +1,37 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+
+buildscript {
+    repositories {
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.1', changing: true
+    }
+}
 
 android {
     signingConfigs {
         release
     }
     compileSdkVersion 25
-    buildToolsVersion '25.0.2'
-
+    buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.philips.platform.appinfra.demo"
         minSdkVersion 21
@@ -14,6 +39,7 @@ android {
         versionCode 1
         versionName "1.5.6"
         resConfigs "en", "nl", "en-rGB", "zh-rCN"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -21,11 +47,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
-
     }
-    /*
-   This defined for signing the apk -- start
-    */
+
     def Properties props = new Properties()
     def propFile = new File('signing.properties')
     if (propFile.canRead()) {
@@ -44,18 +67,19 @@ android {
         println 'signing.properties not found'
         android.buildTypes.release.signingConfig = null
     }
-}
-//repositories {
-//    flatDir {
-//        dirs 'lib'
-//    }
-//}
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':AppInfra')
-    compile(group: 'adobeMobileLibrary', name: 'adobeMobileLibrary', version: '4.8.3')
-    compile 'com.crittercism:crittercism-android-agent:+'
 
-    compile 'com.android.support:design:24.2.1'
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.1.1'
+    compile 'com.android.support:design:25.1.1'
+        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.5.0-SNAPSHOT.20170613140055', ext: 'aar')
+    compile 'adobeMobileLibrary:adobeMobileLibrary:4.8.3'
     compile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    compile project(':DemoUApp')
 }

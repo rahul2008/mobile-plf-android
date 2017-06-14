@@ -1,0 +1,68 @@
+apply plugin: 'com.android.library'
+
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+//apply plugin: 'com.jfrog.artifactory-upload'
+//apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven-publish'
+
+apply plugin: 'com.jfrog.artifactory'
+
+buildscript {
+    repositories {
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.1', changing: true
+    }
+}
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+
+        minSdkVersion 21
+        targetSdkVersion 25
+        versionCode 1
+
+        versionName "1.5.6"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+
+    dependencies {
+        compile fileTree(dir: 'libs', include: ['*.jar'])
+        compile 'com.android.support:appcompat-v7:25.1.1'
+        compile 'com.android.support:design:25.1.1'
+
+        compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.5.0-SNAPSHOT.20170613160845', ext: 'aar', changing: true)
+
+        compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.6.0-SNAPSHOT.20170613160531', ext: 'aar', changing: true) {
+            transitive = true
+        }
+
+        compile(group: 'adobeMobileLibrary', name: 'adobeMobileLibrary', version: '4.8.3')
+        compile 'com.squareup.leakcanary:leakcanary-android:1.5'
+
+        compile 'com.google.code.gson:gson:2.3.1'
+
+    }
+}

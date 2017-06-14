@@ -40,6 +40,13 @@ allprojects {
             url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-stage'
         }
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-snapshot' }
+
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-snapshot-local'
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
     }
 }
 
