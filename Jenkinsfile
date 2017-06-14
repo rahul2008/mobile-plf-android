@@ -14,7 +14,7 @@ properties([
 def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_CDP2_TeamSabers@philips.com'
 def errors = []
 
-node ('android&&device&&keystore') {
+node ('android&&device') {
 	timestamps {
 		try {
             stage ('Checkout') {
