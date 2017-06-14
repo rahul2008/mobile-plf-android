@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -28,8 +27,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -77,7 +74,6 @@ import com.philips.cdp.digitalcare.locatephilips.GoToContactUsListener;
 import com.philips.cdp.digitalcare.locatephilips.LocateNearCustomDialog;
 import com.philips.cdp.digitalcare.locatephilips.MapDirections;
 import com.philips.cdp.digitalcare.locatephilips.MapDirections.MapDirectionResponse;
-import com.philips.cdp.digitalcare.locatephilips.fragments.GoogleMapFragment.onMapReadyListener;
 import com.philips.cdp.digitalcare.locatephilips.models.AtosAddressModel;
 import com.philips.cdp.digitalcare.locatephilips.models.AtosLocationModel;
 import com.philips.cdp.digitalcare.locatephilips.models.AtosResponseModel;
@@ -86,13 +82,10 @@ import com.philips.cdp.digitalcare.locatephilips.parser.AtosParsingCallback;
 import com.philips.cdp.digitalcare.locatephilips.parser.AtosResponseParser;
 import com.philips.cdp.digitalcare.request.RequestData;
 import com.philips.cdp.digitalcare.request.ResponseCallback;
-import com.philips.cdp.digitalcare.util.CustomFontIcon;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.Utils;
-import com.philips.cdp.productselection.utils.Constants;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.shamanland.fonticon.FontIconView;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -146,10 +139,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private RelativeLayout mLocateLayout = null;
     private RelativeLayout mLocateSearchLayout = null;
     private EditText mSearchBox = null;
-    private FontIconView mSearchIcon = null;
-    private FontIconView mArabicSearchIcon = null;
-    private FontIconView mMarkerIcon = null;
-    private FontIconView mArabicMarkerIcon = null;
+    private ImageView mSearchIcon = null;
+    private ImageView mArabicSearchIcon = null;
+    private ImageView mMarkerIcon = null;
+    private ImageView mArabicMarkerIcon = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private Button mButtonCall = null;
@@ -406,8 +399,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 showCustomAlert();
                 isContactUsScreenLaunched = false;
                 return;
-            } else {
-                addMarkers(resultModelSet);
+            }else{
+                this.mResultModelSet = resultModelSet;
             }
         } else {
             showCustomAlert();
@@ -523,10 +516,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         mLocateSearchLayout = (RelativeLayout) getActivity().findViewById(
                 R.id.locate_search_layout);
         mSearchBox = (EditText) getActivity().findViewById(R.id.search_box);
-        mSearchIcon = (FontIconView) getActivity().findViewById(R.id.search_icon);
-        mArabicSearchIcon = (FontIconView) getActivity().findViewById(R.id.arabic_search_icon);
-        mMarkerIcon = (FontIconView) getActivity().findViewById(R.id.marker_icon);
-        mArabicMarkerIcon = (FontIconView) getActivity().findViewById(R.id.arabic_marker_icon);
+        mSearchIcon = (ImageView) getActivity().findViewById(R.id.search_icon);
+        mArabicSearchIcon = (ImageView) getActivity().findViewById(R.id.arabic_search_icon);
+        mMarkerIcon = (ImageView) getActivity().findViewById(R.id.marker_icon);
+        mArabicMarkerIcon = (ImageView) getActivity().findViewById(R.id.arabic_marker_icon);
         mLocationDetailScroll = (ScrollView) getActivity().findViewById(
                 R.id.locationDetailScroll);
         mButtonCall = (Button) getActivity().findViewById(R.id.call);
@@ -562,6 +555,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         setViewParams(config);
         float density = getResources().getDisplayMetrics().density;
         setButtonParams(density);
+        addMarkers(mResultModelSet);
     }
 
     private void addMarkers(final ArrayList<AtosResultsModel> resultModelSet) {
@@ -593,16 +587,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     }
 
     private void createBitmap() {
-        int[] attribute = new int[]{R.attr.uikit_baseColor};
-        TypedArray array = getContext().getTheme().obtainStyledAttributes(attribute);
-        int color = array.getColor(0, Color.TRANSPARENT);
-        array.recycle();
-        mBitmapMarker = CustomFontIcon.getFontBitmap(getContext(), getResources().getString(R.string.icon_marker), color, 32);
+        mBitmapMarker = BitmapFactory.decodeResource(
+                getActivity().getResources(), R.drawable.consumercare_marker_shadow).copy(
+                Bitmap.Config.ARGB_8888, true);
     }
-
-    /**
-     * Move my position button at the bottom of map
-     */
 
     public void zoomToOnClick(View v) {
         mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 3000, null);
@@ -641,13 +629,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         switch (requestCode) {
             case REQUEST_CODE_ASK_PERMISSIONS:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Permission Granted
                     if (isProviderAvailable() && (provider != null)) {
-                       /* DigiCareLogger.i(TAG, "Provider is [" + provider + "]");*/
                         getCurrentLocation();
                     }
                 } else {
-                    // Permission Denied
                     DigiCareLogger.e(TAG, "LocateNearYou -> permissions not granted" +
                             permissions.toString());
                 }
@@ -663,7 +648,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         }
         Location location = mLocationManager.getLastKnownLocation(provider);
         updateWithNewLocation(location);
-        //mLocationManager.addGpsStatusListener(this);
         long minTime = 5000;// ms
         float minDist = 5.0f;// meter
         mLocationManager.requestLocationUpdates(provider, minTime, minDist,locationListener);
@@ -674,9 +658,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             addBoundaryToCurrentPosition(lat, lng);
         } else {
-            DigiCareLogger
-                    .d(TAG,
-                            "MAP is null Failed to update GoogleMap.MAP_TYPE_NORMAL Maptype");
+            DigiCareLogger.d(TAG,"MAP is null Failed to update GoogleMap.MAP_TYPE_NORMAL Maptype");
         }
     }
 
@@ -843,8 +825,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     @Override
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
-
-
         setViewParams(config);
     }
 
@@ -867,10 +847,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 adapter.getFilter().filter(constrain,
                         new Filter.FilterListener() {
                             public void onFilterComplete(int count) {
-
-                                /*
-                                It been instructed to combine the tags, if necessary.
-                                 */
                                 Map<String, String> contextData = new HashMap<String, String>();
                                 contextData.put(AnalyticsConstants.
                                         ACTION_KEY_LOCATE_PHILIPS_SEARCH_TERM, constrain);
@@ -1054,7 +1030,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 mArabicSearchIcon.setVisibility(View.GONE);
                 mSearchBox.setGravity(Gravity.LEFT);
             }
-
             hideKeyboard();
         }
     }
