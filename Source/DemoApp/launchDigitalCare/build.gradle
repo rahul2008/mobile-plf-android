@@ -131,6 +131,7 @@ android {
     }
 
     lintOptions {
+        checkReleaseBuilds false
         abortOnError false
     }
 
@@ -210,10 +211,10 @@ calabash {
 }
 
 dependencies {
-    compile project(':digitalCare')
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
+    compile project(':DemoUApp')
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
