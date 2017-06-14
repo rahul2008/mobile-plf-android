@@ -29,14 +29,12 @@ public class FlowManagerTest extends TestCase {
 
     private FragmentActivity fragmentActivityMock;
     private AppFrameworkApplication appFrameworkApplication;
-    private FileUtility fileUtility;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         fragmentActivityMock = mock(FragmentActivity.class);
         appFrameworkApplication = mock(AppFrameworkApplication.class);
-        fileUtility = new FileUtility(appFrameworkApplication);
     }
 
     public void testGetNextState() throws NoEventFoundException {
