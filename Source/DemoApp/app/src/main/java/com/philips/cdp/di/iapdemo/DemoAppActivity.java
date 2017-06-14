@@ -166,7 +166,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         Toolbar mToolbar = (Toolbar) findViewById(R.id.demoScreen_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayUseLogoEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);

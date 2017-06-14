@@ -19,7 +19,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.1', changing: true
     }
@@ -196,6 +196,8 @@ android {
         disable 'MissingTranslation'
         disable 'TypographyFractions','TypographyQuotes'
         absolutePaths false
+        lintConfig file('lint.xml')
+
     }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
@@ -213,8 +215,8 @@ android {
 
 dependencies {
     compile project(':iap')
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:customtabs:**.**.**'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:customtabs:25.3.1'
     compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.1.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive = true
     }
