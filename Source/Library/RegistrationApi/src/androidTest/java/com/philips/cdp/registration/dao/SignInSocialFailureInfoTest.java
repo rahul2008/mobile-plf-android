@@ -3,6 +3,7 @@ package com.philips.cdp.registration.dao;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 
+import org.junit.Test;
 import org.mockito.Mock;
 
 import static junit.framework.Assert.assertEquals;
@@ -20,29 +21,31 @@ public class SignInSocialFailureInfoTest extends RegistrationApiInstrumentationB
     Jump.SignInResultHandler.SignInError error;
 
     @Override
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         signInSocialFailureInfo = new SignInSocialFailureInfo();
     }
-
+    @Test
     public void testDisplayNameErrorMessage() {
         signInSocialFailureInfo.setDisplayNameErrorMessage("DisplayNameErrorMessage");
         assertEquals("DisplayNameErrorMessage", signInSocialFailureInfo.getDisplayNameErrorMessage());
     }
-
+    @Test
     public void testEmailErrorMessage() {
         signInSocialFailureInfo.setEmailErrorMessage("EmailErrorMessage");
         assertEquals("EmailErrorMessage", signInSocialFailureInfo.getEmailErrorMessage());
     }
-
+    @Test
     public void testErrorCode() {
         signInSocialFailureInfo.setErrorCode(0);
         assertEquals(0, signInSocialFailureInfo.getErrorCode());
     }
+    @Test
     public void testSetError(){
         signInSocialFailureInfo.setError(error);
         assertEquals(error,signInSocialFailureInfo.getError());
     }
 
+    @Test
     public void testGetErrorDescription(){
          assertEquals(null,signInSocialFailureInfo.getErrorDescription());
     }

@@ -9,7 +9,7 @@ import static android.support.test.InstrumentationRegistry.getInstrumentation;
 
 public class RegistrationApiInstrumentationBase {
     @Before
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         MultiDex.install(getInstrumentation().getTargetContext());
 
         System.setProperty("dexmaker.dexcache", getInstrumentation()
