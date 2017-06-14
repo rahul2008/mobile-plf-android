@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.testmicroappfw.data.TestConfigManager;
 import com.philips.platform.appframework.testmicroappfw.models.Chapter;
-import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
-import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * All rights reserved.
  */
 
-public class TestFragment extends AppFrameworkBaseFragment implements TestContract.View{
+public class TestFragment extends AbstractAppFrameworkBaseFragment implements TestContract.View{
 
     public static final String TAG=TestFragment.class.getSimpleName();
 
@@ -75,7 +75,7 @@ public class TestFragment extends AppFrameworkBaseFragment implements TestContra
         bundle.putSerializable(COCOListFragment.SELECTED_CHAPTER,chapter);
         COCOListFragment cocoListFragment=new COCOListFragment();
         cocoListFragment.setArguments(bundle);
-        ((AppFrameworkBaseActivity)getActivity()).addFragment(cocoListFragment,"CoCoListFragment");
+        ((AbstractAppFrameworkBaseActivity)getActivity()).addFragment(cocoListFragment,"CoCoListFragment");
     }
 
 }
