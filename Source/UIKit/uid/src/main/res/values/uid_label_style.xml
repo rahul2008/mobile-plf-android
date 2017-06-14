@@ -147,7 +147,7 @@
 
     <style name="UIDLabel.GridViewSettingsText">
         <item name="android:textSize">@dimen/uid_recyclerview_item_title_text_size</item>
-        <item name="android:textColor">?attr/uidContentItemDefaultNormalDescriptorTextColor</item>
+        <item name="android:textColor">?attr/uidLabelValueNormalTextColor</item>
         <item name="android:background">?attr/uidContentTertiaryBackgroundColor</item>
     </style>
 </resources>
