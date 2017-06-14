@@ -1,19 +1,26 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.request;
 
-import java.util.HashMap;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
-import org.json.JSONObject;
-
+import com.google.gson.Gson;
+import com.philips.cdp.dicommclient.port.common.SecurityPortProperties;
 import com.philips.cdp.dicommclient.security.ByteUtil;
 import com.philips.cdp.dicommclient.security.EncryptionUtil;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp.dicommclient.util.GsonProvider;
 import com.philips.cdp2.commlib.lan.communication.LanRequest;
 import com.philips.cdp2.commlib.lan.communication.LanRequestType;
+
+import java.util.HashMap;
+
+import static com.philips.cdp.dicommclient.port.common.SecurityPortProperties.DIFFIE;
+import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.ERROR;
 
 public class ExchangeKeyRequest extends LanRequest {
 
@@ -26,31 +33,40 @@ public class ExchangeKeyRequest extends LanRequest {
         super(applianceIpAddress, protocolVersion, isHttps, SECURITY_PORTNAME, SECURITY_PRODUCTID, LanRequestType.PUT, new HashMap<String, Object>(), responseHandler, null);
 
         mRandomValue = ByteUtil.generateRandomNum();
-        String sdiffie = EncryptionUtil.generateDiffieKey(mRandomValue);
-        mDataMap.put("diffie", sdiffie);
+        mDataMap.put(DIFFIE, EncryptionUtil.generateDiffieKey(mRandomValue));
     }
 
     @Override
     public Response execute() {
-        Response response = super.execute();
-        String responseData = response.getResponseMessage();
+        Response response = doExecute();
+        final String responseData = response.getResponseMessage();
 
-        JSONObject json;
-        try {
-            json = new JSONObject(responseData);
-            String shellman = json.getString("hellman");
-            DICommLog.d(DICommLog.SECURITY, "result hellmam= " + shellman + "     Length:= " + shellman.length());
+        if (response.getError() == null) {
+            final Gson gson = GsonProvider.get();
+            try {
+                final SecurityPortProperties securityPortProperties = gson.fromJson(responseData, SecurityPortProperties.class);
 
-            String skeyEnc = json.getString("key");
-            DICommLog.d(DICommLog.SECURITY, "encrypted key= " + skeyEnc + "    length:= " + skeyEnc.length());
+                final String key = securityPortProperties.getKey();
+                final String hellman = securityPortProperties.getHellman();
+                final String encryptionKey = EncryptionUtil.extractEncryptionKey(hellman, key, mRandomValue);
 
-            String key = EncryptionUtil.extractEncryptionKey(shellman, skeyEnc, mRandomValue);
-            DICommLog.i(DICommLog.SECURITY, "decryted key= " + key);
-
-            return new Response(key, null, mResponseHandler);
-        } catch (Exception e) {
-            DICommLog.e(DICommLog.SECURITY, "Exception during key exchange");
+                return new Response(encryptionKey, null, mResponseHandler);
+            } catch (Exception e) {
+                log(ERROR, DICommLog.SECURITY, "Exception during key exchange");
+            }
+            return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
+        } else {
+            return new Response(responseData, Error.REQUEST_FAILED, mResponseHandler);
         }
-        return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
+    }
+
+    @VisibleForTesting
+    Response doExecute() {
+        return super.execute();
+    }
+
+    @Override
+    protected void log(DICommLog.Verbosity verbosity, @NonNull String tag, @NonNull String message) {
+        // Logging disabled
     }
 }
