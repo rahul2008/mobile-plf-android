@@ -26,7 +26,7 @@ public class SearchBoxPersistentFragment extends BaseFragment implements SearchB
     String query;
     private StateListAdapter stateAdapter;
     boolean searchBoxExpanded = true;
-    private Toolbar toolbar;
+    private UIDNavigationIconToggler navIconToggler;
 
     private static final String[] STATES = new String[]{
             "Alabama",
@@ -90,8 +90,8 @@ public class SearchBoxPersistentFragment extends BaseFragment implements SearchB
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentSearchBoxPersistentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_box_persistent, container, false);
         fragmentSearchBoxPersistentBinding.setFrag(this);
-        toolbar = (Toolbar) getActivity().findViewById(R.id.uid_toolbar);
-        toolbar.setNavigationIcon(null);
+        navIconToggler = new UIDNavigationIconToggler(getActivity());
+        navIconToggler.hideNavigationIcon();
         if (savedInstanceState != null) {
             query = savedInstanceState.getString("query");
             searchBoxExpanded = savedInstanceState.getBoolean("expanded");

@@ -16,6 +16,7 @@ import android.view.MenuItem;
 
 import com.philips.platform.catalogapp.fragments.BaseFragment;
 import com.philips.platform.catalogapp.fragments.ComponentListFragment;
+import com.philips.platform.catalogapp.fragments.SearchBoxPersistentFragment;
 import com.philips.platform.catalogapp.themesettings.ThemeSettingsFragment;
 import com.philips.platform.uid.thememanager.UIDHelper;
 
@@ -53,11 +54,11 @@ public class NavigationController {
     protected void processBackButton() {
         if (hasBackStack()) {
             final Fragment fragmentAtTopOfBackStack = getFragmentAtTopOfBackStack();
+            if(fragmentAtTopOfBackStack instanceof SearchBoxPersistentFragment){
+                return;
+            }
             if (!(fragmentAtTopOfBackStack instanceof ThemeSettingsFragment)) {
                 toggleHamburgerIcon();
-            } else {
-                showHamburgerIcon();
-                storeFragmentInPreference(null);
             }
         } else if (supportFragmentManager != null && supportFragmentManager.getBackStackEntryCount() == 0) {
             showHamburgerIcon();
@@ -133,7 +134,7 @@ public class NavigationController {
 
         FragmentTransaction transaction = supportFragmentManager.beginTransaction();
         transaction.replace(R.id.mainContainer, fragment, tag);
-        transaction.addToBackStack(null);
+        transaction.addToBackStack(tag);
         transaction.commit();
         toggleHamburgerIcon();
         return true;
