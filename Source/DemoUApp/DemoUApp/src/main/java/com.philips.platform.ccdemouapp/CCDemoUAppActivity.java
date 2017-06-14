@@ -60,7 +60,6 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
     private String mCountry[], mcountryCode[];
     private CcSettings ccSettings;
     private CcLaunchInput ccLaunchInput;
-    //private AppInfraInterface mAppInfraInterface;
     private ThemeUtil mThemeUtil;
 
     private AppInfraInterface appInfraInterface = CCDemoUAppuAppInterface.mAppInfraInterface;
