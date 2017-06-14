@@ -5,7 +5,6 @@
 
 package com.philips.cdp2.commlib.lan.communication;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.Network;
@@ -15,7 +14,6 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.request.Error;
@@ -54,6 +52,7 @@ import static com.philips.cdp.dicommclient.util.DICommLog.LOCALREQUEST;
 import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.DEBUG;
 import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.ERROR;
 import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.INFO;
+import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.WARN;
 
 public class LanRequest extends Request {
 
@@ -72,27 +71,29 @@ public class LanRequest extends Request {
     private static HostnameVerifier hostnameVerifier = new HostnameVerifier() {
         @Override
         public boolean verify(String hostname, SSLSession session) {
-            return true; //Just accept everything
+            return true; // Just accept everything
         }
     };
 
-    private static void initializeSslFactory() throws NoSuchAlgorithmException, KeyManagementException {
-        if (sslContext != null) return;
-        sslContext = SSLContext.getInstance("TLS");
-        // Accept all certificates, DO NOT DO THIS FOR PRODUCTION CODE
-        sslContext.init(null, new X509TrustManager[]{new X509TrustManager() {
-            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                DICommLog.w(LOCALREQUEST, "Accepting client certificate - auth type: " + authType);
-            }
+    private void initializeSslFactory() throws NoSuchAlgorithmException, KeyManagementException {
+        if (sslContext == null) {
+            sslContext = SSLContext.getInstance("TLS");
 
-            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                DICommLog.w(LOCALREQUEST, "Accepting server certificate - auth type: " + authType);
-            }
+            // Accept all certificates, DO NOT DO THIS FOR PRODUCTION CODE
+            sslContext.init(null, new X509TrustManager[]{new X509TrustManager() {
+                public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                    log(WARN, LOCALREQUEST, "Accepting client certificate - auth type: " + authType);
+                }
 
-            public X509Certificate[] getAcceptedIssuers() {
-                return new X509Certificate[0];
-            }
-        }}, new SecureRandom());
+                public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                    log(WARN, LOCALREQUEST, "Accepting server certificate - auth type: " + authType);
+                }
+
+                public X509Certificate[] getAcceptedIssuers() {
+                    return new X509Certificate[0];
+                }
+            }}, new SecureRandom());
+        }
     }
 
     public LanRequest(String applianceIpAddress, int protocolVersion, boolean isHttps, String portName, int productId, LanRequestType requestType, Map<String, Object> dataMap,
@@ -138,9 +139,9 @@ public class LanRequest extends Request {
 
         try {
             URL urlConn = new URL(mUrl);
-            conn = LanRequest.createConnection(urlConn, mRequestType.getMethod(), CONNECTION_TIMEOUT, GETWIFI_TIMEOUT);
+            conn = createConnection(urlConn, mRequestType.getMethod());
             if (conn == null) {
-                log(ERROR, LOCALREQUEST, "Request failed - no wificonnection available");
+                log(ERROR, LOCALREQUEST, "Request failed - no wifi connection available");
                 return new Response(null, Error.NO_TRANSPORT_AVAILABLE, mResponseHandler);
             }
 
@@ -159,7 +160,7 @@ public class LanRequest extends Request {
                 responseCode = conn.getResponseCode();
             } catch (Exception e) {
                 responseCode = HttpURLConnection.HTTP_BAD_GATEWAY;
-                log(ERROR, LOCALREQUEST, "Failed to get responsecode");
+                log(ERROR, LOCALREQUEST, "Failed to get response code");
             }
 
             if (responseCode == HttpURLConnection.HTTP_OK) {
@@ -177,11 +178,11 @@ public class LanRequest extends Request {
                 return new Response(result, Error.REQUEST_FAILED, mResponseHandler);
             }
         } catch (IOException e) {
-            log(ERROR, LOCALREQUEST, e.getMessage() != null ? e.getMessage() : "IOException");
+            log(ERROR, LOCALREQUEST, e.getMessage() == null ? "IOException" : e.getMessage());
             return new Response(null, Error.IOEXCEPTION, mResponseHandler);
         } finally {
             closeAllConnections(inputStream, out, conn);
-            log(DEBUG, LOCALREQUEST, "Stop request LOCAL - responsecode: " + responseCode);
+            log(DEBUG, LOCALREQUEST, "Stop request LOCAL - response code: " + responseCode);
         }
     }
 
@@ -190,14 +191,14 @@ public class LanRequest extends Request {
     }
 
     private Response handleHttpOk(InputStream inputStream) throws IOException {
-        String cypher = convertInputStreamToString(inputStream);
+        final String cypher = convertInputStreamToString(inputStream);
 
         if (TextUtils.isEmpty(cypher)) {
             log(ERROR, LOCALREQUEST, "Request failed - null response");
             return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
         }
 
-        String data = decryptData(cypher);
+        final String data = decryptData(cypher);
         if (data == null) {
             log(ERROR, LOCALREQUEST, "Request failed - failed to decrypt");
             return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
@@ -208,18 +209,17 @@ public class LanRequest extends Request {
     }
 
     private Response handleBadRequest(InputStream inputStream) throws IOException {
-        String errorMessage = convertInputStreamToString(inputStream);
+        final String errorMessage = convertInputStreamToString(inputStream);
         log(ERROR, LOCALREQUEST, "BAD REQUEST - " + errorMessage);
 
         if (!mHttps && mDISecurity != null) {
             log(ERROR, LOCALREQUEST, "Request not properly encrypted - notifying listener");
             mDISecurity.notifyEncryptionFailedListener();
         }
-
         return new Response(errorMessage, Error.NOT_UNDERSTOOD, mResponseHandler);
     }
 
-    private String decryptData(String cypher) {
+    private String decryptData(final @NonNull String cypher) {
         if (!mHttps && mDISecurity != null) {
             return mDISecurity.decryptData(cypher);
         }
@@ -227,7 +227,7 @@ public class LanRequest extends Request {
     }
 
     private OutputStreamWriter appendDataToRequestIfAvailable(HttpURLConnection conn) throws IOException {
-        String data = createDataToSend(mDataMap);
+        final String data = createDataToSend(mDataMap);
         if (data == null) return null;
 
         OutputStreamWriter out;
@@ -238,12 +238,11 @@ public class LanRequest extends Request {
         return out;
     }
 
-    @SuppressLint("NewApi")
-    private static HttpURLConnection createConnection(URL url, String requestMethod, int connectionTimeout, int lockTimeout) throws IOException {
+    private HttpURLConnection createConnection(final @NonNull URL url, final @NonNull String requestMethod) throws IOException {
         HttpURLConnection conn;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Network wifiNetworkForSocket = LanRequest.getWifiNetworkForSocket(DICommClientWrapper.getContext(), lockTimeout);
+            Network wifiNetworkForSocket = getWifiNetworkForSocket(DICommClientWrapper.getContext());
 
             if (wifiNetworkForSocket == null) {
                 return null;
@@ -252,13 +251,14 @@ public class LanRequest extends Request {
         } else {
             conn = (HttpURLConnection) url.openConnection();
         }
-        if (url.toString().startsWith("https://")) {
+
+        if (conn instanceof HttpsURLConnection) {
             try {
                 initializeSslFactory();
             } catch (final NoSuchAlgorithmException e) {
-                Log.e(ConnectionLibContants.LOG_TAG, "NoSuchAlgorithmException: " + e.getMessage());
+                log(ERROR, ConnectionLibContants.LOG_TAG, "NoSuchAlgorithmException: " + e.getMessage());
             } catch (final KeyManagementException e) {
-                Log.e(ConnectionLibContants.LOG_TAG, "KeyManagementException: " + e.getMessage());
+                log(ERROR, ConnectionLibContants.LOG_TAG, "KeyManagementException: " + e.getMessage());
             }
 
             ((HttpsURLConnection) conn).setHostnameVerifier(hostnameVerifier);
@@ -266,16 +266,13 @@ public class LanRequest extends Request {
         }
         conn.setRequestProperty("content-type", "application/json");
         conn.setRequestMethod(requestMethod);
-        if (connectionTimeout != -1) {
-            conn.setConnectTimeout(connectionTimeout);
-        }
+        conn.setConnectTimeout(CONNECTION_TIMEOUT);
+
         return conn;
     }
 
-    @SuppressLint("NewApi")
-    private static Network getWifiNetworkForSocket(Context context, int lockTimeout) {
-        ConnectivityManager connectionManager =
-                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    private Network getWifiNetworkForSocket(final Context context) {
+        ConnectivityManager connectionManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkRequest.Builder request = new NetworkRequest.Builder();
         request.addTransportType(NetworkCapabilities.TRANSPORT_WIFI);
 
@@ -284,12 +281,13 @@ public class LanRequest extends Request {
         synchronized (LOCK) {
             connectionManager.registerNetworkCallback(request.build(), networkCallback);
             try {
-                LOCK.wait(lockTimeout);
-                DICommLog.e(DICommLog.WIFI, "Timeout error occurred");
+                LOCK.wait(GETWIFI_TIMEOUT);
+                log(ERROR, DICommLog.WIFI, "Timeout error occurred");
             } catch (InterruptedException ignored) {
             }
         }
         connectionManager.unregisterNetworkCallback(networkCallback);
+
         return networkCallback.getNetwork();
     }
 
