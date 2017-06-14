@@ -250,7 +250,7 @@ public class PushNotificationManager {
     public void sendPayloadToCoCo(Bundle data) {
 
         if (payloadListener != null) {
-            String message = data.getString("IsSilent");
+
             for (String key : data.keySet()) {
                 PNLog.d(TAG, key + " is a key in the bundle" + " value " + data.get(key));
             }
