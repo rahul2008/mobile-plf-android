@@ -29,6 +29,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
@@ -48,7 +49,7 @@ public class SearchBoxTest extends BaseTest {
     }
 
     public ViewInteraction getSearchBox(){
-        return onView(withId(com.philips.platform.uid.test.R.id.test_search_box));
+        return onView(withId(com.philips.platform.uid.test.R.id.test_search_box)).perform(click());
     }
 
     @Test
