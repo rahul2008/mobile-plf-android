@@ -128,6 +128,8 @@ android {
         renderscriptSupportModeEnabled true
         generatedDensities = []
 
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
 
     lintOptions {
@@ -215,6 +217,11 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
     compile project(':DemoUApp')
+
+    androidTestCompile "com.android.support:support-annotations:25.3.1"
+    androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.philips.platform.ccdemouapp", appContext.getPackageName());
+        assertEquals("com.philips.cl.di.dev.pa", appContext.getPackageName());
     }
 }
