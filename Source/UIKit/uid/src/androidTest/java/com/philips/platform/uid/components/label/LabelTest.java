@@ -59,7 +59,7 @@ public class LabelTest {
 
     @Test
     public void verifyLabelTextColor() {
-        final int attributeColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidTextPrimary);
+        final int attributeColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidLabelValueNormalTextColor);
         getTextLabel().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, attributeColor)));
     }
 

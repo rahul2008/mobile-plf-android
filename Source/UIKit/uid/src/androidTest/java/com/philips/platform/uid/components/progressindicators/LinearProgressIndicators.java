@@ -71,7 +71,7 @@ public class LinearProgressIndicators {
     //*********************************Theming Scenarios**************************//
     @Test
     public void verifyProgressBarProgressColor() {
-        final int expectedProgressBarProgressColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidControlPrimaryDetail);//ContextCompat.getColor(activityContext, GroupBlue45);
+        final int expectedProgressBarProgressColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidTrackDetailNormalOnBackgroundColor);//ContextCompat.getColor(activityContext, GroupBlue45);
         getProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarProgressColor, progressID(), true)));
     }
 
@@ -83,13 +83,13 @@ public class LinearProgressIndicators {
 
     @Test
     public void verifySecondaryProgressBarProgressColor() {
-        final int expectedSecProgressBarProgressColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidControlPrimaryDetail);
+        final int expectedSecProgressBarProgressColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidTrackDetailNormalOnBackgroundColor);
         getProgressBarSecondary().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedSecProgressBarProgressColor, progressID(), true)));
     }
 
     @Test
     public void verifySecondaryProgressBarSecondaryProgressColor() {
-        final int expectedSecProgressBarSecondaryColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidControlBuffer);
+        final int expectedSecProgressBarSecondaryColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidTrackDetailBufferBackgroundColor);
         getProgressBarSecondary().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedSecProgressBarSecondaryColor, progressSecondaryID(), true)));
     }
 
@@ -101,7 +101,7 @@ public class LinearProgressIndicators {
     }
 
     private int getExpectedProgressBarBackgroundColor() {
-        return UIDTestUtils.getAttributeColor(activityContext, R.attr.uidControlTrackOff);
+        return UIDTestUtils.getAttributeColor(activityContext, R.attr.uidTrackDefaultNormalOffBackgroundColor);
     }
 
     private ViewInteraction getProgressBar() {

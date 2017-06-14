@@ -60,7 +60,7 @@
                     android:checked="true"
                     android:enabled="@{frag.isSwitchEnabled}"
                     android:text="@string/setting_list_one"
-                    android:textColor="?attr/uidTextPrimary"
+                    android:textColor="?attr/uidLabelValueNormalTextColor"
                     android:textSize="@dimen/button_toggle_text_size"
                     app:fontPath="fonts/centralesansbook.ttf"/>
             </LinearLayout>

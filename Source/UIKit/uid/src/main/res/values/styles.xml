@@ -46,7 +46,7 @@
 
         <item name="actionBarStyle">@style/UIDActionBarStyle</item>
 
-        <item name="android:listDivider">?attr/uidSeparator</item>
+        <item name="android:listDivider">?attr/uidSeparatorContentSeparatorNormalBackgroundColor</item>
         <item name="android:dividerHeight">@dimen/uid_divider_Height</item>
 
         <item name="uidButtonStyle">@style/UIDDefaultButton</item>

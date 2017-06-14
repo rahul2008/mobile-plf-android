@@ -35,6 +35,6 @@
         android:layout_marginEnd="@dimen/uid_button_padding_left_right"
         android:layout_marginStart="@dimen/uid_progress_indicator_button_progress_text_padding"
         android:textAllCaps="false"
-        android:textColor="?attr/uidControlPrimaryDetail"
+        android:textColor="?attr/uidTrackDetailNormalOnBackgroundColor"
         android:visibility="gone"/>
 </LinearLayout>

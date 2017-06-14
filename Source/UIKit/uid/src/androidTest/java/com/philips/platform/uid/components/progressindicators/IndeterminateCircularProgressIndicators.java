@@ -144,7 +144,7 @@ public class IndeterminateCircularProgressIndicators {
 
     @Test
     public void verifyIndeterminateSmallCircularPBEndColor() {
-        final int expectedEndColor = UIDTestUtils.getAttributeColor(instrumentationContext, R.attr.uidControlPrimaryDetail);
+        final int expectedEndColor = UIDTestUtils.getAttributeColor(instrumentationContext, R.attr.uidTrackDetailNormalOnBackgroundColor);
         getSmallIndeterminateCircularProgressBar()
                 .check(matches(FunctionDrawableMatchers.isSameColors(TestConstants.FUNCTION_GET_INDETERMINATE_DRAWABALE, circularprogressID(), expectedEndColor, 1)));
     }
@@ -158,7 +158,7 @@ public class IndeterminateCircularProgressIndicators {
 
     @Test
     public void verifyIndeterminateMediumCircularPBEndColor() {
-        final int expectedEndColor = UIDTestUtils.getAttributeColor(instrumentationContext, R.attr.uidControlPrimaryDetail);
+        final int expectedEndColor = UIDTestUtils.getAttributeColor(instrumentationContext, R.attr.uidTrackDetailNormalOnBackgroundColor);
 
         getMediumIndeterminateCircularProgressBar()
                 .check(matches(FunctionDrawableMatchers.isSameColors(TestConstants.FUNCTION_GET_INDETERMINATE_DRAWABALE, circularprogressID(), expectedEndColor, 1)));
@@ -173,7 +173,7 @@ public class IndeterminateCircularProgressIndicators {
 
     @Test
     public void verifyIndeterminateLargeCircularPBEndColor() {
-        final int expectedEndColor = UIDTestUtils.getAttributeColor(instrumentationContext, R.attr.uidControlPrimaryDetail);
+        final int expectedEndColor = UIDTestUtils.getAttributeColor(instrumentationContext, R.attr.uidTrackDetailNormalOnBackgroundColor);
 
         getLargeIndeterminateCircularProgressBar()
                 .check(matches(FunctionDrawableMatchers.isSameColors(TestConstants.FUNCTION_GET_INDETERMINATE_DRAWABALE, circularprogressID(), expectedEndColor, 1)));

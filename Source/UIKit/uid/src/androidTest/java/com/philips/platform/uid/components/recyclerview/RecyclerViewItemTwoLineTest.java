@@ -60,7 +60,7 @@ public class RecyclerViewItemTwoLineTest {
 
     @Test
     public void verifyTitleTextColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidTextPrimary);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidLabelValueNormalTextColor);
 
         getTitle().check(matches(TextViewPropertiesMatchers.isSameTextColor(expectedColor)));
     }

@@ -28,7 +28,7 @@ public class SeparatorDrawable extends Drawable {
 
     public static final int HEIGHT_ATTR_INDEX = 0;
     public static final int SEPARATOR_ATT_INDEX = 1;
-    private static final int[] ATTRS = new int[]{android.R.attr.dividerHeight, R.attr.uidSeparator};
+    private static final int[] ATTRS = new int[]{android.R.attr.dividerHeight, R.attr.uidSeparatorContentSeparatorNormalBackgroundColor};
     private final Paint paint;
     private int height;
     public SeparatorDrawable(@NonNull final Context context) {

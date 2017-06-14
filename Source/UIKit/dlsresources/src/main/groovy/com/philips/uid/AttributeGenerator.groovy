@@ -28,14 +28,14 @@ class AttributeGenerator {
                     colorLevel = colorLevel + DLSResourceConstants.COLOR_OFFSET
                 }
 
-                allBrushAttributes.each {
-                    if (isValidAttribute(it.attrName, attrList)) {
-                        attr("${DLSResourceConstants.ITEM_NAME}": it.attrName, "${DLSResourceConstants.ITEM_FORMAT}": DLSResourceConstants.FORMAT_REF_OR_COLOR)
-                        if (it.attrName.contains("Accent")) {
-                            attr("${DLSResourceConstants.ITEM_NAME}": it.attrName + "Alpha", "${DLSResourceConstants.ITEM_FORMAT}": DLSResourceConstants.FORMAT_REF_OR_COLOR)
-                        }
-                    }
-                }
+//                allBrushAttributes.each {
+//                    if (isValidAttribute(it.attrName, attrList)) {
+//                        attr("${DLSResourceConstants.ITEM_NAME}": it.attrName, "${DLSResourceConstants.ITEM_FORMAT}": DLSResourceConstants.FORMAT_REF_OR_COLOR)
+//                        if (it.attrName.contains("Accent")) {
+//                            attr("${DLSResourceConstants.ITEM_NAME}": it.attrName + "Alpha", "${DLSResourceConstants.ITEM_FORMAT}": DLSResourceConstants.FORMAT_REF_OR_COLOR)
+//                        }
+//                    }
+//                }
 
                 allComponentAttributes.each {
                     if (isValidAttribute(it.attrName, attrList)) {

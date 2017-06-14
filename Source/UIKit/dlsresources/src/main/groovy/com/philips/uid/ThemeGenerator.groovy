@@ -6,7 +6,6 @@
 
 package com.philips.uid
 
-import component.override.ComponentOverrideManager
 import groovy.xml.MarkupBuilder
 
 class ThemeGenerator {
@@ -26,7 +25,7 @@ class ThemeGenerator {
                 xml.resources() {
                     buildColorAndComponentsMapping(xml, colorName, allBrushAttributes, allComponentAttributes)
                     DLSResourceConstants.TONAL_RANGES.each {
-                        buildBrushesAttributes(xml, allBrushAttributes, it, colorName, colorsXmlInput, dataValidationThemeValues)
+                        buildBrushesAttributes(xml, allBrushAttributes, it, colorName, colorsXmlInput, dataValidationThemeValues, allComponentAttributes)
                     }
                 }
                 def themeFile = new File(DLSResourceConstants.getThemeFilePath(colorName))
@@ -51,20 +50,20 @@ class ThemeGenerator {
                 colorLevel = colorLevel + DLSResourceConstants.COLOR_OFFSET
             }
 
-            def compMngr = ComponentOverrideManager.getManagerInstance()
-            allComponentAttributes.each {
-                if (BrushParser.isSupportedAction(it.attrName) && !compMngr.overridesTR(it.attrName)) {
-                    def reference = it.attributeMap.get(it.attrName).getAttributeValue(allBrushAttributes)
-                    if (reference == "@null") {
-                        invalidComponentRefList.add(it.attrName)
-                    }
-                    item("${DLSResourceConstants.ITEM_NAME}": it.attrName, reference)
-                }
-            }
+            /*  def compMngr = ComponentOverrideManager.getManagerInstance()
+              allComponentAttributes.each {
+                  if (BrushParser.isSupportedAction(it.attrName) && !compMngr.overridesTR(it.attrName)) {
+                      def reference = it.attributeMap.get(it.attrName).getAttributeValue(allBrushAttributes)
+                      if (reference == "@null") {
+                          invalidComponentRefList.add(it.attrName)
+                      }
+                      item("${DLSResourceConstants.ITEM_NAME}": it.attrName, reference)
+                  }
+              }*/
         }
     }
 
-    def buildBrushesAttributes(xml, List allBrushAttributes, it, colorName, colorsXmlInput, dataValidationThemeValues) {
+    def buildBrushesAttributes(xml, List allBrushAttributes, it, colorName, colorsXmlInput, dataValidationThemeValues, allComponentAttributes) {
         def defaultTonalRange = "$it".toString()
         def tonalRange = BrushParser.getCapitalizedValue("$it")
         def styleThemeName = "${DLSResourceConstants.THEME_PREFIX}." + BrushParser.getCapitalizedValue("${colorName}._${it}")
@@ -72,45 +71,66 @@ class ThemeGenerator {
         DataValidation dataValidation = new DataValidation();
         xml.style("${DLSResourceConstants.ITEM_NAME}": "${styleThemeName}") {
 
-            allBrushAttributes.each {
-                def tr = tonalRange.toString()
-                def value = "null"
-                TonalRange themeValue = null;
-                if (it.attributeMap.containsKey(tr)) {
-                    themeValue = it.attributeMap.get(tr).clone()
-                    dataValidation.decorateValidations(themeValue, dataValidationThemeValues, it.attrName, colorName, tr)
-                    value = themeValue.getValue("${colorName}", colorsXmlInput, allBrushAttributes)
-                }
-                if (value == "@null") {
-                    println(" Invalid combination Tonal Range " + tr + " Brush " + it.attrName + " Theme values " + themeValue.toString())
-                }
-                if (BrushParser.isSupportedAction(it.attrName)) {
-                    item("${DLSResourceConstants.ITEM_NAME}": it.attrName, value)
-                    if (it.attrName.contains("Accent")) {
-                        if (themeValue.opacity != null) {
-                            item("${DLSResourceConstants.ITEM_NAME}": it.attrName + "Alpha", getDimenName(themeValue.opacity))
-                        }
+            /*  allBrushAttributes.each {
+                  def tr = tonalRange.toString()
+                  def value = "null"
+                  TonalRange themeValue = null;
+                  if (it.attributeMap.containsKey(tr)) {
+                      themeValue = it.attributeMap.get(tr).clone()
+                      dataValidation.decorateValidations(themeValue, dataValidationThemeValues, it.attrName, colorName, tr)
+                      value = themeValue.getValue("${colorName}", colorsXmlInput, allBrushAttributes)
+                  }
+                  if (value == "@null") {
+                      println(" Invalid combination Tonal Range " + tr + " Brush " + it.attrName + " Theme values " + themeValue.toString())
+                  }
+                  if (BrushParser.isSupportedAction(it.attrName)) {
+                      item("${DLSResourceConstants.ITEM_NAME}": it.attrName, value)
+                      if (it.attrName.contains("Accent")) {
+                          if (themeValue.opacity != null) {
+                              item("${DLSResourceConstants.ITEM_NAME}": it.attrName + "Alpha", getDimenName(themeValue.opacity))
+                          }
 
-                    }
-                }
-            }
+                      }
+                  }
+              }*/
             //Add overridden component attributes
-            ComponentOverrideManager.getManagerInstance().overrideList.each {
-                def brush = it.brush
-                def compName = it.name
+            /* ComponentOverrideManager.getManagerInstance().overrideList.each {
+                 def brush = it.brush
+                 def compName = it.name
+                 def value = "null"
+                 def newTonalRange = it.getOverridenTonalRange(tonalRange.toString())
+                 //Search for the brush from list
+                 allBrushAttributes.each {
+                     if(it.attrName == brush) {
+                         TonalRange themeValue =  it.attributeMap.get(newTonalRange).clone();
+                         dataValidation.decorateValidations(themeValue, dataValidationThemeValues, it.attrName, colorName, newTonalRange)
+                         value = themeValue.getValue("${colorName}", colorsXmlInput, allBrushAttributes)
+                         item("${DLSResourceConstants.ITEM_NAME}": compName, value)
+                     }
+                 }
+             }*/
+            allComponentAttributes.each {
+                def compName = it.attrName
                 def value = "null"
-                def newTonalRange = it.getOverridenTonalRange(tonalRange.toString())
-                //Search for the brush from list
-                allBrushAttributes.each {
-                    if(it.attrName == brush) {
-                        TonalRange themeValue =  it.attributeMap.get(newTonalRange).clone();
-                        dataValidation.decorateValidations(themeValue, dataValidationThemeValues, it.attrName, colorName, newTonalRange)
-                        value = themeValue.getValue("${colorName}", colorsXmlInput, allBrushAttributes)
-                        item("${DLSResourceConstants.ITEM_NAME}": compName, value)
+                def attrsList = new ArrayList();
+                if (BrushParser.isSupportedAction(it.attrName)) {
+                    def reference = it.attributeMap.get(it.attrName).getAttributeValue(allBrushAttributes)
+                    def brushName = reference.substring(reference.indexOf("/") + 1)
+                    allBrushAttributes.each {
+                        if (it.attrName == brushName) {
+//                            println(it.attrName + " " + brushName)
+                            TonalRange themeValue = it.attributeMap.get(tonalRange).clone();
+                            dataValidation.decorateValidations(themeValue, dataValidationThemeValues, it.attrName, colorName, tonalRange)
+                            value = themeValue.getValue("${colorName}", colorsXmlInput, allBrushAttributes)
+                            if (!attrsList.contains(compName)) {
+                                item("${DLSResourceConstants.ITEM_NAME}": compName, value)
+                            }
+                        }
+//                    item("${DLSResourceConstants.ITEM_NAME}": it.attrName, reference)
                     }
+
                 }
             }
-
         }
     }
 

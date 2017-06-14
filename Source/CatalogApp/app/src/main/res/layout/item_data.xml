@@ -9,7 +9,7 @@
             type="com.philips.platform.catalogapp.DataHolder"></variable>
     </data>
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         style="@style/TestButtonTexts"
         android:layout_width="match_parent"
         android:layout_height="@dimen/separator_item_height"
@@ -19,7 +19,6 @@
         android:drawableStart="@{data.getIcon()}"
         android:drawablePadding="@dimen/separator_drawable_padding"
         android:gravity="start|center_vertical"
-        android:text="@{data.text}"
-        android:textColor="?attr/uidTextPrimary"/>
+        android:text="@{data.text}"/>
 
 </layout>

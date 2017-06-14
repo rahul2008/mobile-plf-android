@@ -29,8 +29,7 @@
                 android:layout_centerVertical="true"
                 android:paddingEnd="0dp"
                 android:paddingStart="0dp"
-                android:text="@string/page_title_gridview_settings"
-                android:textColor="?attr/uidTextPrimary" />
+                android:text="@string/page_title_gridview_settings" />
 
             <ImageButton
                 android:id="@+id/show_more"

@@ -6,6 +6,7 @@
         <item name="android:thumb">@drawable/uid_switch_thumb</item>
         <item name="track">@drawable/uid_switch_track</item>
         <item name="thumbTintMode">multiply</item>
+        <item name="android:textColor">?attr/uidLabelValueNormalTextColor</item>
         <item name="uidSwitchThumbColorList">@color/uid_switch_thumb_selector</item>
         <item name="uidSwitchTrackColorList">@color/uid_switch_track_selector</item>
         <item name="uidSwitchBorderColorList">@color/uid_switch_border_selector</item>

@@ -62,7 +62,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
-            android:background="?attr/uidContentTertiary"
+            android:background="?attr/uidContentTertiaryBackgroundColor"
             android:orientation="horizontal">
 
             <com.philips.platform.uid.view.widget.Label
