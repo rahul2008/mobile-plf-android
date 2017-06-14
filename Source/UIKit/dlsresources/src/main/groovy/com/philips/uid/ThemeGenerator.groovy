@@ -6,6 +6,7 @@
 
 package com.philips.uid
 
+import component.override.ComponentOverrideManager
 import groovy.xml.MarkupBuilder
 
 class ThemeGenerator {
@@ -68,6 +69,8 @@ class ThemeGenerator {
         def tonalRange = BrushParser.getCapitalizedValue("$it")
         def styleThemeName = "${DLSResourceConstants.THEME_PREFIX}." + BrushParser.getCapitalizedValue("${colorName}._${it}")
 
+        def compMngr = ComponentOverrideManager.getManagerInstance()
+
         DataValidation dataValidation = new DataValidation();
         xml.style("${DLSResourceConstants.ITEM_NAME}": "${styleThemeName}") {
 
@@ -113,14 +116,21 @@ class ThemeGenerator {
                 def compName = it.attrName
                 def value = "null"
                 def attrsList = new ArrayList();
+                def newTonalRange = tonalRange
                 if (BrushParser.isSupportedAction(it.attrName)) {
                     def reference = it.attributeMap.get(it.attrName).getAttributeValue(allBrushAttributes)
                     def brushName = reference.substring(reference.indexOf("/") + 1)
+//
+                    //Take for overriden colors like Dialogs
+                    if(compMngr.overridesTR(it.attrName)) {
+                        newTonalRange = compMngr.getOverridenTonalRange("${it.attrName}",tonalRange)
+                    }
+
                     allBrushAttributes.each {
                         if (it.attrName == brushName) {
 //                            println(it.attrName + " " + brushName)
-                            TonalRange themeValue = it.attributeMap.get(tonalRange).clone();
-                            dataValidation.decorateValidations(themeValue, dataValidationThemeValues, it.attrName, colorName, tonalRange)
+                            TonalRange themeValue = it.attributeMap.get(newTonalRange).clone();
+                            dataValidation.decorateValidations(themeValue, dataValidationThemeValues, it.attrName, colorName, newTonalRange)
                             value = themeValue.getValue("${colorName}", colorsXmlInput, allBrushAttributes)
                             if (!attrsList.contains(compName)) {
                                 item("${DLSResourceConstants.ITEM_NAME}": compName, value)

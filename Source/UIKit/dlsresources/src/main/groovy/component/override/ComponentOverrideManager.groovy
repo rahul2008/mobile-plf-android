@@ -27,6 +27,14 @@ public class ComponentOverrideManager {
 //        }
     }
 
+    public String getOverridenTonalRange(String componentAttributeName, String tonalRange) {
+        for(ComponentTROverride componentTROverride: overrideList) {
+            if(componentTROverride.name ==componentAttributeName)
+               return componentTROverride.getOverridenTonalRange(tonalRange)
+        }
+        throw new RuntimeException("overridesTR must be checked before calling getOverridenTonalRange")
+    }
+
     public boolean overridesTR(String componentAttributeName) {
         for(ComponentTROverride componentTROverride: overrideList) {
             if(componentTROverride.name ==componentAttributeName)
