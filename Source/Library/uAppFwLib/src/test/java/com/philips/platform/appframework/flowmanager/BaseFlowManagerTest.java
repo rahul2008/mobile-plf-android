@@ -38,9 +38,7 @@ import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.net.URL;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -68,6 +66,11 @@ public class BaseFlowManagerTest extends TestCase {
         runnableMock = mock(Runnable.class);
         handlerMock = mock(Handler.class);
         when(handlerMock.post(runnableMock)).thenReturn(true);
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL resource = classLoader.getResource("Appflow.json");
+        File file = new File(resource.getPath());
+        path = file.getPath();
         flowManagerTest = new FlowManagerTest()  {
             @NonNull
             @Override
@@ -80,10 +83,12 @@ public class BaseFlowManagerTest extends TestCase {
             protected Runnable getRunnable(FlowManagerListener flowManagerListener) {
                 return runnableMock;
             }
+
+            @Override
+            protected boolean postLog(String key, String value) {
+                return true;
+            }
         };
-        File fileFromInputStream = createFileFromInputStream(getClass().getClassLoader().getResourceAsStream("res/Appflow.json"));
-        if (fileFromInputStream != null)
-            path = fileFromInputStream.getPath();
 
         flowManagerTest.initialize(context, path, flowManagerListenerMock);
          sleep(2);
@@ -93,8 +98,6 @@ public class BaseFlowManagerTest extends TestCase {
 
     }
 
-
-
     private void sleep(int seconds) {
         try {
             TimeUnit.SECONDS.sleep(seconds);
@@ -103,9 +106,18 @@ public class BaseFlowManagerTest extends TestCase {
         }
     }
 
+    public void testInitializeWithResId() {
+        try {
+            flowManagerTest.initialize(context, 0, flowManagerListenerMock);
+        } catch (JsonAlreadyParsedException e) {
+            assertEquals(e.getMessage(), "Json already parsed");
+        }
+    }
+
     public void testAlreadyInitialize() {
         try {
             flowManagerTest.initialize(context, path, flowManagerListenerMock);
+
         } catch (JsonAlreadyParsedException e) {
             assertEquals(e.getMessage(), "Json already parsed");
         }
@@ -118,7 +130,7 @@ public class BaseFlowManagerTest extends TestCase {
         try {
             flowManagerTest.getCondition("");
         } catch (ConditionIdNotSetException e) {
-            assertEquals(e.getMessage(), "No condition id set on constructor");
+            assertEquals(e.getMessage(), "There is no Condition Id for the passed Condition");
         }
     }
 
@@ -131,7 +143,7 @@ public class BaseFlowManagerTest extends TestCase {
         try {
             flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "testing");
         } catch (NoEventFoundException e) {
-            assertEquals(e.getMessage(), "No Event Found");
+            assertEquals(e.getMessage(), "No Event found with that Id");
         }
     }
 
@@ -140,7 +152,7 @@ public class BaseFlowManagerTest extends TestCase {
         try {
             flowManagerTest.getNextState(flowManagerTest.getState(AppStates.ON_BOARDING_REGISTRATION), "URComplete");
         } catch (ConditionIdNotSetException e) {
-            assertTrue(e.getMessage().equals("No condition id set on constructor"));
+            assertTrue(e.getMessage().equals("There is no Condition Id for the passed Condition"));
         }
     }
 
@@ -148,17 +160,17 @@ public class BaseFlowManagerTest extends TestCase {
         try {
             flowManagerTest.getNextState(flowManagerTest.getCurrentState(), null);
         } catch (NullEventException e) {
-            assertTrue(e.getMessage().equals("Null Event Found"));
+            assertTrue(e.getMessage().equals("Passed Event is not valid"));
         }
         try {
             flowManagerTest.getNextState(flowManagerTest.getState(AppStates.TEST), "test");
         } catch (StateIdNotSetException e) {
-            assertTrue(e.getMessage().equals("No State id set on constructor"));
+            assertTrue(e.getMessage().equals("There is no State Id for the passed State"));
         }
         try {
             flowManagerTest.getNextState(flowManagerTest.getState("unknown"), "test");
         } catch (NoStateException e) {
-            assertTrue(e.getMessage().equals("No State Found"));
+            assertTrue(e.getMessage().equals("No State found with that Id"));
         }
         assertEquals(flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "onSplashTimeOut"), flowManagerTest.getState(AppStates.WELCOME));
     }
@@ -177,6 +189,10 @@ public class BaseFlowManagerTest extends TestCase {
                 return runnableMock;
             }
 
+            @Override
+            protected boolean postLog(String key, String value) {
+                return true;
+            }
         };
         flowManagerTest.initialize(context, path, flowManagerListenerMock);
        sleep(2);
@@ -206,12 +222,16 @@ public class BaseFlowManagerTest extends TestCase {
                 return runnableMock;
             }
 
+            @Override
+            protected boolean postLog(String key, String value) {
+                return true;
+            }
         };
         sleep(2);
         try {
             flowManagerTest.getBackState();
         } catch (NoStateException e) {
-            assertEquals(e.getMessage(), "No State Found");
+            assertEquals(e.getMessage(), "No State found with that Id");
         }
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.SPLASH), "onSplashTimeOut");
         flowManagerTest.getNextState(flowManagerTest.getState(AppStates.HOME), "support");
@@ -227,30 +247,6 @@ public class BaseFlowManagerTest extends TestCase {
         } catch (JsonAlreadyParsedException e) {
             assertTrue(e.getMessage().equals("Json already parsed"));
         }
-    }
-
-    private File createFileFromInputStream(final InputStream inputStream) {
-        try {
-            String filename = "tempFile";
-            FileOutputStream outputStream;
-            final File file = File.createTempFile(filename, null, context.getCacheDir());
-            outputStream = new FileOutputStream(file);
-            byte buffer[] = new byte[1024];
-            int length;
-
-            while ((length = inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, length);
-            }
-
-            outputStream.close();
-            inputStream.close();
-
-            return file;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 
     private class FlowManagerTest extends BaseFlowManager {

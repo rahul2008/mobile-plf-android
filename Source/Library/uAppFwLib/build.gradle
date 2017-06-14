@@ -1,29 +1,32 @@
 apply plugin: 'com.android.library'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
+apply plugin: 'jacoco-everywhere'
 
-def coverageSourceDirs = [
-        '../uAppFwLib/src/main/java'
-]
+def buildOutputDir
 
 buildscript {
     repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
-        maven {
-            url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/plugins-release-local"
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
-                password = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
             }
         }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
+        classpath 'com.android.tools.build:gradle:2.3.1'
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12"
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.1', changing: true
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
     }
@@ -43,8 +46,20 @@ archivesBaseName = rootProject.name
 
 allprojects {
     repositories {
-        maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/ext-release-local' }
-        maven { url objcdp.getArtifactoryUrl() }
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url objcdp.getArtifactoryUrl()
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
     }
@@ -93,11 +108,11 @@ task zipDocuments(type: Zip) {
 
 task tgzTask(type: Tar) {
     classifier = 'src'
-    from projectDir    
-	include '**/*'
-	exclude ('build')
-	extension = 'tgz'
-	compression = Compression.GZIP
+    from projectDir
+    include '**/*'
+    exclude ('build')
+    extension = 'tgz'
+    compression = Compression.GZIP
 }
 
 publishing {
@@ -117,8 +132,8 @@ publishing {
                 artifact("$buildDir/outputs/aar/${archivesBaseName}-debug.aar")
             } else {
             } */
-			
-			artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
+
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
@@ -136,30 +151,31 @@ publishing {
 //=======To zip and upload "Documents/External" ==ENDS=============
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 24
+        minSdkVersion 21
+        targetSdkVersion 25
         versionCode 1
         versionName objcdp.getVersionWithHash()
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildOutputDir = "release"
+        }
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+            testCoverageEnabled true
+            buildOutputDir = "debug"
         }
     }
 }
-
-
-task copyResDirectoryToClasses(type: Copy) {
-    from "${projectDir}/src/test/res"
-    into "${buildDir}/intermediates/classes/test/debug/res"
-}
-
-assembleDebug.dependsOn(copyResDirectoryToClasses)
 
 configurations.all {
     // check for updates every build
@@ -168,9 +184,8 @@ configurations.all {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:24.0.0'
     testCompile 'junit:junit:4.12'
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.5.5' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.6.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         exclude group: 'com.android.support'
         transitive = true
     }
@@ -179,6 +194,10 @@ dependencies {
     testCompile 'org.mockito:mockito-all:1.10.17'
     testCompile 'org.robolectric:robolectric:3.1.1'
     compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
+    compile ('com.android.support:support-annotations:25.3.1')
 }
 
 task copyToLib(type: Copy) {
@@ -187,5 +206,8 @@ task copyToLib(type: Copy) {
 }
 
 
+tasks.withType(Test) {
+  ignoreFailures = true
+}
 
 //apply from: "resolution.gradle"

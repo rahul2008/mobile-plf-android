@@ -5,7 +5,10 @@
 */
 package com.philips.platform.appframework.flowmanager.base;
 
+import android.content.Context;
+import android.support.annotation.AnyRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.RawRes;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -18,6 +21,7 @@ import com.philips.platform.appframework.flowmanager.models.AppFlowState;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
@@ -25,6 +29,15 @@ import java.util.List;
 import java.util.Map;
 
 class AppFlowParser {
+
+    private Context mContext;
+
+    AppFlowParser(Context mContext) {
+        this.mContext = mContext;
+    }
+
+    AppFlowParser() {
+    }
 
     /**
      * This method will return the object of AppFlow class or 'null'.
@@ -37,19 +50,44 @@ class AppFlowParser {
      */
     // TODO: Deepthi , need to be prepared for running in separate thread and handle scenarios , may not be in same APIs
     AppFlowModel getAppFlow(String jsonPath) throws JsonFileNotFoundException, JsonStructureException {
-        AppFlowModel appFlow;
+        AppFlowModel appFlow = null;
         if (isEmpty(jsonPath)) {
             throw new JsonFileNotFoundException();
         } else {
             try {
                 final InputStreamReader inputStreamReader = getInputStreamReader(jsonPath);
                 appFlow = new Gson().fromJson(inputStreamReader, AppFlowModel.class);
+                inputStreamReader.close();
             } catch (JsonSyntaxException | FileNotFoundException e) {
                 if (e instanceof JsonSyntaxException) {
                     throw new JsonStructureException();
                 } else {
                     throw new JsonFileNotFoundException();
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return appFlow;
+    }
+
+    AppFlowModel getAppFlow(@RawRes int resId) throws JsonFileNotFoundException, JsonStructureException {
+        AppFlowModel appFlow = null;
+        if (resId == 0) {
+            throw new JsonFileNotFoundException();
+        } else {
+            try {
+                final InputStreamReader inputStreamReader = getInputStreamReader(resId);
+                appFlow = new Gson().fromJson(inputStreamReader, AppFlowModel.class);
+                inputStreamReader.close();
+            } catch (JsonSyntaxException | FileNotFoundException e) {
+                if (e instanceof JsonSyntaxException) {
+                    throw new JsonStructureException();
+                } else {
+                    throw new JsonFileNotFoundException();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         return appFlow;
@@ -58,6 +96,12 @@ class AppFlowParser {
     @NonNull
     private InputStreamReader getInputStreamReader(final String jsonPath) throws FileNotFoundException {
         InputStream is = getFileInputStream(jsonPath);
+        return new InputStreamReader(is);
+    }
+
+    @NonNull
+    private InputStreamReader getInputStreamReader(@AnyRes final int resId) throws FileNotFoundException {
+        InputStream is = mContext.getResources().openRawResource(resId);
         return new InputStreamReader(is);
     }
 

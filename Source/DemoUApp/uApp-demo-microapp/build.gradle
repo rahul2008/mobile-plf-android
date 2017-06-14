@@ -1,10 +1,12 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
+
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
 buildscript {
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven {
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -37,7 +39,6 @@ def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
 archivesBaseName = rootProject.name + "App"
-
 
 allprojects {
     repositories {
@@ -113,33 +114,39 @@ publishing {
     }
 }
 
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
+
     defaultConfig {
-        applicationId "com.philips.platform.uappdemo"
+
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.0.0"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+
     }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'adobeMobileLibrary:adobeMobileLibrary:4.8.3'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'uk.co.chrisjenx:calligraphy:2.1.0'
+    compile 'com.android.support:support-annotations:22.2.0'
+    compile 'uk.co.chrisjenx:calligraphy:2.1.0'
+    compile 'com.shamanland:fonticon:0.1.8'
+    compile 'com.android.support:cardview-v7:+'
+    compile 'com.android.support:recyclerview-v7:+'
+    compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'com.android.support:design:25.1.1'
-    testCompile 'junit:junit:4.12'
-    compile project(':DemoUApp')
+    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.9.0' + objcdp.getVersionSuffix(), ext: 'aar') {
+        exclude group: 'com.android.support'
+        transitive = true
+    }
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile project(':uAppFwLib')
 }
