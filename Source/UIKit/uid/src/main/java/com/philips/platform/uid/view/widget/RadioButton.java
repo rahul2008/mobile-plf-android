@@ -97,12 +97,12 @@ public class RadioButton extends AppCompatRadioButton{
         ColorStateList colorStateList = ThemeUtils.buildColorStateList(context.getResources(), theme, R.color.uid_radiobutton_text_selector);
         setTextColor(colorStateList);
 
-        VectorDrawableCompat checkedEnabled = VectorDrawableCompat.create(getResources(), R.drawable.uid_checkbox_checked_enabled, theme);
-        VectorDrawableCompat checkedDisabled = VectorDrawableCompat.create(getResources(), R.drawable.uid_checkbox_checked_disabled, theme);
-        VectorDrawableCompat uncheckedDisabled = VectorDrawableCompat.create(getResources(), R.drawable.uid_checkbox_unchecked_disabled, theme);
-        VectorDrawableCompat uncheckedEnabled = VectorDrawableCompat.create(getResources(), R.drawable.uid_checkbox_unchecked_enabled, theme);
+        VectorDrawableCompat selectedEnabled = VectorDrawableCompat.create(getResources(), R.drawable.uid_radiobutton_selected_enabled, theme);
+        VectorDrawableCompat selectedDisabled = VectorDrawableCompat.create(getResources(), R.drawable.uid_radiobutton_selected_disabled, theme);
+        VectorDrawableCompat unselectedDisabled = VectorDrawableCompat.create(getResources(), R.drawable.uid_radiobutton_unselected_disabled, theme);
+        VectorDrawableCompat unselectedEnabled = VectorDrawableCompat.create(getResources(), R.drawable.uid_radiobutton_unselected_enabled, theme);
 
-        setRadioButtonDrawables(checkedEnabled, checkedDisabled, uncheckedDisabled, uncheckedEnabled);
+        setRadioButtonDrawables(selectedEnabled, selectedDisabled, unselectedDisabled, unselectedEnabled);
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -119,29 +119,29 @@ public class RadioButton extends AppCompatRadioButton{
     /**
      * Customize your radiobutton by providing drawables of the four possible states
      *
-     * @param checkedEnabled Drawable for the checked enabled state
-     * @param checkedDisabled Drawable for the checked disabled state
-     * @param uncheckedDisabled Drawable for the unchecked disabled state
-     * @param uncheckedEnabled Drawable for the unchecked enabled state
+     * @param selectedEnabled Drawable for the selected enabled state
+     * @param selectedDisabled Drawable for the selected disabled state
+     * @param unselectedDisabled Drawable for the unselected disabled state
+     * @param unselectedEnabled Drawable for the unselected enabled state
      */
-    public void setRadioButtonDrawables(final Drawable checkedEnabled,
-                                     final Drawable checkedDisabled,
-                                     final Drawable uncheckedDisabled,
-                                     final Drawable uncheckedEnabled) {
-        setButtonDrawable(getStateListDrawable(checkedEnabled, checkedDisabled, uncheckedDisabled, uncheckedEnabled));
+    public void setRadioButtonDrawables(final Drawable selectedEnabled,
+                                     final Drawable selectedDisabled,
+                                     final Drawable unselectedDisabled,
+                                     final Drawable unselectedEnabled) {
+        setButtonDrawable(getStateListDrawable(selectedEnabled, selectedDisabled, unselectedDisabled, unselectedEnabled));
     }
 
     @NonNull
-    private StateListDrawable getStateListDrawable(final Drawable checkedEnabled,
-                                                   final Drawable checkedDisabled,
-                                                   final Drawable uncheckedDisabled,
-                                                   final Drawable uncheckedEnabled
+    private StateListDrawable getStateListDrawable(final Drawable selectedEnabled,
+                                                   final Drawable selectedDisabled,
+                                                   final Drawable unselectedDisabled,
+                                                   final Drawable unselectedEnabled
     ) {
         StateListDrawable stateListDrawable = new StateListDrawable();
-        stateListDrawable.addState(new int[]{android.R.attr.state_enabled, android.R.attr.state_checked}, checkedEnabled);
-        stateListDrawable.addState(new int[]{-android.R.attr.state_enabled, android.R.attr.state_checked}, checkedDisabled);
-        stateListDrawable.addState(new int[]{-android.R.attr.state_enabled, -android.R.attr.state_checked}, uncheckedDisabled);
-        stateListDrawable.addState(new int[]{android.R.attr.state_enabled, -android.R.attr.state_checked}, uncheckedEnabled);
+        stateListDrawable.addState(new int[]{android.R.attr.state_enabled, android.R.attr.state_checked}, selectedEnabled);
+        stateListDrawable.addState(new int[]{-android.R.attr.state_enabled, android.R.attr.state_checked}, selectedDisabled);
+        stateListDrawable.addState(new int[]{-android.R.attr.state_enabled, -android.R.attr.state_checked}, unselectedDisabled);
+        stateListDrawable.addState(new int[]{android.R.attr.state_enabled, -android.R.attr.state_checked}, unselectedEnabled);
         return stateListDrawable;
     }
 
