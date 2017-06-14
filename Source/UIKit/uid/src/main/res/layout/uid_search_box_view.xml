@@ -29,10 +29,11 @@
     <com.philips.platform.uid.view.widget.Label
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
         android:text="@string/uid_searchbox_hint"
         android:textColor="?attr/uidSearchBoxAndroidDefaultNormalHintTextColor"
         android:textSize="@dimen/uid_searchbox_text_size"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:paddingEnd="@dimen/uid_searchbox_button_padding"/>
 
 </LinearLayout>

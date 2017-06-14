@@ -41,6 +41,7 @@ public class SearchBox extends LinearLayout {
 
     private boolean isSearchCollapsed = true;
     private View searchClearLayout;
+    private View searchExpandedLayout;
     private ExpandListener expandListener;
     private FilterQueryChangedListener filterQueryChangedListener;
     private Filter searchFilter;
@@ -93,6 +94,7 @@ public class SearchBox extends LinearLayout {
     private void initializeSearch(final Context context) {
         final LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.uid_search_box, this);
+        searchExpandedLayout = findViewById(R.id.uid_search_box_layout);
         initBackButton();
         initSearchIconHolder();
         initSearchBoxView();
@@ -185,12 +187,6 @@ public class SearchBox extends LinearLayout {
         }
         heightMode = MeasureSpec.EXACTLY;
 
-        //Match the height in case iconified, avoid screen flickering in toggling iconified
-        if (isSearchCollapsed) {
-            super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(height, heightMode));
-            return;
-        }
-
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         int width = MeasureSpec.getSize(widthMeasureSpec);
 
@@ -207,6 +203,12 @@ public class SearchBox extends LinearLayout {
                 break;
         }
         widthMode = MeasureSpec.EXACTLY;
+
+        //Match the height in case iconified, avoid screen flickering in toggling iconified
+        if (isSearchCollapsed && isSearchIconified) {
+            super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(height, heightMode));
+            return;
+        }
 
         super.onMeasure(MeasureSpec.makeMeasureSpec(width, widthMode),
                 MeasureSpec.makeMeasureSpec(height, heightMode));
@@ -288,6 +290,7 @@ public class SearchBox extends LinearLayout {
         }
 
         int visibility = isSearchCollapsed ? View.GONE : View.VISIBLE;
+        searchExpandedLayout.setVisibility(visibility);
         searchClearLayout.setVisibility(visibility);
         backButton.setVisibility(visibility);
         updateCloseButton();
