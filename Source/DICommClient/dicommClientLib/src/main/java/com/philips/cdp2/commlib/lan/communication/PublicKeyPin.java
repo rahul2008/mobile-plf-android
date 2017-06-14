@@ -11,6 +11,7 @@ import android.util.Base64;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
+import java.util.Arrays;
 
 
 /**
@@ -19,9 +20,9 @@ import java.security.cert.Certificate;
  */
 public class PublicKeyPin {
     @NonNull
-    private final String pin;
+    private final byte[] pinBytes;
 
-    public PublicKeyPin(@NonNull Certificate certificate) {
+    PublicKeyPin(@NonNull Certificate certificate) {
         // Generate the certificate's spki pin
         MessageDigest digest;
         try {
@@ -32,31 +33,35 @@ public class PublicKeyPin {
         digest.reset();
 
         byte[] spki = certificate.getPublicKey().getEncoded();
-        byte[] spkiHash = digest.digest(spki);
-        pin = Base64.encodeToString(spkiHash, Base64.DEFAULT).trim();
+        pinBytes = digest.digest(spki);
     }
 
-    public PublicKeyPin(@NonNull String spkiPin) {
+    PublicKeyPin(@NonNull String spkiPin) {
         // Validate the format of the pin
-        byte[] spkiSha256Hash = Base64.decode(spkiPin, Base64.DEFAULT);
-        if (spkiSha256Hash.length != 32) {
+        pinBytes = Base64.decode(spkiPin, Base64.DEFAULT);
+        if (pinBytes.length != 32) {
             throw new IllegalArgumentException("Invalid pin: length is not 32 bytes");
         }
-        pin = spkiPin.trim();
     }
 
     @Override
-    public boolean equals(Object arg0) {
-        return (arg0 instanceof PublicKeyPin) && arg0.toString().equals(this.toString());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PublicKeyPin that = (PublicKeyPin) o;
+
+        return Arrays.equals(pinBytes, that.pinBytes);
+
     }
 
     @Override
     public int hashCode() {
-        return pin.hashCode();
+        return Arrays.hashCode(pinBytes);
     }
 
     @Override
     public String toString() {
-        return pin;
+        return Base64.encodeToString(pinBytes, Base64.DEFAULT).trim();
     }
 }
