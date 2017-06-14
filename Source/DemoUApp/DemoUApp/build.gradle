@@ -38,7 +38,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = rootProject.name + "App"
+archivesBaseName = rootProject.name + "UApp"
 
 allprojects {
     repositories {
@@ -80,7 +80,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('apk')
+                publications ('aar')
             }
         }
     }
@@ -92,14 +92,15 @@ artifactory {
     clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
+
 publishing {
     publications {
-        apk(MavenPublication) {
+        aar(MavenPublication) {
             groupId group
             version = version
             artifactId archivesBaseName
 
-            artifact("$buildDir/outputs/apk/${archivesBaseName}-device-release.apk")
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
@@ -113,6 +114,7 @@ publishing {
         }
     }
 }
+
 
 
 android {
@@ -139,10 +141,9 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
-
     /*    compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.4.0' + objcdp.getVersionSuffix(), ext: 'aar')
-                {
-                    transitive true
-                }*/
+                    {
+                        transitive true
+                    }*/
     compile project(':digitalCare')
 }

@@ -1,5 +1,5 @@
 rootProject.setName 'digitalCare'
-rootProject.setName 'DemoUApp'
+//rootProject.setName 'DemoUApp'
 include ':launchDigitalCare'
 include 'digitalCare'
 include 'DemoUApp'
