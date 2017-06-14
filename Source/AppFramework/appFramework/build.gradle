@@ -173,7 +173,7 @@ android {
         testApplicationId "com.philips.platform.appframework.test"
         testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
         multiDexEnabled true
-
+        resConfigs "ar", "bg",  "cs", "da", "de", "el", "en", "en_GB", "es", "es_AR", "es_MX", "et", "fi", "fr", "fr_CA", "he", "hr", "hu", "it", "ja", "ko",  "lt", "lv",  "nb", "nl",  "pl",  "pt", "pt_BR", "ro", "ru", "sk", "sl", "sv", "th", "tr", "vi", "zh_CN", "zh_HK", "zh_TW"
         // replace the below string with your own Google client ID. Make sure this is consistent
         // with the values used in openid_appauth_idp_configs.xml
             manifestPlaceholders = [
