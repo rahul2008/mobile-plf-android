@@ -54,7 +54,7 @@ android {
     buildToolsVersion '25.0.3'
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -89,9 +89,12 @@ dependencies {
         exclude group: 'com.android.support'
         transitive = true
     }
+    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.5.0' + objcdp.getVersionSuffix(), ext: 'aar') {
+        exclude group: 'com.android.support'
+        transitive = true
+    }
     compile 'com.android.support:support-fragment:25.3.1'
     compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: '5.1.4' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    compile 'com.philips.cdp:uAppFwLib:1.5.0-SNAPSHOT.20170525094754@aar'
     apply from: 'build-awsdk-dependencies.gradle'
     compile project(':awsdk')
 }
