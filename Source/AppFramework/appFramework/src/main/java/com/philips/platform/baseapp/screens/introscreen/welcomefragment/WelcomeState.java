@@ -9,7 +9,7 @@ import android.content.Context;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
@@ -26,8 +26,8 @@ public class WelcomeState extends BaseState {
     @Override
     public void navigate(UiLauncher uiLauncher) {
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
-        ((AppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
-                addFragment(new WelcomeFragment(), WelcomeFragment.TAG);
+        ((AbstractAppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
+                addFragment(new WelcomeFragmentAbstract(), WelcomeFragmentAbstract.TAG);
     }
 
     @Override

@@ -13,17 +13,20 @@ import android.app.Activity;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 /*
- * This class is wrapper which is implementing all the possible Analytics related tracking part. It is considered that
- * Page/Action tagging can be taken care from any place of the source code. Necessary APIs to track page/action are
- * provided. This class requires to have application context because tagging can be required by any class. So once
- * it is initialized then same instance can be reutilized anytime anywhere in the codebase. We need to consider
+ * This class is wrapper which is implementing all the possible Analytics
+ * related tracking part. It is considered that Page/Action taggingInstance can
+ * be taken care from any place of the source code. Necessary APIs to
+ * track page/action are provided. This class requires to have
+ * application context because taggingInstance can be required by any class.
+ * So once it is initialized then same instance can be re-utilized
+ * anytime anywhere in the codebase. We need to consider
  * background/foreground of activities as well.
  */
 public class AppFrameworkTagging {
-    private static AppFrameworkTagging appFrameworkTagging;
-    private AppTaggingInterface appTaggingInterface;
+    private static AppFrameworkTagging taggingInstance;
     private AppFrameworkApplication context;
     private static String previousPage;
+    private static Object mutex= new Object();
 
     private AppFrameworkTagging() {
     }
@@ -32,10 +35,14 @@ public class AppFrameworkTagging {
      * Single instance of Tagging is required.
      */
     public static AppFrameworkTagging getInstance() {
-        if (appFrameworkTagging == null) {
-            appFrameworkTagging = new AppFrameworkTagging();
+        if (taggingInstance == null) {
+            // Singleton pattern is thread safe now.
+            synchronized (mutex) {
+                if (taggingInstance == null)
+                    taggingInstance = new AppFrameworkTagging();
+            }
         }
-        return appFrameworkTagging;
+        return taggingInstance;
     }
 
     /*

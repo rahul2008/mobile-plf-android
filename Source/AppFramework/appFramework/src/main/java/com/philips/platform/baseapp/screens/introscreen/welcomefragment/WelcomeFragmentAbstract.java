@@ -25,10 +25,10 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundExce
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkTagging;
-import com.philips.platform.baseapp.base.OnboardingBaseFragment;
-import com.philips.platform.baseapp.base.UIBasePresenter;
+import com.philips.platform.baseapp.base.AbstractOnboardingBaseFragment;
 import com.philips.platform.baseapp.screens.introscreen.pager.WelcomePagerAdapter;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -41,16 +41,16 @@ import com.shamanland.fonticon.FontIconView;
  * <b>To use the Introduction screen flow, start the mActivity with IntroudctionScreenActivity as the Intent</b><br>
  * <pre>&lt;To make the start , skip ,left and right button visibility in each screen, please use the onPageSelected
  */
-public class WelcomeFragment extends OnboardingBaseFragment implements View.OnClickListener, WelcomeFragmentView, BackEventListener {
+public class WelcomeFragmentAbstract extends AbstractOnboardingBaseFragment implements View.OnClickListener, WelcomeFragmentView, BackEventListener {
 
-    public static String TAG = WelcomeFragment.class.getSimpleName();
+    public static String TAG = WelcomeFragmentAbstract.class.getSimpleName();
 
     private FontIconView leftArrow;
     private FontIconView rightArrow;
     private TextView doneButton;
     private TextView skipButton;
     private CircleIndicator indicator;
-    private UIBasePresenter presenter;
+    private AbstractUIBasePresenter presenter;
     private ViewPager pager;
 
     public void onBackPressed() {
@@ -75,7 +75,7 @@ public class WelcomeFragment extends OnboardingBaseFragment implements View.OnCl
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new WelcomeFragmentPresenter(this);
+        presenter = new WelcomeFragmentPresenterAbstract(this);
     }
 
     @Override

@@ -253,7 +253,7 @@ public class PushNotificationManager {
             if (set.contains(PushNotificationConstants.PLATFORM_KEY)) {
                 try {
                     JSONObject jsonObject = new JSONObject(data.getString(PushNotificationConstants.PLATFORM_KEY));
-                    Iterator iterator = jsonObject.keys();
+                    Iterator<String> iterator = jsonObject.keys();
                     while (iterator.hasNext()) {
                         String key = (String) iterator.next();
                         switch (key) {

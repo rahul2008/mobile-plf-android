@@ -24,12 +24,11 @@ import android.widget.TextView;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
-import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
-import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 
 import java.util.Arrays;
@@ -39,8 +38,8 @@ import java.util.List;
  * This fragment if for internal testing of dynamic configuration change of User registration
  */
 
-public class DebugTestFragment extends AppFrameworkBaseFragment {
-    public static final String TAG = DebugTestFragment.class.getSimpleName();
+public class DebugTestFragmentAbstract extends AbstractAppFrameworkBaseFragment {
+    public static final String TAG = DebugTestFragmentAbstract.class.getSimpleName();
 //    private List<String> list;
     private TextView configurationTextView;
     private Spinner spinner;
@@ -55,7 +54,7 @@ public class DebugTestFragment extends AppFrameworkBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppFrameworkBaseActivity) getActivity()).updateActionBarIcon(false);
+        ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBarIcon(false);
     }
 
     @Nullable

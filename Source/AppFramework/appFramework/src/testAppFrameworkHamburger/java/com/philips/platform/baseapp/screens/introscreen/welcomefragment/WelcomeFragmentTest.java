@@ -32,17 +32,17 @@ import static junit.framework.Assert.assertNotNull;
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 public class WelcomeFragmentTest {
-    private SplashFragmentTest.LaunchActivityMock launchActivity;
+    private SplashFragmentTest.LaunchActivityMockAbstract launchActivity;
     private ImageView logo;
-    private WelcomeFragmentMock welcomeFragment;
+    private WelcomeFragmentMockAbstract welcomeFragment;
     private ViewPager pager;
     private FontIconView leftArrow,rightArrow;
 
     @Before
     public void setUp(){
 
-        launchActivity = Robolectric.buildActivity(SplashFragmentTest.LaunchActivityMock.class).create().start().get();
-        welcomeFragment =  new WelcomeFragmentMock();
+        launchActivity = Robolectric.buildActivity(SplashFragmentTest.LaunchActivityMockAbstract.class).create().start().get();
+        welcomeFragment =  new WelcomeFragmentMockAbstract();
         launchActivity.getSupportFragmentManager().beginTransaction().add(welcomeFragment,null).commit();
 
     }
@@ -94,7 +94,7 @@ public class WelcomeFragmentTest {
         boolean handleBack = welcomeFragment.handleBackEvent();
         assertEquals(true,handleBack);
     }
-    public static class WelcomeFragmentMock extends WelcomeFragment{
+    public static class WelcomeFragmentMockAbstract extends WelcomeFragmentAbstract {
         View view;
         @Override
         protected void startLogging() {

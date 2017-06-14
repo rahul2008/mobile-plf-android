@@ -21,20 +21,20 @@ import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
+import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.base.AppInitializationCallback;
-import com.philips.platform.baseapp.base.OnboardingBaseFragment;
-import com.philips.platform.baseapp.base.UIBasePresenter;
-import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
+import com.philips.platform.baseapp.base.AbstractOnboardingBaseFragment;
+import com.philips.platform.baseapp.screens.introscreen.LaunchActivityAbstract;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-public class SplashFragment extends OnboardingBaseFragment implements BackEventListener {
-    public static String TAG = SplashFragment.class.getSimpleName();
+public class SplashFragmentAbstract extends AbstractOnboardingBaseFragment implements BackEventListener {
+    public static String TAG = SplashFragmentAbstract.class.getSimpleName();
     private static int SPLASH_TIME_OUT = 3000;
     private final int APP_START = 1;
-    UIBasePresenter presenter;
+    AbstractUIBasePresenter presenter;
     private boolean isVisible = false;
     ImageView logo;
     TextView title;
@@ -83,7 +83,7 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        presenter = new SplashPresenter(SplashFragment.this);
+                        presenter = new SplashPresenterAbstract(SplashFragmentAbstract.this);
                         presenter.onEvent(APP_START);
                     }
                 }, 200);
@@ -95,8 +95,8 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (getActivity() instanceof LaunchActivity) {
-            final LaunchActivity launchActivity = (LaunchActivity) getActivity();
+        if (getActivity() instanceof LaunchActivityAbstract) {
+            final LaunchActivityAbstract launchActivity = (LaunchActivityAbstract) getActivity();
             launchActivity.hideActionBar();
         }
     }
@@ -115,9 +115,9 @@ public class SplashFragment extends OnboardingBaseFragment implements BackEventL
                     @Override
                     public void onAppInfraInitialization() {
                         startAppTagging();
-                        if (getActivity() instanceof LaunchActivity) {
-                            ((LaunchActivity) getActivity()).startCollectingLifecycleData();
-                            ((LaunchActivity) getActivity()).startPushNotificationFlow();
+                        if (getActivity() instanceof LaunchActivityAbstract) {
+                            ((LaunchActivityAbstract) getActivity()).startCollectingLifecycleData();
+                            ((LaunchActivityAbstract) getActivity()).startPushNotificationFlow();
                         }
                         ((AppFrameworkApplication) getActivity().getApplicationContext()).initialize(new AppInitializationCallback.AppStatesInitializationCallback() {
                             @Override

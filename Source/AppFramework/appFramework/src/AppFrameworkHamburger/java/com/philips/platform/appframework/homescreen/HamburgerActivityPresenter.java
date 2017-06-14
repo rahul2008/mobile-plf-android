@@ -18,9 +18,9 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFound
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
+import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
-import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
@@ -32,7 +32,7 @@ import java.util.Arrays;
  * This class id used for loading various fragments that are supported by home activity ,
  * based on user selection this class loads the next state of the application.
  */
-public class HamburgerActivityPresenter extends UIBasePresenter {
+public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
     public static final String TAG = HamburgerActivityPresenter.class.getSimpleName();
 
     private FragmentView fragmentView;

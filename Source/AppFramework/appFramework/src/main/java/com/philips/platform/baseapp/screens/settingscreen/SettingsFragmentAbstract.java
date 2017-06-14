@@ -20,8 +20,8 @@ import android.widget.ProgressBar;
 
 import com.philips.cdp.uikit.customviews.CircularProgressbar;
 import com.philips.platform.appframework.R;
-import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
-import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
 import com.philips.platform.baseapp.base.AppFrameworkTagging;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
@@ -34,15 +34,15 @@ import java.util.ArrayList;
 /**
  * Fragment is used for showing the account settings that verticals provide
  */
-public class SettingsFragment extends AppFrameworkBaseFragment implements SettingsView {
+public class SettingsFragmentAbstract extends AbstractAppFrameworkBaseFragment implements SettingsView {
 
-    public static final String TAG = SettingsFragment.class.getSimpleName();
+    public static final String TAG = SettingsFragmentAbstract.class.getSimpleName();
     private SettingsAdapter adapter = null;
     private ListView list = null;
     private UserRegistrationState userRegistrationState;
     private Handler handler = new Handler();
     private ArrayList<SettingListItem> settingScreenItemList;
-    private WeakReference<SettingsFragment> settingsFragmentWeakReference;
+    private WeakReference<SettingsFragmentAbstract> settingsFragmentWeakReference;
     private ProgressBar settingsProgressBar;
 
     @Override
@@ -79,16 +79,16 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
     public void onResume() {
         RALog.d(TAG," OnResume called ");
         super.onResume();
-        ((AppFrameworkBaseActivity) getActivity()).updateActionBarIcon(false);
+        ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBarIcon(false);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.af_settings_fragment, container, false);
-        fragmentPresenter = new SettingsFragmentPresenter(this);
+        fragmentPresenter = new SettingsFragmentPresenterAbstract(this);
         list = (ListView) view.findViewById(R.id.listwithouticon);
         settingsProgressBar = (CircularProgressbar) view.findViewById(R.id.settings_progress_bar);
-        settingsFragmentWeakReference = new WeakReference<SettingsFragment>(this);
+        settingsFragmentWeakReference = new WeakReference<SettingsFragmentAbstract>(this);
 
 
         /*list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -193,12 +193,12 @@ public class SettingsFragment extends AppFrameworkBaseFragment implements Settin
 
     @Override
     public ActionBarListener getActionBarListener() {
-        return (AppFrameworkBaseActivity) getActivity();
+        return (AbstractAppFrameworkBaseActivity) getActivity();
     }
 
     @Override
     public int getContainerId() {
-        final AppFrameworkBaseActivity activity = (AppFrameworkBaseActivity) getActivity();
+        final AbstractAppFrameworkBaseActivity activity = (AbstractAppFrameworkBaseActivity) getActivity();
         return activity.getContainerId();
     }
 

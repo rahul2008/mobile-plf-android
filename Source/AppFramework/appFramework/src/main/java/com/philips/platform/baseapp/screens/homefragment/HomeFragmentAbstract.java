@@ -6,7 +6,6 @@
 
 package com.philips.platform.baseapp.screens.homefragment;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.Intent;
@@ -22,9 +21,9 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
-import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
@@ -35,20 +34,20 @@ import static android.content.Context.MODE_PRIVATE;
  * All the fragments are added on top of this , handleBack event from all other fragemnts ends up  landing here
  */
 
-public class HomeFragment extends AppFrameworkBaseFragment {
-    public static final String TAG = HomeFragment.class.getSimpleName();
+public class HomeFragmentAbstract extends AbstractAppFrameworkBaseFragment {
+    public static final String TAG = HomeFragmentAbstract.class.getSimpleName();
     private static final String JAIL_BROKEN_ENABLED = "JAIL_BROKEN";
     private static final String SCREEN_LOCK_DISABLED = "SCREEN_LOCK";
     private static final String JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED = "JAIL_BROKEN_SCREEN_LOCK";
 
-    public HomeFragment() {
+    public HomeFragmentAbstract() {
     }
 
     @Override
     public void onResume() {
         RALog.d(TAG, " OnResume Called ");
         super.onResume();
-        ((AppFrameworkBaseActivity) getActivity()).updateActionBarIcon(false);
+        ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBarIcon(false);
     }
 
     @Override

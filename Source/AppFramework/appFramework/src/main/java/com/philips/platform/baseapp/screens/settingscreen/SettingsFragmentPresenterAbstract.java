@@ -18,8 +18,8 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFound
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
+import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -28,8 +28,8 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  * Settings presenter handles the state change for launching UR or IAP from on click of buttons
  *
  */
-public class SettingsFragmentPresenter extends UIBasePresenter{
-    public static final String TAG = SettingsFragmentPresenter.class.getSimpleName();
+public class SettingsFragmentPresenterAbstract extends AbstractUIBasePresenter {
+    public static final String TAG = SettingsFragmentPresenterAbstract.class.getSimpleName();
 
     private static final String SETTINGS_LOGIN = "login";
     private final SettingsView settingsView;
@@ -38,7 +38,7 @@ public class SettingsFragmentPresenter extends UIBasePresenter{
     private String SETTINGS_LOGOUT = "logout";
     private String SETTINGS_ORDER_HISTORY = "order_history";
 
-    public SettingsFragmentPresenter(final SettingsView settingsView) {
+    public SettingsFragmentPresenterAbstract(final SettingsView settingsView) {
         super(settingsView);
         this.settingsView = settingsView;
         setState(AppStates.SETTINGS);
