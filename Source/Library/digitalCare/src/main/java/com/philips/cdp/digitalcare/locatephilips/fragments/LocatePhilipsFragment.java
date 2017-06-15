@@ -135,7 +135,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private TextView mShowTxtAddress = null;
     private TextView mShowTxtTitle = null;
     private ScrollView mLocationDetailScroll = null;
-    private ArrayList<AtosResultsModel> mResultModelSet = null;
+    private static ArrayList<AtosResultsModel> mResultModelSet = null;
     private RelativeLayout mLocateLayout = null;
     private RelativeLayout mLocateSearchLayout = null;
     private EditText mSearchBox = null;
@@ -156,6 +156,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private ProgressBar mLocateNearProgressBar = null;
     private boolean isContactUsScreenLaunched = false;
     private Utils mUtils = null;
+    private static ArrayList<AtosResultsModel> mResultModelsetDataHold;
 
     private LocationListener locationListener = new LocationListener() {
 
@@ -222,8 +223,15 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     };
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        System.out.println("****** onCreate");
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        System.out.println("****** onCreateView");
         DigiCareLogger.i(TAG, "Launching the Find Philips near you Screen");
 
         try {
@@ -400,7 +408,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 isContactUsScreenLaunched = false;
                 return;
             }else{
-                this.mResultModelSet = resultModelSet;
+                mResultModelsetDataHold = resultModelSet;
             }
         } else {
             showCustomAlert();
@@ -431,6 +439,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public void onPause() {
+        System.out.println("******* onPause");
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
             mProgressDialog = null;
@@ -555,7 +564,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         setViewParams(config);
         float density = getResources().getDisplayMetrics().density;
         setButtonParams(density);
-        addMarkers(mResultModelSet);
+        if(mResultModelsetDataHold!=null)
+          addMarkers(mResultModelsetDataHold);
     }
 
     private void addMarkers(final ArrayList<AtosResultsModel> resultModelSet) {
@@ -798,6 +808,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     public void onDestroyView() {
         closeProgressDialog();
         super.onDestroyView();
+       /* FragmentManager supportFragmentManager = getActivity().getSupportFragmentManager();
+        Fragment fragment = supportFragmentManager.findFragmentByTag("mapFragment");
+        supportFragmentManager.beginTransaction().remove(fragment).commitAllowingStateLoss();*/
     }
 
     @Override
@@ -998,6 +1011,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
+        System.out.println("******* onResume");
         enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
 
         // checking gps enabled or disbled
