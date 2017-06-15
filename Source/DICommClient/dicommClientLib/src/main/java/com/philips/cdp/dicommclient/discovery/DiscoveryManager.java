@@ -1,5 +1,5 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -190,7 +190,7 @@ public class DiscoveryManager<T extends Appliance> {
     }
 
     // TODO DIComm refactor: this method should be removed from public interface
-    public void updatePairingStatus(String cppId, NetworkNode.PAIRED_STATUS state) {
+    public void updatePairingStatus(String cppId, NetworkNode.PairingState state) {
         if (cppId == null || cppId.isEmpty()) return;
         if (mAllAppliancesMap.containsKey(cppId)) {
             mAllAppliancesMap.get(cppId).getNetworkNode().setPairedState(state);
@@ -213,7 +213,7 @@ public class DiscoveryManager<T extends Appliance> {
             if (addToNewApplianceList) {
                 //Add connected appliance only, ignore disconnected
                 if (appliance.getNetworkNode().getConnectionState() != ConnectionState.DISCONNECTED) {
-                    appliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
+                    appliance.getNetworkNode().setPairedState(NetworkNode.PairingState.NOT_PAIRED);
                     newAppliances.add(appliance);
                 }
             }
@@ -467,7 +467,7 @@ public class DiscoveryManager<T extends Appliance> {
     }
 
     private boolean isPaired(final Appliance appliance) {
-        return appliance.getNetworkNode().getPairedState() == NetworkNode.PAIRED_STATUS.PAIRED;
+        return appliance.getNetworkNode().getPairedState() == NetworkNode.PairingState.PAIRED;
     }
 
     private boolean isConnectedRemotely(final Appliance appliance) {
@@ -570,7 +570,7 @@ public class DiscoveryManager<T extends Appliance> {
 
     private boolean updateConnectedStateOnlineViaCpp(Appliance appliance) {
         DICommLog.i(DICommLog.DISCOVERY, "updateConnectedStateOnlineViaCpp: " + appliance.getName());
-        if (appliance.getNetworkNode().getPairedState() == NetworkNode.PAIRED_STATUS.NOT_PAIRED)
+        if (appliance.getNetworkNode().getPairedState() == NetworkNode.PairingState.NOT_PAIRED)
             return false;
         if (appliance.getNetworkNode().getConnectionState() != ConnectionState.DISCONNECTED)
             return false;

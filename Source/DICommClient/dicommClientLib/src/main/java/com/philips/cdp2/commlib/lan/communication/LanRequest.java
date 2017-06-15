@@ -51,7 +51,6 @@ import static com.philips.cdp.dicommclient.util.DICommLog.LOCALREQUEST;
 import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.DEBUG;
 import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.ERROR;
 import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.INFO;
-import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.WARN;
 
 public class LanRequest extends Request {
 

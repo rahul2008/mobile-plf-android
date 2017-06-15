@@ -1,5 +1,5 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -11,7 +11,23 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.util.Objects;
 import java.util.Observable;
+
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_BOOT_ID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_CPP_ID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_DEVICE_NAME;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_DEVICE_TYPE;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_HOME_SSID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_HTTPS;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_IP_ADDRESS;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_IS_PAIRED;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_LAST_PAIRED;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_MODEL_ID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_PIN;
 
 /**
  * A network node represents an appliance that was found by discovery.
@@ -21,75 +37,89 @@ import java.util.Observable;
  * @publicApi
  */
 public class NetworkNode extends Observable implements Parcelable {
-    public enum PAIRED_STATUS {PAIRED, NOT_PAIRED, UNPAIRED, PAIRING}
+
+    private static final int DICOMM_PROTOCOL_VERSION = 1;
+
+    public enum PairingState {PAIRED, NOT_PAIRED, UNPAIRED, PAIRING}
 
     public interface EncryptionKeyUpdatedListener {
         void onKeyUpdate();
     }
 
-    private String mIpAddress;
-    @NonNull
-    private String mCppId;
+    private boolean isHttps = true;
     @Deprecated
-    private ConnectionState mConnectionState;
-
-    private String mName;
-    private String mDeviceType;
-    private String mModelId;
-    private String mHomeSsid;
-    private long mBootId;
-    private String mEncryptionKey;
-    private boolean mHttps = true;
+    private ConnectionState connectionState;
+    private long bootId;
+    private long lastPairedTime;
+    private PairingState pairedState = PairingState.NOT_PAIRED;
+    private String cppId;
+    private String deviceType;
+    private String encryptionKey;
+    private String homeSsid;
+    private String ipAddress;
+    private String modelId;
+    private String name;
     private String pin;
 
-    private PAIRED_STATUS mPairedState = PAIRED_STATUS.NOT_PAIRED;
-    private long mLastPairedTime;
-
-    private final int mDICommProtocolVersion = 1;
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     private EncryptionKeyUpdatedListener encryptionKeyUpdatedListener;
 
     public NetworkNode() {
     }
 
+    public void addPropertyChangeListener(final @NonNull PropertyChangeListener listener) {
+        this.pcs.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(final @NonNull PropertyChangeListener listener) {
+        this.pcs.removePropertyChangeListener(listener);
+    }
+
     public synchronized String getIpAddress() {
-        return mIpAddress;
+        return ipAddress;
     }
 
     public synchronized void setIpAddress(String ipAddress) {
-        this.mIpAddress = ipAddress;
+        final String oldIpAddress = this.ipAddress;
+        this.ipAddress = ipAddress;
+        this.pcs.firePropertyChange(KEY_IP_ADDRESS, oldIpAddress, ipAddress);
     }
 
     @NonNull
     public synchronized String getCppId() {
-        return mCppId;
+        return cppId;
     }
 
     public synchronized void setCppId(@NonNull String cppId) {
-        this.mCppId = cppId;
+        final String oldCppId = this.cppId;
+        this.cppId = cppId;
+        this.pcs.firePropertyChange(KEY_CPP_ID, oldCppId, cppId);
     }
 
     @Deprecated
     public synchronized ConnectionState getConnectionState() {
-        return mConnectionState;
+        return connectionState;
     }
 
     @Deprecated
     public void setConnectionState(ConnectionState connectionState) {
         synchronized (this) { // notifyObservers called from same Thread
-            if (connectionState.equals(mConnectionState)) return;
-            this.mConnectionState = connectionState;
+            if (connectionState.equals(this.connectionState)) return;
+            this.connectionState = connectionState;
         }
         setChanged();
         notifyObservers();
     }
 
     public synchronized String getName() {
-        return mName;
+        return name;
     }
 
     public synchronized void setName(String name) {
-        this.mName = name;
+        final String oldName = this.name;
+        this.name = name;
+        this.pcs.firePropertyChange(KEY_DEVICE_NAME, oldName, name);
     }
 
     /**
@@ -100,11 +130,13 @@ public class NetworkNode extends Observable implements Parcelable {
      * @return device type
      */
     public synchronized String getDeviceType() {
-        return mDeviceType;
+        return deviceType;
     }
 
     public synchronized void setDeviceType(String deviceType) {
-        this.mDeviceType = deviceType;
+        final String oldDeviceType = this.deviceType;
+        this.deviceType = deviceType;
+        this.pcs.firePropertyChange(KEY_DEVICE_TYPE, oldDeviceType, deviceType);
     }
 
     /**
@@ -115,49 +147,61 @@ public class NetworkNode extends Observable implements Parcelable {
      * @return model id
      */
     public synchronized String getModelId() {
-        return mModelId;
+        return modelId;
     }
 
     public synchronized void setModelId(String modelId) {
-        this.mModelId = modelId;
+        final String oldModelId = this.modelId;
+        this.modelId = modelId;
+        this.pcs.firePropertyChange(KEY_MODEL_ID, oldModelId, modelId);
     }
 
     public synchronized String getHomeSsid() {
-        return mHomeSsid;
+        return homeSsid;
     }
 
     public synchronized void setHomeSsid(String homeSsid) {
         if (homeSsid == null || homeSsid.isEmpty()) return;
-        this.mHomeSsid = homeSsid;
+
+        final String oldHomeSsid = this.homeSsid;
+        this.homeSsid = homeSsid;
+        this.pcs.firePropertyChange(KEY_HOME_SSID, oldHomeSsid, homeSsid);
     }
 
     public synchronized long getBootId() {
-        return mBootId;
+        return bootId;
     }
 
     public synchronized void setBootId(long bootId) {
         synchronized (this) { // notifyObservers called from same Thread
-            if (mBootId == bootId) return;
-            this.mBootId = bootId;
+            if (this.bootId == bootId) return;
+
+            final long oldBootId = this.bootId;
+            this.bootId = bootId;
+            this.pcs.firePropertyChange(KEY_BOOT_ID, oldBootId, bootId);
         }
         setChanged();
         notifyObservers();
     }
 
     public synchronized String getEncryptionKey() {
-        return mEncryptionKey;
+        return encryptionKey;
     }
 
     public synchronized void setEncryptionKey(String encryptionKey) {
-        boolean isKeyUpdated = mEncryptionKey != encryptionKey;
-        this.mEncryptionKey = encryptionKey;
+        boolean isKeyUpdated = !Objects.equals(this.encryptionKey, encryptionKey);
+
+        final String oldEncryptionKey = this.encryptionKey;
+        this.encryptionKey = encryptionKey;
+        this.pcs.firePropertyChange(KEY_ENCRYPTION_KEY, oldEncryptionKey, encryptionKey);
+
         if (isKeyUpdated && encryptionKeyUpdatedListener != null) {
             encryptionKeyUpdatedListener.onKeyUpdate();
         }
     }
 
     public synchronized boolean getHttps() {
-        return mHttps;
+        return isHttps;
     }
 
     public String getPin() {
@@ -165,7 +209,9 @@ public class NetworkNode extends Observable implements Parcelable {
     }
 
     public void setPin(String pin) {
+        final String oldPin = this.pin;
         this.pin = pin;
+        this.pcs.firePropertyChange(KEY_PIN, oldPin, pin);
     }
 
     /**
@@ -174,41 +220,48 @@ public class NetworkNode extends Observable implements Parcelable {
      * If the appliance belonging to this {@link NetworkNode} supports HTTPS you should NOT call this, ever. As legacy HTTP is a deprecated technology within diComm, this is only here to support older devices which have not (or cannot) be updated to use HTTPS.
      */
     public synchronized void useLegacyHttp() {
-        this.mHttps = false;
+        if (isHttps) {
+            this.isHttps = false;
+            this.pcs.firePropertyChange(KEY_HTTPS, true, false);
+        }
     }
 
-    public synchronized NetworkNode.PAIRED_STATUS getPairedState() {
-        return mPairedState;
+    public synchronized PairingState getPairedState() {
+        return pairedState;
     }
 
-    public synchronized void setPairedState(NetworkNode.PAIRED_STATUS pairedState) {
-        this.mPairedState = pairedState;
+    public synchronized void setPairedState(PairingState pairedState) {
+        final PairingState oldPairingState = this.pairedState;
+        this.pairedState = pairedState;
+        this.pcs.firePropertyChange(KEY_IS_PAIRED, oldPairingState, pairedState);
     }
 
     public synchronized long getLastPairedTime() {
-        return mLastPairedTime;
+        return lastPairedTime;
     }
 
     public synchronized void setLastPairedTime(long lastPairedTime) {
-        this.mLastPairedTime = lastPairedTime;
+        final long oldPairedTime = this.lastPairedTime;
+        this.lastPairedTime = lastPairedTime;
+        this.pcs.firePropertyChange(KEY_LAST_PAIRED, oldPairedTime, lastPairedTime);
     }
 
     public int getDICommProtocolVersion() {
-        return mDICommProtocolVersion;
+        return DICOMM_PROTOCOL_VERSION;
     }
 
     protected NetworkNode(Parcel in) {
-        mIpAddress = in.readString();
-        mCppId = in.readString();
-        mConnectionState = ConnectionState.values()[in.readInt()];
-        mName = in.readString();
-        mDeviceType = in.readString();
-        mModelId = in.readString();
-        mHomeSsid = in.readString();
-        mBootId = in.readLong();
-        mEncryptionKey = in.readString();
-        mPairedState = PAIRED_STATUS.values()[in.readInt()];
-        mLastPairedTime = in.readLong();
+        ipAddress = in.readString();
+        cppId = in.readString();
+        connectionState = ConnectionState.values()[in.readInt()];
+        name = in.readString();
+        deviceType = in.readString();
+        modelId = in.readString();
+        homeSsid = in.readString();
+        bootId = in.readLong();
+        encryptionKey = in.readString();
+        pairedState = PairingState.values()[in.readInt()];
+        lastPairedTime = in.readLong();
         pin = in.readString();
     }
 
@@ -219,17 +272,17 @@ public class NetworkNode extends Observable implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mIpAddress);
-        dest.writeString(mCppId);
-        dest.writeInt(mConnectionState.ordinal());
-        dest.writeString(mName);
-        dest.writeString(mDeviceType);
-        dest.writeString(mModelId);
-        dest.writeString(mHomeSsid);
-        dest.writeLong(mBootId);
-        dest.writeString(mEncryptionKey);
-        dest.writeInt(mPairedState.ordinal());
-        dest.writeLong(mLastPairedTime);
+        dest.writeString(ipAddress);
+        dest.writeString(cppId);
+        dest.writeInt(connectionState.ordinal());
+        dest.writeString(name);
+        dest.writeString(deviceType);
+        dest.writeString(modelId);
+        dest.writeString(homeSsid);
+        dest.writeLong(bootId);
+        dest.writeString(encryptionKey);
+        dest.writeInt(pairedState.ordinal());
+        dest.writeLong(lastPairedTime);
         dest.writeString(pin);
     }
 
@@ -245,11 +298,11 @@ public class NetworkNode extends Observable implements Parcelable {
         }
     };
 
-    public static NetworkNode.PAIRED_STATUS getPairedStatusKey(int status) {
-        if (status >= 0 && status < NetworkNode.PAIRED_STATUS.values().length) {
-            return NetworkNode.PAIRED_STATUS.values()[status];
+    public static PairingState getPairedStatusKey(int status) {
+        if (status >= 0 && status < PairingState.values().length) {
+            return PairingState.values()[status];
         }
-        return NetworkNode.PAIRED_STATUS.NOT_PAIRED;
+        return PairingState.NOT_PAIRED;
     }
 
     public String toString() {
@@ -279,11 +332,11 @@ public class NetworkNode extends Observable implements Parcelable {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        return mCppId.equals(((NetworkNode) other).mCppId);
+        return cppId.equals(((NetworkNode) other).cppId);
     }
 
     @Override
     public int hashCode() {
-        return mCppId.hashCode();
+        return cppId.hashCode();
     }
 }

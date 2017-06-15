@@ -1,5 +1,5 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -18,21 +18,23 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 
     private static final int DB_VERSION = 4;
 
-    // NetworkNode table
     public static final String DB_NAME = "network_node.db";
     public static final String TABLE_NETWORK_NODE = "network_node";
-    public static final String KEY_ID = "_id";
-    public static final String KEY_CPP_ID = "cppid";
+
+    // NetworkNode table
     public static final String KEY_BOOT_ID = "bootid";
-    public static final String KEY_ENCRYPTION_KEY = "encryption_key"; //TODO was airpur_key
+    public static final String KEY_CPP_ID = "cppid";
     public static final String KEY_DEVICE_NAME = "dev_name";
-    public static final String KEY_LASTKNOWN_NETWORK = "lastknown_network";
-    public static final String KEY_IS_PAIRED = "is_paired";
-    public static final String KEY_LAST_PAIRED = "last_paired";
-    public static final String KEY_IP_ADDRESS = "ip_address";
-    public static final String KEY_MODEL_NAME = "model_name";
-    public static final String KEY_MODEL_ID = "model_id";
+    public static final String KEY_DEVICE_TYPE = "model_name"; // legacy schema support
+    public static final String KEY_ENCRYPTION_KEY = "encryption_key"; // was airpur_key
+    public static final String KEY_HOME_SSID = "home_ssid";
     public static final String KEY_HTTPS = "https";
+    public static final String KEY_ID = "_id";
+    public static final String KEY_IP_ADDRESS = "ip_address";
+    public static final String KEY_IS_PAIRED = "is_paired";
+    public static final String KEY_LAST_KNOWN_NETWORK = "lastknown_network";
+    public static final String KEY_LAST_PAIRED = "last_paired";
+    public static final String KEY_MODEL_ID = "model_id";
     public static final String KEY_PIN = "pin";
 
     public NetworkNodeDatabaseHelper(Context context) {
@@ -53,11 +55,11 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_BOOT_ID + " NUMERIC,"
                 + KEY_ENCRYPTION_KEY + " TEXT,"
                 + KEY_DEVICE_NAME + " TEXT,"
-                + KEY_LASTKNOWN_NETWORK + " TEXT,"
+                + KEY_LAST_KNOWN_NETWORK + " TEXT,"
                 + KEY_IS_PAIRED + " SMALLINT NOT NULL DEFAULT 0,"
                 + KEY_LAST_PAIRED + " NUMERIC,"
                 + KEY_IP_ADDRESS + " TEXT,"
-                + KEY_MODEL_NAME + " TEXT,"
+                + KEY_DEVICE_TYPE + " TEXT,"
                 + KEY_MODEL_ID + " TEXT,"
                 + KEY_HTTPS + " SMALLINT NOT NULL DEFAULT 0,"
                 + KEY_PIN + " TEXT,"
@@ -104,9 +106,9 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db); // This will recreate the original table
 
         db.execSQL("INSERT INTO " + TABLE_NETWORK_NODE + "(" + KEY_ID + "," + KEY_CPP_ID + "," + KEY_BOOT_ID + "," + KEY_ENCRYPTION_KEY + "," +
-                KEY_DEVICE_NAME + "," + KEY_LASTKNOWN_NETWORK + "," + KEY_IS_PAIRED + "," + KEY_LAST_PAIRED + "," + KEY_IP_ADDRESS + "," + KEY_MODEL_NAME + "," + KEY_MODEL_ID + "," + KEY_HTTPS +")\n" +
+                KEY_DEVICE_NAME + "," + KEY_LAST_KNOWN_NETWORK + "," + KEY_IS_PAIRED + "," + KEY_LAST_PAIRED + "," + KEY_IP_ADDRESS + "," + KEY_DEVICE_TYPE + "," + KEY_MODEL_ID + "," + KEY_HTTPS + ")\n" +
                    "SELECT " + KEY_ID + "," + KEY_CPP_ID + "," + KEY_BOOT_ID + "," + KEY_ENCRYPTION_KEY + "," +
-                KEY_DEVICE_NAME + "," + KEY_LASTKNOWN_NETWORK + "," + KEY_IS_PAIRED + "," + KEY_LAST_PAIRED + "," + KEY_IP_ADDRESS + "," + KEY_MODEL_NAME + ",model_type," + KEY_HTTPS +"\n" +
+                KEY_DEVICE_NAME + "," + KEY_LAST_KNOWN_NETWORK + "," + KEY_IS_PAIRED + "," + KEY_LAST_PAIRED + "," + KEY_IP_ADDRESS + "," + KEY_DEVICE_TYPE + ",model_type," + KEY_HTTPS + "\n" +
                    "FROM tmp_" + TABLE_NETWORK_NODE + ";");
 
         db.execSQL("DROP TABLE tmp_" + TABLE_NETWORK_NODE + ";");

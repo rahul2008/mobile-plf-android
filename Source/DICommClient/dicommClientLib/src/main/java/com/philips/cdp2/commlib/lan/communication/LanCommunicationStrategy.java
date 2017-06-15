@@ -1,5 +1,5 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -21,8 +21,12 @@ import com.philips.cdp.dicommclient.security.DISecurity.EncryptionDecryptionFail
 import com.philips.cdp.dicommclient.subscription.LocalSubscriptionHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.subscription.UdpEventReceiver;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.Locale;
 import java.util.Map;
 
 public class LanCommunicationStrategy extends CommunicationStrategy {
@@ -32,12 +36,21 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
     private LocalSubscriptionHandler mLocalSubscriptionHandler;
     private final NetworkNode networkNode;
 
+    private final PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            DICommLog.d(DICommLog.LOCALREQUEST, String.format(Locale.US, "NetworkNode changed: property=%s, old value=%s, new value=%s", evt.getPropertyName(), evt.getOldValue(), evt.getNewValue()));
+        }
+    };
+
     public LanCommunicationStrategy(@NonNull final NetworkNode networkNode) {
         this.networkNode = networkNode;
         this.diSecurity = new DISecurity(networkNode);
         this.diSecurity.setEncryptionDecryptionFailedListener(mEncryptionDecryptionFailedListener);
         mRequestQueue = createRequestQueue();
         mLocalSubscriptionHandler = new LocalSubscriptionHandler(diSecurity, UdpEventReceiver.getInstance());
+
+        networkNode.addPropertyChangeListener(propertyChangeListener);
     }
 
     @VisibleForTesting
