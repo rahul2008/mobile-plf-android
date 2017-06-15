@@ -10,6 +10,7 @@ import android.support.annotation.VisibleForTesting;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.common.SecurityPortProperties;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp.dicommclient.util.GsonProvider;
@@ -24,8 +25,8 @@ public class GetKeyRequest extends LanRequest {
     private static final String SECURITY_PORTNAME = "security";
     private static final int SECURITY_PRODUCTID = 0;
 
-    public GetKeyRequest(String applianceIpAddress, int protocolVersion, boolean isHttps, ResponseHandler responseHandler) {
-        super(applianceIpAddress, protocolVersion, isHttps, SECURITY_PORTNAME, SECURITY_PRODUCTID, LanRequestType.GET, new HashMap<String, Object>(), responseHandler, null);
+    public GetKeyRequest(final @NonNull NetworkNode networkNode, ResponseHandler responseHandler) {
+        super(networkNode, SECURITY_PORTNAME, SECURITY_PRODUCTID, LanRequestType.GET, new HashMap<String, Object>(), responseHandler, null);
     }
 
     @Override

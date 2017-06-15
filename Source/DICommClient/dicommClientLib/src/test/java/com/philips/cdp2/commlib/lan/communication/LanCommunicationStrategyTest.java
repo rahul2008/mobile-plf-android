@@ -1,5 +1,5 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -264,22 +264,22 @@ public class LanCommunicationStrategyTest {
     }
 
     private void setupForHttpsWithKeyPresent() {
-        when(networkNodeMock.getHttps()).thenReturn(true);
+        when(networkNodeMock.isHttps()).thenReturn(true);
         when(networkNodeMock.getEncryptionKey()).thenReturn("tha_key");
     }
 
     private void setupForHttpsWithoutKeyPresent() {
-        when(networkNodeMock.getHttps()).thenReturn(true);
+        when(networkNodeMock.isHttps()).thenReturn(true);
         when(networkNodeMock.getEncryptionKey()).thenReturn(null);
     }
 
     private void setupForHttpWithKeyPresent() {
-        when(networkNodeMock.getHttps()).thenReturn(false);
+        when(networkNodeMock.isHttps()).thenReturn(false);
         when(networkNodeMock.getEncryptionKey()).thenReturn("tha_key");
     }
 
     private void setupForHttpWithoutKeyPresent() {
-        when(networkNodeMock.getHttps()).thenReturn(false);
+        when(networkNodeMock.isHttps()).thenReturn(false);
         when(networkNodeMock.getEncryptionKey()).thenReturn(null);
     }
 }

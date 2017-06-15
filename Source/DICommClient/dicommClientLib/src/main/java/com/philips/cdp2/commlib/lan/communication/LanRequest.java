@@ -16,6 +16,7 @@ import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.Request;
 import com.philips.cdp.dicommclient.request.Response;
@@ -62,7 +63,7 @@ public class LanRequest extends Request {
     final String mUrl;
     private final LanRequestType mRequestType;
     private final DISecurity mDISecurity;
-    private boolean mHttps = false;
+    private boolean isHttps = false;
     private static SSLContext sslContext;
     private static final Object LOCK = new Object();
 
@@ -80,20 +81,14 @@ public class LanRequest extends Request {
         sslContext.init(null, new X509TrustManager[]{new SslPinTrustManager()}, new SecureRandom());
     }
 
-    public LanRequest(String applianceIpAddress, int protocolVersion, boolean isHttps, String portName, int productId, LanRequestType requestType, Map<String, Object> dataMap,
-                      ResponseHandler responseHandler, DISecurity diSecurity) {
+    public LanRequest(final @NonNull NetworkNode networkNode, String portName, int productId, LanRequestType requestType,
+                      Map<String, Object> dataMap, ResponseHandler responseHandler, DISecurity diSecurity) {
         super(dataMap, responseHandler);
-        mHttps = isHttps;
-        mUrl = createPortUrl(applianceIpAddress, protocolVersion, portName, productId);
+
+        isHttps = networkNode.isHttps();
+        mUrl = String.format(Locale.US, isHttps ? BASEURL_PORTS_HTTPS : BASEURL_PORTS, networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), productId, portName);
         mRequestType = requestType;
         mDISecurity = diSecurity;
-    }
-
-    private String createPortUrl(String ipAddress, int dicommProtocolVersion, String portName, int productId) {
-        if (mHttps) {
-            return String.format(Locale.US, BASEURL_PORTS_HTTPS, ipAddress, dicommProtocolVersion, productId, portName);
-        }
-        return String.format(Locale.US, BASEURL_PORTS, ipAddress, dicommProtocolVersion, productId, portName);
     }
 
     private String createDataToSend(Map<String, Object> dataMap) {
@@ -102,7 +97,7 @@ public class LanRequest extends Request {
         String data = GsonProvider.get().toJson(dataMap);
         log(INFO, LOCALREQUEST, "Data to send: " + data);
 
-        if (!mHttps && mDISecurity != null) {
+        if (!isHttps && mDISecurity != null) {
             return mDISecurity.encryptData(data);
         }
         log(INFO, LOCALREQUEST, "Not encrypting data");
@@ -199,7 +194,7 @@ public class LanRequest extends Request {
         final String errorMessage = convertInputStreamToString(inputStream);
         log(ERROR, LOCALREQUEST, "BAD REQUEST - " + errorMessage);
 
-        if (!mHttps && mDISecurity != null) {
+        if (!isHttps && mDISecurity != null) {
             log(ERROR, LOCALREQUEST, "Request not properly encrypted - notifying listener");
             mDISecurity.notifyEncryptionFailedListener();
         }
@@ -207,7 +202,7 @@ public class LanRequest extends Request {
     }
 
     private String decryptData(final @NonNull String cypher) {
-        if (!mHttps && mDISecurity != null) {
+        if (!isHttps && mDISecurity != null) {
             return mDISecurity.decryptData(cypher);
         }
         return cypher;

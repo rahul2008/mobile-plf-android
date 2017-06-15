@@ -127,7 +127,7 @@ public class NetworkNodeDatabase {
             values.put(KEY_IP_ADDRESS, networkNode.getIpAddress());
             values.put(KEY_DEVICE_TYPE, networkNode.getDeviceType());
             values.put(KEY_MODEL_ID, networkNode.getModelId());
-            values.put(KEY_HTTPS, networkNode.getHttps());
+            values.put(KEY_HTTPS, networkNode.isHttps());
             values.put(KEY_PIN, networkNode.getPin());
 
             rowId = db.insertWithOnConflict(TABLE_NETWORK_NODE, null, values, SQLiteDatabase.CONFLICT_REPLACE);

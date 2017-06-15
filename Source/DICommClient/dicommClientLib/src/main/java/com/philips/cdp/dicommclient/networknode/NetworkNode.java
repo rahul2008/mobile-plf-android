@@ -200,7 +200,7 @@ public class NetworkNode extends Observable implements Parcelable {
         }
     }
 
-    public synchronized boolean getHttps() {
+    public synchronized boolean isHttps() {
         return isHttps;
     }
 

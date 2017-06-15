@@ -5,6 +5,7 @@
 
 package com.philips.cdp.dicommclient.request;
 
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 
 import org.junit.Before;
@@ -26,6 +27,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @PrepareForTest({DICommLog.class})
 @RunWith(PowerMockRunner.class)
 public class GetKeyRequestTest {
+    @Mock
+    NetworkNode networkNodeMock;
 
     @Mock
     ResponseHandler responseHandlerMock;
@@ -39,7 +42,7 @@ public class GetKeyRequestTest {
 
     @Test
     public void whenExecuting_ThenKeyWillReturnInResponse() {
-        GetKeyRequest getKeyRequest = new GetKeyRequest("", 1, false, null) {
+        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, null) {
             @Override
             Response doExecute() {
                 return new Response("{'key':'test key'}", null, mResponseHandler);
@@ -53,7 +56,7 @@ public class GetKeyRequestTest {
 
     @Test
     public void whenExecutingWithIncorrectJson_ThenResponseWithError() {
-        GetKeyRequest getKeyRequest = new GetKeyRequest("", 1, false, responseHandlerMock) {
+        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, responseHandlerMock) {
             @Override
             Response doExecute() {
                 return new Response("This is not json", null, mResponseHandler);
@@ -68,7 +71,7 @@ public class GetKeyRequestTest {
 
     @Test
     public void whenExecutingWithJsonThatDoesntContainKey_ThenResponseWithError() {
-        GetKeyRequest getKeyRequest = new GetKeyRequest("", 1, false, responseHandlerMock) {
+        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, responseHandlerMock) {
             @Override
             Response doExecute() {
                 return new Response("{'bas':'peter'}", null, mResponseHandler);
@@ -83,7 +86,7 @@ public class GetKeyRequestTest {
 
     @Test
     public void whenExecutingWithJsonThatContainEmptyKey_ThenResponseWithError() {
-        GetKeyRequest getKeyRequest = new GetKeyRequest("", 1, false, responseHandlerMock) {
+        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, responseHandlerMock) {
             @Override
             Response doExecute() {
                 return new Response("{'key':''}", null, mResponseHandler);
@@ -98,7 +101,7 @@ public class GetKeyRequestTest {
 
     @Test
     public void whenRequestFailed_andResponseMessageIsNull_thenErrorIsReported() {
-        GetKeyRequest getKeyRequest = new GetKeyRequest("don't care", 1, false, responseHandlerMock) {
+        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, responseHandlerMock) {
             @Override
             Response doExecute() {
                 return new Response(null, Error.REQUEST_FAILED, mResponseHandler);
@@ -113,7 +116,7 @@ public class GetKeyRequestTest {
 
     @Test
     public void whenRequestFailed_andResponseMessageIsNotNull_thenErrorIsReportedWithThatResponseMessage() {
-        GetKeyRequest getKeyRequest = new GetKeyRequest("don't care", 1, false, responseHandlerMock) {
+        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, responseHandlerMock) {
             @Override
             Response doExecute() {
                 return new Response("tha message", Error.REQUEST_FAILED, mResponseHandler);
@@ -128,7 +131,7 @@ public class GetKeyRequestTest {
 
     @Test
     public void whenLoggingImplicitly_thenDontForwardToLogger() {
-        GetKeyRequest getKeyRequest = new GetKeyRequest("don't care", 42, true, responseHandlerMock) {
+        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, responseHandlerMock) {
             @Override
             Response doExecute() {
                 return new Response("don't care", null, mResponseHandler);
@@ -144,7 +147,7 @@ public class GetKeyRequestTest {
 
     @Test
     public void whenLoggingExplicitly_thenDontForwardToLogger() {
-        GetKeyRequest getKeyRequest = new GetKeyRequest("don't care", 42, true, responseHandlerMock) {
+        GetKeyRequest getKeyRequest = new GetKeyRequest(networkNodeMock, responseHandlerMock) {
             @Override
             Response doExecute() {
                 return new Response("don't care", null, mResponseHandler);

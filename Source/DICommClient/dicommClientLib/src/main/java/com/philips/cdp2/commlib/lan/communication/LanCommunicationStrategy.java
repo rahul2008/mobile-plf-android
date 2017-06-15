@@ -36,6 +36,19 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
     private LocalSubscriptionHandler mLocalSubscriptionHandler;
     private final NetworkNode networkNode;
 
+    private EncryptionDecryptionFailedListener mEncryptionDecryptionFailedListener = new EncryptionDecryptionFailedListener() {
+
+        @Override
+        public void onDecryptionFailed(NetworkNode networkNode) {
+            triggerKeyExchange(networkNode);
+        }
+
+        @Override
+        public void onEncryptionFailed(NetworkNode networkNode) {
+            triggerKeyExchange(networkNode);
+        }
+    };
+
     private final PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -61,35 +74,35 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
     @Override
     public void getProperties(String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LanRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), networkNode.getHttps(), portName, productId, LanRequestType.GET, null, responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode, portName, productId, LanRequestType.GET, null, responseHandler, diSecurity);
         mRequestQueue.addRequest(request);
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LanRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), networkNode.getHttps(), portName, productId, LanRequestType.PUT, dataMap, responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode, portName, productId, LanRequestType.PUT, dataMap, responseHandler, diSecurity);
         mRequestQueue.addRequest(request);
     }
 
     @Override
     public void addProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LanRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), networkNode.getHttps(), portName, productId, LanRequestType.POST, dataMap, responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode, portName, productId, LanRequestType.POST, dataMap, responseHandler, diSecurity);
         mRequestQueue.addRequest(request);
     }
 
     @Override
     public void deleteProperties(String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LanRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), networkNode.getHttps(), portName, productId, LanRequestType.DELETE, null, responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode, portName, productId, LanRequestType.DELETE, null, responseHandler, diSecurity);
         mRequestQueue.addRequest(request);
     }
 
     @Override
     public void subscribe(String portName, int productId, int subscriptionTtl, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LanRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), networkNode.getHttps(), portName, productId, LanRequestType.POST, getSubscriptionData(subscriptionTtl), responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode, portName, productId, LanRequestType.POST, getSubscriptionData(subscriptionTtl), responseHandler, diSecurity);
         mRequestQueue.addRequest(request);
     }
 
@@ -97,7 +110,7 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
     public void unsubscribe(String portName, int productId,
                             ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-        Request request = new LanRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), networkNode.getHttps(), portName, productId, LanRequestType.DELETE, getUnsubscriptionData(), responseHandler, diSecurity);
+        Request request = new LanRequest(networkNode, portName, productId, LanRequestType.DELETE, getUnsubscriptionData(), responseHandler, diSecurity);
         mRequestQueue.addRequest(request);
     }
 
@@ -132,26 +145,13 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
             }
         };
 
-        Request request = networkNode.getHttps() ?
-                new GetKeyRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), networkNode.getHttps(), responseHandler) :
-                new ExchangeKeyRequest(networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), networkNode.getHttps(), responseHandler);
+        final Request request = networkNode.isHttps() ?
+                new GetKeyRequest(networkNode, responseHandler) :
+                new ExchangeKeyRequest(networkNode, responseHandler);
 
         isKeyExchangeOngoing = true;
         mRequestQueue.addRequestInFrontOfQueue(request);
     }
-
-    private EncryptionDecryptionFailedListener mEncryptionDecryptionFailedListener = new EncryptionDecryptionFailedListener() {
-
-        @Override
-        public void onDecryptionFailed(NetworkNode networkNode) {
-            triggerKeyExchange(networkNode);
-        }
-
-        @Override
-        public void onEncryptionFailed(NetworkNode networkNode) {
-            triggerKeyExchange(networkNode);
-        }
-    };
 
     @Override
     public void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
