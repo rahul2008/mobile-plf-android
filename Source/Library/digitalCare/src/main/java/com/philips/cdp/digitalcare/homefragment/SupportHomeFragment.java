@@ -820,17 +820,17 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
             mProductFAQButton.setVisibility(View.GONE);
         if (mProductViewProductButton != null)
             mProductViewProductButton.setVisibility(View.GONE);
-        if(!isProductReviewLinkAvailable() && Utils.isCountryChina())
+        if(mProductTellUsWhatYouThinkButton != null && !isProductReviewLinkAvailable() && Utils.isCountryChina() )
             mProductTellUsWhatYouThinkButton.setVisibility(View.GONE);
 
         if (mProductChangeButton != null) {
 
             if (!(DigitalCareConfigManager.getInstance().getProductModelSelectionType().
                     getHardCodedProductList().length < 2)) {
-                if (mProductChangeButton != null) {
+
                     mProductChangeButton.setVisibility(View.VISIBLE);
                     mProductChangeButton.setClickable(true);
-                }
+
             }
         }
     }
