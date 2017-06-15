@@ -10,42 +10,87 @@
 
     <!-- Title -->
 
-    <TextView
-        android:id="@+id/place_title"
-        style="@style/locateNearText"
-        android:paddingRight="50dp"
-        android:text=""
+    <LinearLayout
+        android:id="@+id/parent_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
 
-        android:textStyle="bold"
-        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:weightSum="3"
+            android:orientation="vertical">
 
-    <!-- Address -->
+            <ImageView
+                android:layout_width="40dip"
+                android:layout_height="50dip"
+                android:src="@drawable/consumercare_marker"/>
 
-    <TextView
-        android:id="@+id/place_address"
-        style="@style/locateNearText"
-        android:layout_below="@id/place_title"
-        android:paddingRight="50dp"
-        android:text=""
-        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dip"
+                android:layout_gravity="center_horizontal"
+                android:text="5km"/>
+        </LinearLayout>
 
-    <!-- Phone -->
+        <LinearLayout
+            android:id="@+id/address_part"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:weightSum="1"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/place_phone"
-        style="@style/locateNearText"
-        android:layout_below="@id/place_address"
-        android:paddingRight="50dp"
-        android:text=""
-        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                android:id="@+id/place_title"
+                android:paddingRight="50dp"
+                android:text="Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+
+            <!-- Address -->
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                android:id="@+id/place_address"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dip"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/place_title"
+                android:paddingRight="50dp"
+                android:text="Manyatha tech prak bangalore - 56790004"
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+
+            <!-- Phone -->
+
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                android:id="@+id/place_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/place_address"
+                android:paddingRight="50dp"
+                android:text="97421812339"
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/imgListRightArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignRight="@+id/parent_layout"
+        android:layout_marginRight="20dip"
         android:layout_centerVertical="true"
-        android:layout_marginRight="20dp"
         android:src="@drawable/consumercare_list_right_arrow" />
 
 </RelativeLayout>
