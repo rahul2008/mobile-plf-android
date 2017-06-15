@@ -268,7 +268,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setUserRegistrationUIEventListener(this);
         urLaunchInput.enableAddtoBackStack(true);
-        urLaunchInput.setAccountSettings(false);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
         URInterface urInterface = new URInterface();
         urInterface.launch(fragmentLauncher, urLaunchInput);

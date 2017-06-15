@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
-import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
+import com.philips.platform.baseapp.screens.introscreen.LaunchActivityAbstract;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,14 +25,14 @@ import static junit.framework.Assert.assertNotNull;
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 public class SplashFragmentTest {
-    private LaunchActivityMock launchActivity;
-    private SplashFragment splashFragment;
+    private LaunchActivityMockAbstract launchActivity;
+    private SplashFragmentAbstract splashFragment;
     private ImageView logo;
 
     @Before
     public void setUp(){
-        launchActivity = Robolectric.buildActivity(LaunchActivityMock.class).create().start().get();
-        splashFragment =  new SplashFragment();
+        launchActivity = Robolectric.buildActivity(LaunchActivityMockAbstract.class).create().start().get();
+        splashFragment =  new SplashFragmentAbstract();
         launchActivity.getSupportFragmentManager().beginTransaction().add(splashFragment,null).commit();
 
     }
@@ -48,7 +48,7 @@ public class SplashFragmentTest {
         assertNotNull(logo);
     }
 
-    public static class LaunchActivityMock extends LaunchActivity{
+    public static class LaunchActivityMockAbstract extends LaunchActivityAbstract {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             setTheme(R.style.Theme_Philips_DarkBlue_Gradient_NoActionBar);

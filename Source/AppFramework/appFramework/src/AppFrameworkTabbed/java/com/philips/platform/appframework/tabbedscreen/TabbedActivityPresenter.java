@@ -21,10 +21,9 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFound
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
-import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
-import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -37,7 +36,7 @@ import static com.philips.platform.baseapp.screens.utility.Constants.UI_RENDERIN
  * This class id used for loading various fragments that are supported by home activity ,
  * based on user selection this class loads the next state of the application.
  */
-public class TabbedActivityPresenter extends UIBasePresenter implements UIStateListener{
+public class TabbedActivityPresenter extends AbstractUIBasePresenter implements UIStateListener{
     public static final String TAG = TabbedActivityPresenter.class.getSimpleName();
 
     private FragmentView fragmentView;

@@ -38,7 +38,7 @@ public class AboutScreenFragmentTest {
     private FrameLayout hamburgerClick = null;
     private ListView drawerListView =null;
     private HamburgerAdapter adapter;
-    private AboutScreenFragmentMock aboutScreenFragment;
+    private AboutScreenFragmentMockAbstract aboutScreenFragment;
 
     @Before
     public void setUp(){
@@ -48,7 +48,7 @@ public class AboutScreenFragmentTest {
         hamburgerClick = (FrameLayout) customView.findViewById(R.id.af_hamburger_frame_layout);
         drawerListView = (ListView) hamburgerActivity.findViewById(R.id.hamburger_list);
         adapter = (HamburgerAdapter) drawerListView.getAdapter();
-        aboutScreenFragment = new AboutScreenFragmentMock();
+        aboutScreenFragment = new AboutScreenFragmentMockAbstract();
         SupportFragmentTestUtil.startFragment(aboutScreenFragment);
     }
 
@@ -70,7 +70,7 @@ public class AboutScreenFragmentTest {
         assertEquals(content.getText(),hamburgerActivity.getResources().getString(R.string.RA_About_Description));
     }
 
-    public static class AboutScreenFragmentMock extends AboutScreenFragment{
+    public static class AboutScreenFragmentMockAbstract extends AboutScreenFragmentAbstract {
        View view;
 //       @Override
 //       protected void startAppTagging() {

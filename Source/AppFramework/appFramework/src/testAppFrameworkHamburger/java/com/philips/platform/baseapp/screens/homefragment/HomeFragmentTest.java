@@ -5,8 +5,6 @@
 */
 package com.philips.platform.baseapp.screens.homefragment;
 
-import android.content.SharedPreferences;
-
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -23,15 +21,12 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
-import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 public class HomeFragmentTest extends TestCase{
     private HamburgerActivity hamburgerActivity;
-    private HomeFragment homeFragment;
+    private HomeFragmentAbstract homeFragment;
     private static final String JAIL_BROKEN_ENABLED = "JAIL_BROKEN";
     private static final String SCREEN_LOCK_DISABLED = "SCREEN_LOCK";
     private static final String JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED = "JAIL_BROKEN_SCREEN_LOCK";
@@ -40,7 +35,7 @@ public class HomeFragmentTest extends TestCase{
     public void setUp() throws Exception{
         super.setUp();
         hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
-        homeFragment = new HomeFragment();
+        homeFragment = new HomeFragmentAbstract();
         hamburgerActivity.getSupportFragmentManager().beginTransaction().add(homeFragment,"HomeFragmentTest").commit();
     }
     @Test

@@ -13,7 +13,6 @@ import com.philips.platform.appframework.flowmanager.FlowManager;
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.stateimpl.HomeTabbedActivityState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.base.FileUtility;
 import com.philips.platform.baseapp.condition.ConditionIsLoggedIn;
 import com.philips.platform.baseapp.screens.homefragment.HomeFragmentState;
 import com.philips.platform.baseapp.screens.settingscreen.SettingsFragmentState;
@@ -30,14 +29,12 @@ public class FlowManagerTest extends TestCase {
 
     private FragmentActivity fragmentActivityMock;
     private AppFrameworkApplication appFrameworkApplication;
-    private FileUtility fileUtility;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         fragmentActivityMock = mock(FragmentActivity.class);
         appFrameworkApplication = mock(AppFrameworkApplication.class);
-        fileUtility = new FileUtility(appFrameworkApplication);
     }
 
     public void testGetNextState() throws NoEventFoundException {

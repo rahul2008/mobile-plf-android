@@ -13,7 +13,7 @@ import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
-import com.philips.platform.baseapp.screens.homefragment.HomeFragment;
+import com.philips.platform.baseapp.screens.homefragment.HomeFragmentAbstract;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
@@ -23,12 +23,12 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import java.util.List;
 
 /**
- * AppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
+ * AbstractAppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
  */
-public abstract class AppFrameworkBaseActivity extends UiKitActivity implements ActionBarListener {
-    private static final String TAG = AppFrameworkBaseActivity.class.getName();
+public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity implements ActionBarListener {
+    private static final String TAG = AbstractAppFrameworkBaseActivity.class.getName();
 
-    public UIBasePresenter presenter;
+    public AbstractUIBasePresenter presenter;
     //  private int cartItemCount = 0;
     int containerId;
     private FragmentTransaction fragmentTransaction;
@@ -43,10 +43,10 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
             switch (fragmentAddState) {
                 case Constants.ADD_HOME_FRAGMENT:
                     RALog.d(TAG," Added as ADD_HOME_FRAGMENT");
-                    if (null == getSupportFragmentManager().findFragmentByTag(HomeFragment.TAG)) {
+                    if (null == getSupportFragmentManager().findFragmentByTag(HomeFragmentAbstract.TAG)) {
                         addToBackStack(containerId, fragment, fragmentTag);
                     } else {
-                        getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG, 0);
+                        getSupportFragmentManager().popBackStackImmediate(HomeFragmentAbstract.TAG, 0);
                     }
 
                     break;
@@ -54,7 +54,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
                     RALog.d(TAG," Added as ADD_FROM_HAMBURGER");
 
                     getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    addToBackStack(containerId, new HomeFragment(), HomeFragment.TAG);
+                    addToBackStack(containerId, new HomeFragmentAbstract(), HomeFragmentAbstract.TAG);
                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     addToBackStack(containerId, fragment, fragmentTag);
 
@@ -63,7 +63,7 @@ public abstract class AppFrameworkBaseActivity extends UiKitActivity implements 
                     RALog.d(TAG," Added as CLEAR_TILL_HOME");
 
                     getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    addToBackStack(containerId, new HomeFragment(), HomeFragment.TAG);
+                    addToBackStack(containerId, new HomeFragmentAbstract(), HomeFragmentAbstract.TAG);
 
                     break;
             }

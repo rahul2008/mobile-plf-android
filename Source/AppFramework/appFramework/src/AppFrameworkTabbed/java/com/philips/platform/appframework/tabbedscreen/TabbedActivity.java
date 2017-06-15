@@ -18,7 +18,7 @@ import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.uikit.utils.TabUtils;
 import com.philips.platform.appframework.R;
-import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.screens.settingscreen.IndexSelectionListener;
 import com.philips.platform.baseapp.screens.utility.RALog;
@@ -32,7 +32,7 @@ import java.util.ArrayList;
  * This activity is the container of all the other fragment for the app
  * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class TabbedActivity extends AppFrameworkBaseActivity implements FragmentManager.OnBackStackChangedListener, IndexSelectionListener,FragmentView, IAPListener {
+public class TabbedActivity extends AbstractAppFrameworkBaseActivity implements FragmentManager.OnBackStackChangedListener, IndexSelectionListener,FragmentView, IAPListener {
     private static String TAG = TabbedActivity.class.getSimpleName();
     private TabLayout topLayout;
 

@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
-import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
-import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
 /**
@@ -26,9 +26,9 @@ import com.philips.platform.baseapp.screens.utility.RALog;
  * Latest version
  */
 
-public class AboutScreenFragment extends AppFrameworkBaseFragment
+public class AboutScreenFragmentAbstract extends AbstractAppFrameworkBaseFragment
 {
-    public static final String TAG =AboutScreenFragment.class.getSimpleName();
+    public static final String TAG =AboutScreenFragmentAbstract.class.getSimpleName();
 
     @Override
     public void onResume() {
@@ -38,7 +38,7 @@ public class AboutScreenFragment extends AppFrameworkBaseFragment
     }
 
     protected void updateActionBar() {
-        ((AppFrameworkBaseActivity)getActivity()).updateActionBarIcon(false);
+        ((AbstractAppFrameworkBaseActivity)getActivity()).updateActionBarIcon(false);
     }
 
     @Override

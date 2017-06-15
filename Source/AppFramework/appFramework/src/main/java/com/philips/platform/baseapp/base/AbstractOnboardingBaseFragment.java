@@ -10,17 +10,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.appframework.R;
-import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
+import com.philips.platform.baseapp.screens.introscreen.LaunchActivityAbstract;
 import com.philips.platform.baseapp.screens.introscreen.LaunchView;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 /**
- * OnboardingBaseFragment is the <b>Base class</b> for all fragments which comes
+ * AbstractOnboardingBaseFragment is the <b>Base class</b> for all fragments which comes
  * under onboarding journey.
  */
-public abstract class OnboardingBaseFragment extends Fragment implements LaunchView {
-    public final String TAG = OnboardingBaseFragment.class.getSimpleName();
+public abstract class AbstractOnboardingBaseFragment extends Fragment implements LaunchView {
+    public final String TAG = AbstractOnboardingBaseFragment.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,26 +30,26 @@ public abstract class OnboardingBaseFragment extends Fragment implements LaunchV
 
     @Override
     public void showActionBar() {
-        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
+        final LaunchActivityAbstract launchActivity = (LaunchActivityAbstract) getActivity();
         launchActivity.showActionBar();
     }
 
     @Override
     public void hideActionBar() {
-        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
+        final LaunchActivityAbstract launchActivity = (LaunchActivityAbstract) getActivity();
         launchActivity.hideActionBar();
     }
 
     @Override
     public void finishActivityAffinity() {
         RALog.d(TAG," finishActivityAffinity called");
-        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
+        final LaunchActivityAbstract launchActivity = (LaunchActivityAbstract) getActivity();
         launchActivity.finishAffinity();
     }
 
     @Override
     public ActionBarListener getActionBarListener() {
-        return (LaunchActivity) getActivity();
+        return (LaunchActivityAbstract) getActivity();
     }
 
     @Override

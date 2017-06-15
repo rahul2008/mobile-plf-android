@@ -23,11 +23,10 @@ import android.widget.Toast;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
-import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
 import com.philips.platform.baseapp.screens.dataservices.characteristics.CharacteristicsDialogFragment;
 import com.philips.platform.baseapp.screens.dataservices.consents.ConsentDialogFragment;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentType;
@@ -57,8 +56,8 @@ import static com.philips.platform.baseapp.screens.utility.Constants.ILLEGAL_STA
  * All rights reserved.
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener, SwipeRefreshLayout.OnRefreshListener {
-    public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
+public class TemperatureTimeLineFragmentAbstract extends AbstractAppFrameworkBaseFragment implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener, SwipeRefreshLayout.OnRefreshListener {
+    public static final String TAG = TemperatureTimeLineFragmentAbstract.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
     private TemperatureTimeLineFragmentcAdapter mAdapter;
@@ -319,7 +318,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
         if (type != SyncType.MOMENT) return;
 
         DSLog.i(DSLog.LOG, "In Temperature TimeLine Fragment DB OnSuccess Moment request");
-        mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
+        mTemperaturePresenter.fetchData(TemperatureTimeLineFragmentAbstract.this);
     }
 
     @Override
@@ -371,7 +370,7 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
 
     @Override
     public void onFetchSuccess(final List<? extends Moment> data) {
-        DSLog.i(DSLog.LOG, "On Sucess ArrayList TemperatureTimeLineFragment");
+        DSLog.i(DSLog.LOG, "On Sucess ArrayList TemperatureTimeLineFragmentAbstract");
         if (getActivity() == null) return;
         if (!BaseAppUtil.isDSPollingEnabled(getActivity())) {
             mDataServicesManager.synchronize();
@@ -406,8 +405,8 @@ public class TemperatureTimeLineFragment extends AppFrameworkBaseFragment implem
     private void replaceFragment(Fragment fragment, String tag) {
 
         int containerId = -1;
-        if (getActivity() instanceof AppFrameworkBaseActivity) {
-            containerId = ((AppFrameworkBaseActivity) getActivity()).getContainerId();
+        if (getActivity() instanceof AbstractAppFrameworkBaseActivity) {
+            containerId = ((AbstractAppFrameworkBaseActivity) getActivity()).getContainerId();
         }
 
         try {

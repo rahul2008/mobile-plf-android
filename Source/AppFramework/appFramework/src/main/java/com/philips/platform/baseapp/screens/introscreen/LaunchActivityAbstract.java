@@ -23,7 +23,7 @@ import android.widget.TextView;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appframework.R;
-import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -37,8 +37,8 @@ import java.util.ArrayList;
  * 1. The user registration
  * 2. Welcome fragments
  */
-public class LaunchActivity extends AppFrameworkBaseActivity implements LaunchView, IAPListener {
-    public static final String TAG =  LaunchActivity.class.getSimpleName();
+public class LaunchActivityAbstract extends AbstractAppFrameworkBaseActivity implements LaunchView, IAPListener {
+    public static final String TAG =  LaunchActivityAbstract.class.getSimpleName();
 
     private TextView textView;
 

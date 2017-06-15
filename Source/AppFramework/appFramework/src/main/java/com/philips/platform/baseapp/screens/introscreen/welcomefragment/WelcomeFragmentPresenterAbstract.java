@@ -17,16 +17,16 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFound
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
+import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 
-public class WelcomeFragmentPresenter extends UIBasePresenter{
-    public static String TAG = WelcomeFragmentPresenter.class.getSimpleName();
+public class WelcomeFragmentPresenterAbstract extends AbstractUIBasePresenter {
+    public static String TAG = WelcomeFragmentPresenterAbstract.class.getSimpleName();
 
     private final int MENU_OPTION_HOME = 0;
     private SharedPreferenceUtility sharedPreferenceUtility;
@@ -36,7 +36,7 @@ public class WelcomeFragmentPresenter extends UIBasePresenter{
     private String WELCOME_DONE = "welcome_done";
     private String WELCOME_HOME = "welcome_home";
 
-    public WelcomeFragmentPresenter(WelcomeFragmentView welcomeFragmentView) {
+    public WelcomeFragmentPresenterAbstract(WelcomeFragmentView welcomeFragmentView) {
         super(welcomeFragmentView);
         this.welcomeFragmentView = welcomeFragmentView;
     }

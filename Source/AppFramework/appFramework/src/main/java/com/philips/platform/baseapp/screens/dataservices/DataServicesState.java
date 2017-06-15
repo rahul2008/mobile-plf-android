@@ -18,10 +18,9 @@ import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
-import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.screens.dataservices.database.DatabaseHelper;
 import com.philips.platform.baseapp.screens.dataservices.database.ORMSavingInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.database.ORMUpdatingInterfaceImpl;
@@ -48,7 +47,7 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynch
 import com.philips.platform.baseapp.screens.dataservices.error.ErrorHandlerInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.reciever.ScheduleSyncReceiver;
 import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationInterfaceImpl;
-import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureTimeLineFragment;
+import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureTimeLineFragmentAbstract;
 import com.philips.platform.baseapp.screens.dataservices.utility.SyncScheduler;
 import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
@@ -90,15 +89,15 @@ public class DataServicesState extends BaseState implements HandleNotificationPa
     }
 
     /**
-     * Navigating to AboutScreenFragment
+     * Navigating to AboutScreenFragmentAbstract
      *
      * @param uiLauncher requires UiLauncher
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
-        ((AppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
-                handleFragmentBackStack(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG, getUiStateData().getFragmentLaunchState());
+        ((AbstractAppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
+                handleFragmentBackStack(new TemperatureTimeLineFragmentAbstract(), TemperatureTimeLineFragmentAbstract.TAG, getUiStateData().getFragmentLaunchState());
     }
 
     @Override

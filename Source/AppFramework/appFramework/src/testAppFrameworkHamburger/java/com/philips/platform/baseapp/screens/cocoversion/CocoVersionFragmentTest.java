@@ -16,7 +16,6 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.ArrayList;
 
@@ -27,7 +26,7 @@ import java.util.ArrayList;
 @Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 24)
 public class CocoVersionFragmentTest extends TestCase {
     private HamburgerActivity hamburgerActivity = null;
-    private CocoVersionFragment cocoVersionFragment;
+    private CocoVersionFragmentAbstract cocoVersionFragment;
     private ArrayList<CocoVersionItem> chapterArrayList;
     CocoVersionAdapter.CocoInfoViewHolder candyViewHolder;
     CocoVersionAdapter  cocoVersionAdapter;
@@ -37,7 +36,7 @@ public class CocoVersionFragmentTest extends TestCase {
     public void setUp() throws Exception {
         super.setUp();
         hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
-        cocoVersionFragment = new CocoVersionFragment();
+        cocoVersionFragment = new CocoVersionFragmentAbstract();
         hamburgerActivity.getSupportFragmentManager().beginTransaction().add(cocoVersionFragment, "CoCoVersion").commit();
         RecyclerView recyclerView = (RecyclerView) cocoVersionFragment.getView().findViewById(R.id.coco_version_view);
         cocoVersionAdapter = (CocoVersionAdapter) recyclerView.getAdapter();

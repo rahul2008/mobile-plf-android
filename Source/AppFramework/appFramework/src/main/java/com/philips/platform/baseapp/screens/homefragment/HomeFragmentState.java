@@ -9,7 +9,7 @@ import android.content.Context;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -30,7 +30,7 @@ public class HomeFragmentState extends BaseState {
         RALog.d(TAG," navigate Called ");
 
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
-        ((AppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).handleFragmentBackStack( new HomeFragment(), HomeFragment.TAG,getUiStateData().getFragmentLaunchState());
+        ((AbstractAppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).handleFragmentBackStack( new HomeFragmentAbstract(), HomeFragmentAbstract.TAG,getUiStateData().getFragmentLaunchState());
     }
 
     @Override

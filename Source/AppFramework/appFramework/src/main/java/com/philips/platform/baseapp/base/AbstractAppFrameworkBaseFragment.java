@@ -13,12 +13,12 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
 /**
- * AppFrameworkBaseFragment is the <b>Base class</b> for all fragments.
+ * AbstractAppFrameworkBaseFragment is the <b>Base class</b> for all fragments.
  */
-public abstract class AppFrameworkBaseFragment extends Fragment{
-    private static final String TAG = AppFrameworkBaseFragment.class.getName();
+public abstract class AbstractAppFrameworkBaseFragment extends Fragment{
+    private static final String TAG = AbstractAppFrameworkBaseFragment.class.getName();
 
-    protected UIBasePresenter fragmentPresenter;
+    protected AbstractUIBasePresenter fragmentPresenter;
 
     private TextView actionBarTitle = null;
 

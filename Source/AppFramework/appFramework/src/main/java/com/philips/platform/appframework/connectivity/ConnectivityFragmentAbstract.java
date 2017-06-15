@@ -39,20 +39,20 @@ import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceApplianceFactory;
-import com.philips.platform.baseapp.base.AppFrameworkBaseFragment;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.lang.ref.WeakReference;
 
 import static com.philips.platform.baseapp.screens.utility.Constants.DEVICE_DATAPARSING;
 
-public class ConnectivityFragment extends AppFrameworkBaseFragment implements View.OnClickListener, ConnectivityContract.View {
-    public static final String TAG = ConnectivityFragment.class.getSimpleName();
+public class ConnectivityFragmentAbstract extends AbstractAppFrameworkBaseFragment implements View.OnClickListener, ConnectivityContract.View {
+    public static final String TAG = ConnectivityFragmentAbstract.class.getSimpleName();
     private EditText editText = null;
     private EditText momentValueEditText = null;
     private ProgressDialog dialog = null;
     private CommCentral commCentral;
-    private DICommApplianceFactory applianceFactory;
+    private DICommApplianceFactory<BleReferenceAppliance> applianceFactory;
     private TextView connectionState;
     private BluetoothAdapter mBluetoothAdapter;
     private Handler handler=new Handler();
@@ -60,7 +60,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
     private BLEScanDialogFragment bleScanDialogFragment;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1001;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1002;
-    private WeakReference<ConnectivityFragment> connectivityFragmentWeakReference;
+    private WeakReference<ConnectivityFragmentAbstract> connectivityFragmentWeakReference;
     private Context mContext;
 
     /**
@@ -68,7 +68,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
      */
     private ConnectivityPresenter connectivityPresenter;
 
-    public ConnectivityFragment() {
+    public ConnectivityFragmentAbstract() {
     }
 
     @Override
@@ -88,7 +88,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         super.onCreate(savedInstanceState);
         // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
         // BluetoothAdapter through BluetoothManager.
-        connectivityFragmentWeakReference=new WeakReference<ConnectivityFragment>(this);
+        connectivityFragmentWeakReference=new WeakReference<ConnectivityFragmentAbstract>(this);
         final BluetoothManager bluetoothManager =
                 (BluetoothManager) getActivity().getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
@@ -132,7 +132,7 @@ public class ConnectivityFragment extends AppFrameworkBaseFragment implements Vi
         this.commCentral.getApplianceManager().addApplianceListener(this.applianceListener);
     }
 
-    private final ApplianceManager.ApplianceListener applianceListener = new ApplianceManager.ApplianceListener<BleReferenceAppliance>() {
+    private final ApplianceManager.ApplianceListener<BleReferenceAppliance> applianceListener = new ApplianceManager.ApplianceListener<BleReferenceAppliance>() {
         @Override
         public void onApplianceFound(@NonNull BleReferenceAppliance foundAppliance) {
             RALog.d(TAG, "Device found :" + foundAppliance.getName());
