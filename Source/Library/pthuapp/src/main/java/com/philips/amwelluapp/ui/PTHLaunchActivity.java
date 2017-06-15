@@ -1,4 +1,4 @@
-package com.philips.amwelluapp;
+package com.philips.amwelluapp.ui;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -14,9 +14,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.amwelluapp.R;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-import static com.philips.amwelluapp.PTHMicroAppInterface.WELCOME_MESSAGE;
+import static com.philips.amwelluapp.uappclasses.PTHMicroAppInterface.WELCOME_MESSAGE;
 
 
 public class PTHLaunchActivity extends AppCompatActivity {

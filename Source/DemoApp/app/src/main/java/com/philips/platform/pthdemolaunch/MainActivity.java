@@ -4,10 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
 
-import com.philips.amwelluapp.PTHMicroAppDependencies;
-import com.philips.amwelluapp.PTHMicroAppInterface;
-import com.philips.amwelluapp.PTHMicroAppLaunchInput;
-import com.philips.amwelluapp.PTHMicroAppSettings;
+import com.philips.amwelluapp.uappclasses.PTHMicroAppDependencies;
+import com.philips.amwelluapp.uappclasses.PTHMicroAppInterface;
+import com.philips.amwelluapp.uappclasses.PTHMicroAppLaunchInput;
+import com.philips.amwelluapp.uappclasses.PTHMicroAppSettings;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
