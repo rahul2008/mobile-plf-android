@@ -224,14 +224,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        System.out.println("****** onCreate");
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        System.out.println("****** onCreateView");
         DigiCareLogger.i(TAG, "Launching the Find Philips near you Screen");
 
         try {
@@ -439,7 +437,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public void onPause() {
-        System.out.println("******* onPause");
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
             mProgressDialog = null;
@@ -1011,7 +1008,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
-        System.out.println("******* onResume");
         enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
 
         // checking gps enabled or disbled
