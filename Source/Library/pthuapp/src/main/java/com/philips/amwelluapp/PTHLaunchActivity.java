@@ -16,10 +16,10 @@ import android.widget.TextView;
 
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-import static com.philips.amwelluapp.SampleMicroAppInterface.WELCOME_MESSAGE;
+import static com.philips.amwelluapp.PTHMicroAppInterface.WELCOME_MESSAGE;
 
 
-public class SampleActivity extends AppCompatActivity {
+public class PTHLaunchActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
     private TextView mTitleTextView;
@@ -32,16 +32,16 @@ public class SampleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test_ur);
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
-            SampleFragment sampleFragment = new SampleFragment();
+            PTHLaunchFragment PTHLaunchFragment = new PTHLaunchFragment();
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 String message = extras.getString(WELCOME_MESSAGE);
                 Bundle bundle = new Bundle();
                 bundle.putString(WELCOME_MESSAGE, message);
-                sampleFragment.setArguments(bundle);
+                PTHLaunchFragment.setArguments(bundle);
             }
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.parent_layout, sampleFragment);
+            fragmentTransaction.replace(R.id.parent_layout, PTHLaunchFragment);
             fragmentTransaction.commitAllowingStateLoss();
         }
     }

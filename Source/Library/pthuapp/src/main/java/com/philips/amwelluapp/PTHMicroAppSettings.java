@@ -6,9 +6,9 @@ import android.content.Context;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 
-public class SampleMicroAppSettings extends UappSettings {
+public class PTHMicroAppSettings extends UappSettings {
 
-    public SampleMicroAppSettings(final Context applicationContext) {
+    public PTHMicroAppSettings(final Context applicationContext) {
         super(applicationContext);
     }
 }
