@@ -18,7 +18,6 @@ import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.components.BaseTest;
 import com.philips.platform.uid.matcher.SearchBoxMatcher;
-import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.NavigationColor;
@@ -27,7 +26,6 @@ import com.philips.platform.uid.utils.UIDTestUtils;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -139,14 +137,6 @@ public class SearchBoxTest extends BaseTest {
         int expectedHintTextColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidSearchBoxAndroidDefaultNormalHintTextColor);
         getSearchBox().check(matches(SearchBoxMatcher.isSameHintTextColor(expectedHintTextColor)));
     }
-
-    @Ignore
-    @Test
-    public void verifyBackIconColor(){
-        int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidSearchBoxAndroidDefaultFocusBackIconColor);
-        getSearchBox().check(matches(SearchBoxMatcher.isSameIconColor(expectedColor)));
-    }
-
 
     @Test
     public void verifySearchBoxFillColor(){

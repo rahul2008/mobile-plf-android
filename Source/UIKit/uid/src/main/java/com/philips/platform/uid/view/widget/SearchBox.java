@@ -6,6 +6,7 @@
 
 package com.philips.platform.uid.view.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -84,14 +85,17 @@ public class SearchBox extends LinearLayout {
         initializeSearch(context);
     }
 
+    @SuppressWarnings("unused")
     public View getSearchBoxViewLayout() {
         return searchBoxViewLayout;
     }
 
+    @SuppressWarnings("unused")
     public ImageView getSearchBoxViewIcon() {
         return searchBoxViewIcon;
     }
 
+    @SuppressWarnings("unused")
     public Label getSearchBoxViewText() {
         return searchBoxViewText;
     }
@@ -191,6 +195,7 @@ public class SearchBox extends LinearLayout {
         searchTextView.setTypeface(TypefaceUtils.load(context.getAssets(), FONT_PATH_CENTRALESANS_MEDIUM));
     }
 
+    @SuppressLint("SwitchIntDef")
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
@@ -324,6 +329,7 @@ public class SearchBox extends LinearLayout {
         return searchTextView.getText();
     }
 
+    @SuppressWarnings("unused")
     public void setMaxWidth(int maxWidth) {
         this.maxWidth = maxWidth;
     }
@@ -414,7 +420,7 @@ public class SearchBox extends LinearLayout {
         closeButton.setVisibility(showClose ? VISIBLE : GONE);
     }
 
-    static class SavedState extends BaseSavedState {
+    private static class SavedState extends BaseSavedState {
         boolean isSearchCollapsed;
 
         SavedState(Parcelable superState) {
@@ -423,7 +429,7 @@ public class SearchBox extends LinearLayout {
 
         private SavedState(Parcel in) {
             super(in);
-            this.isSearchCollapsed = (Boolean) in.readValue(null);
+            this.isSearchCollapsed = (Boolean) in.readValue(getClass().getClassLoader());
         }
 
         @Override
