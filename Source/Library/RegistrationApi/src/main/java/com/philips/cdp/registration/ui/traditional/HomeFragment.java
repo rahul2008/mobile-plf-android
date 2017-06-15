@@ -302,7 +302,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                         }
                         RLog.d("HomeFragment", "social providers : " + providers);
                     }
-                    handleUiState(false);
+                    handleUiState();
                 }
             });
         }
@@ -422,7 +422,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mCountrySelectionContainer= (RelativeLayout) view.findViewById(R.id.reg_country_selection);
         mUser = new User(mContext);
         linkifyTermAndPolicy(mTvWelcomeDesc);
-        handleUiState(false);
+        handleUiState();
         initServiceDiscovery();
         showCountrySelection();
     }
@@ -472,20 +472,35 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             trackMultipleActionsLogin(AppTagingConstants.MY_PHILIPS);
             launchSignInFragment();
         } else if (v.getId() == R.id.tv_country_displat) {
-            final CountryPicker picker = new CountryPicker();
+
+            handleCountrySelection();
+        }
+    }
+
+    final CountryPicker picker = new CountryPicker();
+    private void handleCountrySelection() {
+        if (networkUtility.isNetworkAvailable()) {
             picker.setListener(new CountryChangeListener() {
 
                 @Override
                 public void onSelectCountry(String name, String code) {
 
                     RLog.i(RLog.ONCLICK, "HomeFragment :Country Name: " + name + " - Code: ");
-                    changeCountry(name,code.trim().toUpperCase());
+                    changeCountry(name, code.trim().toUpperCase());
                     picker.getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                     picker.dismiss();
 
                 }
             });
-            picker.show(getRegistrationFragment().getFragmentManager(), "COUNTRY_PICKER");
+
+
+            if(picker!=null &&  picker.getDialog()!=null
+                    && picker.getDialog().isShowing()) {
+            } else {
+                picker.show(getRegistrationFragment().getFragmentManager(), "COUNTRY_PICKER");
+            }
+        }else{
+            handleUiState();
         }
     }
 
@@ -693,7 +708,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }
     }
 
-    private void handleUiState(boolean isNetwork) {
+    private void handleUiState() {
         if (networkUtility.isNetworkAvailable()) {
             mRegError.hideError();
             enableControls(true);
@@ -1052,7 +1067,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         if (!isOnline) {
             hideProviderProgress();
         }
-        handleUiState(true);
+        handleUiState();
     }
 
     private void trackSocialProviderPage() {
