@@ -29,7 +29,7 @@ import static org.mockito.Mockito.when;
 
 public class LaunchActivityPresenterTest extends TestCase {
 
-    private LaunchActivityPresenterAbstract launchActivityPresenter;
+    private LaunchActivityPresenter launchActivityPresenter;
     private LaunchView launchViewMock;
     private FragmentActivity fragmentActivityMock;
 
@@ -39,7 +39,7 @@ public class LaunchActivityPresenterTest extends TestCase {
         launchViewMock = mock(LaunchView.class);
         fragmentActivityMock = mock(FragmentActivity.class);
         when(launchViewMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
-        launchActivityPresenter = new LaunchActivityPresenterAbstract(launchViewMock);
+        launchActivityPresenter = new LaunchActivityPresenter(launchViewMock);
     }
 
     public void testOnClick() throws Exception {
@@ -49,7 +49,7 @@ public class LaunchActivityPresenterTest extends TestCase {
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         when(fragmentLauncherMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
-        launchActivityPresenter = new LaunchActivityPresenterAbstract(launchViewMock) {
+        launchActivityPresenter = new LaunchActivityPresenter(launchViewMock) {
             @Override
             public void setState(final String stateID) {
                 super.setState(AppStates.HAMBURGER_HOME);
@@ -86,7 +86,7 @@ public class LaunchActivityPresenterTest extends TestCase {
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         when(fragmentLauncherMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
-        launchActivityPresenter = new LaunchActivityPresenterAbstract(launchViewMock) {
+        launchActivityPresenter = new LaunchActivityPresenter(launchViewMock) {
             @Override
             public void setState(final String stateID) {
                 super.setState(AppStates.HAMBURGER_HOME);
@@ -117,7 +117,7 @@ public class LaunchActivityPresenterTest extends TestCase {
         FlowManager uiFlowManagerMock = mock(FlowManager.class);
         when(splashStateMock.getStateID()).thenReturn("something");
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
-        launchActivityPresenter.onEvent(LaunchActivityPresenterAbstract.APP_LAUNCH_STATE);
+        launchActivityPresenter.onEvent(LaunchActivityPresenter.APP_LAUNCH_STATE);
         verify(splashStateMock).navigate(fragmentLauncherMock);
     }
 }
