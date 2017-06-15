@@ -1,9 +1,9 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
-package com.philips.cdp2.commlib.lan.communication;
+package com.philips.cdp2.commlib.lan.security;
 
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 

@@ -31,7 +31,7 @@ public class ExchangeKeyRequest extends LanRequest {
     private String mRandomValue;
 
     public ExchangeKeyRequest(final @NonNull NetworkNode networkNode, ResponseHandler responseHandler) {
-        super(networkNode, SECURITY_PORTNAME, SECURITY_PRODUCTID, LanRequestType.PUT, new HashMap<String, Object>(), responseHandler, null);
+        super(networkNode, null, SECURITY_PORTNAME, SECURITY_PRODUCTID, LanRequestType.PUT, new HashMap<String, Object>(), responseHandler, null);
 
         mRandomValue = ByteUtil.generateRandomNum();
         mDataMap.put(DIFFIE, EncryptionUtil.generateDiffieKey(mRandomValue));

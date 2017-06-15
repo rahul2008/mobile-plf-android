@@ -12,6 +12,7 @@ import android.net.NetworkCapabilities;
 import android.net.NetworkRequest;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
@@ -26,7 +27,6 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp.dicommclient.util.DICommLog.Verbosity;
 import com.philips.cdp.dicommclient.util.GsonProvider;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
-import com.philips.cl.di.common.ssdp.contants.ConnectionLibContants;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,9 +36,6 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.Locale;
 import java.util.Map;
 
@@ -47,7 +44,6 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLHandshakeException;
 import javax.net.ssl.SSLSession;
-import javax.net.ssl.X509TrustManager;
 
 import static com.philips.cdp.dicommclient.util.DICommLog.LOCALREQUEST;
 import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.DEBUG;
@@ -67,6 +63,8 @@ public class LanRequest extends Request {
 
     @NonNull
     private final NetworkNode networkNode;
+    @Nullable
+    private final SSLContext sslContext;
     private final LanRequestType requestType;
     private final DISecurity diSecurity;
 
@@ -79,20 +77,12 @@ public class LanRequest extends Request {
         }
     };
 
-    private static SSLContext sslContext;
-
-    private static synchronized void initializeSslFactory() throws NoSuchAlgorithmException, KeyManagementException {
-        if (sslContext == null) {
-            sslContext = SSLContext.getInstance("TLS");
-            sslContext.init(null, new X509TrustManager[]{new SslPinTrustManager()}, new SecureRandom());
-        }
-    }
-
-    public LanRequest(final @NonNull NetworkNode networkNode, String portName, int productId, LanRequestType requestType,
+    public LanRequest(final @NonNull NetworkNode networkNode, @Nullable SSLContext sslContext, String portName, int productId, LanRequestType requestType,
                       Map<String, Object> dataMap, ResponseHandler responseHandler, DISecurity diSecurity) {
         super(dataMap, responseHandler);
 
         this.networkNode = networkNode;
+        this.sslContext = sslContext;
         this.requestType = requestType;
         this.diSecurity = diSecurity;
         this.url = String.format(Locale.US, networkNode.isHttps() ? BASEURL_PORTS_HTTPS : BASEURL_PORTS, networkNode.getIpAddress(), networkNode.getDICommProtocolVersion(), productId, portName);
@@ -243,16 +233,10 @@ public class LanRequest extends Request {
         }
 
         if (conn instanceof HttpsURLConnection) {
-            try {
-                initializeSslFactory();
-            } catch (final NoSuchAlgorithmException e) {
-                log(ERROR, ConnectionLibContants.LOG_TAG, "NoSuchAlgorithmException: " + e.getMessage());
-            } catch (final KeyManagementException e) {
-                log(ERROR, ConnectionLibContants.LOG_TAG, "KeyManagementException: " + e.getMessage());
-            }
-
             ((HttpsURLConnection) conn).setHostnameVerifier(hostnameVerifier);
-            ((HttpsURLConnection) conn).setSSLSocketFactory(sslContext.getSocketFactory());
+            if (sslContext != null) {
+                ((HttpsURLConnection) conn).setSSLSocketFactory(sslContext.getSocketFactory());
+            }
         }
         conn.setRequestProperty("content-type", "application/json");
         conn.setRequestMethod(requestMethod);

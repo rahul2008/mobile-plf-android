@@ -6,6 +6,7 @@
 package com.philips.cdp.dicommclient.request;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.google.gson.Gson;
@@ -19,14 +20,16 @@ import com.philips.cdp2.commlib.lan.communication.LanRequestType;
 
 import java.util.HashMap;
 
+import javax.net.ssl.SSLContext;
+
 public class GetKeyRequest extends LanRequest {
 
     static final String KEY_MISSING_IN_RESPONSE_MESSAGE = "Key missing in response";
     private static final String SECURITY_PORTNAME = "security";
     private static final int SECURITY_PRODUCTID = 0;
 
-    public GetKeyRequest(final @NonNull NetworkNode networkNode, ResponseHandler responseHandler) {
-        super(networkNode, SECURITY_PORTNAME, SECURITY_PRODUCTID, LanRequestType.GET, new HashMap<String, Object>(), responseHandler, null);
+    public GetKeyRequest(final @NonNull NetworkNode networkNode, @Nullable SSLContext sslContext, ResponseHandler responseHandler) {
+        super(networkNode, sslContext, SECURITY_PORTNAME, SECURITY_PRODUCTID, LanRequestType.GET, new HashMap<String, Object>(), responseHandler, null);
     }
 
     @Override

@@ -1,9 +1,9 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
-package com.philips.cdp2.commlib.lan.communication;
+package com.philips.cdp2.commlib.lan.security;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
 
@@ -12,7 +12,7 @@ import java.security.cert.X509Certificate;
 
 import javax.net.ssl.X509TrustManager;
 
-class SslPinTrustManager implements X509TrustManager {
+public class SslPinTrustManager implements X509TrustManager {
     private static final String TAG = "SslPinTrustManager";
     private PublicKeyPin pinnedPin;
 
