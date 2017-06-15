@@ -184,18 +184,23 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mProgressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Large);
         mProgressDialog.setCancelable(false);
 
+        String userName = mUser.getGivenName();
+        if (userName != null && !userName.equalsIgnoreCase("null")) {
+            String welcomeUser = getString(R.string.reg_InitialSignedIn_Welcome_User_lbltxt);
+            welcomeUser = String.format(welcomeUser, userName);
+            mTvWelcome.setText(welcomeUser);
+        }
 
-        mTvWelcome.setText(getString(R.string.reg_SignInSuccess_Welcome_lbltxt) + " " + mUser.getGivenName());
         RLog.d(RLog.ONCLICK, "WelcomeFragment : USER NAME " + mUser.getGivenName());
- String accesstoken = Jump.getSignedInUser() != null ? Jump.getSignedInUser()
+        String accesstoken = Jump.getSignedInUser() != null ? Jump.getSignedInUser()
                 .getAccessToken() : null;
         RLog.d(RLog.ONCLICK, "WelcomeFragment : accesstoken " + accesstoken);
 
-        if (FieldsValidator.isValidEmail(mUser.getEmail())){
+        if (FieldsValidator.isValidEmail(mUser.getEmail())) {
             String email = getString(R.string.reg_InitialSignedIn_SigninEmailText);
             email = String.format(email, mUser.getEmail());
             mTvSignInEmail.setText(email);
-        }else {
+        } else {
             mUserDetails = getString(R.string.reg_InitialSignedIn_SigninMobileNumberText);
             mUserDetails = String.format(mUserDetails, mUser.getMobile());
             mTvSignInEmail.setText(mUserDetails);
@@ -211,7 +216,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
             handleLogout();
         } else if (id == R.id.btn_reg_continue) {
             RLog.d(RLog.ONCLICK, " WelcomeFragment : Continue");
-            if(getRegistrationFragment().getUserRegistrationUIEventListener() !=null){
+            if (getRegistrationFragment().getUserRegistrationUIEventListener() != null) {
                 getRegistrationFragment().getUserRegistrationUIEventListener().
                         onUserRegistrationComplete(getRegistrationFragment().getParentActivity());
             }
