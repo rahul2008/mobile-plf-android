@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2017.
- *   All rights reserved.
+ * (C) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.networknode;
@@ -16,7 +16,7 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 
 public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DB_VERSION = 3;
+    private static final int DB_VERSION = 4;
 
     // NetworkNode table
     public static final String DB_NAME = "network_node.db";
@@ -33,6 +33,7 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_MODEL_NAME = "model_name";
     public static final String KEY_MODEL_ID = "model_id";
     public static final String KEY_HTTPS = "https";
+    public static final String KEY_PIN = "pin";
 
     public NetworkNodeDatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -59,6 +60,7 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_MODEL_NAME + " TEXT,"
                 + KEY_MODEL_ID + " TEXT,"
                 + KEY_HTTPS + " SMALLINT NOT NULL DEFAULT 0,"
+                + KEY_PIN + " TEXT,"
                 + "PRIMARY KEY(" + KEY_ID + ")"
                 + ");";
 
@@ -79,6 +81,9 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
                     break;
                 case 3:
                     upgradeToVersion3(db);
+                    break;
+                case 4:
+                    upgradeToVersion4(db);
                     break;
                 default:
                     DICommLog.e(DICommLog.DATABASE, "Table creation error");
@@ -107,5 +112,9 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE tmp_" + TABLE_NETWORK_NODE + ";");
 
         db.execSQL("COMMIT;");
+    }
+
+    private void upgradeToVersion4(SQLiteDatabase db) {
+        db.execSQL("ALTER TABLE " + TABLE_NETWORK_NODE + " ADD COLUMN " + KEY_PIN + " TEXT;");
     }
 }

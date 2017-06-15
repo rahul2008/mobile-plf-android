@@ -27,6 +27,7 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_LAST_PAIRED;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_MODEL_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_MODEL_NAME;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_PIN;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
 
 public class NetworkNodeDatabase {
@@ -62,6 +63,7 @@ public class NetworkNodeDatabase {
                     String modelName = cursor.getString(cursor.getColumnIndex(KEY_MODEL_NAME));
                     String modelId = cursor.getString(cursor.getColumnIndex(KEY_MODEL_ID));
                     boolean https = cursor.getShort(cursor.getColumnIndex(KEY_HTTPS)) == 1;
+                    String pin = cursor.getString(cursor.getColumnIndex(KEY_PIN));
 
                     NetworkNode networkNode = new NetworkNode();
                     networkNode.setConnectionState(ConnectionState.DISCONNECTED);
@@ -75,6 +77,7 @@ public class NetworkNodeDatabase {
                     networkNode.setIpAddress(ipAddress);
                     networkNode.setDeviceType(modelName);
                     networkNode.setModelId(modelId);
+                    networkNode.setPin(pin);
 
                     result.add(networkNode);
                     DICommLog.d(DICommLog.DATABASE, "Loaded NetworkNode from db: " + networkNode);
@@ -95,11 +98,13 @@ public class NetworkNodeDatabase {
     public long save(NetworkNode networkNode) {
         long rowId = -1L;
 
-        if (networkNode == null)
+        if (networkNode == null) {
             return rowId;
+        }
 
-        if (networkNode.getPairedState() != NetworkNode.PAIRED_STATUS.PAIRED)
+        if (networkNode.getPairedState() != NetworkNode.PAIRED_STATUS.PAIRED) {
             networkNode.setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
+        }
 
         SQLiteDatabase db = null;
         try {
@@ -123,6 +128,7 @@ public class NetworkNodeDatabase {
             values.put(KEY_MODEL_NAME, networkNode.getDeviceType());
             values.put(KEY_MODEL_ID, networkNode.getModelId());
             values.put(KEY_HTTPS, networkNode.getHttps());
+            values.put(KEY_PIN, networkNode.getPin());
 
             rowId = db.insertWithOnConflict(TABLE_NETWORK_NODE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
             DICommLog.d(DICommLog.DATABASE, "Saved NetworkNode in db: " + networkNode);

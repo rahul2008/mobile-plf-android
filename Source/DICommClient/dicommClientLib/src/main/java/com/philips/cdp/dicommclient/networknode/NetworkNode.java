@@ -40,6 +40,7 @@ public class NetworkNode extends Observable implements Parcelable {
     private long mBootId;
     private String mEncryptionKey;
     private boolean mHttps = true;
+    private String pin;
 
     private PAIRED_STATUS mPairedState = PAIRED_STATUS.NOT_PAIRED;
     private long mLastPairedTime;
@@ -159,6 +160,14 @@ public class NetworkNode extends Observable implements Parcelable {
         return mHttps;
     }
 
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
+
     /**
      * Indicate that the {@link Appliance} belonging to this {@link NetworkNode} only supports legacy HTTP connections over lan.
      * <p>
@@ -200,6 +209,7 @@ public class NetworkNode extends Observable implements Parcelable {
         mEncryptionKey = in.readString();
         mPairedState = PAIRED_STATUS.values()[in.readInt()];
         mLastPairedTime = in.readLong();
+        pin = in.readString();
     }
 
     @Override
@@ -220,6 +230,7 @@ public class NetworkNode extends Observable implements Parcelable {
         dest.writeString(mEncryptionKey);
         dest.writeInt(mPairedState.ordinal());
         dest.writeLong(mLastPairedTime);
+        dest.writeString(pin);
     }
 
     public static final Parcelable.Creator<NetworkNode> CREATOR = new Parcelable.Creator<NetworkNode>() {
@@ -243,12 +254,16 @@ public class NetworkNode extends Observable implements Parcelable {
 
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("name: ").append(getName()).append("   ipAddress: ").append(getIpAddress())
-                .append("   cppId: ").append(getCppId()).append("   bootId: ").append(getBootId())
-                .append("   deviceType: ").append(getDeviceType()).append("   modelId: ").append(getModelId())
+        builder.append("name: ").append(getName())
+                .append("   ipAddress: ").append(getIpAddress())
+                .append("   cppId: ").append(getCppId())
+                .append("   bootId: ").append(getBootId())
+                .append("   deviceType: ").append(getDeviceType())
+                .append("   modelId: ").append(getModelId())
                 .append("   paired: ").append(getPairedState())
-                .append("   connectedState: ").append(getConnectionState()).append("   HomeSsid: ")
-                .append(getHomeSsid());
+                .append("   connectedState: ").append(getConnectionState())
+                .append("   HomeSsid: ").append(getHomeSsid())
+                .append("   pin: ").append(pin);
         return builder.toString();
     }
 
