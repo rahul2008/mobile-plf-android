@@ -33,7 +33,7 @@ public class LanRequestTest {
         when(networkNodeMock.isHttps()).thenReturn(true);
         LanRequest request = new LanRequest(networkNodeMock, "portname", 0, LanRequestType.GET, null, null, null);
 
-        assertEquals("https://ipaddress/di/v1/products/0/portname", request.mUrl);
+        assertEquals("https://ipaddress/di/v1/products/0/portname", request.url);
     }
 
     @Test
@@ -41,6 +41,6 @@ public class LanRequestTest {
         when(networkNodeMock.isHttps()).thenReturn(false);
         LanRequest request = new LanRequest(networkNodeMock, "portname", 0, LanRequestType.GET, null, null, null);
 
-        assertEquals("http://ipaddress/di/v1/products/0/portname", request.mUrl);
+        assertEquals("http://ipaddress/di/v1/products/0/portname", request.url);
     }
 }
