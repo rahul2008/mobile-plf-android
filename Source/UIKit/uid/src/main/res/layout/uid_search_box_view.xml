@@ -7,6 +7,7 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@id/uid_search_box_view_layout"
     android:layout_width="match_parent"
     android:layout_height="@dimen/uid_searchbox_view_height"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -18,6 +19,7 @@
     android:background="?attr/uidTextBoxDefaultNormalBackgroundColor">
 
     <ImageView
+        android:id="@id/uid_search_box_view_icon"
         android:layout_width="@dimen/uid_searchbox_button_dimen"
         android:layout_height="@dimen/uid_searchbox_button_dimen"
         android:layout_gravity="center_vertical"
@@ -27,6 +29,7 @@
         android:tint="?attr/uidSearchBoxAndroidDefaultNormalHintTextColor"/>
 
     <com.philips.platform.uid.view.widget.Label
+        android:id="@id/uid_search_box_view_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"

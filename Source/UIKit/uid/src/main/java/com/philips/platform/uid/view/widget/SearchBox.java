@@ -38,16 +38,20 @@ public class SearchBox extends LinearLayout {
     private ImageView searchIconHolder;
     private AppCompatAutoCompleteTextView searchTextView;
     private View searchBoxView;
-    private boolean isSearchIconified;
-
-    private boolean isSearchCollapsed = true;
     private View searchClearLayout;
     private View searchExpandedLayout;
+    private View searchBoxViewLayout;
+    private ImageView searchBoxViewIcon;
+    private Label searchBoxViewText;
+
+    private boolean isSearchIconified;
+    private boolean isSearchCollapsed = true;
+    private int maxWidth;
+
     private ExpandListener expandListener;
     private FilterQueryChangedListener filterQueryChangedListener;
-    private Filter searchFilter;
     private QuerySubmitListener querySubmitListener;
-    private int maxWidth;
+    private Filter searchFilter;
 
     private static final String FONT_PATH_CENTRALESANS_MEDIUM = "fonts/centralesansmedium.ttf";
 
@@ -80,6 +84,18 @@ public class SearchBox extends LinearLayout {
         initializeSearch(context);
     }
 
+    public View getSearchBoxViewLayout() {
+        return searchBoxViewLayout;
+    }
+
+    public ImageView getSearchBoxViewIcon() {
+        return searchBoxViewIcon;
+    }
+
+    public Label getSearchBoxViewText() {
+        return searchBoxViewText;
+    }
+
     public ImageView getBackButton() {
         return backButton;
     }
@@ -96,6 +112,9 @@ public class SearchBox extends LinearLayout {
         final LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.uid_search_box, this);
         searchExpandedLayout = findViewById(R.id.uid_search_box_layout);
+        searchBoxViewLayout = findViewById(R.id.uid_search_box_view_layout);
+        searchBoxViewIcon = (ImageView) findViewById(R.id.uid_search_box_view_icon);
+        searchBoxViewText = (Label) findViewById(R.id.uid_search_box_view_text);
         initBackButton();
         initSearchIconHolder();
         initSearchBoxView();

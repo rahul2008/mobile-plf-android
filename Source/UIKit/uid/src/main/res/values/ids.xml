@@ -50,5 +50,8 @@
     <item name="uid_search_box_layout" type="id"/>
     <item name="uid_search_icon_holder" type="id"/>
     <item name="uid_search_box_view" type="id"/>
+    <item name="uid_search_box_view_layout" type="id"/>
+    <item name="uid_search_box_view_icon" type="id"/>
+    <item name="uid_search_box_view_text" type="id"/>
 
 </resources>
