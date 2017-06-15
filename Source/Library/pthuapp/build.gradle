@@ -4,11 +4,19 @@ buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'}
+
         maven {
             url "http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/plugins-release-local"
             credentials {
                 username = "readonly"
                 password = "readonly"
+            }
+        }
+        maven {
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
             }
         }
     }
@@ -43,6 +51,25 @@ allprojects {
         maven { url objcdp.getArtifactoryUrl() }
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
+        maven {
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url "https://mvnrepository.com/artifact/org.robolectric/shadows-core" }
+        maven {
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-snapshot'
+        }
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
     }
 }
 
@@ -96,10 +123,15 @@ dependencies {
         exclude group: 'com.android.support'
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.5.0' + objcdp.getVersionSuffix(), ext: 'aar') {
-        exclude group: 'com.android.support'
-        transitive = true
+//    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.5.0' + objcdp.getVersionSuffix(), ext: 'aar') {
+//        exclude group: 'com.android.support'
+//        transitive = true
+//    }
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.1.0' + objcdp.getVersionSuffix(), ext: 'aar') {
+            exclude group: 'com.android.support'
+            transitive = true
     }
+
     compile 'com.android.support:support-fragment:25.3.1'
     compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: '5.1.4' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     apply from: 'build-awsdk-dependencies.gradle'

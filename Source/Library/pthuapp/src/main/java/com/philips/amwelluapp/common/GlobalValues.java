@@ -1,4 +1,4 @@
-package com.philips.amwelluapp;
+package com.philips.amwelluapp.common;
 
 import android.view.ViewGroup;
 

@@ -1,4 +1,4 @@
-package com.philips.amwelluapp;
+package com.philips.amwelluapp.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +15,9 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.SDKCallback;
+import com.philips.amwelluapp.common.GlobalValues;
+import com.philips.amwelluapp.R;
+import com.philips.amwelluapp.uappclasses.PTHMicroAppInterface;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.BackEventListener;
 

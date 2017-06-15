@@ -1,4 +1,4 @@
-package com.philips.amwelluapp;
+package com.philips.amwelluapp.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,13 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.ConsumerInfo;
 import com.americanwell.sdk.manager.SDKCallback;
+import com.philips.amwelluapp.common.GlobalValues;
+import com.philips.amwelluapp.R;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 /**

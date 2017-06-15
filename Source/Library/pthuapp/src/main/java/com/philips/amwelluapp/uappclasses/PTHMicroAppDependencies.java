@@ -1,4 +1,4 @@
-package com.philips.amwelluapp;
+package com.philips.amwelluapp.uappclasses;
 
 
 import com.philips.platform.appinfra.AppInfraInterface;

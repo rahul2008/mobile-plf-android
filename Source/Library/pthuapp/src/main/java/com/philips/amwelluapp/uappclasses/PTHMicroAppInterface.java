@@ -1,10 +1,12 @@
-package com.philips.amwelluapp;
+package com.philips.amwelluapp.uappclasses;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
+import com.philips.amwelluapp.ui.PTHLaunchActivity;
+import com.philips.amwelluapp.ui.PTHLaunchFragment;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
