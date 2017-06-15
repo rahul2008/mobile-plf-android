@@ -1,6 +1,7 @@
 package com.philips.platform.catalogapp.fragments;
 
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 
 import com.philips.platform.catalogapp.R;
@@ -159,5 +161,12 @@ public class SearchBoxExpandableFragment extends BaseFragment implements SearchB
         } else {
             return super.handleBackPress();
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
 }

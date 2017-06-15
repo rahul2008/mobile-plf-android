@@ -7,10 +7,12 @@
 package com.philips.platform.uid.components.searchbox;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
+import android.view.inputmethod.InputMethodManager;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
@@ -23,6 +25,7 @@ import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.utils.UIDTestUtils;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -46,6 +49,12 @@ public class SearchBoxTest extends BaseTest {
         activity = testRule.launchActivity(launchIntent);
         activity.switchTo(com.philips.platform.uid.test.R.layout.layout_searchbox);
         resources = activity.getResources();
+    }
+
+    @After
+    public void tearDown(){
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 
     public ViewInteraction getSearchBox(){
