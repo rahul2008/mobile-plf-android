@@ -5,7 +5,15 @@
 */
 package com.philips.platform.baseapp.screens.dataservices;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.support.v7.app.NotificationCompat;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
@@ -41,7 +49,9 @@ import com.philips.platform.baseapp.screens.dataservices.reciever.ScheduleSyncRe
 import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureTimeLineFragmentAbstract;
 import com.philips.platform.baseapp.screens.dataservices.utility.SyncScheduler;
+import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.listeners.RegisterDeviceTokenListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
@@ -59,9 +69,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.SQLException;
+import java.util.Random;
 
 
 /**
+ * @author ...
  * This class has UI extended from UIKIT about screen , It shows the current version of the app
  */
 public class DataServicesState extends BaseState implements HandleNotificationPayloadInterface, PushNotificationTokenRegistrationInterface, PushNotificationUserRegistationWrapperInterface {
@@ -188,6 +200,41 @@ public class DataServicesState extends BaseState implements HandleNotificationPa
     @Override
     public void handlePayload(JSONObject payloadObject) throws JSONException {
         DataServicesManager.getInstance().handlePushNotificationPayload(payloadObject);
+    }
+
+    @Override
+    public void handlePushNotification(String message) {
+        sendNotification(message);
+    }
+
+    /**
+     * Create and show a simple notification containing the received GCM message.
+     *
+     * @param message GCM message received.
+     */
+    private void sendNotification(String message) {
+        Intent intent = new Intent(mcontext, LaunchActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(mcontext, 0 /* Request code */, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+        Bitmap icon = BitmapFactory.decodeResource(mcontext.getResources(),
+                R.mipmap.app_icon);
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(mcontext)
+                .setSmallIcon(R.mipmap.app_icon)
+                .setLargeIcon(icon)
+                .setContentTitle("Reference App ")
+                .setContentText(message)
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager =
+                (NotificationManager) mcontext.getSystemService(Context.NOTIFICATION_SERVICE);
+        Random r = new Random();
+        int i1 = r.nextInt(80 - 65) + 65;
+        notificationManager.notify(i1 /* ID of notification */, notificationBuilder.build());
+        RALog.d(TAG, "creating notification number  "+i1);
     }
 
     @Override
