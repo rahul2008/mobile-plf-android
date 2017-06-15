@@ -149,4 +149,10 @@
         <item name="android:textColor">?attr/uidTextPrimary</item>
         <item name="android:background">?attr/uidContentTertiaryBackgroundColor</item>
     </style>
+
+    <style name="UIDLabel.SearchBoxHint">
+        <item name="fontPath">fonts/centralesansmedium.ttf</item>
+        <item name="android:textColor">?attr/uidSearchBoxAndroidDefaultNormalHintTextColor</item>
+        <item name="android:textSize">@dimen/uid_searchbox_text_size</item>
+    </style>
 </resources>
