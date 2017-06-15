@@ -52,29 +52,35 @@
     <string name="RA_Current_Configuration">Current Configuration: </string>
 
     <!-- Data Sync related Strings-->
-    <string name="RA_data_sync" translatable="false">Data Sync</string>
+    <string name="RA_data_sync">Data Sync</string>
     <string name="RA_DataServicesScreen_Title">Data Services</string>
-    <string name="RA_add" translatable="false">Add</string>
-    <string name="RA_sync" translatable="false">Sync</string>
-    <string name="RA_update" translatable="false">Update</string>
-    <string name="RA_delete" translatable="false">Delete</string>
-    <string name="RA_registration" translatable="false">Registration</string>
-    <string name="RA_phase" translatable="false">Time Of the Day</string>
-    <string name="RA_temperature" translatable="false">Temperature</string>
-    <string name="RA_temperature_hint" translatable="false">Temperature of the Baby</string>
-    <string name="RA_location" translatable="false">Notes</string>
-    <string name="RA_location_hint" translatable="false">Location Name</string>
-    <string name="RA_save" translatable="false">Save</string>
-    <string name="RA_synced" translatable="false">Not Synced</string>
-    <string name="RA_create_moment" translatable="false">Create moment</string>
-    <string name="RA_invalid_temperature" translatable="false">Invalid temperature entry</string>
-    <string name="RA_consent" translatable="false">User Consents</string>
-    <string name="RA_set_characteristics" translatable="false">User Characteristics</string>
-    <string name="RA_view_characteristics" translatable="false">View Characteristics</string>
-    <string name="RA_hide_characteristics" translatable="false">Hide Characteristics</string>
-    <string name="RA_edit" translatable="false">Edit</string>
-    <string name="RA_consents" translatable="false">User Consents</string>
-    <string name="RA_something_wrong" translatable="false">Something went wrong</string>
+    <string name="RA_add">Add</string>
+    <string name="RA_sync">Sync</string>
+    <string name="RA_update">Update</string>
+    <string name="RA_delete">Delete</string>
+    <string name="RA_registration">Registration</string>
+    <string name="RA_phase">Time Of the Day</string>
+    <string name="RA_temperature">Temperature</string>
+    <string name="RA_temparatute_hint">Temperature of the Baby</string>
+    <string name="RA_location">Notes</string>
+    <string name="RA_location_hint">Location Name</string>
+    <string name="RA_save">Save</string>
+    <string name="RA_synced" >Not Synced</string>
+    <string name="RA_create_moment">Create moment</string>
+    <string name="RA_invalid_temperature" >Invalid temperature entry</string>
+    <string name="RA_consent">User Consents</string>
+    <string name="RA_set_characteristics">User Characteristics</string>
+    <string name="RA_view_characteristics">View Characteristics</string>
+    <string name="RA_hide_characteristics">Hide Characteristics</string>
+    <string name="RA_edit">Edit</string>
+    <string name="RA_consents">User Consents</string>
+    <string name="RA_something_wrong">Something went wrong</string>
+    <string name="RA_DebugAndTestScreen_Title">Debug and Test</string>
+    <string name="RA_Debug_and_Test_Menu_Title">Debug and Test</string>
+
+
+
+
 
     <string-array name="metrics" translatable="false">
         <item>"metric"</item>
@@ -175,7 +181,7 @@
     <string name="RA_About_Menu_Title">About</string>
     <string name="RA_DataServices_Menu_Title">Data Services</string>
     <string name="RA_ConnectivityScreen_Menu_Title">Connectivity</string>
-    <string name="RA_Demo_Menu_Title">Demo</string>
+    <string name="RA_Demo_Menu_Title" translatable="false">Demo</string>
     <string name="RA_HomeTab_Menu_Title">Home</string>
 
     <!-- IAP errors -->
@@ -185,9 +191,9 @@
     <string name="RA_Iap_Authentication_Failure">Authentication failure</string>
     <string name="RA_Iap_Product_Out_Of_Stock">Product out of stock</string>
 
-    <string name="RA_reference_device_scan" translatable="false">Reference Device Scan</string>
-    <string name="RA_ble_ref_device" translatable="false">ble ref device</string>
-    <string name="RA_unknown_device" translatable="false">Unknown Device</string>
+    <string name="RA_reference_device_scan">Reference Device Scan</string>
+    <string name="RA_ble_ref_device">ble ref device</string>
+    <string name="RA_unknown_device">Unknown Device</string>
     <string name="RA_no_device_found">No device found</string>
 
     <string name="BA_AppFramework">AppFramework </string>
@@ -215,9 +221,10 @@ Receive free product accessories</string>
     <string name="RA_UR_Env_Alert_Msg">Configuration can only be changed at launch time. You need to relaunch the app to change it</string>
     <string name="RA_Update_Userdata_Error">There was an error updating User Data. Please try after sometime</string>
     <string name="RA_Setting_Philips_Promo_PartTwo">Promotional communications based on my preferences and online behavior</string>
-    <string name="insights">Insights</string>
-    <string name="logout">logout</string>
-    <string name="RA_Coco_Version">App Info</string>
+    <string name="insights" translatable="false">Insights</string>
+    <string name="logout" translatable="false">logout</string>
+    <string name="RA_Coco_Version" translatable="false">App Info</string>
+
     <!--<array name="hamburger_drawer_icons">-->
     <!--<item>@drawable/uikit_cart</item>-->
     <!--<item>@drawable/uikit_cart</item>-->
@@ -240,7 +247,6 @@ Receive free product accessories</string>
     <string name="RA_COCO_UIKIT" translatable="false">uit : Mobile UI Toolkit Non DLS</string>
 
     <string name="RA_COCO_DS" translatable="false">dsc : Data Services </string>
-    <string name="something_wrong">Something went wrong</string>
 
 
 </resources>
