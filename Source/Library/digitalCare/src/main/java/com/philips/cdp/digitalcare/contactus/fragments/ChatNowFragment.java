@@ -67,7 +67,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
         if (mView == null) {
             mView = inflater.inflate(R.layout.consumercare_webview_noscroll, container, false);
         }
-        setChatEndPoint(getChatUrl() + "?origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app");
+        setChatEndPoint(getChatUrl() + "&origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app");
         return mView;
     }
 
