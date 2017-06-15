@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
+import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
@@ -49,7 +50,7 @@ import com.philips.platform.baseapp.screens.dataservices.reciever.ScheduleSyncRe
 import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureTimeLineFragmentAbstract;
 import com.philips.platform.baseapp.screens.dataservices.utility.SyncScheduler;
-import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
+import com.philips.platform.baseapp.screens.introscreen.LaunchActivityAbstract;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.listeners.RegisterDeviceTokenListener;
@@ -213,7 +214,7 @@ public class DataServicesState extends BaseState implements HandleNotificationPa
      * @param message GCM message received.
      */
     private void sendNotification(String message) {
-        Intent intent = new Intent(mcontext, LaunchActivity.class);
+        Intent intent = new Intent(mcontext, LaunchActivityAbstract.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(mcontext, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
