@@ -46,6 +46,8 @@
         <item name="android:indeterminateDuration">
             @integer/uid_progress_bar_circular_small_duration
         </item>
+        <item name="uidProgressBarCircularEndColor">?attr/uidTrackDetailNormalOnBackgroundColor
+        </item>
     </style>
 
     <style name="UIDProgressBarCircularDeterminateMiddle" parent="Widget.AppCompat.ProgressBar.Horizontal">
