@@ -1,7 +1,6 @@
 package com.philips.platform.catalogapp.fragments;
 
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 
 import com.philips.platform.catalogapp.R;
@@ -20,12 +18,12 @@ import com.philips.platform.uid.view.widget.SearchBox;
 
 import java.util.Arrays;
 
-public class SearchBoxExpandableFragment extends BaseFragment implements SearchBox.ExpandListener, SearchBox.QuerySubmitListener{
+public class SearchBoxExpandableFragment extends BaseFragment implements SearchBox.ExpandListener, SearchBox.QuerySubmitListener {
 
     private FragmentSearchBoxExpandableBinding fragmentSearchBoxExpandableBinding;
     private SearchBox searchBox;
     String query;
-    boolean searchBoxExpanded = true;
+    boolean searchBoxCollpased = true;
     private UIDNavigationIconToggler navIconToggler;
     private StateListAdapter stateAdapter;
 
@@ -95,7 +93,7 @@ public class SearchBoxExpandableFragment extends BaseFragment implements SearchB
 
         if (savedInstanceState != null) {
             query = savedInstanceState.getString("query");
-            searchBoxExpanded = savedInstanceState.getBoolean("expanded");
+            searchBoxCollpased = savedInstanceState.getBoolean("collapsed");
         }
         setListAdapter();
         return fragmentSearchBoxExpandableBinding.getRoot();
@@ -122,14 +120,14 @@ public class SearchBoxExpandableFragment extends BaseFragment implements SearchB
         searchBox.setExpandListener(this);
         searchBox.setQuerySubmitListener(this);
         searchBox.setSearchIconified(true);
-        searchBox.setSearchCollapsed(searchBoxExpanded);
+        searchBox.setSearchCollapsed(searchBoxCollpased);
         searchBox.setQuery(query);
         searchBox.setAdapter(stateAdapter);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putBoolean("expanded",searchBox.isSearchCollapsed());
+        outState.putBoolean("collapsed", searchBox.isSearchCollapsed());
         outState.putString("query", String.valueOf(searchBox.getQuery()));
         super.onSaveInstanceState(outState);
     }
@@ -155,18 +153,11 @@ public class SearchBoxExpandableFragment extends BaseFragment implements SearchB
 
     @Override
     public boolean handleBackPress() {
-        if(!searchBox.isSearchCollapsed()){
+        if (!searchBox.isSearchCollapsed()) {
             searchBox.setSearchCollapsed(true);
             return true;
-        } else {
-            return super.handleBackPress();
         }
+        return super.handleBackPress();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
-    }
 }

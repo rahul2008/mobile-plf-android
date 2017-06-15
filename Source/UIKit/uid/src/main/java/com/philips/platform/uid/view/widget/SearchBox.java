@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.philips.platform.uid.R;
+
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 public class SearchBox extends LinearLayout {
@@ -124,7 +125,6 @@ public class SearchBox extends LinearLayout {
         backButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                callCollapseListener();
                 setSearchCollapsed(true);
                 searchTextView.setText("");
                 searchTextView.clearFocus();
@@ -137,26 +137,24 @@ public class SearchBox extends LinearLayout {
         searchIconHolder.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                callExpandListener();
                 setSearchCollapsed(false);
                 searchTextView.requestFocus();
             }
         });
     }
 
-    private void initSearchBoxView(){
+    private void initSearchBoxView() {
         searchBoxView = findViewById(R.id.uid_search_box_view);
         searchBoxView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                callExpandListener();
                 setSearchCollapsed(false);
                 searchTextView.requestFocus();
             }
         });
     }
 
-    private void initSearchTextView(Context context){
+    private void initSearchTextView(Context context) {
         searchTextView = (AppCompatAutoCompleteTextView) findViewById(R.id.uid_search_src_text);
         searchTextView.addTextChangedListener(new SearchTextWatcher());
         searchTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -171,7 +169,7 @@ public class SearchBox extends LinearLayout {
                 return false;
             }
         });
-        searchTextView.setTypeface(TypefaceUtils.load(context.getAssets(),FONT_PATH_CENTRALESANS_MEDIUM));
+        searchTextView.setTypeface(TypefaceUtils.load(context.getAssets(), FONT_PATH_CENTRALESANS_MEDIUM));
     }
 
     @Override
@@ -214,14 +212,14 @@ public class SearchBox extends LinearLayout {
                 MeasureSpec.makeMeasureSpec(height, heightMode));
     }
 
-    public void setSearchCollapsed(boolean searchCollapsed) {
-        handleSearchExpansion(searchCollapsed);
-        setImeVisibility(!searchCollapsed);
-        isSearchCollapsed = searchCollapsed;
+    public void setSearchCollapsed(boolean shouldCollapse) {
+        handleStateChange(shouldCollapse);
+        setImeVisibility(!shouldCollapse);
+        isSearchCollapsed = shouldCollapse;
         updateViews();
     }
 
-    public void setSearchIconified(boolean searchIconified){
+    public void setSearchIconified(boolean searchIconified) {
         this.isSearchIconified = searchIconified;
         updateViews();
     }
@@ -249,11 +247,11 @@ public class SearchBox extends LinearLayout {
         }
     }
 
-    private void handleSearchExpansion(boolean searchCollapsed) {
-        if (shouldExpand(searchCollapsed)) {
-            callExpandListener();
-        } else if (shouldCollapse(searchCollapsed)) {
+    private void handleStateChange(boolean shouldCollapse) {
+        if (!isSearchCollapsed && shouldCollapse) {
             callCollapseListener();
+        } else if (isSearchCollapsed && !shouldCollapse) {
+            callExpandListener();
         }
     }
 
@@ -269,22 +267,14 @@ public class SearchBox extends LinearLayout {
         }
     }
 
-    private boolean shouldCollapse(boolean searchCollapsed) {
-        return !isSearchCollapsed && searchCollapsed;
-    }
-
-    private boolean shouldExpand(boolean searchCollapsed) {
-        return (!isSearchCollapsed && !searchCollapsed);
-    }
-
     private void updateViews() {
 
         int collapsedVisibility = isSearchCollapsed ? View.VISIBLE : View.GONE;
 
-        if(isSearchIconified){
+        if (isSearchIconified) {
             searchIconHolder.setVisibility(collapsedVisibility);
             searchBoxView.setVisibility(View.GONE);
-        }else {
+        } else {
             searchBoxView.setVisibility(collapsedVisibility);
             searchIconHolder.setVisibility(View.GONE);
         }
@@ -316,11 +306,11 @@ public class SearchBox extends LinearLayout {
     }
 
     public void setMaxWidth(int maxWidth) {
-         this.maxWidth = maxWidth;
+        this.maxWidth = maxWidth;
     }
 
     private int getPreferredHeight() {
-       return getContext().getResources().getDimensionPixelSize(R.dimen.uid_searchbox_height);
+        return getContext().getResources().getDimensionPixelSize(R.dimen.uid_searchbox_height);
     }
 
     @Override
