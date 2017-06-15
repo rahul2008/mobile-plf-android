@@ -186,14 +186,11 @@ android {
         release {
             minifyEnabled true
             proguardFiles 'proguard-rules.pro'
-            testCoverageEnabled true
         }
 
         debug {
             minifyEnabled false
             debuggable true
-            testCoverageEnabled true
-//            proguardFile 'proguard-rules.pro'
         }
     }
     compileOptions {
