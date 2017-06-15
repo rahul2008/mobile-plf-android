@@ -19,9 +19,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,10 +28,10 @@ import java.util.Map;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class SampleFragment extends Fragment implements BackEventListener {
+public class PTHLaunchFragment extends Fragment implements BackEventListener {
 
 
-    public static String TAG = SampleFragment.class.getSimpleName();
+    public static String TAG = PTHLaunchFragment.class.getSimpleName();
     private FragmentLauncher fragmentLauncher;
     private TextView welcomeTextView;
 
@@ -74,7 +72,7 @@ public class SampleFragment extends Fragment implements BackEventListener {
         }
         Bundle arguments = getArguments();
         if (arguments != null) {
-            String message = arguments.getString(SampleMicroAppInterface.WELCOME_MESSAGE);
+            String message = arguments.getString(PTHMicroAppInterface.WELCOME_MESSAGE);
             welcomeTextView.setText(message);
 
 

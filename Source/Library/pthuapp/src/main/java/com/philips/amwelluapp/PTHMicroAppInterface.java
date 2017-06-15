@@ -14,7 +14,7 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 
-public class SampleMicroAppInterface implements UappInterface {
+public class PTHMicroAppInterface implements UappInterface {
     private Context context;
     public static String WELCOME_MESSAGE = "welcome_message";
     /**
@@ -31,22 +31,22 @@ public class SampleMicroAppInterface implements UappInterface {
      */
     @Override
     public void launch(final UiLauncher uiLauncher, final UappLaunchInput uappLaunchInput) {
-        SampleMicroAppLaunchInput sampleMicroAppLaunchInput = (SampleMicroAppLaunchInput) uappLaunchInput;
+        PTHMicroAppLaunchInput PTHMicroAppLaunchInput = (PTHMicroAppLaunchInput) uappLaunchInput;
         if (uiLauncher instanceof ActivityLauncher) {
-            Intent intent = new Intent(context, SampleActivity.class);
-            intent.putExtra(WELCOME_MESSAGE, sampleMicroAppLaunchInput.getWelcomeMessage());
+            Intent intent = new Intent(context, PTHLaunchActivity.class);
+            intent.putExtra(WELCOME_MESSAGE, PTHMicroAppLaunchInput.getWelcomeMessage());
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } else {
             final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             FragmentTransaction fragmentTransaction = (fragmentLauncher.getFragmentActivity()).getSupportFragmentManager().beginTransaction();
-            SampleFragment sampleFragment = new SampleFragment();
+            PTHLaunchFragment PTHLaunchFragment = new PTHLaunchFragment();
             Bundle bundle = new Bundle();
-            bundle.putString(WELCOME_MESSAGE,sampleMicroAppLaunchInput.getWelcomeMessage());
-            sampleFragment.setArguments(bundle);
-            sampleFragment.setFragmentLauncher(fragmentLauncher);
-            fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), sampleFragment, SampleFragment.TAG);
-            fragmentTransaction.addToBackStack(SampleFragment.TAG);
+            bundle.putString(WELCOME_MESSAGE, PTHMicroAppLaunchInput.getWelcomeMessage());
+            PTHLaunchFragment.setArguments(bundle);
+            PTHLaunchFragment.setFragmentLauncher(fragmentLauncher);
+            fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), PTHLaunchFragment, PTHLaunchFragment.TAG);
+            fragmentTransaction.addToBackStack(PTHLaunchFragment.TAG);
             fragmentTransaction.commitAllowingStateLoss();
         }
     }
