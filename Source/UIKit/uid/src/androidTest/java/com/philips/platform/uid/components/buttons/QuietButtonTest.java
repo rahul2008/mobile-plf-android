@@ -114,19 +114,19 @@ public class QuietButtonTest {
 
     @Test
     public void verifyQuietTextOnlyButtonFontColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonQuietNormalTextColor);
+        final int expectedColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonQuietEmphasisNormalTextColor);
         getQuietButton().check(matches(TextViewPropertiesMatchers.isSameTextColorWithReflection(2, expectedColor)));
     }
 
     @Test
     public void verifyQuietTextOnlyPressedButtonFontColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonQuietPressedTextColor);
+        final int expectedColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonQuietEmphasisPressedIconColor);
         getQuietButton().check(matches(TextViewPropertiesMatchers.isSameTextColorWithReflection(1, expectedColor)));
     }
 
     @Test
     public void verifyQuietTextOnlyDisabledButtonFontColor() {
-        final int disabledTextColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonQuietDisabledTextColor);
+        final int disabledTextColor = UIDTestUtils.getAttributeColor(context, R.attr.uidButtonQuietEmphasisDisabledTextColor);
         getQuietButton().check(matches(TextViewPropertiesMatchers.isSameTextColorWithReflection(0, disabledTextColor)));
     }
 

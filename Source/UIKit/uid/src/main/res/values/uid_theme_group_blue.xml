@@ -24,33 +24,73 @@
     <item name="uidButtonAccentNormalBackgroundColor">?attr/uidAccentLevel45</item><!-- uidControlAccent -->
     <item name="uidButtonAccentNormalIconColor">@color/uid_level_white</item><!-- uidControlAccentText -->
     <item name="uidButtonAccentNormalTextColor">@color/uid_level_white</item><!-- uidControlAccentText -->
-    <item name="uidButtonAccentFocusBorderColor">?attr/uidAccentLevel45</item><!-- uidControlAccentFocus -->
+    <item name="uidButtonAccentFocusBackgroundColor">?attr/uidAccentLevel45
+    </item><!-- uidControlAccentFocus -->
+    <item name="uidButtonAccentFocusBorderColor">?attr/uidAccentLevel45
+    </item><!-- uidControlAccentFocusBorder -->
     <item name="uidButtonAccentPressedBackgroundColor">?attr/uidAccentLevel55</item><!-- uidControlAccentPressed -->
     <item name="uidButtonAccentDisabledBackgroundColor">?attr/uidAccentLevel45</item><!-- uidControlAccentDisabled -->
-    <item name="uidButtonAccentDisabledIconColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
-    <item name="uidButtonAccentDisabledTextColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
+    <item name="uidButtonAccentDisabledIconColor">#80FFFFFF
+    </item><!-- uidControlAccentTextDisabled -->
+    <item name="uidButtonAccentDisabledTextColor">#80FFFFFF
+    </item><!-- uidControlAccentTextDisabled -->
+    <item name="uidButtonInputNormalArrowIconColor">@color/uid_gray_level_75
+    </item><!-- uidArrowIcon -->
+    <item name="uidButtonInputNormalBackgroundColor">@color/uid_level_white</item><!-- uidInput -->
+    <item name="uidButtonInputNormalIconColor">@color/uid_gray_level_75</item><!-- uidInputText -->
+    <item name="uidButtonInputFocusBackgroundColor">#00FFFFFF</item><!-- uidInputButtonHover -->
+    <item name="uidButtonInputPressedBackgroundColor">@color/uid_group_blue_level_10
+    </item><!-- uidInputPressed -->
+    <item name="uidButtonInputDisabledArrowIconColor">#59212121</item><!-- uidArrowIconDisabled -->
+    <item name="uidButtonInputDisabledBackgroundColor">#59FFFFFF</item><!-- uidInputDisabled -->
+    <item name="uidButtonInputDisabledIconColor">#59212121</item><!-- uidInputTextDisabled -->
     <item name="uidButtonPrimaryNormalBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
     <item name="uidButtonPrimaryNormalIconColor">@color/uid_level_white</item><!-- uidControlPrimaryText -->
     <item name="uidButtonPrimaryNormalTextColor">@color/uid_level_white</item><!-- uidControlPrimaryText -->
-    <item name="uidButtonPrimaryFocusBorderColor">#331474A4</item><!-- uidControlPrimaryFocus -->
+    <item name="uidButtonPrimaryFocusBackgroundColor">@color/uid_group_blue_level_45
+    </item><!-- uidControlPrimaryFocus -->
+    <item name="uidButtonPrimaryFocusBorderColor">#331474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
     <item name="uidButtonPrimaryProgressBackgroundColor">#591474A4</item><!-- uidControlPrimaryDisabled -->
     <item name="uidButtonPrimaryPressedBackgroundColor">@color/uid_group_blue_level_55</item><!-- uidControlPrimaryPressed -->
     <item name="uidButtonPrimaryDisabledBackgroundColor">#591474A4</item><!-- uidControlPrimaryDisabled -->
     <item name="uidButtonPrimaryDisabledIconColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
     <item name="uidButtonPrimaryDisabledTextColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
-    <item name="uidButtonQuietNormalIconColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
-    <item name="uidButtonQuietNormalTextColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
-    <item name="uidButtonQuietFocusBackgroundColor">#331474A4</item><!-- uidControlPrimaryFocus -->
-    <item name="uidButtonQuietFocusIconColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
-    <item name="uidButtonQuietFocusTextColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
-    <item name="uidButtonQuietPressedIconColor">@color/uid_group_blue_level_55</item><!-- uidControlPrimaryPressed -->
-    <item name="uidButtonQuietPressedTextColor">@color/uid_group_blue_level_55</item><!-- uidControlPrimaryPressed -->
-    <item name="uidButtonQuietDisabledIconColor">#591474A4</item><!-- uidControlPrimaryDisabled -->
-    <item name="uidButtonQuietDisabledTextColor">#591474A4</item><!-- uidControlPrimaryDisabled -->
+    <item name="uidButtonQuietDefaultNormalIconColor">#CC212121</item><!-- uidTextSecondary -->
+    <item name="uidButtonQuietDefaultNormalTextColor">#CC212121</item><!-- uidTextSecondary -->
+    <item name="uidButtonQuietDefaultFocusIconColor">@color/uid_gray_level_75
+    </item><!-- uidTextPrimary -->
+    <item name="uidButtonQuietDefaultFocusTextColor">@color/uid_gray_level_75
+    </item><!-- uidTextPrimary -->
+    <item name="uidButtonQuietDefaultPressedIconColor">#80212121</item><!-- uidTextTertiary -->
+    <item name="uidButtonQuietDefaultPressedTextColor">#80212121</item><!-- uidTextTertiary -->
+    <item name="uidButtonQuietDefaultDisabledIconColor">#59212121</item><!-- uidTextDisabled -->
+    <item name="uidButtonQuietDefaultDisabledTextColor">#59212121</item><!-- uidTextDisabled -->
+    <item name="uidButtonQuietEmphasisNormalIconColor">@color/uid_group_blue_level_45
+    </item><!-- uidControlPrimary -->
+    <item name="uidButtonQuietEmphasisNormalTextColor">@color/uid_group_blue_level_45
+    </item><!-- uidControlPrimary -->
+    <item name="uidButtonQuietEmphasisFocusBackgroundColor">#331474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
+    <item name="uidButtonQuietEmphasisFocusIconColor">@color/uid_group_blue_level_45
+    </item><!-- uidControlPrimary -->
+    <item name="uidButtonQuietEmphasisFocusTextColor">@color/uid_group_blue_level_45
+    </item><!-- uidControlPrimary -->
+    <item name="uidButtonQuietEmphasisPressedIconColor">@color/uid_group_blue_level_55
+    </item><!-- uidControlPrimaryPressed -->
+    <item name="uidButtonQuietEmphasisPressedTextColor">@color/uid_group_blue_level_55
+    </item><!-- uidControlPrimaryPressed -->
+    <item name="uidButtonQuietEmphasisDisabledIconColor">#591474A4
+    </item><!-- uidControlPrimaryDisabled -->
+    <item name="uidButtonQuietEmphasisDisabledTextColor">#591474A4
+    </item><!-- uidControlPrimaryDisabled -->
     <item name="uidButtonSecondaryNormalBackgroundColor">@color/uid_group_blue_level_15</item><!-- uidControlSecondary -->
     <item name="uidButtonSecondaryNormalIconColor">@color/uid_group_blue_level_75</item><!-- uidControlSecondaryText -->
     <item name="uidButtonSecondaryNormalTextColor">@color/uid_group_blue_level_75</item><!-- uidControlSecondaryText -->
-    <item name="uidButtonSecondaryFocusBorderColor">#33BFE2EB</item><!-- uidControlSecondaryFocus -->
+    <item name="uidButtonSecondaryFocusBackgroundColor">@color/uid_group_blue_level_15
+    </item><!-- uidControlSecondaryFocus -->
+    <item name="uidButtonSecondaryFocusBorderColor">#33BFE2EB
+    </item><!-- uidControlSecondaryFocusBorder -->
     <item name="uidButtonSecondaryPressedBackgroundColor">@color/uid_group_blue_level_25</item><!-- uidControlSecondaryPressed -->
     <item name="uidButtonSecondaryDisabledBackgroundColor">#80BFE2EB</item><!-- uidControlSecondaryDisabled -->
     <item name="uidButtonSecondaryDisabledIconColor">#801C2D66</item><!-- uidControlSecondaryTextDisabled -->
@@ -65,32 +105,24 @@
     <item name="uidCarouselDefaultPressedIconColor">@color/uid_gray_level_75</item><!-- uidTextPrimary -->
     <item name="uidCarouselDefaultDisabledIconColor">#59212121</item><!-- uidTextPrimaryDisabled -->
     <item name="uidCarouselDefaultTitleTextColor">@color/uid_gray_level_75</item><!-- uidTextPrimary -->
-    <item name="uidCheckBoxDefaultNormalIconColor">@color/uid_level_white</item><!-- uidControlPrimaryText -->
-    <item name="uidCheckBoxDefaultNormalOnIconColor">@color/uid_level_white</item><!-- uidControlPrimaryText -->
-    <item name="uidCheckBoxDefaultNormalTextColor">@color/uid_gray_level_75</item><!-- uidTextPrimary -->
     <item name="uidCheckBoxDefaultNormalOnBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
+    <item name="uidCheckBoxDefaultNormalOnIconColor">@color/uid_level_white
+    </item><!-- uidControlPrimaryText -->
     <item name="uidCheckBoxDefaultNormalOffBackgroundColor">#991474A4</item><!-- uidControlPrimaryOff -->
-    <item name="uidCheckBoxDefaultFocusBorderColor">#331474A4</item><!-- uidControlPrimaryFocus -->
-    <item name="uidCheckBoxDefaultPressedBorderColor">#331474A4</item><!-- uidControlPrimaryFocus -->
+    <item name="uidCheckBoxDefaultFocusBorderColor">#331474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
+    <item name="uidCheckBoxDefaultPressedBorderColor">#331474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
     <item name="uidCheckBoxDefaultDisabledBackgroundColor">#591474A4</item><!-- uidControlPrimaryDisabled -->
-    <item name="uidCheckBoxDefaultDisabledIconColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
-    <item name="uidCheckBoxDefaultDisabledTextColor">#59212121</item><!-- uidTextPrimaryDisabled -->
-    <item name="uidComboBoxDefaultNormalArrowIconColor">@color/uid_gray_level_75</item><!-- uidInputText -->
-    <item name="uidComboBoxDefaultNormalButtonColor">#00FFFFFF</item><!-- uidNoColor -->
-    <item name="uidComboBoxDefaultNormalSeparatorColor">@color/uid_gray_level_20</item><!-- uidInputSeparator -->
-    <item name="uidComboBoxDefaultFocusButtonColor">@color/uid_group_blue_level_10</item><!-- uidInputButtonPressed -->
-    <item name="uidComboBoxDefaultFocusSeparatorColor">@color/uid_gray_level_20</item><!-- uidInputSeparator -->
-    <item name="uidComboBoxDefaultPressedButtonColor">@color/uid_group_blue_level_10</item><!-- uidInputButtonPressed -->
-    <item name="uidComboBoxDefaultPressedSeparatorColor">@color/uid_gray_level_20</item><!-- uidInputSeparator -->
-    <item name="uidComboBoxDefaultDisabledArrowIconColor">#59212121</item><!-- uidInputTextDisabled -->
-    <item name="uidComboBoxDefaultDisabledButtonColor">#00FFFFFF</item><!-- uidNoColor -->
-    <item name="uidComboBoxDefaultDisabledSeparatorColor">#59C4C4C4</item><!-- uidInputSeparatorDisabled -->
+    <item name="uidCheckBoxDefaultDisabledIconColor">#80FFFFFF
+    </item><!-- uidControlPrimaryDetailDisabled -->
     <item name="uidContentPrimaryBackgroundColor">@color/uid_level_white</item><!-- uidContentPrimary -->
     <item name="uidContentSecondaryBackgroundColor">@color/uid_group_blue_level_5</item><!-- uidContentSecondary -->
     <item name="uidContentTertiaryBackgroundColor">@color/uid_group_blue_level_10</item><!-- uidContentTertiary -->
     <item name="uidContentItemDefaultNormalArrowIconColor">#80212121</item><!-- uidTextTertiary -->
     <item name="uidContentItemDefaultNormalBodyTextColor">@color/uid_gray_level_75</item><!-- uidTextPrimary -->
-    <item name="uidContentItemDefaultNormalChevronIconColor">#80212121</item><!-- uidTextTertiary -->
+    <item name="uidContentItemDefaultNormalChevronIconColor">#CC212121
+    </item><!-- uidTextSecondary -->
     <item name="uidContentItemDefaultNormalDescriptorIconColor">#80212121</item><!-- uidTextTertiary -->
     <item name="uidContentItemDefaultNormalDescriptorTextColor">#80212121</item><!-- uidTextTertiary -->
     <item name="uidContentItemDefaultNormalDetailTextColor">#80212121</item><!-- uidTextTertiary -->
@@ -114,6 +146,7 @@
     <item name="uidDataVisualizationChartsDisabledLegendIndicator3Color">#597CC0D9</item><!-- uidDataColor3Disabled -->
     <item name="uidDataVisualizationChartsDisabledLegendIndicator4Color">#591B578E</item><!-- uidDataColor4Disabled -->
     <item name="uidDataVisualizationChartsDisabledLegendTextColor">#59383838</item><!-- uidTextSecondaryDisabled -->
+    <item name="uidDataVisualizationChartsAxisColor">#1A212121</item><!-- uidSeparator -->
     <item name="uidDataVisualizationChartsAxisLabelTextColor">#80212121</item><!-- uidTextTertiary -->
     <item name="uidDataVisualizationChartsGridlinesColor">#1A212121</item><!-- uidSeparator -->
     <item name="uidDataVisualizationChartsLegendIndicator1Color">@color/uid_group_blue_level_45</item><!-- uidDataColor1 -->
@@ -150,19 +183,10 @@
     <item name="uidDatePickerAndroidNormalOnHeaderTextColor">@color/uid_group_blue_level_45</item><!-- uidNavigationText -->
     <item name="uidDatePickerIosNormalTextColor">@color/uid_gray_level_75</item><!-- uidTextPrimary -->
     <item name="uidDialogAlertDefaultBackgroundColor">@color/uid_level_white</item><!-- uidPopup -->
-    <item name="uidDialogAlertDefaultBodyIconColor">#CC212121</item><!-- uidTextSecondary -->
-    <item name="uidDialogAlertDefaultBodyTextColor">#CC212121</item><!-- uidTextSecondary -->
-    <item name="uidDialogAlertDefaultCloseIconColor">@color/uid_gray_level_75</item><!-- uidTextPrimary -->
-    <item name="uidDialogAlertDefaultTitleIconColor">@color/uid_gray_level_75</item><!-- uidTextPrimary -->
-    <item name="uidDialogAlertDefaultTitleTextColor">@color/uid_gray_level_75</item><!-- uidTextPrimary -->
     <item name="uidDimLayerStrongBackgroundColor">#CC0A0C1E</item><!-- uidDimStrong -->
     <item name="uidDimLayerSubtleBackgroundColor">#4D0A0C1E</item><!-- uidDimSubtle -->
     <item name="uidDotNavigationDefaultNormalOnBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidDotActive -->
     <item name="uidDotNavigationDefaultNormalOffBackgroundColor">#591474A4</item><!-- uidDot -->
-    <item name="uidDropdownListDefaultNormalArrowIconColor">@color/uid_gray_level_75</item><!-- uidInputText -->
-    <item name="uidDropdownListDefaultNormalIconColor">@color/uid_gray_level_75</item><!-- uidInputText -->
-    <item name="uidDropdownListDefaultDisabledArrowIconColor">#59212121</item><!-- uidInputTextDisabled -->
-    <item name="uidDropdownListDefaultDisabledIconColor">#59212121</item><!-- uidInputTextDisabled -->
     <item name="uidGridViewBackgroundDarkBackgroundColor">@color/uid_group_blue_level_90</item><!-- uidGridViewBackgroundDark -->
     <item name="uidGridViewBackgroundDarkHeaderTextColor">#80FFFFFF</item><!-- uidLightTextTertiary -->
     <item name="uidGridViewBackgroundLightBackgroundColor">@color/uid_level_white</item><!-- uidGridViewBackgroundLight -->
@@ -179,24 +203,35 @@
     <item name="uidHyperlinkDefaultNormalTextColor">@color/uid_group_blue_level_45</item><!-- uidHyperlinkNormal -->
     <item name="uidHyperlinkDefaultVisitedTextColor">#B21474A4</item><!-- uidHyperlinkVisited -->
     <item name="uidHyperlinkDefaultPressedTextColor">@color/uid_group_blue_level_65</item><!-- uidHyperlinkPressed -->
-    <item name="uidLabelRegularNormalIconColor">#80212121</item><!-- uidTextTertiary -->
-    <item name="uidLabelRegularNormalTextColor">#80212121</item><!-- uidTextTertiary -->
-    <item name="uidLabelRegularDisabledIconColor">#40383838</item><!-- uidTextTertiaryDisabled -->
-    <item name="uidLabelRegularDisabledTextColor">#40383838</item><!-- uidTextTertiaryDisabled -->
-    <item name="uidLabelValueNormalIconColor">@color/uid_gray_level_75</item><!-- uidTextPrimary -->
+    <item name="uidLabelDescriptorNormalTextColor">#80212121</item><!-- uidTextTertiary -->
+    <item name="uidLabelDescriptorDisabledTextColor">#59212121</item><!-- uidTextDisabled -->
+    <item name="uidLabelRegularNormalTextColor">#CC212121</item><!-- uidTextSecondary -->
+    <item name="uidLabelRegularDisabledTextColor">#59212121</item><!-- uidTextDisabled -->
     <item name="uidLabelValueNormalTextColor">@color/uid_gray_level_75</item><!-- uidTextPrimary -->
-    <item name="uidLabelValueDisabledIconColor">#59212121</item><!-- uidTextPrimaryDisabled -->
-    <item name="uidLabelValueDisabledTextColor">#59212121</item><!-- uidTextPrimaryDisabled -->
+    <item name="uidLabelValueDisabledTextColor">#59212121</item><!-- uidTextDisabled -->
     <item name="uidListItemDefaultNormalOnBackgroundColor">#1A1474A4</item><!-- uidListSelected -->
+    <item name="uidListItemDefaultNormalOnIconColor">@color/uid_group_blue_level_45
+    </item><!-- uidIconOn -->
+    <item name="uidListItemDefaultNormalOnTextColor">@color/uid_group_blue_level_45
+    </item><!-- uidItemOn -->
+    <item name="uidListItemDefaultNormalOffBackgroundColor">#00FFFFFF</item><!-- uidNoColor -->
+    <item name="uidListItemDefaultNormalOffIconColor">#80212121</item><!-- uidIconOff -->
+    <item name="uidListItemDefaultNormalOffTextColor">#CC212121</item><!-- uidTextOff -->
     <item name="uidListItemDefaultFocusBackgroundColor">#0D212121</item><!-- uidListFocus -->
     <item name="uidListItemDefaultPressedBackgroundColor">#1A1474A4</item><!-- uidListSelected -->
+    <item name="uidMenuItemDefaultNormalOnBackgroundColor">#1A212121</item><!-- uidSeparator -->
+    <item name="uidMenuItemDefaultNormalOffBackgroundColor">#00FFFFFF</item><!-- uidNoColor -->
+    <item name="uidMovieBarClinicalBackgroundColor">#00FFFFFF</item><!-- uidNotYetDefined -->
     <item name="uidNavigationPrimaryBackgroundColor">@color/uid_level_white</item><!-- uidNavigationPrimary -->
     <item name="uidNavigationPrimaryIconColor">@color/uid_group_blue_level_45</item><!-- uidNavigationText -->
     <item name="uidNavigationPrimaryTextColor">@color/uid_group_blue_level_45</item><!-- uidNavigationText -->
     <item name="uidNavigationSecondaryBackgroundColor">@color/uid_group_blue_level_5</item><!-- uidNavigationSecondary -->
     <item name="uidNavigationSecondaryIconColor">@color/uid_group_blue_level_45</item><!-- uidNavigationText -->
     <item name="uidNavigationSecondaryTextColor">@color/uid_group_blue_level_45</item><!-- uidNavigationText -->
-    <item name="uidNotificationBadgeDefaultBackgroundColor">@color/uid_signal_red_level_60</item><!-- uidControlNotification -->
+    <item name="uidNotificationBadgeDefaultAccentBackgroundColor">?attr/uidAccentLevel45
+    </item><!-- uidControlAccent -->
+    <item name="uidNotificationBadgeDefaultBackgroundColor">@null
+    </item><!-- uidControlNotification -->
     <item name="uidNotificationBadgeDefaultTextColor">@color/uid_level_white</item><!-- uidControlAccentText -->
     <item name="uidNotificationBadgeOptionBackgroundColor">?attr/uidAccentLevel45</item><!-- uidControlAccent -->
     <item name="uidNotificationBadgeOptionTextColor">@color/uid_level_white</item><!-- uidControlAccentText -->
@@ -213,20 +248,20 @@
     <item name="uidNotificationBarWhiteNormalPrimaryTextColor">@color/uid_gray_level_75</item><!-- uidGrayPrimaryText -->
     <item name="uidNotificationBarWhiteNormalSecondaryTextColor">@color/uid_gray_level_65</item><!-- uidGraySecondaryText -->
     <item name="uidPopupDefaultNormalBackgroundColor">@color/uid_level_white</item><!-- uidPopup -->
-    <item name="uidRadioButtonDefaultNormalTextColor">@color/uid_gray_level_75</item><!-- uidTextPrimary -->
     <item name="uidRadioButtonDefaultNormalOnBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
     <item name="uidRadioButtonDefaultNormalOnIconColor">@color/uid_level_white</item><!-- uidControlPrimaryText -->
     <item name="uidRadioButtonDefaultNormalOffBackgroundColor">#991474A4</item><!-- uidControlPrimaryOff -->
-    <item name="uidRadioButtonDefaultFocusBorderColor">#331474A4</item><!-- uidControlPrimaryFocus -->
-    <item name="uidRadioButtonDefaultPressedBorderColor">#331474A4</item><!-- uidControlPrimaryFocus -->
+    <item name="uidRadioButtonDefaultFocusBorderColor">#331474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
+    <item name="uidRadioButtonDefaultPressedBorderColor">#331474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
     <item name="uidRadioButtonDefaultDisabledBackgroundColor">#591474A4</item><!-- uidControlPrimaryDisabled -->
-    <item name="uidRadioButtonDefaultDisabledIconColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
-    <item name="uidRadioButtonDefaultDisabledTextColor">#59212121</item><!-- uidTextPrimaryDisabled -->
+    <item name="uidRadioButtonDefaultDisabledIconColor">#80FFFFFF
+    </item><!-- uidControlPrimaryDetailDisabled -->
     <item name="uidRatingBarDefaultNormalOnIconColor">@color/uid_signal_orange_level_60</item><!-- uidRatingStarOn -->
     <item name="uidRatingBarDefaultNormalOnTextColor">@color/uid_signal_orange_level_60</item><!-- uidRatingTextOn -->
     <item name="uidRatingBarDefaultNormalOffIconColor">#40212121</item><!-- uidRatingStarOff -->
     <item name="uidRatingBarDefaultNormalOffTextColor">#80212121</item><!-- uidTextTertiary -->
-    <item name="uidScrollbarDefaultNormalBackgroundColor">#4DFFFFFF</item><!-- uidScrollbar -->
     <item name="uidSearchBoxAndroidDefaultNormalClearIconColor">#80212121</item><!-- uidNeutralTextTertiary -->
     <item name="uidSearchBoxAndroidDefaultNormalHintTextColor">@color/uid_gray_level_35</item><!-- uidInputHintText -->
     <item name="uidSearchBoxAndroidDefaultNormalInputBackgroundColor">@color/uid_level_white</item><!-- uidInput -->
@@ -249,19 +284,33 @@
     <item name="uidSearchBoxIosProminentNormalCancelTextColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
     <item name="uidSearchBoxIosProminentNormalSearchbarBackgroundColor">@color/uid_level_white</item><!-- uidContentPrimary -->
     <item name="uidSearchBoxIosProminentPressedCancelTextColor">@color/uid_group_blue_level_55</item><!-- uidControlPrimaryPressed -->
-    <item name="uidSeparatorButtonSeparatorNormalBackgroundColor">@color/uid_gray_level_20</item><!-- uidInputSeparator -->
-    <item name="uidSeparatorButtonSeparatorDisabledBackgroundColor">#59C4C4C4</item><!-- uidInputSeparatorDisabled -->
-    <item name="uidSeparatorContentSeparatorNormalBackgroundColor">#1A212121</item><!-- uidSeparator -->
-    <item name="uidSeparatorInputSeparatorNormalBackgroundColor">@color/uid_gray_level_20</item><!-- uidInputSeparator -->
-    <item name="uidSeparatorInputSeparatorDisabledBackgroundColor">#59C4C4C4</item><!-- uidInputSeparatorDisabled -->
+    <item name="uidSeparatorButtonNormalBackgroundColor">#4D439AC1</item><!-- uidButtonSeparator -->
+    <item name="uidSeparatorButtonDisabledBackgroundColor">#1A439AC1
+    </item><!-- uidButtonSeparatorDisabled -->
+    <item name="uidSeparatorContentNormalBackgroundColor">#1A212121</item><!-- uidSeparator -->
+    <item name="uidSeparatorInputNormalBackgroundColor">@color/uid_gray_level_20
+    </item><!-- uidInputSeparator -->
+    <item name="uidSeparatorInputDisabledBackgroundColor">#59C4C4C4
+    </item><!-- uidInputSeparatorDisabled -->
     <item name="uidShadowLevelOneNormalShadowColor">#33000000</item><!-- uidShadowLevelOne -->
     <item name="uidShadowLevelOneDisabledShadowColor">#1A000000</item><!-- uidShadowLevelOneDisabled -->
     <item name="uidShadowLevelThreeNormalShadowColor">#33000000</item><!-- uidShadowLevelThree -->
     <item name="uidShadowLevelTwoNormalShadowColor">#33000000</item><!-- uidShadowLevelTwo -->
-    <item name="uidSidebarContentPrimaryBackgroundColor">@color/uid_level_white</item><!-- uidContentPrimary -->
-    <item name="uidSidebarContentSecondaryBackgroundColor">@color/uid_group_blue_level_5</item><!-- uidContentSecondary -->
-    <item name="uidSidebarNavigationPrimaryBackgroundColor">@color/uid_level_white</item><!-- uidNavigationPrimary -->
-    <item name="uidSidebarNavigationSecondaryBackgroundColor">@color/uid_group_blue_level_5</item><!-- uidNavigationSecondary -->
+    <item name="uidSplitToggleButtonDefaultNormalOnBackgroundColor">@color/uid_group_blue_level_45
+    </item><!-- uidToggleOn -->
+    <item name="uidSplitToggleButtonDefaultNormalOnIconColor">@color/uid_level_white
+    </item><!-- uidToggleOnIcon -->
+    <item name="uidSplitToggleButtonDefaultNormalOnTextColor">@color/uid_level_white
+    </item><!-- uidToggleOnText -->
+    <item name="uidSplitToggleButtonDefaultPressedOnBackgroundColor">
+      @color/uid_group_blue_level_45
+    </item><!-- uidTogglePressed -->
+    <item name="uidSplitToggleButtonDefaultDisabledOnBackgroundColor">#331474A4
+    </item><!-- uidToggleOnDisabled -->
+    <item name="uidSplitToggleButtonDefaultDisabledOnIconColor">#B2FFFFFF
+    </item><!-- uidToggleOnTextDisabled -->
+    <item name="uidSplitToggleButtonDefaultDisabledOnTextColor">#B2FFFFFF
+    </item><!-- uidToggleOnTextDisabled -->
     <item name="uidSpringBoardDefaultNormalBackgroundColor">@color/uid_level_white</item><!-- uidContentPrimary -->
     <item name="uidSpringBoardDefaultNormalIconColor">@color/uid_group_blue_level_45</item><!-- uidSpringboardIcon -->
     <item name="uidSpringBoardDefaultNormalTextColor">@color/uid_gray_level_75</item><!-- uidPrimaryText -->
@@ -283,10 +332,18 @@
     <item name="uidStatusBarIosBackgroundColor">@color/uid_level_white</item><!-- uidStatusBarIos -->
     <item name="uidStatusBarIosIconColor">@color/uid_level_black</item><!-- uidStatusBarIosText -->
     <item name="uidStatusBarIosTextColor">@color/uid_level_black</item><!-- uidStatusBarIosText -->
-    <item name="uidTabsDefaultNormalTextColor">@color/uid_group_blue_level_45</item><!-- uidTabsNormal -->
-    <item name="uidTabsDefaultNormalOnIndicatorColor">@color/uid_group_blue_level_45</item><!-- uidTabsOn -->
-    <item name="uidTabsDefaultNormalOnTextColor">@color/uid_group_blue_level_45</item><!-- uidTabsOn -->
-    <item name="uidTabsDefaultPressedTextColor">@color/uid_group_blue_level_45</item><!-- uidTabsOn -->
+    <item name="uidTabsDefaultNormalOnIconColor">@color/uid_group_blue_level_45
+    </item><!-- uidItemOn -->
+    <item name="uidTabsDefaultNormalOnIndicatorColor">@color/uid_group_blue_level_45
+    </item><!-- uidItemOn -->
+    <item name="uidTabsDefaultNormalOnTextColor">@color/uid_group_blue_level_45
+    </item><!-- uidItemOn -->
+    <item name="uidTabsDefaultNormalOffIconColor">#80212121</item><!-- uidTextTertiary -->
+    <item name="uidTabsDefaultNormalOffTextColor">#CC212121</item><!-- uidTextSecondary -->
+    <item name="uidTabsDefaultPressedOffIconColor">@color/uid_gray_level_75
+    </item><!-- uidTextPrimary -->
+    <item name="uidTabsDefaultPressedOffTextColor">@color/uid_gray_level_75
+    </item><!-- uidTextPrimary -->
     <item name="uidTextDisabledTextColor">#59212121</item><!-- uidTextDisabled -->
     <item name="uidTextEmphasisTextColor">@color/uid_group_blue_level_45</item><!-- uidTextEmphasis -->
     <item name="uidTextEmphasisDisabledTextColor">#591474A4</item><!-- uidTextEmphasisDisabled -->
@@ -299,10 +356,15 @@
     <item name="uidTextBoxDefaultNormalBorderColor">@color/uid_gray_level_20</item><!-- uidInputBorder -->
     <item name="uidTextBoxDefaultNormalClearIconColor">#B2383838</item><!-- uidGrayTertiaryText -->
     <item name="uidTextBoxDefaultNormalHintTextColor">@color/uid_gray_level_35</item><!-- uidInputHintText -->
-    <item name="uidTextBoxDefaultNormalTextColor">@color/uid_gray_level_75</item><!-- uidInputText -->
+    <item name="uidTextBoxDefaultNormalTextColor">@color/uid_gray_level_75
+    </item><!-- uidTextPrimaryVdg -->
     <item name="uidTextBoxDefaultFocusBackgroundColor">@color/uid_level_white</item><!-- uidInputFocus -->
     <item name="uidTextBoxDefaultFocusBorderColor">@color/uid_group_blue_level_45</item><!-- uidInputBorderFocus -->
     <item name="uidTextBoxDefaultFocusOutlineColor">#00FFFFFF</item><!-- uidInputOutline -->
+    <item name="uidTextBoxDefaultFocusSelectionBackgroundColor">#00FFFFFF
+    </item><!-- uidInputTextSelectionBackground -->
+    <item name="uidTextBoxDefaultFocusSelectionTextColor">@color/uid_gray_level_75
+    </item><!-- uidTextPrimaryVdg -->
     <item name="uidTextBoxDefaultValidatedBackgroundColor">#FFF1D3</item><!-- uidInputValidatedBackground -->
     <item name="uidTextBoxDefaultValidatedBorderColor">@color/uid_signal_orange_level_60</item><!-- uidInputValidatedBorder -->
     <item name="uidTextBoxDefaultValidatedTextColor">@color/uid_signal_orange_level_75</item><!-- uidInputValidatedText -->
@@ -320,19 +382,33 @@
     <item name="uidTextBoxInlineNormalTextColor">@color/uid_gray_level_75</item><!-- uidTextPrimary -->
     <item name="uidTextBoxInlineFocusTextColor">@color/uid_gray_level_75</item><!-- uidTextPrimary -->
     <item name="uidThumbDefaultNormalBackgroundColor">@color/uid_level_white</item><!-- uidThumb -->
-    <item name="uidThumbDefaultFocusBorderColor">#331474A4</item><!-- uidControlPrimaryFocus -->
-    <item name="uidThumbDefaultPressedBorderColor">#331474A4</item><!-- uidControlPrimaryFocus -->
+    <item name="uidThumbDefaultFocusBorderColor">#331474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
+    <item name="uidThumbDefaultPressedBorderColor">#331474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
     <item name="uidThumbDefaultDisabledBackgroundColor">@color/uid_group_blue_level_10</item><!-- uidThumbDisabled -->
-    <item name="uidThumbDefaultDisabledTextColor">#59212121</item><!-- uidTextPrimaryDisabled -->
+    <item name="uidThumbScrollbarNormalBackgroundColor">#73212121</item><!-- uidScrollbar -->
+    <item name="uidThumbScrollbarPressedBackgroundColor">#8C212121</item><!-- uidScrollbarHover -->
+    <item name="uidThumbScrollbarDisabledBackgroundColor">#26212121
+    </item><!-- uidScrollbarDisabled -->
     <item name="uidToggleButtonDefaultNormalOnBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidToggleOn -->
-    <item name="uidToggleButtonDefaultNormalOnIconColor">@color/uid_level_white</item><!-- uidToggleOnText -->
+    <item name="uidToggleButtonDefaultNormalOnIconColor">@color/uid_level_white
+    </item><!-- uidToggleOnIcon -->
+    <item name="uidToggleButtonDefaultNormalOnIndicatorColor">#00FFFFFF
+    </item><!-- uidIndicatorOn -->
     <item name="uidToggleButtonDefaultNormalOnTextColor">@color/uid_level_white</item><!-- uidToggleOnText -->
     <item name="uidToggleButtonDefaultNormalOffBackgroundColor">#331474A4</item><!-- uidToggleOff -->
-    <item name="uidToggleButtonDefaultNormalOffIconColor">#801B578E</item><!-- uidToggleOffText -->
+    <item name="uidToggleButtonDefaultNormalOffIconColor">#801B578E</item><!-- uidToggleOffIcon -->
+    <item name="uidToggleButtonDefaultNormalOffIndicatorColor">#00FFFFFF
+    </item><!-- uidIndicatorOff -->
     <item name="uidToggleButtonDefaultNormalOffTextColor">#801B578E</item><!-- uidToggleOffText -->
-    <item name="uidToggleButtonDefaultPressedBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidToggleOn -->
-    <item name="uidToggleButtonDefaultPressedIconColor">@color/uid_level_white</item><!-- uidToggleOnText -->
+    <item name="uidToggleButtonDefaultPressedBackgroundColor">@color/uid_group_blue_level_45
+    </item><!-- uidTogglePressed -->
+    <item name="uidToggleButtonDefaultPressedIconColor">@color/uid_level_white
+    </item><!-- uidToggleOnIcon -->
     <item name="uidToggleButtonDefaultPressedTextColor">@color/uid_level_white</item><!-- uidToggleOnText -->
+    <item name="uidToggleButtonDefaultDisabledIndicatorColor">#00FFFFFF
+    </item><!-- uidIndicatorDisabled -->
     <item name="uidToggleButtonDefaultDisabledOnBackgroundColor">#331474A4</item><!-- uidToggleOnDisabled -->
     <item name="uidToggleButtonDefaultDisabledOnIconColor">#B2FFFFFF</item><!-- uidToggleOnTextDisabled -->
     <item name="uidToggleButtonDefaultDisabledOnTextColor">#B2FFFFFF</item><!-- uidToggleOnTextDisabled -->
@@ -340,12 +416,15 @@
     <item name="uidToggleButtonDefaultDisabledOffIconColor">#331B578E</item><!-- uidToggleOffTextDisabled -->
     <item name="uidToggleButtonDefaultDisabledOffTextColor">#331B578E</item><!-- uidToggleOffTextDisabled -->
     <item name="uidToggleButtonQuietNormalOnBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidQuietToggleOn -->
-    <item name="uidToggleButtonQuietNormalOnIconColor">@color/uid_level_white</item><!-- uidQuietToggleOnText -->
+    <item name="uidToggleButtonQuietNormalOnIconColor">@color/uid_level_white
+    </item><!-- uidToggleOnIcon -->
     <item name="uidToggleButtonQuietNormalOnTextColor">@color/uid_level_white</item><!-- uidQuietToggleOnText -->
-    <item name="uidToggleButtonQuietNormalOffIconColor">#801B578E</item><!-- uidQuietToggleOffText -->
+    <item name="uidToggleButtonQuietNormalOffBackgroundColor">#00FFFFFF</item><!-- uidNoColor -->
+    <item name="uidToggleButtonQuietNormalOffIconColor">#801B578E</item><!-- uidToggleOffIcon -->
     <item name="uidToggleButtonQuietNormalOffTextColor">#801B578E</item><!-- uidQuietToggleOffText -->
     <item name="uidToggleButtonQuietPressedBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidQuietToggleOn -->
-    <item name="uidToggleButtonQuietPressedIconColor">@color/uid_level_white</item><!-- uidQuietToggleOnText -->
+    <item name="uidToggleButtonQuietPressedIconColor">@color/uid_level_white
+    </item><!-- uidToggleOnIcon -->
     <item name="uidToggleButtonQuietPressedTextColor">@color/uid_level_white</item><!-- uidQuietToggleOnText -->
     <item name="uidToggleButtonQuietDisabledOnBackgroundColor">#591474A4</item><!-- uidQuietToggleOnDisabled -->
     <item name="uidToggleButtonQuietDisabledOnIconColor">#B2FFFFFF</item><!-- uidQuietToggleOnTextDisabled -->
@@ -353,6 +432,7 @@
     <item name="uidToggleButtonQuietDisabledOffIconColor">#331B578E</item><!-- uidQuietToggleOffTextDisabled -->
     <item name="uidToggleButtonQuietDisabledOffTextColor">#331B578E</item><!-- uidQuietToggleOffTextDisabled -->
     <item name="uidToolbarInputBackgroundColor">#0D212121</item><!-- uidInputToolbar -->
+    <item name="uidToolbarOnImageBackgroundColor">#00FFFFFF</item><!-- uidToolbarOnImage -->
     <item name="uidTooltipDarkBackgroundColor">@color/uid_group_blue_level_60</item><!-- uidTooltipDark -->
     <item name="uidTooltipDarkIconColor">@color/uid_level_white</item><!-- uidLightTextPrimary -->
     <item name="uidTooltipDarkTextColor">@color/uid_level_white</item><!-- uidLightTextPrimary -->
@@ -362,14 +442,20 @@
     <item name="uidTooltipValidatedBackgroundColor">@null</item><!-- uidTooltipValidated -->
     <item name="uidTooltipValidatedIconColor">@color/uid_level_white</item><!-- uidLightTextPrimary -->
     <item name="uidTooltipValidatedTextColor">@color/uid_level_white</item><!-- uidLightTextPrimary -->
-    <item name="uidTrackDangerNormalOnBackgroundColor">#00FFFFFF</item><!-- uidSignalBad -->
-    <item name="uidTrackDefaultNormalOnBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
+    <item name="uidTrackDangerNormalOnBackgroundColor">@color/uid_signal_red_level_60
+    </item><!-- uidSignalError -->
+    <item name="uidTrackDefaultNormalOnBackgroundColor">@color/uid_group_blue_level_45
+    </item><!-- uidControlPrimaryOnVdg -->
     <item name="uidTrackDefaultNormalOffBackgroundColor">#4D1474A4</item><!-- uidControlPrimaryTrackOff -->
     <item name="uidTrackDefaultDisabledBackgroundColor">#261474A4</item><!-- uidControlTrackDisabled -->
     <item name="uidTrackDetailNormalOnBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimaryDetail -->
     <item name="uidTrackDetailNormalOffBackgroundColor">#401474A4</item><!-- uidControlTrackOff -->
     <item name="uidTrackDetailBufferBackgroundColor">#4D1474A4</item><!-- uidControlBuffer -->
-    <item name="uidTrackWarningNormalOnBackgroundColor">#00FFFFFF</item><!-- uidSignalNeutral -->
+    <item name="uidTrackScrollbarNormalBackgroundColor">#1A212121</item><!-- uidScrollbarTrack -->
+    <item name="uidTrackScrollbarDisabledBackgroundColor">#1A212121
+    </item><!-- uidScrollbarTrackDisabled -->
+    <item name="uidTrackWarningNormalOnBackgroundColor">@color/uid_signal_orange_level_30
+    </item><!-- uidSignalWarning -->
     <item name="uidWizardDefaultNormalOnCircleBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidWizardOn -->
     <item name="uidWizardDefaultNormalOnCircleIconColor">@color/uid_level_white</item><!-- uidWizardOnText -->
     <item name="uidWizardDefaultNormalOnCircleTextColor">@color/uid_level_white</item><!-- uidWizardOnText -->
@@ -388,33 +474,74 @@
     <item name="uidButtonAccentNormalBackgroundColor">?attr/uidAccentLevel50</item><!-- uidControlAccent -->
     <item name="uidButtonAccentNormalIconColor">@color/uid_level_white</item><!-- uidControlAccentText -->
     <item name="uidButtonAccentNormalTextColor">@color/uid_level_white</item><!-- uidControlAccentText -->
-    <item name="uidButtonAccentFocusBorderColor">?attr/uidAccentLevel50</item><!-- uidControlAccentFocus -->
+    <item name="uidButtonAccentFocusBackgroundColor">?attr/uidAccentLevel50
+    </item><!-- uidControlAccentFocus -->
+    <item name="uidButtonAccentFocusBorderColor">?attr/uidAccentLevel50
+    </item><!-- uidControlAccentFocusBorder -->
     <item name="uidButtonAccentPressedBackgroundColor">?attr/uidAccentLevel60</item><!-- uidControlAccentPressed -->
     <item name="uidButtonAccentDisabledBackgroundColor">?attr/uidAccentLevel50</item><!-- uidControlAccentDisabled -->
-    <item name="uidButtonAccentDisabledIconColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
-    <item name="uidButtonAccentDisabledTextColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
+    <item name="uidButtonAccentDisabledIconColor">#80FFFFFF
+    </item><!-- uidControlAccentTextDisabled -->
+    <item name="uidButtonAccentDisabledTextColor">#80FFFFFF
+    </item><!-- uidControlAccentTextDisabled -->
+    <item name="uidButtonInputNormalArrowIconColor">@color/uid_gray_level_75
+    </item><!-- uidArrowIcon -->
+    <item name="uidButtonInputNormalBackgroundColor">@color/uid_group_blue_level_5
+    </item><!-- uidInput -->
+    <item name="uidButtonInputNormalIconColor">@color/uid_gray_level_75</item><!-- uidInputText -->
+    <item name="uidButtonInputFocusBackgroundColor">#00FFFFFF</item><!-- uidInputButtonHover -->
+    <item name="uidButtonInputPressedBackgroundColor">@color/uid_group_blue_level_10
+    </item><!-- uidInputPressed -->
+    <item name="uidButtonInputDisabledArrowIconColor">#591C2D66</item><!-- uidArrowIconDisabled -->
+    <item name="uidButtonInputDisabledBackgroundColor">#59F0F8FA</item><!-- uidInputDisabled -->
+    <item name="uidButtonInputDisabledIconColor">#591C2D66</item><!-- uidInputTextDisabled -->
     <item name="uidButtonPrimaryNormalBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
     <item name="uidButtonPrimaryNormalIconColor">@color/uid_level_white</item><!-- uidControlPrimaryText -->
     <item name="uidButtonPrimaryNormalTextColor">@color/uid_level_white</item><!-- uidControlPrimaryText -->
-    <item name="uidButtonPrimaryFocusBorderColor">#331474A4</item><!-- uidControlPrimaryFocus -->
+    <item name="uidButtonPrimaryFocusBackgroundColor">@color/uid_group_blue_level_45
+    </item><!-- uidControlPrimaryFocus -->
+    <item name="uidButtonPrimaryFocusBorderColor">#331474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
     <item name="uidButtonPrimaryProgressBackgroundColor">#591474A4</item><!-- uidControlPrimaryDisabled -->
     <item name="uidButtonPrimaryPressedBackgroundColor">@color/uid_group_blue_level_55</item><!-- uidControlPrimaryPressed -->
     <item name="uidButtonPrimaryDisabledBackgroundColor">#591474A4</item><!-- uidControlPrimaryDisabled -->
     <item name="uidButtonPrimaryDisabledIconColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
     <item name="uidButtonPrimaryDisabledTextColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
-    <item name="uidButtonQuietNormalIconColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
-    <item name="uidButtonQuietNormalTextColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
-    <item name="uidButtonQuietFocusBackgroundColor">#331474A4</item><!-- uidControlPrimaryFocus -->
-    <item name="uidButtonQuietFocusIconColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
-    <item name="uidButtonQuietFocusTextColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
-    <item name="uidButtonQuietPressedIconColor">@color/uid_group_blue_level_55</item><!-- uidControlPrimaryPressed -->
-    <item name="uidButtonQuietPressedTextColor">@color/uid_group_blue_level_55</item><!-- uidControlPrimaryPressed -->
-    <item name="uidButtonQuietDisabledIconColor">#591474A4</item><!-- uidControlPrimaryDisabled -->
-    <item name="uidButtonQuietDisabledTextColor">#591474A4</item><!-- uidControlPrimaryDisabled -->
+    <item name="uidButtonQuietDefaultNormalIconColor">#CC1C2D66</item><!-- uidTextSecondary -->
+    <item name="uidButtonQuietDefaultNormalTextColor">#CC1C2D66</item><!-- uidTextSecondary -->
+    <item name="uidButtonQuietDefaultFocusIconColor">@color/uid_group_blue_level_75
+    </item><!-- uidTextPrimary -->
+    <item name="uidButtonQuietDefaultFocusTextColor">@color/uid_group_blue_level_75
+    </item><!-- uidTextPrimary -->
+    <item name="uidButtonQuietDefaultPressedIconColor">#801C2D66</item><!-- uidTextTertiary -->
+    <item name="uidButtonQuietDefaultPressedTextColor">#801C2D66</item><!-- uidTextTertiary -->
+    <item name="uidButtonQuietDefaultDisabledIconColor">#591C2D66</item><!-- uidTextDisabled -->
+    <item name="uidButtonQuietDefaultDisabledTextColor">#591C2D66</item><!-- uidTextDisabled -->
+    <item name="uidButtonQuietEmphasisNormalIconColor">@color/uid_group_blue_level_45
+    </item><!-- uidControlPrimary -->
+    <item name="uidButtonQuietEmphasisNormalTextColor">@color/uid_group_blue_level_45
+    </item><!-- uidControlPrimary -->
+    <item name="uidButtonQuietEmphasisFocusBackgroundColor">#331474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
+    <item name="uidButtonQuietEmphasisFocusIconColor">@color/uid_group_blue_level_45
+    </item><!-- uidControlPrimary -->
+    <item name="uidButtonQuietEmphasisFocusTextColor">@color/uid_group_blue_level_45
+    </item><!-- uidControlPrimary -->
+    <item name="uidButtonQuietEmphasisPressedIconColor">@color/uid_group_blue_level_55
+    </item><!-- uidControlPrimaryPressed -->
+    <item name="uidButtonQuietEmphasisPressedTextColor">@color/uid_group_blue_level_55
+    </item><!-- uidControlPrimaryPressed -->
+    <item name="uidButtonQuietEmphasisDisabledIconColor">#591474A4
+    </item><!-- uidControlPrimaryDisabled -->
+    <item name="uidButtonQuietEmphasisDisabledTextColor">#591474A4
+    </item><!-- uidControlPrimaryDisabled -->
     <item name="uidButtonSecondaryNormalBackgroundColor">@color/uid_group_blue_level_75</item><!-- uidControlSecondary -->
     <item name="uidButtonSecondaryNormalIconColor">@color/uid_level_white</item><!-- uidControlSecondaryText -->
     <item name="uidButtonSecondaryNormalTextColor">@color/uid_level_white</item><!-- uidControlSecondaryText -->
-    <item name="uidButtonSecondaryFocusBorderColor">#331C2D66</item><!-- uidControlSecondaryFocus -->
+    <item name="uidButtonSecondaryFocusBackgroundColor">@color/uid_group_blue_level_75
+    </item><!-- uidControlSecondaryFocus -->
+    <item name="uidButtonSecondaryFocusBorderColor">#331C2D66
+    </item><!-- uidControlSecondaryFocusBorder -->
     <item name="uidButtonSecondaryPressedBackgroundColor">@color/uid_group_blue_level_85</item><!-- uidControlSecondaryPressed -->
     <item name="uidButtonSecondaryDisabledBackgroundColor">#591C2D66</item><!-- uidControlSecondaryDisabled -->
     <item name="uidButtonSecondaryDisabledIconColor">#80FFFFFF</item><!-- uidControlSecondaryTextDisabled -->
@@ -429,32 +556,24 @@
     <item name="uidCarouselDefaultPressedIconColor">@color/uid_group_blue_level_75</item><!-- uidTextPrimary -->
     <item name="uidCarouselDefaultDisabledIconColor">#591C2D66</item><!-- uidTextPrimaryDisabled -->
     <item name="uidCarouselDefaultTitleTextColor">@color/uid_group_blue_level_75</item><!-- uidTextPrimary -->
-    <item name="uidCheckBoxDefaultNormalIconColor">@color/uid_level_white</item><!-- uidControlPrimaryText -->
-    <item name="uidCheckBoxDefaultNormalOnIconColor">@color/uid_level_white</item><!-- uidControlPrimaryText -->
-    <item name="uidCheckBoxDefaultNormalTextColor">@color/uid_group_blue_level_75</item><!-- uidTextPrimary -->
     <item name="uidCheckBoxDefaultNormalOnBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
+    <item name="uidCheckBoxDefaultNormalOnIconColor">@color/uid_level_white
+    </item><!-- uidControlPrimaryText -->
     <item name="uidCheckBoxDefaultNormalOffBackgroundColor">#991474A4</item><!-- uidControlPrimaryOff -->
-    <item name="uidCheckBoxDefaultFocusBorderColor">#331474A4</item><!-- uidControlPrimaryFocus -->
-    <item name="uidCheckBoxDefaultPressedBorderColor">#331474A4</item><!-- uidControlPrimaryFocus -->
+    <item name="uidCheckBoxDefaultFocusBorderColor">#331474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
+    <item name="uidCheckBoxDefaultPressedBorderColor">#331474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
     <item name="uidCheckBoxDefaultDisabledBackgroundColor">#591474A4</item><!-- uidControlPrimaryDisabled -->
-    <item name="uidCheckBoxDefaultDisabledIconColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
-    <item name="uidCheckBoxDefaultDisabledTextColor">#591C2D66</item><!-- uidTextPrimaryDisabled -->
-    <item name="uidComboBoxDefaultNormalArrowIconColor">@color/uid_gray_level_75</item><!-- uidInputText -->
-    <item name="uidComboBoxDefaultNormalButtonColor">#00FFFFFF</item><!-- uidNoColor -->
-    <item name="uidComboBoxDefaultNormalSeparatorColor">@color/uid_group_blue_level_15</item><!-- uidInputSeparator -->
-    <item name="uidComboBoxDefaultFocusButtonColor">@color/uid_group_blue_level_10</item><!-- uidInputButtonPressed -->
-    <item name="uidComboBoxDefaultFocusSeparatorColor">@color/uid_group_blue_level_15</item><!-- uidInputSeparator -->
-    <item name="uidComboBoxDefaultPressedButtonColor">@color/uid_group_blue_level_10</item><!-- uidInputButtonPressed -->
-    <item name="uidComboBoxDefaultPressedSeparatorColor">@color/uid_group_blue_level_15</item><!-- uidInputSeparator -->
-    <item name="uidComboBoxDefaultDisabledArrowIconColor">#591C2D66</item><!-- uidInputTextDisabled -->
-    <item name="uidComboBoxDefaultDisabledButtonColor">#00FFFFFF</item><!-- uidNoColor -->
-    <item name="uidComboBoxDefaultDisabledSeparatorColor">#59BFE2EB</item><!-- uidInputSeparatorDisabled -->
+    <item name="uidCheckBoxDefaultDisabledIconColor">#80FFFFFF
+    </item><!-- uidControlPrimaryDetailDisabled -->
     <item name="uidContentPrimaryBackgroundColor">@color/uid_group_blue_level_20</item><!-- uidContentPrimary -->
     <item name="uidContentSecondaryBackgroundColor">@color/uid_group_blue_level_15</item><!-- uidContentSecondary -->
     <item name="uidContentTertiaryBackgroundColor">@color/uid_group_blue_level_25</item><!-- uidContentTertiary -->
     <item name="uidContentItemDefaultNormalArrowIconColor">#801C2D66</item><!-- uidTextTertiary -->
     <item name="uidContentItemDefaultNormalBodyTextColor">@color/uid_group_blue_level_75</item><!-- uidTextPrimary -->
-    <item name="uidContentItemDefaultNormalChevronIconColor">#801C2D66</item><!-- uidTextTertiary -->
+    <item name="uidContentItemDefaultNormalChevronIconColor">#CC1C2D66
+    </item><!-- uidTextSecondary -->
     <item name="uidContentItemDefaultNormalDescriptorIconColor">#801C2D66</item><!-- uidTextTertiary -->
     <item name="uidContentItemDefaultNormalDescriptorTextColor">#801C2D66</item><!-- uidTextTertiary -->
     <item name="uidContentItemDefaultNormalDetailTextColor">#801C2D66</item><!-- uidTextTertiary -->
@@ -478,6 +597,7 @@
     <item name="uidDataVisualizationChartsDisabledLegendIndicator3Color">#597CC0D9</item><!-- uidDataColor3Disabled -->
     <item name="uidDataVisualizationChartsDisabledLegendIndicator4Color">#591B578E</item><!-- uidDataColor4Disabled -->
     <item name="uidDataVisualizationChartsDisabledLegendTextColor">#591C417A</item><!-- uidTextSecondaryDisabled -->
+    <item name="uidDataVisualizationChartsAxisColor">#261C2D66</item><!-- uidSeparator -->
     <item name="uidDataVisualizationChartsAxisLabelTextColor">#801C2D66</item><!-- uidTextTertiary -->
     <item name="uidDataVisualizationChartsGridlinesColor">#261C2D66</item><!-- uidSeparator -->
     <item name="uidDataVisualizationChartsLegendIndicator1Color">@color/uid_group_blue_level_45</item><!-- uidDataColor1 -->
@@ -514,19 +634,10 @@
     <item name="uidDatePickerAndroidNormalOnHeaderTextColor">@color/uid_group_blue_level_45</item><!-- uidNavigationText -->
     <item name="uidDatePickerIosNormalTextColor">@color/uid_group_blue_level_75</item><!-- uidTextPrimary -->
     <item name="uidDialogAlertDefaultBackgroundColor">@color/uid_level_white</item><!-- uidPopup -->
-    <item name="uidDialogAlertDefaultBodyIconColor">#CC212121</item><!-- uidTextSecondary -->
-    <item name="uidDialogAlertDefaultBodyTextColor">#CC212121</item><!-- uidTextSecondary -->
-    <item name="uidDialogAlertDefaultCloseIconColor">@color/uid_gray_level_75</item><!-- uidTextPrimary -->
-    <item name="uidDialogAlertDefaultTitleIconColor">@color/uid_gray_level_75</item><!-- uidTextPrimary -->
-    <item name="uidDialogAlertDefaultTitleTextColor">@color/uid_gray_level_75</item><!-- uidTextPrimary -->
     <item name="uidDimLayerStrongBackgroundColor">#CC0A0C1E</item><!-- uidDimStrong -->
     <item name="uidDimLayerSubtleBackgroundColor">#4D0A0C1E</item><!-- uidDimSubtle -->
     <item name="uidDotNavigationDefaultNormalOnBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidDotActive -->
     <item name="uidDotNavigationDefaultNormalOffBackgroundColor">#591474A4</item><!-- uidDot -->
-    <item name="uidDropdownListDefaultNormalArrowIconColor">@color/uid_gray_level_75</item><!-- uidInputText -->
-    <item name="uidDropdownListDefaultNormalIconColor">@color/uid_gray_level_75</item><!-- uidInputText -->
-    <item name="uidDropdownListDefaultDisabledArrowIconColor">#591C2D66</item><!-- uidInputTextDisabled -->
-    <item name="uidDropdownListDefaultDisabledIconColor">#591C2D66</item><!-- uidInputTextDisabled -->
     <item name="uidGridViewBackgroundDarkBackgroundColor">@color/uid_group_blue_level_90</item><!-- uidGridViewBackgroundDark -->
     <item name="uidGridViewBackgroundDarkHeaderTextColor">#80FFFFFF</item><!-- uidLightTextTertiary -->
     <item name="uidGridViewBackgroundLightBackgroundColor">@color/uid_level_white</item><!-- uidGridViewBackgroundLight -->
@@ -543,24 +654,35 @@
     <item name="uidHyperlinkDefaultNormalTextColor">@color/uid_group_blue_level_45</item><!-- uidHyperlinkNormal -->
     <item name="uidHyperlinkDefaultVisitedTextColor">#B21474A4</item><!-- uidHyperlinkVisited -->
     <item name="uidHyperlinkDefaultPressedTextColor">@color/uid_group_blue_level_65</item><!-- uidHyperlinkPressed -->
-    <item name="uidLabelRegularNormalIconColor">#801C2D66</item><!-- uidTextTertiary -->
-    <item name="uidLabelRegularNormalTextColor">#801C2D66</item><!-- uidTextTertiary -->
-    <item name="uidLabelRegularDisabledIconColor">#401C417A</item><!-- uidTextTertiaryDisabled -->
-    <item name="uidLabelRegularDisabledTextColor">#401C417A</item><!-- uidTextTertiaryDisabled -->
-    <item name="uidLabelValueNormalIconColor">@color/uid_group_blue_level_75</item><!-- uidTextPrimary -->
+    <item name="uidLabelDescriptorNormalTextColor">#801C2D66</item><!-- uidTextTertiary -->
+    <item name="uidLabelDescriptorDisabledTextColor">#591C2D66</item><!-- uidTextDisabled -->
+    <item name="uidLabelRegularNormalTextColor">#CC1C2D66</item><!-- uidTextSecondary -->
+    <item name="uidLabelRegularDisabledTextColor">#591C2D66</item><!-- uidTextDisabled -->
     <item name="uidLabelValueNormalTextColor">@color/uid_group_blue_level_75</item><!-- uidTextPrimary -->
-    <item name="uidLabelValueDisabledIconColor">#591C2D66</item><!-- uidTextPrimaryDisabled -->
-    <item name="uidLabelValueDisabledTextColor">#591C2D66</item><!-- uidTextPrimaryDisabled -->
+    <item name="uidLabelValueDisabledTextColor">#591C2D66</item><!-- uidTextDisabled -->
     <item name="uidListItemDefaultNormalOnBackgroundColor">#261474A4</item><!-- uidListSelected -->
+    <item name="uidListItemDefaultNormalOnIconColor">@color/uid_group_blue_level_45
+    </item><!-- uidIconOn -->
+    <item name="uidListItemDefaultNormalOnTextColor">@color/uid_group_blue_level_45
+    </item><!-- uidItemOn -->
+    <item name="uidListItemDefaultNormalOffBackgroundColor">#00FFFFFF</item><!-- uidNoColor -->
+    <item name="uidListItemDefaultNormalOffIconColor">#801C2D66</item><!-- uidIconOff -->
+    <item name="uidListItemDefaultNormalOffTextColor">#CC1C2D66</item><!-- uidTextOff -->
     <item name="uidListItemDefaultFocusBackgroundColor">#0D1C2D66</item><!-- uidListFocus -->
     <item name="uidListItemDefaultPressedBackgroundColor">#261474A4</item><!-- uidListSelected -->
+    <item name="uidMenuItemDefaultNormalOnBackgroundColor">#261C2D66</item><!-- uidSeparator -->
+    <item name="uidMenuItemDefaultNormalOffBackgroundColor">#00FFFFFF</item><!-- uidNoColor -->
+    <item name="uidMovieBarClinicalBackgroundColor">#00FFFFFF</item><!-- uidNotYetDefined -->
     <item name="uidNavigationPrimaryBackgroundColor">@color/uid_group_blue_level_10</item><!-- uidNavigationPrimary -->
     <item name="uidNavigationPrimaryIconColor">@color/uid_group_blue_level_45</item><!-- uidNavigationText -->
     <item name="uidNavigationPrimaryTextColor">@color/uid_group_blue_level_45</item><!-- uidNavigationText -->
     <item name="uidNavigationSecondaryBackgroundColor">@color/uid_group_blue_level_15</item><!-- uidNavigationSecondary -->
     <item name="uidNavigationSecondaryIconColor">@color/uid_group_blue_level_45</item><!-- uidNavigationText -->
     <item name="uidNavigationSecondaryTextColor">@color/uid_group_blue_level_45</item><!-- uidNavigationText -->
-    <item name="uidNotificationBadgeDefaultBackgroundColor">@color/uid_signal_red_level_60</item><!-- uidControlNotification -->
+    <item name="uidNotificationBadgeDefaultAccentBackgroundColor">?attr/uidAccentLevel50
+    </item><!-- uidControlAccent -->
+    <item name="uidNotificationBadgeDefaultBackgroundColor">@null
+    </item><!-- uidControlNotification -->
     <item name="uidNotificationBadgeDefaultTextColor">@color/uid_level_white</item><!-- uidControlAccentText -->
     <item name="uidNotificationBadgeOptionBackgroundColor">?attr/uidAccentLevel50</item><!-- uidControlAccent -->
     <item name="uidNotificationBadgeOptionTextColor">@color/uid_level_white</item><!-- uidControlAccentText -->
@@ -577,20 +699,20 @@
     <item name="uidNotificationBarWhiteNormalPrimaryTextColor">@color/uid_gray_level_75</item><!-- uidGrayPrimaryText -->
     <item name="uidNotificationBarWhiteNormalSecondaryTextColor">@color/uid_gray_level_65</item><!-- uidGraySecondaryText -->
     <item name="uidPopupDefaultNormalBackgroundColor">@color/uid_level_white</item><!-- uidPopup -->
-    <item name="uidRadioButtonDefaultNormalTextColor">@color/uid_group_blue_level_75</item><!-- uidTextPrimary -->
     <item name="uidRadioButtonDefaultNormalOnBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
     <item name="uidRadioButtonDefaultNormalOnIconColor">@color/uid_level_white</item><!-- uidControlPrimaryText -->
     <item name="uidRadioButtonDefaultNormalOffBackgroundColor">#991474A4</item><!-- uidControlPrimaryOff -->
-    <item name="uidRadioButtonDefaultFocusBorderColor">#331474A4</item><!-- uidControlPrimaryFocus -->
-    <item name="uidRadioButtonDefaultPressedBorderColor">#331474A4</item><!-- uidControlPrimaryFocus -->
+    <item name="uidRadioButtonDefaultFocusBorderColor">#331474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
+    <item name="uidRadioButtonDefaultPressedBorderColor">#331474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
     <item name="uidRadioButtonDefaultDisabledBackgroundColor">#591474A4</item><!-- uidControlPrimaryDisabled -->
-    <item name="uidRadioButtonDefaultDisabledIconColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
-    <item name="uidRadioButtonDefaultDisabledTextColor">#591C2D66</item><!-- uidTextPrimaryDisabled -->
+    <item name="uidRadioButtonDefaultDisabledIconColor">#80FFFFFF
+    </item><!-- uidControlPrimaryDetailDisabled -->
     <item name="uidRatingBarDefaultNormalOnIconColor">@color/uid_signal_orange_level_60</item><!-- uidRatingStarOn -->
     <item name="uidRatingBarDefaultNormalOnTextColor">#801C2D66</item><!-- uidRatingTextOn -->
     <item name="uidRatingBarDefaultNormalOffIconColor">#401C2D66</item><!-- uidRatingStarOff -->
     <item name="uidRatingBarDefaultNormalOffTextColor">#801C2D66</item><!-- uidTextTertiary -->
-    <item name="uidScrollbarDefaultNormalBackgroundColor">#4D000000</item><!-- uidScrollbar -->
     <item name="uidSearchBoxAndroidDefaultNormalClearIconColor">#80212121</item><!-- uidNeutralTextTertiary -->
     <item name="uidSearchBoxAndroidDefaultNormalHintTextColor">@color/uid_gray_level_35</item><!-- uidInputHintText -->
     <item name="uidSearchBoxAndroidDefaultNormalInputBackgroundColor">@color/uid_group_blue_level_5</item><!-- uidInput -->
@@ -613,19 +735,33 @@
     <item name="uidSearchBoxIosProminentNormalCancelTextColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
     <item name="uidSearchBoxIosProminentNormalSearchbarBackgroundColor">@color/uid_group_blue_level_20</item><!-- uidContentPrimary -->
     <item name="uidSearchBoxIosProminentPressedCancelTextColor">@color/uid_group_blue_level_55</item><!-- uidControlPrimaryPressed -->
-    <item name="uidSeparatorButtonSeparatorNormalBackgroundColor">@color/uid_group_blue_level_15</item><!-- uidInputSeparator -->
-    <item name="uidSeparatorButtonSeparatorDisabledBackgroundColor">#59BFE2EB</item><!-- uidInputSeparatorDisabled -->
-    <item name="uidSeparatorContentSeparatorNormalBackgroundColor">#261C2D66</item><!-- uidSeparator -->
-    <item name="uidSeparatorInputSeparatorNormalBackgroundColor">@color/uid_group_blue_level_15</item><!-- uidInputSeparator -->
-    <item name="uidSeparatorInputSeparatorDisabledBackgroundColor">#59BFE2EB</item><!-- uidInputSeparatorDisabled -->
+    <item name="uidSeparatorButtonNormalBackgroundColor">#4D439AC1</item><!-- uidButtonSeparator -->
+    <item name="uidSeparatorButtonDisabledBackgroundColor">#1A439AC1
+    </item><!-- uidButtonSeparatorDisabled -->
+    <item name="uidSeparatorContentNormalBackgroundColor">#261C2D66</item><!-- uidSeparator -->
+    <item name="uidSeparatorInputNormalBackgroundColor">@color/uid_group_blue_level_15
+    </item><!-- uidInputSeparator -->
+    <item name="uidSeparatorInputDisabledBackgroundColor">#59BFE2EB
+    </item><!-- uidInputSeparatorDisabled -->
     <item name="uidShadowLevelOneNormalShadowColor">#33000000</item><!-- uidShadowLevelOne -->
     <item name="uidShadowLevelOneDisabledShadowColor">#1A000000</item><!-- uidShadowLevelOneDisabled -->
     <item name="uidShadowLevelThreeNormalShadowColor">#33000000</item><!-- uidShadowLevelThree -->
     <item name="uidShadowLevelTwoNormalShadowColor">#33000000</item><!-- uidShadowLevelTwo -->
-    <item name="uidSidebarContentPrimaryBackgroundColor">@color/uid_group_blue_level_20</item><!-- uidContentPrimary -->
-    <item name="uidSidebarContentSecondaryBackgroundColor">@color/uid_group_blue_level_15</item><!-- uidContentSecondary -->
-    <item name="uidSidebarNavigationPrimaryBackgroundColor">@color/uid_group_blue_level_10</item><!-- uidNavigationPrimary -->
-    <item name="uidSidebarNavigationSecondaryBackgroundColor">@color/uid_group_blue_level_15</item><!-- uidNavigationSecondary -->
+    <item name="uidSplitToggleButtonDefaultNormalOnBackgroundColor">@color/uid_group_blue_level_45
+    </item><!-- uidToggleOn -->
+    <item name="uidSplitToggleButtonDefaultNormalOnIconColor">@color/uid_level_white
+    </item><!-- uidToggleOnIcon -->
+    <item name="uidSplitToggleButtonDefaultNormalOnTextColor">@color/uid_level_white
+    </item><!-- uidToggleOnText -->
+    <item name="uidSplitToggleButtonDefaultPressedOnBackgroundColor">
+      @color/uid_group_blue_level_45
+    </item><!-- uidTogglePressed -->
+    <item name="uidSplitToggleButtonDefaultDisabledOnBackgroundColor">#331474A4
+    </item><!-- uidToggleOnDisabled -->
+    <item name="uidSplitToggleButtonDefaultDisabledOnIconColor">#B2FFFFFF
+    </item><!-- uidToggleOnTextDisabled -->
+    <item name="uidSplitToggleButtonDefaultDisabledOnTextColor">#B2FFFFFF
+    </item><!-- uidToggleOnTextDisabled -->
     <item name="uidSpringBoardDefaultNormalBackgroundColor">@color/uid_group_blue_level_20</item><!-- uidContentPrimary -->
     <item name="uidSpringBoardDefaultNormalIconColor">@color/uid_group_blue_level_45</item><!-- uidSpringboardIcon -->
     <item name="uidSpringBoardDefaultNormalTextColor">@color/uid_group_blue_level_75</item><!-- uidPrimaryText -->
@@ -647,10 +783,18 @@
     <item name="uidStatusBarIosBackgroundColor">@color/uid_group_blue_level_10</item><!-- uidStatusBarIos -->
     <item name="uidStatusBarIosIconColor">@color/uid_level_black</item><!-- uidStatusBarIosText -->
     <item name="uidStatusBarIosTextColor">@color/uid_level_black</item><!-- uidStatusBarIosText -->
-    <item name="uidTabsDefaultNormalTextColor">@color/uid_group_blue_level_45</item><!-- uidTabsNormal -->
-    <item name="uidTabsDefaultNormalOnIndicatorColor">@color/uid_group_blue_level_75</item><!-- uidTabsOn -->
-    <item name="uidTabsDefaultNormalOnTextColor">@color/uid_group_blue_level_75</item><!-- uidTabsOn -->
-    <item name="uidTabsDefaultPressedTextColor">@color/uid_group_blue_level_75</item><!-- uidTabsOn -->
+    <item name="uidTabsDefaultNormalOnIconColor">@color/uid_group_blue_level_45
+    </item><!-- uidItemOn -->
+    <item name="uidTabsDefaultNormalOnIndicatorColor">@color/uid_group_blue_level_45
+    </item><!-- uidItemOn -->
+    <item name="uidTabsDefaultNormalOnTextColor">@color/uid_group_blue_level_45
+    </item><!-- uidItemOn -->
+    <item name="uidTabsDefaultNormalOffIconColor">#801C2D66</item><!-- uidTextTertiary -->
+    <item name="uidTabsDefaultNormalOffTextColor">#CC1C2D66</item><!-- uidTextSecondary -->
+    <item name="uidTabsDefaultPressedOffIconColor">@color/uid_group_blue_level_75
+    </item><!-- uidTextPrimary -->
+    <item name="uidTabsDefaultPressedOffTextColor">@color/uid_group_blue_level_75
+    </item><!-- uidTextPrimary -->
     <item name="uidTextDisabledTextColor">#591C2D66</item><!-- uidTextDisabled -->
     <item name="uidTextEmphasisTextColor">@color/uid_group_blue_level_45</item><!-- uidTextEmphasis -->
     <item name="uidTextEmphasisDisabledTextColor">#591474A4</item><!-- uidTextEmphasisDisabled -->
@@ -663,10 +807,15 @@
     <item name="uidTextBoxDefaultNormalBorderColor">#00FFFFFF</item><!-- uidInputBorder -->
     <item name="uidTextBoxDefaultNormalClearIconColor">#B2383838</item><!-- uidGrayTertiaryText -->
     <item name="uidTextBoxDefaultNormalHintTextColor">@color/uid_gray_level_35</item><!-- uidInputHintText -->
-    <item name="uidTextBoxDefaultNormalTextColor">@color/uid_gray_level_75</item><!-- uidInputText -->
+    <item name="uidTextBoxDefaultNormalTextColor">@color/uid_group_blue_level_75
+    </item><!-- uidTextPrimaryVdg -->
     <item name="uidTextBoxDefaultFocusBackgroundColor">@color/uid_level_white</item><!-- uidInputFocus -->
     <item name="uidTextBoxDefaultFocusBorderColor">#00FFFFFF</item><!-- uidInputBorderFocus -->
     <item name="uidTextBoxDefaultFocusOutlineColor">#331474A4</item><!-- uidInputOutline -->
+    <item name="uidTextBoxDefaultFocusSelectionBackgroundColor">#00FFFFFF
+    </item><!-- uidInputTextSelectionBackground -->
+    <item name="uidTextBoxDefaultFocusSelectionTextColor">@color/uid_group_blue_level_75
+    </item><!-- uidTextPrimaryVdg -->
     <item name="uidTextBoxDefaultValidatedBackgroundColor">#FFF1D3</item><!-- uidInputValidatedBackground -->
     <item name="uidTextBoxDefaultValidatedBorderColor">#00FFFFFF</item><!-- uidInputValidatedBorder -->
     <item name="uidTextBoxDefaultValidatedTextColor">@color/uid_signal_orange_level_75</item><!-- uidInputValidatedText -->
@@ -684,19 +833,33 @@
     <item name="uidTextBoxInlineNormalTextColor">@color/uid_group_blue_level_75</item><!-- uidTextPrimary -->
     <item name="uidTextBoxInlineFocusTextColor">@color/uid_group_blue_level_75</item><!-- uidTextPrimary -->
     <item name="uidThumbDefaultNormalBackgroundColor">@color/uid_level_white</item><!-- uidThumb -->
-    <item name="uidThumbDefaultFocusBorderColor">#331474A4</item><!-- uidControlPrimaryFocus -->
-    <item name="uidThumbDefaultPressedBorderColor">#331474A4</item><!-- uidControlPrimaryFocus -->
+    <item name="uidThumbDefaultFocusBorderColor">#331474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
+    <item name="uidThumbDefaultPressedBorderColor">#331474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
     <item name="uidThumbDefaultDisabledBackgroundColor">@color/uid_group_blue_level_25</item><!-- uidThumbDisabled -->
-    <item name="uidThumbDefaultDisabledTextColor">#591C2D66</item><!-- uidTextPrimaryDisabled -->
+    <item name="uidThumbScrollbarNormalBackgroundColor">#731C2D66</item><!-- uidScrollbar -->
+    <item name="uidThumbScrollbarPressedBackgroundColor">#8C1C2D66</item><!-- uidScrollbarHover -->
+    <item name="uidThumbScrollbarDisabledBackgroundColor">#261C2D66
+    </item><!-- uidScrollbarDisabled -->
     <item name="uidToggleButtonDefaultNormalOnBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidToggleOn -->
-    <item name="uidToggleButtonDefaultNormalOnIconColor">@color/uid_level_white</item><!-- uidToggleOnText -->
+    <item name="uidToggleButtonDefaultNormalOnIconColor">@color/uid_level_white
+    </item><!-- uidToggleOnIcon -->
+    <item name="uidToggleButtonDefaultNormalOnIndicatorColor">#00FFFFFF
+    </item><!-- uidIndicatorOn -->
     <item name="uidToggleButtonDefaultNormalOnTextColor">@color/uid_level_white</item><!-- uidToggleOnText -->
     <item name="uidToggleButtonDefaultNormalOffBackgroundColor">#331474A4</item><!-- uidToggleOff -->
-    <item name="uidToggleButtonDefaultNormalOffIconColor">#801B578E</item><!-- uidToggleOffText -->
+    <item name="uidToggleButtonDefaultNormalOffIconColor">#801B578E</item><!-- uidToggleOffIcon -->
+    <item name="uidToggleButtonDefaultNormalOffIndicatorColor">#00FFFFFF
+    </item><!-- uidIndicatorOff -->
     <item name="uidToggleButtonDefaultNormalOffTextColor">#801B578E</item><!-- uidToggleOffText -->
-    <item name="uidToggleButtonDefaultPressedBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidToggleOn -->
-    <item name="uidToggleButtonDefaultPressedIconColor">@color/uid_level_white</item><!-- uidToggleOnText -->
+    <item name="uidToggleButtonDefaultPressedBackgroundColor">@color/uid_group_blue_level_45
+    </item><!-- uidTogglePressed -->
+    <item name="uidToggleButtonDefaultPressedIconColor">@color/uid_level_white
+    </item><!-- uidToggleOnIcon -->
     <item name="uidToggleButtonDefaultPressedTextColor">@color/uid_level_white</item><!-- uidToggleOnText -->
+    <item name="uidToggleButtonDefaultDisabledIndicatorColor">#00FFFFFF
+    </item><!-- uidIndicatorDisabled -->
     <item name="uidToggleButtonDefaultDisabledOnBackgroundColor">#331474A4</item><!-- uidToggleOnDisabled -->
     <item name="uidToggleButtonDefaultDisabledOnIconColor">#B2FFFFFF</item><!-- uidToggleOnTextDisabled -->
     <item name="uidToggleButtonDefaultDisabledOnTextColor">#B2FFFFFF</item><!-- uidToggleOnTextDisabled -->
@@ -704,12 +867,15 @@
     <item name="uidToggleButtonDefaultDisabledOffIconColor">#331B578E</item><!-- uidToggleOffTextDisabled -->
     <item name="uidToggleButtonDefaultDisabledOffTextColor">#331B578E</item><!-- uidToggleOffTextDisabled -->
     <item name="uidToggleButtonQuietNormalOnBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidQuietToggleOn -->
-    <item name="uidToggleButtonQuietNormalOnIconColor">@color/uid_level_white</item><!-- uidQuietToggleOnText -->
+    <item name="uidToggleButtonQuietNormalOnIconColor">@color/uid_level_white
+    </item><!-- uidToggleOnIcon -->
     <item name="uidToggleButtonQuietNormalOnTextColor">@color/uid_level_white</item><!-- uidQuietToggleOnText -->
-    <item name="uidToggleButtonQuietNormalOffIconColor">#801B578E</item><!-- uidQuietToggleOffText -->
+    <item name="uidToggleButtonQuietNormalOffBackgroundColor">#00FFFFFF</item><!-- uidNoColor -->
+    <item name="uidToggleButtonQuietNormalOffIconColor">#801B578E</item><!-- uidToggleOffIcon -->
     <item name="uidToggleButtonQuietNormalOffTextColor">#801B578E</item><!-- uidQuietToggleOffText -->
     <item name="uidToggleButtonQuietPressedBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidQuietToggleOn -->
-    <item name="uidToggleButtonQuietPressedIconColor">@color/uid_level_white</item><!-- uidQuietToggleOnText -->
+    <item name="uidToggleButtonQuietPressedIconColor">@color/uid_level_white
+    </item><!-- uidToggleOnIcon -->
     <item name="uidToggleButtonQuietPressedTextColor">@color/uid_level_white</item><!-- uidQuietToggleOnText -->
     <item name="uidToggleButtonQuietDisabledOnBackgroundColor">#591474A4</item><!-- uidQuietToggleOnDisabled -->
     <item name="uidToggleButtonQuietDisabledOnIconColor">#B2FFFFFF</item><!-- uidQuietToggleOnTextDisabled -->
@@ -717,6 +883,7 @@
     <item name="uidToggleButtonQuietDisabledOffIconColor">#331B578E</item><!-- uidQuietToggleOffTextDisabled -->
     <item name="uidToggleButtonQuietDisabledOffTextColor">#331B578E</item><!-- uidQuietToggleOffTextDisabled -->
     <item name="uidToolbarInputBackgroundColor">#0D212121</item><!-- uidInputToolbar -->
+    <item name="uidToolbarOnImageBackgroundColor">#00FFFFFF</item><!-- uidToolbarOnImage -->
     <item name="uidTooltipDarkBackgroundColor">@color/uid_group_blue_level_60</item><!-- uidTooltipDark -->
     <item name="uidTooltipDarkIconColor">@color/uid_level_white</item><!-- uidLightTextPrimary -->
     <item name="uidTooltipDarkTextColor">@color/uid_level_white</item><!-- uidLightTextPrimary -->
@@ -726,14 +893,20 @@
     <item name="uidTooltipValidatedBackgroundColor">@color/uid_level_white</item><!-- uidTooltipValidated -->
     <item name="uidTooltipValidatedIconColor">@color/uid_level_white</item><!-- uidLightTextPrimary -->
     <item name="uidTooltipValidatedTextColor">@color/uid_level_white</item><!-- uidLightTextPrimary -->
-    <item name="uidTrackDangerNormalOnBackgroundColor">#00FFFFFF</item><!-- uidSignalBad -->
-    <item name="uidTrackDefaultNormalOnBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
+    <item name="uidTrackDangerNormalOnBackgroundColor">@color/uid_signal_red_level_60
+    </item><!-- uidSignalError -->
+    <item name="uidTrackDefaultNormalOnBackgroundColor">@color/uid_group_blue_level_45
+    </item><!-- uidControlPrimaryOnVdg -->
     <item name="uidTrackDefaultNormalOffBackgroundColor">#B2FFFFFF</item><!-- uidControlPrimaryTrackOff -->
     <item name="uidTrackDefaultDisabledBackgroundColor">#261474A4</item><!-- uidControlTrackDisabled -->
     <item name="uidTrackDetailNormalOnBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimaryDetail -->
     <item name="uidTrackDetailNormalOffBackgroundColor">#4D1474A4</item><!-- uidControlTrackOff -->
     <item name="uidTrackDetailBufferBackgroundColor">#4D1474A4</item><!-- uidControlBuffer -->
-    <item name="uidTrackWarningNormalOnBackgroundColor">#00FFFFFF</item><!-- uidSignalNeutral -->
+    <item name="uidTrackScrollbarNormalBackgroundColor">#1A1C2D66</item><!-- uidScrollbarTrack -->
+    <item name="uidTrackScrollbarDisabledBackgroundColor">#1A1C2D66
+    </item><!-- uidScrollbarTrackDisabled -->
+    <item name="uidTrackWarningNormalOnBackgroundColor">@color/uid_signal_orange_level_45
+    </item><!-- uidSignalWarning -->
     <item name="uidWizardDefaultNormalOnCircleBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidWizardOn -->
     <item name="uidWizardDefaultNormalOnCircleIconColor">@color/uid_level_white</item><!-- uidWizardOnText -->
     <item name="uidWizardDefaultNormalOnCircleTextColor">@color/uid_level_white</item><!-- uidWizardOnText -->
@@ -752,33 +925,74 @@
     <item name="uidButtonAccentNormalBackgroundColor">?attr/uidAccentLevel45</item><!-- uidControlAccent -->
     <item name="uidButtonAccentNormalIconColor">@color/uid_level_white</item><!-- uidControlAccentText -->
     <item name="uidButtonAccentNormalTextColor">@color/uid_level_white</item><!-- uidControlAccentText -->
-    <item name="uidButtonAccentFocusBorderColor">?attr/uidAccentLevel45</item><!-- uidControlAccentFocus -->
+    <item name="uidButtonAccentFocusBackgroundColor">?attr/uidAccentLevel45
+    </item><!-- uidControlAccentFocus -->
+    <item name="uidButtonAccentFocusBorderColor">?attr/uidAccentLevel45
+    </item><!-- uidControlAccentFocusBorder -->
     <item name="uidButtonAccentPressedBackgroundColor">?attr/uidAccentLevel55</item><!-- uidControlAccentPressed -->
     <item name="uidButtonAccentDisabledBackgroundColor">?attr/uidAccentLevel45</item><!-- uidControlAccentDisabled -->
-    <item name="uidButtonAccentDisabledIconColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
-    <item name="uidButtonAccentDisabledTextColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
+    <item name="uidButtonAccentDisabledIconColor">#80FFFFFF
+    </item><!-- uidControlAccentTextDisabled -->
+    <item name="uidButtonAccentDisabledTextColor">#80FFFFFF
+    </item><!-- uidControlAccentTextDisabled -->
+    <item name="uidButtonInputNormalArrowIconColor">@color/uid_gray_level_75
+    </item><!-- uidArrowIcon -->
+    <item name="uidButtonInputNormalBackgroundColor">@color/uid_group_blue_level_5
+    </item><!-- uidInput -->
+    <item name="uidButtonInputNormalIconColor">@color/uid_gray_level_75</item><!-- uidInputText -->
+    <item name="uidButtonInputFocusBackgroundColor">#00FFFFFF</item><!-- uidInputButtonHover -->
+    <item name="uidButtonInputPressedBackgroundColor">@color/uid_group_blue_level_10
+    </item><!-- uidInputPressed -->
+    <item name="uidButtonInputDisabledArrowIconColor">#591C2D66</item><!-- uidArrowIconDisabled -->
+    <item name="uidButtonInputDisabledBackgroundColor">#59F0F8FA</item><!-- uidInputDisabled -->
+    <item name="uidButtonInputDisabledIconColor">#591C2D66</item><!-- uidInputTextDisabled -->
     <item name="uidButtonPrimaryNormalBackgroundColor">@color/uid_group_blue_level_75</item><!-- uidControlPrimary -->
     <item name="uidButtonPrimaryNormalIconColor">@color/uid_level_white</item><!-- uidControlPrimaryText -->
     <item name="uidButtonPrimaryNormalTextColor">@color/uid_level_white</item><!-- uidControlPrimaryText -->
-    <item name="uidButtonPrimaryFocusBorderColor">#401C2D66</item><!-- uidControlPrimaryFocus -->
+    <item name="uidButtonPrimaryFocusBackgroundColor">@color/uid_group_blue_level_75
+    </item><!-- uidControlPrimaryFocus -->
+    <item name="uidButtonPrimaryFocusBorderColor">#401C2D66
+    </item><!-- uidControlPrimaryFocusBorder -->
     <item name="uidButtonPrimaryProgressBackgroundColor">#591C2D66</item><!-- uidControlPrimaryDisabled -->
     <item name="uidButtonPrimaryPressedBackgroundColor">@color/uid_group_blue_level_85</item><!-- uidControlPrimaryPressed -->
     <item name="uidButtonPrimaryDisabledBackgroundColor">#591C2D66</item><!-- uidControlPrimaryDisabled -->
     <item name="uidButtonPrimaryDisabledIconColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
     <item name="uidButtonPrimaryDisabledTextColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
-    <item name="uidButtonQuietNormalIconColor">@color/uid_group_blue_level_75</item><!-- uidControlPrimary -->
-    <item name="uidButtonQuietNormalTextColor">@color/uid_group_blue_level_75</item><!-- uidControlPrimary -->
-    <item name="uidButtonQuietFocusBackgroundColor">#401C2D66</item><!-- uidControlPrimaryFocus -->
-    <item name="uidButtonQuietFocusIconColor">@color/uid_group_blue_level_75</item><!-- uidControlPrimary -->
-    <item name="uidButtonQuietFocusTextColor">@color/uid_group_blue_level_75</item><!-- uidControlPrimary -->
-    <item name="uidButtonQuietPressedIconColor">@color/uid_group_blue_level_85</item><!-- uidControlPrimaryPressed -->
-    <item name="uidButtonQuietPressedTextColor">@color/uid_group_blue_level_85</item><!-- uidControlPrimaryPressed -->
-    <item name="uidButtonQuietDisabledIconColor">#591C2D66</item><!-- uidControlPrimaryDisabled -->
-    <item name="uidButtonQuietDisabledTextColor">#591C2D66</item><!-- uidControlPrimaryDisabled -->
+    <item name="uidButtonQuietDefaultNormalIconColor">#D9FFFFFF</item><!-- uidTextSecondary -->
+    <item name="uidButtonQuietDefaultNormalTextColor">#D9FFFFFF</item><!-- uidTextSecondary -->
+    <item name="uidButtonQuietDefaultFocusIconColor">@color/uid_level_white
+    </item><!-- uidTextPrimary -->
+    <item name="uidButtonQuietDefaultFocusTextColor">@color/uid_level_white
+    </item><!-- uidTextPrimary -->
+    <item name="uidButtonQuietDefaultPressedIconColor">#99FFFFFF</item><!-- uidTextTertiary -->
+    <item name="uidButtonQuietDefaultPressedTextColor">#99FFFFFF</item><!-- uidTextTertiary -->
+    <item name="uidButtonQuietDefaultDisabledIconColor">#73FFFFFF</item><!-- uidTextDisabled -->
+    <item name="uidButtonQuietDefaultDisabledTextColor">#73FFFFFF</item><!-- uidTextDisabled -->
+    <item name="uidButtonQuietEmphasisNormalIconColor">@color/uid_group_blue_level_75
+    </item><!-- uidControlPrimary -->
+    <item name="uidButtonQuietEmphasisNormalTextColor">@color/uid_group_blue_level_75
+    </item><!-- uidControlPrimary -->
+    <item name="uidButtonQuietEmphasisFocusBackgroundColor">#401C2D66
+    </item><!-- uidControlPrimaryFocusBorder -->
+    <item name="uidButtonQuietEmphasisFocusIconColor">@color/uid_group_blue_level_75
+    </item><!-- uidControlPrimary -->
+    <item name="uidButtonQuietEmphasisFocusTextColor">@color/uid_group_blue_level_75
+    </item><!-- uidControlPrimary -->
+    <item name="uidButtonQuietEmphasisPressedIconColor">@color/uid_group_blue_level_85
+    </item><!-- uidControlPrimaryPressed -->
+    <item name="uidButtonQuietEmphasisPressedTextColor">@color/uid_group_blue_level_85
+    </item><!-- uidControlPrimaryPressed -->
+    <item name="uidButtonQuietEmphasisDisabledIconColor">#591C2D66
+    </item><!-- uidControlPrimaryDisabled -->
+    <item name="uidButtonQuietEmphasisDisabledTextColor">#591C2D66
+    </item><!-- uidControlPrimaryDisabled -->
     <item name="uidButtonSecondaryNormalBackgroundColor">@color/uid_group_blue_level_15</item><!-- uidControlSecondary -->
     <item name="uidButtonSecondaryNormalIconColor">@color/uid_group_blue_level_75</item><!-- uidControlSecondaryText -->
     <item name="uidButtonSecondaryNormalTextColor">@color/uid_group_blue_level_75</item><!-- uidControlSecondaryText -->
-    <item name="uidButtonSecondaryFocusBorderColor">#40BFE2EB</item><!-- uidControlSecondaryFocus -->
+    <item name="uidButtonSecondaryFocusBackgroundColor">@color/uid_group_blue_level_15
+    </item><!-- uidControlSecondaryFocus -->
+    <item name="uidButtonSecondaryFocusBorderColor">#40BFE2EB
+    </item><!-- uidControlSecondaryFocusBorder -->
     <item name="uidButtonSecondaryPressedBackgroundColor">@color/uid_group_blue_level_25</item><!-- uidControlSecondaryPressed -->
     <item name="uidButtonSecondaryDisabledBackgroundColor">#59BFE2EB</item><!-- uidControlSecondaryDisabled -->
     <item name="uidButtonSecondaryDisabledIconColor">#801C2D66</item><!-- uidControlSecondaryTextDisabled -->
@@ -789,42 +1003,38 @@
     <item name="uidButtonSocialMediaWhiteNormalBackgroundColor">@color/uid_level_white</item><!-- uidControlWhite -->
     <item name="uidButtonSocialMediaWhiteNormalIconColor">@color/uid_group_blue_level_50</item><!-- uidControlWhiteText -->
     <item name="uidButtonSocialMediaWhitePressedBackgroundColor">@color/uid_group_blue_level_10</item><!-- uidControlWhitePressed -->
-    <item name="uidCarouselDefaultNormalIconColor">#E5FFFFFF</item><!-- uidTextSecondary -->
+    <item name="uidCarouselDefaultNormalIconColor">#D9FFFFFF</item><!-- uidTextSecondary -->
     <item name="uidCarouselDefaultPressedIconColor">@color/uid_level_white</item><!-- uidTextPrimary -->
     <item name="uidCarouselDefaultDisabledIconColor">#59FFFFFF</item><!-- uidTextPrimaryDisabled -->
     <item name="uidCarouselDefaultTitleTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
-    <item name="uidCheckBoxDefaultNormalIconColor">@color/uid_level_white</item><!-- uidControlPrimaryText -->
-    <item name="uidCheckBoxDefaultNormalOnIconColor">@color/uid_level_white</item><!-- uidControlPrimaryText -->
-    <item name="uidCheckBoxDefaultNormalTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
     <item name="uidCheckBoxDefaultNormalOnBackgroundColor">@color/uid_group_blue_level_75</item><!-- uidControlPrimary -->
+    <item name="uidCheckBoxDefaultNormalOnIconColor">@color/uid_level_white
+    </item><!-- uidControlPrimaryText -->
     <item name="uidCheckBoxDefaultNormalOffBackgroundColor">#991C2D66</item><!-- uidControlPrimaryOff -->
-    <item name="uidCheckBoxDefaultFocusBorderColor">#401C2D66</item><!-- uidControlPrimaryFocus -->
-    <item name="uidCheckBoxDefaultPressedBorderColor">#401C2D66</item><!-- uidControlPrimaryFocus -->
+    <item name="uidCheckBoxDefaultFocusBorderColor">#401C2D66
+    </item><!-- uidControlPrimaryFocusBorder -->
+    <item name="uidCheckBoxDefaultPressedBorderColor">#401C2D66
+    </item><!-- uidControlPrimaryFocusBorder -->
     <item name="uidCheckBoxDefaultDisabledBackgroundColor">#591C2D66</item><!-- uidControlPrimaryDisabled -->
-    <item name="uidCheckBoxDefaultDisabledIconColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
-    <item name="uidCheckBoxDefaultDisabledTextColor">#59FFFFFF</item><!-- uidTextPrimaryDisabled -->
-    <item name="uidComboBoxDefaultNormalArrowIconColor">@color/uid_gray_level_75</item><!-- uidInputText -->
-    <item name="uidComboBoxDefaultNormalButtonColor">#00FFFFFF</item><!-- uidNoColor -->
-    <item name="uidComboBoxDefaultNormalSeparatorColor">@color/uid_group_blue_level_15</item><!-- uidInputSeparator -->
-    <item name="uidComboBoxDefaultFocusButtonColor">@color/uid_group_blue_level_10</item><!-- uidInputButtonPressed -->
-    <item name="uidComboBoxDefaultFocusSeparatorColor">@color/uid_group_blue_level_15</item><!-- uidInputSeparator -->
-    <item name="uidComboBoxDefaultPressedButtonColor">@color/uid_group_blue_level_10</item><!-- uidInputButtonPressed -->
-    <item name="uidComboBoxDefaultPressedSeparatorColor">@color/uid_group_blue_level_15</item><!-- uidInputSeparator -->
-    <item name="uidComboBoxDefaultDisabledArrowIconColor">#591C2D66</item><!-- uidInputTextDisabled -->
-    <item name="uidComboBoxDefaultDisabledButtonColor">#00FFFFFF</item><!-- uidNoColor -->
-    <item name="uidComboBoxDefaultDisabledSeparatorColor">#59BFE2EB</item><!-- uidInputSeparatorDisabled -->
+    <item name="uidCheckBoxDefaultDisabledIconColor">#80FFFFFF
+    </item><!-- uidControlPrimaryDetailDisabled -->
     <item name="uidContentPrimaryBackgroundColor">@color/uid_group_blue_level_50</item><!-- uidContentPrimary -->
     <item name="uidContentSecondaryBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidContentSecondary -->
     <item name="uidContentTertiaryBackgroundColor">@color/uid_group_blue_level_55</item><!-- uidContentTertiary -->
-    <item name="uidContentItemDefaultNormalArrowIconColor">#CCFFFFFF</item><!-- uidTextTertiary -->
+    <item name="uidContentItemDefaultNormalArrowIconColor">#99FFFFFF</item><!-- uidTextTertiary -->
     <item name="uidContentItemDefaultNormalBodyTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
-    <item name="uidContentItemDefaultNormalChevronIconColor">#CCFFFFFF</item><!-- uidTextTertiary -->
-    <item name="uidContentItemDefaultNormalDescriptorIconColor">#CCFFFFFF</item><!-- uidTextTertiary -->
-    <item name="uidContentItemDefaultNormalDescriptorTextColor">#CCFFFFFF</item><!-- uidTextTertiary -->
-    <item name="uidContentItemDefaultNormalDetailTextColor">#CCFFFFFF</item><!-- uidTextTertiary -->
-    <item name="uidContentItemDefaultNormalSubtitleTextColor">#E5FFFFFF</item><!-- uidTextSecondary -->
-    <item name="uidContentItemDefaultNormalSubtleBodyTextColor">#E5FFFFFF</item><!-- uidTextSecondary -->
-    <item name="uidContentItemDefaultNormalTitleIconColor">#E5FFFFFF</item><!-- uidTextSecondary -->
+    <item name="uidContentItemDefaultNormalChevronIconColor">#D9FFFFFF
+    </item><!-- uidTextSecondary -->
+    <item name="uidContentItemDefaultNormalDescriptorIconColor">#99FFFFFF
+    </item><!-- uidTextTertiary -->
+    <item name="uidContentItemDefaultNormalDescriptorTextColor">#99FFFFFF
+    </item><!-- uidTextTertiary -->
+    <item name="uidContentItemDefaultNormalDetailTextColor">#99FFFFFF</item><!-- uidTextTertiary -->
+    <item name="uidContentItemDefaultNormalSubtitleTextColor">#D9FFFFFF
+    </item><!-- uidTextSecondary -->
+    <item name="uidContentItemDefaultNormalSubtleBodyTextColor">#D9FFFFFF
+    </item><!-- uidTextSecondary -->
+    <item name="uidContentItemDefaultNormalTitleIconColor">#D9FFFFFF</item><!-- uidTextSecondary -->
     <item name="uidContentItemDefaultNormalTitleTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
     <item name="uidContentItemDefaultDisabledArrowIconColor">#73FFFFFF</item><!-- uidTextDisabled -->
     <item name="uidContentItemDefaultDisabledBodyTextColor">#73FFFFFF</item><!-- uidTextDisabled -->
@@ -842,7 +1052,9 @@
     <item name="uidDataVisualizationChartsDisabledLegendIndicator3Color">#595DAFD1</item><!-- uidDataColor3Disabled -->
     <item name="uidDataVisualizationChartsDisabledLegendIndicator4Color">#59FFFFFF</item><!-- uidDataColor4Disabled -->
     <item name="uidDataVisualizationChartsDisabledLegendTextColor">#59F0F8FA</item><!-- uidTextSecondaryDisabled -->
-    <item name="uidDataVisualizationChartsAxisLabelTextColor">#CCFFFFFF</item><!-- uidTextTertiary -->
+    <item name="uidDataVisualizationChartsAxisColor">#26FFFFFF</item><!-- uidSeparator -->
+    <item name="uidDataVisualizationChartsAxisLabelTextColor">#99FFFFFF
+    </item><!-- uidTextTertiary -->
     <item name="uidDataVisualizationChartsGridlinesColor">#26FFFFFF</item><!-- uidSeparator -->
     <item name="uidDataVisualizationChartsLegendIndicator1Color">@color/uid_group_blue_level_10</item><!-- uidDataColor1 -->
     <item name="uidDataVisualizationChartsLegendIndicator2Color">@color/uid_group_blue_level_20</item><!-- uidDataColor2 -->
@@ -853,15 +1065,19 @@
     <item name="uidDataVisualizationChartsTargetLineColor">@color/uid_level_white</item><!-- uidControlPrimaryDetail -->
     <item name="uidDataVisualizationChartsTargetTextColor">@color/uid_level_white</item><!-- uidControlPrimaryDetail -->
     <item name="uidDataVisualizationChartsValueIconColor">@color/uid_level_white</item><!-- uidTextPrimary -->
-    <item name="uidDataVisualizationChartsValueLabelIconColor">#CCFFFFFF</item><!-- uidTextTertiary -->
-    <item name="uidDataVisualizationChartsValueLabelTextColor">#CCFFFFFF</item><!-- uidTextTertiary -->
+    <item name="uidDataVisualizationChartsValueLabelIconColor">#99FFFFFF
+    </item><!-- uidTextTertiary -->
+    <item name="uidDataVisualizationChartsValueLabelTextColor">#99FFFFFF
+    </item><!-- uidTextTertiary -->
     <item name="uidDataVisualizationChartsValueTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
-    <item name="uidDataVisualizationDefaultAxisScaleTextColor">#CCFFFFFF</item><!-- uidTextTertiary -->
+    <item name="uidDataVisualizationDefaultAxisScaleTextColor">#99FFFFFF
+    </item><!-- uidTextTertiary -->
     <item name="uidDataVisualizationDefaultDataColor1Color">@color/uid_group_blue_level_10</item><!-- uidDataColor1 -->
     <item name="uidDataVisualizationDefaultDataColor2Color">@color/uid_group_blue_level_20</item><!-- uidDataColor2 -->
     <item name="uidDataVisualizationDefaultDataColor3Color">@color/uid_group_blue_level_30</item><!-- uidDataColor3 -->
     <item name="uidDataVisualizationDefaultDataColor4Color">@color/uid_level_white</item><!-- uidDataColor4 -->
-    <item name="uidDataVisualizationDefaultSubtitleTextColor">#CCFFFFFF</item><!-- uidTextTertiary -->
+    <item name="uidDataVisualizationDefaultSubtitleTextColor">#99FFFFFF
+    </item><!-- uidTextTertiary -->
     <item name="uidDataVisualizationDefaultTitleTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
     <item name="uidDataVisualizationStatusIndicatorBackgroundColor">@color/uid_group_blue_level_35</item><!-- uidStatusIndicatorBackground -->
     <item name="uidDataVisualizationStatusIndicatorReferenceBackgroundColor">@color/uid_group_blue_level_35</item><!-- uidStatusIndicatorReferenceBackground -->
@@ -878,28 +1094,20 @@
     <item name="uidDatePickerAndroidNormalOnHeaderTextColor">@color/uid_level_white</item><!-- uidNavigationText -->
     <item name="uidDatePickerIosNormalTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
     <item name="uidDialogAlertDefaultBackgroundColor">@color/uid_level_white</item><!-- uidPopup -->
-    <item name="uidDialogAlertDefaultBodyIconColor">#CC212121</item><!-- uidTextSecondary -->
-    <item name="uidDialogAlertDefaultBodyTextColor">#CC212121</item><!-- uidTextSecondary -->
-    <item name="uidDialogAlertDefaultCloseIconColor">@color/uid_gray_level_75</item><!-- uidTextPrimary -->
-    <item name="uidDialogAlertDefaultTitleIconColor">@color/uid_gray_level_75</item><!-- uidTextPrimary -->
-    <item name="uidDialogAlertDefaultTitleTextColor">@color/uid_gray_level_75</item><!-- uidTextPrimary -->
     <item name="uidDimLayerStrongBackgroundColor">#CC0A0C1E</item><!-- uidDimStrong -->
     <item name="uidDimLayerSubtleBackgroundColor">#4D0A0C1E</item><!-- uidDimSubtle -->
     <item name="uidDotNavigationDefaultNormalOnBackgroundColor">@color/uid_level_white</item><!-- uidDotActive -->
     <item name="uidDotNavigationDefaultNormalOffBackgroundColor">#59FFFFFF</item><!-- uidDot -->
-    <item name="uidDropdownListDefaultNormalArrowIconColor">@color/uid_gray_level_75</item><!-- uidInputText -->
-    <item name="uidDropdownListDefaultNormalIconColor">@color/uid_gray_level_75</item><!-- uidInputText -->
-    <item name="uidDropdownListDefaultDisabledArrowIconColor">#591C2D66</item><!-- uidInputTextDisabled -->
-    <item name="uidDropdownListDefaultDisabledIconColor">#591C2D66</item><!-- uidInputTextDisabled -->
     <item name="uidGridViewBackgroundDarkBackgroundColor">@color/uid_group_blue_level_90</item><!-- uidGridViewBackgroundDark -->
     <item name="uidGridViewBackgroundDarkHeaderTextColor">#80FFFFFF</item><!-- uidLightTextTertiary -->
     <item name="uidGridViewBackgroundLightBackgroundColor">@color/uid_level_white</item><!-- uidGridViewBackgroundLight -->
     <item name="uidGridViewBackgroundLightHeaderTextColor">#80212121</item><!-- uidNeutralTextTertiary -->
     <item name="uidGridViewDefaultNormalHeaderBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidNavigationSecondary -->
-    <item name="uidGridViewDefaultNormalSubtitleTextColor">#E5FFFFFF</item><!-- uidTextSecondary -->
+    <item name="uidGridViewDefaultNormalSubtitleTextColor">#D9FFFFFF</item><!-- uidTextSecondary -->
     <item name="uidGridViewDefaultNormalTitleTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
     <item name="uidGridViewDefaultPressedImageColor">@null</item><!-- uidImagePressed -->
-    <item name="uidGridViewDefaultPressedSubtitleTextColor">#E5FFFFFF</item><!-- uidTextSecondary -->
+    <item name="uidGridViewDefaultPressedSubtitleTextColor">#D9FFFFFF
+    </item><!-- uidTextSecondary -->
     <item name="uidGridViewDefaultPressedTitleTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
     <item name="uidGridViewDefaultDisabledImageColor">@null</item><!-- uidImageDisabled -->
     <item name="uidGridViewDefaultDisabledSubtitleTextColor">#59F0F8FA</item><!-- uidTextSecondaryDisabled -->
@@ -907,24 +1115,33 @@
     <item name="uidHyperlinkDefaultNormalTextColor">@color/uid_group_blue_level_10</item><!-- uidHyperlinkNormal -->
     <item name="uidHyperlinkDefaultVisitedTextColor">#B2DAF1F7</item><!-- uidHyperlinkVisited -->
     <item name="uidHyperlinkDefaultPressedTextColor">@color/uid_level_white</item><!-- uidHyperlinkPressed -->
-    <item name="uidLabelRegularNormalIconColor">#CCFFFFFF</item><!-- uidTextTertiary -->
-    <item name="uidLabelRegularNormalTextColor">#CCFFFFFF</item><!-- uidTextTertiary -->
-    <item name="uidLabelRegularDisabledIconColor">#40F0F8FA</item><!-- uidTextTertiaryDisabled -->
-    <item name="uidLabelRegularDisabledTextColor">#40F0F8FA</item><!-- uidTextTertiaryDisabled -->
-    <item name="uidLabelValueNormalIconColor">@color/uid_level_white</item><!-- uidTextPrimary -->
+    <item name="uidLabelDescriptorNormalTextColor">#99FFFFFF</item><!-- uidTextTertiary -->
+    <item name="uidLabelDescriptorDisabledTextColor">#73FFFFFF</item><!-- uidTextDisabled -->
+    <item name="uidLabelRegularNormalTextColor">#D9FFFFFF</item><!-- uidTextSecondary -->
+    <item name="uidLabelRegularDisabledTextColor">#73FFFFFF</item><!-- uidTextDisabled -->
     <item name="uidLabelValueNormalTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
-    <item name="uidLabelValueDisabledIconColor">#59FFFFFF</item><!-- uidTextPrimaryDisabled -->
-    <item name="uidLabelValueDisabledTextColor">#59FFFFFF</item><!-- uidTextPrimaryDisabled -->
+    <item name="uidLabelValueDisabledTextColor">#73FFFFFF</item><!-- uidTextDisabled -->
     <item name="uidListItemDefaultNormalOnBackgroundColor">#261C2D66</item><!-- uidListSelected -->
+    <item name="uidListItemDefaultNormalOnIconColor">#CCFFFFFF</item><!-- uidIconOn -->
+    <item name="uidListItemDefaultNormalOnTextColor">@color/uid_level_white</item><!-- uidItemOn -->
+    <item name="uidListItemDefaultNormalOffBackgroundColor">#00FFFFFF</item><!-- uidNoColor -->
+    <item name="uidListItemDefaultNormalOffIconColor">#80FFFFFF</item><!-- uidIconOff -->
+    <item name="uidListItemDefaultNormalOffTextColor">#CCFFFFFF</item><!-- uidTextOff -->
     <item name="uidListItemDefaultFocusBackgroundColor">#1AFFFFFF</item><!-- uidListFocus -->
     <item name="uidListItemDefaultPressedBackgroundColor">#261C2D66</item><!-- uidListSelected -->
+    <item name="uidMenuItemDefaultNormalOnBackgroundColor">#26FFFFFF</item><!-- uidSeparator -->
+    <item name="uidMenuItemDefaultNormalOffBackgroundColor">#00FFFFFF</item><!-- uidNoColor -->
+    <item name="uidMovieBarClinicalBackgroundColor">#00FFFFFF</item><!-- uidNotYetDefined -->
     <item name="uidNavigationPrimaryBackgroundColor">@color/uid_group_blue_level_40</item><!-- uidNavigationPrimary -->
     <item name="uidNavigationPrimaryIconColor">@color/uid_level_white</item><!-- uidNavigationText -->
     <item name="uidNavigationPrimaryTextColor">@color/uid_level_white</item><!-- uidNavigationText -->
     <item name="uidNavigationSecondaryBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidNavigationSecondary -->
     <item name="uidNavigationSecondaryIconColor">@color/uid_level_white</item><!-- uidNavigationText -->
     <item name="uidNavigationSecondaryTextColor">@color/uid_level_white</item><!-- uidNavigationText -->
-    <item name="uidNotificationBadgeDefaultBackgroundColor">@color/uid_signal_red_level_60</item><!-- uidControlNotification -->
+    <item name="uidNotificationBadgeDefaultAccentBackgroundColor">?attr/uidAccentLevel45
+    </item><!-- uidControlAccent -->
+    <item name="uidNotificationBadgeDefaultBackgroundColor">@null
+    </item><!-- uidControlNotification -->
     <item name="uidNotificationBadgeDefaultTextColor">@color/uid_level_white</item><!-- uidControlAccentText -->
     <item name="uidNotificationBadgeOptionBackgroundColor">?attr/uidAccentLevel45</item><!-- uidControlAccent -->
     <item name="uidNotificationBadgeOptionTextColor">@color/uid_level_white</item><!-- uidControlAccentText -->
@@ -941,20 +1158,20 @@
     <item name="uidNotificationBarWhiteNormalPrimaryTextColor">@color/uid_gray_level_75</item><!-- uidGrayPrimaryText -->
     <item name="uidNotificationBarWhiteNormalSecondaryTextColor">@color/uid_gray_level_65</item><!-- uidGraySecondaryText -->
     <item name="uidPopupDefaultNormalBackgroundColor">@color/uid_level_white</item><!-- uidPopup -->
-    <item name="uidRadioButtonDefaultNormalTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
     <item name="uidRadioButtonDefaultNormalOnBackgroundColor">@color/uid_group_blue_level_75</item><!-- uidControlPrimary -->
     <item name="uidRadioButtonDefaultNormalOnIconColor">@color/uid_level_white</item><!-- uidControlPrimaryText -->
     <item name="uidRadioButtonDefaultNormalOffBackgroundColor">#991C2D66</item><!-- uidControlPrimaryOff -->
-    <item name="uidRadioButtonDefaultFocusBorderColor">#401C2D66</item><!-- uidControlPrimaryFocus -->
-    <item name="uidRadioButtonDefaultPressedBorderColor">#401C2D66</item><!-- uidControlPrimaryFocus -->
+    <item name="uidRadioButtonDefaultFocusBorderColor">#401C2D66
+    </item><!-- uidControlPrimaryFocusBorder -->
+    <item name="uidRadioButtonDefaultPressedBorderColor">#401C2D66
+    </item><!-- uidControlPrimaryFocusBorder -->
     <item name="uidRadioButtonDefaultDisabledBackgroundColor">#591C2D66</item><!-- uidControlPrimaryDisabled -->
-    <item name="uidRadioButtonDefaultDisabledIconColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
-    <item name="uidRadioButtonDefaultDisabledTextColor">#59FFFFFF</item><!-- uidTextPrimaryDisabled -->
+    <item name="uidRadioButtonDefaultDisabledIconColor">#80FFFFFF
+    </item><!-- uidControlPrimaryDetailDisabled -->
     <item name="uidRatingBarDefaultNormalOnIconColor">@color/uid_signal_orange_level_30</item><!-- uidRatingStarOn -->
-    <item name="uidRatingBarDefaultNormalOnTextColor">#CCFFFFFF</item><!-- uidRatingTextOn -->
+    <item name="uidRatingBarDefaultNormalOnTextColor">#99FFFFFF</item><!-- uidRatingTextOn -->
     <item name="uidRatingBarDefaultNormalOffIconColor">#4DFFFFFF</item><!-- uidRatingStarOff -->
-    <item name="uidRatingBarDefaultNormalOffTextColor">#CCFFFFFF</item><!-- uidTextTertiary -->
-    <item name="uidScrollbarDefaultNormalBackgroundColor">#80FFFFFF</item><!-- uidScrollbar -->
+    <item name="uidRatingBarDefaultNormalOffTextColor">#99FFFFFF</item><!-- uidTextTertiary -->
     <item name="uidSearchBoxAndroidDefaultNormalClearIconColor">#80212121</item><!-- uidNeutralTextTertiary -->
     <item name="uidSearchBoxAndroidDefaultNormalHintTextColor">@color/uid_gray_level_35</item><!-- uidInputHintText -->
     <item name="uidSearchBoxAndroidDefaultNormalInputBackgroundColor">@color/uid_group_blue_level_5</item><!-- uidInput -->
@@ -977,19 +1194,32 @@
     <item name="uidSearchBoxIosProminentNormalCancelTextColor">@color/uid_group_blue_level_75</item><!-- uidControlPrimary -->
     <item name="uidSearchBoxIosProminentNormalSearchbarBackgroundColor">@color/uid_group_blue_level_50</item><!-- uidContentPrimary -->
     <item name="uidSearchBoxIosProminentPressedCancelTextColor">@color/uid_group_blue_level_85</item><!-- uidControlPrimaryPressed -->
-    <item name="uidSeparatorButtonSeparatorNormalBackgroundColor">@color/uid_group_blue_level_15</item><!-- uidInputSeparator -->
-    <item name="uidSeparatorButtonSeparatorDisabledBackgroundColor">#59BFE2EB</item><!-- uidInputSeparatorDisabled -->
-    <item name="uidSeparatorContentSeparatorNormalBackgroundColor">#26FFFFFF</item><!-- uidSeparator -->
-    <item name="uidSeparatorInputSeparatorNormalBackgroundColor">@color/uid_group_blue_level_15</item><!-- uidInputSeparator -->
-    <item name="uidSeparatorInputSeparatorDisabledBackgroundColor">#59BFE2EB</item><!-- uidInputSeparatorDisabled -->
+    <item name="uidSeparatorButtonNormalBackgroundColor">#4D5DAFD1</item><!-- uidButtonSeparator -->
+    <item name="uidSeparatorButtonDisabledBackgroundColor">#1A5DAFD1
+    </item><!-- uidButtonSeparatorDisabled -->
+    <item name="uidSeparatorContentNormalBackgroundColor">#26FFFFFF</item><!-- uidSeparator -->
+    <item name="uidSeparatorInputNormalBackgroundColor">@color/uid_group_blue_level_15
+    </item><!-- uidInputSeparator -->
+    <item name="uidSeparatorInputDisabledBackgroundColor">#59BFE2EB
+    </item><!-- uidInputSeparatorDisabled -->
     <item name="uidShadowLevelOneNormalShadowColor">#33000000</item><!-- uidShadowLevelOne -->
     <item name="uidShadowLevelOneDisabledShadowColor">#1A000000</item><!-- uidShadowLevelOneDisabled -->
     <item name="uidShadowLevelThreeNormalShadowColor">#33000000</item><!-- uidShadowLevelThree -->
     <item name="uidShadowLevelTwoNormalShadowColor">#33000000</item><!-- uidShadowLevelTwo -->
-    <item name="uidSidebarContentPrimaryBackgroundColor">@color/uid_group_blue_level_50</item><!-- uidContentPrimary -->
-    <item name="uidSidebarContentSecondaryBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidContentSecondary -->
-    <item name="uidSidebarNavigationPrimaryBackgroundColor">@color/uid_group_blue_level_40</item><!-- uidNavigationPrimary -->
-    <item name="uidSidebarNavigationSecondaryBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidNavigationSecondary -->
+    <item name="uidSplitToggleButtonDefaultNormalOnBackgroundColor">@color/uid_level_white
+    </item><!-- uidToggleOn -->
+    <item name="uidSplitToggleButtonDefaultNormalOnIconColor">@color/uid_group_blue_level_75
+    </item><!-- uidToggleOnIcon -->
+    <item name="uidSplitToggleButtonDefaultNormalOnTextColor">@color/uid_group_blue_level_75
+    </item><!-- uidToggleOnText -->
+    <item name="uidSplitToggleButtonDefaultPressedOnBackgroundColor">@color/uid_level_white
+    </item><!-- uidTogglePressed -->
+    <item name="uidSplitToggleButtonDefaultDisabledOnBackgroundColor">#33DAF1F7
+    </item><!-- uidToggleOnDisabled -->
+    <item name="uidSplitToggleButtonDefaultDisabledOnIconColor">#661C2D66
+    </item><!-- uidToggleOnTextDisabled -->
+    <item name="uidSplitToggleButtonDefaultDisabledOnTextColor">#661C2D66
+    </item><!-- uidToggleOnTextDisabled -->
     <item name="uidSpringBoardDefaultNormalBackgroundColor">@color/uid_group_blue_level_50</item><!-- uidContentPrimary -->
     <item name="uidSpringBoardDefaultNormalIconColor">@color/uid_level_white</item><!-- uidSpringboardIcon -->
     <item name="uidSpringBoardDefaultNormalTextColor">@color/uid_level_white</item><!-- uidPrimaryText -->
@@ -1011,26 +1241,37 @@
     <item name="uidStatusBarIosBackgroundColor">@color/uid_group_blue_level_40</item><!-- uidStatusBarIos -->
     <item name="uidStatusBarIosIconColor">@color/uid_level_white</item><!-- uidStatusBarIosText -->
     <item name="uidStatusBarIosTextColor">@color/uid_level_white</item><!-- uidStatusBarIosText -->
-    <item name="uidTabsDefaultNormalTextColor">@color/uid_group_blue_level_15</item><!-- uidTabsNormal -->
-    <item name="uidTabsDefaultNormalOnIndicatorColor">@color/uid_level_white</item><!-- uidTabsOn -->
-    <item name="uidTabsDefaultNormalOnTextColor">@color/uid_level_white</item><!-- uidTabsOn -->
-    <item name="uidTabsDefaultPressedTextColor">@color/uid_level_white</item><!-- uidTabsOn -->
+    <item name="uidTabsDefaultNormalOnIconColor">@color/uid_level_white</item><!-- uidItemOn -->
+    <item name="uidTabsDefaultNormalOnIndicatorColor">@color/uid_level_white
+    </item><!-- uidItemOn -->
+    <item name="uidTabsDefaultNormalOnTextColor">@color/uid_level_white</item><!-- uidItemOn -->
+    <item name="uidTabsDefaultNormalOffIconColor">#99FFFFFF</item><!-- uidTextTertiary -->
+    <item name="uidTabsDefaultNormalOffTextColor">#D9FFFFFF</item><!-- uidTextSecondary -->
+    <item name="uidTabsDefaultPressedOffIconColor">@color/uid_level_white
+    </item><!-- uidTextPrimary -->
+    <item name="uidTabsDefaultPressedOffTextColor">@color/uid_level_white
+    </item><!-- uidTextPrimary -->
     <item name="uidTextDisabledTextColor">#73FFFFFF</item><!-- uidTextDisabled -->
     <item name="uidTextEmphasisTextColor">@color/uid_group_blue_level_15</item><!-- uidTextEmphasis -->
     <item name="uidTextEmphasisDisabledTextColor">#59BFE2EB</item><!-- uidTextEmphasisDisabled -->
     <item name="uidTextPrimaryTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
-    <item name="uidTextSecondaryTextColor">#E5FFFFFF</item><!-- uidTextSecondary -->
-    <item name="uidTextTertiaryTextColor">#CCFFFFFF</item><!-- uidTextTertiary -->
+    <item name="uidTextSecondaryTextColor">#D9FFFFFF</item><!-- uidTextSecondary -->
+    <item name="uidTextTertiaryTextColor">#99FFFFFF</item><!-- uidTextTertiary -->
     <item name="uidTextValidationIconColor">@color/uid_signal_orange_level_15</item><!-- uidValidatedMessageText -->
     <item name="uidTextValidationTextColor">@color/uid_signal_orange_level_15</item><!-- uidValidatedMessageText -->
     <item name="uidTextBoxDefaultNormalBackgroundColor">@color/uid_group_blue_level_5</item><!-- uidInput -->
     <item name="uidTextBoxDefaultNormalBorderColor">#00FFFFFF</item><!-- uidInputBorder -->
     <item name="uidTextBoxDefaultNormalClearIconColor">#B2383838</item><!-- uidGrayTertiaryText -->
     <item name="uidTextBoxDefaultNormalHintTextColor">@color/uid_gray_level_35</item><!-- uidInputHintText -->
-    <item name="uidTextBoxDefaultNormalTextColor">@color/uid_gray_level_75</item><!-- uidInputText -->
+    <item name="uidTextBoxDefaultNormalTextColor">@color/uid_level_white
+    </item><!-- uidTextPrimaryVdg -->
     <item name="uidTextBoxDefaultFocusBackgroundColor">@color/uid_level_white</item><!-- uidInputFocus -->
     <item name="uidTextBoxDefaultFocusBorderColor">#00FFFFFF</item><!-- uidInputBorderFocus -->
     <item name="uidTextBoxDefaultFocusOutlineColor">#401C2D66</item><!-- uidInputOutline -->
+    <item name="uidTextBoxDefaultFocusSelectionBackgroundColor">#00FFFFFF
+    </item><!-- uidInputTextSelectionBackground -->
+    <item name="uidTextBoxDefaultFocusSelectionTextColor">@color/uid_level_white
+    </item><!-- uidTextPrimaryVdg -->
     <item name="uidTextBoxDefaultValidatedBackgroundColor">#FFF1D3</item><!-- uidInputValidatedBackground -->
     <item name="uidTextBoxDefaultValidatedBorderColor">#00FFFFFF</item><!-- uidInputValidatedBorder -->
     <item name="uidTextBoxDefaultValidatedTextColor">@color/uid_signal_orange_level_75</item><!-- uidInputValidatedText -->
@@ -1044,23 +1285,37 @@
     <item name="uidTextBoxDefaultDisabledTextColor">#591C2D66</item><!-- uidInputTextDisabled -->
     <item name="uidTextBoxDigitTextBoxNormalBulletColor">@color/uid_gray_level_75</item><!-- uidInputText -->
     <item name="uidTextBoxDigitTextBoxDisabledBulletColor">#591C2D66</item><!-- uidInputTextDisabled -->
-    <item name="uidTextBoxInlineNormalLabelColor">#CCFFFFFF</item><!-- uidTextTertiary -->
+    <item name="uidTextBoxInlineNormalLabelColor">#99FFFFFF</item><!-- uidTextTertiary -->
     <item name="uidTextBoxInlineNormalTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
     <item name="uidTextBoxInlineFocusTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
     <item name="uidThumbDefaultNormalBackgroundColor">@color/uid_level_white</item><!-- uidThumb -->
-    <item name="uidThumbDefaultFocusBorderColor">#401C2D66</item><!-- uidControlPrimaryFocus -->
-    <item name="uidThumbDefaultPressedBorderColor">#401C2D66</item><!-- uidControlPrimaryFocus -->
+    <item name="uidThumbDefaultFocusBorderColor">#401C2D66
+    </item><!-- uidControlPrimaryFocusBorder -->
+    <item name="uidThumbDefaultPressedBorderColor">#401C2D66
+    </item><!-- uidControlPrimaryFocusBorder -->
     <item name="uidThumbDefaultDisabledBackgroundColor">@color/uid_group_blue_level_55</item><!-- uidThumbDisabled -->
-    <item name="uidThumbDefaultDisabledTextColor">#59FFFFFF</item><!-- uidTextPrimaryDisabled -->
+    <item name="uidThumbScrollbarNormalBackgroundColor">#B2FFFFFF</item><!-- uidScrollbar -->
+    <item name="uidThumbScrollbarPressedBackgroundColor">#CCFFFFFF</item><!-- uidScrollbarHover -->
+    <item name="uidThumbScrollbarDisabledBackgroundColor">#40FFFFFF
+    </item><!-- uidScrollbarDisabled -->
     <item name="uidToggleButtonDefaultNormalOnBackgroundColor">@color/uid_level_white</item><!-- uidToggleOn -->
-    <item name="uidToggleButtonDefaultNormalOnIconColor">@color/uid_group_blue_level_75</item><!-- uidToggleOnText -->
+    <item name="uidToggleButtonDefaultNormalOnIconColor">@color/uid_group_blue_level_75
+    </item><!-- uidToggleOnIcon -->
+    <item name="uidToggleButtonDefaultNormalOnIndicatorColor">#00FFFFFF
+    </item><!-- uidIndicatorOn -->
     <item name="uidToggleButtonDefaultNormalOnTextColor">@color/uid_group_blue_level_75</item><!-- uidToggleOnText -->
     <item name="uidToggleButtonDefaultNormalOffBackgroundColor">#33DAF1F7</item><!-- uidToggleOff -->
-    <item name="uidToggleButtonDefaultNormalOffIconColor">#80F0F8FA</item><!-- uidToggleOffText -->
+    <item name="uidToggleButtonDefaultNormalOffIconColor">#80F0F8FA</item><!-- uidToggleOffIcon -->
+    <item name="uidToggleButtonDefaultNormalOffIndicatorColor">#00FFFFFF
+    </item><!-- uidIndicatorOff -->
     <item name="uidToggleButtonDefaultNormalOffTextColor">#80F0F8FA</item><!-- uidToggleOffText -->
-    <item name="uidToggleButtonDefaultPressedBackgroundColor">@color/uid_level_white</item><!-- uidToggleOn -->
-    <item name="uidToggleButtonDefaultPressedIconColor">@color/uid_group_blue_level_75</item><!-- uidToggleOnText -->
+    <item name="uidToggleButtonDefaultPressedBackgroundColor">@color/uid_level_white
+    </item><!-- uidTogglePressed -->
+    <item name="uidToggleButtonDefaultPressedIconColor">@color/uid_group_blue_level_75
+    </item><!-- uidToggleOnIcon -->
     <item name="uidToggleButtonDefaultPressedTextColor">@color/uid_group_blue_level_75</item><!-- uidToggleOnText -->
+    <item name="uidToggleButtonDefaultDisabledIndicatorColor">#00FFFFFF
+    </item><!-- uidIndicatorDisabled -->
     <item name="uidToggleButtonDefaultDisabledOnBackgroundColor">#33DAF1F7</item><!-- uidToggleOnDisabled -->
     <item name="uidToggleButtonDefaultDisabledOnIconColor">#661C2D66</item><!-- uidToggleOnTextDisabled -->
     <item name="uidToggleButtonDefaultDisabledOnTextColor">#661C2D66</item><!-- uidToggleOnTextDisabled -->
@@ -1068,12 +1323,15 @@
     <item name="uidToggleButtonDefaultDisabledOffIconColor">#33F0F8FA</item><!-- uidToggleOffTextDisabled -->
     <item name="uidToggleButtonDefaultDisabledOffTextColor">#33F0F8FA</item><!-- uidToggleOffTextDisabled -->
     <item name="uidToggleButtonQuietNormalOnBackgroundColor">@color/uid_level_white</item><!-- uidQuietToggleOn -->
-    <item name="uidToggleButtonQuietNormalOnIconColor">@color/uid_group_blue_level_75</item><!-- uidQuietToggleOnText -->
+    <item name="uidToggleButtonQuietNormalOnIconColor">@color/uid_group_blue_level_75
+    </item><!-- uidToggleOnIcon -->
     <item name="uidToggleButtonQuietNormalOnTextColor">@color/uid_group_blue_level_75</item><!-- uidQuietToggleOnText -->
-    <item name="uidToggleButtonQuietNormalOffIconColor">#80F0F8FA</item><!-- uidQuietToggleOffText -->
+    <item name="uidToggleButtonQuietNormalOffBackgroundColor">#00FFFFFF</item><!-- uidNoColor -->
+    <item name="uidToggleButtonQuietNormalOffIconColor">#80F0F8FA</item><!-- uidToggleOffIcon -->
     <item name="uidToggleButtonQuietNormalOffTextColor">#80F0F8FA</item><!-- uidQuietToggleOffText -->
     <item name="uidToggleButtonQuietPressedBackgroundColor">@color/uid_level_white</item><!-- uidQuietToggleOn -->
-    <item name="uidToggleButtonQuietPressedIconColor">@color/uid_group_blue_level_75</item><!-- uidQuietToggleOnText -->
+    <item name="uidToggleButtonQuietPressedIconColor">@color/uid_group_blue_level_75
+    </item><!-- uidToggleOnIcon -->
     <item name="uidToggleButtonQuietPressedTextColor">@color/uid_group_blue_level_75</item><!-- uidQuietToggleOnText -->
     <item name="uidToggleButtonQuietDisabledOnBackgroundColor">#59FFFFFF</item><!-- uidQuietToggleOnDisabled -->
     <item name="uidToggleButtonQuietDisabledOnIconColor">#801C2D66</item><!-- uidQuietToggleOnTextDisabled -->
@@ -1081,6 +1339,7 @@
     <item name="uidToggleButtonQuietDisabledOffIconColor">#33F0F8FA</item><!-- uidQuietToggleOffTextDisabled -->
     <item name="uidToggleButtonQuietDisabledOffTextColor">#33F0F8FA</item><!-- uidQuietToggleOffTextDisabled -->
     <item name="uidToolbarInputBackgroundColor">#0D212121</item><!-- uidInputToolbar -->
+    <item name="uidToolbarOnImageBackgroundColor">#00FFFFFF</item><!-- uidToolbarOnImage -->
     <item name="uidTooltipDarkBackgroundColor">@color/uid_group_blue_level_60</item><!-- uidTooltipDark -->
     <item name="uidTooltipDarkIconColor">@color/uid_level_white</item><!-- uidLightTextPrimary -->
     <item name="uidTooltipDarkTextColor">@color/uid_level_white</item><!-- uidLightTextPrimary -->
@@ -1090,59 +1349,107 @@
     <item name="uidTooltipValidatedBackgroundColor">@color/uid_level_white</item><!-- uidTooltipValidated -->
     <item name="uidTooltipValidatedIconColor">@color/uid_level_white</item><!-- uidLightTextPrimary -->
     <item name="uidTooltipValidatedTextColor">@color/uid_level_white</item><!-- uidLightTextPrimary -->
-    <item name="uidTrackDangerNormalOnBackgroundColor">#00FFFFFF</item><!-- uidSignalBad -->
-    <item name="uidTrackDefaultNormalOnBackgroundColor">@color/uid_group_blue_level_75</item><!-- uidControlPrimary -->
+    <item name="uidTrackDangerNormalOnBackgroundColor">@color/uid_signal_orange_level_45
+    </item><!-- uidSignalError -->
+    <item name="uidTrackDefaultNormalOnBackgroundColor">@color/uid_group_blue_level_75
+    </item><!-- uidControlPrimaryOnVdg -->
     <item name="uidTrackDefaultNormalOffBackgroundColor">#99FFFFFF</item><!-- uidControlPrimaryTrackOff -->
     <item name="uidTrackDefaultDisabledBackgroundColor">#26FFFFFF</item><!-- uidControlTrackDisabled -->
     <item name="uidTrackDetailNormalOnBackgroundColor">@color/uid_level_white</item><!-- uidControlPrimaryDetail -->
     <item name="uidTrackDetailNormalOffBackgroundColor">#40FFFFFF</item><!-- uidControlTrackOff -->
     <item name="uidTrackDetailBufferBackgroundColor">#4DFFFFFF</item><!-- uidControlBuffer -->
-    <item name="uidTrackWarningNormalOnBackgroundColor">#00FFFFFF</item><!-- uidSignalNeutral -->
+    <item name="uidTrackScrollbarNormalBackgroundColor">#26FFFFFF</item><!-- uidScrollbarTrack -->
+    <item name="uidTrackScrollbarDisabledBackgroundColor">#1AFFFFFF
+    </item><!-- uidScrollbarTrackDisabled -->
+    <item name="uidTrackWarningNormalOnBackgroundColor">@color/uid_signal_yellow_level_45
+    </item><!-- uidSignalWarning -->
     <item name="uidWizardDefaultNormalOnCircleBackgroundColor">@color/uid_level_white</item><!-- uidWizardOn -->
     <item name="uidWizardDefaultNormalOnCircleIconColor">@color/uid_group_blue_level_45</item><!-- uidWizardOnText -->
     <item name="uidWizardDefaultNormalOnCircleTextColor">@color/uid_group_blue_level_45</item><!-- uidWizardOnText -->
     <item name="uidWizardDefaultNormalOnLineColor">@color/uid_level_white</item><!-- uidWizardOn -->
-    <item name="uidWizardDefaultNormalOnSubtitleTextColor">#E5FFFFFF</item><!-- uidTextSecondary -->
+    <item name="uidWizardDefaultNormalOnSubtitleTextColor">#D9FFFFFF</item><!-- uidTextSecondary -->
     <item name="uidWizardDefaultNormalOnTitleTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
-    <item name="uidWizardDefaultNormalOffCircleBackgroundColor">#CCFFFFFF</item><!-- uidTextTertiary -->
+    <item name="uidWizardDefaultNormalOffCircleBackgroundColor">#99FFFFFF
+    </item><!-- uidTextTertiary -->
     <item name="uidWizardDefaultNormalOffCircleIconColor">@color/uid_group_blue_level_50</item><!-- uidContentPrimary -->
     <item name="uidWizardDefaultNormalOffCircleTextColor">@color/uid_group_blue_level_50</item><!-- uidContentPrimary -->
     <item name="uidWizardDefaultNormalOffLineColor">#26FFFFFF</item><!-- uidSeparator -->
-    <item name="uidWizardDefaultNormalOffSubtitleTextColor">#CCFFFFFF</item><!-- uidTextTertiary -->
-    <item name="uidWizardDefaultNormalOffTitleTextColor">#CCFFFFFF</item><!-- uidTextTertiary -->
+    <item name="uidWizardDefaultNormalOffSubtitleTextColor">#99FFFFFF</item><!-- uidTextTertiary -->
+    <item name="uidWizardDefaultNormalOffTitleTextColor">#99FFFFFF</item><!-- uidTextTertiary -->
   </style>
   <style name="Theme.DLS.GroupBlue.VeryDark">
     <item name="uidBottomSheetDefaultBackgroundColor">@color/uid_group_blue_level_80</item><!-- uidContentPrimary -->
     <item name="uidButtonAccentNormalBackgroundColor">?attr/uidAccentLevel45</item><!-- uidControlAccent -->
     <item name="uidButtonAccentNormalIconColor">@color/uid_level_white</item><!-- uidControlAccentText -->
     <item name="uidButtonAccentNormalTextColor">@color/uid_level_white</item><!-- uidControlAccentText -->
-    <item name="uidButtonAccentFocusBorderColor">?attr/uidAccentLevel45</item><!-- uidControlAccentFocus -->
+    <item name="uidButtonAccentFocusBackgroundColor">?attr/uidAccentLevel45
+    </item><!-- uidControlAccentFocus -->
+    <item name="uidButtonAccentFocusBorderColor">?attr/uidAccentLevel45
+    </item><!-- uidControlAccentFocusBorder -->
     <item name="uidButtonAccentPressedBackgroundColor">?attr/uidAccentLevel55</item><!-- uidControlAccentPressed -->
     <item name="uidButtonAccentDisabledBackgroundColor">?attr/uidAccentLevel45</item><!-- uidControlAccentDisabled -->
-    <item name="uidButtonAccentDisabledIconColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
-    <item name="uidButtonAccentDisabledTextColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
+    <item name="uidButtonAccentDisabledIconColor">#80FFFFFF
+    </item><!-- uidControlAccentTextDisabled -->
+    <item name="uidButtonAccentDisabledTextColor">#80FFFFFF
+    </item><!-- uidControlAccentTextDisabled -->
+    <item name="uidButtonInputNormalArrowIconColor">@color/uid_gray_level_75
+    </item><!-- uidArrowIcon -->
+    <item name="uidButtonInputNormalBackgroundColor">@color/uid_group_blue_level_10
+    </item><!-- uidInput -->
+    <item name="uidButtonInputNormalIconColor">@color/uid_gray_level_75</item><!-- uidInputText -->
+    <item name="uidButtonInputFocusBackgroundColor">#00FFFFFF</item><!-- uidInputButtonHover -->
+    <item name="uidButtonInputPressedBackgroundColor">@color/uid_group_blue_level_10
+    </item><!-- uidInputPressed -->
+    <item name="uidButtonInputDisabledArrowIconColor">#59FFFFFF</item><!-- uidArrowIconDisabled -->
+    <item name="uidButtonInputDisabledBackgroundColor">#59DAF1F7</item><!-- uidInputDisabled -->
+    <item name="uidButtonInputDisabledIconColor">#59FFFFFF</item><!-- uidInputTextDisabled -->
     <item name="uidButtonPrimaryNormalBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
     <item name="uidButtonPrimaryNormalIconColor">@color/uid_level_white</item><!-- uidControlPrimaryText -->
     <item name="uidButtonPrimaryNormalTextColor">@color/uid_level_white</item><!-- uidControlPrimaryText -->
-    <item name="uidButtonPrimaryFocusBorderColor">#591474A4</item><!-- uidControlPrimaryFocus -->
+    <item name="uidButtonPrimaryFocusBackgroundColor">@color/uid_group_blue_level_45
+    </item><!-- uidControlPrimaryFocus -->
+    <item name="uidButtonPrimaryFocusBorderColor">#591474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
     <item name="uidButtonPrimaryProgressBackgroundColor">#591474A4</item><!-- uidControlPrimaryDisabled -->
     <item name="uidButtonPrimaryPressedBackgroundColor">@color/uid_group_blue_level_55</item><!-- uidControlPrimaryPressed -->
     <item name="uidButtonPrimaryDisabledBackgroundColor">#591474A4</item><!-- uidControlPrimaryDisabled -->
     <item name="uidButtonPrimaryDisabledIconColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
     <item name="uidButtonPrimaryDisabledTextColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
-    <item name="uidButtonQuietNormalIconColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
-    <item name="uidButtonQuietNormalTextColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
-    <item name="uidButtonQuietFocusBackgroundColor">#591474A4</item><!-- uidControlPrimaryFocus -->
-    <item name="uidButtonQuietFocusIconColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
-    <item name="uidButtonQuietFocusTextColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
-    <item name="uidButtonQuietPressedIconColor">@color/uid_group_blue_level_55</item><!-- uidControlPrimaryPressed -->
-    <item name="uidButtonQuietPressedTextColor">@color/uid_group_blue_level_55</item><!-- uidControlPrimaryPressed -->
-    <item name="uidButtonQuietDisabledIconColor">#591474A4</item><!-- uidControlPrimaryDisabled -->
-    <item name="uidButtonQuietDisabledTextColor">#591474A4</item><!-- uidControlPrimaryDisabled -->
+    <item name="uidButtonQuietDefaultNormalIconColor">#CCFFFFFF</item><!-- uidTextSecondary -->
+    <item name="uidButtonQuietDefaultNormalTextColor">#CCFFFFFF</item><!-- uidTextSecondary -->
+    <item name="uidButtonQuietDefaultFocusIconColor">@color/uid_level_white
+    </item><!-- uidTextPrimary -->
+    <item name="uidButtonQuietDefaultFocusTextColor">@color/uid_level_white
+    </item><!-- uidTextPrimary -->
+    <item name="uidButtonQuietDefaultPressedIconColor">#80FFFFFF</item><!-- uidTextTertiary -->
+    <item name="uidButtonQuietDefaultPressedTextColor">#80FFFFFF</item><!-- uidTextTertiary -->
+    <item name="uidButtonQuietDefaultDisabledIconColor">#59FFFFFF</item><!-- uidTextDisabled -->
+    <item name="uidButtonQuietDefaultDisabledTextColor">#59FFFFFF</item><!-- uidTextDisabled -->
+    <item name="uidButtonQuietEmphasisNormalIconColor">@color/uid_group_blue_level_45
+    </item><!-- uidControlPrimary -->
+    <item name="uidButtonQuietEmphasisNormalTextColor">@color/uid_group_blue_level_45
+    </item><!-- uidControlPrimary -->
+    <item name="uidButtonQuietEmphasisFocusBackgroundColor">#591474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
+    <item name="uidButtonQuietEmphasisFocusIconColor">@color/uid_group_blue_level_45
+    </item><!-- uidControlPrimary -->
+    <item name="uidButtonQuietEmphasisFocusTextColor">@color/uid_group_blue_level_45
+    </item><!-- uidControlPrimary -->
+    <item name="uidButtonQuietEmphasisPressedIconColor">@color/uid_group_blue_level_55
+    </item><!-- uidControlPrimaryPressed -->
+    <item name="uidButtonQuietEmphasisPressedTextColor">@color/uid_group_blue_level_55
+    </item><!-- uidControlPrimaryPressed -->
+    <item name="uidButtonQuietEmphasisDisabledIconColor">#591474A4
+    </item><!-- uidControlPrimaryDisabled -->
+    <item name="uidButtonQuietEmphasisDisabledTextColor">#591474A4
+    </item><!-- uidControlPrimaryDisabled -->
     <item name="uidButtonSecondaryNormalBackgroundColor">@color/uid_group_blue_level_15</item><!-- uidControlSecondary -->
     <item name="uidButtonSecondaryNormalIconColor">@color/uid_group_blue_level_75</item><!-- uidControlSecondaryText -->
     <item name="uidButtonSecondaryNormalTextColor">@color/uid_group_blue_level_75</item><!-- uidControlSecondaryText -->
-    <item name="uidButtonSecondaryFocusBorderColor">#59BFE2EB</item><!-- uidControlSecondaryFocus -->
+    <item name="uidButtonSecondaryFocusBackgroundColor">@color/uid_group_blue_level_15
+    </item><!-- uidControlSecondaryFocus -->
+    <item name="uidButtonSecondaryFocusBorderColor">#59BFE2EB
+    </item><!-- uidControlSecondaryFocusBorder -->
     <item name="uidButtonSecondaryPressedBackgroundColor">@color/uid_group_blue_level_25</item><!-- uidControlSecondaryPressed -->
     <item name="uidButtonSecondaryDisabledBackgroundColor">#59BFE2EB</item><!-- uidControlSecondaryDisabled -->
     <item name="uidButtonSecondaryDisabledIconColor">#801C2D66</item><!-- uidControlSecondaryTextDisabled -->
@@ -1157,32 +1464,24 @@
     <item name="uidCarouselDefaultPressedIconColor">@color/uid_level_white</item><!-- uidTextPrimary -->
     <item name="uidCarouselDefaultDisabledIconColor">#59FFFFFF</item><!-- uidTextPrimaryDisabled -->
     <item name="uidCarouselDefaultTitleTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
-    <item name="uidCheckBoxDefaultNormalIconColor">@color/uid_level_white</item><!-- uidControlPrimaryText -->
-    <item name="uidCheckBoxDefaultNormalOnIconColor">@color/uid_level_white</item><!-- uidControlPrimaryText -->
-    <item name="uidCheckBoxDefaultNormalTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
     <item name="uidCheckBoxDefaultNormalOnBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
+    <item name="uidCheckBoxDefaultNormalOnIconColor">@color/uid_level_white
+    </item><!-- uidControlPrimaryText -->
     <item name="uidCheckBoxDefaultNormalOffBackgroundColor">#991474A4</item><!-- uidControlPrimaryOff -->
-    <item name="uidCheckBoxDefaultFocusBorderColor">#591474A4</item><!-- uidControlPrimaryFocus -->
-    <item name="uidCheckBoxDefaultPressedBorderColor">#591474A4</item><!-- uidControlPrimaryFocus -->
+    <item name="uidCheckBoxDefaultFocusBorderColor">#591474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
+    <item name="uidCheckBoxDefaultPressedBorderColor">#591474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
     <item name="uidCheckBoxDefaultDisabledBackgroundColor">#591474A4</item><!-- uidControlPrimaryDisabled -->
-    <item name="uidCheckBoxDefaultDisabledIconColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
-    <item name="uidCheckBoxDefaultDisabledTextColor">#59FFFFFF</item><!-- uidTextPrimaryDisabled -->
-    <item name="uidComboBoxDefaultNormalArrowIconColor">@color/uid_gray_level_75</item><!-- uidInputText -->
-    <item name="uidComboBoxDefaultNormalButtonColor">#00FFFFFF</item><!-- uidNoColor -->
-    <item name="uidComboBoxDefaultNormalSeparatorColor">@color/uid_group_blue_level_15</item><!-- uidInputSeparator -->
-    <item name="uidComboBoxDefaultFocusButtonColor">@color/uid_group_blue_level_10</item><!-- uidInputButtonPressed -->
-    <item name="uidComboBoxDefaultFocusSeparatorColor">@color/uid_group_blue_level_15</item><!-- uidInputSeparator -->
-    <item name="uidComboBoxDefaultPressedButtonColor">@color/uid_group_blue_level_10</item><!-- uidInputButtonPressed -->
-    <item name="uidComboBoxDefaultPressedSeparatorColor">@color/uid_group_blue_level_15</item><!-- uidInputSeparator -->
-    <item name="uidComboBoxDefaultDisabledArrowIconColor">#59FFFFFF</item><!-- uidInputTextDisabled -->
-    <item name="uidComboBoxDefaultDisabledButtonColor">#00FFFFFF</item><!-- uidNoColor -->
-    <item name="uidComboBoxDefaultDisabledSeparatorColor">#59BFE2EB</item><!-- uidInputSeparatorDisabled -->
+    <item name="uidCheckBoxDefaultDisabledIconColor">#80FFFFFF
+    </item><!-- uidControlPrimaryDetailDisabled -->
     <item name="uidContentPrimaryBackgroundColor">@color/uid_group_blue_level_80</item><!-- uidContentPrimary -->
     <item name="uidContentSecondaryBackgroundColor">@color/uid_group_blue_level_75</item><!-- uidContentSecondary -->
     <item name="uidContentTertiaryBackgroundColor">@color/uid_group_blue_level_90</item><!-- uidContentTertiary -->
     <item name="uidContentItemDefaultNormalArrowIconColor">#80FFFFFF</item><!-- uidTextTertiary -->
     <item name="uidContentItemDefaultNormalBodyTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
-    <item name="uidContentItemDefaultNormalChevronIconColor">#80FFFFFF</item><!-- uidTextTertiary -->
+    <item name="uidContentItemDefaultNormalChevronIconColor">#CCFFFFFF
+    </item><!-- uidTextSecondary -->
     <item name="uidContentItemDefaultNormalDescriptorIconColor">#80FFFFFF</item><!-- uidTextTertiary -->
     <item name="uidContentItemDefaultNormalDescriptorTextColor">#80FFFFFF</item><!-- uidTextTertiary -->
     <item name="uidContentItemDefaultNormalDetailTextColor">#80FFFFFF</item><!-- uidTextTertiary -->
@@ -1206,6 +1505,7 @@
     <item name="uidDataVisualizationChartsDisabledLegendIndicator3Color">#592B86B2</item><!-- uidDataColor3Disabled -->
     <item name="uidDataVisualizationChartsDisabledLegendIndicator4Color">#59176498</item><!-- uidDataColor4Disabled -->
     <item name="uidDataVisualizationChartsDisabledLegendTextColor">#59F0F8FA</item><!-- uidTextSecondaryDisabled -->
+    <item name="uidDataVisualizationChartsAxisColor">#26FFFFFF</item><!-- uidSeparator -->
     <item name="uidDataVisualizationChartsAxisLabelTextColor">#80FFFFFF</item><!-- uidTextTertiary -->
     <item name="uidDataVisualizationChartsGridlinesColor">#26FFFFFF</item><!-- uidSeparator -->
     <item name="uidDataVisualizationChartsLegendIndicator1Color">@color/uid_group_blue_level_20</item><!-- uidDataColor1 -->
@@ -1242,19 +1542,10 @@
     <item name="uidDatePickerAndroidNormalOnHeaderTextColor">@color/uid_level_white</item><!-- uidNavigationText -->
     <item name="uidDatePickerIosNormalTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
     <item name="uidDialogAlertDefaultBackgroundColor">@color/uid_level_white</item><!-- uidPopup -->
-    <item name="uidDialogAlertDefaultBodyIconColor">#CC212121</item><!-- uidTextSecondary -->
-    <item name="uidDialogAlertDefaultBodyTextColor">#CC212121</item><!-- uidTextSecondary -->
-    <item name="uidDialogAlertDefaultCloseIconColor">@color/uid_gray_level_75</item><!-- uidTextPrimary -->
-    <item name="uidDialogAlertDefaultTitleIconColor">@color/uid_gray_level_75</item><!-- uidTextPrimary -->
-    <item name="uidDialogAlertDefaultTitleTextColor">@color/uid_gray_level_75</item><!-- uidTextPrimary -->
     <item name="uidDimLayerStrongBackgroundColor">#CC0A0C1E</item><!-- uidDimStrong -->
     <item name="uidDimLayerSubtleBackgroundColor">#4D0A0C1E</item><!-- uidDimSubtle -->
     <item name="uidDotNavigationDefaultNormalOnBackgroundColor">@color/uid_level_white</item><!-- uidDotActive -->
     <item name="uidDotNavigationDefaultNormalOffBackgroundColor">#59FFFFFF</item><!-- uidDot -->
-    <item name="uidDropdownListDefaultNormalArrowIconColor">@color/uid_gray_level_75</item><!-- uidInputText -->
-    <item name="uidDropdownListDefaultNormalIconColor">@color/uid_gray_level_75</item><!-- uidInputText -->
-    <item name="uidDropdownListDefaultDisabledArrowIconColor">#59FFFFFF</item><!-- uidInputTextDisabled -->
-    <item name="uidDropdownListDefaultDisabledIconColor">#59FFFFFF</item><!-- uidInputTextDisabled -->
     <item name="uidGridViewBackgroundDarkBackgroundColor">@color/uid_group_blue_level_90</item><!-- uidGridViewBackgroundDark -->
     <item name="uidGridViewBackgroundDarkHeaderTextColor">#80FFFFFF</item><!-- uidLightTextTertiary -->
     <item name="uidGridViewBackgroundLightBackgroundColor">@color/uid_level_white</item><!-- uidGridViewBackgroundLight -->
@@ -1271,24 +1562,33 @@
     <item name="uidHyperlinkDefaultNormalTextColor">@color/uid_group_blue_level_20</item><!-- uidHyperlinkNormal -->
     <item name="uidHyperlinkDefaultVisitedTextColor">#B29DD3E3</item><!-- uidHyperlinkVisited -->
     <item name="uidHyperlinkDefaultPressedTextColor">@color/uid_level_white</item><!-- uidHyperlinkPressed -->
-    <item name="uidLabelRegularNormalIconColor">#80FFFFFF</item><!-- uidTextTertiary -->
-    <item name="uidLabelRegularNormalTextColor">#80FFFFFF</item><!-- uidTextTertiary -->
-    <item name="uidLabelRegularDisabledIconColor">#40F0F8FA</item><!-- uidTextTertiaryDisabled -->
-    <item name="uidLabelRegularDisabledTextColor">#40F0F8FA</item><!-- uidTextTertiaryDisabled -->
-    <item name="uidLabelValueNormalIconColor">@color/uid_level_white</item><!-- uidTextPrimary -->
+    <item name="uidLabelDescriptorNormalTextColor">#80FFFFFF</item><!-- uidTextTertiary -->
+    <item name="uidLabelDescriptorDisabledTextColor">#59FFFFFF</item><!-- uidTextDisabled -->
+    <item name="uidLabelRegularNormalTextColor">#CCFFFFFF</item><!-- uidTextSecondary -->
+    <item name="uidLabelRegularDisabledTextColor">#59FFFFFF</item><!-- uidTextDisabled -->
     <item name="uidLabelValueNormalTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
-    <item name="uidLabelValueDisabledIconColor">#59FFFFFF</item><!-- uidTextPrimaryDisabled -->
-    <item name="uidLabelValueDisabledTextColor">#59FFFFFF</item><!-- uidTextPrimaryDisabled -->
+    <item name="uidLabelValueDisabledTextColor">#59FFFFFF</item><!-- uidTextDisabled -->
     <item name="uidListItemDefaultNormalOnBackgroundColor">#261474A4</item><!-- uidListSelected -->
+    <item name="uidListItemDefaultNormalOnIconColor">#CCFFFFFF</item><!-- uidIconOn -->
+    <item name="uidListItemDefaultNormalOnTextColor">@color/uid_level_white</item><!-- uidItemOn -->
+    <item name="uidListItemDefaultNormalOffBackgroundColor">#00FFFFFF</item><!-- uidNoColor -->
+    <item name="uidListItemDefaultNormalOffIconColor">#80FFFFFF</item><!-- uidIconOff -->
+    <item name="uidListItemDefaultNormalOffTextColor">#CCFFFFFF</item><!-- uidTextOff -->
     <item name="uidListItemDefaultFocusBackgroundColor">#1AFFFFFF</item><!-- uidListFocus -->
     <item name="uidListItemDefaultPressedBackgroundColor">#261474A4</item><!-- uidListSelected -->
+    <item name="uidMenuItemDefaultNormalOnBackgroundColor">#26FFFFFF</item><!-- uidSeparator -->
+    <item name="uidMenuItemDefaultNormalOffBackgroundColor">#00FFFFFF</item><!-- uidNoColor -->
+    <item name="uidMovieBarClinicalBackgroundColor">#00FFFFFF</item><!-- uidNotYetDefined -->
     <item name="uidNavigationPrimaryBackgroundColor">@color/uid_group_blue_level_70</item><!-- uidNavigationPrimary -->
     <item name="uidNavigationPrimaryIconColor">@color/uid_level_white</item><!-- uidNavigationText -->
     <item name="uidNavigationPrimaryTextColor">@color/uid_level_white</item><!-- uidNavigationText -->
     <item name="uidNavigationSecondaryBackgroundColor">@color/uid_group_blue_level_75</item><!-- uidNavigationSecondary -->
     <item name="uidNavigationSecondaryIconColor">@color/uid_level_white</item><!-- uidNavigationText -->
     <item name="uidNavigationSecondaryTextColor">@color/uid_level_white</item><!-- uidNavigationText -->
-    <item name="uidNotificationBadgeDefaultBackgroundColor">@color/uid_signal_red_level_60</item><!-- uidControlNotification -->
+    <item name="uidNotificationBadgeDefaultAccentBackgroundColor">?attr/uidAccentLevel45
+    </item><!-- uidControlAccent -->
+    <item name="uidNotificationBadgeDefaultBackgroundColor">@null
+    </item><!-- uidControlNotification -->
     <item name="uidNotificationBadgeDefaultTextColor">@color/uid_level_white</item><!-- uidControlAccentText -->
     <item name="uidNotificationBadgeOptionBackgroundColor">?attr/uidAccentLevel45</item><!-- uidControlAccent -->
     <item name="uidNotificationBadgeOptionTextColor">@color/uid_level_white</item><!-- uidControlAccentText -->
@@ -1305,20 +1605,20 @@
     <item name="uidNotificationBarWhiteNormalPrimaryTextColor">@color/uid_gray_level_75</item><!-- uidGrayPrimaryText -->
     <item name="uidNotificationBarWhiteNormalSecondaryTextColor">@color/uid_gray_level_65</item><!-- uidGraySecondaryText -->
     <item name="uidPopupDefaultNormalBackgroundColor">@color/uid_level_white</item><!-- uidPopup -->
-    <item name="uidRadioButtonDefaultNormalTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
     <item name="uidRadioButtonDefaultNormalOnBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
     <item name="uidRadioButtonDefaultNormalOnIconColor">@color/uid_level_white</item><!-- uidControlPrimaryText -->
     <item name="uidRadioButtonDefaultNormalOffBackgroundColor">#991474A4</item><!-- uidControlPrimaryOff -->
-    <item name="uidRadioButtonDefaultFocusBorderColor">#591474A4</item><!-- uidControlPrimaryFocus -->
-    <item name="uidRadioButtonDefaultPressedBorderColor">#591474A4</item><!-- uidControlPrimaryFocus -->
+    <item name="uidRadioButtonDefaultFocusBorderColor">#591474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
+    <item name="uidRadioButtonDefaultPressedBorderColor">#591474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
     <item name="uidRadioButtonDefaultDisabledBackgroundColor">#591474A4</item><!-- uidControlPrimaryDisabled -->
-    <item name="uidRadioButtonDefaultDisabledIconColor">#80FFFFFF</item><!-- uidControlPrimaryTextDisabled -->
-    <item name="uidRadioButtonDefaultDisabledTextColor">#59FFFFFF</item><!-- uidTextPrimaryDisabled -->
+    <item name="uidRadioButtonDefaultDisabledIconColor">#80FFFFFF
+    </item><!-- uidControlPrimaryDetailDisabled -->
     <item name="uidRatingBarDefaultNormalOnIconColor">@color/uid_signal_orange_level_30</item><!-- uidRatingStarOn -->
     <item name="uidRatingBarDefaultNormalOnTextColor">@color/uid_signal_orange_level_30</item><!-- uidRatingTextOn -->
     <item name="uidRatingBarDefaultNormalOffIconColor">#4DFFFFFF</item><!-- uidRatingStarOff -->
     <item name="uidRatingBarDefaultNormalOffTextColor">#80FFFFFF</item><!-- uidTextTertiary -->
-    <item name="uidScrollbarDefaultNormalBackgroundColor">#80FFFFFF</item><!-- uidScrollbar -->
     <item name="uidSearchBoxAndroidDefaultNormalClearIconColor">#80212121</item><!-- uidNeutralTextTertiary -->
     <item name="uidSearchBoxAndroidDefaultNormalHintTextColor">@color/uid_gray_level_35</item><!-- uidInputHintText -->
     <item name="uidSearchBoxAndroidDefaultNormalInputBackgroundColor">@color/uid_group_blue_level_10</item><!-- uidInput -->
@@ -1341,19 +1641,32 @@
     <item name="uidSearchBoxIosProminentNormalCancelTextColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
     <item name="uidSearchBoxIosProminentNormalSearchbarBackgroundColor">@color/uid_group_blue_level_80</item><!-- uidContentPrimary -->
     <item name="uidSearchBoxIosProminentPressedCancelTextColor">@color/uid_group_blue_level_55</item><!-- uidControlPrimaryPressed -->
-    <item name="uidSeparatorButtonSeparatorNormalBackgroundColor">@color/uid_group_blue_level_15</item><!-- uidInputSeparator -->
-    <item name="uidSeparatorButtonSeparatorDisabledBackgroundColor">#59BFE2EB</item><!-- uidInputSeparatorDisabled -->
-    <item name="uidSeparatorContentSeparatorNormalBackgroundColor">#26FFFFFF</item><!-- uidSeparator -->
-    <item name="uidSeparatorInputSeparatorNormalBackgroundColor">@color/uid_group_blue_level_15</item><!-- uidInputSeparator -->
-    <item name="uidSeparatorInputSeparatorDisabledBackgroundColor">#59BFE2EB</item><!-- uidInputSeparatorDisabled -->
+    <item name="uidSeparatorButtonNormalBackgroundColor">#33439AC1</item><!-- uidButtonSeparator -->
+    <item name="uidSeparatorButtonDisabledBackgroundColor">#1A439AC1
+    </item><!-- uidButtonSeparatorDisabled -->
+    <item name="uidSeparatorContentNormalBackgroundColor">#26FFFFFF</item><!-- uidSeparator -->
+    <item name="uidSeparatorInputNormalBackgroundColor">@color/uid_group_blue_level_15
+    </item><!-- uidInputSeparator -->
+    <item name="uidSeparatorInputDisabledBackgroundColor">#59BFE2EB
+    </item><!-- uidInputSeparatorDisabled -->
     <item name="uidShadowLevelOneNormalShadowColor">#59000000</item><!-- uidShadowLevelOne -->
     <item name="uidShadowLevelOneDisabledShadowColor">#1A000000</item><!-- uidShadowLevelOneDisabled -->
     <item name="uidShadowLevelThreeNormalShadowColor">#59000000</item><!-- uidShadowLevelThree -->
     <item name="uidShadowLevelTwoNormalShadowColor">#59000000</item><!-- uidShadowLevelTwo -->
-    <item name="uidSidebarContentPrimaryBackgroundColor">@color/uid_group_blue_level_80</item><!-- uidContentPrimary -->
-    <item name="uidSidebarContentSecondaryBackgroundColor">@color/uid_group_blue_level_75</item><!-- uidContentSecondary -->
-    <item name="uidSidebarNavigationPrimaryBackgroundColor">@color/uid_group_blue_level_70</item><!-- uidNavigationPrimary -->
-    <item name="uidSidebarNavigationSecondaryBackgroundColor">@color/uid_group_blue_level_75</item><!-- uidNavigationSecondary -->
+    <item name="uidSplitToggleButtonDefaultNormalOnBackgroundColor">@color/uid_level_white
+    </item><!-- uidToggleOn -->
+    <item name="uidSplitToggleButtonDefaultNormalOnIconColor">@color/uid_group_blue_level_75
+    </item><!-- uidToggleOnIcon -->
+    <item name="uidSplitToggleButtonDefaultNormalOnTextColor">@color/uid_group_blue_level_75
+    </item><!-- uidToggleOnText -->
+    <item name="uidSplitToggleButtonDefaultPressedOnBackgroundColor">@color/uid_level_white
+    </item><!-- uidTogglePressed -->
+    <item name="uidSplitToggleButtonDefaultDisabledOnBackgroundColor">#33DAF1F7
+    </item><!-- uidToggleOnDisabled -->
+    <item name="uidSplitToggleButtonDefaultDisabledOnIconColor">#B21C2D66
+    </item><!-- uidToggleOnTextDisabled -->
+    <item name="uidSplitToggleButtonDefaultDisabledOnTextColor">#B21C2D66
+    </item><!-- uidToggleOnTextDisabled -->
     <item name="uidSpringBoardDefaultNormalBackgroundColor">@color/uid_group_blue_level_80</item><!-- uidContentPrimary -->
     <item name="uidSpringBoardDefaultNormalIconColor">@color/uid_level_white</item><!-- uidSpringboardIcon -->
     <item name="uidSpringBoardDefaultNormalTextColor">@color/uid_level_white</item><!-- uidPrimaryText -->
@@ -1375,10 +1688,16 @@
     <item name="uidStatusBarIosBackgroundColor">@color/uid_group_blue_level_70</item><!-- uidStatusBarIos -->
     <item name="uidStatusBarIosIconColor">@color/uid_level_white</item><!-- uidStatusBarIosText -->
     <item name="uidStatusBarIosTextColor">@color/uid_level_white</item><!-- uidStatusBarIosText -->
-    <item name="uidTabsDefaultNormalTextColor">@color/uid_group_blue_level_20</item><!-- uidTabsNormal -->
-    <item name="uidTabsDefaultNormalOnIndicatorColor">@color/uid_level_white</item><!-- uidTabsOn -->
-    <item name="uidTabsDefaultNormalOnTextColor">@color/uid_level_white</item><!-- uidTabsOn -->
-    <item name="uidTabsDefaultPressedTextColor">@color/uid_level_white</item><!-- uidTabsOn -->
+    <item name="uidTabsDefaultNormalOnIconColor">@color/uid_level_white</item><!-- uidItemOn -->
+    <item name="uidTabsDefaultNormalOnIndicatorColor">@color/uid_level_white
+    </item><!-- uidItemOn -->
+    <item name="uidTabsDefaultNormalOnTextColor">@color/uid_level_white</item><!-- uidItemOn -->
+    <item name="uidTabsDefaultNormalOffIconColor">#80FFFFFF</item><!-- uidTextTertiary -->
+    <item name="uidTabsDefaultNormalOffTextColor">#CCFFFFFF</item><!-- uidTextSecondary -->
+    <item name="uidTabsDefaultPressedOffIconColor">@color/uid_level_white
+    </item><!-- uidTextPrimary -->
+    <item name="uidTabsDefaultPressedOffTextColor">@color/uid_level_white
+    </item><!-- uidTextPrimary -->
     <item name="uidTextDisabledTextColor">#59FFFFFF</item><!-- uidTextDisabled -->
     <item name="uidTextEmphasisTextColor">@color/uid_group_blue_level_30</item><!-- uidTextEmphasis -->
     <item name="uidTextEmphasisDisabledTextColor">#595DAFD1</item><!-- uidTextEmphasisDisabled -->
@@ -1391,10 +1710,15 @@
     <item name="uidTextBoxDefaultNormalBorderColor">#00FFFFFF</item><!-- uidInputBorder -->
     <item name="uidTextBoxDefaultNormalClearIconColor">#B2383838</item><!-- uidGrayTertiaryText -->
     <item name="uidTextBoxDefaultNormalHintTextColor">@color/uid_gray_level_35</item><!-- uidInputHintText -->
-    <item name="uidTextBoxDefaultNormalTextColor">@color/uid_gray_level_75</item><!-- uidInputText -->
+    <item name="uidTextBoxDefaultNormalTextColor">@color/uid_level_white
+    </item><!-- uidTextPrimaryVdg -->
     <item name="uidTextBoxDefaultFocusBackgroundColor">@color/uid_level_white</item><!-- uidInputFocus -->
     <item name="uidTextBoxDefaultFocusBorderColor">#00FFFFFF</item><!-- uidInputBorderFocus -->
     <item name="uidTextBoxDefaultFocusOutlineColor">#591474A4</item><!-- uidInputOutline -->
+    <item name="uidTextBoxDefaultFocusSelectionBackgroundColor">#00FFFFFF
+    </item><!-- uidInputTextSelectionBackground -->
+    <item name="uidTextBoxDefaultFocusSelectionTextColor">@color/uid_level_white
+    </item><!-- uidTextPrimaryVdg -->
     <item name="uidTextBoxDefaultValidatedBackgroundColor">#FFF1D3</item><!-- uidInputValidatedBackground -->
     <item name="uidTextBoxDefaultValidatedBorderColor">#00FFFFFF</item><!-- uidInputValidatedBorder -->
     <item name="uidTextBoxDefaultValidatedTextColor">@color/uid_signal_orange_level_75</item><!-- uidInputValidatedText -->
@@ -1412,19 +1736,33 @@
     <item name="uidTextBoxInlineNormalTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
     <item name="uidTextBoxInlineFocusTextColor">@color/uid_level_white</item><!-- uidTextPrimary -->
     <item name="uidThumbDefaultNormalBackgroundColor">@color/uid_level_white</item><!-- uidThumb -->
-    <item name="uidThumbDefaultFocusBorderColor">#591474A4</item><!-- uidControlPrimaryFocus -->
-    <item name="uidThumbDefaultPressedBorderColor">#591474A4</item><!-- uidControlPrimaryFocus -->
+    <item name="uidThumbDefaultFocusBorderColor">#591474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
+    <item name="uidThumbDefaultPressedBorderColor">#591474A4
+    </item><!-- uidControlPrimaryFocusBorder -->
     <item name="uidThumbDefaultDisabledBackgroundColor">@color/uid_group_blue_level_60</item><!-- uidThumbDisabled -->
-    <item name="uidThumbDefaultDisabledTextColor">#59FFFFFF</item><!-- uidTextPrimaryDisabled -->
+    <item name="uidThumbScrollbarNormalBackgroundColor">#80FFFFFF</item><!-- uidScrollbar -->
+    <item name="uidThumbScrollbarPressedBackgroundColor">#B2FFFFFF</item><!-- uidScrollbarHover -->
+    <item name="uidThumbScrollbarDisabledBackgroundColor">#26FFFFFF
+    </item><!-- uidScrollbarDisabled -->
     <item name="uidToggleButtonDefaultNormalOnBackgroundColor">@color/uid_level_white</item><!-- uidToggleOn -->
-    <item name="uidToggleButtonDefaultNormalOnIconColor">@color/uid_group_blue_level_75</item><!-- uidToggleOnText -->
+    <item name="uidToggleButtonDefaultNormalOnIconColor">@color/uid_group_blue_level_75
+    </item><!-- uidToggleOnIcon -->
+    <item name="uidToggleButtonDefaultNormalOnIndicatorColor">#00FFFFFF
+    </item><!-- uidIndicatorOn -->
     <item name="uidToggleButtonDefaultNormalOnTextColor">@color/uid_group_blue_level_75</item><!-- uidToggleOnText -->
     <item name="uidToggleButtonDefaultNormalOffBackgroundColor">#33DAF1F7</item><!-- uidToggleOff -->
-    <item name="uidToggleButtonDefaultNormalOffIconColor">#80F0F8FA</item><!-- uidToggleOffText -->
+    <item name="uidToggleButtonDefaultNormalOffIconColor">#80F0F8FA</item><!-- uidToggleOffIcon -->
+    <item name="uidToggleButtonDefaultNormalOffIndicatorColor">#00FFFFFF
+    </item><!-- uidIndicatorOff -->
     <item name="uidToggleButtonDefaultNormalOffTextColor">#80F0F8FA</item><!-- uidToggleOffText -->
-    <item name="uidToggleButtonDefaultPressedBackgroundColor">@color/uid_level_white</item><!-- uidToggleOn -->
-    <item name="uidToggleButtonDefaultPressedIconColor">@color/uid_group_blue_level_75</item><!-- uidToggleOnText -->
+    <item name="uidToggleButtonDefaultPressedBackgroundColor">@color/uid_level_white
+    </item><!-- uidTogglePressed -->
+    <item name="uidToggleButtonDefaultPressedIconColor">@color/uid_group_blue_level_75
+    </item><!-- uidToggleOnIcon -->
     <item name="uidToggleButtonDefaultPressedTextColor">@color/uid_group_blue_level_75</item><!-- uidToggleOnText -->
+    <item name="uidToggleButtonDefaultDisabledIndicatorColor">#00FFFFFF
+    </item><!-- uidIndicatorDisabled -->
     <item name="uidToggleButtonDefaultDisabledOnBackgroundColor">#33DAF1F7</item><!-- uidToggleOnDisabled -->
     <item name="uidToggleButtonDefaultDisabledOnIconColor">#B21C2D66</item><!-- uidToggleOnTextDisabled -->
     <item name="uidToggleButtonDefaultDisabledOnTextColor">#B21C2D66</item><!-- uidToggleOnTextDisabled -->
@@ -1432,12 +1770,15 @@
     <item name="uidToggleButtonDefaultDisabledOffIconColor">#33F0F8FA</item><!-- uidToggleOffTextDisabled -->
     <item name="uidToggleButtonDefaultDisabledOffTextColor">#33F0F8FA</item><!-- uidToggleOffTextDisabled -->
     <item name="uidToggleButtonQuietNormalOnBackgroundColor">@color/uid_level_white</item><!-- uidQuietToggleOn -->
-    <item name="uidToggleButtonQuietNormalOnIconColor">@color/uid_group_blue_level_75</item><!-- uidQuietToggleOnText -->
+    <item name="uidToggleButtonQuietNormalOnIconColor">@color/uid_group_blue_level_75
+    </item><!-- uidToggleOnIcon -->
     <item name="uidToggleButtonQuietNormalOnTextColor">@color/uid_group_blue_level_75</item><!-- uidQuietToggleOnText -->
-    <item name="uidToggleButtonQuietNormalOffIconColor">#80F0F8FA</item><!-- uidQuietToggleOffText -->
+    <item name="uidToggleButtonQuietNormalOffBackgroundColor">#00FFFFFF</item><!-- uidNoColor -->
+    <item name="uidToggleButtonQuietNormalOffIconColor">#80F0F8FA</item><!-- uidToggleOffIcon -->
     <item name="uidToggleButtonQuietNormalOffTextColor">#80F0F8FA</item><!-- uidQuietToggleOffText -->
     <item name="uidToggleButtonQuietPressedBackgroundColor">@color/uid_level_white</item><!-- uidQuietToggleOn -->
-    <item name="uidToggleButtonQuietPressedIconColor">@color/uid_group_blue_level_75</item><!-- uidQuietToggleOnText -->
+    <item name="uidToggleButtonQuietPressedIconColor">@color/uid_group_blue_level_75
+    </item><!-- uidToggleOnIcon -->
     <item name="uidToggleButtonQuietPressedTextColor">@color/uid_group_blue_level_75</item><!-- uidQuietToggleOnText -->
     <item name="uidToggleButtonQuietDisabledOnBackgroundColor">#59FFFFFF</item><!-- uidQuietToggleOnDisabled -->
     <item name="uidToggleButtonQuietDisabledOnIconColor">#801C2D66</item><!-- uidQuietToggleOnTextDisabled -->
@@ -1445,6 +1786,7 @@
     <item name="uidToggleButtonQuietDisabledOffIconColor">#33F0F8FA</item><!-- uidQuietToggleOffTextDisabled -->
     <item name="uidToggleButtonQuietDisabledOffTextColor">#33F0F8FA</item><!-- uidQuietToggleOffTextDisabled -->
     <item name="uidToolbarInputBackgroundColor">#1FFFFFFF</item><!-- uidInputToolbar -->
+    <item name="uidToolbarOnImageBackgroundColor">#00FFFFFF</item><!-- uidToolbarOnImage -->
     <item name="uidTooltipDarkBackgroundColor">@color/uid_group_blue_level_60</item><!-- uidTooltipDark -->
     <item name="uidTooltipDarkIconColor">@color/uid_level_white</item><!-- uidLightTextPrimary -->
     <item name="uidTooltipDarkTextColor">@color/uid_level_white</item><!-- uidLightTextPrimary -->
@@ -1454,14 +1796,20 @@
     <item name="uidTooltipValidatedBackgroundColor">@color/uid_level_white</item><!-- uidTooltipValidated -->
     <item name="uidTooltipValidatedIconColor">@color/uid_level_white</item><!-- uidLightTextPrimary -->
     <item name="uidTooltipValidatedTextColor">@color/uid_level_white</item><!-- uidLightTextPrimary -->
-    <item name="uidTrackDangerNormalOnBackgroundColor">#00FFFFFF</item><!-- uidSignalBad -->
-    <item name="uidTrackDefaultNormalOnBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidControlPrimary -->
+    <item name="uidTrackDangerNormalOnBackgroundColor">@color/uid_signal_red_level_60
+    </item><!-- uidSignalError -->
+    <item name="uidTrackDefaultNormalOnBackgroundColor">@color/uid_group_blue_level_45
+    </item><!-- uidControlPrimaryOnVdg -->
     <item name="uidTrackDefaultNormalOffBackgroundColor">#99FFFFFF</item><!-- uidControlPrimaryTrackOff -->
     <item name="uidTrackDefaultDisabledBackgroundColor">#265DAFD1</item><!-- uidControlTrackDisabled -->
     <item name="uidTrackDetailNormalOnBackgroundColor">@color/uid_level_white</item><!-- uidControlPrimaryDetail -->
     <item name="uidTrackDetailNormalOffBackgroundColor">#4D5DAFD1</item><!-- uidControlTrackOff -->
     <item name="uidTrackDetailBufferBackgroundColor">#4DFFFFFF</item><!-- uidControlBuffer -->
-    <item name="uidTrackWarningNormalOnBackgroundColor">#00FFFFFF</item><!-- uidSignalNeutral -->
+    <item name="uidTrackScrollbarNormalBackgroundColor">#26FFFFFF</item><!-- uidScrollbarTrack -->
+    <item name="uidTrackScrollbarDisabledBackgroundColor">#1AFFFFFF
+    </item><!-- uidScrollbarTrackDisabled -->
+    <item name="uidTrackWarningNormalOnBackgroundColor">@color/uid_signal_orange_level_30
+    </item><!-- uidSignalWarning -->
     <item name="uidWizardDefaultNormalOnCircleBackgroundColor">@color/uid_group_blue_level_45</item><!-- uidWizardOn -->
     <item name="uidWizardDefaultNormalOnCircleIconColor">@color/uid_level_white</item><!-- uidWizardOnText -->
     <item name="uidWizardDefaultNormalOnCircleTextColor">@color/uid_level_white</item><!-- uidWizardOnText -->

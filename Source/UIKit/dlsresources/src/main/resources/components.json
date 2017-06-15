@@ -69,7 +69,7 @@
         "parent": [],
         "context": "accent",
         "property": {
-            "item": "border",
+          "item": "background",
             "type": "color",
             "value": "control-accent-focus"
         },
@@ -77,6 +77,19 @@
     },
     {
         "state": [
+          "focus"
+        ],
+      "parent": [],
+      "context": "accent",
+      "property": {
+        "item": "border",
+        "type": "color",
+        "value": "control-accent-focus-border"
+      },
+      "component": "button"
+    },
+  {
+    "state": [
             "pressed"
         ],
         "parent": [],
@@ -110,7 +123,7 @@
         "property": {
             "item": "icon",
             "type": "color",
-            "value": "control-primary-text-disabled"
+          "value": "control-accent-text-disabled"
         },
         "component": "button"
     },
@@ -123,7 +136,7 @@
         "property": {
             "item": "text",
             "type": "color",
-            "value": "control-primary-text-disabled"
+          "value": "control-accent-text-disabled"
         },
         "component": "button"
     },
@@ -132,11 +145,11 @@
             "normal"
         ],
         "parent": [],
-        "context": "primary",
+      "context": "input",
         "property": {
-            "item": "background",
+          "item": "arrow-icon",
             "type": "color",
-            "value": "control-primary"
+          "value": "arrow-icon"
         },
         "component": "button"
     },
@@ -145,11 +158,11 @@
             "normal"
         ],
         "parent": [],
-        "context": "primary",
+      "context": "input",
         "property": {
-            "item": "icon",
+          "item": "background",
             "type": "color",
-            "value": "control-primary-text"
+          "value": "input"
         },
         "component": "button"
     },
@@ -158,11 +171,11 @@
             "normal"
         ],
         "parent": [],
-        "context": "primary",
+      "context": "input",
         "property": {
-            "item": "text",
+          "item": "icon",
             "type": "color",
-            "value": "control-primary-text"
+          "value": "input-text"
         },
         "component": "button"
     },
@@ -171,9 +184,126 @@
             "hover"
         ],
         "parent": [],
-        "context": "primary",
+      "context": "input",
         "property": {
             "item": "background",
+            "type": "color",
+          "value": "input-button-hover"
+        },
+        "component": "button"
+    },
+    {
+        "state": [
+            "focus"
+        ],
+        "parent": [],
+      "context": "input",
+        "property": {
+          "item": "background",
+            "type": "color",
+          "value": "input-button-hover"
+        },
+        "component": "button"
+    },
+    {
+        "state": [
+          "pressed"
+        ],
+        "parent": [],
+      "context": "input",
+        "property": {
+            "item": "background",
+            "type": "color",
+          "value": "input-pressed"
+        },
+        "component": "button"
+    },
+    {
+        "state": [
+          "disabled"
+        ],
+        "parent": [],
+      "context": "input",
+        "property": {
+          "item": "arrow-icon",
+            "type": "color",
+          "value": "arrow-icon-disabled"
+        },
+        "component": "button"
+    },
+    {
+        "state": [
+            "disabled"
+        ],
+        "parent": [],
+      "context": "input",
+        "property": {
+            "item": "background",
+            "type": "color",
+          "value": "input-disabled"
+        },
+        "component": "button"
+    },
+    {
+        "state": [
+            "disabled"
+        ],
+        "parent": [],
+      "context": "input",
+        "property": {
+            "item": "icon",
+            "type": "color",
+          "value": "input-text-disabled"
+        },
+        "component": "button"
+    },
+    {
+        "state": [
+          "normal"
+        ],
+        "parent": [],
+        "context": "primary",
+        "property": {
+          "item": "background",
+            "type": "color",
+          "value": "control-primary"
+        },
+        "component": "button"
+    },
+    {
+        "state": [
+            "normal"
+        ],
+        "parent": [],
+      "context": "primary",
+        "property": {
+            "item": "icon",
+            "type": "color",
+          "value": "control-primary-text"
+        },
+        "component": "button"
+    },
+    {
+        "state": [
+            "normal"
+        ],
+        "parent": [],
+      "context": "primary",
+        "property": {
+            "item": "text",
+            "type": "color",
+          "value": "control-primary-text"
+        },
+        "component": "button"
+    },
+    {
+        "state": [
+            "hover"
+        ],
+        "parent": [],
+      "context": "primary",
+        "property": {
+          "item": "background",
             "type": "color",
             "value": "control-primary-hover"
         },
@@ -184,137 +314,7 @@
             "focus"
         ],
         "parent": [],
-        "context": "primary",
-        "property": {
-            "item": "border",
-            "type": "color",
-            "value": "control-primary-focus"
-        },
-        "component": "button"
-    },
-    {
-        "state": [
-            "progress"
-        ],
-        "parent": [],
-        "context": "primary",
-        "property": {
-            "item": "background",
-            "type": "color",
-            "value": "control-primary-disabled"
-        },
-        "component": "button"
-    },
-    {
-        "state": [
-            "pressed"
-        ],
-        "parent": [],
-        "context": "primary",
-        "property": {
-            "item": "background",
-            "type": "color",
-            "value": "control-primary-pressed"
-        },
-        "component": "button"
-    },
-    {
-        "state": [
-            "disabled"
-        ],
-        "parent": [],
-        "context": "primary",
-        "property": {
-            "item": "background",
-            "type": "color",
-            "value": "control-primary-disabled"
-        },
-        "component": "button"
-    },
-    {
-        "state": [
-            "disabled"
-        ],
-        "parent": [],
-        "context": "primary",
-        "property": {
-            "item": "icon",
-            "type": "color",
-            "value": "control-primary-text-disabled"
-        },
-        "component": "button"
-    },
-    {
-        "state": [
-            "disabled"
-        ],
-        "parent": [],
-        "context": "primary",
-        "property": {
-            "item": "text",
-            "type": "color",
-            "value": "control-primary-text-disabled"
-        },
-        "component": "button"
-    },
-    {
-        "state": [
-            "normal"
-        ],
-        "parent": [],
-        "context": "quiet",
-        "property": {
-            "item": "icon",
-            "type": "color",
-            "value": "control-primary"
-        },
-        "component": "button"
-    },
-    {
-        "state": [
-            "normal"
-        ],
-        "parent": [],
-        "context": "quiet",
-        "property": {
-            "item": "text",
-            "type": "color",
-            "value": "control-primary"
-        },
-        "component": "button"
-    },
-    {
-        "state": [
-            "hover"
-        ],
-        "parent": [],
-        "context": "quiet",
-        "property": {
-            "item": "icon",
-            "type": "color",
-            "value": "control-primary-hover"
-        },
-        "component": "button"
-    },
-    {
-        "state": [
-            "hover"
-        ],
-        "parent": [],
-        "context": "quiet",
-        "property": {
-            "item": "text",
-            "type": "color",
-            "value": "control-primary-hover"
-        },
-        "component": "button"
-    },
-    {
-        "state": [
-            "focus"
-        ],
-        "parent": [],
-        "context": "quiet",
+      "context": "primary",
         "property": {
             "item": "background",
             "type": "color",
@@ -327,24 +327,24 @@
             "focus"
         ],
         "parent": [],
-        "context": "quiet",
+      "context": "primary",
         "property": {
-            "item": "icon",
+          "item": "border",
             "type": "color",
-            "value": "control-primary"
+          "value": "control-primary-focus-border"
         },
         "component": "button"
     },
     {
         "state": [
-            "focus"
+          "progress"
         ],
         "parent": [],
-        "context": "quiet",
+      "context": "primary",
         "property": {
-            "item": "text",
+          "item": "background",
             "type": "color",
-            "value": "control-primary"
+          "value": "control-primary-disabled"
         },
         "component": "button"
     },
@@ -353,9 +353,9 @@
             "pressed"
         ],
         "parent": [],
-        "context": "quiet",
+      "context": "primary",
         "property": {
-            "item": "icon",
+          "item": "background",
             "type": "color",
             "value": "control-primary-pressed"
         },
@@ -363,14 +363,14 @@
     },
     {
         "state": [
-            "pressed"
+          "disabled"
         ],
         "parent": [],
-        "context": "quiet",
+      "context": "primary",
         "property": {
-            "item": "text",
+          "item": "background",
             "type": "color",
-            "value": "control-primary-pressed"
+          "value": "control-primary-disabled"
         },
         "component": "button"
     },
@@ -379,11 +379,11 @@
             "disabled"
         ],
         "parent": [],
-        "context": "quiet",
+      "context": "primary",
         "property": {
             "item": "icon",
             "type": "color",
-            "value": "control-primary-disabled"
+          "value": "control-primary-text-disabled"
         },
         "component": "button"
     },
@@ -392,11 +392,11 @@
             "disabled"
         ],
         "parent": [],
-        "context": "quiet",
+      "context": "primary",
         "property": {
             "item": "text",
             "type": "color",
-            "value": "control-primary-disabled"
+          "value": "control-primary-text-disabled"
         },
         "component": "button"
     },
@@ -405,11 +405,11 @@
             "normal"
         ],
         "parent": [],
-        "context": "secondary",
+      "context": "quiet-default",
         "property": {
-            "item": "background",
+          "item": "icon",
             "type": "color",
-            "value": "control-secondary"
+          "value": "text-secondary"
         },
         "component": "button"
     },
@@ -418,37 +418,50 @@
             "normal"
         ],
         "parent": [],
-        "context": "secondary",
+      "context": "quiet-default",
         "property": {
+          "item": "text",
+          "type": "color",
+          "value": "text-secondary"
+        },
+      "component": "button"
+    },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "quiet-default",
+    "property": {
             "item": "icon",
             "type": "color",
-            "value": "control-secondary-text"
+      "value": "text-primary"
         },
         "component": "button"
     },
     {
         "state": [
-            "normal"
+          "hover"
         ],
         "parent": [],
-        "context": "secondary",
+      "context": "quiet-default",
         "property": {
             "item": "text",
             "type": "color",
-            "value": "control-secondary-text"
+          "value": "text-primary"
         },
         "component": "button"
     },
     {
         "state": [
-            "hover"
+          "focus"
         ],
         "parent": [],
-        "context": "secondary",
+      "context": "quiet-default",
         "property": {
-            "item": "background",
+          "item": "icon",
             "type": "color",
-            "value": "control-secondary-hover"
+          "value": "text-primary"
         },
         "component": "button"
     },
@@ -457,11 +470,11 @@
             "focus"
         ],
         "parent": [],
-        "context": "secondary",
+      "context": "quiet-default",
         "property": {
-            "item": "border",
+          "item": "text",
             "type": "color",
-            "value": "control-secondary-focus"
+          "value": "text-primary"
         },
         "component": "button"
     },
@@ -470,11 +483,24 @@
             "pressed"
         ],
         "parent": [],
-        "context": "secondary",
+      "context": "quiet-default",
         "property": {
-            "item": "background",
+          "item": "icon",
             "type": "color",
-            "value": "control-secondary-pressed"
+          "value": "text-tertiary"
+        },
+        "component": "button"
+    },
+    {
+        "state": [
+          "pressed"
+        ],
+        "parent": [],
+      "context": "quiet-default",
+        "property": {
+          "item": "text",
+            "type": "color",
+          "value": "text-tertiary"
         },
         "component": "button"
     },
@@ -483,24 +509,11 @@
             "disabled"
         ],
         "parent": [],
-        "context": "secondary",
-        "property": {
-            "item": "background",
-            "type": "color",
-            "value": "control-secondary-disabled"
-        },
-        "component": "button"
-    },
-    {
-        "state": [
-            "disabled"
-        ],
-        "parent": [],
-        "context": "secondary",
+      "context": "quiet-default",
         "property": {
             "item": "icon",
             "type": "color",
-            "value": "control-secondary-text-disabled"
+          "value": "text-disabled"
         },
         "component": "button"
     },
@@ -509,11 +522,11 @@
             "disabled"
         ],
         "parent": [],
-        "context": "secondary",
+      "context": "quiet-default",
         "property": {
             "item": "text",
             "type": "color",
-            "value": "control-secondary-text-disabled"
+          "value": "text-disabled"
         },
         "component": "button"
     },
@@ -522,9 +535,9 @@
             "normal"
         ],
         "parent": [],
-        "context": "social-media-primary",
+      "context": "quiet-emphasis",
         "property": {
-            "item": "background",
+          "item": "icon",
             "type": "color",
             "value": "control-primary"
         },
@@ -535,299 +548,351 @@
             "normal"
         ],
         "parent": [],
-        "context": "social-media-primary",
+      "context": "quiet-emphasis",
+        "property": {
+          "item": "text",
+            "type": "color",
+          "value": "control-primary"
+        },
+        "component": "button"
+    },
+    {
+        "state": [
+          "hover"
+        ],
+        "parent": [],
+      "context": "quiet-emphasis",
+        "property": {
+          "item": "icon",
+            "type": "color",
+          "value": "control-primary-hover"
+        },
+        "component": "button"
+    },
+    {
+        "state": [
+          "hover"
+        ],
+        "parent": [],
+      "context": "quiet-emphasis",
+        "property": {
+          "item": "text",
+            "type": "color",
+          "value": "control-primary-hover"
+        },
+        "component": "button"
+    },
+    {
+        "state": [
+          "focus"
+        ],
+        "parent": [],
+      "context": "quiet-emphasis",
+        "property": {
+          "item": "background",
+            "type": "color",
+          "value": "control-primary-focus-border"
+        },
+        "component": "button"
+    },
+    {
+        "state": [
+          "focus"
+        ],
+        "parent": [],
+      "context": "quiet-emphasis",
+        "property": {
+          "item": "icon",
+            "type": "color",
+          "value": "control-primary"
+        },
+        "component": "button"
+    },
+    {
+        "state": [
+          "focus"
+        ],
+        "parent": [],
+      "context": "quiet-emphasis",
+        "property": {
+          "item": "text",
+            "type": "color",
+          "value": "control-primary"
+        },
+      "component": "button"
+    },
+    {
+        "state": [
+          "pressed"
+        ],
+        "parent": [],
+      "context": "quiet-emphasis",
         "property": {
             "item": "icon",
             "type": "color",
-            "value": "control-primary-text"
+          "value": "control-primary-pressed"
         },
-        "component": "button"
+      "component": "button"
     },
     {
         "state": [
             "pressed"
         ],
         "parent": [],
-        "context": "social-media-primary",
+      "context": "quiet-emphasis",
         "property": {
-            "item": "background",
+          "item": "text",
             "type": "color",
-            "value": "control-primary-pressed"
+          "value": "control-primary-pressed"
         },
-        "component": "button"
-    },
-    {
-        "state": [
-            "normal"
-        ],
-        "parent": [],
-        "context": "social-media-white",
-        "property": {
-            "item": "background",
-            "type": "color",
-            "value": "control-white"
-        },
-        "component": "button"
-    },
-    {
-        "state": [
-            "normal"
-        ],
-        "parent": [],
-        "context": "social-media-white",
-        "property": {
-            "item": "icon",
-            "type": "color",
-            "value": "control-white-text"
-        },
-        "component": "button"
-    },
-    {
-        "state": [
-            "pressed"
-        ],
-        "parent": [],
-        "context": "social-media-white",
-        "property": {
-            "item": "background",
-            "type": "color",
-            "value": "control-white-pressed"
-        },
-        "component": "button"
-    },
-    {
-        "state": [
-            "normal"
-        ],
-        "parent": [],
-        "context": "default",
-        "property": {
-            "item": "icon",
-            "type": "color",
-            "value": "text-secondary"
-        },
-        "component": "carousel"
-    },
-    {
-        "state": [
-            "hover"
-        ],
-        "parent": [],
-        "context": "default",
-        "property": {
-            "item": "icon",
-            "type": "color",
-            "value": "text-primary"
-        },
-        "component": "carousel"
-    },
-    {
-        "state": [
-            "pressed"
-        ],
-        "parent": [],
-        "context": "default",
-        "property": {
-            "item": "icon",
-            "type": "color",
-            "value": "text-primary"
-        },
-        "component": "carousel"
+      "component": "button"
     },
     {
         "state": [
             "disabled"
         ],
         "parent": [],
-        "context": "default",
+      "context": "quiet-emphasis",
         "property": {
             "item": "icon",
             "type": "color",
-            "value": "text-primary-disabled"
+          "value": "control-primary-disabled"
         },
-        "component": "carousel"
+      "component": "button"
     },
     {
-        "state": [],
+      "state": [
+        "disabled"
+      ],
         "parent": [],
-        "context": "default",
+      "context": "quiet-emphasis",
         "property": {
-            "item": "title-text",
+          "item": "text",
             "type": "color",
-            "value": "text-primary"
+          "value": "control-primary-disabled"
         },
-        "component": "carousel"
+      "component": "button"
     },
     {
         "state": [
             "normal"
         ],
         "parent": [],
-        "context": "default",
+      "context": "secondary",
         "property": {
-            "item": "icon",
+          "item": "background",
             "type": "color",
-            "value": "control-primary-text"
+          "value": "control-secondary"
         },
-        "component": "check-box"
+      "component": "button"
     },
     {
         "state": [
             "normal"
         ],
         "parent": [],
-        "context": "default",
+      "context": "secondary",
         "property": {
-            "item": "on-icon",
+          "item": "icon",
             "type": "color",
-            "value": "control-primary-text"
+          "value": "control-secondary-text"
         },
-        "component": "check-box"
+      "component": "button"
     },
     {
         "state": [
             "normal"
         ],
         "parent": [],
-        "context": "default",
+      "context": "secondary",
         "property": {
             "item": "text",
             "type": "color",
-            "value": "text-primary"
+          "value": "control-secondary-text"
         },
-        "component": "check-box"
+      "component": "button"
     },
     {
         "state": [
-            "normal",
-            "on"
+          "hover"
         ],
         "parent": [],
-        "context": "default",
+      "context": "secondary",
         "property": {
             "item": "background",
             "type": "color",
-            "value": "control-primary"
+          "value": "control-secondary-hover"
         },
-        "component": "check-box"
+      "component": "button"
     },
     {
         "state": [
-            "normal",
-            "off"
+          "focus"
         ],
         "parent": [],
-        "context": "default",
+      "context": "secondary",
         "property": {
             "item": "background",
             "type": "color",
-            "value": "control-primary-off"
+          "value": "control-secondary-focus"
         },
-        "component": "check-box"
+      "component": "button"
     },
     {
         "state": [
             "focus"
         ],
         "parent": [],
-        "context": "default",
+      "context": "secondary",
         "property": {
             "item": "border",
             "type": "color",
-            "value": "control-primary-focus"
+          "value": "control-secondary-focus-border"
         },
-        "component": "check-box"
+      "component": "button"
     },
     {
         "state": [
             "pressed"
         ],
         "parent": [],
-        "context": "default",
+      "context": "secondary",
         "property": {
-            "item": "border",
+          "item": "background",
             "type": "color",
-            "value": "control-primary-focus"
+          "value": "control-secondary-pressed"
         },
-        "component": "check-box"
+      "component": "button"
     },
     {
         "state": [
             "disabled"
         ],
         "parent": [],
-        "context": "default",
+      "context": "secondary",
         "property": {
             "item": "background",
             "type": "color",
-            "value": "control-primary-disabled"
+          "value": "control-secondary-disabled"
         },
-        "component": "check-box"
+      "component": "button"
     },
     {
         "state": [
             "disabled"
         ],
         "parent": [],
-        "context": "default",
+      "context": "secondary",
         "property": {
             "item": "icon",
             "type": "color",
-            "value": "control-primary-text-disabled"
+          "value": "control-secondary-text-disabled"
         },
-        "component": "check-box"
+      "component": "button"
     },
     {
         "state": [
             "disabled"
         ],
         "parent": [],
-        "context": "default",
+      "context": "secondary",
         "property": {
             "item": "text",
             "type": "color",
-            "value": "text-primary-disabled"
+          "value": "control-secondary-text-disabled"
         },
-        "component": "check-box"
+      "component": "button"
     },
     {
         "state": [
             "normal"
         ],
         "parent": [],
-        "context": "default",
+      "context": "social-media-primary",
         "property": {
-            "item": "arrow-icon",
+          "item": "background",
             "type": "color",
-            "value": "input-text"
+          "value": "control-primary"
         },
-        "component": "combo-box"
+      "component": "button"
     },
     {
         "state": [
             "normal"
         ],
         "parent": [],
-        "context": "default",
+      "context": "social-media-primary",
         "property": {
-            "item": "button",
+          "item": "icon",
             "type": "color",
-            "value": "no-color"
+          "value": "control-primary-text"
         },
-        "component": "combo-box"
+      "component": "button"
     },
     {
         "state": [
+          "pressed"
+        ],
+      "parent": [],
+      "context": "social-media-primary",
+      "property": {
+        "item": "background",
+        "type": "color",
+        "value": "control-primary-pressed"
+      },
+      "component": "button"
+    },
+  {
+    "state": [
             "normal"
         ],
         "parent": [],
+    "context": "social-media-white",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-white"
+    },
+    "component": "button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "social-media-white",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "control-white-text"
+    },
+    "component": "button"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "social-media-white",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "control-white-pressed"
+    },
+    "component": "button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
         "context": "default",
         "property": {
-            "item": "separator",
+          "item": "icon",
             "type": "color",
-            "value": "input-separator"
+          "value": "text-secondary"
         },
-        "component": "combo-box"
+    "component": "carousel"
     },
     {
         "state": [
@@ -836,76 +901,129 @@
         "parent": [],
         "context": "default",
         "property": {
-            "item": "button",
+          "item": "icon",
             "type": "color",
-            "value": "no-color"
+          "value": "text-primary"
         },
-        "component": "combo-box"
+      "component": "carousel"
     },
     {
         "state": [
-            "hover"
+          "pressed"
         ],
         "parent": [],
         "context": "default",
         "property": {
-            "item": "separator",
+          "item": "icon",
             "type": "color",
-            "value": "input-separator"
+          "value": "text-primary"
         },
-        "component": "combo-box"
+      "component": "carousel"
     },
     {
         "state": [
-            "focus"
+          "disabled"
         ],
         "parent": [],
         "context": "default",
         "property": {
-            "item": "button",
+          "item": "icon",
             "type": "color",
-            "value": "input-button-pressed"
+          "value": "text-primary-disabled"
         },
-        "component": "combo-box"
+      "component": "carousel"
     },
     {
+      "state": [],
+      "parent": [],
+      "context": "default",
+      "property": {
+        "item": "title-text",
+        "type": "color",
+        "value": "text-primary"
+      },
+      "component": "carousel"
+    },
+  {
         "state": [
-            "focus"
+          "normal",
+          "on"
         ],
         "parent": [],
         "context": "default",
         "property": {
-            "item": "separator",
+          "item": "background",
             "type": "color",
-            "value": "input-separator"
+          "value": "control-primary"
         },
-        "component": "combo-box"
+    "component": "check-box"
     },
     {
         "state": [
-            "pressed"
+          "normal",
+          "on"
         ],
         "parent": [],
         "context": "default",
         "property": {
-            "item": "button",
+          "item": "icon",
             "type": "color",
-            "value": "input-button-pressed"
+          "value": "control-primary-text"
         },
-        "component": "combo-box"
+      "component": "check-box"
     },
     {
         "state": [
-            "pressed"
+          "normal",
+          "off"
         ],
         "parent": [],
         "context": "default",
         "property": {
-            "item": "separator",
+          "item": "background",
             "type": "color",
-            "value": "input-separator"
+          "value": "control-primary-off"
         },
-        "component": "combo-box"
+      "component": "check-box"
+    },
+    {
+        "state": [
+          "focus"
+        ],
+        "parent": [],
+        "context": "default",
+        "property": {
+          "item": "border",
+            "type": "color",
+          "value": "control-primary-focus-border"
+        },
+      "component": "check-box"
+    },
+    {
+        "state": [
+          "pressed"
+        ],
+      "parent": [],
+      "context": "default",
+      "property": {
+        "item": "border",
+        "type": "color",
+        "value": "control-primary-focus-border"
+      },
+      "component": "check-box"
+    },
+  {
+    "state": [
+            "disabled"
+        ],
+        "parent": [],
+        "context": "default",
+        "property": {
+          "item": "background",
+            "type": "color",
+          "value": "control-primary-disabled"
+        },
+    "component": "check-box"
     },
     {
         "state": [
@@ -914,37 +1032,11 @@
         "parent": [],
         "context": "default",
         "property": {
-            "item": "arrow-icon",
+          "item": "icon",
             "type": "color",
-            "value": "input-text-disabled"
+          "value": "control-primary-detail-disabled"
         },
-        "component": "combo-box"
-    },
-    {
-        "state": [
-            "disabled"
-        ],
-        "parent": [],
-        "context": "default",
-        "property": {
-            "item": "button",
-            "type": "color",
-            "value": "no-color"
-        },
-        "component": "combo-box"
-    },
-    {
-        "state": [
-            "disabled"
-        ],
-        "parent": [],
-        "context": "default",
-        "property": {
-            "item": "separator",
-            "type": "color",
-            "value": "input-separator-disabled"
-        },
-        "component": "combo-box"
+      "component": "check-box"
     },
     {
         "state": [],
@@ -1014,7 +1106,7 @@
         "property": {
             "item": "chevron-icon",
             "type": "color",
-            "value": "text-tertiary"
+          "value": "text-secondary"
         },
         "component": "content-item"
     },
@@ -1322,6 +1414,17 @@
         "parent": [],
         "context": "charts",
         "property": {
+          "item": "axis",
+          "type": "color",
+          "value": "separator"
+        },
+      "component": "data-visualization"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "charts",
+    "property": {
             "item": "axis-label-text",
             "type": "color",
             "value": "text-tertiary"
@@ -1731,61 +1834,6 @@
     {
         "state": [],
         "parent": [],
-        "context": "default",
-        "property": {
-            "item": "body-icon",
-            "type": "color",
-            "value": "text-secondary"
-        },
-        "component": "dialog-alert"
-    },
-    {
-        "state": [],
-        "parent": [],
-        "context": "default",
-        "property": {
-            "item": "body-text",
-            "type": "color",
-            "value": "text-secondary"
-        },
-        "component": "dialog-alert"
-    },
-    {
-        "state": [],
-        "parent": [],
-        "context": "default",
-        "property": {
-            "item": "close-icon",
-            "type": "color",
-            "value": "text-primary"
-        },
-        "component": "dialog-alert"
-    },
-    {
-        "state": [],
-        "parent": [],
-        "context": "default",
-        "property": {
-            "item": "title-icon",
-            "type": "color",
-            "value": "text-primary"
-        },
-        "component": "dialog-alert"
-    },
-    {
-        "state": [],
-        "parent": [],
-        "context": "default",
-        "property": {
-            "item": "title-text",
-            "type": "color",
-            "value": "text-primary"
-        },
-        "component": "dialog-alert"
-    },
-    {
-        "state": [],
-        "parent": [],
         "context": "strong",
         "property": {
             "item": "background",
@@ -1845,58 +1893,6 @@
             "value": "dot-hover"
         },
         "component": "dot-navigation"
-    },
-    {
-        "state": [
-            "normal"
-        ],
-        "parent": [],
-        "context": "default",
-        "property": {
-            "item": "arrow-icon",
-            "type": "color",
-            "value": "input-text"
-        },
-        "component": "dropdown-list"
-    },
-    {
-        "state": [
-            "normal"
-        ],
-        "parent": [],
-        "context": "default",
-        "property": {
-            "item": "icon",
-            "type": "color",
-            "value": "input-text"
-        },
-        "component": "dropdown-list"
-    },
-    {
-        "state": [
-            "disabled"
-        ],
-        "parent": [],
-        "context": "default",
-        "property": {
-            "item": "arrow-icon",
-            "type": "color",
-            "value": "input-text-disabled"
-        },
-        "component": "dropdown-list"
-    },
-    {
-        "state": [
-            "disabled"
-        ],
-        "parent": [],
-        "context": "default",
-        "property": {
-            "item": "icon",
-            "type": "color",
-            "value": "input-text-disabled"
-        },
-        "component": "dropdown-list"
     },
     {
         "state": [],
@@ -2155,9 +2151,9 @@
             "normal"
         ],
         "parent": [],
-        "context": "regular",
+      "context": "descriptor",
         "property": {
-            "item": "icon",
+          "item": "text",
             "type": "color",
             "value": "text-tertiary"
         },
@@ -2165,14 +2161,27 @@
     },
     {
         "state": [
-            "normal"
+          "disabled"
+        ],
+        "parent": [],
+      "context": "descriptor",
+        "property": {
+            "item": "text",
+            "type": "color",
+          "value": "text-disabled"
+        },
+        "component": "label"
+    },
+    {
+        "state": [
+          "normal"
         ],
         "parent": [],
         "context": "regular",
         "property": {
-            "item": "text",
+          "item": "text",
             "type": "color",
-            "value": "text-tertiary"
+          "value": "text-secondary"
         },
         "component": "label"
     },
@@ -2183,22 +2192,9 @@
         "parent": [],
         "context": "regular",
         "property": {
-            "item": "icon",
-            "type": "color",
-            "value": "text-tertiary-disabled"
-        },
-        "component": "label"
-    },
-    {
-        "state": [
-            "disabled"
-        ],
-        "parent": [],
-        "context": "regular",
-        "property": {
             "item": "text",
             "type": "color",
-            "value": "text-tertiary-disabled"
+          "value": "text-disabled"
         },
         "component": "label"
     },
@@ -2209,7 +2205,7 @@
         "parent": [],
         "context": "value",
         "property": {
-            "item": "icon",
+          "item": "text",
             "type": "color",
             "value": "text-primary"
         },
@@ -2217,59 +2213,103 @@
     },
     {
         "state": [
-            "normal"
+          "disabled"
         ],
         "parent": [],
         "context": "value",
         "property": {
             "item": "text",
             "type": "color",
-            "value": "text-primary"
+          "value": "text-disabled"
         },
         "component": "label"
     },
     {
         "state": [
-            "disabled"
+          "normal",
+          "on"
         ],
         "parent": [],
-        "context": "value",
+      "context": "default",
         "property": {
+          "item": "background",
+          "type": "color",
+          "value": "list-selected"
+        },
+      "component": "list-item"
+    },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
             "item": "icon",
             "type": "color",
-            "value": "text-primary-disabled"
+      "value": "icon-on"
         },
-        "component": "label"
+    "component": "list-item"
     },
     {
         "state": [
-            "disabled"
+          "normal",
+          "on"
         ],
         "parent": [],
-        "context": "value",
+      "context": "default",
         "property": {
             "item": "text",
             "type": "color",
-            "value": "text-primary-disabled"
+          "value": "item-on"
         },
-        "component": "label"
+      "component": "list-item"
     },
     {
         "state": [
             "normal",
-            "on"
+          "off"
         ],
         "parent": [],
         "context": "default",
         "property": {
             "item": "background",
             "type": "color",
-            "value": "list-selected"
+          "value": "no-color"
         },
         "component": "list-item"
     },
     {
         "state": [
+          "normal",
+          "off"
+        ],
+      "parent": [],
+      "context": "default",
+      "property": {
+        "item": "icon",
+        "type": "color",
+        "value": "icon-off"
+      },
+      "component": "list-item"
+    },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-off"
+    },
+    "component": "list-item"
+  },
+  {
+    "state": [
             "hover"
         ],
         "parent": [],
@@ -2308,8 +2348,47 @@
         "component": "list-item"
     },
     {
+      "state": [
+        "normal",
+        "on"
+      ],
+      "parent": [],
+      "context": "default",
+      "property": {
+        "item": "background",
+        "type": "color",
+        "value": "separator"
+      },
+      "component": "menu-item"
+    },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "menu-item"
+  },
+  {
         "state": [],
         "parent": [],
+    "context": "clinical",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "not-yet-defined"
+    },
+    "component": "movie-bar"
+  },
+  {
+    "state": [],
+    "parent": [],
         "context": "primary",
         "property": {
             "item": "background",
@@ -2378,6 +2457,17 @@
         "parent": [],
         "context": "default",
         "property": {
+          "item": "accent-background",
+          "type": "color",
+          "value": "control-accent"
+        },
+      "component": "notification-badge"
+    },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
             "item": "background",
             "type": "color",
             "value": "control-notification"
@@ -2588,19 +2678,6 @@
     },
     {
         "state": [
-            "normal"
-        ],
-        "parent": [],
-        "context": "default",
-        "property": {
-            "item": "text",
-            "type": "color",
-            "value": "text-primary"
-        },
-        "component": "radio-button"
-    },
-    {
-        "state": [
             "normal",
             "on"
         ],
@@ -2650,7 +2727,7 @@
         "property": {
             "item": "border",
             "type": "color",
-            "value": "control-primary-focus"
+          "value": "control-primary-focus-border"
         },
         "component": "radio-button"
     },
@@ -2663,7 +2740,7 @@
         "property": {
             "item": "border",
             "type": "color",
-            "value": "control-primary-focus"
+          "value": "control-primary-focus-border"
         },
         "component": "radio-button"
     },
@@ -2689,20 +2766,7 @@
         "property": {
             "item": "icon",
             "type": "color",
-            "value": "control-primary-text-disabled"
-        },
-        "component": "radio-button"
-    },
-    {
-        "state": [
-            "disabled"
-        ],
-        "parent": [],
-        "context": "default",
-        "property": {
-            "item": "text",
-            "type": "color",
-            "value": "text-primary-disabled"
+          "value": "control-primary-detail-disabled"
         },
         "component": "radio-button"
     },
@@ -2775,32 +2839,6 @@
             "value": "rating-star-on"
         },
         "component": "rating-bar"
-    },
-    {
-        "state": [
-            "normal"
-        ],
-        "parent": [],
-        "context": "default",
-        "property": {
-            "item": "background",
-            "type": "color",
-            "value": "scrollbar"
-        },
-        "component": "scrollbar"
-    },
-    {
-        "state": [
-            "hover"
-        ],
-        "parent": [],
-        "context": "default",
-        "property": {
-            "item": "background",
-            "type": "color",
-            "value": "scrollbar-hover"
-        },
-        "component": "scrollbar"
     },
     {
         "state": [
@@ -3093,11 +3131,11 @@
             "normal"
         ],
         "parent": [],
-        "context": "button-separator",
+      "context": "button",
         "property": {
             "item": "background",
             "type": "color",
-            "value": "input-separator"
+          "value": "button-separator"
         },
         "component": "separator"
     },
@@ -3106,11 +3144,11 @@
             "disabled"
         ],
         "parent": [],
-        "context": "button-separator",
+      "context": "button",
         "property": {
             "item": "background",
             "type": "color",
-            "value": "input-separator-disabled"
+          "value": "button-separator-disabled"
         },
         "component": "separator"
     },
@@ -3119,7 +3157,7 @@
             "normal"
         ],
         "parent": [],
-        "context": "content-separator",
+      "context": "content",
         "property": {
             "item": "background",
             "type": "color",
@@ -3132,7 +3170,7 @@
             "normal"
         ],
         "parent": [],
-        "context": "input-separator",
+      "context": "input",
         "property": {
             "item": "background",
             "type": "color",
@@ -3145,7 +3183,7 @@
             "disabled"
         ],
         "parent": [],
-        "context": "input-separator",
+      "context": "input",
         "property": {
             "item": "background",
             "type": "color",
@@ -3206,51 +3244,119 @@
         "component": "shadow"
     },
     {
-        "state": [],
+      "state": [
+        "normal",
+        "on"
+      ],
         "parent": [],
-        "context": "content-primary",
+      "context": "default",
         "property": {
             "item": "background",
             "type": "color",
-            "value": "content-primary"
+          "value": "toggle-on"
         },
-        "component": "sidebar"
+      "component": "split-toggle-button"
     },
     {
-        "state": [],
+      "state": [
+        "normal",
+        "on"
+      ],
         "parent": [],
-        "context": "content-secondary",
+      "context": "default",
         "property": {
+          "item": "icon",
+          "type": "color",
+          "value": "toggle-on-icon"
+        },
+      "component": "split-toggle-button"
+    },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "toggle-on-text"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
+      "hover",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
             "item": "background",
             "type": "color",
-            "value": "content-secondary"
+      "value": "toggle-off-hover"
         },
-        "component": "sidebar"
+    "component": "split-toggle-button"
     },
     {
-        "state": [],
+      "state": [
+        "pressed",
+        "on"
+      ],
         "parent": [],
-        "context": "navigation-primary",
+      "context": "default",
         "property": {
             "item": "background",
             "type": "color",
-            "value": "navigation-primary"
+          "value": "toggle-pressed"
         },
-        "component": "sidebar"
+      "component": "split-toggle-button"
     },
     {
-        "state": [],
+      "state": [
+        "disabled",
+        "on"
+      ],
         "parent": [],
-        "context": "navigation-secondary",
+      "context": "default",
         "property": {
             "item": "background",
             "type": "color",
-            "value": "navigation-secondary"
+          "value": "toggle-on-disabled"
         },
-        "component": "sidebar"
+      "component": "split-toggle-button"
     },
     {
         "state": [
+          "disabled",
+          "on"
+        ],
+      "parent": [],
+      "context": "default",
+      "property": {
+        "item": "icon",
+        "type": "color",
+        "value": "toggle-on-text-disabled"
+      },
+      "component": "split-toggle-button"
+    },
+  {
+    "state": [
+      "disabled",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "toggle-on-text-disabled"
+    },
+    "component": "split-toggle-button"
+  },
+  {
+    "state": [
             "normal"
         ],
         "parent": [],
@@ -3538,14 +3644,15 @@
     },
     {
         "state": [
-            "normal"
+          "normal",
+          "on"
         ],
         "parent": [],
         "context": "default",
         "property": {
-            "item": "text",
+          "item": "icon",
             "type": "color",
-            "value": "tabs-normal"
+          "value": "item-on"
         },
         "component": "tabs"
     },
@@ -3559,7 +3666,7 @@
         "property": {
             "item": "indicator",
             "type": "color",
-            "value": "tabs-on"
+          "value": "item-on"
         },
         "component": "tabs"
     },
@@ -3573,37 +3680,95 @@
         "property": {
             "item": "text",
             "type": "color",
-            "value": "tabs-on"
+          "value": "item-on"
         },
         "component": "tabs"
     },
     {
         "state": [
-            "hover"
+          "normal",
+          "off"
         ],
         "parent": [],
         "context": "default",
         "property": {
+          "item": "icon",
+          "type": "color",
+          "value": "text-tertiary"
+        },
+      "component": "tabs"
+    },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
             "item": "text",
             "type": "color",
-            "value": "tabs-on"
+      "value": "text-secondary"
         },
         "component": "tabs"
     },
     {
         "state": [
-            "pressed"
+          "hover",
+          "off"
         ],
         "parent": [],
         "context": "default",
         "property": {
+          "item": "icon",
+          "type": "color",
+          "value": "text-primary"
+        },
+      "component": "tabs"
+    },
+  {
+    "state": [
+      "hover",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
             "item": "text",
             "type": "color",
-            "value": "tabs-on"
+      "value": "text-primary"
         },
         "component": "tabs"
     },
     {
+      "state": [
+        "pressed",
+        "off"
+      ],
+      "parent": [],
+      "context": "default",
+      "property": {
+        "item": "icon",
+        "type": "color",
+        "value": "text-primary"
+      },
+      "component": "tabs"
+    },
+  {
+    "state": [
+      "pressed",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "tabs"
+  },
+  {
         "state": [],
         "parent": [],
         "context": "disabled",
@@ -3752,7 +3917,7 @@
         "property": {
             "item": "text",
             "type": "color",
-            "value": "input-text"
+          "value": "text-primary-vdg"
         },
         "component": "text-box"
     },
@@ -3823,6 +3988,32 @@
     },
     {
         "state": [
+          "focus"
+        ],
+      "parent": [],
+      "context": "default",
+      "property": {
+        "item": "selection-background",
+        "type": "color",
+        "value": "input-text-selection-background"
+      },
+      "component": "text-box"
+    },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "selection-text",
+      "type": "color",
+      "value": "text-primary-vdg"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
             "validated"
         ],
         "parent": [],
@@ -4051,7 +4242,7 @@
         "property": {
             "item": "border",
             "type": "color",
-            "value": "control-primary-focus"
+          "value": "control-primary-focus-border"
         },
         "component": "thumb"
     },
@@ -4064,7 +4255,7 @@
         "property": {
             "item": "border",
             "type": "color",
-            "value": "control-primary-focus"
+          "value": "control-primary-focus-border"
         },
         "component": "thumb"
     },
@@ -4083,14 +4274,53 @@
     },
     {
         "state": [
+          "normal"
+        ],
+      "parent": [],
+      "context": "scrollbar",
+      "property": {
+        "item": "background",
+        "type": "color",
+        "value": "scrollbar"
+      },
+      "component": "thumb"
+    },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "scrollbar",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "scrollbar-hover"
+    },
+    "component": "thumb"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "scrollbar",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "scrollbar-hover"
+    },
+    "component": "thumb"
+  },
+  {
+    "state": [
             "disabled"
         ],
         "parent": [],
-        "context": "default",
+    "context": "scrollbar",
         "property": {
-            "item": "text",
+          "item": "background",
             "type": "color",
-            "value": "text-primary-disabled"
+          "value": "scrollbar-disabled"
         },
         "component": "thumb"
     },
@@ -4118,7 +4348,7 @@
         "property": {
             "item": "icon",
             "type": "color",
-            "value": "toggle-on-text"
+          "value": "toggle-on-icon"
         },
         "component": "toggle-button"
     },
@@ -4130,6 +4360,20 @@
         "parent": [],
         "context": "default",
         "property": {
+          "item": "indicator",
+          "type": "color",
+          "value": "indicator-on"
+        },
+      "component": "toggle-button"
+    },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
             "item": "text",
             "type": "color",
             "value": "toggle-on-text"
@@ -4160,7 +4404,7 @@
         "property": {
             "item": "icon",
             "type": "color",
-            "value": "toggle-off-text"
+          "value": "toggle-off-icon"
         },
         "component": "toggle-button"
     },
@@ -4172,6 +4416,20 @@
         "parent": [],
         "context": "default",
         "property": {
+          "item": "indicator",
+          "type": "color",
+          "value": "indicator-off"
+        },
+      "component": "toggle-button"
+    },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
             "item": "text",
             "type": "color",
             "value": "toggle-off-text"
@@ -4180,8 +4438,7 @@
     },
     {
         "state": [
-            "hover",
-            "off"
+          "hover"
         ],
         "parent": [],
         "context": "default",
@@ -4194,22 +4451,20 @@
     },
     {
         "state": [
-            "hover",
-            "off"
+          "hover"
         ],
         "parent": [],
         "context": "default",
         "property": {
             "item": "icon",
             "type": "color",
-            "value": "toggle-off-text-hover"
+          "value": "toggle-off-icon-hover"
         },
         "component": "toggle-button"
     },
     {
         "state": [
-            "hover",
-            "off"
+          "hover"
         ],
         "parent": [],
         "context": "default",
@@ -4229,7 +4484,7 @@
         "property": {
             "item": "background",
             "type": "color",
-            "value": "toggle-on"
+          "value": "toggle-pressed"
         },
         "component": "toggle-button"
     },
@@ -4242,7 +4497,7 @@
         "property": {
             "item": "icon",
             "type": "color",
-            "value": "toggle-on-text"
+          "value": "toggle-on-icon"
         },
         "component": "toggle-button"
     },
@@ -4261,6 +4516,19 @@
     },
     {
         "state": [
+          "disabled"
+        ],
+      "parent": [],
+      "context": "default",
+      "property": {
+        "item": "indicator",
+        "type": "color",
+        "value": "indicator-disabled"
+      },
+      "component": "toggle-button"
+    },
+  {
+    "state": [
             "disabled",
             "on"
         ],
@@ -4367,7 +4635,7 @@
         "property": {
             "item": "icon",
             "type": "color",
-            "value": "quiet-toggle-on-text"
+          "value": "toggle-on-icon"
         },
         "component": "toggle-button"
     },
@@ -4393,9 +4661,23 @@
         "parent": [],
         "context": "quiet",
         "property": {
+          "item": "background",
+          "type": "color",
+          "value": "no-color"
+        },
+      "component": "toggle-button"
+    },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
             "item": "icon",
             "type": "color",
-            "value": "quiet-toggle-off-text"
+      "value": "toggle-off-icon"
         },
         "component": "toggle-button"
     },
@@ -4415,8 +4697,7 @@
     },
     {
         "state": [
-            "hover",
-            "off"
+          "hover"
         ],
         "parent": [],
         "context": "quiet",
@@ -4429,22 +4710,33 @@
     },
     {
         "state": [
-            "hover",
-            "off"
+          "hover"
         ],
         "parent": [],
         "context": "quiet",
         "property": {
+          "item": "border",
+          "type": "color",
+          "value": "input-border"
+        },
+      "component": "toggle-button"
+    },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
             "item": "icon",
             "type": "color",
-            "value": "quiet-toggle-off-text-hover"
+      "value": "toggle-off-icon-hover"
         },
         "component": "toggle-button"
     },
     {
         "state": [
-            "hover",
-            "off"
+          "hover"
         ],
         "parent": [],
         "context": "quiet",
@@ -4477,7 +4769,7 @@
         "property": {
             "item": "icon",
             "type": "color",
-            "value": "quiet-toggle-on-text"
+          "value": "toggle-on-icon"
         },
         "component": "toggle-button"
     },
@@ -4578,6 +4870,17 @@
     {
         "state": [],
         "parent": [],
+      "context": "on-image",
+      "property": {
+        "item": "background",
+        "type": "color",
+        "value": "toolbar-on-image"
+      },
+      "component": "toolbar"
+    },
+  {
+    "state": [],
+    "parent": [],
         "context": "dark",
         "property": {
             "item": "background",
@@ -4684,7 +4987,7 @@
         "property": {
             "item": "background",
             "type": "color",
-            "value": "signal-bad"
+          "value": "signal-error"
         },
         "component": "track"
     },
@@ -4698,7 +5001,7 @@
         "property": {
             "item": "background",
             "type": "color",
-            "value": "control-primary"
+          "value": "control-primary-on-vdg"
         },
         "component": "track"
     },
@@ -4772,6 +5075,32 @@
     },
     {
         "state": [
+          "normal"
+        ],
+      "parent": [],
+      "context": "scrollbar",
+      "property": {
+        "item": "background",
+        "type": "color",
+        "value": "scrollbar-track"
+      },
+      "component": "track"
+    },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "scrollbar",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "scrollbar-track-disabled"
+    },
+    "component": "track"
+  },
+  {
+    "state": [
             "normal",
             "on"
         ],
@@ -4780,7 +5109,7 @@
         "property": {
             "item": "background",
             "type": "color",
-            "value": "signal-neutral"
+          "value": "signal-warning"
         },
         "component": "track"
     },

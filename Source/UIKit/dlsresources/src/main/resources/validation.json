@@ -1,4 +1,5 @@
-[{
+[
+  {
   "group-blue": {
     "input-validated-background": {
       "ultra-light": {
@@ -15,6 +16,23 @@
       },
       "very-dark": {
         "color": "#FFF1D3"
+      }
+    },
+    "notification-badge": {
+      "ultra-light": {
+        "color-range": "signal-red"
+      },
+      "very-light": {
+        "color-range": "signal-red"
+      },
+      "light": {
+        "color-range": "signal-red"
+      },
+      "bright": {
+        "color-range": "signal-red"
+      },
+      "very-dark": {
+        "color-range": "signal-red"
       }
     },
     "input-validated-border": {
@@ -87,6 +105,23 @@
         "color": "#FFF1D3"
       }
     },
+    "notification-badge": {
+      "ultra-light": {
+        "color-range": "signal-red"
+      },
+      "very-light": {
+        "color-range": "signal-red"
+      },
+      "light": {
+        "color-range": "signal-red"
+      },
+      "bright": {
+        "color-range": "signal-red"
+      },
+      "very-dark": {
+        "color-range": "signal-red"
+      }
+    },
     "input-validated-border": {
       "ultra-light": {
         "color-range": "signal-orange"
@@ -155,6 +190,23 @@
       },
       "very-dark": {
         "color": "#FFF1D3"
+      }
+    },
+    "notification-badge": {
+      "ultra-light": {
+        "color-range": "signal-red"
+      },
+      "very-light": {
+        "color-range": "signal-red"
+      },
+      "light": {
+        "color-range": "signal-red"
+      },
+      "bright": {
+        "color-range": "signal-red"
+      },
+      "very-dark": {
+        "color-range": "signal-red"
       }
     },
     "input-validated-border": {
@@ -227,6 +279,23 @@
         "color": "#FFF1D3"
       }
     },
+    "notification-badge": {
+      "ultra-light": {
+        "color-range": "signal-red"
+      },
+      "very-light": {
+        "color-range": "signal-red"
+      },
+      "light": {
+        "color-range": "signal-red"
+      },
+      "bright": {
+        "color-range": "signal-red"
+      },
+      "very-dark": {
+        "color-range": "signal-red"
+      }
+    },
     "input-validated-border": {
       "ultra-light": {
         "color-range": "signal-orange"
@@ -295,6 +364,23 @@
       },
       "very-dark": {
         "color": "#FFBFBF"
+      }
+    },
+    "notification-badge": {
+      "ultra-light": {
+        "color-range": "signal-red"
+      },
+      "very-light": {
+        "color-range": "signal-red"
+      },
+      "light": {
+        "color-range": "signal-red"
+      },
+      "bright": {
+        "color-range": "signal-red"
+      },
+      "very-dark": {
+        "color-range": "signal-red"
       }
     },
     "input-validated-border": {
@@ -367,6 +453,23 @@
         "color": "#FFF1D3"
       }
     },
+    "notification-badge": {
+      "ultra-light": {
+        "color-range": "signal-orange"
+      },
+      "very-light": {
+        "color-range": "signal-orange"
+      },
+      "light": {
+        "color-range": "signal-orange"
+      },
+      "bright": {
+        "color-range": "signal-orange"
+      },
+      "very-dark": {
+        "color-range": "signal-orange"
+      }
+    },
     "input-validated-border": {
       "ultra-light": {
         "color-range": "signal-orange"
@@ -437,6 +540,23 @@
         "color": "#FFF1D3"
       }
     },
+    "notification-badge": {
+      "ultra-light": {
+        "color-range": "signal-red"
+      },
+      "very-light": {
+        "color-range": "signal-red"
+      },
+      "light": {
+        "color-range": "signal-red"
+      },
+      "bright": {
+        "color-range": "signal-red"
+      },
+      "very-dark": {
+        "color-range": "signal-red"
+      }
+    },
     "input-validated-border": {
       "ultra-light": {
         "color-range": "signal-orange"
@@ -505,6 +625,23 @@
       },
       "very-dark": {
         "color": "#FFF1D3"
+      }
+    },
+    "notification-badge": {
+      "ultra-light": {
+        "color-range": "signal-red"
+      },
+      "very-light": {
+        "color-range": "signal-red"
+      },
+      "light": {
+        "color-range": "signal-red"
+      },
+      "bright": {
+        "color-range": "signal-red"
+      },
+      "very-dark": {
+        "color-range": "signal-red"
       }
     },
     "input-validated-border": {

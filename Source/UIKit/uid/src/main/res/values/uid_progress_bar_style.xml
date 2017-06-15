@@ -33,7 +33,7 @@
         <item name="android:indeterminate">false</item>
         <item name="uidIsLinearProgressBar">false</item>
         <item name="android:progressDrawable">@drawable/uid_circular_progress_bar_small</item>
-        <item name="uidProgressBarCircularEndColor">?attr/uidTrackDetailNormalOnBackgroundColor
+        <item name="uidProgressBarCircularEndColor">?attr/uidTrackDefaultNormalOnBackgroundColor
         </item>
     </style>
 

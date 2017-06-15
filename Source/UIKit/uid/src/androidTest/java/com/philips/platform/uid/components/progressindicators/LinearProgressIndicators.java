@@ -101,7 +101,7 @@ public class LinearProgressIndicators {
     }
 
     private int getExpectedProgressBarBackgroundColor() {
-        return UIDTestUtils.getAttributeColor(activityContext, R.attr.uidTrackDefaultNormalOffBackgroundColor);
+        return UIDTestUtils.getAttributeColor(activityContext, R.attr.uidTrackDefaultNormalOnBackgroundColor);
     }
 
     private ViewInteraction getProgressBar() {

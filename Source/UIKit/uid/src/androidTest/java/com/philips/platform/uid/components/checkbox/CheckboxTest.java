@@ -63,13 +63,13 @@ public class CheckboxTest extends BaseTest {
 
     @Test
     public void verifyCheckBoxTextColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidCheckBoxDefaultNormalTextColor);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidLabelRegularNormalTextColor);
         getCheckbox().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
     @Test
     public void verifyCheckBoxDisabledTextColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidCheckBoxDefaultDisabledTextColor);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidLabelRegularDisabledTextColor);
         getCheckbox().perform(new SetCheckboxCheckedViewAction());
         getCheckbox().check(matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.state_enabled, expectedColor)));
     }
@@ -80,7 +80,7 @@ public class CheckboxTest extends BaseTest {
     @Test
     public void verifyDisabledCheckBoxTextColorULTheme() {
         getCheckbox().perform(new SetCheckboxCheckedViewAction());
-        final int expectedDisabledCheckBoxTextColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidCheckBoxDefaultDisabledTextColor);
+        final int expectedDisabledCheckBoxTextColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidLabelRegularDisabledTextColor);
         getCheckbox().check(matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.state_enabled, expectedDisabledCheckBoxTextColor)));
     }
 

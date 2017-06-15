@@ -208,7 +208,7 @@ public class AlertTest extends BaseTest {
      ******************************************************/
     @Test
     public void verifyTextColorOfAlertTitle() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidDialogAlertDefaultTitleTextColor);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidContentItemDefaultNormalTitleTextColor);
 
         getAlertTitle().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
@@ -217,7 +217,7 @@ public class AlertTest extends BaseTest {
     public void verifyTextColorOfAlertContent() {
 
 
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidDialogAlertDefaultBodyTextColor);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidContentItemDefaultNormalBodyTextColor);
         getAlertContent().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 

@@ -102,6 +102,6 @@ public class SeparatorTest extends BaseTest {
     }
 
     private int getUidSeparatorAttribute() {
-        return R.attr.uidSeparatorContentSeparatorNormalBackgroundColor;
+        return R.attr.uidSeparatorContentNormalBackgroundColor;
     }
 }
