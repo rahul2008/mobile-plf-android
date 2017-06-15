@@ -128,7 +128,7 @@ public class DeterminateCircularProgressIndicators {
     }
 
     private int getExpectedProgressBarBackgroundColor() {
-        return UIDTestUtils.getAttributeColor(activityContext, R.attr.uidTrackDefaultNormalOnBackgroundColor);
+        return UIDTestUtils.getAttributeColor(activityContext, R.attr.uidTrackDetailNormalOffBackgroundColor);
     }
 
     @Test
