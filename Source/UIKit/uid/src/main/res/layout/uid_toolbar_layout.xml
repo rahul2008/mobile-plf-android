@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:title="@null">
 
-    <TextView
+    <com.philips.platform.uid.view.widget.ActionBarTextView
         android:id="@id/uid_toolbar_title"
         style="@style/UIDToolbarBarTitleText"
         android:layout_width="match_parent"

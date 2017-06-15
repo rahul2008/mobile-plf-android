@@ -3,7 +3,7 @@
     <item android:color="?attr/uidTextBoxDefaultDisabledBackgroundColor" android:state_enabled="false"/>
     <item android:color="?attr/uidTextBoxDefaultPressedBackgroundColor" android:state_focused="true" android:state_pressed="true"/>
     <item android:color="?attr/uidTextBoxDefaultPressedBackgroundColor" android:state_focused="true"/>
-    <item android:color="#fff" android:state_focused="true" app:state_error="true"/>
-    <item android:color="?attr/uidTextBoxDefaultValidatedBackgroundColor" android:state_focused="false" app:state_error="true" />
+    <item android:color="?attr/uidTextBoxDefaultPressedBackgroundColor" android:state_focused="true" app:uid_state_error="true"/>
+    <item android:color="?attr/uidTextBoxDefaultValidatedBackgroundColor" android:state_focused="false" app:uid_state_error="true" />
     <item android:color="?attr/uidTextBoxDefaultNormalBackgroundColor"/>
 </selector>

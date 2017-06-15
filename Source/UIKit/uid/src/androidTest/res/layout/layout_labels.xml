@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:text="Calories"
         android:textColor="?attr/uidTextPrimary"
-        app:uidLabelTextSize="20sp"/>
+        android:textSize="20sp"/>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/label_numeric"
