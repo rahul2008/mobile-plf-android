@@ -9,6 +9,7 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.SDKCallback;
+import com.philips.amwelluapp.login.PTHAuthentication;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
 import com.philips.amwelluapp.welcome.PTHInitializeCallBack;
 
@@ -40,7 +41,9 @@ public class PTHManager {
         getAwsdk(context).authenticate(username, password, variable, new SDKCallback<Authentication, SDKError>() {
             @Override
             public void onResponse(Authentication authentication, SDKError sdkError) {
-                pthLoginCallBack.onLoginResponse(authentication, sdkError);
+                PTHAuthentication pthAuthentication = new PTHAuthentication();
+                pthAuthentication.setAuthentication(authentication);
+                pthLoginCallBack.onLoginResponse(pthAuthentication, sdkError);
             }
 
             @Override
