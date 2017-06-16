@@ -9,6 +9,7 @@ package com.philips.platform.uid.matcher;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
@@ -26,8 +27,8 @@ public class SearchBoxMatcher {
             @Override
             protected boolean matchesSafely(View view) {
                 SearchBox searchBox = (SearchBox) view;
-                ImageView imageView = searchBox.getCollapseView();
-                return ViewPropertiesMatchers.isSameEndMargin(expectedValue).matches(imageView);
+                AppCompatAutoCompleteTextView textView = searchBox.getSearchTextView();
+                return ViewPropertiesMatchers.isSameStartMargin(expectedValue).matches(textView);
             }
         };
     }

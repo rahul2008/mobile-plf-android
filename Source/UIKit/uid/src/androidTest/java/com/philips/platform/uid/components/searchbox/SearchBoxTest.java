@@ -84,7 +84,7 @@ public class SearchBoxTest extends BaseTest {
     }
 
     @Test
-    public void verifyBackIconEndMargin(){
+    public void verifyInputBoxStartMargin(){
         int backIconStartMargin = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.searchbox_button_padding_end);
         getSearchBox().check(matches(SearchBoxMatcher.isSameBackIconEndMargin(backIconStartMargin)));
     }
