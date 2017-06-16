@@ -31,7 +31,7 @@ public class HomeTabbedActivityState extends BaseState {
     }
 
     /**
-     * Navigate to HamburgerActivity
+     * Navigate to HamburgerActivityAbstract
      *
      * @param uiLauncher requires UiLauncher
      */

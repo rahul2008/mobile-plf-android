@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.appframework.testmicroappfw.ui.TestFragment;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -25,7 +25,7 @@ public class TestFragmentState extends BaseState {
     public void navigate(UiLauncher uiLauncher) {
         RALog.d(TAG, " navigate ");
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
-        ((AppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).
+        ((AbstractAppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).
                 handleFragmentBackStack( new TestFragment(), TestFragment.TAG,getUiStateData().getFragmentLaunchState());
     }
 

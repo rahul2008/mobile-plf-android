@@ -25,9 +25,9 @@ import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.uikit.customviews.PuiSwitch;
 import com.philips.cdp.uikit.customviews.UIKitButton;
 import com.philips.platform.appframework.R;
+import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkTagging;
-import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.dataservices.utility.SyncScheduler;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationState;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
@@ -51,7 +51,7 @@ public class SettingsAdapter extends BaseAdapter {
     private LayoutInflater inflater = null;
     private UserRegistrationState userRegistrationState;
     private ArrayList<SettingListItem> settingsItemList = null;
-    private UIBasePresenter fragmentPresenter;
+    private AbstractUIBasePresenter fragmentPresenter;
     private SharedPreferenceUtility sharedPreferenceUtility;
     private ProgressDialog progress, progressDialog;
     private int LOGIN_VIEW = 0;
@@ -63,7 +63,7 @@ public class SettingsAdapter extends BaseAdapter {
     private String viewHolderTag = null;
 
     public SettingsAdapter(Context context, ArrayList<SettingListItem> settingsItemList,
-                           UIBasePresenter fragmentPresenter, UserRegistrationState userRegistrationState, boolean isUserLoggedIn, boolean isMarketingEnabled) {
+                           AbstractUIBasePresenter fragmentPresenter, UserRegistrationState userRegistrationState, boolean isUserLoggedIn, boolean isMarketingEnabled) {
         activityContext = context;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.settingsItemList = settingsItemList;
@@ -356,7 +356,7 @@ public class SettingsAdapter extends BaseAdapter {
         userRegistrationState.getUserObject(activityContext).logout(new LogoutHandler() {
             @Override
             public void onLogoutSuccess() {
-                //    ((AppFrameworkBaseActivity)activityContext).setCartItemCount(0);
+                //    ((AbstractAppFrameworkBaseActivity)activityContext).setCartItemCount(0);
                 //TODO:Need to call UserRegistrationState on logout call. Now its crashingif we do so.
                 progressDialog.cancel();
                 if (activityContext instanceof IndexSelectionListener) {

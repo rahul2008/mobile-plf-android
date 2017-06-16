@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.baseapp.screens.cocoversion;
 
 import android.content.Context;
@@ -41,7 +46,7 @@ public class CocoVersionAdapter extends RecyclerView.Adapter<CocoVersionAdapter.
         RALog.d(TAG, " onBindViewHolder called  ");
         CocoVersionItem cocos = cocoVersionsItemList.get(position);
         holder.CocoName.setText(cocos.title);
-        holder.CocoVersion.setText(cocos.Version);
+        holder.CocoVersion.setText(cocos.version);
     }
 
     @Override

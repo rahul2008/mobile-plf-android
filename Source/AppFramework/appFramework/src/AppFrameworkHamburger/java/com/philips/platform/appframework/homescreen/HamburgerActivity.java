@@ -33,7 +33,7 @@ import com.philips.cdp.uikit.hamburger.HamburgerItem;
 import com.philips.cdp.uikit.utils.HamburgerUtil;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.base.AppFrameworkBaseActivity;
+import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.baseapp.screens.settingscreen.IndexSelectionListener;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -48,7 +48,7 @@ import java.util.ArrayList;
  * This activity is the container of all the other fragment for the app
  * ActionbarListener is implemented by this activty and all the logic related to handleBack handling and actionar is contained in this activity
  */
-public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPListener,IndexSelectionListener, FragmentManager.OnBackStackChangedListener, FragmentView {
+public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implements IAPListener,IndexSelectionListener, FragmentManager.OnBackStackChangedListener, FragmentView {
     private static String TAG = HamburgerActivity.class.getSimpleName();
     protected TextView actionBarTitle;
     private HamburgerUtil hamburgerUtil;
@@ -250,10 +250,12 @@ public class HamburgerActivity extends AppFrameworkBaseActivity implements IAPLi
                 backState = ((BackEventListener) currentFrag).handleBackEvent();
                 if (!backState) {
                     ((AppFrameworkApplication)getApplicationContext()).getTargetFlowManager().getBackState();
-                    adapter.setSelectedIndex(0);
+                  //  adapter.setSelectedIndex(0);
                     super.onBackPressed();
                 }
             } else {
+                ((AppFrameworkApplication)getApplicationContext()).getTargetFlowManager().getBackState();
+
                 adapter.setSelectedIndex(0);
                 super.onBackPressed();
             }

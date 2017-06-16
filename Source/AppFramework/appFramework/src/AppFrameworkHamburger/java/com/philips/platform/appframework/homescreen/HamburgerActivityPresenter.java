@@ -18,9 +18,9 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFound
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
+import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
-import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
@@ -32,7 +32,7 @@ import java.util.Arrays;
  * This class id used for loading various fragments that are supported by home activity ,
  * based on user selection this class loads the next state of the application.
  */
-public class HamburgerActivityPresenter extends UIBasePresenter {
+public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
     public static final String TAG = HamburgerActivityPresenter.class.getSimpleName();
 
     private FragmentView fragmentView;
@@ -55,15 +55,15 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
 
         try {
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-//            BaseState currentState=targetFlowManager.getCurrentState();
+          BaseState currentState=targetFlowManager.getCurrentState();
             if(targetFlowManager == null){
                 Toast.makeText(fragmentView.getFragmentActivity(), fragmentView.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
                 return;
             }
             baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.HAMBURGER_HOME), eventState);
-//            if(currentState!=null && currentState.getStateID()==baseState.getStateID()){
-//                return;
-//            }
+          if(currentState!=null && currentState.getStateID()==baseState.getStateID()){
+               return;
+           }
             if (null != baseState) {
                 baseState.setUiStateData(setStateData(baseState.getStateID()));
                 fragmentLauncher = getFragmentLauncher();
