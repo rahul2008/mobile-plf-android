@@ -288,8 +288,8 @@ public class LanguagePackTest extends MockitoTestCase {
                 LanguagePackConstants.LANGUAGE_PACK_PATH);
         assertEquals(getLanguageResponse(), languagePackUtil.readFile(file));
 
-        assertTrue(languagePackUtil.deleteFile(LanguagePackConstants.LOCALE_FILE_DOWNLOADED,
-                LanguagePackConstants.LOCALE_FILE_DOWNLOADED));
+       /* assertTrue(languagePackUtil.deleteFile(LanguagePackConstants.LOCALE_FILE_DOWNLOADED,
+                LanguagePackConstants.LOCALE_FILE_DOWNLOADED));*/
     }
 
     public void testLanguagePackUtilSaveLocaleMetaData() {
