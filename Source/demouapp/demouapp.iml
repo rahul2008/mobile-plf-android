@@ -97,9 +97,9 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="AppInfra-1.6.0-SNAPSHOT.20170613160531" level="project" />
     <orderEntry type="library" exported="" name="uAppFwLib-1.5.0-SNAPSHOT.20170613160845" level="project" />
-    <orderEntry type="library" exported="" name="jump-6.2.0-SNAPSHOT.20170615125009" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="runner-0.5" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="espresso-idling-resource-2.2.2" level="project" />
+    <orderEntry type="library" exported="" name="hsdp-1.1.0-SNAPSHOT.20170616133349" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-library-1.3" level="project" />
     <orderEntry type="library" exported="" name="transition-25.3.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-integration-1.3" level="project" />
@@ -107,9 +107,9 @@
     <orderEntry type="library" exported="" name="support-core-ui-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="customtabs-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="rxandroid-2.0.1" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="jsr305-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="support-core-utils-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="support-fragment-25.3.1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="jsr305-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="uikitLib-3.8.0-SNAPSHOT.20170605103210" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="espresso-core-2.2.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="exposed-instrumentation-api-publish-0.5" level="project" />
@@ -119,15 +119,16 @@
     <orderEntry type="library" exported="" name="appauth-0.4.1" level="project" />
     <orderEntry type="library" exported="" name="prx-3.2.0-SNAPSHOT.20170613161111" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-23.2.1" level="project" />
+    <orderEntry type="library" exported="" name="jump-6.2.0-SNAPSHOT.20170616133348" level="project" />
+    <orderEntry type="library" exported="" name="registrationApi-10.1.0-SNAPSHOT.20170616133348" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="javawriter-2.1.1" level="project" />
     <orderEntry type="library" exported="" name="support-v4-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="support-media-compat-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="volley-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="multidex-1.0.1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="javawriter-2.1.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-core-1.3" level="project" />
     <orderEntry type="library" exported="" name="fonticon-0.1.8" level="project" />
     <orderEntry type="library" exported="" name="calligraphy-2.1.0" level="project" />
-    <orderEntry type="library" exported="" name="hsdp-1.1.0-SNAPSHOT.20170615125009" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="junit-4.12" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="butterknife-8.6.0" level="project" />
@@ -136,7 +137,6 @@
     <orderEntry type="library" exported="" name="support-vector-drawable-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="support-compat-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="animated-vector-drawable-25.3.1" level="project" />
-    <orderEntry type="library" exported="" name="registrationApi-10.1.0-SNAPSHOT.20170615125009" level="project" />
     <orderEntry type="module" module-name="iap-iap" exported="" />
     <orderEntry type="library" exported="" name="okio-1.6.0" level="project" />
     <orderEntry type="library" exported="" name="dagger-2.10" level="project" />

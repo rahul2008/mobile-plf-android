@@ -3,7 +3,6 @@ package com.philips.cdp.di.iapdemo;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.LocaleList;
-import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.philips.cdp.registration.AppIdentityInfo;
@@ -21,7 +20,7 @@ import com.squareup.leakcanary.LeakCanary;
 
 import java.util.Locale;
 
-public class DemoApplication extends MultiDexApplication {
+public class DemoApplication extends Application {
     final String UR = "UserRegistration";
     private AppInfra mAppInfra;
 
@@ -252,13 +251,12 @@ public class DemoApplication extends MultiDexApplication {
 
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
-/* mAppInfraInterface.
+       /* mAppInfraInterface.
                 getConfigInterface().setPropertyForKey(
                 "appidentity.micrositeId",
                 AI,
                 "77000",
                 configError);*/
-
 
         mAppInfra.
                 getConfigInterface().setPropertyForKey(
