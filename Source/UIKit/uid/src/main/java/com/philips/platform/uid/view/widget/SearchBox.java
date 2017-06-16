@@ -17,6 +17,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
@@ -40,6 +41,23 @@ import android.widget.TextView;
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.drawable.StrokeCompat;
 import com.philips.platform.uid.thememanager.ThemeUtils;
+
+
+/**
+ * UID SearchBox.
+ * <P>
+ * <P>UID SearchBox is custom search view as per DLS design. Searchbox has two modes.
+ * <BR>Trigger mode
+ * <BR>Input mode
+ * <P>
+ * <p>Trigger mode has two variants.
+ * <BR>Iconified
+ * <BR>Expanded Decoy
+ * <P>
+ * <P> For usage of Search box please refer to the DLS Catalog app or the confluence page below
+ * <P>
+ * @see <a href="https://confluence.atlas.philips.com/display/MU/DLS-Android%3A+Integrate+Search+Box">https://confluence.atlas.philips.com/display/MU/DLS-Android%3A+Integrate+Search+Box</a>
+ */
 
 public class SearchBox extends LinearLayout {
 
@@ -98,34 +116,62 @@ public class SearchBox extends LinearLayout {
         initializeSearch(context, attrs, defStyleAttr);
     }
 
+    /**
+     * This API will return the Search Box decoy search layout
+     *
+     */
     @SuppressWarnings("unused")
     public View getDecoySearchLayout() {
         return decoySearchView;
     }
 
+    /**
+     * This API will return the Search Box decoy search icon
+     *
+     */
     @SuppressWarnings("unused")
     public ImageView getDecoySearchIconView() {
         return decoySearchIcon;
     }
 
+    /**
+     * This API will return the Search Box decoy hint text label
+     *
+     */
     @SuppressWarnings("unused")
     public Label getDecoySearchHintView() {
         return decoyHintView;
     }
 
+    /**
+     * This API will return the Search Box collapse/back icon
+     *
+     */
     public ImageView getCollapseView() {
         return collapseIcon;
     }
 
+    /**
+     * This API will return the Search Box input clear icon
+     *
+     */
     @SuppressWarnings("unused")
     public ImageView getClearIconView() {
         return clearIcon;
     }
 
+    /**
+     * This API will return the Search Box input AppCompatAutoCompleteTextView
+     *
+     */
     public AppCompatAutoCompleteTextView getSearchTextView() {
         return searchTextView;
     }
 
+    /**
+     * This API will return the Search Box input clear icon holder
+     *
+     */
     public View getSearchClearLayout() {
         return searchClearLayout;
     }
@@ -304,6 +350,11 @@ public class SearchBox extends LinearLayout {
                 MeasureSpec.makeMeasureSpec(height, heightMode));
     }
 
+    /**
+     * This API will help you to set if SearchBox should be collapsed or expanded for input.
+     *
+     * @param shouldCollapse Boolean to set if the SearchBox should be collapsed or input mode
+     */
     public void setSearchCollapsed(boolean shouldCollapse) {
         handleStateChange(shouldCollapse);
         setImeVisibility(!shouldCollapse);
@@ -311,23 +362,48 @@ public class SearchBox extends LinearLayout {
         updateViews();
     }
 
+    /**
+     * This API will help you to set the Search Box collapsed form. Either as icon or expanded decoy
+     *
+     * @param searchIconified Boolean to set if the SearchBox collapsed form should appear as icon or expanded decoy
+     */
     public void setSearchIconified(boolean searchIconified) {
         this.isSearchIconified = searchIconified;
         updateViews();
     }
 
-    public void setDecoySearchViewHint(int resID){
+    /**
+     * This API will help you to set the exact string resource passed to Decoy Search View Hint.
+     *
+     * @param resID String to be set to the Decoy Search View Hint
+     */
+    public void setDecoySearchViewHint(@StringRes int resID){
         decoyHintView.setText(resID);
     }
 
+    /**
+     * This API will help you to set the exact string value passed to Decoy Search View Hint.
+     *
+     * @param text String to be set to the Decoy Search View Hint
+     */
     public void setDecoySearchViewHint(String text){
         decoyHintView.setText(text);
     }
 
-    public void setSearchBoxHint(int resID){
+    /**
+     * This API will help you to set the exact string resource passed to Input Search View Hint.
+     *
+     * @param resID String to be set to the Input Search View Hint
+     */
+    public void setSearchBoxHint(@StringRes int resID){
         searchTextView.setHint(resID);
     }
 
+    /**
+     * This API will help you to set the exact string value passed to Input Search View Hint.
+     *
+     * @param text String to be set to the Input Search View Hint
+     */
     public void setSearchBoxHint(String text){
         searchTextView.setHint(text);
     }
@@ -401,18 +477,36 @@ public class SearchBox extends LinearLayout {
         requestLayout();
     }
 
+    /**
+     * This API will return if the Search Box is in collapsed form or input form.
+     *
+     */
     public boolean isSearchCollapsed() {
         return isSearchCollapsed;
     }
 
+    /**
+     * This API will help you to set the query text for the search box input, for example in case of config change.
+     *
+     * @param query String to be set for search box input, useful
+     */
     public void setQuery(CharSequence query) {
         searchTextView.setText(query);
     }
 
+    /**
+     * This API will help you to get the query text from the search box input.
+     *
+     */
     public CharSequence getQuery() {
         return searchTextView.getText();
     }
 
+    /**
+     * This API will help you to set the max width for the searchbox
+     *
+     * @param maxWidth Max value in int that the searchbox should take
+     */
     @SuppressWarnings("unused")
     public void setMaxWidth(int maxWidth) {
         this.maxWidth = maxWidth;
@@ -443,10 +537,18 @@ public class SearchBox extends LinearLayout {
         requestLayout();
     }
 
+    /**
+     * This API will help you to set the ExpandListener in case search box transforms from expanded to collapsed or vice a versa.
+     *
+     */
     public void setExpandListener(ExpandListener listener) {
         expandListener = listener;
     }
 
+    /**
+     * This API will help you to set the QuerySubmitListener in case search box query is submit through the search icon on IME.
+     *
+     */
     public void setQuerySubmitListener(QuerySubmitListener listener) {
         querySubmitListener = listener;
     }
