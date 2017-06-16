@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -111,11 +112,15 @@ public class SearchBoxPersistentFragment extends BaseFragment implements SearchB
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.setGroupVisible(R.id.main_menus, false);
+        inflater.inflate(R.menu.country_search_menu,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menu.findItem(R.id.menu_set_theme_settings).setVisible(false);
-        menu.findItem(R.id.menu_theme_settings).setVisible(false);
-        menu.findItem(R.id.country_search).setVisible(true);
         searchBox = (SearchBox) menu.findItem(R.id.country_search).getActionView();
         searchBox.setExpandListener(this);
         searchBox.setQuerySubmitListener(this);
