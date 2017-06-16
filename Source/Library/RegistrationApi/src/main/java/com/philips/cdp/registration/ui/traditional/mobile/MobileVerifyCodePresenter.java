@@ -10,7 +10,9 @@ import android.support.annotation.VisibleForTesting;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
+import com.philips.cdp.registration.events.CounterListener;
 import com.philips.cdp.registration.events.NetworStateListener;
+import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegChinaConstants;
@@ -38,31 +40,12 @@ import static com.philips.cdp.registration.ui.utils.RegConstants.SUCCESS_STATE_R
 
 public class MobileVerifyCodePresenter implements HttpClientServiceReceiver.Listener, NetworStateListener {
 
-    private static final long RESEND_DISABLED_DURATION = 60 * 1000;
-    private static final long INTERVAL = 1 * 1000;
-    private static final String VERIFICATION_SMS_CODE_SERVICE_ID = "userreg.urx.verificationsmscode";
     private static final int SMS_ACTIVATION_REQUEST_CODE = 100;
-    private static final int RESEND_OTP_REQUEST_CODE = 101;
-    private static final String ERROR_CODE = "errorCode";
-    private static final String OTP_RESEND_SUCCESS = "0";
 
     @Inject
     ServiceDiscoveryWrapper serviceDiscoveryWrapper;
 
     private final MobileVerifyCodeContract mobileVerifyCodeContract;
-
-    private final CountDownTimer resendTimer = new CountDownTimer(RESEND_DISABLED_DURATION, INTERVAL) {
-        @Override
-        public void onTick(long timeLeft) {
-            String timeRemaining = String.format("%02d", + timeLeft / 1000) + "s";
-            mobileVerifyCodeContract.updateResendTimer(timeRemaining);
-        }
-
-        @Override
-        public void onFinish() {
-            mobileVerifyCodeContract.enableResendButton();
-        }
-    };
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -71,9 +54,6 @@ public class MobileVerifyCodePresenter implements HttpClientServiceReceiver.List
         this.mobileVerifyCodeContract = mobileVerifyCodeContract;
     }
 
-    public void startResendTimer() {
-        resendTimer.start();
-    }
 
     public void verifyMobileNumber(String uuid, String otp) {
         Intent smsActivationIntent = createSMSActivationIntent(uuid, otp);
@@ -90,35 +70,7 @@ public class MobileVerifyCodePresenter implements HttpClientServiceReceiver.List
         return httpServiceIntent;
     }
 
-    public void resendOTPRequest(final String mobileNumber) {
 
-        Single<String> serviceUrl = serviceDiscoveryWrapper.getServiceUrlWithCountryPreferenceSingle(VERIFICATION_SMS_CODE_SERVICE_ID).cache();
-
-        compositeDisposable.add(serviceUrl
-                .subscribeOn(Schedulers.io())
-                .map(url -> createResendSMSIntent(url, mobileNumber))
-                .map(mobileVerifyCodeContract::startService)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<ComponentName>() {
-                    @Override
-                    public void onSuccess(ComponentName value) {
-                        /** NOP */
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        mobileVerifyCodeContract.enableResendButton();
-                    }
-                }));
-    }
-
-    private Intent createResendSMSIntent(String verificationSmsCodeURL, String mobileNumber) {
-        String url = getSmsVerificationUrl(verificationSmsCodeURL, mobileNumber);
-
-        RequestBody emptyBody = RequestBody.create(null, new byte[0]);
-        Intent httpServiceIntent = getHttpServiceIntent(url, emptyBody.toString(), RESEND_OTP_REQUEST_CODE);
-        return httpServiceIntent;
-    }
 
     @NonNull
     private Intent getHttpServiceIntent(String url, String value, int resendOtpRequestCode) {
@@ -130,12 +82,6 @@ public class MobileVerifyCodePresenter implements HttpClientServiceReceiver.List
         httpServiceIntent.putExtra(HTTP_URL_TO_BE_CALLED, url);
         httpServiceIntent.putExtra(HTTP_SERVICE_REQUEST_CODE, resendOtpRequestCode);
         return httpServiceIntent;
-    }
-
-    @NonNull
-    private String getSmsVerificationUrl(String verificationSmsCodeURL, String mobileNumber) {
-        return verificationSmsCodeURL +"?provider=" +
-                "JANRAIN-CN&locale=zh_CN" + "&phonenumber=" + FieldsValidator.getMobileNumber(mobileNumber);
     }
 
     public void cleanUp() {
@@ -154,25 +100,8 @@ public class MobileVerifyCodePresenter implements HttpClientServiceReceiver.List
             handleActivation(response);
         }
 
-        if(resultCode == RESEND_OTP_REQUEST_CODE) {
-            handleResendSms(response);
-            startResendTimer();
-        }
     }
 
-    private void handleResendSms(String response) {
-        try {
-        JSONObject jsonObject = new JSONObject(response);
-        if (jsonObject.getString(ERROR_CODE).toString().equals(OTP_RESEND_SUCCESS)) {
-            mobileVerifyCodeContract.enableResendButtonAndHideSpinner();
-        } else {
-            String errorCodeString = jsonObject.getString(ERROR_CODE).toString();
-            mobileVerifyCodeContract.showSmsResendTechincalError(errorCodeString);
-        }
-        } catch (JSONException e) {
-            mobileVerifyCodeContract.showSmsResendTechincalError("50");
-        }
-    }
 
     private void handleActivation(String response) {
         try {
@@ -221,4 +150,6 @@ public class MobileVerifyCodePresenter implements HttpClientServiceReceiver.List
     public void mockInjections(ServiceDiscoveryWrapper wrapper) {
         serviceDiscoveryWrapper = wrapper;
     }
+
+
 }

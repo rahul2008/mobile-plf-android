@@ -273,7 +273,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     @Override
     public void onEventReceived(String event) {
-        RLog.i(RLog.EVENT_LISTENERS, "ResetPasswordFragment :onEventReceived is : " + event);
+        RLog.i(RLog.EVENT_LISTENERS, "ResetPasswordFragment :onCounterEventReceived is : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
             updateUiStatus();
         }

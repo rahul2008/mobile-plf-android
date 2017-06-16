@@ -185,4 +185,8 @@ public class RegConstants {
     public static final int FAILURE_TO_CONNECT = -1;
 
     public final static int EMAIL_ADDRESS_ALREADY_USE_CODE = 390;
+
+    public final static String COUNTER_TICK = "COUNTER_TICK";
+    public final static String COUNTER_FINISH = "COUNTER_FINISH";
+
 }

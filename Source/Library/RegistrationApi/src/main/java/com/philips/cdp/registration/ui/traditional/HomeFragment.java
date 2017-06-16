@@ -708,8 +708,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Override
     public void onEventReceived(String event) {
-        RLog.i(RLog.EVENT_LISTENERS, "HomeFragment :onEventReceived" +
-                " isHomeFragment :onEventReceived is : " + event);
+        RLog.i(RLog.EVENT_LISTENERS, "HomeFragment :onCounterEventReceived" +
+                " isHomeFragment :onCounterEventReceived is : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
             hideProgressDialog();
             if (mFlowId == 1) {
