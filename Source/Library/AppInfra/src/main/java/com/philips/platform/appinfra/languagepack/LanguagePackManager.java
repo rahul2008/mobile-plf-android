@@ -7,6 +7,7 @@ package com.philips.platform.appinfra.languagepack;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -64,56 +65,67 @@ public class LanguagePackManager implements LanguagePackInterface {
 	public void refresh(final OnRefreshListener aILPRefreshResult) {
 
 		final AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
-		final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+		final AppConfigurationInterface.AppConfigurationError configError = getAppConfigurationError();
 		final String languagePackServiceId = (String) appConfigurationInterface.getPropertyForKey(LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY, "APPINFRA", configError);
 		if (null == languagePackServiceId) {
 			aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, "Invalid ServiceID");
 		} else {
 			ServiceDiscoveryInterface mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
-
-			mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(languagePackServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-				@Override
-				public void onSuccess(URL url) {
-					final String languagePackConfigURL = url.toString();
-
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", url.toString()); // US requirement to show language pack URL
-
-					JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, languagePackConfigURL, null,
-							new Response.Listener<JSONObject>() {
-								@Override
-								public void onResponse(final JSONObject response) {
-									mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_LP", response.toString());
-									languagePackHandler = getHandler(context);
-									new Thread(new Runnable() {
-										@Override
-										public void run() {
-											processForLanguagePack(response, aILPRefreshResult);
-										}
-									}).start();
-								}
-							}, new Response.ErrorListener() {
-						@Override
-						public void onErrorResponse(VolleyError error) {
-							final String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
-							final String errMsg = " Error Code:" + errorcode + " , Error Message:" + error.toString();
-							mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
-							aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, errMsg);
-
-						}
-					}, null, null, null);
-					mRestInterface.getRequestQueue().add(jsonRequest);
-				}
-
-				@Override
-				public void onError(ERRORVALUES error, String message) {
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
-							"AILP_URL", " Error Code:" + error.toString() + " , Error Message:" + message);
-					final String errMsg = " Error Code:" + error + " , Error Message:" + error.toString();
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
-					aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, errMsg);
-				}
-			});
+			mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(languagePackServiceId, getServiceDiscoveryListener(aILPRefreshResult));
 		}
+	}
+
+
+	@NonNull
+	protected AppConfigurationInterface.AppConfigurationError getAppConfigurationError() {
+		return new AppConfigurationInterface.AppConfigurationError();
+	}
+
+	@NonNull
+	protected ServiceDiscoveryInterface.OnGetServiceUrlListener getServiceDiscoveryListener(final OnRefreshListener aILPRefreshResult) {
+		return new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+			@Override
+			public void onSuccess(URL url) {
+				final String languagePackConfigURL = url.toString();
+
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", url.toString()); // US requirement to show language pack URL
+
+				JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, languagePackConfigURL, null,
+						new Response.Listener<JSONObject>() {
+							@Override
+							public void onResponse(final JSONObject response) {
+								mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_LP", response.toString());
+								languagePackHandler = getHandler(context);
+								new Thread(new Runnable() {
+									@Override
+									public void run() {
+										processForLanguagePack(response, aILPRefreshResult);
+									}
+								}).start();
+							}
+						}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						final String errorcode = null != error.networkResponse ? error.networkResponse.statusCode + "" : "";
+						final String errMsg = " Error Code:" + errorcode + " , Error Message:" + error.toString();
+						mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
+						aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, errMsg);
+
+					}
+				}, null, null, null);
+				mRestInterface.getRequestQueue().add(jsonRequest);
+			}
+
+			@Override
+			public void onError(ERRORVALUES error, String message) {
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+						"AILP_URL", " Error Code:" + error.toString() + " , Error Message:" + message);
+				final String errMsg = " Error Code:" + error + " , Error Message:" + error.toString();
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "AILP_URL", errMsg);
+				aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, errMsg);
+
+			}
+		};
 	}
 
 

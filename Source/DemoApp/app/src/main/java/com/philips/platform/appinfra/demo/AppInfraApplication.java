@@ -11,10 +11,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.StrictMode;
+import android.os.Trace;
 import android.util.Log;
 
 import com.crittercism.app.Crittercism;
 import com.crittercism.app.CrittercismConfig;
+import com.facebook.stetho.Stetho;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
@@ -62,6 +64,11 @@ public class AppInfraApplication extends Application {
         Crittercism.didCrashOnLastLoad();
         CrittercismConfig config = new CrittercismConfig();
         config.setLogcatReportingEnabled(true);
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+                        .build());
 
         //https://developer.android.com/reference/android/os/StrictMode.html
         // to monitor penaltyLog() log output in logcat for ANR or any other performance issue
@@ -80,8 +87,16 @@ public class AppInfraApplication extends Application {
 
         super.onCreate();
         LeakCanary.install(this);
+//        android.os.Debug.startMethodTracing("yourstring");
+        Trace.beginSection("NewOne");
 
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
+
+        Trace.endSection();
+
+        // android.os.Debug.stopMethodTracing();
+
+
         gAppInfra.getTime().refreshTime();
         mAppInfra = (AppInfra)gAppInfra;
 

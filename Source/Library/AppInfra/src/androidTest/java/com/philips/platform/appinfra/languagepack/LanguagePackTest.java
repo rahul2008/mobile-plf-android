@@ -1,6 +1,7 @@
 package com.philips.platform.appinfra.languagepack;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
@@ -16,6 +17,7 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.mockito.Mockito;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -153,6 +155,36 @@ public class LanguagePackTest extends MockitoTestCase {
         }
     }
 
+    public void testRefreshNew() {
+        AppInfra appInfra = Mockito.mock(AppInfra.class);
+        AppConfigurationInterface appConfigurationInterface = Mockito.mock(AppConfigurationInterface.class);
+        ServiceDiscoveryInterface serviceDiscoveryInterface = Mockito.mock(ServiceDiscoveryInterface.class);
+
+        Mockito.when(appInfra.getConfigInterface()).thenReturn(appConfigurationInterface);
+        Mockito.when(appInfra.getServiceDiscovery()).thenReturn(serviceDiscoveryInterface);
+        LanguagePackInterface.OnRefreshListener onRefreshListener = Mockito.mock(LanguagePackInterface.OnRefreshListener.class);
+        final ServiceDiscoveryInterface.OnGetServiceUrlListener onGetServiceUrlListener = Mockito.mock(ServiceDiscoveryInterface.OnGetServiceUrlListener.class);
+
+        final AppConfigurationInterface.AppConfigurationError appConfigurationError = Mockito.mock(AppConfigurationInterface.AppConfigurationError.class);
+
+        mLanguagePackManager = new LanguagePackManager(appInfra) {
+            @NonNull
+            @Override
+            protected ServiceDiscoveryInterface.OnGetServiceUrlListener getServiceDiscoveryListener(OnRefreshListener aILPRefreshResult) {
+                return onGetServiceUrlListener;
+            }
+
+            @NonNull
+            @Override
+            protected AppConfigurationInterface.AppConfigurationError getAppConfigurationError() {
+                return appConfigurationError;
+            }
+        };
+        mLanguagePackManager.refresh(onRefreshListener);
+        Mockito.verify(onRefreshListener).onError(LanguagePackInterface.OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, "Invalid ServiceID");
+    }
+
+
     public void testPostRefreshSuccess() {
         try {
             Method method = mLanguagePackManager.getClass().getDeclaredMethod("postRefreshSuccess", LanguagePackInterface.OnRefreshListener.class, LanguagePackInterface.OnRefreshListener.AILPRefreshResult.class);
@@ -245,7 +277,8 @@ public class LanguagePackTest extends MockitoTestCase {
 
     public void testDownloadLanguagePack() {
         try {
-            Method method = mLanguagePackManager.getClass().getDeclaredMethod("downloadLanguagePack", String.class, LanguagePackInterface.OnRefreshListener.class);
+            Method method = mLanguagePackManager.getClass().getDeclaredMethod("downloadLanguagePack"
+                    , String.class, LanguagePackInterface.OnRefreshListener.class);
             method.setAccessible(true);
             LanguagePackInterface.OnRefreshListener listener = new LanguagePackInterface.OnRefreshListener() {
                 @Override

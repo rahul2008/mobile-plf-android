@@ -200,7 +200,12 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
 
 
         public AppInfra build(Context pContext) {
-            Log.v("APPINFRA INT", "AI Intitialization Starts");
+
+            long startTime = System.nanoTime();
+            long startTimems = System.currentTimeMillis();
+
+            postLog(startTimems ,"AI Intitialization Starts");
+            Log.v("APPINFRA INT", "AI Intitialization Starts = Start Time "+" " +System.nanoTime());
             final AppInfra ai = new AppInfra(pContext);
             final AppConfigurationManager appConfigurationManager=new AppConfigurationManager(ai);
             ai.setConfigInterface(configInterface == null ? appConfigurationManager : configInterface);
@@ -247,8 +252,8 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
 
             ai.setTagging(tagging == null ? new AppTagging(ai) : tagging);
             Log.v("APPINFRA INT", "Tagging Intitialization Done");
-            Log.v("APPINFRA INT", "AI Intitialization Done");
 
+            Log.v("APPINFRA INT", "AppConfig Cloud Download Start"+" "+System.nanoTime());
 
             /////////////
             appConfigurationManager.migrateDynamicData();
@@ -263,11 +268,17 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
 
                 }
             });
-            ai.setLanguagePackInterface(languagePack == null? new LanguagePackManager(ai) : languagePack);
+            Log.v("APPINFRA INT", "AppConfig Cloud Download END"+" "+System.nanoTime());
 
-            ai.setAppupdateInterface(appupdateInterface == null ? new AppUpdateManager(ai) : appupdateInterface);
+            ai.setLanguagePackInterface(languagePack == null? new LanguagePackManager(ai) : languagePack);
+            Log.v("APPINFRA INT", "Language Pack Initialization Done");
 
             AppUpdateManager appUpdateManager = new AppUpdateManager(ai);
+            ai.setAppupdateInterface(appupdateInterface == null ? appUpdateManager : appupdateInterface);
+            Log.v("APPINFRA INT", "AppUpdate Initialization Done");
+            Log.v("APPINFRA INT", "AppUpdate AutoRefresh Start"+" "+System.nanoTime());
+
+
             try {
                 Object isappUpdateRq = getAutoRefreshValue(appConfigurationManager);
                 if (isappUpdateRq != null && isappUpdateRq instanceof Boolean) {
@@ -295,11 +306,25 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             } catch (IllegalArgumentException exception) {
                 Log.e("AppConfiguration", exception.toString());
             }
+
+            Log.v("APPINFRA INT", "AppUpdate AutoRefresh END"+" "+System.nanoTime());
+            Log.v("APPINFRA INT", "AI Intitialization Done - END TIME " +" "+System.nanoTime());
+            long endTime1 = System.nanoTime();
+            Log.d("AppInfraInit", "endTime1 - Time takes is " + (float)(endTime1 - startTime) / 1e9);
+            Log.d("AppInfraInit", "endTime1 - Time takes is " + (float)(endTime1 - startTime) / 1e3);
+            postLog(startTimems ,"AI Intitialization ENDS");
+
             return ai;
         }
 
     }
 
+
+    private static void postLog(long startTime, String message) {
+        long endTime = System.currentTimeMillis();
+        long methodDuration = (endTime - startTime);
+        Log.d("APPINFRA" + "", message + methodDuration);
+    }
 
     public Context getAppInfraContext() {
         return appInfraContext;
