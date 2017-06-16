@@ -8,16 +8,12 @@ package com.philips.platform.uid.matcher;
 
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.text.AndroidCharacter;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.philips.platform.uid.R;
-import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.view.widget.SearchBox;
 
 import org.hamcrest.Matcher;
@@ -30,7 +26,7 @@ public class SearchBoxMatcher {
             @Override
             protected boolean matchesSafely(View view) {
                 SearchBox searchBox = (SearchBox) view;
-                ImageView imageView = searchBox.getBackButton();
+                ImageView imageView = searchBox.getCollapseView();
                 return ViewPropertiesMatchers.isSameEndMargin(expectedValue).matches(imageView);
             }
         };
@@ -42,7 +38,7 @@ public class SearchBoxMatcher {
             @Override
             protected boolean matchesSafely(View view) {
                 SearchBox searchBox = (SearchBox) view;
-                ImageView imageView = searchBox.getBackButton();
+                ImageView imageView = searchBox.getCollapseView();
                 return ViewPropertiesMatchers.isSameStartMargin(expectedValue).matches(imageView);
             }
         };
@@ -54,7 +50,7 @@ public class SearchBoxMatcher {
             @Override
             protected boolean matchesSafely(View view) {
                 SearchBox searchBox = (SearchBox) view;
-                ImageView imageView = searchBox.getBackButton();
+                ImageView imageView = searchBox.getCollapseView();
                 return ViewPropertiesMatchers.isSameViewHeight(expectedValue).matches(imageView);
             }
         };
@@ -66,7 +62,7 @@ public class SearchBoxMatcher {
             @Override
             protected boolean matchesSafely(View view) {
                 SearchBox searchBox = (SearchBox) view;
-                ImageView imageView = searchBox.getBackButton();
+                ImageView imageView = searchBox.getCollapseView();
                 return ViewPropertiesMatchers.isSameViewWidth(expectedValue).matches(imageView);
             }
         };
@@ -186,7 +182,7 @@ public class SearchBoxMatcher {
             @Override
             protected boolean matchesSafely(View view) {
                 SearchBox searchBox = (SearchBox) view;
-                ImageView backIcon = searchBox.getBackButton();
+                ImageView backIcon = searchBox.getCollapseView();
                 Drawable drawable = backIcon.getDrawable();
                 return DrawableMatcher.isSameStrokeColor(new int[android.R.attr.state_enabled], expectedValue).matches(drawable);
             }

@@ -49,7 +49,8 @@
             android:maxLines="1"
             android:textColor="?attr/uidSearchBoxAndroidDefaultNormalInputTextColor"
             android:textColorHint="?attr/uidSearchBoxAndroidDefaultNormalHintTextColor"
-            android:textSize="@dimen/uid_searchbox_text_size" />
+            android:textSize="@dimen/uid_searchbox_text_size"
+            fontPath="fonts/centralesansmedium.ttf" />
 
         <FrameLayout
             android:id="@id/uid_search_clear_layout"
@@ -71,7 +72,6 @@
     </LinearLayout>
 
     <include
-        android:id="@id/uid_search_box_view"
         layout="@layout/uid_search_box_view" />
 
 </LinearLayout>

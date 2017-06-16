@@ -19,6 +19,7 @@ import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Adapter;
@@ -30,20 +31,18 @@ import android.widget.TextView;
 
 import com.philips.platform.uid.R;
 
-import uk.co.chrisjenx.calligraphy.TypefaceUtils;
-
 public class SearchBox extends LinearLayout {
 
-    private ImageView backButton;
-    private ImageView closeButton;
+    private ImageView collapseIcon;
+    private ImageView clearIcon;
     private ImageView searchIconHolder;
     private AppCompatAutoCompleteTextView searchTextView;
-    private View searchBoxView;
     private View searchClearLayout;
     private View searchExpandedLayout;
-    private View searchBoxViewLayout;
-    private ImageView searchBoxViewIcon;
-    private Label searchBoxViewText;
+
+    private ViewGroup decoySearchView;
+    private ImageView decoySearchIcon;
+    private Label decoyHintView;
 
     private boolean isSearchIconified;
     private boolean isSearchCollapsed = true;
@@ -53,8 +52,6 @@ public class SearchBox extends LinearLayout {
     private FilterQueryChangedListener filterQueryChangedListener;
     private QuerySubmitListener querySubmitListener;
     private Filter searchFilter;
-
-    private static final String FONT_PATH_CENTRALESANS_MEDIUM = "fonts/centralesansmedium.ttf";
 
     public interface ExpandListener {
         void onSearchExpanded();
@@ -86,22 +83,27 @@ public class SearchBox extends LinearLayout {
     }
 
     @SuppressWarnings("unused")
-    public View getSearchBoxViewLayout() {
-        return searchBoxViewLayout;
+    public View getDecoySearchLayout() {
+        return decoySearchView;
     }
 
     @SuppressWarnings("unused")
-    public ImageView getSearchBoxViewIcon() {
-        return searchBoxViewIcon;
+    public ImageView getDecoySearchIconView() {
+        return decoySearchIcon;
     }
 
     @SuppressWarnings("unused")
-    public Label getSearchBoxViewText() {
-        return searchBoxViewText;
+    public Label getDecoySearchHintView() {
+        return decoyHintView;
     }
 
-    public ImageView getBackButton() {
-        return backButton;
+    public ImageView getCollapseView() {
+        return collapseIcon;
+    }
+
+    @SuppressWarnings("unused")
+    public ImageView getClearIconView() {
+        return clearIcon;
     }
 
     public AppCompatAutoCompleteTextView getSearchTextView() {
@@ -116,22 +118,22 @@ public class SearchBox extends LinearLayout {
         final LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.uid_search_box, this);
         searchExpandedLayout = findViewById(R.id.uid_search_box_layout);
-        searchBoxViewLayout = findViewById(R.id.uid_search_box_view_layout);
-        searchBoxViewIcon = (ImageView) findViewById(R.id.uid_search_box_view_icon);
-        searchBoxViewText = (Label) findViewById(R.id.uid_search_box_view_text);
-        initBackButton();
+        decoySearchView = (ViewGroup) findViewById(R.id.uid_search_decoy_view);
+        decoySearchIcon = (ImageView) findViewById(R.id.uid_search_decoy_hint_icon);
+        decoyHintView = (Label) findViewById(R.id.uid_search_decoy_hint_text);
+        initCollapseIcon();
         initSearchIconHolder();
         initSearchBoxView();
         initClearIcon();
-        initSearchTextView(context);
+        initSearchTextView();
         updateViews();
         setSaveEnabled(true);
     }
 
     private void initClearIcon() {
         searchClearLayout = findViewById(R.id.uid_search_clear_layout);
-        closeButton = (ImageView) findViewById(R.id.uid_search_close_btn);
-        closeButton.setImageResource(R.drawable.uid_texteditbox_clear_icon);
+        clearIcon = (ImageView) findViewById(R.id.uid_search_close_btn);
+        clearIcon.setImageResource(R.drawable.uid_texteditbox_clear_icon);
         searchClearLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,10 +144,10 @@ public class SearchBox extends LinearLayout {
         });
     }
 
-    private void initBackButton() {
-        backButton = (ImageView) findViewById(R.id.uid_search_back_button);
-        backButton.setImageResource(R.drawable.uid_back_icon);
-        backButton.setOnClickListener(new OnClickListener() {
+    private void initCollapseIcon() {
+        collapseIcon = (ImageView) findViewById(R.id.uid_search_back_button);
+        collapseIcon.setImageResource(R.drawable.uid_back_icon);
+        collapseIcon.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 setSearchCollapsed(true);
@@ -167,8 +169,8 @@ public class SearchBox extends LinearLayout {
     }
 
     private void initSearchBoxView() {
-        searchBoxView = findViewById(R.id.uid_search_box_view);
-        searchBoxView.setOnClickListener(new OnClickListener() {
+        decoySearchView = (ViewGroup) findViewById(R.id.uid_search_decoy_view);
+        decoySearchView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 setSearchCollapsed(false);
@@ -177,7 +179,7 @@ public class SearchBox extends LinearLayout {
         });
     }
 
-    private void initSearchTextView(Context context) {
+    private void initSearchTextView() {
         searchTextView = (AppCompatAutoCompleteTextView) findViewById(R.id.uid_search_src_text);
         searchTextView.addTextChangedListener(new SearchTextWatcher());
         searchTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -192,7 +194,6 @@ public class SearchBox extends LinearLayout {
                 return false;
             }
         });
-        searchTextView.setTypeface(TypefaceUtils.load(context.getAssets(), FONT_PATH_CENTRALESANS_MEDIUM));
     }
 
     @SuppressLint("SwitchIntDef")
@@ -297,16 +298,16 @@ public class SearchBox extends LinearLayout {
 
         if (isSearchIconified) {
             searchIconHolder.setVisibility(collapsedVisibility);
-            searchBoxView.setVisibility(View.GONE);
+            decoySearchView.setVisibility(View.GONE);
         } else {
-            searchBoxView.setVisibility(collapsedVisibility);
+            decoySearchView.setVisibility(collapsedVisibility);
             searchIconHolder.setVisibility(View.GONE);
         }
 
         int visibility = isSearchCollapsed ? View.GONE : View.VISIBLE;
         searchExpandedLayout.setVisibility(visibility);
         searchClearLayout.setVisibility(visibility);
-        backButton.setVisibility(visibility);
+        collapseIcon.setVisibility(visibility);
         updateCloseButton();
         searchTextView.setVisibility(visibility);
         if (visibility == View.VISIBLE) {
@@ -417,7 +418,7 @@ public class SearchBox extends LinearLayout {
 
     private void updateCloseButton() {
         final boolean showClose = !TextUtils.isEmpty(searchTextView.getText());
-        closeButton.setVisibility(showClose ? VISIBLE : GONE);
+        clearIcon.setVisibility(showClose ? VISIBLE : GONE);
     }
 
     private static class SavedState extends BaseSavedState {
