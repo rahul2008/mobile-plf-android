@@ -53,36 +53,34 @@
                 <RadioGroup
                     android:id="@+id/radio_group_single_line"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right">
 
                     <com.philips.platform.uid.view.widget.RadioButton
                         android:id="@+id/radiobutton_1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/layout_margin_left_right"
-                        android:layout_marginStart="@dimen/radiobutton_margin_left"
+                        android:paddingStart="@dimen/radio_button_text_padding_left_right"
+                        android:paddingEnd="@dimen/radio_button_text_padding_left_right"
                         android:enabled="@{frag.isRadioButtonEnabled}"
                         android:text="@string/radiobutton_selection_item_1"/>
-
-                    <include layout="@layout/divider_layout"/>
 
                     <com.philips.platform.uid.view.widget.RadioButton
                         android:id="@+id/radiobutton_2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/layout_margin_left_right"
-                        android:layout_marginStart="@dimen/radiobutton_margin_left"
+                        android:paddingStart="@dimen/radio_button_text_padding_left_right"
+                        android:paddingEnd="@dimen/radio_button_text_padding_left_right"
                         android:enabled="@{frag.isRadioButtonEnabled}"
                         android:text="@string/radiobutton_selection_item_2"/>
-
-                    <include layout="@layout/divider_layout"/>
 
                     <com.philips.platform.uid.view.widget.RadioButton
                         android:id="@+id/radiobutton_3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/layout_margin_left_right"
-                        android:layout_marginStart="@dimen/radiobutton_margin_left"
+                        android:paddingStart="@dimen/radio_button_text_padding_left_right"
+                        android:paddingEnd="@dimen/radio_button_text_padding_left_right"
                         android:enabled="@{frag.isRadioButtonEnabled}"
                         android:text="@string/radiobutton_selection_item_3"/>
                 </RadioGroup>
@@ -95,14 +93,16 @@
                 <RadioGroup
                     android:id="@+id/radio_group_multi_line"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_margin_left_right"
+                    android:layout_marginStart="@dimen/layout_margin_left_right" >
 
                     <com.philips.platform.uid.view.widget.RadioButton
                         android:id="@+id/radiobutton_4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/layout_margin_left_right"
-                        android:layout_marginStart="@dimen/radiobutton_margin_left"
+                        android:paddingStart="@dimen/radio_button_text_padding_left_right"
+                        android:paddingEnd="@dimen/radio_button_text_padding_left_right"
                         android:enabled="@{frag.isRadioButtonEnabled}"
                         android:text="@string/radiobutton_selection_item_4"/>
 
@@ -110,8 +110,8 @@
                         android:id="@+id/radiobutton_5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/layout_margin_left_right"
-                        android:layout_marginStart="@dimen/radiobutton_margin_left"
+                        android:paddingStart="@dimen/radio_button_text_padding_left_right"
+                        android:paddingEnd="@dimen/radio_button_text_padding_left_right"
                         android:layout_marginTop="@dimen/layout_margin_top_bottom"
                         android:enabled="@{frag.isRadioButtonEnabled}"
                         android:text="@string/radiobutton_selection_item_4"/>
