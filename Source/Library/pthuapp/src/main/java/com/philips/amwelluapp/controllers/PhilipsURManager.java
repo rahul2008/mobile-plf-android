@@ -1,4 +1,4 @@
-package com.philips.amwelluapp.ui;
+package com.philips.amwelluapp.controllers;
 
 
 import android.content.Context;

@@ -10,13 +10,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.americanwell.sdk.AWSDK;
-import com.americanwell.sdk.AWSDKFactory;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
-import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.SDKCallback;
-import com.philips.amwelluapp.common.GlobalValues;
+import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.philips.amwelluapp.R;
+import com.philips.amwelluapp.common.GlobalValues;
+import com.philips.amwelluapp.controllers.PTHManager;
 import com.philips.amwelluapp.uappclasses.PTHMicroAppInterface;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -83,15 +83,13 @@ public class PTHLaunchFragment extends Fragment implements BackEventListener {
     }
 
     private void initializeTeleHealth() throws MalformedURLException, URISyntaxException {
-        try {
-            GlobalValues.mAWSDK = AWSDKFactory.getAWSDK(getActivity().getApplicationContext());
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
-        }
-        GlobalValues.mAWSDK.getDefaultLogger().setPriority(Log.DEBUG); // set log level to debug
-        SDKCallback callback = new SDKCallback() {
+
+        AWSDK awsdk = PTHManager.getInstance().getAwsdk(getActivity().getApplicationContext());
+
+        awsdk.getDefaultLogger().setPriority(Log.DEBUG); // set log level to debug
+        SDKCallback callback = new SDKCallback<SDKValidatedCallback,SDKError>() {
             @Override
-            public void onResponse(Object o, SDKError sdkError) {
+            public void onResponse(SDKValidatedCallback o, SDKError sdkError) {
                 Log.v("AWSDK ","Initialization Success");
 
                 LoginFragment loginFragment= new LoginFragment();
@@ -114,7 +112,7 @@ public class PTHLaunchFragment extends Fragment implements BackEventListener {
        // initParams.put(AWSDK.InitParam.LaunchIntentData,null );//launchUri
 
         try {
-            GlobalValues.mAWSDK.initialize(
+            awsdk.initialize(
                     initParams,
                     callback);
             int y=10;
