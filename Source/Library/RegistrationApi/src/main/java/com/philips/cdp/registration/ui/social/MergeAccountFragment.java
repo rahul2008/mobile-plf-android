@@ -314,7 +314,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
     @Override
     public void onEventReceived(String event) {
-        RLog.i(RLog.EVENT_LISTENERS, "MergeAccountFragment :onEventReceived is : " + event);
+        RLog.i(RLog.EVENT_LISTENERS, "MergeAccountFragment :onCounterEventReceived is : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
             updateUiStatus();
         }

@@ -647,7 +647,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onEventReceived(String event) {
-        RLog.i(RLog.EVENT_LISTENERS, "CreateAccoutFragment :onEventReceived : " + event);
+        RLog.i(RLog.EVENT_LISTENERS, "CreateAccoutFragment :onCounterEventReceived : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
             updateUiStatus();
         }

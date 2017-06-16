@@ -27,6 +27,8 @@ import com.philips.cdp.registration.ui.traditional.mobile.AddSecureEmailPresente
 import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPasswordVerifyCodeFragment;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodePresenter;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyResendCodeFragment;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyResendCodePresenter;
 import com.philips.cdp.registration.ui.utils.NetworkStateReceiver;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
@@ -106,6 +108,11 @@ public interface RegistrationComponent {
     void inject(UpdateUserRecord updateUserRecord);
 
     void inject(MobileVerifyCodePresenter mobileVerifyCodePresenter);
+
+    void inject(MobileVerifyResendCodeFragment mobileVerifyResendCodeFragment);
+    void inject(MobileVerifyResendCodePresenter mobileVerifyResendCodePresenter);
+
+
 
     void inject(AddSecureEmailPresenter addSecureEmailPresenter);
 

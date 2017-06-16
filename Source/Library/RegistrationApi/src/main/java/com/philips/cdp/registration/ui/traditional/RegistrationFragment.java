@@ -9,8 +9,11 @@
 package com.philips.cdp.registration.ui.traditional;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -27,6 +30,8 @@ import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.events.CounterHelper;
+import com.philips.cdp.registration.events.CounterListener;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -49,9 +54,12 @@ import org.json.JSONObject;
 
 import javax.inject.Inject;
 
+import static android.content.Context.ACTIVITY_SERVICE;
+import static android.content.Context.CONNECTIVITY_SERVICE;
+
 
 public class RegistrationFragment extends Fragment implements NetworStateListener,
-        OnClickListener, BackEventListener {
+        OnClickListener, BackEventListener, CounterListener{
 
     @Inject
     NetworkUtility networkUtility;
@@ -65,6 +73,10 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     private RegistrationLaunchMode mRegistrationLaunchMode = RegistrationLaunchMode.DEFAULT;
 
     RegistrationContentConfiguration registrationContentConfiguration;
+    Intent msgIntent ;
+    private static long RESEND_DISABLED_DURATION=60*1000;
+    private static final long INTERVAL = 1 * 1000;
+    static public MyCountDownTimer myCountDownTimer;
 
     private int titleResourceID = -99;
 
@@ -80,6 +92,8 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     private UserRegistrationUIEventListener userRegistrationUIEventListener;
 
     private NetworkStateReceiver mNetworkReceiver = new NetworkStateReceiver();
+
+    private boolean isCounterRunning;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,6 +111,11 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             registrationContentConfiguration = (RegistrationContentConfiguration) bundle.get(RegConstants.REGISTRATION_CONTENT_CONFIG);
         }
         RLog.d("RegistrationFragment", "mRegistrationLaunchMode : " + mRegistrationLaunchMode);
+        CounterHelper.getInstance()
+                .registerCounterEventNotification(RegConstants.COUNTER_TICK, this);
+        CounterHelper.getInstance()
+                .registerCounterEventNotification(RegConstants.COUNTER_FINISH, this);
+        myCountDownTimer = new MyCountDownTimer(RESEND_DISABLED_DURATION, INTERVAL);
 
         super.onCreate(savedInstanceState);
     }
@@ -591,10 +610,56 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     }
 
+
+
+    private void setCounterState(boolean isCounting) {
+        this.isCounterRunning = isCounting;
+    }
+
+    public boolean getCounterState() {
+        return isCounterRunning;
+
+    }
+
     @Override
     public boolean handleBackEvent() {
         return !(onBackPressed());
     }
 
+
+    public void startCountDownTimer() {
+        myCountDownTimer.start();
+    }
+
+    public void stopCountDownTimer(){
+        myCountDownTimer.onFinish();
+        myCountDownTimer.cancel();
+    }
+
+    @Override
+    public void onCounterEventReceived(String event, long timeLeft) {
+        if (event.equals(RegConstants.COUNTER_TICK)) {
+            setCounterState(true);
+        } else {
+            setCounterState(false);
+        }
+    }
+
+    public class MyCountDownTimer extends CountDownTimer {
+        public MyCountDownTimer(long startTime, long interval) {
+            super(startTime, interval);
+        }
+
+        @Override
+        public void onTick(long timeLeft) {
+            CounterHelper.getInstance().notifyCounterEventOccurred(RegConstants.COUNTER_TICK,timeLeft);
+        }
+
+        @Override
+        public void onFinish() {
+            CounterHelper.getInstance().notifyCounterEventOccurred(RegConstants.COUNTER_FINISH,0);
+            setCounterState(false);
+        }
+    };
 
 }

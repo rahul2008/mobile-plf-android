@@ -181,6 +181,7 @@ public class UserRegistrationInitializer {
         serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
+
                 RegistrationHelper.getInstance().setCountryCode(s);
             }
 

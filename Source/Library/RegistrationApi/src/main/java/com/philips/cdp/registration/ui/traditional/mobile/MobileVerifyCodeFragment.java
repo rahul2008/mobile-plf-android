@@ -15,6 +15,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +24,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-
 import com.philips.cdp.registration.HttpClientService;
 import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
@@ -31,44 +32,31 @@ import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
-import com.philips.cdp.registration.ui.customviews.OtpEditTextWithResendButton;
-import com.philips.cdp.registration.ui.customviews.XMobileHavingProblems;
+import com.philips.cdp.registration.ui.customviews.XEditText;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
-import com.philips.cdp.registration.ui.utils.RegChinaUtil;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.URInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 import static android.view.View.GONE;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.ACTIVATION_NOT_VERIFIED;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_INAPPNATIFICATION;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_RESEND_EMAIL_VERFICATION;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.REGISTRATION_ACTIVATION_SMS;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SEND_DATA;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SPECIAL_EVENTS;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCESS_USER_REGISTRATION;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.TECHNICAL_ERROR;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.USER_ERROR;
 
-public class MobileVerifyCodeFragment extends RegistrationBaseFragment implements MobileVerifyCodeContract, RefreshUserHandler, OnUpdateListener {
-
-    @Inject
-    ServiceDiscoveryInterface serviceDiscoveryInterface;
+public class MobileVerifyCodeFragment extends RegistrationBaseFragment implements
+        MobileVerifyCodeContract, RefreshUserHandler, OnUpdateListener{
 
     @BindView(R2.id.ll_reg_create_account_fields)
     LinearLayout phoneNumberEditTextContainer;
@@ -79,14 +67,14 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @BindView(R2.id.btn_reg_Verify)
     Button verifyButton;
 
+    @BindView(R2.id.btn_reg_resend_code)
+    Button smsNotReceived;
+
     @BindView(R2.id.rl_reg_name_field)
-    OtpEditTextWithResendButton otpEditTextAndResendButton;
+    XEditText verificationCodeEditText;
 
     @BindView(R2.id.pb_reg_activate_spinner)
     ProgressBar spinnerProgress;
-
-    @BindView(R2.id.view_reg_verify_hint)
-    XMobileHavingProblems havingProblems;
 
     @BindView(R2.id.reg_error_msg)
     XRegError errorMessage;
@@ -109,9 +97,27 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         user = new User(context);
         View view = inflater.inflate(R.layout.reg_mobile_activatiom_fragment, container, false);
         ButterKnife.bind(this, view);
-        otpEditTextAndResendButton.setOnUpdateListener(this);
-        mobileVerifyCodePresenter.startResendTimer();
         handleOrientation(view);
+        getRegistrationFragment().startCountDownTimer();
+
+        verificationCodeEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH) {
+                    enableVerifyButton();
+                } else {
+                    disableVerifyButton();
+                }
+                errorMessage.hideError();
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         handler = new Handler();
         return view;
     }
@@ -133,7 +139,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     public void setViewParams(Configuration config, int width) {
         applyParams(config, phoneNumberEditTextContainer, width);
         applyParams(config, verifyButtonContainer, width);
-        applyParams(config, havingProblems, width);
         applyParams(config, errorMessage, width);
     }
 
@@ -148,18 +153,13 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     }
 
     private void updateUiStatus() {
-        if (otpEditTextAndResendButton.getNumber().length() >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH) {
+        if (verificationCodeEditText.getText().length() >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH) {
             enableVerifyButton();
         } else {
             disableVerifyButton();
         }
     }
 
-    private void handleResendVerificationEmailSuccess() {
-        trackActionStatus(SEND_DATA, SPECIAL_EVENTS, SUCCESS_RESEND_EMAIL_VERIFICATION);
-        RegAlertDialog.showResetPasswordDialog(context.getResources().getString(R.string.reg_Resend_SMS_title),
-                context.getResources().getString(R.string.reg_Resend_SMS_Success_Content), getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
-    }
 
     public void handleUI() {
         handleOnUIThread(() -> updateUiStatus());
@@ -168,20 +168,16 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     @Override
     public void onRefreshUserSuccess() {
         RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserSuccess");
-        hideSpinner();
+        hideProgressSpinner();
         getRegistrationFragment().addFragment(new AddSecureEmailFragment());
     }
 
     @Override
     public void onRefreshUserFailed(int error) {
-        hideSpinner();
+        hideProgressSpinner();
         RLog.d(RLog.EVENT_LISTENERS, "MobileActivationFragment : onRefreshUserFailed");
     }
 
-    private void hideSpinner() {
-        spinnerProgress.setVisibility(GONE);
-        enableVerifyButton();
-    }
 
     @Override
     public void onUpdate() {
@@ -201,17 +197,17 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
     public void verifyClicked() {
         spinnerProgress.setVisibility(View.VISIBLE);
         disableVerifyButton();
-        otpEditTextAndResendButton.disableResendSpinner();
-        mobileVerifyCodePresenter.verifyMobileNumber(user.getJanrainUUID(), otpEditTextAndResendButton.getNumber());
+        mobileVerifyCodePresenter.verifyMobileNumber(user.getJanrainUUID(),
+                verificationCodeEditText.getText().toString());
     }
 
-    @OnClick(R2.id.rl_reg_name_field)
+    @OnClick(R2.id.btn_reg_resend_code)
     public void resendButtonClicked() {
-        otpEditTextAndResendButton.showResendSpinnerAndDisableResendButton();
         disableVerifyButton();
         spinnerProgress.setVisibility(GONE);
-        otpEditTextAndResendButton.showValidEmailAlert();
-        mobileVerifyCodePresenter.resendOTPRequest(user.getMobile());
+        getRegistrationFragment().addFragment( new MobileVerifyResendCodeFragment());
+        errorMessage.hideError();
+
     }
 
     @Override
@@ -229,16 +225,6 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
         return context.startService(intent);
     }
 
-    @Override
-    public void enableResendButton() {
-        otpEditTextAndResendButton.hideResendSpinnerAndEnableResendButton();
-        otpEditTextAndResendButton.setCounterFinish();
-    }
-
-    @Override
-    public void updateResendTimer(String timeRemaining) {
-        otpEditTextAndResendButton.setCountertimer(timeRemaining);
-    }
 
     @Override
     public void enableVerifyButton() {
@@ -262,9 +248,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void showSmsSendFailedError() {
-        otpEditTextAndResendButton.hideResendSpinnerAndEnableResendButton();
-        otpEditTextAndResendButton.showEmailIsInvalidAlert();
-        otpEditTextAndResendButton.setErrDescription(getString(R.string.reg_URX_SMS_InternalServerError));
+        errorMessage.setError(getString(R.string.reg_URX_SMS_InternalServerError));
     }
 
     @Override
@@ -275,45 +259,31 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
     @Override
     public void smsVerificationResponseError() {
-        otpEditTextAndResendButton.setErrDescription(getString(R.string.reg_Mobile_Verification_Invalid_Code));
+        errorMessage.setError(getString(R.string.reg_Mobile_Verification_Invalid_Code));
     }
 
     @Override
     public void hideProgressSpinner() {
         spinnerProgress.setVisibility(GONE);
+        enableVerifyButton();
+
     }
 
     @Override
     public void setOtpInvalidErrorMessage() {
         trackActionStatus(SEND_DATA, USER_ERROR, ACTIVATION_NOT_VERIFIED);
-        otpEditTextAndResendButton.setErrDescription(getString(R.string.reg_Mobile_Verification_Invalid_Code));
+        errorMessage.setError(getString(R.string.reg_Mobile_Verification_Invalid_Code));
     }
 
     @Override
     public void setOtpErrorMessageFromJson(String errorDescription) {
         trackActionStatus(SEND_DATA, USER_ERROR, ACTIVATION_NOT_VERIFIED);
-        otpEditTextAndResendButton.setErrDescription(errorDescription);
+        errorMessage.setError(errorDescription);
     }
+
 
     @Override
     public void showOtpInvalidError() {
-        otpEditTextAndResendButton.showEmailIsInvalidAlert();
-    }
-
-    @Override
-    public void enableResendButtonAndHideSpinner() {
-        otpEditTextAndResendButton.setEnabled(true);
-        trackMultipleActionsOnMobileSuccess();
-        otpEditTextAndResendButton.hideResendSpinnerAndEnableResendButton();
-        handleResendVerificationEmailSuccess();
-    }
-
-    @Override
-    public void showSmsResendTechincalError(String errorCodeString) {
-        trackActionStatus(SEND_DATA, TECHNICAL_ERROR, MOBILE_RESEND_SMS_VERFICATION_FAILURE);
-        String errorMsg = RegChinaUtil.getErrorMsgDescription(errorCodeString, context);
-        otpEditTextAndResendButton.hideResendSpinnerAndEnableResendButton();
-        otpEditTextAndResendButton.showEmailIsInvalidAlert();
-        otpEditTextAndResendButton.setErrDescription(errorMsg);
+        errorMessage.setError(getString(R.string.reg_Mobile_Verification_Invalid_Code));
     }
 }
