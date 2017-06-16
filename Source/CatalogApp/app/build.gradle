@@ -111,7 +111,7 @@ publishing {
 hockeyapp {
     apiToken = "b9d6e2f453894b4fbcb161b33a94f6c8"
     releaseType = 2 // alpha
-    notify = 1
+    notify = 0
     status = 2
     notesType = 1
     notes = new File(file(objcdp.getExternalDocPath() + '/ReleaseNotes.md').absolutePath).getText('UTF-8')
