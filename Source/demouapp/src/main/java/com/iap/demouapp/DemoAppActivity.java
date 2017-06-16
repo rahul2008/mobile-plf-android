@@ -1,5 +1,4 @@
-/*
-package com.philips.cdp.di.iapdemo;
+package com.iap.demouapp;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -23,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.iap.demouapp.TestClass;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
@@ -37,7 +35,6 @@ import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.cdp.uikit.UiKitActivity;
@@ -51,7 +48,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         UserRegistrationUIEventListener, UserRegistrationListener {
 
     private final int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
-    private DemoApplication mApplicationContext;
+
 
     private LinearLayout mAddCTNLl;
 
@@ -85,7 +82,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
 
         IAPLog.enableLogging(true);
-        mApplicationContext = (DemoApplication) getApplicationContext();
         addActionBar();
         setContentView(R.layout.demo_app_layout);
         showAppVersion();
@@ -122,7 +118,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
         mCategorizedProductList = new ArrayList<>();
 
-        mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:");
+        //mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:");
         mUser = new User(this);
         mUser.registerUserRegistrationListener(this);
         //Integration interface
@@ -215,7 +211,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     }
 
     private void launchIAP(int pLandingViews, IAPFlowInput pIapFlowInput) {
-        if (isNetworkAvailable(mApplicationContext)) {
+        if (isNetworkAvailable(this)) {
             mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput);
             try {
                 mIapInterface.launch(new ActivityLauncher
@@ -258,7 +254,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mEtCTN.setText("");
             hideKeypad(this);
         } else if (view == mRegister) {
-            mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
+           // mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
             //RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
             URLaunchInput urLaunchInput = new URLaunchInput();
             urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
@@ -268,10 +264,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             URInterface urInterface = new URInterface();
             urInterface.launch(new ActivityLauncher(ActivityLauncher.
                     ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0), urLaunchInput);
-        } else if (view == mLaunchFragment) {
-            Intent intent = new Intent(this, LauncherFragmentActivity.class);
-            this.startActivity(intent);
-        } else if (view == mAddCtn) {
+        }  else if (view == mAddCtn) {
             String str = mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", "");
             if (!mCategorizedProductList.contains(str)) {
                 mCategorizedProductList.add(str);
@@ -483,4 +476,4 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     public void onUserLogoutSuccessWithInvalidAccessToken() {
 
     }
-}*/
+}

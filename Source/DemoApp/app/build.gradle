@@ -144,7 +144,7 @@ android {
             minifyEnabled false
             shrinkResources false
             debuggable true
-            testCoverageEnabled false
+           // testCoverageEnabled false
             proguardFile 'proguard-rules.pro'
         }
     }
@@ -214,20 +214,19 @@ android {
 }
 
 dependencies {
-    compile project(':iap')
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:customtabs:25.3.1'
     compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.1.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive = true
     }
-
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    compile project(':demouapp')
 }
 
 
-task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
+/*task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 
     description 'Run findbugs'
     group 'verification'
@@ -258,6 +257,6 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
         xml.enabled = true
         html.enabled = false
     }
-}
+}*/
 
 
