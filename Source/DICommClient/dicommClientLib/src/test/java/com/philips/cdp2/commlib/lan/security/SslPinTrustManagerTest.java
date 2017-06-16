@@ -5,6 +5,7 @@
 
 package com.philips.cdp2.commlib.lan.security;
 
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 
 import org.junit.Before;
@@ -28,13 +29,16 @@ public class SslPinTrustManagerTest extends RobolectricTest {
     @Mock
     private PublicKey publicKeyMock;
 
+    @Mock
+    private NetworkNode networkNodeMock;
+
     private byte[] encodedPublicKey = new byte[4];
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
 
-        sslPinTrustManager = new SslPinTrustManager();
+        sslPinTrustManager = new SslPinTrustManager(networkNodeMock);
 
         when(certificateMock.getPublicKey()).thenReturn(publicKeyMock);
         when(publicKeyMock.getEncoded()).thenReturn(encodedPublicKey);
@@ -59,8 +63,7 @@ public class SslPinTrustManagerTest extends RobolectricTest {
 
     @Test(expected = CertificateException.class)
     public void whenCheckingDifferentCertificateThenPinned_ThenCertificateIsRejected() throws Exception {
-        sslPinTrustManager.checkServerTrusted(new X509Certificate[]{certificateMock}, null);
-        when(publicKeyMock.getEncoded()).thenReturn(new byte[5]);
+        when(networkNodeMock.getPin()).thenReturn("1234567890123456789012345678901234567890123");
 
         sslPinTrustManager.checkServerTrusted(new X509Certificate[]{certificateMock}, null);
     }

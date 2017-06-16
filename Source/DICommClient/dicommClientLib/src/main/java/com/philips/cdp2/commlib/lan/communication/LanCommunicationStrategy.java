@@ -143,7 +143,7 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
         SSLContext context = null;
         try {
             context = SSLContext.getInstance("TLS");
-            context.init(null, new X509TrustManager[]{new SslPinTrustManager()}, new SecureRandom());
+            context.init(null, new X509TrustManager[]{new SslPinTrustManager(networkNode)}, new SecureRandom());
         } catch (NoSuchAlgorithmException | KeyManagementException e) {
             DICommLog.e(DICommLog.LOCALREQUEST, "Error initializing SSL context: " + e.getMessage());
         }
