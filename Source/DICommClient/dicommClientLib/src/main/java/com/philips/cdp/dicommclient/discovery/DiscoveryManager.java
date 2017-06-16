@@ -28,6 +28,8 @@ import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -385,7 +387,7 @@ public class DiscoveryManager<T extends Appliance> {
     /**
      * Completely new appliance - never seen before
      */
-    private void addNewAppliance(NetworkNode networkNode) {
+    private void addNewAppliance(final NetworkNode networkNode) {
         if (!mApplianceFactory.canCreateApplianceForNode(networkNode)) {
             DICommLog.d(DICommLog.DISCOVERY, "Cannot create appliance for networknode: " + networkNode);
             return;
@@ -401,6 +403,14 @@ public class DiscoveryManager<T extends Appliance> {
         mAllAppliancesMap.put(appliance.getNetworkNode().getCppId(), appliance);
         DICommLog.d(DICommLog.DISCOVERY, "Successfully added appliance: " + appliance);
         notifyDiscoveryListener();
+
+        networkNode.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+                mNetworkNodeDatabase.save(networkNode);
+                DICommLog.d(DICommLog.DISCOVERY, "Storing NetworkNode (because of property change)");
+            }
+        });
     }
 
     public void markLostAppliancesInBackgroundOfflineOrRemote() {
