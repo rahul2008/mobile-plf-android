@@ -2,7 +2,6 @@ package com.philips.platform.appinfra;
 
 import android.test.InstrumentationTestCase;
 
-import org.mockito.MockitoAnnotations;
 
 public class MockitoTestCase extends InstrumentationTestCase {
 

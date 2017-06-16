@@ -11,20 +11,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import package1.component1.Component1;
-import package2.component2.Component2;
 
 public class LoggingActivity extends AppCompatActivity {
 

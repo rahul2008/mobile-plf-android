@@ -22,75 +22,75 @@ public interface AppInfraInterface {
      *
      * @return the secure storage
      */
-    public SecureStorageInterface getSecureStorage();
+    SecureStorageInterface getSecureStorage();
 
     /**
      * Gets app identity.
      *
      * @return the app identity
      */
-    public AppIdentityInterface getAppIdentity();
+    AppIdentityInterface getAppIdentity();
 
     /**
      * Gets local.
      *
      * @return the local
      */
-    public InternationalizationInterface getInternationalization();
+    InternationalizationInterface getInternationalization();
 
     /**
      * Gets logging.
      *
      * @return the logging
      */
-    public LoggingInterface getLogging();
+    LoggingInterface getLogging();
 
     /**
      * Gets service discovery interface.
      *
      * @return the service discovery interface
      */
-    public ServiceDiscoveryInterface getServiceDiscovery();
+    ServiceDiscoveryInterface getServiceDiscovery();
 
     /**
      * Gets tagging.
      *
      * @return the tagging
      */
-    public AppTaggingInterface getTagging();
+    AppTaggingInterface getTagging();
 
     /**
      * Gets time sync.
      *
      * @return the time sync
      */
-    public TimeInterface getTime();
+    TimeInterface getTime();
 
     /**
      * Gets time sync.
      *
      * @return the config
      */
-    public AppConfigurationInterface getConfigInterface();
+    AppConfigurationInterface getConfigInterface();
 
     /**
      * Gets REST API Manager.
      *
      * @return the config
      */
-    public RestInterface getRestClient();
+    RestInterface getRestClient();
 
     /**
      *  Gets the A/B testing Manager.
      * @return the abTesting
      */
-    public ABTestClientInterface getAbTesting();
+    ABTestClientInterface getAbTesting();
 
     /**
      *  Gets the language pack Manager.
      * @return the language pack
      */
-    public LanguagePackInterface getLanguagePack();
+    LanguagePackInterface getLanguagePack();
 
     /**
      *  Gets the appupdate interface.

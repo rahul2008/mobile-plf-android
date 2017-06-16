@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Created by 310190722 on 11/25/2016.
+ * ApiSigning Test class.
  */
 
 public class ApisigningTest extends MockitoTestCase {

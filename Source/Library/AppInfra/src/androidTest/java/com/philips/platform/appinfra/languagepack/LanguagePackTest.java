@@ -25,7 +25,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Created by philips on 3/14/17.
+ * LanguagePack Test class.
  */
 
 public class LanguagePackTest extends MockitoTestCase {
@@ -38,17 +38,15 @@ public class LanguagePackTest extends MockitoTestCase {
     LanguagePackInterface mLanguagePackInterface = null;
     LanguagePackManager mLanguagePackManager = null;
     ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
-    private Context context;
-    private AppInfra mAppInfra;
     private FileUtils languagePackUtil;
 
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        context = getInstrumentation().getContext();
+        Context context = getInstrumentation().getContext();
         assertNotNull(context);
-        mAppInfra = new AppInfra.Builder().build(context);
+        AppInfra mAppInfra = new AppInfra.Builder().build(context);
 
 
         // overriding ConfigManager to get Test JSON data, as AppInfra library does not have uApp configuration file
@@ -310,8 +308,8 @@ public class LanguagePackTest extends MockitoTestCase {
             languagePackUtil.saveLocaleMetaData(list.getLanguages().get(0));
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
-        } catch (Exception e) {
-
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
     }
 

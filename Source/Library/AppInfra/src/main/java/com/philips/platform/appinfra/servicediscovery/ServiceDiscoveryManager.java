@@ -808,10 +808,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             }
         }
 
-        if (mRequestItemManager.isServiceDiscoveryDataExpired()) {
-            return true;
-        }
-        return false;
+        return mRequestItemManager.isServiceDiscoveryDataExpired();
     }
 
     /**

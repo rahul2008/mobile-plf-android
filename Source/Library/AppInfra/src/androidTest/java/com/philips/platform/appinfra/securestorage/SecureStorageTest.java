@@ -21,22 +21,20 @@ import static org.mockito.Mockito.mock;
 
 
 /**
- * Created by 310238114 on 4/7/2016.
+ * SecureStorage Test class.
  */
 
 public class SecureStorageTest extends MockitoTestCase {
     SecureStorageInterface mSecureStorage=null;
    // Context context = Mockito.mock(Context.class);
 
-    private Context context;
-    private AppInfra mAppInfra;
     @Override
     protected void setUp() throws Exception {
         super.setUp();
 
-        context = getInstrumentation().getContext();
+        Context context = getInstrumentation().getContext();
         assertNotNull(context);
-        mAppInfra =  new AppInfra.Builder().build(context);
+        AppInfra mAppInfra = new AppInfra.Builder().build(context);
         mSecureStorage = mAppInfra.getSecureStorage();
         assertNotNull(mSecureStorage);
 
@@ -133,9 +131,9 @@ public class SecureStorageTest extends MockitoTestCase {
         for(iCount=0;iCount<10;iCount++){
             assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored,sse));
         }
-        for(iCount=0;iCount<10;iCount++) {
+        /*for(iCount=0;iCount<10;iCount++) {
 //            assertEquals(valueStored, mSecureStorage.fetchValueForKey(keyStored));
-        }
+        }*/
 
         assertTrue(mSecureStorage.removeValueForKey(keyStored));
         for(iCount=0;iCount<10;iCount++) {

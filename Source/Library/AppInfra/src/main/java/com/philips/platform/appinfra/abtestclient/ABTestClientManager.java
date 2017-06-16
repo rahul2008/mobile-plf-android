@@ -31,7 +31,6 @@ public class ABTestClientManager implements ABTestClientInterface {
 
     private static final String ABTEST_PRREFERENCE = "philips.appinfra.abtest.precache";
     private AppInfra mAppInfra;
-    private Context mContext;
     private String mExperience = null;
     private HashMap<String, CacheModel.ValueModel> mCacheStatusValue = new HashMap<>();
     private CACHESTATUSVALUES mCachestatusvalues;
@@ -44,7 +43,7 @@ public class ABTestClientManager implements ABTestClientInterface {
 
     public ABTestClientManager(AppInfra appInfra) {
         mAppInfra = appInfra;
-        mContext = appInfra.getAppInfraContext();
+        Context mContext = appInfra.getAppInfraContext();
         isAppRestarted = true;
         Config.setContext(mContext.getApplicationContext());
         mCacheModel = new CacheModel();
@@ -276,11 +275,8 @@ public class ABTestClientManager implements ABTestClientInterface {
             previousVersion = getAppVerionfromPref();
             if (previousVersion.isEmpty()) {
                 return true;
-            } else if (previousVersion.equalsIgnoreCase(appVersion)) {
-                return false; // same version.
             } else {
-                // other version
-                return true;
+                return !previousVersion.equalsIgnoreCase(appVersion);
             }
         } catch (IllegalArgumentException exception) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTESTCLIENT",

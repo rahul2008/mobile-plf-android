@@ -35,6 +35,7 @@ public class TimeSyncDemo extends AppCompatActivity {
 
         Button localTimeUpdateButton = (Button) findViewById(R.id.localtimebutton);
         Button refreshButton = (Button) findViewById(R.id.refreshbutton);
+        Button syncButton = (Button) findViewById(R.id.syncbutton);
 
         mTimeSyncInterface = AppInfraApplication.gAppInfra.getTime();
 
@@ -63,12 +64,17 @@ public class TimeSyncDemo extends AppCompatActivity {
                 formatter.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
                 System.out.println("KAVYA DEMO"+" "+formatter.format(date));
                 UTCtimeVal.setText(formatter.format(date));
+
+            }
+        });
+        syncButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 if(mTimeSyncInterface.isSynchronized()){
                     isSynchronized.setText("Synchronized");
                 }else{
                     isSynchronized.setText("Not Synchronized");
                 }
-
             }
         });
     }

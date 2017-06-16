@@ -142,8 +142,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 	}
 
 	public File getAppUpdatefromCache(String fileName, String filePath) {
-		final File file = mFileUtils.getFilePath(fileName, filePath);
-		return file;
+		return mFileUtils.getFilePath(fileName, filePath);
 	}
 
 	private Handler getHandler(Context context) {

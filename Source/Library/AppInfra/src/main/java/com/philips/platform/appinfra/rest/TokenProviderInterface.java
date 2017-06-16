@@ -22,7 +22,7 @@ public interface TokenProviderInterface {
     /**
      * The interface Token.
      */
-    public interface Token {
+    interface Token {
         /**
          * Gets token type.
          *

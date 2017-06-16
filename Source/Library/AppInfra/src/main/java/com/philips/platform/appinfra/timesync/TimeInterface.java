@@ -16,18 +16,18 @@ public interface TimeInterface {
      *
      * @return the utc time
      */
-    public Date getUTCTime();
+    Date getUTCTime();
 
     /**
      * Refresh time.
      * Calls UTCtime and update local Offset variable (Offset=UTCtime-Devicetime)
      */
-    public void refreshTime();
+    void refreshTime();
 
     /**
      * isSynchronized.
      * @return the boolean value true or false refresh time is Synchronized or not
      */
-    public boolean isSynchronized();
+    boolean isSynchronized();
 
 }

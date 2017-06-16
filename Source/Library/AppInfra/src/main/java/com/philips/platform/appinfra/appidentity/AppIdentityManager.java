@@ -29,7 +29,6 @@ public class AppIdentityManager implements AppIdentityInterface {
 	private Context context;
 
 	private String mAppVersion;
-	private String mLocalizedAppName;
 	private String sector;
 	private String mAppState;
 
@@ -152,8 +151,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 
 	@Override
 	public String getAppName() {
-		String mAppName = context.getApplicationInfo().loadLabel(context.getPackageManager()).toString();
-		return mAppName;
+		return context.getApplicationInfo().loadLabel(context.getPackageManager()).toString();
 	}
 
 
@@ -235,7 +233,7 @@ public class AppIdentityManager implements AppIdentityInterface {
 	    /* Vertical App should have this string defined for all supported language files
 	     *  default <string name="localized_commercial_app_name">AppInfra DemoApp localized</string>
          * */
-		mLocalizedAppName = context.getResources().getString(R.string.localized_commercial_app_name);
+		String mLocalizedAppName = context.getResources().getString(R.string.localized_commercial_app_name);
 
 		return mLocalizedAppName;
 	}

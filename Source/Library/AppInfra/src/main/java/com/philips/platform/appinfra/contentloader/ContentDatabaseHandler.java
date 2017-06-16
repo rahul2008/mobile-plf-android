@@ -294,7 +294,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
         } else {
             Log.i("INS SUC", "row id " + CONTENT_LOADER_STATES + " " + rowId);
         }
-        return rowId == -1 ? false : true;
+        return rowId != -1;
     }
 
     protected long getContentLoaderServiceStateExpiry(String serviceID) {

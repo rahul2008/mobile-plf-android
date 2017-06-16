@@ -3,15 +3,12 @@ package com.philips.platform.appinfra.appupdate;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
-
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.FileUtils;
 import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
-
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
 
@@ -25,30 +22,25 @@ import static org.mockito.Mockito.when;
 
 public class AppupdateTest extends MockitoTestCase {
 
-	private Context mContext;
-	private AppInfra mAppInfra;
+    private AppInfra mAppInfra;
 	private AppUpdateInterface mAppUpdateInterface;
-	private AppConfigurationInterface mConfigInterface = null;
-	private ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
 	private AppUpdateManager mAppUpdateManager;
 
 	private final String APPUPDATE_SERVICEID_KEY = "appUpdate.serviceId";
 	private final String APPUPDATE_SERVICEID_VALUE = "appinfra.testing.version";
 	private final String APPUPDATE_URL = "https://prod.appinfra.testing.service/en_IN/B2C/77000";
 	private FileUtils mFileUtils;
-	private Gson mGson;
 
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		mContext = getInstrumentation().getContext();
+        Context mContext = getInstrumentation().getContext();
 		assertNotNull(mContext);
 		mAppInfra = new AppInfra.Builder().build(mContext);
-		mGson = new Gson();
 
 		// overriding ConfigManager to get Test JSON data, as AppInfra library does not have uApp configuration file
-		mConfigInterface = new AppConfigurationManager(mAppInfra) {
+		AppConfigurationInterface mConfigInterface = new AppConfigurationManager(mAppInfra) {
 			@Override
 			protected JSONObject getMasterConfigFromApp() {
 				JSONObject result = null;
@@ -64,7 +56,7 @@ public class AppupdateTest extends MockitoTestCase {
 		assertNotNull(mConfigInterface);
 
 		// override service discovery getServiceUrlWithCountryPreference to verify correct service id is being passed to SD
-		mServiceDiscoveryInterface = new ServiceDiscoveryManager(mAppInfra) {
+		ServiceDiscoveryInterface mServiceDiscoveryInterface = new ServiceDiscoveryManager(mAppInfra) {
 			@Override
 			public void getServiceUrlWithCountryPreference(String serviceId, OnGetServiceUrlListener listener) {
 				if (serviceId != null && serviceId.equals(APPUPDATE_SERVICEID_KEY)) {
@@ -105,7 +97,6 @@ public class AppupdateTest extends MockitoTestCase {
 	 */
 	public void testAutoRefresh() {
 		AppConfigurationManager appConfigurationManager = new AppConfigurationManager(mAppInfra);
-		Object isappUpdateRq = AppInfra.getAutoRefreshValue(appConfigurationManager);
 		AppConfigurationInterface.AppConfigurationError configurationError = new AppConfigurationInterface.AppConfigurationError();
 		Object isappUpdate = appConfigurationManager.getPropertyForKey("appUpdate.autoRefresh", "appinfra", configurationError);
 

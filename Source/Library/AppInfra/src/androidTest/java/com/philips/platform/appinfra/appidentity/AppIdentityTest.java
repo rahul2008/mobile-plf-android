@@ -18,15 +18,14 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Created by 310238114 on 6/22/2016.
+ * AppIdentity Test class.
  */
 public class AppIdentityTest extends MockitoTestCase {
 
 	AppIdentityInterface mAppIdentityManager = null;
 	// Context context = Mockito.mock(Context.class);
 
-	private Context context;
-	AppInfra mAppInfra;
+    AppInfra mAppInfra;
 
 	List<String> mAppStateValues = Arrays.asList("DEVELOPMENT", "TEST", "STAGING", "ACCEPTANCE", "PRODUCTION");
 	private List<String> mSectorValues = Arrays.asList("b2b", "b2c", "b2b_Li", "b2b_HC");
@@ -39,7 +38,7 @@ public class AppIdentityTest extends MockitoTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		context = getInstrumentation().getContext();
+        Context context = getInstrumentation().getContext();
 		assertNotNull(context);
 
 		mAppInfra = new AppInfra.Builder().build(context);

@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.R;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -25,6 +26,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.locks.ReentrantLock;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * The UTC time Sync Class.
  * This provides API's to retrieve and refresh the server time .
@@ -34,6 +37,7 @@ public class TimeSyncSntpClient implements TimeInterface {
 
     private static final String OFFSET = "offset";
     private static final String SERVERTIME_PREFERENCE = "timeSync";
+    private static final String OFFLINE_REFRESH_PREFERENCE = "offline_refresh_timeSync";
     private static final int MAX_SERVER_TIMEOUT_IN_MSEC = 30000;
     private static final int REFRESH_INTERVAL_IN_HOURS = 24;
     private static final int FAILED_REFRESH_DELAY_IN_MINUTES = 5;
@@ -47,14 +51,13 @@ public class TimeSyncSntpClient implements TimeInterface {
     public static final String UTC = "UTC";
     public static final String DATE_FORMAT = "yyyy-MM-dd'T' K mm:ss.SSS Z";
 
-    private boolean isSynchronized=false;
+    private boolean isSynchronized = false;
 
 
     final Handler responseHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             isSynchronized=(boolean) msg.obj;
-            Log.e("Timesync"," handler isSynchronized:"+isSynchronized);
         }
     };
 
@@ -83,7 +86,6 @@ public class TimeSyncSntpClient implements TimeInterface {
         final SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putLong(OFFSET, pOffset);
         editor.apply();
-        Log.e("TimeSync"," inside saveOffset ");
         Message msg = new Message();
         msg.obj = true;
         responseHandler.sendMessage(msg);
@@ -112,8 +114,9 @@ public class TimeSyncSntpClient implements TimeInterface {
                 serverPool = mAppInfra.getAppInfraContext().getResources().getStringArray(R.array.server_pool);
             }
 
-            if (serverPool == null || serverPool.length == 0)
+            if (serverPool == null || serverPool.length == 0) {
                 throw new IllegalArgumentException("NTP server pool string array asset missing");
+            }
 
             offSets = new long[serverPool.length];
             roundTripDelays = new long[serverPool.length];
@@ -214,14 +217,18 @@ public class TimeSyncSntpClient implements TimeInterface {
                         if (null != mAppInfra.getRestClient() && mAppInfra.getRestClient().isInternetReachable()) {
                             refreshOffset();
                         } else if(null != mAppInfra.getRestClient() && !mAppInfra.getRestClient().isInternetReachable()){
-//                            if (mAppInfra != null && mAppInfra.getLogging() != null) {
-//                                mAppInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, "TimeSyncError",
-//                                        "Network connectivity not found");
-//                            }
-                            Log.e("TimeSync", "Network connectivity not found");
-                            Message msg = new Message();
-                            msg.obj = false;
-                            responseHandler.sendMessage(msg);
+                            mAppInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, "TimeSyncError",
+                                       "Network connectivity not found");
+                            final SharedPreferences sharedPreferences =mAppInfra.getAppInfraContext().getSharedPreferences(OFFLINE_REFRESH_PREFERENCE, MODE_PRIVATE);
+                            if (sharedPreferences.getBoolean("firstRun", true)) {
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                Message msg = new Message();
+                                msg.obj = false;
+                                responseHandler.sendMessage(msg);
+                                editor.putBoolean("firstRun", false);
+                                editor.commit();
+
+                            }
                         }
                     } catch (IllegalArgumentException e) {
                         if (mAppInfra != null && mAppInfra.getAppInfraLogInstance() != null)
@@ -252,14 +259,22 @@ public class TimeSyncSntpClient implements TimeInterface {
     public class DateTimeChangedReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(final Context context, final Intent intent) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "DateTimeChangedReceiver",
-                    "Received DateTimeChangedReceiver BroadcastReceiver");
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    refreshTime();
-                }
-            }).start();
+
+            Log.i("AITimesync", "Received DateTimeChangedReceiver BroadcastReceiver");
+            if(null != mAppInfra.getRestClient() && !mAppInfra.getRestClient().isInternetReachable()){
+                mAppInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, "TimeSyncError",
+                        "Network connectivity not found");
+                isSynchronized=false;
+            }
+            else{
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshTime();
+                    }
+                }).start();
+            }
+
         }
     }
 

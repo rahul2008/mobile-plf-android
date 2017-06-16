@@ -10,7 +10,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ApplicationInfo;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -221,8 +220,7 @@ public class AppTagging implements AppTaggingInterface {
 	private String getLocalTimestamp() {
 		final Calendar calendar = Calendar.getInstance();
 		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
-		final String mLocalTimestamp = dateFormat.format(calendar.getTime());
-		return mLocalTimestamp;
+		return dateFormat.format(calendar.getTime());
 	}
 
 	private String getComponentId() {
@@ -300,7 +298,7 @@ public class AppTagging implements AppTaggingInterface {
 	}
 
 	private void trackData(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
-		boolean isDebuggable = (0 != (mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
+		//boolean isDebuggable = (0 != (mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
 		Map contextData = addAnalyticsDataObject();
 		if (paramMap != null) {
 			paramMap.putAll(contextData);
