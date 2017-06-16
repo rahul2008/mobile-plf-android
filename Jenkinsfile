@@ -11,7 +11,7 @@ properties([
 def MailRecipient = 'DL_CDP2_Callisto@philips.com, DL_App_Framework.com@philips.com'
 def errors = []
 
-node ('android&&docker') {
+node ('android&&device') {
     timestamps {
         try {
             stage ('Checkout') {
@@ -24,7 +24,7 @@ node ('android&&docker') {
                     chmod -R 775 .
                     cd ./Source/AppFramework 
                     ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint assembleLeakCanary
-                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test cC assembleLeakCanary zipDoc appFramework:aP
+                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test assembleLeakCanary zipDoc appFramework:aP
                 '''
                 }
             } else {
@@ -33,7 +33,7 @@ node ('android&&docker') {
                     chmod -R 775 . 
                     cd ./Source/AppFramework 
                     ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint assembleLeakCanary
-                    ./gradlew -PenvCode=${JENKINS_ENV} check assembleRelease test cC assembleLeakCanary 
+                    ./gradlew -PenvCode=${JENKINS_ENV} check assembleRelease test assembleLeakCanary 
                 '''
                 }
             }
