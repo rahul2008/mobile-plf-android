@@ -113,7 +113,6 @@ hockeyapp {
     releaseType = 2 // alpha
     notify = 1
     status = 2
-    strategy = add
     notesType = 1
     notes = new File(file(objcdp.getExternalDocPath() + '/ReleaseNotes.md').absolutePath).getText('UTF-8')
 }
