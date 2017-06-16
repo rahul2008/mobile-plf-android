@@ -43,7 +43,6 @@
             android:dropDownVerticalOffset="@dimen/uid_searchbox_search_text_offset"
             android:dropDownWidth="match_parent"
             android:ellipsize="end"
-            android:hint="@string/uid_searchbox_hint"
             android:imeOptions="actionSearch|flagNoExtractUi"
             android:inputType="text|textAutoComplete|textNoSuggestions"
             android:maxLines="1"
