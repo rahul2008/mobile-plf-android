@@ -4,12 +4,10 @@ apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'jacoco'
+
 apply plugin: 'com.jakewharton.butterknife'
 
-jacoco {
-    toolVersion = "0.7.1.201405082137"
-}
+
 
 buildscript {
     repositories {
@@ -189,6 +187,7 @@ android {
         }
 
         debug {
+            testCoverageEnabled true
             minifyEnabled false
             debuggable true
         }
