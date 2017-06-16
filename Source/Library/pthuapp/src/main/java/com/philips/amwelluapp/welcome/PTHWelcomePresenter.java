@@ -7,6 +7,7 @@ import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.amwelluapp.base.UIBasePresenter;
 import com.philips.amwelluapp.base.UIBaseView;
+import com.philips.amwelluapp.login.PTHAuthentication;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
 import com.philips.amwelluapp.utility.PTHManager;
 
@@ -14,7 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
 
-public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallBack, PTHLoginCallBack {
+public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallBack<Void,SDKError>, PTHLoginCallBack<PTHAuthentication,SDKError> {
     UIBaseView uiBaseView;
 
     PTHWelcomePresenter(UIBaseView uiBaseView){
@@ -42,7 +43,7 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
     }
 
     @Override
-    public void onInitializationResponse(Object var1, SDKError var2) {
+    public void onInitializationResponse(Void aVoid, SDKError sdkError) {
         loginUserSilently();
     }
 
@@ -61,7 +62,7 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
     }
 
     @Override
-    public void onLoginResponse(Object var1, SDKError var2) {
+    public void onLoginResponse(PTHAuthentication pthAuthentication, SDKError sdkError) {
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
         Toast.makeText(uiBaseView.getFragmentActivity(),"LOGIN SUCCESS",Toast.LENGTH_SHORT).show();
     }
