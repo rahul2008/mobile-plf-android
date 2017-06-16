@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
-import com.philips.amwelluapp.ui.PTHLaunchActivity;
-import com.philips.amwelluapp.ui.PTHLaunchFragment;
+import com.philips.amwelluapp.activity.PTHLaunchActivity;
+import com.philips.amwelluapp.welcome.PTHWelcomeFragment;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -42,13 +42,13 @@ public class PTHMicroAppInterface implements UappInterface {
         } else {
             final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             FragmentTransaction fragmentTransaction = (fragmentLauncher.getFragmentActivity()).getSupportFragmentManager().beginTransaction();
-            PTHLaunchFragment PTHLaunchFragment = new PTHLaunchFragment();
+            PTHWelcomeFragment welcomeFragment = new PTHWelcomeFragment();
             Bundle bundle = new Bundle();
             bundle.putString(WELCOME_MESSAGE, PTHMicroAppLaunchInput.getWelcomeMessage());
-            PTHLaunchFragment.setArguments(bundle);
-            PTHLaunchFragment.setFragmentLauncher(fragmentLauncher);
-            fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), PTHLaunchFragment, PTHLaunchFragment.TAG);
-            fragmentTransaction.addToBackStack(PTHLaunchFragment.TAG);
+            welcomeFragment.setArguments(bundle);
+            welcomeFragment.setFragmentLauncher(fragmentLauncher);
+            fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), welcomeFragment, PTHWelcomeFragment.TAG);
+            fragmentTransaction.addToBackStack(PTHWelcomeFragment.TAG);
             fragmentTransaction.commitAllowingStateLoss();
         }
     }

@@ -11,3 +11,4 @@ Source/Library/pthuapp/build/intermediates/bundles/default/classes.jar
 *.properties
 *.jpg
 *.crt
+*.name

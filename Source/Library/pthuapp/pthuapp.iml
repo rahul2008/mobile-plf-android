@@ -89,6 +89,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/shaders" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
@@ -117,9 +118,9 @@
     <orderEntry type="library" exported="" name="cloudcontroller-api-3.1.5-SNAPSHOT.20170609124534" level="project" />
     <orderEntry type="library" exported="" name="appauth-0.4.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-basement-10.2.1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="javawriter-2.1.1" level="project" />
     <orderEntry type="library" exported="" name="support-v4-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="support-media-compat-25.3.1" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="javawriter-2.1.1" level="project" />
     <orderEntry type="library" exported="" name="calligraphy-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="butterknife-8.6.0" level="project" />
     <orderEntry type="library" exported="" name="shinelib-3.0.0-SNAPSHOT.20170609131557" level="project" />
@@ -143,9 +144,9 @@
     <orderEntry type="library" exported="" name="converter-simplexml-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="registrationApi-10.1.0-SNAPSHOT.20170615152153" level="project" />
     <orderEntry type="library" exported="" name="picasso2-okhttp3-downloader-1.0.1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="jsr305-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="support-core-utils-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="support-fragment-25.3.1" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="jsr305-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="org.apache.http.legacy-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="rxjava-2.0.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="espresso-core-2.2.2" level="project" />
