@@ -14,8 +14,7 @@
     android:layout_marginEnd="@dimen/uid_searchbox_layout_margin"
     android:layout_marginStart="@dimen/uid_searchbox_layout_margin"
     android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:background="?attr/uidTextBoxDefaultNormalBackgroundColor">
+    android:gravity="center_vertical">
 
     <ImageView
         android:id="@id/uid_search_decoy_hint_icon"

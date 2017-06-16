@@ -123,6 +123,8 @@ public class SearchBoxExpandableFragment extends BaseFragment implements SearchB
         searchBox.setSearchCollapsed(searchBoxCollpased);
         searchBox.setQuery(query);
         searchBox.setAdapter(stateAdapter);
+        searchBox.setSearchBoxHint(R.string.search_box_hint);
+        searchBox.setDecoySearchViewHint(R.string.search_box_hint);
     }
 
     @Override

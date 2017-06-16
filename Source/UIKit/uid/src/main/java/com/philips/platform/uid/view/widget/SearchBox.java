@@ -8,9 +8,17 @@ package com.philips.platform.uid.view.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -30,6 +38,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.philips.platform.uid.R;
+import com.philips.platform.uid.drawable.StrokeCompat;
+import com.philips.platform.uid.thememanager.ThemeUtils;
 
 public class SearchBox extends LinearLayout {
 
@@ -52,6 +62,12 @@ public class SearchBox extends LinearLayout {
     private FilterQueryChangedListener filterQueryChangedListener;
     private QuerySubmitListener querySubmitListener;
     private Filter searchFilter;
+
+    private final static int DRAWABLE_FILL_INDEX = 0;
+    private final static int DRAWABLE_STROKE_INDEX = 1;
+
+    private ColorStateList strokeColorStateList;
+    private ColorStateList fillColorStateList;
 
     public interface ExpandListener {
         void onSearchExpanded();
@@ -79,7 +95,7 @@ public class SearchBox extends LinearLayout {
         super(context, attrs, defStyleAttr);
         setOrientation(LinearLayout.HORIZONTAL);
 
-        initializeSearch(context);
+        initializeSearch(context, attrs, defStyleAttr);
     }
 
     @SuppressWarnings("unused")
@@ -114,16 +130,13 @@ public class SearchBox extends LinearLayout {
         return searchClearLayout;
     }
 
-    private void initializeSearch(final Context context) {
+    private void initializeSearch(final Context context, @NonNull AttributeSet attrs, @NonNull int defStyleAttr) {
         final LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.uid_search_box, this);
         searchExpandedLayout = findViewById(R.id.uid_search_box_layout);
-        decoySearchView = (ViewGroup) findViewById(R.id.uid_search_decoy_view);
-        decoySearchIcon = (ImageView) findViewById(R.id.uid_search_decoy_hint_icon);
-        decoyHintView = (Label) findViewById(R.id.uid_search_decoy_hint_text);
         initCollapseIcon();
         initSearchIconHolder();
-        initSearchBoxView();
+        initDecoySearchView(context, attrs, defStyleAttr);
         initClearIcon();
         initSearchTextView();
         updateViews();
@@ -168,17 +181,6 @@ public class SearchBox extends LinearLayout {
         });
     }
 
-    private void initSearchBoxView() {
-        decoySearchView = (ViewGroup) findViewById(R.id.uid_search_decoy_view);
-        decoySearchView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setSearchCollapsed(false);
-                searchTextView.requestFocus();
-            }
-        });
-    }
-
     private void initSearchTextView() {
         searchTextView = (AppCompatAutoCompleteTextView) findViewById(R.id.uid_search_src_text);
         searchTextView.addTextChangedListener(new SearchTextWatcher());
@@ -195,6 +197,71 @@ public class SearchBox extends LinearLayout {
             }
         });
     }
+
+    private void initDecoySearchView(final Context context, @NonNull AttributeSet attrs, @NonNull int defStyleAttr) {
+        decoySearchView = (ViewGroup) findViewById(R.id.uid_search_decoy_view);
+        decoySearchIcon = (ImageView) findViewById(R.id.uid_search_decoy_hint_icon);
+        decoyHintView = (Label) findViewById(R.id.uid_search_decoy_hint_text);
+
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDTextEditBox, defStyleAttr, R.style.UIDEditTextBox);
+        final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
+        Drawable backgroundDrawable = getLayeredBackgroundDrawable(typedArray, theme);
+        if (backgroundDrawable != null) {
+            decoySearchView.setBackground(backgroundDrawable);
+        }
+
+        decoySearchView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSearchCollapsed(false);
+                searchTextView.requestFocus();
+            }
+        });
+    }
+
+    private Drawable getLayeredBackgroundDrawable(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme) {
+        Drawable fillDrawable = getFillBackgroundDrawable(typedArray, theme);
+        Drawable borderDrawable = getBorderBackground(typedArray, theme);
+        Drawable backgroundDrawable = fillDrawable;
+        if (fillDrawable != null && borderDrawable != null) {
+            backgroundDrawable = new LayerDrawable(new Drawable[]{fillDrawable, borderDrawable});
+            ((LayerDrawable) backgroundDrawable).setId(DRAWABLE_FILL_INDEX, R.id.uid_texteditbox_fill_drawable);
+            ((LayerDrawable) backgroundDrawable).setId(DRAWABLE_STROKE_INDEX, R.id.uid_texteditbox_stroke_drawable);
+        }
+        return backgroundDrawable;
+    }
+
+    private Drawable getBorderBackground(final @NonNull TypedArray typedArray,
+                                         final Resources.Theme theme) {
+        int borderDrawableID = typedArray.getResourceId(R.styleable.UIDTextEditBox_uidInputTextBorderBackground, -1);
+        Drawable strokeDrawable = null;
+        if (borderDrawableID != -1) {
+            strokeDrawable = AppCompatResources.getDrawable(getContext(), borderDrawableID);
+            int borderColorStateListID = typedArray.getResourceId(R.styleable.UIDTextEditBox_uidInputTextBorderBackgroundColorList, -1);
+            int borderWidth = (int) typedArray.getDimension(R.styleable.UIDTextEditBox_uidInputTextBorderWidth, 0f);
+            if (borderColorStateListID != -1) {
+                strokeColorStateList = ThemeUtils.buildColorStateList(getContext().getResources(), theme, borderColorStateListID);
+                strokeDrawable = StrokeCompat.setStroke(strokeDrawable, borderWidth, strokeColorStateList);
+            }
+        }
+        return strokeDrawable;
+    }
+
+    private Drawable getFillBackgroundDrawable(final @NonNull TypedArray typedArray,
+                                               final Resources.Theme theme) {
+        int fillDrawableID = typedArray.getResourceId(R.styleable.UIDTextEditBox_uidInputTextFillBackground, -1);
+        Drawable fillDrawable = null;
+        if (fillDrawableID != -1) {
+            fillDrawable = DrawableCompat.wrap(AppCompatResources.getDrawable(getContext(), fillDrawableID));
+            int fillColorStateListID = typedArray.getResourceId(R.styleable.UIDTextEditBox_uidInputTextFillBackgroundColorList, -1);
+            if (fillColorStateListID != -1) {
+                fillColorStateList = ThemeUtils.buildColorStateList(getContext().getResources(), theme, fillColorStateListID);
+                DrawableCompat.setTintList(fillDrawable, fillColorStateList);
+            }
+        }
+        return fillDrawable;
+    }
+
 
     @SuppressLint("SwitchIntDef")
     @Override
@@ -247,6 +314,22 @@ public class SearchBox extends LinearLayout {
     public void setSearchIconified(boolean searchIconified) {
         this.isSearchIconified = searchIconified;
         updateViews();
+    }
+
+    public void setDecoySearchViewHint(int resID){
+        decoyHintView.setText(resID);
+    }
+
+    public void setDecoySearchViewHint(String text){
+        decoyHintView.setText(text);
+    }
+
+    public void setSearchBoxHint(int resID){
+        searchTextView.setHint(resID);
+    }
+
+    public void setSearchBoxHint(String text){
+        searchTextView.setHint(text);
     }
 
     /**
