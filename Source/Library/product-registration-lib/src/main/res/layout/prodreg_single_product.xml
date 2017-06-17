@@ -3,7 +3,8 @@
     android:id="@+id/parent_id"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:fillViewport="true"    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -42,7 +43,7 @@
 
             <TextView
                 android:id="@+id/tick_icon"
-                android:fontPath="fonts/puicon.ttf"
+                fontPath="fonts/puicon.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"

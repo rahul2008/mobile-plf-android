@@ -2,7 +2,9 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
-             android:layout_height="wrap_content">
+             android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix">
 
     <RelativeLayout
         android:id="@+id/parent_id"
@@ -13,7 +15,7 @@
 
         <TextView
             android:id="@+id/dialogDescription"
-            android:fontPath="fonts/centralesansbook.ttf"
+            fontPath="fonts/centralesansbook.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
