@@ -126,7 +126,7 @@ android {
         versionName "2.0.1"
         testApplicationId "com.philips.cdp.demo.test"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        renderscriptTargetApi 24
+        renderscriptTargetApi 25
         renderscriptSupportModeEnabled true
         multiDexEnabled true
         manifestPlaceholders = [
@@ -134,7 +134,7 @@ android {
         ]
     }
     configurations.all {
-        resolutionStrategy.force 'com.android.support:support-annotations:23.1.0'
+        resolutionStrategy.force 'com.android.support:support-annotations:25.3.1'
     }
     signingConfigs {
         release
