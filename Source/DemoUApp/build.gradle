@@ -133,12 +133,6 @@ android {
         versionName version
         buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
     }
-
-    buildTypes {
-        release {
-            consumerProguardFiles 'proguard-rules.pro'
-        }
-    }
     publishNonDefault true
 }
 
