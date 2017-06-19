@@ -134,6 +134,12 @@ android {
         buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
     }
     publishNonDefault true
+
+    buildTypes {
+        release {
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
 }
 
 task generateJavadocPublicApi(type: Javadoc) {
