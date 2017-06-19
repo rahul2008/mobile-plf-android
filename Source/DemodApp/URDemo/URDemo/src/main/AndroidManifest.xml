@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.philips.platform.urdemolibrary">
+
+    <application android:allowBackup="true">
+   		 <activity android:name="com.philips.platform.urdemo.URStandardDemoActivity"/>
+    </application>
+
+</manifest>
