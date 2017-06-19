@@ -9,11 +9,7 @@ import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
-/**
- * Created by philips on 5/17/17.
- */
-
-public class WifiRefState extends BaseState{
+public class WifiRefState extends BaseState {
 
     private FragmentLauncher fragmentLauncher;
     private Context activityContext;
@@ -24,14 +20,14 @@ public class WifiRefState extends BaseState{
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        fragmentLauncher = (FragmentLauncher)uiLauncher;
+        fragmentLauncher = (FragmentLauncher) uiLauncher;
         activityContext = fragmentLauncher.getFragmentActivity();
         launchWifiRefUApp();
     }
 
     private void launchWifiRefUApp() {
         WifiCommLibUappLaunchInput wifiCommLibUappLaunchInput = new WifiCommLibUappLaunchInput("Welcome Message");
-        new WifiCommLibUappInterface().launch(fragmentLauncher,wifiCommLibUappLaunchInput);
+        new WifiCommLibUappInterface().launch(fragmentLauncher, wifiCommLibUappLaunchInput);
     }
 
     @Override

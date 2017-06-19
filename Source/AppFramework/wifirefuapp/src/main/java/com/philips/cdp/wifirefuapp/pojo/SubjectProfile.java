@@ -1,10 +1,6 @@
 package com.philips.cdp.wifirefuapp.pojo;
 
-/**
- * Created by philips on 6/9/17.
- */
-
-public class SubjectProfilePojo {
+public class SubjectProfile {
     String firstName;
     String dob;
     double weight;

@@ -1,222 +1,174 @@
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 package com.philips.cdp.wifirefuapp.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.philips.cdp.wifirefuapp.R;
 
 import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
-import com.philips.cdp.dicommclient.port.DICommPortListener;
-import com.philips.cdp.dicommclient.port.common.DevicePort;
-import com.philips.cdp.dicommclient.request.Error;
-import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp.wifirefuapp.R;
 import com.philips.cdp.wifirefuapp.devicesetup.SampleApplianceFactory;
 import com.philips.cdp.wifirefuapp.devicesetup.SampleKpsConfigurationInfo;
-import com.philips.cdp.wifirefuapp.pojo.PairDevicePojo;
+import com.philips.cdp.wifirefuapp.pojo.PairDevice;
 import com.philips.cdp.wifirefuapp.uappdependencies.WifiCommLibUappInterface;
-import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
-import com.philips.platform.core.listeners.DevicePairingListener;
-import com.philips.platform.core.listeners.SubjectProfileListener;
-import com.philips.platform.core.utils.DataServicesError;
-import com.philips.platform.datasync.subjectProfile.UCoreSubjectProfile;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-public class LaunchFragment extends Fragment implements BackEventListener ,DevicePairingListener,SubjectProfileListener,LaunchFragmentViewListener {
-
-
+public class LaunchFragment extends Fragment implements BackEventListener, LaunchFragmentViewListener, DeviceStatusListener {
     public static String TAG = LaunchFragment.class.getSimpleName();
-    private FragmentLauncher fragmentLauncher;
-    private TextView welcomeTextView;
-    private DiscoveryManager<?> discoveryManager;
-    private ArrayAdapter<Appliance> applianceAdapter;
-    private View view;
-    private Activity activity;
-    private Button testPairDevice,fetchPairedDevices;
-    private CommCentral commCentral;
-    private LaunchFragmentPresenter uappLaunchFragmentPresenter;
-    private PairDevicePojo pairDevicePojo;
+
+    private Context mContext;
+    private FragmentLauncher mFragmentLauncher;
+    private LaunchFragmentPresenter mLaunchFragmentPresenter;
+
+    private DiscoveryManager<?> mDiscoveryManager;
+    private PairDevice mPairDevice;
+
+    private ListView mAvailableDevicesListView;
+    private ListView mPairedDevicesListView;
+
+    private ArrayAdapter<String> mAvailableDevicesAdapter;
+    private ArrayAdapter<String> mPairedDevicesAdapter;
+
+    private List<String> mAvailableDevicesList;
+    private List<String> mDiscoveredDevices;
+    private List<Appliance> mAppliancesList;
+    private List<String> mPairedDevicesList;
+
+    private AlertDialog.Builder mAlertDialog;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initializeDiComm();
+    }
 
     @Override
     public void onAttach(Context context) {
-        activity = (Activity) context;
+        mContext = context;
         super.onAttach(context);
     }
 
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        mLaunchFragmentPresenter = new LaunchFragmentPresenter(LaunchFragment.this);
+        mPairedDevicesList = new ArrayList<>();
+        mAvailableDevicesList = new ArrayList<>();
+        mAppliancesList = new ArrayList<>();
 
-        testPairDevice = (Button) view.findViewById(R.id.consentButton);
-        fetchPairedDevices = (Button) view.findViewById(R.id.fetchListOfPairedDevices);
-        fetchPairedDevices.setOnClickListener(new View.OnClickListener() {
+        mAvailableDevicesAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, android.R.id.text1) {
+            public View getView(final int position, final View convertView, final ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                ((TextView) view.findViewById(android.R.id.text1)).setText(getItem(position));
+                return view;
+            }
+        };
+
+        mPairedDevicesAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, android.R.id.text1) {
+            public View getView(final int position, final View convertView, final ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                ((TextView) view.findViewById(android.R.id.text1)).setText(getItem(position));
+                return view;
+            }
+        };
+
+        mAvailableDevicesListView = (ListView) view.findViewById(R.id.available_devices);
+        mAvailableDevicesListView.setAdapter(mAvailableDevicesAdapter);
+        mAvailableDevicesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                //DataServicesManager.getInstance().getPairedDevices(LaunchFragment.this);
-                //DataServicesManager.getInstance().createSubjectProfile("Fwuser","2013-05-05","Male",3.456,"2015-10-01T12:11:10.123+0100",LaunchFragment.this);
-                //DataServicesManager.getInstance().getSubjectProfiles(LaunchFragment.this);
-                //DataServicesManager.getInstance().deleteSubjectProfile("12a1a43a-68c7-4a10-90b3-1223259fff7a",LaunchFragment.this);
-                //getActivity().getSupportFragmentManager().beginTransaction().add(new ConsentDialogFragment(), "ConsentFragmentUApp").commit();
+            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+//                mLaunchFragmentPresenter.pairDevice(getDeviceDetails(mAppliancesList.get(position)), LaunchFragment.this);
+                mLaunchFragmentPresenter.pairDevice(getTestDeviceDetails(), LaunchFragment.this);
             }
         });
-        testPairDevice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                //getActivity().getSupportFragmentManager().beginTransaction().replace(fragmentLauncher.getParentContainerResourceID(),new ConsentDialogFragment(),"WiFiConsentFragment").commit();
-                uappLaunchFragmentPresenter.onPairDevice(getPairPojo());
+        mPairedDevicesListView = (ListView) view.findViewById(R.id.paired_devices);
+        mPairedDevicesListView.setAdapter(mPairedDevicesAdapter);
+        mPairedDevicesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+                mLaunchFragmentPresenter.unPairDevice(mPairedDevicesAdapter.getItem(position), LaunchFragment.this);
             }
         });
-        initiliazeDiComm();
+
+//        mLaunchFragmentPresenter.pairDevice(getTestDeviceDetails(), this);
+
+        mDiscoveryManager = DiscoveryManager.getInstance();
+
         return view;
     }
-    private void initiliazeDiComm() {
-        final CloudController cloudController = setupCloudController();
+
+    private void initializeDiComm() {
+        final CloudController cloudController = new DefaultCloudController(getActivity().getApplicationContext(), new SampleKpsConfigurationInfo());
         final LanTransportContext lanTransportContext = new LanTransportContext(getActivity().getApplicationContext());
         final SampleApplianceFactory applianceFactory = new SampleApplianceFactory(lanTransportContext);
-        this.commCentral = new CommCentral(applianceFactory, lanTransportContext);
-        if(DiscoveryManager.getInstance() == null){
+
+        if (DICommClientWrapper.getContext() == null) {
             DICommClientWrapper.initializeDICommLibrary(getActivity().getApplicationContext(), applianceFactory, null, cloudController);
         }
-
-    }
-
-    @NonNull
-    private CloudController setupCloudController() {
-        final CloudController cloudController = new DefaultCloudController(getActivity().getApplicationContext(), new SampleKpsConfigurationInfo());
-
-        String ICPClientVersion = cloudController.getICPClientVersion();
-        DICommLog.i(DICommLog.ICPCLIENT, "ICPClientVersion :" + ICPClientVersion);
-
-        return cloudController;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        fragmentLauncher.getActionbarListener().updateActionBar("Sample", true);
+        mFragmentLauncher.getActionbarListener().updateActionBar("Device Pairing", true);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        uappLaunchFragmentPresenter = new LaunchFragmentPresenter(LaunchFragment.this);
-        setUpDiscoveryManager();
+
+        List<String> test = new ArrayList<>();
+        test.add("1c5a6bfffecc9127");
+        updateDiscoveredDevices(test);
+
+        mDiscoveryManager.addDiscoveryEventListener(discoveryEventListener);
+        mDiscoveryManager.start();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        discoveryManager.removeDiscoverEventListener(discoveryEventListener);
-        discoveryManager.stop();
-    }
-
-    private void setUpDiscoveryManager() {
-
-        applianceAdapter = new ArrayAdapter<Appliance>(activity, android.R.layout.simple_list_item_2, android.R.id.text1) {
-            public View getView(final int position, final View convertView, final ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                Appliance appliance = getItem(position);
-                ((TextView) view.findViewById(android.R.id.text1)).setText(appliance.getName());
-                ((TextView) view.findViewById(android.R.id.text2)).setText(String.format("%s - %s", appliance.getDeviceType(), appliance.getNetworkNode().getCppId()));
-                return view;
-            }
-        };
-
-        final ListView listViewAppliances = (ListView) view.findViewById(R.id.listViewAppliances);
-        listViewAppliances.setAdapter(applianceAdapter);
-        listViewAppliances.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                //CurrentApplianceManager.getInstance().setCurrentAppliance(applianceAdapter.getItem(position));
-                uappLaunchFragmentPresenter.onPairDevice(getPairDevicePojo(discoveryManager.getAllDiscoveredAppliances().get(position)));
-            }
-        });
-
-        discoveryManager = DiscoveryManager.getInstance();
-        discoveryManager.addDiscoveryEventListener(discoveryEventListener);
-        discoveryManager.start();
-
-        applianceAdapter.clear();
-        applianceAdapter.addAll(discoveryManager.getAllDiscoveredAppliances());
-
-    }
-
-    //TODO : Remove, done to test the device pair as discovery is not working
-    private PairDevicePojo getPairPojo(){
-        pairDevicePojo = new PairDevicePojo();
-        pairDevicePojo.setDeviceID("1c5a6bfffecc9132");
-        pairDevicePojo.setDeviceType("Manual ProductStub");
-        return pairDevicePojo;
-    }
-    private PairDevicePojo getPairDevicePojo(Appliance appliance) {
-        pairDevicePojo = new PairDevicePojo();
-        pairDevicePojo.setDeviceID(appliance.getNetworkNode().getCppId());
-        pairDevicePojo.setDeviceType(appliance.getDeviceType());
-        return pairDevicePojo;
+        mDiscoveryManager.removeDiscoverEventListener(discoveryEventListener);
+        mDiscoveryManager.stop();
     }
 
     private DiscoveryEventListener discoveryEventListener = new DiscoveryEventListener() {
 
         @Override
         public void onDiscoveredAppliancesListChanged() {
-            activity.runOnUiThread(new Runnable() {
-
+            ((Activity) mContext).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    applianceAdapter.clear();
-                    applianceAdapter.addAll(discoveryManager.getAllDiscoveredAppliances());
-
+                    updateDiscoveredDevices(getDiscoveredDevices(mDiscoveryManager.getAllDiscoveredAppliances()));
                 }
             });
-
-            for (Appliance appliance : discoveryManager.getAllDiscoveredAppliances()) {
-                appliance.getDevicePort().addPortListener(devicePortListener);
-                Map<String, Object> props = new HashMap<>();
-                props.put("name", "Manual ProductStub");
-                appliance.getDevicePort().putProperties(props);
-            }
-        }
-    };
-
-    private DICommPortListener<DevicePort> devicePortListener = new DICommPortListener<DevicePort>() {
-
-        @Override
-        public void onPortUpdate(final DevicePort port) {
-            Log.d(TAG, "onPortUpdate() called with: " + "port = [" + ((DevicePort) port).getPortProperties().getName() + "]");
-
-        }
-
-        @Override
-        public void onPortError(final DevicePort port, final Error error, final String errorData) {
-            Log.d(TAG, "onPortError() called with: " + "port = [" + port + "], error = [" + error + "], errorData = [" + errorData + "]");
         }
     };
 
@@ -226,9 +178,8 @@ public class LaunchFragment extends Fragment implements BackEventListener ,Devic
     }
 
     public void setFragmentLauncher(FragmentLauncher fragmentLauncher) {
-        this.fragmentLauncher = fragmentLauncher;
+        this.mFragmentLauncher = fragmentLauncher;
     }
-
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -236,27 +187,8 @@ public class LaunchFragment extends Fragment implements BackEventListener ,Devic
         Bundle arguments = getArguments();
         if (arguments != null) {
             String message = arguments.getString(WifiCommLibUappInterface.WELCOME_MESSAGE);
+            System.out.print(message);
         }
-    }
-
-    @Override
-    public void onResponse(boolean b) {
-        Log.d(TAG,"::::boolean response : "+b);
-    }
-
-    @Override
-    public void onError(DataServicesError dataServicesError) {
-        Log.d(TAG,"::::Error : "+dataServicesError.getErrorMessage());
-    }
-
-    @Override
-    public void onGetSubjectProfiles(List<UCoreSubjectProfile> list) {
-        Log.d(TAG,"::::Subject profile list response : "+list.get(list.size()-1).getGuid());
-    }
-
-    @Override
-    public void onGetPairedDevicesResponse(List<String> list) {
-            Log.d(TAG,"::::Size of paired devices : "+list.size());
     }
 
     @Override
@@ -266,6 +198,125 @@ public class LaunchFragment extends Fragment implements BackEventListener ,Devic
 
     @Override
     public FragmentLauncher getFragmentLauncher() {
-        return fragmentLauncher;
+        return mFragmentLauncher;
+    }
+
+    private PairDevice getTestDeviceDetails() {
+        mPairDevice = new PairDevice();
+        mPairDevice.setDeviceID("1c5a6bfffecc9127");
+        mPairDevice.setDeviceType("urn:philips-com:device:DiProduct:1");
+        return mPairDevice;
+    }
+
+    private PairDevice getDeviceDetails(Appliance appliance) {
+        mPairDevice = new PairDevice();
+        mPairDevice.setDeviceID(appliance.getNetworkNode().getCppId());
+        mPairDevice.setDeviceType(appliance.getDeviceType());
+        return mPairDevice;
+    }
+
+    public void updatePairedDevices(List<String> pairedDevices) {
+        mPairedDevicesAdapter.clear();
+        mPairedDevicesList.clear();
+
+        mPairedDevicesList.addAll(pairedDevices);
+        mPairedDevicesAdapter.addAll(pairedDevices);
+
+        for (int i = 0; i < pairedDevices.size(); i++) {
+            removeFromAvailableDevices(pairedDevices.get(i));
+        }
+    }
+
+    public void addToPairedDevices(String deviceID) {
+        mPairedDevicesList.add(deviceID);
+        mPairedDevicesAdapter.add(deviceID);
+    }
+
+    public void removeFromPairedDevices(String deviceID) {
+        mPairedDevicesList.remove(deviceID);
+        mPairedDevicesAdapter.remove(deviceID);
+    }
+
+    public void addToAvailableDevices(String deviceID) {
+        mAvailableDevicesList.add(deviceID);
+        mAvailableDevicesAdapter.add(deviceID);
+    }
+
+    public void removeFromAvailableDevices(String deviceID) {
+        mAvailableDevicesList.remove(deviceID);
+        mAvailableDevicesAdapter.remove(deviceID);
+    }
+
+    public List<String> getDiscoveredDevices(ArrayList<? extends Appliance> discoveredAppliances) {
+        List<String> devices = new ArrayList<>();
+
+        if (discoveredAppliances.size() == 0) {
+            showAlertDialog("No Appliances Found");
+        } else {
+            for (int i = 0; i < discoveredAppliances.size(); i++) {
+                mAppliancesList.add(discoveredAppliances.get(i));
+                devices.add(discoveredAppliances.get(i).getNetworkNode().getCppId());
+            }
+        }
+        return devices;
+    }
+
+    public void updateDiscoveredDevices(List<String> discoveredDevices) {
+        mDiscoveredDevices = discoveredDevices;
+        updateAvailableDevices();
+    }
+
+    public void updateAvailableDevices() {
+        for (int i = 0; i < mDiscoveredDevices.size(); i++) {
+            if (!(mAvailableDevicesList.contains(mDiscoveredDevices.get(i)) || mPairedDevicesList.contains(mDiscoveredDevices.get(i)))) {
+                mAvailableDevicesList.add(mDiscoveredDevices.get(i));
+            }
+        }
+
+        updateAvailableDevicesList();
+    }
+
+    public void updateAvailableDevicesList() {
+        mAvailableDevicesAdapter.clear();
+        mAvailableDevicesAdapter.addAll(mAvailableDevicesList);
+    }
+
+    @Override
+    public void onGetPairedDevices(List<String> pairedDeviceList) {
+        updatePairedDevices(pairedDeviceList);
+    }
+
+    @Override
+    public void onDevicePaired(String pairedDeviceID) {
+        showAlertDialog("Device Paired Successfully");
+        addToPairedDevices(pairedDeviceID);
+        removeFromAvailableDevices(pairedDeviceID);
+    }
+
+    @Override
+    public void onDeviceUnPaired(String unPairedDeviceID) {
+        showAlertDialog("Device UnPaired Successfully");
+        removeFromPairedDevices(unPairedDeviceID);
+        addToAvailableDevices(unPairedDeviceID);
+    }
+
+    @Override
+    public void onError(String errorMessage) {
+        showAlertDialog(errorMessage);
+    }
+
+    public void showAlertDialog(String message) {
+        if (mAlertDialog == null) {
+            mAlertDialog = new AlertDialog.Builder(mContext);
+            mAlertDialog.setMessage(message)
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+        }
+        AlertDialog alert = mAlertDialog.create();
+        alert.show();
     }
 }

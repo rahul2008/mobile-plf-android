@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp">
 
         <LinearLayout
             android:id="@+id/first_name_layout"
@@ -36,9 +39,9 @@
 
         <LinearLayout
             android:id="@+id/dob_layout"
-            android:layout_below="@id/first_name_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/first_name_layout"
             android:layout_centerHorizontal="true"
             android:orientation="horizontal">
 
@@ -61,10 +64,10 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_below="@+id/dob_layout"
             android:id="@+id/gender_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/dob_layout"
             android:orientation="horizontal">
 
             <TextView
@@ -86,10 +89,10 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_below="@+id/gender_layout"
             android:id="@+id/weight_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/gender_layout"
             android:orientation="horizontal">
 
             <TextView
@@ -111,10 +114,10 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_below="@+id/weight_layout"
             android:id="@+id/creation_date_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/weight_layout"
             android:orientation="horizontal">
 
             <TextView
@@ -139,9 +142,9 @@
             android:id="@+id/create_subject_profile_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/creation_date_layout"
-            android:layout_marginTop="22dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
             android:text="Create Profile" />
     </RelativeLayout>
 </LinearLayout>

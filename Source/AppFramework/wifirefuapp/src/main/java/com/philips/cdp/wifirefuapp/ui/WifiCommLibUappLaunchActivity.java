@@ -20,8 +20,8 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 
 
 public class WifiCommLibUappLaunchActivity extends AppCompatActivity {
-
     private static final String TAG = "WifiCommLibUappLaunchActivity";
+
     private FragmentManager fragmentManager;
     private TextView mTitleTextView;
 
@@ -30,6 +30,7 @@ public class WifiCommLibUappLaunchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         initCustomActionBar();
         setContentView(R.layout.activity_main);
+
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
             LaunchFragment sampleFragment = new LaunchFragment();
@@ -111,5 +112,4 @@ public class WifiCommLibUappLaunchActivity extends AppCompatActivity {
         else
             super.setTitle(titleId);
     }
-
 }

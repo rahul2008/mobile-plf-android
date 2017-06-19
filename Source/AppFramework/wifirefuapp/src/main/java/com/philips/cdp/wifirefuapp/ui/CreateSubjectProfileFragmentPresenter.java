@@ -2,7 +2,7 @@ package com.philips.cdp.wifirefuapp.ui;
 
 import android.app.ProgressDialog;
 
-import com.philips.cdp.wifirefuapp.pojo.SubjectProfilePojo;
+import com.philips.cdp.wifirefuapp.pojo.SubjectProfile;
 import com.philips.cdp.wifirefuapp.states.PairDeviceState;
 import com.philips.cdp.wifirefuapp.states.StateContext;
 import com.philips.platform.core.listeners.SubjectProfileListener;
@@ -12,59 +12,26 @@ import com.philips.platform.datasync.subjectProfile.UCoreSubjectProfile;
 
 import java.util.List;
 
-/**
- * Created by philips on 6/9/17.
- */
-
-public class CreateSubjectProfileFragmentPresenter implements SubjectProfileListener{
+public class CreateSubjectProfileFragmentPresenter implements SubjectProfileListener {
 
     private CreateSubjectProfileViewListener subjectProfileViewListener;
     private StateContext stateContext;
-    private ProgressDialog mProgressDialog;
+    private DeviceStatusListener mDeviceStatusListener;
 
-    public CreateSubjectProfileFragmentPresenter(CreateSubjectProfileViewListener subjectProfileViewListener){
+    public CreateSubjectProfileFragmentPresenter(CreateSubjectProfileViewListener subjectProfileViewListener, DeviceStatusListener deviceStatusListener) {
         this.subjectProfileViewListener = subjectProfileViewListener;
-
+        this.mDeviceStatusListener = deviceStatusListener;
     }
 
-    private void showProgressDialog() {
-        subjectProfileViewListener.getFragmentLauncher().getFragmentActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mProgressDialog= new ProgressDialog(subjectProfileViewListener.getFragmentLauncher().getFragmentActivity());
-                mProgressDialog.setCancelable(false);
-                mProgressDialog.setMessage("Creating subject profile..please wait.");
-                if(mProgressDialog!=null && !mProgressDialog.isShowing()) {
-                    mProgressDialog.show();
-                }
-
-            }
-        });
-    }
-
-    private void dismissProgressDialog() {
-        subjectProfileViewListener.getFragmentLauncher().getFragmentActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if(mProgressDialog!=null && mProgressDialog.isShowing()) {
-                    mProgressDialog.dismiss();
-                }
-
-            }
-        });
-    }
-
-    public void createProfile(){
-
-        if(subjectProfileViewListener.validateViews()) {
-            SubjectProfilePojo subjectProfilePojo = subjectProfileViewListener.getSubjectProfilePojo();
-            showProgressDialog();
-            DataServicesManager.getInstance().createSubjectProfile(subjectProfilePojo.getFirstName().toString(),
-                    subjectProfilePojo.getDob().toString(),
-                    subjectProfilePojo.getGender().toString(),
-                    subjectProfilePojo.getWeight(),
-                    subjectProfilePojo.getCreationDate().toString(), this);
-        }else {
+    public void createProfile() {
+        if (subjectProfileViewListener.validateViews()) {
+            SubjectProfile subjectProfile = subjectProfileViewListener.getSubjectProfile();
+            DataServicesManager.getInstance().createSubjectProfile(subjectProfile.getFirstName().toString(),
+                    subjectProfile.getDob().toString(),
+                    subjectProfile.getGender().toString(),
+                    subjectProfile.getWeight(),
+                    subjectProfile.getCreationDate().toString(), this);
+        } else {
             subjectProfileViewListener.showToastMessage();
         }
     }
@@ -72,23 +39,18 @@ public class CreateSubjectProfileFragmentPresenter implements SubjectProfileList
 
     @Override
     public void onResponse(boolean isCreated) {
-        dismissProgressDialog();
-        if(isCreated){
+        if (isCreated) {
             DataServicesManager.getInstance().getSubjectProfiles(this);
         }
     }
 
     @Override
     public void onError(DataServicesError dataServicesError) {
-        dismissProgressDialog();
-        DataServicesManager.getInstance().getSubjectProfiles(this);
+        subjectProfileViewListener.onError(dataServicesError.getErrorMessage());
     }
 
     @Override
     public void onGetSubjectProfiles(List<UCoreSubjectProfile> list) {
-        dismissProgressDialog();
-        stateContext = new StateContext();
-        stateContext.setState(new PairDeviceState(subjectProfileViewListener.getDevicePojo(),list,subjectProfileViewListener.getFragmentLauncher()));
-        stateContext.start();
+        subjectProfileViewListener.onCreateSubjectProfile(list);
     }
 }

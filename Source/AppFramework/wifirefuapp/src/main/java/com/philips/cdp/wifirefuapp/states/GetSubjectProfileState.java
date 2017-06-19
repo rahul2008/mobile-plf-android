@@ -2,7 +2,8 @@ package com.philips.cdp.wifirefuapp.states;
 
 import android.app.ProgressDialog;
 
-import com.philips.cdp.wifirefuapp.pojo.PairDevicePojo;
+import com.philips.cdp.wifirefuapp.pojo.PairDevice;
+import com.philips.cdp.wifirefuapp.ui.DeviceStatusListener;
 import com.philips.platform.core.listeners.SubjectProfileListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DataServicesError;
@@ -11,24 +12,20 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.List;
 
-/**
- * Created by philips on 6/7/17.
- */
+public class GetSubjectProfileState extends BaseState implements SubjectProfileListener {
 
-public class IsSubjectProfilePresentState extends BaseState implements SubjectProfileListener {
-
-    private PairDevicePojo pairDevicePojo;
+    private PairDevice pairDevice;
     private FragmentLauncher context;
     private ProgressDialog mProgressDialog;
+    StateContext stateContext;
+    DeviceStatusListener mDeviceStatusListener;
 
-    public IsSubjectProfilePresentState(PairDevicePojo pairDevicePojo, FragmentLauncher context){
+    public GetSubjectProfileState(PairDevice pairDevice, DeviceStatusListener listener, FragmentLauncher context) {
         super(context);
         this.context = context;
-        this.pairDevicePojo = pairDevicePojo;
-
+        this.pairDevice = pairDevice;
+        this.mDeviceStatusListener = listener;
     }
-
-    StateContext stateContext;
 
     private void showProgressDialog() {
         context.getFragmentActivity().runOnUiThread(new Runnable() {
@@ -37,7 +34,7 @@ public class IsSubjectProfilePresentState extends BaseState implements SubjectPr
                 mProgressDialog = new ProgressDialog(context.getFragmentActivity());
                 mProgressDialog.setCancelable(false);
                 mProgressDialog.setMessage("Checking if subject profile is present");
-                if(mProgressDialog!=null && !mProgressDialog.isShowing()) {
+                if (mProgressDialog != null && !mProgressDialog.isShowing()) {
                     mProgressDialog.show();
                 }
 
@@ -49,7 +46,7 @@ public class IsSubjectProfilePresentState extends BaseState implements SubjectPr
         context.getFragmentActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(mProgressDialog!=null && mProgressDialog.isShowing()) {
+                if (mProgressDialog != null && mProgressDialog.isShowing()) {
                     mProgressDialog.dismiss();
                 }
 
@@ -58,7 +55,7 @@ public class IsSubjectProfilePresentState extends BaseState implements SubjectPr
     }
 
 
-    protected void getSubjectProfiles(){
+    protected void getSubjectProfiles() {
         showProgressDialog();
         DataServicesManager.getInstance().getSubjectProfiles(this);
     }
@@ -77,15 +74,13 @@ public class IsSubjectProfilePresentState extends BaseState implements SubjectPr
     public void onGetSubjectProfiles(List<UCoreSubjectProfile> list) {
         dismissProgressDialog();
         stateContext = new StateContext();
-        if(list.size() > 0){
-
-            stateContext.setState(new PairDeviceState(pairDevicePojo, list, context));
-
+        if (list.size() > 0) {
+            stateContext.setState(new PairDeviceState(pairDevice, list, mDeviceStatusListener, context));
+        } else {
+            stateContext.setState(new CheckConsentState(pairDevice, mDeviceStatusListener, context));
         }
-        else {
-            stateContext.setState(new CheckConsentState(pairDevicePojo,context));
-        }
-        if(null != stateContext) {
+
+        if (null != stateContext) {
             stateContext.start();
         }
     }

@@ -1,10 +1,11 @@
 package com.philips.cdp.wifirefuapp.states;
 
 import android.app.ProgressDialog;
+import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.wifirefuapp.consents.ConsentDialogFragment;
-import com.philips.cdp.wifirefuapp.consents.OrmConsentDetail;
-import com.philips.cdp.wifirefuapp.pojo.PairDevicePojo;
+import com.philips.cdp.wifirefuapp.pojo.PairDevice;
+import com.philips.cdp.wifirefuapp.ui.DeviceStatusListener;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.SyncType;
@@ -16,22 +17,19 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.List;
 
-/**
- * Created by philips on 6/7/17.
- */
+public class CheckConsentState extends BaseState implements DBRequestListener<ConsentDetail>, DBFetchRequestListner<ConsentDetail>, DBChangeListener {
 
-public class CheckConsentState extends BaseState implements DBRequestListener<ConsentDetail>,DBFetchRequestListner<ConsentDetail>,DBChangeListener{
-
-    private FragmentLauncher context;
+    private FragmentLauncher mContext;
     private ProgressDialog mProgressDialog;
-    List<OrmConsentDetail> list;
-    StateContext stateContext;
-    private PairDevicePojo pairDevicePojo;
+    private PairDevice mPairDevice;
+    StateContext mStateContext;
+    DeviceStatusListener mDeviceStatusListener;
 
-    public CheckConsentState(PairDevicePojo pairDevicePojo,FragmentLauncher context) {
+    public CheckConsentState(PairDevice pairDevice, DeviceStatusListener deviceStatusListener, FragmentLauncher context) {
         super(context);
-        this.context = context;
-        this.pairDevicePojo = pairDevicePojo;
+        this.mContext = context;
+        this.mPairDevice = pairDevice;
+        this.mDeviceStatusListener = deviceStatusListener;
     }
 
     @Override
@@ -39,19 +37,19 @@ public class CheckConsentState extends BaseState implements DBRequestListener<Co
         fetchConsent();
     }
 
-    public void fetchConsent(){
+    public void fetchConsent() {
         showProgressDialog();
         DataServicesManager.getInstance().fetchConsentDetail(this);
     }
 
     private void showProgressDialog() {
-        context.getFragmentActivity().runOnUiThread(new Runnable() {
+        mContext.getFragmentActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mProgressDialog = new ProgressDialog(context.getFragmentActivity());
+                mProgressDialog = new ProgressDialog(mContext.getFragmentActivity());
                 mProgressDialog.setCancelable(false);
                 mProgressDialog.setMessage("Checking Consent");
-                if(mProgressDialog!=null && !mProgressDialog.isShowing()) {
+                if (mProgressDialog != null && !mProgressDialog.isShowing()) {
                     mProgressDialog.show();
                 }
 
@@ -60,16 +58,17 @@ public class CheckConsentState extends BaseState implements DBRequestListener<Co
     }
 
     private void dismissProgressDialog() {
-        context.getFragmentActivity().runOnUiThread(new Runnable() {
+        mContext.getFragmentActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(mProgressDialog!=null && mProgressDialog.isShowing()) {
+                if (mProgressDialog != null && mProgressDialog.isShowing()) {
                     mProgressDialog.dismiss();
                 }
 
             }
         });
     }
+
     @Override
     public void dBChangeSuccess(SyncType syncType) {
         dismissProgressDialog();
@@ -83,28 +82,24 @@ public class CheckConsentState extends BaseState implements DBRequestListener<Co
     @Override
     public void onFetchSuccess(List<? extends ConsentDetail> list) {
         dismissProgressDialog();
-        stateContext = new StateContext();
+        mStateContext = new StateContext();
         boolean accepted = false;
-        for (ConsentDetail ormConsentDetail: list) {
-            if(ormConsentDetail.getStatus().toString().equalsIgnoreCase(ConsentDetailStatusType.ACCEPTED.name())){
+
+        for (ConsentDetail ormConsentDetail : list) {
+            if (ormConsentDetail.getStatus().toString().equalsIgnoreCase(ConsentDetailStatusType.ACCEPTED.name())) {
                 accepted = true;
-            }
-            else {
+            } else {
                 accepted = false;
                 break;
             }
         }
-        if(!accepted){
-            ConsentDialogFragment consentDialogFragment = new ConsentDialogFragment();
-            consentDialogFragment.setFragmentLauncher(context);
-            consentDialogFragment.setDeviceDetails(pairDevicePojo);
-            context.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(context.getParentContainerResourceID(),consentDialogFragment, "ConsentFragmentUApp").commit();
-        }else {
-            stateContext.setState(new CreateSubjectProfileState(pairDevicePojo,context));
-            stateContext.start();
+
+        if (!accepted) {
+            launchConsentDialog();
+        } else {
+            mStateContext.setState(new CreateSubjectProfileState(mPairDevice, mDeviceStatusListener, mContext));
+            mStateContext.start();
         }
-
-
     }
 
     @Override
@@ -120,5 +115,16 @@ public class CheckConsentState extends BaseState implements DBRequestListener<Co
     @Override
     public void onFailure(Exception e) {
         dismissProgressDialog();
+    }
+
+    public void launchConsentDialog() {
+        ConsentDialogFragment consentDialogFragment = new ConsentDialogFragment();
+        consentDialogFragment.setFragmentLauncher(mContext);
+        consentDialogFragment.setDeviceDetails(mPairDevice);
+        consentDialogFragment.setDeviceStatusListener(mDeviceStatusListener);
+        FragmentTransaction fragmentTransaction = mContext.getFragmentActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(mContext.getParentContainerResourceID(), consentDialogFragment, "ConsentDialogFragment");
+        fragmentTransaction.addToBackStack("ConsentDialogFragment");
+        fragmentTransaction.commit();
     }
 }

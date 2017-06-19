@@ -1,30 +1,38 @@
 package com.philips.cdp.wifirefuapp.states;
 
-import com.philips.cdp.wifirefuapp.pojo.PairDevicePojo;
-import com.philips.cdp.wifirefuapp.ui.CreateSubjectProfileFragment;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import android.support.v4.app.FragmentTransaction;
 
-/**
- * Created by philips on 6/8/17.
- */
+import com.philips.cdp.wifirefuapp.pojo.PairDevice;
+import com.philips.cdp.wifirefuapp.ui.CreateSubjectProfileFragment;
+import com.philips.cdp.wifirefuapp.ui.DeviceStatusListener;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 public class CreateSubjectProfileState extends BaseState {
 
     private FragmentLauncher context;
-    private PairDevicePojo pairDevicePojo;
+    private PairDevice pairDevice;
+    private DeviceStatusListener mDeviceStatusListener;
 
-    public CreateSubjectProfileState(PairDevicePojo pairDevicePojo,FragmentLauncher context) {
+    public CreateSubjectProfileState(PairDevice pairDevice, DeviceStatusListener deviceStatusListener, FragmentLauncher context) {
         super(context);
         this.context = context;
-        this.pairDevicePojo = pairDevicePojo;
+        this.pairDevice = pairDevice;
+        this.mDeviceStatusListener = deviceStatusListener;
     }
 
     @Override
     void start(StateContext stateContext) {
-        CreateSubjectProfileFragment createFrofileFragment = new CreateSubjectProfileFragment();
-        createFrofileFragment.setFragmentLauncher(context);
-        createFrofileFragment.setDeviceDetails(pairDevicePojo);
-        context.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(context.getParentContainerResourceID(),createFrofileFragment,"CreateSubjectProfileFragment").commit();
+        launchSubjectProfile();
+    }
 
+    public void launchSubjectProfile() {
+        CreateSubjectProfileFragment createProfileFragment = new CreateSubjectProfileFragment();
+        createProfileFragment.setFragmentLauncher(context);
+        createProfileFragment.setDeviceDetails(pairDevice);
+        createProfileFragment.setDeviceStatusListener(mDeviceStatusListener);
+        FragmentTransaction fragmentTransaction = context.getFragmentActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(context.getParentContainerResourceID(), createProfileFragment, "CreateSubjectProfileFragment");
+        fragmentTransaction.addToBackStack("CreateSubjectProfileFragment");
+        fragmentTransaction.commit();
     }
 }

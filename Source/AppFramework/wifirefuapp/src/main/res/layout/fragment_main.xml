@@ -1,68 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScrollView android:id="@+id/pr_single_product_scrollview"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    xmlns:tools="http://schemas.android.com/tools">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center">
-<Button
-    android:id="@+id/consentButton"
-    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:layout_margin="5dp"
-    android:text="Test Pair Device"/>
-            <!--<TextView
-                android:textStyle="bold"
-                android:textSize="50px"
-                android:id="@+id/discoveredDeviceListHeader"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Paired Device(s)" />
+    android:layout_marginEnd="10dp"
+    android:layout_marginStart="10dp"
+    android:gravity="center"
+    android:orientation="vertical">
 
-            <ListView
-                android:id="@+id/discoveredDevicesListView"
-                android:layout_width="match_parent"
-                android:layout_height="150dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:text="Available Devices"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-            <TextView
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/black" />
 
-                android:id="@+id/availableDeviceListHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textStyle="bold"
-                android:textSize="50px"
+    <ListView
+        android:id="@+id/available_devices"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-                android:text="Available Device(s)" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        android:text="Paired Devices"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-            <ListView
-                android:layout_below="@id/discoveredDevicesListView"
-                android:id="@+id/availableDevicesListView"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                />-->
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/black" />
 
-        <ListView
-            android:layout_marginTop="50dp"
-            android:id="@+id/listViewAppliances"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+    <ListView
+        android:id="@+id/paired_devices"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-        <Button
-            android:id="@+id/fetchListOfPairedDevices"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/consentButton"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="65dp"
-            android:text="Fetch Paired"
-            android:visibility="gone" />
-    </RelativeLayout>
-
-</ScrollView>
+</LinearLayout>

@@ -29,19 +29,19 @@ public class ConsentDialogPresenter {
     }
 
     public void updateConsent(List<ConsentDetail> consentDetails) {
-        DataServicesManager.getInstance().updateConsentDetails(consentDetails,dbRequestListener);
+        DataServicesManager.getInstance().updateConsentDetails(consentDetails, dbRequestListener);
     }
 
-    public void saveDefaultConsentDetails(){
+    public void saveDefaultConsentDetails() {
 
-        DataServicesManager dataServicesManager=DataServicesManager.getInstance();
-        List<ConsentDetail> consentDetails=new ArrayList<>();
-        consentDetails.add(dataServicesManager.createConsentDetail(ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED,ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+        DataServicesManager dataServicesManager = DataServicesManager.getInstance();
+        List<ConsentDetail> consentDetails = new ArrayList<>();
+        consentDetails.add(dataServicesManager.createConsentDetail(ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED, ConsentDetail.DEFAULT_DOCUMENT_VERSION,
                 ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
-        consentDetails.add(dataServicesManager.createConsentDetail(ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED,ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+        consentDetails.add(dataServicesManager.createConsentDetail(ConsentDetailType.TEMPERATURE, ConsentDetailStatusType.REFUSED, ConsentDetail.DEFAULT_DOCUMENT_VERSION,
                 ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
-        consentDetails.add(dataServicesManager.createConsentDetail(ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED,ConsentDetail.DEFAULT_DOCUMENT_VERSION,
+        consentDetails.add(dataServicesManager.createConsentDetail(ConsentDetailType.WEIGHT, ConsentDetailStatusType.REFUSED, ConsentDetail.DEFAULT_DOCUMENT_VERSION,
                 ConsentDetail.DEFAULT_DEVICE_IDENTIFICATION_NUMBER));
-        dataServicesManager.saveConsentDetails(consentDetails,dbRequestListener);
+        dataServicesManager.saveConsentDetails(consentDetails, dbRequestListener);
     }
 }

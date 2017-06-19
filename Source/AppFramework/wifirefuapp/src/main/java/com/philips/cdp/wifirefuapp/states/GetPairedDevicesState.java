@@ -3,7 +3,8 @@ package com.philips.cdp.wifirefuapp.states;
 import android.app.ProgressDialog;
 import android.widget.Toast;
 
-import com.philips.cdp.wifirefuapp.pojo.PairDevicePojo;
+import com.philips.cdp.wifirefuapp.pojo.PairDevice;
+import com.philips.cdp.wifirefuapp.ui.DeviceStatusListener;
 import com.philips.platform.core.listeners.DevicePairingListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DataServicesError;
@@ -11,24 +12,22 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.List;
 
-/**
- * Created by philips on 6/7/17.
- */
+public class GetPairedDevicesState extends BaseState implements DevicePairingListener {
 
-public class CheckDevicePairedStatusState extends BaseState implements DevicePairingListener {
-
-    private PairDevicePojo pairDevicePojo;
+    private PairDevice pairDevice;
     private StateContext stateContext;
     private FragmentLauncher context;
     private ProgressDialog mProgressDialog;
+    private DeviceStatusListener mDeviceStatusListener;
 
-    public CheckDevicePairedStatusState(PairDevicePojo pairDevicePojo,FragmentLauncher context){
+    public GetPairedDevicesState(PairDevice pairDevice, FragmentLauncher context, DeviceStatusListener deviceStatusListener) {
         super(context);
         this.context = context;
-        this.pairDevicePojo = pairDevicePojo;
+        this.pairDevice = pairDevice;
+        mDeviceStatusListener = deviceStatusListener;
     }
 
-    private void getPairedDevices(){
+    private void getPairedDevices() {
         showProgressDialog();
         DataServicesManager.getInstance().getPairedDevices(this);
     }
@@ -40,7 +39,7 @@ public class CheckDevicePairedStatusState extends BaseState implements DevicePai
                 mProgressDialog = new ProgressDialog(context.getFragmentActivity());
                 mProgressDialog.setCancelable(false);
                 mProgressDialog.setMessage("Checking device paired status");
-                if(mProgressDialog!=null && !mProgressDialog.isShowing()) {
+                if (mProgressDialog != null && !mProgressDialog.isShowing()) {
                     mProgressDialog.show();
                 }
 
@@ -52,13 +51,14 @@ public class CheckDevicePairedStatusState extends BaseState implements DevicePai
         context.getFragmentActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(mProgressDialog!=null && mProgressDialog.isShowing()) {
+                if (mProgressDialog != null && mProgressDialog.isShowing()) {
                     mProgressDialog.dismiss();
                 }
 
             }
         });
     }
+
     @Override
     public void onResponse(boolean b) {
         dismissProgressDialog();
@@ -67,32 +67,30 @@ public class CheckDevicePairedStatusState extends BaseState implements DevicePai
     @Override
     public void onError(DataServicesError dataServicesError) {
         dismissProgressDialog();
+        mDeviceStatusListener.onError(dataServicesError.getErrorMessage());
     }
 
     @Override
-    public void onGetPairedDevicesResponse(List<String> list) {
+    public void onGetPairedDevicesResponse(final List<String> list) {
         dismissProgressDialog();
         stateContext = new StateContext();
 
-        if(isDevicePaired(list)){
-            final List<String> listOfDevices = list;
+        if (isDevicePaired(list)) {
             context.getFragmentActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(context.getFragmentActivity(),"Device paired already"+listOfDevices.size(),Toast.LENGTH_SHORT).show();
+                    mDeviceStatusListener.onGetPairedDevices(list);
+                    Toast.makeText(context.getFragmentActivity(), "Device paired already", Toast.LENGTH_SHORT).show();
                 }
             });
-        }
-        else {
-            stateContext.setState(new IsSubjectProfilePresentState(pairDevicePojo,context));
+        } else {
+            stateContext.setState(new GetSubjectProfileState(pairDevice, mDeviceStatusListener, context));
             stateContext.start();
         }
-
-
     }
 
     private boolean isDevicePaired(List<String> list) {
-        return list.contains(pairDevicePojo.getDeviceID());
+        return list.contains(pairDevice.getDeviceID());
     }
 
     @Override

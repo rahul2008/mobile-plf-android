@@ -1,10 +1,6 @@
 package com.philips.cdp.wifirefuapp.pojo;
 
-/**
- * Created by philips on 6/8/17.
- */
-
-public class PairDevicePojo {
+public class PairDevice {
     private String deviceID;
     private String deviceType;
 
@@ -23,5 +19,4 @@ public class PairDevicePojo {
     public void setDeviceType(String deviceType) {
         this.deviceType = deviceType;
     }
-
 }

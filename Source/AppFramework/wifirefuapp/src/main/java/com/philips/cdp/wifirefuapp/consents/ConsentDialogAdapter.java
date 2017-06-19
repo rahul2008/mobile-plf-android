@@ -15,21 +15,16 @@ import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context mContext;
-    private ArrayList<? extends ConsentDetail> consentDetails;
-   // private ConsentDetail mConsent;
-    private final ConsentDialogPresenter consentDialogPresenter;
+    private ArrayList<? extends ConsentDetail> mConsentDetailList;
+    private final ConsentDialogPresenter mConsentDialogPresenter;
 
     public ConsentDialogAdapter(final Context context, ArrayList<? extends ConsentDetail> consentDetails, ConsentDialogPresenter consentDialogPresenter) {
         mContext = context;
-        this.consentDetails = consentDetails;
-        this.consentDialogPresenter = consentDialogPresenter;
+        this.mConsentDetailList = consentDetails;
+        this.mConsentDialogPresenter = consentDialogPresenter;
     }
 
     @Override
@@ -40,38 +35,34 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-
         if (holder instanceof ConsentDetailViewHolder) {
             ConsentDetailViewHolder mConsentViewHolder = (ConsentDetailViewHolder) holder;
-            mConsentViewHolder.mConsentDetailSwitch.setText(consentDetails.get(position).getType());
+            mConsentViewHolder.mConsentDetailSwitch.setText(mConsentDetailList.get(position).getType());
 
-            boolean isAccepted = consentDialogPresenter.getConsentDetailStatus(consentDetails.get(position));
+            boolean isAccepted = mConsentDialogPresenter.getConsentDetailStatus(mConsentDetailList.get(position));
             mConsentViewHolder.mConsentDetailSwitch.setChecked(isAccepted);
 
             mConsentViewHolder.mConsentDetailSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-                        consentDetails.get(position).setStatus(ConsentDetailStatusType.ACCEPTED.name());
+                        mConsentDetailList.get(position).setStatus(ConsentDetailStatusType.ACCEPTED.name());
                     } else {
-                        consentDetails.get(position).setStatus(ConsentDetailStatusType.REFUSED.name());
+                        mConsentDetailList.get(position).setStatus(ConsentDetailStatusType.REFUSED.name());
                     }
-
                 }
             });
         }
-
     }
 
     @Override
     public int getItemCount() {
-        return consentDetails.size();
+        return mConsentDetailList.size();
     }
 
     public void updateConsent() {
-        consentDialogPresenter.updateConsent((List<ConsentDetail>) consentDetails);
+        mConsentDialogPresenter.updateConsent((List<ConsentDetail>) mConsentDetailList);
     }
-
 
     public class ConsentDetailViewHolder extends RecyclerView.ViewHolder {
         public Switch mConsentDetailSwitch;
@@ -82,10 +73,7 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-
     public void setData(ArrayList<? extends ConsentDetail> consentDetails) {
-        this.consentDetails = consentDetails; //new ArrayList(consent.getConsentDetails());
-       // this.mConsent = consent;
+        this.mConsentDetailList = consentDetails;
     }
-
 }
