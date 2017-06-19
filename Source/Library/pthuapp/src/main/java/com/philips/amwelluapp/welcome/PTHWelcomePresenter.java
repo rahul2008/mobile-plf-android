@@ -2,20 +2,23 @@ package com.philips.amwelluapp.welcome;
 
 import android.widget.Toast;
 
-import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.amwelluapp.activity.PTHLaunchActivity;
 import com.philips.amwelluapp.base.UIBasePresenter;
 import com.philips.amwelluapp.base.UIBaseView;
 import com.philips.amwelluapp.login.PTHAuthentication;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
+import com.philips.amwelluapp.registration.PTHRegistrationDetailsFragment;
+import com.philips.amwelluapp.sdkerrors.PTHSDKError;
 import com.philips.amwelluapp.utility.PTHManager;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
 
-public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallBack<Void,SDKError>, PTHLoginCallBack<PTHAuthentication,SDKError> {
+public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallBack<Void,PTHSDKError>, PTHLoginCallBack<PTHAuthentication,PTHSDKError> {
     UIBaseView uiBaseView;
 
     PTHWelcomePresenter(UIBaseView uiBaseView){
@@ -43,13 +46,13 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
     }
 
     @Override
-    public void onInitializationResponse(Void aVoid, SDKError sdkError) {
+    public void onInitializationResponse(Void aVoid, PTHSDKError sdkError) {
         loginUserSilently();
     }
 
     private void loginUserSilently() {
         try {
-            PTHManager.getInstance().authenticate(uiBaseView.getFragmentActivity(),"spoorti.h86@gmail.com","sujata123*",null,this);
+            PTHManager.getInstance().authenticate(uiBaseView.getFragmentActivity(),"spoorti.hallur@philips.com","spoorti.hallur@philips.com",null,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -61,12 +64,24 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
         Toast.makeText(uiBaseView.getFragmentActivity(),"INIT FAILED",Toast.LENGTH_SHORT).show();
     }
 
+    //TODO: Move it to Login Presenter one's Silent Login is removed
     @Override
-    public void onLoginResponse(PTHAuthentication pthAuthentication, SDKError sdkError) {
+    public void onLoginResponse(PTHAuthentication pthAuthentication, PTHSDKError sdkError) {
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
         Toast.makeText(uiBaseView.getFragmentActivity(),"LOGIN SUCCESS",Toast.LENGTH_SHORT).show();
+        checkIfTheUserIsPartiallyRegistered(pthAuthentication);
     }
 
+    private void checkIfTheUserIsPartiallyRegistered(PTHAuthentication pthAuthentication) {
+        boolean isUserPartiallyRegistered = pthAuthentication.needsToCompleteEnrollment();
+        if (isUserPartiallyRegistered){
+            final FragmentLauncher fragmentLauncher = ((PTHWelcomeFragment)uiBaseView).getFragmentLauncher();
+            ((PTHLaunchActivity) fragmentLauncher.getFragmentActivity()).
+                    addFragment(new PTHRegistrationDetailsFragment(), PTHRegistrationDetailsFragment.TAG);
+        }
+    }
+
+    //TODO: Move it to Login Presenter one's Silent Login is removed
     @Override
     public void onLoginFailure(Throwable var1) {
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();

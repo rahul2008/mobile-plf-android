@@ -25,7 +25,7 @@ public class PTHLaunchActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
     private TextView mTitleTextView;
-
+    private int containerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +111,20 @@ public class PTHLaunchActivity extends AppCompatActivity {
             mTitleTextView.setText(titleId);
         else
             super.setTitle(titleId);
+    }
+
+    public void addFragment(Fragment fragment, String fragmentTag) {
+
+        containerId = getContainerId();
+        FragmentTransaction fragmentTransaction;
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(containerId, fragment, fragmentTag);
+        fragmentTransaction.addToBackStack(fragmentTag);
+        fragmentTransaction.commit();
+    }
+
+    private int getContainerId() {
+        return R.id.parent_layout;
     }
 
 }

@@ -19,6 +19,11 @@ public class PTHWelcomeFragment extends Fragment implements UIBaseView, BackEven
     public static final String TAG = PTHWelcomeFragment.class.getSimpleName();
     private UIBasePresenter presenter;
     private ProgressBar progressBar;
+
+    public FragmentLauncher getFragmentLauncher() {
+        return fragmentLauncher;
+    }
+
     private FragmentLauncher fragmentLauncher;
 
     @Override
@@ -44,7 +49,7 @@ public class PTHWelcomeFragment extends Fragment implements UIBaseView, BackEven
 
     @Override
     public void finishActivityAffinity() {
-
+        getActivity().finishAffinity();
     }
 
     @Override
