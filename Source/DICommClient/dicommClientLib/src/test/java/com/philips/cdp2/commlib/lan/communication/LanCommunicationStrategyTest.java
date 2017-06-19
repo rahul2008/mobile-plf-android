@@ -14,6 +14,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+
+import static junit.framework.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.never;
@@ -261,6 +265,15 @@ public class LanCommunicationStrategyTest {
         lanCommunicationStrategy.deleteProperties(PORT_NAME, PRODUCT_ID, null);
 
         verify(requestQueueMock, never()).addRequestInFrontOfQueue(any(LanRequest.class));
+    }
+
+    @Test
+    public void whenCreatingSSLContext_thenNoExceptionShouldBeThrown() {
+        try {
+            lanCommunicationStrategy.createSSLContext();
+        } catch (NoSuchAlgorithmException | KeyManagementException e) {
+            fail();
+        }
     }
 
     private void setupForHttpsWithKeyPresent() {

@@ -22,22 +22,16 @@ import com.philips.cdp.dicommclient.security.DISecurity.EncryptionDecryptionFail
 import com.philips.cdp.dicommclient.subscription.LocalSubscriptionHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.subscription.UdpEventReceiver;
-import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.lan.security.SslPinTrustManager;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.X509TrustManager;
-
-import static com.philips.cdp.dicommclient.util.DICommLog.LOCALREQUEST;
 
 public class LanCommunicationStrategy extends CommunicationStrategy {
     private RequestQueue mRequestQueue;
@@ -61,21 +55,15 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
         }
     };
 
-    private final PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-            DICommLog.d(LOCALREQUEST, String.format(Locale.US, "NetworkNode changed: property=%s, old value=%s, new value=%s", evt.getPropertyName(), evt.getOldValue(), evt.getNewValue()));
-
-            // TODO Do whatever needed when the pin changes
-        }
-    };
-
     public LanCommunicationStrategy(@NonNull final NetworkNode networkNode) {
         this.networkNode = networkNode;
-        this.networkNode.addPropertyChangeListener(propertyChangeListener);
 
         if (networkNode.isHttps()) {
-            sslContext = createSSLContext();
+            try {
+                sslContext = createSSLContext();
+            } catch (NoSuchAlgorithmException | KeyManagementException e) {
+                throw new IllegalStateException("Error initializing SSL context.", e);
+            }
         }
 
         this.diSecurity = new DISecurity(networkNode);
@@ -138,15 +126,15 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
         return networkNode.getConnectionState().equals(ConnectionState.CONNECTED_LOCALLY);
     }
 
+    @VisibleForTesting
     @Nullable
-    private synchronized SSLContext createSSLContext() {
+    synchronized SSLContext createSSLContext() throws NoSuchAlgorithmException, KeyManagementException {
         SSLContext context = null;
-        try {
-            context = SSLContext.getInstance("TLS");
-            context.init(null, new X509TrustManager[]{new SslPinTrustManager(networkNode)}, new SecureRandom());
-        } catch (NoSuchAlgorithmException | KeyManagementException e) {
-            DICommLog.e(DICommLog.LOCALREQUEST, "Error initializing SSL context: " + e.getMessage());
-        }
+        context = SSLContext.getInstance("TLS");
+        context.init(null, new X509TrustManager[]{
+                new SslPinTrustManager(networkNode)
+        }, new SecureRandom());
+
         return context;
     }
 

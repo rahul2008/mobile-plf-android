@@ -118,8 +118,6 @@ public abstract class ReferenceApplianceActivity extends AppCompatActivity {
         ((CompoundButton) findViewById(R.id.switchStayConnected)).setOnCheckedChangeListener(connectionCheckedChangeListener);
         ((CompoundButton) findViewById(R.id.switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
 
-//        final String cppId = getIntent().getExtras().getString(CPPID);
-//        currentAppliance = (ReferenceAppliance) ((App) getApplication()).getCommCentral().getApplianceManager().findApplianceByCppId(cppId);
         currentAppliance = getCurrentAppliance();
 
         if (currentAppliance == null) {
@@ -176,9 +174,10 @@ public abstract class ReferenceApplianceActivity extends AppCompatActivity {
 
             @Override
             public void onPortError(TimePort timePort, Error error, final String s) {
-                DICommLog.e(TAG, "Time port error: " + error.getErrorMessage() + " (" + s + ")");
+                final String msg = String.format(Locale.US, "Time port error: %s", error.getErrorMessage());
+                DICommLog.e(TAG, msg);
 
-                updateResult(getString(R.string.lblResultPortError, s));
+                updateResult(getString(R.string.lblResultPortError, msg));
             }
         });
     }
