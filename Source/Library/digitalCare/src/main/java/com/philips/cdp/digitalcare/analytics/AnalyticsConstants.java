@@ -118,5 +118,5 @@ public class AnalyticsConstants {
     public static final String ACTION_VALUE_SERVICE_CHANNEL_FAQ = "FAQ";
     public static final String ACTION_VALUE_SERVICE_CHANNEL_Facebook = "Facebook";
 	
-	public static final String COMPONENT_NAME_CC = "ConsumerCare";
+	public static final String COMPONENT_NAME_CC = "dcc";
 }
