@@ -47,7 +47,7 @@ public class DotNavigationFragment extends BaseFragment {
         final FragmentDotNavigationBinding dotNavigationBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_dot_navigation, container, false);
         dotNavigationBinding.setFragment(this);
         initPagerItems();
-        dotNavigationBinding.dotNavigationPager.setAdapter(new NavigationPager());
+        dotNavigationBinding.dotNavigationPager.setAdapter(new NavigationPagerAdapter());
         dotNavigationBinding.dotNavigationPager.addOnPageChangeListener(dotNavigationBinding.pagerIndicator);
         dotNavigationBinding.pagerIndicator.setViewPager(dotNavigationBinding.dotNavigationPager);
         return dotNavigationBinding.getRoot();
@@ -61,7 +61,7 @@ public class DotNavigationFragment extends BaseFragment {
         }
     }
 
-    static final class NavigationPager extends PagerAdapter {
+    static final class NavigationPagerAdapter extends PagerAdapter {
 
         @Override
         public int getCount() {

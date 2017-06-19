@@ -74,6 +74,7 @@ artifactory {
                 publishBuildInfo = true
                 publishArtifacts = true
                 publications('apk')
+                properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
     }
@@ -110,8 +111,12 @@ publishing {
 
 hockeyapp {
     apiToken = "b9d6e2f453894b4fbcb161b33a94f6c8"
+    commitSha = objcdp.getCommitHashLong()
+    buildServerUrl = objcdp.getArtifactoryUrl()
     releaseType = 2 // alpha
-    notify = 0
+    notify = 2
+    mappingFileNameRegex = "mapping.txt"
+    mandatory = 1
     status = 2
     notesType = 1
     notes = new File(file(objcdp.getExternalDocPath() + '/ReleaseNotes.md').absolutePath).getText('UTF-8')
