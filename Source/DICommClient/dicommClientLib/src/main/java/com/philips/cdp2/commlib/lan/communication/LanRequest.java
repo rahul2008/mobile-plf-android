@@ -6,10 +6,7 @@
 package com.philips.cdp2.commlib.lan.communication;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
 import android.net.Network;
-import android.net.NetworkCapabilities;
-import android.net.NetworkRequest;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,6 +23,7 @@ import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp.dicommclient.util.DICommLog.Verbosity;
 import com.philips.cdp.dicommclient.util.GsonProvider;
+import com.philips.cdp.dicommclient.util.WifiNetworkProvider;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 
 import java.io.IOException;
@@ -49,12 +47,11 @@ import static com.philips.cdp.dicommclient.util.DICommLog.LOCALREQUEST;
 import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.DEBUG;
 import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.ERROR;
 import static com.philips.cdp.dicommclient.util.DICommLog.Verbosity.INFO;
-import static com.philips.cdp.dicommclient.util.DICommLog.WIFI;
 
 public class LanRequest extends Request {
 
     private static final int CONNECTION_TIMEOUT = 10 * 1000; // 10secs
-    private static final int GETWIFI_TIMEOUT = 3 * 1000; // 3secs
+
     private static final String BASEURL_PORTS = "http://%s/di/v%d/products/%d/%s";
     private static final String BASEURL_PORTS_HTTPS = "https://%s/di/v%d/products/%d/%s";
 
@@ -216,13 +213,12 @@ public class LanRequest extends Request {
         return out;
     }
 
-    private
     @NonNull
-    HttpURLConnection createConnection(final @NonNull URL url, final @NonNull String requestMethod) throws IOException, TransportUnavailableException {
+    private HttpURLConnection createConnection(final @NonNull URL url, final @NonNull String requestMethod) throws IOException, TransportUnavailableException {
         HttpURLConnection conn;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            final Network network = getWifiNetwork(DICommClientWrapper.getContext());
+            final Network network = getWifiNetwork();
 
             if (network == null) {
                 throw new TransportUnavailableException("Network unavailable.");
@@ -245,24 +241,13 @@ public class LanRequest extends Request {
         return conn;
     }
 
-    private Network getWifiNetwork(final Context context) {
-        ConnectivityManager connectionManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkRequest.Builder request = new NetworkRequest.Builder();
-        request.addTransportType(NetworkCapabilities.TRANSPORT_WIFI);
+    private Network getWifiNetwork() {
+        final Context context = DICommClientWrapper.getContext();
 
-        WifiNetworkCallback networkCallback = new WifiNetworkCallback(LOCK, connectionManager);
-
-        synchronized (LOCK) {
-            connectionManager.registerNetworkCallback(request.build(), networkCallback);
-            try {
-                LOCK.wait(GETWIFI_TIMEOUT);
-                log(ERROR, WIFI, "Timeout error occurred");
-            } catch (InterruptedException ignored) {
-            }
+        if (context == null) {
+            throw new IllegalStateException("Context is null.");
         }
-        connectionManager.unregisterNetworkCallback(networkCallback);
-
-        return networkCallback.getNetwork();
+        return WifiNetworkProvider.get(context).getNetwork();
     }
 
     /**
