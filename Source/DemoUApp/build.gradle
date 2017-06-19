@@ -187,6 +187,7 @@ dependencies {
     }
 
     compile deps.joda_time
+    androidTestCompile deps.junit
 }
 
 pitest {
