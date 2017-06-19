@@ -9,6 +9,9 @@ package com.philips.platform.uid.view.widget;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.Layout;
 import android.text.Spannable;
@@ -55,40 +58,81 @@ public class Label extends AppCompatTextView {
 
     @Override
     public void setText(CharSequence text, BufferType type) {
-        super.setText(decorateSpans(text), type);
+        super.setText(decorateLinks(text), type);
     }
 
-    private CharSequence decorateSpans(CharSequence text) {
-
-        if (text instanceof Spannable) {
-            int spanStart;
-            int spanEnd;
-            Spannable string = (Spannable) text;
-            ClickableSpan[] clickableSpans = string.getSpans(0, text.length(), ClickableSpan.class);
-            for (ClickableSpan span : clickableSpans) {
-                spanStart = string.getSpanStart(span);
-                spanEnd = string.getSpanEnd(span);
-                ColorStateList linkColors = null;
-                if(span instanceof UIDClickableSpan) {
-                    linkColors = ((UIDClickableSpan) span).getColors();
-                }
-                linkColors = linkColors != null? linkColors: getLinkTextColors();
-                if (spanStart >= 0 && spanEnd >= 0) {
-                    string.removeSpan(span);
-                    UIDClickableSpanWrapper urlSpanWrapper = new UIDClickableSpanWrapper(span);
-                    urlSpanWrapper.setColors(linkColors);
-                    urlSpanWrapper.setClickInterceptor(clickInterceptor);
-                    string.setSpan(urlSpanWrapper, spanStart, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                }
-            }
+    private CharSequence decorateLinks(CharSequence text) {
+        CharSequence string = decorateSpannableString(text);
+        if (string != null) {
             return string;
         }
 
+        string = decorateSpannedString(text);
+
+        if (string != null) {
+            return string;
+        }
+
+        return text;
+    }
+
+    /**
+     * We don't update the input string unless it contains valid urls.
+     *
+     * @param text text of the label
+     * @return null if doesn't contain URL/ spans.
+     */
+    @Nullable
+    private CharSequence decorateSpannableString(CharSequence text) {
+        Spannable string = null;
+        if (text instanceof Spannable) {
+            int spanStart;
+            int spanEnd;
+            ClickableSpan[] clickableSpans = ((Spannable) text).getSpans(0, text.length(), ClickableSpan.class);
+            ColorStateList linkColors = getLinkTextColors();
+
+            if (clickableSpans.length > 0) {
+                string = (Spannable) text;
+            }
+
+            for (ClickableSpan span : clickableSpans) {
+                if (span instanceof UIDClickableSpan) {
+                    ColorStateList spanLinkColors = ((UIDClickableSpan) span).getColors();
+                    if (spanLinkColors == null) {
+                        ((UIDClickableSpan) span).setColors(linkColors);
+                    }
+                } else {
+                    spanStart = string.getSpanStart(span);
+                    spanEnd = string.getSpanEnd(span);
+                    if (spanStart >= 0 && spanEnd >= 0) {
+                        string.removeSpan(span);
+                        UIDClickableSpanWrapper urlSpanWrapper = new UIDClickableSpanWrapper(span);
+                        urlSpanWrapper.setColors(linkColors);
+                        urlSpanWrapper.setClickInterceptor(clickInterceptor);
+                        string.setSpan(urlSpanWrapper, spanStart, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    }
+                }
+            }
+        }
+        return string;
+    }
+
+    /**
+     * We don't update the input string unless it contains valid urls.
+     *
+     * @param text text of the label
+     * @return null if doesn't contain URL spans.
+     */
+    @Nullable
+    private CharSequence decorateSpannedString(CharSequence text) {
+        SpannableString string = null;
         if (text instanceof Spanned) {
             int spanStart;
             int spanEnd;
-            SpannableString string = SpannableString.valueOf(text);
-            URLSpan[] urlSpans = string.getSpans(0, text.length(), URLSpan.class);
+            URLSpan[] urlSpans = ((Spanned) text).getSpans(0, text.length(), URLSpan.class);
+            if (urlSpans.length > 0) {
+                string = SpannableString.valueOf(text);
+            }
             for (URLSpan span : urlSpans) {
                 string.removeSpan(span);
                 spanStart = ((Spanned) text).getSpanStart(span);
@@ -98,12 +142,12 @@ public class Label extends AppCompatTextView {
                 urlSpanWrapper.setClickInterceptor(clickInterceptor);
                 string.setSpan(urlSpanWrapper, spanStart, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
-            return string;
         }
-        return text;
+        return string;
     }
 
     @Override
+
     public boolean onTouchEvent(MotionEvent event) {
         updateSpans(event);
         return super.onTouchEvent(event);
@@ -145,5 +189,75 @@ public class Label extends AppCompatTextView {
 
     public void setSpanClickInterceptor(UIDClickableSpanWrapper.ClickInterceptor externalClickInterceptor) {
         this.externalClickInterceptor = externalClickInterceptor;
+    }
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+        return new SavedState(super.onSaveInstanceState(), getText());
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        if (!(state instanceof SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+        SavedState savedState = (SavedState) state;
+        super.onRestoreInstanceState(((SavedState) state).getSuperState());
+        if (savedState.spanVisitedArray != null && getText() != null) {
+            UIDClickableSpan[] spans = ((Spannable) getText()).getSpans(0, getText().length(), UIDClickableSpan.class);
+            int index = 0;
+            for (UIDClickableSpan span : spans) {
+                span.setVisited(savedState.spanVisitedArray[index++]);
+            }
+        }
+    }
+
+    static class SavedState extends BaseSavedState {
+        int linksCount;
+        boolean[] spanVisitedArray;
+
+        public static final Parcelable.Creator<SavedState> CREATOR = new Creator<SavedState>() {
+
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
+
+        private SavedState(Parcelable superState, CharSequence text) {
+            super(superState);
+            if (text instanceof Spannable) {
+                UIDClickableSpan[] spans = ((Spannable) text).getSpans(0, text.length(), UIDClickableSpan.class);
+                if (spans.length > 0) {
+                    linksCount = spans.length;
+                    spanVisitedArray = new boolean[linksCount];
+                    for (int i = 0; i < spans.length; i++) {
+                        spanVisitedArray[i] = spans[i].isVisited();
+                    }
+                }
+            }
+        }
+
+        private SavedState(Parcel in) {
+            super(in);
+            linksCount = in.readInt();
+            if (linksCount > 0) {
+                spanVisitedArray = new boolean[linksCount];
+                in.readBooleanArray(spanVisitedArray);
+            }
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeInt(linksCount);
+            if (spanVisitedArray != null) {
+                out.writeBooleanArray(spanVisitedArray);
+            }
+        }
     }
 }
