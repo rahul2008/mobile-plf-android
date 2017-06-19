@@ -107,4 +107,8 @@ public class PTHManager {
             }
         });
     }
+
+    public void setAwsdk(AWSDK awsdk) {
+        this.mAwsdk = awsdk;
+    }
 }

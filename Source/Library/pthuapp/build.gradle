@@ -140,4 +140,6 @@ dependencies {
     compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: '5.1.4' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     apply from: 'build-awsdk-dependencies.gradle'
     compile project(':awsdk')
+    testCompile 'org.mockito:mockito-all:1.10.17'
+    testCompile 'com.squareup.assertj:assertj-android:1.1.1'
 }
