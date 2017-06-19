@@ -20,6 +20,7 @@ import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -104,9 +105,30 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        if (fragments != null) {
-            for (Fragment fragment : fragments) {
+        /*
+        * Commenting out earlier implementation. Please find the reason below:
+        * FragmentManager.getFragments can only be called from within the same
+        * library group (groupId=com.android.support). This API has been
+        * flagged with a restriction that has not been met. Examples of
+        * API restrictions: * Method can only be invoked by a subclass
+        * Method can only be accessed from within the same library
+        * (defined by the Gradle library group id) .* Method can only
+        * be accessed from tests. . You can add your own API restrictions
+        * with the `@RestrictTo` annotation.
+        *
+        * List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        */
+        ArrayList<Fragment> fragmentList = new ArrayList<>();
+
+        for(int i = getSupportFragmentManager().getBackStackEntryCount() - 1; i >= 0; i--) {
+            FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(i);
+            String tag = backEntry.getName();
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
+            fragmentList.add(fragment);
+        }
+
+        if (fragmentList != null) {
+            for (Fragment fragment : fragmentList) {
                 if (fragment != null) {
                     fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
                 }
