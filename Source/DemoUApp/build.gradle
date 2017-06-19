@@ -31,7 +31,6 @@ buildscript { bs ->
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'pl.droidsonroids.pitest'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
@@ -187,18 +186,4 @@ dependencies {
     }
 
     compile deps.joda_time
-    androidTestCompile deps.junit
-}
-
-pitest {
-    targetClasses = [
-            'com.philips.cdp2.commlib.ble.communication.*',
-            'com.philips.cdp2.commlib.ble.discovery.*',
-    ]  /* specify target classes to be mutated */
-    pitestVersion = versions.pitest
-    avoidCallsTo = ['com.philips.cdp.dicommclient.util.DICommLog']
-    threads = 1 /* specify number of threads */
-    outputFormats = ['XML', 'HTML'] /* specify output format */
-    reportDir = "${rootDir.absolutePath}/build/report/${project.name}/pitest/"
-    timestampedReports = false
 }
