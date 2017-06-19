@@ -59,7 +59,7 @@ public class NetworkMonitor {
         this.executor = executor;
 
         connectivityManager = (ConnectivityManager) this.context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        wifiManager = (WifiManager) this.context.getSystemService(Context.WIFI_SERVICE);
+        wifiManager = (WifiManager) this.context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
     }
 
     private void notifyListener(NetworkState state, String ssid) {

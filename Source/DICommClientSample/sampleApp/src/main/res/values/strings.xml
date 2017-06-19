@@ -40,4 +40,5 @@
     <string name="upload_firmware_finished">Uploading firmware finished</string>
     <string name="uploading_firmware_failed">"Uploading firmware failed: "</string>
     <string name="uploading_firmware_image">Uploading firmware image to device</string>
+    <string name="n_a">N/A</string>
 </resources>
