@@ -28,7 +28,7 @@ public class PublicKeyPin {
         try {
             digest = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
-            throw new IllegalStateException("Should never happen");
+            throw new IllegalStateException("No provider has an implementation for the requested digest algorithm.");
         }
         digest.reset();
 
