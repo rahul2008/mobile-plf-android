@@ -16,7 +16,6 @@ import android.view.MenuItem;
 
 import com.philips.platform.catalogapp.fragments.BaseFragment;
 import com.philips.platform.catalogapp.fragments.ComponentListFragment;
-import com.philips.platform.catalogapp.fragments.SearchBoxPersistentFragment;
 import com.philips.platform.catalogapp.themesettings.ThemeSettingsFragment;
 import com.philips.platform.uid.thememanager.UIDHelper;
 
@@ -38,6 +37,7 @@ public class NavigationController {
     private ViewDataBinding activityMainBinding;
     private int titleResource;
     private Toolbar toolbar;
+    private boolean shouldHandleBack;
 
     public interface BackPressListener{
         boolean handleBackPress();
@@ -54,10 +54,7 @@ public class NavigationController {
     protected void processBackButton() {
         if (hasBackStack()) {
             final Fragment fragmentAtTopOfBackStack = getFragmentAtTopOfBackStack();
-            if(fragmentAtTopOfBackStack instanceof SearchBoxPersistentFragment){
-                return;
-            }
-            if (!(fragmentAtTopOfBackStack instanceof ThemeSettingsFragment)) {
+            if (!(fragmentAtTopOfBackStack instanceof ThemeSettingsFragment) && shouldHandleBack) {
                 toggleHamburgerIcon();
             }
         } else if (supportFragmentManager != null && supportFragmentManager.getBackStackEntryCount() == 0) {
@@ -245,7 +242,7 @@ public class NavigationController {
     }
 
     public boolean updateStack() {
-        boolean shouldHandleBack = true;
+        shouldHandleBack = true;
         if (hasBackStack()) {
             final List<Fragment> fragments = supportFragmentManager.getFragments();
             final Fragment fragment = fragments.get(fragments.size() - 1);

@@ -7,7 +7,7 @@
 
         <variable
             name="frag"
-            type="com.philips.platform.catalogapp.fragments.SearchBoxExpandableFragment" />
+            type="com.philips.platform.catalogapp.fragments.SearchBoxFragment" />
     </data>
 
     <LinearLayout

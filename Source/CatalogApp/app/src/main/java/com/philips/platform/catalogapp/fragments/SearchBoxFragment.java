@@ -1,7 +1,10 @@
 package com.philips.platform.catalogapp.fragments;
 
+
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,21 +15,23 @@ import android.widget.AdapterView;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.dataUtils.StateListAdapter;
-import com.philips.platform.catalogapp.databinding.FragmentSearchBoxPersistentBinding;
+import com.philips.platform.catalogapp.databinding.FragmentSearchBoxBinding;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.SearchBox;
 
 import java.util.Arrays;
 
+public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandListener, SearchBox.QuerySubmitListener {
 
-public class SearchBoxPersistentFragment extends BaseFragment implements SearchBox.ExpandListener, SearchBox.QuerySubmitListener {
-
-    private FragmentSearchBoxPersistentBinding fragmentSearchBoxPersistentBinding;
+    private FragmentSearchBoxBinding fragmentSearchBoxBinding;
     private SearchBox searchBox;
-    String query;
-    private StateListAdapter stateAdapter;
-    boolean searchBoxCollapsed = true;
+    private String query;
+    boolean searchBoxCollpased = true;
     private UIDNavigationIconToggler navIconToggler;
+    private StateListAdapter stateAdapter;
+    private SharedPreferences sharedPreferences;
+    public static final String SEARCH_TYPE = "search_selection";
+    private boolean isExpandableSearch;
 
     private static final String[] STATES = new String[]{
             "Alabama",
@@ -83,32 +88,25 @@ public class SearchBoxPersistentFragment extends BaseFragment implements SearchB
 
     @Override
     public int getPageTitle() {
-        return R.string.page_title_searchbox_persistent;
+        return R.string.page_title_searchbox;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        fragmentSearchBoxPersistentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_box_persistent, container, false);
-        fragmentSearchBoxPersistentBinding.setFrag(this);
+        fragmentSearchBoxBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_search_box, container, false);
+        fragmentSearchBoxBinding.setFrag(this);
         navIconToggler = new UIDNavigationIconToggler(getActivity());
-        navIconToggler.hideNavigationIcon();
         if (savedInstanceState != null) {
             query = savedInstanceState.getString("query");
-            searchBoxCollapsed = savedInstanceState.getBoolean("collapsed");
+            searchBoxCollpased = savedInstanceState.getBoolean("collapsed");
         }
         setListAdapter();
-        return fragmentSearchBoxPersistentBinding.getRoot();
-    }
-
-    private void setListAdapter() {
-        stateAdapter = new StateListAdapter(getActivity(), Arrays.asList(STATES));
-        fragmentSearchBoxPersistentBinding.countryList.setAdapter(stateAdapter);
-        fragmentSearchBoxPersistentBinding.countryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                searchBox.setSearchCollapsed(true);
-            }
-        });
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        isExpandableSearch = sharedPreferences.getBoolean(SEARCH_TYPE, true);
+        if (!isExpandableSearch){
+            navIconToggler.hideNavigationIcon();
+        }
+        return fragmentSearchBoxBinding.getRoot();
     }
 
     @Override
@@ -118,14 +116,25 @@ public class SearchBoxPersistentFragment extends BaseFragment implements SearchB
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    private void setListAdapter() {
+        stateAdapter = new StateListAdapter(getActivity(), Arrays.asList(STATES));
+        fragmentSearchBoxBinding.countryList.setAdapter(stateAdapter);
+        fragmentSearchBoxBinding.countryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                searchBox.setSearchCollapsed(true);
+            }
+        });
+    }
+
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         searchBox = (SearchBox) menu.findItem(R.id.country_search).getActionView();
         searchBox.setExpandListener(this);
         searchBox.setQuerySubmitListener(this);
-        searchBox.setSearchIconified(false);
-        searchBox.setSearchCollapsed(searchBoxCollapsed);
+        searchBox.setSearchIconified(isExpandableSearch);
+        searchBox.setSearchCollapsed(searchBoxCollpased);
         searchBox.setQuery(query);
         searchBox.setAdapter(stateAdapter);
         searchBox.setSearchBoxHint(R.string.search_box_hint);
@@ -141,14 +150,20 @@ public class SearchBoxPersistentFragment extends BaseFragment implements SearchB
 
     @Override
     public void onSearchExpanded() {
-        fragmentSearchBoxPersistentBinding.countryList.setVisibility(View.VISIBLE);
-        fragmentSearchBoxPersistentBinding.searchDescription.setVisibility(View.GONE);
+        if(isExpandableSearch){
+            navIconToggler.hideNavigationIcon();
+        }
+        fragmentSearchBoxBinding.countryList.setVisibility(View.VISIBLE);
+        fragmentSearchBoxBinding.searchDescription.setVisibility(View.GONE);
     }
 
     @Override
     public void onSearchCollapsed() {
-        fragmentSearchBoxPersistentBinding.countryList.setVisibility(View.GONE);
-        fragmentSearchBoxPersistentBinding.searchDescription.setVisibility(View.VISIBLE);
+        if(isExpandableSearch){
+            navIconToggler.restoreNavigationIcon();
+        }
+        fragmentSearchBoxBinding.countryList.setVisibility(View.GONE);
+        fragmentSearchBoxBinding.searchDescription.setVisibility(View.VISIBLE);
     }
 
     @Override
