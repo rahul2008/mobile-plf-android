@@ -25,8 +25,8 @@ import android.widget.TextView;
 
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
-import com.philips.platform.screens.base.UappOnBoardingBaseFragment;
 import com.philips.platform.screens.base.UappBasePresenter;
+import com.philips.platform.screens.base.UappOnBoardingBaseFragment;
 import com.philips.platform.screens.introscreen.LaunchActivity;
 import com.philips.platform.uappdemo.UappDemoUiHelper;
 import com.philips.platform.uappdemolibrary.R;
@@ -53,10 +53,8 @@ public class SplashFragment extends UappOnBoardingBaseFragment implements BackEv
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.uikit_splash_screen_logo_center_tb,container,false);
-        initProgressDialog();
         logo = (ImageView) view.findViewById(R.id.splash_logo);
         logo.setImageDrawable(VectorDrawableCompat.create(getResources(),R.drawable.uikit_philips_logo, getActivity().getTheme()));
-        initProgressDialog();
         String splashScreenTitle = getResources().getString(R.string.splash_screen_title);
         CharSequence titleText;
 
@@ -68,7 +66,6 @@ public class SplashFragment extends UappOnBoardingBaseFragment implements BackEv
 
         title = (TextView) view.findViewById(R.id.splash_title);
         title.setText(titleText);
-        initializeFlowManager();
         return view;
     }
 
@@ -80,7 +77,7 @@ public class SplashFragment extends UappOnBoardingBaseFragment implements BackEv
     }
 
     private void showProgressDialog(boolean show) {
-        if (show && !getFragmentActivity().isFinishing())
+        if (show && !getFragmentActivity().isFinishing() && !progressDialog.isShowing())
             progressDialog.show();
         else if (progressDialog.isShowing())
             progressDialog.dismiss();
@@ -115,6 +112,9 @@ public class SplashFragment extends UappOnBoardingBaseFragment implements BackEv
         super.onActivityCreated(savedInstanceState);
         final LaunchActivity launchActivity = (LaunchActivity) getActivity();
         launchActivity.hideActionBar();
+
+        initProgressDialog();
+        initializeFlowManager();
     }
 
     private boolean hasPermissions(String... permissions) {

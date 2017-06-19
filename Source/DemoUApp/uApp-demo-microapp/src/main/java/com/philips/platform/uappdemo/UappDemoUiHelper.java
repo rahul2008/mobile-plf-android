@@ -55,14 +55,12 @@ public class UappDemoUiHelper {
         this.context = uappSettings.getContext();
         this.flowManager = dependencies.getFlowManager();
         this.appInfra = uappDependencies.getAppInfra();
-        initFile();
+//        initFile();
     }
 
     public LoggingInterface getLoggingInterface() {
         if (loggingInterface == null) {
             loggingInterface = appInfra.getLogging().createInstanceForComponent(BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME);
-            loggingInterface.enableConsoleLog(true);
-            loggingInterface.enableFileLog(true);
         }
         return loggingInterface;
     }
@@ -74,11 +72,11 @@ public class UappDemoUiHelper {
     public void setTargetFlowManager(FlowManagerListener flowManagerListener, FragmentActivity activity) {
         try {
             this.flowManager = new UappFlowManager();
-            this.flowManager.initialize(context, new UappBaseAppUtil().getJsonFilePath().getPath(), flowManagerListener);
+            this.flowManager.initialize(context, R.raw.uappflow, flowManagerListener);
         } catch (JsonFileNotFoundException e) {
             if (tempFile != null) {
                 this.flowManager = new UappFlowManager();
-                this.flowManager.initialize(context, tempFile.getPath(), flowManagerListener);
+                this.flowManager.initialize(context, R.raw.uappflow, flowManagerListener);
             }
         }
     }
