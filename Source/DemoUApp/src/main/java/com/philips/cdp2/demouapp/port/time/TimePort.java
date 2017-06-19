@@ -20,7 +20,7 @@ public class TimePort extends DICommPort<TimePortProperties> {
 
     private static final String TAG = "TimePort";
 
-    private static final String TIME_PORT_NAME = "com/philips/cdp2/demouapp/port/time";
+    private static final String TIME_PORT_NAME = "time";
     private static final int TIME_PORT_PRODUCTID = 0;
 
     public TimePort(CommunicationStrategy communicationStrategy) {
