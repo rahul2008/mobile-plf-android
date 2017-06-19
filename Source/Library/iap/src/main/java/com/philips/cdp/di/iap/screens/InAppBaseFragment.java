@@ -12,6 +12,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPActivity;
@@ -94,6 +95,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
 
     public void showProgressDialog(Context context, String message) {
         mProgressDialog = new ProgressDialog(context);
+        mProgressDialog.getWindow().setGravity(Gravity.BOTTOM);
         mProgressDialog.setCancelable(false);
         mProgressDialog.setMessage(message + "...");
 

@@ -79,12 +79,12 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     }
 
     private void actionBar() {
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.iap_toolbar);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayUseLogoEnabled(false);
-        getSupportActionBar().setDisplayShowCustomEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        //Toolbar mToolbar = (Toolbar) findViewById(R.id.iap_toolbar);
+       // setSupportActionBar(mToolbar);
+       // getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //getSupportActionBar().setDisplayUseLogoEnabled(false);
+        //getSupportActionBar().setDisplayShowCustomEnabled(false);
+       // getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.iap_header_back_button);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
