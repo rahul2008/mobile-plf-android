@@ -26,7 +26,7 @@ buildscript {
 
     dependencies {
         classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
-        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'com.android.tools.build:gradle:2.3.3'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.1', changing: true
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
 //        compile 'com.android.support:appcompat-v7:25.3.1'
@@ -72,10 +72,10 @@ android {
     defaultConfig {
         applicationId "com.philips.platform.pthdemolaunch"
         minSdkVersion 21
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 1
         vectorDrawables.useSupportLibrary = true
-        renderscriptTargetApi 24
+        renderscriptTargetApi 25
         renderscriptSupportModeEnabled true
         testApplicationId "com.philips.platform.appframework.test"
         testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
