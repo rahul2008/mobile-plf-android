@@ -56,7 +56,7 @@ import com.philips.platform.uid.thememanager.ThemeUtils;
  * <P>
  * <P> For usage of Search box please refer to the DLS Catalog app or the confluence page below
  * <P>
- * @see <a href="https://confluence.atlas.philips.com/display/MU/DLS-Android%3A+Integrate+Search+Box">https://confluence.atlas.philips.com/display/MU/DLS-Android%3A+Integrate+Search+Box</a>
+ * @see <a href="https://confluence.atlas.philips.com/display/MU/How+to+integrate+DLS+Search+Box">https://confluence.atlas.philips.com/display/MU/How+to+integrate+DLS+Search+Box</a>
  */
 
 public class SearchBox extends LinearLayout {
