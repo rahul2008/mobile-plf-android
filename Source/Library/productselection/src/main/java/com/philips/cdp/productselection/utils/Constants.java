@@ -37,6 +37,6 @@ public class Constants {
 
     public static final String ATTRIBUTE_KEY_PRODUCT_SELECTION = "Product Selection";
 	
-	public static final String COMPONENT_NAME_PS = "ProductSelection";
+	public static final String COMPONENT_NAME_PS = "pse";
 
 }
