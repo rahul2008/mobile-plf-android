@@ -69,9 +69,9 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'com.android.support:design:25.1.1'
-    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.4.6-SNAPSHOT.20170320173817', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.4.6-SNAPSHOT', ext: 'aar')
 
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.5.5-SNAPSHOT.20170316145636', ext: 'aar')
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.5.5-SNAPSHOT', ext: 'aar')
 
    
 

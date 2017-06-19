@@ -201,14 +201,14 @@ public abstract class BaseFlowManager {
             if (appFlowNextState != null) {
                 setCurrentState(appFlowNextState);
                 flowManagerStack.push(appFlowNextState);
-                postLog(getClass() + "", "uApp current state ---- " + appFlowNextState.toString() + " with stack size = " + flowManagerStack.size());
+                postLog(getClass().getSimpleName(), " uApp current state ---- " + appFlowNextState.toString() + " with stack size = " + flowManagerStack.size());
                 return appFlowNextState;
             }
         }
         if (currentState != null)
-            postLog(getClass() + "", "No State Exception with current state = " + currentState.toString() + " with stack size = " + flowManagerStack.size());
+            postLog(getClass().getSimpleName() + "", " No State Found with current state = " + currentState.toString() + " with stack size = " + flowManagerStack.size());
         else
-            postLog(getClass() + "", "No State Exception with current state = null with stack size = " + flowManagerStack.size());
+            postLog(getClass().getSimpleName() + "", " No State Found with current state = null with stack size = " + flowManagerStack.size());
         throw new NoStateException();
     }
 
@@ -240,9 +240,9 @@ public abstract class BaseFlowManager {
         }
         if (!isBack) {
             if (currentState != null)
-                postLog(getClass() + "", "No event Exception with current state = " + currentState.toString() + " with stack size = " + flowManagerStack.size());
+                postLog(getClass().getSimpleName() + "", " No event Found with current state = " + currentState.toString() + " with stack size = " + flowManagerStack.size());
             else
-                postLog(getClass() + "", "No event Exception with current state = null with stack size = " + flowManagerStack.size());
+                postLog(getClass().getSimpleName() + "", " No event Found with current state = null with stack size = " + flowManagerStack.size());
             throw new NoEventFoundException();
         }
         else
@@ -250,14 +250,14 @@ public abstract class BaseFlowManager {
     }
 
     protected boolean postLog(final String key, final String value) {
-        Log.i(key, value);
+        Log.d(key, value);
         return true;
     }
 
     /**
      *  Method to get State while navigating back
      * @param currentState
-     * @return
+     * @return returns BaseState
      * @throws NoStateException
      * @throws NoConditionFoundException
      * @throws StateIdNotSetException
@@ -269,7 +269,7 @@ public abstract class BaseFlowManager {
 
     /**
      *  Method to get State while navigating back
-     * @return
+     * @return returns BaseState
      * @throws NoStateException
      * @throws NoConditionFoundException
      * @throws StateIdNotSetException
@@ -300,6 +300,7 @@ public abstract class BaseFlowManager {
                 return null;
             }
         }
+        postLog(getClass().getSimpleName()+""," No State Found while invoking getBackState ");
         throw new NoStateException();
     }
 
@@ -362,8 +363,10 @@ public abstract class BaseFlowManager {
         return new Runnable() {
             @Override
             public void run() {
-                if (flowManagerListener != null)
+                if (flowManagerListener != null) {
                     flowManagerListener.onParseSuccess();
+                    postLog(getClass().getSimpleName(), " Flow manager parsed successfully");
+                }
             }
         } ;
     }

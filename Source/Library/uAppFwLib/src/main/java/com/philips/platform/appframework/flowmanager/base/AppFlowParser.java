@@ -48,7 +48,6 @@ class AppFlowParser {
      *
      * @return Object to 'AppFlowModel' class or 'null'
      */
-    // TODO: Deepthi , need to be prepared for running in separate thread and handle scenarios , may not be in same APIs
     AppFlowModel getAppFlow(String jsonPath) throws JsonFileNotFoundException, JsonStructureException {
         AppFlowModel appFlow = null;
         if (isEmpty(jsonPath)) {
