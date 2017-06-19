@@ -15,6 +15,7 @@ import com.adobe.mobile.Target;
 import com.adobe.mobile.TargetLocationRequest;
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
@@ -68,7 +69,7 @@ public class ABTestClientManager implements ABTestClientInterface {
         try {
             testList = getTestNameFromConfig();
         } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
                     e.toString());
         }
         if (testList != null && testList.size() > 0) {
@@ -123,7 +124,7 @@ public class ABTestClientManager implements ABTestClientInterface {
                     mCachestatusvalues = CACHESTATUSVALUES.NO_TESTS_DEFINED;
                 }
             } catch (IllegalArgumentException exception) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
                         exception.toString());
             }
 
@@ -154,7 +155,7 @@ public class ABTestClientManager implements ABTestClientInterface {
     public String getTestValue(final String testName, final String defaultValue,
                                final UPDATETYPES updateType, Map<String, Object> parameters) {
 
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
                 "testName" + testName);
         String testValue = getTestValueFromMemoryCache(testName);
 
@@ -179,7 +180,7 @@ public class ABTestClientManager implements ABTestClientInterface {
                 (UPDATETYPES.ONLY_AT_APP_UPDATE.name())) {
             saveCachetoPreference(mCacheModel);
         }
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
                 "testValue" + testValue);
 
         return testValue;
@@ -279,7 +280,7 @@ public class ABTestClientManager implements ABTestClientInterface {
                 return !previousVersion.equalsIgnoreCase(appVersion);
             }
         } catch (IllegalArgumentException exception) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTESTCLIENT",
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
                     exception.getMessage());
         }
 
@@ -325,7 +326,7 @@ public class ABTestClientManager implements ABTestClientInterface {
 
     private void refreshForVariableType(int variableType) {
         String defaultValue = null;
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
                 "Refreshing cache upto" + variableType);
         loadfromDisk();
         mCachestatusvalues = CACHESTATUSVALUES.EXPERIENCES_PARTIALLY_UPDATED;
@@ -334,9 +335,9 @@ public class ABTestClientManager implements ABTestClientInterface {
             for (String key : val.keySet()) {
                 final CacheModel.ValueModel valModel = val.get(key);
                 final UPDATETYPES updateType = UPDATETYPES.valueOf(valModel.getUpdateType());
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
                         "update TYPE" + updateType.getValue());
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
                         "varialbe TYPE" + variableType);
 
                 if (updateType.getValue() <= variableType) {
@@ -401,7 +402,7 @@ public class ABTestClientManager implements ABTestClientInterface {
                 if (content != null) {
                     mExperience = content;
                     updateMemorycacheForTestName(requestName, content, updatetypes);
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
                             content);
                 }
                 done.countDown();
@@ -423,7 +424,7 @@ public class ABTestClientManager implements ABTestClientInterface {
                 return mAppInfra.getAppIdentity().getAppVersion();
             }
         } catch (IllegalArgumentException exception) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTESTCLIENT",
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
                     exception.getMessage());
         }
         return null;
@@ -441,7 +442,7 @@ public class ABTestClientManager implements ABTestClientInterface {
             @Override
             public void run() {
                 cacheToPreference= gson.toJson(model);
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
                         cacheToPreference);
                 editor.putString("cacheobject", cacheToPreference);
                 editor.commit();
@@ -461,7 +462,7 @@ public class ABTestClientManager implements ABTestClientInterface {
             final Gson gson = new Gson();
             return gson.fromJson(json, CacheModel.class);
         } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTESTCLIENT",
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
                     e.getMessage());
         }
         return null;
@@ -469,7 +470,7 @@ public class ABTestClientManager implements ABTestClientInterface {
 
     private void saveAppVeriontoPref(String mAppVerion) {
 
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ABTESTCLIENT",
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
                 mAppVerion);
         editor.putString("APPVERSION", mAppVerion);
         editor.commit();

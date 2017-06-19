@@ -21,6 +21,7 @@ import java.util.TimeZone;
 public class TimeSyncDemo extends AppCompatActivity {
 
     TimeInterface mTimeSyncInterface;
+    Button refreshButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,7 @@ public class TimeSyncDemo extends AppCompatActivity {
 
 
         Button localTimeUpdateButton = (Button) findViewById(R.id.localtimebutton);
-        Button refreshButton = (Button) findViewById(R.id.refreshbutton);
+        refreshButton = (Button) findViewById(R.id.refreshbutton);
         Button syncButton = (Button) findViewById(R.id.syncbutton);
 
         mTimeSyncInterface = AppInfraApplication.gAppInfra.getTime();
@@ -59,6 +60,8 @@ public class TimeSyncDemo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a");
+                isSynchronized.setText("Not Synchronized");
+                refreshButton.setVisibility(View.INVISIBLE);
                 mTimeSyncInterface.refreshTime();
                 Date date = mTimeSyncInterface.getUTCTime();
                 formatter.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
@@ -71,8 +74,10 @@ public class TimeSyncDemo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(mTimeSyncInterface.isSynchronized()){
+                    refreshButton.setVisibility(View.VISIBLE);
                     isSynchronized.setText("Synchronized");
                 }else{
+                    refreshButton.setVisibility(View.INVISIBLE);
                     isSynchronized.setText("Not Synchronized");
                 }
             }
@@ -84,5 +89,7 @@ public class TimeSyncDemo extends AppCompatActivity {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a");
         return formatter.format(c.getTime());
     }
+
+
 
 }

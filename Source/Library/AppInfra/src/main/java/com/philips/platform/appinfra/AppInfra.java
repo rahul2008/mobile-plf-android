@@ -6,6 +6,7 @@
 package com.philips.platform.appinfra;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
@@ -36,6 +37,7 @@ import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
 import java.io.File;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 
 /**
  * The AppInfra Base class, here using builder design pattern to create object .
@@ -365,6 +367,8 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             ai.setLogging(logger == null ? new AppInfraLogging(ai) : logger);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "Logging Intitialization Done");
             // ai.setLogging(new AppInfraLogging(ai));
+            ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APPINFRA,
+                    "Device name:"+android.os.Build.MANUFACTURER+" "+ android.os.Build.MODEL+" "+" OS version:"+Build.VERSION.RELEASE);
 
             ai.setAbTesting(aIabtesting == null ? new ABTestClientManager(ai) : aIabtesting);
 
@@ -457,5 +461,34 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             return ai;
         }
 
+    }
+
+    private String getAndroidOSVersion()
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append("android : ").append(Build.VERSION.RELEASE);
+
+        Field[] fields = Build.VERSION_CODES.class.getFields();
+        for (Field field : fields) {
+            String fieldName = field.getName();
+            int fieldValue = -1;
+
+            try {
+                fieldValue = field.getInt(new Object());
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+
+            if (fieldValue == Build.VERSION.SDK_INT) {
+                builder.append(" : ").append(fieldName).append(" : ");
+                builder.append("sdk=").append(fieldValue);
+            }
+        }
+
+        return "OS: " + builder.toString();
     }
 }

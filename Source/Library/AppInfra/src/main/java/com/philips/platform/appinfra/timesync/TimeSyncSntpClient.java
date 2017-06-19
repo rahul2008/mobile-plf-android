@@ -98,6 +98,9 @@ public class TimeSyncSntpClient implements TimeInterface {
     private void refreshOffset() {
         final boolean lockAcquired = mRefreshInProgressLock.tryLock();
         if (lockAcquired) {
+            Message msg = new Message();
+            msg.obj = false;
+            responseHandler.sendMessage(msg);
             boolean offsetUpdated = false;
             long offsetOfLowestRoundTrip = 0;
             long lowestRoundTripDelay = Long.MAX_VALUE;
