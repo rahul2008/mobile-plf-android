@@ -36,7 +36,7 @@
   <instantiate from="root/AndroidManifest.xml.ftl"
                    to="${escapeXmlAttribute(appTitle)}/src/main/AndroidManifest.xml" />
 
-  <instantiate from="root/res/layout/helloworld.xml.ftl"
+  <instantiate from="root/res/layout/sample_app.xml.ftl"
                    to="${escapeXmlAttribute(appTitle)}/src/main/res/layout/demoactivity.xml" />
 
 	<merge from="root/build.gradle.ftl"

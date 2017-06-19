@@ -21,7 +21,6 @@ public class ${activityClass} extends ${superClass} {
         ${escapeXmlString(appTitle)}uAppInterface uAppInterface = new ${escapeXmlString(appTitle)}uAppInterface();
         uAppInterface.init(new ${escapeXmlString(appTitle)}uAppDependencies(null), new ${escapeXmlString(appTitle)}uAppSettings(this));// pass App-infra instance instead of null
         uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);// pass launch input if required
-   
     }
 
 }

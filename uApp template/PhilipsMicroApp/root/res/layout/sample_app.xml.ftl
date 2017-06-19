@@ -3,11 +3,10 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        onClick="onClick"
-        android:text="Launch Microapp"/>
+        android:text="Sample Micro App"/>
 
 </LinearLayout>
