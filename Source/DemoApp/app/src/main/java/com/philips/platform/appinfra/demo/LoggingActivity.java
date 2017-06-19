@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.philips.platform.aildemolaunch.AppInfraApplication;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.HashMap;
@@ -104,7 +105,7 @@ public class LoggingActivity extends AppCompatActivity {
                   /*  Toast.makeText(LoggingActivity.this, "Please initialize Logger for component",
                             Toast.LENGTH_SHORT).show();*/
                 } else {
-                    if (null == eventText.getText().toString() || eventText.getText().toString().isEmpty() || null == msgText.getText().toString() || msgText.getText().toString().isEmpty()) {
+                    if (null == eventText.getText().toString()  || null == msgText.getText().toString() ) {
                         Toast.makeText(LoggingActivity.this, "Event name or message is not valid",
                                 Toast.LENGTH_SHORT).show();
                     } else {
