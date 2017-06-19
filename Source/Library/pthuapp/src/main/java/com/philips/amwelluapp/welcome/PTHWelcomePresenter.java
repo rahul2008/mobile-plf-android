@@ -66,10 +66,22 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
 
     //TODO: Move it to Login Presenter one's Silent Login is removed
     @Override
-    public void onLoginResponse(PTHAuthentication pthAuthentication, PTHSDKError sdkError) {
+    public void onLoginResponse(PTHAuthentication pthAuthentication, PTHSDKError pthsdkError) {
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
-        Toast.makeText(uiBaseView.getFragmentActivity(),"LOGIN SUCCESS",Toast.LENGTH_SHORT).show();
-        checkIfTheUserIsPartiallyRegistered(pthAuthentication);
+        boolean isLoginSuccess = isResponseSuccess(pthAuthentication);
+        if (isLoginSuccess){
+            Toast.makeText(uiBaseView.getFragmentActivity(), "LOGIN SUCCESS", Toast.LENGTH_SHORT).show();
+            checkIfTheUserIsPartiallyRegistered(pthAuthentication);
+        }else {
+                Toast.makeText(uiBaseView.getFragmentActivity(), "LOGIN FAILED - " + pthsdkError.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean isResponseSuccess(Object responseObject) {
+        if(responseObject!=null) {
+            return true;
+        }
+        return false;
     }
 
     private void checkIfTheUserIsPartiallyRegistered(PTHAuthentication pthAuthentication) {
