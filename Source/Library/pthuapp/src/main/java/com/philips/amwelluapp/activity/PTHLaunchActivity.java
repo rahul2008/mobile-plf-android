@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.amwelluapp.R;
-import com.philips.amwelluapp.welcome.PTHWelcomeFragment;
+import com.philips.amwelluapp.providerslist.ProvidersListFragment;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import static com.philips.amwelluapp.uappclasses.PTHMicroAppInterface.WELCOME_MESSAGE;
@@ -34,7 +34,7 @@ public class PTHLaunchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test_ur);
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
-            PTHWelcomeFragment pthWelcomeFragment = new PTHWelcomeFragment();
+            ProvidersListFragment pthWelcomeFragment = new ProvidersListFragment();
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 String message = extras.getString(WELCOME_MESSAGE);

@@ -8,6 +8,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.amwelluapp.base.UIBasePresenter;
 import com.philips.amwelluapp.base.UIBaseView;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
+import com.philips.amwelluapp.providerslist.ProvidersListFragment;
 import com.philips.amwelluapp.utility.PTHManager;
 
 import java.net.MalformedURLException;
@@ -63,6 +64,8 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
     @Override
     public void onLoginResponse(Object var1, SDKError var2) {
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
+        uiBaseView.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(uiBaseView.getContainerID(),
+                new ProvidersListFragment(),"ProvidersList").commit();
         Toast.makeText(uiBaseView.getFragmentActivity(),"LOGIN SUCCESS",Toast.LENGTH_SHORT).show();
     }
 

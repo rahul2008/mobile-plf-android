@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.amwelluapp.activity.PTHLaunchActivity;
+import com.philips.amwelluapp.providerslist.ProvidersListFragment;
 import com.philips.amwelluapp.welcome.PTHWelcomeFragment;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -42,7 +43,7 @@ public class PTHMicroAppInterface implements UappInterface {
         } else {
             final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             FragmentTransaction fragmentTransaction = (fragmentLauncher.getFragmentActivity()).getSupportFragmentManager().beginTransaction();
-            PTHWelcomeFragment welcomeFragment = new PTHWelcomeFragment();
+            ProvidersListFragment welcomeFragment = new ProvidersListFragment();
             Bundle bundle = new Bundle();
             bundle.putString(WELCOME_MESSAGE, PTHMicroAppLaunchInput.getWelcomeMessage());
             welcomeFragment.setArguments(bundle);

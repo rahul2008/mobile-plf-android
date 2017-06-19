@@ -11,4 +11,5 @@ import android.support.v4.app.FragmentActivity;
 public interface UIBaseView {
     void finishActivityAffinity();
     FragmentActivity getFragmentActivity();
+    int getContainerID();
 }

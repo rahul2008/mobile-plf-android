@@ -1,6 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_alignParentTop="true"
+        android:id="@+id/firstDoctorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/seeFirstDoctorLabel"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/uidLabelValueNormalTextColor"
+            android:text="See the first available doctor"/>
+        <ImageView
+            android:layout_below="@+id/seeFirstDoctorLabel"
+            android:id="@+id/dummyDoctorImage"
+            android:layout_width="70dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/doctor_placeholder"
+            android:layout_height="70dp" />
+        <com.philips.platform.uid.view.widget.Button
+            android:layout_below="@id/dummyDoctorImage"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:id="@+id/getStartedButton"
+            android:layout_width="match_parent"
+            android:text="Get started"
+            android:background="@color/uid_blue_level_55"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_below="@+id/firstDoctorLayout"
+        android:id="@+id/searchDoctorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp">
 
-</LinearLayout>
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/searchBarLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/uidLabelValueNormalTextColor"
+            android:text="Or pick on these doctors to schedule an appointment"
+            />
+
+    </RelativeLayout>
+    <ScrollView
+        android:layout_below="@+id/searchDoctorLayout"
+        android:id="@+id/doctorsListLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/providerListRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical">
+
+        </android.support.v7.widget.RecyclerView>
+    </ScrollView>
+
+</RelativeLayout>
