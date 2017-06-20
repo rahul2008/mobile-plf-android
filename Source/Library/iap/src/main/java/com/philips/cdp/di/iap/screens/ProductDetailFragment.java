@@ -14,7 +14,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -44,10 +43,8 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
-import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
-import com.philips.platform.uid.view.widget.ProgressBar;
 import com.philips.platform.uid.view.widget.ProgressBarButton;
 
 import java.util.ArrayList;
@@ -158,7 +155,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 if (isNetworkConnected()) {
                     if (!ControllerFactory.getInstance().isPlanB()) {
                         ProductDetailController controller = new ProductDetailController(mContext, this);
-                        if (!isProgressDialogShowing()) {
+                        if (!mBuyFromRetailers.isActivated()) {
                             //showProgressDialog(mContext, getString(R.string.iap_please_wait));
                             mBuyFromRetailers.showProgressIndicator();
 
@@ -309,7 +306,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         ShoppingCartAPI presenter = ControllerFactory.
                 getInstance().getShoppingCartPresenter(mContext, this);
 
-        if (!isProgressDialogShowing()) {
+        if (!mBuyFromRetailers.isActivated()) {
             //showProgressDialog(mContext, getString(R.string.iap_please_wait));
             mBuyFromRetailers.showProgressIndicator();
             presenter.getRetailersInformation(mCTNValue);
@@ -342,14 +339,14 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mImageAdapter.notifyDataSetChanged();
         if (mIapListener != null)
             mIapListener.onSuccess();
-        if (isProgressDialogShowing())
+        if (mBuyFromRetailers.isActivated())
             dismissProgressDialog();
     }
 
     @Override
     public void onFetchAssetFailure(final Message msg) {
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Failure");
-        if (isProgressDialogShowing())
+        if (mBuyFromRetailers.isActivated())
             // dismissProgressDialog();
             mBuyFromRetailers.hideProgressIndicator();
         if (!isNetworkConnected()) return;
@@ -393,7 +390,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         HashMap<String, SummaryModel> msgObj = (HashMap<String, SummaryModel>) msg.obj;
         mProductSummary = msgObj.get(mCTNValue);
         populateData();
-        if (isProgressDialogShowing()) {
+        if (mBuyFromRetailers.isActivated()) {
             //dismissProgressDialog();
             mBuyFromRetailers.hideProgressIndicator();
         }
