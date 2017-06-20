@@ -34,7 +34,8 @@ public class PTHLaunchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test_ur);
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
-            PTHWelcomeFragment pthWelcomeFragment = new PTHWelcomeFragment();
+            PTHWelcomeFragment pthWelcomeFragment = new PTHWelcomeFragment
+                    ();
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 String message = extras.getString(WELCOME_MESSAGE);

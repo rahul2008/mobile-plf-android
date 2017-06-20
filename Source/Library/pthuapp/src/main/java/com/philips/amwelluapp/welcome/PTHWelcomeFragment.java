@@ -52,6 +52,11 @@ public class PTHWelcomeFragment extends Fragment implements UIBaseView, BackEven
         return getActivity();
     }
 
+    @Override
+    public int getContainerID() {
+        return fragmentLauncher.getParentContainerResourceID();
+    }
+
     public void showProgressBar() {
         if (progressBar != null) {
             progressBar.setVisibility(View.VISIBLE);
