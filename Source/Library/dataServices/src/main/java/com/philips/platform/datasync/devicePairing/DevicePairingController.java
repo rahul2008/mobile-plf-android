@@ -58,7 +58,7 @@ public class DevicePairingController {
         if (mDevicePairingClient == null) return false;
 
         try {
-            Response response = mDevicePairingClient.pairDevice(uCoreAccessProvider.getUserId(),
+            Response response = mDevicePairingClient.pairDevice(uCoreAccessProvider.getUserId(), 12,
                     uCoreAccessProvider.getUserId(), uCoreDevicePair);
             mEventing.post(new DevicePairingResponseEvent(isResponseSuccess(response)));
         } catch (RetrofitError error) {
@@ -81,7 +81,7 @@ public class DevicePairingController {
         if (mDevicePairingClient == null) return false;
 
         try {
-            Response response = mDevicePairingClient.unPairDevice(uCoreAccessProvider.getUserId(),
+            Response response = mDevicePairingClient.unPairDevice(uCoreAccessProvider.getUserId(), 12,
                     uCoreAccessProvider.getUserId(), deviceID);
             mEventing.post(new DevicePairingResponseEvent(isResponseSuccess(response)));
         } catch (RetrofitError error) {
@@ -103,7 +103,7 @@ public class DevicePairingController {
         if (mDevicePairingClient == null) return false;
 
         try {
-            List<String> pairedDevices = mDevicePairingClient.getPairedDevices(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId());
+            List<String> pairedDevices = mDevicePairingClient.getPairedDevices(uCoreAccessProvider.getUserId(), 12, uCoreAccessProvider.getUserId());
             mEventing.post(new GetPairedDevicesResponseEvent(pairedDevices));
         } catch (RetrofitError error) {
             mEventing.post(new DevicePairingErrorResponseEvent(createDataServicesError(error.getResponse().getStatus(), error.getMessage())));

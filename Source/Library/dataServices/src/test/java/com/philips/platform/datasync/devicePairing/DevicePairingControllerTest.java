@@ -4,7 +4,6 @@ import com.philips.platform.core.Eventing;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.datasync.PushNotification.UCorePushNotification;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 
@@ -99,7 +98,7 @@ public class DevicePairingControllerTest {
         assertTrue(uCoreDevicePair.getDeviceId() != null);
         assertTrue(uCoreDevicePair.getDeviceType() != null);
 
-        when(mDevicePairingClient.pairDevice(eq(TEST_USER_ID), eq(TEST_USER_ID), any(UCoreDevicePair.class))).thenReturn(mResponse);
+        when(mDevicePairingClient.pairDevice(eq(TEST_USER_ID), eq(12), eq(TEST_USER_ID), any(UCoreDevicePair.class))).thenReturn(mResponse);
         mDevicePairingController.pairDevices(uCoreDevicePair);
     }
 
@@ -187,7 +186,7 @@ public class DevicePairingControllerTest {
         final RetrofitError retrofitError = mock(RetrofitError.class);
         mResponse = new Response("", 403, "Test error", new ArrayList<Header>(), new TypedString("ERROR"));
         when(retrofitError.getResponse()).thenReturn(mResponse);
-        when(mDevicePairingClient.pairDevice(TEST_USER_ID, TEST_USER_ID, uCoreDevicePair)).thenThrow(retrofitError);
+        when(mDevicePairingClient.pairDevice(TEST_USER_ID, 12, TEST_USER_ID, uCoreDevicePair)).thenThrow(retrofitError);
         mDevicePairingController.pairDevices(uCoreDevicePair);
     }
 
@@ -202,7 +201,7 @@ public class DevicePairingControllerTest {
         mResponse = new Response("", 403, "Test error", new ArrayList<Header>(), new TypedString("ERROR"));
         when(retrofitError.getResponse()).thenReturn(mResponse);
 
-        when(mDevicePairingClient.unPairDevice(TEST_USER_ID, TEST_USER_ID, "deviceID")).thenThrow(retrofitError);
+        when(mDevicePairingClient.unPairDevice(TEST_USER_ID, 12, TEST_USER_ID, "deviceID")).thenThrow(retrofitError);
         mDevicePairingController.unPairDevice("deviceID");
         mDevicePairingController.createDataServicesError(423, "invalid");
     }
@@ -218,7 +217,7 @@ public class DevicePairingControllerTest {
         mResponse = new Response("", 403, "Test error", new ArrayList<Header>(), new TypedString("ERROR"));
         when(retrofitError.getResponse()).thenReturn(mResponse);
 
-        when(mDevicePairingClient.getPairedDevices(TEST_USER_ID, TEST_USER_ID)).thenThrow(retrofitError);
+        when(mDevicePairingClient.getPairedDevices(TEST_USER_ID, 12, TEST_USER_ID)).thenThrow(retrofitError);
         mDevicePairingController.getPairedDevices();
         mDevicePairingController.createDataServicesError(423, "invalid");
     }

@@ -14,15 +14,18 @@ import retrofit.http.Query;
 public interface DevicePairingClient {
     @POST("/api/users/{performer_id}/pairing")
     Response pairDevice(@Header("performerId") String userId,
+                        @Header("api-version") int apiVersion,
                         @Path("performer_id") String performerId,
                         @Body UCoreDevicePair uCoreDevicePair);
 
     @DELETE("/api/users/{performer_id}/pairing")
     Response unPairDevice(@Header("performerId") String userId,
+                          @Header("api-version") int apiVersion,
                           @Path("performer_id") String performerId,
                           @Query(value = "deviceId") String deviceId);
 
     @GET("/api/users/{performer_id}/pairing")
     List<String> getPairedDevices(@Header("performerId") String userId,
+                                  @Header("api-version") int apiVersion,
                                   @Path("performer_id") String performerId);
 }
