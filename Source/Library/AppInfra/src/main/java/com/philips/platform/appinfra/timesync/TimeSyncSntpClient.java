@@ -33,6 +33,7 @@ import static android.content.Context.MODE_PRIVATE;
  * This provides API's to retrieve and refresh the server time .
  */
 public class TimeSyncSntpClient implements TimeInterface {
+
     private static final String TAG = "TimeSyncSntpClient";
 
     private static final String OFFSET = "offset";

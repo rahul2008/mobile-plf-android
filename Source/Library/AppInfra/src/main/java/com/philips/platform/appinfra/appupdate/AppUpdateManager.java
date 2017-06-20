@@ -82,11 +82,11 @@ public class AppUpdateManager implements AppUpdateInterface {
 				try {
 					final JSONObject resp = response.getJSONObject("android");
 					if (resp != null) {
-						mFileUtils.saveFile(resp.toString(), AppUpdateConstants.LOCALE_FILE_DOWNLOADED, AppUpdateConstants.APPUPDATE_PATH);
 						mHandler = getHandler(mContext);
 						new Thread(new Runnable() {
 							@Override
 							public void run() {
+								mFileUtils.saveFile(resp.toString(), AppUpdateConstants.LOCALE_FILE_DOWNLOADED, AppUpdateConstants.APPUPDATE_PATH);
 								processResponse(resp.toString(), refreshListener);
 							}
 						}).start();
@@ -210,9 +210,6 @@ public class AppUpdateManager implements AppUpdateInterface {
 			try {
 				Date deprecationdate = formatter.parse(deprecationDate);
 				Date currentDate = new Date();
-				System.out.println("KAVYA -min"+" "+minVer);
-				System.out.println("KAVYA -deprecated ver"+" "+deprecatedVersion);
-				System.out.println("KAVYA-deprecation date" + " "+deprecationDate);
 				return AppUpdateVersion.isAppVerionLessthanCloud(getAppVersion(), minVer) ||
 						AppUpdateVersion.isBothVersionSame(getAppVersion(), deprecatedVersion) && currentDate.after(deprecationdate);
 			} catch (ParseException e) {
