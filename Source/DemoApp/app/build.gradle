@@ -70,7 +70,7 @@ android {
     buildToolsVersion '25.0.2'
 
     defaultConfig {
-        applicationId "com.philips.platform.pthdemolaunch"
+        applicationId 'com.americanwell.sdksample.android.philips'
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
@@ -101,12 +101,21 @@ android {
         jumboMode = false
     }
     buildTypes {
-
+        def STRING = "string"
+        def BOOLEAN = "bool"
+        def TRUE = "true"
+        def FALSE = "false"
+        def AWSDK_DEV_SSL_ALLOW_ALL = "awsdk_dev_ssl_allow_all"
+        def AWSDKURL = "awsdkurl"
+        def AWSDKKEY = "awsdkkey"
         debug {
             minifyEnabled false
             shrinkResources false
             debuggable true
             testCoverageEnabled = true
+            resValue STRING, AWSDKURL, "https://ec2-54-172-152-160.compute-1.amazonaws.com"
+            resValue STRING, AWSDKKEY, "3c0f99bf"
+            resValue BOOLEAN, "awsdk_dev_ssl_allow_all", TRUE
         }
 
         release {
