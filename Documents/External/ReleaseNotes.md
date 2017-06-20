@@ -1,6 +1,31 @@
 CommLib for Android - Release Notes
 =======================================
 
+Version 6.1.0
+-------------
+
+### Functionality Delivered
+* \#35187 Pin HTTPS certificate on first use. At this moment you can't revoke a pinned certificate, so when an appliance get a new certificate you have to remove all data from your app to let it pin the certificate again.
+
+### Backwards Compatibility
+* Appliances that do not support HTTPS should call networkNode.useLegacyHttp() in their DICommApplianceFactory.createApplianceForNode(..) implementation. This is only here for older appliances, newer appliances with HTTPS support should never call this function!
+
+### Features not covered
+* To be filled in at release
+
+### Breaking Changes
+* NA
+
+### Defects solved
+* NA
+
+### Residual anomalies
+* To be filled in at release
+
+### Risks and mitigations
+* NA
+
+
 Version 6.0.0
 -------------
 
@@ -12,7 +37,7 @@ Version 6.0.0
 * Appliances that do not support HTTPS should call networkNode.useLegacyHttp() in their DICommApplianceFactory.createApplianceForNode(..) implementation. This is only here for older appliances, newer appliances with HTTPS support should never call this function!
 
 ### Features not covered
-* To be filled in at release
+* NA
 
 ### Breaking Changes
 * NetworkNode.getModelName() and NetworkNode.setModelName(String modelName) are renamed to NetworkNode.getDeviceType() and NetworkNode.setDeviceType(String deviceType)
@@ -22,7 +47,7 @@ Version 6.0.0
 * \#49699 Software Version and ModelId incorrectly required in device port
 
 ### Residual anomalies
-* To be filled in at release
+* NA
 
 ### Risks and mitigations
 * NA
