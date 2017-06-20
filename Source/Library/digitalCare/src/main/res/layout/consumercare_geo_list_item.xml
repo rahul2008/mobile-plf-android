@@ -29,6 +29,7 @@
                 android:src="@drawable/consumercare_marker"/>
 
             <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/distance_view"
                 style="@style/UIDLabel.RecyclerViewItemDescriptionText"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

@@ -574,7 +574,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             for (int i = 0; i < resultsetSize; i++) {
                 AtosResultsModel resultModel = resultModelSet.get(i);
                 AtosLocationModel locationModel = resultModel.getLocationModel();
-                // AtosAddressModel addressModel = resultModel.getmAddressModel();
+                AtosAddressModel addressModel = resultModel.getAddressModel();
+                addressModel.setCurrentLat(mSourceLat);
+                addressModel.setCurrentLng(mSourceLng);
                 double lat = Double.parseDouble(locationModel.getLatitude());
                 double lng = Double.parseDouble(locationModel.getLongitude());
                 LatLng latLng = new LatLng(lat, lng);
@@ -977,9 +979,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                                 + addressForTag);
 
         AtosLocationModel mGeoData = null;
-        AtosAddressModel mAddressModel = null;
+        AtosAddressModel atosAddressModel = null;
+
         try {
-            mAddressModel = resultModel.getAddressModel();
+            atosAddressModel = resultModel.getAddressModel();
             mGeoData = resultModel.getLocationModel();
         } catch (NullPointerException e) {
             DigiCareLogger.d(TAG, " " + e);
@@ -989,9 +992,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         mDestinationLat = Double.parseDouble(mGeoData.getLatitude());
         mDestinationLng = Double.parseDouble(mGeoData.getLongitude());
         mShowTxtTitle.setText(resultModel.getTitle());
-        mShowTxtAddress.setText(mAddressModel.getAddress1() + "\n"
-                + mAddressModel.getCityState() + "\n" + mAddressModel.getUrl());
-        ArrayList<String> phoneNumbers = mAddressModel.getPhoneList();
+        mShowTxtAddress.setText(atosAddressModel.getAddress1() + "\n"
+                + atosAddressModel.getCityState() + "\n" + atosAddressModel.getUrl());
+        ArrayList<String> phoneNumbers = atosAddressModel.getPhoneList();
         mPhoneNumber = phoneNumbers.get(0);
 
         if (mPhoneNumber != null && mPhoneNumber != "")
@@ -1022,6 +1025,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             gpsAlertView.removeAlert();
         }
         setSearchIcon();
+        if(mResultModelsetDataHold!=null)
+            addMarkers(mResultModelsetDataHold);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
