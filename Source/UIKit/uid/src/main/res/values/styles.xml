@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.DLS" parent="BaseDLSTheme">
+        <item name="actionBarSize">@dimen/uid_navigation_bar_height</item>
         <item name="android:windowBackground">?attr/uidContentPrimaryBackgroundColor</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowContentOverlay">@null</item>
