@@ -26,6 +26,7 @@ public class WebFragment extends BaseFragment {
         FragmentWebviewBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_webview, container, false);
         webView = binding.webview;
         Bundle arguments = getArguments();
+
         url = arguments.getString(KEY_URL);
         setWebViewClient();
         if (savedInstanceState == null) {

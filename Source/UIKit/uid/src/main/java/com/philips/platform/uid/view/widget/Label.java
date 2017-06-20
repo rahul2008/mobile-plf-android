@@ -14,6 +14,7 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.Layout;
+import android.text.Selection;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -147,12 +148,25 @@ public class Label extends AppCompatTextView {
     }
 
     @Override
-
-    public boolean onTouchEvent(MotionEvent event) {
-        updateSpans(event);
-        return super.onTouchEvent(event);
+    protected void drawableStateChanged() {
+        super.drawableStateChanged();
+        if (!isPressed() && hasPressedLinks()) {
+            resetPressedLinks();
+        }
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        updateSpans(event);
+
+        boolean result = super.onTouchEvent(event);
+
+        removeLinkSelectionBackground(event);
+
+        return result;
+    }
+
+    //Must be called before super.onTouch to properly set the colors for pressed to normal
     private void updateSpans(MotionEvent event) {
         if (!(getText() instanceof Spannable))
             return;
@@ -175,15 +189,33 @@ public class Label extends AppCompatTextView {
             pressedLinks = sequence.getSpans(off, off, UIDClickableSpan.class);
 
             if (pressedLinks.length != 0) {
+                Spannable text = (Spannable) getText();
                 if (action == MotionEvent.ACTION_DOWN) {
-                    pressedLinks[0].setPressed(true);
+                    pressedLinks[pressedLinks.length - 1].setPressed(true);
                 }
             }
         } else if (action == MotionEvent.ACTION_UP) {
-            if (pressedLinks != null && pressedLinks.length != 0) {
-                pressedLinks[0].setPressed(false);
-                pressedLinks = null;
+            if (hasPressedLinks()) {
+                resetPressedLinks();
             }
+        }
+    }
+
+    private void resetPressedLinks() {
+        pressedLinks[pressedLinks.length - 1].setPressed(false);
+        pressedLinks = null;
+    }
+
+    private boolean hasPressedLinks() {
+        return pressedLinks != null && pressedLinks.length != 0;
+    }
+
+    //We need to call this after super.onTouch() to clear the press background color for links
+    private void removeLinkSelectionBackground(MotionEvent event) {
+        int action = event.getAction();
+        if (action == MotionEvent.ACTION_DOWN && pressedLinks != null && pressedLinks.length != 0) {
+            pressedLinks[pressedLinks.length - 1].setPressed(true);
+            Selection.removeSelection((Spannable) getText());
         }
     }
 

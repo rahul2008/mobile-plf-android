@@ -82,10 +82,10 @@ public class UIDClickableSpan extends ClickableSpan {
         int linkColor = defColor;
         if (colorList != null) {
             linkColor = defaultColor;
-            if (isVisited()) {
-                linkColor = visitedColor;
-            } else if (pressed) {
+            if (pressed) {
                 linkColor = pressedColor;
+            } else if (isVisited()) {
+                linkColor = visitedColor;
             }
         }
         return linkColor;
