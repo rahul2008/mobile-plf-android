@@ -12,3 +12,6 @@ Source/Library/pthuapp/build/intermediates/bundles/default/classes.jar
 *.jpg
 *.crt
 *.name
+*.jar
+*.ttf
+*.OTF
