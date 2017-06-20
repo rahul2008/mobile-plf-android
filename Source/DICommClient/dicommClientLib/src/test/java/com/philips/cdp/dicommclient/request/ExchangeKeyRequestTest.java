@@ -5,6 +5,7 @@
 
 package com.philips.cdp.dicommclient.request;
 
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 
 import org.junit.Before;
@@ -24,6 +25,9 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @RunWith(PowerMockRunner.class)
 public class ExchangeKeyRequestTest {
     @Mock
+    NetworkNode networkNodeMock;
+
+    @Mock
     ResponseHandler responseHandlerMock;
 
     @Before
@@ -35,7 +39,7 @@ public class ExchangeKeyRequestTest {
 
     @Test
     public void whenLoggingImplicitly_thenDontForwardToLogger() {
-        ExchangeKeyRequest exchangeKeyRequest = new ExchangeKeyRequest("don't care", 42, true, responseHandlerMock) {
+        ExchangeKeyRequest exchangeKeyRequest = new ExchangeKeyRequest(networkNodeMock, responseHandlerMock) {
             @Override
             Response doExecute() {
                 return new Response("don't care", null, mResponseHandler);
@@ -51,7 +55,7 @@ public class ExchangeKeyRequestTest {
 
     @Test
     public void whenLoggingExplicitly_thenDontForwardToLogger() {
-        ExchangeKeyRequest exchangeKeyRequest = new ExchangeKeyRequest("don't care", 42, true, responseHandlerMock) {
+        ExchangeKeyRequest exchangeKeyRequest = new ExchangeKeyRequest(networkNodeMock, responseHandlerMock) {
             @Override
             Response doExecute() {
                 return new Response("don't care", null, mResponseHandler);

@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015-2017 Koninklijke Philips N.V.
+  ~ All rights reserved.
+  -->
+
 <resources>
 
     <string name="app_name">DICommClientSample</string>
@@ -14,7 +19,7 @@
     <string name="lblFirmwareState">"State: "</string>
     <string name="lblFirmwareStatusMsg">"Status: "</string>
     <string name="lblFirmwareVersion">"Version: "</string>
-    <string name="lblResultPortError">Port error: (%1$s)</string>
+    <string name="lblResultPortError">Port error: %1$s</string>
 
     <string name="btnGetTime">Get Time</string>
     <string name="btnSetTime">Set Time</string>

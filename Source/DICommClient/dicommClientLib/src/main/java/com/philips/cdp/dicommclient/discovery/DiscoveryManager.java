@@ -1,5 +1,5 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -15,7 +15,6 @@ import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.networknode.NetworkNode.EncryptionKeyUpdatedListener;
 import com.philips.cdp.dicommclient.networknode.NetworkNodeDatabase;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
@@ -28,6 +27,8 @@ import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +36,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY;
 
 /**
  * Discovery of the appliances is managed by Discovery Manager. It is the main
@@ -183,14 +186,11 @@ public class DiscoveryManager<T extends Appliance> {
     // TODO DIComm refactor: this method should be removed from public interface
     public void removeFromDiscoveredList(String cppId) {
         if (cppId == null || cppId.isEmpty()) return;
-        Appliance appliance = mAllAppliancesMap.remove(cppId);
-        if (appliance != null) {
-            appliance.getNetworkNode().setEncryptionKeyUpdatedListener(null);
-        }
+        mAllAppliancesMap.remove(cppId);
     }
 
     // TODO DIComm refactor: this method should be removed from public interface
-    public void updatePairingStatus(String cppId, NetworkNode.PAIRED_STATUS state) {
+    public void updatePairingStatus(String cppId, NetworkNode.PairingState state) {
         if (cppId == null || cppId.isEmpty()) return;
         if (mAllAppliancesMap.containsKey(cppId)) {
             mAllAppliancesMap.get(cppId).getNetworkNode().setPairedState(state);
@@ -213,7 +213,7 @@ public class DiscoveryManager<T extends Appliance> {
             if (addToNewApplianceList) {
                 //Add connected appliance only, ignore disconnected
                 if (appliance.getNetworkNode().getConnectionState() != ConnectionState.DISCONNECTED) {
-                    appliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
+                    appliance.getNetworkNode().setPairedState(NetworkNode.PairingState.NOT_PAIRED);
                     newAppliances.add(appliance);
                 }
             }
@@ -385,22 +385,23 @@ public class DiscoveryManager<T extends Appliance> {
     /**
      * Completely new appliance - never seen before
      */
-    private void addNewAppliance(NetworkNode networkNode) {
+    private void addNewAppliance(final NetworkNode networkNode) {
         if (!mApplianceFactory.canCreateApplianceForNode(networkNode)) {
             DICommLog.d(DICommLog.DISCOVERY, "Cannot create appliance for networknode: " + networkNode);
             return;
         }
         final T appliance = mApplianceFactory.createApplianceForNode(networkNode);
-        appliance.getNetworkNode().setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
-            @Override
-            public void onKeyUpdate() {
-                updateApplianceInDatabase(appliance);
-            }
-        });
 
         mAllAppliancesMap.put(appliance.getNetworkNode().getCppId(), appliance);
         DICommLog.d(DICommLog.DISCOVERY, "Successfully added appliance: " + appliance);
         notifyDiscoveryListener();
+
+        networkNode.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+                onNetworkNodeChanged(propertyChangeEvent, appliance, networkNode);
+            }
+        });
     }
 
     public void markLostAppliancesInBackgroundOfflineOrRemote() {
@@ -467,7 +468,7 @@ public class DiscoveryManager<T extends Appliance> {
     }
 
     private boolean isPaired(final Appliance appliance) {
-        return appliance.getNetworkNode().getPairedState() == NetworkNode.PAIRED_STATUS.PAIRED;
+        return appliance.getNetworkNode().getPairedState() == NetworkNode.PairingState.PAIRED;
     }
 
     private boolean isConnectedRemotely(final Appliance appliance) {
@@ -570,7 +571,7 @@ public class DiscoveryManager<T extends Appliance> {
 
     private boolean updateConnectedStateOnlineViaCpp(Appliance appliance) {
         DICommLog.i(DICommLog.DISCOVERY, "updateConnectedStateOnlineViaCpp: " + appliance.getName());
-        if (appliance.getNetworkNode().getPairedState() == NetworkNode.PAIRED_STATUS.NOT_PAIRED)
+        if (appliance.getNetworkNode().getPairedState() == NetworkNode.PairingState.NOT_PAIRED)
             return false;
         if (appliance.getNetworkNode().getConnectionState() != ConnectionState.DISCONNECTED)
             return false;
@@ -752,7 +753,7 @@ public class DiscoveryManager<T extends Appliance> {
 
         List<NetworkNode> networkNodes = mNetworkNodeDatabase.getAll();
 
-        for (NetworkNode networkNode : networkNodes) {
+        for (final NetworkNode networkNode : networkNodes) {
             if (!mApplianceFactory.canCreateApplianceForNode(networkNode)) {
                 DICommLog.e(DICommLog.DISCOVERY, "Did not load appliance from database - factory cannot create appliance");
                 continue;
@@ -760,10 +761,10 @@ public class DiscoveryManager<T extends Appliance> {
 
             final T appliance = mApplianceFactory.createApplianceForNode(networkNode);
             mApplianceDatabase.loadDataForAppliance(appliance);
-            networkNode.setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
+            networkNode.addPropertyChangeListener(new PropertyChangeListener() {
                 @Override
-                public void onKeyUpdate() {
-                    updateApplianceInDatabase(appliance);
+                public void propertyChange(PropertyChangeEvent evt) {
+                    onNetworkNodeChanged(evt, appliance, networkNode);
                 }
             });
             result.add(appliance);
@@ -795,6 +796,15 @@ public class DiscoveryManager<T extends Appliance> {
         mApplianceDatabase.delete(appliance);
 
         return rowsDeleted;
+    }
+
+    private void onNetworkNodeChanged(PropertyChangeEvent propertyChangeEvent, T appliance, NetworkNode networkNode) {
+        DICommLog.d(DICommLog.DISCOVERY, "Storing NetworkNode (because of property change)");
+        mNetworkNodeDatabase.save(networkNode);
+
+        if (propertyChangeEvent.getPropertyName().equals(KEY_ENCRYPTION_KEY)) {
+            updateApplianceInDatabase(appliance);
+        }
     }
 
     // ********** START TEST METHODS ************

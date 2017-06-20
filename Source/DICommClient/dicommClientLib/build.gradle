@@ -145,6 +145,11 @@ android {
         release {
             consumerProguardFiles 'proguard-rules.pro'
         }
+
+        all {
+            buildConfigField "int", "minsdk", Integer.toString(versions.minsdk)
+            buildConfigField "int", "maxsdk", Integer.toString(versions.target)
+        }
     }
 
     lintOptions {
@@ -196,7 +201,7 @@ dependencies {
     testCompile deps.powermock_junit
 
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
-    testCompile('org.robolectric:robolectric:3.1.4') {
+    testCompile('org.robolectric:robolectric:3.2') {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
@@ -221,6 +226,7 @@ pitest {
             'com.philips.cdp2.commlib.lan.communication.*',
             'com.philips.cdp2.commlib.lan.context.*',
             'com.philips.cdp2.commlib.lan.discovery.*',
+            'com.philips.cdp2.commlib.lan.security.*',
             'com.philips.cdp.dicommclient.request.*',
     ]  /* specify target classes to be mutated */
     excludedClasses = [

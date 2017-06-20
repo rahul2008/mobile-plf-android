@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
- *   All rights reserved.
+ * (C) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.request;
@@ -30,7 +30,8 @@ public enum Error {
     NO_TRANSPORT_AVAILABLE("Request cannot be performed - No transport available."),
     NOT_CONNECTED("Request cannot be performed - Not connected to an appliance."),
     TIMED_OUT("Request timed out"),
-    NOT_AVAILABLE("Communication not available");
+    NOT_AVAILABLE("Communication not available"),
+    INSECURE_CONNECTION("Connection is not secure");
 
     private final String mErrorMessage;
 

@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.google.gson.Gson;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.common.SecurityPortProperties;
 import com.philips.cdp.dicommclient.security.ByteUtil;
 import com.philips.cdp.dicommclient.security.EncryptionUtil;
@@ -29,8 +30,8 @@ public class ExchangeKeyRequest extends LanRequest {
 
     private String mRandomValue;
 
-    public ExchangeKeyRequest(String applianceIpAddress, int protocolVersion, boolean isHttps, ResponseHandler responseHandler) {
-        super(applianceIpAddress, protocolVersion, isHttps, SECURITY_PORTNAME, SECURITY_PRODUCTID, LanRequestType.PUT, new HashMap<String, Object>(), responseHandler, null);
+    public ExchangeKeyRequest(final @NonNull NetworkNode networkNode, ResponseHandler responseHandler) {
+        super(networkNode, null, SECURITY_PORTNAME, SECURITY_PRODUCTID, LanRequestType.PUT, new HashMap<String, Object>(), responseHandler, null);
 
         mRandomValue = ByteUtil.generateRandomNum();
         mDataMap.put(DIFFIE, EncryptionUtil.generateDiffieKey(mRandomValue));
