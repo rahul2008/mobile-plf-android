@@ -59,7 +59,7 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
 
     private void loginUserSilently() {
         try {
-            PTHManager.getInstance().authenticate(uiBaseView.getFragmentActivity(),"spoorti.h86@gmail.com","sujata123*",null,this);
+            PTHManager.getInstance().authenticate(uiBaseView.getFragmentActivity(),"sumit.prasad@philips.com","Philips@123",null,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
