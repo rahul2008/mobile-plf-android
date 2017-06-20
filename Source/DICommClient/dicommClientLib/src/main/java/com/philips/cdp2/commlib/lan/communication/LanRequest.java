@@ -120,7 +120,7 @@ public class LanRequest extends Request {
         DICommLog.d(DICommLog.LOCALREQUEST, "Start request LOCAL");
         DICommLog.i(DICommLog.LOCALREQUEST, "Url: " + mUrl + ", Requesttype: " + mRequestType);
 
-        String result = "";
+        String result;
         InputStream inputStream = null;
         OutputStreamWriter out = null;
         HttpURLConnection conn = null;
@@ -253,6 +253,7 @@ public class LanRequest extends Request {
             ((HttpsURLConnection) conn).setSSLSocketFactory(sslContext.getSocketFactory());
         }
         conn.setRequestProperty("content-type", "application/json");
+        conn.setRequestProperty("connection", "close");
         conn.setRequestMethod(requestMethod);
         if (connectionTimeout != -1) {
             conn.setConnectTimeout(connectionTimeout);
