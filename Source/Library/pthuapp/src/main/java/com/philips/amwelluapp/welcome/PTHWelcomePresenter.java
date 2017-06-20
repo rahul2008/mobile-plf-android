@@ -14,8 +14,8 @@ import com.philips.amwelluapp.base.UIBasePresenter;
 import com.philips.amwelluapp.base.UIBaseView;
 import com.philips.amwelluapp.login.PTHAuthentication;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
+import com.philips.amwelluapp.practice.PTHPracticesListCallback;
 import com.philips.amwelluapp.providerslist.PTHGetConsumerObjectCallBack;
-import com.philips.amwelluapp.providerslist.PTHPracticesListCallback;
 import com.philips.amwelluapp.providerslist.PTHProvidersListCallback;
 import com.philips.amwelluapp.providerslist.ProvidersListFragment;
 import com.philips.amwelluapp.utility.PTHManager;
@@ -25,11 +25,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 
-<<<<<<< HEAD
-public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallBack<Void,SDKError>, PTHLoginCallBack<PTHAuthentication,SDKError> {
-=======
-public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallBack, PTHLoginCallBack,PTHGetConsumerObjectCallBack,PTHPracticesListCallback ,PTHProvidersListCallback{
->>>>>>> 95411b51c0c33beef7ab8444f653ced3f4515c55
+public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallBack<Void,SDKError>, PTHLoginCallBack<PTHAuthentication,SDKError> ,PTHGetConsumerObjectCallBack,PTHPracticesListCallback,PTHProvidersListCallback {
     UIBaseView uiBaseView;
     private Consumer consumer;
 
@@ -77,22 +73,17 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
     }
 
     @Override
-<<<<<<< HEAD
     public void onLoginResponse(PTHAuthentication pthAuthentication, SDKError sdkError) {
-=======
-    public void onLoginResponse(Object var1, SDKError var2){
->>>>>>> 95411b51c0c33beef7ab8444f653ced3f4515c55
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
         Log.d("Login","Login success");
         Toast.makeText(uiBaseView.getFragmentActivity(),"LOGIN SUCCESS",Toast.LENGTH_SHORT).show();
         ((PTHWelcomeFragment) uiBaseView).showProgressBar();
         try {
-            PTHManager.getInstance().getConsumerObject(uiBaseView.getFragmentActivity(),(Authentication) var1,this);
+            PTHManager.getInstance().getConsumerObject(uiBaseView.getFragmentActivity(),pthAuthentication.getAuthentication(),this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
     }
-
 
     @Override
     public void onLoginFailure(Throwable var1) {
@@ -101,7 +92,23 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
     }
 
     @Override
+    public void onProvidersListReceived(List<ProviderInfo> providerInfoList, SDKError sdkError) {
+        ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
+        Log.d("Login","Providers list received : "+providerInfoList.size());
+        Toast.makeText(uiBaseView.getFragmentActivity(),"Providers list received",Toast.LENGTH_SHORT).show();
+        ProvidersListFragment providersListFragment = new ProvidersListFragment();
+        providersListFragment.setProvidersList(providerInfoList);
+        uiBaseView.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(uiBaseView.getContainerID(),providersListFragment,"Providers List").commit();
+    }
+
+    @Override
+    public void onProvidersListFetchError(Throwable throwable) {
+
+    }
+
+    @Override
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
+
         this.consumer = consumer;
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
         Log.d("Login","Consumer object received");
@@ -134,20 +141,5 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
     @Override
     public void onPracticesListFetchError(Throwable throwable) {
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
-    }
-
-    @Override
-    public void onProvidersListReceived(List<ProviderInfo> providerInfoList, SDKError sdkError) {
-        ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
-        Log.d("Login","Providers list received : "+providerInfoList.size());
-        Toast.makeText(uiBaseView.getFragmentActivity(),"Providers list received",Toast.LENGTH_SHORT).show();
-        ProvidersListFragment providersListFragment = new ProvidersListFragment();
-        providersListFragment.setProvidersList(providerInfoList);
-        uiBaseView.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(uiBaseView.getContainerID(),providersListFragment,"Providers List").commit();
-    }
-
-    @Override
-    public void onProvidersListFetchError(Throwable throwable) {
-
     }
 }

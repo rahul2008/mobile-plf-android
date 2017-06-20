@@ -11,11 +11,12 @@ import android.view.ViewGroup;
 
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.philips.amwelluapp.R;
+import com.philips.amwelluapp.base.PTHBaseFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.List;
 
-public class ProvidersListFragment extends Fragment {
+public class ProvidersListFragment extends PTHBaseFragment {
 
     private FragmentLauncher fragmentLauncher;
     private RecyclerView recyclerView;

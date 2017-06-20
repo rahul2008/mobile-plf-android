@@ -10,12 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.philips.amwelluapp.R;
+import com.philips.amwelluapp.base.PTHBaseFragment;
 import com.philips.amwelluapp.base.UIBasePresenter;
 import com.philips.amwelluapp.base.UIBaseView;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-public class PTHWelcomeFragment extends Fragment implements UIBaseView, BackEventListener {
+public class PTHWelcomeFragment extends PTHBaseFragment implements BackEventListener {
     public static final String TAG = PTHWelcomeFragment.class.getSimpleName();
     private UIBasePresenter presenter;
     private ProgressBar progressBar;

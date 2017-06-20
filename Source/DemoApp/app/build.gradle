@@ -115,7 +115,7 @@ android {
             testCoverageEnabled = true
             resValue STRING, AWSDKURL, "https://ec2-54-172-152-160.compute-1.amazonaws.com"
             resValue STRING, AWSDKKEY, "3c0f99bf"
-            resValue BOOLEAN, "awsdk_dev_ssl_allow_all", TRUE
+            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
         }
 
         release {

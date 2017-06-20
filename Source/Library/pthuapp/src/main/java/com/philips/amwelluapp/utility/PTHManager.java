@@ -8,23 +8,20 @@ import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
-<<<<<<< HEAD
-=======
+
 import com.americanwell.sdk.entity.provider.ProviderInfo;
->>>>>>> 95411b51c0c33beef7ab8444f653ced3f4515c55
+
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.philips.amwelluapp.login.PTHAuthentication;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
-<<<<<<< HEAD
-import com.philips.amwelluapp.practice.PTHGetConsumerObjectCallBack;
+
 import com.philips.amwelluapp.practice.PTHPracticesListCallback;
-=======
+
 import com.philips.amwelluapp.providerslist.PTHGetConsumerObjectCallBack;
-import com.philips.amwelluapp.providerslist.PTHPracticesListCallback;
 import com.philips.amwelluapp.providerslist.PTHProvidersListCallback;
->>>>>>> 95411b51c0c33beef7ab8444f653ced3f4515c55
+
 import com.philips.amwelluapp.welcome.PTHInitializeCallBack;
 
 import java.net.MalformedURLException;
@@ -90,10 +87,7 @@ public class PTHManager {
                 });
     }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 95411b51c0c33beef7ab8444f653ced3f4515c55
     public void getConsumerObject(Context context,Authentication authentication,final PTHGetConsumerObjectCallBack pthGetConsumerObjectCallBack) throws AWSDKInstantiationException {
 
         getAwsdk(context).getConsumerManager().getConsumer(authentication, new SDKCallback<Consumer, SDKError>() {
@@ -109,11 +103,9 @@ public class PTHManager {
         });
     }
 
-<<<<<<< HEAD
-    public void getPractices(Context context, Consumer consumer, final PTHPracticesListCallback pthPracticesListCallback) throws AWSDKInstantiationException {
-=======
+
     public void getPractices(Context context,Consumer consumer, final PTHPracticesListCallback pthPracticesListCallback) throws AWSDKInstantiationException {
->>>>>>> 95411b51c0c33beef7ab8444f653ced3f4515c55
+
 
         getAwsdk(context).getPracticeProvidersManager().getPractices(consumer, new SDKCallback<List<Practice>, SDKError>() {
             @Override
@@ -127,8 +119,7 @@ public class PTHManager {
             }
         });
     }
-<<<<<<< HEAD
-=======
+
 
     public void getProviderList(Context context, Consumer consumer, Practice practice,final PTHProvidersListCallback pthProvidersListCallback) throws AWSDKInstantiationException {
 
@@ -145,5 +136,5 @@ public class PTHManager {
         });
 
     }
->>>>>>> 95411b51c0c33beef7ab8444f653ced3f4515c55
+
 }
