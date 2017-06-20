@@ -6,18 +6,12 @@ import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.AWSDKFactory;
 import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.SDKPasswordError;
-import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.philips.amwelluapp.login.PTHAuthentication;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
-import com.philips.amwelluapp.registration.PTHConsumer;
-import com.philips.amwelluapp.registration.PTHRegistrationDetailCallback;
-import com.philips.amwelluapp.registration.PTHState;
 import com.philips.amwelluapp.sdkerrors.PTHSDKError;
-import com.philips.amwelluapp.sdkerrors.PTHSDKPasswordError;
 import com.philips.amwelluapp.welcome.PTHInitializeCallBack;
 
 import java.net.MalformedURLException;
@@ -45,7 +39,7 @@ public class PTHManager {
     }
 
     public void authenticate(Context context, String username, String password, String variable, final PTHLoginCallBack pthLoginCallBack) throws AWSDKInstantiationException {
-        getAwsdk(context).authenticate(username, password, variable, new SDKCallback<Authentication, SDKError>() {
+        SDKCallback<Authentication, SDKError> sdkCallback = new SDKCallback<Authentication, SDKError>() {
             @Override
             public void onResponse(Authentication authentication, SDKError sdkError) {
 
@@ -62,7 +56,8 @@ public class PTHManager {
             public void onFailure(Throwable throwable) {
                 pthLoginCallBack.onLoginFailure(throwable);
             }
-        });
+        };
+        getAwsdk(context).authenticate(username, password, variable, sdkCallback);
     }
 
     public void initializeTeleHealth(Context context, final PTHInitializeCallBack pthInitializeCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
@@ -87,7 +82,11 @@ public class PTHManager {
                 });
     }
 
-    public void completeEnrollment(Context context, PTHAuthentication pthAuthentication, PTHState state, String newUserName, String newPassword, final PTHRegistrationDetailCallback pthRegistrationDetailCallback) throws AWSDKInstantiationException {
+    public void setAwsdk(AWSDK awsdk) {
+        this.mAwsdk = awsdk;
+    }
+
+    /* public void completeEnrollment(Context context, PTHAuthentication pthAuthentication, PTHState state, String newUserName, String newPassword, final PTHRegistrationDetailCallback pthRegistrationDetailCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().completeEnrollment(pthAuthentication.getAuthentication(), state.getState(), newUserName, newPassword, new SDKCallback<Consumer, SDKPasswordError>() {
             @Override
             public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
@@ -107,8 +106,5 @@ public class PTHManager {
             }
         });
     }
-
-    public void setAwsdk(AWSDK awsdk) {
-        this.mAwsdk = awsdk;
-    }
+*/
 }
