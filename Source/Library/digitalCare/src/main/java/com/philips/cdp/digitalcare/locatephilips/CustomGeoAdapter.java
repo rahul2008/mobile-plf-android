@@ -85,11 +85,6 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
         double lng = Double.parseDouble(locationModel.getLongitude());
 
         LatLng start = new LatLng(addressModel.getCurrentLat(), addressModel.getCurrentLng());
-        System.out.println("****** curr Lat : "+addressModel.getCurrentLat());
-        System.out.println("****** curr lng : "+addressModel.getCurrentLng());
-
-        System.out.println("****** Dest Lat : "+lat);
-        System.out.println("****** Dest lng : "+lng);
         LatLng end = new LatLng(lat, lng);
         holder.txtDistance.setText(getDistance(start,end));
         holder.txtTitle.setText(resultModel.getTitle());

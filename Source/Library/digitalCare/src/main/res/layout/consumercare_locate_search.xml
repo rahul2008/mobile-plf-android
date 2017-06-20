@@ -4,31 +4,11 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="20dp">
 
-    <EditText
+    <com.philips.platform.uid.view.widget.SearchBox
         android:id="@+id/search_box"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:background="@android:color/white"
-        android:hint="@string/search"
-        android:padding="10dp"
-        android:singleLine="true"
-        android:textColor="@color/black"
-        android:textColorHint="@android:color/darker_gray"></EditText>
-
-    <ImageView
-        android:id="@+id/search_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/search_box"
-        android:layout_alignEnd="@id/search_box"
-        android:layout_alignRight="@id/search_box"
-        android:layout_alignTop="@id/search_box"
-        android:clickable="true"
-        android:contentDescription="@string/img_description"
-        android:padding="8dp"
-        android:src="@drawable/consumercare_ic_menu_search"
-        android:visibility="visible" />
+        android:layout_centerVertical="true"></com.philips.platform.uid.view.widget.SearchBox>
 
     <ImageView
         android:id="@+id/arabic_search_icon"
