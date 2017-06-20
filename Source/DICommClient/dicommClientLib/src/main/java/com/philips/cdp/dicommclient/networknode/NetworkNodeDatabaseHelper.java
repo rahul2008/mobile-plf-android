@@ -23,6 +23,7 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 
     // NetworkNode table
     public static final String KEY_BOOT_ID = "bootid";
+    public static final String KEY_CONNECTION_STATE = "connection_state";
     public static final String KEY_CPP_ID = "cppid";
     public static final String KEY_DEVICE_NAME = "dev_name";
     public static final String KEY_DEVICE_TYPE = "model_name"; // legacy schema support

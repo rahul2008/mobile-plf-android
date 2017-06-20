@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015, 2016.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.appliance;
@@ -12,12 +12,12 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
-public class CurrentApplianceManager implements Observer {
+public class CurrentApplianceManager implements PropertyChangeListener {
 
     private static CurrentApplianceManager mInstance;
 
@@ -58,11 +58,11 @@ public class CurrentApplianceManager implements Observer {
 
         stopCurrentSubscription();
         if (mAppliance != null) {
-            mAppliance.getNetworkNode().deleteObserver(this);
+            mAppliance.getNetworkNode().removePropertyChangeListener(this);
             mAppliance.removeListenerForAllPorts(mDICommAppliancePortListener);
         }
         mAppliance = appliance;
-        mAppliance.getNetworkNode().addObserver(this);
+        mAppliance.getNetworkNode().addPropertyChangeListener(this);
         mAppliance.addListenerForAllPorts(mDICommAppliancePortListener);
 
         DICommLog.d(DICommLog.APPLIANCE_MANAGER, "Current appliance set to: " + appliance);
@@ -77,7 +77,7 @@ public class CurrentApplianceManager implements Observer {
         if (mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
             mAppliance.unsubscribe();
         }
-        mAppliance.getNetworkNode().deleteObserver(this);
+        mAppliance.getNetworkNode().removePropertyChangeListener(this);
         mAppliance.removeListenerForAllPorts(mDICommAppliancePortListener);
         stopCurrentSubscription();
 
@@ -182,7 +182,7 @@ public class CurrentApplianceManager implements Observer {
     }
 
     @Override
-    public void update(Observable observable, Object data) {
+    public void propertyChange(PropertyChangeEvent evt) {
         if (mAppliance == null) return;
         stopCurrentSubscription();
         startSubscription();

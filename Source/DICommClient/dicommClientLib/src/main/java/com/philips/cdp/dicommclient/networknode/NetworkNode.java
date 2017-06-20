@@ -13,10 +13,9 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.Objects;
-import java.util.Observable;
 
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_BOOT_ID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_CONNECTION_STATE;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_CPP_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_DEVICE_NAME;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_DEVICE_TYPE;
@@ -36,19 +35,15 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper
  *
  * @publicApi
  */
-public class NetworkNode extends Observable implements Parcelable {
+public class NetworkNode implements Parcelable {
 
     private static final int DICOMM_PROTOCOL_VERSION = 1;
 
     public enum PairingState {PAIRED, NOT_PAIRED, UNPAIRED, PAIRING}
 
-    public interface EncryptionKeyUpdatedListener {
-        void onKeyUpdate();
-    }
-
     private boolean isHttps = true;
     @Deprecated
-    private ConnectionState connectionState;
+    private volatile ConnectionState connectionState;
     private long bootId;
     private long lastPairedTime;
     private PairingState pairedState = PairingState.NOT_PAIRED;
@@ -62,8 +57,6 @@ public class NetworkNode extends Observable implements Parcelable {
     private String pin;
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-
-    private EncryptionKeyUpdatedListener encryptionKeyUpdatedListener;
 
     public NetworkNode() {
     }
@@ -104,12 +97,9 @@ public class NetworkNode extends Observable implements Parcelable {
 
     @Deprecated
     public void setConnectionState(ConnectionState connectionState) {
-        synchronized (this) { // notifyObservers called from same Thread
-            if (connectionState.equals(this.connectionState)) return;
-            this.connectionState = connectionState;
-        }
-        setChanged();
-        notifyObservers();
+        final ConnectionState oldConnectionState = this.connectionState;
+        this.connectionState = connectionState;
+        this.pcs.firePropertyChange(KEY_CONNECTION_STATE, oldConnectionState, connectionState);
     }
 
     public synchronized String getName() {
@@ -173,15 +163,9 @@ public class NetworkNode extends Observable implements Parcelable {
     }
 
     public synchronized void setBootId(long bootId) {
-        synchronized (this) { // notifyObservers called from same Thread
-            if (this.bootId == bootId) return;
-
-            final long oldBootId = this.bootId;
-            this.bootId = bootId;
-            this.pcs.firePropertyChange(KEY_BOOT_ID, oldBootId, bootId);
-        }
-        setChanged();
-        notifyObservers();
+        final long oldBootId = this.bootId;
+        this.bootId = bootId;
+        this.pcs.firePropertyChange(KEY_BOOT_ID, oldBootId, bootId);
     }
 
     public synchronized String getEncryptionKey() {
@@ -189,15 +173,9 @@ public class NetworkNode extends Observable implements Parcelable {
     }
 
     public synchronized void setEncryptionKey(String encryptionKey) {
-        boolean isKeyUpdated = !Objects.equals(this.encryptionKey, encryptionKey);
-
         final String oldEncryptionKey = this.encryptionKey;
         this.encryptionKey = encryptionKey;
         this.pcs.firePropertyChange(KEY_ENCRYPTION_KEY, oldEncryptionKey, encryptionKey);
-
-        if (isKeyUpdated && encryptionKeyUpdatedListener != null) {
-            encryptionKeyUpdatedListener.onKeyUpdate();
-        }
     }
 
     public synchronized boolean isHttps() {
@@ -318,10 +296,6 @@ public class NetworkNode extends Observable implements Parcelable {
                 .append("   HomeSsid: ").append(getHomeSsid())
                 .append("   pin: ").append(pin);
         return builder.toString();
-    }
-
-    public void setEncryptionKeyUpdatedListener(EncryptionKeyUpdatedListener encryptionKeyUpdatedListener) {
-        this.encryptionKeyUpdatedListener = encryptionKeyUpdatedListener;
     }
 
     @Override

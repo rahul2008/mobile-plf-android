@@ -5,7 +5,6 @@
 
 package com.philips.cdp.dicommclient.networknode;
 
-import com.philips.cdp.dicommclient.networknode.NetworkNode.EncryptionKeyUpdatedListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
 
 import org.junit.Before;
@@ -25,9 +24,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class NetworkNodeTest {
 
     private static final String TEST_KEY = "TEST_KEY";
-
-    @Mock
-    EncryptionKeyUpdatedListener listener;
 
     @Mock
     private PropertyChangeListener mockPropertyChangeListener;
@@ -54,35 +50,35 @@ public class NetworkNodeTest {
     public void test_ShouldInformListener_WhenKeyIsSet() throws Exception {
         NetworkNode networkNode = new NetworkNode();
 
-        networkNode.setEncryptionKeyUpdatedListener(listener);
+        networkNode.addPropertyChangeListener(mockPropertyChangeListener);
 
         networkNode.setEncryptionKey(TEST_KEY);
 
-        verify(listener).onKeyUpdate();
+        verify(mockPropertyChangeListener).propertyChange(any(PropertyChangeEvent.class));
     }
 
     @Test
     public void test_ShouldInformListener_WhenKeyIsReset() throws Exception {
         NetworkNode networkNode = new NetworkNode();
 
-        networkNode.setEncryptionKeyUpdatedListener(listener);
+        networkNode.addPropertyChangeListener(mockPropertyChangeListener);
 
         networkNode.setEncryptionKey(TEST_KEY);
-        verify(listener, times(1)).onKeyUpdate();
+        verify(mockPropertyChangeListener, times(1)).propertyChange(any(PropertyChangeEvent.class));
 
         networkNode.setEncryptionKey(null);
-        verify(listener, times(2)).onKeyUpdate();
+        verify(mockPropertyChangeListener, times(2)).propertyChange(any(PropertyChangeEvent.class));
     }
 
     @Test
     public void test_ShouldNotInformListener_WhenTheSameKeyIsSetTwice() throws Exception {
         NetworkNode networkNode = new NetworkNode();
 
-        networkNode.setEncryptionKeyUpdatedListener(listener);
+        networkNode.addPropertyChangeListener(mockPropertyChangeListener);
 
         networkNode.setEncryptionKey(TEST_KEY);
         networkNode.setEncryptionKey(TEST_KEY);
-        verify(listener, times(1)).onKeyUpdate();
+        verify(mockPropertyChangeListener, times(1)).propertyChange(any(PropertyChangeEvent.class));
     }
 
     @Test
@@ -101,7 +97,8 @@ public class NetworkNodeTest {
         networkNode.setName("Anton");
         networkNode.setPairedState(PAIRED);
         networkNode.setPin("ALL YOUR BASE ARE BELONG TO US");
+        networkNode.setConnectionState(ConnectionState.DISCONNECTED);
 
-        verify(mockPropertyChangeListener, times(11)).propertyChange(any(PropertyChangeEvent.class));
+        verify(mockPropertyChangeListener, times(12)).propertyChange(any(PropertyChangeEvent.class));
     }
 }
