@@ -1022,6 +1022,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             gpsAlertView.removeAlert();
         }
         setSearchIcon();
+        if(mResultModelsetDataHold!=null)
+            addMarkers(mResultModelsetDataHold);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
