@@ -5,7 +5,7 @@ Version 6.1.0
 -------------
 
 ### Functionality Delivered
-* \#35187 Pin HTTPS certificate on first use. At this moment you can't revoke a pinned certificate, so when an appliance get a new certificate you have to remove all data from your app to let it pin the certificate again.
+* \#35187 Pin HTTPS certificate on first use. At this moment you can't revoke a pinned certificate, so when an appliance gets a new certificate you have to remove all data from your app to let it pin the certificate again.
 
 ### Backwards Compatibility
 * Appliances that do not support HTTPS should call networkNode.useLegacyHttp() in their DICommApplianceFactory.createApplianceForNode(..) implementation. This is only here for older appliances, newer appliances with HTTPS support should never call this function!
