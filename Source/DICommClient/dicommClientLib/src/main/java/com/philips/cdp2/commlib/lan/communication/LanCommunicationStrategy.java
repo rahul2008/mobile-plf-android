@@ -128,9 +128,8 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
 
     @VisibleForTesting
     @Nullable
-    synchronized SSLContext createSSLContext() throws NoSuchAlgorithmException, KeyManagementException {
-        SSLContext context = null;
-        context = SSLContext.getInstance("TLS");
+    SSLContext createSSLContext() throws NoSuchAlgorithmException, KeyManagementException {
+        SSLContext context = SSLContext.getInstance("TLS");
         context.init(null, new X509TrustManager[]{
                 new SslPinTrustManager(networkNode)
         }, new SecureRandom());

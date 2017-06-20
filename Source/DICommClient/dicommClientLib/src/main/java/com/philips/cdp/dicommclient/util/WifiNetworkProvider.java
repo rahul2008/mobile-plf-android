@@ -65,7 +65,6 @@ public final class WifiNetworkProvider {
                 } else {
                     ConnectivityManager.setProcessDefaultNetwork(null);
                 }
-                super.onLost(network);
             }
         };
         connectivityManager.registerNetworkCallback(builder.build(), networkCallback);
