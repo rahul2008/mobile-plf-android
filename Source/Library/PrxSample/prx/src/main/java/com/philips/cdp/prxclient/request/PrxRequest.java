@@ -96,13 +96,13 @@ public abstract class PrxRequest {
                 new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
                     @Override
                     public void onSuccess(URL url) {
-                        Log.i("prx SUCCESS ***", "" + url);
+                        Log.i(PrxConstants.PRX_REQUEST_MANAGER, "prx SUCCESS Url "+url);
                         listener.onSuccess(url.toString());
                     }
 
                     @Override
                     public void onError(ERRORVALUES error, String message) {
-                        Log.i("prx ERRORVALUES ***", "" + message);
+                        Log.i(PrxConstants.PRX_REQUEST_MANAGER, "prx ERRORVALUES "+ message);
                         listener.onError(error, message);
                     }
                 }, replaceUrl);

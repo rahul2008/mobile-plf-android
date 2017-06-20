@@ -1,5 +1,7 @@
 package com.philips.cdp.prxclient.request;
 
+import android.util.Log;
+
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.datamodels.support.SupportModel;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -22,11 +24,13 @@ public class ProductSupportRequest extends PrxRequest {
     public ProductSupportRequest(String ctn, PrxConstants.Sector sector,
                                  PrxConstants.Catalog catalog, String requestTag) {
         super(ctn, PRXFAQServiceID, sector, catalog);
+        Log.i(PrxConstants.PRX_REQUEST_MANAGER, "Product Support Request");
         this.mRequestTag = requestTag;
     }
 
     @Override
     public ResponseData getResponseData(JSONObject jsonObject) {
+        Log.i(PrxConstants.PRX_REQUEST_MANAGER, "Product Support get Response Data ");
         return new SupportModel().parseJsonResponseData(jsonObject);
     }
 }
