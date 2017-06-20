@@ -1,17 +1,15 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
-package cdp.philips.com.mydemoapp;
+package cdp.philips.com.utility;
 
+import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.multidex.MultiDexApplication;
+import android.os.Handler;
 import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Configuration;
+import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URSettings;
@@ -20,16 +18,17 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
-import com.squareup.leakcanary.LeakCanary;
+
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import cdp.philips.com.TestClass;
 import cdp.philips.com.database.DatabaseHelper;
 import cdp.philips.com.database.ORMSavingInterfaceImpl;
 import cdp.philips.com.database.ORMUpdatingInterfaceImpl;
@@ -54,34 +53,33 @@ import cdp.philips.com.database.table.OrmMomentDetail;
 import cdp.philips.com.database.table.OrmSettings;
 import cdp.philips.com.database.table.OrmSynchronisationData;
 import cdp.philips.com.error.ErrorHandlerInterfaceImpl;
+import cdp.philips.com.reciever.ScheduleSyncReceiver;
 import cdp.philips.com.registration.UserRegistrationInterfaceImpl;
-import cdp.philips.com.utility.SyncScheduler;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.janrain.android.engage.JREngage.getApplicationContext;
 
-public class DataSyncApplication extends MultiDexApplication {
-    public final DatabaseHelper databaseHelper = new DatabaseHelper(this, new UuidGenerator());
+public class DSHandler {
+
+    public final DatabaseHelper databaseHelper ;
     public static AppInfraInterface gAppInfra;
     public static LoggingInterface loggingInterface;
+    private final Context mContext;
     private AppConfigurationInterface.AppConfigurationError configError;
     DataServicesManager mDataServicesManager;
     //ScheduleSyncReceiver mScheduleSyncReceiver;
     UserRegistrationInterfaceImpl userRegImple;
     final String AI = "appinfra";
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        LeakCanary.install(this);
-        mDataServicesManager = DataServicesManager.getInstance();
-        initAppInfra();
+    public DSHandler(Context mContext,AppInfraInterface appInfraInterface) {
+        this.mContext = mContext;
+        this.gAppInfra = appInfraInterface;
+    //    mAppInfra = RegistrationHelper.getInstance().getAppInfraInstance();
+        configError = new
+                AppConfigurationInterface.AppConfigurationError();
 
-        initializeUserRegistrationLibrary(Configuration.STAGING);
-        initHSDP();
-        init();
-        //mScheduleSyncReceiver = new ScheduleSyncReceiver();
-        if(new User(this).isUserSignIn()) {
-            SyncScheduler.getInstance().scheduleSync();
-        }
+        databaseHelper= new DatabaseHelper(mContext, new UuidGenerator());
+        mDataServicesManager = DataServicesManager.getInstance();
     }
 
     private void initAppInfra() {
@@ -97,12 +95,12 @@ public class DataSyncApplication extends MultiDexApplication {
 
     private void init() {
         OrmCreator creator = new OrmCreator(new UuidGenerator());
-        userRegImple = new UserRegistrationInterfaceImpl(this, new User(this));
+        userRegImple = new UserRegistrationInterfaceImpl(mContext, new User(mContext));
         UserRegistrationInterface userRegistrationInterface = userRegImple;
         ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
-        mDataServicesManager.initializeDataServices(this, creator, userRegistrationInterface, errorHandlerInterface);
+        mDataServicesManager.initializeDataServices(mContext, creator, userRegistrationInterface, errorHandlerInterface);
         injectDBInterfacesToCore();
-        mDataServicesManager.initializeSyncMonitors(this, null, null);
+        mDataServicesManager.initializeSyncMonitors(mContext, null, null);
     }
 
     void injectDBInterfacesToCore() {
@@ -143,9 +141,9 @@ public class DataSyncApplication extends MultiDexApplication {
             OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDetailsDao,
                     characteristicsesDao, settingsDao, dcSyncDao, insightsDao);
 
-            mDataServicesManager.initializeDatabaseMonitor(this, ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
+            mDataServicesManager.initializeDatabaseMonitor(mContext, ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
         } catch (SQLException exception) {
-            Toast.makeText(this, "db injection failed to dataservices", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "db injection failed to dataservices", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -245,13 +243,13 @@ public class DataSyncApplication extends MultiDexApplication {
                 configError);
 
 
-        SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = mContext.getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
         editor.putString("reg_environment", configuration.getValue());
         editor.apply();
 
         initAppIdentity(configuration);
         URDependancies urDependancies = new URDependancies(gAppInfra);
-        URSettings urSettings = new URSettings(this);
+        URSettings urSettings = new URSettings(mContext);
         URInterface urInterface = new URInterface();
         urInterface.init(urDependancies, urSettings);
 
