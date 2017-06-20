@@ -54,10 +54,13 @@ public class PTHProvidersListAdapter extends RecyclerView.Adapter<PTHProvidersLi
         holder.providerRating.setRating(provider.getRating());
         holder.name.setText("Dr. " + provider.getFullName());
         holder.practice.setText(provider.getSpecialty().getName());
-        try {
-            PTHManager.getInstance().getAwsdk(holder.providerImage.getContext()).getPracticeProvidersManager().newImageLoader(provider,holder.providerImage, ProviderImageSize.SMALL).placeholder(holder.providerImage.getResources().getDrawable(R.drawable.doctor_placeholder)).build().load();
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+        holder.isAvailble.setText(""+provider.getVisibility());
+        if(provider.hasImage()) {
+            try {
+                PTHManager.getInstance().getAwsdk(holder.providerImage.getContext()).getPracticeProvidersManager().newImageLoader(provider, holder.providerImage, ProviderImageSize.SMALL).placeholder(holder.providerImage.getResources().getDrawable(R.drawable.doctor_placeholder)).build().load();
+            } catch (AWSDKInstantiationException e) {
+                e.printStackTrace();
+            }
         }
 
     }
