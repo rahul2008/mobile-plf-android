@@ -401,7 +401,6 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
 
             ai.setTagging(tagging == null ? new AppTagging(ai) : tagging);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "Tagging Intitialization Done");
-            Log.v(AppInfraLogEventID.AI_APPINFRA, "AI Intitialization Done");
 
 
             /////////////
