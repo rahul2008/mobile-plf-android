@@ -124,7 +124,7 @@
 
     <!-- Consumer Care related-->
     <string-array name="productselection_ctnlist" translatable="false">
-        <item>HX9042/64</item>
+        <item>HX6064/33</item>
     </string-array>
 
     <!-- TODO - As per Raymond communication, we should not go to multiple CTNs because this is going to add one more
@@ -136,7 +136,7 @@
 
 
     <string-array name="iap_productselection_ctnlist" translatable="false">
-        <item>HX9042/64</item>
+        <item>HD9240/90</item>
     </string-array>
     <!--ConsumerCare related end here.-->
 
