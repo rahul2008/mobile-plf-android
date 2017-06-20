@@ -1,5 +1,5 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -32,7 +32,6 @@ buildscript { bs ->
 
 apply plugin: 'com.android.library'
 apply plugin: 'pl.droidsonroids.pitest'
-apply plugin: 'jacoco'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
@@ -214,10 +213,6 @@ dependencies {
     androidTestCompile 'com.squareup.assertj:assertj-android:1.1.1'
 }
 
-jacoco {
-    toolVersion = versions.jacoco
-}
-
 pitest {
     targetClasses = [
             'com.philips.cdp.dicommclient.port.common.*',
@@ -234,7 +229,7 @@ pitest {
     ]
     pitestVersion = versions.pitest
     avoidCallsTo = ['com.philips.cdp.dicommclient.util.DICommLog']
-    threads = 8 /* specify number of threads */
+    threads = 1 /* specify number of threads */
     outputFormats = ['XML', 'HTML'] /* specify output format */
     reportDir = "${rootDir.absolutePath}/build/report/${project.name}/pitest/"
     timestampedReports = false
