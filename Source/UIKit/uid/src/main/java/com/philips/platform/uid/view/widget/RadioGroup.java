@@ -12,7 +12,7 @@ import com.philips.platform.uid.R;
 
 public class RadioGroup extends android.widget.RadioGroup {
 
-    private int topMargin;
+    private int topMargin, childTopMargin;
     private LinearLayout.LayoutParams layoutParams;
 
     public RadioGroup(final Context context) {
@@ -21,7 +21,7 @@ public class RadioGroup extends android.widget.RadioGroup {
 
     public RadioGroup(final Context context, final AttributeSet attrs) {
         super(context, attrs);
-        layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        //layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         topMargin = getContext().getResources().getDimensionPixelSize(R.dimen.uid_radiobutton_margin_top);
     }
 
@@ -31,11 +31,15 @@ public class RadioGroup extends android.widget.RadioGroup {
         int childCount = getChildCount();
         for(int i=1; i<childCount; i++){
             RadioButton child = (RadioButton)getChildAt(i);
+            layoutParams = (LinearLayout.LayoutParams)child.getLayoutParams();
             if(child.getLineCount() > 1){
-                layoutParams.setMargins(0, topMargin, 0, 0);
-                child.setLayoutParams(layoutParams);
+                childTopMargin = layoutParams.topMargin;
+                if(childTopMargin == 0){
+                    layoutParams.topMargin = topMargin;
+                    child.setLayoutParams(layoutParams);
+                }
             } else {
-                layoutParams.setMargins(0, 0, 0, 0);
+                layoutParams.topMargin = 0;
                 child.setLayoutParams(layoutParams);
             }
         }
