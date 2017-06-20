@@ -30,8 +30,8 @@ import com.philips.cdp.dicommclient.port.common.PairingListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.demouapp.R;
-import com.philips.cdp2.demouapp.appliance.airpurifier.AirPort;
-import com.philips.cdp2.demouapp.appliance.airpurifier.AirPortProperties;
+import com.philips.cdp2.demouapp.port.air.AirPort;
+import com.philips.cdp2.demouapp.port.air.AirPortProperties;
 import com.philips.cdp2.demouapp.appliance.airpurifier.AirPurifier;
 
 public class AirPurifierFragment extends Fragment {

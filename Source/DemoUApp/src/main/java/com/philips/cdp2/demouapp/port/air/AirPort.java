@@ -1,8 +1,13 @@
 /*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
  * (C) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
-package com.philips.cdp2.demouapp.appliance.airpurifier;
+package com.philips.cdp2.demouapp.port.air;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
