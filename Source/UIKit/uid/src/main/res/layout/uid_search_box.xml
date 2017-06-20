@@ -70,7 +70,6 @@
         </FrameLayout>
     </LinearLayout>
 
-    <include
-        layout="@layout/uid_search_box_view" />
+    <include layout="@layout/uid_search_decoy_view" />
 
 </LinearLayout>

@@ -19,7 +19,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -42,21 +41,25 @@ import com.philips.platform.uid.R;
 import com.philips.platform.uid.drawable.StrokeCompat;
 import com.philips.platform.uid.thememanager.ThemeUtils;
 
+import static android.support.v7.content.res.AppCompatResources.getDrawable;
+
 
 /**
  * UID SearchBox.
- * <P>
+ * <p>
  * <P>UID SearchBox is custom search view as per DLS design. Searchbox has two modes.
  * <BR>Trigger mode
  * <BR>Input mode
- * <P>
+ * <p>
  * <p>Trigger mode has two variants.
  * <BR>Iconified
  * <BR>Expanded Decoy
- * <P>
+ * <p>
  * <P> For usage of Search box please refer to the DLS Catalog app or the confluence page below
- * <P>
+ * <p>
+ *
  * @see <a href="https://confluence.atlas.philips.com/display/MU/How+to+integrate+DLS+Search+Box">https://confluence.atlas.philips.com/display/MU/How+to+integrate+DLS+Search+Box</a>
+ *
  */
 
 public class SearchBox extends LinearLayout {
@@ -83,9 +86,6 @@ public class SearchBox extends LinearLayout {
 
     private final static int DRAWABLE_FILL_INDEX = 0;
     private final static int DRAWABLE_STROKE_INDEX = 1;
-
-    private ColorStateList strokeColorStateList;
-    private ColorStateList fillColorStateList;
 
     public interface ExpandListener {
         void onSearchExpanded();
@@ -116,94 +116,47 @@ public class SearchBox extends LinearLayout {
         initializeSearch(context, attrs, defStyleAttr);
     }
 
-    /**
-     * This API will return the Search Box decoy search layout
-     *
-     */
-    @SuppressWarnings("unused")
-    public View getDecoySearchLayout() {
-        return decoySearchView;
-    }
-
-    /**
-     * This API will return the Search Box decoy search icon
-     *
-     */
-    @SuppressWarnings("unused")
-    public ImageView getDecoySearchIconView() {
-        return decoySearchIcon;
-    }
-
-    /**
-     * This API will return the Search Box decoy hint text label
-     *
-     */
-    @SuppressWarnings("unused")
-    public Label getDecoySearchHintView() {
-        return decoyHintView;
-    }
-
-    /**
-     * This API will return the Search Box collapse/back icon
-     *
-     */
-    public ImageView getCollapseView() {
-        return collapseIcon;
-    }
-
-    /**
-     * This API will return the Search Box input clear icon
-     *
-     */
-    @SuppressWarnings("unused")
-    public ImageView getClearIconView() {
-        return clearIcon;
-    }
-
-    /**
-     * This API will return the Search Box input AppCompatAutoCompleteTextView
-     *
-     */
-    public AppCompatAutoCompleteTextView getSearchTextView() {
-        return searchTextView;
-    }
-
-    /**
-     * This API will return the Search Box input clear icon holder
-     *
-     */
-    public View getSearchClearLayout() {
-        return searchClearLayout;
-    }
-
-    private void initializeSearch(final Context context, @NonNull AttributeSet attrs, @NonNull int defStyleAttr) {
+    private void initializeSearch(final Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         final LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.uid_search_box, this);
         searchExpandedLayout = findViewById(R.id.uid_search_box_layout);
+
+        initViews(context, attrs, defStyleAttr);
+        initHintTexts(context, attrs);
+    }
+
+    private void initViews(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        initDecoySearchView(context, attrs, defStyleAttr);
         initCollapseIcon();
         initSearchIconHolder();
-        initDecoySearchView(context, attrs, defStyleAttr);
         initClearIcon();
         initSearchTextView();
-        initCustomAttrs(context, attrs);
         updateViews();
         setSaveEnabled(true);
     }
 
-    private void initCustomAttrs(Context context, AttributeSet attrs) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, new int[]{R.attr.uidSearchInputHintText, R.attr.uidSearchDecoyHintText});
+    private void initDecoySearchView(final Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        decoySearchView = (ViewGroup) findViewById(R.id.uid_search_decoy_view);
+        decoySearchIcon = (ImageView) findViewById(R.id.uid_search_decoy_hint_icon);
+        decoyHintView = (Label) findViewById(R.id.uid_search_decoy_hint_text);
 
-        CharSequence inputText = typedArray.getText(0);
-        if(inputText != null){
-            searchTextView.setHint(inputText);
-        }
-
-        CharSequence decoyText = typedArray.getText(1);
-        if(decoyText != null){
-            decoyHintView.setText(decoyText);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDTextEditBox, defStyleAttr, R.style.UIDEditTextBox);
+        final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
+        Drawable backgroundDrawable = getLayeredBackgroundDrawable(typedArray, theme);
+        if (backgroundDrawable != null) {
+            decoySearchView.setBackground(backgroundDrawable);
         }
         typedArray.recycle();
+
+        decoySearchView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSearchCollapsed(false);
+                searchTextView.requestFocus();
+            }
+        });
     }
+
 
     private void initClearIcon() {
         searchClearLayout = findViewById(R.id.uid_search_clear_layout);
@@ -260,25 +213,21 @@ public class SearchBox extends LinearLayout {
         });
     }
 
-    private void initDecoySearchView(final Context context, @NonNull AttributeSet attrs, @NonNull int defStyleAttr) {
-        decoySearchView = (ViewGroup) findViewById(R.id.uid_search_decoy_view);
-        decoySearchIcon = (ImageView) findViewById(R.id.uid_search_decoy_hint_icon);
-        decoyHintView = (Label) findViewById(R.id.uid_search_decoy_hint_text);
+    private void initHintTexts(Context context, AttributeSet attrs) {
+        if (attrs != null) {
+            return;
+        }
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, new int[]{R.attr.uidSearchInputHintText, R.attr.uidSearchDecoyHintText});
 
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDTextEditBox, defStyleAttr, R.style.UIDEditTextBox);
-        final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
-        Drawable backgroundDrawable = getLayeredBackgroundDrawable(typedArray, theme);
-        if (backgroundDrawable != null) {
-            decoySearchView.setBackground(backgroundDrawable);
+        CharSequence inputText = typedArray.getText(0);
+        if (inputText != null) {
+            searchTextView.setHint(inputText);
         }
 
-        decoySearchView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setSearchCollapsed(false);
-                searchTextView.requestFocus();
-            }
-        });
+        CharSequence decoyText = typedArray.getText(1);
+        if (decoyText != null) {
+            decoyHintView.setText(decoyText);
+        }
         typedArray.recycle();
     }
 
@@ -299,11 +248,11 @@ public class SearchBox extends LinearLayout {
         int borderDrawableID = typedArray.getResourceId(R.styleable.UIDTextEditBox_uidInputTextBorderBackground, -1);
         Drawable strokeDrawable = null;
         if (borderDrawableID != -1) {
-            strokeDrawable = AppCompatResources.getDrawable(getContext(), borderDrawableID);
+            strokeDrawable = getDrawable(getContext(), borderDrawableID);
             int borderColorStateListID = typedArray.getResourceId(R.styleable.UIDTextEditBox_uidInputTextBorderBackgroundColorList, -1);
             int borderWidth = (int) typedArray.getDimension(R.styleable.UIDTextEditBox_uidInputTextBorderWidth, 0f);
             if (borderColorStateListID != -1) {
-                strokeColorStateList = ThemeUtils.buildColorStateList(getContext().getResources(), theme, borderColorStateListID);
+                ColorStateList strokeColorStateList = ThemeUtils.buildColorStateList(getContext().getResources(), theme, borderColorStateListID);
                 strokeDrawable = StrokeCompat.setStroke(strokeDrawable, borderWidth, strokeColorStateList);
             }
         }
@@ -315,10 +264,10 @@ public class SearchBox extends LinearLayout {
         int fillDrawableID = typedArray.getResourceId(R.styleable.UIDTextEditBox_uidInputTextFillBackground, -1);
         Drawable fillDrawable = null;
         if (fillDrawableID != -1) {
-            fillDrawable = DrawableCompat.wrap(AppCompatResources.getDrawable(getContext(), fillDrawableID));
+            fillDrawable = DrawableCompat.wrap(getDrawable(getContext(), fillDrawableID));
             int fillColorStateListID = typedArray.getResourceId(R.styleable.UIDTextEditBox_uidInputTextFillBackgroundColorList, -1);
             if (fillColorStateListID != -1) {
-                fillColorStateList = ThemeUtils.buildColorStateList(getContext().getResources(), theme, fillColorStateListID);
+                ColorStateList fillColorStateList = ThemeUtils.buildColorStateList(getContext().getResources(), theme, fillColorStateListID);
                 DrawableCompat.setTintList(fillDrawable, fillColorStateList);
             }
         }
@@ -394,7 +343,7 @@ public class SearchBox extends LinearLayout {
      *
      * @param resID String to be set to the Decoy Search View Hint
      */
-    public void setDecoySearchViewHint(@StringRes int resID){
+    public void setDecoySearchViewHint(@StringRes int resID) {
         decoyHintView.setText(resID);
     }
 
@@ -403,7 +352,8 @@ public class SearchBox extends LinearLayout {
      *
      * @param text String to be set to the Decoy Search View Hint
      */
-    public void setDecoySearchViewHint(String text){
+    @SuppressWarnings("unused")
+    public void setDecoySearchViewHint(String text) {
         decoyHintView.setText(text);
     }
 
@@ -412,7 +362,7 @@ public class SearchBox extends LinearLayout {
      *
      * @param resID String to be set to the Input Search View Hint
      */
-    public void setSearchBoxHint(@StringRes int resID){
+    public void setSearchBoxHint(@StringRes int resID) {
         searchTextView.setHint(resID);
     }
 
@@ -421,7 +371,8 @@ public class SearchBox extends LinearLayout {
      *
      * @param text String to be set to the Input Search View Hint
      */
-    public void setSearchBoxHint(String text){
+    @SuppressWarnings("unused")
+    public void setSearchBoxHint(String text) {
         searchTextView.setHint(text);
     }
 
@@ -495,15 +446,14 @@ public class SearchBox extends LinearLayout {
     }
 
     /**
-     * This API will return if the Search Box is in collapsed form or input form.
-     *
+     * This API returns if the Search Box is in collapsed form or input form.
      */
     public boolean isSearchCollapsed() {
         return isSearchCollapsed;
     }
 
     /**
-     * This API will help you to set the query text for the search box input, for example in case of config change.
+     * This API helps to set the query text for the search box input, for example in case of config change.
      *
      * @param query String to be set for search box input, useful
      */
@@ -512,15 +462,67 @@ public class SearchBox extends LinearLayout {
     }
 
     /**
-     * This API will help you to get the query text from the search box input.
-     *
+     * This API helps to get the query text from the search box input.
      */
     public CharSequence getQuery() {
         return searchTextView.getText();
     }
 
     /**
-     * This API will help you to set the max width for the searchbox
+     * This API returns the Search Box decoy search layout
+     */
+    @SuppressWarnings("unused")
+    public View getDecoySearchLayout() {
+        return decoySearchView;
+    }
+
+    /**
+     * This API returns the Search Box decoy search icon
+     */
+    @SuppressWarnings("unused")
+    public ImageView getDecoySearchIconView() {
+        return decoySearchIcon;
+    }
+
+    /**
+     * This API returns the Search Box decoy hint text label
+     */
+    @SuppressWarnings("unused")
+    public Label getDecoySearchHintView() {
+        return decoyHintView;
+    }
+
+    /**
+     * This API returns the Search Box collapse/back icon
+     */
+    public ImageView getCollapseView() {
+        return collapseIcon;
+    }
+
+    /**
+     * This API returns the Search Box input clear icon
+     */
+    @SuppressWarnings("unused")
+    public ImageView getClearIconView() {
+        return clearIcon;
+    }
+
+    /**
+     * This API returns the Search Box input AppCompatAutoCompleteTextView
+     */
+    public AppCompatAutoCompleteTextView getSearchTextView() {
+        return searchTextView;
+    }
+
+    /**
+     * This API returns the Search Box input clear icon holder
+     */
+    public View getSearchClearLayout() {
+        return searchClearLayout;
+    }
+
+    /**
+     * This API helps you to set the max width for the searchbox
      *
      * @param maxWidth Max value in int that the searchbox should take
      */
@@ -555,16 +557,14 @@ public class SearchBox extends LinearLayout {
     }
 
     /**
-     * This API will help you to set the ExpandListener in case search box transforms from expanded to collapsed or vice a versa.
-     *
+     * This API helps you to set the ExpandListener in case search box transforms from expanded to collapsed or vice a versa.
      */
     public void setExpandListener(ExpandListener listener) {
         expandListener = listener;
     }
 
     /**
-     * This API will help you to set the QuerySubmitListener in case search box query is submit through the search icon on IME.
-     *
+     * This API helps you to set the QuerySubmitListener in case search box query is submit through the search icon on IME.
      */
     public void setQuerySubmitListener(QuerySubmitListener listener) {
         querySubmitListener = listener;
