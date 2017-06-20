@@ -15,6 +15,7 @@ Version 7.0.0
 
 ### Breaking Changes
 * `NetworkNode.PAIRED_STATUS` has been renamed to `NetworkNode.PairingState`
+* `NetworkNode` no longer extends `Observable`, but adds `PropertyChangeSupport` instead.
 
 ### Defects solved
 * NA
