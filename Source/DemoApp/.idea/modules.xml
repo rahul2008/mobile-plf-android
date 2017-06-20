@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/../Library/AppInfra/AppInfra.iml" filepath="$PROJECT_DIR$/../Library/AppInfra/AppInfra.iml" />
       <module fileurl="file://$PROJECT_DIR$/DemoApp.iml" filepath="$PROJECT_DIR$/DemoApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/../DemoUApp/app-infra-demo-uapp/DemoUApp.iml" filepath="$PROJECT_DIR$/../DemoUApp/app-infra-demo-uapp/DemoUApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../DemoUApp/app-infra-demo-uapp/DemoUApp.iml" filepath="$PROJECT_DIR$/../DemoUApp/app-infra-demo-uapp/DemoUApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

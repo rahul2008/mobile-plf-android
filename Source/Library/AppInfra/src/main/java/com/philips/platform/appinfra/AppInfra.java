@@ -462,7 +462,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
                        "AppConfiguration "+exception.toString());
             }
             Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Auto Refresh ENDS");
-
+            Log.v(AppInfraLogEventID.AI_APPINFRA, "AppInfra Initialization ENDS");
             postLog(ai,startTime, "App-infra initialization ends with ");
             return ai;
         }
