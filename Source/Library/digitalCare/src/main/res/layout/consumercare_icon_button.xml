@@ -12,7 +12,7 @@
         android:gravity="center"
         android:id="@+id/icon_button_icon"
         android:textSize="18dp"
-        android:textColor="?attr/uidContentPrimary"
+        android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
         fontPath="digitalcarefonts/CCIcon.ttf"/>
 
     <com.philips.platform.uid.view.widget.Label

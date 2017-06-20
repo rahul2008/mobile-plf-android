@@ -851,7 +851,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         ArrayList<MenuItem> menus = new ArrayList<>();
 
         if (DigitalCareConfigManager.getInstance().getEmailUrl() != null){
-            menus.add(new MenuItem(R.drawable.consumercare_social_fb_icon, R.string.send_email));
+            menus.add(new MenuItem(R.string.icon_dls_questionmark, R.string.send_email));
         }
 
         if(!Utils.isCountryChina())

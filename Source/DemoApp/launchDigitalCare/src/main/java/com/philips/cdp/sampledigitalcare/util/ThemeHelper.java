@@ -42,7 +42,7 @@ public class ThemeHelper {
     }
 
     public ContentColor initContentTonalRange() {
-        String tonalRange = sharedPreferences.getString(UIDHelper.CONTENT_TONAL_RANGE, ContentColor.ULTRA_LIGHT.name());
+        String tonalRange = sharedPreferences.getString(UIDHelper.CONTENT_TONAL_RANGE, ContentColor.VERY_LIGHT.name());
         final ContentColor contentColor = ContentColor.valueOf(tonalRange);
         return contentColor;
     }
