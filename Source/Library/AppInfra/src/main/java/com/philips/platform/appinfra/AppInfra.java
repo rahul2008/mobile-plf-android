@@ -402,6 +402,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             ai.setTagging(tagging == null ? new AppTagging(ai) : tagging);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "Tagging Intitialization Done");
 
+            Log.v(AppInfraLogEventID.AI_APPINFRA, "AppConfig Migration Starts");
 
             /////////////
             appConfigurationManager.migrateDynamicData();
@@ -418,12 +419,16 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
                             "refreshCloudConfig "+result.toString());
                 }
             });
+            Log.v(AppInfraLogEventID.AI_APPINFRA, "AppConfig Migration ENDS");
+
             ai.setLanguagePackInterface(languagePack == null? new LanguagePackManager(ai) : languagePack);
+            Log.v(AppInfraLogEventID.AI_APPINFRA, "Language Pack Initialization done");
 
             AppUpdateManager appUpdateManager = new AppUpdateManager(ai);
 
             ai.setAppupdateInterface(appupdateInterface == null ? appUpdateManager : appupdateInterface);
-
+            Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Initialization done");
+            Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Auto Refresh Starts");
             try {
                 Object isappUpdateRq = getAutoRefreshValue(appConfigurationManager);
                 if (isappUpdateRq != null && isappUpdateRq instanceof Boolean) {
@@ -456,6 +461,8 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
                 ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_APPINFRA,
                        "AppConfiguration "+exception.toString());
             }
+            Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Auto Refresh ENDS");
+
             postLog(ai,startTime, "App-infra initialization ends with ");
             return ai;
         }
