@@ -109,7 +109,7 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
 
             try {
                 final String snExample = serialNumberSampleContent.getSnExample();
-                final String snFormat = serialNumberSampleContent.getSnFormat();
+                final String snDescription = serialNumberSampleContent.getSnDescription();
                 String stringSplit = ":";
                 String emptyString = " ";
                 String serialNumberExampleData = snExample.substring(snExample.indexOf(stringSplit)+1, snExample.length());
@@ -118,7 +118,7 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
                         serialNumberExampleData.length() + emptyString + getString(R.string.PPR_number_starting).concat(emptyString)
                         + serialNumberExampleData.charAt(0) + emptyString + getString(R.string.PPR_eg) + serialNumberExampleData;
                 serialNumberTextView.setText(serialErrorText);
-                serialNumberForamtTextView.setText(snFormat);
+                serialNumberForamtTextView.setText(snDescription);
             } catch (Exception exception) {
                 exception.printStackTrace();
             }

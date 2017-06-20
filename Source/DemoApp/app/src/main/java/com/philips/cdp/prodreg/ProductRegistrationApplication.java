@@ -35,7 +35,7 @@ public class ProductRegistrationApplication extends Application {
         MultiDex.install(this);
         initAppInfra();
         initProductRegistration();
-        initRegistration(Configuration.EVALUATION);
+        initRegistration(Configuration.STAGING);
         RLog.enableLogging();
     }
 
