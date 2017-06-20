@@ -6,15 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.philips.amwelluapp.R;
 import com.philips.platform.uid.view.widget.RatingBar;
 
 import java.util.List;
 
 public class PTHProvidersListAdapter extends RecyclerView.Adapter<PTHProvidersListAdapter.MyViewHolder> {
-    private List<Provider> providerList;
+    private List<ProviderInfo> providerList;
 
-    public PTHProvidersListAdapter(List<Provider> providerList){
+    public PTHProvidersListAdapter(List<ProviderInfo> providerList){
         this.providerList = providerList;
     }
 
@@ -42,11 +43,11 @@ public class PTHProvidersListAdapter extends RecyclerView.Adapter<PTHProvidersLi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Provider provider = providerList.get(position);
+        ProviderInfo provider = providerList.get(position);
 
-        holder.providerRating.setRating(provider.getProviderRating());
-        holder.name.setText(provider.getProviderName());
-        holder.practise.setText(provider.getProviderPractise());
+        holder.providerRating.setRating(provider.getRating());
+        holder.name.setText(provider.getFullName());
+        holder.practise.setText(provider.getPracticeInfo().getPracticeType());
 
     }
 

@@ -6,15 +6,22 @@ import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.AWSDKFactory;
 import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.consumer.Consumer;
+import com.americanwell.sdk.entity.practice.Practice;
+import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
+import com.philips.amwelluapp.providerslist.PTHGetConsumerObjectCallBack;
+import com.philips.amwelluapp.providerslist.PTHPracticesListCallback;
+import com.philips.amwelluapp.providerslist.PTHProvidersListCallback;
 import com.philips.amwelluapp.welcome.PTHInitializeCallBack;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PTHManager {
@@ -68,5 +75,51 @@ public class PTHManager {
                         pthInitializeCallBack.onInitializationFailure(throwable);
                     }
                 });
+    }
+
+    public void getConsumerObject(Context context,Authentication authentication,final PTHGetConsumerObjectCallBack pthGetConsumerObjectCallBack) throws AWSDKInstantiationException {
+
+        getAwsdk(context).getConsumerManager().getConsumer(authentication, new SDKCallback<Consumer, SDKError>() {
+            @Override
+            public void onResponse(Consumer consumer, SDKError sdkError) {
+                pthGetConsumerObjectCallBack.onReceiveConsumerObject(consumer,sdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                pthGetConsumerObjectCallBack.onError(throwable);
+            }
+        });
+    }
+
+    public void getPractices(Context context,Consumer consumer, final PTHPracticesListCallback pthPracticesListCallback) throws AWSDKInstantiationException {
+
+        getAwsdk(context).getPracticeProvidersManager().getPractices(consumer, new SDKCallback<List<Practice>, SDKError>() {
+            @Override
+            public void onResponse(List<Practice> practices, SDKError sdkError) {
+                pthPracticesListCallback.onPracticesListReceived(practices,sdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                pthPracticesListCallback.onPracticesListFetchError(throwable);
+            }
+        });
+    }
+
+    public void getProviderList(Context context, Consumer consumer, Practice practice,final PTHProvidersListCallback pthProvidersListCallback) throws AWSDKInstantiationException {
+
+        getAwsdk(context).getPracticeProvidersManager().findProviders(consumer, practice, null, null, null, null, null, null, null, new SDKCallback<List<ProviderInfo>, SDKError>() {
+            @Override
+            public void onResponse(List<ProviderInfo> providerInfos, SDKError sdkError) {
+                pthProvidersListCallback.onProvidersListReceived(providerInfos, sdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+
+            }
+        });
+
     }
 }
