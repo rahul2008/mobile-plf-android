@@ -1,15 +1,12 @@
 rootProject.setName 'UserRegistration'
 
 include ':app'
-include 'URDemo'
 
-include 'hsdp', 'HockeySDK-3.0.2'
-include 'jump'
-include 'RegistrationApi'
-
-
-project (':URDemo').projectDir=new File('../DemoUApp/URDemo')
+include 'DemoUApp'
+project (':DemoUApp').projectDir=new File('../DemoUApp/DemoUApp')
+include 'hsdp'
 project (':hsdp').projectDir=new File('../Library/hsdp')
-project (':HockeySDK-3.0.2').projectDir=new File('../Library/HockeySDK-3.0.2')
+include 'jump'
 project (':jump').projectDir=new File('../Library/jump')
+include 'RegistrationApi'
 project (':RegistrationApi').projectDir=new File('../Library/RegistrationApi')

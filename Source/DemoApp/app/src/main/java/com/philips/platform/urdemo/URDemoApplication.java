@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.os.LocaleList;
 
-import com.philips.cdp.localematch.PILLocaleManager;
+
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
@@ -77,8 +77,7 @@ public class URDemoApplication extends Application {
             countryCode = Locale.getDefault().getCountry();
         }
 
-        PILLocaleManager localeManager = new PILLocaleManager(this);
-        localeManager.setInputLocale(languageCode, countryCode);
+
 
         initAppIdentity(configuration);
         URDependancies urDependancies = new URDependancies(appInfraInterface);
