@@ -7,6 +7,7 @@ public class UCoreDevicePair {
     private String deviceType;
     private List<String> standardObservationNames;
     private List<String> subjectIds;
+    private String relationshipType;
 
     public String getDeviceId() {
         return deviceId;
@@ -38,5 +39,13 @@ public class UCoreDevicePair {
 
     public void setSubjectIds(List<String> subjectIds) {
         this.subjectIds = subjectIds;
+    }
+
+    public String getRelationshipType() {
+        return relationshipType;
+    }
+
+    public void setRelationshipType(String relationshipType) {
+        this.relationshipType = relationshipType;
     }
 }
