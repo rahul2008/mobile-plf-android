@@ -67,7 +67,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
         appInfraLogger = mAppInfraInterface.getLogging().createInstanceForComponent("sdb:",
                 getSecureDbAppVersion());
         connectionSource = new AndroidConnectionSource(this,key,appInfraLogger);
-        getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, "{}: constructed connectionSource {}",null);
+        getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, SecureDBLogEventID.SDB_ORMLITE_SQLITE_OPEN_HELPER,"{}: constructed connectionSource {}");
 
 
     }
@@ -131,7 +131,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
         appInfraLogger = mAppInfraInterface.getLogging().createInstanceForComponent("sdb:",
                 getSecureDbAppVersion());
         connectionSource = new AndroidConnectionSource(this,key,appInfraLogger);
-        getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, "{}: constructed connectionSource {}",null);
+        getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, SecureDBLogEventID.SDB_ORMLITE_SQLITE_OPEN_HELPER,"{}: constructed connectionSource {}");
 
         if (stream == null) {
             return;
@@ -208,7 +208,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
     public ConnectionSource getConnectionSource() {
         if (!isOpen) {
             // we don't throw this exception, but log it for debugging purposes
-            getSecureDBLogInstance().log(LoggingInterface.LogLevel.WARNING,""+new IllegalStateException(),"Getting connectionSource was called after closed");
+            getSecureDBLogInstance().log(LoggingInterface.LogLevel.WARNING,SecureDBLogEventID.SDB_ORMLITE_SQLITE_OPEN_HELPER,""+new IllegalStateException()+"Getting connectionSource was called after closed");
         }
         return connectionSource;
     }
@@ -287,6 +287,7 @@ private void createKey()
         editor.commit();
 
     }
+    getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, SecureDBLogEventID.SDB_ORMLITE_SQLITE_OPEN_HELPER,"Successfully Created Key");
 }
 
     public SQLiteDatabase getWriteDbPermission() throws SQLException {
@@ -382,6 +383,7 @@ private void createKey()
             //Directly byte[] to char[] typecast not good soluation in the case getKey contains numberic value like 67,68 that time char will return ASCII Value of 67,68.
                 final  char[] keyCharArray = keyString.toCharArray();
                 //return Base64.encodeToString(key.getEncoded(), Base64.DEFAULT);
+                getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, SecureDBLogEventID.SDB_ORMLITE_SQLITE_OPEN_HELPER,"Successfully get Key value");
                 return  keyCharArray;
             }
         }
