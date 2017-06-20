@@ -33,6 +33,7 @@ public class SslPinTrustManager implements X509TrustManager {
         if (networkNode.getPin() == null) {
             networkNodePin = certificatePin;
             networkNode.setPin(networkNodePin.toString());
+            DICommLog.i(TAG, "Added pin for appliance with cppid " + networkNode.getCppId());
         } else {
             networkNodePin = new PublicKeyPin(networkNode.getPin());
         }
@@ -40,6 +41,7 @@ public class SslPinTrustManager implements X509TrustManager {
         if (certificatePin.equals(networkNodePin)) {
             DICommLog.d(TAG, "Certificate is accepted");
         } else {
+            DICommLog.e(TAG, "Pin mismatch for appliance with cppid " + networkNode.getCppId());
             throw new CertificateException();
         }
     }
