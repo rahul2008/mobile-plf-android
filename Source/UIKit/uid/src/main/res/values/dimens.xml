@@ -235,6 +235,7 @@
 
     <!--RadioButton-->
     <dimen name="uid_radiobutton_margin_left_right">12dp</dimen>
+    <dimen name="uid_radiobutton_margin_top">16dp</dimen>
     <dimen name="uid_radiobutton_height">48dp</dimen>
     <dimen name="uid_radiobutton_text_size">16sp</dimen>
     <dimen name="uid_radiobutton_border_ripple_radius">20dp</dimen>

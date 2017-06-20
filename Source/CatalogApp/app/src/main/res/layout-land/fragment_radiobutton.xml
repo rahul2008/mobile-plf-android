@@ -101,7 +101,6 @@
                         android:layout_height="wrap_content"
                         android:paddingStart="@dimen/radio_button_text_padding_left_right"
                         android:paddingEnd="@dimen/radio_button_text_padding_left_right"
-                        android:layout_marginTop="@dimen/radio_button_text_padding_left_right"
                         android:enabled="@{frag.isRadioButtonEnabled}"
                         android:text="@string/radiobutton_selection_item_4"/>
 
