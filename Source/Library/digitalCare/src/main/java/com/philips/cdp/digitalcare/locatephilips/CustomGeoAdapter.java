@@ -178,12 +178,15 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
         l2.setLongitude(frnd_latlong.longitude);
 
         float distance = l1.distanceTo(l2);
+
         String dist = distance + " M";
 
         if (distance > 1000.0f) {
             distance = distance / 1000.0f;
             dist = distance + " KM";
         }
+
+        dist = String.format("%.02f", distance);
         return dist;
     }
 }
