@@ -185,8 +185,24 @@ public class SearchBox extends LinearLayout {
         initDecoySearchView(context, attrs, defStyleAttr);
         initClearIcon();
         initSearchTextView();
+        initCustomAttrs(context, attrs);
         updateViews();
         setSaveEnabled(true);
+    }
+
+    private void initCustomAttrs(Context context, AttributeSet attrs) {
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, new int[]{R.attr.uidSearchInputHintText, R.attr.uidSearchDecoyHintText});
+
+        CharSequence inputText = typedArray.getText(0);
+        if(inputText != null){
+            searchTextView.setHint(inputText);
+        }
+
+        CharSequence decoyText = typedArray.getText(1);
+        if(decoyText != null){
+            decoyHintView.setText(decoyText);
+        }
+        typedArray.recycle();
     }
 
     private void initClearIcon() {
@@ -263,6 +279,7 @@ public class SearchBox extends LinearLayout {
                 searchTextView.requestFocus();
             }
         });
+        typedArray.recycle();
     }
 
     private Drawable getLayeredBackgroundDrawable(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme) {
@@ -373,7 +390,7 @@ public class SearchBox extends LinearLayout {
     }
 
     /**
-     * This API will help you to set the exact string resource passed to Decoy Search View Hint.
+     * This API will help you to set the exact string resource passed to Decoy Search View Hint. Alternatively you can use app:uidSearchDecoyHintText attribute in xml.
      *
      * @param resID String to be set to the Decoy Search View Hint
      */
@@ -382,7 +399,7 @@ public class SearchBox extends LinearLayout {
     }
 
     /**
-     * This API will help you to set the exact string value passed to Decoy Search View Hint.
+     * This API will help you to set the exact string value passed to Decoy Search View Hint. Alternatively you can use app:uidSearchDecoyHintText attribute in xml.
      *
      * @param text String to be set to the Decoy Search View Hint
      */
@@ -391,7 +408,7 @@ public class SearchBox extends LinearLayout {
     }
 
     /**
-     * This API will help you to set the exact string resource passed to Input Search View Hint.
+     * This API will help you to set the exact string resource passed to Input Search View Hint. Alternatively you can use app:uidSearchInputHintText attribute in xml.
      *
      * @param resID String to be set to the Input Search View Hint
      */
@@ -400,7 +417,7 @@ public class SearchBox extends LinearLayout {
     }
 
     /**
-     * This API will help you to set the exact string value passed to Input Search View Hint.
+     * This API will help you to set the exact string value passed to Input Search View Hint. Alternatively you can use app:uidSearchInputHintText attribute in xml
      *
      * @param text String to be set to the Input Search View Hint
      */
