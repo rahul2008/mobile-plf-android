@@ -1,4 +1,4 @@
-package com.philips.platform.appframework.testmicroappfw.ui;
+package com.philips.platform.testmicroappfw.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +15,9 @@ import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
+import com.philips.platform.appframework.testmicroappfw.ui.COCOListFragment;
+import com.philips.platform.appframework.testmicroappfw.ui.CoCoAdapter;
+import com.philips.platform.testmicroappfw.ui.TestFragmentTest;
 
 import junit.framework.TestCase;
 
@@ -45,7 +48,7 @@ public class COCOListFragmentTest extends TestCase {
 
     private COCOListFragmentMock setUpCoCoListFragmentBundle() {
         Bundle bundle=new Bundle();
-        bundle.putSerializable(COCOListFragment.SELECTED_CHAPTER,TestFragmentTest.createChapterObject());
+        bundle.putSerializable(COCOListFragment.SELECTED_CHAPTER, TestFragmentTest.createChapterObject());
         COCOListFragmentMock cocoListFragment=new COCOListFragmentMock();
         cocoListFragment.setArguments(bundle);
         return cocoListFragment;

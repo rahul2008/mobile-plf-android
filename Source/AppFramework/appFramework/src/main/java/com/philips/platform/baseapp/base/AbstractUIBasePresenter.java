@@ -24,25 +24,25 @@ abstract public class AbstractUIBasePresenter {
     protected static final int MENU_OPTION_SUPPORT = 3;
     protected static final int MENU_OPTION_ABOUT = 4;
     protected static final int MENU_OPTION_DATA_SYNC = 5;
-    protected static final int MENU_OPTION_PR = 9;
     protected static final int MENU_OPTION_CONNECTIVITY = 6;
-
-    protected static final int MENU_OPTION_DEBUG = 8;
     protected static final int MENU_OPTION_COCOVERSION = 7;
+    protected static final int MENU_OPTION_DEBUG = 8;
+    protected static final int MENU_OPTION_TEST_MICROAPP = 9;
+    protected static final int MENU_OPTION_PR = 10;
 
 
     /* event to state map */
     protected static final String HOME_SETTINGS = "settings";
     protected static final String HOME_IAP = "iap";
     protected static final String HOME_SUPPORT = "support";
-    protected static final String SHOPPING_CART = "shopping_cart";
+    protected static final String HOME_SHOPPING_CART = "shopping_cart";
     protected static final String HOME_ABOUT = "about";
     protected static final String HOME_FRAGMENT = "home_fragment";
     protected static final String HOME_DATA_SYNC = "data_sync";
-    protected static final String SUPPORT_PR = "pr";
-    protected static final String CONNECTIVITY = "connectivity";
-    protected static final String TESTMICROAPP = "testmicroapp";
-    protected static final String COCO_VERSION_INFO="coco_version_info";
+    protected static final String HOME_SUPPORT_PR = "pr";
+    protected static final String HOME_CONNECTIVITY = "connectivity";
+    protected static final String HOME_TEST_MICROAPP = "testmicroapp";
+    protected static final String HOME_COCO_VERSION_INFO="coco_version_info";
     protected static final String HOME_DEBUG="debug";
 
     private UIView uiView;
@@ -114,6 +114,10 @@ abstract public class AbstractUIBasePresenter {
                 final UIStateData debugStateData = new UIStateData();
                 debugStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return debugStateData;
+            case AppStates.TEST_MICROAPP:
+                final UIStateData testStateData=new UIStateData();
+                testStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
+                return testStateData;
             default:
                 RALog.d(TAG," default case selected ");
                 homeStateData = new UIStateData();

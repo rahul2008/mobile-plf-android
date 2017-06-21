@@ -37,7 +37,7 @@ public class AboutScreenFragmentTest {
     private HamburgerActivity hamburgerActivity = null;
     private FrameLayout hamburgerClick = null;
     private ListView drawerListView =null;
-    private HamburgerAdapter adapter;
+//    private HamburgerAdapter adapter;
     private AboutScreenFragmentMockAbstract aboutScreenFragment;
 
     @Before
@@ -47,7 +47,7 @@ public class AboutScreenFragmentTest {
                 inflate(R.layout.af_action_bar_shopping_cart, null);
         hamburgerClick = (FrameLayout) customView.findViewById(R.id.af_hamburger_frame_layout);
         drawerListView = (ListView) hamburgerActivity.findViewById(R.id.hamburger_list);
-        adapter = (HamburgerAdapter) drawerListView.getAdapter();
+//        adapter = (HamburgerAdapter) drawerListView.getAdapter();
         aboutScreenFragment = new AboutScreenFragmentMockAbstract();
         SupportFragmentTestUtil.startFragment(aboutScreenFragment);
     }

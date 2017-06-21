@@ -19,7 +19,7 @@ public class TestFragmentState extends BaseState {
     public static final String TAG = TestFragmentState.class.getSimpleName();
 
     public TestFragmentState(){
-        super(AppStates.TESTMICROAPP);
+        super(AppStates.TEST_MICROAPP);
     }
     @Override
     public void navigate(UiLauncher uiLauncher) {

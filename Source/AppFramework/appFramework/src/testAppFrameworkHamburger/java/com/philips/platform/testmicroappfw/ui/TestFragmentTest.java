@@ -1,4 +1,4 @@
-package com.philips.platform.appframework.testmicroappfw.ui;
+package com.philips.platform.testmicroappfw.ui;
 
 
 import android.os.Handler;
@@ -14,6 +14,9 @@ import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appframework.testmicroappfw.data.TestConfigManager;
 import com.philips.platform.appframework.testmicroappfw.models.Chapter;
 import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
+import com.philips.platform.appframework.testmicroappfw.ui.COCOListFragment;
+import com.philips.platform.appframework.testmicroappfw.ui.ChapterAdapter;
+import com.philips.platform.appframework.testmicroappfw.ui.TestFragment;
 
 import junit.framework.TestCase;
 

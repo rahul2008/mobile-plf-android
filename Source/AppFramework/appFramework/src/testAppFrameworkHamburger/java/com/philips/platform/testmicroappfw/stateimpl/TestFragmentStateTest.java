@@ -1,4 +1,4 @@
-package com.philips.platform.appframework.testmicroappfw.stateimpl;
+package com.philips.platform.testmicroappfw.stateimpl;
 
 import android.support.v4.app.FragmentManager;
 
@@ -7,6 +7,7 @@ import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
+import com.philips.platform.appframework.testmicroappfw.stateimpl.TestFragmentState;
 import com.philips.platform.appframework.testmicroappfw.ui.TestFragment;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;

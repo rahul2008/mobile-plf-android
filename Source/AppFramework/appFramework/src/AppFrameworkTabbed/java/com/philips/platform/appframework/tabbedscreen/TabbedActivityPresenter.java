@@ -119,13 +119,13 @@ public class TabbedActivityPresenter extends AbstractUIBasePresenter implements 
            /* case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
                 return SHOPPING_CART;*/
             case MENU_OPTION_PR:
-                return SUPPORT_PR;
+                return HOME_SUPPORT_PR;
             case MENU_OPTION_DATA_SYNC:
                 return  HOME_DATA_SYNC;
             case MENU_OPTION_CONNECTIVITY:
-                return CONNECTIVITY;
+                return HOME_CONNECTIVITY;
             case MENU_OPTION_COCOVERSION:
-                return COCO_VERSION_INFO;
+                return HOME_COCO_VERSION_INFO;
             default:
                 return HOME_FRAGMENT;
         }
