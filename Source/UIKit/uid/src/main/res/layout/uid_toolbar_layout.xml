@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v7.widget.Toolbar
-    android:id="@id/uid_toolbar"
-    style="@style/UIDToolbar"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@id/uid_toolbar"
     android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
-    android:title="@null"
-    app:theme="@style/UIDToolbar">
+    android:layout_height="wrap_content"
+    android:title="@null">
 
     <com.philips.platform.uid.view.widget.ActionBarTextView
         android:id="@id/uid_toolbar_title"

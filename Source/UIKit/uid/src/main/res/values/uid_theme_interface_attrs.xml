@@ -141,4 +141,9 @@
         <attr name="android:text"/>
         <attr name="uidRatingBarStarOnColor" format="color|reference"/>
     </declare-styleable>
+
+    <declare-styleable name="UIDSearchBox">
+        <attr name="uidSearchInputHintText" format="string|reference"/>
+        <attr name="uidSearchDecoyHintText" format="string|reference"/>
+    </declare-styleable>
 </resources>

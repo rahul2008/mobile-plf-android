@@ -37,6 +37,7 @@ public class NavigationController {
     private ViewDataBinding activityMainBinding;
     private int titleResource;
     private Toolbar toolbar;
+    private boolean shouldHandleBack;
 
     public interface BackPressListener{
         boolean handleBackPress();
@@ -53,11 +54,8 @@ public class NavigationController {
     protected void processBackButton() {
         if (hasBackStack()) {
             final Fragment fragmentAtTopOfBackStack = getFragmentAtTopOfBackStack();
-            if (!(fragmentAtTopOfBackStack instanceof ThemeSettingsFragment)) {
+            if (!(fragmentAtTopOfBackStack instanceof ThemeSettingsFragment) && shouldHandleBack) {
                 toggleHamburgerIcon();
-            } else {
-                showHamburgerIcon();
-                storeFragmentInPreference(null);
             }
         } else if (supportFragmentManager != null && supportFragmentManager.getBackStackEntryCount() == 0) {
             showHamburgerIcon();
@@ -133,7 +131,7 @@ public class NavigationController {
 
         FragmentTransaction transaction = supportFragmentManager.beginTransaction();
         transaction.replace(R.id.mainContainer, fragment, tag);
-        transaction.addToBackStack(null);
+        transaction.addToBackStack(tag);
         transaction.commit();
         toggleHamburgerIcon();
         return true;
@@ -192,11 +190,6 @@ public class NavigationController {
         UIDHelper.setTitle(mainActivity, titleId);
     }
 
-
-    public void setTitleText(CharSequence title) {
-        UIDHelper.setTitle(mainActivity, title);
-    }
-
     //Needed only untill we have hamburger
     public Toolbar getToolbar() {
         return toolbar;
@@ -249,7 +242,7 @@ public class NavigationController {
     }
 
     public boolean updateStack() {
-        boolean shouldHandleBack = true;
+        shouldHandleBack = true;
         if (hasBackStack()) {
             final List<Fragment> fragments = supportFragmentManager.getFragments();
             final Fragment fragment = fragments.get(fragments.size() - 1);
