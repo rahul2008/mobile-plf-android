@@ -87,6 +87,10 @@ public class NotificationBadgeFragment extends BaseFragment implements TextWatch
 
     @NonNull
     private String getBadgeCount(String s) {
+        //Avoid NFE for value out of Integer range.
+        if (s.length() > 4) {
+            return s;
+        }
         try {
             Integer badgeValue = Integer.valueOf(s);
             return badgeValue == 0 ? "" : "" + badgeValue;
