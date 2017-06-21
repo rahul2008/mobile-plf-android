@@ -51,7 +51,7 @@ public class ForgotPasswordTest extends RegistrationApiInstrumentationBase {
 //        mForgotPassword.onFlowDownloadFailure();
 
     }
-
+@Test
     public void testGetErrorMessage(){
         JSONArray jsonArray = new JSONArray();
         jsonArray.put("sample");

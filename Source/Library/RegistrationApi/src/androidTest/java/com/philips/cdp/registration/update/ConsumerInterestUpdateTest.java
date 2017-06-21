@@ -7,6 +7,8 @@ import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 import com.philips.cdp.registration.dao.ConsumerInterest;
 import com.philips.cdp.registration.handlers.UpdateConsumerInterestHandler;
 
+import org.junit.Test;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -21,7 +23,8 @@ public class ConsumerInterestUpdateTest extends RegistrationApiInstrumentationBa
     Context mContext;
 
     @Override
-    protected void setUp() throws Exception {
+
+    public void setUp() throws Exception {
 
         super.setUp();
 
@@ -29,7 +32,7 @@ public class ConsumerInterestUpdateTest extends RegistrationApiInstrumentationBa
         mConsumerInterestUpdate = new ConsumerInterestUpdate();
         assertNotNull(mConsumerInterestUpdate);
     }
-
+@Test
  public void testConvertConsumerArrayToJOSNString(){
         ArrayList<ConsumerInterest> consumerInterestList = new ArrayList<ConsumerInterest>();
         ConsumerInterest consumerInterest = new ConsumerInterest();
@@ -58,7 +61,7 @@ public class ConsumerInterestUpdateTest extends RegistrationApiInstrumentationBa
      }
  }
     //startUpdateTask(UpdateConsumerInterestHandler updateConsumerInterestHandler, String attributes)
-
+@Test
     public void testStartUpdateTask(){
         Method method = null;
         UpdateConsumerInterestHandler updateConsumerInterestHandler = new UpdateConsumerInterestHandler() {

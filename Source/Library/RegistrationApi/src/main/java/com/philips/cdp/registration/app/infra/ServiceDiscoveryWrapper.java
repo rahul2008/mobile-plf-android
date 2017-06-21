@@ -26,7 +26,6 @@ public class ServiceDiscoveryWrapper {
 
                 @Override
                 public void onError(ERRORVALUES errorvalues, String s) {
-
                     emitter.onError(new Throwable(s));
                 }
             };
@@ -43,7 +42,6 @@ public class ServiceDiscoveryWrapper {
 
                 @Override
                 public void onError(ERRORVALUES errorvalues, String s) {
-
                     emitter.onError(new Throwable(s));
                 }
             };

@@ -3,14 +3,10 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'jacoco'
 apply plugin: 'com.jakewharton.butterknife'
 
-jacoco {
-    toolVersion = "0.7.1.201405082137"
-}
+
 
 buildscript {
     repositories {
@@ -29,11 +25,10 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.1'
+
+        classpath 'com.android.tools.build:gradle:2.3.2'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.1', changing: true
-        classpath 'com.oguzbabaoglu:butterfork-plugin:1.0.0'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'me.tatarka:gradle-retrolambda:3.6.0'
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.6.0'
     }
@@ -192,10 +187,9 @@ android {
         }
 
         debug {
+            testCoverageEnabled true
             minifyEnabled false
             debuggable true
-            testCoverageEnabled false
-//            proguardFile 'proguard-rules.pro'
         }
     }
     compileOptions {
@@ -230,11 +224,12 @@ dependencies {
 
     compile group: 'com.googlecode.libphonenumber', name: 'libphonenumber', version: '7.7.1'
 
-    apt 'com.jakewharton:butterknife-compiler:8.6.0'
+
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
     compile 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
 
-    apt 'com.google.dagger:dagger-compiler:2.10'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
     compile 'com.google.dagger:dagger:2.10'
     provided 'javax.annotation:jsr250-api:1.0'
 
@@ -301,19 +296,20 @@ def coverageSourceDirs = [
         '../RegistrationApi/src/main/java'
 ]
 
-task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+task jacocoTestReport(type: JacocoReport, dependsOn:["testDebugUnitTest","createDebugCoverageReport"]) {
     group = "Reporting"
 
     description = "Generate Jacoco coverage reports"
 
     classDirectories = fileTree(
-            dir: '../iap/build/intermediates/classes/debug',
+            dir: '../RegistrationApi/build/intermediates/classes/debug',
     )
 
     additionalSourceDirs = files(coverageSourceDirs)
     sourceDirectories = files(coverageSourceDirs)
-    executionData = files('build/jacoco/testDebugUnitTest.exec')
+    //executionData = files('build/jacoco/testDebugUnitTest.exec')
 
+    executionData = files('build/jacoco/testDebugUnitTest.exec','build/outputs/code-coverage/connected/*coverage.ec')
     reports {
         xml.enabled = true
         html.enabled = true

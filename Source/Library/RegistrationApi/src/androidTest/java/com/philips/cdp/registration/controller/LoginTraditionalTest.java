@@ -51,7 +51,7 @@ public class LoginTraditionalTest extends RegistrationApiInstrumentationBase {
         synchronized(this){//synchronized block
         }
     }
-
+@Test
     public void testLoginTradional()
     {
         assertNotNull(loginTraditional);

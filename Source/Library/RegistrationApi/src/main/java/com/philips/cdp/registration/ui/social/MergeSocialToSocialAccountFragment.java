@@ -290,7 +290,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     @Override
     public void onEventReceived(String event) {
-        RLog.i(RLog.EVENT_LISTENERS, "MergeSocialToSocialAccountFragment :onEventReceived is : " + event);
+        RLog.i(RLog.EVENT_LISTENERS, "MergeSocialToSocialAccountFragment :onCounterEventReceived is : " + event);
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
             updateUiStatus();
         }

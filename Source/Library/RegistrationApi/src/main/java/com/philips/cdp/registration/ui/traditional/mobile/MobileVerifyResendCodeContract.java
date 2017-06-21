@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import com.philips.cdp.registration.HttpClientServiceReceiver;
 
-public interface MobileVerifyCodeContract {
+public interface MobileVerifyResendCodeContract {
 
 
     HttpClientServiceReceiver getClientServiceRecevier();
@@ -14,26 +14,27 @@ public interface MobileVerifyCodeContract {
 
     Intent getServiceIntent();
 
-    void enableVerifyButton();
+    void enableResendButton();
+
+    void enableUpdateButton();
+
+    void updateResendTime(long timeRemaining);
 
     void hideErrorMessage();
+    void hideProgressSpinner();
 
-    void disableVerifyButton();
+    void disableResendButton();
 
     void showNoNetworkErrorMessage();
 
     void showSmsSendFailedError();
 
-    void refreshUserOnSmsVerificationSuccess();
+    void enableResendButtonAndHideSpinner();
 
-    void smsVerificationResponseError();
+    void showSmsResendTechincalError(String errorCodeString);
+    void showNumberChangeTechincalError(String errorCodeString);
 
-    void hideProgressSpinner();
 
-    void setOtpInvalidErrorMessage();
-
-    void showOtpInvalidError();
-
-    void setOtpErrorMessageFromJson(String errorDescription);
+    void refreshUser();
 
 }
