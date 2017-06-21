@@ -52,6 +52,7 @@
 -keep class butterknife.** { *; }
 -dontwarn butterknife.internal.**
 -keep class **$$ViewBinder { *; }
+-keep class com.philips.platform.uid.view.widget.SearchBox{*;}
 
 -keepclasseswithmembernames class * {
     @butterknife.* <fields>;
