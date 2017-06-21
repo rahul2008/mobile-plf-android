@@ -54,4 +54,5 @@
     <string name="time_port">Time Port</string>
     <string name="lan_appliance">Lan Appliance</string>
     <string name="enable_communication">Enable Communication</string>
+    <string name="ms">milliseconds</string>
 </resources>
