@@ -38,8 +38,6 @@ public class ProvidersListFragment extends PTHBaseFragment implements SwipeRefre
 
         View view = inflater.inflate(R.layout.pth_providers_list_fragment,container,false);
         pthProviderListPresenter = new PTHProviderListPresenter(getActivity(),this);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView = (RecyclerView) view.findViewById(R.id.providerListRecyclerView);
 
         return view;
