@@ -46,6 +46,7 @@ Version 6.0.0
 
 ### Defects solved
 * \#49699 Software Version and ModelId incorrectly required in device port
+* \#56704: GetProps requests for LAN now significantly sped up.
 
 ### Residual anomalies
 * NA
