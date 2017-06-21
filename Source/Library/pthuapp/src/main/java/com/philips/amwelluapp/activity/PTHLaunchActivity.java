@@ -30,7 +30,7 @@ public class PTHLaunchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initCustomActionBar();
+        //initCustomActionBar();
         setContentView(R.layout.activity_test_ur);
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
