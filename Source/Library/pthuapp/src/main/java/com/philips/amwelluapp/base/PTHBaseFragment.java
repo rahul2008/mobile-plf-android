@@ -2,6 +2,8 @@ package com.philips.amwelluapp.base;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -13,6 +15,7 @@ public class PTHBaseFragment extends Fragment implements UIBaseView{
 
 
     FragmentLauncher mFragmentLauncher;
+    protected ProgressBar mProgressBar;
     @Override
     public void finishActivityAffinity() {
 
@@ -31,6 +34,18 @@ public class PTHBaseFragment extends Fragment implements UIBaseView{
     public void setFragmentLauncher(FragmentLauncher fragmentLauncher) {
      this.mFragmentLauncher = fragmentLauncher;
 }
+
+    public void showProgressBar() {
+        if (mProgressBar != null) {
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void hideProgressBar() {
+        if (mProgressBar != null) {
+            mProgressBar.setVisibility(View.GONE);
+        }
+    }
 
 
 }

@@ -11,6 +11,7 @@
         android:id="@+id/pth_id_practice_label"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:textSize="16sp"
         android:gravity="center_vertical"
         android:text="asd"
        />

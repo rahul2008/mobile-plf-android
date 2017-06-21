@@ -11,7 +11,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.americanwell.sdk.entity.practice.Practice;
+import com.americanwell.sdk.entity.provider.ProviderImageSize;
+import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.amwelluapp.R;
+import com.philips.amwelluapp.utility.PTHManager;
+import com.philips.platform.uid.view.widget.ImageButton;
+import com.squareup.picasso.Callback;
 
 /**
  * Created by philips on 6/19/17.
@@ -49,7 +54,17 @@ public class PracticeRecyclerViewAdapter extends RecyclerView.Adapter<PracticeRe
 
 
         customViewHolder.label.setText(practice.getName());
-
+        if (true) {
+            try {
+                PTHManager.getInstance().getAwsdk(customViewHolder.logo.getContext()).getPracticeProvidersManager()
+                        .newImageLoader(practice, customViewHolder.logo, false)
+                        .placeholder(customViewHolder.logo.getResources()
+                                .getDrawable(R.drawable.doctor_placeholder))
+                        .build().load();
+            } catch (AWSDKInstantiationException e) {
+                e.printStackTrace();
+            }
+        }
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,7 +72,6 @@ public class PracticeRecyclerViewAdapter extends RecyclerView.Adapter<PracticeRe
             }
         };
         customViewHolder.relativeLayout.setOnClickListener(listener);
-
 
 
     }
@@ -68,16 +82,18 @@ public class PracticeRecyclerViewAdapter extends RecyclerView.Adapter<PracticeRe
     }
 
     class CustomViewHolder extends RecyclerView.ViewHolder {
-        protected ImageView imageButton;
+        protected ImageView logo;
         protected TextView label;
         protected RelativeLayout relativeLayout;
 
         public CustomViewHolder(View view) {
             super(view);
-            //this.imageButton = (ImageView) view.findViewById(R.id.pth_practice_logo);
-            this.relativeLayout = (RelativeLayout)view.findViewById(R.id.pth_practice_row_layout);
+            this.logo = (ImageView) view.findViewById(R.id.pth_practice_logo);
+            this.relativeLayout = (RelativeLayout) view.findViewById(R.id.pth_practice_row_layout);
             this.label = (TextView) view.findViewById(R.id.pth_practice_name);
 
         }
     }
+
+
 }

@@ -19,7 +19,7 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 public class PTHWelcomeFragment extends PTHBaseFragment implements BackEventListener {
     public static final String TAG = PTHWelcomeFragment.class.getSimpleName();
     private UIBasePresenter presenter;
-    private ProgressBar progressBar;
+
     private FragmentLauncher fragmentLauncher;
 
     @Override
@@ -32,7 +32,7 @@ public class PTHWelcomeFragment extends PTHBaseFragment implements BackEventList
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.pth_welcome_fragment, container, false);
-        progressBar = (ProgressBar) view.findViewById(R.id.initialize_progress_bar);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.initialize_progress_bar);
         presenter.onEvent(R.id.initialize_progress_bar);
         ((PTHWelcomePresenter)presenter).initializeAwsdk();
         return view;
@@ -58,17 +58,7 @@ public class PTHWelcomeFragment extends PTHBaseFragment implements BackEventList
         return fragmentLauncher.getParentContainerResourceID();
     }
 
-    public void showProgressBar() {
-        if (progressBar != null) {
-            progressBar.setVisibility(View.VISIBLE);
-        }
-    }
 
-    public void hideProgressBar() {
-        if (progressBar != null) {
-            progressBar.setVisibility(View.GONE);
-        }
-    }
 
     @Override
     public boolean handleBackEvent() {
