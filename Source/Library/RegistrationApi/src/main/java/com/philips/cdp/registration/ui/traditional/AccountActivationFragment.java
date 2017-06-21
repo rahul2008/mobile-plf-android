@@ -428,9 +428,10 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         AppTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
         try {
             mRegError.setError(userRegistrationFailureInfo.getError().raw_response.getString("message"));
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (Exception e){
+            mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
         }
+
         mBtnResend.setEnabled(true);
         mEMailVerifiedError.setVisibility(View.GONE);
     }

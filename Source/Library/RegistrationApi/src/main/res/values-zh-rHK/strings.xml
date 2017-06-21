@@ -173,7 +173,7 @@
 <string name="reg_Opt_In_Special_Offers">無論是特別優惠、推廣及新產品面市的第一手資訊，我們都可為您帶來度身訂造的資訊！</string>
 <string name="reg_Opt_In_Join_Now">立即加入</string>
 <string name="reg_Opt_In_Over_Peers">已經有超過 140,000 人加入！</string>
-<string name="reg_Opt_In_Receive_Promotional">按照我的偏好及網上瀏覽行為接收 Philips 推廣通訊</string>
+<string name="reg_Opt_In_Receive_Promotional">按照我的偏好及網上瀏覽行為接收 Philips 推廣通訊 \n%s </string>
 <string name="reg_Opt_In_Count_Me_In">好的，讓我加入</string>
 <string name="reg_Opt_In_No_Thanks">不，謝謝</string>
 <string name="reg_Resend_SMS_title">重新發送 SMS 短訊</string>

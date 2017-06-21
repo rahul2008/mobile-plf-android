@@ -362,20 +362,26 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
             @Override
             public void onClick(View v) {
-                if (!UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-                    mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
-                    scrollViewAutomatically(mRegError, mSvRootLayout);
-                    return;
-                }
+
+                trackPage(AppTaggingPages.CREATE_ACCOUNT);
+
                 RLog.d(RLog.ONCLICK, "HomeFragment : " + providerName);
                 if(mRegError.isShown())mRegError.hideError();
                 if (networkUtility.isNetworkAvailable()) {
-                    if(!providerName.equalsIgnoreCase(WECHAT)) {
-                        providerBtn.showProgressBar();
+                    mFlowId = 3;
+                    mProvider = providerName;
+                    if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
+                        if(!providerName.equalsIgnoreCase(WECHAT)) {
+                            providerBtn.showProgressBar();
+                        } else {
+                            providerBtn.setClickable(false);
+                        }
+                        callSocialProvider(providerName);
                     } else {
-                        providerBtn.setClickable(false);
+                        showProgressDialog();
+                        RegistrationHelper.getInstance().initializeUserRegistration(mContext);
                     }
-                    callSocialProvider(providerName);
+
                 } else {
                     scrollViewAutomatically(mRegError, mSvRootLayout);
                     enableControls(false);
@@ -634,7 +640,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         if (null == mUser) {
             return;
         }
-        mProvider = providerName;
         if (networkUtility.isNetworkAvailable()) {
             trackMultipleActionsLogin(providerName);
             trackSocialProviderPage();
@@ -654,7 +659,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
                 return;
             }
-            mFlowId = 3;
             makeProgressVisible();
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         }
