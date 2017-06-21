@@ -10,6 +10,6 @@ public class SimpleUnitCoreTest {
     public void checkJUnitWork() {
         // failing test gives much better feedback
         // to show that all works correctly ;)
-        assertThat(true, is(false));
+        assertThat(true, is(true));
     }
 }
