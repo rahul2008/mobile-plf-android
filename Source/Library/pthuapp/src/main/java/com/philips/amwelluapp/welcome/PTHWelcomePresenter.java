@@ -15,7 +15,7 @@ import com.philips.amwelluapp.login.PTHLoginCallBack;
 import com.philips.amwelluapp.practice.PTHPractice;
 import com.philips.amwelluapp.practice.PTHPracticesListCallback;
 import com.philips.amwelluapp.practice.PracticeFragment;
-import com.philips.amwelluapp.providerslist.PTHGetConsumerObjectCallBack;
+import com.philips.amwelluapp.login.PTHGetConsumerObjectCallBack;
 import com.philips.amwelluapp.providerslist.PTHProvidersListCallback;
 import com.philips.amwelluapp.providerslist.PTHProvidersListFragment;
 import com.philips.amwelluapp.utility.PTHManager;

@@ -98,9 +98,10 @@ public class PracticeFragment extends PTHBaseFragment implements BackEventListen
             @Override
             public void onItemClick(Practice practice) {
                 //TBD call PTHProviderPoJo here...
-                PTHProvidersListFragment PTHProvidersListFragment = new PTHProvidersListFragment();
-                PTHProvidersListFragment.setPracticeAndConsumer(practice,mConsumer);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), PTHProvidersListFragment,"ProviderListFragment").commit();
+                PTHProvidersListFragment providerListFragment = new PTHProvidersListFragment();
+                providerListFragment.setPracticeAndConsumer(practice,mConsumer);
+
+                getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), providerListFragment,"ProviderListFragment").commit();
                 Toast.makeText(getFragmentActivity(),practice.getName()+ "Practice clicked",Toast.LENGTH_SHORT).show();
             }
         });
