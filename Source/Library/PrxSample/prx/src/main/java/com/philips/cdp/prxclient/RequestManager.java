@@ -1,5 +1,7 @@
 package com.philips.cdp.prxclient;
 
+import android.util.Log;
+
 import com.philips.cdp.prxclient.network.NetworkWrapper;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.prxclient.response.ResponseListener;
@@ -14,63 +16,62 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
  */
 public class RequestManager {
 
-    private static final String TAG = RequestManager.class.getSimpleName();
-    private PRXDependencies mPrxDependencies;
+	private static final String TAG = RequestManager.class.getSimpleName();
+	private PRXDependencies mPrxDependencies;
 
-    public void init(PRXDependencies prxDependencies) {
-        mPrxDependencies = prxDependencies;
-        if(mPrxDependencies != null ) {
-            AppInfraInterface appInfra = mPrxDependencies.getAppInfra();
-            if(appInfra != null){
-                    if( mPrxDependencies.getParentTLA() != null)  {
-                        mPrxDependencies.mAppInfraLogging = appInfra.getLogging().createInstanceForComponent(String.format("%s /prx ",mPrxDependencies.getParentTLA()) , getLibVersion());
-                        mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.INFO,PrxConstants.PRX_REQUEST_MANAGER ,String.format("PRX is initialized with  %s", mPrxDependencies.getParentTLA()));
+	public void init(PRXDependencies prxDependencies) {
+		mPrxDependencies = prxDependencies;
+		if (mPrxDependencies != null) {
+			AppInfraInterface appInfra = mPrxDependencies.getAppInfra();
+			if (appInfra != null) {
+				if (mPrxDependencies.getParentTLA() != null) {
+					mPrxDependencies.mAppInfraLogging = appInfra.getLogging().createInstanceForComponent(String.format("%s /prx ", mPrxDependencies.getParentTLA()), getLibVersion());
+					mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.INFO, PrxConstants.PRX_REQUEST_MANAGER, String.format("PRX is initialized with  %s", mPrxDependencies.getParentTLA()));
 
-                    } else {
-                        mPrxDependencies.mAppInfraLogging = appInfra.getLogging().createInstanceForComponent(" /prx " , getLibVersion());
-                        mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.INFO,PrxConstants.PRX_REQUEST_MANAGER ,"PRX is initialized ");
-                    }
-            }
-            else {
-                mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.ERROR,PrxConstants.PRX_REQUEST_MANAGER ,"PRX not initialized ");
-            }
-        }
-    }
+				} else {
+					mPrxDependencies.mAppInfraLogging = appInfra.getLogging().createInstanceForComponent(" /prx ", getLibVersion());
+					mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.INFO, PrxConstants.PRX_REQUEST_MANAGER, "PRX is initialized ");
+				}
+			} else {
+				Log.e(PrxConstants.PRX_REQUEST_MANAGER, "PRX not initialized ");
+			}
+		}
+	}
 
 
-    public void executeRequest(PrxRequest prxRequest, ResponseListener listener) {
-        makeRequest(prxRequest, listener);
-    }
+	public void executeRequest(PrxRequest prxRequest, ResponseListener listener) {
+		makeRequest(prxRequest, listener);
+	}
 
-    public void cancelRequest(String requestTag) {
-    }
+	public void cancelRequest(String requestTag) {
+	}
 
-    private void makeRequest(final PrxRequest prxRequest, final ResponseListener listener) {
-        try {
-            mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.INFO,PrxConstants.PRX_REQUEST_MANAGER ,"excute prx request");
-            new NetworkWrapper(mPrxDependencies).executeCustomJsonRequest(prxRequest, listener);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	private void makeRequest(final PrxRequest prxRequest, final ResponseListener listener) {
+		try {
+			mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.INFO, PrxConstants.PRX_REQUEST_MANAGER, "excute prx request");
+			new NetworkWrapper(mPrxDependencies).executeCustomJsonRequest(prxRequest, listener);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-    public String getLibVersion() {
-        String mAppVersion=null;
-        try {
-            mAppVersion = BuildConfig.VERSION_NAME;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (mAppVersion != null && !mAppVersion.isEmpty()) {
-            if (!mAppVersion.matches("[0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?")) {
-                throw new IllegalArgumentException("AppVersion should in this format " +
-                        "\" [0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?]\" ");
-            }
-        } else {
-            throw new IllegalArgumentException("Prx Appversion cannot be null");
-        }
-        return mAppVersion;
-    }
+	public String getLibVersion() {
+		String mAppVersion = null;
+		try {
+			mAppVersion = BuildConfig.VERSION_NAME;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (mAppVersion != null && !mAppVersion.isEmpty()) {
+			if (!mAppVersion.matches("[0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?")) {
+				throw new IllegalArgumentException("AppVersion should in this format " +
+						"\" [0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?]\" ");
+			}
+		} else {
+			throw new IllegalArgumentException("Prx Appversion cannot be null");
+		}
+		return mAppVersion;
+	}
 
 
 }
