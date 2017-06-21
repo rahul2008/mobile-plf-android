@@ -18,6 +18,6 @@ public class RobolectricCoreTest {
 
         // failing test gives much better feedback
         // to show that all works correctly ;)
-        assertThat(content, equalTo("Testing Android Rocks!"));
+        assertThat(content, equalTo("InAppPurchase"));
     }
 }
