@@ -1,7 +1,6 @@
 package com.philips.amwelluapp.practice;
 
 import android.os.Bundle;
-
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,11 +15,9 @@ import com.americanwell.sdk.entity.practice.Practice;
 import com.philips.amwelluapp.R;
 import com.philips.amwelluapp.base.PTHBaseFragment;
 import com.philips.amwelluapp.base.UIBasePresenter;
-
+import com.philips.amwelluapp.providerslist.ProvidersListFragment;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Label;
-
-import java.util.List;
 
 /**
  * Created by philips on 6/19/17.
@@ -101,6 +98,9 @@ public class PracticeFragment extends PTHBaseFragment implements BackEventListen
             @Override
             public void onItemClick(Practice practice) {
                 //TBD call Provider here...
+                ProvidersListFragment providersListFragment = new ProvidersListFragment();
+                providersListFragment.setPracticeAndConsumer(practice,mConsumer);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(),providersListFragment,"ProviderListFragment").commit();
                 Toast.makeText(getFragmentActivity(),practice.getName()+ "Practice clicked",Toast.LENGTH_SHORT).show();
             }
         });

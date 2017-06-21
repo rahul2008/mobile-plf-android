@@ -15,10 +15,11 @@ import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.philips.amwelluapp.R;
 import com.philips.amwelluapp.base.PTHBaseFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uid.view.widget.ProgressBar;
 
 import java.util.List;
 
-public class ProvidersListFragment extends PTHBaseFragment implements SwipeRefreshLayout.OnRefreshListener{
+public class ProvidersListFragment extends PTHBaseFragment implements SwipeRefreshLayout.OnRefreshListener,UIProviderListViewInterface{
 
     private FragmentLauncher fragmentLauncher;
     private RecyclerView recyclerView;
@@ -27,6 +28,10 @@ public class ProvidersListFragment extends PTHBaseFragment implements SwipeRefre
     private SwipeRefreshLayout swipeRefreshLayout;
     private Practice practice;
     private Consumer consumer;
+    private ProgressBar progressBar;
+    private PTHProvidersListAdapter pthProvidersListAdapter;
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -35,20 +40,36 @@ public class ProvidersListFragment extends PTHBaseFragment implements SwipeRefre
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView = (RecyclerView) view.findViewById(R.id.providerListRecyclerView);
-        pthProviderListPresenter = new PTHProviderListPresenter();
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new PTHProvidersListAdapter(providerInfoList,pthProviderListPresenter));
+
         return view;
     }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        pthProviderListPresenter = new PTHProviderListPresenter(getActivity(),this);
+        pthProviderListPresenter.fetchProviderList(consumer,practice);
+    }
+
     public void setProvidersList(List<ProviderInfo> providersList){
         providerInfoList = providersList;
     }
 
     public void setPracticeAndConsumer(Practice practice, Consumer consumer){
+        this.practice = practice;
+        this.consumer = consumer;
 
     }
     @Override
     public void onRefresh() {
+
+    }
+
+    @Override
+    public void updateProviderAdapterList(List<ProviderInfo> providerInfos) {
+        pthProvidersListAdapter = new PTHProvidersListAdapter(providerInfos,pthProviderListPresenter);
+        recyclerView.setAdapter(pthProvidersListAdapter);
 
     }
 }
