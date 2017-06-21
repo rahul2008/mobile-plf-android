@@ -7,26 +7,19 @@
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.RippleDrawable;
-import android.graphics.drawable.StateListDrawable;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.TextView;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
-import com.philips.platform.uid.utils.UIDUtils;
 
 /**
  * <p>Provides an implementation for a customized RadioButton.
@@ -74,7 +67,23 @@ public class RadioButton extends AppCompatRadioButton{
 
     public RadioButton(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
+        final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
         UIDLocaleHelper.setTextFromResourceID(context, this, attrs);
+        setTextColorFromResourceID(context, this, attrs, theme);
+    }
+
+    private void setTextColorFromResourceID(@NonNull Context context, @NonNull View view, @NonNull final AttributeSet attr, @NonNull final Resources.Theme theme) {
+        if (view instanceof TextView) {
+            TypedArray textColorArray = context.obtainStyledAttributes(attr, new int[]{android.R.attr.textColor});
+            int resourceId = textColorArray.getResourceId(0, -1);
+            if (resourceId != -1) {
+                ((TextView) view).setTextColor(resourceId);
+            } else{
+                setTextColor(ThemeUtils.buildColorStateList(context.getResources(), theme, R.color.uid_radiobutton_text_selector));
+            }
+            textColorArray.recycle();
+        }
     }
 
     @Override

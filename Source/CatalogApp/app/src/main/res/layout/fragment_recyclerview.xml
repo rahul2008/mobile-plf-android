@@ -93,20 +93,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
 
                     <com.philips.platform.uid.view.widget.RadioButton
                         android:id="@+id/single_line_with_icon"
-                        style="@style/RecyclerViewRadioButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/radio_button_text_padding_left_right"
+                        android:paddingEnd="@dimen/radio_button_text_padding_left_right"
                         android:checked="@{frag.isIconTemplateSelected}"
                         android:onCheckedChanged="@{(v, isChecked) -> frag.setIsIconTemplateSelected(isChecked)}"
-                        android:text="@string/single_line_with_icon"
-                        />
+                        android:text="@string/single_line_with_icon" />
 
                     <com.philips.platform.uid.view.widget.RadioButton
                         android:id="@+id/two_lines"
-                        style="@style/RecyclerViewRadioButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/radio_button_text_padding_left_right"
+                        android:paddingEnd="@dimen/radio_button_text_padding_left_right"
                         android:checked="@{!frag.isIconTemplateSelected}"
                         android:text="@string/two_lines"/>
                 </com.philips.platform.uid.view.widget.RadioGroup>
