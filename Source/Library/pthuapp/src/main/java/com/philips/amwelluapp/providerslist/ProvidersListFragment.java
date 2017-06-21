@@ -39,6 +39,8 @@ public class ProvidersListFragment extends PTHBaseFragment implements SwipeRefre
         View view = inflater.inflate(R.layout.pth_providers_list_fragment,container,false);
         pthProviderListPresenter = new PTHProviderListPresenter(getActivity(),this);
         recyclerView = (RecyclerView) view.findViewById(R.id.providerListRecyclerView);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         return view;
     }
@@ -61,11 +63,12 @@ public class ProvidersListFragment extends PTHBaseFragment implements SwipeRefre
     }
     @Override
     public void onRefresh() {
-
+        pthProviderListPresenter.fetchProviderList(consumer,practice);
     }
 
     @Override
     public void updateProviderAdapterList(List<ProviderInfo> providerInfos) {
+        swipeRefreshLayout.setRefreshing(false);
         pthProvidersListAdapter = new PTHProvidersListAdapter(providerInfos,pthProviderListPresenter);
         recyclerView.setAdapter(pthProvidersListAdapter);
 
