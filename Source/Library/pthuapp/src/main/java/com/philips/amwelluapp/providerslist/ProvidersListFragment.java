@@ -2,7 +2,6 @@ package com.philips.amwelluapp.providerslist;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +13,7 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.philips.amwelluapp.R;
+import com.philips.amwelluapp.base.PTHBaseFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.List;

@@ -6,8 +6,6 @@ import android.widget.ImageView;
 
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
-import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.philips.amwelluapp.utility.PTHManager;
 
 /**
  * Created by philips on 6/20/17.
@@ -20,11 +18,11 @@ public class PTHProviderListPresenter implements PTHPracticeProviderImageCallbac
     }
 
     public void fetchProviderImage(Context context, ProviderInfo providerInfo, ImageView imageView, ProviderImageSize providerImageSize, Drawable drawable){
-        try {
-            PTHManager.getInstance().fetchProviderImage(context,providerInfo,imageView,providerImageSize,drawable,this);
+        /*try {
+            //PTHManager.getInstance().fetchProviderImage(context,providerInfo,imageView,providerImageSize,drawable,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
