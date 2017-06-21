@@ -15,7 +15,8 @@ def coverageSourceDirs = [
 
 buildscript {
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven {
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -44,9 +45,10 @@ if (project.hasProperty('envCode')) {
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
+objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = rootProject.name
 
 allprojects {
@@ -89,7 +91,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('aar')
+                publications('aar')
             }
         }
     }
@@ -98,7 +100,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
@@ -135,7 +138,7 @@ publishing {
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
@@ -245,6 +248,7 @@ dependencies {
     testCompile "org.robolectric:robolectric:3.0-rc3"
     testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
+    androidTestCompile 'com.squareup.assertj:assertj-android:1.1.1'
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
