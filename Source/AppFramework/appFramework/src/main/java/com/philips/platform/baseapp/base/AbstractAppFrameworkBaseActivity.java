@@ -21,7 +21,6 @@ import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * AbstractAppFrameworkBaseActivity is the App level settings class for controlling the behavior of apps.
@@ -80,7 +79,7 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(containerId, fragment, fragmentTag);
         fragmentTransaction.addToBackStack(fragmentTag);
-        fragmentTransaction.commit();
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
     private void addToBackStack(int containerID, Fragment fragment, String fragmentTag) {
@@ -88,7 +87,7 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
 
         fragmentTransaction.replace(containerID, fragment, fragmentTag);
         fragmentTransaction.addToBackStack(fragmentTag);
-        fragmentTransaction.commit();
+        fragmentTransaction.commitAllowingStateLoss();
     }
 
     /*public int getCartItemCount() {

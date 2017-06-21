@@ -55,7 +55,7 @@ public class ConnectivityFragmentAbstract extends AbstractAppFrameworkBaseFragme
     private DICommApplianceFactory<BleReferenceAppliance> applianceFactory;
     private TextView connectionState;
     private BluetoothAdapter mBluetoothAdapter;
-    private Handler handler=new Handler();
+    private Handler handler = new Handler();
     private static final int REQUEST_ENABLE_BT = 1;
     private BLEScanDialogFragment bleScanDialogFragment;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1001;
@@ -74,7 +74,7 @@ public class ConnectivityFragmentAbstract extends AbstractAppFrameworkBaseFragme
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext=context;
+        mContext = context;
     }
 
     @Override
@@ -84,11 +84,11 @@ public class ConnectivityFragmentAbstract extends AbstractAppFrameworkBaseFragme
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
-        RALog.d(TAG,"Connectivity Fragment Oncreate");
+        RALog.d(TAG, "Connectivity Fragment Oncreate");
         super.onCreate(savedInstanceState);
         // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
         // BluetoothAdapter through BluetoothManager.
-        connectivityFragmentWeakReference=new WeakReference<ConnectivityFragmentAbstract>(this);
+        connectivityFragmentWeakReference = new WeakReference<ConnectivityFragmentAbstract>(this);
         final BluetoothManager bluetoothManager =
                 (BluetoothManager) getActivity().getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
@@ -98,7 +98,7 @@ public class ConnectivityFragmentAbstract extends AbstractAppFrameworkBaseFragme
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        connectivityPresenter = new ConnectivityPresenter(this, new User(getActivity().getApplicationContext()),getActivity());
+        connectivityPresenter = new ConnectivityPresenter(this, new User(getActivity().getApplicationContext()), getActivity());
         View rootView = inflater.inflate(R.layout.af_connectivity_fragment, container, false);
         rootView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -124,7 +124,7 @@ public class ConnectivityFragmentAbstract extends AbstractAppFrameworkBaseFragme
      */
     private void setUpCommCentral() {
         // Setup CommCentral
-        RALog.i(TAG,"Setup CommCentral ");
+        RALog.i(TAG, "Setup CommCentral ");
         final BleTransportContext bleTransportContext = new BleTransportContext(getActivity());
         this.applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
 
@@ -176,59 +176,53 @@ public class ConnectivityFragmentAbstract extends AbstractAppFrameworkBaseFragme
      * Start scanning nearby devices using given strategy
      */
     private void startDiscovery() {
-        RALog.i(TAG,"Ble device discovery started ");
-        new Handler().postDelayed(new Runnable() {
+        RALog.i(TAG, "Ble device discovery started ");
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                try {
-                    bleScanDialogFragment = new BLEScanDialogFragment();
-                    bleScanDialogFragment.setSavedApplianceList(commCentral.getApplianceManager().getAvailableAppliances());
-                    bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), "BleScanDialog");
-                    bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
-                        @Override
-                        public void onDeviceSelected(BleReferenceAppliance bleRefAppliance) {
-                            if (bleRefAppliance.getDeviceMeasurementPort() != null && bleRefAppliance.getDeviceMeasurementPort().getPortProperties() != null) {
-                                bleRefAppliance.getDeviceMeasurementPort().reloadProperties();
-                            } else {
-                                updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Connected));
-                                connectivityPresenter.setUpApplicance(bleRefAppliance);
-                                bleRefAppliance.getDeviceMeasurementPort().getPortProperties();
-                            }
-                        }
-                    });
-
-                    commCentral.startDiscovery();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (commCentral != null) {
-                                commCentral.stopDiscovery();
-                                if (bleScanDialogFragment != null) {
-                                    bleScanDialogFragment.hideProgressBar();
-                                    if (bleScanDialogFragment.getDeviceCount() == 0) {
-                                        bleScanDialogFragment.dismiss();
-                                        Toast.makeText(mContext, R.string.RA_no_device_found, Toast.LENGTH_SHORT).show();
-
-                                    }
-
+                if (isFragmentLive()) {
+                    try {
+                        bleScanDialogFragment = new BLEScanDialogFragment();
+                        bleScanDialogFragment.setSavedApplianceList(commCentral.getApplianceManager().getAvailableAppliances());
+                        bleScanDialogFragment.show(getActivity().getSupportFragmentManager(), "BleScanDialog");
+                        bleScanDialogFragment.setBLEDialogListener(new BLEScanDialogFragment.BLEScanDialogListener() {
+                            @Override
+                            public void onDeviceSelected(BleReferenceAppliance bleRefAppliance) {
+                                if (bleRefAppliance.getDeviceMeasurementPort() != null && bleRefAppliance.getDeviceMeasurementPort().getPortProperties() != null) {
+                                    bleRefAppliance.getDeviceMeasurementPort().reloadProperties();
+                                } else {
+                                    updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Connected));
+                                    connectivityPresenter.setUpApplicance(bleRefAppliance);
+                                    bleRefAppliance.getDeviceMeasurementPort().getPortProperties();
                                 }
                             }
-                        }
-                    }, 30000);
-                    handler.postDelayed(stopDiscoveryRunnable,30000);
-                    updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Disconnected));
-                } catch (MissingPermissionException e) {
-                    RALog.e(TAG, "Permission missing");
+                        });
+
+                        commCentral.startDiscovery();
+                        handler.postDelayed(stopDiscoveryRunnable, 30000);
+                        updateConnectionStateText(getString(R.string.RA_Connectivity_Connection_Status_Disconnected));
+                    } catch (MissingPermissionException e) {
+                        RALog.e(TAG, "Permission missing");
+                    }
                 }
             }
         }, 100);
 
     }
 
-    private Runnable stopDiscoveryRunnable=new Runnable() {
+    /**
+     * Check if fragment is live
+     *
+     * @return
+     */
+    private boolean isFragmentLive() {
+        return connectivityFragmentWeakReference != null && isAdded();
+    }
+
+    private Runnable stopDiscoveryRunnable = new Runnable() {
         @Override
         public void run() {
-            if (commCentral != null && connectivityFragmentWeakReference!=null&& isAdded()) {
+            if (commCentral != null && isFragmentLive()) {
                 commCentral.stopDiscovery();
                 if (bleScanDialogFragment != null) {
                     bleScanDialogFragment.hideProgressBar();
@@ -256,7 +250,7 @@ public class ConnectivityFragmentAbstract extends AbstractAppFrameworkBaseFragme
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
-        if(momentValueEditText!=null) {
+        if (momentValueEditText != null) {
             momentValueEditText.setText(momentValue);
         }
     }
@@ -283,7 +277,8 @@ public class ConnectivityFragmentAbstract extends AbstractAppFrameworkBaseFragme
                     }
                 } catch (Exception e) {
                     RALog.d(DEVICE_DATAPARSING,
-                            e.getMessage());              }
+                            e.getMessage());
+                }
             }
         });
 
@@ -374,17 +369,18 @@ public class ConnectivityFragmentAbstract extends AbstractAppFrameworkBaseFragme
 
     @Override
     public void onDestroy() {
-        RALog.d(TAG," Connectivity Fragment Destroyed");
-        if(handler!=null){
-            handler.removeCallbacks(stopDiscoveryRunnable);
-        }
-        connectivityFragmentWeakReference=null;
+        RALog.d(TAG, " Connectivity Fragment Destroyed");
+        connectivityFragmentWeakReference = null;
         super.onDestroy();
     }
 
     @Override
     public void onDestroyView() {
         ConnectivityUtils.hideSoftKeyboard(getActivity());
+        if (handler != null) {
+            handler.removeCallbacks(stopDiscoveryRunnable);
+            handler.removeCallbacksAndMessages(null);
+        }
         super.onDestroyView();
     }
 
