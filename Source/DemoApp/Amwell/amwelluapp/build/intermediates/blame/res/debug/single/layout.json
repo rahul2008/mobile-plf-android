@@ -1,0 +1,254 @@
+[
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/activity_guest_login.xml",
+        "source": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/src/main/res/layout/activity_guest_login.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/design_layout_snackbar.xml",
+        "source": "/Users/philips/.android/build-cache/ddb94a3eb49dce0ee842dad9897742ad03307989/output/res/layout/design_layout_snackbar.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/select_dialog_singlechoice_material.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/select_dialog_singlechoice_material.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/awsdk_dialog_fragment_invite_guest.xml",
+        "source": "/Users/philips/.android/build-cache/faf28b5c82c46768e778b6696cea0dbcf58d1e40/output/res/layout/awsdk_dialog_fragment_invite_guest.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_alert_dialog_material.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_alert_dialog_material.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_action_bar_view_list_nav_layout.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_action_bar_view_list_nav_layout.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/design_navigation_item_separator.xml",
+        "source": "/Users/philips/.android/build-cache/ddb94a3eb49dce0ee842dad9897742ad03307989/output/res/layout/design_navigation_item_separator.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_activity_chooser_view.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_activity_chooser_view.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/design_layout_tab_icon.xml",
+        "source": "/Users/philips/.android/build-cache/ddb94a3eb49dce0ee842dad9897742ad03307989/output/res/layout/design_layout_tab_icon.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_action_menu_layout.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_action_menu_layout.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_search_dropdown_item_icons_2line.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_search_dropdown_item_icons_2line.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_action_mode_bar.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_action_mode_bar.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_alert_dialog_button_bar_material.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_alert_dialog_button_bar_material.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_action_menu_item_layout.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_action_menu_item_layout.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/activity_test_ur.xml",
+        "source": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/src/main/res/layout/activity_test_ur.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_list_menu_item_layout.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_list_menu_item_layout.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_list_menu_item_radio.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_list_menu_item_radio.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/design_navigation_item_subheader.xml",
+        "source": "/Users/philips/.android/build-cache/ddb94a3eb49dce0ee842dad9897742ad03307989/output/res/layout/design_navigation_item_subheader.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/notification_template_lines_media.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/notification_template_lines_media.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/notification_template_media.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/notification_template_media.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_activity_chooser_view_list_item.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_activity_chooser_view_list_item.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/fragment_main.xml",
+        "source": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/src/main/res/layout/fragment_main.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_list_menu_item_checkbox.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_list_menu_item_checkbox.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_popup_menu_item_layout.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_popup_menu_item_layout.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_select_dialog_material.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_select_dialog_material.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_dialog_title_material.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_dialog_title_material.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/select_dialog_item_material.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/select_dialog_item_material.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/notification_template_media_custom.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/notification_template_media_custom.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/design_bottom_sheet_dialog.xml",
+        "source": "/Users/philips/.android/build-cache/ddb94a3eb49dce0ee842dad9897742ad03307989/output/res/layout/design_bottom_sheet_dialog.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/design_menu_item_action_area.xml",
+        "source": "/Users/philips/.android/build-cache/ddb94a3eb49dce0ee842dad9897742ad03307989/output/res/layout/design_menu_item_action_area.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/select_dialog_multichoice_material.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/select_dialog_multichoice_material.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/awsdk_video_control_bar.xml",
+        "source": "/Users/philips/.android/build-cache/faf28b5c82c46768e778b6696cea0dbcf58d1e40/output/res/layout/awsdk_video_control_bar.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_alert_dialog_title_material.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_alert_dialog_title_material.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/content_main.xml",
+        "source": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/src/main/res/layout/content_main.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/design_navigation_menu.xml",
+        "source": "/Users/philips/.android/build-cache/ddb94a3eb49dce0ee842dad9897742ad03307989/output/res/layout/design_navigation_menu.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_action_bar_up_container.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_action_bar_up_container.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/notification_template_part_chronometer.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/notification_template_part_chronometer.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/awsdk_video_console.xml",
+        "source": "/Users/philips/.android/build-cache/faf28b5c82c46768e778b6696cea0dbcf58d1e40/output/res/layout/awsdk_video_console.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/awsdk_video_conference_console.xml",
+        "source": "/Users/philips/.android/build-cache/faf28b5c82c46768e778b6696cea0dbcf58d1e40/output/res/layout/awsdk_video_conference_console.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_action_mode_close_item_material.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_action_mode_close_item_material.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_list_menu_item_icon.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_list_menu_item_icon.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/design_layout_tab_text.xml",
+        "source": "/Users/philips/.android/build-cache/ddb94a3eb49dce0ee842dad9897742ad03307989/output/res/layout/design_layout_tab_text.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/activity_sample.xml",
+        "source": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/src/main/res/layout/activity_sample.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/design_navigation_item.xml",
+        "source": "/Users/philips/.android/build-cache/ddb94a3eb49dce0ee842dad9897742ad03307989/output/res/layout/design_navigation_item.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/awsdk_explain_alarms_dialog_fragment.xml",
+        "source": "/Users/philips/.android/build-cache/faf28b5c82c46768e778b6696cea0dbcf58d1e40/output/res/layout/awsdk_explain_alarms_dialog_fragment.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/design_navigation_item_header.xml",
+        "source": "/Users/philips/.android/build-cache/ddb94a3eb49dce0ee842dad9897742ad03307989/output/res/layout/design_navigation_item_header.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_expanded_menu_layout.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_expanded_menu_layout.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/design_text_input_password_icon.xml",
+        "source": "/Users/philips/.android/build-cache/ddb94a3eb49dce0ee842dad9897742ad03307989/output/res/layout/design_text_input_password_icon.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/custom_action_bar.xml",
+        "source": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/src/main/res/layout/custom_action_bar.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_screen_toolbar.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_screen_toolbar.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/support_simple_spinner_dropdown_item.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/support_simple_spinner_dropdown_item.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_screen_content_include.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_screen_content_include.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/activity_main.xml",
+        "source": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/src/main/res/layout/activity_main.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_popup_menu_header_item_layout.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_popup_menu_header_item_layout.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/design_bottom_navigation_item.xml",
+        "source": "/Users/philips/.android/build-cache/ddb94a3eb49dce0ee842dad9897742ad03307989/output/res/layout/design_bottom_navigation_item.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_search_view.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_search_view.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_screen_simple.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_screen_simple.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_action_bar_title_item.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_action_bar_title_item.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/design_layout_snackbar_include.xml",
+        "source": "/Users/philips/.android/build-cache/ddb94a3eb49dce0ee842dad9897742ad03307989/output/res/layout/design_layout_snackbar_include.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/abc_screen_simple_overlay_action_mode.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/abc_screen_simple_overlay_action_mode.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/fragment_sample.xml",
+        "source": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/src/main/res/layout/fragment_sample.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/design_navigation_menu_item.xml",
+        "source": "/Users/philips/.android/build-cache/ddb94a3eb49dce0ee842dad9897742ad03307989/output/res/layout/design_navigation_menu_item.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/debug/layout/notification_template_part_time.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout/notification_template_part_time.xml"
+    }
+]

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:padding="15dp">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/pth_id_practice_label"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center_vertical"
+        android:text="asd"
+       />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/pth_recycler_view_practice"
+        android:layout_below="@+id/pth_id_practice_label"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true" />
+
+
+</RelativeLayout>
+

@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/release/layout-v21/notification_action.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout-v21/notification_action.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/release/layout-v21/notification_template_icon_group.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout-v21/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/release/layout-v21/notification_action_tombstone.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout-v21/notification_action_tombstone.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/release/layout-v21/notification_template_custom_big.xml",
+        "source": "/Users/philips/.android/build-cache/db78f13cf6fb04c16506a5c37ca1329790a4ec6d/output/res/layout-v21/notification_template_custom_big.xml"
+    }
+]

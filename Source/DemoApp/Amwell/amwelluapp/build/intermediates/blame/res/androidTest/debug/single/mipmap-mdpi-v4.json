@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/androidTest/debug/mipmap-mdpi-v4/ic_launcher_round.png",
+        "source": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/bundles/debug/res/mipmap-mdpi-v4/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/res/merged/androidTest/debug/mipmap-mdpi-v4/ic_launcher.png",
+        "source": "/Users/philips/AmwellRepo/Source/DemoApp/Amwell/amwelluapp/build/intermediates/bundles/debug/res/mipmap-mdpi-v4/ic_launcher.png"
+    }
+]

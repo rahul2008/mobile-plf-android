@@ -18,7 +18,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.List;
 
-public class ProvidersListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class ProvidersListFragment extends PTHBaseFragment implements SwipeRefreshLayout.OnRefreshListener{
 
     private FragmentLauncher fragmentLauncher;
     private RecyclerView recyclerView;

@@ -26,7 +26,7 @@ buildscript {
 
     dependencies {
         classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
-        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'com.android.tools.build:gradle:2.3.3'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.1', changing: true
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
 //        compile 'com.android.support:appcompat-v7:25.3.1'
@@ -70,12 +70,12 @@ android {
     buildToolsVersion '25.0.3'
 
     defaultConfig {
-        applicationId "com.philips.platform.pthdemolaunch"
+        applicationId 'com.americanwell.sdksample.android.philips'
         minSdkVersion 21
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 1
         vectorDrawables.useSupportLibrary = true
-        renderscriptTargetApi 24
+        renderscriptTargetApi 25
         renderscriptSupportModeEnabled true
         testApplicationId "com.philips.platform.appframework.test"
         testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
@@ -101,16 +101,21 @@ android {
         jumboMode = false
     }
     buildTypes {
+        def STRING = "string"
         def BOOLEAN = "bool"
-        def AWSDK_DEV_SSL_ALLOW_ALL = "awsdk_dev_ssl_allow_all"
         def TRUE = "true"
-
+        def FALSE = "false"
+        def AWSDK_DEV_SSL_ALLOW_ALL = "awsdk_dev_ssl_allow_all"
+        def AWSDKURL = "awsdkurl"
+        def AWSDKKEY = "awsdkkey"
         debug {
             minifyEnabled false
             shrinkResources false
             debuggable true
             testCoverageEnabled = true
-            //resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
+            resValue STRING, AWSDKURL, "https://ec2-54-172-152-160.compute-1.amazonaws.com"
+            resValue STRING, AWSDKKEY, "3c0f99bf"
+            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
         }
 
         release {
