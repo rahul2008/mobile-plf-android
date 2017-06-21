@@ -105,7 +105,7 @@ public class AppupdateTest extends MockitoTestCase {
 	 */
 	public void testAutoRefresh() {
 		AppConfigurationManager appConfigurationManager = new AppConfigurationManager(mAppInfra);
-		Object isappUpdateRq = AppInfra.getAutoRefreshValue(appConfigurationManager);
+		Object isappUpdateRq = mAppUpdateManager.getAutoRefreshValue();
 		AppConfigurationInterface.AppConfigurationError configurationError = new AppConfigurationInterface.AppConfigurationError();
 		Object isappUpdate = appConfigurationManager.getPropertyForKey("appUpdate.autoRefresh", "appinfra", configurationError);
 
