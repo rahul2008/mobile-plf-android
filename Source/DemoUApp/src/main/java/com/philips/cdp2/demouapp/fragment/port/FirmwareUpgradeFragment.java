@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp2.demouapp.fragment;
+package com.philips.cdp2.demouapp.fragment.port;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -182,11 +182,6 @@ public class FirmwareUpgradeFragment extends Fragment {
         if (currentAppliance == null) {
             getFragmentManager().popBackStack();
         } else {
-            final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setTitle(currentAppliance.getNetworkNode().getName());
-            }
-
             btnUpload.setOnClickListener(clickListener);
             btnDeploy.setOnClickListener(clickListener);
             btnCancel.setOnClickListener(clickListener);

@@ -1,138 +1,168 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2015-2017 Koninklijke Philips N.V.
   ~ All rights reserved.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/card_padding">
 
-    <TextView
-        android:id="@+id/tvFirmwareSearchLocation"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Firmware images directory" />
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:padding="@dimen/card_padding">
 
-    <ListView
-        android:id="@+id/lvFirmwareImages"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_weight="1"
-        android:choiceMode="singleChoice"
-        android:fadeScrollbars="false"
-        android:listSelector="@color/colorAccent" />
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/timeoutWrapper"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/timeoutEditText"
+        <TextView
+            style="@style/Base.TextAppearance.AppCompat.Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/timeout"
-            android:inputType="numberDecimal" />
+            android:text="@string/firmware_upgrade_port" />
 
-    </android.support.design.widget.TextInputLayout>
+        <TextView
+            android:id="@+id/tvFirmwareSearchLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Firmware images directory" />
 
-    <Button
-        android:id="@+id/btnUploadFirmware"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="@string/upload_firmware" />
+        <ListView
+            android:id="@+id/lvFirmwareImages"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_weight="1"
+            android:choiceMode="singleChoice"
+            android:fadeScrollbars="false"
+            android:listSelector="@color/colorAccent" />
 
-    <Button
-        android:id="@+id/btnDeployFirmware"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/deploy_firmware" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/btnCancelFirmware"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/cancel_firmware" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/timeoutWrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/timeout_unit">
 
-    <ProgressBar
-        android:id="@+id/progressUploadFirmware"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:indeterminate="false" />
+                <EditText
+                    android:id="@+id/timeoutEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/timeout"
+                    android:inputType="numberDecimal" />
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TableRow>
-
-            <TextView
-                android:padding="3dip"
-                android:text="@string/lblFirmwareState"
-                android:textStyle="bold" />
+            </android.support.design.widget.TextInputLayout>
 
             <TextView
-                android:id="@+id/txtFirmwareState"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:padding="3dip"
-                tools:text="State value" />
-        </TableRow>
+                android:id="@+id/timeout_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/timeoutWrapper"
+                android:layout_alignParentEnd="true"
+                android:paddingBottom="8dp"
+                android:paddingStart="10dp"
+                android:text="milliseconds" />
 
-        <TableRow>
+        </RelativeLayout>
 
-            <TextView
-                android:padding="3dip"
-                android:text="@string/lblFirmwareVersion"
-                android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/txtFirmwareVersion"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:padding="3dip"
-                tools:text="Version value" />
-        </TableRow>
+        <Button
+            android:id="@+id/btnUploadFirmware"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/upload_firmware" />
 
-        <TableRow>
+        <Button
+            android:id="@+id/btnDeployFirmware"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/deploy_firmware" />
 
-            <TextView
-                android:padding="3dip"
-                android:text="@string/lblFirmwareStatusMsg"
-                android:textStyle="bold" />
+        <Button
+            android:id="@+id/btnCancelFirmware"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel_firmware" />
 
-            <TextView
-                android:id="@+id/txtFirmwareStatusMsg"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:lines="2"
-                android:padding="3dip"
-                tools:text="Status value" />
-        </TableRow>
+        <ProgressBar
+            android:id="@+id/progressUploadFirmware"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="false" />
 
-        <TableRow>
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:padding="3dip"
-                android:text="@string/lblFirmwareCanUpgrade"
-                android:textStyle="bold" />
+            <TableRow>
 
-            <TextView
-                android:id="@+id/tvCanUpgrade"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:text="N/A"
-                android:padding="3dip"
-                tools:text="Can upgrade value" />
-        </TableRow>
+                <TextView
+                    android:padding="3dip"
+                    android:text="@string/lblFirmwareState"
+                    android:textStyle="bold" />
 
-    </TableLayout>
-</LinearLayout>
+                <TextView
+                    android:id="@+id/txtFirmwareState"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:padding="3dip"
+                    tools:text="State value" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:padding="3dip"
+                    android:text="@string/lblFirmwareVersion"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtFirmwareVersion"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:padding="3dip"
+                    tools:text="Version value" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:padding="3dip"
+                    android:text="@string/lblFirmwareStatusMsg"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtFirmwareStatusMsg"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:lines="2"
+                    android:padding="3dip"
+                    tools:text="Status value" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:padding="3dip"
+                    android:text="@string/lblFirmwareCanUpgrade"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvCanUpgrade"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:padding="3dip"
+                    android:text="@string/n_a"
+                    tools:text="Can upgrade value" />
+            </TableRow>
+
+        </TableLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

@@ -62,11 +62,7 @@ public class MainFragment extends Fragment {
                 final Appliance appliance = applianceAdapter.getItem(position);
                 CurrentApplianceManager.getInstance().setCurrentAppliance(appliance);
 
-                if (appliance instanceof AirPurifier) {
-                    CommlibUapp.instance.nextFragment(new AirPurifierFragment());
-                } else if (appliance instanceof WifiReferenceAppliance) {
-                    CommlibUapp.instance.nextFragment(new WifiReferenceApplianceFragment());
-                }
+                CommlibUapp.instance.nextFragment(new ApplianceFragment());
             }
         });
 
