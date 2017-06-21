@@ -26,6 +26,7 @@ public class UIDClickableSpan extends ClickableSpan {
 
     private CharSequence tag;
     private ColorStateList colorList;
+    private boolean shouldDrawUnderline = true;
 
     public UIDClickableSpan(Runnable clickRunnable) {
         this.clickRunnable = clickRunnable;
@@ -64,6 +65,10 @@ public class UIDClickableSpan extends ClickableSpan {
         return visited;
     }
 
+    public void shouldDrawUnderline(boolean shouldDrawUnderline) {
+        this.shouldDrawUnderline = shouldDrawUnderline;
+    }
+
     @Override
     public void onClick(View widget) {
         setVisited(true);
@@ -74,8 +79,8 @@ public class UIDClickableSpan extends ClickableSpan {
 
     @Override
     public void updateDrawState(TextPaint ds) {
-        ds.linkColor = getLinkColor(ds.linkColor);
-        super.updateDrawState(ds);
+        ds.setColor(getLinkColor(ds.linkColor));
+        ds.setUnderlineText(shouldDrawUnderline);
     }
 
     private int getLinkColor(int defColor) {
