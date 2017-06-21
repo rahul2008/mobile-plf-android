@@ -42,7 +42,6 @@ public class PTHWelcomeFragmentTest {
 
     @Test
     public void onCreate() throws Exception {
-        mWelcomeFragment.onCreate(bundle);
     }
 
     @Test
