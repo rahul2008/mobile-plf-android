@@ -14,7 +14,9 @@ import com.philips.amwelluapp.base.UIBasePresenter;
 import com.philips.amwelluapp.base.UIBaseView;
 import com.philips.amwelluapp.login.PTHAuthentication;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
+import com.philips.amwelluapp.practice.PTHPractice;
 import com.philips.amwelluapp.practice.PTHPracticesListCallback;
+import com.philips.amwelluapp.practice.PracticeFragment;
 import com.philips.amwelluapp.providerslist.PTHGetConsumerObjectCallBack;
 import com.philips.amwelluapp.providerslist.PTHProvidersListCallback;
 import com.philips.amwelluapp.providerslist.ProvidersListFragment;
@@ -113,12 +115,16 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
         Log.d("Login","Consumer object received");
         Toast.makeText(uiBaseView.getFragmentActivity(),"CONSUMER OBJECT RECEIVED",Toast.LENGTH_SHORT).show();
-        ((PTHWelcomeFragment) uiBaseView).showProgressBar();
+       /* ((PTHWelcomeFragment) uiBaseView).showProgressBar();
         try {
             PTHManager.getInstance().getPractices(uiBaseView.getFragmentActivity(),consumer,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
-        }
+        }*/
+        PracticeFragment practiceFragment = new PracticeFragment();
+        practiceFragment.setConsumer(consumer);
+        uiBaseView.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(uiBaseView.getContainerID(),practiceFragment,"PTHPractice List").commit();
+
     }
 
     @Override
@@ -127,12 +133,12 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
     }
 
     @Override
-    public void onPracticesListReceived(List<Practice> practices, SDKError sdkError) {
+    public void onPracticesListReceived(PTHPractice practices, SDKError sdkError) {
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
-        Log.d("Login","Practice list received : "+practices.size());
-        Toast.makeText(uiBaseView.getFragmentActivity(),"Practice list received",Toast.LENGTH_SHORT).show();
+        Log.d("Login","PTHPractice list received : "+practices.getPractices().size());
+        Toast.makeText(uiBaseView.getFragmentActivity(),"PTHPractice list received",Toast.LENGTH_SHORT).show();
         try {
-            PTHManager.getInstance().getProviderList(uiBaseView.getFragmentActivity(),consumer,practices.get(0),this);
+            PTHManager.getInstance().getProviderList(uiBaseView.getFragmentActivity(),consumer,practices.getPractices().get(0),this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

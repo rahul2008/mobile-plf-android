@@ -17,6 +17,7 @@ import com.americanwell.sdk.manager.SDKCallback;
 import com.philips.amwelluapp.login.PTHAuthentication;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
 
+import com.philips.amwelluapp.practice.PTHPractice;
 import com.philips.amwelluapp.practice.PTHPracticesListCallback;
 
 import com.philips.amwelluapp.providerslist.PTHGetConsumerObjectCallBack;
@@ -110,7 +111,9 @@ public class PTHManager {
         getAwsdk(context).getPracticeProvidersManager().getPractices(consumer, new SDKCallback<List<Practice>, SDKError>() {
             @Override
             public void onResponse(List<Practice> practices, SDKError sdkError) {
-                pthPracticesListCallback.onPracticesListReceived(practices,sdkError);
+                PTHPractice pTHPractice = new PTHPractice();
+                pTHPractice.setPractices(practices);
+                pthPracticesListCallback.onPracticesListReceived(pTHPractice,sdkError);
             }
 
             @Override
