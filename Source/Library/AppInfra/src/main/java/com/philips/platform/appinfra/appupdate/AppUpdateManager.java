@@ -15,8 +15,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.FileUtils;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.appupdate.model.AppUpdateModel;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.request.JsonObjectRequest;
@@ -50,6 +52,10 @@ public class AppUpdateManager implements AppUpdateInterface {
 	public AppUpdateManager(AppInfra appInfra) {
 		this.mAppInfra = appInfra;
 		this.mContext = appInfra.getAppInfraContext();
+		init();
+	}
+
+	private void init() {
 		mGson = new Gson();
 		mFileUtils = new FileUtils(mContext);
 		mAppUpdateModel = getAppUpdateModel();
@@ -82,11 +88,11 @@ public class AppUpdateManager implements AppUpdateInterface {
 				try {
 					final JSONObject resp = response.getJSONObject("android");
 					if (resp != null) {
-						mFileUtils.saveFile(resp.toString(), AppUpdateConstants.LOCALE_FILE_DOWNLOADED, AppUpdateConstants.APPUPDATE_PATH);
 						mHandler = getHandler(mContext);
 						new Thread(new Runnable() {
 							@Override
 							public void run() {
+								mFileUtils.saveFile(resp.toString(), AppUpdateConstants.LOCALE_FILE_DOWNLOADED, AppUpdateConstants.APPUPDATE_PATH);
 								processResponse(resp.toString(), refreshListener);
 							}
 						}).start();
@@ -141,9 +147,8 @@ public class AppUpdateManager implements AppUpdateInterface {
 		return mAppUpdateModel;
 	}
 
-	public File getAppUpdatefromCache(String fileName, String filePath) {
-		final File file = mFileUtils.getFilePath(fileName, filePath);
-		return file;
+	private File getAppUpdatefromCache(String fileName, String filePath) {
+		return mFileUtils.getFilePath(fileName, filePath);
 	}
 
 	private Handler getHandler(Context context) {
@@ -166,9 +171,18 @@ public class AppUpdateManager implements AppUpdateInterface {
 	}
 
 	protected String getServiceIdFromAppConfig() {
-		final AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
-		final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+		final AppConfigurationInterface appConfigurationInterface = getAppConfigurationInterface();
+		final AppConfigurationInterface.AppConfigurationError configError = getAppConfigurationError();
 		return (String) appConfigurationInterface.getPropertyForKey("appUpdate.serviceId", "appinfra", configError);
+	}
+
+	@NonNull
+	private AppConfigurationInterface.AppConfigurationError getAppConfigurationError() {
+		return new AppConfigurationInterface.AppConfigurationError();
+	}
+
+	private AppConfigurationInterface getAppConfigurationInterface() {
+		return mAppInfra.getConfigInterface();
 	}
 
 
@@ -211,9 +225,6 @@ public class AppUpdateManager implements AppUpdateInterface {
 			try {
 				Date deprecationdate = formatter.parse(deprecationDate);
 				Date currentDate = new Date();
-				System.out.println("KAVYA -min"+" "+minVer);
-				System.out.println("KAVYA -deprecated ver"+" "+deprecatedVersion);
-				System.out.println("KAVYA-deprecation date" + " "+deprecationDate);
 				return AppUpdateVersion.isAppVerionLessthanCloud(getAppVersion(), minVer) ||
 						AppUpdateVersion.isBothVersionSame(getAppVersion(), deprecatedVersion) && currentDate.after(deprecationdate);
 			} catch (ParseException e) {
@@ -299,4 +310,47 @@ public class AppUpdateManager implements AppUpdateInterface {
 		return null;
 	}
 
+	public Object getAutoRefreshValue() {
+		return getAppConfigurationInterface().getPropertyForKey("appUpdate.autoRefresh", "appinfra", getAppConfigurationError());
+	}
+
+	public void appInfraRefresh() {
+		File appupdateCache = getAppUpdatefromCache(AppUpdateConstants.LOCALE_FILE_DOWNLOADED
+				, AppUpdateConstants.APPUPDATE_PATH);
+		if (appupdateCache != null && appupdateCache.exists() && appupdateCache.length() > 0) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APPINFRA,
+					"appdate info already downloaded");
+			return;
+		}
+
+		try {
+			Object isappUpdateRq = getAutoRefreshValue();
+			if (isappUpdateRq != null && isappUpdateRq instanceof Boolean) {
+				final Boolean isautorefreshEnabled = (Boolean) isappUpdateRq;
+				if (isautorefreshEnabled) {
+					refresh(new OnRefreshListener() {
+						@Override
+						public void onError(AIAppUpdateRefreshResult error, String message) {
+							mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APPINFRA,
+									"AppConfiguration Auto refresh failed- AppUpdate" + " " + error);
+						}
+
+						@Override
+						public void onSuccess(AIAppUpdateRefreshResult result) {
+							mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APPINFRA,
+									"AppConfiguration Auto refresh success- AppUpdate" + " " + result);
+						}
+					});
+				} else {
+					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APPINFRA,
+							"AppConfiguration Auto refresh failed- AppUpdate");
+				}
+			}
+		} catch (IllegalArgumentException exception) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APPINFRA,
+					"AppConfiguration " + exception.toString());
+		}
+
+
+	}
 }

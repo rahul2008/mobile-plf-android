@@ -25,7 +25,7 @@
     "appidentity.serviceDiscoveryEnvironment": "production",
     "restclient.cacheSizeInKB": 51200,
     "tagging.sensitiveData": ["bundleId", "language"] ,
-    "abtest.precache":["philipsmobileappabtest1content","philipsmobileappabtest1success"],
+    "abtest.precache":["DOT-ReceiveMarketingOptIn"],
     "contentLoader.limitSize":100,
     "servicediscovery.platformMicrositeId":"77000",
     "servicediscovery.platformEnvironment":"production",

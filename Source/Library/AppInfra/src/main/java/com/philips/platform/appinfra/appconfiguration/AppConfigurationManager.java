@@ -33,6 +33,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * The AppConfiguration Manger Class.
@@ -61,9 +62,13 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
     private SecureStorageInterface mSecureStorageInterface;
 
+    private final ReentrantLock mRefreshInProgressLock;
+
+
     public AppConfigurationManager(AppInfra appInfra) {
         mAppInfra = appInfra;
         mContext = appInfra.getAppInfraContext();
+        mRefreshInProgressLock = new ReentrantLock();
     }
 
     protected JSONObject getMasterConfigFromApp() {
@@ -381,6 +386,19 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
     @Override
     public void refreshCloudConfig(final OnRefreshListener onRefreshListener) {
+        final boolean lockAcquired = mRefreshInProgressLock.tryLock();
+        if(lockAcquired) {
+            downloadConfigFromCloud(onRefreshListener);
+            mRefreshInProgressLock.unlock();
+        } else {
+            onRefreshListener.onError(AppConfigurationError.AppConfigErrorEnum.DownloadInProgress,
+                    "Download is in progress, Please try after some time");
+        }
+    }
+
+
+
+    private void downloadConfigFromCloud(final OnRefreshListener onRefreshListener) {
         final AppConfigurationError mAppConfigError = new AppConfigurationError();
         final String cloudServiceId = (String) getPropertyForKey("appconfig.cloudServiceId", "APPINFRA", mAppConfigError);
         final ServiceDiscoveryInterface serviceDiscoveryInterface = mAppInfra.getServiceDiscovery();
@@ -399,7 +417,6 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                 } else {
                     fetchCloudConfig(url.toString(), onRefreshListener);
                 }
-
             }
 
             @Override
@@ -407,8 +424,6 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                 onRefreshListener.onError(AppConfigurationError.AppConfigErrorEnum.ServerError, error.toString());
             }
         });
-
-
     }
 
     void fetchCloudConfig(final String url, final OnRefreshListener onRefreshListener) {
@@ -457,7 +472,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
     public void migrateDynamicData() {
         dynamicConfigJsonCache = getDynamicConfigJsonCache();
-        final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+        final AppConfigurationError configError = new AppConfigurationError();
         mSecureStorageInterface = mAppInfra.getSecureStorage();
         JSONObject oldDynamicConfigJson = null;
         final SecureStorageInterface.SecureStorageError mSecureStorageError = new SecureStorageInterface.SecureStorageError();
@@ -488,10 +503,10 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                         while (iteratorKey.hasNext()) {
                             final String key = iteratorKey.next();
                             final Object value = getDefaultPropertyForKey(key, keyGroup, configError);
-                            if (null != value && configError.getErrorCode() == AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum.NoError) {
+                            if (null != value && configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.NoError) {
                                 final Object dynamicValue = objectGroup.opt(key);
                                 if (!value.equals(dynamicValue)) { // check if values are NOT equal
-                                    final AppConfigurationInterface.AppConfigurationError configErrorForNewKey = new AppConfigurationInterface.AppConfigurationError();
+                                    final AppConfigurationError configErrorForNewKey = new AppConfigurationError();
                                     setPropertyForKey(key.toUpperCase(), keyGroup, dynamicValue, configErrorForNewKey); // add only changed value to dynamic migrated json
                                 }
                             }
