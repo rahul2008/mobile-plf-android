@@ -10,6 +10,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.support.DatabaseConnectionProxyFactory;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.securedblibrary.SecureDBLogEventID;
 import com.philips.platform.securedblibrary.SecureDbOrmLiteSqliteOpenHelper;
 
 import net.sqlcipher.database.SQLiteDatabase;
@@ -88,9 +89,9 @@ public class AndroidConnectionSource extends BaseConnectionSource implements Con
 			if (connectionProxyFactory != null) {
 				connection = connectionProxyFactory.createProxy(connection);
 			}
-			loggingInterface.log(LoggingInterface.LogLevel.DEBUG, "created connection {} for db {}, helper {}",null);
+			loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SecureDBLogEventID.SDB_ANDROID_CONNECTION_SOURCE,"created connection {} for db {}, helper {}");
 		} else {
-			loggingInterface.log(LoggingInterface.LogLevel.DEBUG, "{}: returning read-write connection {}, helper {}",null);
+			loggingInterface.log(LoggingInterface.LogLevel.DEBUG, SecureDBLogEventID.SDB_ANDROID_CONNECTION_SOURCE,"{}: returning read-write connection {}, helper {}");
 		}
 		return connection;
 	}
