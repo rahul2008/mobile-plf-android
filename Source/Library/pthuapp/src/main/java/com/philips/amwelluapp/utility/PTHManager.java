@@ -1,6 +1,8 @@
 package com.philips.amwelluapp.utility;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.AWSDKFactory;
@@ -8,12 +10,14 @@ import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
+import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
 import com.philips.amwelluapp.providerslist.PTHGetConsumerObjectCallBack;
+import com.philips.amwelluapp.providerslist.PTHPracticeProviderImageCallback;
 import com.philips.amwelluapp.providerslist.PTHPracticesListCallback;
 import com.philips.amwelluapp.providerslist.PTHProvidersListCallback;
 import com.philips.amwelluapp.welcome.PTHInitializeCallBack;
@@ -121,5 +125,9 @@ public class PTHManager {
             }
         });
 
+    }
+
+    public void fetchProviderImage(Context context, ProviderInfo providerInfo, ImageView imageView, ProviderImageSize providerImageSize, Drawable drawable,final PTHPracticeProviderImageCallback pthPracticeProviderImageCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getPracticeProvidersManager().newImageLoader(providerInfo,imageView,providerImageSize).placeholder(drawable).build();
     }
 }

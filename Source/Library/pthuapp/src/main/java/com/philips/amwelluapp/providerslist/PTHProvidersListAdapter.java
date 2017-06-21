@@ -18,9 +18,11 @@ import java.util.List;
 
 public class PTHProvidersListAdapter extends RecyclerView.Adapter<PTHProvidersListAdapter.MyViewHolder> {
     private List<ProviderInfo> providerList;
+    private PTHProviderListPresenter pthpRoviderListPresenter;
 
-    public PTHProvidersListAdapter(List<ProviderInfo> providerList){
+    public PTHProvidersListAdapter(List<ProviderInfo> providerList, PTHProviderListPresenter pthpRoviderListPresenter){
         this.providerList = providerList;
+        this.pthpRoviderListPresenter = pthpRoviderListPresenter;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

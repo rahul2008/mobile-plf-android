@@ -101,12 +101,16 @@ android {
         jumboMode = false
     }
     buildTypes {
+        def BOOLEAN = "bool"
+        def AWSDK_DEV_SSL_ALLOW_ALL = "awsdk_dev_ssl_allow_all"
+        def TRUE = "true"
 
         debug {
             minifyEnabled false
             shrinkResources false
             debuggable true
             testCoverageEnabled = true
+            //resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
         }
 
         release {
