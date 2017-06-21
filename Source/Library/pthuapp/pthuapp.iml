@@ -108,14 +108,12 @@
     <orderEntry type="library" exported="" name="rxandroid-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="uAppFwLib-1.5.0-SNAPSHOT.20170619152516" level="project" />
     <orderEntry type="library" exported="" name="jump-6.2.0-SNAPSHOT.20170619154633" level="project" />
-    <orderEntry type="library" exported="" name="AppInfra-1.6.0-SNAPSHOT.20170619151439" level="project" />
     <orderEntry type="library" exported="" name="reactive-streams-1.0.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="exposed-instrumentation-api-publish-0.5" level="project" />
     <orderEntry type="library" exported="" name="butterknife-annotations-8.6.0" level="project" />
     <orderEntry type="library" exported="" name="rxjava-1.2.7" level="project" />
     <orderEntry type="library" exported="" name="cloudcontroller-5.1.4-SNAPSHOT.20170606114827" level="project" />
     <orderEntry type="library" exported="" name="retrofit-2.2.0" level="project" />
-    <orderEntry type="library" exported="" name="commlib-all-1.3.1-SNAPSHOT.20170614094516" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javax.annotation-api-1.2" level="project" />
     <orderEntry type="library" exported="" name="converter-gson-2.2.0" level="project" />
     <orderEntry type="library" exported="" name="cloudcontroller-api-3.1.5-SNAPSHOT.20170609124534" level="project" />
@@ -125,6 +123,7 @@
     <orderEntry type="library" exported="" name="support-v4-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="support-media-compat-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="calligraphy-2.1.0" level="project" />
+    <orderEntry type="library" exported="" name="AppInfra-1.6.0-SNAPSHOT.20170621085818" level="project" />
     <orderEntry type="library" exported="" name="butterknife-8.6.0" level="project" />
     <orderEntry type="library" exported="" name="shinelib-3.0.0-SNAPSHOT.20170609131557" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-25.3.1" level="project" />
@@ -137,12 +136,13 @@
     <orderEntry type="library" exported="" name="picasso-2.5.2" level="project" />
     <orderEntry type="library" exported="" name="gson-2.8.0" level="project" />
     <orderEntry type="library" exported="" name="constraint-layout-1.0.2" level="project" />
+    <orderEntry type="library" exported="" name="uid-0.1.1-SNAPSHOT.20170620112018" level="project" />
     <orderEntry type="library" exported="" name="play-services-base-10.2.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-tasks-10.2.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-integration-1.3" level="project" />
     <orderEntry type="library" exported="" name="design-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="support-core-ui-25.3.1" level="project" />
-    <orderEntry type="library" exported="" name="uid-0.1.1-SNAPSHOT.20170617223437" level="project" />
+    <orderEntry type="library" exported="" name="commlib-all-1.3.1-SNAPSHOT.20170620155219" level="project" />
     <orderEntry type="library" exported="" name="converter-simplexml-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="picasso2-okhttp3-downloader-1.0.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="jsr305-2.0.1" level="project" />

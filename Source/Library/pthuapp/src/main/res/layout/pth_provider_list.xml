@@ -67,7 +67,7 @@
             android:layout_height="wrap_content" />
 
     </RelativeLayout>
-    <View android:background="@color/uid_blue_level_50"
+    <View android:background="@color/uid_gray_level_10"
         android:layout_below="@+id/providerDetailLayout"
         android:layout_width = "match_parent"
         android:layout_height="1dp"

@@ -44,6 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:background="@color/uid_gray_level_10"
         android:layout_marginBottom="16dp">
 
         <com.philips.platform.uid.view.widget.Label
@@ -53,20 +54,18 @@
             android:textColor="?attr/uidLabelValueNormalTextColor"
             android:text="Or pick on these doctors to schedule an appointment"
             />
-
     </RelativeLayout>
-    <ScrollView
-        android:layout_below="@+id/searchDoctorLayout"
-        android:id="@+id/doctorsListLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/providerListRecyclerView"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:layout_below="@+id/searchDoctorLayout"
+            android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical">
-
-        </android.support.v7.widget.RecyclerView>
-    </ScrollView>
+            android:layout_height="match_parent">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/providerListRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical">
+            </android.support.v7.widget.RecyclerView>
+        </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>
