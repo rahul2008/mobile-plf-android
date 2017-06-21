@@ -27,10 +27,8 @@ public class LinksFragment extends BaseFragment {
             if (tag!= null && tag.equals(PHILIPS_SITE)) {
                 if (!isNetworkConnected() && getContext() != null) {
                     Toast.makeText(getContext(), R.string.no_internet, Toast.LENGTH_SHORT).show();
-                } else {
-                    launchWebFragment(tag);
+                    return true;
                 }
-                return true;
             }
             return false;
         }
@@ -66,14 +64,6 @@ public class LinksFragment extends BaseFragment {
             return cm.getActiveNetworkInfo() != null;
         }
         return false;
-    }
-
-    private void launchWebFragment(CharSequence tag) {
-        Bundle bundle = new Bundle();
-        bundle.putString(WebFragment.KEY_URL, String.valueOf(tag));
-        WebFragment fragment = new WebFragment();
-        fragment.setArguments(bundle);
-        showFragment(fragment);
     }
 
     private void launchButtonFragment() {

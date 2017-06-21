@@ -144,6 +144,12 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
             case 15:
                 navigationController.switchFragment(new DotNavigationFragment());
                 break;
+            case 16:
+                navigationController.switchFragment(new SearchBoxSelectFragment());
+                break;
+            case 17:
+                navigationController.switchFragment(new LinksFragment());
+                break;
         }
     }
 

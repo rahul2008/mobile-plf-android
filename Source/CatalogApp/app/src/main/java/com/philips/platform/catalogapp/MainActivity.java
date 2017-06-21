@@ -216,11 +216,6 @@ public class MainActivity extends UIDActivity {
     }
 
     @Override
-    public void setTitle(CharSequence title) {
-        navigationController.setTitleText(title);
-    }
-
-    @Override
     protected void attachBaseContext(final Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
