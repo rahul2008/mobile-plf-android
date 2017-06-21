@@ -62,10 +62,10 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
         SQLiteDatabase.loadLibs(context);
         this.mAppInfraInterface=mAppInfraInterface;
         this.databaseKey = databaseKey;
-        createKey();
-        key = getKeyValue(databaseKey,mAppInfraInterface);
         appInfraLogger = mAppInfraInterface.getLogging().createInstanceForComponent("sdb:",
                 getSecureDbAppVersion());
+        createKey();
+        key = getKeyValue(databaseKey,mAppInfraInterface);
         connectionSource = new AndroidConnectionSource(this,key,appInfraLogger);
         getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, SecureDBLogEventID.SDB_ORMLITE_SQLITE_OPEN_HELPER,"{}: constructed connectionSource {}");
 
@@ -126,10 +126,10 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
         SQLiteDatabase.loadLibs(context);
         this.mAppInfraInterface=mAppInfraInterface;
         this.databaseKey = databaseKey;
-        createKey();
-        key = getKeyValue(databaseKey,mAppInfraInterface);
         appInfraLogger = mAppInfraInterface.getLogging().createInstanceForComponent("sdb:",
                 getSecureDbAppVersion());
+        createKey();
+        key = getKeyValue(databaseKey,mAppInfraInterface);
         connectionSource = new AndroidConnectionSource(this,key,appInfraLogger);
         getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, SecureDBLogEventID.SDB_ORMLITE_SQLITE_OPEN_HELPER,"{}: constructed connectionSource {}");
 
