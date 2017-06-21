@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cdp.philips.com.database.table.OrmMoment;
+import cdp.philips.com.R;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.

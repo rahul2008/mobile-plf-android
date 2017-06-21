@@ -23,7 +23,6 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
-import com.squareup.leakcanary.LeakCanary;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -59,7 +58,7 @@ import cdp.philips.com.utility.SyncScheduler;
 
 
 public class DataSyncApplication extends MultiDexApplication {
-    public final DatabaseHelper databaseHelper = new DatabaseHelper(this, new UuidGenerator());
+    public final DatabaseHelper databaseHelper = DatabaseHelper.getInstance(this, new UuidGenerator());
     public static AppInfraInterface gAppInfra;
     public static LoggingInterface loggingInterface;
     private AppConfigurationInterface.AppConfigurationError configError;
@@ -71,17 +70,16 @@ public class DataSyncApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        LeakCanary.install(this);
-        mDataServicesManager = DataServicesManager.getInstance();
-        initAppInfra();
+       // mDataServicesManager = DataServicesManager.getInstance();
+       // initAppInfra();
 
-        initializeUserRegistrationLibrary(Configuration.STAGING);
-        initHSDP();
-        init();
+        //initializeUserRegistrationLibrary(Configuration.STAGING);
+        //initHSDP();
+        //init();
         //mScheduleSyncReceiver = new ScheduleSyncReceiver();
-        if(new User(this).isUserSignIn()) {
-            SyncScheduler.getInstance().scheduleSync();
-        }
+        //if(new User(this).isUserSignIn()) {
+          //  SyncScheduler.getInstance().scheduleSync();
+        //}
     }
 
     private void initAppInfra() {

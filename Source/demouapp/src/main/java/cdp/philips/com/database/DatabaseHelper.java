@@ -16,6 +16,7 @@ import com.j256.ormlite.table.TableUtils;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.SyncType;
+import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.UuidGenerator;
 
@@ -77,11 +78,20 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<OrmInsight, Integer> ormInsightDao;
     private Dao<OrmInsightMetaData, Integer> ormInsightMetaDataDao;
 
-    public DatabaseHelper(Context context, final UuidGenerator uuidGenerator) {
+    private static DatabaseHelper sDatabaseHelper;
+
+    private DatabaseHelper(Context context, final UuidGenerator uuidGenerator) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.uuidGenerator = uuidGenerator;
     }
 
+
+    public static synchronized DatabaseHelper getInstance(Context context, final UuidGenerator uuidGenerator) {
+        if (sDatabaseHelper == null) {
+            return sDatabaseHelper = new DatabaseHelper(context,uuidGenerator);
+        }
+        return sDatabaseHelper;
+    }
     @Override
     public void onCreate(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource) {
         DSLog.d(TAG, "onCreate DatabaseHelper");

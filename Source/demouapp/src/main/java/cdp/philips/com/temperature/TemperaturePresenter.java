@@ -27,6 +27,7 @@ import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.core.utils.UuidGenerator;
 
 import org.joda.time.DateTime;
 
@@ -35,6 +36,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import cdp.philips.com.R;
+import cdp.philips.com.database.DatabaseHelper;
 import cdp.philips.com.database.EmptyForeignCollection;
 import cdp.philips.com.database.datatypes.MeasurementDetailType;
 import cdp.philips.com.database.datatypes.MeasurementGroupDetailType;
@@ -43,7 +46,6 @@ import cdp.philips.com.database.datatypes.MomentDetailType;
 import cdp.philips.com.database.datatypes.MomentType;
 import cdp.philips.com.database.table.OrmMoment;
 import cdp.philips.com.database.table.OrmSynchronisationData;
-
 
 public class TemperaturePresenter {
     private final DBRequestListener dbRequestListener;
@@ -62,12 +64,14 @@ public class TemperaturePresenter {
     private EditText mLocation;
     private EditText mPhase;
     private Button mDialogButton;
+    DatabaseHelper databaseHelper;
 
     TemperaturePresenter(Context context, String momentType, DBRequestListener dbRequestListener) {
         mDataServices = DataServicesManager.getInstance();
         mMomentType = momentType;
         mContext = context;
         this.dbRequestListener = dbRequestListener;
+        databaseHelper=DatabaseHelper.getInstance(mContext,new UuidGenerator());
     }
 
     private Moment createMoment(String momemtDetail, String measurement, String measurementDetail) {
@@ -179,10 +183,10 @@ public class TemperaturePresenter {
                               final List<? extends Moment> data, int adapterPosition) {
         try {
             Moment moment = data.get(adapterPosition);
-            Dao<OrmSynchronisationData, Integer> ormSynchronisationDataDao = ((DataSyncApplication) (mContext.getApplicationContext())).databaseHelper.getSynchronisationDataDao();
+            Dao<OrmSynchronisationData, Integer> ormSynchronisationDataDao = databaseHelper.getSynchronisationDataDao();
             ormSynchronisationDataDao.refresh((OrmSynchronisationData) moment.getSynchronisationData());
 
-            Dao<OrmMoment, Integer> momentDao = ((DataSyncApplication) (mContext.getApplicationContext())).databaseHelper.getMomentDao();
+            Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
             momentDao.refresh((OrmMoment) moment);
 
             mDataServices.deleteMoment(moment, dbRequestListener);
@@ -269,9 +273,9 @@ public class TemperaturePresenter {
                         dialog.dismiss();
 
                         try {
-                            Dao<OrmSynchronisationData, Integer> ormSynchronisationDataDao = ((DataSyncApplication) (mContext.getApplicationContext())).databaseHelper.getSynchronisationDataDao();
+                            Dao<OrmSynchronisationData, Integer> ormSynchronisationDataDao = databaseHelper.getSynchronisationDataDao();
                             ormSynchronisationDataDao.refresh((OrmSynchronisationData) moment.getSynchronisationData());
-                            Dao<OrmMoment, Integer> momentDao = ((DataSyncApplication) (mContext.getApplicationContext())).databaseHelper.getMomentDao();
+                            Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
                             momentDao.refresh((OrmMoment) moment);
                         } catch (SQLException e) {
                             e.printStackTrace();

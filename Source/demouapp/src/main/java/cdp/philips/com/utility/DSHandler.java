@@ -61,29 +61,40 @@ import static com.janrain.android.engage.JREngage.getApplicationContext;
 
 public class DSHandler {
 
-    public final DatabaseHelper databaseHelper ;
+    public DatabaseHelper databaseHelper;
     public static AppInfraInterface gAppInfra;
     public static LoggingInterface loggingInterface;
     private final Context mContext;
     private AppConfigurationInterface.AppConfigurationError configError;
     DataServicesManager mDataServicesManager;
-    //ScheduleSyncReceiver mScheduleSyncReceiver;
     UserRegistrationInterfaceImpl userRegImple;
     final String AI = "appinfra";
 
-    public DSHandler(Context mContext,AppInfraInterface appInfraInterface) {
+
+
+    public DSHandler(Context mContext, AppInfraInterface appInfraInterface) {
         this.mContext = mContext;
         this.gAppInfra = appInfraInterface;
-    //    mAppInfra = RegistrationHelper.getInstance().getAppInfraInstance();
         configError = new
                 AppConfigurationInterface.AppConfigurationError();
 
-        databaseHelper= new DatabaseHelper(mContext, new UuidGenerator());
+        databaseHelper = DatabaseHelper.getInstance(mContext, new UuidGenerator());
+
         mDataServicesManager = DataServicesManager.getInstance();
+
+        initAppInfra(gAppInfra);
+
+        initializeUserRegistrationLibrary(Configuration.STAGING);
+        initHSDP();
+        init();
+        //mScheduleSyncReceiver = new ScheduleSyncReceiver();
+        if(new User(mContext).isUserSignIn()) {
+            SyncScheduler.getInstance().scheduleSync();
+        }
+
     }
 
-    private void initAppInfra() {
-        gAppInfra = new AppInfra.Builder().build(getApplicationContext());
+    private void initAppInfra(AppInfraInterface gAppInfra) {
         configError = new
                 AppConfigurationInterface.AppConfigurationError();
         loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
@@ -93,6 +104,14 @@ public class DSHandler {
         return userRegImple;
     }
 
+    /* mScheduleSyncReceiver = new ScheduleSyncReceiver();
+        OrmCreator creator = new OrmCreator(new UuidGenerator());
+        UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(mContext, new User(mContext));
+        ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
+        DataServicesManager.getInstance().initializeDataServices(mContext, creator, userRegistrationInterface, errorHandlerInterface);
+        injectDBInterfacesToCore();
+        DataServicesManager.getInstance().initializeSyncMonitors(mContext, null, null);
+        scheduleSync(mContext);*/
     private void init() {
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         userRegImple = new UserRegistrationInterfaceImpl(mContext, new User(mContext));
@@ -122,7 +141,7 @@ public class DSHandler {
 
             Dao<OrmDCSync, Integer> dcSyncDao = databaseHelper.getDCSyncDao();
             OrmSaving saving = new OrmSaving(momentDao, momentDetailDao, measurementDao, measurementDetailDao,
-                    synchronisationDataDao,consentDetailsDao, measurementGroup, measurementGroupDetails,
+                    synchronisationDataDao, consentDetailsDao, measurementGroup, measurementGroupDetails,
                     characteristicsesDao, settingsDao, insightsDao, insightMetaDataDao, dcSyncDao);
 
 
@@ -369,6 +388,10 @@ public class DSHandler {
                 "UserRegistration",
                 "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
                 configError);
+    }
+
+    public void initPreRequisite() {
+        init();
     }
 
    /* void scheduleSync() {

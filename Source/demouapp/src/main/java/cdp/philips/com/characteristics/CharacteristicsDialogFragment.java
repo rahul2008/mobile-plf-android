@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import cdp.philips.com.R;
 import cdp.philips.com.database.table.OrmCharacteristics;
 
 
@@ -110,33 +111,32 @@ public class CharacteristicsDialogFragment extends Fragment implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnOK:
-                isEditable = false;
-                String userCharacteristics = mEtCharacteristics.getText().toString().trim();
-                if (!userCharacteristics.trim().isEmpty()) {
-                    boolean isUpdated = mCharacteristicsDialogPresenter.createOrUpdateCharacteristics(userCharacteristics);
-                    if (!isUpdated) {
-                        Toast.makeText(mContext, "Please enter valid input", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
+        int i = v.getId();
+        if (i == R.id.btnOK) {
+            isEditable = false;
+            String userCharacteristics = mEtCharacteristics.getText().toString().trim();
+            if (!userCharacteristics.trim().isEmpty()) {
+                boolean isUpdated = mCharacteristicsDialogPresenter.createOrUpdateCharacteristics(userCharacteristics);
+                if (!isUpdated) {
                     Toast.makeText(mContext, "Please enter valid input", Toast.LENGTH_SHORT).show();
                 }
-                //getDialog().dismiss();
-                getFragmentManager().popBackStack();
-                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-                break;
-            case R.id.btnCancel:
-               // getDialog().dismiss();
-                getFragmentManager().popBackStack();
-                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-                break;
-            case R.id.btnEdit:
-                isEditable = true;
-                mBtnEdit.setEnabled(false);
-                mEtCharacteristics.setEnabled(true);
-                mEtCharacteristics.setFocusable(true);
-                break;
+            } else {
+                Toast.makeText(mContext, "Please enter valid input", Toast.LENGTH_SHORT).show();
+            }
+            //getDialog().dismiss();
+            getFragmentManager().popBackStack();
+            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+
+        } else if (i == R.id.btnCancel) {// getDialog().dismiss();
+            getFragmentManager().popBackStack();
+            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+
+        } else if (i == R.id.btnEdit) {
+            isEditable = true;
+            mBtnEdit.setEnabled(false);
+            mEtCharacteristics.setEnabled(true);
+            mEtCharacteristics.setFocusable(true);
+
         }
     }
 

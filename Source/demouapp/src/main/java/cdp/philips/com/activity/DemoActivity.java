@@ -43,7 +43,7 @@ public class DemoActivity extends AppCompatActivity implements UserRegistrationL
             if (user.isUserSignIn()) {
                 SyncScheduler.getInstance().scheduleSync();
                 showFragment(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG);
-                databaseHelper = new DatabaseHelper(getApplicationContext(), new UuidGenerator());
+                databaseHelper = DatabaseHelper.getInstance(getApplicationContext(), new UuidGenerator());
                 databaseHelper.getWritableDatabase();
             } else {
                 startRegistrationFragment();

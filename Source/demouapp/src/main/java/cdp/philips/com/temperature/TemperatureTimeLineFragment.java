@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 import com.philips.platform.core.datatypes.Moment;
@@ -35,12 +36,15 @@ import com.philips.platform.core.utils.DSLog;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cdp.philips.com.R;
 import cdp.philips.com.characteristics.CharacteristicsDialogFragment;
 import cdp.philips.com.consents.ConsentDialogFragment;
 import cdp.philips.com.database.datatypes.MomentType;
 import cdp.philips.com.insights.InsightFragment;
 import cdp.philips.com.registration.UserRegistrationInterfaceImpl;
 import cdp.philips.com.settings.SettingsFragment;
+import cdp.philips.com.utility.DSHandler;
 import cdp.philips.com.utility.Utility;
 
 import static android.content.Context.ALARM_SERVICE;
@@ -201,37 +205,33 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
 
     @Override
     public void onClick(final View v) {
-        switch (v.getId()) {
-            case R.id.add:
-                mTemperaturePresenter.addOrUpdateMoment(TemperaturePresenter.ADD, null);
-                break;
-            case R.id.tv_set_consents:
-                ConsentDialogFragment dFragment = new ConsentDialogFragment();
-                replaceFragment(dFragment,"consents");
+        int i = v.getId();
+        if (i == R.id.add) {
+            mTemperaturePresenter.addOrUpdateMoment(TemperaturePresenter.ADD, null);
 
-                break;
-            case R.id.tv_settings:
-                SettingsFragment settingsFragment = new SettingsFragment();
-                replaceFragment(settingsFragment,"settings");
+        } else if (i == R.id.tv_set_consents) {
+            ConsentDialogFragment dFragment = new ConsentDialogFragment();
+            replaceFragment(dFragment, "consents");
 
-                break;
 
-            case R.id.tv_set_characteristics:
+        } else if (i == R.id.tv_settings) {
+            SettingsFragment settingsFragment = new SettingsFragment();
+            replaceFragment(settingsFragment, "settings");
 
-                CharacteristicsDialogFragment characteristicsDialogFragment = new CharacteristicsDialogFragment();
-                replaceFragment(characteristicsDialogFragment,"Character");
-                break;
 
-            case R.id.tv_logout:
+        } else if (i == R.id.tv_set_characteristics) {
+            CharacteristicsDialogFragment characteristicsDialogFragment = new CharacteristicsDialogFragment();
+            replaceFragment(characteristicsDialogFragment, "Character");
 
-                boolean isLogout= ((DataSyncApplication) getContext().getApplicationContext()).getUserRegImple().logout();
-                if(isLogout)getActivity().finish();
+        } else if (i == R.id.tv_logout) {
+            boolean isLogout = isLogout();
+            if (isLogout) getActivity().finish();
 
-                break;
-            case R.id.tv_insights:
-                InsightFragment insightFragment = new InsightFragment();
 
-                replaceFragment(insightFragment,"insights");
+        } else if (i == R.id.tv_insights) {
+            InsightFragment insightFragment = new InsightFragment();
+
+            replaceFragment(insightFragment, "insights");
         }
     }
 
@@ -290,7 +290,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     }*/
 
     String getLastStoredHsdpId() {
-        AppInfraInterface gAppInfra = ((DataSyncApplication) getContext().getApplicationContext()).gAppInfra;
+        AppInfraInterface gAppInfra = DSHandler.gAppInfra;
         SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
         String decryptedData = ssInterface.fetchValueForKey("hsdp_id", ssError);
@@ -305,7 +305,7 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     }*/
 
     void storeLastHsdpId() {
-        AppInfraInterface gAppInfra = ((DataSyncApplication) getContext().getApplicationContext()).gAppInfra;
+        AppInfraInterface gAppInfra = DSHandler.gAppInfra;
         SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
         ssInterface.storeValueForKey("hsdp_id", mUser.getHsdpUUID(), ssError);
@@ -436,5 +436,28 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
             e.printStackTrace();
         }
 
+    }
+
+    boolean isLogoutSuccess=false;
+    public boolean isLogout(){
+
+        User user = new User(getContext());
+
+        if(user!=null) {
+            user.logout(new LogoutHandler() {
+                @Override
+                public void onLogoutSuccess() {
+                    isLogoutSuccess = true;
+                }
+
+                @Override
+                public void onLogoutFailure(int i, String s) {
+                    isLogoutSuccess = false;
+                }
+            });
+        }else {
+            isLogoutSuccess = false;
+        }
+        return isLogoutSuccess;
     }
 }

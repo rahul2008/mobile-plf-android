@@ -78,6 +78,10 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
+        ]
+
     }
     buildTypes {
         release {
@@ -107,4 +111,5 @@ dependencies {
     compile 'com.j256.ormlite:ormlite-core:5.0'
     compile 'com.j256.ormlite:ormlite-android:5.0'
     compile project(':dataServices')
+    compile 'com.facebook.stetho:stetho:1.2.0'
 }
