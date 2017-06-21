@@ -28,6 +28,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
@@ -93,15 +94,15 @@ public class PTHManagerTest {
     @Test
     public void getInstance(){
         PTHManager pthManager = PTHManager.getInstance();
-        //assertThat(pthManager).isNotNull();
-        //assertThat(pthManager).isInstanceOf(PTHManager.class);
+        assertThat(pthManager).isNotNull();
+        assertThat(pthManager).isInstanceOf(PTHManager.class);
     }
 
     @Test
     public void getAwsdk() throws AWSDKInstantiationException {
         AWSDK awsdk = pthManager.getAwsdk(contextMock);
-        //assertThat(awsdk).isNotNull();
-        //assertThat(awsdk).isInstanceOf(AWSDK.class);
+        assertThat(awsdk).isNotNull();
+        assertThat(awsdk).isInstanceOf(AWSDK.class);
     }
 
     @Test
