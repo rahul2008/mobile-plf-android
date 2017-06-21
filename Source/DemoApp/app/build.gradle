@@ -132,12 +132,12 @@ android {
 
 
     defaultConfig {
-        applicationId "com.philips.platform.urdemo"
+        applicationId "com.philips.cdp.registration"
         minSdkVersion 21
         targetSdkVersion 25
 
         multiDexEnabled true
-        testApplicationId "com.philips.platform.urdemo.test"
+        testApplicationId "com.philips.cdp.registration.test"
        // testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -193,7 +193,7 @@ android {
             versionName objcdp.getVersionWithHash()
         }*/
         device {
-            applicationId 'com.philips.platform.urdemo'
+            applicationId 'com.philips.cdp.registration'
             versionCode 5
             versionName objcdp.getVersionWithHash()
         }

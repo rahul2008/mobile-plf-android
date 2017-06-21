@@ -1,16 +1,14 @@
+
 package com.philips.platform.urdemo;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.LocaleList;
-
+import android.support.multidex.MultiDex;
 
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.registration.ui.utils.URDependancies;
-import com.philips.cdp.registration.ui.utils.URInterface;
-import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -19,7 +17,6 @@ import com.philips.platform.uappframework.UappInterface;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_APPLICATION_NAME;
@@ -30,20 +27,32 @@ import static com.philips.cdp.registration.configuration.URConfigurationConstant
 
 public class URDemoApplication extends Application {
 
-    private AppInfraInterface appInfraInterface;
 
     private static final String CHINA_CODE = "CN";
     private static final String DEFAULT = "default";
     private static final String URL_ENCODING = "UTF-8";
+    private static URDemoApplication mRegistrationSampleApplication = null;
+
+    private AppInfraInterface mAppInfraInterface;
+
+    /**
+     * @return instance of this class
+     */
+    public synchronized static URDemoApplication getInstance() {
+        return mRegistrationSampleApplication;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(base);
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        appInfraInterface = new AppInfra.Builder().build(this);
-        UappInterface standardRegistrationInterface = new URDemouAppInterface();
-        standardRegistrationInterface.init(new URDemouAppDependencies(appInfraInterface), new URDemouAppSettings(this));
-
+        mRegistrationSampleApplication = this;
+        mAppInfraInterface = new AppInfra.Builder().build(this);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         String restoredText = prefs.getString("reg_environment", null);
         if (restoredText != null) {
@@ -57,40 +66,31 @@ public class URDemoApplication extends Application {
         }
     }
 
-
     public void initRegistration(Configuration configuration) {
-        if(appInfraInterface == null){
-            appInfraInterface = new AppInfra.Builder().build(this);
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        if(mAppInfraInterface == null){
+            mAppInfraInterface = new AppInfra.Builder().build(this);
         }
         SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
         editor.putString("reg_environment", configuration.getValue());
         editor.commit();
 
-
-        String languageCode;
-        String countryCode;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            languageCode = LocaleList.getDefault().get(0).getLanguage();
-            countryCode = LocaleList.getDefault().get(0).getCountry();
-        }else{
-            languageCode = Locale.getDefault().getLanguage();
-            countryCode = Locale.getDefault().getCountry();
-        }
-
-
-
         initAppIdentity(configuration);
-        URDependancies urDependancies = new URDependancies(appInfraInterface);
-        URSettings urSettings = new URSettings(this);
-        URInterface urInterface = new URInterface();
-        urInterface.init(urDependancies, urSettings);
+
+
+        UappInterface standardRegistrationInterface = new URDemouAppInterface();
+        standardRegistrationInterface.init(new URDemouAppDependencies(mAppInfraInterface), new URDemouAppSettings(this));
+
 
         RLog.enableLogging();
+
+        //  mAppInfraInterface.getServiceDiscovery().setHomeCountry("ES");
     }
 
     public void initHSDP(Configuration configuration) {
-        if(appInfraInterface == null){
-            appInfraInterface = new AppInfra.Builder().build(this);
+        if(mAppInfraInterface == null){
+            mAppInfraInterface = new AppInfra.Builder().build(this);
         }
         final AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
@@ -99,40 +99,48 @@ public class URDemoApplication extends Application {
         SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
         switch (configuration) {
             case EVALUATION:
-                appInfraInterface.
-                        getConfigInterface().setPropertyForKey(
-                        HSDP_CONFIGURATION_APPLICATION_NAME,
-                        UR,
-                        "uGrow",
-                        configError);
+            {
+                AppConfigurationInterface anInterface = mAppInfraInterface.getConfigInterface();
 
-                appInfraInterface.
-                        getConfigInterface().setPropertyForKey(
-                        HSDP_CONFIGURATION_SECRET,
-                        UR,
-                        "e33a4d97-6ada-491f-84e4-a2f7006625e2",
-                        configError);
+                Map<String, String> hsdpAppNames = new HashMap<>();
+                hsdpAppNames.put(CHINA_CODE, "Sonicare");
+                hsdpAppNames.put(DEFAULT, "uGrow");
 
-                appInfraInterface.
-                        getConfigInterface().setPropertyForKey(
-                        HSDP_CONFIGURATION_SHARED,
-                        UR,
-                        "e95f5e71-c3c0-4b52-8b12-ec297d8ae960",
-                        configError);
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_APPLICATION_NAME,
+                        UR, hsdpAppNames, configError);
 
-                appInfraInterface.
-                        getConfigInterface().setPropertyForKey(
-                        HSDP_CONFIGURATION_BASE_URL,
-                        UR,
-                        "https://ugrow-ds-staging.eu-west.philips-healthsuite.com",
-                        configError);
+                Map<String, String> hsdpSecrets = new HashMap<>();
+                hsdpSecrets.put(CHINA_CODE, "981b4f75-9da5-4939-96e5-3e4e18dd6cb6");
+                hsdpSecrets.put(DEFAULT, "EB7D2C2358E4772070334CD868AA6A802164875D6BEE858D13226234350B156AC8C4917885B5552106DC7F9583CA52CB662110516F8AB02215D51778DE1EF1F3");
+
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_SECRET,
+                        UR, hsdpSecrets, configError);
+
+                Map<String, String> hsdpSharedIds = new HashMap<>();
+                hsdpSharedIds.put(CHINA_CODE, "758f5467-bb78-45d2-a58a-557c963c30c1");
+                hsdpSharedIds.put(DEFAULT, "e95f5e71-c3c0-4b52-8b12-ec297d8ae960");
+
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
+                        UR, hsdpSharedIds, configError);
+
+                Map<String, String> hsdpBaseUrls = new HashMap<>();
+                try {
+
+                    hsdpBaseUrls.put(CHINA_CODE, URLEncoder.encode("https://user-registration-assembly-staging.cn1.philips-healthsuite.com.cn", URL_ENCODING));
+                    hsdpBaseUrls.put(DEFAULT, URLEncoder.encode("https://user-registration-assembly-staging.eu-west.philips-healthsuite.com", URL_ENCODING));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_BASE_URL,
+                        UR, hsdpBaseUrls, configError);
 
                 editor.putString("reg_hsdp_environment", configuration.getValue());
                 editor.commit();
-                break;
-            case DEVELOPMENT:
-
-                AppConfigurationInterface anInterface = appInfraInterface.getConfigInterface();
+            }
+            break;
+            case DEVELOPMENT: {
+                AppConfigurationInterface anInterface = mAppInfraInterface.getConfigInterface();
 
                 Map<String, String> hsdpAppNames = new HashMap<>();
                 hsdpAppNames.put(CHINA_CODE, "CDP");
@@ -168,41 +176,56 @@ public class URDemoApplication extends Application {
 
                 editor.putString("reg_hsdp_environment", configuration.getValue());
                 editor.commit();
-
-                break;
+            }
+            break;
             case PRODUCTION:
                 SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
                 prefs.edit().remove("reg_hsdp_environment").commit();
                 break;
+
+
             case STAGING:
-                appInfraInterface.
-                        getConfigInterface().setPropertyForKey(
-                        HSDP_CONFIGURATION_APPLICATION_NAME,
-                        UR,
-                        "uGrow",
-                        configError);
-                appInfraInterface.
-                        getConfigInterface().setPropertyForKey(
-                        HSDP_CONFIGURATION_SECRET,
-                        UR,
-                        "e33a4d97-6ada-491f-84e4-a2f7006625e2",
-                        configError);
-                appInfraInterface.
-                        getConfigInterface().setPropertyForKey(
-                        HSDP_CONFIGURATION_SHARED,
-                        UR,
-                        "fe53a854-f9b0-11e6-bc64-92361f002671",
-                        configError);
-                appInfraInterface.
-                        getConfigInterface().setPropertyForKey(
-                        HSDP_CONFIGURATION_BASE_URL,
-                        UR,
-                        "https://ugrow-ds-staging.eu-west.philips-healthsuite.com",
-                        configError);
+            {
+                AppConfigurationInterface anInterface = mAppInfraInterface.getConfigInterface();
+
+                Map<String, String> hsdpAppNames = new HashMap<>();
+                hsdpAppNames.put(CHINA_CODE, "Sonicare");
+                hsdpAppNames.put(DEFAULT, "uGrow");
+
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_APPLICATION_NAME,
+                        UR, hsdpAppNames, configError);
+
+                Map<String, String> hsdpSecrets = new HashMap<>();
+                hsdpSecrets.put(CHINA_CODE, "981b4f75-9da5-4939-96e5-3e4e18dd6cb6");
+                hsdpSecrets.put(DEFAULT, "EB7D2C2358E4772070334CD868AA6A802164875D6BEE858D13226234350B156AC8C4917885B5552106DC7F9583CA52CB662110516F8AB02215D51778DE1EF1F3");
+
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_SECRET,
+                        UR, hsdpSecrets, configError);
+
+                Map<String, String> hsdpSharedIds = new HashMap<>();
+                hsdpSharedIds.put(CHINA_CODE, "758f5467-bb78-45d2-a58a-557c963c30c1");
+                hsdpSharedIds.put(DEFAULT, "e95f5e71-c3c0-4b52-8b12-ec297d8ae960");
+
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_SHARED,
+                        UR, hsdpSharedIds, configError);
+
+                Map<String, String> hsdpBaseUrls = new HashMap<>();
+                try {
+
+                    hsdpBaseUrls.put(CHINA_CODE, URLEncoder.encode("https://user-registration-assembly-staging.cn1.philips-healthsuite.com.cn", URL_ENCODING));
+                    hsdpBaseUrls.put(DEFAULT, URLEncoder.encode("https://user-registration-assembly-staging.eu-west.philips-healthsuite.com", URL_ENCODING));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+                anInterface.setPropertyForKey(HSDP_CONFIGURATION_BASE_URL,
+                        UR, hsdpBaseUrls, configError);
+
                 editor.putString("reg_hsdp_environment", configuration.getValue());
                 editor.commit();
+            }
+            break;
 
-                break;
             case TESTING:
                 prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
                 prefs.edit().remove("reg_hsdp_environment").commit();
@@ -216,24 +239,23 @@ public class URDemoApplication extends Application {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
 
-        appInfraInterface.
+        mAppInfraInterface.
                 getConfigInterface().setPropertyForKey(
                 "appidentity.sector",
                 AI,
                 "b2c",
                 configError);
 
-        appInfraInterface.
+        mAppInfraInterface.
                 getConfigInterface().setPropertyForKey(
                 "appidentity.serviceDiscoveryEnvironment",
                 AI,
                 "Production",
                 configError);
 
-
         switch (configuration) {
             case EVALUATION:
-                appInfraInterface.
+                mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
                         AI,
@@ -241,7 +263,7 @@ public class URDemoApplication extends Application {
                         configError);
                 break;
             case DEVELOPMENT:
-                appInfraInterface.
+                mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
                         AI,
@@ -250,7 +272,7 @@ public class URDemoApplication extends Application {
 
                 break;
             case PRODUCTION:
-                appInfraInterface.
+                mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
                         AI,
@@ -258,7 +280,7 @@ public class URDemoApplication extends Application {
                         configError);
                 break;
             case STAGING:
-                appInfraInterface.
+                mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
                         AI,
@@ -267,7 +289,7 @@ public class URDemoApplication extends Application {
 
                 break;
             case TESTING:
-                appInfraInterface.
+                mAppInfraInterface.
                         getConfigInterface().setPropertyForKey(
                         "appidentity.appState",
                         AI,
@@ -276,4 +298,9 @@ public class URDemoApplication extends Application {
                 break;
         }
     }
+
+    public AppInfraInterface getAppInfra() {
+        return mAppInfraInterface;
+    }
 }
+

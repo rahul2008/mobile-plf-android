@@ -1,3 +1,12 @@
+
+/*
+ *  Copyright (c) Koninklijke Philips N.V., 2016
+ *  All rights are reserved. Reproduction or dissemination
+ *  * in whole or in part is prohibited without the prior written
+ *  * consent of the copyright holder.
+ * /
+ */
+
 package com.philips.platform.urdemo;
 
 import android.app.Activity;
@@ -9,18 +18,22 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRSession;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
@@ -35,9 +48,11 @@ import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
 import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.urdemolibrary.R;
 
@@ -45,7 +60,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class URStandardDemoActivity extends AppCompatActivity implements View.OnClickListener,
+public class URStandardDemoActivity extends Activity implements OnClickListener,
         UserRegistrationUIEventListener, UserRegistrationListener, RefreshLoginSessionHandler {
 
     private Button mBtnRegistrationWithAccountSettings;
@@ -55,45 +70,43 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
     private Button mBtnRefresh;
     private Context mContext;
     private ProgressDialog mProgressDialog;
-
     String restoredText;
-    //Configuartion
-
     private Button mBtnChangeConfiguaration;
     private Button mBtnApply;
     private Button mBtnCancel;
     private Button mBtnUpdateDOB;
     private Button mBtnUpdateGender;
     private RadioGroup mRadioGender;
-
     private LinearLayout mLlConfiguration;
-
     private RadioGroup mRadioGroup;
     private CheckBox mCheckBox;
     private User mUser;
+    private Switch mCountrySelectionSwitch;
+    private boolean isCountrySelection;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-
         mContext = getApplicationContext();
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onCreate");
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationSampleActivity register: UserRegistrationListener");
         setContentView(R.layout.usr_demoactivity);
 
 
-        mBtnRegistrationWithAccountSettings = (Button) findViewById(R.id.usr_btn_registration_with_account);
+        mBtnRegistrationWithAccountSettings = (Button) findViewById(R.id.btn_registration_with_account);
         mBtnRegistrationWithAccountSettings.setOnClickListener(this);
 
-        mBtnRegistrationMarketingOptIn = (Button) findViewById(R.id.usr_btn_marketing_opt_in);
+        mBtnRegistrationMarketingOptIn = (Button) findViewById(R.id.btn_marketing_opt_in);
         mBtnRegistrationMarketingOptIn.setOnClickListener(this);
 
-        mBtnRegistrationWithOutAccountSettings = (Button) findViewById(R.id.usr_btn_registration_without_account);
+        mBtnRegistrationWithOutAccountSettings = (Button) findViewById(R.id.btn_registration_without_account);
         mBtnRegistrationWithOutAccountSettings.setOnClickListener(this);
 
-        mBtnHsdpRefreshAccessToken = (Button) findViewById(R.id.usr_btn_refresh_token);
+        mBtnHsdpRefreshAccessToken = (Button) findViewById(R.id.btn_refresh_token);
         mBtnHsdpRefreshAccessToken.setOnClickListener(this);
-        mProgressDialog = new ProgressDialog(URStandardDemoActivity.this);
+        mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setCancelable(false);
         if (RegistrationConfiguration.getInstance().isHsdpFlow()) {
             mBtnHsdpRefreshAccessToken.setVisibility(View.VISIBLE);
@@ -101,21 +114,22 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
             mBtnHsdpRefreshAccessToken.setVisibility(View.GONE);
         }
 
+        mCountrySelectionSwitch = (Switch) findViewById(R.id.county_selection_switch);
         mUser = new User(mContext);
         mUser.registerUserRegistrationListener(this);
-        mBtnRefresh = (Button) findViewById(R.id.usr_btn_refresh_user);
+        mBtnRefresh = (Button) findViewById(R.id.btn_refresh_user);
         mBtnRefresh.setOnClickListener(this);
 
-        mBtnUpdateDOB = (Button) findViewById(R.id.usr_btn_update_date_of_birth);
+        mBtnUpdateDOB = (Button) findViewById(R.id.btn_update_date_of_birth);
         mBtnUpdateDOB.setOnClickListener(this);
-        mBtnUpdateGender = (Button) findViewById(R.id.usr_btn_update_gender);
+        mBtnUpdateGender = (Button) findViewById(R.id.btn_update_gender);
         mBtnUpdateGender.setOnClickListener(this);
-        mRadioGender = (RadioGroup) findViewById(R.id.usr_genderRadio);
-        mRadioGender.check(R.id.usr_Male);
+        mRadioGender = (RadioGroup) findViewById(R.id.genderRadio);
+        mRadioGender.check(R.id.Male);
 
-
-        mLlConfiguration = (LinearLayout) findViewById(R.id.usr_ll_configuartion);
-        mRadioGroup = (RadioGroup) findViewById(R.id.usr_myRadioGroup);
+        mCountrySelectionSwitch = (Switch) findViewById(R.id.county_selection_switch);
+        mLlConfiguration = (LinearLayout) findViewById(R.id.ll_configuartion);
+        mRadioGroup = (RadioGroup) findViewById(R.id.myRadioGroup);
         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
         restoredText = prefs.getString("reg_environment", null);
         final String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
@@ -123,34 +137,43 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
 
             switch (RegUtility.getConfiguration(restoredText)) {
                 case EVALUATION:
-                    mRadioGroup.check(R.id.usr_Evalution);
+                    mRadioGroup.check(R.id.Evalution);
                     break;
                 case DEVELOPMENT:
-                    mRadioGroup.check(R.id.usr_Development);
+                    mRadioGroup.check(R.id.Development);
                     break;
                 case PRODUCTION:
-                    mRadioGroup.check(R.id.usr_Production);
+                    mRadioGroup.check(R.id.Production);
                     break;
                 case STAGING:
-                    mRadioGroup.check(R.id.usr_Stagging);
+                    mRadioGroup.check(R.id.Stagging);
                     break;
                 case TESTING:
-                    mRadioGroup.check(R.id.usr_Testing);
+                    mRadioGroup.check(R.id.Testing);
                     break;
             }
 
         }
 
         mLlConfiguration.setVisibility(View.GONE);
-        mBtnChangeConfiguaration = (Button) findViewById(R.id.usr_btn_change_configuration);
-        mBtnChangeConfiguaration.setOnClickListener(new View.OnClickListener() {
+        mBtnChangeConfiguaration = (Button) findViewById(R.id.btn_change_configuration);
+        mBtnChangeConfiguaration.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 mLlConfiguration.setVisibility(View.VISIBLE);
             }
         });
-        mBtnApply = (Button) findViewById(R.id.usr_Apply);
-        mBtnApply.setOnClickListener(new View.OnClickListener() {
+
+        mCountrySelectionSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isCountrySelection = isChecked;
+            }
+        });
+
+        mBtnApply = (Button) findViewById(R.id.Apply);
+        mBtnApply.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 mLlConfiguration.setVisibility(View.GONE);
@@ -163,24 +186,24 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
                 int checkedId = mRadioGroup.getCheckedRadioButtonId();
                 // find which radio button is selected
 
-                if (checkedId == R.id.usr_Evalution) {
+                if (checkedId == R.id.Evalution) {
                     Toast.makeText(getApplicationContext(), "choice: Evalution",
                             Toast.LENGTH_SHORT).show();
                     restoredText = Configuration.EVALUATION.getValue();
-                } else if (checkedId == R.id.usr_Testing) {
+                } else if (checkedId == R.id.Testing) {
                     Toast.makeText(getApplicationContext(), "choice: Testing",
                             Toast.LENGTH_SHORT).show();
                     restoredText = Configuration.TESTING.getValue();
-                } else if (checkedId == R.id.usr_Development) {
+                } else if (checkedId == R.id.Development) {
                     Toast.makeText(getApplicationContext(), "choice: Development",
                             Toast.LENGTH_SHORT).show();
                     restoredText = Configuration.DEVELOPMENT.getValue();
-                } else if (checkedId == R.id.usr_Production) {
+                } else if (checkedId == R.id.Production) {
                     Toast.makeText(getApplicationContext(), "choice: Production",
                             Toast.LENGTH_SHORT).show();
                     restoredText = Configuration.PRODUCTION.getValue();
-//                    RegistrationSampleApplication.getInstance().initRegistration(Configuration.PRODUCTION);
-                } else if (checkedId == R.id.usr_Stagging) {
+                    //  RegistrationSampleApplication.getInstance().initRegistration(Configuration.PRODUCTION);
+                } else if (checkedId == R.id.Stagging) {
                     Toast.makeText(getApplicationContext(), "choice: Stagging",
                             Toast.LENGTH_SHORT).show();
                     restoredText = Configuration.STAGING.getValue();
@@ -188,19 +211,19 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
 
                 if (restoredText != null) {
                     if (mCheckBox.isChecked()) {
-//                        RegistrationSampleApplication.getInstance().initHSDP(RegUtility.getConfiguration(restoredText));
+                        //  RegistrationSampleApplication.getInstance().initHSDP(RegUtility.getConfiguration(restoredText));
                     } else {
                         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
                         prefs.edit().remove("reg_hsdp_environment").commit();
                     }
 
-//                    RegistrationSampleApplication.getInstance().initRegistration(RegUtility.getConfiguration(restoredText));
+                    // RegistrationSampleApplication.getInstance().initRegistration(RegUtility.getConfiguration(restoredText));
                 }
 
             }
         });
-        mBtnCancel = (Button) findViewById(R.id.usr_Cancel);
-        mBtnCancel.setOnClickListener(new View.OnClickListener() {
+        mBtnCancel = (Button) findViewById(R.id.Cancel);
+        mBtnCancel.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 mLlConfiguration.setVisibility(View.GONE);
@@ -208,22 +231,60 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
         });
 
 
-        mCheckBox = (CheckBox) findViewById(R.id.usr_cd_hsdp);
+        mCheckBox = (CheckBox) findViewById(R.id.cd_hsdp);
         if (restoredHSDPText != null) {
             mCheckBox.setChecked(true);
         }
-    }
 
+
+    }
 
     private void clearData() {
         HsdpUser hsdpUser = new HsdpUser(mContext);
         hsdpUser.deleteFromDisk();
-        mContext.deleteFile(RegConstants.DI_PROFILE_FILE);
-        Jump.getSecureStorageInterface().removeValueForKey(RegConstants.DI_PROFILE_FILE);
         if (JRSession.getInstance() != null) {
             JRSession.getInstance().signOutAllAuthenticatedUsers();
         }
         Jump.signOutCaptureUser(mContext);
+
+    }
+
+    @Override
+    protected void onStart() {
+        RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onStart");
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        AppTagging.collectLifecycleData(this);
+        RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onResume");
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        AppTagging.pauseCollectingLifecycleData();
+        RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onPause");
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onStop");
+
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mUser.unRegisterUserRegistrationListener(this);
+        RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity unregister : RegisterUserRegistrationListener");
+        super.onDestroy();
+
     }
 
     @Override
@@ -231,13 +292,18 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
         URLaunchInput urLaunchInput;
         ActivityLauncher activityLauncher;
         URInterface urInterface;
-        int viewId = v.getId();
-        if (viewId == R.id.usr_btn_registration_with_account) {
+        initCountrySelection();
+
+        int i = v.getId();
+        if (i == R.id.btn_registration_with_account) {
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
+            //  RegistrationSampleApplication.getInstance().getAppInfra().getTagging().setPreviousPage("demoapp:home");
             urLaunchInput = new URLaunchInput();
             urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
             urLaunchInput.setAccountSettings(true);
             urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+            urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
+            urLaunchInput.setUIFlow(UIFlow.FLOW_B);
             urLaunchInput.setUserRegistrationUIEventListener(this);
             activityLauncher = new ActivityLauncher(ActivityLauncher.
                     ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
@@ -261,12 +327,15 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
                     break;
             }
 
-        } else if (viewId == R.id.usr_btn_marketing_opt_in) {
+        } else if (i == R.id.btn_marketing_opt_in) {
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
+            // RegistrationSampleApplication.getInstance().getAppInfra().getTagging().setPreviousPage("demoapp:home");
             urLaunchInput = new URLaunchInput();
             urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
             urLaunchInput.setAccountSettings(false);
             urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+            urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
+            urLaunchInput.setUIFlow(UIFlow.FLOW_B);
             urLaunchInput.setUserRegistrationUIEventListener(this);
             activityLauncher = new ActivityLauncher(ActivityLauncher.
                     ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
@@ -293,23 +362,25 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
                     break;
             }
 
-        } else if (viewId == R.id.usr_btn_registration_without_account) {
+        } else if (i == R.id.btn_registration_without_account) {
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
+            // RegistrationSampleApplication.getInstance().getAppInfra().getTagging().setPreviousPage("demoapp:home");
             urLaunchInput = new URLaunchInput();
             urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
             urLaunchInput.setUserRegistrationUIEventListener(this);
             urLaunchInput.setEndPointScreen(RegistrationLaunchMode.DEFAULT);
+            urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
             urLaunchInput.setAccountSettings(false);
             activityLauncher = new ActivityLauncher(ActivityLauncher.
                     ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
             urInterface = new URInterface();
             urInterface.launch(activityLauncher, urLaunchInput);
 
-        } else if (viewId == R.id.usr_btn_refresh_user) {
+        } else if (i == R.id.btn_refresh_user) {
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Refresh User ");
             handleRefreshAccessToken();
 
-        } else if (viewId == R.id.usr_btn_refresh_token) {
+        } else if (i == R.id.btn_refresh_token) {
             if (RegistrationConfiguration.getInstance().isHsdpFlow()) {
                 User user = new User(mContext);
                 if (!user.isUserSignIn()) {
@@ -321,7 +392,7 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
                 }
             }
 
-        } else if (viewId == R.id.usr_btn_update_gender) {
+        } else if (i == R.id.btn_update_gender) {
             User user1 = new User(mContext);
             System.out.println("before login" + user1.getGender());
 
@@ -333,7 +404,7 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
             }
 
 
-        } else if (viewId == R.id.usr_btn_update_date_of_birth) {
+        } else if (i == R.id.btn_update_date_of_birth) {
             User user = new User(mContext);
             System.out.println("before login" + user.getDateOfBirth());
             if (!user.isUserSignIn()) {
@@ -343,7 +414,6 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
                 handleDoBUpdate(user.getDateOfBirth());
             }
 
-        } else {
         }
     }
 
@@ -353,7 +423,7 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
         mProgressDialog.show();
         Gender gender;
 
-        if (mRadioGender.getCheckedRadioButtonId() == R.id.usr_Male) {
+        if (mRadioGender.getCheckedRadioButtonId() == R.id.Male) {
             gender = Gender.MALE;
         } else {
             gender = Gender.FEMALE;
@@ -366,7 +436,7 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
                 System.out.println("onUpdateSuccess");
                 mProgressDialog.hide();
                 showToast("onUpdateSuccess");
-                System.out.println("post login"+user1.getGender());
+                System.out.println("post login" + user1.getGender());
             }
 
             @Override
@@ -374,7 +444,7 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
                 System.out.println("onUpdateFailedWithError");
                 mProgressDialog.hide();
                 showToast("onUpdateFailedWithError" + error);
-                System.out.println("post login"+user1.getGender());
+                System.out.println("post login" + user1.getGender());
 
             }
         }, gender);
@@ -414,7 +484,7 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
                                 System.out.println("onUpdateSuccess");
                                 mProgressDialog.hide();
                                 showToast("onUpdateSuccess");
-                                System.out.println("post  login"+user1.getDateOfBirth());
+                                System.out.println("post  login" + user1.getDateOfBirth());
                             }
 
                             @Override
@@ -422,7 +492,7 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
                                 System.out.println("onUpdateFailedWithError");
                                 mProgressDialog.hide();
                                 showToast("onUpdateFailedWithError" + error);
-                                System.out.println("post  login"+user1.getDateOfBirth());
+                                System.out.println("post  login" + user1.getDateOfBirth());
 
                             }
                         }, c.getTime());
@@ -433,6 +503,14 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
 
     }
 
+    private void initCountrySelection() {
+        AppConfigurationInterface.AppConfigurationError configError = new
+                AppConfigurationInterface.AppConfigurationError();
+        String countrySelection = isCountrySelection ? "true" : "false";
+
+    }
+
+
     private void handleRefreshAccessToken() {
 
         final User user = new User(this);
@@ -440,7 +518,7 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
             user.refreshLoginSession(new RefreshLoginSessionHandler() {
                 @Override
                 public void onRefreshLoginSessionSuccess() {
-                    showToast("Success to refresh access token"+user.getHsdpAccessToken());
+                    showToast("Success to refresh access token" + user.getAccessToken());
                 }
 
                 @Override
@@ -539,4 +617,28 @@ public class URStandardDemoActivity extends AppCompatActivity implements View.On
     public void onRefreshLoginSessionInProgress(String message) {
         showToast(message);
     }
+
+    RegistrationContentConfiguration registrationContentConfiguration;
+
+    public RegistrationContentConfiguration getRegistrationContentConfiguration() {
+        String valueForRegistration = "sample";
+        String valueForEmailVerification = "sample";
+        String optInTitleText = getResources().getString(R.string.reg_Opt_In_Be_The_First);
+        String optInQuessionaryText = getResources().getString(R.string.reg_Opt_In_What_Are_You_Going_To_Get);
+        String optInDetailDescription = getResources().getString(R.string.reg_Opt_In_Special_Offers);
+        String optInBannerText = getResources().getString(R.string.reg_Opt_In_Join_Now);
+        String optInTitleBarText = getResources().getString(R.string.reg_RegCreateAccount_NavTitle);
+        registrationContentConfiguration = new RegistrationContentConfiguration();
+        registrationContentConfiguration.setValueForRegistration(valueForRegistration);
+        registrationContentConfiguration.setValueForEmailVerification(valueForEmailVerification);
+        registrationContentConfiguration.setOptInTitleText(optInTitleText);
+        registrationContentConfiguration.setOptInQuessionaryText(optInQuessionaryText);
+        registrationContentConfiguration.setOptInDetailDescription(optInDetailDescription);
+        registrationContentConfiguration.setOptInBannerText(optInBannerText);
+        registrationContentConfiguration.setOptInActionBarText(optInTitleBarText);
+        return registrationContentConfiguration;
+
+    }
+
+
 }

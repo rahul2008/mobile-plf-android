@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 
@@ -19,7 +18,7 @@ public class URDemoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_urdemo);
         uAppInterface = new URDemouAppInterface();
-        AppInfraInterface appInfraInterface = new AppInfra.Builder().build(this.getApplicationContext());
+        AppInfraInterface appInfraInterface = URDemoApplication.getInstance().getAppInfra();
         uAppInterface.init(new URDemouAppDependencies(appInfraInterface), new URDemouAppSettings(this.getApplicationContext()));
         setStandardFlow();
     }

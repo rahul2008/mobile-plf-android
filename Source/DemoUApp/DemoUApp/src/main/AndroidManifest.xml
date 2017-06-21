@@ -1,9 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.philips.platform.urdemolibrary">
-
     <application android:allowBackup="true">
    		 <activity android:name="com.philips.platform.urdemo.URStandardDemoActivity"/>
-
         <activity
             android:name="net.openid.appauth.RedirectUriReceiverActivity" >
             <intent-filter>
@@ -15,21 +13,17 @@
                     android:path="/oauth2redirect"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.janrain.android.engage.OpenIDAppAuthTokenActivity"
             android:label="SimpleDemoApplication"
             android:theme="@style/Theme.Janrain.Dialog.Light"
             android:windowSoftInputMode="stateHidden">
         </activity>
-
         <activity
             android:name="com.janrain.android.engage.OpenIDAppAuthCancelledActivity"
             android:label="SimpleDemoApplication"
             android:theme="@style/Theme.Janrain.Dialog.Light"
             android:windowSoftInputMode="stateHidden">
         </activity>
-
     </application>
-
 </manifest>
