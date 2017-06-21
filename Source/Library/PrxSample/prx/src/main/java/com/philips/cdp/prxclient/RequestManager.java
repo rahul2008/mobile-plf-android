@@ -24,12 +24,15 @@ public class RequestManager {
             if(appInfra != null){
                     if( mPrxDependencies.getParentTLA() != null)  {
                         mPrxDependencies.mAppInfraLogging = appInfra.getLogging().createInstanceForComponent(String.format("%s /prx ",mPrxDependencies.getParentTLA()) , getLibVersion());
-                        mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.INFO,TAG ,String.format("PRX is initialized with  %s", mPrxDependencies.getParentTLA()));
+                        mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.INFO,PrxConstants.PRX_REQUEST_MANAGER ,String.format("PRX is initialized with  %s", mPrxDependencies.getParentTLA()));
 
                     } else {
                         mPrxDependencies.mAppInfraLogging = appInfra.getLogging().createInstanceForComponent(" /prx " , getLibVersion());
-                        mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.INFO,TAG ,"PRX is initialized ");
+                        mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.INFO,PrxConstants.PRX_REQUEST_MANAGER ,"PRX is initialized ");
                     }
+            }
+            else {
+                mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.ERROR,PrxConstants.PRX_REQUEST_MANAGER ,"PRX not initialized ");
             }
         }
     }
@@ -44,6 +47,7 @@ public class RequestManager {
 
     private void makeRequest(final PrxRequest prxRequest, final ResponseListener listener) {
         try {
+            mPrxDependencies.mAppInfraLogging.log(LoggingInterface.LogLevel.INFO,PrxConstants.PRX_REQUEST_MANAGER ,"excute prx request");
             new NetworkWrapper(mPrxDependencies).executeCustomJsonRequest(prxRequest, listener);
         } catch (Exception e) {
             e.printStackTrace();

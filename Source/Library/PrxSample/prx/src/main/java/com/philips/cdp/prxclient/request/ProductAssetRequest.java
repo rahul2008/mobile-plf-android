@@ -1,5 +1,7 @@
 package com.philips.cdp.prxclient.request;
 
+import android.util.Log;
+
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
 import com.philips.cdp.prxclient.response.ResponseData;
@@ -23,11 +25,13 @@ public class ProductAssetRequest extends PrxRequest {
 
     public ProductAssetRequest(String ctn, PrxConstants.Sector sector, PrxConstants.Catalog catalog, String requestTag) {
         super(ctn, PRXAssetAssetServiceID, sector, catalog);
+        Log.i(PrxConstants.PRX_REQUEST_MANAGER, "Product Asset Request ");
         this.mRequestTag = requestTag;
     }
 
     @Override
     public ResponseData getResponseData(JSONObject jsonObject) {
+        Log.i(PrxConstants.PRX_REQUEST_MANAGER, "Product Asset get Response Data ");
         return new AssetModel().parseJsonResponseData(jsonObject);
     }
 
