@@ -68,7 +68,6 @@ public class LinksFragment extends BaseFragment {
 
     private void launchButtonFragment() {
         Bundle bundle = new Bundle();
-        bundle.putBoolean(ButtonFragment.KEY_HIDE_THEME_MENU, true);
         ButtonFragment fragment = new ButtonFragment();
         fragment.setArguments(bundle);
         showFragment(fragment);
