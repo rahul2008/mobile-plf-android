@@ -5,11 +5,8 @@
   -->
 
 <resources>
-
     <string name="app_name">DICommClientSample</string>
-    <string name="hello_world">Hello world!</string>
     <string name="light_state">Light state</string>
-    <string name="device_name">Device name</string>
     <string name="set">Set</string>
     <string name="pair">Pair</string>
     <string name="unpair">Disengage</string>
@@ -21,14 +18,9 @@
     <string name="lblFirmwareVersion">"Version: "</string>
     <string name="lblResultPortError">Port error: (%1$s)</string>
 
-    <string name="btnGetTime">Get Time</string>
-    <string name="btnSetTime">Set Time</string>
-
     <string name="count_0">Count: 0</string>
-    <string name="firmware_upgrade">Firmware upgrade</string>
     <string name="last_result">Last result:</string>
     <string name="switchLoopGet">Continuously get time</string>
-    <string name="switchStayConnected">Stay connected</string>
     <string name="switchSubscription">Subscribe</string>
 
     <string name="cancel_firmware">Cancel firmware</string>
@@ -55,4 +47,5 @@
     <string name="lan_appliance">Lan Appliance</string>
     <string name="enable_communication">Enable Communication</string>
     <string name="ms">milliseconds</string>
+    <string name="get">Get</string>
 </resources>

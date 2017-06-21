@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
@@ -36,6 +37,9 @@ public class DevicePortFragment extends Fragment {
         currentAppliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
         deviceNameEdit = (EditText) rootview.findViewById(R.id.device_name);
         Button setButton = (Button) rootview.findViewById(R.id.btn_set);
+        Button getButton = (Button) rootview.findViewById(R.id.btn_get);
+
+        ((CompoundButton) rootview.findViewById(R.id.switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
 
         setButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -45,6 +49,13 @@ public class DevicePortFragment extends Fragment {
                     }
                 }
         );
+
+        getButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentAppliance.getDevicePort().reloadProperties();
+            }
+        });
 
         currentAppliance.getDevicePort().addPortListener(new DICommPortListener() {
             @Override
@@ -63,4 +74,19 @@ public class DevicePortFragment extends Fragment {
 
         return rootview;
     }
+
+    private final CompoundButton.OnCheckedChangeListener subscriptionCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
+            if (currentAppliance == null) {
+                return;
+            }
+
+            if (isChecked) {
+                currentAppliance.getDevicePort().subscribe();
+            } else {
+                currentAppliance.getDevicePort().unsubscribe();
+            }
+        }
+    };
 }
