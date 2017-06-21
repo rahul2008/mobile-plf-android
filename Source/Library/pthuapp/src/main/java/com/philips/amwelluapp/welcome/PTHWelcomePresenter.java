@@ -3,10 +3,8 @@ package com.philips.amwelluapp.welcome;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
-import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
@@ -19,7 +17,7 @@ import com.philips.amwelluapp.practice.PTHPracticesListCallback;
 import com.philips.amwelluapp.practice.PracticeFragment;
 import com.philips.amwelluapp.providerslist.PTHGetConsumerObjectCallBack;
 import com.philips.amwelluapp.providerslist.PTHProvidersListCallback;
-import com.philips.amwelluapp.providerslist.ProvidersListFragment;
+import com.philips.amwelluapp.providerslist.PTHProvidersListFragment;
 import com.philips.amwelluapp.utility.PTHManager;
 
 import java.net.MalformedURLException;
@@ -98,9 +96,9 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
         Log.d("Login","Providers list received : "+providerInfoList.size());
         Toast.makeText(uiBaseView.getFragmentActivity(),"Providers list received",Toast.LENGTH_SHORT).show();
-        ProvidersListFragment providersListFragment = new ProvidersListFragment();
-        providersListFragment.setProvidersList(providerInfoList);
-        uiBaseView.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(uiBaseView.getContainerID(),providersListFragment,"Providers List").commit();
+        PTHProvidersListFragment PTHProvidersListFragment = new PTHProvidersListFragment();
+        PTHProvidersListFragment.setProvidersList(providerInfoList);
+        uiBaseView.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(uiBaseView.getContainerID(), PTHProvidersListFragment,"Providers List").commit();
     }
 
     @Override

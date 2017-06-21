@@ -4,6 +4,6 @@ import com.americanwell.sdk.entity.provider.ProviderInfo;
 
 import java.util.List;
 
-public interface UIProviderListViewInterface {
+public interface PTHProviderListViewInterface {
     void updateProviderAdapterList(List<ProviderInfo> providerInfos);
 }

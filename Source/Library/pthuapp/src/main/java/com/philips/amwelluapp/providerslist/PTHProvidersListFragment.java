@@ -19,7 +19,7 @@ import com.philips.platform.uid.view.widget.ProgressBar;
 
 import java.util.List;
 
-public class ProvidersListFragment extends PTHBaseFragment implements SwipeRefreshLayout.OnRefreshListener,UIProviderListViewInterface{
+public class PTHProvidersListFragment extends PTHBaseFragment implements SwipeRefreshLayout.OnRefreshListener,PTHProviderListViewInterface {
 
     private FragmentLauncher fragmentLauncher;
     private RecyclerView recyclerView;

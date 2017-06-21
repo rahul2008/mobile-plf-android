@@ -14,15 +14,15 @@ import com.philips.amwelluapp.utility.PTHManager;
 
 import java.util.List;
 
-public class PTHProviderListPresenter implements PTHPracticeProviderImageCallback,PTHProvidersListCallback{
+public class PTHProviderListPresenter implements PTHProvidersListCallback{
 
     private Context context;
-    private UIProviderListViewInterface uiProviderListViewInterface;
+    private PTHProviderListViewInterface PTHProviderListViewInterface;
 
 
-    public PTHProviderListPresenter(Context context,UIProviderListViewInterface uiProviderListViewInterface){
+    public PTHProviderListPresenter(Context context,PTHProviderListViewInterface PTHProviderListViewInterface){
         this.context = context;
-        this.uiProviderListViewInterface = uiProviderListViewInterface;
+        this.PTHProviderListViewInterface = PTHProviderListViewInterface;
     }
 
     public void fetchProviderList(Consumer consumer, Practice practice){
@@ -41,19 +41,10 @@ public class PTHProviderListPresenter implements PTHPracticeProviderImageCallbac
         }*/
     }
 
-    @Override
-    public void onImageLoaded() {
-
-    }
-
-    @Override
-    public void onImageDownloadError() {
-
-    }
 
     @Override
     public void onProvidersListReceived(List<ProviderInfo> providerInfoList, SDKError sdkError) {
-        uiProviderListViewInterface.updateProviderAdapterList(providerInfoList);
+        PTHProviderListViewInterface.updateProviderAdapterList(providerInfoList);
     }
 
     @Override
