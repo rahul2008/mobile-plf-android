@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.americanwell.sdk.entity.consumer.Consumer;
+import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.philips.amwelluapp.R;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -23,6 +25,8 @@ public class ProvidersListFragment extends Fragment implements SwipeRefreshLayou
     private List<ProviderInfo> providerInfoList;
     private PTHProviderListPresenter pthProviderListPresenter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private Practice practice;
+    private Consumer consumer;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,6 +44,9 @@ public class ProvidersListFragment extends Fragment implements SwipeRefreshLayou
         providerInfoList = providersList;
     }
 
+    public void setPracticeAndConsumer(Practice practice, Consumer consumer){
+
+    }
     @Override
     public void onRefresh() {
 
