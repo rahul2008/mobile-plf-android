@@ -2,7 +2,7 @@ package com.philips.amwelluapp.welcome;
 
 import com.philips.amwelluapp.BuildConfig;
 import com.philips.amwelluapp.activity.PTHLaunchActivity;
-import com.philips.amwelluapp.utility.CustomTestRunner;
+import com.philips.amwelluapp.CustomTestRunner;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import org.junit.Before;
