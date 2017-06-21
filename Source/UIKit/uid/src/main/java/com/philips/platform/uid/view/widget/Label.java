@@ -11,6 +11,7 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.Layout;
@@ -28,8 +29,11 @@ import com.philips.platform.uid.utils.UIDClickableSpan;
 import com.philips.platform.uid.utils.UIDClickableSpanWrapper;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
 
+import static com.philips.platform.uid.thememanager.ThemeUtils.buildColorStateList;
+
 public class Label extends AppCompatTextView {
     private UIDClickableSpan[] pressedLinks;
+    private ColorStateList linkColors;
     private UIDClickableSpanWrapper.ClickInterceptor externalClickInterceptor;
     private UIDClickableSpanWrapper.ClickInterceptor clickInterceptor = new UIDClickableSpanWrapper.ClickInterceptor() {
         @Override
@@ -49,6 +53,7 @@ public class Label extends AppCompatTextView {
     public Label(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         processAttributes(context, attrs, defStyleAttr);
+        setHyperLinkColors(R.color.uid_link_selector);
     }
 
     private void processAttributes(final Context context, final AttributeSet attrs, final int defStyleAttr) {
@@ -57,9 +62,25 @@ public class Label extends AppCompatTextView {
         attrsArray.recycle();
     }
 
+    public void setHyperLinkColors(@ColorRes int resID) {
+        linkColors = buildColorStateList(getContext().getResources(),
+                getContext().getTheme(), resID);
+    }
+
+    public ColorStateList getHyperLinkColors() {
+        return linkColors;
+    }
+
     @Override
     public void setText(CharSequence text, BufferType type) {
+        ensureHyperLinkColors();
         super.setText(decorateLinks(text), type);
+    }
+
+    private void ensureHyperLinkColors() {
+        if (linkColors == null) {
+            setHyperLinkColors(R.color.uid_link_selector);
+        }
     }
 
     private CharSequence decorateLinks(CharSequence text) {
@@ -90,27 +111,25 @@ public class Label extends AppCompatTextView {
             int spanStart;
             int spanEnd;
             ClickableSpan[] clickableSpans = ((Spannable) text).getSpans(0, text.length(), ClickableSpan.class);
-            ColorStateList linkColors = getLinkTextColors();
-
             if (clickableSpans.length > 0) {
                 string = (Spannable) text;
-            }
-
-            for (ClickableSpan span : clickableSpans) {
-                if (span instanceof UIDClickableSpan) {
-                    ColorStateList spanLinkColors = ((UIDClickableSpan) span).getColors();
-                    if (spanLinkColors == null) {
-                        ((UIDClickableSpan) span).setColors(linkColors);
-                    }
-                } else {
-                    spanStart = string.getSpanStart(span);
-                    spanEnd = string.getSpanEnd(span);
-                    if (spanStart >= 0 && spanEnd >= 0) {
-                        string.removeSpan(span);
-                        UIDClickableSpanWrapper urlSpanWrapper = new UIDClickableSpanWrapper(span);
-                        urlSpanWrapper.setColors(linkColors);
-                        urlSpanWrapper.setClickInterceptor(clickInterceptor);
-                        string.setSpan(urlSpanWrapper, spanStart, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ColorStateList linkColors = getHyperLinkColors();
+                for (ClickableSpan span : clickableSpans) {
+                    if (span instanceof UIDClickableSpan) {
+                        ColorStateList spanLinkColors = ((UIDClickableSpan) span).getColors();
+                        if (spanLinkColors == null) {
+                            ((UIDClickableSpan) span).setColors(linkColors);
+                        }
+                    } else {
+                        spanStart = string.getSpanStart(span);
+                        spanEnd = string.getSpanEnd(span);
+                        if (spanStart >= 0 && spanEnd >= 0) {
+                            string.removeSpan(span);
+                            UIDClickableSpanWrapper urlSpanWrapper = new UIDClickableSpanWrapper(span);
+                            urlSpanWrapper.setColors(linkColors);
+                            urlSpanWrapper.setClickInterceptor(clickInterceptor);
+                            string.setSpan(urlSpanWrapper, spanStart, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        }
                     }
                 }
             }
@@ -133,15 +152,15 @@ public class Label extends AppCompatTextView {
             URLSpan[] urlSpans = ((Spanned) text).getSpans(0, text.length(), URLSpan.class);
             if (urlSpans.length > 0) {
                 string = SpannableString.valueOf(text);
-            }
-            for (URLSpan span : urlSpans) {
-                string.removeSpan(span);
-                spanStart = ((Spanned) text).getSpanStart(span);
-                spanEnd = ((Spanned) text).getSpanEnd(span);
-                UIDClickableSpanWrapper urlSpanWrapper = new UIDClickableSpanWrapper(span);
-                urlSpanWrapper.setColors(getLinkTextColors());
-                urlSpanWrapper.setClickInterceptor(clickInterceptor);
-                string.setSpan(urlSpanWrapper, spanStart, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                for (URLSpan span : urlSpans) {
+                    string.removeSpan(span);
+                    spanStart = ((Spanned) text).getSpanStart(span);
+                    spanEnd = ((Spanned) text).getSpanEnd(span);
+                    UIDClickableSpanWrapper urlSpanWrapper = new UIDClickableSpanWrapper(span);
+                    urlSpanWrapper.setColors(getHyperLinkColors());
+                    urlSpanWrapper.setClickInterceptor(clickInterceptor);
+                    string.setSpan(urlSpanWrapper, spanStart, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
             }
         }
         return string;
@@ -189,10 +208,7 @@ public class Label extends AppCompatTextView {
             pressedLinks = sequence.getSpans(off, off, UIDClickableSpan.class);
 
             if (pressedLinks.length != 0) {
-                Spannable text = (Spannable) getText();
-                if (action == MotionEvent.ACTION_DOWN) {
-                    pressedLinks[pressedLinks.length - 1].setPressed(true);
-                }
+                pressedLinks[pressedLinks.length - 1].setPressed(true);
             }
         } else if (action == MotionEvent.ACTION_UP) {
             if (hasPressedLinks()) {
@@ -245,7 +261,7 @@ public class Label extends AppCompatTextView {
         }
     }
 
-    static class SavedState extends BaseSavedState {
+    private static class SavedState extends BaseSavedState {
         int linksCount;
         boolean[] spanVisitedArray;
 
