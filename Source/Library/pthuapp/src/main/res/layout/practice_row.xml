@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pth_practice_row_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:minHeight="100dp"
+
+    >
+
+
+    <com.philips.platform.uid.view.widget.ImageButton
+        android:layout_margin="5dp"
+        android:id="@+id/pth_practice_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:layout_alignParentTop="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/common_google_signin_btn_icon_dark" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/pth_practice_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp"
+        android:layout_toRightOf="@+id/pth_practice_logo"
+        android:maxLines="3"
+        android:padding="8dp"
+
+        android:textSize="10sp"
+        android:textColor="?attr/uidLabelValueNormalTextColor"
+        android:textStyle="bold" />
+    <View android:background="@color/uid_blue_level_50"
+        android:layout_below="@+id/pth_practice_logo"
+        android:layout_width = "match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="7dp"
+        />
+</RelativeLayout>
