@@ -53,7 +53,7 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/iap_retailerItem_productName_lebel"
-        fontPath="fonts/iapCentralesansBookFont.ttf"
+        style="@style/iapCentralesansBookFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="DiamondClean"
@@ -62,7 +62,7 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/iap_retailerItem_ctn_lebel"
-        fontPath="fonts/iapCentralesansBookFont.ttf"
+        style="@style/iapCentralesansBookFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/iap_retailerItem_productName_lebel"

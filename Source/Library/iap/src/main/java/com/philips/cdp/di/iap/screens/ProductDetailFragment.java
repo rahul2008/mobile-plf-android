@@ -14,7 +14,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -44,9 +43,9 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
-import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
+import com.philips.platform.uid.view.widget.ProgressBarButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,8 +73,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private TextView mCTN;
     private TextView mPrice;
     private TextView mProductOverview;
-    private Button mAddToCart;
-    private Button mBuyFromRetailers;
+    private ProgressBarButton mAddToCart;
+    private ProgressBarButton mBuyFromRetailers;
     private ScrollView mDetailLayout;
 
     private ArrayList<String> mAsset;
@@ -139,11 +138,10 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mCTN = (TextView) rootView.findViewById(R.id.iap_productDetailsScreen_ctn_lebel);
         mPrice = (TextView) rootView.findViewById(R.id.iap_productDetailsScreen_individualPrice_lebel);
         mProductOverview = (TextView) rootView.findViewById(R.id.iap_productDetailsScreen_productOverview);
-        mAddToCart = (Button) rootView.findViewById(R.id.iap_productDetailsScreen_addToCart_button);
-        mBuyFromRetailers = (Button) rootView.findViewById(R.id.iap_productDetailsScreen_buyFromRetailor_button);
+        mAddToCart = (ProgressBarButton) rootView.findViewById(R.id.iap_productDetailsScreen_addToCart_button);
+        mBuyFromRetailers = (ProgressBarButton) rootView.findViewById(R.id.iap_productDetailsScreen_buyFromRetailor_button);
         mProductDiscountedPrice = (TextView) rootView.findViewById(R.id.iap_productCatalogItem_discountedPrice_lebel);
         mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
-
         DotNavigationIndicator indicator = (DotNavigationIndicator) rootView.findViewById(R.id.indicator);
         mImageAdapter = new ImageAdapter(mContext, new ArrayList<String>());
         mViewPager.setAdapter(mImageAdapter);
@@ -157,8 +155,10 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 if (isNetworkConnected()) {
                     if (!ControllerFactory.getInstance().isPlanB()) {
                         ProductDetailController controller = new ProductDetailController(mContext, this);
-                        if (!isProgressDialogShowing()) {
-                            showProgressDialog(mContext, getString(R.string.iap_please_wait));
+                        if (!mBuyFromRetailers.isActivated()) {
+                            //showProgressDialog(mContext, getString(R.string.iap_please_wait));
+                            mBuyFromRetailers.showProgressIndicator();
+
                         }
                         controller.getProductDetail(mCTNValue);
                     } else {
@@ -197,9 +197,6 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     private void makeAssetRequest() {
         if (!CartModelContainer.getInstance().isPRXAssetPresent(mCTNValue)) {
-            if (!isProgressDialogShowing()) {
-                showProgressDialog(mContext, getString(R.string.iap_please_wait));
-            }
             PRXAssetExecutor builder = new PRXAssetExecutor(mContext, mCTNValue, this);
             builder.build();
         } else {
@@ -216,8 +213,10 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 trackErrorTag(IAPAnalyticsConstant.PRX + mCTNValue + "_" + IAPAnalyticsConstant.No_IMAGES_FOUND);
             mViewPager.setAdapter(mImageAdapter);
             mImageAdapter.notifyDataSetChanged();
-            if (isProgressDialogShowing())
-                dismissProgressDialog();
+            if (mBuyFromRetailers.isActivated()) {
+                //dismissProgressDialog();
+                mBuyFromRetailers.hideProgressIndicator();
+            }
         }
     }
 
@@ -225,9 +224,10 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         ArrayList<String> ctnList = new ArrayList<>();
         ctnList.add(mCTNValue);
         if (!CartModelContainer.getInstance().isPRXSummaryPresent(mCTNValue)) {
-            if (!isProgressDialogShowing()) {
+            if (!mBuyFromRetailers.isActivated()) {
                 if (mContext == null) return;
-                showProgressDialog(mContext, getString(R.string.iap_please_wait));
+                mBuyFromRetailers.showProgressIndicator();
+                //showProgressDialog(mContext, getString(R.string.iap_please_wait));
             }
             PRXSummaryExecutor builder = new PRXSummaryExecutor(mContext, ctnList, this);
             builder.preparePRXDataRequest();
@@ -285,15 +285,15 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private void handleViews() {
         setTitleAndBackButtonVisibility(mContext.getResources().getString(R.string.iap_product_detail_title), true);
         if (ControllerFactory.getInstance().isPlanB()) {
-          //  mBuyFromRetailers.setText(R.string.iap_buy_now);
+            //  mBuyFromRetailers.setText(R.string.iap_buy_now);
             mAddToCart.setVisibility(View.GONE);
             setCartIconVisibility(false);
         } else {
-          //  mBuyFromRetailers.setText(R.string.iap_buy_from_retailers);
+            //  mBuyFromRetailers.setText(R.string.iap_buy_from_retailers);
             mAddToCart.setVisibility(View.VISIBLE);
             mAddToCart.setOnClickListener(this);
             Drawable shoppingCartIcon = VectorDrawable.create(mContext, R.drawable.iap_shopping_cart);
-            mAddToCart.setCompoundDrawablesWithIntrinsicBounds(shoppingCartIcon, null, null, null);
+            //mAddToCart.setCompoundDrawablesWithIntrinsicBounds(shoppingCartIcon, null, null, null);
 
             setCartIconVisibility(true);
             mShoppingCartAPI.getProductCartCount(mContext, mProductCountListener);
@@ -306,8 +306,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         ShoppingCartAPI presenter = ControllerFactory.
                 getInstance().getShoppingCartPresenter(mContext, this);
 
-        if (!isProgressDialogShowing()) {
-            showProgressDialog(mContext, getString(R.string.iap_please_wait));
+        if (!mBuyFromRetailers.isActivated()) {
+            //showProgressDialog(mContext, getString(R.string.iap_please_wait));
+            mBuyFromRetailers.showProgressIndicator();
             presenter.getRetailersInformation(mCTNValue);
         }
     }
@@ -338,15 +339,16 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mImageAdapter.notifyDataSetChanged();
         if (mIapListener != null)
             mIapListener.onSuccess();
-        if (isProgressDialogShowing())
+        if (mBuyFromRetailers.isActivated())
             dismissProgressDialog();
     }
 
     @Override
     public void onFetchAssetFailure(final Message msg) {
         IAPLog.d(IAPConstant.PRODUCT_DETAIL_FRAGMENT, "Failure");
-        if (isProgressDialogShowing())
-            dismissProgressDialog();
+        if (mBuyFromRetailers.isActivated())
+            // dismissProgressDialog();
+            mBuyFromRetailers.hideProgressIndicator();
         if (!isNetworkConnected()) return;
         NetworkUtility.getInstance().showErrorMessage(msg, getFragmentManager(), mContext);
 
@@ -388,8 +390,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         HashMap<String, SummaryModel> msgObj = (HashMap<String, SummaryModel>) msg.obj;
         mProductSummary = msgObj.get(mCTNValue);
         populateData();
-        if (isProgressDialogShowing()) {
-            dismissProgressDialog();
+        if (mBuyFromRetailers.isActivated()) {
+            //dismissProgressDialog();
+            mBuyFromRetailers.hideProgressIndicator();
         }
         mDetailLayout.setVisibility(View.VISIBLE);
         if (mIapListener != null)
@@ -401,8 +404,10 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mDetailLayout.setVisibility(View.GONE);
         mBuyFromRetailers.setVisibility(View.GONE);
         showErrorDialog(msg);
-        if (isProgressDialogShowing())
-            dismissProgressDialog();
+        //if (isProgressDialogShowing())
+        if (mBuyFromRetailers.isActivated())
+            //dismissProgressDialog();
+            mBuyFromRetailers.hideProgressIndicator();
 
         if (msg.obj instanceof IAPNetworkError) {
             IAPNetworkError obj = (IAPNetworkError) msg.obj;
@@ -414,7 +419,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     public void onGetProductDetail(Message msg) {
         if (msg.obj instanceof IAPNetworkError) {
             if (isProgressDialogShowing()) {
-                dismissProgressDialog();
+                //dismissProgressDialog();
+                mBuyFromRetailers.hideProgressIndicator();
             }
             mDetailLayout.setVisibility(View.GONE);
             //Hard coded strring provided because we dont have
@@ -504,14 +510,16 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     @Override
     public void onLoadFinished(ArrayList<StoreEntity> data) {
-        dismissProgressDialog();
+//        dismissProgressDialog();
+        mBuyFromRetailers.hideProgressIndicator();
         buyFromRetailers(data);
     }
 
     @Override
     public void onLoadError(Message msg) {
         IAPLog.d(IAPLog.LOG, "onLoadError == ProductDetailFragment ");
-        dismissProgressDialog();
+//        dismissProgressDialog();
+        mBuyFromRetailers.hideProgressIndicator();
         if (msg.obj instanceof IAPNetworkError) {
             NetworkUtility.getInstance().showErrorMessage(msg, ((FragmentActivity) mContext).getSupportFragmentManager(), mContext);
         } else {
@@ -522,7 +530,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
     @Override
     public void onRetailerError(IAPNetworkError errorMsg) {
-        dismissProgressDialog();
+        //   dismissProgressDialog();
+        mBuyFromRetailers.hideProgressIndicator();
         NetworkUtility.getInstance().showErrorDialog(mContext,
                 getFragmentManager(), mContext.getString(R.string.iap_ok),
                 mContext.getString(R.string.iap_retailer_title_for_no_retailers), errorMsg.getMessage());

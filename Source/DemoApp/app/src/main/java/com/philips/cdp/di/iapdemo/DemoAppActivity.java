@@ -163,12 +163,13 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     }
 
     private void actionBar() {
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.demoScreen_toolbar);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayUseLogoEnabled(false);
-        getSupportActionBar().setDisplayShowCustomEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+//        Toolbar mToolbar = (Toolbar) findViewById(R.id.demoScreen_toolbar);
+  //      setSupportActionBar(mToolbar);
+//        getSupportActionBar().setDisplayShowTitleEnabled(false);
+  //      getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(false);
+    //    getSupportActionBar().setDisplayUseLogoEnabled(false);
+      //  getSupportActionBar().setDisplayShowCustomEnabled(false);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.iap_header_back_button);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override

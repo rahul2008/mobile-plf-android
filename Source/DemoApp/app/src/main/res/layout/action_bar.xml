@@ -1,69 +1,87 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ratingthememain"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/demoScreen_toolbar"
+    <com.philips.platform.uid.view.widget.NavigationContainer
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="?android:attr/actionBarSize">
+        android:layout_height="match_parent"
+        android:background="@drawable/uid_shadow_level_two">
 
-        <FrameLayout
-            android:id="@+id/iap_header_back_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:clickable="true"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:visibility="gone">
-
-            <ImageView
-                android:id="@+id/iap_iv_header_back_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" />
-        </FrameLayout>
-
-
-        <com.philips.platform.uid.view.widget.ActionBarTextView
-            android:id="@+id/iap_header_title"
-            style="@style/UIDToolbarBarTitleText"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textIsSelectable="true"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <FrameLayout
-            android:id="@+id/shopping_cart_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:clickable="true"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:visibility="gone">
-
-            <ImageView
-                android:id="@+id/cart_iv"
-                android:layout_width="wrap_content"
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appBar"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:contentDescription="@string/app_title"
-                android:paddingRight="12dp"
-                android:src="@drawable/shopping_cart_xml" />
+                app:elevation="0dp">
 
-            <com.philips.cdp.uikit.customviews.BadgeView
-                android:id="@+id/item_count"
-                style="@style/NotificationLabel.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|end"
-                android:background="@drawable/count_badge"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:visibility="visible" />
-        </FrameLayout>
-    </android.support.v7.widget.Toolbar>
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/demoScreen_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="?android:attr/actionBarSize">
+
+                    <FrameLayout
+                        android:id="@+id/iap_header_back_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:clickable="true"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/iap_iv_header_back_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical" />
+                    </FrameLayout>
+
+
+                    <com.philips.platform.uid.view.widget.ActionBarTextView
+                        android:id="@+id/iap_header_title"
+                        style="@style/UIDToolbarBarTitleText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textIsSelectable="true" />
+
+                    <FrameLayout
+                        android:id="@+id/shopping_cart_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:clickable="true"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/cart_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:contentDescription="@string/app_title"
+                            android:paddingRight="12dp"
+                            android:src="@drawable/shopping_cart_xml" />
+
+                        <com.philips.cdp.uikit.customviews.BadgeView
+                            android:id="@+id/item_count"
+                            style="@style/NotificationLabel.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="top|end"
+                            android:background="@drawable/count_badge"
+                            android:textColor="@android:color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:visibility="visible" />
+                    </FrameLayout>
+                </android.support.v7.widget.Toolbar>
+            </android.support.design.widget.AppBarLayout>
+        </LinearLayout>
+    </com.philips.platform.uid.view.widget.NavigationContainer>
 </LinearLayout>
