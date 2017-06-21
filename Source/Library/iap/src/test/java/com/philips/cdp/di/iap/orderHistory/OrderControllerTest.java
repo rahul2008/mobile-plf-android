@@ -95,7 +95,7 @@ public class OrderControllerTest {
         mNetworkController.sendSuccess(obj);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void orderDetailSuccessResponseWithData() throws JSONException {
         mOrderController = new OrderController(mContext, new MockOrderListener() {
             @Override
