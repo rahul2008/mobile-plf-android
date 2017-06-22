@@ -13,6 +13,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
@@ -21,9 +22,9 @@ import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetExc
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
-
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -107,16 +108,18 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
             // Commented as part of Plan A removal.
            /* case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
                 return SHOPPING_CART;*/
-            case MENU_OPTION_PR:
-                return SUPPORT_PR;
             case MENU_OPTION_DATA_SYNC:
                 return HOME_DATA_SYNC;
             case MENU_OPTION_CONNECTIVITY:
-                return CONNECTIVITY;
+                return HOME_CONNECTIVITY;
             case MENU_OPTION_COCOVERSION:
-                return COCO_VERSION_INFO;
+                return HOME_COCO_VERSION_INFO;
             case MENU_OPTION_DEBUG:
                 return HOME_DEBUG;
+            case MENU_OPTION_TEST_MICROAPP:
+                return HOME_TEST_MICROAPP;
+            case MENU_OPTION_PR:
+                return HOME_SUPPORT_PR;
             default:
                 return HOME_FRAGMENT;
         }
