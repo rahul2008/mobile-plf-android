@@ -48,13 +48,6 @@ node ('android') {
                 '''
             }
 
-           stage ('reporting') {
-                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
-                junit allowEmptyResults: true, testResults: 'Source/Library/*/build/test-results/*/*.xml'
-                // publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/UiKit/uikitlib/build/reports/tests/debug', reportFiles: 'index.html', reportName: 'unit test debug']) 
-                archiveArtifacts '**/dependencies.lock'
-            }
-
             if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
                 stage ('callIntegrationPipeline') {
                     if (BranchName =~ "/") {
@@ -74,7 +67,13 @@ node ('android') {
                         echo errors[i]; 
                     }
                 }                
-            }   
+            }  
+           stage ('reporting') {
+                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
+                // junit allowEmptyResults: false, testResults: 'Source/Library/*/build/test-results/*/*.xml'
+                // publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/UiKit/uikitlib/build/reports/tests/debug', reportFiles: 'index.html', reportName: 'unit test debug']) 
+                archiveArtifacts '**/dependencies.lock'
+            } 
             stage('informing') {
                 step([$class: 'StashNotifier'])
                 step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
