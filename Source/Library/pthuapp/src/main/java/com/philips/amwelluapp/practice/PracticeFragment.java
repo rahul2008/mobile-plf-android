@@ -19,19 +19,13 @@ import com.philips.amwelluapp.providerslist.PTHProvidersListFragment;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Label;
 
-/**
- * Created by philips on 6/19/17.
- */
-
 public class PracticeFragment extends PTHBaseFragment implements BackEventListener {
 
     private Consumer mConsumer;
     private UIBasePresenter mPresenter;
     private Label mTitle;
-
     private RecyclerView mPracticeRecyclerView;
     private PracticeRecyclerViewAdapter mPracticeRecyclerViewAdapter;
-    //private ProgressBar progressBar;
 
 
     @Nullable
@@ -41,9 +35,6 @@ public class PracticeFragment extends PTHBaseFragment implements BackEventListen
         View view = inflater.inflate(R.layout.practice, container, false);
         mTitle = (Label) view.findViewById(R.id.pth_id_practice_label);
         mPracticeRecyclerView = (RecyclerView)view.findViewById(R.id.pth_recycler_view_practice);
-
-
-
         return view;
     }
 
@@ -57,8 +48,6 @@ public class PracticeFragment extends PTHBaseFragment implements BackEventListen
         super.onActivityCreated(savedInstanceState);
         mTitle.setText("To start a consult, pick a subject");
         mPracticeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //practiceList = getPractices();
-
         ((PTHPracticePresenter)mPresenter).fetchPractices();
 
     }
@@ -97,11 +86,9 @@ public class PracticeFragment extends PTHBaseFragment implements BackEventListen
         mPracticeRecyclerViewAdapter.setmOnPracticeItemClickListener(new OnPracticeItemClickListener() {
             @Override
             public void onItemClick(Practice practice) {
-                //TBD call PTHProviderPoJo here...
                 PTHProvidersListFragment providerListFragment = new PTHProvidersListFragment();
                 providerListFragment.setPracticeAndConsumer(practice,mConsumer);
-
-                getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), providerListFragment,"ProviderListFragment").commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), providerListFragment,"ProviderListFragment").addToBackStack(null).commit();
                 Toast.makeText(getFragmentActivity(),practice.getName()+ "Practice clicked",Toast.LENGTH_SHORT).show();
             }
         });

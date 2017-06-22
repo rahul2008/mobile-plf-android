@@ -1,9 +1,5 @@
 package com.philips.amwelluapp.providerslist;
 
-/**
- * Created by philips on 6/19/17.
- */
-
 public class PTHProviderPoJo {
 
     private String providerName;
