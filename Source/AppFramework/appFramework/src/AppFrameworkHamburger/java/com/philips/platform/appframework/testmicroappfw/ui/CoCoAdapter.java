@@ -6,11 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
-import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.util.ArrayList;
 
@@ -19,15 +19,17 @@ import java.util.ArrayList;
  */
 
 public class CoCoAdapter extends RecyclerView.Adapter<CoCoAdapter.ChapterViewHolder> {
-    public static final String TAG = CoCoAdapter.class.getSimpleName();
 
     private ArrayList<CommonComponent> commonComponentsList;
 
     private Context context;
 
-    public CoCoAdapter(Context context, ArrayList<CommonComponent> commonComponentsList) {
+    private COCOListPresenter cocoListPresenter;
+
+    public CoCoAdapter(Context context, ArrayList<CommonComponent> commonComponentsList, COCOListPresenter cocoListPresenter) {
         this.commonComponentsList = commonComponentsList;
         this.context = context;
+        this.cocoListPresenter=cocoListPresenter;
     }
 
     @Override
@@ -38,9 +40,14 @@ public class CoCoAdapter extends RecyclerView.Adapter<CoCoAdapter.ChapterViewHol
 
     @Override
     public void onBindViewHolder(ChapterViewHolder holder, int position) {
-        RALog.d(TAG, " OnBindViewHolder");
-        CommonComponent chapter = commonComponentsList.get(position);
+        final CommonComponent chapter = commonComponentsList.get(position);
         holder.chapterTextView.setText(chapter.getCocoName());
+        holder.cocoListItemLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cocoListPresenter.onEvent(chapter.getCocoName());
+            }
+        });
     }
 
     @Override
@@ -51,16 +58,14 @@ public class CoCoAdapter extends RecyclerView.Adapter<CoCoAdapter.ChapterViewHol
         return 0;
     }
 
-    protected CommonComponent getItemAtPosition(int i){
-        return commonComponentsList.get(i);
-    }
-
     public class ChapterViewHolder extends RecyclerView.ViewHolder {
         public TextView chapterTextView;
+        public LinearLayout cocoListItemLayout;
 
         public ChapterViewHolder(View itemView) {
             super(itemView);
             chapterTextView = (TextView) itemView.findViewById(R.id.chapter_textview);
+            cocoListItemLayout=(LinearLayout)itemView.findViewById(R.id.chapter_item_linear_layout);
         }
     }
 }

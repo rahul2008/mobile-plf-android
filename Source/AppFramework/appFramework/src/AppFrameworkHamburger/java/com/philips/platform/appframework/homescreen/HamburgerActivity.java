@@ -179,6 +179,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     }
 
     private void initViews() {
+        RALog.d(TAG, " initViews");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         philipsDrawerLayout = (DrawerLayout) findViewById(R.id.philips_drawer_layout);
         drawerListView = (ListView) findViewById(R.id.hamburger_list);

@@ -4,7 +4,7 @@
       "chapterName":"Mobile Frontend",
       "commonComponents":[
         {
-          "coconame":"User Registration"
+          "coconame":"User Registration(Standard)"
         },
         {
           "coconame":"Product Registration"
@@ -20,6 +20,9 @@
         },
         {
           "coconame":"Data Services"
+        },
+        {
+          "coconame":"Micro App Framework"
         }
 
       ]

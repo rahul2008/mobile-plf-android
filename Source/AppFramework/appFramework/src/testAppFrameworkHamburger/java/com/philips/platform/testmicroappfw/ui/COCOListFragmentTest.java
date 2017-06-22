@@ -16,6 +16,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
 import com.philips.platform.appframework.testmicroappfw.ui.COCOListFragment;
+import com.philips.platform.appframework.testmicroappfw.ui.COCOListPresenter;
 import com.philips.platform.appframework.testmicroappfw.ui.CoCoAdapter;
 import com.philips.platform.testmicroappfw.ui.TestFragmentTest;
 
@@ -30,6 +31,8 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
+
+import static org.mockito.Mockito.mock;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
@@ -100,7 +103,8 @@ public class COCOListFragmentTest extends TestCase {
             commonComponent.setCocoName("Blue Lib");
             ArrayList<CommonComponent> arrayListCommonComponent = new ArrayList<>();
             arrayListCommonComponent.add(commonComponent);
-            CoCoAdapter coCoAdapter=new CoCoAdapter(getActivity(),arrayListCommonComponent);
+            COCOListPresenter cocoListPresenter = mock(COCOListPresenter.class);
+            CoCoAdapter coCoAdapter=new CoCoAdapter(getActivity(),arrayListCommonComponent, cocoListPresenter);
             cocoRecyclerView.setAdapter(coCoAdapter);
             coCoAdapter.notifyDataSetChanged();
 
