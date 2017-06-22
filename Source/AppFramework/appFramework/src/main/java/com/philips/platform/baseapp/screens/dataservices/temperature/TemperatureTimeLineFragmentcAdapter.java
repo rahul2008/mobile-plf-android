@@ -50,7 +50,7 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
 
         if (holder instanceof DataSyncViewHolder) {
             DataSyncViewHolder mSyncViewHolder = (DataSyncViewHolder) holder;
@@ -67,7 +67,7 @@ public class TemperatureTimeLineFragmentcAdapter extends RecyclerView.Adapter<Re
             mSyncViewHolder.mDotsLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
-                    mTemperaturePresenter.bindDeleteOrUpdatePopUp(TemperatureTimeLineFragmentcAdapter.this, mData, view, position);
+                    mTemperaturePresenter.bindDeleteOrUpdatePopUp(TemperatureTimeLineFragmentcAdapter.this, mData, view, holder.getAdapterPosition());
                 }
             });
         }
