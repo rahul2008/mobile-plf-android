@@ -19,7 +19,6 @@ import com.philips.cdp2.commlib.demouapp.R;
 
 public class LanApplianceFragment extends Fragment {
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
