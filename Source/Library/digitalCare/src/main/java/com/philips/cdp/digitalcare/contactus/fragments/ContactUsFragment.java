@@ -881,4 +881,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             }
         });
     }
+
+    @Override
+    public boolean handleBackEvent() {
+        return true;
+    }
 }
