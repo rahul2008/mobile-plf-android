@@ -571,7 +571,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                     public void onError(Throwable e) {
                         EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
                         hideProgressDialog();
-                        mRegError.setError(e.getMessage());
+                        mRegError.setError(e.getCause().getMessage());
                         scrollViewAutomatically(mRegError, mSvRootLayout);
 
                     }
