@@ -40,7 +40,7 @@ public class TemperatureMomentHelper {
         try {
             ArrayList<? extends MomentDetail> momentDetails = new ArrayList<>(moment.getMomentDetails());
             for (MomentDetail detail : momentDetails) {
-                if (detail.getType().equalsIgnoreCase(MomentDetailType.PHASE))
+                if (detail.getType().equalsIgnoreCase(MomentDetailType.PHASE) || detail.getType().equalsIgnoreCase(MomentDetailType.NOTE))
                     return detail.getValue();
             }
             return "default";

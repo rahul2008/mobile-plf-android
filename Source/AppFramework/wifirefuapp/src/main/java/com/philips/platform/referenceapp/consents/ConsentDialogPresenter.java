@@ -1,6 +1,4 @@
-package com.philips.cdp.wifirefuapp.consents;
-
-import android.content.Context;
+package com.philips.platform.referenceapp.consents;
 
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
@@ -12,11 +10,9 @@ import java.util.List;
 
 public class ConsentDialogPresenter {
 
-    private final Context mContext;
     private final DBRequestListener dbRequestListener;
 
-    ConsentDialogPresenter(Context mContext, DBRequestListener dbRequestListener) {
-        this.mContext = mContext;
+    ConsentDialogPresenter(DBRequestListener dbRequestListener) {
         this.dbRequestListener = dbRequestListener;
     }
 
@@ -33,7 +29,6 @@ public class ConsentDialogPresenter {
     }
 
     public void saveDefaultConsentDetails() {
-
         DataServicesManager dataServicesManager = DataServicesManager.getInstance();
         List<ConsentDetail> consentDetails = new ArrayList<>();
         consentDetails.add(dataServicesManager.createConsentDetail(ConsentDetailType.SLEEP, ConsentDetailStatusType.REFUSED, ConsentDetail.DEFAULT_DOCUMENT_VERSION,

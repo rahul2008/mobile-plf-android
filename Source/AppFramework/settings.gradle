@@ -1,2 +1,2 @@
 rootProject.setName 'referenceApp'
-include ':appFramework', ':pushnotification', ":wifirefuapp", ':dataServices-release-updated'
+include ':appFramework', ':pushnotification', ":wifirefuapp"

@@ -47,6 +47,6 @@ public class FlowManagerUtil {
         uiStateMap.put(AppStates.DATA_SYNC, new DataServicesState());
         uiStateMap.put(AppStates.CONNECTIVITY, new ConnectivityFragmentState());
         uiStateMap.put(AppStates.COCO_VERSION_INFO, new CocoVersionState());
-        uiStateMap.put(AppStates.WIFIREFUAPP,new WifiRefState());
+        uiStateMap.put(AppStates.WIFIREFUAPP, new WifiRefState());
     }
 }

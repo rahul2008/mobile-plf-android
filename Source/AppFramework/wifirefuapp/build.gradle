@@ -5,7 +5,8 @@ apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.jfrog.artifactory'
 buildscript {
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven {
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -35,9 +36,10 @@ if (project.hasProperty('envCode')) {
 }
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
+objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = rootProject.name
 allprojects {
     repositories {
@@ -83,7 +85,8 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 android {
     compileSdkVersion 25
@@ -130,15 +133,16 @@ dependencies {
     compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.4.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive = true
     }
-    //    compile('com.philips.cdp:dataServices:1.1.0-SNAPSHOT.20170602140820@aar') {
-    //        exclude group: 'com.android.support'
-    //        transitive = true
-    //    }
+    compile(group: 'com.philips.cdp', name: 'dataServices', version: '1.1.0' + objcdp.getVersionSuffix(), ext: 'aar') {
+        exclude group: 'com.android.support'
+        transitive = true
+    }
+
     compile 'com.android.support:support-fragment:25.3.1'
     compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: '5.1.4' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    //compile project(':dataServices-1.1.0-SNAPSHOT.20170605113558')
     compile 'net.danlew:android.joda:2.9.2'
     compile 'org.greenrobot:eventbus:3.0.0'
+
     //3rd party
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'net.danlew:android.joda:2.9.2'
@@ -151,7 +155,6 @@ dependencies {
     provided 'javax.annotation:jsr250-api:1.0'
     testApt "com.google.dagger:dagger-compiler:2.10"
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    compile project(':dataServices-release-updated')
 }
 repositories {
     flatDir { dirs 'libs' }

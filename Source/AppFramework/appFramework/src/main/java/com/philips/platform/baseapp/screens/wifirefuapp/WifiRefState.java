@@ -2,8 +2,9 @@ package com.philips.platform.baseapp.screens.wifirefuapp;
 
 import android.content.Context;
 
-import com.philips.cdp.wifirefuapp.uappdependencies.WifiCommLibUappInterface;
-import com.philips.cdp.wifirefuapp.uappdependencies.WifiCommLibUappLaunchInput;
+import com.philips.platform.referenceapp.uappdependencies.WifiCommLibUappInterface;
+import com.philips.platform.referenceapp.uappdependencies.WifiCommLibUappLaunchInput;
+import com.philips.platform.referenceapp.ui.LaunchFragment;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
