@@ -155,7 +155,7 @@ public class AppInfraLogging implements LoggingInterface {
                 final Boolean isConsoleLogEnabled = (null != (Boolean) loggingProperty.get(CONSOLE_LOG_ENABLED_KEY)) ? (Boolean) loggingProperty.get(CONSOLE_LOG_ENABLED_KEY) : true;
                 final Boolean isFileLogEnabled = (null != (Boolean) loggingProperty.get(FILE_LOG_ENABLED_KEY)) ? (Boolean) loggingProperty.get(FILE_LOG_ENABLED_KEY) : false;
                 if (!logLevel.equalsIgnoreCase("Off") && (isConsoleLogEnabled == true || isFileLogEnabled == true)) {
-                    mJavaLogger = Logger.getLogger(pComponentId); // returns new or existing log
+                    mJavaLogger = getLogger(pComponentId); // returns new or existing log
                     final Boolean isComponentLevelLogEnabled = (null != (Boolean) loggingProperty.get(COMPONENT_LEVEL_LOG_ENABLED_KEY)) ? (Boolean) loggingProperty.get(COMPONENT_LEVEL_LOG_ENABLED_KEY) : false;
                     if (isComponentLevelLogEnabled) { // if component level filter enabled
                         // Filtering of logging components
@@ -186,12 +186,21 @@ public class AppInfraLogging implements LoggingInterface {
                FALLBACK
                if  logging.debugConfig OR  logging.releaseConfig NOT present in appconfig.json
                 then read from logging.properties*/
-                mJavaLogger = Logger.getLogger(pComponentId); // returns new or existing log
+                mJavaLogger = getLogger(pComponentId); // returns new or existing log
                 readLogConfigFileFromAppAsset();
                 activateLogger();
                 enableConsoleLog(true);
-                mJavaLogger.log(Level.INFO, "Logger created"); //R-AI-LOG-6
+                getJavaLogger().log(Level.INFO, "Logger created"); //R-AI-LOG-6
             }
+    }
+
+    protected Logger getJavaLogger(){
+        return mJavaLogger;
+    }
+
+    protected Logger getLogger(String pComponentId) {
+        mJavaLogger = Logger.getLogger(pComponentId);
+        return mJavaLogger;
     }
 
     private void enableConsoleAndFileLog(boolean consoleLog, boolean fileLog) {
