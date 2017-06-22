@@ -30,8 +30,8 @@
                 android:src="@drawable/consumercare_marker"/>
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/distance_view"
                 style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                android:id="@+id/distance_view"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="4dip"
@@ -50,8 +50,8 @@
                 style="@style/UIDLabel.RecyclerViewItemDescriptionText"
                 android:id="@+id/place_title"
                 android:paddingRight="50dp"
-                app:uidLabelTextSize="32sp"
                 android:text="Title"
+                app:uidLabelTextSize="32sp"
                 fontPath="fonts/centralesansbold.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

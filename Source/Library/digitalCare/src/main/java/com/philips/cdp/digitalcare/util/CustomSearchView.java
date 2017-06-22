@@ -7,12 +7,15 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.philips.cdp.digitalcare.R;
+import com.philips.cdp.digitalcare.locatephilips.fragments.LocatePhilipsFragment;
 
 /**
  * Created by philips on 6/21/17.
  */
 
 public class CustomSearchView extends android.support.v7.widget.AppCompatAutoCompleteTextView {
+
+    private Context mContext;
 
     public CustomSearchView(Context context) {
         super(context);
@@ -28,7 +31,11 @@ public class CustomSearchView extends android.support.v7.widget.AppCompatAutoCom
 
             @Override
             public boolean onDrawableTouch(MotionEvent event) {
+
+                System.out.println("******** touch");
                 CustomSearchView.this.setText("");
+                LocatePhilipsFragment locatePhilipsFragment = new LocatePhilipsFragment();
+                locatePhilipsFragment.removeListData();
                 return false;
             }
         });

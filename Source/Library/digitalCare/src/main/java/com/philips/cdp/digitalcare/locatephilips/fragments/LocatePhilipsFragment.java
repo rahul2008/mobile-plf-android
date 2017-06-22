@@ -39,7 +39,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.Filter;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -137,6 +136,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private ListView mListView = null;
     private TextView mShowTxtAddress = null;
     private TextView mShowTxtTitle = null;
+    private TextView mShowUrlTxt = null;
     private ScrollView mLocationDetailScroll = null;
     private static ArrayList<AtosResultsModel> mResultModelSet = null;
     private RelativeLayout mLocateLayout = null;
@@ -153,8 +153,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private int mLocateLayoutMargin = 0;
     private int mLocateSearchLayoutMargin = 0;
     private ProgressDialog mDialog = null;
-    private FrameLayout.LayoutParams mLocateLayoutParentParams = null;
-    private FrameLayout.LayoutParams mLocateSearchLayoutParentParams = null;
+   /* private FrameLayout.LayoutParams mLocateLayoutParentParams = null;
+    private LinearLayout.LayoutParams mLocateSearchLayoutParentParams = null;*/
     private ProgressBar mLocateNearProgressBar = null;
     private boolean isContactUsScreenLaunched = false;
     private Utils mUtils = null;
@@ -519,6 +519,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         mListView = (ListView) getActivity().findViewById(R.id.placelistview);
         mShowTxtTitle = (TextView) getActivity().findViewById(
                 R.id.show_place_title);
+        mShowUrlTxt = (TextView) getActivity().findViewById(
+                R.id.shop_details_url);
         mShowTxtAddress = (TextView) getActivity().findViewById(
                 R.id.show_place_address);
         mLocateLayout = (RelativeLayout) getActivity().findViewById(
@@ -550,10 +552,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 R.dimen.locate_layout_margin);
         mLocateSearchLayoutMargin = (int) getActivity().getResources()
                 .getDimension(R.dimen.locate_search_layout_margin);
-        mLocateLayoutParentParams = (FrameLayout.LayoutParams) mLocateLayout
+       /* mLocateLayoutParentParams = (FrameLayout.LayoutParams) mLocateLayout
                 .getLayoutParams();
-        mLocateSearchLayoutParentParams = (FrameLayout.LayoutParams) mLocateSearchLayout
-                .getLayoutParams();
+        mLocateSearchLayoutParentParams = (LinearLayout.LayoutParams) mLocateSearchLayout
+                .getLayoutParams();*/
         mListView.setVisibility(View.GONE);
         mLinearLayout.setVisibility(View.GONE);
         mMarkerIcon.setVisibility(View.GONE);
@@ -579,6 +581,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 AtosResultsModel resultModel = resultModelSet.get(i);
                 AtosLocationModel locationModel = resultModel.getLocationModel();
                 AtosAddressModel addressModel = resultModel.getAddressModel();
+               // mShowUrlTxt.setText(addressModel.getUrl().toString());
                 addressModel.setCurrentLat(mSourceLat);
                 addressModel.setCurrentLng(mSourceLng);
                 double lat = Double.parseDouble(locationModel.getLatitude());
@@ -785,7 +788,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         super.onStop();
         if (mSearchBox != null)
             mSearchBox.setText(null);
-        mLocationManager = null;
+     //   mLocationManager = null;
     }
 
     @Override
@@ -805,6 +808,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             mHashMapResults.clear();
             mHashMapResults = null;
         }
+        mLocationManager = null;
     }
 
     @Override
@@ -819,7 +823,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     @Override
     public void setViewParams(Configuration config) {
 
-        if (mLocateLayoutParentParams != null) {
+        /*if (mLocateLayoutParentParams != null) {
 
             if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 mLocateLayoutParentParams.leftMargin = mLocateLayoutParentParams.rightMargin =
@@ -835,7 +839,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                         + mLeftRightMarginLand / 2;
             }
             mLocateLayout.setLayoutParams(mLocateLayoutParentParams);
-        }
+        }*/
     }
 
     @Override
@@ -853,6 +857,59 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public void onClick(View v) {
+        if (v.getId() == R.id.call) {
+            mLinearLayout.setVisibility(View.GONE);
+            DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
+                    (AnalyticsConstants.ACTION_SEND_DATA,
+                            AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
+                            AnalyticsConstants.ACTION_VALUE_LOCATE_PHILIPS_CALL_LOCATION);
+
+            if (mAtosResponse != null && mPhoneNumber != null && !mAtosResponse.getSuccess()) {
+                DigiCareLogger.e(TAG, mAtosResponse.getCdlsErrorModel()
+                        .getErrorMessage());
+            } else if (mUtils.isSimAvailable(getActivity())) {
+                callPhilips();
+            } else if (!mUtils.isSimAvailable(getActivity())) {
+                DigiCareLogger.v(TAG, "Check the SIM");
+                showAlert(getActivity().getString(R.string.check_sim));
+            }
+        }else if ((v.getId() == R.id.marker_icon) || (v.getId() == R.id.arabic_marker_icon)) {
+            mListView.setVisibility(View.GONE);
+            removeSearchIcon();
+            removeArabicSearchIcon();
+            mSearchBox.setText(null);
+        }else if (v.getId() == R.id.getdirection) {
+            DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
+                    (AnalyticsConstants.ACTION_SEND_DATA,
+                            AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
+                            AnalyticsConstants.ACTION_VALUE_LOCATE_PHILIPS_SEND_GET_DIRECTIONS);
+
+            if (isConnectionAvailable()) {
+                if (mSourceLat == 0 && mSourceLng == 0) {
+
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+                        int hasPermission = getActivity().checkSelfPermission(Manifest.permission.
+                                ACCESS_COARSE_LOCATION);
+                        if (hasPermission != PackageManager.PERMISSION_GRANTED) {
+                            requestPermissions(new String[]{Manifest.permission.
+                                            ACCESS_COARSE_LOCATION},
+                                    REQUEST_CODE_ASK_PERMISSIONS);
+                        }
+                    } else {
+                        gpsAlertView.showAlert(this, -1,
+                                R.string.gps_disabled,
+                                android.R.string.yes, android.R.string.no);
+                    }
+                } else {
+                    gpsAlertView.removeAlert();
+                    trackToMe(new LatLng(mSourceLat, mSourceLng), new LatLng(
+                            mDestinationLat, mDestinationLng));
+                }
+
+                mLinearLayout.setVisibility(View.GONE);
+            }
+
+        }
 
         /*if ((v.getId() == R.id.search_box) || (v.getId() == R.id.arabic_search_icon)) {
             showListView();
@@ -1001,7 +1058,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 + atosAddressModel.getCityState() + "\n" + atosAddressModel.getUrl());
         ArrayList<String> phoneNumbers = atosAddressModel.getPhoneList();
         mPhoneNumber = phoneNumbers.get(0);
-
         if (mPhoneNumber != null && mPhoneNumber != "")
             mButtonCall.setText(getResources().getString(R.string.call_number) + " "
                     + mPhoneNumber);
@@ -1097,8 +1153,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             mMarkerIcon.setVisibility(View.GONE);*/
     }
 
-    private void removeListData() {
-        if (mListView.getVisibility() == View.VISIBLE)
+    public void removeListData() {
+        if (mListView!=null && mListView.getVisibility() == View.VISIBLE)
             mListView.setVisibility(View.GONE);
     }
 
