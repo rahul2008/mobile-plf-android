@@ -26,6 +26,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
@@ -44,6 +45,7 @@ import com.philips.cdp.registration.ui.customviews.XPasswordHint;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.XUserName;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
+import com.philips.cdp.registration.ui.traditional.mobile.AddSecureEmailContract;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
@@ -56,55 +58,82 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 
 import javax.inject.Inject;
 
-public class CreateAccountFragment extends RegistrationBaseFragment implements OnClickListener,
-        TraditionalRegistrationHandler, OnUpdateListener, NetworStateListener, EventListener, XCheckBox.OnCheckedChangeListener {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class CreateAccountFragment extends RegistrationBaseFragment implements CreateAccountContract,
+        OnUpdateListener, XCheckBox.OnCheckedChangeListener {
 
     @Inject
     NetworkUtility networkUtility;
 
-    private static final int FAILURE_TO_CONNECT = -1;
+    @BindView(R2.id.ll_reg_create_account_fields)
+    LinearLayout mLlCreateAccountFields;
 
-    private LinearLayout mLlCreateAccountFields;
+    @BindView(R2.id.ll_reg_create_account_container)
+    LinearLayout mLlCreateAccountContainer;
 
-    private LinearLayout mLlCreateAccountContainer;
+    @BindView(R2.id.ll_reg_accept_terms)
+    LinearLayout mLlAcceptTermsContainer;
 
-    private LinearLayout mLlAcceptTermsContainer;
+    @BindView(R2.id.rl_reg_singin_options)
+    RelativeLayout mRlCreateActtBtnContainer;
 
-    private RelativeLayout mRlCreateActtBtnContainer;
+    @BindView(R2.id.btn_reg_register)
+    Button mBtnCreateAccount;
 
-    private Button mBtnCreateAccount;
+    @BindView(R2.id.cb_reg_register_terms)
+    XCheckBox mCbMarketingOpt;
 
-    private XCheckBox mCbMarketingOpt;
+    @BindView(R2.id.cb_reg_accept_terms)
+    XCheckBox mCbAcceptTerms;
 
-    private XCheckBox mCbAcceptTerms;
+    @BindView(R2.id.rl_reg_name_field)
+    XUserName mEtName;
+
+    @BindView(R2.id.rl_reg_email_field)
+    LoginIdEditText mEtEmail;
+
+    @BindView(R2.id.rl_reg_password_field)
+    PasswordView mEtPassword;
+
+    @BindView(R2.id.reg_error_msg)
+    XRegError mRegError;
+
+    @BindView(R2.id.cb_reg_accept_terms_error)
+    XRegError mRegAccptTermsError;
+
+    @BindView(R2.id.pb_reg_activate_spinner)
+    ProgressBar mPbSpinner;
+
+    @BindView(R2.id.reg_accept_terms_line)
+    View mViewLine;
+
+    @BindView(R2.id.sv_root_layout)
+    ScrollView mSvRootLayout;
+
+    @BindView(R2.id.view_reg_password_hint)
+    XPasswordHint mPasswordHintView;
+
+    @BindView(R2.id.tv_reg_email_exist)
+    TextView mTvEmailExist;
+
+    @BindView(R2.id.tv_join_now)
+    TextView mJoinnow;
+
+    @BindView(R2.id.tv_reg_first_to_know)
+    TextView mTvFirstToKnow;
+
+    @BindView(R2.id.tv_reg_accept_terms)
+    TextView acceptTermsView;
+
+    @BindView(R2.id.tv_reg_philips_news)
+    TextView receivePhilipsNewsView;
 
     private User mUser;
 
-    private XUserName mEtName;
-
-    private LoginIdEditText mEtEmail;
-
-    private PasswordView mEtPassword;
-
-    private XRegError mRegError;
-
-    private XRegError mRegAccptTermsError;
-
-    private ProgressBar mPbSpinner;
-
-    private View mViewLine;
-
     private Context mContext;
-
-    private final static int EMAIL_ADDRESS_ALREADY_USE_CODE = 390;
-
-    private ScrollView mSvRootLayout;
-
-    private XPasswordHint mPasswordHintView;
-
-    private TextView mTvEmailExist;
-
-    private TextView mJoinnow;
 
     private long mTrackCreateAccountTime;
 
@@ -118,7 +147,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     private boolean isSavedPasswordErr;
 
-    private TextView mTvFirstToKnow;
+    CreateAccountPresenter createAccountPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -134,12 +163,11 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
                 "CreateAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
 
-        RegistrationHelper.getInstance().registerNetworkStateListener(this);
-        EventHelper.getInstance()
-                .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
-        View view = inflater.inflate(R.layout.reg_fragment_create_account, container, false);
-        mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
+        createAccountPresenter = new CreateAccountPresenter(this);
+        createAccountPresenter.registerListener();
 
+        View view = inflater.inflate(R.layout.reg_fragment_create_account, container, false);
+        ButterKnife.bind(this, view);
         initUI(view);
         handleOrientation(view);
         mTrackCreateAccountTime = System.currentTimeMillis();
@@ -185,11 +213,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     @Override
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDestroy");
-        RegistrationHelper.getInstance().unRegisterNetworkListener(this);
-        EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
-                this);
-        EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
-                this);
+        createAccountPresenter.unRegisterListener();
+
         RLog.d(RLog.EVENT_LISTENERS,
                 "CreateAccountFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
         super.onDestroy();
@@ -202,31 +227,32 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private Bundle mBundle;
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         mBundle = outState;
         super.onSaveInstanceState(mBundle);
-        if(mEtEmail.isEmailErrorVisible()){
+        if (mEtEmail.isEmailErrorVisible()) {
             isSavedEmailErr = true;
             mBundle.putBoolean("isSavedEmailErr", isSavedEmailErr);
             mBundle.putString("saveEmailErrText", mEtEmail.getSavedEmailErrDescription());
         }
-        if(mEtPassword.isPasswordErrorVisible()){
+        if (mEtPassword.isPasswordErrorVisible()) {
             isSavedPasswordErr = true;
             mBundle.putBoolean("isSavedPasswordErr", isSavedPasswordErr);
             mBundle.putString("savedPasswordErr", mEtPassword.getmSavedPasswordErrDescription());
         }
-        if(mRegAccptTermsError.getVisibility() == View.VISIBLE){
+        if (mRegAccptTermsError.getVisibility() == View.VISIBLE) {
             isTermsAndConditionVisible = true;
             mBundle.putBoolean("isTermsAndConditionVisible", isTermsAndConditionVisible);
             mBundle.putString("saveTermsAndConditionErrText", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
         }
-        if(mCbMarketingOpt.isChecked()){
+        if (mCbMarketingOpt.isChecked()) {
             isSavedCBTermsChecked = true;
             mBundle.putBoolean("isSavedCBTermsChecked", isSavedCBTermsChecked);
             mBundle.putString("savedCBTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
         }
-        if(mCbAcceptTerms.isChecked()){
+        if (mCbAcceptTerms.isChecked()) {
             isSavedCbAcceptTermsChecked = true;
             mBundle.putBoolean("isSavedCbAcceptTermsChecked", isSavedCbAcceptTermsChecked);
             mBundle.putString("savedCbAcceptTerms", mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
@@ -236,23 +262,23 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null){
-            if(savedInstanceState.getString("saveEmailErrText")!=null && savedInstanceState.getBoolean("isSavedEmailErr")){
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getString("saveEmailErrText") != null && savedInstanceState.getBoolean("isSavedEmailErr")) {
                 mEtEmail.setErrDescription(savedInstanceState.getString("saveEmailErrText"));
                 mEtEmail.showInvalidAlert();
                 mEtEmail.showErrPopUp();
             }
-            if(savedInstanceState.getString("savedPasswordErr")!=null && savedInstanceState.getBoolean("isSavedPasswordErr")){
+            if (savedInstanceState.getString("savedPasswordErr") != null && savedInstanceState.getBoolean("isSavedPasswordErr")) {
                 mEtPassword.setErrDescription(savedInstanceState.getString("savedPasswordErr"));
                 mEtPassword.showInvalidPasswordAlert();
             }
-            if(savedInstanceState.getString("saveTermsAndConditionErrText")!=null && savedInstanceState.getBoolean("isTermsAndConditionVisible")){
+            if (savedInstanceState.getString("saveTermsAndConditionErrText") != null && savedInstanceState.getBoolean("isTermsAndConditionVisible")) {
                 mRegAccptTermsError.setError(savedInstanceState.getString("saveTermsAndConditionErrText"));
             }
-            if(savedInstanceState.getBoolean("isSavedCBTermsChecked")){
+            if (savedInstanceState.getBoolean("isSavedCBTermsChecked")) {
                 mCbMarketingOpt.setChecked(true);
             }
-            if(savedInstanceState.getBoolean("isSavedCbAcceptTermsChecked")){
+            if (savedInstanceState.getBoolean("isSavedCbAcceptTermsChecked")) {
                 mCbAcceptTerms.setChecked(true);
             }
         }
@@ -286,76 +312,40 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         handleOrientationOnView(view);
     }
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.btn_reg_register) {
-            RLog.d(RLog.ONCLICK, "CreateAccountFragment : Register Account");
-            if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-                if (mCbAcceptTerms.isChecked()) {
-                    register();
-                } else {
-                    mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
-                }
-            } else {
+    @OnClick(R2.id.btn_reg_register)
+    public void registerUser() {
+        RLog.d(RLog.ONCLICK, "CreateAccountFragment : Register Account");
+        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
+            if (mCbAcceptTerms.isChecked()) {
                 register();
+            } else {
+                mRegAccptTermsError.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
             }
+        } else {
+            register();
         }
     }
 
     private void initUI(View view) {
         consumeTouch(view);
 
-        mPasswordHintView = (XPasswordHint) view.findViewById(R.id.view_reg_password_hint);
-
-        mLlCreateAccountFields = (LinearLayout) view
-                .findViewById(R.id.ll_reg_create_account_fields);
-        mLlCreateAccountContainer = (LinearLayout) view
-                .findViewById(R.id.ll_reg_create_account_container);
-        mJoinnow = (TextView) view.findViewById(R.id.tv_join_now);
-        mTvFirstToKnow = (TextView)view.findViewById(R.id.tv_reg_first_to_know);
-
         handleABTestingFlow();
-
-        mLlAcceptTermsContainer = (LinearLayout) view
-                .findViewById(R.id.ll_reg_accept_terms);
-        mRlCreateActtBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_singin_options);
-
-        mBtnCreateAccount = (Button) view.findViewById(R.id.btn_reg_register);
-        mCbMarketingOpt = (XCheckBox) view.findViewById(R.id.cb_reg_register_terms);
-        mCbMarketingOpt.setOnClickListener(this);
-        mCbAcceptTerms = (XCheckBox) view.findViewById(R.id.cb_reg_accept_terms);
-        mCbAcceptTerms.setOnClickListener(this);
-        mTvEmailExist = (TextView) view.findViewById(R.id.tv_reg_email_exist);
-        TextView acceptTermsView = (TextView) view.findViewById(R.id.tv_reg_accept_terms);
         RegUtility.linkifyTermsandCondition(acceptTermsView, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
-
-        TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
         RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
-
-        String sourceString = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now) ;
-        String updateJoinNowText =  " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
+        String sourceString = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now);
+        String updateJoinNowText = " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
         sourceString = String.format(sourceString, updateJoinNowText);
         mJoinnow.setText(Html.fromHtml(sourceString));
-
         String firstToKnow = "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Be_The_First) + "</b> ";
         mTvFirstToKnow.setText(Html.fromHtml(firstToKnow));
-
         mCbAcceptTerms.setOnCheckedChangeListener(this);
-        mBtnCreateAccount.setOnClickListener(this);
-        mEtName = (XUserName) view.findViewById(R.id.rl_reg_name_field);
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         mEtName.requestFocus();
         mEtName.setOnUpdateListener(this);
-        mEtEmail = (LoginIdEditText) view.findViewById(R.id.rl_reg_email_field);
         mEtEmail.setOnUpdateListener(this);
-        mEtPassword = (PasswordView) view.findViewById(R.id.rl_reg_password_field);
         mEtPassword.setOnUpdateListener(this);
-        mPbSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_activate_spinner);
         mPbSpinner.setClickable(false);
         mPbSpinner.setEnabled(true);
-        mViewLine = view.findViewById(R.id.reg_accept_terms_line);
-        mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
-        mRegAccptTermsError = (XRegError) view.findViewById(R.id.cb_reg_accept_terms_error);
         mEtPassword.setHint(mContext.getResources().getString(R.string.reg_Create_Account_ChoosePwd_PlaceHolder_txtField));
         handleUiAcceptTerms();
         handleUiState();
@@ -364,10 +354,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     private void handleABTestingFlow() {
         final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
-        switch (abTestingUIFlow){
+        switch (abTestingUIFlow) {
 
             case FLOW_A:
-                RLog.d(RLog.AB_TESTING,"UI Flow Type A");
+                RLog.d(RLog.AB_TESTING, "UI Flow Type A");
                 mLlCreateAccountContainer.setVisibility(View.VISIBLE);
                 mJoinnow.setVisibility(View.GONE);
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
@@ -382,7 +372,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
                         AppTagingConstants.REGISTRATION_SPLIT_SIGN_UP);
                 break;
             case FLOW_C:
-                RLog.d(RLog.AB_TESTING,"UI Flow Type C");
+                RLog.d(RLog.AB_TESTING, "UI Flow Type C");
                 mLlCreateAccountContainer.setVisibility(View.VISIBLE);
                 mJoinnow.setVisibility(View.VISIBLE);
                 mTvFirstToKnow.setVisibility(View.VISIBLE);
@@ -390,7 +380,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
                         AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
                 break;
 
-            default:break;
+            default:
+                break;
         }
     }
 
@@ -400,13 +391,15 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         mEtEmail.clearFocus();
         mEtPassword.clearFocus();
         showSpinner();
-        if(FieldsValidator.isValidEmail(mEtEmail.getEmailId())){
+        if (FieldsValidator.isValidEmail(mEtEmail.getEmailId())) {
             mEmail = mEtEmail.getEmailId();
-        }else{
+        } else {
             mEmail = FieldsValidator.getMobileNumber(mEtEmail.getEmailId());
         }
-        mUser.registerUserInfoForTraditional(mEtName.getName().toString(), mEmail
-                , mEtPassword.getPassword().toString(), true, mCbMarketingOpt.isChecked(), this);
+//       mUser.registerUserInfoForTraditional(mEtName.getName().toString(), mEmail
+//                , mEtPassword.getPassword().toString(), true, mCbMarketingOpt.isChecked(), this);
+        createAccountPresenter.registerUserInfo(mUser, mEtName.getName().toString(), mEmail
+                , mEtPassword.getPassword().toString(), true, mCbMarketingOpt.isChecked());
     }
 
     private String mEmail;
@@ -427,16 +420,18 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         }
     };
 
-    private void trackCheckMarketing() {
+    @Override
+    public void trackCheckMarketing() {
         trackRemarketing();
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-            if(mCbAcceptTerms.isChecked()){
+            if (mCbAcceptTerms.isChecked()) {
                 trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_IN);
-            }else{
+            } else {
                 trackActionForAcceptTermsOption(AppTagingConstants.ACCEPT_TERMS_OPTION_OUT);
             }
         }
     }
+
 
     private void trackRemarketing() {
         final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
@@ -454,12 +449,46 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         mBtnCreateAccount.setEnabled(false);
     }
 
-    private void hideSpinner() {
-        mPbSpinner.setVisibility(View.INVISIBLE);
-        mBtnCreateAccount.setEnabled(true);
+    @Override
+    public void hideSpinner() {
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                mPbSpinner.setVisibility(View.INVISIBLE);
+                mBtnCreateAccount.setEnabled(true);
+            }
+        });
+
     }
 
-    private void handleUiState() {
+    @Override
+    public void storePref() {
+        RegPreferenceUtility.storePreference(mContext, mEmail, true);
+
+    }
+
+    @Override
+    public void emailAlreadyUsed() {
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+
+                mEtEmail.showInvalidAlert();
+                mEtEmail.showErrPopUp();
+                mPasswordHintView.setVisibility(View.GONE);
+                mTvEmailExist.setVisibility(View.VISIBLE);
+            }
+        });
+       }
+
+    @Override
+    public void regFail() {
+        mPbSpinner.setVisibility(View.INVISIBLE);
+        mBtnCreateAccount.setEnabled(false);
+    }
+
+    @Override
+    public void handleUiState() {
         if (networkUtility.isNetworkAvailable()) {
             mRegError.hideError();
 
@@ -470,23 +499,24 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void handleUiAcceptTerms() {
-        final UIFlow abTestingUIFlow=RegUtility.getUiFlow();
+        final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
             mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
-            switch (abTestingUIFlow){
+            switch (abTestingUIFlow) {
                 case FLOW_A:
-                    RLog.d(RLog.AB_TESTING,"UI Flow Type A");
+                    RLog.d(RLog.AB_TESTING, "UI Flow Type A");
                     mViewLine.setVisibility(View.VISIBLE);
                     break;
                 case FLOW_B:
-                    RLog.d(RLog.AB_TESTING,"UI Flow Type B");
+                    RLog.d(RLog.AB_TESTING, "UI Flow Type B");
                     mViewLine.setVisibility(View.GONE);
                     break;
                 case FLOW_C:
-                    RLog.d(RLog.AB_TESTING,"UI Flow Type C");
+                    RLog.d(RLog.AB_TESTING, "UI Flow Type C");
                     mViewLine.setVisibility(View.VISIBLE);
                     break;
-                default:break;
+                default:
+                    break;
             }
         } else {
             mLlAcceptTermsContainer.setVisibility(View.GONE);
@@ -494,124 +524,31 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         }
     }
 
+
     @Override
-    public void onRegisterSuccess() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                handleRegistrationSuccess();
-            }
-        });
-    }
-
-    private void handleRegistrationSuccess() {
-        RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
-        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-            RegPreferenceUtility.storePreference(mContext, mEmail, true);
-        }
-        hideSpinner();
-        trackCheckMarketing();
-        final UIFlow abTestingUIFlow=RegUtility.getUiFlow();
-        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
-                AppTagingConstants.SUCCESS_USER_CREATION);
-
-        switch (abTestingUIFlow){
-            case FLOW_A:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type A ");
-                if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
-                    if (FieldsValidator.isValidEmail(mUser.getEmail().toString())) {
-                        launchAccountActivateFragment();
-                    } else {
-                        launchMobileVerifyCodeFragment();
-                    }
-                } else {
-                    launchWelcomeFragment();
-                }
-                break;
-            case FLOW_B:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-                launchMarketingAccountFragment();
-                break;
-            case FLOW_C:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type  C");
-                if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
-                    if (FieldsValidator.isValidEmail(mUser.getEmail().toString())) {
-                        launchAccountActivateFragment();
-                    } else {
-                        launchMobileVerifyCodeFragment();
-                    }
-                } else {
-                    launchWelcomeFragment();
-                }
-                break;
-        }
-
-        if(mTrackCreateAccountTime == 0 && RegUtility.getCreateAccountStartTime() > 0){
-            mTrackCreateAccountTime =  (System.currentTimeMillis() - RegUtility.getCreateAccountStartTime())/1000;
-        }else{
-            mTrackCreateAccountTime =  (System.currentTimeMillis() - mTrackCreateAccountTime)/1000;
-        }
-        trackActionStatus(AppTagingConstants.SEND_DATA,AppTagingConstants.TOTAL_TIME_CREATE_ACCOUNT,String.valueOf(mTrackCreateAccountTime));
-        mTrackCreateAccountTime =0;
-    }
-
-    private void launchMarketingAccountFragment() {
+    public void launchMarketingAccountFragment() {
         getRegistrationFragment().addFragment(new MarketingAccountFragment());
         trackPage(AppTaggingPages.MARKETING_OPT_IN);
     }
 
-    private void launchMobileVerifyCodeFragment() {
+    @Override
+    public void launchMobileVerifyCodeFragment() {
         getRegistrationFragment().addFragment(new MobileVerifyCodeFragment());
         trackPage(AppTaggingPages.MOBILE_VERIFY_CODE);
     }
 
-    private void launchAccountActivateFragment() {
+    @Override
+    public void launchAccountActivateFragment() {
         getRegistrationFragment().addFragment(new AccountActivationFragment());
         trackPage(AppTaggingPages.ACCOUNT_ACTIVATION);
     }
 
-    private void launchWelcomeFragment() {
+    @Override
+    public void launchWelcomeFragment() {
         getRegistrationFragment().replaceWelcomeFragmentOnLogin(new WelcomeFragment());
         trackPage(AppTaggingPages.WELCOME);
     }
 
-    @Override
-    public void onRegisterFailedWithFailure(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                handleRegisterFailedWithFailure(userRegistrationFailureInfo);
-            }
-        });
-    }
-
-    private void handleRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterFailedWithFailure");
-
-        if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
-            if (RegistrationHelper.getInstance().isChinaFlow()){
-                mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_CreateAccount_Using_Phone_Alreadytxt));
-            }else {
-                mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
-            }
-            mEtEmail.showInvalidAlert();
-            mEtEmail.showErrPopUp();
-            scrollViewAutomatically(mEtEmail, mSvRootLayout);
-            mPasswordHintView.setVisibility(View.GONE);
-            mTvEmailExist.setVisibility(View.VISIBLE);
-        }
-        if (userRegistrationFailureInfo.getErrorCode() != EMAIL_ADDRESS_ALREADY_USE_CODE) {
-            mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
-            scrollViewAutomatically(mRegError, mSvRootLayout);
-        }
-        if(userRegistrationFailureInfo.getErrorCode() == FAILURE_TO_CONNECT){
-            mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
-        }
-        AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
-        mPbSpinner.setVisibility(View.INVISIBLE);
-        mBtnCreateAccount.setEnabled(false);
-    }
 
     @Override
     public int getTitleResourceId() {
@@ -628,7 +565,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         });
     }
 
-    private void updateUiStatus() {
+    @Override
+    public void updateUiStatus() {
         if (mTvEmailExist.getVisibility() == View.VISIBLE) {
             mTvEmailExist.setVisibility(View.GONE);
         }
@@ -645,20 +583,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
         }
     }
 
-    @Override
-    public void onEventReceived(String event) {
-        RLog.i(RLog.EVENT_LISTENERS, "CreateAccoutFragment :onCounterEventReceived : " + event);
-        if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
-            updateUiStatus();
-        }
-    }
-
-    @Override
-    public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.i(RLog.NETWORK_STATE, "CreateAccoutFragment :onNetWorkStateReceived : " + isOnline);
-        handleUiState();
-        updateUiStatus();
-    }
 
     @Override
     public void onCheckedChanged(View view, boolean isChecked) {
@@ -671,5 +595,61 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
             }
         }
     }
+
+    @Override
+    public void emailError(int errorDesc) {
+        mEtEmail.setErrDescription(mContext.getResources().getString(errorDesc));
+    }
+
+    @Override
+    public void emailError(String errorDesc) {
+        mEtEmail.setErrDescription(errorDesc);
+
+    }
+
+    @Override
+    public String getEmail() {
+       return mUser.getEmail();
+    }
+
+    @Override
+    public long getTrackCreateAccountTime(){
+        return mTrackCreateAccountTime;
+    }
+
+    @Override
+    public void setTrackCreateAccountTime(long trackCreateAccountTime) {
+        mTrackCreateAccountTime = trackCreateAccountTime;
+    }
+
+    @Override
+    public void tractCreateActionStatus(String state, String key, String value) {
+        trackActionStatus(state,  key,  value);
+    }
+
+
+    @Override
+    public void scrollViewAutomaticallyToEmail() {
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                scrollViewAutomatically(mEtEmail, mSvRootLayout);
+            }
+        });
+
+    }
+
+    @Override
+    public void scrollViewAutomaticallyToError() {
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                scrollViewAutomatically(mRegError, mSvRootLayout);
+            }
+        });
+
+    }
+
+
 }
 
