@@ -33,7 +33,6 @@ import java.util.Random;
 
 import static java.lang.System.currentTimeMillis;
 
-
 public class TimePortFragment extends Fragment {
 
     private static final String TAG = "TimePortFragment";
@@ -157,5 +156,4 @@ public class TimePortFragment extends Fragment {
             txtResult.setText(String.format(Locale.US, "Last result: %s", result));
         }
     }
-
 }

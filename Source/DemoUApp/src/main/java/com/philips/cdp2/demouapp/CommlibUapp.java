@@ -17,7 +17,6 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.security.InvalidParameterException;
 
-
 public class CommlibUapp implements UappInterface {
 
     private CommlibUappDependencies dependencies;

@@ -24,7 +24,6 @@ import com.philips.cdp2.demouapp.fragment.port.FirmwareUpgradeFragment;
 import com.philips.cdp2.demouapp.fragment.port.PairingPortFragment;
 import com.philips.cdp2.demouapp.fragment.port.TimePortFragment;
 
-
 public class ApplianceFragment extends Fragment {
 
     @Nullable

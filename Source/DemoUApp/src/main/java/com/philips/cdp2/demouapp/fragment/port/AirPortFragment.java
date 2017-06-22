@@ -24,7 +24,6 @@ import com.philips.cdp2.demouapp.appliance.airpurifier.AirPurifier;
 import com.philips.cdp2.demouapp.port.air.AirPort;
 import com.philips.cdp2.demouapp.port.air.AirPortProperties;
 
-
 public class AirPortFragment extends Fragment {
 
     private AirPurifier currentAppliance;
@@ -42,7 +41,6 @@ public class AirPortFragment extends Fragment {
                 updateLightProperty(isChecked);
             }
         });
-
 
         ((CompoundButton) rootview.findViewById(R.id.switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
 

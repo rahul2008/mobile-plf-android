@@ -22,7 +22,6 @@ import com.philips.cdp.dicommclient.port.common.PairingListener;
 import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.appliance.airpurifier.AirPurifier;
 
-
 public class PairingPortFragment extends Fragment {
     private static final String TAG = "PairingPortFragment";
     private EditText editTextUserId;

@@ -23,7 +23,6 @@ import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.demouapp.R;
 
-
 public class DevicePortFragment extends Fragment {
 
     private Appliance currentAppliance;
