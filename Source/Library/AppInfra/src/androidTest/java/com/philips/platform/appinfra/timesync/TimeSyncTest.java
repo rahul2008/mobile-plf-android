@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.ConfigValues;
-import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 
@@ -18,7 +18,7 @@ import java.util.TimeZone;
 /**
  * Created by 310238655 on 7/4/2016.
  */
-public class TimeSyncTest extends MockitoTestCase {
+public class TimeSyncTest extends AppInfraInstrumentation {
 
     TimeInterface mTimeSyncInterface = null;
     // Context context = Mockito.mock(Context.class);

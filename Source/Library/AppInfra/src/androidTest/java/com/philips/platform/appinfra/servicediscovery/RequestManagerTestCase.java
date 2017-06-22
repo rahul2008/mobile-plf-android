@@ -3,7 +3,7 @@ package com.philips.platform.appinfra.servicediscovery;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 
 import org.json.JSONArray;
@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
 /**
  * Created by 310238655 on 8/11/2016.
  */
-public class RequestManagerTestCase extends MockitoTestCase {
+public class RequestManagerTestCase extends AppInfraInstrumentation {
 
     private Context context;
     ServiceDiscoveryInterface mServiceDiscoveryInterface = null;

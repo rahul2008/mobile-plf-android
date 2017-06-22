@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.ConfigValues;
-import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.mock;
 /**
  * Created by 310238114 on 8/9/2016.
  */
-public class LoggingTest extends MockitoTestCase {
+public class LoggingTest extends AppInfraInstrumentation {
     LoggingInterface loggingInterface ;
     LoggingInterface loggingInterfaceMock;
     AppConfigurationInterface mConfigInterface = null;

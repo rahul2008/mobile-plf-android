@@ -4,18 +4,17 @@ package com.philips.platform.appinfra.appupdate;
 import android.content.Context;
 
 import com.google.gson.Gson;
-
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.FileUtils;
-import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
-
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
 
 import org.json.JSONObject;
+import org.junit.Before;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,7 +22,7 @@ import java.net.URL;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class AppupdateTest extends MockitoTestCase {
+public class AppupdateTest extends AppInfraInstrumentation {
 
 	private Context mContext;
 	private AppInfra mAppInfra;
@@ -39,8 +38,8 @@ public class AppupdateTest extends MockitoTestCase {
 	private Gson mGson;
 
 
-	@Override
-	protected void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		super.setUp();
 		mContext = getInstrumentation().getContext();
 		assertNotNull(mContext);
