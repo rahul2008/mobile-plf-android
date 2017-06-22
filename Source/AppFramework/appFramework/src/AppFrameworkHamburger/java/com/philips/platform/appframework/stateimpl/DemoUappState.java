@@ -23,7 +23,7 @@ public class DemoUappState extends BaseState {
 //        UappDemouAppInterface uAppInterface = new UappDemouAppInterface();
 //        AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication)context.getApplicationContext();
 //        UappDemouAppDependencies uappDependencies = new UappDemouAppDependencies(appFrameworkApplication.getAppInfra());
-//        uAppInterface.init(uappDependencies, new UappDemouAppSettings(context.getApplicationContext()));// pass App-infra instance instead of null
+//        uAppInterface.initialise(uappDependencies, new UappDemouAppSettings(context.getApplicationContext()));// pass App-infra instance instead of null
 //        uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
 
     }

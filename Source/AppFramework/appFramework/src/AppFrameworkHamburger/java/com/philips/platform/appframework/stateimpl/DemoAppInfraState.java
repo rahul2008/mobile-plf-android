@@ -24,7 +24,7 @@ public class DemoAppInfraState extends BaseState {
 //        AILDemouAppSettings aiDemoAppSettings = new AILDemouAppSettings(context.getApplicationContext());
 //        AILDemouAppLaunchInput mAIDemoAppLaunchInput = new AILDemouAppLaunchInput();
 //        AILDemouAppInterface mAIDemoAppInterface = new AILDemouAppInterface();
-//        mAIDemoAppInterface.init(mAIDemoAppDependencies, aiDemoAppSettings);
+//        mAIDemoAppInterface.initialise(mAIDemoAppDependencies, aiDemoAppSettings);
 //        ActivityLauncher activityLauncher = new ActivityLauncher(ActivityLauncher.
 //                ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);
 //        mAIDemoAppInterface.launch(activityLauncher, mAIDemoAppLaunchInput);

@@ -22,7 +22,7 @@ public class DemoURState extends BaseState {
     public void navigate(UiLauncher uiLauncher) {
 //        URDemouAppInterface uAppInterface = new URDemouAppInterface();
 //        AppInfraInterface appInfraInterface = new AppInfra.Builder().build(context.getApplicationContext());
-//        uAppInterface.init(new URDemouAppDependencies(appInfraInterface), new URDemouAppSettings(context.getApplicationContext()));
+//        uAppInterface.initialise(new URDemouAppDependencies(appInfraInterface), new URDemouAppSettings(context.getApplicationContext()));
 //        uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
 
     }
