@@ -58,6 +58,7 @@ public class LinksFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().unregister(this);
         EventBus.getDefault().register(this);
     }
 
