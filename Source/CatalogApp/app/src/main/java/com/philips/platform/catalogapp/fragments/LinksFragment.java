@@ -55,10 +55,15 @@ public class LinksFragment extends BaseFragment {
         }
     };
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        EventBus.getDefault().register(this);
         FragmentLinksBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_links, container, false);
         binding.setFrag(this);
         mainLayout = binding.mainLayout;
@@ -80,9 +85,11 @@ public class LinksFragment extends BaseFragment {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    confluenceHelpPopUP = new PopupWindow(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    confluenceHelpPopUP.setContentView(getConfluencePageHelpView());
-                    confluenceHelpPopUP.showAsDropDown(getActivity().findViewById(R.id.uid_toolbar));
+                    if (getActivity() != null) {
+                        confluenceHelpPopUP = new PopupWindow(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        confluenceHelpPopUP.setContentView(getConfluencePageHelpView());
+                        confluenceHelpPopUP.showAsDropDown(getActivity().findViewById(R.id.uid_toolbar));
+                    }
                 }
             });
         }
@@ -92,7 +99,6 @@ public class LinksFragment extends BaseFragment {
     public void onMessage(OptionMenuClickedEvent event) {
         dismissPopUP();
     }
-
 
 
     @Override
