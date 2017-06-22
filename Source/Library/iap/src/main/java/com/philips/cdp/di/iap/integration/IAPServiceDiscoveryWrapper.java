@@ -49,7 +49,7 @@ public class IAPServiceDiscoveryWrapper {
 
                 if (configUrls != null) {
                     // TODO Retailer view hence making the userLocalData to true
-                    mIAPSettings.setUseLocalData(true);
+                    mIAPSettings.setUseLocalData(false);
                     String urlPort = configUrls;//"https://acc.occ.shop.philips.com/en_US";"https://www.occ.shop.philips.com/en_US"
                     mIAPSettings.setHostPort(urlPort.substring(0, urlPort.length() - 5));
                 } else {
