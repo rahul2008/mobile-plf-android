@@ -34,7 +34,7 @@ import com.philips.cdp2.demouapp.appliance.reference.WifiReferenceAppliance;
 
 public class MainFragment extends Fragment {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "MainFragment";
 
     private DiscoveryManager<?> discoveryManager;
     private ArrayAdapter<Appliance> applianceAdapter;
