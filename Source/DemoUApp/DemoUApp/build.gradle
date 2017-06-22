@@ -147,3 +147,7 @@ dependencies {
                     }*/
     compile project(':digitalCare')
 }
+
+tasks.withType(Test) {
+  ignoreFailures = true
+}

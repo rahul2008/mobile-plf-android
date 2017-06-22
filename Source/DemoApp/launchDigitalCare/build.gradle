@@ -265,3 +265,6 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
     }
 }*/
 
+tasks.withType(Test) {
+  ignoreFailures = true
+}
