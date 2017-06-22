@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -26,7 +27,7 @@ public class LinksFragment extends BaseFragment {
         public boolean interceptClick(CharSequence tag) {
             if (tag!= null && tag.equals(PHILIPS_SITE)) {
                 if (!isNetworkConnected() && getContext() != null) {
-                    Toast.makeText(getContext(), R.string.no_internet, Toast.LENGTH_SHORT).show();
+                    Snackbar.make(getView(), R.string.no_internet, Snackbar.LENGTH_LONG).show();
                     return true;
                 }
             }
