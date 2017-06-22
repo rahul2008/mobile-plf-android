@@ -279,3 +279,6 @@ task pmd(type: Pmd) {
     }
 }
 
+tasks.withType(Test) {
+  ignoreFailures = true
+}
