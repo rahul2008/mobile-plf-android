@@ -119,7 +119,6 @@ public class TimePortFragment extends Fragment {
                 currentAppliance.getTimePort().putProperties(PROPERTY_DATETIME, timestamp);
             } else {
                 DICommLog.d(TAG, "Unknown view clicked");
-
             }
         }
     };
