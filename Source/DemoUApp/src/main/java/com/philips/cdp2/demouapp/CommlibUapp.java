@@ -28,7 +28,7 @@ public class CommlibUapp implements UappInterface {
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         if (!(uappDependencies instanceof CommlibUappDependencies)) {
-            throw new InvalidParameterException("This Uapp only accepts CommlibUappDependencies");
+            throw new IllegalArgumentException("This Uapp only accepts CommlibUappDependencies");
         }
 
         dependencies = (CommlibUappDependencies) uappDependencies;
@@ -41,7 +41,7 @@ public class CommlibUapp implements UappInterface {
         }
 
         if (!(uiLauncher instanceof FragmentLauncher)) {
-            throw new InvalidParameterException("This Uapp only works with FragmentLaunchers");
+            throw new IllegalArgumentException("This Uapp only works with FragmentLaunchers");
         }
 
         fragmentLauncher = (FragmentLauncher) uiLauncher;
@@ -67,6 +67,4 @@ public class CommlibUapp implements UappInterface {
     public CommlibUappDependencies getDependencies() {
         return dependencies;
     }
-
-
 }
