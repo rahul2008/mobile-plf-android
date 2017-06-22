@@ -150,3 +150,7 @@ dependencies {
     compile 'com.squareup.leakcanary:leakcanary-android:1.5'
     compile project(':DemoUApp')
 }
+
+tasks.withType(Test) {
+  ignoreFailures = true
+}
