@@ -1,10 +1,5 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
- * All rights reserved.
- */
-
-/*
- * (C) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 

@@ -1,10 +1,5 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
- * All rights reserved.
- */
-
-/*
- * (C) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -29,7 +24,7 @@ public class TimePort extends DICommPort<TimePortProperties> {
 
     @Override
     public boolean isResponseForThisPort(String jsonResponse) {
-        return (parseResponse(jsonResponse) != null);
+        return parseResponse(jsonResponse) != null;
     }
 
     @Override

@@ -3,20 +3,16 @@
  * All rights reserved.
  */
 
-/*
- * (C) 2015-2017 Koninklijke Philips N.V.
- * All rights reserved.
- */
 package com.philips.cdp2.demouapp.port.air;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.port.DICommPort;
+import com.philips.cdp.dicommclient.util.GsonProvider;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 public abstract class AirPort<T extends AirPortProperties> extends DICommPort<T> {
 
-    //This name and ID need to match with the com.philips.cdp2.demouapp.appliance's DiComm protocol port name and ID
     final String NAME = "air";
     final int PRODUCTID = 1;
     final Gson jsonParser;
@@ -24,7 +20,7 @@ public abstract class AirPort<T extends AirPortProperties> extends DICommPort<T>
 
     public AirPort(final CommunicationStrategy communicationStrategy, Class<T> propertiesClass) {
         super(communicationStrategy);
-        jsonParser = new Gson();
+        jsonParser = GsonProvider.get();
         this.propertiesClass = propertiesClass;
     }
 
@@ -33,8 +29,7 @@ public abstract class AirPort<T extends AirPortProperties> extends DICommPort<T>
         try {
             AirPortProperties portProperties = jsonParser.fromJson(jsonResponse, propertiesClass);
 
-            // We need to check that the portProperties content is actually not null
-            return portProperties.lightIsSet();
+            return portProperties != null && portProperties.lightIsSet();
         } catch (JsonSyntaxException exception) {
             return false;
         }

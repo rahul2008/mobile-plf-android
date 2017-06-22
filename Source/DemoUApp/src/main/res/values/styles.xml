@@ -1,11 +1,9 @@
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2015-2017 Koninklijke Philips N.V.
   ~ All rights reserved.
   -->
 
 <resources>
-
-
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppTheme.Base">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
