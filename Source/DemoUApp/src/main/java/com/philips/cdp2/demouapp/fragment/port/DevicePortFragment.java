@@ -8,6 +8,7 @@ package com.philips.cdp2.demouapp.fragment.port;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import com.philips.cdp2.commlib.demouapp.R;
 
 public class DevicePortFragment extends Fragment {
 
+    private static final String TAG = "DevicePortFragment";
     private Appliance currentAppliance;
     private EditText deviceNameEdit;
 
@@ -65,7 +67,7 @@ public class DevicePortFragment extends Fragment {
 
             @Override
             public void onPortError(DICommPort port, Error error, String errorData) {
-
+                Log.e(TAG, "Device port error:" + errorData);
             }
         });
 
