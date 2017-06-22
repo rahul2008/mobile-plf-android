@@ -23,7 +23,7 @@ public class AnalyticsConstants {
 
     public static final String PAGE_CONTACTUS_TWITTER = "digitalcare:contactus:twitter";
     public static final String PAGE_CONTACTUS_FACEBOOK = "digitalcare:contactus:facebook";
-    public static final String PAGE_CONTACTUS_CHATNOW = "digitalcare:contactus:chatnow";
+    public static final String PAGE_CONTACTUS_CHATNOW = "digitalcare:contactus:livechat:chatnow";
     public static final String PAGE_CONTACTUS_LIVECHAT = "digitalcare:contactus:livechat";
     public static final String PAGE_CONTACTUS_EMAIL = "digitalcare:contactus:email";
 
