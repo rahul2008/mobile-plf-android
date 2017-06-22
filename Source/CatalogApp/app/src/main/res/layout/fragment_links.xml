@@ -21,6 +21,10 @@
             android:orientation="vertical">
 
             <com.philips.platform.uid.view.widget.Label
+                style="@style/ButtonsCategoryStyle"
+                android:text="@string/links_heading" />
+
+            <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/link_description"
                 style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
                 android:layout_width="wrap_content"
@@ -41,6 +45,7 @@
                 android:layout_marginTop="@dimen/button_first_last_element_gap"
                 android:gravity="center_vertical|start"
                 android:text="@string/links_button_page"
+                android:textColorHighlight="@color/uidTransparent"
                 android:layout_marginBottom="@dimen/button_first_last_element_gap" />
         </LinearLayout>
     </ScrollView>
