@@ -27,6 +27,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -81,11 +83,11 @@ import com.philips.cdp.digitalcare.locatephilips.parser.AtosParsingCallback;
 import com.philips.cdp.digitalcare.locatephilips.parser.AtosResponseParser;
 import com.philips.cdp.digitalcare.request.RequestData;
 import com.philips.cdp.digitalcare.request.ResponseCallback;
+import com.philips.cdp.digitalcare.util.CustomSearchView;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.Utils;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.uid.view.widget.SearchBox;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -100,7 +102,7 @@ import java.util.Map;
 @SuppressLint({"SetJavaScriptEnabled", "DefaultLocale"})
 public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         OnItemClickListener, OnMarkerClickListener,
-        ResponseCallback, OnMapClickListener, OnMapReadyCallback {
+        ResponseCallback, OnMapClickListener, OnMapReadyCallback,TextWatcher {
 
     private static final String TAG = LocatePhilipsFragment.class
             .getSimpleName();
@@ -138,7 +140,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private static ArrayList<AtosResultsModel> mResultModelSet = null;
     private RelativeLayout mLocateLayout = null;
     private RelativeLayout mLocateSearchLayout = null;
-    private SearchBox mSearchBox = null;
+    private CustomSearchView mSearchBox = null;
     private ImageView mArabicSearchIcon = null;
     private ImageView mMarkerIcon = null;
     private ImageView mArabicMarkerIcon = null;
@@ -520,7 +522,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 R.id.locate_layout);
         mLocateSearchLayout = (RelativeLayout) getActivity().findViewById(
                 R.id.locate_search_layout);
-        mSearchBox = (SearchBox) getActivity().findViewById(R.id.search_box);
+        mSearchBox = (CustomSearchView) getActivity().findViewById(R.id.search_box);
+        mSearchBox.setOnClickListener(this);
+        mSearchBox.addTextChangedListener(this);
         mArabicSearchIcon = (ImageView) getActivity().findViewById(R.id.arabic_search_icon);
         mMarkerIcon = (ImageView) getActivity().findViewById(R.id.marker_icon);
         mArabicMarkerIcon = (ImageView) getActivity().findViewById(R.id.arabic_marker_icon);
@@ -777,7 +781,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     public void onStop() {
         super.onStop();
         if (mSearchBox != null)
-            mSearchBox.setQuery(null);
+            mSearchBox.setText(null);
         mLocationManager = null;
     }
 
@@ -847,44 +851,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     @Override
     public void onClick(View v) {
 
-        if ((v.getId() == R.id.search_box) || (v.getId() == R.id.arabic_search_icon)) {
-            hideKeyboard();
-            final String constrain = mSearchBox.getQuery().toString().trim();
-
-            if (mResultModelSet != null) {
-                adapter = new CustomGeoAdapter(getActivity(), mResultModelSet);
-                adapter.getFilter().filter(constrain,
-                        new Filter.FilterListener() {
-                            public void onFilterComplete(int count) {
-                                Map<String, String> contextData = new HashMap<String, String>();
-                                contextData.put(AnalyticsConstants.
-                                        ACTION_KEY_LOCATE_PHILIPS_SEARCH_TERM, constrain);
-                                contextData.put(AnalyticsConstants.
-                                                ACTION_KEY_LOCATE_PHILIPS_SEARCH_RESULTS,
-                                        String.valueOf(count));
-                                DigitalCareConfigManager.getInstance().getTaggingInterface().
-                                        trackActionWithInfo(AnalyticsConstants.ACTION_SEND_DATA,
-                                                contextData);
-
-                                if (count == 0) {
-                                    showAlert(getResources().getString(
-                                            R.string.no_data_available));
-                                }
-
-                                mListView.setAdapter(adapter);
-                                mListView.setVisibility(View.VISIBLE);
-                                mLinearLayout.setVisibility(View.GONE);
-                               /* if (mSearchIcon.getVisibility() == View.VISIBLE)
-                                    mMarkerIcon.setVisibility(View.VISIBLE);*/
-
-                                if (mArabicSearchIcon.getVisibility() == View.VISIBLE)
-                                    mArabicMarkerIcon.setVisibility(View.VISIBLE);
-                            }
-                        });
-            } else {
-                showAlert(getResources().getString(
-                        R.string.no_data_available));
-            }
+        /*if ((v.getId() == R.id.search_box) || (v.getId() == R.id.arabic_search_icon)) {
+            showListView();
         } else if (v.getId() == R.id.getdirection) {
             DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
                     (AnalyticsConstants.ACTION_SEND_DATA,
@@ -923,7 +891,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
             removeArabicSearchIcon();
 
-            mSearchBox.setQuery(null);
+            mSearchBox.setText(null);
         } else if (v.getId() == R.id.call) {
             mLinearLayout.setVisibility(View.GONE);
             DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
@@ -940,6 +908,43 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 DigiCareLogger.v(TAG, "Check the SIM");
                 showAlert(getActivity().getString(R.string.check_sim));
             }
+        }*/
+    }
+
+    private void showListView() {
+
+        final String constrain = mSearchBox.getText().toString().trim();
+
+        if (mResultModelSet != null) {
+            adapter = new CustomGeoAdapter(getActivity(), mResultModelSet);
+            adapter.getFilter().filter(constrain,
+                    new Filter.FilterListener() {
+                        public void onFilterComplete(int count) {
+                            Map<String, String> contextData = new HashMap<String, String>();
+                            contextData.put(AnalyticsConstants.
+                                    ACTION_KEY_LOCATE_PHILIPS_SEARCH_TERM, constrain);
+                            contextData.put(AnalyticsConstants.
+                                            ACTION_KEY_LOCATE_PHILIPS_SEARCH_RESULTS,
+                                    String.valueOf(count));
+                            DigitalCareConfigManager.getInstance().getTaggingInterface().
+                                    trackActionWithInfo(AnalyticsConstants.ACTION_SEND_DATA,
+                                            contextData);
+
+                            /*if (count == 0) {
+                                showAlert(getResources().getString(
+                                        R.string.no_data_available));
+                            }*/
+
+                            mListView.setAdapter(adapter);
+                            mListView.setVisibility(View.VISIBLE);
+                            mLinearLayout.setVisibility(View.GONE);
+                           /* if (mSearchIcon.getVisibility() == View.VISIBLE)
+                                mMarkerIcon.setVisibility(View.VISIBLE);*/
+
+                            if (mArabicSearchIcon.getVisibility() == View.VISIBLE)
+                                mArabicMarkerIcon.setVisibility(View.VISIBLE);
+                        }
+                    });
         }
     }
 
@@ -1109,5 +1114,22 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
         mButtonCall.setLayoutParams(params);
         mButtonDirection.setLayoutParams(params);
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+       // showFragment(new TestFragment());
+        showListView();
+
     }
 }

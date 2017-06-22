@@ -26,11 +26,12 @@ import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.locatephilips.models.AtosAddressModel;
 import com.philips.cdp.digitalcare.locatephilips.models.AtosLocationModel;
 import com.philips.cdp.digitalcare.locatephilips.models.AtosResultsModel;
+import com.philips.platform.uid.view.widget.SearchBox;
 
 import java.util.ArrayList;
 
 @SuppressLint("DefaultLocale")
-public class CustomGeoAdapter extends BaseAdapter implements Filterable {
+public class CustomGeoAdapter extends BaseAdapter implements Filterable ,SearchBox.FilterQueryChangedListener {
     private Context context;
     private ArrayList<AtosResultsModel> mResultModelSet;
     private ArrayList<AtosResultsModel> mOriginalSet;
@@ -63,9 +64,10 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
-            LayoutInflater mInflater = (LayoutInflater) context
+            LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.consumercare_geo_list_item, null);
+            if(inflater!=null)
+              convertView = inflater.inflate(R.layout.consumercare_geo_list_item, null);
         }
 
         ViewHolder holder = new ViewHolder();
@@ -105,6 +107,11 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
         return mCustomFilter;
     }
 
+    @Override
+    public void onQueryTextChanged(CharSequence charSequence) {
+        System.out.println("******* charSequence : "+charSequence);
+    }
+
     private class ViewHolder {
 
         TextView txtTitle = null;
@@ -139,9 +146,9 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
                         filteredResultModel.setAddressModel(resultModel
                                 .getAddressModel());
                         FilteredResultModelSet.add(filteredResultModel);
-                    } // if
+                    }
 
-                } // for
+                }
                 filterResults.count = FilteredResultModelSet.size();
                 filterResults.values = FilteredResultModelSet;
             } else {
