@@ -58,6 +58,7 @@ import cdp.philips.com.registration.UserRegistrationInterfaceImpl;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.janrain.android.engage.JREngage.getApplicationContext;
+import static com.janrain.android.engage.JREngage.getInstance;
 
 public class DSHandler {
 
@@ -71,7 +72,6 @@ public class DSHandler {
     final String AI = "appinfra";
 
 
-
     public DSHandler(Context mContext, AppInfraInterface appInfraInterface) {
         this.mContext = mContext;
         this.gAppInfra = appInfraInterface;
@@ -79,19 +79,8 @@ public class DSHandler {
                 AppConfigurationInterface.AppConfigurationError();
 
         databaseHelper = DatabaseHelper.getInstance(mContext, new UuidGenerator());
-
         mDataServicesManager = DataServicesManager.getInstance();
-
-        initAppInfra(gAppInfra);
-
-        initializeUserRegistrationLibrary(Configuration.STAGING);
-        initHSDP();
-        init();
-        //mScheduleSyncReceiver = new ScheduleSyncReceiver();
-        if(new User(mContext).isUserSignIn()) {
-            SyncScheduler.getInstance().scheduleSync();
-        }
-
+        initAppInfra(appInfraInterface);
     }
 
     private void initAppInfra(AppInfraInterface gAppInfra) {
@@ -104,14 +93,6 @@ public class DSHandler {
         return userRegImple;
     }
 
-    /* mScheduleSyncReceiver = new ScheduleSyncReceiver();
-        OrmCreator creator = new OrmCreator(new UuidGenerator());
-        UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(mContext, new User(mContext));
-        ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
-        DataServicesManager.getInstance().initializeDataServices(mContext, creator, userRegistrationInterface, errorHandlerInterface);
-        injectDBInterfacesToCore();
-        DataServicesManager.getInstance().initializeSyncMonitors(mContext, null, null);
-        scheduleSync(mContext);*/
     private void init() {
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         userRegImple = new UserRegistrationInterfaceImpl(mContext, new User(mContext));
@@ -166,249 +147,8 @@ public class DSHandler {
         }
     }
 
-    /**
-     * For doing dynamic initialisation Of User registration
-     *
-     * @param configuration The environment ype as required by UR
-     */
-    public void initializeUserRegistrationLibrary(Configuration configuration) {
-        final String UR = "UserRegistration";
-
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        gAppInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." + Configuration.DEVELOPMENT
-                , UR,
-                "8kaxdrpvkwyr7pnp987amu4aqb4wmnte",
-                configError);
-        gAppInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." + Configuration.TESTING
-                , UR,
-                "g52bfma28yjbd24hyjcswudwedcmqy7c",
-                configError);
-        gAppInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." + Configuration.EVALUATION
-                , UR,
-                "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
-                configError);
-        gAppInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." + Configuration.STAGING
-                , UR,
-                "f2stykcygm7enbwfw2u9fbg6h6syb8yd",
-                configError);
-        gAppInfra.getConfigInterface().setPropertyForKey("JanRainConfiguration." +
-                        "RegistrationClientID." + Configuration.PRODUCTION
-                , UR,
-                "9z23k3q8bhqyfwx78aru6bz8zksga54u",
-                configError);
-
-
-        gAppInfra.getConfigInterface().setPropertyForKey("PILConfiguration." +
-                        "MicrositeID",
-                UR,
-                "77000",
-                configError);
-        gAppInfra.getConfigInterface().setPropertyForKey("PILConfiguration." +
-                        "RegistrationEnvironment",
-                UR,
-                configuration.getValue(),
-                configError);
-
-        gAppInfra.
-                getConfigInterface().setPropertyForKey("Flow." +
-                        "EmailVerificationRequired",
-                UR,
-                "" + true,
-                configError);
-        gAppInfra.
-                getConfigInterface().setPropertyForKey("Flow." +
-                        "TermsAndConditionsAcceptanceRequired",
-                UR,
-                "" + true,
-                configError);
-
-        String minAge = "{ \"NL\":12 ,\"GB\":0,\"default\": 16}";
-        gAppInfra.
-                getConfigInterface().setPropertyForKey("Flow." +
-                        "MinimumAgeLimit",
-                UR,
-                minAge,
-                configError);
-
-        ArrayList<String> providers = new ArrayList<>();
-        providers.add("facebook");
-        providers.add("googleplus");
-        providers.add("sinaweibo");
-        providers.add("qq");
-        gAppInfra.
-                getConfigInterface().setPropertyForKey("SigninProviders." +
-                        "NL",
-                UR,
-                providers,
-                configError);
-
-        gAppInfra.
-                getConfigInterface().setPropertyForKey("SigninProviders." +
-                        "US",
-                UR,
-                providers,
-                configError);
-
-        gAppInfra.
-                getConfigInterface().setPropertyForKey("SigninProviders." +
-                        "default",
-                UR,
-                providers,
-                configError);
-
-
-        SharedPreferences.Editor editor = mContext.getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
-        editor.putString("reg_environment", configuration.getValue());
-        editor.apply();
-
-        initAppIdentity(configuration);
-        URDependancies urDependancies = new URDependancies(gAppInfra);
-        URSettings urSettings = new URSettings(mContext);
-        URInterface urInterface = new URInterface();
-        urInterface.init(urDependancies, urSettings);
-
-    }
-
-    private void initAppIdentity(Configuration configuration) {
-        AppIdentityInterface mAppIdentityInterface;
-        mAppIdentityInterface = gAppInfra.getAppIdentity();
-        //Dynamically set the values to appInfar and app state
-
-        AppConfigurationInterface.AppConfigurationError configError = new
-                AppConfigurationInterface.AppConfigurationError();
-        gAppInfra.
-                getConfigInterface().setPropertyForKey(
-                "appidentity.micrositeId",
-                AI,
-                "77000",
-                configError);
-
-        gAppInfra.
-                getConfigInterface().setPropertyForKey(
-                "appidentity.sector",
-                AI,
-                "b2c",
-                configError);
-
-        gAppInfra.
-                getConfigInterface().setPropertyForKey(
-                "appidentity.serviceDiscoveryEnvironment",
-                AI,
-                "Production",
-                configError);
-
-
-        switch (configuration) {
-            case EVALUATION:
-                gAppInfra.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "ACCEPTANCE",
-                        configError);
-                break;
-            case DEVELOPMENT:
-                gAppInfra.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "DEVELOPMENT",
-                        configError);
-
-                break;
-            case PRODUCTION:
-                gAppInfra.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "PRODUCTION",
-                        configError);
-                break;
-            case STAGING:
-                gAppInfra.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "STAGING",
-                        configError);
-
-                break;
-            case TESTING:
-                gAppInfra.
-                        getConfigInterface().setPropertyForKey(
-                        "appidentity.appState",
-                        AI,
-                        "TEST",
-                        configError);
-                break;
-        }
-
-        AppIdentityInfo appIdentityInfo = new AppIdentityInfo();
-        appIdentityInfo.setAppLocalizedNAme(mAppIdentityInterface.getLocalizedAppName());
-        appIdentityInfo.setSector(mAppIdentityInterface.getSector());
-        appIdentityInfo.setMicrositeId(mAppIdentityInterface.getMicrositeId());
-        appIdentityInfo.setAppName(mAppIdentityInterface.getAppName());
-        appIdentityInfo.setAppState(mAppIdentityInterface.getAppState().toString());
-        appIdentityInfo.setAppVersion(mAppIdentityInterface.getAppVersion());
-        appIdentityInfo.setServiceDiscoveryEnvironment(mAppIdentityInterface.getServiceDiscoveryEnvironment());
-
-    }
-
-
-    public void initHSDP() {
-        gAppInfra.
-                getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.ApplicationName",
-                "UserRegistration",
-                "OneBackend",
-                configError);
-
-        gAppInfra.
-                getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.Secret",
-                "UserRegistration",
-                "ad3d0618-be4d-4958-adc9-f6bcd01fde16",
-                configError);
-
-        gAppInfra.
-                getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.Shared",
-                "UserRegistration",
-                "ba404af2-ee41-4e7c-9157-fd20663f2a6c",
-                configError);
-
-        gAppInfra.
-                getConfigInterface().setPropertyForKey(
-                "HSDPConfiguration.BaseURL",
-                "UserRegistration",
-                "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
-                configError);
-    }
-
     public void initPreRequisite() {
         init();
     }
 
-   /* void scheduleSync() {
-        final Handler handler = new Handler();
-        Runnable runnable = new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    mScheduleSyncReceiver.onReceive(getApplicationContext());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    handler.postDelayed(this, ScheduleSyncReceiver.DATA_FETCH_FREQUENCY);
-                }
-            }
-        };
-        runnable.run();
-    }*/
 }

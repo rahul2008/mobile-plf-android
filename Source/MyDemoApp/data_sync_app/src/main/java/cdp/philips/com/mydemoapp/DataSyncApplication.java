@@ -6,9 +6,7 @@ package cdp.philips.com.mydemoapp;
 
 import android.content.SharedPreferences;
 import android.support.multidex.MultiDexApplication;
-import android.widget.Toast;
 
-import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.AppIdentityInfo;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Configuration;
@@ -20,39 +18,12 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
-import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Locale;
 
-import cdp.philips.com.TestClass;
 import cdp.philips.com.database.DatabaseHelper;
-import cdp.philips.com.database.ORMSavingInterfaceImpl;
-import cdp.philips.com.database.ORMUpdatingInterfaceImpl;
-import cdp.philips.com.database.OrmCreator;
-import cdp.philips.com.database.OrmDeleting;
-import cdp.philips.com.database.OrmDeletingInterfaceImpl;
-import cdp.philips.com.database.OrmFetchingInterfaceImpl;
-import cdp.philips.com.database.OrmSaving;
-import cdp.philips.com.database.OrmUpdating;
-import cdp.philips.com.database.table.BaseAppDateTime;
-import cdp.philips.com.database.table.OrmCharacteristics;
-import cdp.philips.com.database.table.OrmConsentDetail;
-import cdp.philips.com.database.table.OrmDCSync;
-import cdp.philips.com.database.table.OrmInsight;
-import cdp.philips.com.database.table.OrmInsightMetaData;
-import cdp.philips.com.database.table.OrmMeasurement;
-import cdp.philips.com.database.table.OrmMeasurementDetail;
-import cdp.philips.com.database.table.OrmMeasurementGroup;
-import cdp.philips.com.database.table.OrmMeasurementGroupDetail;
-import cdp.philips.com.database.table.OrmMoment;
-import cdp.philips.com.database.table.OrmMomentDetail;
-import cdp.philips.com.database.table.OrmSettings;
-import cdp.philips.com.database.table.OrmSynchronisationData;
-import cdp.philips.com.error.ErrorHandlerInterfaceImpl;
+import cdp.philips.com.reciever.ScheduleSyncReceiver;
 import cdp.philips.com.registration.UserRegistrationInterfaceImpl;
 import cdp.philips.com.utility.SyncScheduler;
 
@@ -62,8 +33,8 @@ public class DataSyncApplication extends MultiDexApplication {
     public static AppInfraInterface gAppInfra;
     public static LoggingInterface loggingInterface;
     private AppConfigurationInterface.AppConfigurationError configError;
-    DataServicesManager mDataServicesManager;
-    //ScheduleSyncReceiver mScheduleSyncReceiver;
+    //DataServicesManager mDataServicesManager;
+    ScheduleSyncReceiver mScheduleSyncReceiver;
     UserRegistrationInterfaceImpl userRegImple;
     final String AI = "appinfra";
 
@@ -71,15 +42,15 @@ public class DataSyncApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
        // mDataServicesManager = DataServicesManager.getInstance();
-       // initAppInfra();
+        initAppInfra();
 
-        //initializeUserRegistrationLibrary(Configuration.STAGING);
-        //initHSDP();
+        initializeUserRegistrationLibrary(Configuration.STAGING);
+        initHSDP();
         //init();
-        //mScheduleSyncReceiver = new ScheduleSyncReceiver();
-        //if(new User(this).isUserSignIn()) {
-          //  SyncScheduler.getInstance().scheduleSync();
-        //}
+        mScheduleSyncReceiver = new ScheduleSyncReceiver();
+        if(new User(this).isUserSignIn()) {
+            SyncScheduler.getInstance().scheduleSync();
+        }
     }
 
     private void initAppInfra() {
@@ -93,7 +64,7 @@ public class DataSyncApplication extends MultiDexApplication {
         return userRegImple;
     }
 
-    private void init() {
+/*    private void init() {
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         userRegImple = new UserRegistrationInterfaceImpl(this, new User(this));
         UserRegistrationInterface userRegistrationInterface = userRegImple;
@@ -101,9 +72,9 @@ public class DataSyncApplication extends MultiDexApplication {
         mDataServicesManager.initializeDataServices(this, creator, userRegistrationInterface, errorHandlerInterface);
         injectDBInterfacesToCore();
         mDataServicesManager.initializeSyncMonitors(this, null, null);
-    }
+    }*/
 
-    void injectDBInterfacesToCore() {
+/*    void injectDBInterfacesToCore() {
         try {
             Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
             Dao<OrmMomentDetail, Integer> momentDetailDao = databaseHelper.getMomentDetailDao();
@@ -145,7 +116,7 @@ public class DataSyncApplication extends MultiDexApplication {
         } catch (SQLException exception) {
             Toast.makeText(this, "db injection failed to dataservices", Toast.LENGTH_SHORT).show();
         }
-    }
+    }*/
 
     /**
      * For doing dynamic initialisation Of User registration
