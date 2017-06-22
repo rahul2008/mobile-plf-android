@@ -153,3 +153,7 @@ dependencies {
     compile(group: 'com.philips.cdp', name: 'Tagging', version: '3.0.0', ext: 'aar')
    // compile 'adobeMobileLibrary:adobeMobileLibrary:4.5.1'
 }
+
+tasks.withType(Test) {
+  ignoreFailures = true
+}
