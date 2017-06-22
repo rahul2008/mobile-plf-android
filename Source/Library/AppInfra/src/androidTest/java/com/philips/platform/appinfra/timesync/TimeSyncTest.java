@@ -16,14 +16,13 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 /**
- * Created by 310238655 on 7/4/2016.
+ *TimeSync Test class.
  */
 public class TimeSyncTest extends MockitoTestCase {
 
     TimeInterface mTimeSyncInterface = null;
     // Context context = Mockito.mock(Context.class);
 
-    private Context context;
     AppInfra mAppInfra;
     TimeSyncSntpClient mTimeSyncSntpClient;
 
@@ -31,7 +30,7 @@ public class TimeSyncTest extends MockitoTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        context = getInstrumentation().getContext();
+        Context context = getInstrumentation().getContext();
         assertNotNull(context);
         mAppInfra = new AppInfra.Builder().build(context);
         assertNotNull(mAppInfra);
@@ -96,6 +95,18 @@ public class TimeSyncTest extends MockitoTestCase {
         } catch (IllegalArgumentException exception) {
             exception.printStackTrace();
         }
+
+    }
+
+    public void testisSynchronized() {
+        if(mTimeSyncSntpClient.isSynchronized()){
+            assertTrue(mTimeSyncSntpClient.isSynchronized());
+        }
+        else
+        {
+            assertFalse(mTimeSyncSntpClient.isSynchronized());
+        }
+
 
     }
 
