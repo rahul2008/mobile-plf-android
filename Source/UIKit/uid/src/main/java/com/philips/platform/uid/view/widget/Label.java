@@ -220,6 +220,7 @@ public class Label extends AppCompatTextView {
     private void resetPressedLinks() {
         pressedLinks[pressedLinks.length - 1].setPressed(false);
         pressedLinks = null;
+        invalidate();
     }
 
     private boolean hasPressedLinks() {
