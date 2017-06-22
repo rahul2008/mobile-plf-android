@@ -74,49 +74,58 @@ public abstract class WebFragment extends InAppBaseFragment {
                 || errorCode == WebViewClient.ERROR_HOST_LOOKUP);
     }
 
-    private class IAPWebViewClient extends WebViewClient {
-
-        @SuppressWarnings("deprecation")
-        @Override
-        public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
-            return WebFragment.this.shouldOverrideUrlLoading(url);
+    public boolean handleBackEvent() {
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
+            return true;
         }
+        return false;
+    }
 
-        @TargetApi(Build.VERSION_CODES.N)
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-            return WebFragment.this.shouldOverrideUrlLoading(request.getUrl().toString());
-        }
 
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            mProgress.setVisibility(View.VISIBLE);
-            super.onPageStarted(view, url, favicon);
-        }
+private class IAPWebViewClient extends WebViewClient {
 
-        @SuppressWarnings("deprecation")
-        @Override
-        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-        }
+    @SuppressWarnings("deprecation")
+    @Override
+    public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
+        return WebFragment.this.shouldOverrideUrlLoading(url);
+    }
 
-        @TargetApi(android.os.Build.VERSION_CODES.M)
-        @Override
-        public void onReceivedError(WebView view, WebResourceRequest req, WebResourceError rerr) {
-            // Redirect to deprecated method, so you can use it in all SDK versions
-            if (rerr != null && shouldHandleError(rerr.getErrorCode())) {
-                if (isVisible()) {
-                    onReceivedError(view, rerr.getErrorCode(), rerr.getDescription().toString(), req.getUrl().toString());
-                }
-            }
-        }
+    @TargetApi(Build.VERSION_CODES.N)
+    @Override
+    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+        return WebFragment.this.shouldOverrideUrlLoading(request.getUrl().toString());
+    }
 
-        @Override
-        public void onPageFinished(final WebView view, final String url) {
-            super.onPageFinished(view, url);
-            if (mProgress != null && mShowProgressBar) {
-                mShowProgressBar = false;
-                mProgress.setVisibility(View.GONE);
+    @Override
+    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        mProgress.setVisibility(View.VISIBLE);
+        super.onPageStarted(view, url, favicon);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+    }
+
+    @TargetApi(android.os.Build.VERSION_CODES.M)
+    @Override
+    public void onReceivedError(WebView view, WebResourceRequest req, WebResourceError rerr) {
+        // Redirect to deprecated method, so you can use it in all SDK versions
+        if (rerr != null && shouldHandleError(rerr.getErrorCode())) {
+            if (isVisible()) {
+                onReceivedError(view, rerr.getErrorCode(), rerr.getDescription().toString(), req.getUrl().toString());
             }
         }
     }
+
+    @Override
+    public void onPageFinished(final WebView view, final String url) {
+        super.onPageFinished(view, url);
+        if (mProgress != null && mShowProgressBar) {
+            mShowProgressBar = false;
+            mProgress.setVisibility(View.GONE);
+        }
+    }
+}
 }

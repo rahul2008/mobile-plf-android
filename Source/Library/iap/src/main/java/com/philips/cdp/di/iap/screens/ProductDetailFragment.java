@@ -600,8 +600,9 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 finishActivity();
             } else {
                 getFragmentManager().popBackStack();
+                return true;
             }
         }
-        return super.handleBackEvent();
+        return false;
     }
 }

@@ -200,7 +200,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             }
             finishActivity();
         }
-        return super.handleBackEvent();
+        return false;
     }
 
     private void fetchProductList() {
