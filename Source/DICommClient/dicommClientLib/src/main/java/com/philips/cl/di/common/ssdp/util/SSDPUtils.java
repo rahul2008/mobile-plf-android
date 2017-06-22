@@ -70,8 +70,6 @@ public class SSDPUtils {
                         bis = new BufferedInputStream(is);
                         icon = new BitmapDrawable(pResources, BitmapFactory.decodeStream(bis));
                     }
-                } catch (final MalformedURLException e) {
-                    Log.e(ConnectionLibContants.LOG_TAG, "IOException " + e.getMessage());
                 } catch (final IOException e) {
                     Log.e(ConnectionLibContants.LOG_TAG, "IOException " + e.getMessage());
                 } finally {
@@ -115,10 +113,8 @@ public class SSDPUtils {
              * it was not able to download file if we don't add above line of code
              */
             String line = null;
-            if (Build.VERSION.SDK_INT >= 9) {
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
-            }
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
 
             URLConnection connection = null;
             InputStreamReader is = null;

@@ -235,6 +235,7 @@ public class LanRequest extends Request {
             }
         }
         conn.setRequestProperty("content-type", "application/json");
+        conn.setRequestProperty("connection", "close");
         conn.setRequestMethod(requestMethod);
         conn.setConnectTimeout(CONNECTION_TIMEOUT);
 

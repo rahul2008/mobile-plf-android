@@ -3,15 +3,17 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.dicommclientsample;
+package com.philips.cdp2.demouapp.fragment.port;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -27,9 +29,10 @@ import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp.dicommclientsample.appliance.reference.ReferenceAppliance;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortListener;
+import com.philips.cdp2.commlib.demouapp.R;
+import com.philips.cdp2.demouapp.appliance.reference.ReferenceAppliance;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,8 +41,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
-public class FirmwareUpgradeActivity extends AppCompatActivity {
-    private static final String TAG = "FirmwareUpgradeActivity";
+public class FirmwareUpgradeFragment extends Fragment {
+    private static final String TAG = "FirmwareUpgradeFragment";
 
     private static final long DEFAULT_TIMEOUT_MILLIS = 30000L;
 
@@ -60,7 +63,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
     private FilenameFilter upgradeFilesFilter = new FilenameFilter() {
         @Override
         public boolean accept(File dir, String name) {
-            return name.toLowerCase(Locale.US).endsWith(".upg");
+            return name.toLowerCase().endsWith(".upg");
         }
     };
 
@@ -158,45 +161,43 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
         }
     };
 
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_firmware_upgrade);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View rootview = inflater.inflate(R.layout.fragment_firmware_upgrade, container, false);
 
-        firmwareSearchLocationTextView = (TextView) findViewById(R.id.tvFirmwareSearchLocation);
+        firmwareSearchLocationTextView = (TextView) rootview.findViewById(R.id.tvFirmwareSearchLocation);
 
-        btnUpload = (Button) findViewById(R.id.btnUploadFirmware);
-        btnDeploy = (Button) findViewById(R.id.btnDeployFirmware);
-        btnCancel = (Button) findViewById(R.id.btnCancelFirmware);
+        btnUpload = (Button) rootview.findViewById(R.id.btnUploadFirmware);
+        btnDeploy = (Button) rootview.findViewById(R.id.btnDeployFirmware);
+        btnCancel = (Button) rootview.findViewById(R.id.btnCancelFirmware);
 
-        stateTextView = (TextView) findViewById(R.id.txtFirmwareState);
-        versionTextView = (TextView) findViewById(R.id.txtFirmwareVersion);
-        statusTextView = (TextView) findViewById(R.id.txtFirmwareStatusMsg);
-        timeoutEditText = (EditText) findViewById(R.id.timeoutEditText);
+        stateTextView = (TextView) rootview.findViewById(R.id.txtFirmwareState);
+        versionTextView = (TextView) rootview.findViewById(R.id.txtFirmwareVersion);
+        statusTextView = (TextView) rootview.findViewById(R.id.txtFirmwareStatusMsg);
+        timeoutEditText = (EditText) rootview.findViewById(R.id.timeoutEditText);
 
         currentAppliance = (ReferenceAppliance) CurrentApplianceManager.getInstance().getCurrentAppliance();
 
         if (currentAppliance == null) {
-            finish();
+            getFragmentManager().popBackStack();
         } else {
-            final ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setTitle(currentAppliance.getNetworkNode().getName());
-            }
-
             btnUpload.setOnClickListener(clickListener);
             btnDeploy.setOnClickListener(clickListener);
             btnCancel.setOnClickListener(clickListener);
             updateButtons(true, false, false);
 
-            firmwareUploadProgressBar = (ProgressBar) findViewById(R.id.progressUploadFirmware);
+            firmwareUploadProgressBar = (ProgressBar) rootview.findViewById(R.id.progressUploadFirmware);
             firmwareUploadProgressBar.setProgress(0);
-            firmwareImagesListView = (ListView) findViewById(R.id.lvFirmwareImages);
+            firmwareImagesListView = (ListView) rootview.findViewById(R.id.lvFirmwareImages);
         }
+
+        return rootview;
     }
 
+
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
 
         readFirmwareFiles();
@@ -217,7 +218,9 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
             public void onPortUpdate(DICommPort port) {
                 firmwarePort.removePortListener(this);
                 boolean canUpgrade = firmwarePort.canUpgrade();
-                ((TextView) findViewById(R.id.tvCanUpgrade)).setText(canUpgrade ? "Yes" : "No");
+                if (isAdded()) {
+                    ((TextView) getActivity().findViewById(R.id.tvCanUpgrade)).setText(canUpgrade ? "Yes" : "No");
+                }
             }
 
             @Override
@@ -229,7 +232,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
 
         cancelFirmware();
@@ -246,7 +249,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
     }
 
     private void readFirmwareFiles() {
-        final File externalFilesDir = getExternalFilesDir(null);
+        final File externalFilesDir = getActivity().getExternalFilesDir(null);
         if (externalFilesDir == null) {
             return;
         }
@@ -254,9 +257,9 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
         final File[] files = externalFilesDir.listFiles(upgradeFilesFilter);
 
         if (files == null) {
-            Toast.makeText(FirmwareUpgradeActivity.this, R.string.no_firmware_directory_found, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.no_firmware_directory_found, Toast.LENGTH_SHORT).show();
         } else {
-            fwImageAdapter = new ArrayAdapter<File>(this, android.R.layout.simple_spinner_dropdown_item, files) {
+            fwImageAdapter = new ArrayAdapter<File>(getActivity(), android.R.layout.simple_spinner_dropdown_item, files) {
                 @NonNull
                 @Override
                 public View getView(final int position, final View convertView, final @NonNull ViewGroup parent) {
@@ -278,7 +281,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
         final int selectedItemPosition = firmwareImagesListView.getCheckedItemPosition();
 
         if (selectedItemPosition == ListView.INVALID_POSITION) {
-            Toast.makeText(FirmwareUpgradeActivity.this, R.string.select_a_firmware_image, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.select_a_firmware_image, Toast.LENGTH_SHORT).show();
         } else {
             File firmwareFile = fwImageAdapter.getItem(selectedItemPosition);
             final byte[] firmwareBytes = fileToBytes(firmwareFile);
