@@ -1,21 +1,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/locate_search_layout"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
+    android:paddingLeft="12dip"
+    android:paddingRight="12dip"
     android:layout_marginTop="20dp">
-
 
     <com.philips.cdp.digitalcare.util.CustomSearchView
         android:id="@+id/search_box"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="43dip"
         android:paddingLeft="10dp"
         android:paddingStart="10dp"
         android:paddingRight="10dp"
         android:paddingEnd="10dp"
-        android:background="@drawable/search_bar"
+        android:background="@drawable/consumer_search_bar1"
         android:drawableLeft="@drawable/uid_search_icon"
         android:drawableStart="@drawable/uid_search_icon"
         android:drawableRight="@drawable/uid_texteditbox_clear_icon"
@@ -30,47 +30,6 @@
         android:dividerHeight="@dimen/uid_divider_Height"
         android:textColor="@android:color/black"
         android:focusableInTouchMode="true"/>
-
-    <!--<RelativeLayout
-        android:id="@+id/search_box_parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@id/uid_search_icon_holder"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:background="@android:color/black"
-            android:visibility="visible">
-        </ImageView>
-
-        <com.philips.platform.uid.view.widget.EditText
-            android:id="@+id/search_box"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:paddingRight="40dip"
-            android:paddingLeft="50dip"
-            android:background="@android:color/transparent"
-            android:inputType="textPersonName">
-
-        </com.philips.platform.uid.view.widget.EditText>
-
-        <ImageView
-            android:id="@id/uid_search_icon_holder"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/uid_texteditbox_clear_icon"
-            android:visibility="visible">
-        </ImageView>
-
-    </RelativeLayout>-->
 
     <ImageView
         android:id="@+id/arabic_search_icon"

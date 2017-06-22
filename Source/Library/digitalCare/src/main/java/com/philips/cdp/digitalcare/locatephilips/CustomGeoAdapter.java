@@ -26,12 +26,11 @@ import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.locatephilips.models.AtosAddressModel;
 import com.philips.cdp.digitalcare.locatephilips.models.AtosLocationModel;
 import com.philips.cdp.digitalcare.locatephilips.models.AtosResultsModel;
-import com.philips.platform.uid.view.widget.SearchBox;
 
 import java.util.ArrayList;
 
 @SuppressLint("DefaultLocale")
-public class CustomGeoAdapter extends BaseAdapter implements Filterable ,SearchBox.FilterQueryChangedListener {
+public class CustomGeoAdapter extends BaseAdapter implements Filterable {
     private Context context;
     private ArrayList<AtosResultsModel> mResultModelSet;
     private ArrayList<AtosResultsModel> mOriginalSet;
@@ -64,6 +63,7 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable ,SearchB
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
+            System.out.println("********* context : "+context);
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             if(inflater!=null)
@@ -90,12 +90,11 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable ,SearchB
         LatLng end = new LatLng(lat, lng);
         holder.txtDistance.setText(getDistance(start,end));
         holder.txtTitle.setText(resultModel.getTitle());
-        holder.txtAddress.setText(addressModel.getAddress1() + "\n"
-                + addressModel.getCityState());
-        if ((addressModel.getPhone() == null) || (addressModel.getPhone() == ""))
+        holder.txtAddress.setText(addressModel.getCityState());
+       /* if ((addressModel.getPhone() == null) || (addressModel.getPhone() == ""))
             holder.txtPhone.setVisibility(View.GONE);
         else
-            holder.txtPhone.setText(addressModel.getPhone());
+            holder.txtPhone.setText(addressModel.getPhone());*/
         return convertView;
     }
 
@@ -107,18 +106,12 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable ,SearchB
         return mCustomFilter;
     }
 
-    @Override
-    public void onQueryTextChanged(CharSequence charSequence) {
-        System.out.println("******* charSequence : "+charSequence);
-    }
-
     private class ViewHolder {
 
         TextView txtTitle = null;
         TextView txtAddress = null;
         TextView txtPhone = null;
         TextView txtDistance = null;
-
     }
 
     private class CustomFilter extends Filter {
@@ -188,7 +181,7 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable ,SearchB
             dist = distance + " KM";
         }
 
-        dist = String.format("%.02f", distance);
+        dist = String.format("%.01f", distance);
         return dist;
     }
 }

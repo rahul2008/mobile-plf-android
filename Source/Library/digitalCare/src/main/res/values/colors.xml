@@ -181,5 +181,6 @@
     <color name="ratingbar_secondary">#CCD9BE</color>
     <color name="ratingbar_primary">#528E18</color>
     <color name="transparent">#00000000</color>
+    <color name="border_disable_color">#A6A6A7</color>
 
 </resources>

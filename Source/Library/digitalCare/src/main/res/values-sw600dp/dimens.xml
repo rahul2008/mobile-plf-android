@@ -25,7 +25,7 @@
     <dimen name="showlayout_padding_left">20dp</dimen>
     <dimen name="showlayout_padding_right">120dp</dimen>
     <dimen name="showlayout_margin_top">100dp</dimen>
-    <dimen name="placelistview_margin_top">200dp</dimen>
+    <dimen name="placelistview_margin_top">160dp</dimen>
     <dimen name="supportHomeHelpText_margin_top">20dp</dimen>
     <dimen name="actionbar_icon_margin">45dp</dimen>
 
