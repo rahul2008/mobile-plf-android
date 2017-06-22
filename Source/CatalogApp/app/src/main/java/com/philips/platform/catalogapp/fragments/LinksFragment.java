@@ -19,9 +19,14 @@ import android.widget.TextView;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentLinksBinding;
+import com.philips.platform.catalogapp.events.OptionMenuClickedEvent;
 import com.philips.platform.uid.utils.UIDClickableSpan;
 import com.philips.platform.uid.utils.UIDClickableSpanWrapper;
 import com.philips.platform.uid.view.widget.Label;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class LinksFragment extends BaseFragment {
     public static final String PHILIPS_SITE = "http://www.philips.com";
@@ -53,6 +58,7 @@ public class LinksFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
         FragmentLinksBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_links, container, false);
         binding.setFrag(this);
         mainLayout = binding.mainLayout;
@@ -71,16 +77,23 @@ public class LinksFragment extends BaseFragment {
         if (wasConfluenceHelpShowing) {
             mainLayout.setVisibility(View.GONE);
 
-            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
                     confluenceHelpPopUP = new PopupWindow(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     confluenceHelpPopUP.setContentView(getConfluencePageHelpView());
                     confluenceHelpPopUP.showAsDropDown(getActivity().findViewById(R.id.uid_toolbar));
                 }
-            }, 200);
+            });
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessage(OptionMenuClickedEvent event) {
+        dismissPopUP();
+    }
+
+
 
     @Override
     public int getPageTitle() {
@@ -91,6 +104,18 @@ public class LinksFragment extends BaseFragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean("showingHelp", wasConfluenceHelpShowing);
+    }
+
+    @Override
+    public void onDestroy() {
+        dismissPopUP();
+        super.onDestroy();
+    }
+
+    private void dismissPopUP() {
+        if (confluenceHelpPopUP != null && confluenceHelpPopUP.isShowing()) {
+            confluenceHelpPopUP.dismiss();
+        }
     }
 
     private boolean isNetworkConnected() {
