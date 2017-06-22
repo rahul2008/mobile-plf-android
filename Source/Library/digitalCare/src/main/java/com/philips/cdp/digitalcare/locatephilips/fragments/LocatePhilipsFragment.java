@@ -261,7 +261,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         createBitmap();
         mUtils = new Utils();
         try {
-          
+
             DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
                     (AnalyticsConstants.PAGE_FIND_PHILIPS_NEAR_YOU,
                             getPreviousName(), getPreviousName());

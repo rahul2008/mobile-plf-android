@@ -26,6 +26,7 @@
         android:minHeight="30dp"
         android:queryHint="Search"
         android:focusable="true"
+        android:textAlignment="center"
         android:divider="?attr/uidSeparator"
         android:dividerHeight="@dimen/uid_divider_Height"
         android:textColor="@android:color/black"
