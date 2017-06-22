@@ -69,9 +69,9 @@ node ('android&&device') {
             } 
             stage ('reporting') {
                 androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
-                junit allowEmptyResults: false, testResults: 'Source/Library/*/build/test-results/*/*.xml'
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/iap/build/reports/tests/debug', reportFiles: 'index.html', reportName: 'unit test debug']) 
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/iap/build/reports/tests/release', reportFiles: 'index.html', reportName: 'unit test release'])
+                junit allowEmptyResults: false, testResults: 'Source/Library/*/build/test-results/**/*.xml'
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/iap/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'unit test debug']) 
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/iap/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'unit test release'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/iap/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'coverage tests'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/iap/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests'])
                 archiveArtifacts '**/dependencies.lock'
