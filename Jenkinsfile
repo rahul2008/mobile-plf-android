@@ -47,14 +47,6 @@ node ('android&&docker') {
                 '''
             }
 
-           stage ('reporting') {
-                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
-                junit allowEmptyResults: true, testResults: 'Source/Library/*/build/test-results/**/*.xml'
-                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/dataServices/build/reports/tests/testReleaseUnitTest/release', reportFiles: 'index.html', reportName: 'unit test release']) 
-                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/dataServices/build/reports/tests/testDebugUnitTest/debug', reportFiles: 'index.html', reportName: 'unit test debug']) 
-                archiveArtifacts '**/dependencies.lock'
-            }
-
             if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
                 stage ('callIntegrationPipeline') {
                     if (BranchName =~ "/") {
@@ -75,7 +67,14 @@ node ('android&&docker') {
                         echo errors[i]; 
                     }
                 }                
-            }     
+            }   
+            stage ('reporting') {
+                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
+                junit allowEmptyResults: false, testResults: 'Source/Library/*/build/test-results/**/*.xml'
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/dataServices/build/reports/tests/testReleaseUnitTest/release', reportFiles: 'index.html', reportName: 'unit test release']) 
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/dataServices/build/reports/tests/testDebugUnitTest/debug', reportFiles: 'index.html', reportName: 'unit test debug']) 
+                archiveArtifacts '**/dependencies.lock'
+            }  
             stage('informing') {
             	step([$class: 'StashNotifier'])
             	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
