@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="@string/rate_playstore_buttontext"/>
+                android:text="@string/rate_philips_buttontext"/>
 
             <com.philips.platform.uid.view.widget.Button
                 style="@style/UIDDefaultButton"
@@ -56,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="@string/rate_philips_buttontext"
+                android:text="@string/rate_playstore_buttontext"
                 app:uidComponentType="Secondary"/>
         </LinearLayout>
     </LinearLayout>
