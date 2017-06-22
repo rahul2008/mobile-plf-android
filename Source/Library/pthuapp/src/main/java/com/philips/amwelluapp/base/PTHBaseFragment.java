@@ -15,7 +15,7 @@ public class PTHBaseFragment extends Fragment implements UIBaseView{
 
 
     FragmentLauncher mFragmentLauncher;
-    protected ProgressBar mProgressBar;
+    protected ProgressBar mPTHBaseFragmentProgressBar;
     @Override
     public void finishActivityAffinity() {
 
@@ -36,14 +36,14 @@ public class PTHBaseFragment extends Fragment implements UIBaseView{
 }
 
     public void showProgressBar() {
-        if (mProgressBar != null) {
-            mProgressBar.setVisibility(View.VISIBLE);
+        if (mPTHBaseFragmentProgressBar != null) {
+            mPTHBaseFragmentProgressBar.setVisibility(View.VISIBLE);
         }
     }
 
     public void hideProgressBar() {
-        if (mProgressBar != null) {
-            mProgressBar.setVisibility(View.GONE);
+        if (mPTHBaseFragmentProgressBar != null) {
+            mPTHBaseFragmentProgressBar.setVisibility(View.GONE);
         }
     }
 
