@@ -240,7 +240,7 @@
 
     <!--Hyperlink page-->
     <string name="page_title_links">Links</string>
-    <string name="links_heading">Heading</string>
+    <string name="links_heading">Hyperlink</string>
     <string name="links_description">Integer bibendum erat nunc, vitae consequat odio fringilla ut.
         In pharetra sem quis sodales efficitur. Nam rhoncus mauris sed purus ullamcorper aliquet.
         Volutpat consequat odio fringilla visit the  <a href="http://www.philips.com">Philips website</a> sed placerat dapibus, venenatis eu ligula. Quisque id malesuda lectus. Ut ac commodo diam.

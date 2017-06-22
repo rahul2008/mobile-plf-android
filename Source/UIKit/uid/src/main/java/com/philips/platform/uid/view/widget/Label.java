@@ -30,6 +30,8 @@ import com.philips.platform.uid.utils.UIDClickableSpan;
 import com.philips.platform.uid.utils.UIDClickableSpanWrapper;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
 
+import java.util.ArrayList;
+
 import static com.philips.platform.uid.thememanager.ThemeUtils.buildColorStateList;
 
 public class Label extends AppCompatTextView {
@@ -66,6 +68,13 @@ public class Label extends AppCompatTextView {
     public void setHyperLinkColors(@ColorRes int resID) {
         linkColors = buildColorStateList(getContext().getResources(),
                 getContext().getTheme(), resID);
+        if (getText() instanceof Spanned) {
+            Spanned text = (Spanned) getText();
+            UIDClickableSpan[] spans = text.getSpans(0, text.length(), UIDClickableSpan.class);
+            for (UIDClickableSpan span : spans) {
+                span.setColors(linkColors);
+            }
+        }
     }
 
     public ColorStateList getHyperLinkColors() {
@@ -167,6 +176,24 @@ public class Label extends AppCompatTextView {
             }
         }
         return string;
+    }
+
+    @Override
+    public URLSpan[] getUrls() {
+        if (getText() instanceof Spanned) {
+            Spanned text = (Spanned) getText();
+            UIDClickableSpanWrapper[] spans = text.getSpans(0, text.length(), UIDClickableSpanWrapper.class);
+            if (spans.length > 0) {
+                ArrayList<URLSpan> urlSpanList = new ArrayList<>();
+                for (int index = 0; index < spans.length; index++) {
+                    if (spans[index].getWrappedSpan() instanceof URLSpan) {
+                        urlSpanList.add((URLSpan) spans[index].getWrappedSpan());
+                    }
+                }
+                return urlSpanList.toArray(new URLSpan[0]);
+            }
+        }
+        return super.getUrls();
     }
 
     @Override

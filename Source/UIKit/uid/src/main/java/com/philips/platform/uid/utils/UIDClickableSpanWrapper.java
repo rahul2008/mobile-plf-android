@@ -47,4 +47,8 @@ public class UIDClickableSpanWrapper extends UIDClickableSpan {
         }
         return super.getTag();
     }
+
+    public ClickableSpan getWrappedSpan() {
+        return wrappedSpan;
+    }
 }

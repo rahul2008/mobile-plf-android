@@ -5,12 +5,15 @@
  */
 package com.philips.platform.uid.components.label;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.rule.ActivityTestRule;
 import android.text.Spannable;
 import android.text.style.MetricAffectingSpan;
+import android.text.style.URLSpan;
 
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.actions.ActionDown;
@@ -43,11 +46,18 @@ public class LinksTest {
     }
 
     @Test
-    public void verifyNumOfUIDWrapperSpansIsOne() {
+    public void verifyNumOfUIDWrapperSpansAreTwo() {
         getLinksLabelInteraction().check(ViewAssertions.matches(isEnabled()));
         Spannable text = (Spannable) initLabelWithInterceptor().getText();
         UIDClickableSpanWrapper[] uidSpans = text.getSpans(0, text.length(), UIDClickableSpanWrapper.class);
-        assertEquals(uidSpans.length, 1);
+        assertEquals(2, uidSpans.length);
+    }
+
+    @Test
+    public void veriyTotalNumberOfURLAreTwo() {
+        getLinksLabelInteraction().check(ViewAssertions.matches(isEnabled()));
+        URLSpan[] urls = initLabelWithInterceptor().getUrls();
+        assertEquals(2, urls.length);
     }
 
     //Verifies that we are not updating font size or typeface
@@ -74,9 +84,9 @@ public class LinksTest {
     @Test
     public void verifySpanDefaultColorIsSameAsSpec() {
         getLinksLabelInteraction().perform(new ActionDown());
-        int pressedColor = getClickableSpan(0).getColors().getColorForState(new int[]{android.R.attr.state_enabled}, android.R.color.white);
+        int defColor = getClickableSpan(0).getColors().getColorForState(new int[]{android.R.attr.state_enabled}, android.R.color.white);
         int hyperLinkThemedNormalColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidHyperlinkDefaultNormalTextColor);
-        assertEquals(pressedColor, hyperLinkThemedNormalColor);
+        assertEquals(defColor, hyperLinkThemedNormalColor);
     }
 
     @Test
@@ -91,9 +101,34 @@ public class LinksTest {
     public void verifySpanVisitedColorIsSameAsSpec() {
         initLabelWithInterceptor();
         getLinksLabelInteraction().perform(ViewActions.click());
-        int pressedColor = getClickableSpan(0).getColors().getColorForState(new int[]{R.attr.uid_state_visited}, android.R.color.white);
+        int visitedColor = getClickableSpan(0).getColors().getColorForState(new int[]{R.attr.uid_state_visited}, android.R.color.white);
         int hyperLinkThemedVisitedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidHyperlinkDefaultVisitedTextColor);
-        assertEquals(pressedColor, hyperLinkThemedVisitedColor);
+        assertEquals(visitedColor, hyperLinkThemedVisitedColor);
+    }
+
+    @Test
+    public void verifySpanCustomDefaultColorIsSame() {
+        initLabelWithInterceptor();
+        getLinksLabelInteraction().perform(ViewActions.click());
+        getClickableSpan(0).setColors(getColorList());
+        int visitedColor = getClickableSpan(0).getColors().getColorForState(new int[]{android.R.attr.state_enabled}, android.R.color.white);
+        assertEquals(Color.RED, visitedColor);
+    }
+
+    @Test
+    public void verifySpanCustomNormalColorIsSame() {
+        initLabelWithInterceptor();
+        getClickableSpan(0).setColors(getColorList());
+        int visitedColor = getClickableSpan(0).getColors().getColorForState(new int[]{android.R.attr.state_pressed}, android.R.color.white);
+        assertEquals(Color.GREEN, visitedColor);
+    }
+
+    @Test
+    public void verifySpanCustomVisitedColorIsSame() {
+        initLabelWithInterceptor();
+        getClickableSpan(0).setColors(getColorList());
+        int visitedColor = getClickableSpan(0).getColors().getColorForState(new int[]{R.attr.uid_state_visited}, android.R.color.white);
+        assertEquals(Color.BLUE, visitedColor);
     }
 
     private UIDClickableSpanWrapper getClickableSpan(int index) {
@@ -120,4 +155,10 @@ public class LinksTest {
             return true;
         }
     };
+
+    private ColorStateList getColorList() {
+        int[][] states = new int[][]{{android.R.attr.state_enabled}, {android.R.attr.state_pressed}, {R.attr.uid_state_visited}};
+        int[] colors = new int[]{Color.RED, Color.GREEN, Color.BLUE};
+        return new ColorStateList(states, colors);
+    }
 }
