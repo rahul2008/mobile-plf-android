@@ -5,7 +5,6 @@
 
 package com.philips.cdp2.demouapp.port.air;
 
-
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 
 import java.util.HashMap;
