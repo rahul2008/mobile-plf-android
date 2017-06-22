@@ -6,6 +6,7 @@
 package com.philips.platform.uid.utils;
 
 import android.content.res.ColorStateList;
+import android.support.annotation.VisibleForTesting;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.view.View;
@@ -18,8 +19,8 @@ public class UIDClickableSpan extends ClickableSpan {
 
     protected Runnable clickRunnable;
 
-    private boolean pressed;
-    private boolean visited;
+    private boolean isPressed;
+    private boolean isVisited;
     private int defaultColor;
     private int pressedColor;
     private int visitedColor;
@@ -46,11 +47,11 @@ public class UIDClickableSpan extends ClickableSpan {
     }
 
     public void setPressed(boolean pressed) {
-        this.pressed = pressed;
+        this.isPressed = pressed;
     }
 
     public void setVisited(boolean visited) {
-        this.visited = visited;
+        this.isVisited = visited;
     }
 
     public void setTag(CharSequence tag) {
@@ -62,7 +63,12 @@ public class UIDClickableSpan extends ClickableSpan {
     }
 
     public boolean isVisited() {
-        return visited;
+        return isVisited;
+    }
+
+    @VisibleForTesting
+    public boolean isPressed() {
+        return isPressed;
     }
 
     public void shouldDrawUnderline(boolean shouldDrawUnderline) {
@@ -83,11 +89,11 @@ public class UIDClickableSpan extends ClickableSpan {
         ds.setUnderlineText(shouldDrawUnderline);
     }
 
-    private int getLinkColor(int defColor) {
+    protected int getLinkColor(int defColor) {
         int linkColor = defColor;
         if (colorList != null) {
             linkColor = defaultColor;
-            if (pressed) {
+            if (isPressed) {
                 linkColor = pressedColor;
             } else if (isVisited()) {
                 linkColor = visitedColor;
