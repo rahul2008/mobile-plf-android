@@ -19,6 +19,7 @@ import android.text.Selection;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
@@ -86,12 +87,14 @@ public class Label extends AppCompatTextView {
     private CharSequence decorateLinks(CharSequence text) {
         CharSequence string = decorateSpannableString(text);
         if (string != null) {
+            setMovementMethod(LinkMovementMethod.getInstance());
             return string;
         }
 
         string = decorateSpannedString(text);
 
         if (string != null) {
+            setMovementMethod(LinkMovementMethod.getInstance());
             return string;
         }
 
