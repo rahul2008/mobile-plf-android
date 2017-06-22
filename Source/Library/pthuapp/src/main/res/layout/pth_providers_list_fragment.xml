@@ -42,13 +42,13 @@
         android:id="@+id/searchDoctorLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/uid_gray_level_10"
+        android:background="@color/uid_gray_level_5"
         android:layout_marginBottom="16dp">
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/searchBarLabel"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="?attr/uidLabelValueNormalTextColor"

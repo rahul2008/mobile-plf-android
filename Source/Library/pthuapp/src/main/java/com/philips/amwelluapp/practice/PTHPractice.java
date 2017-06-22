@@ -4,10 +4,6 @@ import com.americanwell.sdk.entity.practice.Practice;
 
 import java.util.List;
 
-/**
- * Created by philips on 6/19/17.
- */
-
 public class PTHPractice {
     List<Practice> practices;
 
