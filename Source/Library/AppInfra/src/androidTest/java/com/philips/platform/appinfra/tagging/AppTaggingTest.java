@@ -11,7 +11,7 @@ import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.ConfigValues;
-import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 
@@ -31,7 +31,7 @@ import static org.mockito.Mockito.mock;
 /**
  * AppTagging Test class.
  */
-public class AppTaggingTest extends MockitoTestCase {
+public class AppTaggingTest extends AppInfraInstrumentation {
 
 	private Context context;
 	private AppInfra mAppInfra;

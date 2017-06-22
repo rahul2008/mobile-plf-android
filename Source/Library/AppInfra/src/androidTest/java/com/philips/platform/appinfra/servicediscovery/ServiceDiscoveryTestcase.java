@@ -6,7 +6,7 @@ import android.content.Intent;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.ConfigValues;
-import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLanguage;
@@ -31,7 +31,7 @@ import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryMan
 /**
  * ServiceDiscovery Test class.
  */
-public class ServiceDiscoveryTestcase extends MockitoTestCase {
+public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 
 	private ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
 	private ServiceDiscoveryManager mServiceDiscoveryManager = null;

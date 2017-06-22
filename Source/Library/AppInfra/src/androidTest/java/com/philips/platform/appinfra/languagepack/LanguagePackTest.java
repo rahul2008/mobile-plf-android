@@ -7,7 +7,7 @@ import android.util.Log;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.FileUtils;
-import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.languagepack.model.LanguageList;
@@ -30,7 +30,7 @@ import java.util.ArrayList;
  * LanguagePack Test class.
  */
 
-public class LanguagePackTest extends MockitoTestCase {
+public class LanguagePackTest extends AppInfraInstrumentation {
 
     private final String LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY = "LANGUAGEPACK.SERVICEID";
     private final String LANGUAGE_PACK_CONFIG_SERVICE_ID = "appinfra.languagepack";

@@ -22,7 +22,6 @@ import java.util.TimeZone;
 public class TimeSyncDemo extends AppCompatActivity {
 
     TimeInterface mTimeSyncInterface;
-    Button refreshButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,11 +31,9 @@ public class TimeSyncDemo extends AppCompatActivity {
         final TextView localTimeTextvalue = (TextView) findViewById(R.id.localtimevalue);
 
         final TextView UTCtimeVal = (TextView) findViewById(R.id.utctimetextvalue);
-        final TextView isSynchronized = (TextView) findViewById(R.id.isSynchronized);
 
         Button localTimeUpdateButton = (Button) findViewById(R.id.localtimebutton);
-        refreshButton = (Button) findViewById(R.id.refreshbutton);
-        Button syncButton = (Button) findViewById(R.id.syncbutton);
+        Button refreshButton = (Button) findViewById(R.id.refreshbutton);
 
         mTimeSyncInterface = AILDemouAppInterface.mAppInfra.getTime();
 
@@ -52,7 +49,7 @@ public class TimeSyncDemo extends AppCompatActivity {
         localTimeUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                refreshButton.setVisibility(View.VISIBLE);
+
                 localTimeTextvalue.setText(getDeviceTime());
             }
         });
@@ -60,27 +57,11 @@ public class TimeSyncDemo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a");
-                isSynchronized.setText("Not Synchronized");
-                refreshButton.setVisibility(View.INVISIBLE);
                 mTimeSyncInterface.refreshTime();
                 Date date = mTimeSyncInterface.getUTCTime();
                 formatter.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
                 System.out.println("KAVYA DEMO"+" "+formatter.format(date));
                 UTCtimeVal.setText(formatter.format(date));
-
-            }
-        });
-
-        syncButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mTimeSyncInterface.isSynchronized()){
-                    refreshButton.setVisibility(View.VISIBLE);
-                    isSynchronized.setText("Synchronized");
-                }else{
-                    refreshButton.setVisibility(View.INVISIBLE);
-                    isSynchronized.setText("Not Synchronized");
-                }
             }
         });
     }
@@ -90,7 +71,5 @@ public class TimeSyncDemo extends AppCompatActivity {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a");
         return formatter.format(c.getTime());
     }
-
-
 
 }

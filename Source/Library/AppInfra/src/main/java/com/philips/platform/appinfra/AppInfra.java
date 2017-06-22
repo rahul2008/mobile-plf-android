@@ -391,7 +391,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
                     appInfraLogStatement.append(ai.getAppIdentity().getAppState());
 
                 } catch (IllegalArgumentException e) {
-                    Log.v(AppInfraLogEventID.AI_APPINFRA, e.getMessage());
+                    Log.e(AppInfraLogEventID.AI_APPINFRA, e.getMessage());
                 }
                 appInfraLogStatement.append("\"");
                 ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APPINFRA,"AppInfra initialized " +appInfraLogStatement.toString());

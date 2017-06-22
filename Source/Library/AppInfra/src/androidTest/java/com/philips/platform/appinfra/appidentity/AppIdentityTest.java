@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.ConfigValues;
-import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -20,7 +20,7 @@ import java.util.TreeSet;
 /**
  * AppIdentity Test class.
  */
-public class AppIdentityTest extends MockitoTestCase {
+public class AppIdentityTest extends AppInfraInstrumentation {
 
 	AppIdentityInterface mAppIdentityManager = null;
 	// Context context = Mockito.mock(Context.class);

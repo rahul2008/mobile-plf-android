@@ -3,8 +3,8 @@ package com.philips.platform.appinfra.abtestclient;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.ConfigValues;
-import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
@@ -19,7 +19,8 @@ import java.util.HashMap;
  * ABTestClient Test class.
  */
 
-public class ABTestClientTest extends MockitoTestCase {
+
+public class ABTestClientTest extends AppInfraInstrumentation {
 
     private ABTestClientInterface mAbTestClientInterface;
     private AppInfra mAppInfra;

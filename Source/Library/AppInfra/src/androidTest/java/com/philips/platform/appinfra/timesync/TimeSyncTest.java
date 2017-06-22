@@ -3,8 +3,8 @@ package com.philips.platform.appinfra.timesync;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.ConfigValues;
-import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 
@@ -18,7 +18,7 @@ import java.util.TimeZone;
 /**
  *TimeSync Test class.
  */
-public class TimeSyncTest extends MockitoTestCase {
+public class TimeSyncTest extends AppInfraInstrumentation {
 
     TimeInterface mTimeSyncInterface = null;
     // Context context = Mockito.mock(Context.class);
@@ -98,7 +98,7 @@ public class TimeSyncTest extends MockitoTestCase {
 
     }
 
-    public void testisSynchronized() {
+  /*  public void testisSynchronized() {
         if(mTimeSyncSntpClient.isSynchronized()){
             assertTrue(mTimeSyncSntpClient.isSynchronized());
         }
@@ -108,7 +108,7 @@ public class TimeSyncTest extends MockitoTestCase {
         }
 
 
-    }
+    }*/
 
 
 }

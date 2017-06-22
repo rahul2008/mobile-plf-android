@@ -6,7 +6,7 @@ import android.content.Context;
  * AppInfra Test class.
  */
 
-public class AppInfraTest extends MockitoTestCase {
+public class AppInfraTest extends AppInfraInstrumentation {
 
 
 

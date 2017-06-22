@@ -3,7 +3,7 @@ package com.philips.platform.appinfra.servicediscovery.model;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
 
@@ -14,7 +14,7 @@ import java.util.HashMap;
 /**
  * ServiceDiscovery Model Test class.
  */
-public class ServiceDiscoveryModelTest extends MockitoTestCase {
+public class ServiceDiscoveryModelTest extends AppInfraInstrumentation {
 
 
     private ServiceDiscovery mServiceDiscoveryModel = null;

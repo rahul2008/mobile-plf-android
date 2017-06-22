@@ -3,14 +3,14 @@ package com.philips.platform.appinfra.servicediscovery.model;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
 
 /**
  * ServiceDiscovery Service Test class.
  */
-public class ServiceDiscoveryServiceTest extends MockitoTestCase {
+public class ServiceDiscoveryServiceTest extends AppInfraInstrumentation {
 
     private ServiceDiscoveryService mServiceDiscoveyService = null;
 

@@ -10,7 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.ConfigValues;
-import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.rest.request.GsonCustomRequest;
 import com.philips.platform.appinfra.rest.request.ImageRequest;
@@ -29,7 +29,7 @@ import java.util.Map;
  * RestManager Test class.
  */
 
-public class RestManagerTest extends MockitoTestCase {
+public class RestManagerTest extends AppInfraInstrumentation {
 
     private RestInterface mRestInterface = null;
     private Context context;

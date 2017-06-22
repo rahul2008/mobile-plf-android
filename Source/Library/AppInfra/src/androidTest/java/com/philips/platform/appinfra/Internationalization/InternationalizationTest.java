@@ -3,14 +3,14 @@ package com.philips.platform.appinfra.Internationalization;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 
 /**
  * Internationalization Test class.
  */
 
-public class InternationalizationTest extends MockitoTestCase {
+public class InternationalizationTest extends AppInfraInstrumentation {
     InternationalizationInterface mInternationalizationInterface = null;
 
     @Override

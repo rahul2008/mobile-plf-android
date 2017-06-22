@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.android.volley.Cache;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 
 import java.io.File;
 
@@ -12,7 +12,7 @@ import java.io.File;
  * DiskCache Test class.
  */
 
-public class DiskCacheTest extends MockitoTestCase {
+public class DiskCacheTest extends AppInfraInstrumentation {
 
     private AppInfra mAppInfra;
     private Context context;
