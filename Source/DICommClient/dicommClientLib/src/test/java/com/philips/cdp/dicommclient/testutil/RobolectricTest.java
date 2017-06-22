@@ -1,5 +1,5 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -16,11 +16,11 @@ import org.robolectric.annotation.Config;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, minSdk = BuildConfig.minsdk, maxSdk = BuildConfig.maxsdk)
+@Config(constants = BuildConfig.class, sdk = BuildConfig.maxsdk)
 public abstract class RobolectricTest {
 
     @Before
-    public void before()throws Exception {
+    public void before() throws Exception {
         setUp();
     }
 
