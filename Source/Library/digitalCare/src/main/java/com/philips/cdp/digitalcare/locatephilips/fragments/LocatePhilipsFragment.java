@@ -25,6 +25,7 @@ import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
@@ -241,12 +242,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         if (isConnectionAvailable())
             requestATOSResponseData();
 
-        if (mView != null) {
-            ViewGroup parent = (ViewGroup) mView.getParent();
-            if (parent != null) {
-                parent.removeView(mView);
-            }
-        }
         try {
             mView = inflater.inflate(R.layout.consumercare_fragment_locate_philips, container, false);
         } catch (InflateException e) {
@@ -266,9 +261,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         createBitmap();
         mUtils = new Utils();
         try {
-            /*AnalyticsTracker.trackPage(
-                    AnalyticsConstants.PAGE_FIND_PHILIPS_NEAR_YOU,
-                    getPreviousName());*/
+          
             DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
                     (AnalyticsConstants.PAGE_FIND_PHILIPS_NEAR_YOU,
                             getPreviousName(), getPreviousName());
@@ -385,14 +378,24 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         mCurrentPosition = mMap.addMarker(mMarkerOptions);
     }
 
+    Handler handler = new Handler();
     @Override
     public void onResponseReceived(String response) {
         DigiCareLogger.i(TAG, "ATOS Response : " + response);
         closeProgressDialog();
+
         if (response != null && isAdded()) {
             AtosResponseParser atosResponseParser = new AtosResponseParser(
                     mParsingCompletedCallback);
             atosResponseParser.parseAtosResponse(response);
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(mMap!=null){
+                        initView();
+                    }
+                }
+            },2000);
         }
     }
 
@@ -1054,7 +1057,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        initView();
         DigiCareLogger.v(TAG, "onMAP Ready Callback : " + mMap);
     }
 
