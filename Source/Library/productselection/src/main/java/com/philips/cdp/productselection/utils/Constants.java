@@ -17,6 +17,7 @@ public class Constants {
 
     /* PAGE CONSTANTS */
     public static final String PAGE_WELCOME_SCREEN = "productselection:home";
+    public static final String PAGE_DIGITALCARE_HOME_SCREEN = "digitalcare:home";
     public static final String PAGE_LIST_SCREEN = "productselection:home:productslist";
     public static final String PAGE_DETAILS_SCREEN = "productselection:home:productslist:productdetail";
     public static final String PAGE_CONFIRMATION_SCREEN = "productselection:home:productslist:productdetail:confirmation";

@@ -125,7 +125,7 @@ public class ProductModelSelectionHelper {
         AppTaggingInterface taggingInterface =
                 getAPPInfraInstance().getTagging().createInstanceForComponent
                         (Constants.COMPONENT_NAME_PS, com.philips.cdp.productselection.BuildConfig.VERSION_NAME);
-        taggingInterface.setPreviousPage("vertical:productSelection:home");
+        taggingInterface.setPreviousPage(Constants.PAGE_DIGITALCARE_HOME_SCREEN);
         return taggingInterface;
     }
 
