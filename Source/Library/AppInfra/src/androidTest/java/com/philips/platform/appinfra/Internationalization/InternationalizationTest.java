@@ -3,15 +3,14 @@ package com.philips.platform.appinfra.Internationalization;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 /**
  * Created by 310238655 on 11/16/2016.
  */
 
-public class InternationalizationTest extends MockitoTestCase {
+public class InternationalizationTest extends AppInfraInstrumentation {
     InternationalizationInterface mInternationalizationInterface = null;
 
     private Context context;

@@ -6,7 +6,7 @@ import android.content.Context;
  * Created by philips on 3/13/17.
  */
 
-public class AppInfraTest extends MockitoTestCase {
+public class AppInfraTest extends AppInfraInstrumentation {
 
 
 

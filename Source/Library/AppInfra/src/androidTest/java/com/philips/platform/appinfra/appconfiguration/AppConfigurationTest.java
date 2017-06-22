@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.ConfigValues;
-import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * Created by 310238114 on 8/2/2016.
  */
-public class AppConfigurationTest extends MockitoTestCase {
+public class AppConfigurationTest extends AppInfraInstrumentation {
 
     AppConfigurationInterface mConfigInterface = null;
 

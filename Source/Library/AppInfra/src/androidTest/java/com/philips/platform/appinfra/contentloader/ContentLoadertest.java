@@ -10,7 +10,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.ConfigValues;
-import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.contentloader.model.ContentArticle;
 import com.philips.platform.appinfra.contentloader.model.ContentItem;
@@ -29,7 +29,7 @@ import java.util.List;
  * Created by 310243577 on 11/23/2016.
  */
 
-public class ContentLoadertest extends MockitoTestCase {
+public class ContentLoadertest extends AppInfraInstrumentation {
 
     private Context context;
     private AppInfra mAppInfra;
