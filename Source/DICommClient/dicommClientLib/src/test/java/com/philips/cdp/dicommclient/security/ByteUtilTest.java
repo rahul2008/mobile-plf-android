@@ -75,8 +75,8 @@ public class ByteUtilTest extends RobolectricTest {
 
     @Test
     public void testGetRandomBytes() {
-        byte[] byteArr1 = ByteUtil.getRandomByteArray(2);
-        byte[] byteArr2 = ByteUtil.getRandomByteArray(2);
+        byte[] byteArr1 = ByteUtil.getRandomByteArray(16);
+        byte[] byteArr2 = ByteUtil.getRandomByteArray(16);
 
         assertFalse(Arrays.equals(byteArr1, byteArr2));
     }
