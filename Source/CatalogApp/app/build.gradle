@@ -3,6 +3,16 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply plugin: 'de.felixschulze.gradle.hockeyapp'
 
+
+def supportLibraryVer = '25.3.1'
+def minSdkVer = 21
+def compileSdkVer = 25
+def targetSdkVer = 25
+def buildToolsVer = "25.0.2"
+def jUnitVer = 4.12
+def butterKnifeVer = "7.0.1"
+def eventbusVer = "3.0.0"
+
 buildscript {
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
@@ -123,8 +133,8 @@ hockeyapp {
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "${buildToolsVer}"
+    compileSdkVersion compileSdkVer
+    buildToolsVersion buildToolsVer
 
     defaultConfig {
         applicationId "com.philips.platform.catalogapp"

@@ -230,6 +230,8 @@
     <string name="page_title_dot_navigation">Dot navigation</string>
     <string name="page_number">Page %d</string>
     <string name="setting_list_one">Setting List 1</string>
+    <string name="setting_list_two">Setting List 2</string>
+    <string name="setting_list_three">Setting List 3</string>
     <string name="description_label">Description label</string>
     <string name="volume_down">Volume down</string>
     <string name="volume_up">Volume up</string>
