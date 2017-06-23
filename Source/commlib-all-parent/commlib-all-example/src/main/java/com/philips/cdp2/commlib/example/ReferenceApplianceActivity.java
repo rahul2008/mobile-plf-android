@@ -48,6 +48,8 @@ public abstract class ReferenceApplianceActivity extends AppCompatActivity {
 
     private CompoundButton switchLoopGet;
 
+    private EditText deviceNameEdit;
+
     private ReferenceAppliance currentAppliance;
 
     private final View.OnClickListener buttonClickListener = new View.OnClickListener() {
@@ -102,8 +104,6 @@ public abstract class ReferenceApplianceActivity extends AppCompatActivity {
             }
         }
     };
-
-    private EditText deviceNameEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
