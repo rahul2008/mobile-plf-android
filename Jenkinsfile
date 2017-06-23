@@ -11,7 +11,7 @@ properties([
 def MailRecipient = 'DL_CDP2_Callisto@philips.com, DL_CDP2_MobileUIToolkit@philips.com, ambati.muralikrishna@philips.com'
 def errors = []
 
-node ('android') {
+node ('android&&docker') {
 	timestamps {
 		try {
 
