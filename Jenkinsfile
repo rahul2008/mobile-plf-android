@@ -45,7 +45,7 @@ node ('android&&docker') {
                 sh '''#!/bin/bash -l
                     chmod -R 775 . 
                     cd ./Source/Library/PrxSample 
-                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
                 '''
             }
 
@@ -75,7 +75,7 @@ node ('android&&docker') {
                 androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
                 // junit allowEmptyResults: false, testResults: 'Source/Library/*/build/test-results/*/*.xml'
                 // publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/PrxSample/prx/reports/', reportFiles: 'index.html', reportName: 'androidTests']) 
-                archiveArtifacts '**/dependencies.lock'
+                archiveArtifacts '**/*dependencies*.lock'
             }    
             stage('informing') {
                 step([$class: 'StashNotifier'])
