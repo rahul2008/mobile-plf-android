@@ -11,7 +11,7 @@ properties([
 def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_App_chassis@philips.com '
 def errors = []
 
-node ('android&&device') {
+node ('android&&docker') {
 	timestamps {        
 		try {
             stage ('Checkout') {
@@ -25,7 +25,7 @@ node ('android&&device') {
                         chmod -R 775 . 
                         cd ./Source/DemoApp 
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
-                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test jacocoTestReport  zipDocuments artifactoryPublish
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test jacocoTestReport  zipDocuments artifactoryPublish
                     ''' 
                 }
             } 
@@ -35,7 +35,7 @@ node ('android&&device') {
                         chmod -R 775 . 
                         cd ./Source/DemoApp 
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint 
-                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test jacocoTestReport 
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test jacocoTestReport 
                     '''
                 }
             }
@@ -76,7 +76,6 @@ node ('android&&device') {
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/product-registration-lib/build/reports/jacoco/jacocoTestReport/html', reportFiles: 'index.html', reportName: 'jacocoTestReport']) 
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/product-registration-lib/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'unit test debug']) 
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/product-registration-lib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'unit test release']) 
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/product-registration-lib/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'coverage debug']) 
                 archiveArtifacts '**/dependencies.lock'
             }       
             stage('informing') {
