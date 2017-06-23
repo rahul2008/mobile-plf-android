@@ -8,7 +8,7 @@ package com.philips.platform.referenceapp.services;
 import android.content.Intent;
 
 import com.google.android.gms.iid.InstanceIDListenerService;
-import com.philips.platform.referenceapp.utils.PNLog;
+import com.philips.cdp.devicepair.utils.PNLog;
 
 /**
  * Created by philips on 08/03/17.

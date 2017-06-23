@@ -17,8 +17,8 @@ import com.philips.platform.referenceapp.interfaces.HandleNotificationPayloadInt
 import com.philips.platform.referenceapp.interfaces.PushNotificationTokenRegistrationInterface;
 import com.philips.platform.referenceapp.interfaces.RegistrationCallbacks;
 import com.philips.platform.referenceapp.services.RegistrationIntentService;
-import com.philips.platform.referenceapp.utils.PNLog;
-import com.philips.platform.referenceapp.utils.PushNotificationConstants;
+import com.philips.cdp.devicepair.utils.PNLog;
+import com.philips.cdp.devicepair.utils.PushNotificationConstants;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -9,7 +9,7 @@ import android.os.Bundle;
 
 import com.google.android.gms.gcm.GcmListenerService;
 import com.philips.platform.referenceapp.PushNotificationManager;
-import com.philips.platform.referenceapp.utils.PNLog;
+import com.philips.cdp.devicepair.utils.PNLog;
 
 public class PlatformGCMListenerService extends GcmListenerService {
 
