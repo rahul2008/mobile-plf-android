@@ -76,6 +76,7 @@ artifactory {
                 publishBuildInfo = true
                 publishArtifacts = true
                 publications ('aar')
+                properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
     }
