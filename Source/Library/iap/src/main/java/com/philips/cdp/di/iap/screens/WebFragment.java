@@ -75,6 +75,14 @@ public abstract class WebFragment extends InAppBaseFragment {
                 || errorCode == WebViewClient.ERROR_HOST_LOOKUP);
     }
 
+    public boolean handleBackEvent() {
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
+            return true;
+        }
+        return false;
+    }
+
     private class IAPWebViewClient extends WebViewClient {
 
         @SuppressWarnings("deprecation")
