@@ -298,6 +298,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
 
 }
 tasks.withType(Test) {
+    ignoreFailures = true
     maxHeapSize = '4g'
     scanForTestClasses = false
     include "**/*Test.class"
@@ -306,4 +307,3 @@ tasks.withType(Test) {
         jvmArgs '-noverify'
     }
 }
-
