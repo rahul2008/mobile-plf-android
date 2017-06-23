@@ -82,6 +82,7 @@ artifactory {
                 publishBuildInfo = true
                 publishArtifacts = true
                 publications ('apk')
+                properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
     }
