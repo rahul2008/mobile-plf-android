@@ -17,6 +17,12 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 public class PTHWelcomeFragment extends PTHBaseFragment implements BackEventListener {
     public static final String TAG = PTHWelcomeFragment.class.getSimpleName();
     private UIBasePresenter presenter;
+    private ProgressBar progressBar;
+
+    public FragmentLauncher getFragmentLauncher() {
+        return fragmentLauncher;
+    }
+
 
     private FragmentLauncher fragmentLauncher;
 
@@ -43,7 +49,7 @@ public class PTHWelcomeFragment extends PTHBaseFragment implements BackEventList
 
     @Override
     public void finishActivityAffinity() {
-
+        getActivity().finishAffinity();
     }
 
     @Override

@@ -1,5 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
+apply from: 'build-awsdk-dependencies.gradle'
+apply from: 'build.workaround-missing-resource.gradle'
+
 buildscript {
     repositories {
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
@@ -138,6 +141,13 @@ dependencies {
 
     compile 'com.android.support:support-fragment:25.3.1'
     compile(group: 'com.philips.cdp', name: 'cloudcontroller', version: '5.1.4' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    apply from: 'build-awsdk-dependencies.gradle'
     compile project(':awsdk')
+    testCompile 'org.mockito:mockito-all:1.10.17'
+    testCompile 'com.squareup.assertj:assertj-android:1.1.1'
+    testCompile ('org.robolectric:robolectric:3.4-rc2'){
+        exclude module: 'commons-logging'
+        exclude module: 'support-v4'
+        }
+    testCompile "org.robolectric:shadows-support-v4:3.3.2"
+    testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
 }
