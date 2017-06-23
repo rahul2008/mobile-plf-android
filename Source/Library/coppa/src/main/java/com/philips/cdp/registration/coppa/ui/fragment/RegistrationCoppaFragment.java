@@ -676,11 +676,13 @@ public class RegistrationCoppaFragment extends Fragment implements NetworStateLi
 
     private void addFragment(Fragment fragment) {
         try {
-            final FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
-            fragmentTransaction.addToBackStack(fragment.getTag());
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException e) {
+            if (null != mFragmentManager) {
+                final FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                fragmentTransaction.add(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
+                fragmentTransaction.addToBackStack(fragment.getTag());
+                fragmentTransaction.commitAllowingStateLoss();
+            }
+        } catch (Exception e) {
             RLog.e(RLog.EXCEPTION,
                     "RegistrationCoppaFragment :FragmentTransaction Exception occured " +
                             "in addFragment  :" + e.getMessage());
