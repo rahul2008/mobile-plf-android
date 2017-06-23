@@ -233,7 +233,7 @@
     <item name="uidNavigationSecondaryTextColor">@color/uid_blue_level_45</item><!-- uidNavigationText -->
       <item name="uidNotificationBadgeDefaultAccentBackgroundColor">?attr/uidAccentLevel45
       </item><!-- uidControlAccent -->
-      <item name="uidNotificationBadgeDefaultBackgroundColor">@null
+      <item name="uidNotificationBadgeDefaultBackgroundColor">@color/uid_signal_red_level_60
       </item><!-- uidControlNotification -->
     <item name="uidNotificationBadgeDefaultTextColor">@color/uid_level_white</item><!-- uidControlAccentText -->
     <item name="uidNotificationBadgeOptionBackgroundColor">?attr/uidAccentLevel45</item><!-- uidControlAccent -->
@@ -686,7 +686,7 @@
     <item name="uidNavigationSecondaryTextColor">@color/uid_blue_level_45</item><!-- uidNavigationText -->
       <item name="uidNotificationBadgeDefaultAccentBackgroundColor">?attr/uidAccentLevel50
       </item><!-- uidControlAccent -->
-      <item name="uidNotificationBadgeDefaultBackgroundColor">@null
+      <item name="uidNotificationBadgeDefaultBackgroundColor">@color/uid_signal_red_level_60
       </item><!-- uidControlNotification -->
     <item name="uidNotificationBadgeDefaultTextColor">@color/uid_level_white</item><!-- uidControlAccentText -->
     <item name="uidNotificationBadgeOptionBackgroundColor">?attr/uidAccentLevel50</item><!-- uidControlAccent -->
@@ -1152,7 +1152,7 @@
     <item name="uidNavigationSecondaryTextColor">@color/uid_level_white</item><!-- uidNavigationText -->
       <item name="uidNotificationBadgeDefaultAccentBackgroundColor">?attr/uidAccentLevel45
       </item><!-- uidControlAccent -->
-      <item name="uidNotificationBadgeDefaultBackgroundColor">@null
+      <item name="uidNotificationBadgeDefaultBackgroundColor">@color/uid_signal_red_level_60
       </item><!-- uidControlNotification -->
     <item name="uidNotificationBadgeDefaultTextColor">@color/uid_level_white</item><!-- uidControlAccentText -->
     <item name="uidNotificationBadgeOptionBackgroundColor">?attr/uidAccentLevel45</item><!-- uidControlAccent -->
@@ -1276,14 +1276,14 @@
     <item name="uidTextBoxDefaultNormalBorderColor">#00FFFFFF</item><!-- uidInputBorder -->
     <item name="uidTextBoxDefaultNormalClearIconColor">#B2383838</item><!-- uidGrayTertiaryText -->
     <item name="uidTextBoxDefaultNormalHintTextColor">@color/uid_gray_level_35</item><!-- uidInputHintText -->
-      <item name="uidTextBoxDefaultNormalTextColor">@color/uid_level_white
+      <item name="uidTextBoxDefaultNormalTextColor">@color/uid_gray_level_75
       </item><!-- uidTextPrimaryVdg -->
     <item name="uidTextBoxDefaultFocusBackgroundColor">@color/uid_level_white</item><!-- uidInputFocus -->
     <item name="uidTextBoxDefaultFocusBorderColor">#00FFFFFF</item><!-- uidInputBorderFocus -->
     <item name="uidTextBoxDefaultFocusOutlineColor">#400D3459</item><!-- uidInputOutline -->
       <item name="uidTextBoxDefaultFocusSelectionBackgroundColor">#00FFFFFF
       </item><!-- uidInputTextSelectionBackground -->
-      <item name="uidTextBoxDefaultFocusSelectionTextColor">@color/uid_level_white
+      <item name="uidTextBoxDefaultFocusSelectionTextColor">@color/uid_gray_level_75
       </item><!-- uidTextPrimaryVdg -->
     <item name="uidTextBoxDefaultValidatedBackgroundColor">#FFF1D3</item><!-- uidInputValidatedBackground -->
     <item name="uidTextBoxDefaultValidatedBorderColor">#00FFFFFF</item><!-- uidInputValidatedBorder -->
@@ -1607,7 +1607,7 @@
     <item name="uidNavigationSecondaryTextColor">@color/uid_level_white</item><!-- uidNavigationText -->
       <item name="uidNotificationBadgeDefaultAccentBackgroundColor">?attr/uidAccentLevel45
       </item><!-- uidControlAccent -->
-      <item name="uidNotificationBadgeDefaultBackgroundColor">@null
+      <item name="uidNotificationBadgeDefaultBackgroundColor">@color/uid_signal_red_level_60
       </item><!-- uidControlNotification -->
     <item name="uidNotificationBadgeDefaultTextColor">@color/uid_level_white</item><!-- uidControlAccentText -->
     <item name="uidNotificationBadgeOptionBackgroundColor">?attr/uidAccentLevel45</item><!-- uidControlAccent -->
@@ -1731,14 +1731,14 @@
     <item name="uidTextBoxDefaultNormalBorderColor">#00FFFFFF</item><!-- uidInputBorder -->
     <item name="uidTextBoxDefaultNormalClearIconColor">#B2383838</item><!-- uidGrayTertiaryText -->
     <item name="uidTextBoxDefaultNormalHintTextColor">@color/uid_gray_level_35</item><!-- uidInputHintText -->
-      <item name="uidTextBoxDefaultNormalTextColor">@color/uid_level_white
+      <item name="uidTextBoxDefaultNormalTextColor">@color/uid_gray_level_75
       </item><!-- uidTextPrimaryVdg -->
     <item name="uidTextBoxDefaultFocusBackgroundColor">@color/uid_level_white</item><!-- uidInputFocus -->
     <item name="uidTextBoxDefaultFocusBorderColor">#00FFFFFF</item><!-- uidInputBorderFocus -->
     <item name="uidTextBoxDefaultFocusOutlineColor">#59337FBF</item><!-- uidInputOutline -->
       <item name="uidTextBoxDefaultFocusSelectionBackgroundColor">#00FFFFFF
       </item><!-- uidInputTextSelectionBackground -->
-      <item name="uidTextBoxDefaultFocusSelectionTextColor">@color/uid_level_white
+      <item name="uidTextBoxDefaultFocusSelectionTextColor">@color/uid_gray_level_75
       </item><!-- uidTextPrimaryVdg -->
     <item name="uidTextBoxDefaultValidatedBackgroundColor">#FFF1D3</item><!-- uidInputValidatedBackground -->
     <item name="uidTextBoxDefaultValidatedBorderColor">#00FFFFFF</item><!-- uidInputValidatedBorder -->

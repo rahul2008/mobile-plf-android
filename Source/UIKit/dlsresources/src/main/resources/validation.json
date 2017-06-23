@@ -18,7 +18,7 @@
         "color": "#FFF1D3"
       }
     },
-    "notification-badge": {
+    "control-notification": {
       "ultra-light": {
         "color-range": "signal-red"
       },
@@ -105,7 +105,7 @@
         "color": "#FFF1D3"
       }
     },
-    "notification-badge": {
+    "control-notification": {
       "ultra-light": {
         "color-range": "signal-red"
       },
@@ -192,7 +192,7 @@
         "color": "#FFF1D3"
       }
     },
-    "notification-badge": {
+    "control-notification": {
       "ultra-light": {
         "color-range": "signal-red"
       },
@@ -279,7 +279,7 @@
         "color": "#FFF1D3"
       }
     },
-    "notification-badge": {
+    "control-notification": {
       "ultra-light": {
         "color-range": "signal-red"
       },
@@ -366,7 +366,7 @@
         "color": "#FFBFBF"
       }
     },
-    "notification-badge": {
+    "control-notification": {
       "ultra-light": {
         "color-range": "signal-red"
       },
@@ -453,7 +453,7 @@
         "color": "#FFF1D3"
       }
     },
-    "notification-badge": {
+    "control-notification": {
       "ultra-light": {
         "color-range": "signal-orange"
       },
@@ -540,7 +540,7 @@
         "color": "#FFF1D3"
       }
     },
-    "notification-badge": {
+    "control-notification": {
       "ultra-light": {
         "color-range": "signal-red"
       },
@@ -627,7 +627,7 @@
         "color": "#FFF1D3"
       }
     },
-    "notification-badge": {
+    "control-notification": {
       "ultra-light": {
         "color-range": "signal-red"
       },

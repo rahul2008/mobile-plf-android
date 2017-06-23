@@ -211,6 +211,9 @@
       },
       "very-dark": {
         "color-code": 30
+      },
+      "very-dark-gray": {
+        "color-code": 30
       }
     },
     "color-text-light-disabled": {
@@ -231,6 +234,10 @@
         "opacity": 0.35
       },
       "very-dark": {
+        "color-code": 30,
+        "opacity": 0.35
+      },
+      "very-dark-gray": {
         "color-code": 30,
         "opacity": 0.35
       }
@@ -2215,7 +2222,7 @@
         "color-range": "gray"
       },
       "very-dark-gray": {
-        "reference": "text-tertiary"
+        "reference": "light-text-tertiary"
       }
     },
     "input-hover": {
@@ -2354,7 +2361,7 @@
         "color-range": "gray"
       },
       "very-dark-gray": {
-        "reference": "text-secondary"
+        "reference": "light-text-secondary"
       }
     },
     "input-text-disabled": {
@@ -3626,7 +3633,7 @@
         "opacity": 0.15
       },
       "very-dark-gray": {
-        "color-range": "gray",
+        "color-code": 15,
         "opacity": 0.15
       }
     },
@@ -4322,10 +4329,10 @@
         "reference": "color-text-verydark-primary"
       },
       "bright": {
-        "reference": "light-text-primary"
+        "reference": "neutral-text-primary"
       },
       "very-dark": {
-        "reference": "light-text-primary"
+        "reference": "neutral-text-primary"
       },
       "very-dark-gray": {
         "reference": "light-text-secondary"
@@ -4690,7 +4697,7 @@
         "color": "white"
       },
       "very-dark-gray": {
-        "color": "45"
+        "color-code": 45
       }
     },
     "toggle-on-disabled": {
@@ -4803,7 +4810,7 @@
         "color": "white"
       },
       "very-dark-gray": {
-        "color": "55"
+        "color-code": 55
       }
     },
     "toolbar-on-image": {

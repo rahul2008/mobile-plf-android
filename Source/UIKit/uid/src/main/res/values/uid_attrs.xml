@@ -417,10 +417,10 @@
     <attr name="uidWizardDefaultNormalOffLineColor" format="reference|color" />
     <attr name="uidWizardDefaultNormalOffSubtitleTextColor" format="reference|color" />
     <attr name="uidWizardDefaultNormalOffTitleTextColor" format="reference|color" />
+      <attr name="uidControlNotification" format="reference|color" />
     <attr name="uidValidatedMessageText" format="reference|color" />
     <attr name="uidInputValidatedBorder" format="reference|color" />
     <attr name="uidInputValidatedText" format="reference|color" />
     <attr name="uidInputValidatedBackground" format="reference|color" />
-      <attr name="uidNotificationBadge" format="reference|color" />
   </declare-styleable>
 </resources>
