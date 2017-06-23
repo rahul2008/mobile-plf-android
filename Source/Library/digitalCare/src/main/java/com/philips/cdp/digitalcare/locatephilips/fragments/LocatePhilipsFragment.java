@@ -144,6 +144,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private CustomSearchView mSearchBox = null;
     private ImageView mArabicSearchIcon = null;
     private ImageView mMarkerIcon = null;
+    private ImageView mCloseIcon = null;
     private ImageView mArabicMarkerIcon = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
@@ -378,7 +379,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         mCurrentPosition = mMap.addMarker(mMarkerOptions);
     }
 
-    Handler handler = new Handler();
+    private Handler handler = new Handler();
     @Override
     public void onResponseReceived(String response) {
         DigiCareLogger.i(TAG, "ATOS Response : " + response);
@@ -532,6 +533,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         mSearchBox.addTextChangedListener(this);
         mArabicSearchIcon = (ImageView) getActivity().findViewById(R.id.arabic_search_icon);
         mMarkerIcon = (ImageView) getActivity().findViewById(R.id.marker_icon);
+        mCloseIcon  = (ImageView) getActivity().findViewById(R.id.close_icon);
         mArabicMarkerIcon = (ImageView) getActivity().findViewById(R.id.arabic_marker_icon);
         mLocationDetailScroll = (ScrollView) getActivity().findViewById(
                 R.id.locationDetailScroll);
@@ -543,6 +545,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         mButtonCall.setOnClickListener(this);
         mArabicSearchIcon.setOnClickListener(this);
         mMarkerIcon.setOnClickListener(this);
+        mCloseIcon.setOnClickListener(this);
         mArabicMarkerIcon.setOnClickListener(this);
         mListView.setTextFilterEnabled(true);
         mListView.setOnItemClickListener(this);
@@ -876,6 +879,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         }else if ((v.getId() == R.id.marker_icon) || (v.getId() == R.id.arabic_marker_icon)) {
             mListView.setVisibility(View.GONE);
             removeSearchIcon();
+            removeListData();
             removeArabicSearchIcon();
             mSearchBox.setText(null);
         }else if (v.getId() == R.id.getdirection) {
@@ -909,6 +913,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 mLinearLayout.setVisibility(View.GONE);
             }
 
+        }else if((v.getId() == R.id.close_icon)){
+            hideListData();
         }
 
         /*if ((v.getId() == R.id.search_box) || (v.getId() == R.id.arabic_search_icon)) {
@@ -1132,6 +1138,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public void onMapClick(LatLng arg0) {
+        hideListData();
+    }
+
+    public void hideListData() {
+        System.out.println("******** Actvitiy is  :"+getActivity().getApplicationContext());
         removeListData();
         removeSearchIcon();
         removeArabicSearchIcon();
@@ -1153,7 +1164,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             mMarkerIcon.setVisibility(View.GONE);*/
     }
 
-    public void removeListData() {
+    private void removeListData() {
         if (mListView!=null && mListView.getVisibility() == View.VISIBLE)
             mListView.setVisibility(View.GONE);
     }

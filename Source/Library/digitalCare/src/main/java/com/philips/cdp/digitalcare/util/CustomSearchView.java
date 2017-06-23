@@ -35,7 +35,7 @@ public class CustomSearchView extends android.support.v7.widget.AppCompatAutoCom
                 System.out.println("******** touch");
                 CustomSearchView.this.setText("");
                 LocatePhilipsFragment locatePhilipsFragment = new LocatePhilipsFragment();
-                locatePhilipsFragment.removeListData();
+                locatePhilipsFragment.hideListData();
                 return false;
             }
         });

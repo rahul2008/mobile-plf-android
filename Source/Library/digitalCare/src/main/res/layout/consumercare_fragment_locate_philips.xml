@@ -96,6 +96,7 @@
                         custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
                     <ImageView
+                        android:id="@+id/close_icon"
                         android:layout_width="29dip"
                         android:layout_height="20dip"
                         android:layout_weight="1"
@@ -120,7 +121,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="0dp"
-                    android:layout_marginTop="10dip"
                     custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
                 <com.philips.platform.uid.view.widget.Button
