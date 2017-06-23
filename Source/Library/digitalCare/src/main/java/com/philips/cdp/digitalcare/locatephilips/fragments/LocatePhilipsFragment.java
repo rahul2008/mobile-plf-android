@@ -174,7 +174,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
         @Override
         public void onProviderEnabled(String provider) {
-          /*  DigiCareLogger.i(TAG, "Location Listener Enabled");*/
         }
 
         @Override
@@ -192,7 +191,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                     break;
 
                 default:
-                   /* DigiCareLogger.i(TAG, "Default in onStatusChanged");*/
                     break;
             }
         }
@@ -319,8 +317,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             }
         }, hm);
 
-
-        //return String.format(ATOS_URL_PORT, ctn, subcategory, country);
         return DigitalCareConfigManager.getInstance().getAtosUrl();
     }
 
@@ -919,65 +915,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         }else if((v.getId() == R.id.close_icon)){
             hideListData();
         }
-
-        /*if ((v.getId() == R.id.search_box) || (v.getId() == R.id.arabic_search_icon)) {
-            showListView();
-        } else if (v.getId() == R.id.getdirection) {
-            DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
-                    (AnalyticsConstants.ACTION_SEND_DATA,
-                            AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
-                            AnalyticsConstants.ACTION_VALUE_LOCATE_PHILIPS_SEND_GET_DIRECTIONS);
-
-            if (isConnectionAvailable()) {
-                // check sourcelat and sourcelng
-                if (mSourceLat == 0 && mSourceLng == 0) {
-
-                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-                        int hasPermission = getActivity().checkSelfPermission(Manifest.permission.
-                                ACCESS_COARSE_LOCATION);
-                        if (hasPermission != PackageManager.PERMISSION_GRANTED) {
-                            requestPermissions(new String[]{Manifest.permission.
-                                            ACCESS_COARSE_LOCATION},
-                                    REQUEST_CODE_ASK_PERMISSIONS);
-                        }
-                    } else {
-                        gpsAlertView.showAlert(this, -1,
-                                R.string.gps_disabled,
-                                android.R.string.yes, android.R.string.no);
-                    }
-                } else {
-                    gpsAlertView.removeAlert();
-                    trackToMe(new LatLng(mSourceLat, mSourceLng), new LatLng(
-                            mDestinationLat, mDestinationLng));
-                }
-
-                mLinearLayout.setVisibility(View.GONE);
-            }
-
-        } else if ((v.getId() == R.id.marker_icon) || (v.getId() == R.id.arabic_marker_icon)) {
-            mListView.setVisibility(View.GONE);
-            removeSearchIcon();
-
-            removeArabicSearchIcon();
-
-            mSearchBox.setText(null);
-        } else if (v.getId() == R.id.call) {
-            mLinearLayout.setVisibility(View.GONE);
-            DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
-                    (AnalyticsConstants.ACTION_SEND_DATA,
-                            AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
-                            AnalyticsConstants.ACTION_VALUE_LOCATE_PHILIPS_CALL_LOCATION);
-
-            if (mAtosResponse != null && mPhoneNumber != null && !mAtosResponse.getSuccess()) {
-                DigiCareLogger.e(TAG, mAtosResponse.getCdlsErrorModel()
-                        .getErrorMessage());
-            } else if (mUtils.isSimAvailable(getActivity())) {
-                callPhilips();
-            } else if (!mUtils.isSimAvailable(getActivity())) {
-                DigiCareLogger.v(TAG, "Check the SIM");
-                showAlert(getActivity().getString(R.string.check_sim));
-            }
-        }*/
     }
 
     private void showListView() {
@@ -997,18 +934,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                             DigitalCareConfigManager.getInstance().getTaggingInterface().
                                     trackActionWithInfo(AnalyticsConstants.ACTION_SEND_DATA,
                                             contextData);
-
-                            /*if (count == 0) {
-                                showAlert(getResources().getString(
-                                        R.string.no_data_available));
-                            }*/
-
                             mListView.setAdapter(mAdapter);
                             mListView.setVisibility(View.VISIBLE);
                             mLinearLayout.setVisibility(View.GONE);
-                           /* if (mSearchIcon.getVisibility() == View.VISIBLE)
-                                mMarkerIcon.setVisibility(View.VISIBLE);*/
-
                             if (mArabicSearchIcon.getVisibility() == View.VISIBLE)
                                 mArabicMarkerIcon.setVisibility(View.VISIBLE);
                         }
@@ -1197,8 +1125,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public void afterTextChanged(Editable s) {
-        if(s.length() == 0)
+        if(s.toString().length() == 0){
             hideListData();
+            return;
+        }
         showListView();
 
     }
