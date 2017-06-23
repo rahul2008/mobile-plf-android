@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+<string name="Select_Product_Title">Вибрати виріб</string>
+<string name="Select_Product_Desc">Щоб надати Вам кращу підтримку, повідомте нам, який виріб Ви маєте?</string>
+<string name="Select_Product_Find">Знайти виріб</string>
+<string name="Product_Title">Вироби</string>
+<string name="Product_Details_Select">Вибрати цей виріб</string>
+<string name="Change_Selected_Product">Змінити вибраний виріб</string>
+<string name="Confirmation_Title">Підтвердження</string>
+<string name="Confirmation_Selected">Ви вибрали</string>
+<string name="Confirmation_Change">Змінити</string>
+<string name="Confirmation_Change_Selection">Ви можете у будь-який момент змінити свій вибір.</string>
+<string name="Confirmation_Continue_Support">Перейти до підтримки</string>
+<string name="Continue_Btntxt">Продовжити</string>
+<string name="No_Internet">Немає Інтернет-зв’язку. Перевірте справність підключення через меню телефону Налаштування wi-fi чи Налаштування даних</string>
+    <string name="myphilips_CC">Обліковий запис MyPhilips</string>
+</resources>
