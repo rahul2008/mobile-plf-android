@@ -18,6 +18,7 @@ import com.philips.amwelluapp.base.UIBasePresenter;
 import com.philips.amwelluapp.providerslist.PTHProvidersListFragment;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.ProgressBar;
 
 public class PracticeFragment extends PTHBaseFragment implements BackEventListener {
 
@@ -35,6 +36,7 @@ public class PracticeFragment extends PTHBaseFragment implements BackEventListen
         View view = inflater.inflate(R.layout.practice, container, false);
         mTitle = (Label) view.findViewById(R.id.pth_id_practice_label);
         mPracticeRecyclerView = (RecyclerView)view.findViewById(R.id.pth_recycler_view_practice);
+        mPTHBaseFragmentProgressBar = (ProgressBar)view.findViewById(R.id.pth_id_practice_progress_bar);
         return view;
     }
 
@@ -48,7 +50,10 @@ public class PracticeFragment extends PTHBaseFragment implements BackEventListen
         super.onActivityCreated(savedInstanceState);
         mTitle.setText("To start a consult, pick a subject");
         mPracticeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        ((PTHPracticePresenter)mPresenter).fetchPractices();
+        if(null!=((PTHPracticePresenter)mPresenter)) {
+            showProgressBar();
+            ((PTHPracticePresenter) mPresenter).fetchPractices();
+        }
 
     }
 
@@ -80,7 +85,7 @@ public class PracticeFragment extends PTHBaseFragment implements BackEventListen
     }
 
     public void showPracticeList(PTHPractice practices){
-
+        hideProgressBar();
         mPracticeRecyclerViewAdapter = new PracticeRecyclerViewAdapter(getActivity(), practices);
         mPracticeRecyclerView.setAdapter(mPracticeRecyclerViewAdapter);
         mPracticeRecyclerViewAdapter.setmOnPracticeItemClickListener(new OnPracticeItemClickListener() {

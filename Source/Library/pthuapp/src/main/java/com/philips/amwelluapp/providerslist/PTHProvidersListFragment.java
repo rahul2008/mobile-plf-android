@@ -49,7 +49,8 @@ public class PTHProvidersListFragment extends PTHBaseFragment implements SwipeRe
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        pthProviderListPresenter.fetchProviderList(consumer,practice);
+        onRefresh();
+
     }
 
     public void setProvidersList(List<ProviderInfo> providersList){
@@ -63,6 +64,9 @@ public class PTHProvidersListFragment extends PTHBaseFragment implements SwipeRe
     }
     @Override
     public void onRefresh() {
+        if(!swipeRefreshLayout.isRefreshing()){
+            swipeRefreshLayout.setRefreshing(true);
+        }
         pthProviderListPresenter.fetchProviderList(consumer,practice);
     }
 
