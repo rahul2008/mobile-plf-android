@@ -3,6 +3,16 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 apply plugin: 'de.felixschulze.gradle.hockeyapp'
 
+
+def supportLibraryVer = '25.3.1'
+def minSdkVer = 21
+def compileSdkVer = 25
+def targetSdkVer = 25
+def buildToolsVer = "25.0.2"
+def jUnitVer = 4.12
+def butterKnifeVer = "7.0.1"
+def eventbusVer = "3.0.0"
+
 buildscript {
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
@@ -22,7 +32,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.2'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.1', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.2', changing: true
     }
 }
 
@@ -74,6 +84,7 @@ artifactory {
                 publishBuildInfo = true
                 publishArtifacts = true
                 publications('apk')
+                properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
     }
@@ -95,13 +106,14 @@ publishing {
 
             artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
 
-            pom.withXml {
+            pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
+                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleGroup)
-                    dependencyNode.appendNode('artifactId', it.moduleName)
-                    dependencyNode.appendNode('version', it.moduleVersion)
+                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
+                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
+                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
                 }
             }
         }
@@ -110,16 +122,20 @@ publishing {
 
 hockeyapp {
     apiToken = "b9d6e2f453894b4fbcb161b33a94f6c8"
+    commitSha = objcdp.getCommitHashLong()
+    buildServerUrl = objcdp.getArtifactoryUrl()
     releaseType = 2 // alpha
-    notify = 0
+    notify = 2
+    mappingFileNameRegex = "mapping.txt"
+    mandatory = 1
     status = 2
     notesType = 1
     notes = new File(file(objcdp.getExternalDocPath() + '/ReleaseNotes.md').absolutePath).getText('UTF-8')
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "${buildToolsVer}"
+    compileSdkVersion compileSdkVer
+    buildToolsVersion buildToolsVer
 
     defaultConfig {
         applicationId "com.philips.platform.catalogapp"

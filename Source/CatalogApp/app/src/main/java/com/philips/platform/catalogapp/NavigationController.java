@@ -37,6 +37,11 @@ public class NavigationController {
     private ViewDataBinding activityMainBinding;
     private int titleResource;
     private Toolbar toolbar;
+    private boolean shouldHandleBack = true;
+
+    public interface BackPressListener{
+        boolean handleBackPress();
+    }
 
     public NavigationController(final MainActivity mainActivity, final Intent intent, final ViewDataBinding activityMainBinding) {
         this.mainActivity = mainActivity;
@@ -49,11 +54,8 @@ public class NavigationController {
     protected void processBackButton() {
         if (hasBackStack()) {
             final Fragment fragmentAtTopOfBackStack = getFragmentAtTopOfBackStack();
-            if (!(fragmentAtTopOfBackStack instanceof ThemeSettingsFragment)) {
+            if (!(fragmentAtTopOfBackStack instanceof ThemeSettingsFragment) && shouldHandleBack) {
                 toggleHamburgerIcon();
-            } else {
-                showHamburgerIcon();
-                storeFragmentInPreference(null);
             }
         } else if (supportFragmentManager != null && supportFragmentManager.getBackStackEntryCount() == 0) {
             showHamburgerIcon();
@@ -129,7 +131,7 @@ public class NavigationController {
 
         FragmentTransaction transaction = supportFragmentManager.beginTransaction();
         transaction.replace(R.id.mainContainer, fragment, tag);
-        transaction.addToBackStack(null);
+        transaction.addToBackStack(tag);
         transaction.commit();
         toggleHamburgerIcon();
         return true;
@@ -239,14 +241,20 @@ public class NavigationController {
         themeSettingsIconVisible = savedInstanceState.getBoolean(THEMESETTINGS_BUTTON_DISPLAYED);
     }
 
-    public void updateStack() {
+    public boolean updateStack() {
+        shouldHandleBack = true;
         if (hasBackStack()) {
             final List<Fragment> fragments = supportFragmentManager.getFragments();
             final Fragment fragment = fragments.get(fragments.size() - 1);
-            if (fragment != null) {
-                removeFragmentInPreference(fragment.getClass().getName());
+            if (fragment instanceof BackPressListener) {
+                if(fragment.isVisible() && fragment.isAdded() && ((BackPressListener) fragment).handleBackPress()){
+                    shouldHandleBack = false;
+                } else {
+                    removeFragmentInPreference(fragment.getClass().getName());
+                }
             }
         }
+        return shouldHandleBack;
     }
 
     private void removeFragmentInPreference(String fragmentName) {

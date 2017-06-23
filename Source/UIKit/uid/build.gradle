@@ -3,7 +3,7 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
 def supportLibraryVer = '25.3.1'
-def minSdkVer = 19
+def minSdkVer = 21
 def compileSdkVer = 25
 def targetSdkVer = 25
 def buildToolsVer = "25.0.2"
@@ -28,7 +28,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.2'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.1', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.2', changing: true
     }
 }
 
@@ -81,6 +81,7 @@ artifactory {
                 publishBuildInfo = true
                 publishArtifacts = true
                 publications ('aar')
+                properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
     }
@@ -117,11 +118,12 @@ publishing {
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
+                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleGroup)
-                    dependencyNode.appendNode('artifactId', it.moduleName)
-                    dependencyNode.appendNode('version', it.moduleVersion)
+                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
+                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
+                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
                 }
             }
         }
@@ -138,6 +140,7 @@ android {
         versionCode 1
         versionName "1.0"
 
+        multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
