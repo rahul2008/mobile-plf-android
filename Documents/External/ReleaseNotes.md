@@ -1,5 +1,9 @@
 # Release Notes MobileUitoolkit Android
 
+SPRINT - MUITK.PI17.3.Sprint3
+Story 50165: Android Hyperlink
+Story 36554: Search Bar
+
 SPRINT - MUITK.PI17.3.Sprint1
 Story 36558: Dot_Navigation
 

@@ -37,7 +37,7 @@ public class NavigationController {
     private ViewDataBinding activityMainBinding;
     private int titleResource;
     private Toolbar toolbar;
-    private boolean shouldHandleBack;
+    private boolean shouldHandleBack = true;
 
     public interface BackPressListener{
         boolean handleBackPress();
