@@ -34,8 +34,8 @@ public class SslPinTrustManager implements X509TrustManager {
             throw new IllegalArgumentException("Certificate chain is empty.");
         }
 
-        if (authType == null || authType.isEmpty() || !authType.equalsIgnoreCase("RSA")) {
-            throw new CertificateException("Key exchange algorithm is not RSA");
+        if (authType == null || authType.isEmpty()) {
+            throw new IllegalArgumentException("Invalid key exchange algorithm.");
         }
 
         PublicKeyPin certificatePin = new PublicKeyPin(chain[0]);

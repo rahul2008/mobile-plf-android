@@ -24,6 +24,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class SslPinTrustManagerTest extends RobolectricTest {
     private SslPinTrustManager sslPinTrustManager;
 
+    private final String ALGORITHM = "don't care";
+
     @Mock
     private X509Certificate certificateMock;
 
@@ -57,7 +59,7 @@ public class SslPinTrustManagerTest extends RobolectricTest {
     @Test
     public void whenCheckingUnpinnedCertificate_ThenCertificateIsAccepted() {
         try {
-            sslPinTrustManager.checkServerTrusted(new X509Certificate[]{certificateMock}, "RSA");
+            sslPinTrustManager.checkServerTrusted(new X509Certificate[]{certificateMock}, ALGORITHM);
         } catch (CertificateException e) {
             fail(e.getMessage());
         }
@@ -66,8 +68,8 @@ public class SslPinTrustManagerTest extends RobolectricTest {
     @Test
     public void whenCheckingPinnedCertificate_ThenCertificateIsAccepted() {
         try {
-            sslPinTrustManager.checkServerTrusted(new X509Certificate[]{certificateMock}, "RSA");
-            sslPinTrustManager.checkServerTrusted(new X509Certificate[]{certificateMock}, "RSA");
+            sslPinTrustManager.checkServerTrusted(new X509Certificate[]{certificateMock}, ALGORITHM);
+            sslPinTrustManager.checkServerTrusted(new X509Certificate[]{certificateMock}, ALGORITHM);
         } catch (CertificateException e) {
             fail(e.getMessage());
         }
@@ -77,23 +79,23 @@ public class SslPinTrustManagerTest extends RobolectricTest {
     public void whenCheckingDifferentCertificateThenPinned_ThenCertificateIsRejected() throws Exception {
         when(networkNodeMock.getPin()).thenReturn("1234567890123456789012345678901234567890123");
 
-        sslPinTrustManager.checkServerTrusted(new X509Certificate[]{certificateMock}, "RSA");
+        sslPinTrustManager.checkServerTrusted(new X509Certificate[]{certificateMock}, ALGORITHM);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void whenChainIsNull_ThenCertificateIsRejected() throws Exception {
-        sslPinTrustManager.checkServerTrusted(null, "don't care");
+        sslPinTrustManager.checkServerTrusted(null, ALGORITHM);
         fail();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void whenChainIsEmpty_ThenCertificateIsRejected() throws Exception {
-        sslPinTrustManager.checkServerTrusted(new X509Certificate[]{}, "don't care");
+        sslPinTrustManager.checkServerTrusted(new X509Certificate[]{}, ALGORITHM);
         fail();
     }
 
-    @Test(expected = CertificateException.class)
-    public void whenAuthTypeIsNotRSA_ThenCertificateIsRejected() throws Exception {
+    @Test(expected = IllegalArgumentException.class)
+    public void whenAuthTypeIsNotSet_ThenCertificateIsRejected() throws Exception {
         sslPinTrustManager.checkServerTrusted(new X509Certificate[]{certificateMock}, null);
         fail();
     }
