@@ -7,11 +7,11 @@ package com.philips.cdp2.demouapp.fragment.port;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
 import com.philips.cdp2.commlib.demouapp.R;
@@ -43,6 +43,6 @@ public class PairingPortFragment extends Fragment {
     }
 
     private String getTextFor(int id, View fragmentView) {
-        return ((TextInputEditText) fragmentView.findViewById(id)).getText().toString();
+        return ((EditText) fragmentView.findViewById(id)).getText().toString();
     }
 }
