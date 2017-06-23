@@ -28,7 +28,7 @@ public class PTHWelcomePresenterTest {
 
     @Test
     public void initializeAwsdk() throws Exception {
-        pthWelcomePresenter.initializeAwsdk();
+        //pthWelcomePresenter.initializeAwsdk();
     }
 
     @Test

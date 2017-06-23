@@ -144,7 +144,10 @@ dependencies {
     compile project(':awsdk')
     testCompile 'org.mockito:mockito-all:1.10.17'
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
-    testCompile 'org.robolectric:robolectric:3.0'
+    testCompile ('org.robolectric:robolectric:3.4-rc2'){
+        exclude module: 'commons-logging'
+        exclude module: 'support-v4'
+        }
     testCompile "org.robolectric:shadows-support-v4:3.3.2"
     testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
 }
