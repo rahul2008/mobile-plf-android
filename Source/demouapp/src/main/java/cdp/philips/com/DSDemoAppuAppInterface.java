@@ -4,7 +4,6 @@ package cdp.philips.com;
 import android.content.Context;
 import android.content.Intent;
 
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -14,14 +13,14 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import cdp.philips.com.activity.DemoActivity;
-import cdp.philips.com.utility.DSHandler;
+import cdp.philips.com.utility.DemoAppManager;
 
 
 public class DSDemoAppuAppInterface implements UappInterface {
 
     private Context context;
     public AppInfraInterface appInfra;
-    DSHandler dsHandler;
+    DemoAppManager demoAppManager;
 
  /**
      * @param uappDependencies - App dependencies
@@ -31,8 +30,9 @@ public class DSDemoAppuAppInterface implements UappInterface {
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         context = uappSettings.getContext();
         appInfra = uappDependencies.getAppInfra();
-        dsHandler = new DSHandler(uappSettings.getContext(),appInfra);
-        dsHandler.initPreRequisite();
+        //demoAppManager = new DemoAppManager(uappSettings.getContext(),appInfra);
+        demoAppManager = DemoAppManager.getInstance();
+        demoAppManager.initPreRequisite(uappSettings.getContext(),appInfra);
     }
 
     /**

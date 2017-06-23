@@ -16,7 +16,7 @@ import cdp.philips.com.DSDemoAppuAppInterface;
  * Created by philips on 6/20/17.
  */
 
-public class LuncherActivity extends Activity {
+public class LauncherActivity extends Activity {
 
     private DSDemoAppuAppInterface dsDemoAppuAppInterface;
     private AppInfra gAppInfra;
@@ -29,7 +29,7 @@ public class LuncherActivity extends Activity {
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
     }
 
-    public void lunch(View v) {
+    public void launch(View v) {
         dsDemoAppuAppInterface.init(new UappDependencies(gAppInfra), new UappSettings(getApplicationContext()));
         dsDemoAppuAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
     }

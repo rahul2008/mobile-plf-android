@@ -13,6 +13,8 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.SyncType;
@@ -78,14 +80,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<OrmInsight, Integer> ormInsightDao;
     private Dao<OrmInsightMetaData, Integer> ormInsightMetaDataDao;
 
+
     private static DatabaseHelper sDatabaseHelper;
 
     private DatabaseHelper(Context context, final UuidGenerator uuidGenerator) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.uuidGenerator = uuidGenerator;
     }
-
-
     public static synchronized DatabaseHelper getInstance(Context context, final UuidGenerator uuidGenerator) {
         if (sDatabaseHelper == null) {
             return sDatabaseHelper = new DatabaseHelper(context,uuidGenerator);

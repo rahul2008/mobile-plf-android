@@ -33,6 +33,7 @@ import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
+import com.philips.platform.core.utils.UuidGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +41,12 @@ import java.util.List;
 import cdp.philips.com.R;
 import cdp.philips.com.characteristics.CharacteristicsDialogFragment;
 import cdp.philips.com.consents.ConsentDialogFragment;
+import cdp.philips.com.database.DatabaseHelper;
 import cdp.philips.com.database.datatypes.MomentType;
 import cdp.philips.com.insights.InsightFragment;
 import cdp.philips.com.registration.UserRegistrationInterfaceImpl;
 import cdp.philips.com.settings.SettingsFragment;
-import cdp.philips.com.utility.DSHandler;
+import cdp.philips.com.utility.DemoAppManager;
 import cdp.philips.com.utility.Utility;
 
 import static android.content.Context.ALARM_SERVICE;
@@ -282,15 +284,15 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     }
 
    /* String getLastStoredEmail() {
-        AppInfraInterface gAppInfra = ((DataSyncApplication) getContext().getApplicationContext()).gAppInfra;
-        SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
+        AppInfraInterface mAppInfra = ((DataSyncApplication) getContext().getApplicationContext()).mAppInfra;
+        SecureStorageInterface ssInterface = mAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
         String decryptedData = ssInterface.fetchValueForKey("last_email", ssError);
         return decryptedData;
     }*/
 
     String getLastStoredHsdpId() {
-        AppInfraInterface gAppInfra = DSHandler.gAppInfra;
+        AppInfraInterface gAppInfra = DemoAppManager.getInstance().getAppInfra();
         SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
         String decryptedData = ssInterface.fetchValueForKey("hsdp_id", ssError);
@@ -298,14 +300,14 @@ public class TemperatureTimeLineFragment extends Fragment implements View.OnClic
     }
 
     /*void storeLastEmail() {
-        AppInfraInterface gAppInfra = ((DataSyncApplication) getContext().getApplicationContext()).gAppInfra;
-        SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
+        AppInfraInterface mAppInfra = ((DataSyncApplication) getContext().getApplicationContext()).mAppInfra;
+        SecureStorageInterface ssInterface = mAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
         ssInterface.storeValueForKey("last_email", mUser.getEmail(), ssError);
     }*/
 
     void storeLastHsdpId() {
-        AppInfraInterface gAppInfra = DSHandler.gAppInfra;
+        AppInfraInterface gAppInfra = DemoAppManager.getInstance().getAppInfra();
         SecureStorageInterface ssInterface = gAppInfra.getSecureStorage();
         SecureStorageInterface.SecureStorageError ssError = new SecureStorageInterface.SecureStorageError();
         ssInterface.storeValueForKey("hsdp_id", mUser.getHsdpUUID(), ssError);
