@@ -13,6 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.contentloader.model.ContentItem;
 
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 + " PRIMARY KEY (" + KEY_ID + " , " + KEY_SERVICE_ID + ") )";
 
         sqLiteDatabase.execSQL(CREATE_CONTENT_TABLE);
-        Log.d("first run", "" + CONTENT_TABLE + "DB CREATED");
+        Log.d(AppInfraLogEventID.AI_CONTENT_LOADER,"first run"+" " + CONTENT_TABLE + "DB CREATED");
 
         final String CREATE_CONTENT_LOADER_TABLE = "CREATE TABLE IF NOT EXISTS " + CONTENT_LOADER_STATES + "("
                 + KEY_SERVICE_ID + " TEXT PRIMARY KEY,"
@@ -78,7 +79,7 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 + KEY_LAST_UPDATED_TIME + " DATETIME "
                 + ")";
         sqLiteDatabase.execSQL(CREATE_CONTENT_LOADER_TABLE);
-        Log.d("first run", "" + CONTENT_LOADER_STATES + "DB CREATED");
+        Log.d(AppInfraLogEventID.AI_CONTENT_LOADER,"first run"+"" + CONTENT_LOADER_STATES + "DB CREATED");
     }
 
     @Override
@@ -119,32 +120,32 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                     final long rowId = db.replace(CONTENT_TABLE, null, values);
                     if (rowId == -1) {
                         SQLitetransaction = false;
-                        Log.e("UPDATE FAIL", CONTENT_TABLE);
+                        Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"UPDATE FAIL"+CONTENT_TABLE);
                     } else {
-                        Log.i("UPDATE SUC", "row id " + CONTENT_TABLE + " " + rowId);
+                        Log.i(AppInfraLogEventID.AI_CONTENT_LOADER,"UPDATE Success row id " + CONTENT_TABLE + " " + rowId);
                     }
                 }
             }
             if (isDownloadComplete) { // last iteration of recursion
                 List<ContentItem>   databaseContentItems = getContentItems(serviceID);
-                Log.v("DELEET", "DB SIZE BEFORE DELETE= " + databaseContentItems.size());
+                Log.v(AppInfraLogEventID.AI_CONTENT_LOADER,"DELEET DB SIZE BEFORE DELETE= " + databaseContentItems.size());
                 final Date date = new Date(lastUpdatedTime);
                 db.delete(CONTENT_TABLE, KEY_SERVICE_ID + " = ? AND " + KEY_LAST_UPDATED_TIME + " != " + date.getTime(), new String[]{serviceID});
                 databaseContentItems = getContentItems(serviceID);
-                Log.v("DELETE", "DB SIZE AFTER DELETE= " + databaseContentItems.size());
+                Log.v(AppInfraLogEventID.AI_CONTENT_LOADER,"DELETE DB SIZE AFTER DELETE= " + databaseContentItems.size());
             }
             if (SQLitetransaction) {
                 updateContentLoaderStateTable(db, lastUpdatedTime, serviceID, expiryDate);
             }
         } catch (Exception e) {
             SQLitetransaction = false;
-            Log.w("insertQuery:", e);
+            Log.w(AppInfraLogEventID.AI_CONTENT_LOADER," Error in insertQuery:"+e);
         } finally {
             if (db != null && db.isOpen()) {
                 try {
                     db.close();
                 } catch (Exception e) {
-                    Log.e("insertQuery", e.getMessage());
+                    Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"Error in insertQuery"+e.getMessage());
                 }
             }
         }
@@ -166,13 +167,13 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {
-            Log.w("selectQuery:", e);
+            Log.w(AppInfraLogEventID.AI_CONTENT_LOADER,"Error in selectQuery:"+e);
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 try {
                     cursor.close();
                 } catch (Exception e) {
-                    Log.e("Content Iteams", e.getMessage());
+                    Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"Content Iteams "+e.getMessage());
                 }
             }
 
@@ -195,13 +196,13 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
             }
 
         } catch (Exception e) {
-            Log.e("SELECT FAIL", getAllIdQuery);
+            Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"SELECT FAIL "+getAllIdQuery);
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 try {
                     cursor.close();
                 } catch (Exception e) {
-                    Log.e("SELECT FAIL", e.getMessage());
+                    Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"SELECT FAIL"+e.getMessage());
                 }
             }
         }
@@ -228,13 +229,13 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
             }
 
         } catch (Exception e) {
-            Log.e("SELECT FAIL", getContentByIdQuery);
+            Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"SELECT FAIL "+getContentByIdQuery);
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 try {
                     cursor.close();
                 } catch (Exception e) {
-                    Log.e("SELECT FAIL", e.getMessage());
+                    Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"SELECT FAIL "+e.getMessage());
                 }
             }
 
@@ -268,13 +269,13 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {
-            Log.e("SELECT FAIL", getContentByIdQuery);
+            Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"SELECT FAIL "+getContentByIdQuery);
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 try {
                     cursor.close();
                 } catch (Exception e) {
-                    Log.e("SELECT FAIL", getContentByIdQuery);
+                    Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"SELECT FAIL "+getContentByIdQuery);
                 }
             }
         }
@@ -290,9 +291,9 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
 
         final long rowId = db.replace(CONTENT_LOADER_STATES, null, values);
         if (rowId == -1) {
-            Log.e("INS FAIL", CONTENT_LOADER_STATES);
+            Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"Update FAIL "+CONTENT_LOADER_STATES);
         } else {
-            Log.i("INS SUC", "row id " + CONTENT_LOADER_STATES + " " + rowId);
+            Log.i(AppInfraLogEventID.AI_CONTENT_LOADER,"Update Success row id " + CONTENT_LOADER_STATES + " " + rowId);
         }
         return rowId != -1;
     }
@@ -310,11 +311,11 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
                 try {
                     cursor.close();
                 } catch (Exception e) {
-                    Log.e("ServiceStateExpiry FAIL", e.getMessage());
+                    Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"ServiceStateExpiry FAIL"+e.getMessage());
                 }
             }
         } catch (Exception e) {
-            Log.e("ServiceStateExpiry FAIL", e.getMessage());
+            Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"ServiceStateExpiry FAIL"+e.getMessage());
         }
         return expiryTime;
     }
@@ -336,17 +337,17 @@ public class ContentDatabaseHandler extends SQLiteOpenHelper {
             final SQLiteDatabase db = this.getWritableDatabase();
             db.delete(CONTENT_TABLE, KEY_SERVICE_ID + " = ?", new String[]{serviceID});
             db.delete(CONTENT_LOADER_STATES, KEY_SERVICE_ID + " = ?", new String[]{serviceID});
-            Log.d("DEL SUC", "" + CONTENT_LOADER_STATES + " & " + CONTENT_TABLE);
+            Log.d(AppInfraLogEventID.AI_CONTENT_LOADER,"DEL Success " + CONTENT_LOADER_STATES + " & " + CONTENT_TABLE);
 
         } catch (Exception e) {
             result = false;
-            Log.e("DELETE FAIL", e.getMessage());
+            Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"DELETE FAIL "+e.getMessage());
         } finally {
             if (db != null && db.isOpen()) {
                 try {
                     db.close();
                 } catch (Exception e) {
-                    Log.e("CacheForContent FAIL", e.getMessage());
+                    Log.e(AppInfraLogEventID.AI_CONTENT_LOADER,"CacheForContent FAIL "+e.getMessage());
                 }
             }
         }

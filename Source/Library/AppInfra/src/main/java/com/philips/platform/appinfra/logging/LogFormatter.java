@@ -8,6 +8,7 @@ package com.philips.platform.appinfra.logging;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
 import java.text.DateFormat;
@@ -48,7 +49,7 @@ public class LogFormatter extends Formatter {
                     mComponentVersion = mAppinfra.getAppIdentity().getAppVersion();
             }
         } catch (IllegalArgumentException e) {
-            mAppinfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Logging", e.getMessage());
+            mAppinfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_LOGGING,"Logging"+e.getMessage());
         }
 
         componentNameAndVersion = mComponentName + " " + mComponentVersion;
@@ -89,7 +90,7 @@ public class LogFormatter extends Formatter {
                 try {
                     dictionary = (Map<String, Object>) params[1];
                 } catch (Exception e) {
-                    Log.v("AILOG", "Not a valid Map(Dictionary)");
+                    Log.v(AppInfraLogEventID.AI_LOGGING, "Not a valid Map(Dictionary)");
                 }
             }
         }
