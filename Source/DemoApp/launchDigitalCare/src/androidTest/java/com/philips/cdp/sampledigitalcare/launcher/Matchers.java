@@ -1,4 +1,4 @@
-package com.philips.cdp.sampledigitalcare;
+package com.philips.cdp.sampledigitalcare.launcher;
 
 /**
  * Created by arbin on 28/04/2017.
