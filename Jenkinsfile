@@ -11,7 +11,7 @@ properties([
 def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_App_chassis@philips.com'
 def errors = []
 
-node ('android&&device') {
+node ('android&&docker') {
 	timestamps {
 		try {
             stage ('Checkout') {
@@ -24,16 +24,16 @@ node ('android&&device') {
                     chmod -R 775 .
                     cd ./Source/DemoApp 
                     ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint 
-                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test zipDocuments artifactoryPublish
+                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test zipDocuments artifactoryPublish
                 '''
                 }
-            } else {
+            } else { 
                 stage ('build') {
                 sh '''#!/bin/bash -l
                     chmod -R 775 . 
                     cd ./Source/DemoApp 
                     ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint 
-                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test
+                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test
                 '''
                 }
             }
@@ -72,8 +72,6 @@ node ('android&&device') {
                 junit allowEmptyResults: false, testResults: 'Source/Library/*/build/test-results/**/*.xml'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/iap/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'unit test debug']) 
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/iap/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'unit test release'])
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/iap/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'coverage tests'])
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/iap/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests'])
                 archiveArtifacts '**/dependencies.lock'
             }    
             stage('informing') {
