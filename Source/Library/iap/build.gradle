@@ -308,5 +308,6 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     }
 }
 
-
-
+tasks.withType(Test) {
+  ignoreFailures = true
+}
