@@ -68,7 +68,6 @@ public class LinksFragment extends BaseFragment {
         FragmentLinksBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_links, container, false);
         binding.setFrag(this);
         mainLayout = binding.mainLayout;
-        binding.linkDescription.setMovementMethod(LinkMovementMethod.getInstance());
         binding.linkDescription.setSpanClickInterceptor(clickInterceptor);
         addLinksToButton(binding);
         showConfluenceHelpPopUP(savedInstanceState);
@@ -147,8 +146,6 @@ public class LinksFragment extends BaseFragment {
         SpannableString string = SpannableString.valueOf(buttonLabel.getText());
         string.setSpan(span, 0, string.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         buttonLabel.setText(string);
-
-        buttonLabel.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     protected View getConfluencePageHelpView() {

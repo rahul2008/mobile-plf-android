@@ -34,6 +34,22 @@ import java.util.ArrayList;
 
 import static com.philips.platform.uid.thememanager.ThemeUtils.buildColorStateList;
 
+/**
+ * Custom implementation of {@link AppCompatTextView} to support Hyperlinks and other DLS specs.
+ * <br> Default values:TextSize: 16sp, lineSpacingExtra: 6dp, lineSpacingMultiplier: 1
+ * font: centralesansbook
+ * <p>
+ * <h1>HyperLinks Guidelines</h1>
+ * To apply custom hyperlink colors use {@link #setHyperLinkColors(int)}. <br>
+ * 1. HyperLink can be provided in the HTML tags in strings and can be directly used in android:text in layouts.
+ * In this case don't use android:autoLink feature, as this removes the embedded urls.<br>
+ * 2. Use {@link UIDClickableSpan} to apply custom action not supported in HTML like having in-app actions.
+ * <p>
+ * <h2>Handling callback</h2>
+ * {@link UIDClickableSpan} provides it's own callback mechanism. Refer {@link UIDClickableSpan} for further details.<br>
+ * For embedded hyperlinks, use {@link Label#setSpanClickInterceptor(UIDClickableSpanWrapper.ClickInterceptor)} to intercept calls.
+ * </p>
+ */
 public class Label extends AppCompatTextView {
     private UIDClickableSpan[] pressedLinks;
     private ColorStateList linkColors;
@@ -45,14 +61,23 @@ public class Label extends AppCompatTextView {
         }
     };
 
+    /**
+     * {@inheritDoc}
+     */
     public Label(final Context context) {
         this(context, null);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Label(final Context context, final AttributeSet attrs) {
         this(context, attrs, R.attr.uidLabelStyle);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Label(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         processAttributes(context, attrs, defStyleAttr);
@@ -65,6 +90,12 @@ public class Label extends AppCompatTextView {
         attrsArray.recycle();
     }
 
+    /**
+     * Set the link colors. Calling this will change all the colors of the hyperlinks present.
+     * If different colors are reburied per span, consider using {@link UIDClickableSpan}
+     *
+     * @param resID Color selector resource id
+     */
     public void setHyperLinkColors(@ColorRes int resID) {
         linkColors = buildColorStateList(getContext().getResources(),
                 getContext().getTheme(), resID);
@@ -77,10 +108,18 @@ public class Label extends AppCompatTextView {
         }
     }
 
+    /**
+     * Returns colors applied on links.
+     *
+     * @return colors applied on links
+     */
     public ColorStateList getHyperLinkColors() {
         return linkColors;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setText(CharSequence text, BufferType type) {
         ensureHyperLinkColors();
@@ -178,6 +217,9 @@ public class Label extends AppCompatTextView {
         return string;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public URLSpan[] getUrls() {
         if (getText() instanceof Spanned) {
@@ -196,6 +238,9 @@ public class Label extends AppCompatTextView {
         return super.getUrls();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void drawableStateChanged() {
         super.drawableStateChanged();
@@ -204,6 +249,9 @@ public class Label extends AppCompatTextView {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         updateSpans(event);
@@ -266,15 +314,27 @@ public class Label extends AppCompatTextView {
         }
     }
 
+    /**
+     * Notifies the listener with link pressed. The same listener is used for all the links.
+     * Be sure to check for null before unwrapping values.
+     *
+     * @param externalClickInterceptor callback for URL spans
+     */
     public void setSpanClickInterceptor(UIDClickableSpanWrapper.ClickInterceptor externalClickInterceptor) {
         this.externalClickInterceptor = externalClickInterceptor;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Parcelable onSaveInstanceState() {
         return new SavedState(super.onSaveInstanceState(), getText());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onRestoreInstanceState(Parcelable state) {
         if (!(state instanceof SavedState)) {
