@@ -41,9 +41,9 @@ node ('android&&docker') {
                 sh '''#!/bin/bash -l
                 	chmod -R 775 . 
                     cd ./Source/MyDemoApp 
-                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
                 	cd ../Library 
-                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
                 '''
             }
 
@@ -73,7 +73,7 @@ node ('android&&docker') {
                 junit allowEmptyResults: false, testResults: 'Source/Library/*/build/test-results/**/*.xml'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/dataServices/build/reports/tests/testReleaseUnitTest/release', reportFiles: 'index.html', reportName: 'unit test release']) 
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/dataServices/build/reports/tests/testDebugUnitTest/debug', reportFiles: 'index.html', reportName: 'unit test debug']) 
-                archiveArtifacts '**/dependencies.lock'
+                archiveArtifacts '**/*dependencies*.lock'
             }  
             stage('informing') {
             	step([$class: 'StashNotifier'])
