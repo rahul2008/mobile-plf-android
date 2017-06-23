@@ -43,8 +43,8 @@ node ('android&&device') {
             stage ('save dependencies list') {
                 sh '''#!/bin/bash -l
                     chmod -R 775 . 
-                    cd ./Source/DemoApp && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
-                    cd ../Library && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+                    cd ./Source/DemoApp && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
+                    cd ../Library && ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
                 '''
             }
 
@@ -74,7 +74,7 @@ node ('android&&device') {
                 // junit allowEmptyResults: false, testResults: 'Source/Library/*/build/test-results/*/*.xml'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/securedblibrary/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'coverage debug']) 
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/securedblibrary/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests']) 
-                archiveArtifacts '**/dependencies.lock'
+                archiveArtifacts '**/*dependencies*.lock'
             }
             stage('informing') {
             	step([$class: 'StashNotifier'])
