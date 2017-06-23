@@ -56,4 +56,7 @@
     <string name="upload_firmware_finished">Uploading firmware finished</string>
     <string name="uploading_firmware_failed">"Uploading firmware failed: "</string>
     <string name="uploading_firmware_image">Uploading firmware image to device</string>
+    <string name="appliance_name">Appliance Name</string>
+    <string name="get">Get</string>
+    <string name="set">Set</string>
 </resources>

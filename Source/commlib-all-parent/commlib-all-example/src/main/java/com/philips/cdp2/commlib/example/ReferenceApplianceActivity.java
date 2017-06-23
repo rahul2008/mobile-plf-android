@@ -8,14 +8,18 @@ package com.philips.cdp2.commlib.example;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
+import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
+import com.philips.cdp.dicommclient.port.common.DevicePort;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.example.appliance.ReferenceAppliance;
@@ -33,7 +37,7 @@ import static java.lang.System.currentTimeMillis;
 
 public abstract class ReferenceApplianceActivity extends AppCompatActivity {
 
-    private static final String TAG = "ReferenceApplianceActivity";
+    private static final String TAG = "RefApplianceActivity";
 
     private static final String PROPERTY_DATETIME = "datetime";
     private final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm:ss");
@@ -99,6 +103,8 @@ public abstract class ReferenceApplianceActivity extends AppCompatActivity {
         }
     };
 
+    private EditText deviceNameEdit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,22 +123,51 @@ public abstract class ReferenceApplianceActivity extends AppCompatActivity {
         ((CompoundButton) findViewById(R.id.switchStayConnected)).setOnCheckedChangeListener(connectionCheckedChangeListener);
         ((CompoundButton) findViewById(R.id.switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
 
-//        final String cppId = getIntent().getExtras().getString(CPPID);
-//        currentAppliance = (ReferenceAppliance) ((App) getApplication()).getCommCentral().getApplianceManager().findApplianceByCppId(cppId);
+        deviceNameEdit = (EditText) findViewById(R.id.device_name);
+        Button setButton = (Button) findViewById(R.id.btn_set);
+        Button getButton = (Button) findViewById(R.id.btn_get);
+
         currentAppliance = getCurrentAppliance();
 
         if (currentAppliance == null) {
             finish();
         } else {
-            final ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setTitle(currentAppliance.getNetworkNode().getName());
-            }
             setupAppliance(currentAppliance);
 
             findViewById(R.id.btnGetTime).setEnabled(true);
             findViewById(R.id.btnSetTime).setEnabled(true);
         }
+
+        setButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        currentAppliance.getDevicePort().putProperties("name", deviceNameEdit.getText().toString());
+                    }
+                }
+        );
+
+        getButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentAppliance.getDevicePort().reloadProperties();
+            }
+        });
+
+        currentAppliance.getDevicePort().addPortListener(new DICommPortListener() {
+            @Override
+            public void onPortUpdate(DICommPort port) {
+                String devicename = ((DevicePort) port).getPortProperties().getName();
+                deviceNameEdit.setText(devicename);
+            }
+
+            @Override
+            public void onPortError(DICommPort port, Error error, String errorData) {
+                Log.e(TAG, "Device port error:" + errorData);
+            }
+        });
+
+        currentAppliance.getDevicePort().reloadProperties();
     }
 
     protected abstract ReferenceAppliance getCurrentAppliance();
