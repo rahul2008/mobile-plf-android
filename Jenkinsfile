@@ -45,7 +45,7 @@ node ('android&&device') {
             stage ('save dependencies list') {
                 sh '''#!/bin/bash -l
                     cd ./Source/Library
-                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependenciesGradleFormat
                 '''
             }
                         
