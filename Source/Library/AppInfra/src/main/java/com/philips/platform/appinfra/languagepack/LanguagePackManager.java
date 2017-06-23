@@ -229,12 +229,14 @@ public class LanguagePackManager implements LanguagePackInterface {
 			final String appLocale = mAppInfra.getInternationalization().getUILocaleString();
 
 			for (LanguagePackModel model : languagePackModels) {
-				if (model.getLocale().equalsIgnoreCase(appLocale)) {
-					selectedLanguageModel = model;
-					langModel.setVersion(model.getVersion());
-					langModel.setLocale(model.getLocale());
-					langModel.setUrl(model.getUrl());
-					return model.getUrl();
+				if (model != null && model.getLocale() != null && appLocale != null) {
+					if (model.getLocale().equalsIgnoreCase(appLocale)) {
+						selectedLanguageModel = model;
+						langModel.setVersion(model.getVersion());
+						langModel.setLocale(model.getLocale());
+						langModel.setUrl(model.getUrl());
+						return model.getUrl();
+					}
 				}
 			}
 			// TODO - commented fallback mechanizm

@@ -28,7 +28,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.1', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.2', changing: true
     }
 }
 
@@ -126,15 +126,16 @@ publishing {
                 throw new GradleException('no artifact published')
             } */
 
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")            
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
+                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleGroup)
-                    dependencyNode.appendNode('artifactId', it.moduleName)
-                    dependencyNode.appendNode('version', it.moduleVersion)
+                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
+                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
+                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
                 }
             }
         }
@@ -245,4 +246,8 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
     compile ('com.android.support:support-annotations:25.3.1')
     androidTestCompile 'junit:junit:4.12'
+}
+
+tasks.withType(Test) {
+  ignoreFailures = true
 }
