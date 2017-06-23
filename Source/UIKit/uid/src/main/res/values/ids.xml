@@ -43,12 +43,12 @@
     <item name="uid_notification_content" type="id"/>
     <item name="uid_notification_btn_1" type="id"/>
     <item name="uid_notification_btn_2" type="id"/>
-    <item name="uid_search_close_btn" type="id"/>
-    <item name="uid_search_clear_layout" type="id"/>
-    <item name="uid_search_src_text" type="id"/>
-    <item name="uid_search_back_button" type="id"/>
-    <item name="uid_search_box_layout" type="id"/>
-    <item name="uid_search_icon_holder" type="id"/>
+    <item name="uid_search_close_btn" type="id" />
+    <item name="uid_search_clear_layout" type="id" />
+    <item name="uid_search_src_text" type="id" />
+    <item name="uid_search_back_button" type="id" />
+    <item name="uid_search_box_layout" type="id" />
+    <item name="uid_search_icon_holder" type="id" />
     <item name="uid_search_decoy_view" type="id" />
     <item name="uid_search_decoy_hint_icon" type="id" />
     <item name="uid_search_decoy_hint_text" type="id" />

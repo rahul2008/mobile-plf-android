@@ -103,7 +103,7 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
         setListAdapter();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         isExpandableSearch = sharedPreferences.getBoolean(SEARCH_TYPE, true);
-        if (!isExpandableSearch){
+        if (!isExpandableSearch) {
             navIconToggler.hideNavigationIcon();
         }
         return fragmentSearchBoxBinding.getRoot();
@@ -112,7 +112,7 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.setGroupVisible(R.id.main_menus, false);
-        inflater.inflate(R.menu.country_search_menu,menu);
+        inflater.inflate(R.menu.country_search_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -150,7 +150,7 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
 
     @Override
     public void onSearchExpanded() {
-        if(isExpandableSearch){
+        if (isExpandableSearch) {
             navIconToggler.hideNavigationIcon();
         }
         fragmentSearchBoxBinding.countryList.setVisibility(View.VISIBLE);
@@ -159,7 +159,7 @@ public class SearchBoxFragment extends BaseFragment implements SearchBox.ExpandL
 
     @Override
     public void onSearchCollapsed() {
-        if(isExpandableSearch){
+        if (isExpandableSearch) {
             navIconToggler.restoreNavigationIcon();
         }
         fragmentSearchBoxBinding.countryList.setVisibility(View.GONE);

@@ -131,7 +131,7 @@ public class FontIconDrawable extends Drawable {
         this.size = size;
 
         paint.setTextSize(size);
-        paint.getTextBounds(icon,0,icon.length(),mRect);
+        paint.getTextBounds(icon, 0, icon.length(), mRect);
         fitRect(mRect, size);
         setBounds(mRect);
         invalidateSelf();
@@ -230,12 +230,13 @@ public class FontIconDrawable extends Drawable {
         invalidateSelf();
         return true;
     }
+
     /**
      * Indicates whether this drawable will change its appearance based on
      * state.
      *
      * @return True if this drawable changes its appearance based on state,
-     *         false otherwise.
+     * false otherwise.
      */
     @Override
     public boolean isStateful() {
@@ -341,7 +342,7 @@ public class FontIconDrawable extends Drawable {
             super.writeToParcel(out, flags);
 
             out.writeString(text);
-            out.writeParcelableArray(new Parcelable[]{(Parcelable) paint, colorStateList, mRect},flags);
+            out.writeParcelableArray(new Parcelable[]{(Parcelable) paint, colorStateList, mRect}, flags);
             out.writeFloat(textSize);
         }
 

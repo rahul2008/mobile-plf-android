@@ -59,7 +59,6 @@ import static android.support.v7.content.res.AppCompatResources.getDrawable;
  * <p>
  *
  * @see <a href="https://confluence.atlas.philips.com/display/MU/How+to+integrate+DLS+Search+Box">https://confluence.atlas.philips.com/display/MU/How+to+integrate+DLS+Search+Box</a>
- *
  */
 
 public class SearchBox extends LinearLayout {

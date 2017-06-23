@@ -42,7 +42,8 @@ public class UIDClickableSpan extends ClickableSpan {
 
     /**
      * Set the colors for the span.<br>
-     *     Supported states are default color, {@code android.R.attr.state_pressed} and {@code R.attr.uid_state_visited}
+     * Supported states are default color, {@code android.R.attr.state_pressed} and {@code R.attr.uid_state_visited}
+     *
      * @param colorStateList for the span
      */
     public void setColors(ColorStateList colorStateList) {
@@ -56,6 +57,7 @@ public class UIDClickableSpan extends ClickableSpan {
 
     /**
      * Returns colors applied on span.
+     *
      * @return colors applied on span.
      */
     public ColorStateList getColors() {
@@ -64,6 +66,7 @@ public class UIDClickableSpan extends ClickableSpan {
 
     /**
      * Changes the state to pressed.
+     *
      * @param pressed to mark as pressed.
      */
     public void setPressed(boolean pressed) {
@@ -72,6 +75,7 @@ public class UIDClickableSpan extends ClickableSpan {
 
     /**
      * Changes the state to visited.
+     *
      * @param visited to mark as visited.
      */
     public void setVisited(boolean visited) {
@@ -80,6 +84,7 @@ public class UIDClickableSpan extends ClickableSpan {
 
     /**
      * Tag can be set on the span for the unique identification.
+     *
      * @param tag for the span.
      */
     public void setTag(CharSequence tag) {
@@ -88,6 +93,7 @@ public class UIDClickableSpan extends ClickableSpan {
 
     /**
      * Tag associated with the span.
+     *
      * @return tag with the span
      */
     public CharSequence getTag() {
@@ -96,6 +102,7 @@ public class UIDClickableSpan extends ClickableSpan {
 
     /**
      * Returns visited state of span.
+     *
      * @return visited or not.
      */
     public boolean isVisited() {
@@ -104,6 +111,7 @@ public class UIDClickableSpan extends ClickableSpan {
 
     /**
      * Returns pressed state of span.
+     *
      * @return pressed or not.
      */
     public boolean isPressed() {

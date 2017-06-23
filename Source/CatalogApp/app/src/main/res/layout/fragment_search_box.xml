@@ -18,6 +18,7 @@
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/search_description"
             style="@style/UIDLabel"
+            android:textColor="?attr/uidLabelRegularNormalTextColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/layout_margin_left_right"

@@ -32,12 +32,12 @@ public class UIDStringUtils {
     /**
      * Helper function to find matching region for two Charsequence.
      *
-     * @param ignoreCase pass true for case insensitive comparison
-     * @param str primary string for searching
-     * @param strOffset offset in primary string
-     * @param subStr sub string
+     * @param ignoreCase   pass true for case insensitive comparison
+     * @param str          primary string for searching
+     * @param strOffset    offset in primary string
+     * @param subStr       sub string
      * @param subStrOffset offset in sub string
-     * @param length lenght of the lookup
+     * @param length       lenght of the lookup
      * @return the comparsion result if the string contains substring of given legth
      */
     public static boolean regionMatches(final boolean ignoreCase, final CharSequence str, final int strOffset,
@@ -81,8 +81,8 @@ public class UIDStringUtils {
 
             //Same comparison as java framework
             if (ignoreCase &&
-                     (Character.toUpperCase(c1) == Character.toUpperCase(c2)
-                    || Character.toLowerCase(c1) == Character.toLowerCase(c2))) {
+                    (Character.toUpperCase(c1) == Character.toUpperCase(c2)
+                            || Character.toLowerCase(c1) == Character.toLowerCase(c2))) {
                 continue;
             }
             return false;

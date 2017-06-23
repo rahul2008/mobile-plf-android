@@ -50,66 +50,66 @@ public class SearchBoxTest extends BaseTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 
-    public ViewInteraction getSearchBox(){
+    public ViewInteraction getSearchBox() {
         return onView(withId(com.philips.platform.uid.test.R.id.test_search_box)).perform(click());
     }
 
     @Test
-    public void verifySearchBoxHeight(){
+    public void verifySearchBoxHeight() {
         int searchBoxheight = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.searchbox_height);
         getSearchBox().check(matches(ViewPropertiesMatchers.isSameViewHeight(searchBoxheight)));
     }
 
     @Test
-    public void verifyBackIconHeight(){
+    public void verifyBackIconHeight() {
         int backIconSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.searchbox_button_dimen);
         getSearchBox().check(matches(SearchBoxMatcher.isSameBackIconHeight(backIconSize)));
     }
 
     @Test
-    public void verifyBackIconWidth(){
+    public void verifyBackIconWidth() {
         int backIconSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.searchbox_button_dimen);
         getSearchBox().check(matches(SearchBoxMatcher.isSameBackIconWidth(backIconSize)));
     }
 
     @Test
-    public void verifyBackIconStartMargin(){
+    public void verifyBackIconStartMargin() {
         int backIconStartMargin = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.searchbox_back_icon_margin);
         getSearchBox().check(matches(SearchBoxMatcher.isSameBackIconStartMargin(backIconStartMargin)));
     }
 
     @Test
-    public void verifyInputBoxStartMargin(){
+    public void verifyInputBoxStartMargin() {
         int backIconStartMargin = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.searchbox_button_padding_end);
         getSearchBox().check(matches(SearchBoxMatcher.isSameBackIconEndMargin(backIconStartMargin)));
     }
 
     @Test
-    public void verifyClearIconHolderHeight(){
+    public void verifyClearIconHolderHeight() {
         int clearIconSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.searchbox_button_dimen);
         getSearchBox().check(matches(SearchBoxMatcher.isSameClearIconHolderHeight(clearIconSize)));
     }
 
 
     @Test
-    public void verifyClearIconHolderWidth(){
+    public void verifyClearIconHolderWidth() {
         int clearIconSize = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.searchbox_button_dimen);
         getSearchBox().check(matches(SearchBoxMatcher.isSameClearIconHolderWidth(clearIconSize)));
     }
 
     @Test
-    public void verifyClearIconStartMargin(){
+    public void verifyClearIconStartMargin() {
         int backIconStartMargin = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.searchbox_button_padding);
         getSearchBox().check(matches(SearchBoxMatcher.isSameClearIconStartMargin(backIconStartMargin)));
     }
 
     @Test
-    public void verifyClearIconEndMargin(){
+    public void verifyClearIconEndMargin() {
         int backIconStartMargin = resources.getDimensionPixelSize(com.philips.platform.uid.test.R.dimen.searchbox_button_padding);
         getSearchBox().check(matches(SearchBoxMatcher.isSameClearIconEndMargin(backIconStartMargin)));
     }
@@ -139,7 +139,7 @@ public class SearchBoxTest extends BaseTest {
     }
 
     @Test
-    public void verifySearchBoxFillColor(){
+    public void verifySearchBoxFillColor() {
         int expectedFillColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidSearchBoxAndroidDefaultFocusInputBackgroundColor);
         getSearchBox().check(matches(SearchBoxMatcher.isSameFillColor(expectedFillColor)));
     }

@@ -39,7 +39,7 @@ public class NavigationController {
     private Toolbar toolbar;
     private boolean shouldHandleBack = true;
 
-    public interface BackPressListener{
+    public interface BackPressListener {
         boolean handleBackPress();
     }
 
@@ -247,7 +247,7 @@ public class NavigationController {
             final List<Fragment> fragments = supportFragmentManager.getFragments();
             final Fragment fragment = fragments.get(fragments.size() - 1);
             if (fragment instanceof BackPressListener) {
-                if(fragment.isVisible() && fragment.isAdded() && ((BackPressListener) fragment).handleBackPress()){
+                if (fragment.isVisible() && fragment.isAdded() && ((BackPressListener) fragment).handleBackPress()) {
                     shouldHandleBack = false;
                 } else {
                     removeFragmentInPreference(fragment.getClass().getName());
