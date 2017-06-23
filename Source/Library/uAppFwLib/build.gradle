@@ -26,7 +26,7 @@ buildscript {
         classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12"
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.1', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.2', changing: true
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
     }
@@ -124,24 +124,16 @@ publishing {
 
             artifact zipDocuments
 
-            /* if (new File("$buildDir/outputs/aar/${archivesBaseName}-release.aar").exists()) {
-                artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-            } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar").exists()) {
-                artifact("$buildDir/outputs/aar/${archivesBaseName}-release-unsigned.aar")
-            } else if (new File("$buildDir/outputs/aar/${archivesBaseName}-debug.aar").exists()) {
-                artifact("$buildDir/outputs/aar/${archivesBaseName}-debug.aar")
-            } else {
-            } */
-
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
+                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleGroup)
-                    dependencyNode.appendNode('artifactId', it.moduleName)
-                    dependencyNode.appendNode('version', it.moduleVersion)
+                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
+                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
+                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
                 }
             }
         }
@@ -185,7 +177,7 @@ configurations.all {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.6.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.7.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         exclude group: 'com.android.support'
         transitive = true
     }

@@ -42,7 +42,7 @@ node ('android&&keystore') {
 			stage ('save dependencies list') {
             	sh '''#!/bin/bash -l
             	    cd ./Source/Library
-            	    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+            	    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
             	'''
             }
 
@@ -73,7 +73,7 @@ node ('android&&keystore') {
                 junit allowEmptyResults: false, testResults: 'Source/Library/*/build/test-results/*/*.xml'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/uAppFwLib/build/reports/tests/debug', reportFiles: 'index.html', reportName: 'unit test debug']) 
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/uAppFwLib/build/reports/tests/release', reportFiles: 'index.html', reportName: 'unit test release']) 
-                archiveArtifacts '**/dependencies.lock'
+                archiveArtifacts '**/*dependencies*.lock'
             }   
             stage('informing') {
             	step([$class: 'StashNotifier'])
