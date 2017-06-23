@@ -101,6 +101,8 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
 
     @Override
     public boolean handleBackEvent() {
+        getFragmentManager().popBackStackImmediate();
         return true;
+
     }
 }
