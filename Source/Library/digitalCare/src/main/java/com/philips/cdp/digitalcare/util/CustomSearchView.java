@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.philips.cdp.digitalcare.R;
-import com.philips.cdp.digitalcare.locatephilips.fragments.LocatePhilipsFragment;
 
 /**
  * Created by philips on 6/21/17.
@@ -15,7 +14,7 @@ import com.philips.cdp.digitalcare.locatephilips.fragments.LocatePhilipsFragment
 
 public class CustomSearchView extends android.support.v7.widget.AppCompatAutoCompleteTextView {
 
-    private Context mContext;
+    private OnHideListView onHideListView;
 
     public CustomSearchView(Context context) {
         super(context);
@@ -31,11 +30,8 @@ public class CustomSearchView extends android.support.v7.widget.AppCompatAutoCom
 
             @Override
             public boolean onDrawableTouch(MotionEvent event) {
-
-                System.out.println("******** touch");
                 CustomSearchView.this.setText("");
-                LocatePhilipsFragment locatePhilipsFragment = new LocatePhilipsFragment();
-                locatePhilipsFragment.hideListData();
+                onHideListView.hideListView();
                 return false;
             }
         });
@@ -72,10 +68,11 @@ public class CustomSearchView extends android.support.v7.widget.AppCompatAutoCom
         super(context);
     }
 
-  /*  private boolean onClickSearch(final View view) {
-        // For handling AutoCompleteTextView drawable right click events
-        this.setText("");
-        return false;
-    }*/
+    public interface OnHideListView {
+        void hideListView();
+    }
 
+    public void setOnHideListListener(OnHideListView onHideListListner){
+            this.onHideListView = onHideListListner;
+    }
 }

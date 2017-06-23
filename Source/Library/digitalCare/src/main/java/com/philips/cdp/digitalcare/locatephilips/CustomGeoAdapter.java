@@ -62,8 +62,7 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if (convertView == null) {
-            System.out.println("********* context : "+context);
+        if (convertView == null && context!=null) {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             if(inflater!=null)

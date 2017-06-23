@@ -23,12 +23,10 @@
         android:drawablePadding="20dp"
         android:imeOptions="actionSearch"
         android:inputType="text"
-        android:minHeight="30dp"
         android:queryHint="Search"
         android:focusable="true"
-        android:textAlignment="center"
-        android:divider="?attr/uidSeparator"
-        android:dividerHeight="@dimen/uid_divider_Height"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
         android:textColor="@android:color/black"
         android:focusableInTouchMode="true"/>
 
