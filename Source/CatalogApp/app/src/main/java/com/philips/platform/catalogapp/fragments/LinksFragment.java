@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +19,8 @@ import android.widget.TextView;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentLinksBinding;
 import com.philips.platform.catalogapp.events.OptionMenuClickedEvent;
-import com.philips.platform.uid.utils.UIDClickableSpan;
-import com.philips.platform.uid.utils.UIDClickableSpanWrapper;
+import com.philips.platform.uid.text.utils.UIDClickableSpan;
+import com.philips.platform.uid.text.utils.UIDClickableSpanWrapper;
 import com.philips.platform.uid.view.widget.Label;
 
 import org.greenrobot.eventbus.EventBus;

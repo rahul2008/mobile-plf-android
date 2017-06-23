@@ -26,8 +26,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.philips.platform.uid.R;
-import com.philips.platform.uid.utils.UIDClickableSpan;
-import com.philips.platform.uid.utils.UIDClickableSpanWrapper;
+import com.philips.platform.uid.text.utils.UIDClickableSpan;
+import com.philips.platform.uid.text.utils.UIDClickableSpanWrapper;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
 
 import java.util.ArrayList;

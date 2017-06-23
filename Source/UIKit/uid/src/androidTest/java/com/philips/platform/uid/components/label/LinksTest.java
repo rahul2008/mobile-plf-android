@@ -18,7 +18,7 @@ import android.text.style.URLSpan;
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.actions.ActionDown;
 import com.philips.platform.uid.activity.BaseTestActivity;
-import com.philips.platform.uid.utils.UIDClickableSpanWrapper;
+import com.philips.platform.uid.text.utils.UIDClickableSpanWrapper;
 import com.philips.platform.uid.utils.UIDTestUtils;
 import com.philips.platform.uid.view.widget.Label;
 

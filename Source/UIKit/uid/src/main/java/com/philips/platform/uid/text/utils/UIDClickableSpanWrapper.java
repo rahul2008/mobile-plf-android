@@ -3,7 +3,7 @@
  * All rights reserved.
  *
  */
-package com.philips.platform.uid.utils;
+package com.philips.platform.uid.text.utils;
 
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
