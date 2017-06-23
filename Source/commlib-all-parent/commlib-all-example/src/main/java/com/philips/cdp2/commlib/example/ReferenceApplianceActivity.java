@@ -142,7 +142,7 @@ public abstract class ReferenceApplianceActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        currentAppliance.getDevicePort().putProperties("name", deviceNameEdit.getText().toString());
+                        currentAppliance.getDevicePort().setDeviceName(deviceNameEdit.getText().toString());
                     }
                 }
         );
