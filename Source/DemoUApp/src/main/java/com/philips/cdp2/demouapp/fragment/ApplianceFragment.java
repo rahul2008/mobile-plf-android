@@ -39,11 +39,11 @@ public class ApplianceFragment extends Fragment {
 
         if (currentAppliance instanceof AirPurifier) {
             addFragment(new PairingFragment());
-            addFragment(new PairingPortFragment());
             addFragment(new AirPortFragment());
         }
 
         if (currentAppliance instanceof ReferenceAppliance) {
+            addFragment(new PairingPortFragment());
             addFragment(new TimePortFragment());
             addFragment(new FirmwareUpgradeFragment());
         }
