@@ -42,7 +42,7 @@ node ('android&&device') {
                 sh '''#!/bin/bash -l
             	   chmod -R 775 . 
                    cd ./Source/Library 
-                   ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+                   ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
                 '''
             }
 
@@ -76,7 +76,7 @@ node ('android&&device') {
                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/coppa/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests coppa'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/Jump/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests Jump'])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/hsdp/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests hsdp'])
-                archiveArtifacts '**/dependencies.lock'
+                archiveArtifacts '**/*dependencies*.lock'
             }
         	stage('informing') {
                 step([$class: 'StashNotifier'])
