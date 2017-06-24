@@ -2,6 +2,7 @@ package com.philips.amwelluapp.welcome;
 
 import android.os.Bundle;
 
+import com.philips.amwelluapp.ApplicationTestClass;
 import com.philips.amwelluapp.BuildConfig;
 import com.philips.amwelluapp.CustomRobolectricRunnerAmwel;
 import com.philips.amwelluapp.activity.PTHLaunchActivity;
@@ -11,11 +12,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowLog;
+
+import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(CustomRobolectricRunnerAmwel.class)
-@Config(constants = BuildConfig.class, sdk = 21, packageName = "com.philips.amwelluapp")
+@Config(constants = BuildConfig.class, sdk = 21, application = ApplicationTestClass.class, libraries = "../../../../../../../build/intermediates/exploded-aar/com.philips.cdp/uid/0.1.1-SNAPSHOT.20170623170225")
 public class PTHWelcomeFragmentTest {
     private PTHLaunchActivity mActivity;
     private PTHWelcomeFragment mWelcomeFragment;
@@ -23,57 +28,53 @@ public class PTHWelcomeFragmentTest {
     @Mock
     Bundle bundle;
 
+    @Mock
+    FragmentLauncher fragmentLauncherMock;
+
     @Before
     public void setUp() throws Exception {
-       mActivity = Robolectric.setupActivity(PTHLaunchActivity.class);
-//        mActivity = Robolectric.buildActivity(PTHLaunchActivity.class).create().resume().get();
+        MockitoAnnotations.initMocks(this);
+        ShadowLog.stream = System.out;
+        mActivity = Robolectric.buildActivity(PTHLaunchActivity.class).create().resume().get();
         mWelcomeFragment = new PTHWelcomeFragment();
     }
 
     @Test
     public void getFragmentLauncher() throws Exception {
+        mWelcomeFragment.setFragmentLauncher(fragmentLauncherMock);
         FragmentLauncher launcher = mWelcomeFragment.getFragmentLauncher();
-        //assertThat(launcher).isNotNull();
-        //assertThat(launcher).isInstanceOf(FragmentLauncher.class);
-    }
-
-    @Test
-    public void onCreate() throws Exception {
-    }
-
-    @Test
-    public void onCreateView() throws Exception {
-
+        assertThat(launcher).isNotNull();
+        assertThat(launcher).isInstanceOf(FragmentLauncher.class);
     }
 
     @Test
     public void setFragmentLauncher() throws Exception {
-
+        mWelcomeFragment.setFragmentLauncher(fragmentLauncherMock);
     }
 
     @Test
     public void finishActivityAffinity() throws Exception {
-
+//        mWelcomeFragment.finishActivityAffinity();
     }
 
     @Test
     public void getFragmentActivity() throws Exception {
-
+        mWelcomeFragment.getFragmentLauncher();
     }
 
     @Test
     public void showProgressBar() throws Exception {
-
+        mWelcomeFragment.showProgressBar();
     }
 
     @Test
     public void hideProgressBar() throws Exception {
-
+        mWelcomeFragment.hideProgressBar();
     }
 
     @Test
     public void handleBackEvent() throws Exception {
-
+        mWelcomeFragment.handleBackEvent();
     }
 
 }
