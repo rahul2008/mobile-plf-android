@@ -35,7 +35,6 @@ import java.util.Map;
 public class PTHManager {
     private static PTHManager sPthManager = null;
     private AWSDK mAwsdk = null;
-    private AWSDK awsdk;
 
     public static PTHManager getInstance() {
         if (sPthManager == null) {
@@ -148,6 +147,6 @@ public class PTHManager {
     }
 
     public void setAwsdk(AWSDK awsdk) {
-        this.awsdk = awsdk;
+        this.mAwsdk = awsdk;
     }
 }

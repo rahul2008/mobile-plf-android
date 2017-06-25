@@ -2,10 +2,12 @@ package com.philips.amwelluapp.welcome;
 
 import android.os.Bundle;
 
+import com.americanwell.sdk.AWSDK;
 import com.philips.amwelluapp.ApplicationTestClass;
 import com.philips.amwelluapp.BuildConfig;
 import com.philips.amwelluapp.CustomRobolectricRunnerAmwel;
 import com.philips.amwelluapp.activity.PTHLaunchActivity;
+import com.philips.amwelluapp.utility.PTHManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import org.junit.Before;
@@ -30,13 +32,17 @@ public class PTHWelcomeFragmentTest {
     Bundle bundle;
 
     @Mock
+    AWSDK awsdkMock;
+
+    @Mock
     FragmentLauncher fragmentLauncherMock;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         ShadowLog.stream = System.out;
-        mActivity = Robolectric.buildActivity(PTHLaunchActivity.class).create().resume().get();
+        PTHManager.getInstance().setAwsdk(awsdkMock);
+        mActivity = Robolectric.buildActivity(PTHLaunchActivity.class).create().get();
         mWelcomeFragment = new PTHWelcomeFragment();
     }
 
