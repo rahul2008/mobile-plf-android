@@ -3,7 +3,6 @@ package com.philips.amwelluapp.base;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -15,7 +14,7 @@ public class PTHBaseFragment extends Fragment implements UIBaseView{
 
 
     FragmentLauncher mFragmentLauncher;
-    protected ProgressBar mPTHBaseFragmentProgressBar;
+    protected com.philips.platform.uid.view.widget.ProgressBar mPTHBaseFragmentProgressBar;
     @Override
     public void finishActivityAffinity() {
 

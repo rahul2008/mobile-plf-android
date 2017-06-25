@@ -7,19 +7,23 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.amwelluapp.activity.PTHLaunchActivity;
 import com.philips.amwelluapp.base.UIBasePresenter;
 import com.philips.amwelluapp.base.UIBaseView;
 import com.philips.amwelluapp.login.PTHAuthentication;
 import com.philips.amwelluapp.login.PTHGetConsumerObjectCallBack;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
 import com.philips.amwelluapp.practice.PracticeFragment;
+import com.philips.amwelluapp.registration.PTHRegistrationDetailsFragment;
+import com.philips.amwelluapp.sdkerrors.PTHSDKError;
 import com.philips.amwelluapp.utility.PTHManager;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
 
-public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallBack<Void,SDKError>, PTHLoginCallBack<PTHAuthentication,SDKError> ,PTHGetConsumerObjectCallBack {
+public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallBack<Void,PTHSDKError>, PTHLoginCallBack<PTHAuthentication,PTHSDKError> ,PTHGetConsumerObjectCallBack {
     UIBaseView uiBaseView;
     private Consumer consumer;
 
@@ -48,7 +52,7 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
     }
 
     @Override
-    public void onInitializationResponse(Void aVoid, SDKError sdkError) {
+    public void onInitializationResponse(Void aVoid, PTHSDKError sdkError) {
         loginUserSilently();
     }
 
@@ -67,7 +71,7 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
     }
 
     @Override
-    public void onLoginResponse(PTHAuthentication pthAuthentication, SDKError sdkError) {
+    public void onLoginResponse(PTHAuthentication pthAuthentication, PTHSDKError sdkError) {
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
         Log.d("Login","Login success");
         Toast.makeText(uiBaseView.getFragmentActivity(),"LOGIN SUCCESS",Toast.LENGTH_SHORT).show();
@@ -79,6 +83,23 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
         }
     }
 
+    private boolean isResponseSuccess(Object responseObject) {
+        if(responseObject!=null) {
+            return true;
+        }
+        return false;
+    }
+
+    private void checkIfTheUserIsPartiallyRegistered(PTHAuthentication pthAuthentication) {
+        boolean isUserPartiallyRegistered = pthAuthentication.needsToCompleteEnrollment();
+        if (isUserPartiallyRegistered){
+            final FragmentLauncher fragmentLauncher = ((PTHWelcomeFragment)uiBaseView).getFragmentLauncher();
+            ((PTHLaunchActivity) fragmentLauncher.getFragmentActivity()).
+                    addFragment(new PTHRegistrationDetailsFragment(), PTHRegistrationDetailsFragment.TAG);
+        }
+    }
+
+    //TODO: Move it to Login Presenter one's Silent Login is removed
     @Override
     public void onLoginFailure(Throwable var1) {
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
