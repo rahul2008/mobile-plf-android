@@ -16,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowLog;
+import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
@@ -54,12 +55,14 @@ public class PTHWelcomeFragmentTest {
 
     @Test
     public void finishActivityAffinity() throws Exception {
-//        mWelcomeFragment.finishActivityAffinity();
+        SupportFragmentTestUtil.startFragment(mWelcomeFragment);
+        mWelcomeFragment.finishActivityAffinity();
     }
 
     @Test
     public void getFragmentActivity() throws Exception {
-        mWelcomeFragment.getFragmentLauncher();
+        SupportFragmentTestUtil.startFragment(mWelcomeFragment);
+        mWelcomeFragment.getFragmentActivity();
     }
 
     @Test
@@ -75,6 +78,12 @@ public class PTHWelcomeFragmentTest {
     @Test
     public void handleBackEvent() throws Exception {
         mWelcomeFragment.handleBackEvent();
+    }
+
+    @Test
+    public void getContainerID() {
+        mWelcomeFragment.setFragmentLauncher(fragmentLauncherMock);
+        mWelcomeFragment.getContainerID();
     }
 
 }
