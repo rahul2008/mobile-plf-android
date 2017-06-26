@@ -11,15 +11,15 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.view.View;
 
-public class AlertDialogController {
+class AlertDialogController {
 
-    public static final String UID_ALERT_DAILOG_MESSAGE_KEY = "UID_ALERT_DAILOG_MESSAGE_KEY";
-    public static final String UID_ALERT_DAILOG_TITLE_KEY = "UID_ALERT_DAILOG_TITLE_KEY";
-    public static final String UID_ALERT_DAILOG_TITLE_ICON_KEY = "UID_ALERT_DAILOG_TITLE_ICON_KEY";
-    public static final String UID_ALERT_DAILOG_POSITIVE_BUTTON_TEXT_KEY = "UID_ALERT_DAILOG_POSITIVE_BUTTON_TEXT_KEY";
-    public static final String UID_ALERT_DAILOG_NEGATIVE_BUTTON_TEXT_KEY = "UID_ALERT_DAILOG_NEGATIVE_BUTTON_TEXT_KEY";
+    static final String UID_ALERT_DAILOG_MESSAGE_KEY = "UID_ALERT_DAILOG_MESSAGE_KEY";
+    static final String UID_ALERT_DAILOG_TITLE_KEY = "UID_ALERT_DAILOG_TITLE_KEY";
+    static final String UID_ALERT_DAILOG_TITLE_ICON_KEY = "UID_ALERT_DAILOG_TITLE_ICON_KEY";
+    static final String UID_ALERT_DAILOG_POSITIVE_BUTTON_TEXT_KEY = "UID_ALERT_DAILOG_POSITIVE_BUTTON_TEXT_KEY";
+    static final String UID_ALERT_DAILOG_NEGATIVE_BUTTON_TEXT_KEY = "UID_ALERT_DAILOG_NEGATIVE_BUTTON_TEXT_KEY";
 
-    public static class DialogParams {
+    static class DialogParams {
         private String message;
         private String title;
         private View.OnClickListener positiveButtonLister;
@@ -31,84 +31,85 @@ public class AlertDialogController {
         private boolean cancelable;
         private String negativeButtonText;
         private String positiveButtonText;
+        boolean hideNegativeButton;
 
-        public String getMessage() {
+        String getMessage() {
             return message;
         }
 
-        public void setMessage(String message) {
+        void setMessage(String message) {
             this.message = message;
         }
 
-        public String getTitle() {
+        String getTitle() {
             return title;
         }
 
-        public void setTitle(String title) {
+        void setTitle(String title) {
             this.title = title;
         }
 
-        public View.OnClickListener getPositiveButtonLister() {
+        View.OnClickListener getPositiveButtonLister() {
             return positiveButtonLister;
         }
 
-        public void setPositiveButtonLister(View.OnClickListener positiveButtonLister) {
+        void setPositiveButtonLister(View.OnClickListener positiveButtonLister) {
             this.positiveButtonLister = positiveButtonLister;
         }
 
-        public View.OnClickListener getNegativeButtonListener() {
+        View.OnClickListener getNegativeButtonListener() {
             return negativeButtonListener;
         }
 
-        public void setNegativeButtonListener(View.OnClickListener negativeButtonListener) {
+        void setNegativeButtonListener(View.OnClickListener negativeButtonListener) {
             this.negativeButtonListener = negativeButtonListener;
         }
 
-        public Context getContext() {
+        Context getContext() {
             return context;
         }
 
-        public void setContext(Context context) {
+        void setContext(Context context) {
             this.context = context;
         }
 
-        public int getIconId() {
+        int getIconId() {
             return iconId;
         }
 
-        public void setIconId(int iconId) {
+        void setIconId(int iconId) {
             this.iconId = iconId;
         }
 
-        public Drawable getIconDrawable() {
+        Drawable getIconDrawable() {
             return iconDrawable;
         }
 
-        public void setIconDrawable(Drawable iconDrawable) {
+        void setIconDrawable(Drawable iconDrawable) {
             this.iconDrawable = iconDrawable;
         }
 
-        public boolean isCancelable() {
+        boolean isCancelable() {
             return cancelable;
         }
 
-        public void setCancelable(boolean cancelable) {
+        void setCancelable(boolean cancelable) {
             this.cancelable = cancelable;
         }
 
-        public String getNegativeButtonText() {
+        String getNegativeButtonText() {
             return negativeButtonText;
         }
 
-        public void setNegativeButtonText(String negativeButtonText) {
+        void setNegativeButtonText(String negativeButtonText) {
             this.negativeButtonText = negativeButtonText;
         }
 
-        public String getPositiveButtonText() {
+        String getPositiveButtonText() {
             return positiveButtonText;
         }
 
-        public void setPositiveButtonText(String positiveButtonText) {
+        void setPositiveButtonText(String positiveButtonText) {
             this.positiveButtonText = positiveButtonText;
         }
     }
