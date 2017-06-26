@@ -34,6 +34,7 @@ public class UIDClickableSpanWrapper extends UIDClickableSpan {
 
     /**
      * Initializes the wrapper with another {@link ClickableSpan} with no callback.
+     *
      * @param clickableSpan clickablespan
      */
     public UIDClickableSpanWrapper(ClickableSpan clickableSpan) {
@@ -42,6 +43,7 @@ public class UIDClickableSpanWrapper extends UIDClickableSpan {
 
     /**
      * Initializes the wrapper with another {@link ClickableSpan} with custom Runnable.
+     *
      * @param clickableSpan clickablespan
      */
     public UIDClickableSpanWrapper(ClickableSpan clickableSpan, Runnable clickRunnable) {
@@ -67,6 +69,7 @@ public class UIDClickableSpanWrapper extends UIDClickableSpan {
 
     /**
      * Returns the tag associated with span. Return's url if the wrapped span is a {@link URLSpan}.
+     *
      * @return tag, which can be null
      */
     @Override
@@ -79,6 +82,7 @@ public class UIDClickableSpanWrapper extends UIDClickableSpan {
 
     /**
      * Returns wrapped span.
+     *
      * @return wrapped span
      */
     public ClickableSpan getWrappedSpan() {

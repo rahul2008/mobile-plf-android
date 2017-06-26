@@ -6,9 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-<com.philips.platform.uid.view.widget.SearchBox
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/test_search_box"/>
+    <com.philips.platform.uid.view.widget.SearchBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/test_search_box" />
 
 </LinearLayout>

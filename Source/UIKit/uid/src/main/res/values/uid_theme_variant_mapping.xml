@@ -21,7 +21,7 @@
     </style>
 
     <style name="UIDPrimaryControl.Accent">
-        <item name="uidButtonPrimaryNormalBackgroundColor">
+<!--        <item name="uidButtonPrimaryNormalBackgroundColor">
             ?attr/uidButtonAccentNormalBackgroundColor
         </item>
         <item name="uidButtonPrimaryPressedBackgroundColor">
@@ -33,6 +33,6 @@
         </item>
         <item name="uidButtonPrimaryDisabledTextColor">?attr/uidButtonAccentDisabledTextColor
         </item>
-        <item name="uidButtonPrimaryNormalTextColor">?attr/uidButtonAccentNormalTextColor</item>
+        <item name="uidButtonPrimaryNormalTextColor">?attr/uidButtonAccentNormalTextColor</item>-->
     </style>
 </resources>

@@ -136,7 +136,7 @@ public class GridViewItemDoubleLineSolidFooterTest {
     @Test
     public void verifySolidFillColor(){
         waitFor(testResources, 750);
-        int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlPrimary);
+        int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidTrackDetailNormalOnBackgroundColor);
         getSolidFillHolder().check(matches(ViewPropertiesMatchers.hasSameColorDrawableBackgroundColor(expectedColor)));
     }
 

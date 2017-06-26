@@ -21,14 +21,13 @@
             android:id="@+id/page_icon"
             android:layout_width="@dimen/dot_navigation_item_icon_size"
             android:layout_height="@dimen/dot_navigation_item_icon_size"
-            android:src="@{item.resourceId}"
-            android:tint="?attr/uidTextTertiary"/>
+            android:src="@{item.resourceId}"/>
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/page_title"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dot_navigation_item_text_height"
-            android:textColor="?attr/uidTextTertiary"
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
             android:text="@{String.format(@string/page_number, item.number)}"
             android:textSize="@dimen/dot_navigation_item_text_size"/>
 

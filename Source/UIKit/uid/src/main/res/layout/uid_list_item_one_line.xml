@@ -9,4 +9,4 @@
     android:minHeight="@dimen/uid_recyclerview_item_one_line_height"
     android:ellipsize="marquee"
     android:textAppearance="?android:attr/textAppearanceLargePopupMenu"
-    android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"/>
+    android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor" />

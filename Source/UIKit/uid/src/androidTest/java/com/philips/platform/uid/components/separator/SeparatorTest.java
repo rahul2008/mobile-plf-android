@@ -47,10 +47,11 @@ public class SeparatorTest extends BaseTest {
 
     @Test
     public void verifyListViewSeparatorColor() throws Exception {
-        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidSeparator);
+        final int color = UIDTestUtils.getAttributeColor(activity, getUidSeparatorAttribute());
         onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.componentList))
                 .check(matches(SeparatorMatcher.hasSameColor(color)));
     }
+
 
     //TODO below test is ignored because it is failing beacuse of 1 value diffrence e.g expected is 4 but after java converts float to int its coming out 3
     @Ignore
@@ -64,7 +65,7 @@ public class SeparatorTest extends BaseTest {
 
     @Test
     public void verifySeparatorColor() throws Exception {
-        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidSeparator);
+        final int color = UIDTestUtils.getAttributeColor(activity, getUidSeparatorAttribute());
 
         onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.uid_test_separator))
                 .check(matches(SeparatorMatcher.hasSameColor(color)));
@@ -80,7 +81,7 @@ public class SeparatorTest extends BaseTest {
 
     @Test
     public void verifyRecyclerViewSeparatorColor() throws Exception {
-        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidSeparator);
+        final int color = UIDTestUtils.getAttributeColor(activity, getUidSeparatorAttribute());
         onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.recyclerviewSeparatorItems))
                 .check(matches(SeparatorMatcher.hasSameColor(color)));
     }
@@ -98,5 +99,9 @@ public class SeparatorTest extends BaseTest {
 
         onView(ViewMatchers.withId(com.philips.platform.uid.test.R.id.recyclerviewSeparatorItems))
                 .check(matches(SeparatorMatcher.hasSameHeight(height)));
+    }
+
+    private int getUidSeparatorAttribute() {
+        return R.attr.uidSeparatorContentNormalBackgroundColor;
     }
 }

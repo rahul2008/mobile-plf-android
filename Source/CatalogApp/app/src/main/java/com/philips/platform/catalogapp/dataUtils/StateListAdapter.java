@@ -92,7 +92,7 @@ public class StateListAdapter extends BaseAdapter implements Filterable, SearchB
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             filteredList = (List<String>) results.values;
-            if((query.length()>0) && filteredList.size()<=0){
+            if ((query.length() > 0) && filteredList.size() <= 0) {
                 filteredList.add(context.getResources().getString(R.string.search_box_no_result));
             }
             StateListAdapter.this.notifyDataSetChanged();

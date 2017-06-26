@@ -23,7 +23,7 @@
         android:layout_marginEnd="@dimen/uid_searchbox_button_padding_end"
         android:layout_marginStart="@dimen/uid_searchbox_button_padding"
         app:srcCompat="@drawable/uid_search_icon"
-        android:tint="?attr/uidSearchBoxAndroidDefaultNormalHintTextColor"/>
+        android:tint="?attr/uidSearchBoxAndroidDefaultNormalHintTextColor" />
 
     <com.philips.platform.uid.view.widget.Label
         style="@style/UIDLabel.SearchBoxHint"
