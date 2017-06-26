@@ -1,6 +1,12 @@
+/* Copyright (c) Koninklijke Philips N.V. 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.appinfra.logging;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
@@ -25,9 +31,6 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-/**
- * Created by 310238114 on 8/9/2016.
- */
 public class LoggingTest extends AppInfraInstrumentation {
     LoggingInterface loggingInterface ;
     LoggingInterface loggingInterfaceMock;
@@ -86,7 +89,7 @@ public class LoggingTest extends AppInfraInstrumentation {
         verify(logger).log(Level.INFO, "Logger created");
     }
 
-    /*public void testLog() {
+    public void testLog() {
         final Logger logger = mock(Logger.class);
         AppInfraLogging appInfraLogging = new AppInfraLogging(mAppInfra) {
             @Override
@@ -96,10 +99,53 @@ public class LoggingTest extends AppInfraInstrumentation {
         };
         appInfraLogging.createLogger("component_id");
         appInfraLogging.log(LoggingInterface.LogLevel.DEBUG, "some_event", "event_message");
+        appInfraLogging.log(LoggingInterface.LogLevel.ERROR, "some_event", "event_message");
+        appInfraLogging.log(LoggingInterface.LogLevel.INFO, "some_event", "event_message");
+        appInfraLogging.log(LoggingInterface.LogLevel.VERBOSE, "some_event", "event_message");
+        appInfraLogging.log(LoggingInterface.LogLevel.WARNING, "some_event", "event_message");
         verify(logger).log(Level.INFO, "Logger created");
         verify(logger).log(Level.CONFIG, "some_event", "event_message");
+        verify(logger).log(Level.SEVERE, "some_event", "event_message");
+        verify(logger).log(Level.INFO, "some_event", "event_message");
+        verify(logger).log(Level.FINE, "some_event", "event_message");
+        verify(logger).log(Level.WARNING, "some_event", "event_message");
     }
-*/
+
+    public void testLogWithMap() {
+        final Logger logger = mock(Logger.class);
+        final Object[] values = new Object[2];
+        AppInfraLogging appInfraLogging = new AppInfraLogging(mAppInfra) {
+            @Override
+            protected Logger getJavaLogger() {
+                return logger;
+            }
+
+            @NonNull
+            @Override
+            Object[] getParamObjects() {
+                return values;
+            }
+        };
+        appInfraLogging.createLogger("component_id");
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("key1", "val1");
+        map.put("key2", "val2");
+
+        appInfraLogging.log(LoggingInterface.LogLevel.DEBUG, "some_event", "event_message", map);
+        assertEquals(values[0], "event_message");
+        assertEquals(values[1], map);
+        appInfraLogging.log(LoggingInterface.LogLevel.ERROR, "some_event", "event_message", map);
+        appInfraLogging.log(LoggingInterface.LogLevel.INFO, "some_event", "event_message", map);
+        appInfraLogging.log(LoggingInterface.LogLevel.VERBOSE, "some_event", "event_message", map);
+        appInfraLogging.log(LoggingInterface.LogLevel.WARNING, "some_event", "event_message", map);
+
+        verify(logger).log(Level.CONFIG, "some_event", values);
+        verify(logger).log(Level.SEVERE, "some_event", values);
+        verify(logger).log(Level.INFO, "some_event", values);
+        verify(logger).log(Level.FINE, "some_event", values);
+        verify(logger).log(Level.WARNING, "some_event", values);
+    }
+
     public void testLogInitialize(){
         assertNotNull(loggingInterface.createInstanceForComponent("Component Name","Component version"));
         loggingInterface.log(LoggingInterface.LogLevel.INFO,"Event","Message");
@@ -124,7 +170,7 @@ public class LoggingTest extends AppInfraInstrumentation {
     }
 
 
-    public void testLogwithConsole(){
+    public void testLogWithConsole(){
 
         for (LoggingInterface.LogLevel logLevel : LoggingInterface.LogLevel.values()) {
             loggingInterface.log(logLevel, null,"message");

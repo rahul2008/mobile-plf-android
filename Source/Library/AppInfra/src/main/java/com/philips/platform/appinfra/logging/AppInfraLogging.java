@@ -8,6 +8,7 @@ package com.philips.platform.appinfra.logging;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
@@ -83,19 +84,19 @@ public class AppInfraLogging implements LoggingInterface {
         if (null != mJavaLogger) {
             switch (level) {
                 case ERROR:
-                    mJavaLogger.log(Level.SEVERE, eventId, message);
+                    getJavaLogger().log(Level.SEVERE, eventId, message);
                     break;
                 case WARNING:
-                    mJavaLogger.log(Level.WARNING, eventId, message);
+                    getJavaLogger().log(Level.WARNING, eventId, message);
                     break;
                 case INFO:
-                    mJavaLogger.log(Level.INFO, eventId, message);
+                    getJavaLogger().log(Level.INFO, eventId, message);
                     break;
                 case DEBUG:
-                    mJavaLogger.log(Level.CONFIG, eventId, message);
+                    getJavaLogger().log(Level.CONFIG, eventId, message);
                     break;
                 case VERBOSE:
-                    mJavaLogger.log(Level.FINE, eventId, message);
+                    getJavaLogger().log(Level.FINE, eventId, message);
                     break;
             }
         }
@@ -112,7 +113,7 @@ public class AppInfraLogging implements LoggingInterface {
      */
     @Override
     public void log(LogLevel level, String eventId, String message, Map<String, ?> map) {
-        Object[] params = new Object[2];
+        Object[] params = getParamObjects();
 
         // native Java logger mapping of LOG levels
         if (null == mJavaLogger) {
@@ -123,24 +124,28 @@ public class AppInfraLogging implements LoggingInterface {
             params[1]=map;
             switch (level) {
                 case ERROR:
-                    mJavaLogger.log(Level.SEVERE, eventId, params);
+                    getJavaLogger().log(Level.SEVERE, eventId, params);
                     break;
                 case WARNING:
-                    mJavaLogger.log(Level.WARNING, eventId, params);
+                    getJavaLogger().log(Level.WARNING, eventId, params);
                     break;
                 case INFO:
-                    mJavaLogger.log(Level.INFO, eventId, params);
+                    getJavaLogger().log(Level.INFO, eventId, params);
                     break;
                 case DEBUG:
-                    mJavaLogger.log(Level.CONFIG, eventId, params);
+                    getJavaLogger().log(Level.CONFIG, eventId, params);
                     break;
                 case VERBOSE:
-                    mJavaLogger.log(Level.FINE, eventId, params);
+                    getJavaLogger().log(Level.FINE, eventId, params);
                     break;
             }
         }
     }
 
+    @NonNull
+    Object[] getParamObjects() {
+        return new Object[2];
+    }
 
     void createLogger(String pComponentId) {
         HashMap<String, Object> loggingProperty = getLoggingProperties();
@@ -437,7 +442,7 @@ public class AppInfraLogging implements LoggingInterface {
         return mAppInfra.getAppInfraContext().getDir(DIRECTORY_FILE_NAME, Context.MODE_PRIVATE);
     }
 
-    HashMap<String, Object> getLoggingProperties() {
+    private HashMap<String, Object> getLoggingProperties() {
         if (null == mLoggingProperties) {
             String AppInfraLoggingPropertyKey;
             final boolean isDebuggable = (0 != (mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
