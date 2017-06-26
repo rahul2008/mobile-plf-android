@@ -44,21 +44,12 @@ public class AppInfraLogging implements LoggingInterface {
     private static final String FILE_LOG_ENABLED_KEY = "fileLogEnabled";
     private static final String COMPONENT_LEVEL_LOG_ENABLED_KEY = "componentLevelLogEnabled";
     private static final String COMPONENT_IDS_KEY = "componentIds";
-
-
-    protected String mComponentID;
-
-    protected String mComponentVersion;
-
-
+    String mComponentID;
+    String mComponentVersion;
     private AppInfra mAppInfra;
     private Logger mJavaLogger;
-    private ConsoleHandler mConsoleHandler;
     private FileHandler mFileHandler;
-    //private Properties mProperties = new Properties();
-    private InputStream mInputStream = null;
-    private AppConfigurationInterface appConfigurationInterface;
-    HashMap<String, Object> mLoggingProperties = null;
+    private HashMap<String, Object> mLoggingProperties = null;
 
 
     public AppInfraLogging(AppInfra aAppInfra) {
@@ -198,7 +189,7 @@ public class AppInfraLogging implements LoggingInterface {
     }
 
     private boolean isComponentLevelLogEnabled(HashMap<String, Object> loggingProperty) {
-        return (null != (Boolean) loggingProperty.get(COMPONENT_LEVEL_LOG_ENABLED_KEY)) ? (Boolean) loggingProperty.get(COMPONENT_LEVEL_LOG_ENABLED_KEY) : false;
+        return (null != loggingProperty.get(COMPONENT_LEVEL_LOG_ENABLED_KEY)) ? (Boolean) loggingProperty.get(COMPONENT_LEVEL_LOG_ENABLED_KEY) : false;
     }
 
     private boolean isFileLogEnabled(HashMap<String, Object> loggingProperty) {
@@ -242,7 +233,7 @@ public class AppInfraLogging implements LoggingInterface {
     }
 
     private Level getJavaLoggerLogLevel(String level) {
-        Level javaLevel = Level.FINE;
+        Level javaLevel;
         switch (level) {
             case "ERROR":
             case "Error":
@@ -295,7 +286,7 @@ public class AppInfraLogging implements LoggingInterface {
 
     private void readLogConfigFileFromAppAsset() {
         try {
-            mInputStream = getLoggerPropertiesInputStream();
+            InputStream mInputStream = getLoggerPropertiesInputStream();
             if (mInputStream != null) {
 
                 getLogManager().readConfiguration(mInputStream);// reads default logging.properties from AppInfra library asset in first run
@@ -312,6 +303,7 @@ public class AppInfraLogging implements LoggingInterface {
 
     private void enableConsoleLog(boolean isEnabled) {
 
+        ConsoleHandler mConsoleHandler;
         if (isEnabled) {
             ConsoleHandler consoleHandler = getCurrentLogConsoleHandler(mJavaLogger);
             if (null == consoleHandler) {
@@ -337,7 +329,6 @@ public class AppInfraLogging implements LoggingInterface {
                     if (handler instanceof ConsoleHandler) {
                         handler.close(); // flush and close connection of file
                         mJavaLogger.removeHandler(handler);
-                        mConsoleHandler = null;
                     }
                 }
             }
