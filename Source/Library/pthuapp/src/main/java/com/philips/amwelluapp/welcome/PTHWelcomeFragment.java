@@ -31,6 +31,7 @@ public class PTHWelcomeFragment extends PTHBaseFragment implements BackEventList
         mPTHBaseFragmentProgressBar = (ProgressBar) view.findViewById(R.id.initialize_progress_bar);
         presenter.onEvent(R.id.initialize_progress_bar);
         ((PTHWelcomePresenter)presenter).initializeAwsdk();
+        getActionBarListener().updateActionBar("",false);
         return view;
     }
 
@@ -49,6 +50,6 @@ public class PTHWelcomeFragment extends PTHBaseFragment implements BackEventList
 
     @Override
     public boolean handleBackEvent() {
-        return false;
+        return true;
     }
 }

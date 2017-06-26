@@ -5,6 +5,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -16,6 +18,7 @@ import com.philips.amwelluapp.uappclasses.PTHMicroAppLaunchInput;
 import com.philips.amwelluapp.uappclasses.PTHMicroAppSettings;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
@@ -76,14 +79,45 @@ public class MainActivity extends UIDActivity implements ActionBarListener{
         });
     }
 
+    private void showBackImage(boolean isVisible){
+        if(isVisible){
+            mBackImage.setVisibility(ImageView.VISIBLE);
+        }
+        else {
+            mBackImage.setVisibility(ImageView.GONE);
+        }
+
+    }
+
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
-        mTitleTextView.setText(i);
+            mTitleTextView.setText(getResources().getString(i));
+            showBackImage(b);
     }
 
     @Override
     public void updateActionBar(String s, boolean b) {
-        mTitleTextView.setText(s);
+            mTitleTextView.setText(s);
+            showBackImage(b);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
+        boolean backState;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment currentFrag = fragmentManager.findFragmentById(R.id.uappFragmentLayout);
+        if (fragmentManager.getBackStackEntryCount() == 2) {
+            finishAffinity();
+        } else if (currentFrag instanceof BackEventListener) {
+            backState = ((BackEventListener) currentFrag).handleBackEvent();
+            if (!backState) {
+                super.onBackPressed();
+            }
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private void initTheme() {
