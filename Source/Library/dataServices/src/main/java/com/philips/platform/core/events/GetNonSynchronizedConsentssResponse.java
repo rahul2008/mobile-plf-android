@@ -8,13 +8,11 @@ import java.util.List;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class GetNonSynchronizedMomentsResponse extends Event {
+public class GetNonSynchronizedConsentssResponse extends Event {
 
-    private List<Moment> nonSynchronizedMoments;
     private List<ConsentDetail> consentDetails;
 
-    public GetNonSynchronizedMomentsResponse(List<Moment> nonSynchronizedMoments,List<ConsentDetail> consentDetails) {
-        this.nonSynchronizedMoments = nonSynchronizedMoments;
+    public GetNonSynchronizedConsentssResponse(List<ConsentDetail> consentDetails) {
         this.consentDetails=consentDetails;
     }
 
@@ -22,7 +20,4 @@ public class GetNonSynchronizedMomentsResponse extends Event {
         return consentDetails;
     }
 
-    public List<? extends Moment> getNonSynchronizedMoments() {
-        return nonSynchronizedMoments;
-    }
 }

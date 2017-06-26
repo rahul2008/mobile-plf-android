@@ -6,7 +6,7 @@ import com.philips.platform.core.listeners.DBRequestListener;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class GetNonSynchronizedMomentsRequest extends Event {
+public class GetNonSynchronizedConsentsRequest extends Event {
 
     private final DBRequestListener dbRequestListener;
 
@@ -14,7 +14,7 @@ public class GetNonSynchronizedMomentsRequest extends Event {
         return dbRequestListener;
     }
 
-    public GetNonSynchronizedMomentsRequest(DBRequestListener dbRequestListener) {
+    public GetNonSynchronizedConsentsRequest(DBRequestListener dbRequestListener) {
         this.dbRequestListener = dbRequestListener;
     }
 }

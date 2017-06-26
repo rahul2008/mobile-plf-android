@@ -167,7 +167,7 @@ public class DataPullSynchroniseTest {
         when(firstFetcherMock.fetchDataSince(DATE_TIME)).thenReturn(null);
         when(secondFetcherMock.fetchDataSince(DATE_TIME)).thenReturn(null);
 
-        synchronise.onEventAsync(new GetNonSynchronizedMomentsResponse(Collections.singletonList(momentMock), Collections.singletonList(consentDetailMock)));
+        synchronise.onEventAsync(new GetNonSynchronizedConsentssResponse(Collections.singletonList(momentMock), Collections.singletonList(consentDetailMock)));
 
         synchronise.startSynchronise(DATE_TIME, EVENT_ID);
 
@@ -189,7 +189,7 @@ public class DataPullSynchroniseTest {
 
         synchronise.startSynchronise(DATE_TIME, EVENT_ID);
 
-        //final GetNonSynchronizedMomentsRequest event = getEvent(GetNonSynchronizedMomentsRequest.class);
+        //final GetNonSynchronizedConsentsRequest event = getEvent(GetNonSynchronizedConsentsRequest.class);
        // assertThat(event).isNull();
 
       //  verify(eventingMock).register(synchronise);
@@ -198,7 +198,7 @@ public class DataPullSynchroniseTest {
     /*@Test
     public void ShouldIgnoreSyncStart_WhenSyncIsAlreadyStarted() throws Exception {
 
-        synchronise.onEventAsync(new GetNonSynchronizedMomentsResponse(Collections.singletonList(momentMock), Collections.singletonList(consentDetailMock)));
+        synchronise.onEventAsync(new GetNonSynchronizedConsentssResponse(Collections.singletonList(momentMock), Collections.singletonList(consentDetailMock)));
         synchronise.startSynchronise(DATE_TIME, EVENT_ID);
         synchronise.startSynchronise(DATE_TIME, EVENT_ID);
         synchronise.startSynchronise(DATE_TIME, EVENT_ID);
