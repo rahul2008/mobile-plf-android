@@ -85,6 +85,9 @@
         <item name="android:visibility">gone</item>
         <item name="android:src">@drawable/consumercare_actionbar_back_arrow_white</item>
         <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
     </style>
 
 

@@ -15,8 +15,8 @@
       "consoleLogEnabled": true,
       "componentLevelLogEnabled": true,
       "componentIds": [
-        "ConsumerCare",
-        "ProductSelection"
+        "dcc",
+        "pse"
       ]
     },
     "logging.debugConfig": {
@@ -28,8 +28,8 @@
       "consoleLogEnabled": true,
       "componentLevelLogEnabled": true,
       "componentIds": [
-        "ConsumerCare",
-        "ProductSelection"
+        "dcc",
+        "pse"
       ]
     }
   }
