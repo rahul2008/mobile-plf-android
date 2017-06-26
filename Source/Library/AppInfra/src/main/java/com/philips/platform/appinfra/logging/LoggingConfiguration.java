@@ -40,9 +40,6 @@ class LoggingConfiguration {
     private static final String COMPONENT_IDS_KEY = "componentIds";
     private HashMap<String, Object> mLoggingProperties;
     private FileHandler mFileHandler;
-    private final String LOG_FILE_NAME_KEY = "fileName"; //AppInfraLog0, AppInfraLog1, AppInfraLog2, AppInfraLog3, AppInfraLog4
-    private final String LOG_FILE_SIZE_KEY = "fileSizeInBytes";
-    private final String LOG_FILE_COUNT_KEY = "numberOfFiles";
     private AppInfra mAppInfra;
     private Logger mJavaLogger;
     private static final String PROPERTIES_FILE_NAME = "logging.properties";
@@ -249,7 +246,7 @@ class LoggingConfiguration {
         FileHandler fileHandler = null;
         try {
             File directoryCreated = createInternalDirectory();
-
+            final String LOG_FILE_NAME_KEY = "fileName"; //AppInfraLog0, AppInfraLog1, AppInfraLog2, AppInfraLog3, AppInfraLog4
             final HashMap<String, Object> loggingProperty = getLoggingProperties(mAppInfra);
             if (null == loggingProperty) {
                 Log.e("AppInfra Log", "Appinfra log config 'logging.releaseConfig' OR 'logging.debugConfig' not present in appconfig.json so reading logging.properties file");//
@@ -260,12 +257,13 @@ class LoggingConfiguration {
                 Log.e("AppInfra Log", "Appinfra log file  key 'fileName'  not present in app configuration");//
                 return null;
             }
-
+            final String LOG_FILE_SIZE_KEY = "fileSizeInBytes";
             Integer logFileSize = (Integer) loggingProperty.get(LOG_FILE_SIZE_KEY);
             if (logFileSize == null) {
                 Log.e("AppInfra Log", "Appinfra log file  key   'fileSizeInBytes' not present in app configuration");//
                 return null;
             }
+            final String LOG_FILE_COUNT_KEY = "numberOfFiles";
             final Integer maxLogFileCount = (Integer) loggingProperty.get(LOG_FILE_COUNT_KEY);
             if (maxLogFileCount == null) {
                 Log.e("AppInfra Log", "Appinfra log file  key 'numberOfFiles' not present in app configuration");//
@@ -301,12 +299,10 @@ class LoggingConfiguration {
         return fileHandler;
     }
 
-
-   private void readLogConfigFileFromAppAsset() {
+    private void readLogConfigFileFromAppAsset() {
         try {
             InputStream mInputStream = getLoggerPropertiesInputStream();
             if (mInputStream != null) {
-
                 getLogManager().readConfiguration(mInputStream);// reads default logging.properties from AppInfra library asset in first run
             }
         } catch (IOException e) {

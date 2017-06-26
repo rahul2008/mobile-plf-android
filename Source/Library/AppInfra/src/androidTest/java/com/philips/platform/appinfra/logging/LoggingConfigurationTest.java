@@ -65,6 +65,10 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
         assertNotNull(loggingConfiguration.getLoggingProperties(mAppInfra));
     }
 
+    public void testGettingLogger() {
+        assertNotNull(loggingConfiguration.getLogger("component_id"));
+    }
+
     public void testGetJavaLogLevel() {
         assertEquals(loggingConfiguration.getJavaLoggerLogLevel("ERROR"), Level.SEVERE);
         assertEquals(loggingConfiguration.getJavaLoggerLogLevel("WARN"), Level.WARNING);
