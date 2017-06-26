@@ -14,6 +14,7 @@ import android.net.SntpClient;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.R;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -55,6 +56,7 @@ public class TimeSyncSntpClient implements TimeInterface {
     private void refreshIfNeeded() {
         final Calendar now = Calendar.getInstance();
         if (!mRefreshInProgressLock.isLocked() && now.after(mNextRefreshTime)) {
+            Log.i(AppInfraLogEventID.AI_TIME_SYNC, "Time to be Refresh");
             refreshTime();
         }
     }
@@ -146,6 +148,7 @@ public class TimeSyncSntpClient implements TimeInterface {
             try {
                 Object mServerPool = mAppInfra.getConfigInterface().getPropertyForKey
                         ("timesync.ntp.hosts", "appinfra", configError);
+                Log.i(AppInfraLogEventID.AI_TIME_SYNC, "TimeSync Server Pool From Config");
                 if (mServerPool != null) {
                     if (mServerPool instanceof ArrayList<?>) {
                         ArrayList<String> mServerPoolList = new ArrayList<>();
@@ -181,7 +184,7 @@ public class TimeSyncSntpClient implements TimeInterface {
             date = new Date(getOffset() + System.currentTimeMillis());
             return date;
         } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "TimeSyncError", e.getMessage());
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_TIME_SYNC, "TimeSyncError"+e.getMessage());
         }
         return null;
     }
@@ -200,11 +203,11 @@ public class TimeSyncSntpClient implements TimeInterface {
 //                                mAppInfra.getLogging().log(LoggingInterface.LogLevel.ERROR, "TimeSyncError",
 //                                        "Network connectivity not found");
 //                            }
-                            Log.e("TIMESYNC", "Network connectivity not found");
+                            Log.e(AppInfraLogEventID.AI_TIME_SYNC, "Network connectivity not found");
                         }
                     } catch (IllegalArgumentException e) {
                         if (mAppInfra != null && mAppInfra.getAppInfraLogInstance() != null)
-                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "TimeSyncError",
+                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_TIME_SYNC, "TimeSyncError"+
                                     e.getMessage());
                     }
                 }
@@ -217,13 +220,14 @@ public class TimeSyncSntpClient implements TimeInterface {
         final IntentFilter registeReceiver = new IntentFilter();
         registeReceiver.addAction("android.intent.action.DATE_CHANGED");
         registeReceiver.addAction("android.intent.action.TIME_SET");
+        Log.i(AppInfraLogEventID.AI_TIME_SYNC, "register reciever for Date Time Changed and Network connection change");
         mAppInfra.getAppInfraContext().registerReceiver(receiver, registeReceiver);
     }
 
     public class DateTimeChangedReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(final Context context, final Intent intent) {
-
+            Log.i(AppInfraLogEventID.AI_TIME_SYNC, "recived Date Time Changed Receiver");
             new Thread(new Runnable() {
                 @Override
                 public void run() {

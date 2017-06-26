@@ -9,7 +9,7 @@ import com.philips.platform.appinfra.AppInfraInstrumentation;
 import java.io.File;
 
 /**
- * Created by 310243577 on 11/7/2016.
+ * DiskCache Test class.
  */
 
 public class DiskCacheTest extends AppInfraInstrumentation {

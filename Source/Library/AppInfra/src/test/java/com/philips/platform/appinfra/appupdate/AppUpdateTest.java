@@ -1,13 +1,10 @@
 package com.philips.platform.appinfra.appupdate;
 
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v4.media.MediaMetadataCompat;
 
 import com.android.volley.Network;
 import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.FileUtils;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
@@ -20,26 +17,16 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by gkavya on 6/5/17.
+ * AppUpdate Test class.
  */
 
 public class AppUpdateTest extends TestCase {
 
-	private AppInfra mAppInfra;
-
-	private AppUpdateInterface appupdateInterface;
-
-	private Handler handlerMock;
 	@Mock
 	private Network mMockNetwork;
-
-	private Runnable runnableMock;
-
-	private FileUtils mFileUtils;
 
 	AppConfigurationInterface appConfigurationInterface;
 
@@ -52,17 +39,16 @@ public class AppUpdateTest extends TestCase {
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		mAppInfra = mock(AppInfra.class);
+        AppInfra mAppInfra = mock(AppInfra.class);
 
-		mFileUtils = mock(FileUtils.class);
-		runnableMock = mock(Runnable.class);
-		handlerMock = mock(Handler.class);
+		Runnable runnableMock = mock(Runnable.class);
+		Handler handlerMock = mock(Handler.class);
 
 
 		when(handlerMock.post(runnableMock)).thenReturn(true);
 		appConfigurationInterface = Mockito.mock(AppConfigurationInterface.class);
 
-		appupdateInterface = mock(AppUpdateInterface.class);
+		AppUpdateInterface appupdateInterface = mock(AppUpdateInterface.class);
 		Mockito.when(mAppInfra.getConfigInterface()).thenReturn(appConfigurationInterface);
 		Mockito.when(mAppInfra.getAppUpdate()).thenReturn(appupdateInterface);
 		serviceDiscoveryInterface = Mockito.mock(ServiceDiscoveryInterface.class);

@@ -15,6 +15,7 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.HurlStack;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.request.RequestQueue;
@@ -52,7 +53,7 @@ public class RestManager implements RestInterface {
                 try {
                     cacheSizeinKB = (Integer) mAppConfigurationInterface.getPropertyForKey("restclient.cacheSizeInKB", "appinfra", configError);
                 } catch (IllegalArgumentException i) {
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "CONFIG ERROR", i.toString());
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_REST,"CONFIG ERROR"+i.toString());
                 }
             }
             if (cacheSizeinKB == null) {
@@ -147,7 +148,7 @@ public class RestManager implements RestInterface {
 
                         @Override
                         public void onError(ERRORVALUES error, String message) {
-                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "REST", error.toString());
+                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST"+error.toString());
                         }
                     });
                 } else {
@@ -159,13 +160,13 @@ public class RestManager implements RestInterface {
 
                         @Override
                         public void onError(ERRORVALUES error, String message) {
-                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "REST", error.toString());
+                            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST"+error.toString());
                         }
                     });
                 }
                 //  waitResult.await();
             } catch (Exception e) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "RESTERROR",
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_REST, "REST ERROR"+
                         e.toString());
             } finally {
                 //waitResult.signalAll();

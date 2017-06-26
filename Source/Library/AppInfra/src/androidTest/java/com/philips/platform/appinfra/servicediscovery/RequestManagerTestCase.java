@@ -14,7 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * Created by 310238655 on 8/11/2016.
+ * RequestManager Test class.
  */
 public class RequestManagerTestCase extends AppInfraInstrumentation {
 
@@ -162,7 +162,7 @@ public class RequestManagerTestCase extends AppInfraInstrumentation {
     }
 
     public void testparseResponse() {
-        Method method = null;
+        Method method;
         try {
 
             method = RequestManager.class.getDeclaredMethod("parseResponse", JSONObject.class);

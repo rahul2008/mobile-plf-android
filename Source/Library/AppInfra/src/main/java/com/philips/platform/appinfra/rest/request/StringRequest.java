@@ -1,7 +1,10 @@
 package com.philips.platform.appinfra.rest.request;
 
+import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
+import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.rest.RestManager;
 import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
 import com.philips.platform.appinfra.rest.TokenProviderInterface;
@@ -24,6 +27,7 @@ public class StringRequest extends com.android.volley.toolbox.StringRequest {
         this.mProvider = tokenProviderInterface;
         this.mHeader = header;
         this.mParams = params;
+        Log.v(AppInfraLogEventID.AI_REST, "String Request");
     }
 
 
@@ -32,6 +36,7 @@ public class StringRequest extends com.android.volley.toolbox.StringRequest {
                          Response.ErrorListener errorListener) {
         super(method, ServiceIDUrlFormatting.formatUrl(serviceID, pref, urlExtension), listener,
                 errorListener);
+        Log.v(AppInfraLogEventID.AI_REST, "String Request");
     }
 
     @Override
@@ -40,8 +45,10 @@ public class StringRequest extends com.android.volley.toolbox.StringRequest {
             if (mProvider != null) {
                 final Map<String, String> tokenHeader = RestManager.setTokenProvider(mProvider);
                 mHeader.putAll(tokenHeader);
+                Log.v(AppInfraLogEventID.AI_REST, "String Request get Headers"+mHeader);
                 return mHeader;
             } else {
+                Log.v(AppInfraLogEventID.AI_REST, "String Request get Headers"+mHeader);
                 return mHeader;
             }
         }

@@ -24,7 +24,7 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 
 /**
- * Created by 310238114 on 8/9/2016.
+ * Logging Test class.
  */
 public class LoggingTest extends AppInfraInstrumentation {
     LoggingInterface loggingInterface ;
@@ -319,7 +319,6 @@ public class LoggingTest extends AppInfraInstrumentation {
             Method method = loggingInterface.getClass().getDeclaredMethod("log", LoggingInterface.LogLevel.class,String.class,String.class,Map.class);
             method.setAccessible(true);
             String event= new String("Log Event");
-            String msg= new String("Log message");
             Map<String,String> map = new HashMap<>();
             map.put("key1","val1");
             map.put("key2","val2");
@@ -335,10 +334,6 @@ public class LoggingTest extends AppInfraInstrumentation {
             Method method = loggingInterface.getClass().getDeclaredMethod("log", LoggingInterface.LogLevel.class,String.class,String.class,Map.class);
             method.setAccessible(true);
             String event= new String("Log Event");
-            String msg= new String("Log message");
-            Map<String,String> map = new HashMap<>();
-            map.put("key1","val1");
-            map.put("key2","val2");
             method.invoke(loggingInterface, LoggingInterface.LogLevel.DEBUG,event,null,null);
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
@@ -433,7 +428,6 @@ public class LoggingTest extends AppInfraInstrumentation {
                     String testJson = ConfigValues.testJson();
                     result = new JSONObject(testJson);
                     JSONObject appInfraConfig = result.optJSONObject("APPINFRA");
-                    JSONObject loggingConfig = appInfraConfig.optJSONObject("LOGGING.DEBUGCONFIG");
                     appInfraConfig.put("LOGGING.DEBUGCONFIG", null); // removing logging key values
                     appInfraConfig.put("LOGGING.RELEASECONFIG", null); // removing logging key values
                     result.put("APPINFRA", appInfraConfig);

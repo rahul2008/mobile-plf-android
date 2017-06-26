@@ -23,7 +23,7 @@ public interface SecureStorageInterface {
      * @param secureStorageError the secure storage error
      * @return denote store operation success or failure
      */
-    public boolean storeValueForKey(String userKey, String valueToBeEncrypted, SecureStorageError secureStorageError);
+    boolean storeValueForKey(String userKey, String valueToBeEncrypted, SecureStorageError secureStorageError);
 
     /**
      * Fetch value for key .
@@ -32,7 +32,7 @@ public interface SecureStorageInterface {
      * @param secureStorageError the secure storage error code if any
      * @return the string, decrypted value
      */
-    public String fetchValueForKey(String userKey, SecureStorageError secureStorageError);
+    String fetchValueForKey(String userKey, SecureStorageError secureStorageError);
 
     /**
      * Remove value for given key .
@@ -40,11 +40,11 @@ public interface SecureStorageInterface {
      * @param userKey the user key
      * @return denote delete operation success or failure
      */
-    public boolean removeValueForKey(String userKey);
+    boolean removeValueForKey(String userKey);
 
 
 
-    enum KeyTypes {AES};
+    enum KeyTypes {AES}
 
     /**
      * Store value for Create Key  .
@@ -54,7 +54,7 @@ public interface SecureStorageInterface {
      * @param error the secure storage error
      * @return denote store operation success or failure
      */
-    public boolean createKey(KeyTypes keyType, String keyName, SecureStorageError error);
+    boolean createKey(KeyTypes keyType, String keyName, SecureStorageError error);
 
     /**
      * Retrieve value for Create Key .
@@ -63,7 +63,7 @@ public interface SecureStorageInterface {
      * @param error the secure storage error code if any
      * @return the string, decrypted value
      */
-    public Key getKey(String keyName, SecureStorageError error) ;
+    Key getKey(String keyName, SecureStorageError error) ;
 
     /**
      * Remove value for passWord .
@@ -72,7 +72,7 @@ public interface SecureStorageInterface {
      * @param error the secure storage error code if any
      * @return denote delete operation success or failure
      */
-    public boolean clearKey(String keyName, SecureStorageError error) ;
+    boolean clearKey(String keyName, SecureStorageError error) ;
 
 
 
@@ -82,7 +82,7 @@ public interface SecureStorageInterface {
      * @param dataToBeEncrypted Plain Byte array
      * @return Encrypted Byte array
      */
-    public byte[] encryptData(byte[] dataToBeEncrypted, SecureStorageError secureStorageError);
+    byte[] encryptData(byte[] dataToBeEncrypted, SecureStorageError secureStorageError);
 
     /**
      * decrypt Data .
@@ -90,9 +90,9 @@ public interface SecureStorageInterface {
      * @param dataToBeDecrypted Encrypted Byte array
      * @return Decrypted/Plain Byte array
      */
-    public byte[] decryptData(byte[] dataToBeDecrypted, SecureStorageError secureStorageError);
+    byte[] decryptData(byte[] dataToBeDecrypted, SecureStorageError secureStorageError);
 
-    public class SecureStorageError {
+    class SecureStorageError {
         public enum secureStorageError {AccessKeyFailure, UnknownKey, EncryptionError, DecryptionError, StoreError,DeleteError, NoDataFoundForKey, NullData}
 
         ;

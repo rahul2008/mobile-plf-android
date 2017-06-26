@@ -24,29 +24,29 @@ public interface AppTaggingInterface {
 	 * @param componentVersion the component version
 	 * @return the appinfra app tagging interface
 	 */
-	public AppTaggingInterface createInstanceForComponent(String componentId,
-	                                                      String componentVersion);
+	AppTaggingInterface createInstanceForComponent(String componentId,
+												   String componentVersion);
 
 	/**
 	 * Sets previous page.
 	 *
 	 * @param previousPage the previous page
 	 */
-	public void setPreviousPage(String previousPage);
+	void setPreviousPage(String previousPage);
 
 	/**
 	 * Gets privacy consent.
 	 *
 	 * @return the privacy consent
 	 */
-	public PrivacyStatus getPrivacyConsent();
+	PrivacyStatus getPrivacyConsent();
 
 	/**
 	 * Sets privacy consent.
 	 *
 	 * @param privacyStatus the privacy status
 	 */
-	public void setPrivacyConsent(PrivacyStatus privacyStatus);
+	void setPrivacyConsent(PrivacyStatus privacyStatus);
 
 	/**
 	 * Track page with info.
@@ -55,7 +55,7 @@ public interface AppTaggingInterface {
 	 * @param key      the key
 	 * @param value    the value
 	 */
-	public void trackPageWithInfo(String pageName, String key, String value);
+	void trackPageWithInfo(String pageName, String key, String value);
 
 	/**
 	 * Track page with info.
@@ -63,7 +63,7 @@ public interface AppTaggingInterface {
 	 * @param pageName  the page name
 	 * @param paramDict set of key/value pairs to be added to the tracking entry
 	 */
-	public void trackPageWithInfo(String pageName, Map<String, String> paramDict);
+	void trackPageWithInfo(String pageName, Map<String, String> paramDict);
 
 	/**
 	 * Track action with info.
@@ -72,7 +72,7 @@ public interface AppTaggingInterface {
 	 * @param key      the key
 	 * @param value    the value
 	 */
-	public void trackActionWithInfo(String pageName, String key, String value);
+	void trackActionWithInfo(String pageName, String key, String value);
 
 	/**
 	 * Track action with info.
@@ -80,7 +80,7 @@ public interface AppTaggingInterface {
 	 * @param pageName  the page name
 	 * @param paramDict set of key/value pairs to be added to the tracking entry
 	 */
-	public void trackActionWithInfo(String pageName, Map<String, String> paramDict);
+	void trackActionWithInfo(String pageName, Map<String, String> paramDict);
 
 	/**
 	 * Collect LifeCycle info.
@@ -88,19 +88,19 @@ public interface AppTaggingInterface {
 	 * @param context   the page name
 	 * @param paramDict set of key/value pairs to be added to the tracking entry
 	 */
-	public void collectLifecycleInfo(Activity context, Map<String, Object> paramDict);
+	void collectLifecycleInfo(Activity context, Map<String, Object> paramDict);
 
 	/**
 	 * Collect LifeCycle info.
 	 *
 	 * @param context the page name
 	 */
-	public void collectLifecycleInfo(Activity context);
+	void collectLifecycleInfo(Activity context);
 
 	/**
 	 * Pause LifeCycle info.
 	 */
-	public void pauseLifecycleInfo();
+	void pauseLifecycleInfo();
 
 	/**
 	 * Track Video started with a videoName.

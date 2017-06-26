@@ -48,11 +48,8 @@ class AppUpdateVersion {
 	 * @return
 	 */
 	static boolean isAppVerionLessthanCloud(String version, String cloudver) {
-		if (compareVersion(splitVersion(version), splitVersion(cloudver)) == -1) {
-			return true;
-		}
-		return false;
-	}
+        return compareVersion(splitVersion(version), splitVersion(cloudver)) == -1;
+    }
 
 	/**
 	 * This method returns true if both versions are same.
@@ -61,11 +58,8 @@ class AppUpdateVersion {
 	 * @return
 	 */
 	static boolean isBothVersionSame(String version, String cloudver) {
-		if (compareVersion(splitVersion(version), splitVersion(cloudver)) == 0) {
-			return true;
-		}
-		return false;
-	}
+        return compareVersion(splitVersion(version), splitVersion(cloudver)) == 0;
+    }
 
 	/**
 	 * This method returns true if version <= cloudversion.
@@ -74,12 +68,9 @@ class AppUpdateVersion {
 	 * @return
 	 */
 	static boolean isAppVersionLessthanEqualsto(String version, String cloudver) {
-		if (compareVersion(splitVersion(version), splitVersion(cloudver)) == -1 ||
-				compareVersion(splitVersion(version), splitVersion(cloudver)) == 0) {
-			return true;
-		}
-		return false;
-	}
+        return compareVersion(splitVersion(version), splitVersion(cloudver)) == -1 ||
+                compareVersion(splitVersion(version), splitVersion(cloudver)) == 0;
+    }
 
 	/**
 	 * This method split the version and fetches the first 3 numbers . For example if version is

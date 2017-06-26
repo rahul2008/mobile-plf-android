@@ -8,25 +8,21 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager;
 
 /**
- * Created by 310238655 on 8/16/2016.
+ * ServiceDiscovery Service Test class.
  */
 public class ServiceDiscoveryServiceTest extends AppInfraInstrumentation {
 
-    private Context context;
-    private ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
-    private ServiceDiscoveryManager mServiceDiscoveryManager = null;
     private ServiceDiscoveryService mServiceDiscoveyService = null;
-    private AppInfra mAppInfra;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        context = getInstrumentation().getContext();
+        Context context = getInstrumentation().getContext();
         assertNotNull(context);
-        mAppInfra = new AppInfra.Builder().build(context);
+        AppInfra mAppInfra = new AppInfra.Builder().build(context);
         assertNotNull(mAppInfra);
-        mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
-        mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
+        ServiceDiscoveryInterface mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
+        ServiceDiscoveryManager mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
         mServiceDiscoveyService = new ServiceDiscoveryService();
         assertNotNull(mServiceDiscoveryInterface);
         assertNotNull(mServiceDiscoveryManager);

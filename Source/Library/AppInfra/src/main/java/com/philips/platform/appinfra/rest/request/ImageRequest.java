@@ -7,10 +7,12 @@ package com.philips.platform.appinfra.rest.request;
 
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
+import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.rest.RestManager;
 import com.philips.platform.appinfra.rest.ServiceIDUrlFormatting;
 import com.philips.platform.appinfra.rest.TokenProviderInterface;
@@ -34,11 +36,13 @@ public class ImageRequest extends com.android.volley.toolbox.ImageRequest {
         this.mProvider = tokenProviderInterface;
         this.mHeader = header;
         this.mParams = params;
+        Log.v(AppInfraLogEventID.AI_REST, "Image Request");
     }
 
     public ImageRequest(String serviceID, ServiceIDUrlFormatting.SERVICEPREFERENCE pref, String urlExtension, Response.Listener<Bitmap> listener, int maxWidth, int maxHeight,
                         ImageView.ScaleType scaleType, Bitmap.Config decodeConfig, Response.ErrorListener errorListener)  {
         super(ServiceIDUrlFormatting.formatUrl(serviceID, pref, urlExtension), listener, maxWidth, maxHeight, scaleType, decodeConfig, errorListener);
+        Log.v(AppInfraLogEventID.AI_REST, "Image Request");
     }
 
 
@@ -49,6 +53,7 @@ public class ImageRequest extends com.android.volley.toolbox.ImageRequest {
                 final Map<String, String> tokenHeader = RestManager.setTokenProvider(mProvider);
                 mHeader.putAll(tokenHeader);
             }
+            Log.v(AppInfraLogEventID.AI_REST, "Image Request get Headers"+mHeader);
             return mHeader;
         }
         return super.getHeaders();
