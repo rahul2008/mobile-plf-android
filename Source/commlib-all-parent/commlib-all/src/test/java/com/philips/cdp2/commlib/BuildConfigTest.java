@@ -5,7 +5,7 @@
 
 package com.philips.cdp2.commlib;
 
-import com.philips.cdp.cloudcontrollerapi.BuildConfig;
+import com.philips.cdp2.commlib_all.BuildConfig;
 
 import org.junit.Test;
 
@@ -15,6 +15,6 @@ public class BuildConfigTest {
 
     @Test
     public void containsTla() throws Exception {
-        assertEquals("cla", BuildConfig.TLA);
+        assertEquals("cba", BuildConfig.TLA);
     }
 }
