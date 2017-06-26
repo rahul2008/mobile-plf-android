@@ -15,6 +15,7 @@ import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.philips.amwelluapp.R;
 import com.philips.amwelluapp.base.PTHBaseFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.ProgressBar;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class PTHProvidersListFragment extends PTHBaseFragment implements SwipeRe
     private Consumer consumer;
     private ProgressBar progressBar;
     private PTHProvidersListAdapter pthProvidersListAdapter;
+    private ActionBarListener actionBarListener;
 
 
     @Nullable
@@ -46,9 +48,18 @@ public class PTHProvidersListFragment extends PTHBaseFragment implements SwipeRe
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if(null != actionBarListener){
+            actionBarListener.updateActionBar("Providers screen",true);
+        }
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        actionBarListener = getActionBarListener();
         onRefresh();
 
     }

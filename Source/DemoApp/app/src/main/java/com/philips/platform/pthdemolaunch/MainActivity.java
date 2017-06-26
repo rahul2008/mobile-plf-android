@@ -6,8 +6,8 @@ import android.support.annotation.StringRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.amwelluapp.uappclasses.PTHMicroAppDependencies;
@@ -31,10 +31,7 @@ public class MainActivity extends FragmentActivity implements ActionBarListener{
     private PTHMicroAppInterface PTHMicroAppInterface;
 
     private TextView mTitleTextView;
-    private TextView mCountText;
     private ImageView mBackImage;
-    private FrameLayout mCartContainer;
-    private String mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +49,7 @@ public class MainActivity extends FragmentActivity implements ActionBarListener{
     }
 
     private void addActionBar() {
-        //Toolbar mToolbar = (Toolbar) findViewById(R.id.iap_toolbar);
-        // setSupportActionBar(mToolbar);
-        // getSupportActionBar().setDisplayShowTitleEnabled(false);
-        //getSupportActionBar().setDisplayUseLogoEnabled(false);
-        //getSupportActionBar().setDisplayShowCustomEnabled(false);
-        // getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.iap_header_back_button);
+        RelativeLayout frameLayout = (RelativeLayout) findViewById(R.id.iap_header_back_button);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -84,12 +75,12 @@ public class MainActivity extends FragmentActivity implements ActionBarListener{
 
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
-
+        mTitleTextView.setText(i);
     }
 
     @Override
     public void updateActionBar(String s, boolean b) {
-
+        mTitleTextView.setText(s);
     }
 
     private void initTheme() {

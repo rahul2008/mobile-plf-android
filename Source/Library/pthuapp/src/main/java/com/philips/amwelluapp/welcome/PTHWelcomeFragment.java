@@ -11,14 +11,12 @@ import android.widget.ProgressBar;
 import com.philips.amwelluapp.R;
 import com.philips.amwelluapp.base.PTHBaseFragment;
 import com.philips.amwelluapp.base.UIBasePresenter;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 public class PTHWelcomeFragment extends PTHBaseFragment implements BackEventListener {
     public static final String TAG = PTHWelcomeFragment.class.getSimpleName();
     private UIBasePresenter presenter;
 
-    private FragmentLauncher fragmentLauncher;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,10 +34,6 @@ public class PTHWelcomeFragment extends PTHBaseFragment implements BackEventList
         return view;
     }
 
-    public void setFragmentLauncher(FragmentLauncher fragmentLauncher) {
-        this.fragmentLauncher = fragmentLauncher;
-    }
-
 
     @Override
     public void finishActivityAffinity() {
@@ -49,11 +43,6 @@ public class PTHWelcomeFragment extends PTHBaseFragment implements BackEventList
     @Override
     public FragmentActivity getFragmentActivity() {
         return getActivity();
-    }
-
-    @Override
-    public int getContainerID() {
-        return fragmentLauncher.getParentContainerResourceID();
     }
 
 
