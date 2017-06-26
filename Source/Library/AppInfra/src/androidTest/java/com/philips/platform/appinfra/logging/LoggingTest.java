@@ -3,8 +3,8 @@ package com.philips.platform.appinfra.logging;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
+import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 
@@ -18,10 +18,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by 310238114 on 8/9/2016.
@@ -45,14 +47,6 @@ public class LoggingTest extends AppInfraInstrumentation {
             protected JSONObject getMasterConfigFromApp() {
                 JSONObject result = null;
                 try {
-                  /*  InputStream mInputStream = mContext.getAssets().open("configuration.json");
-                    BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
-                    StringBuilder total = new StringBuilder();
-                    String line;
-                    while ((line = r.readLine()) != null) {
-                        total.append(line).append('\n');
-                    }
-                    result = new JSONObject(total.toString());*/
                     String testJson = ConfigValues.testJson();
                     result = new JSONObject(testJson);
                 } catch (Exception e) {
@@ -63,33 +57,49 @@ public class LoggingTest extends AppInfraInstrumentation {
 
         };
         assertNotNull(mConfigInterface);
-
         mAppInfra= new AppInfra.Builder().setConfig(mConfigInterface).build(context);
         loggingInterface = mAppInfra.getLogging().createInstanceForComponent("ail","1.5");
-
-//       testLogger.setAppInfra(mAppInfra);
-//        loggingInterface = mAppInfra.getLogging();
         assertNotNull(mAppInfra);
         assertNotNull(loggingInterface);
-
         loggingInterface.log(LoggingInterface.LogLevel.INFO,"Event","Message");
         loggingInterfaceMock = mock(AppInfraLogging.class);
-       /* loggingInterface = mock(AppInfraLogging.class);
-        doAnswer(new Answer<Object>() {
-            public Object answer(InvocationOnMock invocation) {
-                Object[] args = invocation.getArguments();
-                return null;
-            }
-        }).when(loggingInterface).createInstanceForComponent("Component Name mock","Component version");
-
-        doAnswer(new Answer<Object>() {
-            public Object answer(InvocationOnMock invocation) {
-                Object[] args = invocation.getArguments();
-                return null;
-            }
-        }).when( loggingInterface).log(LoggingInterface.LogLevel.INFO,"Event","Message");*/
     }
 
+    public void testCreateInstanceForComponent() {
+        context = getInstrumentation().getContext();
+        AppInfra appInfra = new AppInfra.Builder().build(context);
+        AppInfraLogging appInfraLogging = new AppInfraLogging(appInfra);
+        assertNotNull(appInfraLogging.createInstanceForComponent("test","1"));
+    }
+
+    public void testCreateLogger() {
+        final Logger logger = mock(Logger.class);
+        AppInfraLogging appInfraLogging;
+        appInfraLogging = new AppInfraLogging(mAppInfra){
+            @Override
+            protected Logger getJavaLogger() {
+                return logger;
+            }
+        };
+        appInfraLogging.createLogger("component_id");
+        verify(logger).setLevel(Level.FINE);
+        verify(logger).log(Level.INFO, "Logger created");
+    }
+
+    /*public void testLog() {
+        final Logger logger = mock(Logger.class);
+        AppInfraLogging appInfraLogging = new AppInfraLogging(mAppInfra) {
+            @Override
+            protected Logger getJavaLogger() {
+                return logger;
+            }
+        };
+        appInfraLogging.createLogger("component_id");
+        appInfraLogging.log(LoggingInterface.LogLevel.DEBUG, "some_event", "event_message");
+        verify(logger).log(Level.INFO, "Logger created");
+        verify(logger).log(Level.CONFIG, "some_event", "event_message");
+    }
+*/
     public void testLogInitialize(){
         assertNotNull(loggingInterface.createInstanceForComponent("Component Name","Component version"));
         loggingInterface.log(LoggingInterface.LogLevel.INFO,"Event","Message");
