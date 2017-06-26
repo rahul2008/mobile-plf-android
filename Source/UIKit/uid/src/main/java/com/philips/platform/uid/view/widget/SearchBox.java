@@ -213,7 +213,7 @@ public class SearchBox extends LinearLayout {
     }
 
     private void initHintTexts(Context context, AttributeSet attrs) {
-        if (attrs != null) {
+        if (attrs == null) {
             return;
         }
         TypedArray typedArray = context.obtainStyledAttributes(attrs, new int[]{R.attr.uidSearchInputHintText, R.attr.uidSearchDecoyHintText});
