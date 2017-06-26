@@ -9,6 +9,7 @@ package com.philips.platform.appinfra.logging;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
@@ -111,47 +112,50 @@ class LoggingConfiguration {
 
     Level getJavaLoggerLogLevel(String level) {
         Level javaLevel;
-        switch (level) {
-            case "ERROR":
-            case "Error":
-            case "error":
-                javaLevel = Level.SEVERE;
-                break;
-            case "WARN":
-            case "Warn":
-            case "warn":
-                javaLevel = Level.WARNING;
-                break;
-            case "INFO":
-            case "Info":
-            case "info":
-                javaLevel = Level.INFO;
-                break;
-            case "DEBUG":
-            case "Debug":
-            case "debug":
-                javaLevel = Level.CONFIG;
-                break;
-            case "VERBOSE":
-            case "Verbose":
-            case "verbose":
-                javaLevel = Level.FINE;
-                break;
-            case "ALL":
-            case "All":
-            case "all":
-                javaLevel = Level.FINE;
-                break;
-            case "OFF":
-            case "Off":
-            case "off":
-                javaLevel = Level.OFF;
-                break;
-            default:
-                javaLevel = Level.FINE;
-        }
+        if (!TextUtils.isEmpty(level)) {
+            switch (level) {
+                case "ERROR":
+                case "Error":
+                case "error":
+                    javaLevel = Level.SEVERE;
+                    break;
+                case "WARN":
+                case "Warn":
+                case "warn":
+                    javaLevel = Level.WARNING;
+                    break;
+                case "INFO":
+                case "Info":
+                case "info":
+                    javaLevel = Level.INFO;
+                    break;
+                case "DEBUG":
+                case "Debug":
+                case "debug":
+                    javaLevel = Level.CONFIG;
+                    break;
+                case "VERBOSE":
+                case "Verbose":
+                case "verbose":
+                    javaLevel = Level.FINE;
+                    break;
+                case "ALL":
+                case "All":
+                case "all":
+                    javaLevel = Level.FINE;
+                    break;
+                case "OFF":
+                case "Off":
+                case "off":
+                    javaLevel = Level.OFF;
+                    break;
+                default:
+                    javaLevel = Level.FINE;
+            }
 
-        return javaLevel;
+            return javaLevel;
+        }
+        return Level.FINE;
     }
 
 

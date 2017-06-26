@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.mockito.MockitoAnnotations;
 
 import java.util.HashMap;
+import java.util.logging.Level;
 
 public class LoggingConfigurationTest extends AppInfraInstrumentation {
 
@@ -51,13 +52,30 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
         assertFalse(loggingConfiguration.isConsoleLogEnabled(loggingProperty));
     }
 
-    public void testgetLogLevel() {
+    public void testGetLogLevel() {
         HashMap<String, Object> loggingProperty = new HashMap<>();
         loggingProperty.put(loggingConfiguration.LOG_LEVEL_KEY, "Test");
         assertEquals(loggingConfiguration.getLogLevel(loggingProperty),"Test");
 
         loggingProperty.put(loggingConfiguration.LOG_LEVEL_KEY, null);
         assertEquals(loggingConfiguration.getLogLevel(loggingProperty),"All");
+    }
+
+    public void testLoggingProperties() {
+        assertNotNull(loggingConfiguration.getLoggingProperties(mAppInfra));
+    }
+
+    public void testGetJavaLogLevel() {
+        assertEquals(loggingConfiguration.getJavaLoggerLogLevel("ERROR"), Level.SEVERE);
+        assertEquals(loggingConfiguration.getJavaLoggerLogLevel("WARN"), Level.WARNING);
+        assertEquals(loggingConfiguration.getJavaLoggerLogLevel("INFO"), Level.INFO);
+        assertEquals(loggingConfiguration.getJavaLoggerLogLevel("DEBUG"), Level.CONFIG);
+        assertEquals(loggingConfiguration.getJavaLoggerLogLevel("VERBOSE"), Level.FINE);
+        assertEquals(loggingConfiguration.getJavaLoggerLogLevel("ALL"), Level.FINE);
+        assertEquals(loggingConfiguration.getJavaLoggerLogLevel("OFF"), Level.OFF);
+        assertEquals(loggingConfiguration.getJavaLoggerLogLevel("off"), Level.OFF);
+        assertEquals(loggingConfiguration.getJavaLoggerLogLevel(null), Level.FINE);
+        assertEquals(loggingConfiguration.getJavaLoggerLogLevel(""), Level.FINE);
     }
 
 }
