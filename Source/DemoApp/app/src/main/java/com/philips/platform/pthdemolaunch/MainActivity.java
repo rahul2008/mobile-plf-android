@@ -1,8 +1,14 @@
 package com.philips.platform.pthdemolaunch;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.philips.amwelluapp.uappclasses.PTHMicroAppDependencies;
 import com.philips.amwelluapp.uappclasses.PTHMicroAppInterface;
@@ -24,11 +30,18 @@ public class MainActivity extends FragmentActivity implements ActionBarListener{
     private PTHMicroAppLaunchInput PTHMicroAppLaunchInput;
     private PTHMicroAppInterface PTHMicroAppInterface;
 
+    private TextView mTitleTextView;
+    private TextView mCountText;
+    private ImageView mBackImage;
+    private FrameLayout mCartContainer;
+    private String mTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         initTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pth_launch_activity);
+        addActionBar();
         initAppInfra();
         fragmentLauncher = new FragmentLauncher(this,R.id.uappFragmentLayout,this);
         PTHMicroAppLaunchInput = new PTHMicroAppLaunchInput("Launch Uapp Input");
@@ -38,6 +51,28 @@ public class MainActivity extends FragmentActivity implements ActionBarListener{
 
     }
 
+    private void addActionBar() {
+        //Toolbar mToolbar = (Toolbar) findViewById(R.id.iap_toolbar);
+        // setSupportActionBar(mToolbar);
+        // getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //getSupportActionBar().setDisplayUseLogoEnabled(false);
+        //getSupportActionBar().setDisplayShowCustomEnabled(false);
+        // getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.iap_header_back_button);
+        frameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                onBackPressed();
+            }
+        });
+
+        mBackImage = (ImageView) findViewById(R.id.iap_iv_header_back_button);
+        Drawable mBackDrawable = VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.uid_back_icon,getTheme());
+        mBackImage.setBackground(mBackDrawable);
+        mTitleTextView = (TextView) findViewById(R.id.iap_actionBar_headerTitle_lebel);
+        setTitle("Am well");
+
+    }
     private void initAppInfra() {
         ((AmwellDemoApplication)getApplicationContext()).initializeAppInfra(new AppInitializationCallback.AppInfraInitializationCallback() {
             @Override

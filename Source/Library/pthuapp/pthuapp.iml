@@ -96,42 +96,38 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 25 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="uAppFwLib-1.5.0-SNAPSHOT.20170531182133" level="project" />
     <orderEntry type="library" exported="" name="dagger-2.10" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="runner-0.5" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="espresso-idling-resource-2.2.2" level="project" />
-    <orderEntry type="library" exported="" name="registrationApi-10.1.0-SNAPSHOT.20170622131752" level="project" />
+    <orderEntry type="library" exported="" name="cloudcontroller-5.1.4-SNAPSHOT.20170518141445" level="project" />
+    <orderEntry type="library" exported="" name="cloudcontroller-api-3.1.4-SNAPSHOT.20170519092616" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-library-1.3" level="project" />
     <orderEntry type="library" exported="" name="okhttp-2.5.0" level="project" />
+    <orderEntry type="library" exported="" name="hsdp-1.1.0-SNAPSHOT.20170601172838" level="project" />
     <orderEntry type="library" exported="" name="okhttp-apache-2.5.0" level="project" />
     <orderEntry type="library" exported="" name="transition-25.3.1" level="project" />
-    <orderEntry type="library" exported="" name="jump-6.2.0-SNAPSHOT.20170622131752" level="project" />
+    <orderEntry type="library" exported="" name="AppInfra-1.6.0-SNAPSHOT.20170530174741" level="project" />
+    <orderEntry type="library" exported="" name="uid-0.1.1-SNAPSHOT.20170601082500" level="project" />
     <orderEntry type="library" exported="" name="jackson-annotations-2.6.0" level="project" />
     <orderEntry type="library" exported="" name="rxandroid-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="reactive-streams-1.0.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="exposed-instrumentation-api-publish-0.5" level="project" />
-    <orderEntry type="library" exported="" name="butterknife-annotations-8.6.0" level="project" />
     <orderEntry type="library" exported="" name="rxjava-1.2.7" level="project" />
-    <orderEntry type="library" exported="" name="uAppFwLib-1.5.0-SNAPSHOT.20170622112405" level="project" />
-    <orderEntry type="library" exported="" name="cloudcontroller-5.1.4-SNAPSHOT.20170606114827" level="project" />
     <orderEntry type="library" exported="" name="retrofit-2.2.0" level="project" />
+    <orderEntry type="library" exported="" name="butterfork-binder-1.0.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javax.annotation-api-1.2" level="project" />
     <orderEntry type="library" exported="" name="converter-gson-2.2.0" level="project" />
-    <orderEntry type="library" exported="" name="cloudcontroller-api-3.1.5-SNAPSHOT.20170609124534" level="project" />
     <orderEntry type="library" exported="" name="appauth-0.4.1" level="project" />
-    <orderEntry type="library" exported="" name="hsdp-1.1.0-SNAPSHOT.20170622131753" level="project" />
-    <orderEntry type="library" exported="" name="AppInfra-1.6.0-SNAPSHOT.20170622111801" level="project" />
     <orderEntry type="library" exported="" name="play-services-basement-10.2.1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="javawriter-2.1.1" level="project" />
     <orderEntry type="library" exported="" name="support-v4-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="support-media-compat-25.3.1" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="javawriter-2.1.1" level="project" />
     <orderEntry type="library" exported="" name="calligraphy-2.1.0" level="project" />
-    <orderEntry type="library" exported="" name="butterknife-8.6.0" level="project" />
-    <orderEntry type="library" exported="" name="shinelib-3.0.0-SNAPSHOT.20170609131557" level="project" />
-    <orderEntry type="library" exported="" name="uid-0.1.1-SNAPSHOT.20170621102041" level="project" />
+    <orderEntry type="library" exported="" name="shinelib-2.4.0-SNAPSHOT.20170519091157" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="support-vector-drawable-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="support-compat-25.3.1" level="project" />
-    <orderEntry type="library" exported="" name="dicommClientLib-6.0.0-SNAPSHOT.20170614093849" level="project" />
     <orderEntry type="library" exported="" name="awsdk-unspecified" level="project" />
     <orderEntry type="library" exported="" name="libphonenumber-7.7.1" level="project" />
     <orderEntry type="library" exported="" name="picasso-2.5.2" level="project" />
@@ -144,21 +140,24 @@
     <orderEntry type="library" exported="" name="support-core-ui-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="converter-simplexml-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="picasso2-okhttp3-downloader-1.0.1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="jsr305-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="support-core-utils-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="support-fragment-25.3.1" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="jsr305-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="org.apache.http.legacy-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="rxjava-2.0.1" level="project" />
+    <orderEntry type="library" exported="" name="jump-6.2.0-SNAPSHOT.20170601172836" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="espresso-core-2.2.2" level="project" />
     <orderEntry type="library" exported="" name="jackson-core-2.6.1" level="project" />
+    <orderEntry type="library" exported="" name="dicommClientLib-5.0.0-SNAPSHOT.20170523150503" level="project" />
     <orderEntry type="library" exported="" name="constraint-layout-solver-1.0.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="rules-0.5" level="project" />
     <orderEntry type="library" exported="" name="adapter-rxjava-2.2.0" level="project" />
     <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
+    <orderEntry type="library" exported="" name="commlib-all-1.3.1-SNAPSHOT.20170531125652" level="project" />
+    <orderEntry type="library" exported="" name="registrationApi-10.1.0-SNAPSHOT.20170601172834" level="project" />
     <orderEntry type="library" exported="" name="rxandroid-1.2.1" level="project" />
     <orderEntry type="library" exported="" name="okio-1.11.0" level="project" />
     <orderEntry type="library" exported="" name="jackson-databind-2.6.1" level="project" />
-    <orderEntry type="library" exported="" name="commlib-all-1.3.1-SNAPSHOT.20170621153847" level="project" />
     <orderEntry type="library" exported="" name="okhttp-3.6.0" level="project" />
     <orderEntry type="library" exported="" name="adobeMobileLibrary-4.9.0" level="project" />
     <orderEntry type="library" exported="" name="volley-1.0.0" level="project" />
