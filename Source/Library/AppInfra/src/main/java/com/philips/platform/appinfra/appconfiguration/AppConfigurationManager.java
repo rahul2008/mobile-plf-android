@@ -69,7 +69,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
     protected JSONObject getMasterConfigFromApp() {
         try {
-            logAppConfiguration(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_APP_CONFIGUARTION,"Reading Master Config from app "+ result.toString());
+            logAppConfiguration(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_APP_CONFIGUARTION,"Reading Master Config from app ");
             final InputStream mInputStream = mContext.getAssets().open("AppConfig.json");
             final BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
             final StringBuilder total = new StringBuilder();
