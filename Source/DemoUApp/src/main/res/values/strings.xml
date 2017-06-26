@@ -47,4 +47,17 @@
     <string name="enable_communication">Enable Communication</string>
     <string name="ms">milliseconds</string>
     <string name="get">Get</string>
+    <string name="pairing">Pairing</string>
+    <string name="client_provider">clientProvider</string>
+    <string name="client_id">clientId</string>
+    <string name="permissions_comma_separated">permissions (comma separated)</string>
+    <string name="request">Request</string>
+    <string name="type">type</string>
+    <string name="di_comm">di-comm</string>
+    <string name="secretkey">secretKey</string>
+    <string name="secret_key_default">68d1593b1bb341a78576f274</string>
+    <string name="client_id_default">deadddddbeefffff</string>
+    <string name="clienttype">ClientType</string>
+    <string name="clienttype_default">CDP-AND-DEV</string>
+    <string name="client_provider_default">cpp</string>
 </resources>
