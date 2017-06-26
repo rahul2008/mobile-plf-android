@@ -211,6 +211,9 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
                 if (restoredText != null) {
                     if (mCheckBox.isChecked()) {
+                        SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
+                        editor.putString("reg_hsdp_environment", restoredText);
+                        editor.commit();
                         //  RegistrationSampleApplication.getInstance().initHSDP(RegUtility.getConfiguration(restoredText));
                     } else {
                         SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
