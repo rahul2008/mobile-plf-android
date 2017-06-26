@@ -130,6 +130,7 @@ android {
         targetSdkVersion versions.target
         versionCode 3
         versionName version
+        buildConfigField "String", "TLA", "\"bll\""
     }
 
     buildTypes {
