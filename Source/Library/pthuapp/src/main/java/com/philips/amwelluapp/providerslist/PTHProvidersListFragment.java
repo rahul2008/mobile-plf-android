@@ -61,11 +61,6 @@ public class PTHProvidersListFragment extends PTHBaseFragment implements SwipeRe
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         actionBarListener = getActionBarListener();
         onRefresh();
-
-    }
-
-    public void setProvidersList(List<ProviderInfo> providersList){
-        providerInfoList = providersList;
     }
 
     public void setPracticeAndConsumer(Practice practice, Consumer consumer){

@@ -94,6 +94,7 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
         Toast.makeText(uiBaseView.getFragmentActivity(),"CONSUMER OBJECT RECEIVED",Toast.LENGTH_SHORT).show();
         PracticeFragment practiceFragment = new PracticeFragment();
         practiceFragment.setConsumer(consumer);
+        practiceFragment.setActionBarListener(((PTHWelcomeFragment) uiBaseView).getActionBarListener());
         uiBaseView.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(uiBaseView.getContainerID(),practiceFragment,"PTHPractice List").addToBackStack(null).commit();
 
     }

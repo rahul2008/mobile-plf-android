@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
@@ -101,8 +100,8 @@ public class PracticeFragment extends PTHBaseFragment implements BackEventListen
             public void onItemClick(Practice practice) {
                 PTHProvidersListFragment providerListFragment = new PTHProvidersListFragment();
                 providerListFragment.setPracticeAndConsumer(practice,mConsumer);
+                providerListFragment.setActionBarListener(getActionBarListener());
                 getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), providerListFragment,"ProviderListFragment").addToBackStack(null).commit();
-                Toast.makeText(getFragmentActivity(),practice.getName()+ "Practice clicked",Toast.LENGTH_SHORT).show();
             }
         });
 
