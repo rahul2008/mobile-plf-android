@@ -1,6 +1,30 @@
 CommLib-all for Android - Release Notes
 =======================================
 
+Version {next}
+-------------
+
+### Functionality Delivered
+* 37438: component now exposes its version and tla via BuildConfig
+
+### Backwards Compatibility
+* NA
+
+### Features not covered
+* To be filled in at release
+
+### Breaking Changes
+See backwards compatibility
+
+### Defects solved
+* NA
+
+### Residual anomalies
+* To be filled in at release
+
+### Risks and mitigations
+* NA
+
 Version 1.3.1
 -------------
 ### Functionality Delivered
