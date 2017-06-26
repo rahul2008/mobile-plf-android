@@ -131,6 +131,7 @@ android {
         minSdkVersion versions.minsdk
         versionCode 1
         versionName version
+        buildConfigField "String", "TLA", "\"cml\""
     }
 
     packagingOptions {
