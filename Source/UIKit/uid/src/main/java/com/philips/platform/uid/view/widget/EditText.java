@@ -12,12 +12,9 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
@@ -25,11 +22,11 @@ import android.view.MotionEvent;
 import android.view.inputmethod.EditorInfo;
 
 import com.philips.platform.uid.R;
-import com.philips.platform.uid.drawable.StrokeCompat;
 import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.utils.ClearEditTextIconHandler;
 import com.philips.platform.uid.utils.EditTextIconHandler;
 import com.philips.platform.uid.utils.PasswordEditTextIconHandler;
+import com.philips.platform.uid.utils.UIDInputTextUtils;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
 
 public class EditText extends AppCompatEditText {
@@ -64,7 +61,7 @@ public class EditText extends AppCompatEditText {
         UIDLocaleHelper.setTextFromResourceID(context, this, attrs);
 
         Rect paddingRect = new Rect(getPaddingLeft(), getPaddingTop(), getPaddingRight(), getPaddingBottom());
-        Drawable backgroundDrawable = getLayeredBackgroundDrawable(typedArray, theme);
+        Drawable backgroundDrawable = UIDInputTextUtils.getLayeredBackgroundDrawable(typedArray, theme, context);
         if (backgroundDrawable != null) {
             setBackground(backgroundDrawable);
         }
@@ -76,18 +73,6 @@ public class EditText extends AppCompatEditText {
 
         typedArray.recycle();
         initIconHandler();
-    }
-
-    private Drawable getLayeredBackgroundDrawable(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme) {
-        Drawable fillDrawable = getFillBackgroundDrawable(typedArray, theme);
-        Drawable borderDrawable = getBorderBackground(typedArray, theme);
-        Drawable backgroundDrawable = fillDrawable;
-        if (fillDrawable != null && borderDrawable != null) {
-            backgroundDrawable = new LayerDrawable(new Drawable[]{fillDrawable, borderDrawable});
-            ((LayerDrawable) backgroundDrawable).setId(DRAWABLE_FILL_INDEX, R.id.uid_texteditbox_fill_drawable);
-            ((LayerDrawable) backgroundDrawable).setId(DRAWABLE_STROKE_INDEX, R.id.uid_texteditbox_stroke_drawable);
-        }
-        return backgroundDrawable;
     }
 
     private void setHintTextColors(final TypedArray typedArray, final Resources.Theme theme) {
@@ -108,37 +93,6 @@ public class EditText extends AppCompatEditText {
 
     private void restorePadding(final Rect viewPaddings) {
         setPadding(viewPaddings.left, viewPaddings.top, viewPaddings.right, viewPaddings.bottom);
-    }
-
-    private Drawable getBorderBackground(final @NonNull TypedArray typedArray,
-                                         final Resources.Theme theme) {
-        int borderDrawableID = typedArray.getResourceId(R.styleable.UIDTextEditBox_uidInputTextBorderBackground, -1);
-        Drawable strokeDrawable = null;
-        if (borderDrawableID != -1) {
-            strokeDrawable = AppCompatResources.getDrawable(getContext(), borderDrawableID);
-            int borderColorStateListID = typedArray.getResourceId(R.styleable.UIDTextEditBox_uidInputTextBorderBackgroundColorList, -1);
-            int borderWidth = (int) typedArray.getDimension(R.styleable.UIDTextEditBox_uidInputTextBorderWidth, 0f);
-            if (borderColorStateListID != -1) {
-                strokeColorStateList = ThemeUtils.buildColorStateList(getContext().getResources(), theme, borderColorStateListID);
-                strokeDrawable = StrokeCompat.setStroke(strokeDrawable, borderWidth, strokeColorStateList);
-            }
-        }
-        return strokeDrawable;
-    }
-
-    private Drawable getFillBackgroundDrawable(final @NonNull TypedArray typedArray,
-                                               final Resources.Theme theme) {
-        int fillDrawableID = typedArray.getResourceId(R.styleable.UIDTextEditBox_uidInputTextFillBackground, -1);
-        Drawable fillDrawable = null;
-        if (fillDrawableID != -1) {
-            fillDrawable = DrawableCompat.wrap(AppCompatResources.getDrawable(getContext(), fillDrawableID));
-            int fillColorStateListID = typedArray.getResourceId(R.styleable.UIDTextEditBox_uidInputTextFillBackgroundColorList, -1);
-            if (fillColorStateListID != -1) {
-                fillColorStateList = ThemeUtils.buildColorStateList(getContext().getResources(), theme, fillColorStateListID);
-                DrawableCompat.setTintList(fillDrawable, fillColorStateList);
-            }
-        }
-        return fillDrawable;
     }
 
     @Override
