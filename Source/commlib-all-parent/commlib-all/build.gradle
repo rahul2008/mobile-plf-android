@@ -132,6 +132,7 @@ android {
         versionCode 1
         versionName version
         buildConfigField "String", "LIBRARY_VERSION", "\"${objcdp.getVersionWithHash()}\""
+        buildConfigField "String", "TLA", "\"cba\""
     }
 
     buildTypes {
