@@ -6,51 +6,23 @@
 package com.philips.platform.appinfra.logging;
 
 
-import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 
-import org.json.JSONArray;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 
 public class AppInfraLogging implements LoggingInterface {
 
-    private static final String PROPERTIES_FILE_NAME = "logging.properties";
 
-    private static final String DIRECTORY_FILE_NAME = "AppInfraLogs";
-    private static final String LOG_FILE_NAME_KEY = "fileName"; //AppInfraLog0, AppInfraLog1, AppInfraLog2, AppInfraLog3, AppInfraLog4
-    private static final String LOG_FILE_SIZE_KEY = "fileSizeInBytes";
-    private static final String LOG_FILE_COUNT_KEY = "numberOfFiles";
-    private static final String LOG_LEVEL_KEY = "logLevel";
-    private static final String CONSOLE_LOG_ENABLED_KEY = "consoleLogEnabled";
-    private static final String FILE_LOG_ENABLED_KEY = "fileLogEnabled";
-    private static final String COMPONENT_LEVEL_LOG_ENABLED_KEY = "componentLevelLogEnabled";
-    private static final String COMPONENT_IDS_KEY = "componentIds";
-    String mComponentID;
-    String mComponentVersion;
     private AppInfra mAppInfra;
     private Logger mJavaLogger;
-    private FileHandler mFileHandler;
-    private HashMap<String, Object> mLoggingProperties = null;
-
+    String mComponentID;
+    String mComponentVersion;
 
     public AppInfraLogging(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
@@ -139,21 +111,22 @@ public class AppInfraLogging implements LoggingInterface {
     }
 
     void createLogger(String pComponentId) {
-        HashMap<String, Object> loggingProperty = getLoggingProperties();
+        LoggingConfiguration loggingConfiguration = new LoggingConfiguration(mAppInfra);
+        HashMap<String, Object> loggingProperty = loggingConfiguration.getLoggingProperties(mAppInfra);
         if (null != loggingProperty) {
-            final String logLevel = getLogLevel(loggingProperty);
-            final Boolean isConsoleLogEnabled = isConsoleLogEnabled(loggingProperty);
-            final Boolean isFileLogEnabled = isFileLogEnabled(loggingProperty);
+            final String logLevel = loggingConfiguration.getLogLevel(loggingProperty);
+            final Boolean isConsoleLogEnabled = loggingConfiguration.isConsoleLogEnabled(loggingProperty);
+            final Boolean isFileLogEnabled = loggingConfiguration.isFileLogEnabled(loggingProperty);
 
             if (!logLevel.equalsIgnoreCase("Off") && (isConsoleLogEnabled || isFileLogEnabled)) {
-                mJavaLogger = getLogger(pComponentId); // returns new or existing log
-                final Boolean isComponentLevelLogEnabled = isComponentLevelLogEnabled(loggingProperty);
+                mJavaLogger = loggingConfiguration.getLogger(pComponentId); // returns new or existing log
+                final Boolean isComponentLevelLogEnabled = loggingConfiguration.isComponentLevelLogEnabled(loggingProperty);
                 if (isComponentLevelLogEnabled) { // if component level filter enabled
-                    configureComponentLevelLogging(pComponentId, loggingProperty, logLevel, isConsoleLogEnabled, isFileLogEnabled);
+                    loggingConfiguration.configureComponentLevelLogging(pComponentId, loggingProperty, logLevel, isConsoleLogEnabled, isFileLogEnabled);
                 } else { // no component level filter
-                    getJavaLogger().setLevel(getJavaLoggerLogLevel(logLevel));
-                    activateLogger();
-                    enableConsoleAndFileLog(isConsoleLogEnabled, isFileLogEnabled);
+                    getJavaLogger().setLevel(loggingConfiguration.getJavaLoggerLogLevel(logLevel));
+                    loggingConfiguration.activateLogger();
+                    loggingConfiguration.enableConsoleAndFileLog(isConsoleLogEnabled, isFileLogEnabled, mComponentID, mComponentVersion);
                     getJavaLogger().log(Level.INFO, "Logger created"); //R-AI-LOG-6
                 }
             }
@@ -162,323 +135,14 @@ public class AppInfraLogging implements LoggingInterface {
                FALLBACK
                if  logging.debugConfig OR  logging.releaseConfig NOT present in appconfig.json
                 then read from logging.properties*/
-            mJavaLogger = getLogger(pComponentId); // returns new or existing log
-            readLogConfigFileFromAppAsset();
-            activateLogger();
-            enableConsoleLog(true);
+            mJavaLogger = loggingConfiguration.getLogger(pComponentId); // returns new or existing log
+            loggingConfiguration.fallBackToLoggingPropertiesFile(mComponentID, mComponentVersion);
             getJavaLogger().log(Level.INFO, "Logger created"); //R-AI-LOG-6
         }
     }
 
-    private void configureComponentLevelLogging(String pComponentId, HashMap<String, Object> loggingProperty, String logLevel, Boolean isConsoleLogEnabled, Boolean isFileLogEnabled) {
-        // Filtering of logging components
-        final ArrayList<String> ComponentToBeLoggedList = new ArrayList<>();
-        JSONArray jsonArray = (JSONArray) loggingProperty.get(COMPONENT_IDS_KEY);
-        if (jsonArray != null) {
-            for (int i = 0; i < jsonArray.length(); i++) {
-                ComponentToBeLoggedList.add(jsonArray.optString(i));
-            }
-        }
-        if (ComponentToBeLoggedList.contains(pComponentId)) {
-            // if given component listed under config's key 'logging.debugConfig'>'componentIds' then enable log
-            mJavaLogger.setLevel(getJavaLoggerLogLevel(logLevel));
-            activateLogger();
-            enableConsoleAndFileLog(isConsoleLogEnabled, isFileLogEnabled);
-            mJavaLogger.log(Level.INFO, "Logger created"); //R-AI-LOG-6
-        }
-    }
-
-    private boolean isComponentLevelLogEnabled(HashMap<String, Object> loggingProperty) {
-        return (null != loggingProperty.get(COMPONENT_LEVEL_LOG_ENABLED_KEY)) ? (Boolean) loggingProperty.get(COMPONENT_LEVEL_LOG_ENABLED_KEY) : false;
-    }
-
-    private boolean isFileLogEnabled(HashMap<String, Object> loggingProperty) {
-        return (null != loggingProperty.get(FILE_LOG_ENABLED_KEY)) ? (Boolean) loggingProperty.get(FILE_LOG_ENABLED_KEY) : false;
-    }
-
-    private boolean isConsoleLogEnabled(HashMap<String, Object> loggingProperty) {
-        return (null != loggingProperty.get(CONSOLE_LOG_ENABLED_KEY)) ? (Boolean) loggingProperty.get(CONSOLE_LOG_ENABLED_KEY) : true;
-    }
-
-    private String getLogLevel(HashMap<String, Object> loggingProperty) {
-        return (null != loggingProperty.get(LOG_LEVEL_KEY)) ? (String) loggingProperty.get(LOG_LEVEL_KEY) : "All";
-    }
-
     protected Logger getJavaLogger(){
         return mJavaLogger;
-    }
-
-    private Logger getLogger(String pComponentId) {
-        mJavaLogger = Logger.getLogger(pComponentId);
-        return mJavaLogger;
-    }
-
-    private void enableConsoleAndFileLog(boolean consoleLog, boolean fileLog) {
-        if (consoleLog) {
-            enableConsoleLog(true);
-        }
-        if (fileLog) {
-            enableFileLog(true);
-        }
-    }
-
-    private void activateLogger() {
-
-        getLogManager().addLogger(mJavaLogger);
-
-    }
-
-    private LogManager getLogManager() {
-        return LogManager.getLogManager();
-    }
-
-    private Level getJavaLoggerLogLevel(String level) {
-        Level javaLevel;
-        switch (level) {
-            case "ERROR":
-            case "Error":
-            case "error":
-                javaLevel = Level.SEVERE;
-                break;
-            case "WARN":
-            case "Warn":
-            case "warn":
-                javaLevel = Level.WARNING;
-                break;
-            case "INFO":
-            case "Info":
-            case "info":
-                javaLevel = Level.INFO;
-                break;
-            case "DEBUG":
-            case "Debug":
-            case "debug":
-                javaLevel = Level.CONFIG;
-                break;
-            case "VERBOSE":
-            case "Verbose":
-            case "verbose":
-                javaLevel = Level.FINE;
-                break;
-            case "ALL":
-            case "All":
-            case "all":
-                javaLevel = Level.FINE;
-                break;
-            case "OFF":
-            case "Off":
-            case "off":
-                javaLevel = Level.OFF;
-                break;
-            default:
-                javaLevel = Level.FINE;
-        }
-
-        return javaLevel;
-    }
-
-
-    private InputStream getLoggerPropertiesInputStream() throws IOException {
-
-        return mAppInfra.getAppInfraContext().getAssets().open(PROPERTIES_FILE_NAME);
-    }
-
-
-    private void readLogConfigFileFromAppAsset() {
-        try {
-            InputStream mInputStream = getLoggerPropertiesInputStream();
-            if (mInputStream != null) {
-
-                getLogManager().readConfiguration(mInputStream);// reads default logging.properties from AppInfra library asset in first run
-            }
-        } catch (IOException e) {
-            if (e instanceof FileNotFoundException) {
-                Log.d("Logging Error", "logging.properties file missing under App assets folder", e);
-            } else {
-                Log.d("Logging Error", "", e);
-            }
-        }
-    }
-
-
-    private void enableConsoleLog(boolean isEnabled) {
-
-        ConsoleHandler mConsoleHandler;
-        if (isEnabled) {
-            ConsoleHandler consoleHandler = getCurrentLogConsoleHandler(mJavaLogger);
-            if (null == consoleHandler) {
-                mConsoleHandler = new ConsoleHandler();
-                if (null != mJavaLogger && null != mJavaLogger.getLevel()) {
-                    mConsoleHandler.setLevel(mJavaLogger.getLevel());
-                } else {
-                    // for appinfra internal log mJavaLogger will be null
-                    mConsoleHandler.setLevel(Level.FINE);
-                }
-                mConsoleHandler.setFormatter(new LogFormatter(mComponentID, mComponentVersion, mAppInfra));
-                // mConsoleHandler.setFilter(new LogFilter(null,"ev1"));
-                mJavaLogger.addHandler(mConsoleHandler);
-            } else {
-                // nothing to do, mConsoleHandler already added to Logger
-                Log.v("AILOG","Console logger already added to current Logger"+ mJavaLogger.getName());
-            }
-
-        } else { // remove console log if any
-            Handler[] currentComponentHandlers = mJavaLogger.getHandlers();
-            if (null != currentComponentHandlers && currentComponentHandlers.length > 0) {
-                for (Handler handler : currentComponentHandlers) {
-                    if (handler instanceof ConsoleHandler) {
-                        handler.close(); // flush and close connection of file
-                        mJavaLogger.removeHandler(handler);
-                    }
-                }
-            }
-        }
-    }
-
-
-    private void enableFileLog(boolean pFileLogEnabled) {
-        if (pFileLogEnabled) {
-            FileHandler fileHandler = getCurrentLogFileHandler(mJavaLogger);
-            if (null == fileHandler) {// add file log
-                mFileHandler = getFileHandler();
-                if (null != mJavaLogger && null != mJavaLogger.getLevel()) {
-                    mFileHandler.setLevel(mJavaLogger.getLevel());
-                } else if (mFileHandler != null) {
-                    // for appinfra internal log mJavaLogger will be null
-                    mFileHandler.setLevel(Level.FINE);
-                }
-                mFileHandler.setFormatter(new LogFormatter(mComponentID, mComponentVersion, mAppInfra));
-                mJavaLogger.addHandler(mFileHandler);
-
-            } else {
-                // nothing to do, fileHandler already added to Logger
-                Log.v("AILOG", "File logger already added to current Logger" + mJavaLogger.getName());
-            }
-        } else { // remove file log if any
-            Handler[] currentComponentHandlers = mJavaLogger.getHandlers();
-            if (null != currentComponentHandlers && currentComponentHandlers.length > 0) {
-                for (Handler handler : currentComponentHandlers) {
-                    if (handler instanceof FileHandler) {
-                        handler.close(); // flush and close connection of file
-                        mJavaLogger.removeHandler(handler);
-                        mFileHandler.flush();
-                        mFileHandler.close();
-                        mFileHandler = null;
-                    }
-                }
-            }
-        }
-    }
-
-    // return file handler for writting logs on file based on logging.properties config
-    private FileHandler getFileHandler() {
-        FileHandler fileHandler = null;
-        try {
-            File directoryCreated = createInternalDirectory();
-
-            final HashMap<String, Object> loggingProperty = getLoggingProperties();
-            if (null == loggingProperty) {
-                Log.e("AppInfra Log", "Appinfra log config 'logging.releaseConfig' OR 'logging.debugConfig' not present in appconfig.json so reading logging.properties file");//
-                return getFileHandlerFromLoggingProperties();
-            }
-            final String logFileName = (String) loggingProperty.get(LOG_FILE_NAME_KEY);
-            if (null == logFileName) {
-                Log.e("AppInfra Log", "Appinfra log file  key 'fileName'  not present in app configuration");//
-                return null;
-            }
-
-            Integer logFileSize = (Integer) loggingProperty.get(LOG_FILE_SIZE_KEY);
-            if (logFileSize == null) {
-                Log.e("AppInfra Log", "Appinfra log file  key   'fileSizeInBytes' not present in app configuration");//
-                return null;
-            }
-            final Integer maxLogFileCount = (Integer) loggingProperty.get(LOG_FILE_COUNT_KEY);
-            if (maxLogFileCount == null) {
-                Log.e("AppInfra Log", "Appinfra log file  key 'numberOfFiles' not present in app configuration");//
-                return null;
-            }
-            final String filePath = directoryCreated.getAbsolutePath() + File.separator + logFileName;
-            Log.e("App Infra log File Path", filePath);// this path will be dynamic for each device
-            fileHandler = new FileHandler(filePath, logFileSize, maxLogFileCount, true);
-        } catch (Exception e) {
-            Log.e("AI Log", "FileHandler exception", e);
-        }
-        return fileHandler;
-    }
-
-    private FileHandler getFileHandlerFromLoggingProperties() {
-        FileHandler fileHandler = null;
-        try {
-            File directoryCreated = createInternalDirectory();
-            String logFileName = getLogManager().getProperty("java.util.logging.FileHandler.pattern").trim();
-            String filePath = directoryCreated.getAbsolutePath() + File.separator + logFileName;
-            boolean isDebuggable = (0 != (mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
-            if (isDebuggable) { // debug mode is for development environment where logs and property file will be written to device external memory if available
-                Log.e("App Infra log File Path", filePath);// this path will be dynamic for each device
-            }
-            int logFileSize = Integer.parseInt(getLogManager().getProperty("java.util.logging.FileHandler.limit").trim());
-            int maxLogFileCount = Integer.parseInt(getLogManager().getProperty("java.util.logging.FileHandler.count").trim());
-            //boolean logFileAppendMode = Boolean.parseBoolean(LogManager.getLogManager().getProperty("java.util.logging.FileHandler.append").trim());
-            Log.e("App Infra log File Path", filePath);// this path will be dynamic for each device
-            fileHandler = new FileHandler(filePath, logFileSize, maxLogFileCount, true);
-        } catch (Exception e) {
-            Log.e("AI Log", "FileHandler exception", e);
-        }
-        return fileHandler;
-    }
-
-
-    // creates or return "AppInfra Logs" at phone internal memory
-    private File createInternalDirectory() {
-        return mAppInfra.getAppInfraContext().getDir(DIRECTORY_FILE_NAME, Context.MODE_PRIVATE);
-    }
-
-    private HashMap<String, Object> getLoggingProperties() {
-        if (null == mLoggingProperties) {
-            String AppInfraLoggingPropertyKey;
-            final boolean isDebuggable = (0 != (mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
-            if (isDebuggable) { // debug mode
-                AppInfraLoggingPropertyKey = "logging.debugConfig";
-            } else {
-                AppInfraLoggingPropertyKey = "logging.releaseConfig";
-            }
-            AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
-            AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
-            mLoggingProperties = (HashMap<String, Object>) appConfigurationInterface.getPropertyForKey(AppInfraLoggingPropertyKey, "appinfra", configError);
-        }
-        return mLoggingProperties;
-    }
-
-    private FileHandler getCurrentLogFileHandler(Logger logger) {
-        FileHandler logFileHandler = null;
-        if (null != logger) {
-            Handler[] currentComponentHandlers = logger.getHandlers();
-            if (null != currentComponentHandlers && currentComponentHandlers.length > 0) {
-                for (Handler handler : currentComponentHandlers) {
-                    if (handler instanceof FileHandler) {
-                        logFileHandler = (FileHandler) handler;
-                        break;
-                    }
-                }
-            }
-        }
-        return logFileHandler;
-    }
-
-    private ConsoleHandler getCurrentLogConsoleHandler(Logger logger) {
-        ConsoleHandler logConsoleHandler = null;
-        if (null != logger) {
-            Handler[] currentComponentHandlers = logger.getHandlers();
-            if (null != currentComponentHandlers && currentComponentHandlers.length > 0) {
-                for (Handler handler : currentComponentHandlers) {
-                    if (handler instanceof ConsoleHandler) {
-                        logConsoleHandler = (ConsoleHandler) handler;
-                        break;
-                    }
-                }
-            }
-        }
-        return logConsoleHandler;
     }
 
 }

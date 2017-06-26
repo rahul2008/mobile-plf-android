@@ -32,9 +32,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 public class LoggingTest extends AppInfraInstrumentation {
-    LoggingInterface loggingInterface ;
-    LoggingInterface loggingInterfaceMock;
-    AppConfigurationInterface mConfigInterface = null;
+    private LoggingInterface loggingInterface ;
+    private LoggingInterface loggingInterfaceMock;
+    private AppConfigurationInterface mConfigInterface = null;
     private Context context;
     private AppInfra mAppInfra;
 
@@ -154,7 +154,6 @@ public class LoggingTest extends AppInfraInstrumentation {
         loggingInterfaceMock.log(LoggingInterface.LogLevel.INFO,"Event","Message");
         doAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) {
-                Object[] args = invocation.getArguments();
                 return null;
             }
         }).when(loggingInterfaceMock).createInstanceForComponent("Component Name mock","Component version");
@@ -184,8 +183,6 @@ public class LoggingTest extends AppInfraInstrumentation {
 
         }
 
-
-
         for (LoggingInterface.LogLevel loglevel : LoggingInterface.LogLevel.values()) {
             doAnswer(new Answer<Object>() {
                 public Object answer(InvocationOnMock invocation) {
@@ -205,8 +202,6 @@ public class LoggingTest extends AppInfraInstrumentation {
             }).when(loggingInterfaceMock).log(loglevel, "Event","Message");
 
         }
-
-
 
         for (LoggingInterface.LogLevel logLevel : LoggingInterface.LogLevel.values()) {
             loggingInterface.log(logLevel, null,"message");
@@ -241,15 +236,13 @@ public class LoggingTest extends AppInfraInstrumentation {
         }
     }
 
-    public void testLogwithFile() {
+    public void testLogWithFile() {
 
         for (LoggingInterface.LogLevel logLevel : LoggingInterface.LogLevel.values()) {
             loggingInterface.log(logLevel, null,"message");
             loggingInterface.log(logLevel, "Event","Message");
 
         }
-
-
 
         for (LoggingInterface.LogLevel logLevel : LoggingInterface.LogLevel.values()) {
             loggingInterfaceMock.log(logLevel, null, "message");
@@ -293,18 +286,14 @@ public class LoggingTest extends AppInfraInstrumentation {
 
             }
 
-
-
             for (LoggingInterface.LogLevel loglevel1 : LoggingInterface.LogLevel.values()) {
                 doAnswer(new Answer<Object>() {
                     public Object answer(InvocationOnMock invocation) {
-                        Object[] args = invocation.getArguments();
                         return null;
                     }
                 }).when(loggingInterfaceMock).log(loglevel1, null, "message");
                 doAnswer(new Answer<Object>() {
                     public Object answer(InvocationOnMock invocation) {
-                        Object[] args = invocation.getArguments();
                         return null;
                     }
                 }).when(loggingInterfaceMock).log(loglevel1, "Event", "Message");
@@ -345,8 +334,8 @@ public class LoggingTest extends AppInfraInstrumentation {
         try {
             Method method = loggingInterface.getClass().getDeclaredMethod("log", LoggingInterface.LogLevel.class,String.class,String.class,Map.class);
             method.setAccessible(true);
-            String event= new String("Log Event");
-            String msg= new String("Log message");
+            String event= "Log Event";
+            String msg= "Log message";
             Map<String,String> map = new HashMap<>();
             map.put("key1","val1");
             map.put("key2","val2");
@@ -361,8 +350,8 @@ public class LoggingTest extends AppInfraInstrumentation {
         try {
             Method method = loggingInterface.getClass().getDeclaredMethod("log", LoggingInterface.LogLevel.class,String.class,String.class,Map.class);
             method.setAccessible(true);
-            String event= new String("Log Event");
-            String msg= new String("Log message");
+            String event= "Log Event";
+            String msg= "Log message";
             method.invoke(loggingInterface, LoggingInterface.LogLevel.DEBUG,event,msg,null);
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
@@ -374,8 +363,7 @@ public class LoggingTest extends AppInfraInstrumentation {
         try {
             Method method = loggingInterface.getClass().getDeclaredMethod("log", LoggingInterface.LogLevel.class,String.class,String.class,Map.class);
             method.setAccessible(true);
-            String event= new String("Log Event");
-            String msg= new String("Log message");
+            String event= "Log Event";
             Map<String,String> map = new HashMap<>();
             map.put("key1","val1");
             map.put("key2","val2");
@@ -390,8 +378,7 @@ public class LoggingTest extends AppInfraInstrumentation {
         try {
             Method method = loggingInterface.getClass().getDeclaredMethod("log", LoggingInterface.LogLevel.class,String.class,String.class,Map.class);
             method.setAccessible(true);
-            String event= new String("Log Event");
-            String msg= new String("Log message");
+            String event= "Log Event";
             Map<String,String> map = new HashMap<>();
             map.put("key1","val1");
             map.put("key2","val2");
@@ -489,7 +476,6 @@ public class LoggingTest extends AppInfraInstrumentation {
                     String testJson = ConfigValues.testJson();
                     result = new JSONObject(testJson);
                     JSONObject appInfraConfig = result.optJSONObject("APPINFRA");
-                    JSONObject loggingConfig = appInfraConfig.optJSONObject("LOGGING.DEBUGCONFIG");
                     appInfraConfig.put("LOGGING.DEBUGCONFIG", null); // removing logging key values
                     appInfraConfig.put("LOGGING.RELEASECONFIG", null); // removing logging key values
                     result.put("APPINFRA", appInfraConfig);
