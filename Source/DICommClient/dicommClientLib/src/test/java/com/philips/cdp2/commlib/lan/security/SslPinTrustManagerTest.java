@@ -76,7 +76,7 @@ public class SslPinTrustManagerTest extends RobolectricTest {
     }
 
     @Test(expected = PinMismatchException.class)
-    public void whenCheckingDifferentCertificateThenPinned_ThenCertificateIsRejected() throws Exception {
+    public void whenCheckingDifferentCertificateThanPinned_ThenCertificateIsRejected() throws Exception {
         when(networkNodeMock.getPin()).thenReturn("1234567890123456789012345678901234567890123");
 
         sslPinTrustManager.checkServerTrusted(new X509Certificate[]{certificateMock}, ALGORITHM);
