@@ -389,7 +389,7 @@
 
                 <com.philips.platform.uid.view.widget.Label
                     style="@style/UIDLabel.MarginTop"
-                    android:textColor="?attr/uidContentItemDefaultNormalSubtleBodyTextColor"
+                    android:textColor="?attr/uidLabelDescriptorNormalTextColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/button_label_margin_bottom"
@@ -407,7 +407,7 @@
 
                 <com.philips.platform.uid.view.widget.Label
                     style="@style/UIDLabel"
-                    android:textColor="?attr/uidContentItemDefaultNormalSubtleBodyTextColor"
+                    android:textColor="?attr/uidLabelDescriptorNormalTextColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/button_label_margin_bottom"
