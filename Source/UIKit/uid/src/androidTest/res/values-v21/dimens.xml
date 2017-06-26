@@ -3,4 +3,7 @@
     <!--checkbox text leading-->
     <dimen name="checkbox_line_spacing">6dp</dimen>
     <integer name="checkbox_line_spacing_multiplier">1</integer>
+    <!--radiobutton text leading-->
+    <dimen name="radiobutton_line_spacing">6dp</dimen>
+    <integer name="radiobutton_line_spacing_multiplier">1</integer>
 </resources>

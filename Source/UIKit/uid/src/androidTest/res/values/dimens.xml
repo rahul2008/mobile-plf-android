@@ -140,4 +140,11 @@
     <dimen name="ratingbar_display_height">16dp</dimen>
     <dimen name="rating_bar_display_padding">10dp</dimen>
     <dimen name="rating_bar_text_size">14dp</dimen>
+
+    <!--Radiobutton dimens -->
+    <dimen name="radiobutton_height">48dp</dimen>
+    <dimen name="radiobutton_width">48dp</dimen>
+    <dimen name="radiobutton_margin_left_right">12dp</dimen>
+    <dimen name="radiobutton_line_spacing">0dp</dimen>
+    <integer name="radiobutton_line_spacing_multiplier">1</integer>
 </resources>

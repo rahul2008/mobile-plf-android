@@ -15,4 +15,6 @@
     <string name="language_pack_checkbox">Language pack checkbox</string>
     <string name="language_pack_hint">Language pack edit text</string>
     <string name="language_pack_button">Language pack button</string>
+    <string name="radiobutton1">radiobutton1</string>
+    <string name="radiobutton2">Multi-line label Lorem ipsum dolor sit amet consectetur adipiscing elit duis a feugiat tortor</string>
 </resources>
