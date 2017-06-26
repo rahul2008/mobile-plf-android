@@ -130,7 +130,8 @@ android {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.sdk
         versionCode 1
-        versionName "1.0"
+        versionName version
+        buildConfigField "String", "TLA", "\"cca\""
     }
 
     buildTypes {
@@ -149,6 +150,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile deps.support.annotations
     javadocDeps deps.support.annotations
+    testCompile deps.junit
 }
 
 task sourcesJar(type: Jar) {

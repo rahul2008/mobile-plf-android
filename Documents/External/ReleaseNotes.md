@@ -1,5 +1,29 @@
 Release notes for Android-CloudController-API
 
+Version {next}
+-------------
+
+### Functionality Delivered
+* 37438: component now exposes its version and tla via BuildConfig
+
+### Backwards Compatibility
+* NA
+
+### Features not covered
+* To be filled in at release
+
+### Breaking Changes
+See backwards compatibility
+
+### Defects solved
+* NA
+
+### Residual anomalies
+* To be filled in at release
+
+### Risks and mitigations
+* NA
+
 Version 3.1.5
 -------------
 ### Functionality Delivered
