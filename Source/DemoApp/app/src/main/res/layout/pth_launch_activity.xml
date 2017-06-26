@@ -5,9 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.philips.platform.pthdemolaunch.MainActivity">
-
+    <include
+        android:id="@+id/action_bar_pth"
+        layout="@layout/pth_action_bar" />
     <RelativeLayout
         android:id="@+id/uappFragmentLayout"
+        android:layout_below="@+id/action_bar_pth"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </RelativeLayout>
