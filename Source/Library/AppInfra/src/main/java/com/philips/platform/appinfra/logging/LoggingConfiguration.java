@@ -32,10 +32,10 @@ import static java.util.logging.LogManager.getLogManager;
 
 class LoggingConfiguration {
 
-    private final String LOG_LEVEL_KEY = "logLevel";
-    private final String CONSOLE_LOG_ENABLED_KEY = "consoleLogEnabled";
-    private final String FILE_LOG_ENABLED_KEY = "fileLogEnabled";
-    private final String COMPONENT_LEVEL_LOG_ENABLED_KEY = "componentLevelLogEnabled";
+    final String LOG_LEVEL_KEY = "logLevel";
+    final String CONSOLE_LOG_ENABLED_KEY = "consoleLogEnabled";
+    final String FILE_LOG_ENABLED_KEY = "fileLogEnabled";
+    final String COMPONENT_LEVEL_LOG_ENABLED_KEY = "componentLevelLogEnabled";
     private static final String COMPONENT_IDS_KEY = "componentIds";
     private HashMap<String, Object> mLoggingProperties;
     private FileHandler mFileHandler;
