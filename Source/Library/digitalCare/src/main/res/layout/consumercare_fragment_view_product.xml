@@ -38,7 +38,7 @@
 
             <com.philips.platform.uid.view.widget.Label
                 style="@style/UIDLabel"
-                android:textColor="?attr/uidTextTertiary"
+                android:textColor="?attr/uidTextTertiaryTextColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/variant"
@@ -65,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_marginTop="24dp"
             android:layout_height="@dimen/uid_divider_Height"
-            android:background="?attr/uidSeparator"/>
+            android:background="?attr/uidSeparatorButtonNormalBackgroundColor"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/prodbuttonsParent"
