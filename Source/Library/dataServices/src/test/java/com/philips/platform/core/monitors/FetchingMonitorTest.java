@@ -7,9 +7,9 @@ import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.events.Event;
 import com.philips.platform.core.events.FetchInsightsFromDB;
+import com.philips.platform.core.events.GetNonSynchronizedConsentsRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
-import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.LoadLastMomentRequest;
 import com.philips.platform.core.events.LoadMomentsRequest;
@@ -63,7 +63,7 @@ public class FetchingMonitorTest {
     private GetNonSynchronizedDataRequest getNonSynchronizedDataRequestMock;
 
     @Mock
-    private GetNonSynchronizedMomentsRequest getNonSynchronizedMomentsRequestMock;
+    private GetNonSynchronizedConsentsRequest getNonSynchronizedConsentsRequestMock;
 
     @Mock
     private GetNonSynchronizedDataResponse getNonSynchronizedDataResponseMock;
@@ -73,7 +73,7 @@ public class FetchingMonitorTest {
     private ArgumentCaptor<GetNonSynchronizedDataResponse> getNonSynchronizedDataResponseCaptor;
 
     @Captor
-    private ArgumentCaptor<GetNonSynchronizedMomentsRequest> getNonSynchronizedMomentsResponseCaptor;
+    private ArgumentCaptor<GetNonSynchronizedConsentsRequest> getNonSynchronizedMomentsResponseCaptor;
 
 
     @Mock
@@ -187,10 +187,9 @@ public class FetchingMonitorTest {
 
     @Test
     public void getNonSynchronizedMomentRequestTest() throws SQLException {
-        fetchingMonitor.onEventAsync(getNonSynchronizedMomentsRequestMock);
+        fetchingMonitor.onEventAsync(getNonSynchronizedConsentsRequestMock);
         Map<Class, List<?>> dataToSync = new HashMap<>();
         verify(fetching).fetchConsentDetails();
-        verify(fetching).fetchNonSynchronizedMoments();
         eventingMock.post(new GetNonSynchronizedDataResponse(1, dataToSync));
     }
 
@@ -248,17 +247,11 @@ public class FetchingMonitorTest {
         verify(fetching).fetchConsentDetails(dbFetchRequestListner);
     }
 
-    @Test
-    public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchNonSynchronizedMoments() throws Exception {
-        doThrow(SQLException.class).when(fetching).fetchNonSynchronizedMoments();
-        fetchingMonitor.onEventAsync(new GetNonSynchronizedMomentsRequest(dbRequestListener));
-        verify(fetching).fetchNonSynchronizedMoments();
-    }
 
     @Test
     public void ShouldPostExceptionEvent_WhenSQLInsertionFails_For_fetchConsentDetails() throws Exception {
         doThrow(SQLException.class).when(fetching).fetchConsentDetails();
-        fetchingMonitor.onEventAsync(new GetNonSynchronizedMomentsRequest(dbRequestListener));
+        fetchingMonitor.onEventAsync(new GetNonSynchronizedConsentsRequest(dbRequestListener));
         verify(fetching).fetchConsentDetails();
     }
 
