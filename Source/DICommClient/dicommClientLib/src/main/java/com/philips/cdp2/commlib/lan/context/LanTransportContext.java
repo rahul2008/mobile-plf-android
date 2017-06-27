@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, 2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp2.commlib.lan.context;
@@ -8,6 +8,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.lan.NetworkMonitor;
@@ -39,7 +40,11 @@ public class LanTransportContext implements TransportContext {
         return new LanCommunicationStrategy(networkNode);
     }
 
-    protected ScheduledThreadPoolExecutor createThreadPoolExecutor() {
+    private ScheduledThreadPoolExecutor createThreadPoolExecutor() {
         return new ScheduledThreadPoolExecutor(2);
+    }
+
+    public static void clearStoredCertificateFor(final @NonNull Appliance appliance) {
+        appliance.getNetworkNode().setPin(null);
     }
 }
