@@ -3,7 +3,6 @@ package com.philips.platform.appinfra.contentloader;
 import android.content.Context;
 import android.util.Log;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -26,7 +25,7 @@ import java.util.List;
 
 
 /**
- * Created by 310243577 on 11/23/2016.
+ * ContentLoader Test class.
  */
 
 public class ContentLoadertest extends AppInfraInstrumentation {
@@ -235,7 +234,6 @@ public class ContentLoadertest extends AppInfraInstrumentation {
 
     public void testparseJsonandSave() {
         ContentItem ContentItemTest = null;
-        final Gson gson = new Gson();
         long mLastUpdatedTime = (new Date()).getTime();
         JsonElement content = jsonObject.get("articles");
         JsonArray contentList = null;
@@ -262,7 +260,7 @@ public class ContentLoadertest extends AppInfraInstrumentation {
                     }
                     contentItem.setTags(tags);
                     downloadedContents.add(contentItem);*/
-                    ContentInterface contentInterface = null;
+                    ContentInterface contentInterface;
                     try {
                         contentInterface = ContentArticle.class.newInstance();
 

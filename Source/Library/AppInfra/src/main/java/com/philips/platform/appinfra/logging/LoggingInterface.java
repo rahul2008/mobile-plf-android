@@ -15,7 +15,7 @@ public interface LoggingInterface {
     /**
      * The enum Log level.
      */
-    public  enum  LogLevel {VERBOSE, DEBUG, INFO, WARNING, ERROR};
+    enum  LogLevel {VERBOSE, DEBUG, INFO, WARNING, ERROR}
 
     /**
      * Create instance for component logging interface.
@@ -24,7 +24,7 @@ public interface LoggingInterface {
      * @param componentVersion the component version
      * @return the logging interface
      */
-    public LoggingInterface createInstanceForComponent(String componentId, String componentVersion);
+    LoggingInterface createInstanceForComponent(String componentId, String componentVersion);
 
     /**
      * Logs message on console and file .
@@ -32,7 +32,7 @@ public interface LoggingInterface {
      * @param eventId the Event name or Tag
      * @param message the message
      */
-    public void log(LogLevel level, String eventId, String message);
+    void log(LogLevel level, String eventId, String message);
 
     /**
      * Logs message on console and file .
@@ -41,7 +41,7 @@ public interface LoggingInterface {
      * @param message the message
      * @param map the dictionary
      */
-    public void log(LogLevel level, String eventId, String message,  Map <String,?> map);
+    void log(LogLevel level, String eventId, String message, Map<String, ?> map);
 
 
 

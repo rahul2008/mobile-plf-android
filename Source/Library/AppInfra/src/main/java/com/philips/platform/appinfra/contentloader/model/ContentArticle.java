@@ -47,9 +47,7 @@ public class ContentArticle implements ContentInterface {
 
     @Override
     public boolean hasTag(String tag) {
-        if (tagIds == null)
-            return false;
-        return tagIds.contains(tag);
+        return tagIds != null && tagIds.contains(tag);
     }
 
     @Override

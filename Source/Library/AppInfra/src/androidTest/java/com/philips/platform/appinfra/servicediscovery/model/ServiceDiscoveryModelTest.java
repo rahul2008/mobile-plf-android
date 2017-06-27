@@ -12,26 +12,22 @@ import java.util.HashMap;
 
 
 /**
- * Created by 310238655 on 8/11/2016.
+ * ServiceDiscovery Model Test class.
  */
 public class ServiceDiscoveryModelTest extends AppInfraInstrumentation {
 
 
-    private Context context;
-    private ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
-    private ServiceDiscoveryManager mServiceDiscoveryManager = null;
     private ServiceDiscovery mServiceDiscoveryModel = null;
-    private AppInfra mAppInfra;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        context = getInstrumentation().getContext();
+        Context context = getInstrumentation().getContext();
         assertNotNull(context);
-        mAppInfra = new AppInfra.Builder().build(context);
+        AppInfra mAppInfra = new AppInfra.Builder().build(context);
         assertNotNull(mAppInfra);
-        mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
-        mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
+        ServiceDiscoveryInterface mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
+        ServiceDiscoveryManager mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
         mServiceDiscoveryModel = new ServiceDiscovery();
         assertNotNull(mServiceDiscoveryInterface);
         assertNotNull(mServiceDiscoveryManager);

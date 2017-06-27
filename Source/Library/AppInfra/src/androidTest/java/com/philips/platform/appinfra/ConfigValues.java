@@ -1,7 +1,7 @@
 package com.philips.platform.appinfra;
 
 /**
- * Created by 310243577 on 2/8/2017.
+ * Config Values for Test.
  */
 
 public class ConfigValues {
@@ -55,12 +55,11 @@ public class ConfigValues {
 
 
 	public static String getMultipleConfigJson() {
-		String resJson = "\t{\"success\":true,\"payload\":{\"country\":\"SG\",\"matchByLanguage\":{\"available\":true,\"results\":[{\"locale\":\"en_SG\",\"configs\":[{\"micrositeId\":\"77001\",\"urls\":{\"appinfra.testing.service\":\"https://test.appinfra.testing.service/en_SG/B2C/77001\",\"appinfra.testing.identity.service\":\"https://test.appinfra.testing.identity.service/en_SG/B2C/77001\",\"appinfra.testing.configuration.service\":\"https://test.appinfra.testing.configuration.service/en_SG/B2C/77001\",\"appinfra.testing.discovery.service\":\"https://www.philips.com/api/v1/discovery/b2c/77001?locale=en_SG&country=SG&testappstate=apps%2b%2benv%2btest\"},\"tags\":[{\"id\":\"apps:env/test\",\"name\":\"test\",\"key\":\"apps++env+test\"}]},{\"micrositeId\":\"77001\",\"urls\":{\"appinfra.appconfigdownload\":\"https://test.prod.appinfra.testing.service/en_SG/B2C/77001\"},\"tags\":[{\"id\":\"apps:env/test\",\"name\":\"test\",\"key\":\"apps++env+test\"},{\"id\":\"apps:env/prod\",\"name\":\"prod\",\"key\":\"apps++env+prod\"}]}]}]},\"matchByCountry\":{\"available\":true,\"results\":[{\"locale\":\"en_SG\",\"configs\":[{\"micrositeId\":\"77001\",\"urls\":{\"appinfra.testing.service\":\"https://test.appinfra.testing.service/en_SG/B2C/77001\",\"appinfra.testing.identity.service\":\"https://test.appinfra.testing.identity.service/en_SG/B2C/77001\",\"appinfra.testing.configuration.service\":\"https://test.appinfra.testing.configuration.service/en_SG/B2C/77001\",\"appinfra.testing.discovery.service\":\"https://www.philips.com/api/v1/discovery/b2c/77001?locale=en_SG&country=SG&testappstate=apps%2b%2benv%2btest\"},\"tags\":[{\"id\":\"apps:env/test\",\"name\":\"test\",\"key\":\"apps++env+test\"}]},{\"micrositeId\":\"77001\",\"urls\":{\"appinfra.appconfigdownload\":\"https://test.prod.appinfra.testing.service/en_SG/B2C/77001\"},\"tags\":[{\"id\":\"apps:env/test\",\"name\":\"test\",\"key\":\"apps++env+test\"},{\"id\":\"apps:env/prod\",\"name\":\"prod\",\"key\":\"apps++env+prod\"}]}]}]}},\"httpStatus\":\"OK\"}";
-		return resJson;
+		return "\t{\"success\":true,\"payload\":{\"country\":\"SG\",\"matchByLanguage\":{\"available\":true,\"results\":[{\"locale\":\"en_SG\",\"configs\":[{\"micrositeId\":\"77001\",\"urls\":{\"appinfra.testing.service\":\"https://test.appinfra.testing.service/en_SG/B2C/77001\",\"appinfra.testing.identity.service\":\"https://test.appinfra.testing.identity.service/en_SG/B2C/77001\",\"appinfra.testing.configuration.service\":\"https://test.appinfra.testing.configuration.service/en_SG/B2C/77001\",\"appinfra.testing.discovery.service\":\"https://www.philips.com/api/v1/discovery/b2c/77001?locale=en_SG&country=SG&testappstate=apps%2b%2benv%2btest\"},\"tags\":[{\"id\":\"apps:env/test\",\"name\":\"test\",\"key\":\"apps++env+test\"}]},{\"micrositeId\":\"77001\",\"urls\":{\"appinfra.appconfigdownload\":\"https://test.prod.appinfra.testing.service/en_SG/B2C/77001\"},\"tags\":[{\"id\":\"apps:env/test\",\"name\":\"test\",\"key\":\"apps++env+test\"},{\"id\":\"apps:env/prod\",\"name\":\"prod\",\"key\":\"apps++env+prod\"}]}]}]},\"matchByCountry\":{\"available\":true,\"results\":[{\"locale\":\"en_SG\",\"configs\":[{\"micrositeId\":\"77001\",\"urls\":{\"appinfra.testing.service\":\"https://test.appinfra.testing.service/en_SG/B2C/77001\",\"appinfra.testing.identity.service\":\"https://test.appinfra.testing.identity.service/en_SG/B2C/77001\",\"appinfra.testing.configuration.service\":\"https://test.appinfra.testing.configuration.service/en_SG/B2C/77001\",\"appinfra.testing.discovery.service\":\"https://www.philips.com/api/v1/discovery/b2c/77001?locale=en_SG&country=SG&testappstate=apps%2b%2benv%2btest\"},\"tags\":[{\"id\":\"apps:env/test\",\"name\":\"test\",\"key\":\"apps++env+test\"}]},{\"micrositeId\":\"77001\",\"urls\":{\"appinfra.appconfigdownload\":\"https://test.prod.appinfra.testing.service/en_SG/B2C/77001\"},\"tags\":[{\"id\":\"apps:env/test\",\"name\":\"test\",\"key\":\"apps++env+test\"},{\"id\":\"apps:env/prod\",\"name\":\"prod\",\"key\":\"apps++env+prod\"}]}]}]}},\"httpStatus\":\"OK\"}";
 	}
 
 	public static String getsdUrlJson() {
-		String sdUrlJson = "{\n" +
+		return "{\n" +
 				"\t\"success\": true,\n" +
 				"\t\"payload\": {\n" +
 				"\t\t\"country\": \"IN\",\n" +
@@ -107,12 +106,11 @@ public class ConfigValues {
 				"\t},\n" +
 				"\t\"httpStatus\": \"OK\"\n" +
 				"}";
-		return sdUrlJson;
 	}
 
 	public static String getsdUrlPlatformjson() {
 
-		String sdUrlPlatformjson = "{\n" +
+		return "{\n" +
 				"\t\"success\": true,\n" +
 				"\t\"payload\": {\n" +
 				"\t\t\"country\": \"IN\",\n" +
@@ -167,7 +165,6 @@ public class ConfigValues {
 				"\t},\n" +
 				"\t\"httpStatus\": \"OK\"\n" +
 				"}";
-		return sdUrlPlatformjson;
 
 	}
 

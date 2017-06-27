@@ -26,13 +26,13 @@ public interface InternationalizationInterface {
      *
      * @return the local
      */
-    public Locale getUILocale();
+    Locale getUILocale();
 
     /**
      * Gets String locale value .
      *
      * @return the String with Concatenated format
      */
-    public String getUILocaleString();
+    String getUILocaleString();
 
 }

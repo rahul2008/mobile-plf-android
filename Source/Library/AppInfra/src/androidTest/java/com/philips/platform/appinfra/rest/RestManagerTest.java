@@ -26,7 +26,7 @@ import java.util.Map;
 
 
 /**
- * Created by 310243577 on 11/4/2016.
+ * RestManager Test class.
  */
 
 public class RestManagerTest extends AppInfraInstrumentation {
@@ -34,11 +34,9 @@ public class RestManagerTest extends AppInfraInstrumentation {
     private RestInterface mRestInterface = null;
     private Context context;
     private AppInfra mAppInfra;
-    private RequestQueue queue;
     private String baseURL = "https://hashim.herokuapp.com";
     private String serviceIdString = "userreg.janrain.api";
     private String accessToken;
-    private AppConfigurationManager mConfigInterface;
 
 
     @Override
@@ -55,7 +53,7 @@ public class RestManagerTest extends AppInfraInstrumentation {
 
     public void testConfig() {
 
-        mConfigInterface = new AppConfigurationManager(mAppInfra) {
+        AppConfigurationManager mConfigInterface = new AppConfigurationManager(mAppInfra) {
             @Override
             protected JSONObject getMasterConfigFromApp() {
                 JSONObject result = null;
@@ -74,7 +72,7 @@ public class RestManagerTest extends AppInfraInstrumentation {
 
 
     public void testgetRequestQueue() {
-        queue = mRestInterface.getRequestQueue();
+        RequestQueue queue = mRestInterface.getRequestQueue();
         assertNotNull(queue);
     }
 

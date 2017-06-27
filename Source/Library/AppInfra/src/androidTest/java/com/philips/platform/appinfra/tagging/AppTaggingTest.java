@@ -29,7 +29,7 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 
 /**
- * Created by 310238655 on 4/29/2016.
+ * AppTagging Test class.
  */
 public class AppTaggingTest extends AppInfraInstrumentation {
 
@@ -151,17 +151,11 @@ public class AppTaggingTest extends AppInfraInstrumentation {
 				JSONObject obj = new JSONObject();
 
 				try {
-					obj.put("ssl", new Boolean(true));
+					obj.put("ssl", Boolean.valueOf(true));
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
 				try {
-					String testJson = "{\n" +
-							"  \"analytics\": {\n" +
-							"\n" +
-							" \"ssl\"  : \"" + value + "\",\n" +
-							"\n";
-
 					result = new JSONObject();
 					result.put("analytics", obj);
 
@@ -667,7 +661,7 @@ public class AppTaggingTest extends AppInfraInstrumentation {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if(intent != null) {
-				if(intent.getAction() == AppTagging.ACTION_TAGGING_DATA) {
+				if(intent.getAction().equalsIgnoreCase(AppTagging.ACTION_TAGGING_DATA)) {
 					Map textExtra = (Map) intent.getSerializableExtra(AppTagging.EXTRA_TAGGING_DATA);
 					assertNotNull(textExtra);
 				}
