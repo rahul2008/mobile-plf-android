@@ -22,6 +22,7 @@ import com.philips.platform.uid.view.widget.ProgressBar;
 
 public class PracticeFragment extends PTHBaseFragment implements BackEventListener {
 
+    //TODO: Review Comment - Spoorti - Can we make mConsumer as local variable instead of global?
     private Consumer mConsumer;
     private PTHBasePresenter mPresenter;
     private Label mTitle;
@@ -49,6 +50,7 @@ public class PracticeFragment extends PTHBaseFragment implements BackEventListen
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        //TODO: Review Comment - Spoorti - Do not hard code the String. Take it from Strings.xml
         mTitle.setText("To start a consult, pick a subject");
         mPracticeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         if(null!=((PTHPracticePresenter)mPresenter)) {
@@ -71,6 +73,7 @@ public class PracticeFragment extends PTHBaseFragment implements BackEventListen
         return false;
     }
 
+    //TODO: Review Comment - Spoorti - finish the activity here
     @Override
     public void finishActivityAffinity() {
 
@@ -86,6 +89,7 @@ public class PracticeFragment extends PTHBaseFragment implements BackEventListen
         return ((ViewGroup)getView().getParent()).getId();
     }
 
+    //TODO: Review Comment - Spoorti - Not sure why Presenter is created inside setConsumer
     public void setConsumer(Consumer consumer){
         mConsumer=consumer;
         mPresenter = new PTHPracticePresenter(this,consumer);
@@ -101,6 +105,7 @@ public class PracticeFragment extends PTHBaseFragment implements BackEventListen
                 PTHProvidersListFragment providerListFragment = new PTHProvidersListFragment();
                 providerListFragment.setPracticeAndConsumer(practice,mConsumer);
                 providerListFragment.setActionBarListener(getActionBarListener());
+                //TODO: Review Comment - Spoorti - Use PTHBaseView.addFragment for doing the below operation
                 getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), providerListFragment,"ProviderListFragment").addToBackStack(null).commit();
             }
         });

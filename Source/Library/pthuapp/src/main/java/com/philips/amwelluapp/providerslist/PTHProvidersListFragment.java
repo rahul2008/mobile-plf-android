@@ -67,6 +67,7 @@ public class PTHProvidersListFragment extends PTHBaseFragment implements View.On
         onRefresh();
     }
 
+    //TODO: Review Comment - Spoorti - Not sure if setter can be removed in case parameters are passed by bundle
     public void setPracticeAndConsumer(Practice practice, Consumer consumer){
         this.practice = practice;
         this.consumer = consumer;

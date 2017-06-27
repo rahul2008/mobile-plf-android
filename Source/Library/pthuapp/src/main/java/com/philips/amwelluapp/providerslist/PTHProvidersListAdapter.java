@@ -17,6 +17,7 @@ import com.philips.platform.uid.view.widget.RatingBar;
 import java.util.List;
 
 public class PTHProvidersListAdapter extends RecyclerView.Adapter<PTHProvidersListAdapter.MyViewHolder> {
+    //TODO: Review Comment - Spoorti - wrap ProviderInfo to PTHObject
     private List<ProviderInfo> providerList;
     private PTHProviderListPresenter pthpRoviderListPresenter;
 

@@ -20,7 +20,8 @@ import com.philips.amwelluapp.utility.PTHManager;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
-
+//TODO: Review Comment - Spoorti - Do not implement PTHGetConsumerObjectCallBack in WelcomePresenter
+//TODO: Review Comment - Spoorti - Can we rename PTHGetConsumerObjectCallBack to PTHGetConsumerCallBack?
 public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallBack<Void,PTHSDKError>, PTHLoginCallBack<PTHAuthentication,PTHSDKError> ,PTHGetConsumerObjectCallBack {
     PTHBaseView uiBaseView;
     private Consumer consumer;
@@ -102,6 +103,8 @@ public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallB
         Toast.makeText(uiBaseView.getFragmentActivity(),"LOGIN Failed",Toast.LENGTH_SHORT).show();
     }
 
+    //TODO: Review Comment - Spoorti - move to the relevant presenter
+    //TODO: Review Comment - Spoorti - use bundle to pass arguments to fragment instead od setter. Use PTHBaseView.addFragment for replacing the fragment
     @Override
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
 
