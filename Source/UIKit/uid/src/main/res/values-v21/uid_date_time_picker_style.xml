@@ -2,8 +2,8 @@
 <resources>
 
     <style name="UIDDatePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorControlActivated">?attr/uidControlBright</item>
-        <item name="colorControlHighlight">?attr/uidControlBright</item>
+        <item name="colorControlActivated">?attr/uidDatePickerAndroidNormalButtonTextColor</item>
+        <item name="colorControlHighlight">?attr/uidDatePickerAndroidNormalButtonTextColor</item>
         <item name="colorAccent">?attr/uidDatePickerAndroidNormalHeaderBackgroundColor</item>
         <item name="android:textColorPrimary">?attr/uidDatePickerAndroidNormalContentTextColor
         </item>

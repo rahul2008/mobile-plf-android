@@ -6,7 +6,7 @@
               android:orientation="vertical">
 
 
-    <com.philips.platform.uid.view.widget.Label
+   <!-- <com.philips.platform.uid.view.widget.Label
         style="@style/UIDLabel.MarginTop"
         android:layout_width="match_parent"
         android:layout_height="@dimen/layout_margin_top"
@@ -48,7 +48,7 @@
         android:layout_height="@dimen/layout_margin_top"
         android:background="?attr/uidControlAccent"
         android:text="Control accent text"
-        android:textColor="@color/uidColorBlack"/>
+        android:textColor="@color/uidColorBlack"/>-->
 
 
 </LinearLayout>

@@ -65,14 +65,14 @@ node('android') {
             stage ('save dependencies list') {
                 sh '''#!/bin/bash -l
                     cd ./Source/CatalogApp
-                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
                     cd ../UIKit
-                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
                 '''
             }
 
             stage ('reporting') {
-                archiveArtifacts '**/dependencies.lock'
+                archiveArtifacts '**/*dependencies*.lock'
             }
 
             if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {

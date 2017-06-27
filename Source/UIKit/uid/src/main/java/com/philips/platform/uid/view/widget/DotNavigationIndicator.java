@@ -9,6 +9,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -31,7 +32,7 @@ import com.philips.platform.uid.thememanager.ThemeUtils;
  * <code>DotNavigationIndicator</code> draw dots based on number of items in viewpager's Adapter.
  * Adapter must be set on <code>{@link ViewPager}</code>
  * before calling {@link DotNavigationIndicator#setViewPager(ViewPager)} or {@link DotNavigationIndicator#setCurrentItem(int)}
- *
+ * <p>
  * <p>The attributes mapping follows below table.</p>
  * <table border="2" width="85%" align="center" cellpadding="5">
  * <thead>
@@ -74,7 +75,27 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     private int dotNavigationIconColorListID = -1;
     private boolean isCircularSwipeEnabled;
 
+    private int initialPosition;
+    private DataSetObserver dataSetObserver = new DataSetObserver() {
+        @Override
+        public void onChanged() {
+            drawIndicatorDots();
+            setCurrentItem(initialPosition);
+        }
+    };
 
+    ViewPager.OnAdapterChangeListener adapterChangeListener = new ViewPager.OnAdapterChangeListener() {
+        @Override
+        public void onAdapterChanged(@NonNull ViewPager viewPager, @Nullable PagerAdapter oldAdapter, @Nullable PagerAdapter newAdapter) {
+            if (oldAdapter != null) {
+                oldAdapter.unregisterDataSetObserver(dataSetObserver);
+            }
+            if (newAdapter != null) {
+                newAdapter.registerDataSetObserver(dataSetObserver);
+            }
+            drawIndicatorDots();
+        }
+    };
 
     public DotNavigationIndicator(@NonNull Context context) {
         this(context, null);
@@ -131,23 +152,44 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     /**
      * Provide the view pager reference you want to bind with and provide a current position to be highlighted
      *
-     * @param viewPager       viewpager to bind to indicator
+     * @param newViewPager    viewpager to bind to indicator
      * @param initialPosition with initialPosition selected/highlited
      */
     @Override
-    public void setViewPager(@NonNull final ViewPager viewPager, int initialPosition) {
-        if (this.viewPager == viewPager) {
+    public void setViewPager(@NonNull final ViewPager newViewPager, int initialPosition) {
+        if (viewPager == newViewPager) {
             return;
         }
-        this.viewPager = viewPager;
-        viewPager.addOnPageChangeListener(this);
-        drawIndicatorDots();
-        setCurrentItem(initialPosition);
-    }
 
+        //Remove earlier listener if any.
+        if (viewPager != null) {
+            viewPager.removeOnPageChangeListener(this);
+            viewPager.removeOnAdapterChangeListener(adapterChangeListener);
+            if (viewPager.getAdapter() != null) {
+                viewPager.getAdapter().unregisterDataSetObserver(dataSetObserver);
+            }
+        }
+        if (newViewPager == null) {
+            removeAllViews();
+            viewPager = null;
+            return;
+        }
+
+        this.initialPosition = initialPosition;
+        viewPager = newViewPager;
+        viewPager.addOnPageChangeListener(this);
+        viewPager.addOnAdapterChangeListener(adapterChangeListener);
+
+        if (viewPager.getAdapter() != null) {
+            viewPager.getAdapter().registerDataSetObserver(dataSetObserver);
+            drawIndicatorDots();
+            setCurrentItem(initialPosition);
+        }
+    }
 
     /**
      * Enables circular swipe behavior
+     *
      * @param circularSwipeEnabled Configures circular swipe property
      */
     @SuppressWarnings("unused")
@@ -187,7 +229,9 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
      */
     @Override
     public void setCurrentItem(int position) {
-        isViewPagerInitialized();
+        if (!isViewPagerInitialized()) {
+            return;
+        }
         selectedIndex = position;
         viewPager.setCurrentItem(position);
 
@@ -246,6 +290,9 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     }
 
     private void drawIndicatorDots() {
+        if (!isViewPagerInitialized()) {
+            return;
+        }
         removeAllViews();
         final PagerAdapter iconAdapter = viewPager.getAdapter();
         int count = iconAdapter.getCount();
@@ -271,7 +318,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
         lp.leftMargin = iconLeftSpacing;
         lp.rightMargin = iconRightSpacing;
         dotImageView.setLayoutParams(lp);
-        dotImageView.setSupportBackgroundTintList(getIndicatorTintList());
+        dotImageView.setBackgroundTintList(getIndicatorTintList());
 
         return dotImageView;
     }
@@ -294,10 +341,12 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
      * highlighted dot.
      */
     protected void showNext() {
-        isViewPagerInitialized();
+        if (!isViewPagerInitialized()) {
+            return;
+        }
 
         int count = getViewPagerCount();
-        if (!isCircularSwipeEnabled && selectedIndex == count -1) {
+        if (!isCircularSwipeEnabled && selectedIndex == count - 1) {
             return;
         }
 
@@ -309,11 +358,13 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
      * highlighted dot.
      */
     protected void showPrevious() {
-        isViewPagerInitialized();
+        if (!isViewPagerInitialized()) {
+            return;
+        }
 
         if (!isCircularSwipeEnabled && selectedIndex == 0) {
             return;
-        } else if(selectedIndex == 0) {
+        } else if (selectedIndex == 0) {
             selectedIndex = getViewPagerCount();
         }
 
@@ -334,9 +385,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
         return null;
     }
 
-    private void isViewPagerInitialized() {
-        if (viewPager == null || viewPager.getAdapter() == null) {
-            throw new IllegalStateException("ViewPager or adapter not initialized.");
-        }
+    private boolean isViewPagerInitialized() {
+        return viewPager != null && viewPager.getAdapter() != null;
     }
 }

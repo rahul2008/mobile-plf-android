@@ -30,14 +30,13 @@
                     style="@style/BaseLayoutMargins.Dimens"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <com.philips.platform.uid.view.widget.Label
                         style="@style/TestButtonTexts"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:text="@string/show_separators"
-                        android:textColor="?attr/uidTextPrimary"
                         android:textSize="@dimen/uid_recyclerview_item_title_text_size"/>
 
                     <com.philips.platform.uid.view.widget.Switch
@@ -75,7 +74,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
-                    android:background="?attr/uidContentTertiary"
+                    android:background="?attr/uidContentTertiaryBackgroundColor"
                     android:orientation="horizontal">
 
                     <com.philips.platform.uid.view.widget.Label

@@ -31,12 +31,12 @@
                 android:orientation="vertical">
 
                 <com.philips.platform.uid.view.widget.Label
-                    style="@style/UIDLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/button_label_margin_bottom"
                     android:layout_marginTop="@dimen/layout_margin_left_right"
-                    android:text="@string/label_text"/>
+                    android:text="@string/label_text"
+                    android:textColor="?attr/uidLabelDescriptorNormalTextColor"/>
 
                 <com.philips.platform.uid.view.widget.CheckBox
                     android:layout_width="match_parent"
@@ -67,7 +67,8 @@
                 android:layout_marginBottom="@dimen/button_label_margin_bottom"
                 android:layout_marginStart="@dimen/layout_margin_left_right"
                 android:layout_marginTop="@dimen/layout_margin_left_right"
-                android:text="@string/label_text"/>
+                android:text="@string/label_text"
+                android:textColor="?attr/uidLabelDescriptorNormalTextColor"/>
 
             <com.philips.platform.uid.view.widget.EditText
                 android:id="@+id/tb1"
@@ -90,7 +91,8 @@
                     style="@style/UIDLabel.MarginEnd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/label_text"/>
+                    android:text="@string/label_text"
+                    android:textColor="?attr/uidLabelDescriptorNormalTextColor"/>
 
                 <com.philips.platform.uid.view.widget.EditText
                     android:id="@+id/tb2"

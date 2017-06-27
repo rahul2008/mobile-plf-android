@@ -172,17 +172,18 @@ public class ButtonWithProgressIndicatorsTest {
         setUpDefaultTheme();
 
         simulateSetProgressText("Hello ");
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlPrimaryDetail);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, getUidControlPrimaryDetailAtrribute());
         //To check progress text is displayed
         getProgressText().check(matches(TextViewPropertiesMatchers.isSameTextColor(expectedColor)));
     }
+
 
     @Test
     public void verifyTextColorInProgressState() {
         setUpDefaultTheme();
 
         simulateSetProgressText("Hello ");
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlPrimaryDetail);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, getUidControlPrimaryDetailAtrribute());
 
         getProgressText().check(matches(TextViewPropertiesMatchers.isSameTextColor(expectedColor)));
     }
@@ -230,7 +231,7 @@ public class ButtonWithProgressIndicatorsTest {
     public void verifyProgressBarProgressColor() {
         setUpDefaultTheme();
 
-        final int expectedProgressBarProgressColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlPrimaryDetail);
+        final int expectedProgressBarProgressColor = UIDTestUtils.getAttributeColor(activity, getUidControlPrimaryDetailAtrribute());
 
         getProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarProgressColor, android.R.id.progress, true)));
     }
@@ -247,7 +248,7 @@ public class ButtonWithProgressIndicatorsTest {
     @Test
     public void verifyIndeterminateProgressBarEndColor() {
         setUpDefaultTheme();
-        final int expectedEndColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidControlPrimaryDetail);
+        final int expectedEndColor = UIDTestUtils.getAttributeColor(activity, getUidControlPrimaryDetailAtrribute());
 
         getIndeterminateProgressBar()
                 .check(matches(FunctionDrawableMatchers.isSameColors(TestConstants.FUNCTION_GET_INDETERMINATE_DRAWABALE, android.R.id.progress, expectedEndColor, 1)));
@@ -325,6 +326,10 @@ public class ButtonWithProgressIndicatorsTest {
         public void perform(final UiController uiController, final View view) {
             ((ProgressBarButton) view).setProgressText(progressText);
         }
+    }
+
+    private int getUidControlPrimaryDetailAtrribute() {
+        return R.attr.uidTrackDetailNormalOnBackgroundColor;
     }
 
     static class SetViewDisabledViewAction implements ViewAction {

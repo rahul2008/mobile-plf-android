@@ -77,7 +77,7 @@ public class UIDHelper {
      * @param activity Reference of activity
      * @param title    String which you would like to set as title
      */
-    public static void setTitle(AppCompatActivity activity, String title) {
+    public static void setTitle(AppCompatActivity activity, CharSequence title) {
         final View titleView = activity.findViewById(com.philips.platform.uid.R.id.uid_toolbar_title);
         if (titleView instanceof TextView) {
             ((TextView) activity.findViewById(R.id.uid_toolbar_title)).setText(title);

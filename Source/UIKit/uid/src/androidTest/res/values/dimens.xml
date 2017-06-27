@@ -135,11 +135,20 @@
     <dimen name="notification_bar_content_text_size">14dp</dimen>
     <dimen name="notification_bar_content_margin_top">5dp</dimen>
 
-
+    <!--Rating bar-->
     <dimen name="ratingbar_input_height">48dp</dimen>
     <dimen name="ratingbar_display_height">16dp</dimen>
     <dimen name="rating_bar_display_padding">10dp</dimen>
     <dimen name="rating_bar_text_size">14dp</dimen>
+
+    <!--Search Box -->
+    <dimen name="searchbox_height">56dp</dimen>
+    <dimen name="searchbox_button_dimen">24dp</dimen>
+    <dimen name="searchbox_button_padding">20dp</dimen>
+    <dimen name="searchbox_button_padding_end">28dp</dimen>
+    <dimen name="searchbox_search_text_offset">0dp</dimen>
+    <dimen name="searchbox_back_icon_margin">16dp</dimen>
+    <dimen name="searchbox_font_size">20sp</dimen>
 
     <!--Radiobutton dimens -->
     <dimen name="radiobutton_height">48dp</dimen>

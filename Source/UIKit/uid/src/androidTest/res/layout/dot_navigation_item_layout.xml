@@ -9,13 +9,13 @@
         android:id="@+id/page_icon"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:tint="?attr/uidTextTertiary"/>
+        android:tint="?attr/uidContentItemDefaultNormalDescriptorIconColor"/>
 
     <TextView
         android:id="@+id/page_title"
         android:layout_width="wrap_content"
         android:layout_height="24dp"
-        android:textColor="?attr/uidTextTertiary"
+        android:textColor="?attr/uidLabelRegularNormalTextColor"
         android:textSize="16sp"/>
 
 </LinearLayout>

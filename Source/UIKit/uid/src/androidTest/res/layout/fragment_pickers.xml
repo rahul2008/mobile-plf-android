@@ -11,12 +11,12 @@
         android:id="@+id/datePicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="?attr/uidTextPrimary"/>
+        android:textColor="?attr/uidLabelValueNormalTextColor"/>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/timePicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:textColor="?attr/uidTextPrimary"/>
+        android:textColor="?attr/uidLabelValueNormalTextColor"/>
 </LinearLayout>

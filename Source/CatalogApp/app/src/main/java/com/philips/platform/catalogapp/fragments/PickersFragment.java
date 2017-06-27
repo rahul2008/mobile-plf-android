@@ -137,7 +137,7 @@ public class PickersFragment extends BaseFragment {
     public int getTextColor() {
         int color = Color.RED;
         if (!isValidRange.get()) {
-            TypedArray typedArray = getActivity().getTheme().obtainStyledAttributes(new int[]{R.attr.uidTextPrimary});
+            TypedArray typedArray = getActivity().getTheme().obtainStyledAttributes(new int[]{R.attr.uidContentItemDefaultNormalTitleTextColor});
             if (typedArray != null) {
                 color = typedArray.getColor(0, Color.WHITE);
                 typedArray.recycle();

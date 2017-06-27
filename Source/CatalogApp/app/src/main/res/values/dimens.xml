@@ -79,6 +79,8 @@
     <dimen name="dot_navigation_item_text_size">16sp</dimen>
     <dimen name="rating_bar_reset_button_width">224dp</dimen>
 
+    <dimen name="search_list_margin_top">8dp</dimen>
+
     <!-- Radio Group-->
     <dimen name="radio_group_top_margin">12dp</dimen>
 

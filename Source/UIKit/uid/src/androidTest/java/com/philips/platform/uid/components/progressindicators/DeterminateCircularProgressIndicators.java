@@ -128,7 +128,7 @@ public class DeterminateCircularProgressIndicators {
     }
 
     private int getExpectedProgressBarBackgroundColor() {
-        return UIDTestUtils.getAttributeColor(activityContext, R.attr.uidControlTrackOff);
+        return UIDTestUtils.getAttributeColor(activityContext, R.attr.uidTrackDetailNormalOffBackgroundColor);
     }
 
     @Test
@@ -145,7 +145,7 @@ public class DeterminateCircularProgressIndicators {
 
     @Test
     public void verifyCircularProgressBarLargeProgressColor() {
-        final int expectedProgressBarProgressColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidControlPrimaryDetail);
+        final int expectedProgressBarProgressColor = UIDTestUtils.getAttributeColor(activityContext, R.attr.uidTrackDetailNormalOnBackgroundColor);
         getLargeCircularProgressBar().check(matches(FunctionDrawableMatchers.isSameColor(TestConstants.FUNCTION_GET_PROGRESS_DRAWABLE, android.R.attr.enabled, expectedProgressBarProgressColor, circularprogressID(), true)));
     }
 

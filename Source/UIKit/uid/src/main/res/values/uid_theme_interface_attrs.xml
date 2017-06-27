@@ -142,6 +142,11 @@
         <attr name="uidRatingBarStarOnColor" format="color|reference"/>
     </declare-styleable>
 
+    <declare-styleable name="UIDSearchBox">
+        <attr name="uidSearchInputHintText" format="string|reference" />
+        <attr name="uidSearchDecoyHintText" format="string|reference" />
+    </declare-styleable>
+
     <declare-styleable name="UIDRadioButton">
         <attr name="uidRadioButtonPaddingStart" format="dimension"/>
     </declare-styleable>
