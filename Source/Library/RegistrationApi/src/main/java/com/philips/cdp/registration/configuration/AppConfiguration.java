@@ -11,12 +11,14 @@ package com.philips.cdp.registration.configuration;
 import java.util.List;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.DEFAULT;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.FALLBACK_COUNTRY;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.FLOW_EMAIL_VERIFICATION_REQUIRED;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.FLOW_MINIMUM_AGE_LIMIT;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.FLOW_TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.PIL_CONFIGURATION_CAMPAIGN_ID;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.SHOW_COUNTRY_SELECTION;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.SIGNIN_PROVIDERS;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.SUPPORTED_COUNTRIES;
 
 public class AppConfiguration extends BaseConfiguration {
 
@@ -77,6 +79,16 @@ public class AppConfiguration extends BaseConfiguration {
         return (List<String>) providersObject;
     }
 
+
+    public List<String> getsupportedCountries() {
+        Object providersObject = appInfraWrapper.getAppSettingsProperty(SUPPORTED_COUNTRIES);
+        if (providersObject != null) {
+            return (List<String>) providersObject;
+        }
+
+        providersObject = appInfraWrapper.getAppSettingsProperty(FALLBACK_COUNTRY);
+        return (List<String>) providersObject;
+    }
     public String getShowCountrySelection() {
         Object showCountrySelectionObject = appInfraWrapper.getURProperty(SHOW_COUNTRY_SELECTION);
         return getConfigPropertyValue(showCountrySelectionObject);

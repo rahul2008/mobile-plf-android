@@ -19,8 +19,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.FontLoader;
+import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -104,6 +106,22 @@ public class CountryPicker extends DialogFragment implements
             }
         }
         return null;
+    }
+
+    private void handleCountryList() {
+        RLog.d("HomeFragment : ", "handleSocialProviders method country code : ");
+        if (null != RegistrationConfiguration.getInstance().getSupportedCountry()) {
+
+            ArrayList<String> providers = new ArrayList<String>();
+            providers = RegistrationConfiguration.getInstance().getSupportedCountry();
+            if (null != providers) {
+                for (int i = 0; i < providers.size(); i++) {
+                    RLog.d("HomeFragment", "countries: " + providers.get(i));
+                }
+                RLog.d("HomeFragment", "all countries: " + providers);
+            }
+        }
+
     }
 
     /**

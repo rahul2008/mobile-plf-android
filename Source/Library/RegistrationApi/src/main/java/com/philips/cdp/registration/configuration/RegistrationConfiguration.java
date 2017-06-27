@@ -221,6 +221,10 @@ public class RegistrationConfiguration {
         return (ArrayList<String>) providers;
     }
 
+    public ArrayList<String> getSupportedCountry() {
+        List<String> supportedCountries = appConfiguration.getsupportedCountries();
+        return (ArrayList<String>) supportedCountries;
+    }
 
     public synchronized void setPrioritisedFunction(RegistrationFunction prioritisedFunction) {
         this.prioritisedFunction = prioritisedFunction;
