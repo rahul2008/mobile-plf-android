@@ -20,7 +20,7 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBar;
 
-public class PracticeFragment extends PTHBaseFragment implements BackEventListener {
+public class PTHPracticeFragment extends PTHBaseFragment implements BackEventListener {
 
     private Consumer mConsumer;
     private UIBasePresenter mPresenter;
@@ -37,7 +37,7 @@ public class PracticeFragment extends PTHBaseFragment implements BackEventListen
         View view = inflater.inflate(R.layout.practice, container, false);
         mTitle = (Label) view.findViewById(R.id.pth_id_practice_label);
         mPracticeRecyclerView = (RecyclerView)view.findViewById(R.id.pth_recycler_view_practice);
-        mPTHBaseFragmentProgressBar = (ProgressBar)view.findViewById(R.id.pth_id_practice_progress_bar);
+        //mPTHBaseFragmentProgressBar = (ProgressBar)view.findViewById(R.id.pth_id_practice_progress_bar);
         return view;
     }
 

@@ -13,7 +13,7 @@ import com.philips.amwelluapp.base.UIBaseView;
 import com.philips.amwelluapp.login.PTHAuthentication;
 import com.philips.amwelluapp.login.PTHGetConsumerObjectCallBack;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
-import com.philips.amwelluapp.practice.PracticeFragment;
+import com.philips.amwelluapp.practice.PTHPracticeFragment;
 import com.philips.amwelluapp.registration.PTHRegistrationDetailsFragment;
 import com.philips.amwelluapp.sdkerrors.PTHSDKError;
 import com.philips.amwelluapp.utility.PTHManager;
@@ -113,10 +113,10 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
         Log.d("Login","Consumer object received");
         Toast.makeText(uiBaseView.getFragmentActivity(),"CONSUMER OBJECT RECEIVED",Toast.LENGTH_SHORT).show();
-        PracticeFragment practiceFragment = new PracticeFragment();
-        practiceFragment.setConsumer(consumer);
-        practiceFragment.setActionBarListener(((PTHWelcomeFragment) uiBaseView).getActionBarListener());
-        uiBaseView.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(uiBaseView.getContainerID(),practiceFragment,"PTHPractice List").addToBackStack(null).commit();
+        PTHPracticeFragment PTHPracticeFragment = new PTHPracticeFragment();
+        PTHPracticeFragment.setConsumer(consumer);
+        PTHPracticeFragment.setActionBarListener(((PTHWelcomeFragment) uiBaseView).getActionBarListener());
+        uiBaseView.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(uiBaseView.getContainerID(), PTHPracticeFragment,"PTHPractice List").addToBackStack(null).commit();
 
     }
 

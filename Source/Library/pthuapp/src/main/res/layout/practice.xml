@@ -7,19 +7,19 @@
 
     android:padding="15dp">
 
-    <com.philips.platform.uid.view.widget.ProgressBar
+    <!--<ProgressBar
         android:id="@+id/pth_id_practice_progress_bar"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerHorizontal="true"
-        style="@style/UIDProgressBarCircularIndeterminateMiddle"
+
         android:visibility="gone"
 
-        />
+        />-->
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_id_practice_label"
-        android:layout_below="@+id/pth_id_practice_progress_bar"
+
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:textSize="16sp"

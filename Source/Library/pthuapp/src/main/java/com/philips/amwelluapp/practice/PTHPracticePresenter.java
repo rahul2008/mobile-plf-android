@@ -27,7 +27,7 @@ public class PTHPracticePresenter implements UIBasePresenter, PTHPracticesListCa
     }
 
     protected void fetchPractices(){
-        //((PracticeFragment) uiBaseView).showProgressBar();
+        //((PTHPracticeFragment) uiBaseView).showProgressBar();
        // PTHManager.getInstance().getPractices(uiBaseView.getFragmentActivity().getApplicationContext(),mConsumer,);
         try {
             PTHManager.getInstance().getPractices(uiBaseView.getFragmentActivity(),mConsumer,this);
@@ -39,7 +39,7 @@ public class PTHPracticePresenter implements UIBasePresenter, PTHPracticesListCa
 
     @Override
     public void onPracticesListReceived(PTHPractice practices, SDKError sdkError) {
-        ((PracticeFragment)uiBaseView).showPracticeList(practices);
+        ((PTHPracticeFragment)uiBaseView).showPracticeList(practices);
 
     }
 
