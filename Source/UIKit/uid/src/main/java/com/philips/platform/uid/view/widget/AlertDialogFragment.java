@@ -24,7 +24,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.philips.platform.uid.R;
@@ -86,28 +85,10 @@ public class AlertDialogFragment extends DialogFragment {
         setNegativeButtonProperties();
         setCancelable(dialogParams.isCancelable());
 
-        hideNegativeWithFullSpacePostivieButton(dialogParams);
-
         //initialize container view
         setDimLayer();
 
         return view;
-    }
-
-    private void hideNegativeWithFullSpacePostivieButton(AlertDialogController.DialogParams dialogParams) {
-        if (dialogParams.hideNegativeButton) {
-            negativeButton.setVisibility(View.GONE);
-            int marginStartEnd = getContext().getResources().getDimensionPixelOffset(R.dimen.uid_alert_dialog_positive_button_margin_end);
-
-            //Update layout to match parent width and update horizontal margins.
-            LinearLayout.LayoutParams origParams = (LinearLayout.LayoutParams) positiveButton.getLayoutParams();
-            origParams.setMarginEnd(marginStartEnd);
-            origParams.setMarginStart(marginStartEnd);
-            origParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-
-            positiveButton.setLayoutParams(origParams);
-        }
-
     }
 
     @Override
@@ -428,16 +409,6 @@ public class AlertDialogFragment extends DialogFragment {
          */
         public AlertDialogFragment.Builder setCancelable(boolean cancelable) {
             params.setCancelable(cancelable);
-            return this;
-        }
-
-        /**
-         * Hides negative button(usally cancel) and updates the positive button to take the full space.
-         *
-         * @return This Builder object to allow for chaining of calls to set methods
-         */
-        public Builder hideNegativeButton() {
-            params.hideNegativeButton = true;
             return this;
         }
 
