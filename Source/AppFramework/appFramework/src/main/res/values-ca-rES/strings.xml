@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="BA_AppFramework">|Infrastructure d\'application|</string>
+<string name="BA_AppFramework">|Infrastructure d\'application |</string>
 <string name="RA_You_are_not_LoggedIn">|Vous n\'êtes pas connecté. Veuillez accéder aux paramètres et vous connecter.|</string>
 <string name="RA_OK">|Aceptar|</string>
 <string name="RA_Cancel">|Abbrechen|</string>
@@ -18,12 +18,12 @@
 <string name="RA_HomeTab_Menu_Title">|Pagină principală|</string>
 <string name="RA_Settings_Menu_Title">|Einstellungen|</string>
 <string name="RA_Support_Menu_Title">|Asistencia técnica|</string>
-<string name="RA_Philips_Shop_Menu_Title">|„Philips\" parduotuvė|</string>
 <string name="RA_DataServices_Menu_Title">|Services de données|</string>
 <string name="RA_About_Menu_Title">|Informazioni su|</string>
 <string name="RA_Debug_and_Test_Menu_Title">|Ispravljanje pogrešaka i testiranje|</string>
 <string name="RA_HomeScreen_Menu_Title">|Početna stranica aplikacije za mobilne uređaje|</string>
 <string name="RA_ConnectivityScreen_Menu_Title">|Възможности за свързване|</string>
+<string name="RA_Philips_Shop_Menu_Title">|„Philips\\" parduotuvė|</string>
 <string name="RA_Settings_Screen_Header_Title">|Einstellungen|</string>
 <string name="RA_Vertical_App_Setting_A">|Приложение в портретной ориентации — настройка A|</string>
 <string name="RA_Vertical_App_Setting_B">|Приложение в портретной ориентации — настройка B|</string>
@@ -57,9 +57,7 @@
 <string name="RA_Empty_Invalid_Data">|Το πεδίο δεδομένων είναι κενό ή έχει μη έγκυρη τιμή|</string>
 <string name="RA_Invalid_Param_Msg">|Ai introdus sau selectat valori nevalide ale parametrilor. Selectează valori corespunzătoare ale parametrilor şi lansează din nou aplicaţia.|</string>
 <string name="RA_NO_Order_History">|L\'historique de commande n\'est pas disponible.|</string>
-<string name="RA_PR_Benefit_Text">|Prolongez votre période de garantie à 24 mois.
-Profitez d\'un rabais de 10 % sur les produits achetés à la boutique Philips.
-Recevez des produits et accessoires gratuits.|</string>
+<string name="RA_PR_Benefit_Text">|Prolongez votre période de garantie à 24 mois.\nProfitez d\'un rabais de 10\% sur les produits achetés à la boutique Philips.\nRecevez des produits et accessoires gratuits.|</string>
 <string name="RA_PR_Extentende_Warranty">|Votre période de garantie a été prolongée jusqu\'à l\'année prochaine|</string>
 <string name="RA_PR_Email_Text">|Se ha enviado un correo electrónico con el contrato de garantía ampliada a tu dirección de correo electrónico|</string>
 <string name="RA_UR_Env_Alert">|Modifier la configuration|</string>
@@ -87,4 +85,30 @@ Recevez des produits et accessoires gratuits.|</string>
 <string name="RA_Iap_Connection_Time_Out">|Se ha agotado el tiempo de espera de la conexión|</string>
 <string name="RA_Iap_Authentication_Failure">|Provjera autentičnosti nije uspjela|</string>
 <string name="RA_Iap_Product_Out_Of_Stock">|L\'article est en rupture de stock.|</string>
+<string name="RA_reference_device_scan">|Exploración del dispositivo de referencia|</string>
+<string name="RA_data_sync">|Duomenų sinchronizavimas|</string>
+<string name="RA_add">|Toevoegen|</string>
+<string name="RA_sync">|Synchroniseren|</string>
+<string name="RA_update">|Mettre à jour|</string>
+<string name="RA_delete">|Verwijderen|</string>
+<string name="RA_registration">|Registreerimine|</string>
+<string name="RA_phase">|Thời gian trong ngày|</string>
+<string name="RA_temperature">|درجة الحرارة|</string>
+<string name="RA_temparatute_hint">|Telesna temperatura dojenčka|</string>
+<string name="RA_location">|La prise de notes|</string>
+<string name="RA_location_hint">|Name des Standorts|</string>
+<string name="RA_save">|Enregistrer|</string>
+<string name="RA_synced">|Niet gesynchroniseerd|</string>
+<string name="RA_create_moment">|Δημιουργία συμβάντος|</string>
+<string name="RA_invalid_temperature">|Некорректная температурная запись|</string>
+<string name="RA_consent">|Prohlášení souhlasu uživatele|</string>
+<string name="RA_set_characteristics">|Características do utilizador|</string>
+<string name="RA_view_characteristics">|Преглед на характеристиките|</string>
+<string name="RA_hide_characteristics">|Скриване на характеристики|</string>
+<string name="RA_edit">|Επεξεργασία|</string>
+<string name="RA_consents">|Prohlášení souhlasu uživatele|</string>
+<string name="RA_ble_ref_device">|dispositivo di riferimento Bluetooth|</string>
+<string name="RA_unknown_device">|Dispositivo desconhecido|</string>
+<string name="RA_no_device_found">|No se han encontrado dispositivos|</string>
+<string name="RA_something_wrong">|Es ist ein Fehler aufgetreten.|</string>
 </resources>

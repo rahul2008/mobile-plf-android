@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="BA_AppFramework">AppFramework</string>
+<string name="BA_AppFramework">AppFramework </string>
 <string name="RA_You_are_not_LoggedIn">Bạn chưa đăng nhập. Vui lòng đến phần Cài đặt và Đăng nhập</string>
 <string name="RA_OK">OK</string>
 <string name="RA_Cancel">Hủy</string>
@@ -18,12 +18,12 @@
 <string name="RA_HomeTab_Menu_Title">Trang chủ</string>
 <string name="RA_Settings_Menu_Title">Cài đặt</string>
 <string name="RA_Support_Menu_Title">Hỗ trợ</string>
-<string name="RA_Philips_Shop_Menu_Title">Cửa hàng Philips</string>
 <string name="RA_DataServices_Menu_Title">Dịch vụ dữ liệu</string>
 <string name="RA_About_Menu_Title">Giới thiệu</string>
 <string name="RA_Debug_and_Test_Menu_Title">Kiểm tra và gỡ lỗi</string>
 <string name="RA_HomeScreen_Menu_Title">Trang chủ Ứng dụng di động</string>
 <string name="RA_ConnectivityScreen_Menu_Title">Tính kết nối</string>
+<string name="RA_Philips_Shop_Menu_Title">Cửa hàng Philips</string>
 <string name="RA_Settings_Screen_Header_Title">Cài đặt</string>
 <string name="RA_Vertical_App_Setting_A">Cài đặt ứng dụng ở chế độ xem dọc A</string>
 <string name="RA_Vertical_App_Setting_B">Cài đặt ứng dụng ở chế độ xem dọc B</string>
@@ -58,7 +58,7 @@
 <string name="RA_Invalid_Param_Msg">Bạn đã nhập hoặc chọn các giá trị thông số không hợp lệ. Vui lòng chọn giá trị thông số thích hợp và khởi chạy lại</string>
 <string name="RA_NO_Order_History">Lịch sử đơn hàng không có sẵn</string>
 <string name="RA_PR_Benefit_Text">Kéo dài thời gian bảo hành thêm 24 tháng.
-Nhận ưu đãi giảm giá 10% tại Philips.
+Nhận ưu đãi giảm giá 10\% tại Philips.
 Nhận các phụ kiện sản phẩm miễn phí</string>
 <string name="RA_PR_Extentende_Warranty">Thời gian bảo hành của bạn đã được kéo dài đến năm sau</string>
 <string name="RA_PR_Email_Text">Một email chứa hợp đồng bảo hành kéo dài đã được gửi đến địa chỉ email của bạn</string>
@@ -87,4 +87,30 @@ Nhận các phụ kiện sản phẩm miễn phí</string>
 <string name="RA_Iap_Connection_Time_Out">Đã hết thời gian chờ kết nối</string>
 <string name="RA_Iap_Authentication_Failure">Xác thực không thành công</string>
 <string name="RA_Iap_Product_Out_Of_Stock">Hết hàng</string>
+<string name="RA_reference_device_scan">Quét thiết bị tham chiếu</string>
+<string name="RA_data_sync">Đồng bộ dữ liệu</string>
+<string name="RA_add">Thêm</string>
+<string name="RA_sync">Đồng bộ</string>
+<string name="RA_update">Cập nhật</string>
+<string name="RA_delete">Xóa</string>
+<string name="RA_registration">Đăng ký</string>
+<string name="RA_phase">Thời gian trong ngày</string>
+<string name="RA_temperature">Nhiệt độ</string>
+<string name="RA_temparatute_hint">Thân nhiệt của trẻ</string>
+<string name="RA_location">Ghi chú</string>
+<string name="RA_location_hint">Tên vị trí</string>
+<string name="RA_save">Lưu</string>
+<string name="RA_synced">Chưa đồng bộ</string>
+<string name="RA_create_moment">Tạo thời điểm</string>
+<string name="RA_invalid_temperature">Mục nhập nhiệt độ không hợp lệ</string>
+<string name="RA_consent">Sự chấp thuận của người dùng</string>
+<string name="RA_set_characteristics">Đặc điểm của người dùng</string>
+<string name="RA_view_characteristics">Xem đặc điểm</string>
+<string name="RA_hide_characteristics">Ẩn đặc điểm</string>
+<string name="RA_edit">Sửa</string>
+<string name="RA_consents">Sự chấp thuận của người dùng</string>
+<string name="RA_ble_ref_device">Thiết bị tham chiếu Bluetooth</string>
+<string name="RA_unknown_device">Thiết bị không xác định</string>
+<string name="RA_no_device_found">Không tìm thấy thiết bị</string>
+<string name="RA_something_wrong">Có gì đó không ổn</string>
 </resources>

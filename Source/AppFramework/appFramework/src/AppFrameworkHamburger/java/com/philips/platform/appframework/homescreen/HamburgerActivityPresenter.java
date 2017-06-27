@@ -18,12 +18,11 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFound
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
+import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
-import com.philips.platform.baseapp.base.UIBasePresenter;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.baseapp.screens.utility.RALog;
-
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +31,7 @@ import java.util.Arrays;
  * This class id used for loading various fragments that are supported by home activity ,
  * based on user selection this class loads the next state of the application.
  */
-public class HamburgerActivityPresenter extends UIBasePresenter {
+public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
     public static final String TAG = HamburgerActivityPresenter.class.getSimpleName();
 
     private FragmentView fragmentView;
@@ -107,18 +106,20 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
             // Commented as part of Plan A removal.
            /* case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
                 return SHOPPING_CART;*/
-            case MENU_OPTION_PR:
-                return SUPPORT_PR;
             case MENU_OPTION_DATA_SYNC:
                 return HOME_DATA_SYNC;
             case MENU_OPTION_CONNECTIVITY:
-                return CONNECTIVITY;
+                return HOME_CONNECTIVITY;
             case MENU_OPTION_COCOVERSION:
-                return COCO_VERSION_INFO;
+                return HOME_COCO_VERSION_INFO;
             case MENU_OPTION_DEVICE_PAIRING:
-                return DEVICE_PAIRING;
+                return HOME_DEVICE_PAIRING;
             case MENU_OPTION_DEBUG:
                 return HOME_DEBUG;
+            case MENU_OPTION_TEST_MICROAPP:
+                return HOME_TEST_MICROAPP;
+            case MENU_OPTION_PR:
+                return HOME_SUPPORT_PR;
             default:
                 return HOME_FRAGMENT;
         }

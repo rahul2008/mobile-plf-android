@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="BA_AppFramework">Programos sistema</string>
+<string name="BA_AppFramework">Programos sistema </string>
 <string name="RA_You_are_not_LoggedIn">Jūs neprisijungęs. Eikite į nustatymus ir prisijunkite</string>
 <string name="RA_OK">Gerai</string>
 <string name="RA_Cancel">Atšaukti</string>
@@ -18,12 +18,12 @@
 <string name="RA_HomeTab_Menu_Title">Pr.</string>
 <string name="RA_Settings_Menu_Title">Nustatymai</string>
 <string name="RA_Support_Menu_Title">Palaikymas</string>
-<string name="RA_Philips_Shop_Menu_Title">„Philips\" parduotuvė</string>
 <string name="RA_DataServices_Menu_Title">Duomenų paslaugos</string>
 <string name="RA_About_Menu_Title">Apie</string>
 <string name="RA_Debug_and_Test_Menu_Title">Pašalinkite klaidas ir išbandykite</string>
 <string name="RA_HomeScreen_Menu_Title">Mobiliosios programos pradžios puslapis</string>
 <string name="RA_ConnectivityScreen_Menu_Title">Prijungimo galimybė</string>
+<string name="RA_Philips_Shop_Menu_Title">„Philips\" parduotuvė</string>
 <string name="RA_Settings_Screen_Header_Title">Nustatymai</string>
 <string name="RA_Vertical_App_Setting_A">Vertikalioji programa, A nustatymas</string>
 <string name="RA_Vertical_App_Setting_B">Vertikalioji programa, B nustatymas</string>
@@ -58,7 +58,7 @@
 <string name="RA_Invalid_Param_Msg">Įvedėte arba pasirinkote negaliojančias parametrų vertes. Pasirinkite tinkamas parametrų vertes ir paleiskite iš naujo</string>
 <string name="RA_NO_Order_History">Užsakymų istorija nepasiekiama</string>
 <string name="RA_PR_Benefit_Text">Pratęskite garantiją iki 24 mėnesių.
-Gaukite 10 % nuolaidą „Philips“.
+Gaukite 10 \% nuolaidą „Philips“.
 Gaukite produktų priedus nemokamai</string>
 <string name="RA_PR_Extentende_Warranty">Garantijos laikotarpis buvo pratęstas iki kitų metų</string>
 <string name="RA_PR_Email_Text">El. laiškas su pailgintos garantijos sutartimi išsiųstas jūsų el. pašto adresu</string>
@@ -87,4 +87,30 @@ Gaukite produktų priedus nemokamai</string>
 <string name="RA_Iap_Connection_Time_Out">Prisijungimo laikas baigėsi</string>
 <string name="RA_Iap_Authentication_Failure">Autentiškumo nustatymo klaida</string>
 <string name="RA_Iap_Product_Out_Of_Stock">Produktas išparduotas</string>
+<string name="RA_reference_device_scan">Stand. prietaiso skenavimas</string>
+<string name="RA_data_sync">Duomenų sinchronizavimas</string>
+<string name="RA_add">Įtr.</string>
+<string name="RA_sync">Sinchronizuoti</string>
+<string name="RA_update">Atnaujinti</string>
+<string name="RA_delete">Trinti</string>
+<string name="RA_registration">Registracija</string>
+<string name="RA_phase">Paros laikas</string>
+<string name="RA_temperature">Temperatūra</string>
+<string name="RA_temparatute_hint">Kūdikio temperatūra</string>
+<string name="RA_location">Pastabos</string>
+<string name="RA_location_hint">Vietos pavadinimas</string>
+<string name="RA_save">Išsaugoti</string>
+<string name="RA_synced">Nesusinchr.</string>
+<string name="RA_create_moment">Įvesti duomenis</string>
+<string name="RA_invalid_temperature">Neteisinga temperatūros įvestis</string>
+<string name="RA_consent">Naudotojo sutikimai</string>
+<string name="RA_set_characteristics">Naudotojo charakteristika</string>
+<string name="RA_view_characteristics">Peržiūrėti charakteristikas</string>
+<string name="RA_hide_characteristics">Slėpti charakteristikas</string>
+<string name="RA_edit">Redaguoti</string>
+<string name="RA_consents">Naudotojo sutikimai</string>
+<string name="RA_ble_ref_device">Stand. „Bluetooth“ prietaisas</string>
+<string name="RA_unknown_device">Nežinomas prietaisas</string>
+<string name="RA_no_device_found">Prietaisas nerastas</string>
+<string name="RA_something_wrong">Įvyko klaida</string>
 </resources>

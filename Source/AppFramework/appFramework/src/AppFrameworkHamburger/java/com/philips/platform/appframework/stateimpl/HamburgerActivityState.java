@@ -28,7 +28,7 @@ public class HamburgerActivityState extends BaseState {
      */
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        RALog.d(TAG, " navigate");
+        RALog.d( TAG, " navigate  ");
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
         fragmentLauncher.getFragmentActivity().startActivity(new Intent(fragmentLauncher.getFragmentActivity(), HamburgerActivity.class));
     }

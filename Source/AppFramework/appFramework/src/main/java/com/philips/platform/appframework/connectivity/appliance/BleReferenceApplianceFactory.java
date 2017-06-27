@@ -22,6 +22,7 @@ import java.util.Set;
 public final class BleReferenceApplianceFactory implements DICommApplianceFactory<BleReferenceAppliance> {
     @NonNull
     public static final String TAG = "BleReferenceApplianceFactory";
+    public static final long serialVersionUID = 11L;
 
     private final BleTransportContext bleTransportContext;
 

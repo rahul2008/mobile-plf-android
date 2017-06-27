@@ -39,7 +39,7 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
 
         if (holder instanceof ConsentDetailViewHolder) {
             ConsentDetailViewHolder mConsentViewHolder = (ConsentDetailViewHolder) holder;
@@ -52,9 +52,9 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-                        consentDetails.get(position).setStatus(ConsentDetailStatusType.ACCEPTED.name());
+                        consentDetails.get(holder.getAdapterPosition()).setStatus(ConsentDetailStatusType.ACCEPTED.name());
                     } else {
-                        consentDetails.get(position).setStatus(ConsentDetailStatusType.REFUSED.name());
+                        consentDetails.get(holder.getAdapterPosition()).setStatus(ConsentDetailStatusType.REFUSED.name());
                     }
 
                 }

@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.StrictMode;
 
+import com.philips.cdp.uikit.utils.UikitLocaleHelper;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.FlowManager;
@@ -17,6 +18,7 @@ import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.listeners.FlowManagerListener;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
@@ -46,6 +48,7 @@ public class AppFrameworkApplication extends Application {
     private ProductRegistrationState productRegistrationState;
     private static boolean isChinaCountry = false;
     private PushNotificationManager pushNotificationManager;
+    private LanguagePackInterface languagePackInterface;
     private ConnectivityChangeReceiver connectivityChangeReceiver;
 
     @Override
@@ -54,7 +57,7 @@ public class AppFrameworkApplication extends Application {
         if (BuildConfig.BUILD_TYPE.equalsIgnoreCase(LEAK_CANARY_BUILD_TYPE)) {
             if (LeakCanary.isInAnalyzerProcess(this)) {
                 // This proisChinaCountrycess is dedicated to LeakCanary for heap analysis.
-                // You should not init your app in this process.
+                // You should not initialise your app in this process.
                 return;
             }
             LeakCanary.install(this);
@@ -206,11 +209,38 @@ public class AppFrameworkApplication extends Application {
      * @param appInfraInitializationCallback
      */
     public void initializeAppInfra(AppInitializationCallback.AppInfraInitializationCallback appInfraInitializationCallback) {
-        appInfra = new AppInfra.Builder().build(getApplicationContext());
+        appInfra = getAppInfraInstance();
         loggingInterface = appInfra.getLogging();
         RALog.init(appInfra);
         RALog.enableLogging();
         AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
         appInfraInitializationCallback.onAppInfraInitialization();
+        languagePackInterface = appInfra.getLanguagePack();
+        languagePackInterface.refresh(new LanguagePackInterface.OnRefreshListener() {
+            @Override
+            public void onError(AILPRefreshResult ailpRefreshResult, String s) {
+                RALog.e(LOG,ailpRefreshResult.toString()+"---"+s);
+            }
+
+            @Override
+            public void onSuccess(AILPRefreshResult ailpRefreshResult) {
+                languagePackInterface.activate(new LanguagePackInterface.OnActivateListener() {
+                    @Override
+                    public void onSuccess(String filePath) {
+                        UikitLocaleHelper.getUikitLocaleHelper().setFilePath(filePath);
+                        RALog.d(LOG,"Success langauge pack activate "+"---"+filePath);
+                    }
+
+                    @Override
+                    public void onError(AILPActivateResult ailpActivateResult, String s) {
+                        RALog.e(LOG,ailpActivateResult.toString()+"---"+s);
+                    }
+                });
+            }
+        });
+    }
+
+    protected AppInfra getAppInfraInstance() {
+        return new AppInfra.Builder().build(getApplicationContext());
     }
 }

@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class SplashPresenterTest extends TestCase{
-    private SplashPresenter splashPresenter;
+    private SplashPresenterAbstract splashPresenter;
     private LaunchView launchView;
     private FragmentActivity fragmentActivity;
     private String APP_START = "onSplashTimeOut";
@@ -38,7 +38,7 @@ public class SplashPresenterTest extends TestCase{
         launchView = mock(LaunchView.class);
         fragmentActivity = mock(FragmentActivity.class);
         when(launchView.getFragmentActivity()).thenReturn(fragmentActivity);
-        splashPresenter = new SplashPresenter(launchView);
+        splashPresenter = new SplashPresenterAbstract(launchView);
     }
 
     public void testAppStartAfterSplash(){
@@ -50,7 +50,7 @@ public class SplashPresenterTest extends TestCase{
         final BaseFlowManager baseFlowManager = mock(BaseFlowManager.class);
         final FlowManager uiFlowManagerMock = mock(FlowManager.class);
         when(fragmentActivity.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
-        splashPresenter = new SplashPresenter(launchView) {
+        splashPresenter = new SplashPresenterAbstract(launchView) {
             @Override
             public void setState(final String stateID) {
                 super.setState(AppStates.SPLASH);

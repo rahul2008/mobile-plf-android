@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="BA_AppFramework">Lietotnes platforma</string>
+<string name="BA_AppFramework">Lietotnes platforma </string>
 <string name="RA_You_are_not_LoggedIn">Jūs neesat pieteicies. Lūdzu, atveriet iestatījumu sadaļu un piesakieties</string>
 <string name="RA_OK">Labi</string>
 <string name="RA_Cancel">Atcelt</string>
@@ -18,12 +18,12 @@
 <string name="RA_HomeTab_Menu_Title">Sāk.</string>
 <string name="RA_Settings_Menu_Title">Iestatījumi</string>
 <string name="RA_Support_Menu_Title">Atbalsts</string>
-<string name="RA_Philips_Shop_Menu_Title">Philips veikals</string>
 <string name="RA_DataServices_Menu_Title">Datu pakalpojumi</string>
 <string name="RA_About_Menu_Title">Par</string>
 <string name="RA_Debug_and_Test_Menu_Title">Atkļūdot un testēt</string>
 <string name="RA_HomeScreen_Menu_Title">Mobilās lietotnes sākums</string>
 <string name="RA_ConnectivityScreen_Menu_Title">Savienojamība</string>
+<string name="RA_Philips_Shop_Menu_Title">Philips veikals</string>
 <string name="RA_Settings_Screen_Header_Title">Iestatījumi</string>
 <string name="RA_Vertical_App_Setting_A">Vertikālais lietotnes iestatījums A</string>
 <string name="RA_Vertical_App_Setting_B">Vertikālais lietotnes iestatījums B</string>
@@ -58,7 +58,7 @@
 <string name="RA_Invalid_Param_Msg">Ir ievadītas vai atlasītas nederīgas parametru vērtības. Lūdzu, atlasiet atbilstošas parametru vērtības un palaidiet vēlreiz</string>
 <string name="RA_NO_Order_History">Pasūtījumu vēsture nav pieejama</string>
 <string name="RA_PR_Benefit_Text">Pagariniet garantiju līdz 24 mēnešiem.
-Saņemiet no Philips 10% atlaidi.
+Saņemiet no Philips 10\% atlaidi.
 Saņemiet produkta piederumus bez maksas</string>
 <string name="RA_PR_Extentende_Warranty">Jūsu garantijas termiņš ir pagarināts līdz nākamajam gadam</string>
 <string name="RA_PR_Email_Text">Uz jūsu e-pasta adresi ir nosūtīts e-pasta ziņojums ar pagarinātu garantijas līgumu</string>
@@ -87,4 +87,30 @@ Saņemiet produkta piederumus bez maksas</string>
 <string name="RA_Iap_Connection_Time_Out">Savienojuma taimauts</string>
 <string name="RA_Iap_Authentication_Failure">Autentifikācijas kļūme</string>
 <string name="RA_Iap_Product_Out_Of_Stock">Produkts nav krājumā</string>
+<string name="RA_reference_device_scan">Atsauces ierīces skens</string>
+<string name="RA_data_sync">Datu sinhr.</string>
+<string name="RA_add">Piev.</string>
+<string name="RA_sync">Sinhronizācija</string>
+<string name="RA_update">Atjaunināt</string>
+<string name="RA_delete">Dzēst</string>
+<string name="RA_registration">Reģistrācija</string>
+<string name="RA_phase">Diennakts laiks</string>
+<string name="RA_temperature">Temperatūra</string>
+<string name="RA_temparatute_hint">Bērna temperatūra</string>
+<string name="RA_location">Piezīmes</string>
+<string name="RA_location_hint">Vietas nosaukums</string>
+<string name="RA_save">Saglabāt</string>
+<string name="RA_synced">Nav sinhron.</string>
+<string name="RA_create_moment">Izveidot momentu</string>
+<string name="RA_invalid_temperature">Nederīgs temperatūras ieraksts</string>
+<string name="RA_consent">Lietotāja piekrišana</string>
+<string name="RA_set_characteristics">Lietotāja dati</string>
+<string name="RA_view_characteristics">Skatīt datus</string>
+<string name="RA_hide_characteristics">Paslēpt datus</string>
+<string name="RA_edit">Rediģēt</string>
+<string name="RA_consents">Lietotāja piekrišana</string>
+<string name="RA_ble_ref_device">Bluetooth ats. ier.</string>
+<string name="RA_unknown_device">Nezināma ierīce</string>
+<string name="RA_no_device_found">Ierīce nav atrasta</string>
+<string name="RA_something_wrong">Radās nezināma kļūda</string>
 </resources>

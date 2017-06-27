@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="BA_AppFramework">AppFramework</string>
+<string name="BA_AppFramework">AppFramework </string>
 <string name="RA_You_are_not_LoggedIn">U bent niet aangemeld. Ga naar Instellingen en meld u aan.</string>
 <string name="RA_OK">OK</string>
 <string name="RA_Cancel">Annuleren</string>
@@ -18,12 +18,12 @@
 <string name="RA_HomeTab_Menu_Title">Thuis</string>
 <string name="RA_Settings_Menu_Title">Instellingen</string>
 <string name="RA_Support_Menu_Title">Ondersteuning</string>
-<string name="RA_Philips_Shop_Menu_Title">Philips Shop</string>
 <string name="RA_DataServices_Menu_Title">Gegevensdiensten</string>
 <string name="RA_About_Menu_Title">Over</string>
 <string name="RA_Debug_and_Test_Menu_Title">Fouten opsporen en testen</string>
 <string name="RA_HomeScreen_Menu_Title">Beginscherm mobiele app</string>
 <string name="RA_ConnectivityScreen_Menu_Title">Connectiviteit</string>
+<string name="RA_Philips_Shop_Menu_Title">Philips Shop</string>
 <string name="RA_Settings_Screen_Header_Title">Instellingen</string>
 <string name="RA_Vertical_App_Setting_A">Verticale appinstelling A</string>
 <string name="RA_Vertical_App_Setting_B">Verticale appinstelling B</string>
@@ -65,7 +65,7 @@ Ontvang gratis productaccessoires</string>
 <string name="RA_UR_Env_Alert">Configuratie wijzigen</string>
 <string name="RA_UR_Env_Alert_Msg">Configuratie kan alleen worden gewijzigd bij het starten van de app. U dient de app opnieuw te starten om de configuratie te wijzigen</string>
 <string name="RA_Update_Userdata_Error">Er is een fout opgetreden bij het bijwerken van de gebruikersgegevens. Probeer het later opnieuw</string>
-<string name="RA_Product_Registration_Text">Product registreren</string>
+<string name="RA_Product_Registration_Text">Registreer uw product</string>
 <string name="RA_About_App_Version">Versie</string>
 <string name="RA_DebugScreen_Title">Fouten opsporen en testen</string>
 <string name="RA_Setting_Philips_Promo_PartTwo">Promotionele communicatie op basis van mijn voorkeuren en online gedrag</string>
@@ -87,4 +87,30 @@ Ontvang gratis productaccessoires</string>
 <string name="RA_Iap_Connection_Time_Out">Verbinding verbroken</string>
 <string name="RA_Iap_Authentication_Failure">Verificatiestoring</string>
 <string name="RA_Iap_Product_Out_Of_Stock">Product niet op voorraad</string>
+<string name="RA_reference_device_scan">Scan referentie-apparaat</string>
+<string name="RA_data_sync">Gegevens synchroniseren</string>
+<string name="RA_add">Toevoegen</string>
+<string name="RA_sync">Synchroniseren</string>
+<string name="RA_update">Bijwerken</string>
+<string name="RA_delete">Verwijderen</string>
+<string name="RA_registration">Registratie</string>
+<string name="RA_phase">Tijd</string>
+<string name="RA_temperature">Temperatuur</string>
+<string name="RA_temparatute_hint">Temperatuur baby</string>
+<string name="RA_location">Opmerkingen</string>
+<string name="RA_location_hint">Locatienaam</string>
+<string name="RA_save">Bespaar</string>
+<string name="RA_synced">Niet gesynchroniseerd</string>
+<string name="RA_create_moment">Moment maken</string>
+<string name="RA_invalid_temperature">Ongeldige temperatuur</string>
+<string name="RA_consent">Toestemmingen</string>
+<string name="RA_set_characteristics">Kenmerken gebruiker</string>
+<string name="RA_view_characteristics">Kenmerken weergeven</string>
+<string name="RA_hide_characteristics">Kenmerken verbergen</string>
+<string name="RA_edit">Bewerken</string>
+<string name="RA_consents">Toestemmingen</string>
+<string name="RA_ble_ref_device">Referentie-apparaat met Bluetooth</string>
+<string name="RA_unknown_device">Onbekend apparaat</string>
+<string name="RA_no_device_found">Geen apparaat gevonden</string>
+<string name="RA_something_wrong">Er is iets misgegaan</string>
 </resources>

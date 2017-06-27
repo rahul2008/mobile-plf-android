@@ -1,0 +1,47 @@
+{
+  "chapters":[
+    {
+      "chapterName":"Mobile Frontend",
+      "commonComponents":[
+        {
+          "coconame":"User Registration(Standard)"
+        },
+        {
+          "coconame":"Product Registration"
+        },
+        {
+          "coconame":"In App Purchase"
+        },
+        {
+          "coconame":"Consumer Care"
+        },
+        {
+          "coconame":"App Infra"
+        },
+        {
+          "coconame":"Data Services"
+        },
+        {
+          "coconame":"Micro App Framework"
+        }
+
+      ]
+    },
+    {
+      "chapterName":"Connectivity",
+      "commonComponents":[
+        {
+          "coconame":"Blue Lib"
+        }
+      ]
+    },
+    {
+      "chapterName":"Backend",
+      "commonComponents":[
+        {
+          "coconame":"Data Core"
+        }
+      ]
+    }
+  ]
+}

@@ -12,7 +12,7 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.referenceapp.R;
-import com.philips.cdp.devicepair.utils.PNLog;
+import com.philips.platform.referenceapp.utils.PNLog;
 
 public class RegistrationIntentService extends IntentService {
 

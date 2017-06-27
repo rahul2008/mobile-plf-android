@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="BA_AppFramework">Estrutura da aplicação</string>
+<string name="BA_AppFramework">Estrutura da aplicação </string>
 <string name="RA_You_are_not_LoggedIn">Não tem sessão iniciada. Aceda a Definições e inicie sessão</string>
 <string name="RA_OK">OK</string>
 <string name="RA_Cancel">Cancelar</string>
@@ -18,12 +18,12 @@
 <string name="RA_HomeTab_Menu_Title">Início</string>
 <string name="RA_Settings_Menu_Title">Definições</string>
 <string name="RA_Support_Menu_Title">Assistência</string>
-<string name="RA_Philips_Shop_Menu_Title">Loja Philips</string>
 <string name="RA_DataServices_Menu_Title">Serviços de dados</string>
 <string name="RA_About_Menu_Title">Sobre</string>
 <string name="RA_Debug_and_Test_Menu_Title">Depuração e teste</string>
 <string name="RA_HomeScreen_Menu_Title">Ecrã inicial da aplicação móvel</string>
 <string name="RA_ConnectivityScreen_Menu_Title">Conectividade</string>
+<string name="RA_Philips_Shop_Menu_Title">Loja Philips</string>
 <string name="RA_Settings_Screen_Header_Title">Definições</string>
 <string name="RA_Vertical_App_Setting_A">Definição vertical A da aplicação</string>
 <string name="RA_Vertical_App_Setting_B">Definição vertical B da aplicação</string>
@@ -58,7 +58,7 @@
 <string name="RA_Invalid_Param_Msg">Introduziu ou seleccionou valores de parâmetro inválidos. Seleccione valores de parâmetro adequados e volte a iniciar</string>
 <string name="RA_NO_Order_History">O histórico de encomendas não está disponível</string>
 <string name="RA_PR_Benefit_Text">Prolongue a sua garantia por mais 24 meses.
-Receba um desconto de 10% em produtos Philips.
+Receba um desconto de 10\% em produtos Philips.
 Receba acessórios de produtos gratuitos</string>
 <string name="RA_PR_Extentende_Warranty">O seu período de garantia foi prolongado até ao próximo ano</string>
 <string name="RA_PR_Email_Text">Foi enviado um e-mail com o contrato da garantia alargada para o seu endereço de e-mail</string>
@@ -87,4 +87,30 @@ Receba acessórios de produtos gratuitos</string>
 <string name="RA_Iap_Connection_Time_Out">Tempo de ligação excedido</string>
 <string name="RA_Iap_Authentication_Failure">Falha na autenticação</string>
 <string name="RA_Iap_Product_Out_Of_Stock">Produto esgotado</string>
+<string name="RA_reference_device_scan">Pesquisa de dispos. referência</string>
+<string name="RA_data_sync">Sincron. dados</string>
+<string name="RA_add">Adic.</string>
+<string name="RA_sync">Sincr.</string>
+<string name="RA_update">Actualiz.</string>
+<string name="RA_delete">Eliminar</string>
+<string name="RA_registration">Registo</string>
+<string name="RA_phase">Hora</string>
+<string name="RA_temperature">Temperatura</string>
+<string name="RA_temparatute_hint">Temperatura do bebé</string>
+<string name="RA_location">Notas</string>
+<string name="RA_location_hint">Nome do local</string>
+<string name="RA_save">Guardar</string>
+<string name="RA_synced">Não sincronizado</string>
+<string name="RA_create_moment">Criar momento</string>
+<string name="RA_invalid_temperature">Valor de temperatura inválido</string>
+<string name="RA_consent">Consentimentos</string>
+<string name="RA_set_characteristics">Características do utilizador</string>
+<string name="RA_view_characteristics">Ver características</string>
+<string name="RA_hide_characteristics">Ocultar características</string>
+<string name="RA_edit">Editar</string>
+<string name="RA_consents">Consentimentos</string>
+<string name="RA_ble_ref_device">Disp. referên. Bluetooth</string>
+<string name="RA_unknown_device">Dispos. desconhecido</string>
+<string name="RA_no_device_found">Dispos. não encontrado</string>
+<string name="RA_something_wrong">Ocorreu um erro</string>
 </resources>

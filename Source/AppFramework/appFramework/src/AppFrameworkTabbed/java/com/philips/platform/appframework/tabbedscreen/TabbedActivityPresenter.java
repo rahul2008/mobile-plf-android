@@ -22,7 +22,6 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoStateException
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
-import com.philips.platform.baseapp.base.UIBasePresenter;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -35,7 +34,7 @@ import static com.philips.platform.baseapp.screens.utility.Constants.UI_RENDERIN
  * This class id used for loading various fragments that are supported by home activity ,
  * based on user selection this class loads the next state of the application.
  */
-public class TabbedActivityPresenter extends UIBasePresenter implements UIStateListener{
+public class TabbedActivityPresenter extends AbstractUIBasePresenter implements UIStateListener{
     public static final String TAG = TabbedActivityPresenter.class.getSimpleName();
 
     private FragmentView fragmentView;
@@ -118,13 +117,13 @@ public class TabbedActivityPresenter extends UIBasePresenter implements UIStateL
            /* case Constants.UI_SHOPPING_CART_BUTTON_CLICK:
                 return SHOPPING_CART;*/
             case MENU_OPTION_PR:
-                return SUPPORT_PR;
+                return HOME_SUPPORT_PR;
             case MENU_OPTION_DATA_SYNC:
                 return  HOME_DATA_SYNC;
             case MENU_OPTION_CONNECTIVITY:
-                return CONNECTIVITY;
+                return HOME_CONNECTIVITY;
             case MENU_OPTION_COCOVERSION:
-                return COCO_VERSION_INFO;
+                return HOME_COCO_VERSION_INFO;
             default:
                 return HOME_FRAGMENT;
         }

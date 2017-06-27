@@ -149,6 +149,15 @@
             ]
           },
           {
+            "eventId": "testmicroapp",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "testmicroapp"
+              }
+            ]
+          },
+          {
             "eventId": "coco_version_info",
             "nextStates": [
               {
@@ -245,6 +254,98 @@
             ]
           }
         ]
+      },{
+        "state": "testmicroapp",
+        "events": [
+          {
+            "eventId": "TestDataServicesEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoDataService"
+              }
+            ]
+          },
+          {
+            "eventId": "TestInAppPurhcaseEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoInAppState"
+              }
+            ]
+          },
+          {
+            "eventId": "TestConArtistEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoConnectvityState"
+              }
+            ]
+          },
+
+          {
+            "eventId": "TestDLSEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoPhilipsDLSKit"
+              }
+            ]
+          },
+
+          {
+            "eventId": "TestAppInfraEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoAppInfra"
+              }
+            ]
+          },
+          {
+            "eventId": "TestConsumerCareEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoConsumerCare"
+              }
+            ]
+          },
+
+          {
+            "eventId": "TestProductRegistrationEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoProductRegistration"
+              }
+            ]
+          },
+          {
+            "eventId": "TestUserRegistrationEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoUserRegistration"
+              }
+            ]
+          },
+          {
+            "eventId": "TestUAPPFrameworkEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoUAPPFramework"
+              }
+            ]
+          }
+
+
+
+        ]
+
       }
     ]
   }

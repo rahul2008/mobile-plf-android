@@ -4,10 +4,10 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:paddingBottom="@dimen/activity_vertical_margin"
-              android:paddingLeft="@dimen/activity_horizontal_margin"
-              android:paddingRight="@dimen/activity_horizontal_margin"
-              android:paddingTop="@dimen/activity_vertical_margin">
+              android:paddingBottom="5dp"
+              android:paddingLeft="5dp"
+              android:paddingRight="5dp"
+              android:paddingTop="5dp">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -62,18 +62,18 @@
     </FrameLayout>
 
     <Button
-        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_margin="5dp"
         android:id="@+id/buttonPair"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Pair"/>
 
     <Button
-        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_margin="5dp"
         android:id="@+id/buttonUnPair"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="UnPairr"/>
+        android:text="UnPair"/>
 
     <EditText
         android:layout_width="match_parent"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-<string name="BA_AppFramework">Rakendusraamistik</string>
+<string name="BA_AppFramework">Rakendusraamistik </string>
 <string name="RA_You_are_not_LoggedIn">Te ei ole sisse logitud. Avage Seaded ja valige Logi sisse</string>
 <string name="RA_OK">OK</string>
 <string name="RA_Cancel">Tühista</string>
@@ -18,12 +18,12 @@
 <string name="RA_HomeTab_Menu_Title">Home (Algusesse)</string>
 <string name="RA_Settings_Menu_Title">Seadistused</string>
 <string name="RA_Support_Menu_Title">Tugi</string>
-<string name="RA_Philips_Shop_Menu_Title">Philipsi kauplus</string>
 <string name="RA_DataServices_Menu_Title">Andmeteenused</string>
 <string name="RA_About_Menu_Title">Teave</string>
 <string name="RA_Debug_and_Test_Menu_Title">Silumine ja testimine</string>
 <string name="RA_HomeScreen_Menu_Title">Mobiilirakenduse avaleht</string>
 <string name="RA_ConnectivityScreen_Menu_Title">Ühenduvus</string>
+<string name="RA_Philips_Shop_Menu_Title">Philipsi kauplus</string>
 <string name="RA_Settings_Screen_Header_Title">Seadistused</string>
 <string name="RA_Vertical_App_Setting_A">Rakenduse vertikaalne seadistus A</string>
 <string name="RA_Vertical_App_Setting_B">Rakenduse vertikaalne seadistus B</string>
@@ -58,7 +58,7 @@
 <string name="RA_Invalid_Param_Msg">Olete sisestanud või valinud valed parameetri väärtused. Valige sobivad parameetri väärtused ja käivitage uuesti.</string>
 <string name="RA_NO_Order_History">Tellimuse ajalugu ei ole kättesaadav</string>
 <string name="RA_PR_Benefit_Text">Pikendage garantiid 24 kuuks.
-10% allahindlus Philipsi poest ostetud toodetele.
+10\% allahindlus Philipsi poest ostetud toodetele.
 Saage tasuta tarvikuid tootele</string>
 <string name="RA_PR_Extentende_Warranty">Teie garantiiperiood on pikenenud järgmise aastani</string>
 <string name="RA_PR_Email_Text">Pikendatud garantiilepinguga e-kiri saadeti teie e-posti aadressile.</string>
@@ -87,4 +87,30 @@ Saage tasuta tarvikuid tootele</string>
 <string name="RA_Iap_Connection_Time_Out">Ühendus aegunud</string>
 <string name="RA_Iap_Authentication_Failure">Autentimine nurjus</string>
 <string name="RA_Iap_Product_Out_Of_Stock">Toode otsas</string>
+<string name="RA_reference_device_scan">Võrdlusseadmesse skannimine</string>
+<string name="RA_data_sync">Andmete sünkr.</string>
+<string name="RA_add">Lisa</string>
+<string name="RA_sync">Sünkroonimine</string>
+<string name="RA_update">Värskenda</string>
+<string name="RA_delete">Kustuta</string>
+<string name="RA_registration">Registreerimine</string>
+<string name="RA_phase">Kellaaeg</string>
+<string name="RA_temperature">Temperatuur</string>
+<string name="RA_temparatute_hint">Beebi temperatuur</string>
+<string name="RA_location">Märkused</string>
+<string name="RA_location_hint">Asukoha nimetus</string>
+<string name="RA_save">Salvesta</string>
+<string name="RA_synced">Sünkroonimata</string>
+<string name="RA_create_moment">Loo moment</string>
+<string name="RA_invalid_temperature">Vale temperatuurikirje</string>
+<string name="RA_consent">Kasutaja nõusolekud</string>
+<string name="RA_set_characteristics">Kasutaja omadused</string>
+<string name="RA_view_characteristics">Vaata omadusi</string>
+<string name="RA_hide_characteristics">Peida omadused</string>
+<string name="RA_edit">Redigeeri</string>
+<string name="RA_consents">Kasutaja nõusolekud</string>
+<string name="RA_ble_ref_device">Bluetoothiga võrdlusseade</string>
+<string name="RA_unknown_device">Tundmatu seade</string>
+<string name="RA_no_device_found">Seadet ei leitud</string>
+<string name="RA_something_wrong">Midagi läks valesti</string>
 </resources>
