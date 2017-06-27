@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.philips.platform.uid.R;
@@ -85,10 +86,23 @@ public class AlertDialogFragment extends DialogFragment {
         setNegativeButtonProperties();
         setCancelable(dialogParams.isCancelable());
 
+        handlePositiveOnlyButton();
         //initialize container view
         setDimLayer();
 
         return view;
+    }
+
+    private void handlePositiveOnlyButton() {
+        if (!isViewVisible(negativeButton) && isViewVisible(positiveButton)) {
+
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) positiveButton.getLayoutParams();
+            int marginStartEnd = getContext().getResources().getDimensionPixelSize(R.dimen.uid_alert_dialog_positive_button_margin_end);
+            params.setMarginStart(marginStartEnd);
+            params.setMarginEnd(marginStartEnd);
+            params.width = LinearLayout.LayoutParams.MATCH_PARENT;
+            positiveButton.setLayoutParams(params);
+        }
     }
 
     @Override
@@ -267,6 +281,10 @@ public class AlertDialogFragment extends DialogFragment {
 
     private void setCanceledOnTouchOutside(final boolean canceledOnTouchOutside) {
         dialogParams.setCancelable(canceledOnTouchOutside);
+    }
+
+    private boolean isViewVisible(View view) {
+        return view != null && view.getVisibility() == View.VISIBLE;
     }
 
     public static class Builder {
