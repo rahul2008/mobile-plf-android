@@ -76,7 +76,7 @@ public class RadiobuttonTest extends BaseTest {
 
     @Test
     public void verifyRadioButtonTextColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidRadioButtonDefaultNormalTextColor);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidLabelRegularNormalTextColor);
         getRadiobutton1().check(matches(TextViewPropertiesMatchers.isSameTextColor(android.R.attr.state_enabled, expectedColor)));
     }
 
@@ -85,7 +85,7 @@ public class RadiobuttonTest extends BaseTest {
      *******************************/
     @Test
     public void verifyRadioButtonDisabledTextColor() {
-        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidRadioButtonDefaultDisabledTextColor);
+        final int expectedColor = UIDTestUtils.getAttributeColor(activity, R.attr.uidLabelRegularDisabledTextColor);
         getRadiobutton1().perform(new RadiobuttonTest.SetRadiobuttonDisabledViewAction());
         getRadiobutton1().check(matches(TextViewPropertiesMatchers.isSameTextColor(-android.R.attr.state_enabled, expectedColor)));
     }
