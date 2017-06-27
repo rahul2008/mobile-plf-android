@@ -96,10 +96,4 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         }
         return supplierLinkWithUUID + String.valueOf(UUID.randomUUID());
     }
-
-    @Override
-    public boolean handleBackEvent() {
-        getFragmentManager().popBackStackImmediate();
-        return true;
-    }
 }

@@ -75,14 +75,6 @@ public abstract class WebFragment extends InAppBaseFragment {
                 || errorCode == WebViewClient.ERROR_HOST_LOOKUP);
     }
 
-    public boolean handleBackEvent() {
-        if (mWebView.canGoBack()) {
-            mWebView.goBack();
-            return true;
-        }
-        return false;
-    }
-
     private class IAPWebViewClient extends WebViewClient {
 
         @SuppressWarnings("deprecation")
@@ -99,6 +91,7 @@ public abstract class WebFragment extends InAppBaseFragment {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
             mProgress.setVisibility(View.VISIBLE);
             super.onPageStarted(view, url, favicon);
         }
