@@ -1,5 +1,5 @@
 rootProject.setName 'dataServices'
-include ':data_sync_app', ':demouapp'
-project(':demouapp').projectDir = new File('../demouapp')
+include ':data_sync_app', ':DemoUApp'
+project(':DemoUApp').projectDir = new File('../DemoUApp')
 include ':dataServices'
 project(':dataServices').projectDir = new File('../Library/dataServices')
