@@ -9,14 +9,16 @@ public class PairDevicesRequestEvent extends Event {
     private String mDeviceType;
     private List<String> mStandardObservationNames;
     private List<String> mSubjectIds;
+    private String mRelationshipType;
     private DevicePairingListener mDevicePairingListener;
 
     public PairDevicesRequestEvent(String deviceId, String deviceType, List<String> standardObservationNames,
-                                   List<String> subjectIds, DevicePairingListener devicePairingListener) {
+                                   List<String> subjectIds, String relationshipType, DevicePairingListener devicePairingListener) {
         mDeviceId = deviceId;
         mDeviceType = deviceType;
         mStandardObservationNames = standardObservationNames;
         mSubjectIds = subjectIds;
+        mRelationshipType = relationshipType;
         mDevicePairingListener = devicePairingListener;
     }
 
@@ -38,5 +40,13 @@ public class PairDevicesRequestEvent extends Event {
 
     public DevicePairingListener getDevicePairingListener() {
         return mDevicePairingListener;
+    }
+
+    public String getRelationshipType() {
+        return mRelationshipType;
+    }
+
+    public void setRelationshipType(String mRelationshipType) {
+        this.mRelationshipType = mRelationshipType;
     }
 }

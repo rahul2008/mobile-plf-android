@@ -92,11 +92,13 @@ public class DevicePairingControllerTest {
         uCoreDevicePair.setStandardObservationNames(null);
         uCoreDevicePair.setDeviceType("DeviceType");
         uCoreDevicePair.setDeviceId("DeviceID");
+        uCoreDevicePair.setRelationshipType("RelationshipType");
 
         assertTrue(uCoreDevicePair.getStandardObservationNames() == null);
         assertTrue(uCoreDevicePair.getSubjectIds() == null);
         assertTrue(uCoreDevicePair.getDeviceId() != null);
         assertTrue(uCoreDevicePair.getDeviceType() != null);
+        assertTrue(uCoreDevicePair.getRelationshipType() != null);
 
         when(mDevicePairingClient.pairDevice(eq(TEST_USER_ID), eq(12), eq(TEST_USER_ID), any(UCoreDevicePair.class))).thenReturn(mResponse);
         mDevicePairingController.pairDevices(uCoreDevicePair);

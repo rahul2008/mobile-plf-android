@@ -755,8 +755,8 @@ public class DataServicesManager {
 
     //Device Pairing
     public void pairDevices(String deviceID, String deviceType, List<String> subjectIds,
-                            List<String> standardObservationNames, DevicePairingListener devicePairingListener) {
-        mEventing.post(new PairDevicesRequestEvent(deviceID, deviceType, standardObservationNames, subjectIds, devicePairingListener));
+                            List<String> standardObservationNames, String relationshipType, DevicePairingListener devicePairingListener) {
+        mEventing.post(new PairDevicesRequestEvent(deviceID, deviceType, standardObservationNames, subjectIds, relationshipType, devicePairingListener));
     }
 
     public void unPairDevice(String deviceID, DevicePairingListener devicePairingListener) {
