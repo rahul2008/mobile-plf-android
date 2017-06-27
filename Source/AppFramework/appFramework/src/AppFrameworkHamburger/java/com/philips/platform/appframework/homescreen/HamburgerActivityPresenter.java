@@ -55,13 +55,13 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
 
         try {
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-            BaseState currentState=targetFlowManager.getCurrentState();
-            if(targetFlowManager == null){
+            BaseState currentState = targetFlowManager.getCurrentState();
+            if (targetFlowManager == null) {
                 Toast.makeText(fragmentView.getFragmentActivity(), fragmentView.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
                 return;
             }
             baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.HAMBURGER_HOME), eventState);
-            if(currentState!=null && currentState.getStateID()==baseState.getStateID()){
+            if (currentState != null && currentState.getStateID() == baseState.getStateID()) {
                 return;
             }
             if (null != baseState) {
@@ -69,7 +69,7 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
                 fragmentLauncher = getFragmentLauncher();
                 baseState.navigate(fragmentLauncher);
             }
-        }  catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
+        } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {
             RALog.d(TAG, e.getMessage());
             Toast.makeText(fragmentView.getFragmentActivity(), fragmentView.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
@@ -115,8 +115,8 @@ public class HamburgerActivityPresenter extends UIBasePresenter {
                 return CONNECTIVITY;
             case MENU_OPTION_COCOVERSION:
                 return COCO_VERSION_INFO;
-            case MENU_OPTION_WIFIREFUAPP:
-                return WIFIREFUAPP;
+            case MENU_OPTION_DEVICE_PAIRING:
+                return DEVICE_PAIRING;
             case MENU_OPTION_DEBUG:
                 return HOME_DEBUG;
             default:

@@ -5,7 +5,7 @@ import com.philips.platform.datasync.subjectProfile.UCoreSubjectProfile;
 
 import java.util.List;
 
-public interface CreateSubjectProfileViewListener {
+interface CreateSubjectProfileViewListener {
     boolean validateViews();
 
     SubjectProfile getSubjectProfile();

@@ -28,7 +28,7 @@ abstract public class UIBasePresenter {
 
     protected final int MENU_OPTION_DEBUG = 8;
     protected final int MENU_OPTION_COCOVERSION = 7;
-    protected final int MENU_OPTION_WIFIREFUAPP = 9;
+    protected final int MENU_OPTION_DEVICE_PAIRING = 9;
 
 
     /* event to state map */
@@ -44,7 +44,7 @@ abstract public class UIBasePresenter {
     protected final String TESTMICROAPP = "testmicroapp";
     protected final String COCO_VERSION_INFO="coco_version_info";
     protected final String HOME_DEBUG="debug";
-    protected final String WIFIREFUAPP = "wifirefuapp";
+    protected final String DEVICE_PAIRING = "device_pairing";
 
     private UIView uiView;
 

@@ -1,7 +1,6 @@
 package com.philips.cdp.devicepair.ui;
 
 import com.philips.cdp.devicepair.pojo.SubjectProfile;
-import com.philips.cdp.devicepair.states.StateContext;
 import com.philips.platform.core.listeners.SubjectProfileListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DataServicesError;
@@ -9,25 +8,22 @@ import com.philips.platform.datasync.subjectProfile.UCoreSubjectProfile;
 
 import java.util.List;
 
-public class CreateSubjectProfileFragmentPresenter implements SubjectProfileListener {
+class CreateSubjectProfileFragmentPresenter implements SubjectProfileListener {
 
     private CreateSubjectProfileViewListener subjectProfileViewListener;
-    private StateContext stateContext;
-    private DeviceStatusListener mDeviceStatusListener;
 
-    public CreateSubjectProfileFragmentPresenter(CreateSubjectProfileViewListener subjectProfileViewListener, DeviceStatusListener deviceStatusListener) {
+    CreateSubjectProfileFragmentPresenter(CreateSubjectProfileViewListener subjectProfileViewListener) {
         this.subjectProfileViewListener = subjectProfileViewListener;
-        this.mDeviceStatusListener = deviceStatusListener;
     }
 
-    public void createProfile() {
+    void createProfile() {
         if (subjectProfileViewListener.validateViews()) {
             SubjectProfile subjectProfile = subjectProfileViewListener.getSubjectProfile();
-            DataServicesManager.getInstance().createSubjectProfile(subjectProfile.getFirstName().toString(),
-                    subjectProfile.getDob().toString(),
-                    subjectProfile.getGender().toString(),
+            DataServicesManager.getInstance().createSubjectProfile(subjectProfile.getFirstName(),
+                    subjectProfile.getDob(),
+                    subjectProfile.getGender(),
                     subjectProfile.getWeight(),
-                    subjectProfile.getCreationDate().toString(), this);
+                    subjectProfile.getCreationDate(), this);
         } else {
             subjectProfileViewListener.showToastMessage();
         }

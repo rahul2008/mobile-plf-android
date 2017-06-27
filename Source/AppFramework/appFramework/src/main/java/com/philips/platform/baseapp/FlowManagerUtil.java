@@ -22,17 +22,17 @@ import com.philips.platform.baseapp.screens.splash.SplashState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationOnBoardingState;
 import com.philips.platform.baseapp.screens.userregistration.UserRegistrationSettingsState;
 import com.philips.platform.baseapp.screens.utility.RALog;
-import com.philips.platform.baseapp.screens.wifirefuapp.WifiRefState;
+import com.philips.platform.baseapp.screens.devicepairing.DevicePairingState;
 import com.philips.platform.modularui.stateimpl.ConnectivityFragmentState;
 
 
 import java.util.Map;
 
 public class FlowManagerUtil {
-    private static final String TAG=FlowManagerUtil.class.getSimpleName();
+    private static final String TAG = FlowManagerUtil.class.getSimpleName();
 
     public void addValuesToMap(final Map<String, BaseState> uiStateMap) {
-        RALog.d(TAG," addValuesToMap called");
+        RALog.d(TAG, " addValuesToMap called");
         uiStateMap.put(AppStates.WELCOME, new WelcomeState());
         uiStateMap.put(AppStates.ON_BOARDING_REGISTRATION, new UserRegistrationOnBoardingState());
         uiStateMap.put(AppStates.SETTINGS_REGISTRATION, new UserRegistrationSettingsState());
@@ -47,6 +47,6 @@ public class FlowManagerUtil {
         uiStateMap.put(AppStates.DATA_SYNC, new DataServicesState());
         uiStateMap.put(AppStates.CONNECTIVITY, new ConnectivityFragmentState());
         uiStateMap.put(AppStates.COCO_VERSION_INFO, new CocoVersionState());
-        uiStateMap.put(AppStates.WIFIREFUAPP, new WifiRefState());
+        uiStateMap.put(AppStates.DEVICE_PAIRING, new DevicePairingState());
     }
 }

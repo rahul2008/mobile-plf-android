@@ -11,10 +11,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.philips.cdp.devicepair.R;
-import com.philips.cdp.devicepair.uappdependencies.WifiCommLibUappInterface;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 
@@ -33,15 +32,6 @@ public class WifiCommLibUappLaunchActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
             LaunchFragment sampleFragment = new LaunchFragment();
-
-            Bundle extras = getIntent().getExtras();
-            if (extras != null) {
-                String message = extras.getString(WifiCommLibUappInterface.WELCOME_MESSAGE);
-                Bundle bundle = new Bundle();
-                bundle.putString(WifiCommLibUappInterface.WELCOME_MESSAGE, message);
-                sampleFragment.setArguments(bundle);
-            }
-
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.parent_layout, sampleFragment);
             fragmentTransaction.commitAllowingStateLoss();
@@ -54,11 +44,11 @@ public class WifiCommLibUappLaunchActivity extends AppCompatActivity {
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
 
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the text view in the ActionBar !
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
-        View mCustomView = LayoutInflater.from(this).inflate(R.layout.custom_action_bar, null); // layout which contains your button.
+        View mCustomView = LayoutInflater.from(this).inflate(R.layout.custom_action_bar, null);
 
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
 
@@ -69,10 +59,6 @@ public class WifiCommLibUappLaunchActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-        ImageView arrowImage = (ImageView) mCustomView
-                .findViewById(R.id.arrow);
-//        arrowImage.setBackground(getResources().getDrawable(R.drawable.prodreg_left_arrow));
 
         mActionBar.setCustomView(mCustomView, params);
         setTitle(getString(R.string.app_name));

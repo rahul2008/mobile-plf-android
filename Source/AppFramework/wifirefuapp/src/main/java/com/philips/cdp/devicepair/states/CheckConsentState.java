@@ -17,13 +17,13 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.List;
 
-public class CheckConsentState extends BaseState implements DBRequestListener<ConsentDetail>, DBFetchRequestListner<ConsentDetail>, DBChangeListener {
+class CheckConsentState extends BaseState implements DBRequestListener<ConsentDetail>, DBFetchRequestListner<ConsentDetail>, DBChangeListener {
 
     private FragmentLauncher mContext;
     private PairDevice mPairDevice;
-    DeviceStatusListener mDeviceStatusListener;
+    private DeviceStatusListener mDeviceStatusListener;
 
-    public CheckConsentState(PairDevice pairDevice, DeviceStatusListener deviceStatusListener, FragmentLauncher context) {
+    CheckConsentState(PairDevice pairDevice, DeviceStatusListener deviceStatusListener, FragmentLauncher context) {
         super(context);
         this.mContext = context;
         this.mPairDevice = pairDevice;
@@ -39,7 +39,7 @@ public class CheckConsentState extends BaseState implements DBRequestListener<Co
         }
     }
 
-    public void fetchConsent() {
+    private void fetchConsent() {
         showProgressDialog("Fetching Consent...");
         DataServicesManager.getInstance().fetchConsentDetail(this);
     }
@@ -60,7 +60,7 @@ public class CheckConsentState extends BaseState implements DBRequestListener<Co
 
         boolean accepted = false;
         for (ConsentDetail ormConsentDetail : list) {
-            if (ormConsentDetail.getStatus().toString().equalsIgnoreCase(ConsentDetailStatusType.ACCEPTED.name())) {
+            if (ormConsentDetail.getStatus().equalsIgnoreCase(ConsentDetailStatusType.ACCEPTED.name())) {
                 accepted = true;
             } else {
                 accepted = false;
@@ -106,7 +106,7 @@ public class CheckConsentState extends BaseState implements DBRequestListener<Co
         });
     }
 
-    public void launchConsentDialog() {
+    private void launchConsentDialog() {
         ConsentDialogFragment consentDialogFragment = new ConsentDialogFragment();
         consentDialogFragment.setFragmentLauncher(mContext);
         consentDialogFragment.setDeviceDetails(mPairDevice);

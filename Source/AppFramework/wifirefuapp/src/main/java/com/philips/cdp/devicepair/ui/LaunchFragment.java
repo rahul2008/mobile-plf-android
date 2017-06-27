@@ -19,7 +19,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
@@ -31,7 +30,6 @@ import com.philips.cdp.devicepair.devicesetup.SampleKpsConfigurationInfo;
 import com.philips.cdp.devicepair.pojo.PairDevice;
 import com.philips.cdp.devicepair.states.GetPairedDevicesState;
 import com.philips.cdp.devicepair.states.StateContext;
-import com.philips.cdp.devicepair.uappdependencies.WifiCommLibUappInterface;
 import com.philips.cdp.devicepair.utils.NetworkChangeListener;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
@@ -159,7 +157,7 @@ public class LaunchFragment extends Fragment implements BackEventListener, Launc
     @Override
     public void onStart() {
         super.onStart();
-        mFragmentLauncher.getActionbarListener().updateActionBar("Device Pairing", true);
+        mFragmentLauncher.getActionbarListener().updateActionBar("Device Pairing", false);
     }
 
     @Override
@@ -171,9 +169,11 @@ public class LaunchFragment extends Fragment implements BackEventListener, Launc
         test.add("1c5a6bfffecc9127");
         updateDiscoveredDevices(test);*/
 
-        mStateContext = new StateContext();
-        mStateContext.setState(new GetPairedDevicesState(mFragmentLauncher, this));
-        mStateContext.start();
+        if (!(getActivity().isFinishing())) {
+            mStateContext = new StateContext();
+            mStateContext.setState(new GetPairedDevicesState(mFragmentLauncher, this));
+            mStateContext.start();
+        }
 
         mNetworkChangeListener.addListener(this);
         mContext.registerReceiver(mNetworkChangeListener, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
@@ -217,16 +217,6 @@ public class LaunchFragment extends Fragment implements BackEventListener, Launc
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            String message = arguments.getString(WifiCommLibUappInterface.WELCOME_MESSAGE);
-            System.out.print(message);
-        }
-    }
-
-    @Override
-    public Context getActivityContext() {
-        return getActivity();
     }
 
     @Override

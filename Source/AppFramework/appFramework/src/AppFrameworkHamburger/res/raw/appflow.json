@@ -4,7 +4,6 @@
       {
         "state": "splash",
         "events": [
-
           {
             "eventId": "onSplashTimeOut",
             "nextStates": [
@@ -168,11 +167,11 @@
             ]
           },
           {
-            "eventId": "wifirefuapp",
+            "eventId": "device_pairing",
             "nextStates": [
               {
                 "condition": [],
-                "nextState": "wifirefuapp"
+                "nextState": "device_pairing"
               }
             ]
           }

@@ -11,13 +11,13 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.List;
 
-public class GetSubjectProfileState extends BaseState implements SubjectProfileListener {
+class GetSubjectProfileState extends BaseState implements SubjectProfileListener {
 
     private PairDevice pairDevice;
     private FragmentLauncher context;
-    DeviceStatusListener mDeviceStatusListener;
+    private DeviceStatusListener mDeviceStatusListener;
 
-    public GetSubjectProfileState(PairDevice pairDevice, DeviceStatusListener listener, FragmentLauncher context) {
+    GetSubjectProfileState(PairDevice pairDevice, DeviceStatusListener listener, FragmentLauncher context) {
         super(context);
         this.context = context;
         this.pairDevice = pairDevice;
@@ -33,7 +33,7 @@ public class GetSubjectProfileState extends BaseState implements SubjectProfileL
         }
     }
 
-    protected void getSubjectProfiles() {
+    private void getSubjectProfiles() {
         showProgressDialog("Fetching Subject Profile...");
         DataServicesManager.getInstance().getSubjectProfiles(this);
     }
@@ -65,8 +65,6 @@ public class GetSubjectProfileState extends BaseState implements SubjectProfileL
             stateContext.setState(new CheckConsentState(pairDevice, mDeviceStatusListener, context));
         }
 
-        if (null != stateContext) {
-            stateContext.start();
-        }
+        stateContext.start();
     }
 }

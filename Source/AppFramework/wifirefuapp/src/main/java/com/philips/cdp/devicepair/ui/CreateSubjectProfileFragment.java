@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.philips.cdp.devicepair.pojo.PairDevice;
 import com.philips.cdp.devicepair.pojo.SubjectProfile;
 import com.philips.cdp.devicepair.states.PairDeviceState;
@@ -33,7 +34,6 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
     private View view;
     private EditText firstName, dob, gender, weight, creationDate;
     private Button createProfileButton;
-    private CreateSubjectProfileFragmentPresenter createProfilePresenter;
     private PairDevice pairDevice;
     private FragmentLauncher fragmentLauncher;
     private DeviceStatusListener mDeviceStatusListener;
@@ -99,16 +99,8 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
         String genderText = gender.getText().toString();
         String weightText = weight.getText().toString();
         String creationDateText = creationDate.getText().toString();
-        if (firstNameText == null || dobText == null || genderText == null || weightText == null || creationDateText == null) {
-            return false;
-        } else if (firstNameText.length() == 0 ||
-                dobText.length() == 0 ||
-                genderText.length() == 0 ||
-                weightText.length() == 0 ||
-                creationDateText.length() == 0) {
-            return false;
-        } else
-            return true;
+
+        return !(firstNameText.length() == 0 || dobText.length() == 0 || genderText.length() == 0 || weightText.length() == 0 || creationDateText.length() == 0);
     }
 
 
@@ -117,7 +109,7 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
         if (v.equals(createProfileButton)) {
             if (Utility.isOnline(mContext)) {
                 showProgressDialog();
-                createProfilePresenter = new CreateSubjectProfileFragmentPresenter(this, mDeviceStatusListener);
+                CreateSubjectProfileFragmentPresenter createProfilePresenter = new CreateSubjectProfileFragmentPresenter(this);
                 createProfilePresenter.createProfile();
             } else {
                 showAlertDialog("Please check your connection and try again.");

@@ -1,6 +1,5 @@
 package com.philips.cdp.devicepair.states;
 
-import com.philips.cdp.devicepair.consents.ConsentDetailType;
 import com.philips.cdp.devicepair.pojo.PairDevice;
 import com.philips.cdp.devicepair.ui.DeviceStatusListener;
 import com.philips.cdp.devicepair.utils.Utility;
@@ -15,7 +14,7 @@ import java.util.List;
 
 public class PairDeviceState extends BaseState implements DevicePairingListener {
 
-    private List<UCoreSubjectProfile> subjectProfileList;
+//    private List<UCoreSubjectProfile> subjectProfileList;
     private PairDevice pairDevice;
     private FragmentLauncher context;
     private DeviceStatusListener mDeviceStatusListener;
@@ -24,7 +23,7 @@ public class PairDeviceState extends BaseState implements DevicePairingListener 
                            DeviceStatusListener deviceStatusListener, FragmentLauncher context) {
         super(context);
         this.context = context;
-        this.subjectProfileList = subjectProfileList;
+//        this.subjectProfileList = subjectProfileList;
         this.pairDevice = pairDevice;
         mDeviceStatusListener = deviceStatusListener;
     }
@@ -38,7 +37,7 @@ public class PairDeviceState extends BaseState implements DevicePairingListener 
         }
     }
 
-    protected void pairDevice() {
+    private void pairDevice() {
         showProgressDialog("Pairing device...");
         List<String> list = new ArrayList();
 //        DataServicesManager.getInstance().pairDevices(pairDevice.getDeviceID(), pairDevice.getDeviceType(),
@@ -77,7 +76,7 @@ public class PairDeviceState extends BaseState implements DevicePairingListener 
     public void onGetPairedDevicesResponse(List<String> list) {
     }
 
-    private List<String> getSubjectProfileIdList(List<UCoreSubjectProfile> subjectProfileList) {
+    /*private List<String> getSubjectProfileIdList(List<UCoreSubjectProfile> subjectProfileList) {
         List<String> subjectProfileIDList = new ArrayList<>();
         for (UCoreSubjectProfile subjectProfile : subjectProfileList) {
             subjectProfileIDList.add(subjectProfile.getGuid());
@@ -91,6 +90,6 @@ public class PairDeviceState extends BaseState implements DevicePairingListener 
         standardObservationNameList.add(ConsentDetailType.WEIGHT);
         standardObservationNameList.add(ConsentDetailType.TEMPERATURE);
         return standardObservationNameList;
-    }
+    }*/
 
 }

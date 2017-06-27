@@ -175,6 +175,15 @@
                 "nextState": "debug"
               }
             ]
+          },
+          {
+            "eventId": "device_pairing",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "device_pairing"
+              }
+            ]
           }
         ]
       },

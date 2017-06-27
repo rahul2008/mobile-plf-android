@@ -1,7 +1,5 @@
 package com.philips.cdp.devicepair.states;
 
-import android.app.ProgressDialog;
-
 import com.philips.cdp.devicepair.ui.DeviceStatusListener;
 import com.philips.cdp.devicepair.utils.Utility;
 import com.philips.platform.core.listeners.DevicePairingListener;
@@ -13,7 +11,6 @@ import java.util.List;
 
 public class UnPairDeviceState extends BaseState implements DevicePairingListener {
     private String mDeviceID;
-    private ProgressDialog mProgressDialog;
     private DeviceStatusListener mDeviceStatusListener;
 
     public UnPairDeviceState(String deviceID, DeviceStatusListener deviceStatusListener, FragmentLauncher context) {

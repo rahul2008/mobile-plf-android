@@ -4,7 +4,6 @@
       {
         "state": "splash",
         "events": [
-
           {
             "eventId": "onSplashTimeOut",
             "nextStates": [
@@ -148,12 +147,22 @@
                 "nextState": "connectivity"
               }
             ]
-          },{
+          },
+          {
             "eventId": "coco_version_info",
             "nextStates": [
               {
                 "condition": [],
                 "nextState": "coco_version_info"
+              }
+            ]
+          },
+          {
+            "eventId": "device_pairing",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "device_pairing"
               }
             ]
           }

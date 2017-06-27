@@ -1,11 +1,11 @@
 package com.philips.cdp.devicepair.pojo;
 
 public class SubjectProfile {
-    String firstName;
-    String dob;
-    double weight;
-    String creationDate;
-    String gender;
+    private String firstName;
+    private String dob;
+    private double weight;
+    private String creationDate;
+    private String gender;
 
     public String getFirstName() {
         return firstName;

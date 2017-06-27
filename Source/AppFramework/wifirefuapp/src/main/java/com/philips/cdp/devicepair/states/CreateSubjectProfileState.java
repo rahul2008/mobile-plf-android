@@ -25,11 +25,12 @@ public class CreateSubjectProfileState extends BaseState {
         launchSubjectProfile();
     }
 
-    public void launchSubjectProfile() {
+    private void launchSubjectProfile() {
         CreateSubjectProfileFragment createProfileFragment = new CreateSubjectProfileFragment();
         createProfileFragment.setFragmentLauncher(context);
         createProfileFragment.setDeviceDetails(pairDevice);
         createProfileFragment.setDeviceStatusListener(mDeviceStatusListener);
+
         FragmentTransaction fragmentTransaction = context.getFragmentActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(context.getParentContainerResourceID(), createProfileFragment, "CreateSubjectProfileFragment");
         fragmentTransaction.addToBackStack("CreateSubjectProfileFragment");
