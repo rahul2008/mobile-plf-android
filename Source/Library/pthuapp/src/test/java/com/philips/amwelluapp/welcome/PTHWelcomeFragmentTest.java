@@ -9,6 +9,7 @@ import com.philips.amwelluapp.CustomRobolectricRunnerAmwel;
 import com.philips.amwelluapp.activity.PTHLaunchActivity;
 import com.philips.amwelluapp.utility.PTHManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,6 +36,9 @@ public class PTHWelcomeFragmentTest {
     AWSDK awsdkMock;
 
     @Mock
+    ActionBarListener actionBarListenerMock;
+
+    @Mock
     FragmentLauncher fragmentLauncherMock;
 
     @Before
@@ -44,6 +48,7 @@ public class PTHWelcomeFragmentTest {
         PTHManager.getInstance().setAwsdk(awsdkMock);
         mActivity = Robolectric.buildActivity(PTHLaunchActivity.class).create().get();
         mWelcomeFragment = new PTHWelcomeFragment();
+        mWelcomeFragment.setActionBarListener(actionBarListenerMock);
     }
 
     @Test
