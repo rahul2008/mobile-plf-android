@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
 
-    package="cdp.philips.com">
+    package="com.philips.platform.dscdemo">
 
     <application android:allowBackup="true" android:label="@string/app_name"
         android:supportsRtl="true"
@@ -13,7 +13,7 @@
         tools:replace="android:label">
 
         <activity
-            android:name=".activity.DemoActivity"
+            android:name="com.philips.platform.dscdemo.activity.DemoActivity"
             android:screenOrientation="portrait">
         </activity>
 

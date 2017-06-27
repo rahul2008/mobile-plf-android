@@ -6,11 +6,11 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.dscdemo.DSDemoAppuAppInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
-import cdp.philips.com.DSDemoAppuAppInterface;
 
 /**
  * Created by philips on 6/20/17.

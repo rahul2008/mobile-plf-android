@@ -19,13 +19,14 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.core.utils.UuidGenerator;
+import com.philips.platform.dscdemo.database.DatabaseHelper;
+import com.philips.platform.dscdemo.reciever.ScheduleSyncReceiver;
+import com.philips.platform.dscdemo.registration.UserRegistrationInterfaceImpl;
+import com.philips.platform.dscdemo.utility.SyncScheduler;
 
 import java.util.ArrayList;
 
-import cdp.philips.com.database.DatabaseHelper;
-import cdp.philips.com.reciever.ScheduleSyncReceiver;
-import cdp.philips.com.registration.UserRegistrationInterfaceImpl;
-import cdp.philips.com.utility.SyncScheduler;
+
 
 
 public class DataSyncApplication extends MultiDexApplication {
