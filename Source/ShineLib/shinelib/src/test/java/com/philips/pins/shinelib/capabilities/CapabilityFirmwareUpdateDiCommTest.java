@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.capabilities;
 
 import android.os.Handler;
@@ -433,7 +438,7 @@ public class CapabilityFirmwareUpdateDiCommTest {
         verifyUploadFailed(SHNResult.SHNErrorInvalidParameter, capabilityFirmwareUpdateDiComm.getState());
     }
 
-    private void sendChunk(int progress, SHNResult result) {
+    private void sendChunk(Object progress, SHNResult result) {
         reset(shnCapabilityFirmwareUpdateListenerMock, diCommPortMock);
         when(diCommPortMock.getMaxChunkSize()).thenReturn(TEST_MAX_CHUNK_SIZE);
         when(diCommPortMock.getState()).thenReturn(DiCommFirmwarePort.State.Downloading);
@@ -448,6 +453,15 @@ public class CapabilityFirmwareUpdateDiCommTest {
         whenStateSwitchesToDownloadingThenFirstChunkIsWritten();
 
         sendChunk(TEST_MAX_CHUNK_SIZE, SHNResult.SHNOk);
+
+        verifyChunkWritten(TEST_MAX_CHUNK_SIZE);
+    }
+
+    @Test
+    public void whenFirstChunkIsWrittenSuccessfullyWithDoubleProgressThenSecondChunkIsWritten() throws Exception {
+        whenStateSwitchesToDownloadingThenFirstChunkIsWritten();
+
+        sendChunk((double) TEST_MAX_CHUNK_SIZE, SHNResult.SHNOk);
 
         verifyChunkWritten(TEST_MAX_CHUNK_SIZE);
     }

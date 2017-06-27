@@ -1,4 +1,9 @@
 /*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
  * (C) 2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
@@ -363,8 +368,14 @@ public class CapabilityFirmwareUpdateDiComm implements SHNCapabilityFirmwareUpda
                 if (result == SHNResult.SHNOk) {
                     if (firmwareDiCommPort.getState() == DiCommFirmwarePort.State.Downloading) {
                         if (properties.containsKey(DiCommFirmwarePort.Key.PROGRESS)) {
-                            int progress = (int) properties.get(DiCommFirmwarePort.Key.PROGRESS);
-                            uploadNextChunk(progress, maxChunkSize);
+                            Object progress = properties.get(DiCommFirmwarePort.Key.PROGRESS);
+                            int intProgress = 0;
+                            if (progress instanceof Double) {
+                                intProgress = ((Double) progress).intValue();
+                            } else if (progress instanceof Integer) {
+                                intProgress = (Integer) progress;
+                            }
+                            uploadNextChunk(intProgress, maxChunkSize);
                         } else {
                             failWithResult(SHNResult.SHNErrorInvalidParameter);
                         }
