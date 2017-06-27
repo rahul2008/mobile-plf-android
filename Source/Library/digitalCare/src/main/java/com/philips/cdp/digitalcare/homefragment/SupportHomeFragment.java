@@ -169,10 +169,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         if (mIsFirstScreenLaunch || DigitalCareConfigManager.getInstance().
                 getProductModelSelectionType().getHardCodedProductList().length < 2) {
             synchronized (this) {
-                if (DigitalCareConfigManager.getInstance().
+           /*     if (DigitalCareConfigManager.getInstance().
                         getLocaleMatchResponseWithCountryFallBack() != null &&
                         DigitalCareConfigManager.getInstance().
-                                getLocaleMatchResponseWithCountryFallBack() != null) {
+                                getLocaleMatchResponseWithCountryFallBack() != null) {*/
                     if (DigitalCareConfigManager.getInstance().
                             getProductModelSelectionType().getHardCodedProductList().length == 1) {
                         ProductModelSelectionType modelSelectionType =
@@ -189,7 +189,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                     DigiCareLogger.v(TAG, "Sending PRX Request");
                     mPrxWrapper = new PrxWrapper(getActivity(), this);
                     mPrxWrapper.executeRequests();
-                }
+                //}
             }
         } else
             createMainMenu();
@@ -1135,7 +1135,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
         hm.put(DigitalCareConstants.KEY_PRODUCT_SECTOR, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSector());
         hm.put(DigitalCareConstants.KEY_PRODUCT_CATALOG, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCatalog());
-        hm.put(DigitalCareConstants.KEY_PRODUCT_CATEGORY, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCategory());
         hm.put(DigitalCareConstants.KEY_PRODUCT_SUBCATEGORY, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSubCategory());
         hm.put(DigitalCareConstants.KEY_PRODUCT_REVIEWURL, DigitalCareConfigManager.getInstance().getViewProductDetailsData().getProductInfoLink());
 
@@ -1149,20 +1148,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                 if(serviceDiscoveryService != null){
                     DigitalCareConfigManager.getInstance().setSubCategoryUrl(serviceDiscoveryService.getConfigUrls());
                     DigiCareLogger.v(TAG,"Response from Service Discovery : Service ID : 'cc.prx.category' - "+serviceDiscoveryService.getConfigUrls());
-                }
-
-                if(!(DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSubCategory() == null )) {
-
-                    serviceDiscoveryService = map.get("cc.cdls");
-                    if (serviceDiscoveryService != null) {
-                        DigitalCareConfigManager.getInstance().setCdlsUrl(serviceDiscoveryService.getConfigUrls());
-                        DigiCareLogger.v(TAG, "Response from Service Discovery : Service ID : 'cc.cdls' - " + serviceDiscoveryService.getConfigUrls());
-                    }
-                }
-                serviceDiscoveryService = map.get("cc.emailformurl");
-                if(serviceDiscoveryService != null){
-                    DigitalCareConfigManager.getInstance().setEmailUrl(serviceDiscoveryService.getConfigUrls());
-                    DigiCareLogger.v(TAG,"Response from Service Discovery : Service ID : 'cc.emailformurl' - "+serviceDiscoveryService.getConfigUrls());
                 }
 
                 serviceDiscoveryService = map.get("cc.productreviewurl");
