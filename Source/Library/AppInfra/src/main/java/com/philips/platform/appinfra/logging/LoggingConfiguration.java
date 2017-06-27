@@ -9,6 +9,7 @@ package com.philips.platform.appinfra.logging;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -70,7 +71,7 @@ class LoggingConfiguration {
         return (null != loggingProperty.get(LOG_LEVEL_KEY)) ? (String) loggingProperty.get(LOG_LEVEL_KEY) : "All";
     }
 
-    void configureComponentLevelLogging(String pComponentId, HashMap<String, Object> loggingProperty, String logLevel, Boolean isConsoleLogEnabled, Boolean isFileLogEnabled) {
+    void  configureComponentLevelLogging(String pComponentId, HashMap<String, Object> loggingProperty, String logLevel, Boolean isConsoleLogEnabled, Boolean isFileLogEnabled) {
         // Filtering of logging components
         final ArrayList<String> ComponentToBeLoggedList = new ArrayList<>();
         JSONArray jsonArray = (JSONArray) loggingProperty.get(COMPONENT_IDS_KEY);
@@ -165,12 +166,8 @@ class LoggingConfiguration {
     void enableConsoleAndFileLog(boolean consoleLog, boolean fileLog, String mComponentID, String mComponentVersion) {
         this.mComponentID = mComponentID;
         this.mComponentVersion = mComponentVersion;
-        if (consoleLog) {
-            enableConsoleLog(true);
-        }
-        if (fileLog) {
-            enableFileLog(true, mComponentID, mComponentVersion);
-        }
+        enableConsoleLog(consoleLog);
+        enableFileLog(fileLog, mComponentID, mComponentVersion);
     }
 
     Logger getLogger(String pComponentId) {
@@ -180,20 +177,19 @@ class LoggingConfiguration {
 
     private void enableConsoleLog(boolean isEnabled) {
 
-        ConsoleHandler mConsoleHandler;
         if (isEnabled) {
-            ConsoleHandler consoleHandler = getCurrentLogConsoleHandler(mJavaLogger);
+            ConsoleHandler consoleHandler = getCurrentLogConsoleHandler(getJavaLogger());
             if (null == consoleHandler) {
-                mConsoleHandler = new ConsoleHandler();
+                consoleHandler = getConsoleHandler();
                 if (null != getJavaLogger() && null != getJavaLogger().getLevel()) {
-                    mConsoleHandler.setLevel(getJavaLogger().getLevel());
+                    consoleHandler.setLevel(getJavaLogger().getLevel());
                 } else {
                     // for appinfra internal log mJavaLogger will be null
-                    mConsoleHandler.setLevel(Level.FINE);
+                    consoleHandler.setLevel(Level.FINE);
                 }
-                mConsoleHandler.setFormatter(new LogFormatter(mComponentID, mComponentVersion, mAppInfra));
+                consoleHandler.setFormatter(getLogFormatter());
                 // mConsoleHandler.setFilter(new LogFilter(null,"ev1"));
-                getJavaLogger().addHandler(mConsoleHandler);
+                getJavaLogger().addHandler(consoleHandler);
             } else {
                 // nothing to do, mConsoleHandler already added to Logger
                 Log.v(AppInfraLogEventID.AI_LOGGING,"Console logger already added to current Logger"+ getJavaLogger().getName());
@@ -210,6 +206,16 @@ class LoggingConfiguration {
                 }
             }
         }
+    }
+
+    @NonNull
+    LogFormatter getLogFormatter() {
+        return new LogFormatter(mComponentID, mComponentVersion, mAppInfra);
+    }
+
+    @NonNull
+    ConsoleHandler getConsoleHandler() {
+        return new ConsoleHandler();
     }
 
     private void enableFileLog(boolean pFileLogEnabled, String mComponentID, String mComponentVersion) {
@@ -351,7 +357,7 @@ class LoggingConfiguration {
         return logFileHandler;
     }
 
-    private ConsoleHandler getCurrentLogConsoleHandler(Logger logger) {
+    ConsoleHandler getCurrentLogConsoleHandler(Logger logger) {
         ConsoleHandler logConsoleHandler = null;
         if (null != logger) {
             Handler[] currentComponentHandlers = logger.getHandlers();

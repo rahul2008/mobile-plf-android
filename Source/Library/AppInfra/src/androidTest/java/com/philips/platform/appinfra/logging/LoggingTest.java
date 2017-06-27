@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
+import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
@@ -85,8 +86,7 @@ public class LoggingTest extends AppInfraInstrumentation {
             }
         };
         appInfraLogging.createLogger("component_id");
-        verify(logger).setLevel(Level.FINE);
-        verify(logger).log(Level.INFO, "Logger created");
+        verify(logger).log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created");
     }
 
     public void testLog() {
@@ -103,7 +103,6 @@ public class LoggingTest extends AppInfraInstrumentation {
         appInfraLogging.log(LoggingInterface.LogLevel.INFO, "some_event", "event_message");
         appInfraLogging.log(LoggingInterface.LogLevel.VERBOSE, "some_event", "event_message");
         appInfraLogging.log(LoggingInterface.LogLevel.WARNING, "some_event", "event_message");
-        verify(logger).log(Level.INFO, "Logger created");
         verify(logger).log(Level.CONFIG, "some_event", "event_message");
         verify(logger).log(Level.SEVERE, "some_event", "event_message");
         verify(logger).log(Level.INFO, "some_event", "event_message");

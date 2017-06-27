@@ -128,7 +128,7 @@ public class AppInfraLogging implements LoggingInterface {
                     getJavaLogger().setLevel(loggingConfiguration.getJavaLoggerLogLevel(logLevel));
                     loggingConfiguration.activateLogger();
                     loggingConfiguration.enableConsoleAndFileLog(isConsoleLogEnabled, isFileLogEnabled, mComponentID, mComponentVersion);
-                    mJavaLogger.log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created"); //R-AI-LOG-6
+                    getJavaLogger().log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created"); //R-AI-LOG-6
                 }
             }
         } else {
