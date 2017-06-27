@@ -28,6 +28,7 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import static java.util.logging.LogManager.getLogManager;
@@ -80,10 +81,10 @@ class LoggingConfiguration {
         }
         if (ComponentToBeLoggedList.contains(pComponentId)) {
             // if given component listed under config's key 'logging.debugConfig'>'componentIds' then enable log
-            mJavaLogger.setLevel(getJavaLoggerLogLevel(logLevel));
+            getJavaLogger().setLevel(getJavaLoggerLogLevel(logLevel));
             activateLogger();
             enableConsoleAndFileLog(isConsoleLogEnabled, isFileLogEnabled, mComponentID, mComponentVersion);
-            mJavaLogger.log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created"); //R-AI-LOG-6
+            getJavaLogger().log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created"); //R-AI-LOG-6
         }
     }
 
@@ -104,7 +105,11 @@ class LoggingConfiguration {
     }
 
     void activateLogger() {
-        getLogManager().addLogger(mJavaLogger);
+        getJavaLogManager().addLogger(getJavaLogger());
+    }
+
+    LogManager getJavaLogManager() {
+        return getLogManager();
     }
 
 
@@ -180,27 +185,27 @@ class LoggingConfiguration {
             ConsoleHandler consoleHandler = getCurrentLogConsoleHandler(mJavaLogger);
             if (null == consoleHandler) {
                 mConsoleHandler = new ConsoleHandler();
-                if (null != mJavaLogger && null != mJavaLogger.getLevel()) {
-                    mConsoleHandler.setLevel(mJavaLogger.getLevel());
+                if (null != getJavaLogger() && null != getJavaLogger().getLevel()) {
+                    mConsoleHandler.setLevel(getJavaLogger().getLevel());
                 } else {
                     // for appinfra internal log mJavaLogger will be null
                     mConsoleHandler.setLevel(Level.FINE);
                 }
                 mConsoleHandler.setFormatter(new LogFormatter(mComponentID, mComponentVersion, mAppInfra));
                 // mConsoleHandler.setFilter(new LogFilter(null,"ev1"));
-                mJavaLogger.addHandler(mConsoleHandler);
+                getJavaLogger().addHandler(mConsoleHandler);
             } else {
                 // nothing to do, mConsoleHandler already added to Logger
-                Log.v(AppInfraLogEventID.AI_LOGGING,"Console logger already added to current Logger"+ mJavaLogger.getName());
+                Log.v(AppInfraLogEventID.AI_LOGGING,"Console logger already added to current Logger"+ getJavaLogger().getName());
             }
 
         } else { // remove console log if any
-            Handler[] currentComponentHandlers = mJavaLogger.getHandlers();
+            Handler[] currentComponentHandlers = getJavaLogger().getHandlers();
             if (null != currentComponentHandlers && currentComponentHandlers.length > 0) {
                 for (Handler handler : currentComponentHandlers) {
                     if (handler instanceof ConsoleHandler) {
                         handler.close(); // flush and close connection of file
-                        mJavaLogger.removeHandler(handler);
+                        getJavaLogger().removeHandler(handler);
                     }
                 }
             }
@@ -217,9 +222,10 @@ class LoggingConfiguration {
                 } else if (mFileHandler != null) {
                     // for appinfra internal log mJavaLogger will be null
                     mFileHandler.setLevel(Level.FINE);
+                    mFileHandler.setFormatter(new LogFormatter(mComponentID, mComponentVersion, mAppInfra));
+                    mJavaLogger.addHandler(mFileHandler);
                 }
-                mFileHandler.setFormatter(new LogFormatter(mComponentID, mComponentVersion, mAppInfra));
-                mJavaLogger.addHandler(mFileHandler);
+
 
             } else {
                 // nothing to do, fileHandler already added to Logger
@@ -242,7 +248,7 @@ class LoggingConfiguration {
     }
 
 
-    // return file handler for writting logs on file based on logging.properties config
+    // return file handler for writing logs on file based on logging.properties config
     private FileHandler getFileHandler() {
         FileHandler fileHandler = null;
         try {
@@ -365,6 +371,10 @@ class LoggingConfiguration {
     // creates or return "AppInfra Logs" at phone internal memory
     private File createInternalDirectory() {
         return mAppInfra.getAppInfraContext().getDir(DIRECTORY_FILE_NAME, Context.MODE_PRIVATE);
+    }
+
+    Logger getJavaLogger() {
+        return mJavaLogger;
     }
 
 
