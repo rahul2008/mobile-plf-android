@@ -3,11 +3,6 @@
  * All rights reserved.
  */
 
-/*
- * (C) 2017 Koninklijke Philips N.V.
- * All rights reserved.
- */
-
 package com.philips.pins.shinelib.capabilities;
 
 import android.os.Handler;
