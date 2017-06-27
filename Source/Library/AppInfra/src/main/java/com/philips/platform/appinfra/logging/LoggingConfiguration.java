@@ -175,7 +175,7 @@ class LoggingConfiguration {
         return mJavaLogger;
     }
 
-    private void enableConsoleLog(boolean isEnabled) {
+    private void enableConsoleLog(final boolean isEnabled) {
 
         if (isEnabled) {
             ConsoleHandler consoleHandler = getCurrentLogConsoleHandler(getJavaLogger());
@@ -218,18 +218,18 @@ class LoggingConfiguration {
         return new ConsoleHandler();
     }
 
-    private void enableFileLog(boolean pFileLogEnabled, String mComponentID, String mComponentVersion) {
+    private void enableFileLog(final boolean pFileLogEnabled, final String mComponentID, final String mComponentVersion) {
         if (pFileLogEnabled) {
-            FileHandler fileHandler = getCurrentLogFileHandler(mJavaLogger);
+            FileHandler fileHandler = getCurrentLogFileHandler(getJavaLogger());
             if (null == fileHandler) {// add file log
                 mFileHandler = getFileHandler();
                 if (null != mJavaLogger && null != mJavaLogger.getLevel()) {
-                    mFileHandler.setLevel(mJavaLogger.getLevel());
+                    mFileHandler.setLevel(getJavaLogger().getLevel());
                 } else if (mFileHandler != null) {
                     // for appinfra internal log mJavaLogger will be null
                     mFileHandler.setLevel(Level.FINE);
                     mFileHandler.setFormatter(new LogFormatter(mComponentID, mComponentVersion, mAppInfra));
-                    mJavaLogger.addHandler(mFileHandler);
+                    getJavaLogger().addHandler(mFileHandler);
                 }
 
 
@@ -255,7 +255,7 @@ class LoggingConfiguration {
 
 
     // return file handler for writing logs on file based on logging.properties config
-    private FileHandler getFileHandler() {
+    FileHandler getFileHandler() {
         FileHandler fileHandler = null;
         try {
             File directoryCreated = createInternalDirectory();
@@ -341,7 +341,7 @@ class LoggingConfiguration {
     }
 
 
-    private FileHandler getCurrentLogFileHandler(Logger logger) {
+    FileHandler getCurrentLogFileHandler(Logger logger) {
         FileHandler logFileHandler = null;
         if (null != logger) {
             Handler[] currentComponentHandlers = logger.getHandlers();

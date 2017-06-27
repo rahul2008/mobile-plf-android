@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.HashMap;
 import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -26,11 +27,10 @@ import static org.mockito.Mockito.when;
 public class LoggingConfigurationTest extends AppInfraInstrumentation {
 
     private LoggingConfiguration loggingConfiguration;
-    private Context context;
     private AppInfra mAppInfra;
     private Logger logger;
     private LogManager logManager;
-    String config = "{\n" +
+    private String config = "{\n" +
             "  \"LOGGING.RELEASECONFIG\": {\n" +
             "    \"fileName\": \"AppInfraLog\",\n" +
             "    \"numberOfFiles\": 5,\n" +
@@ -52,7 +52,7 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
         MockitoAnnotations.initMocks(this);
         logger = mock(Logger.class);
         logManager = mock(LogManager.class);
-        context = getInstrumentation().getContext();
+        Context context = getInstrumentation().getContext();
         mAppInfra = new AppInfra.Builder().build(context);
         mAppInfra.getLogging().createInstanceForComponent("ail","1.5");
         loggingConfiguration = new LoggingConfiguration(mAppInfra) {
@@ -185,6 +185,58 @@ public class LoggingConfigurationTest extends AppInfraInstrumentation {
             verify(consoleHandler).setFormatter(logFormatter);
             verify(logger).addHandler(consoleHandler);
             verify(consoleHandler).setLevel(Level.FINE);
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void testFileLogConfiguration() {
+        final FileHandler fileHandler = mock(FileHandler.class);
+        final LogFormatter logFormatter = mock(LogFormatter.class);
+        try {
+            loggingConfiguration = new LoggingConfiguration(mAppInfra) {
+                @Override
+                public Logger getJavaLogger() {
+                    return logger;
+                }
+
+                @Override
+                LogManager getJavaLogManager() {
+                    return logManager;
+                }
+
+                @Override
+                FileHandler getCurrentLogFileHandler(Logger logger) {
+                    return null;
+                }
+
+                @Override
+                FileHandler getFileHandler() {
+                    return fileHandler;
+                }
+
+                @NonNull
+                @Override
+                LogFormatter getLogFormatter() {
+                    return logFormatter;
+                }
+            };
+            FileHandler fileHandler1 = mock(FileHandler.class);
+            Handler[] handlers = {fileHandler1};
+            when(logger.getHandlers()).thenReturn(handlers);
+            JSONObject jsonObject = new JSONObject(config);
+            JSONObject releaseConfig = jsonObject.getJSONObject("LOGGING.RELEASECONFIG");
+            HashMap<String, Object> loggingProperty = new HashMap<>();
+            loggingProperty.put("componentIds", releaseConfig.getJSONArray("componentIds"));
+            String logLevel = releaseConfig.getString("logLevel");
+            loggingConfiguration.configureComponentLevelLogging("DemoAppInfra", loggingProperty, logLevel, jsonObject.getBoolean("consoleLogEnabled"), false);
+            verify(fileHandler1).close();
+            verify(logger).removeHandler(fileHandler1);
+
+            loggingConfiguration.configureComponentLevelLogging("DemoAppInfra", loggingProperty, logLevel, releaseConfig.getBoolean("consoleLogEnabled"), releaseConfig.getBoolean("fileLogEnabled"));
+            verify(fileHandler).setFormatter(logFormatter);
+            verify(logger).addHandler(fileHandler);
+            verify(fileHandler).setLevel(Level.FINE);
         } catch (JSONException e){
             e.printStackTrace();
         }
