@@ -1,14 +1,26 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016, 2017
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
 buildscript { bs ->
-    apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
-    apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
+    apply from: projectDir.absolutePath + '/../../common/gradle/project-build.gradle', to: bs
+    apply from: projectDir.absolutePath + '/../../common/gradle/module.gradle'
     repositories {
-        maven { url repos.jcenter }
-        maven { url repos.plugin }
+        maven {
+            url repos.jcenter
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url repos.plugin
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
     }
 
     dependencies {
@@ -19,11 +31,10 @@ buildscript { bs ->
 
 apply plugin: 'com.android.library'
 apply plugin: 'pl.droidsonroids.pitest'
-apply plugin: 'jacoco'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
-apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
+apply from: projectDir.absolutePath + '/../../common/gradle/module-tasks.gradle'
 
 def environment = 'production'
 if (project.hasProperty('envCode')) {
@@ -40,8 +51,20 @@ archivesBaseName = rootProject.name
 version = objcdp.getVersion()
 
 repositories {
-    maven { url repos.jcenter }
-    maven { url objcdp.getArtifactoryUrl() }
+    maven {
+        url repos.jcenter
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url objcdp.getArtifactoryUrl()
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
 }
 
 artifactory {
@@ -107,6 +130,7 @@ android {
         targetSdkVersion versions.target
         versionCode 3
         versionName version
+        buildConfigField "String", "TLA", "\"bll\""
     }
 
     buildTypes {
@@ -210,10 +234,6 @@ generateJavadoc.dependsOn {
     tasks.findAll { task -> task.name.startsWith('generateJavadoc') && task.name != "generateJavadoc" }
 }
 
-jacoco {
-    toolVersion = versions.jacoco
-}
-
 pitest {
     targetClasses = [
             'com.philips.pins.shinelib.associationprocedures.*',
@@ -233,6 +253,7 @@ pitest {
             'com.philips.pins.shinelib.utility.QuickTestConnectionTest',
             'com.philips.pins.shinelib.capabilities.DiCommFirmwarePortStateWaiterTest',
             'com.philips.pins.shinelib.bluetoothwrapper.BTGattTest',
+            'com.philips.pins.shinelib.bluetoothwrapper.BTDeviceTest',
     ]
     pitestVersion = versions.pitest
     avoidCallsTo = [

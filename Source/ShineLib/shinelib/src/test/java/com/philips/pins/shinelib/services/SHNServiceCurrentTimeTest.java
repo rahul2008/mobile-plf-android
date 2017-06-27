@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2015, 2016.
+ * Copyright (c) Koninklijke Philips N.V., 2015, 2016, 2017.
  * All rights reserved.
  */
 
@@ -10,6 +10,7 @@ import com.philips.pins.shinelib.SHNCommandResultReporter;
 import com.philips.pins.shinelib.SHNObjectResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNService;
+import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.framework.SHNFactory;
 import com.philips.pins.shinelib.utility.ExactTime256WithAdjustReason;
 
@@ -94,11 +95,11 @@ public class SHNServiceCurrentTimeTest {
         assertEquals(SHNServiceCurrentTime.SERVICE_UUID, uuidArgumentCaptor.getValue());
         assertNotNull(mandatoryUUIDSetArgumentCaptor.getValue());
         assertEquals(1, mandatoryUUIDSetArgumentCaptor.getValue().size());
-        assertTrue(mandatoryUUIDSetArgumentCaptor.getValue().contains(SHNServiceCurrentTime.CURRENT_TIME_CHARACTERISTIC_UUID));
+        assertTrue(mandatoryUUIDSetArgumentCaptor.getValue().contains(new SHNCharacteristicInfo(SHNServiceCurrentTime.CURRENT_TIME_CHARACTERISTIC_UUID, false)));
         assertNotNull(optionalUUIDSetArgumentCaptor.getValue());
         assertEquals(2, optionalUUIDSetArgumentCaptor.getValue().size());
-        assertTrue(optionalUUIDSetArgumentCaptor.getValue().contains(SHNServiceCurrentTime.REFERENCE_TIME_INFO_CHARACTERISTIC_UUID));
-        assertTrue(optionalUUIDSetArgumentCaptor.getValue().contains(SHNServiceCurrentTime.LOCAL_TIME_INFO_CHARACTERISTIC_UUID));
+        assertTrue(optionalUUIDSetArgumentCaptor.getValue().contains(new SHNCharacteristicInfo(SHNServiceCurrentTime.REFERENCE_TIME_INFO_CHARACTERISTIC_UUID, false)));
+        assertTrue(optionalUUIDSetArgumentCaptor.getValue().contains(new SHNCharacteristicInfo(SHNServiceCurrentTime.LOCAL_TIME_INFO_CHARACTERISTIC_UUID, false)));
     }
 
     @Test

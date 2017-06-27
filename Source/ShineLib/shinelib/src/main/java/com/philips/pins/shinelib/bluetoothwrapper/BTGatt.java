@@ -5,6 +5,7 @@
 
 package com.philips.pins.shinelib.bluetoothwrapper;
 
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -12,14 +13,17 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.os.Handler;
 
+import com.philips.pins.shinelib.SHNCentral;
+import com.philips.pins.shinelib.SHNDeviceImpl;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class BTGatt extends BluetoothGattCallback {
+public class BTGatt extends BluetoothGattCallback implements SHNCentral.SHNBondStatusListener {
     private static final String TAG = BTGatt.class.getSimpleName();
     private static final boolean ENABLE_DEBUG_LOGGING = false;
+    private static final int BOND_CREATED_WAIT_TIME = 500;
     private Runnable currentCommand;
 
     public interface BTGattCallback {
@@ -77,13 +81,15 @@ public class BTGatt extends BluetoothGattCallback {
         public void onMtuChanged(BTGatt gatt, int mtu, int status) {}
     }
 
+    private SHNCentral shnCentral;
     private BTGattCallback btGattCallback;
     private final Handler handler;
     private BluetoothGatt bluetoothGatt;
     private List<Runnable> commandQueue;
     private boolean waitingForCompletion;
 
-    BTGatt(BTGattCallback btGattCallback, Handler handler) {
+    BTGatt(SHNCentral shnCentral, BTGattCallback btGattCallback, Handler handler) {
+        this.shnCentral = shnCentral;
         this.btGattCallback = btGattCallback;
         this.handler = handler;
         commandQueue = new LinkedList<>();
@@ -146,7 +152,11 @@ public class BTGatt extends BluetoothGattCallback {
         return bluetoothGatt == null ? null : bluetoothGatt.getServices();
     }
 
-    public void readCharacteristic(final BluetoothGattCharacteristic characteristic) {
+    public void readCharacteristic(final BluetoothGattCharacteristic characteristic, final boolean encrypted) {
+        if (encrypted) {
+            addBondCommandIfNoBondExists();
+        }
+
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -162,7 +172,11 @@ public class BTGatt extends BluetoothGattCallback {
         executeNextCommandIfAllowed();
     }
 
-    public void writeCharacteristic(final BluetoothGattCharacteristic characteristic, final byte[] data) {
+    public void writeCharacteristic(final BluetoothGattCharacteristic characteristic, final boolean encrypted, final byte[] data) {
+        if (encrypted) {
+            addBondCommandIfNoBondExists();
+        }
+
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -176,6 +190,56 @@ public class BTGatt extends BluetoothGattCallback {
         };
         commandQueue.add(runnable);
         executeNextCommandIfAllowed();
+    }
+
+    private void addBondCommandIfNoBondExists() {
+        if (bluetoothGatt == null) {
+            return;
+        }
+
+        final BluetoothDevice device = bluetoothGatt.getDevice();
+        if (device.getBondState() == BluetoothDevice.BOND_BONDED) {
+            return;
+        }
+
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
+                    shnCentral.registerBondStatusListenerForAddress(BTGatt.this, device.getAddress());
+                    if (device.createBond()) {
+                        waitingForCompletion = true;
+                    } else {
+                        shnCentral.unregisterBondStatusListenerForAddress(BTGatt.this, device.getAddress());
+                        executeNextCommandIfAllowed();
+                    }
+                } else {
+                    executeNextCommandIfAllowed();
+                }
+            }
+        };
+        commandQueue.add(runnable);
+    }
+
+    @Override
+    public void onBondStatusChanged(final BluetoothDevice device, int bondState, int previousBondState) {
+        if (bluetoothGatt == null || !bluetoothGatt.getDevice().getAddress().equals(device.getAddress())) {
+            return;
+        }
+
+        if (bondState != BluetoothDevice.BOND_BONDED && bondState != BluetoothDevice.BOND_NONE) {
+            return;
+        }
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                shnCentral.unregisterBondStatusListenerForAddress(BTGatt.this, device.getAddress());
+                waitingForCompletion = false;
+                executeNextCommandIfAllowed();
+            }
+        };
+        handler.postDelayed(runnable, BOND_CREATED_WAIT_TIME);
     }
 
     public void readDescriptor(final BluetoothGattDescriptor descriptor) {
@@ -198,7 +262,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (descriptor.setValue(data) && bluetoothGatt != null &&  bluetoothGatt.writeDescriptor(descriptor)) {
+                if (descriptor.setValue(data) && bluetoothGatt != null && bluetoothGatt.writeDescriptor(descriptor)) {
                     waitingForCompletion = true;
                 } else {
                     btGattCallback.onDescriptorWrite(BTGatt.this, descriptor, BluetoothGatt.GATT_FAILURE);

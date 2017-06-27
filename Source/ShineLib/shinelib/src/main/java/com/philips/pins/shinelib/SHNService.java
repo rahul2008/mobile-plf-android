@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTGatt;
+import com.philips.pins.shinelib.datatypes.SHNCharacteristicInfo;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
 import java.lang.ref.WeakReference;
@@ -45,19 +46,19 @@ public class SHNService {
         void onCharacteristicDiscovered(@NonNull UUID characteristicUuid, byte[] data, @Nullable SHNCharacteristic characteristic);
     }
 
-    public SHNService(UUID serviceUuid, Set<UUID> requiredCharacteristics, Set<UUID> optionalCharacteristics) {
+    public SHNService(UUID serviceUuid, Set<SHNCharacteristicInfo> requiredCharacteristics, Set<SHNCharacteristicInfo> optionalCharacteristics) {
         this.uuid = serviceUuid;
         this.requiredCharacteristics = new ArrayList<>();
         this.characteristicMap = new HashMap<>();
         this.shnServiceListeners = new CopyOnWriteArraySet<>();
         this.characteristicDiscoveryListeners = new CopyOnWriteArraySet<>();
 
-        for (UUID characteristicUUID : requiredCharacteristics) {
-            SHNCharacteristic shnCharacteristic = new SHNCharacteristic(characteristicUUID);
+        for (SHNCharacteristicInfo characteristicInfo : requiredCharacteristics) {
+            SHNCharacteristic shnCharacteristic = new SHNCharacteristic(characteristicInfo);
             addRequiredSHNCharacteristic(shnCharacteristic);
         }
-        for (UUID characteristicUUID : optionalCharacteristics) {
-            SHNCharacteristic shnCharacteristic = new SHNCharacteristic(characteristicUUID);
+        for (SHNCharacteristicInfo characteristicInfo : optionalCharacteristics) {
+            SHNCharacteristic shnCharacteristic = new SHNCharacteristic(characteristicInfo);
             addOptionalSHNCharacteristic(shnCharacteristic);
         }
     }

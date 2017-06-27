@@ -8,7 +8,13 @@ buildscript { bs ->
     apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
     apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
     repositories {
-        maven { url repos.jcenter }
+        maven {
+            url repos.jcenter
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
         maven { url repos.plugin }
     }
 
@@ -39,7 +45,27 @@ archivesBaseName = "bledemomicroapp"
 version = objcdp.getVersion()
 
 repositories {
-    maven { url repos.jcenter }
+    maven {
+        url repos.jcenter
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url repos.release
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+    maven {
+        url repos.snapshot
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
     maven { url objcdp.getArtifactoryUrl() }
 }
 
