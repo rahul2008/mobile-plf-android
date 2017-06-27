@@ -1,5 +1,5 @@
 /*
- * Copyright © 2016 Koninklijke Philips N.V.
+ * Copyright © 2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.example.cdpp.bluelibexampleapp.uapp;
