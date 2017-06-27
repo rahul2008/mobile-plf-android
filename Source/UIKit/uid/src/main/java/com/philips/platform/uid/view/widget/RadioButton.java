@@ -34,10 +34,6 @@ import com.philips.platform.uid.utils.UIDLocaleHelper;
  * <p>
  * <tbody>
  * <tr>
- * <td rowspan="1">uidRadioButtonPaddingStart</td>
- * <td rowspan="1">Padding used in front of the RadioButton</td>
- * </tr>
- * <tr>
  * <td rowspan="1">paddingStart</td>
  * <td rowspan="1">Padding used between the RadioButton and label</td>
  * </tr>
@@ -54,8 +50,6 @@ import com.philips.platform.uid.utils.UIDLocaleHelper;
  * </table>
  */
 public class RadioButton extends AppCompatRadioButton{
-
-    private int radioButtonStartPadding = 0;
 
     public RadioButton(final Context context) {
         this(context, null);
@@ -89,8 +83,7 @@ public class RadioButton extends AppCompatRadioButton{
     @Override
     protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        final int measuredWidth = getMeasuredWidth() + radioButtonStartPadding;
-        setMeasuredDimension(measuredWidth, ViewCompat.getMeasuredHeightAndState(this));
+        setMeasuredDimension(getMeasuredWidth(), ViewCompat.getMeasuredHeightAndState(this));
         final int gravity = getGravity() & Gravity.VERTICAL_GRAVITY_MASK;
         if(gravity == Gravity.CENTER_VERTICAL && getLineCount() >1) {
             setGravity(Gravity.TOP);

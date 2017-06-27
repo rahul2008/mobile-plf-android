@@ -120,36 +120,24 @@
 
         <com.philips.platform.uid.view.widget.RadioGroup
             android:id="@+id/radioGroupTemplates"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/layout_margin_left_right"
-            android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
+            style="@style/TestRadioGroupStyle"
             android:orientation="vertical">
 
             <com.philips.platform.uid.view.widget.RadioButton
                 android:id="@+id/without_secondary_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/radio_button_text_padding_left_right"
-                android:paddingEnd="@dimen/radio_button_text_padding_left_right"
+                style="@style/TestRadioButtonStyle"
                 android:checked="@{frag.templateSelection == 1 ? true :( (frag.templateSelection ==3) ? (frag.isDarkBackroungEnabled? true : false): false)}"
                 android:text="@string/without_secondary_content"/>
 
             <com.philips.platform.uid.view.widget.RadioButton
                 android:id="@+id/double_line_footer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/radio_button_text_padding_left_right"
-                android:paddingEnd="@dimen/radio_button_text_padding_left_right"
+                style="@style/TestRadioButtonStyle"
                 android:checked="@{frag.templateSelection == 2 ? true : false}"
                 android:text="@string/double_line_footer"/>
 
             <com.philips.platform.uid.view.widget.RadioButton
                 android:id="@+id/single_line_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/radio_button_text_padding_left_right"
-                android:paddingEnd="@dimen/radio_button_text_padding_left_right"
+                style="@style/TestRadioButtonStyle"
                 android:alpha="@{frag.isDarkBackroungEnabled ? (float)0.3 : 1}"
                 android:checked="@{frag.templateSelection == 3 ? true : false}"
                 android:enabled="@{!frag.isDarkBackroungEnabled}"

@@ -21,8 +21,7 @@ public class RadioGroup extends android.widget.RadioGroup {
 
     public RadioGroup(final Context context, final AttributeSet attrs) {
         super(context, attrs);
-        //layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        topMargin = getContext().getResources().getDimensionPixelSize(R.dimen.uid_radiobutton_margin_top);
+        topMargin = context.getResources().getDimensionPixelSize(R.dimen.uid_radiobutton_margin_top);
     }
 
     @Override

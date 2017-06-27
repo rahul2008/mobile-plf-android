@@ -82,5 +82,19 @@
         <item name="android:layout_marginTop">@dimen/label_margin_top</item>
         <item name="android:layout_marginBottom">@dimen/label_margin_bottom</item>
     </style>
+
+    <style name="TestRadioButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">@dimen/radio_button_text_padding_left_right</item>
+        <item name="android:paddingEnd">@dimen/radio_button_text_padding_left_right</item>
+    </style>
+
+    <style name="TestRadioGroupStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin_left_right</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin_left_right</item>
+    </style>
 </resources>
 
