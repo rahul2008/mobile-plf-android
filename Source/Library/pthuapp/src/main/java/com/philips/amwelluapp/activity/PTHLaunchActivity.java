@@ -17,6 +17,10 @@ import android.widget.TextView;
 import com.philips.amwelluapp.R;
 import com.philips.amwelluapp.welcome.PTHWelcomeFragment;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 import static com.philips.amwelluapp.uappclasses.PTHMicroAppInterface.WELCOME_MESSAGE;
 
@@ -25,12 +29,17 @@ public class PTHLaunchActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
     private TextView mTitleTextView;
+    private int containerId;
 
+    private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
+
+    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        initTheme();
         super.onCreate(savedInstanceState);
-        initCustomActionBar();
+//        initCustomActionBar();
         setContentView(R.layout.activity_test_ur);
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
@@ -112,6 +121,29 @@ public class PTHLaunchActivity extends AppCompatActivity {
             mTitleTextView.setText(titleId);
         else
             super.setTitle(titleId);
+    }
+
+    public void addFragment(Fragment fragment, String fragmentTag) {
+
+        containerId = getContainerId();
+        FragmentTransaction fragmentTransaction;
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(containerId, fragment, fragmentTag);
+        fragmentTransaction.addToBackStack(fragmentTag);
+        fragmentTransaction.commit();
+    }
+
+    private int getContainerId() {
+        return R.id.parent_layout;
+    }
+
+    private void initTheme() {
+        int themeIndex = getIntent().getIntExtra(KEY_ACTIVITY_THEME, DEFAULT_THEME);
+        if (themeIndex <= 0) {
+            themeIndex = DEFAULT_THEME;
+        }
+        getTheme().applyStyle(themeIndex, true);
+        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT));
     }
 
 }

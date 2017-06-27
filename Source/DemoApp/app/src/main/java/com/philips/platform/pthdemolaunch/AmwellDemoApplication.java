@@ -5,6 +5,7 @@ import android.app.Application;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 public class AmwellDemoApplication extends Application {
     public AppInfraInterface appInfra;
@@ -22,6 +23,7 @@ public class AmwellDemoApplication extends Application {
     @Override
     public void onCreate(){
         super.onCreate();
+        UIDHelper.injectCalligraphyFonts();
     }
     public void initializeAppInfra(AppInitializationCallback.AppInfraInitializationCallback appInfraInitializationCallback) {
         appInfra = new AppInfra.Builder().build(getApplicationContext());

@@ -1,6 +1,7 @@
 package com.philips.amwelluapp.utility;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.AWSDKFactory;
@@ -23,6 +24,7 @@ import com.philips.amwelluapp.practice.PTHPracticesListCallback;
 import com.philips.amwelluapp.login.PTHGetConsumerObjectCallBack;
 import com.philips.amwelluapp.providerslist.PTHProvidersListCallback;
 
+import com.philips.amwelluapp.sdkerrors.PTHSDKError;
 import com.philips.amwelluapp.welcome.PTHInitializeCallBack;
 
 import java.net.MalformedURLException;
@@ -56,7 +58,10 @@ public class PTHManager {
             public void onResponse(Authentication authentication, SDKError sdkError) {
                 PTHAuthentication pthAuthentication = new PTHAuthentication();
                 pthAuthentication.setAuthentication(authentication);
-                pthLoginCallBack.onLoginResponse(pthAuthentication, sdkError);
+
+                PTHSDKError pthsdkError = new PTHSDKError();
+                pthsdkError.setSdkError(sdkError);
+                pthLoginCallBack.onLoginResponse(pthAuthentication, pthsdkError);
             }
 
             @Override
@@ -68,7 +73,7 @@ public class PTHManager {
 
     public void initializeTeleHealth(Context context, final PTHInitializeCallBack pthInitializeCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
         final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
-       /* initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
+        /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
         initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key*/
         initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
         initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key
@@ -78,7 +83,9 @@ public class PTHManager {
                 initParams, new SDKCallback<Void, SDKError>() {
                     @Override
                     public void onResponse(Void aVoid, SDKError sdkError) {
-                        pthInitializeCallBack.onInitializationResponse(aVoid, sdkError);
+                        PTHSDKError pthsdkError = new PTHSDKError();
+                        pthsdkError.setSdkError(sdkError);
+                        pthInitializeCallBack.onInitializationResponse(aVoid, pthsdkError);
                     }
 
                     @Override
@@ -140,4 +147,8 @@ public class PTHManager {
 
     }
 
+    @VisibleForTesting
+    public void setAwsdk(AWSDK awsdk) {
+        this.mAwsdk = awsdk;
+    }
 }
