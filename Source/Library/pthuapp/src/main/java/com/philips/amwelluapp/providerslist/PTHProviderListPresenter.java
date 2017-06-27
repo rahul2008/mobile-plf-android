@@ -10,24 +10,28 @@ import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.amwelluapp.R;
+import com.philips.amwelluapp.base.UIBasePresenter;
+import com.philips.amwelluapp.base.UIBaseView;
+import com.philips.amwelluapp.intake.SymptomsFragment;
 import com.philips.amwelluapp.utility.PTHManager;
 
 import java.util.List;
 
-public class PTHProviderListPresenter implements PTHProvidersListCallback{
+public class PTHProviderListPresenter implements PTHProvidersListCallback, UIBasePresenter{
 
-    private Context context;
+    private UIBaseView mUiBaseView;
     private PTHProviderListViewInterface PTHProviderListViewInterface;
 
 
-    public PTHProviderListPresenter(Context context,PTHProviderListViewInterface PTHProviderListViewInterface){
-        this.context = context;
+    public PTHProviderListPresenter(UIBaseView uiBaseView, PTHProviderListViewInterface PTHProviderListViewInterface){
+        this.mUiBaseView = uiBaseView;
         this.PTHProviderListViewInterface = PTHProviderListViewInterface;
     }
 
     public void fetchProviderList(Consumer consumer, Practice practice){
         try {
-            PTHManager.getInstance().getProviderList(context,consumer,practice,this);
+            PTHManager.getInstance().getProviderList(mUiBaseView.getFragmentActivity(),consumer,practice,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -50,5 +54,12 @@ public class PTHProviderListPresenter implements PTHProvidersListCallback{
     @Override
     public void onProvidersListFetchError(Throwable throwable) {
 
+    }
+
+    @Override
+    public void onEvent(int componentID) {
+        if (componentID == R.id.getStartedButton) {
+            mUiBaseView.addFragment(new SymptomsFragment(),SymptomsFragment.TAG,null);
+        }
     }
 }

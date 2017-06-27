@@ -93,9 +93,7 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
     private void checkIfTheUserIsPartiallyRegistered(PTHAuthentication pthAuthentication) {
         boolean isUserPartiallyRegistered = pthAuthentication.needsToCompleteEnrollment();
         if (isUserPartiallyRegistered){
-            final FragmentLauncher fragmentLauncher = ((PTHWelcomeFragment)uiBaseView).getFragmentLauncher();
-            ((PTHLaunchActivity) fragmentLauncher.getFragmentActivity()).
-                    addFragment(new PTHRegistrationDetailsFragment(), PTHRegistrationDetailsFragment.TAG);
+            uiBaseView.addFragment(new PTHRegistrationDetailsFragment(),PTHRegistrationDetailsFragment.TAG,null);
         }
     }
 

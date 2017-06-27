@@ -10,10 +10,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.philips.amwelluapp.R;
+import com.philips.amwelluapp.base.PTHBaseFragment;
 import com.philips.amwelluapp.base.UIBaseView;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
-public class PTHRegistrationDetailsFragment extends Fragment implements UIBaseView, BackEventListener {
+public class PTHRegistrationDetailsFragment extends PTHBaseFragment implements BackEventListener {
     public static final String TAG = PTHRegistrationDetailsFragment.class.getSimpleName();
 
     @Nullable

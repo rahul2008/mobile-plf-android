@@ -13,14 +13,17 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.philips.amwelluapp.R;
+import com.philips.amwelluapp.activity.PTHLaunchActivity;
 import com.philips.amwelluapp.base.PTHBaseFragment;
+import com.philips.amwelluapp.intake.SymptomsFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.ProgressBar;
 
 import java.util.List;
 
-public class PTHProvidersListFragment extends PTHBaseFragment implements SwipeRefreshLayout.OnRefreshListener,PTHProviderListViewInterface {
+public class PTHProvidersListFragment extends PTHBaseFragment implements View.OnClickListener,SwipeRefreshLayout.OnRefreshListener,PTHProviderListViewInterface {
 
     private FragmentLauncher fragmentLauncher;
     private RecyclerView recyclerView;
@@ -32,6 +35,8 @@ public class PTHProvidersListFragment extends PTHBaseFragment implements SwipeRe
     private ProgressBar progressBar;
     private PTHProvidersListAdapter pthProvidersListAdapter;
     private ActionBarListener actionBarListener;
+    Button btn_get_started;
+
 
 
     @Nullable
@@ -39,11 +44,12 @@ public class PTHProvidersListFragment extends PTHBaseFragment implements SwipeRe
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.pth_providers_list_fragment,container,false);
-        pthProviderListPresenter = new PTHProviderListPresenter(getActivity(),this);
+        pthProviderListPresenter = new PTHProviderListPresenter(this,this);
         recyclerView = (RecyclerView) view.findViewById(R.id.providerListRecyclerView);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
-
+        btn_get_started = (Button) view.findViewById(R.id.getStartedButton);
+        btn_get_started.setOnClickListener(this);
         return view;
     }
 
@@ -82,5 +88,18 @@ public class PTHProvidersListFragment extends PTHBaseFragment implements SwipeRe
         pthProvidersListAdapter = new PTHProvidersListAdapter(providerInfos,pthProviderListPresenter);
         recyclerView.setAdapter(pthProvidersListAdapter);
 
+    }
+
+    @Override
+    public int getContainerID() {
+        return ((ViewGroup)getView().getParent()).getId();
+    }
+
+    @Override
+    public void onClick(View view) {
+        int i = view.getId();
+        if (i == R.id.getStartedButton) {
+            pthProviderListPresenter.onEvent(R.id.getStartedButton);
+        }
     }
 }

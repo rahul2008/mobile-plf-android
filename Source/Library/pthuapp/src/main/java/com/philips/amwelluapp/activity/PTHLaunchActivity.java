@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.amwelluapp.R;
+import com.philips.amwelluapp.intake.SymptomsFragment;
 import com.philips.amwelluapp.welcome.PTHWelcomeFragment;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -123,15 +124,6 @@ public class PTHLaunchActivity extends AppCompatActivity {
             super.setTitle(titleId);
     }
 
-    public void addFragment(Fragment fragment, String fragmentTag) {
-
-        containerId = getContainerId();
-        FragmentTransaction fragmentTransaction;
-        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(containerId, fragment, fragmentTag);
-        fragmentTransaction.addToBackStack(fragmentTag);
-        fragmentTransaction.commit();
-    }
 
     private int getContainerId() {
         return R.id.parent_layout;
