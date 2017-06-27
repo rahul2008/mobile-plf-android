@@ -21,7 +21,7 @@ public class DemoIAPState extends BaseState {
     @Override
     public void navigate(UiLauncher uiLauncher) {
 //        IAPDemouAppInterface uAppInterface = new IAPDemouAppInterface();
-//        uAppInterface.init(null, new IAPDemouAppSettings(appContext));
+//        uAppInterface.initialise(null, new IAPDemouAppSettings(appContext));
 //        uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
     }
 

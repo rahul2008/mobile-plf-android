@@ -57,7 +57,7 @@ public class AppFrameworkApplication extends Application {
         if (BuildConfig.BUILD_TYPE.equalsIgnoreCase(LEAK_CANARY_BUILD_TYPE)) {
             if (LeakCanary.isInAnalyzerProcess(this)) {
                 // This proisChinaCountrycess is dedicated to LeakCanary for heap analysis.
-                // You should not init your app in this process.
+                // You should not initialise your app in this process.
                 return;
             }
             LeakCanary.install(this);

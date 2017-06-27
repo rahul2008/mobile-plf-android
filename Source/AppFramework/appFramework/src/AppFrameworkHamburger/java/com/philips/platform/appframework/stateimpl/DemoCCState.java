@@ -21,7 +21,7 @@ public class DemoCCState extends BaseState {
     @Override
     public void navigate(UiLauncher uiLauncher) {
 //        CCDemoUAppuAppInterface uAppInterface = new CCDemoUAppuAppInterface();
-//        uAppInterface.init(new CCDemoUAppuAppDependencies(((AppFrameworkApplication)context.getApplicationContext()).getAppInfra()), new CCDemoUAppuAppSettings(context.getApplicationContext()));// pass App-infra instance instead of null
+//        uAppInterface.initialise(new CCDemoUAppuAppDependencies(((AppFrameworkApplication)context.getApplicationContext()).getAppInfra()), new CCDemoUAppuAppSettings(context.getApplicationContext()));// pass App-infra instance instead of null
 //        uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
 
     }

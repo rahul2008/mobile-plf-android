@@ -57,8 +57,8 @@ public class PushNotificationManager {
 
 
     public void init(AppInfraInterface appInfra,PushNotificationUserRegistationWrapperInterface pushNotificationUserRegistationWrapperInterface){
-        PNLog.init(appInfra);
-        PNLog.enableLogging();
+        PNLog.initialise(appInfra);
+        PNLog.enablePNLogging();
         this.pushNotificationUserRegistationWrapperInterface=pushNotificationUserRegistationWrapperInterface;
     }
 

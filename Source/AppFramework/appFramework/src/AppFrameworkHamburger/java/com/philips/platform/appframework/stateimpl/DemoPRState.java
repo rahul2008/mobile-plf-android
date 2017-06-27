@@ -21,7 +21,7 @@ public class DemoPRState extends BaseState {
     @Override
     public void navigate(UiLauncher uiLauncher) {
 //        PRDemoAppuAppInterface uAppInterface = new PRDemoAppuAppInterface();
-//        uAppInterface.init(new PRDemoAppuAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra()), new PRDemoAppuAppSettings(context.getApplicationContext()));// pass App-infra instance instead of null
+//        uAppInterface.initialise(new PRDemoAppuAppDependencies(((AppFrameworkApplication) context.getApplicationContext()).getAppInfra()), new PRDemoAppuAppSettings(context.getApplicationContext()));// pass App-infra instance instead of null
 //        uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);// pass launch input if required
 
     }

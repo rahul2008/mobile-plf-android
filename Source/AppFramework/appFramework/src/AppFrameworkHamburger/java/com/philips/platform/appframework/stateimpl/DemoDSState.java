@@ -23,7 +23,7 @@ public class DemoDSState extends BaseState {
 //        DSDemoAppuAppSettings dsDemoAppuAppSettings = new DSDemoAppuAppSettings(context.getApplicationContext());
 //
 //        DSDemoAppuAppInterface dsDemoAppuAppInterface = new DSDemoAppuAppInterface();
-//        dsDemoAppuAppInterface.init(new DSDemoAppuAppDependencies(((AppFrameworkApplication)context.getApplicationContext()).getAppInfra()), dsDemoAppuAppSettings);
+//        dsDemoAppuAppInterface.initialise(new DSDemoAppuAppDependencies(((AppFrameworkApplication)context.getApplicationContext()).getAppInfra()), dsDemoAppuAppSettings);
 //        dsDemoAppuAppInterface.launch(new ActivityLauncher
 //                (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME), null);
     }
