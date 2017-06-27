@@ -47,7 +47,7 @@ public class CreateAccountPresenterTest {
         MockitoAnnotations.initMocks(this);
         URInterface.setComponent(registrationComponentMock);
         presenter = new CreateAccountPresenter(contractMock);
-        RegistrationConfiguration.setInstanceForTesting(registrationConfiguration);
+       // RegistrationConfigurationtion.setInstanceForTesting(registrationConfiguration);
     }
 
     @After
