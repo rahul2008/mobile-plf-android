@@ -296,6 +296,7 @@ class LoggingConfiguration {
         } catch (Exception e) {
             Log.e("AI Log", "FileHandler exception", e);
         }
+
         return fileHandler;
     }
 
