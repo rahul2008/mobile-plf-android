@@ -38,7 +38,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = rootProject.name + "App"
+archivesBaseName = rootProject.name + "UApp"
 
 allprojects {
     repositories {
@@ -80,7 +80,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('apk')
+                publications ('aar')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
@@ -95,12 +95,12 @@ artifactory {
 
 publishing {
     publications {
-        apk(MavenPublication) {
+        aar(MavenPublication) {
             groupId group
             version = version
             artifactId archivesBaseName
 
-            artifact("$buildDir/outputs/apk/${archivesBaseName}-device-release.apk")
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
