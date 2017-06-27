@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.amwelluapp.R;
-import com.philips.amwelluapp.intake.SymptomsFragment;
 import com.philips.amwelluapp.welcome.PTHWelcomeFragment;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.thememanager.ContentColor;

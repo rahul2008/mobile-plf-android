@@ -1,9 +1,9 @@
 package com.philips.amwelluapp.registration;
 
-import com.philips.amwelluapp.base.UIBasePresenter;
+import com.philips.amwelluapp.base.PTHBasePresenter;
 import com.philips.amwelluapp.sdkerrors.PTHSDKPasswordError;
 
-public class PTHRegistrationDetailPresenter implements UIBasePresenter, PTHRegistrationDetailCallback<PTHConsumer, PTHSDKPasswordError>{
+public class PTHRegistrationDetailPresenter implements PTHBasePresenter, PTHRegistrationDetailCallback<PTHConsumer, PTHSDKPasswordError>{
     @Override
     public void onEvent(int componentID) {
 

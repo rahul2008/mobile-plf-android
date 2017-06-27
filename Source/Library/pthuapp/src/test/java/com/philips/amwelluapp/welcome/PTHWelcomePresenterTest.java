@@ -1,6 +1,6 @@
 package com.philips.amwelluapp.welcome;
 
-import com.philips.amwelluapp.base.UIBaseView;
+import com.philips.amwelluapp.base.PTHBaseView;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,12 +12,12 @@ public class PTHWelcomePresenterTest {
     PTHWelcomePresenter pthWelcomePresenter;
 
     @Mock
-    UIBaseView uiBaseViewMock;
+    PTHBaseView PTHBaseViewMock;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        pthWelcomePresenter = new PTHWelcomePresenter(uiBaseViewMock);
+        pthWelcomePresenter = new PTHWelcomePresenter(PTHBaseViewMock);
     }
 
     @Test

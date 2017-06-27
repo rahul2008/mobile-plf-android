@@ -14,7 +14,7 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.ProgressBar;
 
 
-public class PTHBaseFragment extends Fragment implements UIBaseView{
+public class PTHBaseFragment extends Fragment implements PTHBaseView {
 
 
     public FragmentLauncher mFragmentLauncher;

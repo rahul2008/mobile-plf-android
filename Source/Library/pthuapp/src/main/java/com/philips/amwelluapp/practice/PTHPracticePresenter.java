@@ -5,18 +5,18 @@ import android.widget.Toast;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.philips.amwelluapp.base.UIBasePresenter;
-import com.philips.amwelluapp.base.UIBaseView;
+import com.philips.amwelluapp.base.PTHBasePresenter;
+import com.philips.amwelluapp.base.PTHBaseView;
 import com.philips.amwelluapp.utility.PTHManager;
 
 
-public class PTHPracticePresenter implements UIBasePresenter, PTHPracticesListCallback {
+public class PTHPracticePresenter implements PTHBasePresenter, PTHPracticesListCallback {
 
-    UIBaseView uiBaseView;
+    PTHBaseView uiBaseView;
     Consumer mConsumer;
 
 
-     PTHPracticePresenter(UIBaseView uiBaseView, Consumer consumer){
+     PTHPracticePresenter(PTHBaseView uiBaseView, Consumer consumer){
         this.uiBaseView = uiBaseView;
          this.mConsumer = consumer;
     }

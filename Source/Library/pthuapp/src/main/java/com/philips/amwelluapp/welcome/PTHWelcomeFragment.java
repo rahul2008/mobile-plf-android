@@ -6,19 +6,17 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.philips.amwelluapp.R;
 import com.philips.amwelluapp.base.PTHBaseFragment;
-import com.philips.amwelluapp.base.UIBasePresenter;
+import com.philips.amwelluapp.base.PTHBasePresenter;
 
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.BackEventListener;
-import com.philips.platform.uid.view.widget.ProgressBar;
 
 public class PTHWelcomeFragment extends PTHBaseFragment implements BackEventListener {
     public static final String TAG = PTHWelcomeFragment.class.getSimpleName();
-    private UIBasePresenter presenter;
+    private PTHBasePresenter presenter;
     //private com.philips.platform.uid.view.widget.ProgressBar progressBar;
 
     public FragmentLauncher getFragmentLauncher() {

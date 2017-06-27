@@ -7,9 +7,8 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.philips.amwelluapp.activity.PTHLaunchActivity;
-import com.philips.amwelluapp.base.UIBasePresenter;
-import com.philips.amwelluapp.base.UIBaseView;
+import com.philips.amwelluapp.base.PTHBasePresenter;
+import com.philips.amwelluapp.base.PTHBaseView;
 import com.philips.amwelluapp.login.PTHAuthentication;
 import com.philips.amwelluapp.login.PTHGetConsumerObjectCallBack;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
@@ -17,17 +16,16 @@ import com.philips.amwelluapp.practice.PracticeFragment;
 import com.philips.amwelluapp.registration.PTHRegistrationDetailsFragment;
 import com.philips.amwelluapp.sdkerrors.PTHSDKError;
 import com.philips.amwelluapp.utility.PTHManager;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
 
-public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallBack<Void,PTHSDKError>, PTHLoginCallBack<PTHAuthentication,PTHSDKError> ,PTHGetConsumerObjectCallBack {
-    UIBaseView uiBaseView;
+public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallBack<Void,PTHSDKError>, PTHLoginCallBack<PTHAuthentication,PTHSDKError> ,PTHGetConsumerObjectCallBack {
+    PTHBaseView uiBaseView;
     private Consumer consumer;
 
-    PTHWelcomePresenter(UIBaseView uiBaseView){
+    PTHWelcomePresenter(PTHBaseView uiBaseView){
         this.uiBaseView = uiBaseView;
     }
 

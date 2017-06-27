@@ -11,20 +11,20 @@ import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.amwelluapp.R;
-import com.philips.amwelluapp.base.UIBasePresenter;
-import com.philips.amwelluapp.base.UIBaseView;
-import com.philips.amwelluapp.intake.SymptomsFragment;
+import com.philips.amwelluapp.base.PTHBasePresenter;
+import com.philips.amwelluapp.base.PTHBaseView;
+import com.philips.amwelluapp.intake.PTHSymptomsFragment;
 import com.philips.amwelluapp.utility.PTHManager;
 
 import java.util.List;
 
-public class PTHProviderListPresenter implements PTHProvidersListCallback, UIBasePresenter{
+public class PTHProviderListPresenter implements PTHProvidersListCallback, PTHBasePresenter{
 
-    private UIBaseView mUiBaseView;
+    private PTHBaseView mUiBaseView;
     private PTHProviderListViewInterface PTHProviderListViewInterface;
 
 
-    public PTHProviderListPresenter(UIBaseView uiBaseView, PTHProviderListViewInterface PTHProviderListViewInterface){
+    public PTHProviderListPresenter(PTHBaseView uiBaseView, PTHProviderListViewInterface PTHProviderListViewInterface){
         this.mUiBaseView = uiBaseView;
         this.PTHProviderListViewInterface = PTHProviderListViewInterface;
     }
@@ -59,7 +59,7 @@ public class PTHProviderListPresenter implements PTHProvidersListCallback, UIBas
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.getStartedButton) {
-            mUiBaseView.addFragment(new SymptomsFragment(),SymptomsFragment.TAG,null);
+            mUiBaseView.addFragment(new PTHSymptomsFragment(),PTHSymptomsFragment.TAG,null);
         }
     }
 }

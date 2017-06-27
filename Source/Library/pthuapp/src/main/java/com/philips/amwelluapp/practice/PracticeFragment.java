@@ -13,7 +13,7 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.philips.amwelluapp.R;
 import com.philips.amwelluapp.base.PTHBaseFragment;
-import com.philips.amwelluapp.base.UIBasePresenter;
+import com.philips.amwelluapp.base.PTHBasePresenter;
 import com.philips.amwelluapp.providerslist.PTHProvidersListFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -23,7 +23,7 @@ import com.philips.platform.uid.view.widget.ProgressBar;
 public class PracticeFragment extends PTHBaseFragment implements BackEventListener {
 
     private Consumer mConsumer;
-    private UIBasePresenter mPresenter;
+    private PTHBasePresenter mPresenter;
     private Label mTitle;
     private RecyclerView mPracticeRecyclerView;
     private PracticeRecyclerViewAdapter mPracticeRecyclerViewAdapter;
