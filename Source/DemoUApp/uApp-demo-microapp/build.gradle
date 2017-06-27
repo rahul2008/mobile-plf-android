@@ -131,6 +131,10 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
+    
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
