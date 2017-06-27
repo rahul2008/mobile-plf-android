@@ -65,7 +65,8 @@ public class LaunchFragment extends Fragment implements BackEventListener, Launc
 
     private NetworkChangeListener mNetworkChangeListener;
 
-    private AlertDialog.Builder mAlertDialog;
+    private AlertDialog.Builder mAlertDialogBuilder;
+    private AlertDialog mAlertDialog;
     private StateContext mStateContext;
     private boolean mIsCreate;
 
@@ -335,18 +336,23 @@ public class LaunchFragment extends Fragment implements BackEventListener, Launc
     }
 
     public void showAlertDialog(String message) {
-        if (mAlertDialog == null) {
-            mAlertDialog = new AlertDialog.Builder(mContext, R.style.alertDialogStyle);
-            mAlertDialog.setCancelable(false);
-            mAlertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        if (mAlertDialogBuilder == null) {
+            mAlertDialogBuilder = new AlertDialog.Builder(mContext, R.style.alertDialogStyle);
+            mAlertDialogBuilder.setCancelable(false);
+            mAlertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.dismiss();
                 }
             });
         }
-        mAlertDialog.setMessage(message);
-        AlertDialog alert = mAlertDialog.create();
-        alert.show();
+
+        if (mAlertDialog == null)
+            mAlertDialog = mAlertDialogBuilder.create();
+
+        if (!mAlertDialog.isShowing() && !(getActivity().isFinishing())) {
+            mAlertDialog.setMessage(message);
+            mAlertDialog.show();
+        }
     }
 
     @Override

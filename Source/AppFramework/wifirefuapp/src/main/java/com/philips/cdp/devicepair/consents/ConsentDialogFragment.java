@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
 import com.philips.cdp.devicepair.R;
 import com.philips.cdp.devicepair.pojo.PairDevice;
 import com.philips.cdp.devicepair.states.CreateSubjectProfileState;
@@ -29,6 +30,7 @@ import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +47,8 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
     private PairDevice mPairDevice;
     private DeviceStatusListener mDeviceStatusListener;
     private NetworkChangeListener mNetworkChangeListener;
-    private AlertDialog.Builder mAlertDialog;
+    private AlertDialog.Builder mAlertDialogBuilder;
+    private AlertDialog mAlertDialog;
     private Button mBtnOk;
 
     @Nullable
@@ -266,18 +269,22 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
     }
 
     public void showAlertDialog(String message) {
-        if (mAlertDialog == null) {
-            mAlertDialog = new AlertDialog.Builder(mContext, R.style.alertDialogStyle);
-            mAlertDialog.setCancelable(false);
-            mAlertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        if (mAlertDialogBuilder == null) {
+            mAlertDialogBuilder = new AlertDialog.Builder(mContext, R.style.alertDialogStyle);
+            mAlertDialogBuilder.setCancelable(false);
+            mAlertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.dismiss();
                 }
             });
         }
-        mAlertDialog.setMessage(message);
-        AlertDialog alert = mAlertDialog.create();
-        alert.show();
+        if (mAlertDialog == null)
+            mAlertDialog = mAlertDialogBuilder.create();
+
+        if (!mAlertDialog.isShowing() && !(getActivity().isFinishing())) {
+            mAlertDialog.setMessage(message);
+            mAlertDialog.show();
+        }
     }
 
     @Override
