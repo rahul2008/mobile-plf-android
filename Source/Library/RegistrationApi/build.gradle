@@ -208,37 +208,30 @@ configurations.all {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':jump')
     compile project(':hsdp')
-    compile(group: 'org.apache.http.legacy', name: 'org.apache.http.legacy', version: '1.0.0')
+    compile 'org.apache.http.legacy:org.apache.http.legacy:1.0.0'
     compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.5.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
             {
                 transitive = true
             }
-
-    compile group: 'com.googlecode.libphonenumber', name: 'libphonenumber', version: '7.7.1'
-
+    compile 'com.googlecode.libphonenumber:libphonenumber:7.7.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
     compile 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
-
     annotationProcessor 'com.google.dagger:dagger-compiler:2.10'
     compile 'com.google.dagger:dagger:2.10'
     provided 'javax.annotation:jsr250-api:1.0'
-
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.5.1'
-
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile 'org.mockito:mockito-core:2.0.106-beta'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile "org.robolectric:robolectric:3.3.1"
-
+    testCompile 'org.robolectric:robolectric:3.3.1'
     androidTestCompile 'com.android.support.test:runner:0.5'
     // Set this dependency to use JUnit 4 rules
     androidTestCompile 'com.android.support.test:rules:0.5'
@@ -246,6 +239,7 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     // Set this dependency to build and run UI Automator tests
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+    compile 'com.android.support:support-v4:25.3.1'
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {

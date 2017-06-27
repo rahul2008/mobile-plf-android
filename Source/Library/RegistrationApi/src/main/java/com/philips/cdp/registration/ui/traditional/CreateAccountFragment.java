@@ -147,7 +147,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     private boolean isSavedPasswordErr;
 
-    CreateAccountPresenter createAccountPresenter;
+    private CreateAccountPresenter createAccountPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -175,42 +175,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onActivityCreated");
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onStart");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onResume");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onPause");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onStop");
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDestroyView");
-    }
-
-    @Override
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDestroy");
         createAccountPresenter.unRegisterListener();
@@ -218,12 +182,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         RLog.d(RLog.EVENT_LISTENERS,
                 "CreateAccountFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
         super.onDestroy();
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDetach");
     }
 
     private Bundle mBundle;
@@ -396,8 +354,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         } else {
             mEmail = FieldsValidator.getMobileNumber(mEtEmail.getEmailId());
         }
-//       mUser.registerUserInfoForTraditional(mEtName.getName().toString(), mEmail
-//                , mEtPassword.getPassword().toString(), true, mCbMarketingOpt.isChecked(), this);
         createAccountPresenter.registerUserInfo(mUser, mEtName.getName().toString(), mEmail
                 , mEtPassword.getPassword().toString(), true, mCbMarketingOpt.isChecked());
     }
@@ -458,13 +414,11 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
                 mBtnCreateAccount.setEnabled(true);
             }
         });
-
     }
 
     @Override
     public void storePref() {
         RegPreferenceUtility.storePreference(mContext, mEmail, true);
-
     }
 
     @Override
@@ -472,19 +426,23 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         handleOnUIThread(new Runnable() {
             @Override
             public void run() {
-
                 mEtEmail.showInvalidAlert();
                 mEtEmail.showErrPopUp();
                 mPasswordHintView.setVisibility(View.GONE);
                 mTvEmailExist.setVisibility(View.VISIBLE);
             }
         });
-       }
+    }
 
     @Override
     public void regFail() {
-        mPbSpinner.setVisibility(View.INVISIBLE);
-        mBtnCreateAccount.setEnabled(false);
+        handleOnUIThread(new Runnable() {
+            @Override
+            public void run() {
+                mPbSpinner.setVisibility(View.INVISIBLE);
+                mBtnCreateAccount.setEnabled(false);
+            }
+        });
     }
 
     @Override
@@ -604,16 +562,15 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     @Override
     public void emailError(String errorDesc) {
         mEtEmail.setErrDescription(errorDesc);
-
     }
 
     @Override
     public String getEmail() {
-       return mUser.getEmail();
+        return mUser.getEmail();
     }
 
     @Override
-    public long getTrackCreateAccountTime(){
+    public long getTrackCreateAccountTime() {
         return mTrackCreateAccountTime;
     }
 
@@ -624,9 +581,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @Override
     public void tractCreateActionStatus(String state, String key, String value) {
-        trackActionStatus(state,  key,  value);
+        trackActionStatus(state, key, value);
     }
-
 
     @Override
     public void scrollViewAutomaticallyToEmail() {
@@ -649,7 +605,5 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         });
 
     }
-
-
 }
 

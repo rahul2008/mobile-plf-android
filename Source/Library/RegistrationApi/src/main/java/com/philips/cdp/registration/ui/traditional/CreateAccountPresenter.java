@@ -90,41 +90,11 @@ public class CreateAccountPresenter implements NetworStateListener,EventListener
         }
         createAccountContract.hideSpinner();
         createAccountContract.trackCheckMarketing();
-        final UIFlow abTestingUIFlow= RegUtility.getUiFlow();
-        createAccountContract.tractCreateActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
-                AppTagingConstants.SUCCESS_USER_CREATION);
+        selectABTestingFlow();
+        accountCreationTime();
+    }
 
-        switch (abTestingUIFlow){
-            case FLOW_A:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type A ");
-                if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
-                    if (FieldsValidator.isValidEmail(createAccountContract.getEmail())) {
-                        createAccountContract.launchAccountActivateFragment();
-                    } else {
-                        createAccountContract.launchMobileVerifyCodeFragment();
-                    }
-                } else {
-                    createAccountContract.launchWelcomeFragment();
-                }
-                break;
-            case FLOW_B:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-                createAccountContract.launchMarketingAccountFragment();
-                break;
-            case FLOW_C:
-                RLog.d(RLog.AB_TESTING, "UI Flow Type  C");
-                if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
-                    if (FieldsValidator.isValidEmail(createAccountContract.getEmail())) {
-                        createAccountContract.launchAccountActivateFragment();
-                    } else {
-                        createAccountContract.launchMobileVerifyCodeFragment();
-                    }
-                } else {
-                    createAccountContract.launchWelcomeFragment();
-                }
-                break;
-        }
-
+    public void accountCreationTime() {
         if(createAccountContract.getTrackCreateAccountTime() == 0 && RegUtility.getCreateAccountStartTime() > 0){
             createAccountContract.setTrackCreateAccountTime((System.currentTimeMillis() - RegUtility.getCreateAccountStartTime())/1000);
         }else{
@@ -135,27 +105,56 @@ public class CreateAccountPresenter implements NetworStateListener,EventListener
         createAccountContract.setTrackCreateAccountTime(0);
     }
 
+    private void selectABTestingFlow() {
+        final UIFlow abTestingUIFlow= RegUtility.getUiFlow();
+        createAccountContract.tractCreateActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                AppTagingConstants.SUCCESS_USER_CREATION);
+        switch (abTestingUIFlow){
+            case FLOW_A:
+                RLog.d(RLog.AB_TESTING, "UI Flow Type A ");
+                setABTestingFlow();
+                break;
+            case FLOW_B:
+                RLog.d(RLog.AB_TESTING, "UI Flow Type B");
+                createAccountContract.launchMarketingAccountFragment();
+                break;
+            case FLOW_C:
+                RLog.d(RLog.AB_TESTING, "UI Flow Type  C");
+                setABTestingFlow();
+                break;
+        }
+    }
+
+    private void setABTestingFlow() {
+        if (RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
+            if (FieldsValidator.isValidEmail(createAccountContract.getEmail())) {
+                createAccountContract.launchAccountActivateFragment();
+            } else {
+                createAccountContract.launchMobileVerifyCodeFragment();
+            }
+        } else {
+            createAccountContract.launchWelcomeFragment();
+        }
+    }
+
 
     private void handleRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterFailedWithFailure");
+        RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterFailedWithFailure"+userRegistrationFailureInfo.getErrorCode());
 
         if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
-            if (RegistrationHelper.getInstance().isChinaFlow()){
+            if (RegistrationHelper.getInstance().isChinaFlow()) {
                 createAccountContract.emailError(R.string.reg_CreateAccount_Using_Phone_Alreadytxt);
-            }else {
+            } else {
                 createAccountContract.emailError(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg);
             }
             createAccountContract.scrollViewAutomaticallyToEmail();
-
             createAccountContract.emailAlreadyUsed();
 
-        }
-        if (userRegistrationFailureInfo.getErrorCode() != EMAIL_ADDRESS_ALREADY_USE_CODE) {
+        } else if (userRegistrationFailureInfo.getErrorCode() == FAILURE_TO_CONNECT) {
+            createAccountContract.emailError(R.string.reg_JanRain_Server_Connection_Failed);
+        } else {
             createAccountContract.emailError(userRegistrationFailureInfo.getErrorDescription());
             createAccountContract.scrollViewAutomaticallyToError();
-        }
-        if(userRegistrationFailureInfo.getErrorCode() == FAILURE_TO_CONNECT){
-            createAccountContract.emailError(R.string.reg_JanRain_Server_Connection_Failed);
         }
         AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
         createAccountContract.regFail();
