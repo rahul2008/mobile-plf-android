@@ -250,7 +250,7 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
             } else if (currentFrag instanceof BackEventListener) {
                 backState = ((BackEventListener) currentFrag).handleBackEvent();
                 if (!backState) {
-                    ((AppFrameworkApplication)getApplicationContext()).getTargetFlowManager().getBackState();
+//                    ((AppFrameworkApplication)getApplicationContext()).getTargetFlowManager().getBackState();
                   //  adapter.setSelectedIndex(0);
                     super.onBackPressed();
                 }
