@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -88,14 +86,18 @@ public class FirmwareUpgradeFragment extends Fragment {
     private final DICommPortListener<FirmwarePort> portListener = new DICommPortListener<FirmwarePort>() {
         @Override
         public void onPortUpdate(FirmwarePort port) {
-            stateTextView.setText(port.getPortProperties().getState().toString());
-            versionTextView.setText(port.getPortProperties().getVersion());
+            if (isAdded()) {
+                stateTextView.setText(port.getPortProperties().getState().toString());
+                versionTextView.setText(port.getPortProperties().getVersion());
+            }
         }
 
         @Override
         public void onPortError(FirmwarePort port, Error error, String errorData) {
-            stateTextView.setText(port.getPortProperties().getState().toString());
-            statusTextView.setText(String.format(Locale.US, "Error: %s", error.getErrorMessage()));
+            if (isAdded()) {
+                stateTextView.setText(port.getPortProperties().getState().toString());
+                statusTextView.setText(String.format(Locale.US, "Error: %s", error.getErrorMessage()));
+            }
         }
     };
 
@@ -105,59 +107,72 @@ public class FirmwareUpgradeFragment extends Fragment {
         @Override
         public void onCheckingProgress(int progress) {
             Log.i(TAG, "onCheckingProgress(" + progress + ")");
-
-            updateButtons(false, false, true);
-            statusTextView.setText(R.string.checking_firmware);
-            firmwareUploadProgressBar.setProgress(progress);
+            if (isAdded()) {
+                updateButtons(false, false, true);
+                statusTextView.setText(R.string.checking_firmware);
+                firmwareUploadProgressBar.setProgress(progress);
+            }
         }
 
         @Override
         public void onDownloadProgress(int progress) {
             Log.i(TAG, "onDownloadProgress(" + progress + ")");
 
-            updateButtons(false, false, true);
-            statusTextView.setText(getString(R.string.uploading_firmware_image) + " (" + progress + "%)");
-            firmwareUploadProgressBar.setProgress(progress);
+            if (isAdded()) {
+                updateButtons(false, false, true);
+                statusTextView.setText(getString(R.string.uploading_firmware_image) + " (" + progress + "%)");
+                firmwareUploadProgressBar.setProgress(progress);
+            }
         }
 
         @Override
         public void onDownloadFailed(final FirmwarePortException exception) {
             Log.i(TAG, "onDownloadFailed(" + exception.getMessage() + ")");
 
-            updateButtons(true, false, false);
-            statusTextView.setText(String.format(Locale.US, "%s%s", getString(R.string.uploading_firmware_failed), exception.getMessage()));
+            if (isAdded()) {
+                updateButtons(true, false, false);
+                statusTextView.setText(String.format(Locale.US, "%s%s", getString(R.string.uploading_firmware_failed), exception.getMessage()));
+            }
         }
 
         @Override
         public void onDownloadFinished() {
             Log.i(TAG, "onDownloadFinished()");
 
-            updateButtons(false, true, true);
-            statusTextView.setText(R.string.upload_firmware_finished);
+            if (isAdded()) {
+                updateButtons(false, true, true);
+                statusTextView.setText(R.string.upload_firmware_finished);
+            }
         }
 
         @Override
         public void onFirmwareAvailable(String version) {
             Log.i(TAG, "onFirmwareAvailable(" + version + ")");
 
-            updateButtons(true, false, false);
-            statusTextView.setText(String.format(Locale.US, "%s%s", getString(R.string.new_firmware_available), version));
+            if (isAdded()) {
+                updateButtons(true, false, false);
+                statusTextView.setText(String.format(Locale.US, "%s%s", getString(R.string.new_firmware_available), version));
+            }
         }
 
         @Override
         public void onDeployFailed(FirmwarePortException exception) {
             Log.i(TAG, "onDeployFailed(" + exception.getMessage() + ")");
 
-            updateButtons(true, false, false);
-            statusTextView.setText(String.format(Locale.US, "%s%s", getString(R.string.deploy_firmware_failed), exception.getMessage()));
+            if (isAdded()) {
+                updateButtons(true, false, false);
+                statusTextView.setText(String.format(Locale.US, "%s%s", getString(R.string.deploy_firmware_failed), exception.getMessage()));
+            }
         }
 
         @Override
         public void onDeployFinished() {
             Log.i(TAG, "onDeployFinished()");
 
-            updateButtons(true, false, false);
-            statusTextView.setText(R.string.firmware_deploy_finished);
+            if (isAdded()) {
+                updateButtons(true, false, false);
+                statusTextView.setText(R.string.firmware_deploy_finished);
+            }
         }
     };
 
