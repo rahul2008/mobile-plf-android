@@ -1,3 +1,7 @@
+/*
+ * Copyright © 2016 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
 package com.example.cdpp.bluelibexampleapp.uapp;
 
 import android.content.Context;
@@ -13,7 +17,7 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 
-public class BleDemoAppMicroAppInterface implements UappInterface {
+public class BleDemoMicroAppInterface implements UappInterface {
     private Context context;
 
     /**
@@ -34,7 +38,7 @@ public class BleDemoAppMicroAppInterface implements UappInterface {
             Intent intent = new Intent(context, BlueLibExampleActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
-        } else if(uiLauncher instanceof FragmentLauncher){
+        } else if (uiLauncher instanceof FragmentLauncher) {
             //TODO:Need to add logic to make implmentation using fragment.
         }
     }
