@@ -9,6 +9,7 @@ package com.philips.platform.appinfra.logging;
 import android.support.annotation.NonNull;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraLogEventID;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -127,7 +128,7 @@ public class AppInfraLogging implements LoggingInterface {
                     getJavaLogger().setLevel(loggingConfiguration.getJavaLoggerLogLevel(logLevel));
                     loggingConfiguration.activateLogger();
                     loggingConfiguration.enableConsoleAndFileLog(isConsoleLogEnabled, isFileLogEnabled, mComponentID, mComponentVersion);
-                    getJavaLogger().log(Level.INFO, "Logger created"); //R-AI-LOG-6
+                    mJavaLogger.log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created"); //R-AI-LOG-6
                 }
             }
         } else {
@@ -137,7 +138,7 @@ public class AppInfraLogging implements LoggingInterface {
                 then read from logging.properties*/
             mJavaLogger = loggingConfiguration.getLogger(pComponentId); // returns new or existing log
             loggingConfiguration.fallBackToLoggingPropertiesFile(mComponentID, mComponentVersion);
-            getJavaLogger().log(Level.INFO, "Logger created"); //R-AI-LOG-6
+            mJavaLogger.log(Level.INFO, AppInfraLogEventID.AI_LOGGING + "Logger created"); //R-AI-LOG-6
         }
     }
 
