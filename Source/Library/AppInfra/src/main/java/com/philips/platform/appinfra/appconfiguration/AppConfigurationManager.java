@@ -388,9 +388,16 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     public void refreshCloudConfig(final OnRefreshListener onRefreshListener) {
         final boolean lockAcquired = mRefreshInProgressLock.tryLock();
         if(lockAcquired) {
-            downloadConfigFromCloud(onRefreshListener);
-            mRefreshInProgressLock.unlock();
-        } else {
+            try {
+	            downloadConfigFromCloud(onRefreshListener);
+            } catch (IllegalMonitorStateException exception) {
+	            logAppConfiguration(LoggingInterface.LogLevel.ERROR, "refreshCloudConfig exception",
+			            Log.getStackTraceString(exception));
+            } finally {
+                mRefreshInProgressLock.unlock();
+            }
+        }
+        else {
             onRefreshListener.onError(AppConfigurationError.AppConfigErrorEnum.DownloadInProgress,
                     "Download is in progress, Please try after some time");
         }
