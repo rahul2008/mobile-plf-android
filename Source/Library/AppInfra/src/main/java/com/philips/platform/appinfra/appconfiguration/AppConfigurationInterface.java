@@ -71,7 +71,7 @@ public interface AppConfigurationInterface {
     /**
      * The type Config error.
      */
-    public class AppConfigurationError {
+    class AppConfigurationError {
         /**
          * The enum Config error enum.
          */

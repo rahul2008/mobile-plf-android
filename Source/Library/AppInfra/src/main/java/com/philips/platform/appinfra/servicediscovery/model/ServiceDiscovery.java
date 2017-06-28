@@ -8,6 +8,7 @@ package com.philips.platform.appinfra.servicediscovery.model;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.servicediscovery.RequestManager;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
@@ -129,8 +130,7 @@ public class ServiceDiscovery {
 			setHttpStatus(response.optString("httpStatus"));
 			final JSONObject payloadJSONObject = response.getJSONObject("payload");
 			final String country = response.getJSONObject("payload").optString("country");
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "ServiceDiscovery country",
-					country);
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "ServiceDiscovery country"+country);
 			this.country = country.toUpperCase();
 			parseMatchByCountryJSON(payloadJSONObject.getJSONObject("matchByCountry"));
 			parseMatchByLanguageJSON(payloadJSONObject.getJSONObject("matchByLanguage"));
@@ -303,7 +303,7 @@ public class ServiceDiscovery {
 			}
 
 		} catch (MalformedURLException exception) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery error",
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"ServiceDiscovery error"+
 					exception.toString());
 			setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "NO VALUE FOR KEY");
 		}
@@ -376,8 +376,7 @@ public class ServiceDiscovery {
 									}
 								} catch (MalformedURLException e) {
 									mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-											"ServiceDiscovery URL error",
-											"Malformed URL");
+											AppInfraLogEventID.AI_SERVICE_DISCOVERY,"ServiceDiscovery URL error Malformed URL");
 									setError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES.INVALID_RESPONSE,
 											"MalformedURLException");
 								}

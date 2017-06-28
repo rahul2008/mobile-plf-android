@@ -3,14 +3,13 @@ package com.philips.platform.appinfra.contentloader;
 import android.content.Context;
 import android.util.Log;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.ConfigValues;
-import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.contentloader.model.ContentArticle;
 import com.philips.platform.appinfra.contentloader.model.ContentItem;
@@ -26,10 +25,10 @@ import java.util.List;
 
 
 /**
- * Created by 310243577 on 11/23/2016.
+ * ContentLoader Test class.
  */
 
-public class ContentLoadertest extends MockitoTestCase {
+public class ContentLoadertest extends AppInfraInstrumentation {
 
     private Context context;
     private AppInfra mAppInfra;
@@ -235,7 +234,6 @@ public class ContentLoadertest extends MockitoTestCase {
 
     public void testparseJsonandSave() {
         ContentItem ContentItemTest = null;
-        final Gson gson = new Gson();
         long mLastUpdatedTime = (new Date()).getTime();
         JsonElement content = jsonObject.get("articles");
         JsonArray contentList = null;
@@ -262,7 +260,7 @@ public class ContentLoadertest extends MockitoTestCase {
                     }
                     contentItem.setTags(tags);
                     downloadedContents.add(contentItem);*/
-                    ContentInterface contentInterface = null;
+                    ContentInterface contentInterface;
                     try {
                         contentInterface = ContentArticle.class.newInstance();
 

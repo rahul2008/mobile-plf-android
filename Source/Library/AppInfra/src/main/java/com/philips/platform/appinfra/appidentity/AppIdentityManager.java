@@ -10,6 +10,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.R;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -29,7 +30,6 @@ public class AppIdentityManager implements AppIdentityInterface {
 	private Context context;
 
 	private String mAppVersion;
-	private String mLocalizedAppName;
 	private String sector;
 	private String mAppState;
 
@@ -52,11 +52,14 @@ public class AppIdentityManager implements AppIdentityInterface {
 	private void validateAppVersion() {
 		PackageInfo pInfo;
 		try {
+
 			pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
 			mAppVersion = String.valueOf(pInfo.versionName);
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY,
+					"validate AppVersion"+mAppVersion);
 			//mAppVersion = BuildConfig.VERSION_NAME;
 		} catch (PackageManager.NameNotFoundException e) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AppIdentity", e.getMessage());
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_APP_IDENTITY,"Error in validate AppVersion "+e.getMessage());
 		}
 		if (mAppVersion != null && !mAppVersion.isEmpty()) {
 			if (!mAppVersion.matches("[0-9]+\\.[0-9]+\\.[0-9]+([_(-].*)?")) {
@@ -83,6 +86,8 @@ public class AppIdentityManager implements AppIdentityInterface {
 				else
 					mAppState = defAppState;
 			}
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY,
+					"validate AppState "+mAppState);
 		}
 
 		final Set<String> set = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
@@ -104,8 +109,9 @@ public class AppIdentityManager implements AppIdentityInterface {
 		set.addAll(mServiceDiscoveryEnvList);
 		if (serviceDiscoveryEnvironment != null && !serviceDiscoveryEnvironment.isEmpty()) {
 			if (!set.contains(serviceDiscoveryEnvironment)) {
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "APPIDENTITY"
-						, serviceDiscoveryEnvironment);
+
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_APP_IDENTITY
+						,"validate Service Discovery Environment "+ serviceDiscoveryEnvironment);
 				throw new IllegalArgumentException("\"ServiceDiscovery Environment in AppConfig.json " +
 						" file must match \" +\n" +
 						"\"one of the following values \\n STAGING, \\n PRODUCTION\"");
@@ -134,12 +140,15 @@ public class AppIdentityManager implements AppIdentityInterface {
 			throw new IllegalArgumentException("\"App Sector cannot be empty in" +
 					" AppConfig.json file\"");
 		}
-
+		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_APP_IDENTITY
+				,"validate Sector");
 	}
 
 	public void validateMicrositeId(String micrositeId) {
 
 		if (micrositeId != null && !micrositeId.isEmpty()) {
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_APP_IDENTITY
+					,"validate MicrositeId");
 			if (!micrositeId.matches("[a-zA-Z0-9]+")) {
 				throw new IllegalArgumentException("micrositeId must not contain special " +
 						"charectors in AppConfig.json json file");
@@ -152,8 +161,10 @@ public class AppIdentityManager implements AppIdentityInterface {
 
 	@Override
 	public String getAppName() {
-		String mAppName = context.getApplicationInfo().loadLabel(context.getPackageManager()).toString();
-		return mAppName;
+		final String appName=context.getApplicationInfo().loadLabel(context.getPackageManager()).toString();
+		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_APP_IDENTITY
+				,"get AppName"+appName);
+		return appName;
 	}
 
 
@@ -190,6 +201,8 @@ public class AppIdentityManager implements AppIdentityInterface {
 //            return mAppStateEnum;
 //        }
 
+		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY,
+				"App State Environment "+mAppStateEnum);
 		return mAppStateEnum;
 	}
 
@@ -225,7 +238,8 @@ public class AppIdentityManager implements AppIdentityInterface {
 						"\"one of the following values \\n STAGING, \\n PRODUCTION\"");
 			}
 		}
-
+		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY,
+				"service Discovery Environment "+serviceDiscoveryEnvironment);
 		return serviceDiscoveryEnvironment;
 	}
 
@@ -235,8 +249,9 @@ public class AppIdentityManager implements AppIdentityInterface {
 	    /* Vertical App should have this string defined for all supported language files
 	     *  default <string name="localized_commercial_app_name">AppInfra DemoApp localized</string>
          * */
-		mLocalizedAppName = context.getResources().getString(R.string.localized_commercial_app_name);
-
+		final String mLocalizedAppName = context.getResources().getString(R.string.localized_commercial_app_name);
+		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY,
+				"Localized AppName "+mLocalizedAppName);
 		return mLocalizedAppName;
 	}
 
@@ -245,6 +260,8 @@ public class AppIdentityManager implements AppIdentityInterface {
 	public String getMicrositeId() {
 		final String micrositeId = (String) mAppInfra.getConfigInterface().getDefaultPropertyForKey
 				("appidentity.micrositeId", "appinfra", configError);
+		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_IDENTITY,
+				"microsite Id "+micrositeId);
 		validateMicrositeId(micrositeId);
 		return micrositeId;
 	}

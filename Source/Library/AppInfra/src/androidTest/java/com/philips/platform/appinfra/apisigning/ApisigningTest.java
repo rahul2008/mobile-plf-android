@@ -1,15 +1,15 @@
 package com.philips.platform.appinfra.apisigning;
 
-import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Created by 310190722 on 11/25/2016.
+ * ApiSigning Test class.
  */
 
-public class ApisigningTest extends MockitoTestCase {
+public class ApisigningTest extends AppInfraInstrumentation {
 
     private PsLib psLib;
     private HSDPPHSApiSigning hsdpphsApiSigning;
