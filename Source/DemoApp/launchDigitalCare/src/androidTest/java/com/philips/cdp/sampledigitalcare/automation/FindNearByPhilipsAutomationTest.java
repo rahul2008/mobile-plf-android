@@ -20,6 +20,7 @@ import com.philips.cl.di.dev.pa.R;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +39,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.IsInstanceOf.any;
 
+
 @LargeTest
+@Ignore
 @RunWith(AndroidJUnit4.class)
 public class FindNearByPhilipsAutomationTest {
 
