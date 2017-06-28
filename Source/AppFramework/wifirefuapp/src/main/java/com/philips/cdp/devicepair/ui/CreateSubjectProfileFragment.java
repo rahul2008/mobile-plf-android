@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.cdp.devicepair.ui;
 
 import android.app.AlertDialog;
@@ -30,7 +35,7 @@ import java.util.List;
 
 public class CreateSubjectProfileFragment extends Fragment implements View.OnClickListener,
         BackEventListener, CreateSubjectProfileViewListener, NetworkChangeListener.INetworkChangeListener {
-
+    public static String TAG = CreateSubjectProfileFragment.class.getSimpleName();
     private View view;
     private EditText firstName, dob, gender, weight, creationDate;
     private Button createProfileButton;

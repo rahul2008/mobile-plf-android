@@ -1,7 +1,8 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.cdp.devicepair.ui;
 
 import android.app.Activity;
@@ -114,8 +115,12 @@ public class LaunchFragment extends Fragment implements BackEventListener, Launc
         mAvailableDevicesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                if (mAppliancesList != null && mAppliancesList.size() > 0)
-                    mLaunchFragmentPresenter.pairDevice(getDeviceDetails(mAppliancesList.get(position)), LaunchFragment.this);
+                if (mAppliancesList != null && mAppliancesList.size() > 0){
+                    PairDevice pairDeviceDetails = getDeviceDetails(mAvailableDevicesList.get(position));
+                    if(pairDeviceDetails != null){
+                        mLaunchFragmentPresenter.pairDevice(pairDeviceDetails, LaunchFragment.this);
+                    }
+                }
 //                mLaunchFragmentPresenter.pairDevice(getTestDeviceDetails(), LaunchFragment.this);
             }
         });
@@ -233,11 +238,16 @@ public class LaunchFragment extends Fragment implements BackEventListener, Launc
         return mPairDevice;
     }*/
 
-    private PairDevice getDeviceDetails(Appliance appliance) {
-        mPairDevice = new PairDevice();
-        mPairDevice.setDeviceID(appliance.getNetworkNode().getCppId());
-        mPairDevice.setDeviceType(appliance.getDeviceType());
-        return mPairDevice;
+    private PairDevice getDeviceDetails(String id) {
+        for ( int i = 0; i < mAppliancesList.size(); i++){
+            if(mAppliancesList.get(i).getNetworkNode().getCppId().equalsIgnoreCase(id)){
+                mPairDevice = new PairDevice();
+                mPairDevice.setDeviceID(mAppliancesList.get(i).getNetworkNode().getCppId());
+                mPairDevice.setDeviceType(mAppliancesList.get(i).getDeviceType());
+                return mPairDevice;
+            }
+        }
+        return null;
     }
 
     public void updatePairedDevices(List<String> pairedDevices) {

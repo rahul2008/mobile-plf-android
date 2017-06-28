@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.cdp.devicepair.consents;
 
 import android.content.Context;
@@ -14,9 +19,8 @@ import com.philips.cdp.devicepair.R;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
 public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    Context mContext;
+    private Context mContext;
     private ArrayList<? extends ConsentDetail> mConsentDetailList;
     private final ConsentDialogPresenter mConsentDialogPresenter;
 

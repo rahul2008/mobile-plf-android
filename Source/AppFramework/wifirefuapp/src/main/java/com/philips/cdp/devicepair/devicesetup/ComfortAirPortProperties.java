@@ -1,7 +1,8 @@
-/*
- * (C) Koninklijke Philips N.V., 2015, 2016.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.cdp.devicepair.devicesetup;
 
 import com.google.gson.annotations.SerializedName;
@@ -13,7 +14,7 @@ public class ComfortAirPortProperties implements AirPortProperties {
     public static final Integer LIGHT_OFF_INTEGER = 0;
 
     @SerializedName(KEY_LIGHT_STATE)
-    Integer lightOn;
+    public Integer lightOn;
 
     public boolean getLightOn() {
         return lightOn > 0;

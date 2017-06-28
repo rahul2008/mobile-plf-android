@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.cdp.devicepair.consents;
 
 import android.app.AlertDialog;
@@ -38,6 +43,7 @@ import java.util.List;
 public class ConsentDialogFragment extends Fragment implements DBRequestListener<ConsentDetail>,
         DBFetchRequestListner<ConsentDetail>, DBChangeListener, View.OnClickListener, NetworkChangeListener.INetworkChangeListener {
 
+    public static String TAG = ConsentDialogFragment.class.getSimpleName();
     private Context mContext;
     private ConsentDialogAdapter mConsentDialogAdapter;
     private ConsentDialogPresenter mConsentDialogPresenter;

@@ -53,7 +53,7 @@ public class AppFrameworkApplication extends Application {
 
     @Override
     public void onCreate() {
-        //applyStrictMode();
+        applyStrictMode();
         if (BuildConfig.BUILD_TYPE.equalsIgnoreCase(LEAK_CANARY_BUILD_TYPE)) {
             if (LeakCanary.isInAnalyzerProcess(this)) {
                 // This proisChinaCountrycess is dedicated to LeakCanary for heap analysis.

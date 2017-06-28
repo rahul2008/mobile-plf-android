@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.platform.baseapp.screens.devicepairing;
 
 import android.content.Context;
@@ -74,7 +79,7 @@ public class DevicePairingState extends BaseState {
         DataServicesManager.getInstance().initializeSyncMonitors(context, null, null);
     }
 
-    void injectDBInterfacesToCore(Context context) {
+    private void injectDBInterfacesToCore(Context context) {
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
         try {
             Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();

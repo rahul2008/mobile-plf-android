@@ -1,8 +1,8 @@
-/*
- * (C) Koninklijke Philips N.V., 2015, 2016.
- * All rights reserved.
- */
-
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.cdp.devicepair.devicesetup;
 
 import android.support.annotation.NonNull;
@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SampleApplianceFactory implements DICommApplianceFactory<AirPurifier> {
+public class SampleApplianceFactory implements DICommApplianceFactory<AbstractAirPurifier> {
 
     @NonNull
     private final LanTransportContext lanTransportContext;
@@ -32,7 +32,7 @@ public class SampleApplianceFactory implements DICommApplianceFactory<AirPurifie
     }
 
     @Override
-    public AirPurifier createApplianceForNode(NetworkNode networkNode) {
+    public AbstractAirPurifier createApplianceForNode(NetworkNode networkNode) {
         if (canCreateApplianceForNode(networkNode)) {
             final CommunicationStrategy communicationStrategy = new CombinedCommunicationStrategy(
                     lanTransportContext.createCommunicationStrategyFor(networkNode));
@@ -48,7 +48,7 @@ public class SampleApplianceFactory implements DICommApplianceFactory<AirPurifie
     @Override
     public Set<String> getSupportedModelNames() {
         return Collections.unmodifiableSet(new HashSet<String>() {{
-            add(AirPurifier.MODELNAME);
+            add(AbstractAirPurifier.MODELNAME);
         }});
     }
 }

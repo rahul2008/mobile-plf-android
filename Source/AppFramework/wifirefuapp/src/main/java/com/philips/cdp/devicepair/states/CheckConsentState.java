@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package com.philips.cdp.devicepair.states;
 
 import android.support.v4.app.FragmentTransaction;
@@ -17,7 +22,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.List;
 
-class CheckConsentState extends BaseState implements DBRequestListener<ConsentDetail>, DBFetchRequestListner<ConsentDetail>, DBChangeListener {
+class CheckConsentState extends AbstractBaseState implements DBRequestListener<ConsentDetail>, DBFetchRequestListner<ConsentDetail>, DBChangeListener {
 
     private FragmentLauncher mContext;
     private PairDevice mPairDevice;
@@ -113,8 +118,8 @@ class CheckConsentState extends BaseState implements DBRequestListener<ConsentDe
         consentDialogFragment.setDeviceStatusListener(mDeviceStatusListener);
 
         FragmentTransaction fragmentTransaction = mContext.getFragmentActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(mContext.getParentContainerResourceID(), consentDialogFragment, "ConsentDialogFragment");
-        fragmentTransaction.addToBackStack("ConsentDialogFragment");
+        fragmentTransaction.replace(mContext.getParentContainerResourceID(), consentDialogFragment, ConsentDialogFragment.TAG);
+        fragmentTransaction.addToBackStack(ConsentDialogFragment.TAG);
         fragmentTransaction.commit();
     }
 }
