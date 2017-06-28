@@ -8,12 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.philips.amwelluapp.R;
 import com.philips.amwelluapp.base.PTHBaseFragment;
+import com.philips.amwelluapp.providerdetails.PTHProviderDetailsFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
@@ -85,6 +87,16 @@ public class PTHProvidersListFragment extends PTHBaseFragment implements View.On
     public void updateProviderAdapterList(List<ProviderInfo> providerInfos) {
         swipeRefreshLayout.setRefreshing(false);
         pthProvidersListAdapter = new PTHProvidersListAdapter(providerInfos,pthProviderListPresenter);
+        pthProvidersListAdapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
+            @Override
+            public void onItemClick(ProviderInfo item) {
+
+                PTHBaseFragment pthProviderDetailsFragment = new PTHProviderDetailsFragment();
+                pthProviderDetailsFragment.setActionBarListener(getActionBarListener());
+                getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(),pthProviderDetailsFragment,"Provider Details").addToBackStack(null).commit();
+                Toast.makeText(getActivity(),"Clicked provider item"+item.getFullName(),Toast.LENGTH_SHORT).show();
+            }
+        });
         recyclerView.setAdapter(pthProvidersListAdapter);
 
     }

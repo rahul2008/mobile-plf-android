@@ -106,6 +106,7 @@ public class PracticeFragment extends PTHBaseFragment implements BackEventListen
                 providerListFragment.setPracticeAndConsumer(practice,mConsumer);
                 providerListFragment.setActionBarListener(getActionBarListener());
                 //TODO: Review Comment - Spoorti - Use PTHBaseView.addFragment for doing the below operation
+                //TODO: Review comment - Rakesh - Please move the action to presenter and the addition of fragment will be called from presenter with a hook(base view)
                 getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), providerListFragment,"ProviderListFragment").addToBackStack(null).commit();
             }
         });

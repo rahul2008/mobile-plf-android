@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
@@ -17,19 +18,25 @@ import com.philips.platform.uid.view.widget.RatingBar;
 import java.util.List;
 
 public class PTHProvidersListAdapter extends RecyclerView.Adapter<PTHProvidersListAdapter.MyViewHolder> {
-    //TODO: Review Comment - Spoorti - wrap ProviderInfo to PTHObject
     private List<ProviderInfo> providerList;
     private PTHProviderListPresenter pthpRoviderListPresenter;
+    private OnProviderListItemClickListener onProviderItemClickListener;
 
+
+    public void setOnProviderItemClickListener(OnProviderListItemClickListener onProviderItemClickListener) {
+        this.onProviderItemClickListener = onProviderItemClickListener;
+    }
     public PTHProvidersListAdapter(List<ProviderInfo> providerList, PTHProviderListPresenter pthpRoviderListPresenter){
         this.providerList = providerList;
         this.pthpRoviderListPresenter = pthpRoviderListPresenter;
     }
 
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView name, practice, isAvailble;
         public RatingBar providerRating;
         public ImageView providerImage;
+        public RelativeLayout relativeLayout;
 
         public MyViewHolder(View view) {
             super(view);
@@ -38,6 +45,7 @@ public class PTHProvidersListAdapter extends RecyclerView.Adapter<PTHProvidersLi
             isAvailble = (TextView) view.findViewById(R.id.isAvailableLabel);
             providerRating = (RatingBar) view.findViewById(R.id.providerRating);
             providerImage = (ImageView) view.findViewById(R.id.providerImage);
+            relativeLayout = (RelativeLayout) view.findViewById(R.id.providerListItemLayout);
 
         }
     }
@@ -52,7 +60,7 @@ public class PTHProvidersListAdapter extends RecyclerView.Adapter<PTHProvidersLi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        ProviderInfo provider = providerList.get(position);
+        final ProviderInfo provider = providerList.get(position);
 
         holder.providerRating.setRating(provider.getRating());
         holder.name.setText("Dr. " + provider.getFullName());
@@ -65,6 +73,13 @@ public class PTHProvidersListAdapter extends RecyclerView.Adapter<PTHProvidersLi
                 e.printStackTrace();
             }
         }
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onProviderItemClickListener.onItemClick(provider);
+            }
+        };
+        holder.relativeLayout.setOnClickListener(listener);
 
     }
 

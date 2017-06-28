@@ -19,37 +19,8 @@
                 android:layout_height="wrap_content"
                 app:elevation="0dp">
 
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/iap_toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="false"
-                    android:minHeight="?android:attr/actionBarSize">
+                <include layout="@layout/uid_toolbar_layout" />
 
-                    <RelativeLayout
-                        android:id="@+id/iap_header_back_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:clickable="true"
-                        >
-
-                        <ImageView
-                            android:id="@+id/iap_iv_header_back_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical" />
-                    </RelativeLayout>
-
-                    <com.philips.platform.uid.view.widget.ActionBarTextView
-                        android:id="@+id/iap_actionBar_headerTitle_lebel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textIsSelectable="true" />
-
-
-
-                </android.support.v7.widget.Toolbar>
             </android.support.design.widget.AppBarLayout>
         </RelativeLayout>
     </com.philips.platform.uid.view.widget.NavigationContainer>

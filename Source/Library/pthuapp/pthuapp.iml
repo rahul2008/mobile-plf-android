@@ -104,9 +104,9 @@
     <orderEntry type="library" exported="" scope="TEST" name="robolectric-annotations-3.4-rc2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="wagon-http-lightweight-1.0-beta-6" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="nekohtml-1.9.6.2" level="project" />
+    <orderEntry type="library" exported="" name="AppInfra-1.6.0-SNAPSHOT.20170530174741" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="robolectric-sandbox-3.4-rc2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="asm-5.0.1" level="project" />
-    <orderEntry type="library" exported="" name="AppInfra-1.6.0-SNAPSHOT.20170530174741" level="project" />
     <orderEntry type="library" exported="" name="jackson-annotations-2.6.0" level="project" />
     <orderEntry type="library" exported="" name="reactive-streams-1.0.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="exposed-instrumentation-api-publish-0.5" level="project" />
@@ -114,17 +114,17 @@
     <orderEntry type="library" exported="" name="retrofit-2.2.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javax.annotation-api-1.2" level="project" />
     <orderEntry type="library" exported="" name="converter-gson-2.2.0" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="sqlite4java-0.282" level="project" />
     <orderEntry type="library" exported="" name="appauth-0.4.1" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="sqlite4java-0.282" level="project" />
     <orderEntry type="library" exported="" name="support-v4-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="support-media-compat-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="calligraphy-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="shinelib-2.4.0-SNAPSHOT.20170519091157" level="project" />
+    <orderEntry type="library" exported="" name="support-vector-drawable-25.3.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="shadow-api-3.4-rc2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="classworlds-1.1-alpha-2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="plexus-interpolation-1.11" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="maven-artifact-manager-2.2.1" level="project" />
-    <orderEntry type="library" exported="" name="support-vector-drawable-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="support-compat-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="awsdk-unspecified" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="maven-ant-tasks-2.1.3" level="project" />
@@ -137,9 +137,9 @@
     <orderEntry type="library" exported="" scope="TEST" name="wagon-file-1.0-beta-6" level="project" />
     <orderEntry type="library" exported="" name="support-core-ui-25.3.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="wagon-http-shared-1.0-beta-6" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="jsr305-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="support-core-utils-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="support-fragment-25.3.1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="jsr305-2.0.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="robolectric-utils-3.4-rc2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="maven-artifact-2.2.1" level="project" />
     <orderEntry type="library" exported="" name="jackson-core-2.6.1" level="project" />
@@ -159,14 +159,14 @@
     <orderEntry type="library" exported="" name="dagger-2.10" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="runner-0.5" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="espresso-idling-resource-2.2.2" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="maven-settings-2.2.1" level="project" />
     <orderEntry type="library" exported="" name="cloudcontroller-api-3.1.4-SNAPSHOT.20170519092616" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="maven-settings-2.2.1" level="project" />
     <orderEntry type="library" exported="" name="okhttp-2.5.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="asm-commons-5.0.1" level="project" />
     <orderEntry type="library" exported="" name="okhttp-apache-2.5.0" level="project" />
     <orderEntry type="library" exported="" name="transition-25.3.1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="maven-repository-metadata-2.2.1" level="project" />
     <orderEntry type="library" exported="" name="uid-0.1.1-SNAPSHOT.20170601082500" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="maven-repository-metadata-2.2.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="assertj-android-1.1.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="guava-20.0" level="project" />
     <orderEntry type="library" exported="" name="rxandroid-2.0.1" level="project" />
@@ -178,8 +178,8 @@
     <orderEntry type="library" exported="" scope="TEST" name="robolectric-3.4-rc2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="asm-tree-5.0.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-basement-10.2.1" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="maven-project-2.2.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javawriter-2.1.1" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="maven-project-2.2.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="plexus-container-default-1.0-alpha-9-stable-1" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-25.3.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="ant-1.8.0" level="project" />
@@ -187,8 +187,8 @@
     <orderEntry type="library" exported="" name="constraint-layout-1.0.2" level="project" />
     <orderEntry type="library" exported="" name="play-services-tasks-10.2.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="robolectric-resources-3.4-rc2" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="maven-error-diagnostics-2.2.1" level="project" />
     <orderEntry type="library" exported="" name="design-25.3.1" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="maven-error-diagnostics-2.2.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="mockito-all-1.10.17" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="xstream-1.4.8" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="wagon-provider-api-1.0-beta-6" level="project" />
@@ -197,8 +197,8 @@
     <orderEntry type="library" exported="" name="picasso2-okhttp3-downloader-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="org.apache.http.legacy-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="rxjava-2.0.1" level="project" />
-    <orderEntry type="library" exported="" name="jump-6.2.0-SNAPSHOT.20170601172836" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="espresso-core-2.2.2" level="project" />
+    <orderEntry type="library" exported="" name="jump-6.2.0-SNAPSHOT.20170601172836" level="project" />
     <orderEntry type="library" exported="" name="constraint-layout-solver-1.0.2" level="project" />
     <orderEntry type="library" exported="" name="adapter-rxjava-2.2.0" level="project" />
     <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
@@ -210,8 +210,8 @@
     <orderEntry type="library" exported="" scope="TEST" name="protobuf-java-2.6.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="assertj-core-2.6.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="junit-4.12" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="shadows-support-v4-3.3.2" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-25.3.1" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="shadows-support-v4-3.3.2" level="project" />
     <orderEntry type="library" exported="" name="simple-xml-2.7.1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-25.3.1" level="project" />
     <orderEntry type="library" exported="" name="animated-vector-drawable-25.3.1" level="project" />
