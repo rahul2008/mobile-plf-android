@@ -42,9 +42,8 @@ node ('android&&keystore') {
 			stage ('save dependencies list') {
             	sh '''#!/bin/bash -l
             	    cd ./Source/DemoApp
-            	    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
-                    cd -
-            	    cd ./Source/Library
+            	    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat                   
+            	    cd ../Library
             	    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
             	'''
             }
