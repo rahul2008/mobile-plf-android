@@ -272,9 +272,22 @@ public static <fields>;
 -keep class com.philips.platform.datasync.characteristics.UCoreCharacteristics { *; }
 -keep class com.philips.platform.datasync.characteristics.UCoreUserCharacteristics { *; }
 -keep class com.philips.platform.datasync.settings.UCoreSettings { *; }
+#Insight
 -keep class com.philips.platform.datasync.insights.UCoreInsight { *; }
 -keep class com.philips.platform.datasync.insights.UCoreInsightList { *; }
+
+#Push notification
 -keep class com.philips.platform.datasync.PushNotification.UCorePushNotification { *; }
+
+#Device pairing
+-keep class com.philips.platform.datasync.devicePairing.UCoreDevicePair { *; }
+
+#Subject Profile
+-keep class com.philips.platform.datasync.subjectProfile.UCoreCreateSubjectProfileRequest { *; }
+-keep class com.philips.platform.datasync.subjectProfile.UCoreCreateSubjectProfileResponse { *; }
+-keep class com.philips.platform.datasync.subjectProfile.UCoreSubjectProfile { *; }
+-keep class com.philips.platform.datasync.subjectProfile.UCoreSubjectProfileList { *; }
+
 -keep class com.philips.platform.baseapp.screens.dataservices.pojo.AppUserCharacteristics { *; }
 -keep class com.philips.platform.baseapp.screens.dataservices.pojo.AppCharacteristics { *; }
 
