@@ -22,5 +22,6 @@ public class KeyBagLib {
 
     public native void lfsrObfuscate(char[] chars, int length, int seed);
     public native String getMsgFromJni();
-    public native char[] passingDataToJni(char[] chars,int lfsr, String stringValue_,char[] array,int length);
+
+    public native String passingDataToJni(String stringValue_, int length, int seed);
 }
