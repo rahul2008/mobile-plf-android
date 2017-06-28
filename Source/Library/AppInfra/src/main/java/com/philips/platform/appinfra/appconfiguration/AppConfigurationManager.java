@@ -63,13 +63,13 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
     private SecureStorageInterface mSecureStorageInterface;
 
-    private final ReentrantLock mRefreshInProgressLock;
+  //  private final ReentrantLock mRefreshInProgressLock;
 
 
     public AppConfigurationManager(AppInfra appInfra) {
         mAppInfra = appInfra;
         mContext = appInfra.getAppInfraContext();
-        mRefreshInProgressLock = new ReentrantLock();
+	    //  mRefreshInProgressLock = new ReentrantLock();
     }
 
     protected JSONObject getMasterConfigFromApp() {
@@ -112,9 +112,9 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
     private JSONObject getDynamicJSONFromDevice() {
         logAppConfiguration(LoggingInterface.LogLevel.VERBOSE,AppInfraLogEventID.AI_APP_CONFIGUARTION, "get Dynamic JSON From Device");
-        mSecureStorageInterface = mAppInfra.getSecureStorage();
         JSONObject mJsonObject = null;
         final SecureStorageInterface.SecureStorageError secureStorageError = new SecureStorageInterface.SecureStorageError();
+        mSecureStorageInterface = mAppInfra.getSecureStorage();
         final String jsonString = mSecureStorageInterface.fetchValueForKey(APPCONFIG_SECURE_STORAGE_KEY_NEW, secureStorageError);
         if (null != jsonString) {
             logAppConfiguration(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_APP_CONFIGUARTION, "uAPP_CONFIG "+jsonString);
@@ -399,26 +399,20 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
     @Override
     public void refreshCloudConfig(final OnRefreshListener onRefreshListener) {
-        final boolean lockAcquired = mRefreshInProgressLock.tryLock();
-        if(lockAcquired) {
-            try {
-	            downloadConfigFromCloud(onRefreshListener);
-            } catch (IllegalMonitorStateException exception) {
-	            logAppConfiguration(LoggingInterface.LogLevel.ERROR, "refreshCloudConfig exception",
-			            Log.getStackTraceString(exception));
-            } finally {
-                mRefreshInProgressLock.unlock();
-            }
-        }
-        else {
-            onRefreshListener.onError(AppConfigurationError.AppConfigErrorEnum.DownloadInProgress,
-                    "Download is in progress, Please try after some time");
-        }
+	    downloadConfigFromCloud(onRefreshListener);
     }
 
+	@Override
+	public void resetConfig() {
+		dynamicConfigJsonCache = null;
+		cloudConfigJsonCache = null;
+        mSecureStorageInterface = mAppInfra.getSecureStorage();
+        mSecureStorageInterface.removeValueForKey(APPCONFIG_SECURE_STORAGE_KEY_NEW);
+		clearCloudConfigFile();
+	}
 
 
-    private void downloadConfigFromCloud(final OnRefreshListener onRefreshListener) {
+	private void downloadConfigFromCloud(final OnRefreshListener onRefreshListener) {
         final AppConfigurationError mAppConfigError = new AppConfigurationError();
         final String cloudServiceId = (String) getPropertyForKey("appconfig.cloudServiceId", "APPINFRA", mAppConfigError);
         final ServiceDiscoveryInterface serviceDiscoveryInterface = mAppInfra.getServiceDiscovery();
@@ -497,9 +491,9 @@ public class AppConfigurationManager implements AppConfigurationInterface {
     public void migrateDynamicData() {
         dynamicConfigJsonCache = getDynamicConfigJsonCache();
         final AppConfigurationError configError = new AppConfigurationError();
-        mSecureStorageInterface = mAppInfra.getSecureStorage();
         JSONObject oldDynamicConfigJson = null;
         final SecureStorageInterface.SecureStorageError mSecureStorageError = new SecureStorageInterface.SecureStorageError();
+        mSecureStorageInterface = mAppInfra.getSecureStorage();
         final String jsonString = mSecureStorageInterface.fetchValueForKey(APPCONFIG_SECURE_STORAGE_KEY, mSecureStorageError);
         if (mSecureStorageError.getErrorCode() != SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey && null != jsonString || null != dynamicConfigJsonCache) {
             logAppConfiguration(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_APP_CONFIGUARTION,"uAPP_CONFIG Migration starts for old dyanmic data > " + jsonString);

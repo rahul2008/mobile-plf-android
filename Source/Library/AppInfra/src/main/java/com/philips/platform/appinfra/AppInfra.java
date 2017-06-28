@@ -357,12 +357,10 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             ai.setTime(mTimeSyncInterfaceBuilder == null ? new TimeSyncSntpClient(ai) : mTimeSyncInterfaceBuilder);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "TimeSync Intitialization Done");
 
-            //ai.setAppInfraLogger(aiLogger == null ? new AppInfraLogging(ai) : aiLogger);
             ai.setSecureStorage(secStor == null ? new SecureStorage(ai) : secStor);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "SecureStorage Intitialization Done");
             ai.setLogging(logger == null ? new AppInfraLogging(ai) : logger);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "Logging Intitialization Done");
-            // ai.setLogging(new AppInfraLogging(ai));
             ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APPINFRA,
                     "Device name:"+ Build.MANUFACTURER+" "+ Build.MODEL+" "+" OS version:"+Build.VERSION.RELEASE);
 
@@ -385,15 +383,6 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             ai.setTagging(tagging == null ? new AppTagging(ai) : tagging);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "Tagging Intitialization Done");
 
-//            Log.v(AppInfraLogEventID.AI_APPINFRA, "AppConfig Migration Starts");
-//
-//            /////////////
-//
-//           // new Thread(appConfigurationManager::migrateDynamicData).start();
-//
-//
-//
-//            Log.v(AppInfraLogEventID.AI_APPINFRA, "AppConfig Migration ENDS");
 
             ai.setLanguagePackInterface(languagePack == null? new LanguagePackManager(ai) : languagePack);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "Language Pack Initialization done");
@@ -407,7 +396,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
                 @Override
                 public void run() {
                     appConfigurationManager.migrateDynamicData();
-                    downloadCloudConfig(ai, appConfigurationManager);
+                  //  downloadCloudConfig(ai, appConfigurationManager);
                     appUpdateManager.appInfraRefresh();
                 }
             }).start();
@@ -437,48 +426,20 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APPINFRA,"AppInfra initialized " +appInfraLogStatement.toString());
     }
 
-    private static void downloadCloudConfig(final AppInfra ai, AppConfigurationManager appConfigurationManager) {
-        appConfigurationManager.refreshCloudConfig(new AppConfigurationInterface.OnRefreshListener() {
-            @Override
-            public void onError(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum error, String message) {
-                ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APPINFRA,
-                        "refreshCloudConfig "+message);
+//    private static void downloadCloudConfig(final AppInfra ai, AppConfigurationManager appConfigurationManager) {
+//        appConfigurationManager.refreshCloudConfig(new AppConfigurationInterface.OnRefreshListener() {
+//            @Override
+//            public void onError(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum error, String message) {
+//                ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APPINFRA,
+//                        "refreshCloudConfig "+message);
+//
+//            }
+//            @Override
+//            public void onSuccess(REFRESH_RESULT result) {
+//                ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_APPINFRA,
+//                        "refreshCloudConfig "+result.toString());
+//            }
+//        });
+//    }
 
-            }
-            @Override
-            public void onSuccess(REFRESH_RESULT result) {
-                ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_APPINFRA,
-                        "refreshCloudConfig "+result.toString());
-            }
-        });
-    }
-
-    private String getAndroidOSVersion()
-    {
-        StringBuilder builder = new StringBuilder();
-        builder.append("android : ").append(Build.VERSION.RELEASE);
-
-        Field[] fields = Build.VERSION_CODES.class.getFields();
-        for (Field field : fields) {
-            String fieldName = field.getName();
-            int fieldValue = -1;
-
-            try {
-                fieldValue = field.getInt(new Object());
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-
-            if (fieldValue == Build.VERSION.SDK_INT) {
-                builder.append(" : ").append(fieldName).append(" : ");
-                builder.append("sdk=").append(fieldValue);
-            }
-        }
-
-        return "OS: " + builder.toString();
-    }
 }
