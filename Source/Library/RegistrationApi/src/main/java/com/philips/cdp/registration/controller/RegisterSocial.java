@@ -31,6 +31,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -70,17 +71,20 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 
 				@Override
 				public void onLoginSuccess() {
-					mSocialProviderLoginHandler.onContinueSocialProviderLoginSuccess();
+					ThreadUtils.postInMainThread(mContext,()->
+					mSocialProviderLoginHandler.onContinueSocialProviderLoginSuccess());
 				}
 
 				@Override
 				public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
 					AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
-					mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+					ThreadUtils.postInMainThread(mContext,()->
+					mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
 				}
 			});
 		}else{
-			mSocialProviderLoginHandler.onContinueSocialProviderLoginSuccess();
+			ThreadUtils.postInMainThread(mContext,()->
+			mSocialProviderLoginHandler.onContinueSocialProviderLoginSuccess());
 		}
 	}
 
@@ -94,7 +98,8 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 		userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
 		userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
 		AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
-		mSocialProviderLoginHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
+		ThreadUtils.postInMainThread(mContext,()->
+		mSocialProviderLoginHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo));
 	}
 
 	private void handleInvalidInputs(CaptureApiError error,
@@ -163,7 +168,8 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
 			userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
 			userRegistrationFailureInfo.setErrorCode(RegConstants.REGISTER_SOCIAL_FAILED_SERVER_ERROR);
-			mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+			ThreadUtils.postInMainThread(mContext,()->
+			mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
 		}
 		UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
 
@@ -229,28 +235,33 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 
 	@Override
 	public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-		mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+		ThreadUtils.postInMainThread(mContext,()->
+		mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
 	}
 
 	@Override
 	public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
-		mSocialProviderLoginHandler.onLoginFailedWithTwoStepError(prefilledRecord, socialRegistrationToken);
+		ThreadUtils.postInMainThread(mContext,()->
+		mSocialProviderLoginHandler.onLoginFailedWithTwoStepError(prefilledRecord, socialRegistrationToken));
 	}
 
 	@Override
 	public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
-		mSocialProviderLoginHandler.onLoginFailedWithMergeFlowError(mergeToken, existingProvider, conflictingIdentityProvider, conflictingIdpNameLocalized, existingIdpNameLocalized, emailId);
+		ThreadUtils.postInMainThread(mContext,()->
+		mSocialProviderLoginHandler.onLoginFailedWithMergeFlowError(mergeToken, existingProvider, conflictingIdentityProvider, conflictingIdpNameLocalized, existingIdpNameLocalized, emailId));
 	}
 
 	@Override
 	public void onContinueSocialProviderLoginSuccess() {
-		mSocialProviderLoginHandler.onContinueSocialProviderLoginSuccess();
+		ThreadUtils.postInMainThread(mContext,()->
+		mSocialProviderLoginHandler.onContinueSocialProviderLoginSuccess());
 	}
 
 	@Override
 	public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
-		mSocialProviderLoginHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
+		ThreadUtils.postInMainThread(mContext,()->
+		mSocialProviderLoginHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo));
 	}
 
 
@@ -270,13 +281,15 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 
 					@Override
 					public void onLoginSuccess() {
-						mSocialProviderLoginHandler.onLoginSuccess();
+						ThreadUtils.postInMainThread(mContext,()->
+						mSocialProviderLoginHandler.onLoginSuccess());
 					}
 
 					@Override
 					public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
 						AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
-						mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+						ThreadUtils.postInMainThread(mContext,()->
+						mSocialProviderLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
 					}
 				});
 			} catch (JSONException e) {
@@ -284,8 +297,8 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 			}
 
 		} else {
-			mSocialProviderLoginHandler.onLoginSuccess();
+			ThreadUtils.postInMainThread(mContext,()->
+			mSocialProviderLoginHandler.onLoginSuccess());
 		}
 	}
-
 }

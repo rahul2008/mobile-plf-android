@@ -141,7 +141,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
             trackAbtesting();
         }
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
-        almostDonePresenter = new AlmostDonePresenter(this,mUser);
+        almostDonePresenter = new AlmostDonePresenter(this, mUser);
         View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
         ButterKnife.bind(this, view);
         initUI(view);
@@ -201,8 +201,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     private void updateReceiveMarketingViewStyle() {
         RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
-        String sourceString = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now) ;
-        String updateJoinNowText =  " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
+        String sourceString = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now);
+        String updateJoinNowText = " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
         sourceString = String.format(sourceString, updateJoinNowText);
         joinNowView.setText(Html.fromHtml(sourceString));
     }
@@ -281,7 +281,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     public void updateABTestingUIFlow() {
         final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
 
-        switch (abTestingUIFlow){
+        switch (abTestingUIFlow) {
             case FLOW_A:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type A");
                 acceptTermsContainer.setVisibility(View.VISIBLE);
@@ -304,7 +304,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
                 acceptTermsContainer.setVisibility(View.VISIBLE);
                 joinNowView.setVisibility(View.VISIBLE);
                 break;
-            default:break;
+            default:
+                break;
         }
     }
 
@@ -339,14 +340,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void hideMarketingOptSpinner() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                marketingOptCheck.setEnabled(true);
-                marketingProgressBar.setVisibility(View.INVISIBLE);
-                continueButton.setEnabled(true);
-            }
-        });
+        marketingOptCheck.setEnabled(true);
+        marketingProgressBar.setVisibility(View.INVISIBLE);
+        continueButton.setEnabled(true);
     }
 
     @OnClick(R2.id.reg_btn_continue)
@@ -372,12 +368,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     @Override
-    public boolean isAcceptTermsChecked(){
+    public boolean isAcceptTermsChecked() {
         return acceptTermsCheck.isChecked();
     }
 
     @Override
-    public void showTermsAndConditionError(){
+    public void showTermsAndConditionError() {
         acceptTermserrorMessage.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
     }
 
@@ -389,13 +385,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     @Override
-    public void storePreference(String emailOrMobileNumber){
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                RegPreferenceUtility.storePreference(mContext, emailOrMobileNumber, true);
-            }
-        });
+    public void storePreference(String emailOrMobileNumber) {
+        RegPreferenceUtility.storePreference(mContext, emailOrMobileNumber, true);
     }
 
     private void trackMultipleActions() {
@@ -435,21 +426,17 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     @Override
-    public void phoneNumberAlreadyInuseError(){
-        handleOnUIThread(() -> {
-            loginIdEditText.setErrDescription(mContext.getResources().getString(R.string.reg_CreateAccount_Using_Phone_Alreadytxt));
-            loginIdEditText.showInvalidAlert();
-            loginIdEditText.showErrPopUp();
-        });
+    public void phoneNumberAlreadyInuseError() {
+        loginIdEditText.setErrDescription(mContext.getResources().getString(R.string.reg_CreateAccount_Using_Phone_Alreadytxt));
+        loginIdEditText.showInvalidAlert();
+        loginIdEditText.showErrPopUp();
     }
 
     @Override
-    public void emailAlreadyInuseError(){
-        handleOnUIThread(() -> {
-            loginIdEditText.setErrDescription(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
-            loginIdEditText.showInvalidAlert();
-            loginIdEditText.showErrPopUp();
-        });
+    public void emailAlreadyInuseError() {
+        loginIdEditText.setErrDescription(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
+        loginIdEditText.showInvalidAlert();
+        loginIdEditText.showErrPopUp();
     }
 
     @Override
@@ -461,33 +448,23 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void addMergeAccountFragment() {
-    handleOnUIThread(new Runnable() {
-        @Override
-        public void run() {
-            getRegistrationFragment().addFragment(new MergeAccountFragment());
-            trackPage(AppTaggingPages.MERGE_ACCOUNT);
-        }
-     });
+        getRegistrationFragment().addFragment(new MergeAccountFragment());
+        trackPage(AppTaggingPages.MERGE_ACCOUNT);
     }
 
     @Override
     public void handleContinueSocialProvider() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginSuccess");
-                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
-                        AppTagingConstants.SUCCESS_USER_CREATION);
-                trackMultipleActions();
-                handleABTestingFlow();
-                hideMarketingOptSpinner();
-            }
-        });
+        RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginSuccess");
+        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                AppTagingConstants.SUCCESS_USER_CREATION);
+        trackMultipleActions();
+        handleABTestingFlow();
+        hideMarketingOptSpinner();
     }
 
     private void handleABTestingFlow() {
         final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
-        switch (abTestingUIFlow){
+        switch (abTestingUIFlow) {
             case FLOW_A:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type A");
                 if (almostDonePresenter.isEmailVerificationStatus()) {
@@ -508,7 +485,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
                     launchAccountActivateFragment();
                 }
                 break;
-            default:break;
+            default:
+                break;
         }
     }
 
@@ -539,29 +517,19 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     @Override
-    public void displayNameErrorMessage(UserRegistrationFailureInfo userRegistrationFailureInfo,String displayName){
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                loginIdEditText.setErrDescription(userRegistrationFailureInfo.getDisplayNameErrorMessage());
-                loginIdEditText.showInvalidAlert();
-                errorMessage.setError(userRegistrationFailureInfo.getErrorDescription() + ".\n'"
-                        + displayName + "' "
-                        + userRegistrationFailureInfo.getDisplayNameErrorMessage());
-            }
-        });
+    public void displayNameErrorMessage(UserRegistrationFailureInfo userRegistrationFailureInfo, String displayName) {
+        loginIdEditText.setErrDescription(userRegistrationFailureInfo.getDisplayNameErrorMessage());
+        loginIdEditText.showInvalidAlert();
+        errorMessage.setError(userRegistrationFailureInfo.getErrorDescription() + ".\n'"
+                + displayName + "' "
+                + userRegistrationFailureInfo.getDisplayNameErrorMessage());
     }
 
     @Override
-    public void emailErrorMessage(UserRegistrationFailureInfo userRegistrationFailureInfo){
-     handleOnUIThread(new Runnable() {
-        @Override
-        public void run() {
-            loginIdEditText.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
-            loginIdEditText.showInvalidAlert();
-            loginIdEditText.showErrPopUp();
-        }
-      });
+    public void emailErrorMessage(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        loginIdEditText.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
+        loginIdEditText.showInvalidAlert();
+        loginIdEditText.showErrPopUp();
     }
 
     @Override
@@ -584,68 +552,48 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     @Override
-    public void failedToConnectToServer(){
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                errorMessage.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
-            }
-        });
+    public void failedToConnectToServer() {
+        errorMessage.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
     }
 
     @Override
     public void replaceWithHomeFragment() {
-     handleOnUIThread(new Runnable() {
-        @Override
-        public void run() {
-            if (getRegistrationFragment() != null) {
-                getRegistrationFragment().replaceWithHomeFragment();
-            }
+        if (getRegistrationFragment() != null) {
+            getRegistrationFragment().replaceWithHomeFragment();
         }
-     });
     }
 
     @Override
     public void onUpdate() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                almostDonePresenter.updateUIControls();
-            }
-        });
+        almostDonePresenter.updateUIControls();
     }
 
     @Override
-    public void updateMarketingOptFailedError(){
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
+    public void updateMarketingOptFailedError() {
                 marketingOptCheck.setOnCheckedChangeListener(null);
                 marketingOptCheck.setChecked(!marketingOptCheck.isChecked());
                 marketingOptCheck.setOnCheckedChangeListener(AlmostDoneFragment.this);
-            }
-        });
     }
 
     @Override
-    public void hideErrorMessage(){
+    public void hideErrorMessage() {
         acceptTermserrorMessage.setVisibility(View.GONE);
     }
 
-    public boolean getPreferenceStoredState(String emailOrMobileNumber){
+    public boolean getPreferenceStoredState(String emailOrMobileNumber) {
         return RegPreferenceUtility.getStoredState(mContext, emailOrMobileNumber);
     }
 
     @Override
-    public boolean isMarketingOptChecked(){
+    public boolean isMarketingOptChecked() {
         return marketingOptCheck.isChecked();
     }
 
     private void trackAbtesting() {
         final UIFlow abTestingFlow = RegUtility.getUiFlow();
 
-        switch (abTestingFlow){
-            case FLOW_A :
+        switch (abTestingFlow) {
+            case FLOW_A:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type A");
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
                         AppTagingConstants.REGISTRATION_CONTROL);
@@ -661,7 +609,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
                 AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
                         AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
                 break;
-            default:break;
+            default:
+                break;
         }
     }
 }

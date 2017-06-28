@@ -34,9 +34,9 @@ import com.philips.cdp.registration.configuration.ClientIDConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.customviews.OtpEditTextWithResendButton;
 import com.philips.cdp.registration.ui.customviews.XMobileHavingProblems;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.customviews.OtpEditTextWithResendButton;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.traditional.WelcomeFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
@@ -232,11 +232,11 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
         RLog.i("MobileVerifyCodeFragment ", "response val 2 token " + mEtCodeNUmber.getNumber() + " " + responseToken);
 
-        redirectUri=redirectUri+"?code="+mEtCodeNUmber.getNumber()+"&token="+responseToken;
+        redirectUri = redirectUri + "?code=" + mEtCodeNUmber.getNumber() + "&token=" + responseToken;
         final String redirectUriKey = "redirectUri";
         ResetPasswordWebView resetPasswordWebView = new ResetPasswordWebView();
         Bundle bundle = new Bundle();
-        bundle.putString(redirectUriKey,redirectUri);
+        bundle.putString(redirectUriKey, redirectUri);
         resetPasswordWebView.setArguments(bundle);
         getRegistrationFragment().addFragment(resetPasswordWebView);
         return null;
@@ -288,12 +288,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
 
     public void handleUI() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                updateUiStatus();
-            }
-        });
+        updateUiStatus();
     }
 
     public void networkUiState() {
@@ -349,7 +344,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
     private String getClientId() {
         ClientIDConfiguration clientIDConfiguration = new ClientIDConfiguration();
-        return clientIDConfiguration.getResetPasswordClientId(RegConstants.HTTPS_CONST+Jump.getCaptureDomain());
+        return clientIDConfiguration.getResetPasswordClientId(RegConstants.HTTPS_CONST + Jump.getCaptureDomain());
     }
 
     private String getRedirectUri() {
@@ -358,12 +353,11 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
     }
 
 
-
     private Intent createResendSMSIntent() {
 
-        final String receiverKey= "receiver";
-        final String bodyContentKey= "bodyContent";
-        final String urlKey= "url";
+        final String receiverKey = "receiver";
+        final String bodyContentKey = "bodyContent";
+        final String urlKey = "url";
 
         RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER *** : " + mobileNumber);
         RLog.d("Configration : ", " envir :" + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
@@ -375,8 +369,8 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
         String bodyContent = "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(mobileNumber) +
                 "&locale=zh_CN&clientId=" + getClientId() + "&code_type=short&" +
-                "redirectUri="+getRedirectUri();
-        RLog.d("Configration : ", " envir :" + getClientId()+getRedirectUri());
+                "redirectUri=" + getRedirectUri();
+        RLog.d("Configration : ", " envir :" + getClientId() + getRedirectUri());
 
         httpServiceIntent.putExtra(receiverKey, receiver);
         httpServiceIntent.putExtra(bodyContentKey, bodyContent);
@@ -410,7 +404,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
     private void handleResendVerificationEmailSuccess() {
         trackActionStatus(AppTagingConstants.SEND_DATA,
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
-        if(isResendRequested) {
+        if (isResendRequested) {
             RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.reg_Resend_SMS_title),
                     mContext.getResources().getString(R.string.reg_Resend_SMS_Success_Content), getRegistrationFragment().getParentActivity(), mContinueVerifyBtnClick);
             isResendRequested = false;
@@ -438,24 +432,6 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
         }
     };
 
-    /* private String initializePRXLinks(String registrationEnv) {
-         if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.DEVELOPMENT.getValue())) {
-             return DEV_VERFICATION_CODE;
-         }
-         if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.PRODUCTION.getValue())) {
-             return PROD_VERFICATION_CODE;
-         }
-         if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.STAGING.getValue())) {
-             return STAGE_VERFICATION_CODE;
-         }
-         if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.TESTING.getValue())) {
-             return TEST_VERFICATION_CODE;
-         }
-         if (registrationEnv.equalsIgnoreCase(com.philips.cdp.registration.configuration.Configuration.EVALUATION.getValue())) {
-             return EVAL_VERFICATION_CODE;
-         }
-         return null;
-     }*/
     private void trackMultipleActionsOnMobileSuccess() {
         Map<String, String> map = new HashMap<String, String>();
         map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.MOBILE_RESEND_EMAIL_VERFICATION);

@@ -14,6 +14,7 @@ import com.janrain.android.Jump;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.JanrainInitializer;
 import com.philips.cdp.registration.ui.utils.Gender;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.cdp.registration.update.UpdateUser;
 
 import org.json.JSONException;
@@ -54,8 +55,9 @@ public class UpdateGender extends UpdateUserDetailsBase {
         } catch (JSONException e) {
             e.printStackTrace();
             if (null != mUpdateUserDetails)
+                ThreadUtils.postInMainThread(mContext,()->
                 mUpdateUserDetails.
-                        onUpdateFailedWithError(-1);
+                        onUpdateFailedWithError(-1));
         }
     }
 
