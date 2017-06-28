@@ -4,6 +4,11 @@ import android.content.Context;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.ccdemouapp.CCDemoUAppuAppDependencies;
+import com.philips.platform.ccdemouapp.CCDemoUAppuAppInterface;
+import com.philips.platform.ccdemouapp.CCDemoUAppuAppSettings;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 /**
@@ -20,9 +25,9 @@ public class DemoCCState extends BaseState {
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
-//        CCDemoUAppuAppInterface uAppInterface = new CCDemoUAppuAppInterface();
-//        uAppInterface.initialise(new CCDemoUAppuAppDependencies(((AppFrameworkApplication)context.getApplicationContext()).getAppInfra()), new CCDemoUAppuAppSettings(context.getApplicationContext()));// pass App-infra instance instead of null
-//        uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
+        CCDemoUAppuAppInterface uAppInterface = new CCDemoUAppuAppInterface();
+        uAppInterface.init(new CCDemoUAppuAppDependencies(((AppFrameworkApplication)context.getApplicationContext()).getAppInfra()), new CCDemoUAppuAppSettings(context.getApplicationContext()));// pass App-infra instance instead of null
+        uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
 
     }
 

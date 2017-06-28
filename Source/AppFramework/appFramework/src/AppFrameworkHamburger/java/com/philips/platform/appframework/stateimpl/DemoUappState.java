@@ -4,6 +4,11 @@ import android.content.Context;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
+import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.uappdemo.UappDemoDependencies;
+import com.philips.platform.uappdemo.UappDemoInterface;
+import com.philips.platform.uappdemo.UappDemoSettings;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
 /**
@@ -20,11 +25,11 @@ public class DemoUappState extends BaseState {
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
-//        UappDemouAppInterface uAppInterface = new UappDemouAppInterface();
-//        AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication)context.getApplicationContext();
-//        UappDemouAppDependencies uappDependencies = new UappDemouAppDependencies(appFrameworkApplication.getAppInfra());
-//        uAppInterface.initialise(uappDependencies, new UappDemouAppSettings(context.getApplicationContext()));// pass App-infra instance instead of null
-//        uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
+        UappDemoInterface uAppInterface = new UappDemoInterface();
+        AppFrameworkApplication appFrameworkApplication = (AppFrameworkApplication)context.getApplicationContext();
+        UappDemoDependencies uappDependencies = new UappDemoDependencies(appFrameworkApplication.getAppInfra());
+        uAppInterface.init(uappDependencies, new UappDemoSettings(context.getApplicationContext()));// pass App-infra instance instead of null
+        uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
 
     }
 
