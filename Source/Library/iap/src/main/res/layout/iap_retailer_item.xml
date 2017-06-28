@@ -35,8 +35,7 @@
         style="@style/iapCentralesansBookFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="?attr/uidContentItemDefaultNormalSubtleBodyTextColor"
-        android:textSize="@dimen/iap_retailers_store_name_size" />
+        android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
     </LinearLayout>
 
     <com.shamanland.fonticon.FontIconTextView

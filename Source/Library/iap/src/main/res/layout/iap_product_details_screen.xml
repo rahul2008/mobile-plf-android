@@ -58,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
-                    android:textColor="?attr/uidTextTertiary"
+                    android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
                     android:textSize="@dimen/iap_product_ctn_16" />
 
                 <com.philips.platform.uid.view.widget.Label
@@ -67,7 +67,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
-                    android:textColor="?attr/uidTextPrimary"
+                    android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
                     android:textSize="@dimen/iap_product_original_price" />
 
             </LinearLayout>
@@ -128,7 +128,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:enabled="true"
-            android:textColor="?attr/uidPrimaryText"
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
             android:visibility="gone"
             style="@style/iapCentralesansBookFont"
             app:uidIsIndeterminateProgressIndicator="true"

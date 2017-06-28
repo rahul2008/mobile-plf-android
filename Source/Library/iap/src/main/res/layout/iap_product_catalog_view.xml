@@ -11,11 +11,11 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/iap_productCatalog_emptyProductCatalogText_lebel"
-        style="@style/UIDLabel"
+        style="@style/iapCentralesansBoldFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/iap_no_product_available"
-        android:textColor="?attr/uidTextPrimary"
+        android:textSize="@dimen/iap_product_ctn_16"
         android:visibility="gone" />
 </RelativeLayout>

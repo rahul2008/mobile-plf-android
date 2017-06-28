@@ -111,6 +111,7 @@
     <dimen name="border24_margin">24dp</dimen>
     <dimen name="border8_margin">8dp</dimen>
     <dimen name="text_specing">2dp</dimen>
+    <dimen name="iap_retailers_store_name_size_12sp">12sp</dimen>
 
 
 </resources>

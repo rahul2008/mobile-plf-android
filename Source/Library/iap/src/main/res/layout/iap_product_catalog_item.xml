@@ -28,7 +28,7 @@
             fontPath="fonts/iapCentralesansBookFont.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="?attr/uidTextPrimary"
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
             android:visibility="gone"
             android:textSize="16sp" />
 
@@ -37,7 +37,7 @@
             fontPath="fonts/iapCentralesansBookFont.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="?attr/uidTextSecondary"
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
             android:textSize="16sp" />
     </LinearLayout>
 
