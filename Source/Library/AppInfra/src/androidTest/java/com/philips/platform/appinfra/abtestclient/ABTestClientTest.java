@@ -3,8 +3,8 @@ package com.philips.platform.appinfra.abtestclient;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.ConfigValues;
-import com.philips.platform.appinfra.MockitoTestCase;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
@@ -16,10 +16,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by 310243577 on 10/13/2016.
+ * ABTestClient Test class.
  */
 
-public class ABTestClienTest extends MockitoTestCase {
+
+public class ABTestClientTest extends AppInfraInstrumentation {
 
     private ABTestClientInterface mAbTestClientInterface;
     private AppInfra mAppInfra;
@@ -164,7 +165,7 @@ public class ABTestClienTest extends MockitoTestCase {
     public void testgetTestNameFromConfig() {
         try {
             method = abTestClienTestManager.getClass().getDeclaredMethod("getTestNameFromConfig");
-            final ArrayList<String> s = (ArrayList) method.invoke(abTestClienTestManager);
+            final ArrayList<String> s = (ArrayList<String>) method.invoke(abTestClienTestManager);
             method.setAccessible(true);
             method.invoke(mAbTestClientInterface);
             assertNotNull(s);
@@ -255,9 +256,9 @@ public class ABTestClienTest extends MockitoTestCase {
 
     public void testUpdateMemorycacheForTestName() {
         try {
-            method = abTestClienTestManager.getClass().getDeclaredMethod("updateMemorycacheForTestName", new Class[]{String.class, String.class, null});
+            method = abTestClienTestManager.getClass().getDeclaredMethod("updateMemorycacheForTestName", String.class, String.class, null);
             method.setAccessible(true);
-            method.invoke(abTestClienTestManager, new Object[]{"Test name", "Content", null});
+            method.invoke(abTestClienTestManager, "Test name", "Content", null);
 
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTestClient",

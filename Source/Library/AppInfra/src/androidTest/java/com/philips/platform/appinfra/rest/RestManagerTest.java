@@ -10,7 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.ConfigValues;
-import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.rest.request.GsonCustomRequest;
 import com.philips.platform.appinfra.rest.request.ImageRequest;
@@ -26,19 +26,17 @@ import java.util.Map;
 
 
 /**
- * Created by 310243577 on 11/4/2016.
+ * RestManager Test class.
  */
 
-public class RestManagerTest extends MockitoTestCase {
+public class RestManagerTest extends AppInfraInstrumentation {
 
     private RestInterface mRestInterface = null;
     private Context context;
     private AppInfra mAppInfra;
-    private RequestQueue queue;
     private String baseURL = "https://hashim.herokuapp.com";
     private String serviceIdString = "userreg.janrain.api";
     private String accessToken;
-    private AppConfigurationManager mConfigInterface;
 
 
     @Override
@@ -55,7 +53,7 @@ public class RestManagerTest extends MockitoTestCase {
 
     public void testConfig() {
 
-        mConfigInterface = new AppConfigurationManager(mAppInfra) {
+        AppConfigurationManager mConfigInterface = new AppConfigurationManager(mAppInfra) {
             @Override
             protected JSONObject getMasterConfigFromApp() {
                 JSONObject result = null;
@@ -74,7 +72,7 @@ public class RestManagerTest extends MockitoTestCase {
 
 
     public void testgetRequestQueue() {
-        queue = mRestInterface.getRequestQueue();
+        RequestQueue queue = mRestInterface.getRequestQueue();
         assertNotNull(queue);
     }
 

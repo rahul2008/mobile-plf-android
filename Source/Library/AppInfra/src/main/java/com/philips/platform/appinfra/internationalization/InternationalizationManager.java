@@ -8,7 +8,9 @@ package com.philips.platform.appinfra.internationalization;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.R;
+import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.Locale;
 
@@ -19,10 +21,12 @@ import java.util.Locale;
 public class InternationalizationManager implements InternationalizationInterface {
 
     private final Context context;
+    private AppInfra mAppInfra;
 
     public InternationalizationManager(AppInfra aAppInfra) {
 
         context = aAppInfra.getAppInfraContext();
+        this.mAppInfra = aAppInfra;
 //        monCountryResponse = this;
         // Class shall not presume appInfra to be completely initialized at this point.
         // At any call after the constructor, appInfra can be presumed to be complete.
@@ -35,11 +39,13 @@ public class InternationalizationManager implements InternationalizationInterfac
      */
     @Override
     public Locale getUILocale() {
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_INTERNATIONALIZATION, "get UI locale");
         return Locale.getDefault();
     }
 
     @Override
     public String getUILocaleString() {
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_INTERNATIONALIZATION, "get UI Locale String");
         return context.getResources().getString(R.string.ail_locale);
     }
 }

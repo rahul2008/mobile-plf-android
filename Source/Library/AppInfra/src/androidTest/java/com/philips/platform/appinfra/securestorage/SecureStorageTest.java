@@ -8,7 +8,7 @@ package com.philips.platform.appinfra.securestorage;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,26 +17,22 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 
-import static org.mockito.Mockito.mock;
-
 
 /**
- * Created by 310238114 on 4/7/2016.
+ * SecureStorage Test class.
  */
 
-public class SecureStorageTest extends MockitoTestCase {
+public class SecureStorageTest extends AppInfraInstrumentation {
     SecureStorageInterface mSecureStorage=null;
    // Context context = Mockito.mock(Context.class);
 
-    private Context context;
-    private AppInfra mAppInfra;
     @Override
     protected void setUp() throws Exception {
         super.setUp();
 
-        context = getInstrumentation().getContext();
+        Context context = getInstrumentation().getContext();
         assertNotNull(context);
-        mAppInfra =  new AppInfra.Builder().build(context);
+        AppInfra mAppInfra = new AppInfra.Builder().build(context);
         mSecureStorage = mAppInfra.getSecureStorage();
         assertNotNull(mSecureStorage);
 
@@ -46,8 +42,6 @@ public class SecureStorageTest extends MockitoTestCase {
 
 
     public void testStoreValueForKey() throws Exception {
-
-        SecureStorage secureStorageMock = mock(SecureStorage.class);
 
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
 
@@ -59,10 +53,7 @@ public class SecureStorageTest extends MockitoTestCase {
         assertTrue(mSecureStorage.storeValueForKey("key", "",sse)); // value can be empty
         assertFalse(mSecureStorage.storeValueForKey(" ", "val",sse)); // value can be empty
         assertFalse(mSecureStorage.storeValueForKey("   ", "val",sse)); // value can be empty
-
         assertTrue(mSecureStorage.storeValueForKey("key", "value",sse)); // true condition
-
-        // value passed by user should not be same as that of its encrypted equivalent
 
         }
 
@@ -133,9 +124,9 @@ public class SecureStorageTest extends MockitoTestCase {
         for(iCount=0;iCount<10;iCount++){
             assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored,sse));
         }
-        for(iCount=0;iCount<10;iCount++) {
+        /*for(iCount=0;iCount<10;iCount++) {
 //            assertEquals(valueStored, mSecureStorage.fetchValueForKey(keyStored));
-        }
+        }*/
 
         assertTrue(mSecureStorage.removeValueForKey(keyStored));
         for(iCount=0;iCount<10;iCount++) {

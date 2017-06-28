@@ -10,55 +10,55 @@ package com.philips.platform.appinfra.appidentity;
  */
 public interface AppIdentityInterface {
 
-    enum AppState {DEVELOPMENT,TEST,STAGING,ACCEPTANCE,PRODUCTION};
+    enum AppState {DEVELOPMENT,TEST,STAGING,ACCEPTANCE,PRODUCTION}
 
     /**
      * Gets app name.
      *
      * @return the app name
      */
-    public String getAppName();
+    String getAppName();
 
     /**
      * Gets app version.
      *
      * @return the app version
      */
-    public String getAppVersion();
+    String getAppVersion();
 
     /**
      * Gets app state.
      *
      * @return the app state
      */
-    public AppState getAppState();
+    AppState getAppState();
 
     /**
      * Gets app localized n ame.
      *
      * @return the app localized n ame
      */
-    public String getLocalizedAppName();
+    String getLocalizedAppName();
 
     /**
      * Gets microsite id.
      *
      * @return the microsite id
      */
-    public String getMicrositeId();
+    String getMicrositeId();
 
     /**
      * Gets sector.
      *
      * @return the sector
      */
-    public String getSector();
+    String getSector();
 
     /**
      * Gets ServiceDiscoveryEnvironment.
      *
      * @return the ServiceDiscoveryEnvironment
      */
-    public String getServiceDiscoveryEnvironment();
+    String getServiceDiscoveryEnvironment();
 
 }

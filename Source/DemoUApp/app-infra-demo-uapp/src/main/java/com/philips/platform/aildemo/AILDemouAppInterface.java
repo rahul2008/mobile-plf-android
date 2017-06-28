@@ -15,9 +15,8 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class AILDemouAppInterface implements UappInterface {
 
-    public  static Context mContext;
+    private Context mContext;
     public static AppInfraInterface mAppInfra;
-    public static AppTaggingInterface mAIAppTaggingInterface;
 
     /**
      * @param uappDependencies - App dependencies
@@ -26,8 +25,8 @@ public class AILDemouAppInterface implements UappInterface {
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         this.mContext = uappSettings.getContext();
-        this.mAppInfra = (AppInfraInterface) uappDependencies.getAppInfra();
-        mAIAppTaggingInterface = mAppInfra.getTagging().createInstanceForComponent("Component name", "Component ID");
+        AILDemouAppInterface.mAppInfra = uappDependencies.getAppInfra();
+        AppTaggingInterface mAIAppTaggingInterface = mAppInfra.getTagging().createInstanceForComponent("Component name", "Component ID");
         mAIAppTaggingInterface.setPreviousPage("SomePreviousPage");
 
 

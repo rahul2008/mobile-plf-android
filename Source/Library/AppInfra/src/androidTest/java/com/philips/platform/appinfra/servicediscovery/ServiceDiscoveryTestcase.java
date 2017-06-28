@@ -6,7 +6,7 @@ import android.content.Intent;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.ConfigValues;
-import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 import com.philips.platform.appinfra.servicediscovery.model.MatchByCountryOrLanguage;
@@ -29,9 +29,9 @@ import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryMan
 import static com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryManager.AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION;
 
 /**
- * Created by 310238655 on 6/28/2016.
+ * ServiceDiscovery Test class.
  */
-public class ServiceDiscoveryTestcase extends MockitoTestCase {
+public class ServiceDiscoveryTestcase extends AppInfraInstrumentation {
 
 	private ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
 	private ServiceDiscoveryManager mServiceDiscoveryManager = null;
@@ -43,10 +43,8 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 	private ArrayList<String> mServicesId = new ArrayList<String>(
 			Arrays.asList("userreg.janrain.api", "userreg.janrain.cdn"));
 
-	private AppConfigurationManager mConfigInterface;
 	private Context context;
 
-	private RequestManager mRequestItemManager = null;
 	private ServiceDiscovery serviceDiscovery = null;
 	private Method method;
 
@@ -68,7 +66,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 		mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
 		mServiceDiscoveryManager = new ServiceDiscoveryManager(mAppInfra);
 		mServiceDiscoveryManager.registerOnHomeCountrySet(new TestReceiver());
-		mRequestItemManager = new RequestManager(context, mAppInfra);
+		RequestManager mRequestItemManager = new RequestManager(context, mAppInfra);
 		assertNotNull(mRequestItemManager);
 		mserviceDiscovery = new ServiceDiscovery();
 		mserviceDiscovery = loadServiceDiscoveryModel();
@@ -106,7 +104,7 @@ public class ServiceDiscoveryTestcase extends MockitoTestCase {
 
 	public void testConfig() {
 
-		mConfigInterface = new AppConfigurationManager(mAppInfra) {
+		AppConfigurationManager mConfigInterface = new AppConfigurationManager(mAppInfra) {
 			@Override
 			protected JSONObject getMasterConfigFromApp() {
 				JSONObject result = null;

@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.ConfigValues;
-import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
@@ -20,19 +20,18 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by 310238114 on 8/2/2016.
+ * AppConfiguration Test Class.
  */
-public class AppConfigurationTest extends MockitoTestCase {
+public class AppConfigurationTest extends AppInfraInstrumentation {
 
     AppConfigurationInterface mConfigInterface = null;
 
-    private Context context;
     private AppInfra mAppInfra;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        context = getInstrumentation().getContext();
+        Context context = getInstrumentation().getContext();
         assertNotNull(context);
         mAppInfra = new AppInfra.Builder().build(context);
         //mConfigInterface = mAppInfra.getConfigInterface();
@@ -125,7 +124,6 @@ public class AppConfigurationTest extends MockitoTestCase {
             Map<String, String> hmS = new HashMap<>();
             hmS.put("one", "123");
             hmS.put("two", "123.45");
-            Object val = hmS;
 
             Object obj = mConfigInterface.getPropertyForKey("MAP", "AI", configError);
             if (obj instanceof Map) {
@@ -171,16 +169,16 @@ public class AppConfigurationTest extends MockitoTestCase {
 
             //Integer set
             configError.setErrorCode(null);// reset error code to null
-            assertTrue(mConfigInterface.setPropertyForKey("MicrositeID", "AI", new Integer(77000), configError));//  Existing Group  and Existing key
+            assertTrue(mConfigInterface.setPropertyForKey("MicrositeID", "AI", Integer.valueOf(77000), configError));//  Existing Group  and Existing key
             assertEquals(null, configError.getErrorCode());
 
            //Boolean set
             configError.setErrorCode(null);// reset error code to null
-            assertTrue(mConfigInterface.setPropertyForKey("TestBoolTrue", "AI", new Boolean(true), configError));//  Existing Group  and Existing key
+            assertTrue(mConfigInterface.setPropertyForKey("TestBoolTrue", "AI", Boolean.valueOf(true), configError));//  Existing Group  and Existing key
             assertEquals(null, configError.getErrorCode());
 
             configError.setErrorCode(null);// reset error code to null
-            assertTrue(mConfigInterface.setPropertyForKey("TestBoolFalse", "AI", new Boolean(false), configError));//  Existing Group  and Existing key
+            assertTrue(mConfigInterface.setPropertyForKey("TestBoolFalse", "AI", Boolean.valueOf(false), configError));//  Existing Group  and Existing key
             assertEquals(null, configError.getErrorCode());
 
             configError.setErrorCode(null);// reset error code to null
@@ -195,8 +193,8 @@ public class AppConfigurationTest extends MockitoTestCase {
 
             //Integer array set
             List<Integer> integerArray = new ArrayList<Integer>();
-            integerArray.add(new Integer(111));
-            integerArray.add(new Integer(222));
+            integerArray.add(Integer.valueOf(111));
+            integerArray.add(Integer.valueOf(222));
             configError.setErrorCode(null);// reset error code to null
             assertTrue(mConfigInterface.setPropertyForKey("EE", "AI", integerArray, configError));//  Existing Group  and Existing key
             assertEquals(null, configError.getErrorCode());
@@ -245,7 +243,7 @@ public class AppConfigurationTest extends MockitoTestCase {
         // Add a new Integer value
         configError.setErrorCode(null);// reset error code to null
         String newlyAddedKey2 = "NEWKEYADDED2";
-        Integer integer = new Integer(23);
+        Integer integer = Integer.valueOf(23);
         assertTrue(mConfigInterface.setPropertyForKey(newlyAddedKey2, existingGroup, integer, configError));//  Existing Group  and Non Existing key
         assertEquals(null, configError.getErrorCode());
         configError.setErrorCode(null);// reset error code to null
@@ -270,9 +268,9 @@ public class AppConfigurationTest extends MockitoTestCase {
 
         // Add a new Integer ArrayList value
         ArrayList<Integer> integerArrayList = new ArrayList<Integer>();
-        integerArrayList.add(new Integer(23));
-        integerArrayList.add(new Integer(34));
-        integerArrayList.add(new Integer(84));
+        integerArrayList.add(Integer.valueOf(23));
+        integerArrayList.add(Integer.valueOf(34));
+        integerArrayList.add(Integer.valueOf(84));
         configError.setErrorCode(null);// reset error code to null
         String newlyAddedKey4 = "NEWKEYADDED4";
         assertTrue(mConfigInterface.setPropertyForKey(newlyAddedKey4, existingGroup, integerArrayList, configError));//  Existing Group  and Non Existing key
@@ -297,8 +295,7 @@ public class AppConfigurationTest extends MockitoTestCase {
         Map<String, String> hmS = new HashMap<>();
         hmS.put("Key1", "value1");
         hmS.put("Key2", "value2");
-        Object val = hmS;
-        assertTrue(mConfigInterface.setPropertyForKey("NewKeyHashMap", existingGroup, val, configError));//  Existing Group  and Non Existing key
+        assertTrue(mConfigInterface.setPropertyForKey("NewKeyHashMap", existingGroup, hmS, configError));//  Existing Group  and Non Existing key
         assertEquals(null, configError.getErrorCode());
         configError.setErrorCode(null);// reset error code to null
 
@@ -316,8 +313,7 @@ public class AppConfigurationTest extends MockitoTestCase {
         Map<String, Integer> newhmS = new HashMap<>();
         newhmS.put("Key1", 2);
         newhmS.put("Key2", 1);
-        Object newval = newhmS;
-        assertTrue(mConfigInterface.setPropertyForKey("IntHashMap", existingGroup, newval, configError));//  Existing Group  and Non Existing key
+        assertTrue(mConfigInterface.setPropertyForKey("IntHashMap", existingGroup, newhmS, configError));//  Existing Group  and Non Existing key
         assertEquals(null, configError.getErrorCode());
         configError.setErrorCode(null);// reset error code to null
 
@@ -335,8 +331,7 @@ public class AppConfigurationTest extends MockitoTestCase {
         Map<String, Boolean> booleanMap = new HashMap();
         booleanMap.put("Keybool1", true);
         booleanMap.put("Keybool2", false);
-        Object boolVal = booleanMap;
-        assertTrue(mConfigInterface.setPropertyForKey("BoolHashMap", existingGroup, boolVal, configError));//  Existing Group  and Non Existing key
+        assertTrue(mConfigInterface.setPropertyForKey("BoolHashMap", existingGroup, booleanMap, configError));//  Existing Group  and Non Existing key
         assertEquals(null, configError.getErrorCode());
         configError.setErrorCode(null);// reset error code to null
 
@@ -468,9 +463,7 @@ public class AppConfigurationTest extends MockitoTestCase {
         ssi.storeValueForKey(mAppConfig_SecureStoreKeyOLD, oldData.toString(), sse);
         ssi.removeValueForKey(mAppConfig_SecureStoreKey_NEW);
         // set the new file empty
-        sse2 = new SecureStorageInterface.SecureStorageError();
         appConfigurationManager.migrateDynamicData();
-        sse = new SecureStorageInterface.SecureStorageError();
         ssi.fetchValueForKey(mAppConfig_SecureStoreKeyOLD, sse);
         assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
         sse2 = new SecureStorageInterface.SecureStorageError();
@@ -492,7 +485,8 @@ public class AppConfigurationTest extends MockitoTestCase {
 
 
     private String testJsonOld() {
-        String testJsonString = "{\n" +
+
+        return "{\n" +
                 "  \"UR\": {\n" +
                 "\n" +
                 "    \"DEVELOPMENT\": \"moodifiedData1\",\n" +
@@ -530,8 +524,6 @@ public class AppConfigurationTest extends MockitoTestCase {
                 "  \"LOGGING.DEBUGCONFIG\": {\"fileName\": \"AppInfraLog\",\"numberOfFiles\": 5,\"fileSizeInBytes\": 50000,\"logLevel\": \"All\",\"fileLogEnabled\": true,\"consoleLogEnabled\": true,\"componentLevelLogEnabled\": false,\"componentIds\": [\"DemoAppInfra\",\"Registration\", \"component1\"]}" +
                 "  }\n" +
                 "}\n";
-
-        return testJsonString;
     }
 
 
@@ -633,7 +625,6 @@ public class AppConfigurationTest extends MockitoTestCase {
         try {
             method = AppConfigurationManager.class.getDeclaredMethod("clearCloudConfigFile");
             method.setAccessible(true);
-            JSONObject jObject = new JSONObject();
             method.invoke(appConfigurationManager);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();

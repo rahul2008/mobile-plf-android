@@ -61,6 +61,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 		mAppUpdateModel = getAppUpdateModel();
 	}
 
+
 	protected void downloadAppUpdate(final String appUpdateUrl, final OnRefreshListener refreshListener) {
 		JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, appUpdateUrl, null,
 				getJsonResponseListener(refreshListener), getJsonErrorListener(refreshListener), null, null, null);

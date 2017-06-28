@@ -13,7 +13,7 @@ public class AppInfraLogEventID {
     public static final String AI_APPINFRA = "AIAppInfra ";
     public static final String AI_ABTEST_CLIENT = "AIAbtestClient ";
     public static final String AI_API_SIGNING = "AIApiSigning ";
-    public static final String AI_APP_CONFIGUARTION = "AIContentLoader ";
+    public static final String AI_APP_CONFIGUARTION = "AIAppConfiguartion";
     public static final String AI_APP_IDENTITY = "AIAppIdentity ";
     public static final String AI_APP_UPDATE = "AIAppUpdate ";
     public static final String AI_CONTENT_LOADER = "AIContentLoader ";
@@ -23,7 +23,7 @@ public class AppInfraLogEventID {
     public static final String AI_REST = "AIRest ";
     public static final String AI_SECURE_STORAGE = "AISecureStorage ";
     public static final String AI_SERVICE_DISCOVERY = "AIServiceDiscovery ";
-    public static final String AI_TAGGING = "AILTagging ";
-    public static final String AI_TIME_SYNC = "AILTimeSync" ;
+    public static final String AI_TAGGING = "AITagging ";
+    public static final String AI_TIME_SYNC = "AITimeSync" ;
 
 }
