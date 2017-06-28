@@ -95,7 +95,6 @@ public class OrderControllerTest {
         mNetworkController.sendSuccess(obj);
     }
 
-    @Test
     public void orderDetailSuccessResponseWithData() throws JSONException {
         mOrderController = new OrderController(mContext, new MockOrderListener() {
             @Override

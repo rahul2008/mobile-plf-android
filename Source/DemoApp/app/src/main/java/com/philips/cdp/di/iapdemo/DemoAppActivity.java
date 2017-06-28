@@ -37,7 +37,6 @@ import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.cdp.uikit.UiKitActivity;
@@ -97,7 +96,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
         mLaunchFragment = (Button) findViewById(R.id.btn_fragment_launch);
         mLaunchFragment.setOnClickListener(this);
-        mLaunchFragment.setVisibility(View.GONE);
+        mLaunchFragment.setVisibility(View.VISIBLE);
 
         mBuyDirect = (Button) findViewById(R.id.btn_buy_direct);
         mBuyDirect.setOnClickListener(this);
@@ -312,7 +311,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         } else {
             mPurchaseHistory.setVisibility(View.GONE);
             mBuyDirect.setVisibility(View.GONE);
-            mLaunchFragment.setVisibility(View.GONE);
+            mLaunchFragment.setVisibility(View.VISIBLE);
             mShoppingCart.setVisibility(View.GONE);
         }
     }

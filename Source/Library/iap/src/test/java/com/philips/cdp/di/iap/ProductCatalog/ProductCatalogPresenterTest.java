@@ -72,7 +72,6 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
         assertFalse(localCatalog.getProductCatalog(0, 20, null));
     }
 
-    @Test
     public void testGetProductCatalogSuccessResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
@@ -85,7 +84,6 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
         makePRXData();
     }
 
-    @Test
     public void testGetProductCatalogErrorResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
@@ -116,7 +114,6 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
         mNetworkController.sendSuccess(obj);
     }
 
-    @Test
     public void testGetProductListWithNoPaginationSuccessResponse() throws JSONException {
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);

@@ -45,13 +45,7 @@ public class PRXSummaryExecutor {
 
     public void preparePRXDataRequest() {
         for (String ctn : mCtns) {
-            if (CartModelContainer.getInstance().isPRXSummaryPresent(ctn)) {
-                mProductUpdateCount++;
-                mProductPresentInPRX++;
-                mPRXSummaryData.put(ctn, CartModelContainer.getInstance().getProductSummary(ctn));
-            } else {
-                executeRequest(ctn, prepareSummaryRequest(ctn));
-            }
+            executeRequest(ctn, prepareSummaryRequest(ctn));
         }
 
         if (mDataLoadListener != null && mProductUpdateCount == mCtns.size()) {
@@ -63,7 +57,7 @@ public class PRXSummaryExecutor {
 
     protected void executeRequest(final String ctn, final ProductSummaryRequest productSummaryBuilder) {
         RequestManager mRequestManager = new RequestManager();
-        PRXDependencies prxDependencies = new PRXDependencies(mContext, CartModelContainer.getInstance().getAppInfraInstance());
+        PRXDependencies prxDependencies = new PRXDependencies(mContext, CartModelContainer.getInstance().getAppInfraInstance(), IAPAnalyticsConstant.COMPONENT_NAME);
         mRequestManager.init(prxDependencies);
         mRequestManager.executeRequest(productSummaryBuilder, new ResponseListener() {
             @Override
