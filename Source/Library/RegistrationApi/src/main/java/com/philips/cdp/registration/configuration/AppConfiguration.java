@@ -80,15 +80,23 @@ public class AppConfiguration extends BaseConfiguration {
     }
 
 
-    public List<String> getsupportedCountries() {
+    public List<String> getSupportedCountries() {
         Object providersObject = appInfraWrapper.getAppSettingsProperty(SUPPORTED_COUNTRIES);
         if (providersObject != null) {
             return (List<String>) providersObject;
         }
-
-        providersObject = appInfraWrapper.getAppSettingsProperty(FALLBACK_COUNTRY);
-        return (List<String>) providersObject;
+        return null;
     }
+
+    public List<String> getFallBackCountry() {
+        Object providersObject = appInfraWrapper.getAppSettingsProperty(FALLBACK_COUNTRY);
+        if (providersObject != null) {
+            return (List<String>) providersObject;
+        }
+        return null;
+    }
+
+
     public String getShowCountrySelection() {
         Object showCountrySelectionObject = appInfraWrapper.getURProperty(SHOW_COUNTRY_SELECTION);
         return getConfigPropertyValue(showCountrySelectionObject);

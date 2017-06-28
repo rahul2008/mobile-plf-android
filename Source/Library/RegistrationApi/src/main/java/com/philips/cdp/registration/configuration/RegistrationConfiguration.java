@@ -222,9 +222,15 @@ public class RegistrationConfiguration {
     }
 
     public ArrayList<String> getSupportedCountry() {
-        List<String> supportedCountries = appConfiguration.getsupportedCountries();
+        List<String> supportedCountries = appConfiguration.getSupportedCountries();
         return (ArrayList<String>) supportedCountries;
     }
+
+    public ArrayList<String> getFallBackCountry() {
+        List<String> supportedCountries = appConfiguration.getFallBackCountry();
+        return (ArrayList<String>) supportedCountries;
+    }
+
 
     public synchronized void setPrioritisedFunction(RegistrationFunction prioritisedFunction) {
         this.prioritisedFunction = prioritisedFunction;
