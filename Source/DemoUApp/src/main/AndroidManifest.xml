@@ -8,15 +8,14 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:icon="@drawable/app_icon"
         android:allowBackup="false"
+        android:icon="@drawable/app_icon"
         android:label="@string/demo_app_name"
         android:resizeableActivity="true"
-        android:supportsRtl="true"
-        tools:replace="android:allowBackup, android:label, android:supportsRtl, android:resizeableActivity"
-        >
+        android:supportsRtl="true">
 
-        <activity android:name=".DemoAppActivity"
+        <activity
+            android:name=".DemoAppActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -41,15 +40,17 @@
 
          To the list of attributes on the activity element.
          -->
-        <activity
-            android:name="net.openid.appauth.RedirectUriReceiverActivity" >
+        <activity android:name="net.openid.appauth.RedirectUriReceiverActivity">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="https"
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
                     android:host="com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp"
-                    android:path="/oauth2redirect"/>
+                    android:path="/oauth2redirect"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
 
@@ -57,15 +58,13 @@
             android:name="com.janrain.android.engage.OpenIDAppAuthTokenActivity"
             android:label="SimpleDemoApplication"
             android:theme="@style/Theme.Janrain.Dialog.Light"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
 
         <activity
             android:name="com.janrain.android.engage.OpenIDAppAuthCancelledActivity"
             android:label="SimpleDemoApplication"
             android:theme="@style/Theme.Janrain.Dialog.Light"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
     </application>
 
 </manifest>
