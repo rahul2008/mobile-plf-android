@@ -111,8 +111,10 @@ public class MapDirections {
         } catch (Exception e) {
             DigiCareLogger.e(TAG, e.toString());
         } finally {
-            iStream.close();
-            urlConnection.disconnect();
+            if(iStream!=null){
+                iStream.close();
+                urlConnection.disconnect();
+            }
         }
         return data;
     }

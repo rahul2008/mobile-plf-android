@@ -2,11 +2,9 @@ package com.philips.cdp.sampledigitalcare.launcher.uAppComponetLaunch;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -26,15 +24,14 @@ import com.philips.cdp.digitalcare.CcLaunchInput;
 import com.philips.cdp.digitalcare.CcSettings;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.listeners.CcListener;
-import com.philips.cdp.prxclient.PrxConstants.Sector;
-import com.philips.cdp.prxclient.PrxConstants.Catalog;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
+import com.philips.cdp.prxclient.PrxConstants.Catalog;
+import com.philips.cdp.prxclient.PrxConstants.Sector;
 import com.philips.cdp.sampledigitalcare.DummyScreen;
 import com.philips.cdp.sampledigitalcare.adapter.Listener;
 import com.philips.cdp.sampledigitalcare.adapter.SampleAdapter;
 import com.philips.cdp.sampledigitalcare.adapter.SimpleItemTouchHelperCallback;
 import com.philips.cdp.sampledigitalcare.util.ThemeHelper;
-import com.philips.cdp.sampledigitalcare.util.ThemeUtil;
 import com.philips.cdp.sampledigitalcare.view.CustomDialog;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.platform.appinfra.AppInfra;
@@ -42,7 +39,6 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
-import com.philips.platform.uid.view.widget.ImageButton;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 import com.shamanland.fonticon.FontIconTypefaceHolder;
 
@@ -172,7 +168,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         });
 
         if (mActivityButtonSelected) {
-            mLaunchDigitalCare.setVisibility(View.VISIBLE);
+            mLaunchDigitalCare.setVisibility(View.INVISIBLE);
         } else {
             mLaunchDigitalCare.setVisibility(View.INVISIBLE);
         }

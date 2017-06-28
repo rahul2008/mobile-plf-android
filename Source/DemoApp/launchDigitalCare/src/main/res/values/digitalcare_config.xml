@@ -2,8 +2,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
 
     <!-- UiTheme Start -->
-    <drawable name="consumercare_background">@drawable/tuscany</drawable>
-    <!-- UiTheme End -->
 
     <!--
         &lt;!&ndash; List of default features supported by library, verticals can add/delete/modify this list by adding localised resource key name which contains title text, please follow naming conventions &ndash;&gt; -->
