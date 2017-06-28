@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
+import com.philips.cdp.devicepair.R;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
@@ -38,8 +39,6 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.philips.cdp.devicepair.R;
 
 public class LaunchFragment extends Fragment implements BackEventListener, LaunchFragmentViewListener,
         DeviceStatusListener, NetworkChangeListener.INetworkChangeListener {
@@ -115,7 +114,8 @@ public class LaunchFragment extends Fragment implements BackEventListener, Launc
         mAvailableDevicesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                mLaunchFragmentPresenter.pairDevice(getDeviceDetails(mAppliancesList.get(position)), LaunchFragment.this);
+                if (mAppliancesList != null && mAppliancesList.size() > 0)
+                    mLaunchFragmentPresenter.pairDevice(getDeviceDetails(mAppliancesList.get(position)), LaunchFragment.this);
 //                mLaunchFragmentPresenter.pairDevice(getTestDeviceDetails(), LaunchFragment.this);
             }
         });
@@ -321,7 +321,8 @@ public class LaunchFragment extends Fragment implements BackEventListener, Launc
     @Override
     public void onDeviceUnPaired(String unPairedDeviceID) {
         removeFromPairedDevices(unPairedDeviceID);
-        addToAvailableDevices(unPairedDeviceID);
+        if (mDiscoveredDevices != null && mDiscoveredDevices.size() > 0)
+            addToAvailableDevices(unPairedDeviceID);
         showAlertDialog("Device UnPaired Successfully");
     }
 
