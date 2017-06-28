@@ -29,14 +29,14 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  * Splash presenter loads the splash screen and sets the next state after splash
  * The wait timer for splash screen is 3 secs ( configurable by verticals)
  */
-public class SplashPresenterAbstract extends AbstractUIBasePresenter implements UIStateListener {
-    public static final String TAG = SplashPresenterAbstract.class.getSimpleName();
+public class SplashPresenter extends AbstractUIBasePresenter implements UIStateListener {
+    public static final String TAG = SplashPresenter.class.getSimpleName();
 
     private final LaunchView uiView;
     private String APP_START = "onSplashTimeOut";
     private BaseState baseState;
 
-    public SplashPresenterAbstract(LaunchView uiView) {
+    public SplashPresenter(LaunchView uiView) {
         super(uiView);
         this.uiView = uiView;
         setState(AppStates.SPLASH);

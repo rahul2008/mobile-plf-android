@@ -34,15 +34,15 @@ import java.util.ArrayList;
 /**
  * Fragment is used for showing the account settings that verticals provide
  */
-public class SettingsFragmentAbstract extends AbstractAppFrameworkBaseFragment implements SettingsView {
+public class SettingsFragment extends AbstractAppFrameworkBaseFragment implements SettingsView {
 
-    public static final String TAG = SettingsFragmentAbstract.class.getSimpleName();
+    public static final String TAG = SettingsFragment.class.getSimpleName();
     private SettingsAdapter adapter = null;
     private ListView list = null;
     private UserRegistrationState userRegistrationState;
     private Handler handler = new Handler();
     private ArrayList<SettingListItem> settingScreenItemList;
-    private WeakReference<SettingsFragmentAbstract> settingsFragmentWeakReference;
+    private WeakReference<SettingsFragment> settingsFragmentWeakReference;
     private ProgressBar settingsProgressBar;
 
     @Override
@@ -85,10 +85,10 @@ public class SettingsFragmentAbstract extends AbstractAppFrameworkBaseFragment i
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.af_settings_fragment, container, false);
-        fragmentPresenter = new SettingsFragmentPresenterAbstract(this);
+        fragmentPresenter = new SettingsFragmentPresenter(this);
         list = (ListView) view.findViewById(R.id.listwithouticon);
         settingsProgressBar = (CircularProgressbar) view.findViewById(R.id.settings_progress_bar);
-        settingsFragmentWeakReference = new WeakReference<SettingsFragmentAbstract>(this);
+        settingsFragmentWeakReference = new WeakReference<SettingsFragment>(this);
 
 
         /*list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

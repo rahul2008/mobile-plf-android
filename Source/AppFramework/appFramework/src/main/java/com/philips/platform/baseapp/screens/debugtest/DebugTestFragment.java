@@ -38,8 +38,8 @@ import java.util.List;
  * This fragment if for internal testing of dynamic configuration change of User registration
  */
 
-public class DebugTestFragmentAbstract extends AbstractAppFrameworkBaseFragment {
-    public static final String TAG = DebugTestFragmentAbstract.class.getSimpleName();
+public class DebugTestFragment extends AbstractAppFrameworkBaseFragment {
+    public static final String TAG = DebugTestFragment.class.getSimpleName();
 //    private List<String> list;
     private TextView configurationTextView;
     private Spinner spinner;

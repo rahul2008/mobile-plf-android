@@ -25,8 +25,8 @@ import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 
-public class WelcomeFragmentPresenterAbstract extends AbstractUIBasePresenter {
-    public static String TAG = WelcomeFragmentPresenterAbstract.class.getSimpleName();
+public class WelcomeFragmentPresenter extends AbstractUIBasePresenter {
+    public static String TAG = WelcomeFragmentPresenter.class.getSimpleName();
 
     private final int MENU_OPTION_HOME = 0;
     private SharedPreferenceUtility sharedPreferenceUtility;
@@ -36,7 +36,7 @@ public class WelcomeFragmentPresenterAbstract extends AbstractUIBasePresenter {
     private String WELCOME_DONE = "welcome_done";
     private String WELCOME_HOME = "welcome_home";
 
-    public WelcomeFragmentPresenterAbstract(WelcomeFragmentView welcomeFragmentView) {
+    public WelcomeFragmentPresenter(WelcomeFragmentView welcomeFragmentView) {
         super(welcomeFragmentView);
         this.welcomeFragmentView = welcomeFragmentView;
     }

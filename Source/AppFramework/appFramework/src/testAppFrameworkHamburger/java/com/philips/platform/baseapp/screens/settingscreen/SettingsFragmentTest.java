@@ -25,12 +25,12 @@ import static junit.framework.Assert.assertNull;
 @Config(manifest=Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 public class SettingsFragmentTest {
     private HamburgerActivity hamburgerActivity = null;
-    private SettingsFragmentAbstract settingsFragment;
+    private SettingsFragment settingsFragment;
 
     @Before
     public void setUp() throws Exception{
         hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
-        settingsFragment = new SettingsFragmentAbstract();
+        settingsFragment = new SettingsFragment();
         hamburgerActivity.getSupportFragmentManager().beginTransaction().add(settingsFragment,"SettingsTestTag").commit();
 
     }

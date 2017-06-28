@@ -35,8 +35,8 @@ import java.util.ArrayList;
  * Created by philips on 4/18/17.
  */
 
-public class CocoVersionFragmentAbstract extends AbstractAppFrameworkBaseFragment {
-    public static final String TAG = CocoVersionFragmentAbstract.class.getSimpleName();
+public class CocoVersionFragment extends AbstractAppFrameworkBaseFragment {
+    public static final String TAG = CocoVersionFragment.class.getSimpleName();
     private RecyclerView recyclerViewCoco;
     IAPState iapState;
     SupportFragmentState supportFragmentState;

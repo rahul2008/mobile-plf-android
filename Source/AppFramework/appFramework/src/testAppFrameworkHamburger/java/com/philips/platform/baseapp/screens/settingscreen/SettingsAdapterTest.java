@@ -34,7 +34,7 @@ public class SettingsAdapterTest {
     private SettingsAdapter settingsAdapter = null;
     private HamburgerActivity hamburgerActivity = null;
     private ArrayList<SettingListItem> settingScreenItemList;
-    private SettingsFragmentPresenterAbstract fragmentPresenter = null;
+    private SettingsFragmentPresenter fragmentPresenter = null;
     private UIKitButton btn_settings_logout = null;
     private boolean userRegIsLoggedIn = false;
     private int LOGIN_VIEW = 0;
@@ -49,10 +49,10 @@ public class SettingsAdapterTest {
     @Before
     public void setup() {
         initMocks(this);
-        SettingsFragmentAbstract settingsFragment = new SettingsFragmentAbstract();
+        SettingsFragment settingsFragment = new SettingsFragment();
 
         hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().get();
-        fragmentPresenter = new SettingsFragmentPresenterAbstract(settingsView);
+        fragmentPresenter = new SettingsFragmentPresenter(settingsView);
 
         settingScreenItemList = settingsFragment.filterSettingScreenItemList(buildSettingsScreenList());
         settingsAdapter = new SettingsAdapter(hamburgerActivity, settingScreenItemList,

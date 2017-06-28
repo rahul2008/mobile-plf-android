@@ -37,8 +37,8 @@ import java.util.ArrayList;
  * 1. The user registration
  * 2. Welcome fragments
  */
-public class LaunchActivityAbstract extends AbstractAppFrameworkBaseActivity implements LaunchView, IAPListener {
-    public static final String TAG =  LaunchActivityAbstract.class.getSimpleName();
+public class LaunchActivity extends AbstractAppFrameworkBaseActivity implements LaunchView, IAPListener {
+    public static final String TAG =  LaunchActivity.class.getSimpleName();
 
     private TextView textView;
 

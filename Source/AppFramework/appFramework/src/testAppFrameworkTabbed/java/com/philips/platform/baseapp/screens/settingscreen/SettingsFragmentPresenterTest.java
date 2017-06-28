@@ -29,7 +29,7 @@ import static org.mockito.Mockito.when;
 
 public class SettingsFragmentPresenterTest extends TestCase {
 
-    private SettingsFragmentPresenterAbstract settingsFragmentPresenter;
+    private SettingsFragmentPresenter settingsFragmentPresenter;
     private SettingsView settingsViewMock;
     private FragmentActivity fragmentActivityMock;
 
@@ -39,7 +39,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
         settingsViewMock = mock(SettingsView.class);
         fragmentActivityMock = mock(FragmentActivity.class);
         when(settingsViewMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
-        settingsFragmentPresenter = new SettingsFragmentPresenterAbstract(settingsViewMock);
+        settingsFragmentPresenter = new SettingsFragmentPresenter(settingsViewMock);
     }
 
     public void testLogOut() throws Exception {
@@ -51,7 +51,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
 
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         when(fragmentLauncherMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
-        settingsFragmentPresenter = new SettingsFragmentPresenterAbstract(settingsViewMock) {
+        settingsFragmentPresenter = new SettingsFragmentPresenter(settingsViewMock) {
             @Override
             public void setState(final String stateID) {
                 super.setState(AppStates.TAB_HOME);
@@ -83,7 +83,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
         final UIStateData uiStateMock = mock(UIStateData.class);
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         when(fragmentLauncherMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
-        settingsFragmentPresenter = new SettingsFragmentPresenterAbstract(settingsViewMock) {
+        settingsFragmentPresenter = new SettingsFragmentPresenter(settingsViewMock) {
             @Override
             public void setState(final String stateID) {
                 super.setState(AppStates.TAB_HOME);
