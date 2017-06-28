@@ -13,15 +13,9 @@ public class KeyBagLib {
         System.loadLibrary("native-lib");
     }
 
-    /**
-     * A native method that is implemented by the 'native-lib' native library,
-     * which is packaged with this application.
-     * @param chars
-     */
-    public native void lfsrMain(byte[] chars);
-
-    public native void lfsrObfuscate(char[] chars, int length, int seed);
     public native String getMsgFromJni();
+
+    public native byte[] ConvertString(String testString,int length,int seed);
 
     public native String passingDataToJni(String stringValue_, int length, int seed);
 }
