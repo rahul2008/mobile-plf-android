@@ -7,6 +7,7 @@ import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.philips.amwelluapp.uappclasses.PTHMicroAppDependencies;
 import com.philips.amwelluapp.uappclasses.PTHMicroAppInterface;
@@ -27,13 +28,9 @@ public class MainActivity extends UIDActivity implements ActionBarListener{
 
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
     private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
-
     private FragmentLauncher fragmentLauncher;
     private PTHMicroAppLaunchInput PTHMicroAppLaunchInput;
     private PTHMicroAppInterface PTHMicroAppInterface;
-/*
-    private TextView mTitleTextView;
-    private ImageView mBackImage;*/
     private Toolbar toolbar;
 
     @Override
@@ -41,10 +38,15 @@ public class MainActivity extends UIDActivity implements ActionBarListener{
         initTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pth_launch_activity);
-        //addActionBar();
         initAppInfra();
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
         toolbar.setNavigationIcon(VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.pth_back_icon,getTheme()));
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         UIDHelper.setTitle(this, "Am well");
         fragmentLauncher = new FragmentLauncher(this,R.id.uappFragmentLayout,this);
         PTHMicroAppLaunchInput = new PTHMicroAppLaunchInput("Launch Uapp Input");
@@ -54,22 +56,6 @@ public class MainActivity extends UIDActivity implements ActionBarListener{
 
     }
 
-    private void addActionBar() {
-//        RelativeLayout frameLayout = (RelativeLayout) findViewById(R.id.pth_back_button_layout);
-//        frameLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(final View v) {
-//                onBackPressed();
-//            }
-//        });
-//
-//        mBackImage = (ImageView) findViewById(R.id.pth_back_image_view);
-//        Drawable mBackDrawable = VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.uid_back_icon,getTheme());
-//        mBackImage.setBackground(mBackDrawable);
-//        mTitleTextView = (TextView) findViewById(R.id.pth_actionbar_header_title);
-//        setTitle("Am well");
-
-    }
     private void initAppInfra() {
         ((AmwellDemoApplication)getApplicationContext()).initializeAppInfra(new AppInitializationCallback.AppInfraInitializationCallback() {
             @Override
@@ -82,11 +68,9 @@ public class MainActivity extends UIDActivity implements ActionBarListener{
     private void showBackImage(boolean isVisible){
         if(isVisible){
             toolbar.setNavigationIcon(VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.pth_back_icon,getTheme()));
-            //mBackImage.setVisibility(ImageView.VISIBLE);
         }
         else {
             toolbar.setNavigationIcon(null);
-            //mBackImage.setVisibility(ImageView.GONE);
         }
 
     }
