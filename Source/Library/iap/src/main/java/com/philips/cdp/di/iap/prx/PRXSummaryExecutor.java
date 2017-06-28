@@ -45,13 +45,7 @@ public class PRXSummaryExecutor {
 
     public void preparePRXDataRequest() {
         for (String ctn : mCtns) {
-            if (CartModelContainer.getInstance().isPRXSummaryPresent(ctn)) {
-                mProductUpdateCount++;
-                mProductPresentInPRX++;
-                mPRXSummaryData.put(ctn, CartModelContainer.getInstance().getProductSummary(ctn));
-            } else {
-                executeRequest(ctn, prepareSummaryRequest(ctn));
-            }
+            executeRequest(ctn, prepareSummaryRequest(ctn));
         }
 
         if (mDataLoadListener != null && mProductUpdateCount == mCtns.size()) {
