@@ -130,6 +130,9 @@ android {
         targetSdkVersion versions.target
         versionCode 1
         versionName version
+
+        testApplicationId "com.philips.cdp2.commlib.test"
+        testInstrumentationRunner "cucumber.cukeulator.test.Instrumentation"
     }
 
     buildTypes {
