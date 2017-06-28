@@ -1,7 +1,7 @@
 package com.philips.uid.parser
 
 import com.google.gson.Gson
-import com.philips.uid.helpers.NameConversionHelper
+import com.philips.uid.DLSResourceConstants
 import com.philips.uid.model.component.Control
 
 class ComponentParser {
@@ -17,6 +17,6 @@ class ComponentParser {
     }
 
     def readComponentsJSON() {
-        new File("../../../../resources/components.json").text
+        new File(DLSResourceConstants.PATH_COMPONENT_JSON).text
     }
 }

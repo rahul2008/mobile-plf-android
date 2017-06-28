@@ -36,39 +36,79 @@ generateTheme(componentParser, brushParser, validationParser)
 flushAllAttributes()
 
 def generateTheme(ComponentParser componentParser, BrushParser brushParser, ValidationParser validationparser) {
-    File colorXml = new File("generated/uid_theme.xml")
-    if (colorXml.exists())
-        colorXml.delete()
 
-    colorXml.createNewFile()
+    DLSResourceConstants.COLOR_RANGES.each {
+        def writer = new StringWriter()
+        def xml = new MarkupBuilder(writer)
+        xml.setDoubleQuotes(true)
 
-    def writer = new StringWriter()
-    def colorXML = new MarkupBuilder(writer)
-    colorXML.setDoubleQuotes(true)
-    colorXML.resources() {
-        componentParser.controls.each {
-            def result
-            if (it.parent) {
-                Control control = it
-                it.parent.each {
-                    result = getComponentsValues(control, it, componentParser, brushParser, validationparser)
-                    item(name:"${result[0]}","${result[1]}")
-                    getMkp().comment("${result[2]}")
+        def colorRange = it.key
+        def baseTheme = "${DLSResourceConstants.THEME_PREFIX}.${colorRange}"
+        xml.resources() {
+            DLSResourceConstants.TONAL_RANGES.each {
+                def tonalRange = "${it}"
+                def tonalRangeTheme = "${baseTheme}.${tonalRange}"
+                xml.style("${DLSResourceConstants.ITEM_NAME}": "${tonalRangeTheme}") {
+                    componentParser.controls.each {
+                        def result
+                        if (it.parent) {
+                            Control control = it
+                            it.parent.each {
+                                result = getComponentsValues(control, it, brushParser, validationparser, colorRange, tonalRange)
+                                item(name: "${result[0]}", "${result[1]}")
+                                getMkp().comment("${result[2]}")
+                            }
+                        } else {
+                            result = getComponentsValues(it, null, brushParser, validationparser, colorRange, tonalRange)
+                            item(name: "${result[0]}", "${result[1]}")
+                        }
+                    }
                 }
-            } else {
-                result = getComponentsValues(it, null, componentParser, brushParser, validationparser)
-                item(name:"${result[0]}","${result[1]}")
             }
         }
+        def themeFile = new File(DLSResourceConstants.getThemeFilePath(colorRange))
+        if (themeFile.exists()) {
+            themeFile.delete()
+        }
+
+        themeFile.createNewFile()
+        themeFile.write(writer.toString())
     }
-    colorXml.write(writer.toString())
+
+//    File colorXml = new File("generated/uid_theme.xml")
+//    if (colorXml.exists())
+//        colorXml.delete()
+//
+//    colorXml.createNewFile()
+//
+//    def writer = new StringWriter()
+//    def colorXML = new MarkupBuilder(writer)
+//    colorXML.setDoubleQuotes(true)
+//    colorXML.resources() {
+//        componentParser.controls.each {
+//            def result
+//            if (it.parent) {
+//                Control control = it
+//                it.parent.each {
+//                    result = getComponentsValues(control, it, componentParser, brushParser, validationparser)
+//                    item(name: "${result[0]}", "${result[1]}")
+//                    getMkp().comment("${result[2]}")
+//                }
+//            } else {
+//                result = getComponentsValues(it, null, componentParser, brushParser, validationparser)
+//                item(name: "${result[0]}", "${result[1]}")
+//            }
+//        }
+//    }
+//    colorXml.write(writer.toString())
 }
 
-private def getComponentsValues(Control control, parent, componentParser, brushParser, validationparser) {
+private
+def getComponentsValues(Control control, parent, brushParser, validationparser, colorRange, tonalRange) {
     def brushName = control.getBrushName()
-    BrushValue brushValue = brushParser.getBrushValueFromBrushName(brushName, "ultra-light")
-    brushValue = validationparser.decorateBrush(brushValue, "blue", "ultra-light", brushName)
-    def val = BrushValueEvaluator.getValue(brushValue, brushParser.getBrushes(), "blue", "ultra-light").toString()
+    BrushValue brushValue = brushParser.getBrushValueFromBrushName(brushName, tonalRange)
+    brushValue = validationparser.decorateBrush(brushValue, colorRange, tonalRange, brushName)
+    def val = BrushValueEvaluator.getValue(brushValue, brushParser.getBrushes(), colorRange, tonalRange).toString()
     def controlName = NameConversionHelper.getControlAttributeName(control, parent).toString()
 
     //Update list of attributes
@@ -77,7 +117,7 @@ private def getComponentsValues(Control control, parent, componentParser, brushP
 }
 
 def flushAllAttributes() {
-    File attrsFile = new File("generated/uid_attrs.xml")
+    File attrsFile = new File(DLSResourceConstants.PATH_OUT_ATTRS_FILE)
     if (attrsFile.exists())
         attrsFile.delete()
 
@@ -88,7 +128,7 @@ def flushAllAttributes() {
     attrsXML.setDoubleQuotes(true)
     attrsXML.resources() {
         AttributeManager.instance.getAttributesList().each {
-            attr(name:"${it.name}", format:"${it.refType}")
+            attr(name: "${it.name}", format: "${it.refType}")
         }
     }
     attrsFile.write(writer.toString())

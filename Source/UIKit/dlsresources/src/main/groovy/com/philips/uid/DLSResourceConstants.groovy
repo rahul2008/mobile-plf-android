@@ -20,7 +20,7 @@ class DLSResourceConstants {
     static final String ATTR = "?attr/"
     static final String COLOR_REFERENCE = "@color/"
     static final int COLOR_OFFSET = 5
-    static final COLOR_RANGES = [GroupBlue: 'group_blue', Blue: 'blue', Aqua: 'aqua',
+    static final COLOR_RANGES = [GroupBlue: 'group-blue', Blue: 'blue', Aqua: 'aqua',
                                  Green    : 'green', Orange: 'orange', Pink: 'pink', Purple: 'purple', Gray: 'gray']
 
     static final TONAL_RANGES = ['ultra-light', 'very-light'/*, 'light'*/, 'bright', 'very-dark']

@@ -1,6 +1,7 @@
 package com.philips.uid.parser
 
 import com.google.gson.Gson
+import com.philips.uid.DLSResourceConstants
 import com.philips.uid.model.brush.Brush
 import com.philips.uid.model.brush.BrushValue
 import groovy.json.JsonSlurper
@@ -28,7 +29,7 @@ class BrushParser {
     }
 
     def readBrushesJSON() {
-        new File("../../../../resources/brushes.json").text
+        new File(DLSResourceConstants.PATH_SEMANTIC_BRUSH_JSON).text
     }
 
     def getBrushValueFromBrushName(brsuhName, tonalRange) {

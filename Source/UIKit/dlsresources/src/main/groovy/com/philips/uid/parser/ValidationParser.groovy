@@ -1,5 +1,6 @@
 package com.philips.uid.parser
 
+import com.philips.uid.DLSResourceConstants
 import com.philips.uid.model.brush.BrushValue
 import com.philips.uid.model.validation.ValidationBrush
 import com.philips.uid.model.validation.ValidationModel
@@ -61,6 +62,6 @@ class ValidationParser {
     }
 
     def readValidationJSON() {
-        new File("../../../../resources/validation.json").text
+        new File(DLSResourceConstants.PATH_VALIDATION_JSON).text
     }
 }

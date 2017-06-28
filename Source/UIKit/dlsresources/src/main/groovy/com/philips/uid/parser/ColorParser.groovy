@@ -1,5 +1,6 @@
 package com.philips.uid.parser
 
+import com.philips.uid.DLSResourceConstants
 import com.philips.uid.helpers.NameConversionHelper
 import com.philips.uid.model.color.ColorRange
 import com.philips.uid.model.color.Colors
@@ -34,17 +35,17 @@ class ColorParser {
     }
 
     def readColorRangesJSON() {
-        new File("../../../../resources/color_ranges.json").text
+        new File(DLSResourceConstants.PATH_COLOR_RANGES_JSON).text
     }
 
     def generateColors() {
-        def outDir = new File("generated")
+        def outDir = new File(DLSResourceConstants.PATH_OUT)
         if(outDir.exists()) {
             outDir.delete()
         }
         outDir.mkdir()
 
-        File colorXml = new File("generated/uid_colors.xml")
+        File colorXml = new File(DLSResourceConstants.PATH_OUT_COLORS_FILE)
         if(colorXml.exists())
             colorXml.delete()
 
