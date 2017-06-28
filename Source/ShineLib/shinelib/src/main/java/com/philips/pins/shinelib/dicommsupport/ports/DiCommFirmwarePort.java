@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2016, 2017.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -21,7 +21,7 @@ public class DiCommFirmwarePort extends DiCommPort {
 
     public static class Key {
         public static final String STATE = "state";
-        public static final String MAC_CHUNK_SIZE = "maxchunksize";
+        public static final String MAX_CHUNK_SIZE = "maxchunksize";
         public static final String UPGRADE = "upgrade";
         public static final String CAN_UPGRADE = "canupgrade";
 
@@ -85,9 +85,12 @@ public class DiCommFirmwarePort extends DiCommPort {
     public int getMaxChunkSize() {
         Map<String, Object> properties = getProperties();
 
-        Object size = properties.get(Key.MAC_CHUNK_SIZE);
+        Object size = properties.get(Key.MAX_CHUNK_SIZE);
         if (size instanceof Integer) {
             Integer maxChunkSizeInBase64 = (Integer) size;
+            return (int) Math.floor(maxChunkSizeInBase64 * 0.75);
+        } else if (size instanceof Double) {
+            int maxChunkSizeInBase64 = ((Double) size).intValue();
             return (int) Math.floor(maxChunkSizeInBase64 * 0.75);
         }
 

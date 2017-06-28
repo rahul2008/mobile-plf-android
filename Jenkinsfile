@@ -39,6 +39,7 @@ node('Android') {
         }
 
         stage('Archive artifacts') {
+            archiveArtifacts artifacts: '**/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
             archiveArtifacts artifacts: '**/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
             archiveArtifacts '**/dependencies.lock'
         }

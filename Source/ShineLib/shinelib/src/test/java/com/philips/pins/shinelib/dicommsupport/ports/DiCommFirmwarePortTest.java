@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.pins.shinelib.dicommsupport.ports;
 
 import com.philips.pins.shinelib.SHNMapResultListener;
@@ -108,6 +113,14 @@ public class DiCommFirmwarePortTest {
     @Test
     public void whenPropertiesAreReceivedThenMaxChunkSizeIsUpdated() throws Exception {
         reloadProperties("maxchunksize", 255);
+
+        int expected = (int) (255 * 0.75);
+        assertEquals(expected, diCommFirmwarePort.getMaxChunkSize());
+    }
+
+    @Test
+    public void whenPropertiesAreReceivedWithDoubleChunkSizeThenMaxChunkSizeIsUpdated() throws Exception {
+        reloadProperties("maxchunksize", 255d);
 
         int expected = (int) (255 * 0.75);
         assertEquals(expected, diCommFirmwarePort.getMaxChunkSize());
