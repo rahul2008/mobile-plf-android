@@ -56,8 +56,8 @@ import static com.philips.platform.baseapp.screens.utility.Constants.ILLEGAL_STA
  * All rights reserved.
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class TemperatureTimeLineFragmentAbstract extends AbstractAppFrameworkBaseFragment implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener, SwipeRefreshLayout.OnRefreshListener {
-    public static final String TAG = TemperatureTimeLineFragmentAbstract.class.getSimpleName();
+public class TemperatureTimeLineFragment extends AbstractAppFrameworkBaseFragment implements View.OnClickListener, DBFetchRequestListner<Moment>, DBRequestListener<Moment>, DBChangeListener, SynchronisationCompleteListener, SwipeRefreshLayout.OnRefreshListener {
+    public static final String TAG = TemperatureTimeLineFragment.class.getSimpleName();
     RecyclerView mRecyclerView;
     ArrayList<? extends Moment> mData = new ArrayList();
     private TemperatureTimeLineFragmentcAdapter mAdapter;
@@ -318,7 +318,7 @@ public class TemperatureTimeLineFragmentAbstract extends AbstractAppFrameworkBas
         if (type != SyncType.MOMENT) return;
 
         DSLog.i(DSLog.LOG, "In Temperature TimeLine Fragment DB OnSuccess Moment request");
-        mTemperaturePresenter.fetchData(TemperatureTimeLineFragmentAbstract.this);
+        mTemperaturePresenter.fetchData(TemperatureTimeLineFragment.this);
     }
 
     @Override
@@ -370,7 +370,7 @@ public class TemperatureTimeLineFragmentAbstract extends AbstractAppFrameworkBas
 
     @Override
     public void onFetchSuccess(final List<? extends Moment> data) {
-        DSLog.i(DSLog.LOG, "On Sucess ArrayList TemperatureTimeLineFragmentAbstract");
+        DSLog.i(DSLog.LOG, "On Sucess ArrayList TemperatureTimeLineFragment");
         if (getActivity() == null) return;
         if (!BaseAppUtil.isDSPollingEnabled(getActivity())) {
             mDataServicesManager.synchronize();

@@ -41,9 +41,9 @@ import com.shamanland.fonticon.FontIconView;
  * <b>To use the Introduction screen flow, start the mActivity with IntroudctionScreenActivity as the Intent</b><br>
  * <pre>&lt;To make the start , skip ,left and right button visibility in each screen, please use the onPageSelected
  */
-public class WelcomeFragmentAbstract extends AbstractOnboardingBaseFragment implements View.OnClickListener, WelcomeFragmentView, BackEventListener {
+public class WelcomeFragment extends AbstractOnboardingBaseFragment implements View.OnClickListener, WelcomeFragmentView, BackEventListener {
 
-    public static String TAG = WelcomeFragmentAbstract.class.getSimpleName();
+    public static String TAG = WelcomeFragment.class.getSimpleName();
 
     private FontIconView leftArrow;
     private FontIconView rightArrow;
@@ -75,7 +75,7 @@ public class WelcomeFragmentAbstract extends AbstractOnboardingBaseFragment impl
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new WelcomeFragmentPresenterAbstract(this);
+        presenter = new WelcomeFragmentPresenter(this);
     }
 
     @Override

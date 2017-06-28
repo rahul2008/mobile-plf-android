@@ -26,7 +26,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 public class DebugTestFragmentTest extends TestCase {
     private HamburgerActivity hamburgerActivity;
-    private DebugTestFragmentAbstract debugFragment;
+    private DebugTestFragment debugFragment;
     private FragmentActivity fragmentActivityMock;
 //    private AppFrameworkApplication appFrameworkApplication;
 
@@ -35,7 +35,7 @@ public class DebugTestFragmentTest extends TestCase {
         initMocks(this);
         super.setUp();
         hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().visible().get();
-        debugFragment = new DebugTestFragmentAbstract();
+        debugFragment = new DebugTestFragment();
         hamburgerActivity.getSupportFragmentManager().beginTransaction().add(debugFragment,"DebugFragmentTest").commit();
         fragmentActivityMock = mock(FragmentActivity.class);
 //        appFrameworkApplication = mock(AppFrameworkApplication.class);

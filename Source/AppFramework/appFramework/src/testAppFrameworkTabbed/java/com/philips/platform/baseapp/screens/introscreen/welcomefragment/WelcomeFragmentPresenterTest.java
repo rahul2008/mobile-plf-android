@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 
 public class WelcomeFragmentPresenterTest extends TestCase {
 
-    private WelcomeFragmentPresenterAbstract welcomeFragmentPresenter;
+    private WelcomeFragmentPresenter welcomeFragmentPresenter;
     private WelcomeFragmentView welcomeFragmentViewMock;
     private FragmentActivity fragmentActivityMock;
 
@@ -40,7 +40,7 @@ public class WelcomeFragmentPresenterTest extends TestCase {
         welcomeFragmentViewMock = mock(WelcomeFragmentView.class);
         fragmentActivityMock = mock(FragmentActivity.class);
         when(welcomeFragmentViewMock.getFragmentActivity()).thenReturn(fragmentActivityMock);
-        welcomeFragmentPresenter = new WelcomeFragmentPresenterAbstract(welcomeFragmentViewMock);
+        welcomeFragmentPresenter = new WelcomeFragmentPresenter(welcomeFragmentViewMock);
     }
 
     public void testOnClick() throws Exception {
@@ -48,7 +48,7 @@ public class WelcomeFragmentPresenterTest extends TestCase {
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
-        welcomeFragmentPresenter = new WelcomeFragmentPresenterAbstract(welcomeFragmentViewMock) {
+        welcomeFragmentPresenter = new WelcomeFragmentPresenter(welcomeFragmentViewMock) {
             @Override
             public void setState(final String stateID) {
                 super.setState(AppStates.TAB_HOME);
@@ -77,7 +77,7 @@ public class WelcomeFragmentPresenterTest extends TestCase {
         final FragmentLauncher fragmentLauncherMock = mock(FragmentLauncher.class);
         final AppFrameworkApplication appFrameworkApplicationMock = mock(AppFrameworkApplication.class);
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
-        welcomeFragmentPresenter = new WelcomeFragmentPresenterAbstract(welcomeFragmentViewMock) {
+        welcomeFragmentPresenter = new WelcomeFragmentPresenter(welcomeFragmentViewMock) {
             @Override
             public void setState(final String stateID) {
                 super.setState(AppStates.WELCOME);

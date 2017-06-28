@@ -27,7 +27,7 @@ public class WelcomeState extends BaseState {
     public void navigate(UiLauncher uiLauncher) {
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
         ((AbstractAppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
-                addFragment(new WelcomeFragmentAbstract(), WelcomeFragmentAbstract.TAG);
+                addFragment(new WelcomeFragment(), WelcomeFragment.TAG);
     }
 
     @Override

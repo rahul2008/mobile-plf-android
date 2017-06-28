@@ -94,7 +94,7 @@ public class WelcomeFragmentTest {
         boolean handleBack = welcomeFragment.handleBackEvent();
         assertEquals(true,handleBack);
     }
-    public static class WelcomeFragmentMockAbstract extends WelcomeFragmentAbstract {
+    public static class WelcomeFragmentMockAbstract extends WelcomeFragment {
         View view;
         @Override
         protected void startLogging() {

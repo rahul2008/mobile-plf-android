@@ -26,7 +26,7 @@ public class SplashState extends BaseState {
         RALog.d(TAG," navigate called ");
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
         ((AbstractAppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
-                addFragment(new SplashFragmentAbstract(), SplashFragmentAbstract.TAG);
+                addFragment(new SplashFragment(), SplashFragment.TAG);
     }
 
     @Override

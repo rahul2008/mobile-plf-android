@@ -23,7 +23,7 @@ public class Constants {
    // public static final String IAP_SHOPPING_CART_FRAGMENT_TAG = "ShoppingCartFragment";
 
     /**
-     * LaunchActivityAbstract constants
+     * LaunchActivity constants
      */
     public static final int BACK_BUTTON_CLICK_CONSTANT = 100000;
     public static final int LOGOUT_BUTTON_CLICK_CONSTANT = 100001;
