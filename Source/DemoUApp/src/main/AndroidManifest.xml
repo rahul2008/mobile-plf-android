@@ -1,22 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.philips.cdp.di.iapdemo">
+
+    package="com.iap.demouapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".DemoApplication"
         android:icon="@drawable/app_icon"
         android:allowBackup="false"
         android:label="@string/demo_app_name"
         android:resizeableActivity="true"
         android:supportsRtl="true"
-        tools:replace="android:allowBackup, android:label, android:supportsRtl, android:resizeableActivity">
+        tools:replace="android:allowBackup, android:label, android:supportsRtl, android:resizeableActivity"
+        >
 
-        <activity android:name=".LuncherActivity"
+        <activity android:name=".DemoAppActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -25,6 +25,22 @@
             </intent-filter>
         </activity>
 
+        <!--
+         This activity declaration is merged with the version from the library manifest.
+         It demonstrates how an https redirect can be captured, in addition to or instead of
+         a custom scheme.
+
+         Generally, this should be done in conjunction with an app link declaration for Android M
+         and above, for additional security and an improved user experience. See:
+
+         https://developer.android.com/training/app-links/index.html
+
+         The declaration from the library can be completely replaced by adding
+
+         tools:node="replace"
+
+         To the list of attributes on the activity element.
+         -->
         <activity
             android:name="net.openid.appauth.RedirectUriReceiverActivity" >
             <intent-filter>
@@ -50,7 +66,6 @@
             android:theme="@style/Theme.Janrain.Dialog.Light"
             android:windowSoftInputMode="stateHidden">
         </activity>
-
     </application>
 
 </manifest>

@@ -1,6 +1,9 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
+
 
 buildscript {
     repositories {
@@ -18,6 +21,7 @@ buildscript {
             }
         }
     }
+
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
@@ -32,14 +36,10 @@ if (project.hasProperty('envCode')) {
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
-
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = rootProject.name + "App"
-
-group = 'com.philips.cdp'
-version = objcdp.getVersion()
+objcdp.setEnv(platform: 'android', env: environment )
+archivesBaseName = rootProject.name + "UApp"
 
 allprojects {
     repositories {
@@ -57,12 +57,17 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
+        apply plugin: 'com.jfrog.artifactory'
+        group = 'com.philips.cdp'
 
         flatDir {
             dirs 'libs'
         }
     }
 }
+
+group = 'com.philips.cdp'
+version = objcdp.getVersion()
 
 artifactory {
     contextUrl = objcdp.getArtifactoryContextUrl()
@@ -76,7 +81,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications('apk')
+                publications ('aar')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
@@ -86,18 +91,33 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600
-    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
+
+//=======To zip and upload "Documents/External" ==STARTS=============
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
+task zipDocuments(type: Zip) {
+    from files(objcdp.getExternalDocPath()) {
+        baseName = project.name
+        classifier 'docs'
+    }
+}
+//=======To zip and upload "Documents/External" ==ENDS=============
 
 publishing {
     publications {
-        apk(MavenPublication) {
+        aar(MavenPublication) {
             groupId group
             version = version
             artifactId archivesBaseName
 
-            artifact("$buildDir/outputs/apk/${archivesBaseName}-device-release.apk")
+            artifact zipDocuments
+
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
@@ -112,11 +132,13 @@ publishing {
         }
     }
 }
+
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    buildToolsVersion "25.0.2"
 
-    defaultConfig {
+
+    /*defaultConfig {
         applicationId "com.philips.cdp.di.iapdemo"
         minSdkVersion 21
         targetSdkVersion 25
@@ -128,18 +150,25 @@ android {
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]
-    }
+    }*/
 
-    signingConfigs {
-        release
-    }
+    defaultConfig {
+       // applicationId "com.iap.demouapp"
+        minSdkVersion 21
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
+        ]
 
+    }
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
-            proguardFile 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
         debug {
@@ -147,59 +176,7 @@ android {
             shrinkResources false
             debuggable true
             testCoverageEnabled false
-            proguardFile 'proguard-rules.pro'
         }
-    }
-
-    /*
-    This defined for signing the apk -- start
-     */
-    def Properties props = new Properties()
-    def propFile = new File('signing.properties')
-    if (propFile.canRead()) {
-        props.load(new FileInputStream(propFile))
-
-        if (props != null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') && props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
-            println 'signing.properties found and fully filled in'
-            android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
-            android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
-            android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
-            android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
-        } else {
-            println 'NOPE - signing.properties NOT found'
-            android.buildTypes.release.signingConfig = null
-        }
-    } else {
-        println 'signing.properties not found'
-        android.buildTypes.release.signingConfig = null
-    }
-    /*
-    This defined for signing the apk -- end
-    */
-
-
-    productFlavors {
-        simulator {
-            applicationId 'com.philips.cdp.di.iapdemo'
-            versionCode 2
-            versionName "0.17.8"
-        }
-        device {
-            applicationId 'com.philips.cdp.di.iapdemo'
-            versionCode 2
-            versionName "0.17.8"
-        }
-    }
-    lintOptions {
-        abortOnError false
-        checkReleaseBuilds false
-        disable 'InvalidPackage'
-        disable 'GradleCompatible'
-        disable 'MissingTranslation'
-        disable 'TypographyFractions','TypographyQuotes'
-        absolutePaths false
-        lintConfig file('lint.xml')
-
     }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
@@ -212,57 +189,37 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
+        exclude 'lib/arm64-v8a/librsjni.so'
+        exclude 'lib/arm64-v8a/libRSSupport.so'
+        exclude 'lib/armeabi-v7a/libblasV8.so'
+        exclude 'lib/armeabi-v7a/librsjni.so'
+        exclude 'lib/armeabi-v7a/libRSSupport.so'
+        exclude 'lib/mips/libblasV8.so'
+        exclude 'lib/mips/librsjni.so'
+        exclude 'lib/mips/libRSSupport.so'
+        exclude 'lib/x86/libblasV8.so'
+        exclude 'lib/x86/librsjni.so'
+        exclude 'lib/x86/libRSSupport.so'
+    }
+    lintOptions {
+        abortOnError false
+        checkReleaseBuilds false
+        disable 'InvalidPackage'
+        disable 'GradleCompatible'
+        disable 'MissingTranslation'
+        disable 'TypographyFractions','TypographyQuotes'
+        absolutePaths false
+        lintConfig file('lint.xml')
+
     }
 }
 
 dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
     compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:customtabs:25.3.1'
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.2.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-        transitive = true
-    }
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
-    compile project(':DemoUApp')
+    testCompile 'junit:junit:4.12'
+    compile project(':iap')
 }
-
-
-/*task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
-
-    description 'Run findbugs'
-    group 'verification'
-    ignoreFailures = true
-    classes = fileTree('build/intermediates/classes/simulator/debug')
-    source = fileTree('src/main/java')
-    classpath = files()
-
-    effort = 'max'
-
-    excludeFilter = file("findbugs-exclude.xml")
-
-    reports {
-        xml.enabled = true
-        html.enabled = false
-    }
-}
-
-task pmd(type: Pmd, dependsOn: "assembleDebug") {
-
-    description 'Run pmd'
-    group 'verification'
-    ignoreFailures = true
-    ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
-    source = fileTree('src/main/java')
-
-    reports {
-        xml.enabled = true
-        html.enabled = false
-    }
-}*/
-
-tasks.withType(Test) {
-  ignoreFailures = true
-}
-
-

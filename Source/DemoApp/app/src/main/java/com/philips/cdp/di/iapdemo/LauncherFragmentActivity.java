@@ -1,3 +1,4 @@
+/*
 package com.philips.cdp.di.iapdemo;
 
 import android.graphics.drawable.Drawable;
@@ -219,3 +220,4 @@ public class LauncherFragmentActivity extends UiKitActivity
         }
     }
 }
+*/
