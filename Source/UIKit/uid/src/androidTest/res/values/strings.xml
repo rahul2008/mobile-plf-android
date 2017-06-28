@@ -12,9 +12,6 @@
     <string name="progress_button_loading">button_loading</string>
     <string name="checkbox">checkbox</string>
     <string name="language_pack_label">Language pack label</string>
-    <string name="language_pack_checkbox">Language pack checkbox</string>
-    <string name="language_pack_hint">Language pack edit text</string>
-    <string name="language_pack_button">Language pack button</string>
     <string name="test_links_description"><a href="http://www.philips.com">Philips website</a>
        <a href="http://www.google.com">Google</a></string>
 </resources>

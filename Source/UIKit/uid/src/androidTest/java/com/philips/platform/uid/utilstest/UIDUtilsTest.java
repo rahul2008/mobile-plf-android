@@ -2,18 +2,22 @@ package com.philips.platform.uid.utilstest;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.VectorDrawable;
 import android.support.test.rule.ActivityTestRule;
+import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.test.BuildConfig;
 import com.philips.platform.uid.text.utils.UIDSpans;
 import com.philips.platform.uid.text.utils.UIDStringUtils;
-import com.philips.platform.uid.utils.UIDResources;
+import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+import static com.philips.platform.uid.utils.UIDTestUtils.waitFor;
 
 public class UIDUtilsTest {
 
@@ -25,29 +29,15 @@ public class UIDUtilsTest {
     CharSequence subStr = "Hello";
     SpannableString spannableString = new SpannableString("Hello World");
     SpannableString spannableSubString = new SpannableString("Hello");
+    Toolbar toolbar;
 
     @Before
     public void setUp() throws Exception {
         final Intent launchIntent = new Intent(Intent.ACTION_MAIN);
         activity = testRule.launchActivity(launchIntent);
-        activity.switchTo(com.philips.platform.uid.test.R.layout.layout_language_pack);
+        activity.switchTo(com.philips.platform.uid.test.R.layout.layout_for_utils);
         testResources = activity.getResources();
     }
-
-    @Test
-    public void verifyUIDResource() {
-        if (BuildConfig.DEBUG && !(testResources instanceof UIDResources)) {
-            throw new AssertionError();
-        }
-    }
-
-    @Test
-    public void verifyGetText() {
-        if (BuildConfig.DEBUG && !("Taalpakket label".equals(testResources.getText(com.philips.platform.uid.test.R.string.language_pack_label)))) {
-            throw new AssertionError();
-        }
-    }
-
 
 //    Text utils test cases
 
@@ -123,6 +113,40 @@ public class UIDUtilsTest {
         }
     }
 
+    @Test
+    public void verifyHideNavigationIcon(){
+        waitFor(testResources, 500);
+        toolbar = (Toolbar) activity.findViewById(com.philips.platform.uid.test.R.id.uid_toolbar);
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                toolbar.setNavigationIcon(com.philips.platform.uid.test.R.drawable.uid_ic_cross_icon);
+                UIDNavigationIconToggler toggler = new UIDNavigationIconToggler(activity);
+                toggler.hideNavigationIcon();
+            }
+        });
+        if (BuildConfig.DEBUG && !(activity.getToolbar().getNavigationIcon() == null)) {
+            throw new AssertionError();
+        }
+    }
 
+    @Test
+    public void verifyRestoreNavigationIcon(){
+        waitFor(testResources, 500);
+        toolbar = (Toolbar) activity.findViewById(com.philips.platform.uid.test.R.id.uid_toolbar);
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                toolbar.setNavigationIcon(com.philips.platform.uid.test.R.drawable.uid_ic_cross_icon);
+                UIDNavigationIconToggler toggler = new UIDNavigationIconToggler(activity);
+                toggler.hideNavigationIcon();
+                toggler.restoreNavigationIcon();
+            }
+        });
+        waitFor(testResources, 500);
+        if (BuildConfig.DEBUG && !(activity.getToolbar().getNavigationIcon() instanceof VectorDrawable)) {
+            throw new AssertionError();
+        }
+    }
 
 }

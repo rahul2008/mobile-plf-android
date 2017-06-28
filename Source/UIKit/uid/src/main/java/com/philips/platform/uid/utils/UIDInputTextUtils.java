@@ -28,9 +28,6 @@ public final class UIDInputTextUtils {
     private final static int DRAWABLE_FILL_INDEX = 0;
     private final static int DRAWABLE_STROKE_INDEX = 1;
 
-    private UIDInputTextUtils(){
-    }
-
     public static Drawable getLayeredBackgroundDrawable(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme, Context context) {
         Drawable fillDrawable = getFillBackgroundDrawable(typedArray, theme, context);
         Drawable borderDrawable = getBorderBackground(typedArray, theme, context);
