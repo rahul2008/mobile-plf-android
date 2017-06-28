@@ -49,12 +49,14 @@ class SampleApplianceFactory implements DICommApplianceFactory<Appliance> {
                     cloudTransportContext.createCommunicationStrategyFor(networkNode));
 
             switch (networkNode.getDeviceType()) {
-                case ComfortAirPurifier.DEVICETYPE:
+                case AirPurifier.DEVICETYPE:
                     networkNode.useLegacyHttp();
-                    return new ComfortAirPurifier(networkNode, communicationStrategy);
-                case JaguarAirPurifier.DEVICETYPE:
-                    networkNode.useLegacyHttp();
-                    return new JaguarAirPurifier(networkNode, communicationStrategy);
+
+                    if (ComfortAirPurifier.MODELID.equals(networkNode.getModelId())) {
+                        return new ComfortAirPurifier(networkNode, communicationStrategy);
+                    } else {
+                        return new JaguarAirPurifier(networkNode, communicationStrategy);
+                    }
                 case WifiReferenceAppliance.DEVICETYPE:
                     return new WifiReferenceAppliance(networkNode, communicationStrategy);
             }
