@@ -16,7 +16,7 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 
 public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DB_VERSION = 4;
+    private static final int DB_VERSION = 5;
 
     public static final String DB_NAME = "network_node.db";
     public static final String TABLE_NETWORK_NODE = "network_node";
@@ -26,7 +26,7 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_CONNECTION_STATE = "connection_state";
     public static final String KEY_CPP_ID = "cppid";
     public static final String KEY_DEVICE_NAME = "dev_name";
-    public static final String KEY_DEVICE_TYPE = "model_name"; // legacy schema support
+    public static final String KEY_DEVICE_TYPE = "device_type";
     public static final String KEY_ENCRYPTION_KEY = "encryption_key"; // was airpur_key
     public static final String KEY_HOME_SSID = "home_ssid";
     public static final String KEY_HTTPS = "https";
@@ -35,8 +35,6 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_IS_PAIRED = "is_paired";
     public static final String KEY_LAST_KNOWN_NETWORK = "lastknown_network";
     public static final String KEY_LAST_PAIRED = "last_paired";
-    public static final String KEY_IP_ADDRESS = "ip_address";
-    public static final String KEY_DEVICE_TYPE = "model_name"; // Value explicitly not renamed to prevent schema update
     public static final String KEY_MODEL_ID = "model_id";
     public static final String KEY_PIN = "pin";
 
@@ -90,6 +88,9 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
                 case 4:
                     upgradeToVersion4(db);
                     break;
+                case 5:
+                    upgradeToVersion5(db);
+                    break;
                 default:
                     DICommLog.e(DICommLog.DATABASE, "Table creation error");
                     break;
@@ -101,6 +102,11 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("ALTER TABLE " + TABLE_NETWORK_NODE + " ADD COLUMN " + KEY_HTTPS + " SMALLINT NOT NULL DEFAULT 0;");
     }
 
+    /**
+     * This will rename the 'model_type' column to 'model_id'.
+     *
+     * @param db the database to perform the upgrade on
+     */
     private void upgradeToVersion3(SQLiteDatabase db) {
         db.execSQL("BEGIN TRANSACTION;");
 
@@ -110,16 +116,48 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("INSERT INTO " + TABLE_NETWORK_NODE + "(" + KEY_ID + "," + KEY_CPP_ID + "," + KEY_BOOT_ID + "," + KEY_ENCRYPTION_KEY + "," +
                 KEY_DEVICE_NAME + "," + KEY_LAST_KNOWN_NETWORK + "," + KEY_IS_PAIRED + "," + KEY_LAST_PAIRED + "," + KEY_IP_ADDRESS + "," + KEY_DEVICE_TYPE + "," + KEY_MODEL_ID + "," + KEY_HTTPS + ")\n" +
-                   "SELECT " + KEY_ID + "," + KEY_CPP_ID + "," + KEY_BOOT_ID + "," + KEY_ENCRYPTION_KEY + "," +
+
+                "SELECT " + KEY_ID + "," + KEY_CPP_ID + "," + KEY_BOOT_ID + "," + KEY_ENCRYPTION_KEY + "," +
                 KEY_DEVICE_NAME + "," + KEY_LAST_KNOWN_NETWORK + "," + KEY_IS_PAIRED + "," + KEY_LAST_PAIRED + "," + KEY_IP_ADDRESS + "," + KEY_DEVICE_TYPE + ",model_type," + KEY_HTTPS + "\n" +
-                   "FROM tmp_" + TABLE_NETWORK_NODE + ";");
+
+                "FROM tmp_" + TABLE_NETWORK_NODE + ";");
 
         db.execSQL("DROP TABLE tmp_" + TABLE_NETWORK_NODE + ";");
 
         db.execSQL("COMMIT;");
     }
 
+    /**
+     * This will add the 'pin' column.
+     *
+     * @param db the database to perform the upgrade on
+     */
     private void upgradeToVersion4(SQLiteDatabase db) {
         db.execSQL("ALTER TABLE " + TABLE_NETWORK_NODE + " ADD COLUMN " + KEY_PIN + " TEXT;");
+    }
+
+    /**
+     * This will rename the 'model_name' column to 'device_type'.
+     *
+     * @param db the database to perform the upgrade on
+     */
+    private void upgradeToVersion5(SQLiteDatabase db) {
+        db.execSQL("BEGIN TRANSACTION;");
+
+        db.execSQL("ALTER TABLE " + TABLE_NETWORK_NODE + " RENAME TO tmp_" + TABLE_NETWORK_NODE + ";");
+
+        onCreate(db); // This will recreate the original table
+
+        db.execSQL("INSERT INTO " + TABLE_NETWORK_NODE + "(" + KEY_ID + "," + KEY_CPP_ID + "," + KEY_BOOT_ID + "," + KEY_ENCRYPTION_KEY + "," +
+                KEY_DEVICE_NAME + "," + KEY_LAST_KNOWN_NETWORK + "," + KEY_IS_PAIRED + "," + KEY_LAST_PAIRED + "," + KEY_IP_ADDRESS + "," + KEY_DEVICE_TYPE + "," + KEY_MODEL_ID + "," + KEY_HTTPS + ")\n" +
+
+                "SELECT " + KEY_ID + "," + KEY_CPP_ID + "," + KEY_BOOT_ID + "," + KEY_ENCRYPTION_KEY + "," +
+                KEY_DEVICE_NAME + "," + KEY_LAST_KNOWN_NETWORK + "," + KEY_IS_PAIRED + "," + KEY_LAST_PAIRED + "," + KEY_IP_ADDRESS + ",model_type" + ",KEY_MODEL_ID," + KEY_HTTPS + "\n" +
+
+                "FROM tmp_" + TABLE_NETWORK_NODE + ";");
+
+        db.execSQL("DROP TABLE tmp_" + TABLE_NETWORK_NODE + ";");
+
+        db.execSQL("COMMIT;");
     }
 }

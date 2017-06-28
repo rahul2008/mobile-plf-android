@@ -38,7 +38,7 @@ class SampleApplianceFactory implements DICommApplianceFactory<Appliance> {
 
     @Override
     public boolean canCreateApplianceForNode(NetworkNode networkNode) {
-        return getSupportedModelNames().contains(networkNode.getDeviceType());
+        return getSupportedDeviceTypes().contains(networkNode.getDeviceType());
     }
 
     @Override
@@ -63,7 +63,7 @@ class SampleApplianceFactory implements DICommApplianceFactory<Appliance> {
     }
 
     @Override
-    public Set<String> getSupportedModelNames() {
+    public Set<String> getSupportedDeviceTypes() {
         return Collections.unmodifiableSet(new HashSet<String>() {{
             add(AirPurifier.DEVICETYPE);
             add(WifiReferenceAppliance.DEVICETYPE);
