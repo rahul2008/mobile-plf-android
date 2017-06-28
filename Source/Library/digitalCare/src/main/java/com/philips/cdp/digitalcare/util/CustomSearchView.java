@@ -26,7 +26,7 @@ public class CustomSearchView extends android.support.v7.widget.AppCompatAutoCom
     public CustomSearchView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        this.setOnTouchListener(new RightDrawableOnTouchListener(this) {
+        this.setOnTouchListener(new CloseIconTouchListener(this) {
 
             @Override
             public boolean onDrawableTouch(MotionEvent event) {

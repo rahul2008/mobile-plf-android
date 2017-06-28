@@ -5,12 +5,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
-public abstract class RightDrawableOnTouchListener implements View.OnTouchListener {
+public abstract class CloseIconTouchListener implements View.OnTouchListener {
 
     Drawable drawable;
     private int count = 10;
 
-    public RightDrawableOnTouchListener(TextView view) {
+    public CloseIconTouchListener(TextView view) {
         super();
         final Drawable[] drawables = view.getCompoundDrawables();
         if (drawables != null && drawables.length == 4) {
