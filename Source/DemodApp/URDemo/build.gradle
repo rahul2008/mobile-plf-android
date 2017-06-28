@@ -29,18 +29,6 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-release'
-        }
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-stage'
-        }
-        maven {
-            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-snapshot'
-        }
-        maven {
-            url "https://oss.sonatype.org/content/repositories/snapshots"
-        }
     }
 }
 
