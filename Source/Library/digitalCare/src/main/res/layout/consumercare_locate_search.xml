@@ -1,34 +1,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/locate_search_layout"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingLeft="12dip"
+    android:paddingRight="12dip"
     android:layout_marginTop="20dp">
 
-    <EditText
+    <com.philips.cdp.digitalcare.util.CustomSearchView
         android:id="@+id/search_box"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="43dip"
+        android:paddingLeft="10dp"
+        android:paddingStart="10dp"
+        android:paddingRight="10dp"
+        android:paddingEnd="10dp"
+        android:background="@drawable/consumercare_search_bar"
+        android:drawableLeft="@drawable/uid_search_icon"
+        android:drawableStart="@drawable/uid_search_icon"
+        android:drawableRight="@drawable/uid_texteditbox_clear_icon"
+        android:drawableEnd="@drawable/uid_texteditbox_clear_icon"
+        android:drawablePadding="20dp"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:queryHint="Search"
+        android:focusable="true"
+        android:gravity="center_vertical"
         android:layout_centerVertical="true"
-        android:background="@android:color/white"
-        android:hint="@string/search"
-        android:padding="10dp"
-        android:singleLine="true"
-        android:textColor="@color/black"
-        android:textColorHint="@android:color/darker_gray"></EditText>
-
-    <ImageView
-        android:id="@+id/search_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/search_box"
-        android:layout_alignEnd="@id/search_box"
-        android:layout_alignRight="@id/search_box"
-        android:layout_alignTop="@id/search_box"
-        android:clickable="true"
-        android:contentDescription="@string/img_description"
-        android:padding="8dp"
-        android:src="@drawable/consumercare_ic_menu_search"
-        android:visibility="visible" />
+        android:textColor="?attr/uidSearchBoxAndroidDefaultNormalInputTextColor"
+        android:focusableInTouchMode="true"/>
 
     <ImageView
         android:id="@+id/arabic_search_icon"

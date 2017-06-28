@@ -21,6 +21,8 @@ public class AtosAddressModel {
 	private String mUrl = null;
 	private String mCityState = null;
 	private ArrayList<String> mPhoneList = null;
+	private double currentLat;
+	private double currentLng;
 
 	public String getZip() {
 		return mZip;
@@ -63,14 +65,6 @@ public class AtosAddressModel {
 		mCityState = cityState;
 	}
 
-	// public String getState() {
-	// return mState;
-	// }
-	//
-	// public void setState(String state) {
-	// mState = state;
-	// }
-
 	public String getAddress1() {
 		return mAddress1;
 	}
@@ -95,11 +89,19 @@ public class AtosAddressModel {
 		mUrl = url;
 	}
 
-	// public String getCity() {
-	// return mCity;
-	// }
-	//
-	// public void setCity(String city) {
-	// mCity = city;
-	// }
+	public double getCurrentLat() {
+		return currentLat;
+	}
+
+	public void setCurrentLat(double currentLat) {
+		this.currentLat = currentLat;
+	}
+
+	public double getCurrentLng() {
+		return currentLng;
+	}
+
+	public void setCurrentLng(double currentLng) {
+		this.currentLng = currentLng;
+	}
 }

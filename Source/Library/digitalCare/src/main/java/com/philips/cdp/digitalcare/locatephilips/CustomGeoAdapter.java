@@ -12,11 +12,20 @@ package com.philips.cdp.digitalcare.locatephilips;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.view.*;
-import android.widget.*;
+import android.location.Location;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.philips.cdp.digitalcare.R;
-import com.philips.cdp.digitalcare.locatephilips.models.*;
+import com.philips.cdp.digitalcare.locatephilips.models.AtosAddressModel;
+import com.philips.cdp.digitalcare.locatephilips.models.AtosLocationModel;
+import com.philips.cdp.digitalcare.locatephilips.models.AtosResultsModel;
 
 import java.util.ArrayList;
 
@@ -53,10 +62,11 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if (convertView == null) {
-            LayoutInflater mInflater = (LayoutInflater) context
+        if (convertView == null && context!=null) {
+            LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.consumercare_geo_list_item, null);
+            if(inflater!=null)
+              convertView = inflater.inflate(R.layout.consumercare_geo_list_item, null);
         }
 
         ViewHolder holder = new ViewHolder();
@@ -65,17 +75,25 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
         holder.txtAddress = (TextView) convertView
                 .findViewById(R.id.place_address);
         holder.txtPhone = (TextView) convertView.findViewById(R.id.place_phone);
+        holder.txtDistance = (TextView) convertView.findViewById(R.id.distance_view);
 
         AtosResultsModel resultModel = mResultModelSet.get(position);
         AtosAddressModel addressModel = resultModel.getAddressModel();
 
+
+        AtosLocationModel locationModel = resultModel.getLocationModel();
+        double lat = Double.parseDouble(locationModel.getLatitude());
+        double lng = Double.parseDouble(locationModel.getLongitude());
+
+        LatLng start = new LatLng(addressModel.getCurrentLat(), addressModel.getCurrentLng());
+        LatLng end = new LatLng(lat, lng);
+        holder.txtDistance.setText(getDistance(start,end));
         holder.txtTitle.setText(resultModel.getTitle());
-        holder.txtAddress.setText(addressModel.getAddress1() + "\n"
-                + addressModel.getCityState());
-        if ((addressModel.getPhone() == null) || (addressModel.getPhone() == ""))
+        holder.txtAddress.setText(addressModel.getCityState());
+       /* if ((addressModel.getPhone() == null) || (addressModel.getPhone() == ""))
             holder.txtPhone.setVisibility(View.GONE);
         else
-            holder.txtPhone.setText(addressModel.getPhone());
+            holder.txtPhone.setText(addressModel.getPhone());*/
         return convertView;
     }
 
@@ -92,7 +110,7 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
         TextView txtTitle = null;
         TextView txtAddress = null;
         TextView txtPhone = null;
-
+        TextView txtDistance = null;
     }
 
     private class CustomFilter extends Filter {
@@ -120,9 +138,9 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
                         filteredResultModel.setAddressModel(resultModel
                                 .getAddressModel());
                         FilteredResultModelSet.add(filteredResultModel);
-                    } // if
+                    }
 
-                } // for
+                }
                 filterResults.count = FilteredResultModelSet.size();
                 filterResults.values = FilteredResultModelSet;
             } else {
@@ -141,5 +159,28 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
             mResultModelSet = (ArrayList<AtosResultsModel>) results.values;
             notifyDataSetChanged();
         }
+    }
+
+
+    public String getDistance(LatLng my_latlong, LatLng frnd_latlong) {
+        Location l1 = new Location("Source");
+        l1.setLatitude(my_latlong.latitude);
+        l1.setLongitude(my_latlong.longitude);
+
+        Location l2 = new Location("Destination");
+        l2.setLatitude(frnd_latlong.latitude);
+        l2.setLongitude(frnd_latlong.longitude);
+
+        float distance = l1.distanceTo(l2);
+
+        String dist = distance + " M";
+
+        if (distance > 1000.0f) {
+            distance = distance / 1000.0f;
+            dist = distance + " KM";
+        }
+
+        dist = String.format("%.01f", distance);
+        return dist;
     }
 }
