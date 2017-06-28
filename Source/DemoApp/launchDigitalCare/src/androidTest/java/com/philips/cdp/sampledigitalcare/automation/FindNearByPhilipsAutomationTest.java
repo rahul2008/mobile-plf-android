@@ -40,7 +40,7 @@ import static org.hamcrest.core.IsInstanceOf.any;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class AutomationTests {
+public class FindNearByPhilipsAutomationTest {
 
     @Rule
     public ActivityTestRule<MicroAppLauncher> mActivityTestRule = new ActivityTestRule<>(MicroAppLauncher.class);
@@ -48,7 +48,7 @@ public class AutomationTests {
     @Test
     public void microAppLauncherTest() throws InterruptedException {
         ViewInteraction button = onView(
-                allOf(withId(R.id.launchAsFragment), withText("Launch DigitalCare as Fragment")));
+                allOf(withId(R.id.launchAsFragment), withText("Launch DigitalCare")));
         button.perform(scrollTo(), click());
 
         ViewInteraction recyclerView = onView(

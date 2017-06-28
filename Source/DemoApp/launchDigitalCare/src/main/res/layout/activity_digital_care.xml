@@ -45,7 +45,7 @@
             android:visibility="gone"
             android:layout_marginRight="10dp"
             android:layout_marginTop="20dp"
-            android:text="Launch DigitalCare"
+            android:text="@string/launch_digital_care"
             android:textStyle="bold" />
 
         <com.philips.platform.uid.view.widget.Button
