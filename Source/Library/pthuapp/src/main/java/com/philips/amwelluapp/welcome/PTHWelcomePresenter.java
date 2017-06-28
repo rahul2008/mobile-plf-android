@@ -15,6 +15,7 @@ import com.philips.amwelluapp.login.PTHLoginCallBack;
 import com.philips.amwelluapp.practice.PracticeFragment;
 import com.philips.amwelluapp.registration.PTHRegistrationDetailsFragment;
 import com.philips.amwelluapp.sdkerrors.PTHSDKError;
+import com.philips.amwelluapp.utility.AmwellLog;
 import com.philips.amwelluapp.utility.PTHManager;
 
 import java.net.MalformedURLException;
@@ -38,6 +39,7 @@ public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallB
     protected void initializeAwsdk() {
         ((PTHWelcomeFragment) uiBaseView).showProgressBar();
         try {
+            AmwellLog.i(AmwellLog.LOG,"Initialize - Call initiated from Client");
             PTHManager.getInstance().initializeTeleHealth(uiBaseView.getFragmentActivity(), this);
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -52,11 +54,13 @@ public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallB
 
     @Override
     public void onInitializationResponse(Void aVoid, PTHSDKError sdkError) {
+        AmwellLog.i(AmwellLog.LOG,"Initialize - UI updated");
         loginUserSilently();
     }
 
     private void loginUserSilently() {
         try {
+            AmwellLog.i(AmwellLog.LOG,"Login - call initialted from client");
             PTHManager.getInstance().authenticate(uiBaseView.getFragmentActivity(),"sumit.prasad@philips.com","Philips@123",null,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
@@ -71,6 +75,7 @@ public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallB
 
     @Override
     public void onLoginResponse(PTHAuthentication pthAuthentication, PTHSDKError sdkError) {
+        AmwellLog.i(AmwellLog.LOG,"Login - UI updated");
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
         Log.d("Login","Login success");
         Toast.makeText(uiBaseView.getFragmentActivity(),"LOGIN SUCCESS",Toast.LENGTH_SHORT).show();
