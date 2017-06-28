@@ -1,10 +1,15 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2017
+ * All rights reserved.
+ */
 apply plugin: 'com.android.application'
 
 buildscript { bs ->
     apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
     apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
     repositories {
-        maven { url repos.jcenter
+        maven {
+            url repos.jcenter
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -14,19 +19,22 @@ buildscript { bs ->
 }
 
 repositories {
-    maven { url repos.jcenter
+    maven {
+        url repos.jcenter
         credentials {
             username = "readonly"
             password = "123qweasdzxc"
         }
     }
-    maven { url repos.release
+    maven {
+        url repos.release
         credentials {
             username = "readonly"
             password = "123qweasdzxc"
         }
     }
-    maven { url repos.snapshot
+    maven {
+        url repos.snapshot
         credentials {
             username = "readonly"
             password = "123qweasdzxc"
