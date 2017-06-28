@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-class SampleApplianceFactory implements DICommApplianceFactory<Appliance> {
+class CommlibUappApplianceFactory implements DICommApplianceFactory<Appliance> {
 
     @NonNull
     private final LanTransportContext lanTransportContext;
@@ -31,7 +31,7 @@ class SampleApplianceFactory implements DICommApplianceFactory<Appliance> {
     @NonNull
     private final CloudTransportContext cloudTransportContext;
 
-    public SampleApplianceFactory(@NonNull final LanTransportContext lanTransportContext, @NonNull final CloudTransportContext cloudTransportContext) {
+    public CommlibUappApplianceFactory(@NonNull final LanTransportContext lanTransportContext, @NonNull final CloudTransportContext cloudTransportContext) {
         this.lanTransportContext = lanTransportContext;
         this.cloudTransportContext = cloudTransportContext;
     }
@@ -49,12 +49,14 @@ class SampleApplianceFactory implements DICommApplianceFactory<Appliance> {
                     cloudTransportContext.createCommunicationStrategyFor(networkNode));
 
             switch (networkNode.getDeviceType()) {
-                case ComfortAirPurifier.DEVICETYPE:
+                case AirPurifier.DEVICETYPE:
                     networkNode.useLegacyHttp();
-                    return new ComfortAirPurifier(networkNode, communicationStrategy);
-                case JaguarAirPurifier.DEVICETYPE:
-                    networkNode.useLegacyHttp();
-                    return new JaguarAirPurifier(networkNode, communicationStrategy);
+
+                    if (ComfortAirPurifier.MODELID.equals(networkNode.getModelId())) {
+                        return new ComfortAirPurifier(networkNode, communicationStrategy);
+                    } else {
+                        return new JaguarAirPurifier(networkNode, communicationStrategy);
+                    }
                 case WifiReferenceAppliance.DEVICETYPE:
                     return new WifiReferenceAppliance(networkNode, communicationStrategy);
             }
