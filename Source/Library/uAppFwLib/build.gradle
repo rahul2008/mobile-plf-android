@@ -144,6 +144,9 @@ publishing {
 //=======To zip and upload "Documents/External" ==ENDS=============
 
 android {
+    signingConfigs {
+        release
+    }
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
 
