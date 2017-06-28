@@ -29,7 +29,7 @@ public class ApplianceFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.fragment_appliance, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_appliance, container, false);
 
         Appliance currentAppliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
 
@@ -46,7 +46,7 @@ public class ApplianceFragment extends Fragment {
             addFragment(new FirmwareUpgradeFragment());
         }
 
-        return rootview;
+        return rootView;
     }
 
     public void addFragment(Fragment fragment) {

@@ -6,7 +6,6 @@
 package com.philips.cdp2.demouapp.fragment.port;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -19,6 +18,7 @@ import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.appliance.reference.ReferenceAppliance;
 import com.philips.cdp2.demouapp.port.time.TimePort;
@@ -47,61 +47,78 @@ public class TimePortFragment extends Fragment {
     private CompoundButton switchLoopGet;
 
     private ReferenceAppliance currentAppliance;
+    private DICommPortListener<TimePort> portListener = new DICommPortListener<TimePort>() {
+
+        @Override
+        public void onPortUpdate(TimePort timePort) {
+            final String datetime = timePort.getPortProperties().datetime;
+            if (datetime == null) {
+                return;
+            }
+            DateTime dt = new DateTime(datetime);
+            String dateTimeString = DATETIME_FORMATTER.print(dt);
+
+            if (isAdded()) {
+                updateResult(dateTimeString);
+            }
+
+            if (switchLoopGet.isChecked()) {
+                timePort.reloadProperties();
+            }
+        }
+
+        @Override
+        public void onPortError(TimePort port, Error error, @Nullable String errorData) {
+            DICommLog.e(TAG, String.format(Locale.US, "Time port error: %s, data: %s", error.getErrorMessage(), errorData));
+
+            if (isAdded()) {
+                updateResult(getString(R.string.lblResultPortError, error.getErrorMessage()));
+            }
+        }
+    };
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.fragment_timeport, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_timeport, container, false);
 
-        rootview.findViewById(R.id.btnGetTime).setOnClickListener(buttonClickListener);
-        rootview.findViewById(R.id.btnSetTime).setOnClickListener(buttonClickListener);
+        rootView.findViewById(R.id.btnGetTime).setOnClickListener(buttonClickListener);
+        rootView.findViewById(R.id.btnSetTime).setOnClickListener(buttonClickListener);
 
-        txtResult = (TextView) rootview.findViewById(R.id.txtResult);
-        txtProgress = (TextView) rootview.findViewById(R.id.txtProgress);
+        txtResult = (TextView) rootView.findViewById(R.id.txtResult);
+        txtProgress = (TextView) rootView.findViewById(R.id.txtProgress);
 
-        switchLoopGet = (CompoundButton) rootview.findViewById(R.id.switchLoopGet);
+        switchLoopGet = (CompoundButton) rootView.findViewById(R.id.switchLoopGet);
         switchLoopGet.setOnCheckedChangeListener(loopGetCheckedChangeListener);
 
-        ((CompoundButton) rootview.findViewById(R.id.switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
+        ((CompoundButton) rootView.findViewById(R.id.switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
 
-        currentAppliance = (ReferenceAppliance) CurrentApplianceManager.getInstance().getCurrentAppliance();
+        rootView.findViewById(R.id.btnGetTime).setEnabled(true);
+        rootView.findViewById(R.id.btnSetTime).setEnabled(true);
 
-        setupAppliance(currentAppliance);
-
-        rootview.findViewById(R.id.btnGetTime).setEnabled(true);
-        rootview.findViewById(R.id.btnSetTime).setEnabled(true);
-
-        return rootview;
+        return rootView;
     }
 
-    private void setupAppliance(@NonNull ReferenceAppliance appliance) {
-        appliance.getTimePort().addPortListener(new DICommPortListener<TimePort>() {
+    @Override
+    public void onResume() {
+        super.onResume();
 
-            @Override
-            public void onPortUpdate(TimePort timePort) {
-                final String datetime = timePort.getPortProperties().datetime;
-                if (datetime == null) {
-                    return;
-                }
-                DateTime dt = new DateTime(datetime);
-                String dateTimeString = DATETIME_FORMATTER.print(dt);
+        Appliance appliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
+        if (appliance == null || !(appliance instanceof ReferenceAppliance)) {
+            getFragmentManager().popBackStack();
+            return;
+        }
+        currentAppliance = (ReferenceAppliance) appliance;
+        currentAppliance.getTimePort().addPortListener(portListener);
+    }
 
-                updateResult(dateTimeString);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
 
-                if (switchLoopGet.isChecked()) {
-                    timePort.reloadProperties();
-                }
-            }
-
-            @Override
-            public void onPortError(TimePort timePort, Error error, final String s) {
-                DICommLog.e(TAG, "Time port error: " + error.getErrorMessage() + " (" + s + ")");
-
-                if (isAdded()) {
-                    updateResult(getString(R.string.lblResultPortError, s));
-                }
-            }
-        });
+        if (currentAppliance != null) {
+            currentAppliance.getTimePort().removePortListener(portListener);
+        }
     }
 
     private final View.OnClickListener buttonClickListener = new View.OnClickListener() {

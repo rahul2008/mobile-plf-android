@@ -24,6 +24,7 @@ import com.philips.cdp2.demouapp.appliance.airpurifier.AirPurifier;
 
 public class PairingPortFragment extends Fragment {
     private static final String TAG = "PairingPortFragment";
+
     private EditText editTextUserId;
     private EditText editTextUserToken;
     private AirPurifier currentAppliance;
@@ -31,19 +32,19 @@ public class PairingPortFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.fragment_pairing, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_pairing, container, false);
 
-        editTextUserId = (EditText) rootview.findViewById(R.id.userId);
-        editTextUserToken = (EditText) rootview.findViewById(R.id.userToken);
+        editTextUserId = (EditText) rootView.findViewById(R.id.userId);
+        editTextUserToken = (EditText) rootView.findViewById(R.id.userToken);
 
-        rootview.findViewById(R.id.buttonPair).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.buttonPair).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 startPairing();
             }
         });
 
-        rootview.findViewById(R.id.buttonUnPair).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.buttonUnPair).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 startUnpairing();
@@ -52,7 +53,7 @@ public class PairingPortFragment extends Fragment {
 
         currentAppliance = (AirPurifier) CurrentApplianceManager.getInstance().getCurrentAppliance();
 
-        return rootview;
+        return rootView;
     }
 
     private void startPairing() {
