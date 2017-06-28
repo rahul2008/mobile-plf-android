@@ -35,10 +35,10 @@ import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
 import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.customviews.XButton;
-import com.philips.cdp.registration.ui.customviews.PasswordView;
-import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
+import com.philips.cdp.registration.ui.customviews.PasswordView;
+import com.philips.cdp.registration.ui.customviews.XButton;
+import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
@@ -336,12 +336,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
     @Override
     public void onUpdate() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                updateUiStatus();
-            }
-        });
+        updateUiStatus();
     }
 
     @Override
@@ -351,17 +346,11 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
     @Override
     public void onLoginSuccess() {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                RLog.i(RLog.CALLBACK, "MergeAccountFragment : onLoginSuccess");
-                trackActionStatus(AppTagingConstants.SEND_DATA,
-                        AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_SOCIAL_MERGE);
-                hideMergeSpinner();
-                launchWelcomeFragment();
-            }
-        });
+        RLog.i(RLog.CALLBACK, "MergeAccountFragment : onLoginSuccess");
+        trackActionStatus(AppTagingConstants.SEND_DATA,
+                AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_SOCIAL_MERGE);
+        hideMergeSpinner();
+        launchWelcomeFragment();
     }
 
     private void launchAlmostDoneScreen() {
@@ -370,7 +359,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
     }
 
     private void launchWelcomeFragment() {
-        if(!mUser.getReceiveMarketingEmail()){
+        if (!mUser.getReceiveMarketingEmail()) {
             launchAlmostDoneScreen();
             return;
         }
@@ -380,22 +369,17 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
     @Override
     public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                handleLoginFailed(userRegistrationFailureInfo);
-            }
-        });
+        handleLoginFailed(userRegistrationFailureInfo);
     }
 
     private void handleLoginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "MergeAccountFragment : onLoginFailedWithError");
         hideMergeSpinner();
-         if (null != userRegistrationFailureInfo.getPasswordErrorMessage()) {
+        if (null != userRegistrationFailureInfo.getPasswordErrorMessage()) {
             mRegError.setError(userRegistrationFailureInfo.getPasswordErrorMessage());
         } else if (userRegistrationFailureInfo.getErrorCode() == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
             mRegError.setError(mContext.getResources().getString(R.string.reg_Reg_merge_validate_password_mismatch_errortxt));
-        } else  {
+        } else {
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
 
         }
@@ -405,52 +389,35 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
     @Override
     public void onSendForgotPasswordSuccess() {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                handleSendForgetPasswordSuccess();
-            }
-        });
-
-
+        handleSendForgetPasswordSuccess();
     }
 
     private void handleSendForgetPasswordSuccess() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                RLog.i(RLog.CALLBACK, "MergeAccountFragment : onSendForgotPasswordSuccess");
-                RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.reg_ForgotPwdEmailResendMsg_Title),
-                        mContext.getResources().getString(R.string.reg_ForgotPwdEmailResendMsg), getRegistrationFragment().getParentActivity(), mContinueBtnClick);
-                trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
-                        AppTagingConstants.RESET_PASSWORD_SUCCESS);
-                hideForgotPasswordSpinner();
-                mRegError.hideError();
-            }
-        });
+
+        RLog.i(RLog.CALLBACK, "MergeAccountFragment : onSendForgotPasswordSuccess");
+        RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.reg_ForgotPwdEmailResendMsg_Title),
+                mContext.getResources().getString(R.string.reg_ForgotPwdEmailResendMsg), getRegistrationFragment().getParentActivity(), mContinueBtnClick);
+        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
+                AppTagingConstants.RESET_PASSWORD_SUCCESS);
+        hideForgotPasswordSpinner();
+        mRegError.hideError();
     }
 
     @Override
     public void onSendForgotPasswordFailedWithError(final
                                                     UserRegistrationFailureInfo userRegistrationFailureInfo) {
 
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                RLog.i(RLog.CALLBACK, "MergeAccountFragment : onSendForgotPasswordFailedWithError");
-                hideForgotPasswordSpinner();
 
-                if (null != userRegistrationFailureInfo.getSocialOnlyError()) {
-                    mRegError.setError(userRegistrationFailureInfo.getSocialOnlyError());
-                    return;
-                }
-                mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
-                scrollViewAutomatically(mRegError, mSvRootLayout);
-                AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
-            }
-        });
+        RLog.i(RLog.CALLBACK, "MergeAccountFragment : onSendForgotPasswordFailedWithError");
+        hideForgotPasswordSpinner();
 
+        if (null != userRegistrationFailureInfo.getSocialOnlyError()) {
+            mRegError.setError(userRegistrationFailureInfo.getSocialOnlyError());
+            return;
+        }
+        mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+        scrollViewAutomatically(mRegError, mSvRootLayout);
+        AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
 
     }
 

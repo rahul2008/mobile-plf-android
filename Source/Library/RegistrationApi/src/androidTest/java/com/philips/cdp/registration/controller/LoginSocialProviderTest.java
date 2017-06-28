@@ -9,7 +9,6 @@ import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 
 import org.json.JSONObject;
 import org.junit.Before;
-import org.junit.Test;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static junit.framework.Assert.assertNotNull;
@@ -73,7 +72,7 @@ public class LoginSocialProviderTest extends RegistrationApiInstrumentationBase 
         mLoginSocialProvider = new LoginSocialProvider(mSocialProviderLoginHandler,context,mUpdateUserRecordHandler);
     }
 
-    @Test
+
     public void testLoginSocialProvider() {
 
         assertNotNull(mLoginSocialProvider);

@@ -496,12 +496,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onRegisterSuccess() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
                 handleRegistrationSuccess();
-            }
-        });
     }
 
     private void handleRegistrationSuccess() {
@@ -577,13 +572,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onRegisterFailedWithFailure(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
                 handleRegisterFailedWithFailure(userRegistrationFailureInfo);
-            }
-        });
     }
 
     private void handleRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
@@ -620,12 +609,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onUpdate() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
                 updateUiStatus();
-            }
-        });
     }
 
     private void updateUiStatus() {
