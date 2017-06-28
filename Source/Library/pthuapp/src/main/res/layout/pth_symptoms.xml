@@ -1,0 +1,32 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/uid_blue_level_15"
+    >
+<com.philips.platform.uid.view.widget.Button
+    android:id="@+id/wizard_button"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/symptoms"
+    />
+
+<com.philips.platform.uid.view.widget.Label
+    android:id="@+id/help_visit"
+    android:layout_below="@id/wizard_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/help_visit"
+    />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:layout_below="@id/help_visit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/visit_reason"
+        />
+
+<com.philips.platform.uid.view.widget.CheckBox
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+
+</RelativeLayout>
