@@ -15,7 +15,13 @@ buildscript { bs ->
                 password = "123qweasdzxc"
             }
         }
-        maven { url repos.plugin }
+        maven {
+            url repos.plugin
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
     }
 
     dependencies {
