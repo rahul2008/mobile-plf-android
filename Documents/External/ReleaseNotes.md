@@ -6,7 +6,7 @@ Version {next}
 -------------
 
 ### Functionality Delivered
-* 37438: component now exposes its version and tla via BuildConfig
+* \#37438: component now exposes its version and tla via BuildConfig
 
 ### Backwards Compatibility
 * NA
@@ -18,7 +18,7 @@ Version {next}
 See backwards compatibility
 
 ### Defects solved
-* NA
+* \#56444 Fix firmware upgrade maxchunksize.
 
 ### Residual anomalies
 * To be filled in at release
