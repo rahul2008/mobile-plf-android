@@ -4,7 +4,8 @@ apply plugin: 'maven-publish'
 
 buildscript {
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven {
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -99,7 +100,7 @@ publishing {
 
             artifact("$buildDir/outputs/apk/${archivesBaseName}-device-release.apk")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
@@ -123,6 +124,7 @@ android {
         multiDexEnabled true
         renderscriptTargetApi 25
         renderscriptSupportModeEnabled true
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         // replace the below string with your own Google client ID. Make sure this is consistent
         // with the values used in openid_appauth_idp_configs.xml
         manifestPlaceholders = [
@@ -196,7 +198,7 @@ android {
         disable 'InvalidPackage'
         disable 'GradleCompatible'
         disable 'MissingTranslation'
-        disable 'TypographyFractions','TypographyQuotes'
+        disable 'TypographyFractions', 'TypographyQuotes'
         absolutePaths false
         lintConfig file('lint.xml')
 
@@ -226,6 +228,15 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'design'
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
+    }
 }
 
 
@@ -263,7 +274,7 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
 }
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }
 
 
