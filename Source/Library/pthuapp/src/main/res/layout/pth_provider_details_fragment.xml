@@ -2,11 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <include
-        android:id="@+id/action_bar_pth"
+        android:id="@+id/providerDetailDListLayout"
         layout="@layout/pth_provider_details_d_list" />
     <View android:background="@color/uid_gray_level_5"
-        android:layout_below="@+id/action_bar_pth"
+        android:layout_below="@+id/providerDetailDListLayout"
         android:id="@+id/horizontalLine"
         android:layout_width = "match_parent"
         android:layout_height="1dp"
@@ -23,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Visit cost"
-            android:textSize="@dimen/uid_grid_descrption_size"
+            style="@style/UIDLabel.RecyclerViewItemDescriptionText"
             android:textColor="?attr/uidLabelValueNormalTextColor"
             />
         <com.philips.platform.uid.view.widget.Label
@@ -40,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="$59"
-            android:textSize="@dimen/uid_grid_descrption_size"
+            android:textSize="30sp"
             android:textColor="?attr/uidLabelValueNormalTextColor"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
@@ -59,8 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Profile"
-        android:paddingStart="@dimen/uid_grid_title_padding"
-        android:paddingEnd="@dimen/uid_grid_title_padding"
+        android:padding="@dimen/uid_grid_title_padding"
         android:textSize="@dimen/uid_grid_descrption_size"
         android:textColor="?attr/uidLabelValueNormalTextColor"
         />
@@ -70,8 +75,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Rating"
-        android:paddingStart="@dimen/uid_grid_title_padding"
-        android:paddingEnd="@dimen/uid_grid_title_padding"
+        android:padding="@dimen/uid_grid_title_padding"
         android:textSize="@dimen/uid_grid_descrption_size"
         android:textColor="?attr/uidLabelValueNormalTextColor"
         />
@@ -101,6 +105,7 @@
         android:layout_height="wrap_content"
         android:text="Spoken Language"
         android:paddingStart="@dimen/uid_grid_title_padding"
+        android:paddingTop="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
         android:textSize="@dimen/uid_grid_descrption_size"
         android:textColor="?attr/uidLabelValueNormalTextColor"
@@ -113,6 +118,7 @@
         android:text="English, Spanish"
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
+        android:paddingBottom="@dimen/uid_grid_title_padding"
         android:textSize="@dimen/uid_grid_descrption_size"
         android:textColor="?attr/uidLabelValueNormalTextColor"
         />
@@ -128,6 +134,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Years of experience"
+        android:paddingTop="@dimen/uid_grid_title_padding"
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
         android:textSize="@dimen/uid_grid_descrption_size"
@@ -141,6 +148,7 @@
         android:text="17"
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
+        android:paddingBottom="@dimen/uid_grid_title_padding"
         android:textSize="@dimen/uid_grid_descrption_size"
         android:textColor="?attr/uidLabelValueNormalTextColor"
         />
@@ -156,6 +164,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Graduated"
+        android:paddingTop="@dimen/uid_grid_title_padding"
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
         android:textSize="@dimen/uid_grid_descrption_size"
@@ -169,6 +178,7 @@
         android:text="Harvard Medical in 1992"
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
+        android:paddingBottom="@dimen/uid_grid_title_padding"
         android:textSize="@dimen/uid_grid_descrption_size"
         android:textColor="?attr/uidLabelValueNormalTextColor"
         />
@@ -187,6 +197,7 @@
         android:background="@color/uid_gray_level_5"
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
+        android:paddingTop="@dimen/uid_grid_title_padding"
         android:textSize="@dimen/uid_grid_descrption_size"
         android:textColor="?attr/uidLabelValueNormalTextColor"
         />
@@ -198,6 +209,7 @@
         android:text="When the user takes the DOD  ow, this doc- tor detail is shown after the system matches a doctor. The user can read the whole pro le and continue to the waiting screen"
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
+        android:paddingBottom="@dimen/uid_grid_title_padding"
         android:textSize="@dimen/uid_grid_descrption_size"
         android:textColor="?attr/uidLabelValueNormalTextColor"
         />
@@ -207,4 +219,6 @@
         android:layout_width = "match_parent"
         android:layout_height="1dp"
         />
+    </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

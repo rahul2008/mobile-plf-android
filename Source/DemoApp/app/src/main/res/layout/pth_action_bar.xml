@@ -5,8 +5,7 @@
 
     <com.philips.platform.uid.view.widget.NavigationContainer
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/uid_shadow_level_two">
+        android:layout_height="?attr/actionBarSize">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -16,7 +15,7 @@
             <android.support.design.widget.AppBarLayout
                 android:id="@+id/appBar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="?attr/actionBarSize"
                 app:elevation="0dp">
 
                 <include layout="@layout/uid_toolbar_layout" />
