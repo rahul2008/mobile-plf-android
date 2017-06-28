@@ -1,5 +1,5 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -32,7 +32,6 @@ buildscript { bs ->
 
 apply plugin: 'com.android.library'
 apply plugin: 'pl.droidsonroids.pitest'
-apply plugin: 'jacoco'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
@@ -132,6 +131,7 @@ android {
         minSdkVersion versions.minsdk
         versionCode 1
         versionName version
+        buildConfigField "String", "TLA", "\"cml\""
     }
 
     packagingOptions {
@@ -145,6 +145,11 @@ android {
     buildTypes {
         release {
             consumerProguardFiles 'proguard-rules.pro'
+        }
+
+        all {
+            buildConfigField "int", "minsdk", Integer.toString(versions.minsdk)
+            buildConfigField "int", "maxsdk", Integer.toString(versions.target)
         }
     }
 
@@ -197,7 +202,7 @@ dependencies {
     testCompile deps.powermock_junit
 
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
-    testCompile('org.robolectric:robolectric:3.1.4') {
+    testCompile('org.robolectric:robolectric:3.2') {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
@@ -214,10 +219,6 @@ dependencies {
     androidTestCompile 'com.squareup.assertj:assertj-android:1.1.1'
 }
 
-jacoco {
-    toolVersion = versions.jacoco
-}
-
 pitest {
     targetClasses = [
             'com.philips.cdp.dicommclient.port.common.*',
@@ -226,6 +227,7 @@ pitest {
             'com.philips.cdp2.commlib.lan.communication.*',
             'com.philips.cdp2.commlib.lan.context.*',
             'com.philips.cdp2.commlib.lan.discovery.*',
+            'com.philips.cdp2.commlib.lan.security.*',
             'com.philips.cdp.dicommclient.request.*',
     ]  /* specify target classes to be mutated */
     excludedClasses = [
@@ -234,7 +236,7 @@ pitest {
     ]
     pitestVersion = versions.pitest
     avoidCallsTo = ['com.philips.cdp.dicommclient.util.DICommLog']
-    threads = 8 /* specify number of threads */
+    threads = 1 /* specify number of threads */
     outputFormats = ['XML', 'HTML'] /* specify output format */
     reportDir = "${rootDir.absolutePath}/build/report/${project.name}/pitest/"
     timestampedReports = false

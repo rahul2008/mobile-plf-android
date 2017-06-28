@@ -133,7 +133,7 @@
                 android:id="@+id/tvCanUpgrade"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:text="N/A"
+                android:text="@string/n_a"
                 android:padding="3dip"
                 tools:text="Can upgrade value" />
         </TableRow>

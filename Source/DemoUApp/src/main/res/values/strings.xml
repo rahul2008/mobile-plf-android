@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2015-2017 Koninklijke Philips N.V.
+  ~ All rights reserved.
+  -->
+
+<resources>
+    <string name="app_name">DICommClientSample</string>
+    <string name="light_state">Light state</string>
+    <string name="set">Set</string>
+    <string name="pair">Pair</string>
+    <string name="unpair">Disengage</string>
+    <string name="my_id">My ID:</string>
+    <string name="userId">user ID</string>
+    <string name="access_token">access token</string>
+    <string name="lblFirmwareState">"State: "</string>
+    <string name="lblFirmwareStatusMsg">"Status: "</string>
+    <string name="lblFirmwareVersion">"Version: "</string>
+    <string name="lblResultPortError">Port error: (%1$s)</string>
+
+    <string name="count_0">Count: 0</string>
+    <string name="last_result">Last result:</string>
+    <string name="switchLoopGet">Continuously get time</string>
+    <string name="switchSubscription">Subscribe</string>
+
+    <string name="cancel_firmware">Cancel firmware</string>
+    <string name="checking_firmware">Checking firmware</string>
+    <string name="deploy_firmware">Deploy firmware</string>
+    <string name="deploy_firmware_failed">"Deploying firmware failed: "</string>
+    <string name="firmware_deploy_finished">Firmware deployment finished</string>
+    <string name="lblFirmwareCanUpgrade">Can upgrade:</string>
+    <string name="new_firmware_available">"New firmware available: "</string>
+    <string name="no_firmware_directory_found">No firmware directory found</string>
+    <string name="select_a_firmware_image">Please, select a firmware image</string>
+    <string name="timeout">Timeout</string>
+    <string name="upload_firmware">Upload firmware</string>
+    <string name="upload_firmware_finished">Uploading firmware finished</string>
+    <string name="uploading_firmware_failed">"Uploading firmware failed: "</string>
+    <string name="uploading_firmware_image">Uploading firmware image to device</string>
+    <string name="appliance_name">Appliance name</string>
+    <string name="device_port">Device Port</string>
+    <string name="firmware_upgrade_port">Firmware Upgrade Port</string>
+    <string name="n_a">N/A</string>
+    <string name="pairing_port">Pairing Port</string>
+    <string name="air_port">Air Port</string>
+    <string name="time_port">Time Port</string>
+    <string name="lan_appliance">Lan Appliance</string>
+    <string name="enable_communication">Enable Communication</string>
+    <string name="ms">milliseconds</string>
+    <string name="get">Get</string>
+    <string name="pairing">Pairing</string>
+    <string name="client_provider">clientProvider</string>
+    <string name="client_id">clientId</string>
+    <string name="permissions_comma_separated">permissions (comma separated)</string>
+    <string name="request">Request</string>
+    <string name="type">type</string>
+    <string name="di_comm">di-comm</string>
+    <string name="secretkey">secretKey</string>
+    <string name="secret_key_default">68d1593b1bb341a78576f274</string>
+    <string name="client_id_default">deadddddbeefffff</string>
+    <string name="clienttype">ClientType</string>
+    <string name="clienttype_default">CDP-AND-DEV</string>
+    <string name="client_provider_default">cpp</string>
+</resources>

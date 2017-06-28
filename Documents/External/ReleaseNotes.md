@@ -1,6 +1,56 @@
 CommLib for Android - Release Notes
 =======================================
 
+Version {next}
+-------------
+
+### Functionality Delivered
+* 37438: component now exposes its version and tla via BuildConfig
+
+### Backwards Compatibility
+* NA
+
+### Features not covered
+* To be filled in at release
+
+### Breaking Changes
+See backwards compatibility
+
+### Defects solved
+* NA
+
+### Residual anomalies
+* To be filled in at release
+
+### Risks and mitigations
+* NA
+
+Version 7.0.0
+-------------
+
+### Functionality Delivered
+* \#35187 Pin HTTPS certificate on first use. At this moment you can't revoke a pinned certificate, so when an appliance gets a new certificate you have to remove all data from your app to let it pin the certificate again.
+
+### Backwards Compatibility
+* Appliances that do not support HTTPS should call networkNode.useLegacyHttp() in their `DICommApplianceFactory.createApplianceForNode(..)` implementation. This is only here for older appliances, newer appliances with HTTPS support should never call this function!
+
+### Features not covered
+* To be filled in at release
+
+### Breaking Changes
+* `NetworkNode.PAIRED_STATUS` has been renamed to `NetworkNode.PairingState`
+* `NetworkNode` no longer extends `Observable`, but adds `PropertyChangeSupport` instead.
+
+### Defects solved
+* NA
+
+### Residual anomalies
+* To be filled in at release
+
+### Risks and mitigations
+* NA
+
+
 Version 6.0.0
 -------------
 
@@ -12,7 +62,7 @@ Version 6.0.0
 * Appliances that do not support HTTPS should call networkNode.useLegacyHttp() in their DICommApplianceFactory.createApplianceForNode(..) implementation. This is only here for older appliances, newer appliances with HTTPS support should never call this function!
 
 ### Features not covered
-* To be filled in at release
+* NA
 
 ### Breaking Changes
 * NetworkNode.getModelName() and NetworkNode.setModelName(String modelName) are renamed to NetworkNode.getDeviceType() and NetworkNode.setDeviceType(String deviceType)
@@ -20,9 +70,10 @@ Version 6.0.0
 
 ### Defects solved
 * \#49699 Software Version and ModelId incorrectly required in device port
+* \#56704: GetProps requests for LAN now significantly sped up.
 
 ### Residual anomalies
-* To be filled in at release
+* NA
 
 ### Risks and mitigations
 * NA

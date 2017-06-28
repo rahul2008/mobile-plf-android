@@ -1,6 +1,6 @@
 /*
- * © Koninklijke Philips N.V., 2015.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.testutil;
@@ -16,11 +16,11 @@ import org.robolectric.annotation.Config;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 21)
+@Config(constants = BuildConfig.class, sdk = BuildConfig.minsdk)
 public abstract class RobolectricTest {
 
     @Before
-    public void before()throws Exception {
+    public void before() throws Exception {
         setUp();
     }
 

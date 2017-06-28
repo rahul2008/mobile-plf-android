@@ -1,5 +1,5 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -14,6 +14,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+
+import static junit.framework.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.never;
@@ -263,23 +267,32 @@ public class LanCommunicationStrategyTest {
         verify(requestQueueMock, never()).addRequestInFrontOfQueue(any(LanRequest.class));
     }
 
+    @Test
+    public void whenCreatingSSLContext_thenNoExceptionShouldBeThrown() {
+        try {
+            lanCommunicationStrategy.createSSLContext();
+        } catch (NoSuchAlgorithmException | KeyManagementException e) {
+            fail();
+        }
+    }
+
     private void setupForHttpsWithKeyPresent() {
-        when(networkNodeMock.getHttps()).thenReturn(true);
+        when(networkNodeMock.isHttps()).thenReturn(true);
         when(networkNodeMock.getEncryptionKey()).thenReturn("tha_key");
     }
 
     private void setupForHttpsWithoutKeyPresent() {
-        when(networkNodeMock.getHttps()).thenReturn(true);
+        when(networkNodeMock.isHttps()).thenReturn(true);
         when(networkNodeMock.getEncryptionKey()).thenReturn(null);
     }
 
     private void setupForHttpWithKeyPresent() {
-        when(networkNodeMock.getHttps()).thenReturn(false);
+        when(networkNodeMock.isHttps()).thenReturn(false);
         when(networkNodeMock.getEncryptionKey()).thenReturn("tha_key");
     }
 
     private void setupForHttpWithoutKeyPresent() {
-        when(networkNodeMock.getHttps()).thenReturn(false);
+        when(networkNodeMock.isHttps()).thenReturn(false);
         when(networkNodeMock.getEncryptionKey()).thenReturn(null);
     }
 }

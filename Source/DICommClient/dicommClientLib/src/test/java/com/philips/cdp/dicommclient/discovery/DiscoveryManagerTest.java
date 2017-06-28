@@ -12,7 +12,7 @@ import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.networknode.NetworkNode.PAIRED_STATUS;
+import com.philips.cdp.dicommclient.networknode.NetworkNode.PairingState;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
 import com.philips.cdp.dicommclient.testutil.TestAppliance;
 import com.philips.cdp2.commlib.lan.NetworkMonitor;
@@ -504,7 +504,7 @@ public class DiscoveryManagerTest extends RobolectricTest {
         networkNode.setIpAddress(ip);
         networkNode.setName(name);
         networkNode.setConnectionState(connectionState);
-        networkNode.setPairedState(isPaired ? PAIRED_STATUS.PAIRED : PAIRED_STATUS.NOT_PAIRED);
+        networkNode.setPairedState(isPaired ? PairingState.PAIRED : PairingState.NOT_PAIRED);
 
         return new TestAppliance(networkNode);
     }

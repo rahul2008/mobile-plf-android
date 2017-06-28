@@ -1,28 +1,38 @@
 /*
- * © Koninklijke Philips N.V., 2015.
- *   All rights reserved.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
  */
 
 package com.philips.cdp.dicommclient.networknode;
 
-import com.philips.cdp.dicommclient.networknode.NetworkNode.EncryptionKeyUpdatedListener;
-import com.philips.cdp.dicommclient.testutil.RobolectricTest;
+import com.philips.cdp.dicommclient.util.DICommLog;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
+import org.mockito.Mock;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import static com.philips.cdp.dicommclient.networknode.NetworkNode.PairingState.PAIRED;
 import static junit.framework.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.MockitoAnnotations.initMocks;
 
-public class NetworkNodeTest extends RobolectricTest {
+public class NetworkNodeTest {
 
     private static final String TEST_KEY = "TEST_KEY";
 
-    EncryptionKeyUpdatedListener listener;
+    @Mock
+    private PropertyChangeListener mockPropertyChangeListener;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        listener = Mockito.mock(EncryptionKeyUpdatedListener.class);
+    @Before
+    public void setUp() throws Exception {
+        initMocks(this);
+
+        DICommLog.disableLogging();
     }
 
     @Test
@@ -40,34 +50,55 @@ public class NetworkNodeTest extends RobolectricTest {
     public void test_ShouldInformListener_WhenKeyIsSet() throws Exception {
         NetworkNode networkNode = new NetworkNode();
 
-        networkNode.setEncryptionKeyUpdatedListener(listener);
+        networkNode.addPropertyChangeListener(mockPropertyChangeListener);
 
         networkNode.setEncryptionKey(TEST_KEY);
 
-        Mockito.verify(listener).onKeyUpdate();
+        verify(mockPropertyChangeListener).propertyChange(any(PropertyChangeEvent.class));
     }
 
     @Test
     public void test_ShouldInformListener_WhenKeyIsReset() throws Exception {
         NetworkNode networkNode = new NetworkNode();
 
-        networkNode.setEncryptionKeyUpdatedListener(listener);
+        networkNode.addPropertyChangeListener(mockPropertyChangeListener);
 
         networkNode.setEncryptionKey(TEST_KEY);
-        Mockito.verify(listener, Mockito.times(1)).onKeyUpdate();
+        verify(mockPropertyChangeListener, times(1)).propertyChange(any(PropertyChangeEvent.class));
 
         networkNode.setEncryptionKey(null);
-        Mockito.verify(listener, Mockito.times(2)).onKeyUpdate();
+        verify(mockPropertyChangeListener, times(2)).propertyChange(any(PropertyChangeEvent.class));
     }
 
     @Test
     public void test_ShouldNotInformListener_WhenTheSameKeyIsSetTwice() throws Exception {
         NetworkNode networkNode = new NetworkNode();
 
-        networkNode.setEncryptionKeyUpdatedListener(listener);
+        networkNode.addPropertyChangeListener(mockPropertyChangeListener);
 
         networkNode.setEncryptionKey(TEST_KEY);
         networkNode.setEncryptionKey(TEST_KEY);
-        Mockito.verify(listener, Mockito.times(1)).onKeyUpdate();
+        verify(mockPropertyChangeListener, times(1)).propertyChange(any(PropertyChangeEvent.class));
+    }
+
+    @Test
+    public void whenPropertyChanges_thenPropertyChangeEventIsFired() {
+        NetworkNode networkNode = new NetworkNode();
+        networkNode.addPropertyChangeListener(mockPropertyChangeListener);
+
+        networkNode.setBootId(42L);
+        networkNode.setCppId("super unique");
+        networkNode.setDeviceType("don't care");
+        networkNode.setEncryptionKey("H4X0R");
+        networkNode.setHomeSsid("virus.exe");
+        networkNode.setIpAddress("127.0.0.1");
+        networkNode.setLastPairedTime(1337L);
+        networkNode.setModelId("BFG9K");
+        networkNode.setName("Anton");
+        networkNode.setPairedState(PAIRED);
+        networkNode.setPin("ALL YOUR BASE ARE BELONG TO US");
+        networkNode.setConnectionState(ConnectionState.DISCONNECTED);
+
+        verify(mockPropertyChangeListener, times(12)).propertyChange(any(PropertyChangeEvent.class));
     }
 }

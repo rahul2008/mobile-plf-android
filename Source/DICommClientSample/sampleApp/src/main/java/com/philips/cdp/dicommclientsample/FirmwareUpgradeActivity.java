@@ -60,7 +60,7 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
     private FilenameFilter upgradeFilesFilter = new FilenameFilter() {
         @Override
         public boolean accept(File dir, String name) {
-            return name.toLowerCase().endsWith(".upg");
+            return name.toLowerCase(Locale.US).endsWith(".upg");
         }
     };
 
