@@ -115,7 +115,7 @@ public class UIDUtilsTest {
 
     @Test
     public void verifyHideNavigationIcon(){
-        waitFor(testResources, 500);
+        waitFor(testResources, 750);
         toolbar = (Toolbar) activity.findViewById(com.philips.platform.uid.test.R.id.uid_toolbar);
         activity.runOnUiThread(new Runnable() {
             @Override
@@ -132,7 +132,7 @@ public class UIDUtilsTest {
 
     @Test
     public void verifyRestoreNavigationIcon(){
-        waitFor(testResources, 500);
+        waitFor(testResources, 750);
         toolbar = (Toolbar) activity.findViewById(com.philips.platform.uid.test.R.id.uid_toolbar);
         activity.runOnUiThread(new Runnable() {
             @Override
@@ -143,7 +143,7 @@ public class UIDUtilsTest {
                 toggler.restoreNavigationIcon();
             }
         });
-        waitFor(testResources, 500);
+        waitFor(testResources, 750);
         if (BuildConfig.DEBUG && !(activity.getToolbar().getNavigationIcon() instanceof VectorDrawable)) {
             throw new AssertionError();
         }
