@@ -12,6 +12,8 @@ import com.americanwell.sdk.entity.practice.Practice;
 
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 
+import com.americanwell.sdk.entity.visit.Topic;
+import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.SDKCallback;
@@ -53,9 +55,11 @@ public class PTHManager {
     }
 
     public void authenticate(Context context, String username, String password, String variable, final PTHLoginCallBack pthLoginCallBack) throws AWSDKInstantiationException {
+        AmwellLog.i(AmwellLog.LOG,"Login - SDK API Called");
         getAwsdk(context).authenticate(username, password, variable, new SDKCallback<Authentication, SDKError>() {
             @Override
             public void onResponse(Authentication authentication, SDKError sdkError) {
+                AmwellLog.i(AmwellLog.LOG,"Login - On Response");
                 PTHAuthentication pthAuthentication = new PTHAuthentication();
                 pthAuthentication.setAuthentication(authentication);
 
@@ -73,16 +77,17 @@ public class PTHManager {
 
     public void initializeTeleHealth(Context context, final PTHInitializeCallBack pthInitializeCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
         final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
-        /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
+       /* initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
         initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key*/
         initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
         initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key
 
-
+        AmwellLog.i(AmwellLog.LOG,"Initialize - SDK API Called");
         getAwsdk(context).initialize(
                 initParams, new SDKCallback<Void, SDKError>() {
                     @Override
                     public void onResponse(Void aVoid, SDKError sdkError) {
+                        AmwellLog.i(AmwellLog.LOG,"Initialize - onResponse from Amwell SDK");
                         PTHSDKError pthsdkError = new PTHSDKError();
                         pthsdkError.setSdkError(sdkError);
                         pthInitializeCallBack.onInitializationResponse(aVoid, pthsdkError);
@@ -91,6 +96,22 @@ public class PTHManager {
                     @Override
                     public void onFailure(Throwable throwable) {
                         pthInitializeCallBack.onInitializationFailure(throwable);
+                    }
+                });
+    }
+
+    public void testAPIs(Context context, final Consumer consumer, final ProviderInfo providerInfo) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
+
+        getAwsdk(context).getVisitManager().getVisitContext(consumer, providerInfo, new SDKCallback<VisitContext, SDKError>() {
+                    @Override
+                    public void onResponse(VisitContext visitContext, SDKError sdkError) {
+                        List<Topic> topics = visitContext.getTopics();
+                        topics.get(0).getDescription();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+
                     }
                 });
     }

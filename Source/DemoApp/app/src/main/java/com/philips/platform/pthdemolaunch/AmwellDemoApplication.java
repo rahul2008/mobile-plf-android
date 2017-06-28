@@ -2,6 +2,7 @@ package com.philips.platform.pthdemolaunch;
 
 import android.app.Application;
 
+import com.philips.amwelluapp.utility.AmwellLog;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -24,6 +25,7 @@ public class AmwellDemoApplication extends Application {
     public void onCreate(){
         super.onCreate();
         UIDHelper.injectCalligraphyFonts();
+        AmwellLog.enableLogging(true);
     }
     public void initializeAppInfra(AppInitializationCallback.AppInfraInitializationCallback appInfraInitializationCallback) {
         appInfra = new AppInfra.Builder().build(getApplicationContext());
