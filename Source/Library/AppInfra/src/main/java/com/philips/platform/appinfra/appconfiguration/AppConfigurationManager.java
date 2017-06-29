@@ -84,7 +84,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
             }
             result = new JSONObject(total.toString());
             result = makeKeyUppercase(result); // converting all Group and child key Uppercase
-            logAppConfiguration(LoggingInterface.LogLevel.VERBOSE,AppInfraLogEventID.AI_APP_CONFIGUARTION, "Json "+result.toString());
+            //logAppConfiguration(LoggingInterface.LogLevel.VERBOSE,AppInfraLogEventID.AI_APP_CONFIGUARTION, "Json "+result.toString());
         } catch (Exception e) {
             logAppConfiguration(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_APP_CONFIGUARTION,"CANNOT READ AppConfig.json file. \n " + Log.getStackTraceString(e));
         }
