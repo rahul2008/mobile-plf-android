@@ -62,7 +62,7 @@
     <string name="clienttype_default">CDP-AND-DEV</string>
     <string name="client_provider_default">cpp</string>
 
-    <string name="prompt_certificate_mismatch_message">"Certificate doesn't match the stored certificate. This can occur after a factory reset but may also indicate a man-in-the-middle \n\nAccept the new certificate?"</string>
+    <string name="prompt_certificate_mismatch_message">"Certificate doesn't match the stored certificate. This can occur after a factory reset but may also indicate a man-in-the-middle attack.\n\nAccept the new certificate?"</string>
     <string name="prompt_certificate_mismatch_ignore">Ignore</string>
     <string name="prompt_certificate_mismatch_accept">Accept</string>
 </resources>
