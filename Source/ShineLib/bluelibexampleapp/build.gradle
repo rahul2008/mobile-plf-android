@@ -1,8 +1,8 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2017
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 buildscript { bs ->
     apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
@@ -15,8 +15,40 @@ buildscript { bs ->
                 password = "123qweasdzxc"
             }
         }
+        maven {
+            url repos.plugin
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+
+    dependencies {
+        classpath(builddeps.buildinfoextractor)
+        classpath(builddeps.cdpscm)
     }
 }
+
+apply plugin: 'jacoco'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+
+apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment)
+archivesBaseName = "bledemomicroapp"
+version = objcdp.getVersion()
 
 repositories {
     maven {
@@ -40,6 +72,67 @@ repositories {
             password = "123qweasdzxc"
         }
     }
+    maven {
+        url objcdp.getArtifactoryUrl()
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+}
+
+artifactory {
+    contextUrl = objcdp.getArtifactoryContextUrl()
+    publish {
+        repository {
+            repoKey = objcdp.getArtifactoryPublishRepoKey()
+            username = objcdp.getArtifactoryUploadUser()
+            password = objcdp.getArtifactoryUploadPwd()
+            defaults {
+                publishPom = true
+                publishIvy = false
+                publishBuildInfo = true
+                publishArtifacts = true
+                publications('aar')
+            }
+        }
+    }
+    resolve {
+        repository {
+            repoKey = objcdp.getArtifactoryResolveRepoKey()
+        }
+    }
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+}
+
+def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
+artifacts {
+    archives zipDoc
+}
+
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId group
+            version = version
+            artifactId archivesBaseName
+
+            artifact zipDocuments
+
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
+
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
+                configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.moduleGroup)
+                    dependencyNode.appendNode('artifactId', it.moduleName)
+                    dependencyNode.appendNode('version', it.moduleVersion)
+                }
+            }
+        }
+    }
 }
 
 android {
@@ -50,9 +143,8 @@ android {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
 
-        applicationId "com.example.cdpp.bluelibexampleapp"
         versionCode 1
-        versionName "0.2.0"
+        versionName objcdp.getVersionWithHash()
     }
 
     buildTypes {
@@ -65,12 +157,15 @@ android {
     lintOptions {
         abortOnError false
     }
+    publishNonDefault true
 }
 
 dependencies {
     debugCompile project(path: ':pluginreferenceboard', configuration: 'debug')
     releaseCompile project(path: ':pluginreferenceboard', configuration: 'release')
-
+    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.5.0' + objcdp.getVersionSuffix(), changing: true) {
+        transitive = true
+    }
     compile deps.support.design
 
     testCompile deps.junit
