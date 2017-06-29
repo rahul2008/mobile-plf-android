@@ -373,7 +373,7 @@ dependencies {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'iapUApp', version: '5.4.0-SNAPSHOT.20170629062238', ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'iapUApp', version: '5.4.0'+ objcdp.getVersionSuffix(), ext: 'aar'){
         exclude group: 'com.android.support'
         transitive = true
     }
