@@ -213,19 +213,24 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
                 getRegistrationFragment().getParentActivity(), mPhilipsNewsLinkClick);
         RegUtility.linkifyAccountSettingPhilips(mAccessAccountSettingsLink,
                 getRegistrationFragment().getParentActivity(), mPhilipsSettingLinkClick);
+        
+        String userName = mUser.getGivenName();
+        if (userName != null && !userName.equalsIgnoreCase("null")) {
+            String welcomeUser = getString(R.string.reg_InitialSignedIn_Welcome_User_lbltxt);
+            welcomeUser = String.format(welcomeUser, userName);
+            mTvWelcome.setText(welcomeUser);
+        }
 
-        mTvWelcome.setText(getString(R.string.reg_Signin_Success_Hello_lbltxt) + " " + mUser.getGivenName());
-
-
-        if (FieldsValidator.isValidEmail(mUser.getEmail())){
-            String email = getString(R.string.reg_InitialSignedIn_SigninEmailText);
-            email = String.format(email, mUser.getEmail());
-            mTvSignInEmail.setText(email);
-        }else {
+        if (FieldsValidator.isValidMobileNumber(mUser.getMobile())){
             mUserDetails = getString(R.string.reg_InitialSignedIn_SigninMobileNumberText);
             mUserDetails = String.format(mUserDetails, mUser.getMobile());
             mTvSignInEmail.setText(mUserDetails);
+        }else if (FieldsValidator.isValidEmail(mUser.getEmail())) {
+            String email = getString(R.string.reg_InitialSignedIn_SigninEmailText);
+            email = String.format(email, mUser.getEmail());
+            mTvSignInEmail.setText(email);
         }
+
     }
 
     @Override
@@ -271,17 +276,12 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
     @Override
     public void onUpdateSuccess() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
                 hideProgressBar();
                 if (mCbTerms.isChecked()) {
                     trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
                 } else {
                     trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
                 }
-            }
-        });
     }
 
     private void hideProgressBar() {
@@ -292,14 +292,7 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
     @Override
     public void onUpdateFailedWithError(final int error) {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
                 handleUpdateReceiveMarket(error);
-            }
-        });
-
     }
 
     private void handleUpdateReceiveMarket(int error) {
@@ -331,32 +324,22 @@ public class LogoutFragment extends RegistrationBaseFragment implements OnClickL
 
     @Override
     public void onLogoutSuccess() {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
                 trackPage(AppTaggingPages.HOME);
                 hideLogoutSpinner();
                 getRegistrationFragment().replaceWithHomeFragment();
-            }
-        });
 
     }
 
     @Override
     public void onLogoutFailure(int responseCode, final String message) {
 
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
+
                 if (mBtnLogOut.getVisibility() == View.VISIBLE) {
                     mBtnLogOut.setEnabled(true);
                     mBtnLogOut.setClickable(true);
                 }
                 hideLogoutSpinner();
                 mRegError.setError(message);
-            }
-        });
     }
 
     private void showLogoutSpinner() {

@@ -18,6 +18,7 @@ import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.JanrainInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.cdp.registration.update.UpdateUser;
 
 import org.json.JSONException;
@@ -54,8 +55,9 @@ public class UpdateUserDetailsBase implements
     @Override
     public void onJanrainInitializeFailed() {
         if (null != mUpdateUserDetails)
+            ThreadUtils.postInMainThread(mContext,()->
             mUpdateUserDetails
-                    .onUpdateFailedWithError(-1);
+                    .onUpdateFailedWithError(-1));
 
     }
 
@@ -68,7 +70,8 @@ public class UpdateUserDetailsBase implements
     public void onUserUpdateSuccess() {
         performLocalUpdate();
         if (null != mUpdateUserDetails)
-            mUpdateUserDetails.onUpdateSuccess();
+            ThreadUtils.postInMainThread(mContext,()->
+            mUpdateUserDetails.onUpdateSuccess());
     }
 
     @Override
@@ -76,8 +79,9 @@ public class UpdateUserDetailsBase implements
         RLog.d("Error", "Error" + error);
         if (error == -1) {
             if (null != mUpdateUserDetails) {
+                ThreadUtils.postInMainThread(mContext,()->
                 mUpdateUserDetails
-                        .onUpdateFailedWithError(-1);
+                        .onUpdateFailedWithError(-1));
             }
             return;
         }
@@ -87,8 +91,9 @@ public class UpdateUserDetailsBase implements
             user.refreshLoginSession(this);
             return;
         }
+        ThreadUtils.postInMainThread(mContext,()->
         mUpdateUserDetails
-                .onUpdateFailedWithError(error);
+                .onUpdateFailedWithError(error));
 
     }
 
@@ -100,8 +105,9 @@ public class UpdateUserDetailsBase implements
     @Override
     public void onRefreshLoginSessionFailedWithError(int error) {
         if (null != mUpdateUserDetails)
+            ThreadUtils.postInMainThread(mContext,()->
             mUpdateUserDetails
-                    .onUpdateFailedWithError(error);
+                    .onUpdateFailedWithError(error));
     }
 
     @Override
