@@ -25,7 +25,7 @@
         tools:replace="android:theme,android:label,android:allowBackup">
 
         <activity
-            android:name="com.philips.platform.baseapp.screens.introscreen.LaunchActivityAbstract"
+            android:name="com.philips.platform.baseapp.screens.introscreen.LaunchActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|locale|layoutDirection"
             android:theme="@style/Theme.DLS.GroupBlue.UltraLight">
             <intent-filter>

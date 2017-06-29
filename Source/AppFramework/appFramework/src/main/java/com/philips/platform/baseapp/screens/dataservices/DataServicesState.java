@@ -48,9 +48,9 @@ import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynch
 import com.philips.platform.baseapp.screens.dataservices.error.ErrorHandlerInterfaceImpl;
 import com.philips.platform.baseapp.screens.dataservices.reciever.ScheduleSyncReceiver;
 import com.philips.platform.baseapp.screens.dataservices.registration.UserRegistrationInterfaceImpl;
-import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureTimeLineFragmentAbstract;
+import com.philips.platform.baseapp.screens.dataservices.temperature.TemperatureTimeLineFragment;
 import com.philips.platform.baseapp.screens.dataservices.utility.SyncScheduler;
-import com.philips.platform.baseapp.screens.introscreen.LaunchActivityAbstract;
+import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.core.listeners.RegisterDeviceTokenListener;
@@ -90,7 +90,7 @@ public class DataServicesState extends BaseState implements HandleNotificationPa
     }
 
     /**
-     * Navigating to AboutScreenFragmentAbstract
+     * Navigating to AboutScreenFragment
      *
      * @param uiLauncher requires UiLauncher
      */
@@ -98,7 +98,7 @@ public class DataServicesState extends BaseState implements HandleNotificationPa
     public void navigate(UiLauncher uiLauncher) {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         ((AbstractAppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
-                handleFragmentBackStack(new TemperatureTimeLineFragmentAbstract(), TemperatureTimeLineFragmentAbstract.TAG, getUiStateData().getFragmentLaunchState());
+                handleFragmentBackStack(new TemperatureTimeLineFragment(), TemperatureTimeLineFragment.TAG, getUiStateData().getFragmentLaunchState());
     }
 
     @Override
@@ -214,7 +214,7 @@ public class DataServicesState extends BaseState implements HandleNotificationPa
      * @param message GCM message received.
      */
     private void sendNotification(String message) {
-        Intent intent = new Intent(mcontext, LaunchActivityAbstract.class);
+        Intent intent = new Intent(mcontext, LaunchActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(mcontext, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);

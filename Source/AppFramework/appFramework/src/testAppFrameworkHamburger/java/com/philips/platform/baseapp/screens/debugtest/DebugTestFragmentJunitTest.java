@@ -32,7 +32,7 @@ import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DebugTestFragmentJunitTest extends TestCase {
-    private DebugTestFragmentAbstract debugFragment;
+    private DebugTestFragment debugFragment;
     private AppFrameworkApplication appFrameworkApplication;
     private AppInfra appInfra;
     private AppConfigurationInterface appConfigurationInterface;
@@ -46,7 +46,7 @@ public class DebugTestFragmentJunitTest extends TestCase {
     public void setUp() throws Exception {
         initMocks(this);
         super.setUp();
-        debugFragment = mock(DebugTestFragmentAbstract.class);
+        debugFragment = mock(DebugTestFragment.class);
         fragmentActivityMock = mock(FragmentActivity.class);
         appFrameworkApplication = mock(AppFrameworkApplication.class);
         appInfra = mock(AppInfra.class);

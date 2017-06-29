@@ -28,8 +28,8 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
  * Settings presenter handles the state change for launching UR or IAP from on click of buttons
  *
  */
-public class SettingsFragmentPresenterAbstract extends AbstractUIBasePresenter {
-    public static final String TAG = SettingsFragmentPresenterAbstract.class.getSimpleName();
+public class SettingsFragmentPresenter extends AbstractUIBasePresenter {
+    public static final String TAG = SettingsFragmentPresenter.class.getSimpleName();
 
     private static final String SETTINGS_LOGIN = "login";
     private final SettingsView settingsView;
@@ -38,7 +38,7 @@ public class SettingsFragmentPresenterAbstract extends AbstractUIBasePresenter {
     private String SETTINGS_LOGOUT = "logout";
     private String SETTINGS_ORDER_HISTORY = "order_history";
 
-    public SettingsFragmentPresenterAbstract(final SettingsView settingsView) {
+    public SettingsFragmentPresenter(final SettingsView settingsView) {
         super(settingsView);
         this.settingsView = settingsView;
         setState(AppStates.SETTINGS);

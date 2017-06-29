@@ -34,7 +34,7 @@ public class DebugTestFragmentState extends BaseState {
         RALog.d(TAG," navigate");
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
         ((AbstractAppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).
-                handleFragmentBackStack( new DebugTestFragmentAbstract(), DebugTestFragmentAbstract.TAG,getUiStateData().getFragmentLaunchState());
+                handleFragmentBackStack( new DebugTestFragment(), DebugTestFragment.TAG,getUiStateData().getFragmentLaunchState());
     }
 
     @Override

@@ -15,7 +15,7 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
-import com.philips.platform.baseapp.screens.homefragment.HomeFragmentAbstract;
+import com.philips.platform.baseapp.screens.homefragment.HomeFragment;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
@@ -56,10 +56,10 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
             switch (fragmentAddState) {
                 case Constants.ADD_HOME_FRAGMENT:
                     RALog.d(TAG," Added as ADD_HOME_FRAGMENT");
-                    if (null == getSupportFragmentManager().findFragmentByTag(HomeFragmentAbstract.TAG)) {
+                    if (null == getSupportFragmentManager().findFragmentByTag(HomeFragment.TAG)) {
                         addToBackStack(containerId, fragment, fragmentTag);
                     } else {
-                        getSupportFragmentManager().popBackStackImmediate(HomeFragmentAbstract.TAG, 0);
+                        getSupportFragmentManager().popBackStackImmediate(HomeFragment.TAG, 0);
                     }
 
                     break;
@@ -67,7 +67,7 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
                     RALog.d(TAG," Added as ADD_FROM_HAMBURGER");
 
                     getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    addToBackStack(containerId, new HomeFragmentAbstract(), HomeFragmentAbstract.TAG);
+                    addToBackStack(containerId, new HomeFragment(), HomeFragment.TAG);
                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     addToBackStack(containerId, fragment, fragmentTag);
 
@@ -76,7 +76,7 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
                     RALog.d(TAG," Added as CLEAR_TILL_HOME");
 
                     getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    addToBackStack(containerId, new HomeFragmentAbstract(), HomeFragmentAbstract.TAG);
+                    addToBackStack(containerId, new HomeFragment(), HomeFragment.TAG);
 
                     break;
             }

@@ -29,7 +29,7 @@ public class SettingsFragmentState extends BaseState {
         RALog.d(TAG," navigate");
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
             ((AbstractAppFrameworkBaseActivity) fragmentLauncher.getFragmentActivity()).
-                    handleFragmentBackStack(new SettingsFragmentAbstract(), SettingsFragmentAbstract.TAG,
+                    handleFragmentBackStack(new SettingsFragment(), SettingsFragment.TAG,
                             getUiStateData().getFragmentLaunchState());
 
     }

@@ -46,8 +46,8 @@ import java.lang.ref.WeakReference;
 
 import static com.philips.platform.baseapp.screens.utility.Constants.DEVICE_DATAPARSING;
 
-public class ConnectivityFragmentAbstract extends AbstractAppFrameworkBaseFragment implements View.OnClickListener, ConnectivityContract.View {
-    public static final String TAG = ConnectivityFragmentAbstract.class.getSimpleName();
+public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment implements View.OnClickListener, ConnectivityContract.View {
+    public static final String TAG = ConnectivityFragment.class.getSimpleName();
     private EditText editText = null;
     private EditText momentValueEditText = null;
     private ProgressDialog dialog = null;
@@ -60,7 +60,7 @@ public class ConnectivityFragmentAbstract extends AbstractAppFrameworkBaseFragme
     private BLEScanDialogFragment bleScanDialogFragment;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1001;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1002;
-    private WeakReference<ConnectivityFragmentAbstract> connectivityFragmentWeakReference;
+    private WeakReference<ConnectivityFragment> connectivityFragmentWeakReference;
     private Context mContext;
 
     /**
@@ -68,7 +68,7 @@ public class ConnectivityFragmentAbstract extends AbstractAppFrameworkBaseFragme
      */
     private ConnectivityPresenter connectivityPresenter;
 
-    public ConnectivityFragmentAbstract() {
+    public ConnectivityFragment() {
     }
 
     @Override
@@ -88,7 +88,7 @@ public class ConnectivityFragmentAbstract extends AbstractAppFrameworkBaseFragme
         super.onCreate(savedInstanceState);
         // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
         // BluetoothAdapter through BluetoothManager.
-        connectivityFragmentWeakReference = new WeakReference<ConnectivityFragmentAbstract>(this);
+        connectivityFragmentWeakReference = new WeakReference<ConnectivityFragment>(this);
         final BluetoothManager bluetoothManager =
                 (BluetoothManager) getActivity().getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();

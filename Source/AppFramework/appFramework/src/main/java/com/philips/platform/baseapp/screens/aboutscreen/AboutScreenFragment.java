@@ -26,9 +26,9 @@ import com.philips.platform.baseapp.screens.utility.RALog;
  * Latest version
  */
 
-public class AboutScreenFragmentAbstract extends AbstractAppFrameworkBaseFragment
+public class AboutScreenFragment extends AbstractAppFrameworkBaseFragment
 {
-    public static final String TAG =AboutScreenFragmentAbstract.class.getSimpleName();
+    public static final String TAG =AboutScreenFragment.class.getSimpleName();
 
     @Override
     public void onResume() {

@@ -30,7 +30,7 @@ public class HomeFragmentState extends BaseState {
         RALog.d(TAG," navigate Called ");
 
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
-        ((AbstractAppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).handleFragmentBackStack( new HomeFragmentAbstract(), HomeFragmentAbstract.TAG,getUiStateData().getFragmentLaunchState());
+        ((AbstractAppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).handleFragmentBackStack( new HomeFragment(), HomeFragment.TAG,getUiStateData().getFragmentLaunchState());
     }
 
     @Override
