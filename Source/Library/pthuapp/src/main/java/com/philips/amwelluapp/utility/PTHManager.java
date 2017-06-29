@@ -10,12 +10,9 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.SDKPasswordError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
-import com.americanwell.sdk.entity.legal.LegalText;
 import com.americanwell.sdk.entity.practice.Practice;
-
+import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
-
-import com.americanwell.sdk.entity.visit.Topic;
 import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
@@ -28,15 +25,13 @@ import com.philips.amwelluapp.intake.PTHUpdateConsumerCallback;
 import com.philips.amwelluapp.intake.PTHVisitContext;
 import com.philips.amwelluapp.intake.PTHVisitContextCallBack;
 import com.philips.amwelluapp.login.PTHAuthentication;
+import com.philips.amwelluapp.login.PTHGetConsumerObjectCallBack;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
-
 import com.philips.amwelluapp.practice.PTHPractice;
 import com.philips.amwelluapp.practice.PTHPracticesListCallback;
-
-import com.philips.amwelluapp.login.PTHGetConsumerObjectCallBack;
+import com.philips.amwelluapp.providerdetails.PTHProviderDetailsCallback;
 import com.philips.amwelluapp.providerslist.PTHProviderInfo;
 import com.philips.amwelluapp.providerslist.PTHProvidersListCallback;
-
 import com.philips.amwelluapp.registration.PTHConsumer;
 import com.philips.amwelluapp.sdkerrors.PTHSDKError;
 import com.philips.amwelluapp.sdkerrors.PTHSDKPasswordError;
@@ -209,14 +204,28 @@ public class PTHManager {
 
     }
 
-    public void updateConsumer(Context context, PTHConsumer consumer, final PTHUpdateConsumerCallback pthUpdateConsumerCallback) throws AWSDKInstantiationException {
+    public void getProviderDetails(Context context,Consumer consumer,ProviderInfo providerInfo,final PTHProviderDetailsCallback pthProviderDetailsCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getPracticeProvidersManager().getProvider(providerInfo, consumer, new SDKCallback<Provider, SDKError>() {
+            @Override
+            public void onResponse(Provider provider, SDKError sdkError) {
+                pthProviderDetailsCallback.onProviderDetailsReceived(provider,sdkError);
+            }
 
-        ConsumerUpdate consumerUpdate = getAwsdk(context).getConsumerManager().getNewConsumerUpdate(consumer.getConsumer());
+            @Override
+            public void onFailure(Throwable throwable) {
+
+                pthProviderDetailsCallback.onProviderDetailsFetchError(throwable);
+            }
+        });
+    }
+
+    public void updateConsumer(Context context, final PTHConsumer pthConsumer, final PTHUpdateConsumerCallback pthUpdateConsumer) throws AWSDKInstantiationException {
+        ConsumerUpdate consumerUpdate = getAwsdk(context).getConsumerManager().getNewConsumerUpdate(pthConsumer.getConsumer());
         consumerUpdate.setPhone("8665264527");
         getAwsdk(context).getConsumerManager().updateConsumer(consumerUpdate, new SDKValidatedCallback<Consumer, SDKPasswordError>() {
             @Override
             public void onValidationFailure(Map<String, ValidationReason> map) {
-                pthUpdateConsumerCallback.onUpdateConsumerValidationFailure(map);
+                pthUpdateConsumer.onUpdateConsumerValidationFailure(map);
             }
 
             @Override
@@ -224,18 +233,17 @@ public class PTHManager {
                 PTHConsumer pthConsumer = new PTHConsumer();
                 pthConsumer.setConsumer(consumer);
 
-                PTHSDKPasswordError pthSdkPasswordError = new PTHSDKPasswordError();
-                pthSdkPasswordError.setSdkPasswordError(sdkPasswordError);
-                pthUpdateConsumerCallback.onUpdateConsumerResponse(pthConsumer,pthSdkPasswordError);
+                PTHSDKError pthSDKError = new PTHSDKError();
+                pthSDKError.setSdkError(sdkPasswordError);
+
+                pthUpdateConsumer.onUpdateConsumerResponse(pthConsumer,pthSDKError);
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                pthUpdateConsumerCallback.onUpdateConsumerFailure(throwable);
+                pthUpdateConsumer.onUpdateConsumerFailure(throwable);
             }
         });
-
-
     }
 
     @VisibleForTesting
