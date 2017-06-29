@@ -6,6 +6,7 @@
 package com.philips.cdp.dicommclientsample;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -52,10 +53,12 @@ class SampleApplianceFactory implements DICommApplianceFactory<Appliance> {
                 case AirPurifier.DEVICETYPE:
                     networkNode.useLegacyHttp();
 
-                    if (ComfortAirPurifier.MODELID.equals(networkNode.getModelId())) {
-                        return new ComfortAirPurifier(networkNode, communicationStrategy);
-                    } else {
+                    final String modelId = networkNode.getModelId();
+
+                    if (TextUtils.isEmpty(modelId)) {
                         return new JaguarAirPurifier(networkNode, communicationStrategy);
+                    } else if (modelId.equals(ComfortAirPurifier.MODELID)) {
+                        return new ComfortAirPurifier(networkNode, communicationStrategy);
                     }
                 case WifiReferenceAppliance.DEVICETYPE:
                     return new WifiReferenceAppliance(networkNode, communicationStrategy);
