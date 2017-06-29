@@ -61,7 +61,7 @@ public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallB
     private void loginUserSilently() {
         try {
             AmwellLog.i(AmwellLog.LOG,"Login - call initialted from client");
-            PTHManager.getInstance().authenticate(uiBaseView.getFragmentActivity(),"sumit.prasad@philips.com","Philips@123",null,this);
+            PTHManager.getInstance().authenticate(uiBaseView.getFragmentActivity(),"spoorti.h86@gmail.com","sujata123*",null,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

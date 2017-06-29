@@ -7,16 +7,26 @@ import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.AWSDKFactory;
 import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.SDKPasswordError;
 import com.americanwell.sdk.entity.consumer.Consumer;
+import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
+import com.americanwell.sdk.entity.legal.LegalText;
 import com.americanwell.sdk.entity.practice.Practice;
 
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 
 import com.americanwell.sdk.entity.visit.Topic;
+import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.SDKCallback;
+import com.americanwell.sdk.manager.SDKValidatedCallback;
+import com.americanwell.sdk.manager.ValidationReason;
+import com.philips.amwelluapp.intake.PTHSDKValidatedCallback;
+import com.philips.amwelluapp.intake.PTHUpdateConsumerCallback;
+import com.philips.amwelluapp.intake.PTHVisitContext;
+import com.philips.amwelluapp.intake.PTHVisitContextCallBack;
 import com.philips.amwelluapp.login.PTHAuthentication;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
 
@@ -24,9 +34,12 @@ import com.philips.amwelluapp.practice.PTHPractice;
 import com.philips.amwelluapp.practice.PTHPracticesListCallback;
 
 import com.philips.amwelluapp.login.PTHGetConsumerObjectCallBack;
+import com.philips.amwelluapp.providerslist.PTHProviderInfo;
 import com.philips.amwelluapp.providerslist.PTHProvidersListCallback;
 
+import com.philips.amwelluapp.registration.PTHConsumer;
 import com.philips.amwelluapp.sdkerrors.PTHSDKError;
+import com.philips.amwelluapp.sdkerrors.PTHSDKPasswordError;
 import com.philips.amwelluapp.welcome.PTHInitializeCallBack;
 
 import java.net.MalformedURLException;
@@ -77,7 +90,7 @@ public class PTHManager {
 
     public void initializeTeleHealth(Context context, final PTHInitializeCallBack pthInitializeCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
         final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
-       /* initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
+      /*  initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
         initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key*/
         initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
         initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key
@@ -100,20 +113,48 @@ public class PTHManager {
                 });
     }
 
-    public void testAPIs(Context context, final Consumer consumer, final ProviderInfo providerInfo) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
+    public void getVisitContext(Context context, final PTHConsumer consumer, final PTHProviderInfo providerInfo, final PTHVisitContextCallBack pthVisitContextCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
 
-        getAwsdk(context).getVisitManager().getVisitContext(consumer, providerInfo, new SDKCallback<VisitContext, SDKError>() {
+        getAwsdk(context).getVisitManager().getVisitContext(consumer.getConsumer(), providerInfo.getProviderInfo(), new SDKCallback<VisitContext, SDKError>() {
                     @Override
                     public void onResponse(VisitContext visitContext, SDKError sdkError) {
-                        List<Topic> topics = visitContext.getTopics();
-                        topics.get(0).getDescription();
+
+                        PTHVisitContext pthVisitContext = new PTHVisitContext();
+                        pthVisitContext.setVisitContext(visitContext);
+
+                        PTHSDKError pthsdkError = new PTHSDKError();
+                        pthsdkError.setSdkError(sdkError);
+
+                        pthVisitContextCallBack.onResponse(pthVisitContext,pthsdkError);
+
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
-
+                        pthVisitContextCallBack.onFailure(throwable);
                     }
                 });
+    }
+
+    public void createVisit(Context context, PTHVisitContext pthVisitContext, final PTHSDKValidatedCallback pthsdkValidatedCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getVisitManager().createVisit(pthVisitContext.getVisitContext(), new SDKValidatedCallback<Visit, SDKError>() {
+            @Override
+            public void onValidationFailure(Map<String, ValidationReason> map) {
+                pthsdkValidatedCallback.onValidationFailure(map);
+            }
+
+            @Override
+            public void onResponse(Visit visit, SDKError sdkError) {
+                PTHSDKError pthSDKError = new PTHSDKError();
+                pthSDKError.setSdkError(sdkError);
+                pthsdkValidatedCallback.onResponse(visit,sdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                pthsdkValidatedCallback.onFailure(throwable);
+            }
+        });
     }
 
 
@@ -165,6 +206,35 @@ public class PTHManager {
 
             }
         });
+
+    }
+
+    public void updateConsumer(Context context, PTHConsumer consumer, final PTHUpdateConsumerCallback pthUpdateConsumerCallback) throws AWSDKInstantiationException {
+
+        ConsumerUpdate consumerUpdate = getAwsdk(context).getConsumerManager().getNewConsumerUpdate(consumer.getConsumer());
+        consumerUpdate.setPhone("8665264527");
+        getAwsdk(context).getConsumerManager().updateConsumer(consumerUpdate, new SDKValidatedCallback<Consumer, SDKPasswordError>() {
+            @Override
+            public void onValidationFailure(Map<String, ValidationReason> map) {
+                pthUpdateConsumerCallback.onUpdateConsumerValidationFailure(map);
+            }
+
+            @Override
+            public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
+                PTHConsumer pthConsumer = new PTHConsumer();
+                pthConsumer.setConsumer(consumer);
+
+                PTHSDKPasswordError pthSdkPasswordError = new PTHSDKPasswordError();
+                pthSdkPasswordError.setSdkPasswordError(sdkPasswordError);
+                pthUpdateConsumerCallback.onUpdateConsumerResponse(pthConsumer,pthSdkPasswordError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                pthUpdateConsumerCallback.onUpdateConsumerFailure(throwable);
+            }
+        });
+
 
     }
 
