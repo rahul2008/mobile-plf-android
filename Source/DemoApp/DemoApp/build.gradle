@@ -90,7 +90,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('aar')
+                publications ('apk')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
