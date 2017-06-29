@@ -22,11 +22,11 @@ public class IRViewVisible implements IdlingResource {
 
     @Override
     public boolean isIdleNow() {
-        if(view.getVisibility() == View.VISIBLE && callback != null) {
+        if(view.getVisibility() == View.VISIBLE && view.isEnabled() && view.isActivated() && callback != null) {
             callback.onTransitionToIdle();
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     @Override
