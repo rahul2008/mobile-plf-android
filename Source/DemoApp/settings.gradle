@@ -1,4 +1,5 @@
 rootProject.setName 'iap'
-include ':app'
+include ':app', ':DemoUApp'
+project(':DemoUApp').projectDir = new File('../DemoUApp')
 include ':iap'
 project(':iap').projectDir = new File('../Library/iap')
