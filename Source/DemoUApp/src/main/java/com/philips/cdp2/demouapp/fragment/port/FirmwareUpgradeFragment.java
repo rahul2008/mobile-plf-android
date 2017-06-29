@@ -188,29 +188,29 @@ public class FirmwareUpgradeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_firmware_upgrade, container, false);
+        View rootview = inflater.inflate(R.layout.fragment_firmware_upgrade, container, false);
 
-        firmwareSearchLocationTextView = (TextView) rootView.findViewById(R.id.tvFirmwareSearchLocation);
+        firmwareSearchLocationTextView = (TextView) rootview.findViewById(R.id.tvFirmwareSearchLocation);
 
-        btnUpload = (Button) rootView.findViewById(R.id.btnUploadFirmware);
-        btnDeploy = (Button) rootView.findViewById(R.id.btnDeployFirmware);
-        btnCancel = (Button) rootView.findViewById(R.id.btnCancelFirmware);
+        btnUpload = (Button) rootview.findViewById(R.id.btnUploadFirmware);
+        btnDeploy = (Button) rootview.findViewById(R.id.btnDeployFirmware);
+        btnCancel = (Button) rootview.findViewById(R.id.btnCancelFirmware);
 
-        stateTextView = (TextView) rootView.findViewById(R.id.txtFirmwareState);
-        versionTextView = (TextView) rootView.findViewById(R.id.txtFirmwareVersion);
-        statusTextView = (TextView) rootView.findViewById(R.id.txtFirmwareStatusMsg);
-        timeoutEditText = (EditText) rootView.findViewById(R.id.timeoutEditText);
+        stateTextView = (TextView) rootview.findViewById(R.id.txtFirmwareState);
+        versionTextView = (TextView) rootview.findViewById(R.id.txtFirmwareVersion);
+        statusTextView = (TextView) rootview.findViewById(R.id.txtFirmwareStatusMsg);
+        timeoutEditText = (EditText) rootview.findViewById(R.id.timeoutEditText);
 
         btnUpload.setOnClickListener(clickListener);
         btnDeploy.setOnClickListener(clickListener);
         btnCancel.setOnClickListener(clickListener);
         updateButtons(true, false, false);
 
-        firmwareUploadProgressBar = (ProgressBar) rootView.findViewById(R.id.progressUploadFirmware);
+        firmwareUploadProgressBar = (ProgressBar) rootview.findViewById(R.id.progressUploadFirmware);
         firmwareUploadProgressBar.setProgress(0);
-        firmwareImagesListView = (ListView) rootView.findViewById(R.id.lvFirmwareImages);
+        firmwareImagesListView = (ListView) rootview.findViewById(R.id.lvFirmwareImages);
 
-        return rootView;
+        return rootview;
     }
 
 

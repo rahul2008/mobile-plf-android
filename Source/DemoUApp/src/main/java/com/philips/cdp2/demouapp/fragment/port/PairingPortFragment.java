@@ -39,7 +39,7 @@ public class PairingPortFragment extends Fragment {
             }
         });
 
-        return rootView;
+        return rootview;
     }
 
     private String getTextFor(int id, View fragmentView) {

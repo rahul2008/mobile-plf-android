@@ -34,15 +34,17 @@ public class DevicePortFragment extends Fragment {
 
     private static final String TAG = "DevicePortFragment";
 
-    private View rootView;
+    private View rootview;
     private EditText deviceNameEdit;
     private Appliance currentAppliance;
 
     private DICommPortListener<DevicePort> portListener = new DICommPortListener<DevicePort>() {
         @Override
         public void onPortUpdate(DevicePort port) {
-            DevicePortProperties properties = port.getPortProperties();
-            deviceNameEdit.setText(properties.getName());
+            if (isAdded()) {
+                DevicePortProperties properties = port.getPortProperties();
+                deviceNameEdit.setText(properties.getName());
+            }
         }
 
         @Override
@@ -58,13 +60,13 @@ public class DevicePortFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_device_port, container, false);
+        rootview = inflater.inflate(R.layout.fragment_device_port, container, false);
 
-        deviceNameEdit = (EditText) rootView.findViewById(R.id.device_name);
-        Button setButton = (Button) rootView.findViewById(R.id.btn_set);
-        Button getButton = (Button) rootView.findViewById(R.id.btn_get);
+        deviceNameEdit = (EditText) rootview.findViewById(R.id.device_name);
+        Button setButton = (Button) rootview.findViewById(R.id.btn_set);
+        Button getButton = (Button) rootview.findViewById(R.id.btn_get);
 
-        ((CompoundButton) rootView.findViewById(R.id.switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
+        ((CompoundButton) rootview.findViewById(R.id.switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
 
         setButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -82,7 +84,7 @@ public class DevicePortFragment extends Fragment {
             }
         });
 
-        return rootView;
+        return rootview;
     }
 
     @Override

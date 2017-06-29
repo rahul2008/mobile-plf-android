@@ -5,10 +5,11 @@ Version {next}
 -------------
 
 ### Functionality Delivered
-* 37438: component now exposes its version and tla via BuildConfig
+* \#37438: component now exposes its version and tla via BuildConfig
+* \#35191: DevicePortFragment now shows a prompt to handle a certificate (pin) mismatch
 
 ### Backwards Compatibility
-* NA
+* N/A
 
 ### Features not covered
 * To be filled in at release
@@ -17,13 +18,13 @@ Version {next}
 See backwards compatibility
 
 ### Defects solved
-* NA
+* N/A
 
 ### Residual anomalies
 * To be filled in at release
 
 ### Risks and mitigations
-* NA
+* N/A
 
 Version 7.0.0
 -------------

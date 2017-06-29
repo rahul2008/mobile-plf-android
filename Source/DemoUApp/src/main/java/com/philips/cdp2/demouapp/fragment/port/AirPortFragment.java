@@ -67,9 +67,11 @@ public class AirPortFragment extends Fragment {
         portListener = new DICommPortListener<AirPort<AirPortProperties>>() {
             @Override
             public void onPortUpdate(AirPort<AirPortProperties> port) {
-                AirPortProperties airPortProperties = port.getPortProperties();
-                if (airPortProperties != null) {
-                    lightSwitch.setChecked(airPortProperties.getLightOn());
+                if (isAdded()) {
+                    AirPortProperties airPortProperties = port.getPortProperties();
+                    if (airPortProperties != null) {
+                        lightSwitch.setChecked(airPortProperties.getLightOn());
+                    }
                 }
             }
 

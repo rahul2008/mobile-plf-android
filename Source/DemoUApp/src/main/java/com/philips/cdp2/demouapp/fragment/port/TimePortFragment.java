@@ -80,23 +80,23 @@ public class TimePortFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_timeport, container, false);
+        View rootview = inflater.inflate(R.layout.fragment_timeport, container, false);
 
-        rootView.findViewById(R.id.btnGetTime).setOnClickListener(buttonClickListener);
-        rootView.findViewById(R.id.btnSetTime).setOnClickListener(buttonClickListener);
+        rootview.findViewById(R.id.btnGetTime).setOnClickListener(buttonClickListener);
+        rootview.findViewById(R.id.btnSetTime).setOnClickListener(buttonClickListener);
 
-        txtResult = (TextView) rootView.findViewById(R.id.txtResult);
-        txtProgress = (TextView) rootView.findViewById(R.id.txtProgress);
+        txtResult = (TextView) rootview.findViewById(R.id.txtResult);
+        txtProgress = (TextView) rootview.findViewById(R.id.txtProgress);
 
-        switchLoopGet = (CompoundButton) rootView.findViewById(R.id.switchLoopGet);
+        switchLoopGet = (CompoundButton) rootview.findViewById(R.id.switchLoopGet);
         switchLoopGet.setOnCheckedChangeListener(loopGetCheckedChangeListener);
 
-        ((CompoundButton) rootView.findViewById(R.id.switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
+        ((CompoundButton) rootview.findViewById(R.id.switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
 
-        rootView.findViewById(R.id.btnGetTime).setEnabled(true);
-        rootView.findViewById(R.id.btnSetTime).setEnabled(true);
+        rootview.findViewById(R.id.btnGetTime).setEnabled(true);
+        rootview.findViewById(R.id.btnSetTime).setEnabled(true);
 
-        return rootView;
+        return rootview;
     }
 
     @Override
