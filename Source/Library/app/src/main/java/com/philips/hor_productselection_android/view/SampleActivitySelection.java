@@ -71,7 +71,7 @@ public class SampleActivitySelection extends ProductSelectionBaseActivity implem
         mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
 
         ProductModelSelectionHelper.getInstance().initialize(this, mAppInfraInterface);
-        ProductModelSelectionHelper.getInstance().setLocale("en", "GB");
+       // ProductModelSelectionHelper.getInstance().setLocale("en", "GB");
 
         //ProductModelSelectionHelper.getInstance().invokeDigitalCareAsFragment(this, R.id.sampleMultiProductContainer, null /*actionBarClickListener*/, R.anim.uikit_popover_fadein, R.anim.uikit_popover_fadeout);
 //        ProductModelSelectionHelper.getInstance().setMultiProductSize(mList.size());

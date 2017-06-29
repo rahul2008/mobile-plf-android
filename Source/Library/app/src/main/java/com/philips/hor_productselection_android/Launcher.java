@@ -194,7 +194,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         productsSelection.setSector(Sector.B2C);
 
 
-        mProductSelectionHelper.setLocale("en", "GB");
+       // mProductSelectionHelper.setLocale("en", "GB");
         ThemeUtil mThemeUtil = new ThemeUtil(getApplicationContext().getSharedPreferences(
                 this.getString(R.string.app_name), Context.MODE_PRIVATE));
         ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
