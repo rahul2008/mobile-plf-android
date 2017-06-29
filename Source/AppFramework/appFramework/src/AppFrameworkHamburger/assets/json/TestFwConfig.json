@@ -32,6 +32,9 @@
       "commonComponents":[
         {
           "coconame":"Blue Lib"
+        };
+        {
+          "coconame":"Comm Lib"
         }
       ]
     },

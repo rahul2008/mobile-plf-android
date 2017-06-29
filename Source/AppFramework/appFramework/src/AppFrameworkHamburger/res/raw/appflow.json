@@ -332,6 +332,15 @@
                 "nextState": "demoUAPPFramework"
               }
             ]
+          },
+          {
+            "eventId": "TestDicommClientEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoDicommClient"
+              }
+            ]
           }
 
 

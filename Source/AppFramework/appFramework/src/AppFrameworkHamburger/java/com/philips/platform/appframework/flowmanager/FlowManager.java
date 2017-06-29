@@ -11,6 +11,7 @@ import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.stateimpl.DemoAppInfraState;
 import com.philips.platform.appframework.stateimpl.DemoCCState;
 import com.philips.platform.appframework.stateimpl.DemoDSState;
+import com.philips.platform.appframework.stateimpl.DemoDicommClientState;
 import com.philips.platform.appframework.stateimpl.DemoIAPState;
 import com.philips.platform.appframework.stateimpl.DemoPRState;
 import com.philips.platform.appframework.stateimpl.DemoURState;
@@ -37,6 +38,7 @@ public class FlowManager extends BaseFlowManager {
         uiStateMap.put(AppStates.TESTUAPP,new DemoUappState());
         uiStateMap.put(AppStates.TESTDATASERVICE,new DemoDSState());
         uiStateMap.put(AppStates.TESTCC,new DemoCCState());
+        uiStateMap.put(AppStates.TESTDICOMM, new DemoDicommClientState());
     }
 
     public void populateConditionMap(final Map<String, BaseCondition> baseConditionMap) {
