@@ -12,8 +12,7 @@ import com.philips.platform.uid.R;
 
 public class RadioGroup extends android.widget.RadioGroup {
 
-    private int topMargin, childTopMargin;
-    private LinearLayout.LayoutParams layoutParams;
+    private int topMargin;
 
     public RadioGroup(final Context context) {
         this(context, null);
@@ -30,9 +29,9 @@ public class RadioGroup extends android.widget.RadioGroup {
         int childCount = getChildCount();
         for(int i=0; i<childCount; i++){
             RadioButton child = (RadioButton)getChildAt(i);
-            layoutParams = (LinearLayout.LayoutParams)child.getLayoutParams();
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) child.getLayoutParams();
             if(child.getLineCount() > 1){
-                childTopMargin = layoutParams.topMargin;
+                int childTopMargin = layoutParams.topMargin;
                 if(childTopMargin == 0){
                     layoutParams.topMargin = topMargin;
                     child.setLayoutParams(layoutParams);
