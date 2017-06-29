@@ -14,5 +14,5 @@ public interface PTHBaseView {
     void finishActivityAffinity();
     FragmentActivity getFragmentActivity();
     int getContainerID();
-    void addFragment(Fragment fragment, String fragmentTag, Bundle bundle);
+    void addFragment(PTHBaseFragment fragment, String fragmentTag, Bundle bundle);
 }

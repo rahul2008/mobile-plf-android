@@ -4,9 +4,10 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.entity.insurance.Subscription;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class PTHConsumer {
+public class PTHConsumer implements Serializable{
     Consumer consumer;
 
     public Consumer getConsumer() {

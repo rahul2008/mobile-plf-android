@@ -18,4 +18,8 @@
         <item name="pth_cirucular_pb">@style/UIDProgressBarCircularIndeterminateBig</item>
     </style>
 
+    <style name="amwellCentralesansBookFont">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
 </resources>

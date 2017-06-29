@@ -18,7 +18,7 @@ public class PTHBaseFragment extends Fragment implements PTHBaseView {
 
 
     public FragmentLauncher mFragmentLauncher;
-    protected com.philips.platform.uid.view.widget.ProgressBar mPTHBaseFragmentProgressBar;
+    public com.philips.platform.uid.view.widget.ProgressBar mPTHBaseFragmentProgressBar;
     private ActionBarListener actionBarListener;
 
     @Override
@@ -64,12 +64,13 @@ public class PTHBaseFragment extends Fragment implements PTHBaseView {
     }
 
     @Override
-    public void addFragment(Fragment fragment, String fragmentTag, Bundle bundle) {
+    public void addFragment(PTHBaseFragment fragment, String fragmentTag, Bundle bundle) {
         fragment.setArguments(bundle);
         FragmentTransaction fragmentTransaction;
         fragmentTransaction = getFragmentActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(getContainerID(), fragment, fragmentTag);
         fragmentTransaction.addToBackStack(fragmentTag);
+        fragment.setActionBarListener(getActionBarListener());
         fragmentTransaction.commit();
     }
 
