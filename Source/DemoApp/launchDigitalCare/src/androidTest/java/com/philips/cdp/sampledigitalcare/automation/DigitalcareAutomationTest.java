@@ -1,14 +1,19 @@
 package com.philips.cdp.sampledigitalcare.automation;
 
 
+import android.graphics.Point;
+import android.os.RemoteException;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.test.uiautomator.UiDevice;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.philips.cdp.sampledigitalcare.launcher.uAppComponetLaunch.MicroAppLauncher;
 import com.philips.cl.di.dev.pa.R;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +33,24 @@ public class DigitalcareAutomationTest {
     private int millis = 1000;
     @Rule
     public ActivityTestRule<MicroAppLauncher> mActivityTestRule = new ActivityTestRule<>(MicroAppLauncher.class);
+
+    @Before
+    public void init(){
+        UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        Point[] coordinates = new Point[4];
+        coordinates[0] = new Point(248, 1520);
+        coordinates[1] = new Point(248, 929);
+        coordinates[2] = new Point(796, 1520);
+        coordinates[3] = new Point(796, 929);
+        try {
+            if (!uiDevice.isScreenOn()) {
+                uiDevice.wakeUp();
+                uiDevice.swipe(coordinates, 10);
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void changeThemeTest() {
