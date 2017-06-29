@@ -22,6 +22,9 @@ import com.philips.platform.uid.view.widget.RatingBar;
 
 import java.util.List;
 
+/**
+ * This class is used to display the provider details selected by the user.
+ */
 public class PTHProviderDetailsFragment extends PTHBaseFragment implements PTHPRoviderDetailsViewInterface ,SwipeRefreshLayout.OnRefreshListener{
     private Consumer consumer;
     private ProviderInfo providerInfo;
@@ -76,6 +79,13 @@ public class PTHProviderDetailsFragment extends PTHBaseFragment implements PTHPR
         this.consumer = consumer;
         this.providerInfo = providerInfo;
     }
+
+    /**
+     * As soon as the activity is created for the component, onRefresh method is called so that the
+     * provider details are fetched. This will,avoid code duplication in creating new method which
+     * will inturn call the same getprovider details method.
+     * @param savedInstanceState
+     */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -93,6 +103,10 @@ public class PTHProviderDetailsFragment extends PTHBaseFragment implements PTHPR
         return consumer;
     }
 
+    /**
+     * This method is used to set the provider details in the provider details screen.
+     * @param provider
+     */
     @Override
     public void updateView(Provider provider) {
         checkAvailability(provider);
@@ -109,6 +123,12 @@ public class PTHProviderDetailsFragment extends PTHBaseFragment implements PTHPR
 
     }
 
+    /**
+     * This method checks for the provider visibility, if visible, user can schedule an appointment or start video chat right away
+     * If provider is busy, user can schedule an appointment or wait in line.
+     * If provider is offline, user can schedule an appointment
+     * @param provider
+     */
     private void checkAvailability(Provider provider) {
         if(ProviderVisibility.isOnCall(provider.getVisibility()) || ProviderVisibility.isVideoBusy(provider.getVisibility())){
             isAvailableImage.setVisibility(ImageView.GONE);
@@ -129,6 +149,11 @@ public class PTHProviderDetailsFragment extends PTHBaseFragment implements PTHPR
             detailsButtonTwo.setText("Schedule an appointment");
         }
     }
+
+    /**
+     * This method is used to break up the list of spoken languages into comma separated strings to
+     * display on the screen.
+     */
 
     private String getSpokenLanguages(List<Language> spokenLanguages) {
         String languageList = "";
