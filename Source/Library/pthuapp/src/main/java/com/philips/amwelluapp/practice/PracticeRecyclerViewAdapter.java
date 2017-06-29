@@ -24,10 +24,12 @@ public class PracticeRecyclerViewAdapter extends RecyclerView.Adapter<PracticeRe
     private OnPracticeItemClickListener mOnPracticeItemClickListener;
 
 
+    //TODO: Review Comment - Spoorti - rename it to getOnPracticeItemClickListener
     public OnPracticeItemClickListener getmOnPracticeItemClickListener() {
         return mOnPracticeItemClickListener;
     }
 
+    //TODO: Review Comment - Spoorti - rename it to setOnPracticeItemClickListener
     public void setmOnPracticeItemClickListener(OnPracticeItemClickListener mOnPracticeItemClickListener) {
         this.mOnPracticeItemClickListener = mOnPracticeItemClickListener;
     }

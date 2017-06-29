@@ -9,15 +9,14 @@ import android.view.ViewGroup;
 
 import com.philips.amwelluapp.R;
 import com.philips.amwelluapp.base.PTHBaseFragment;
-import com.philips.amwelluapp.base.UIBasePresenter;
+import com.philips.amwelluapp.base.PTHBasePresenter;
 
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.BackEventListener;
-import com.philips.platform.uid.view.widget.ProgressBar;
 
 public class PTHWelcomeFragment extends PTHBaseFragment implements BackEventListener {
     public static final String TAG = PTHWelcomeFragment.class.getSimpleName();
-    private UIBasePresenter presenter;
+    private PTHBasePresenter presenter;
     //private com.philips.platform.uid.view.widget.ProgressBar progressBar;
 
     public FragmentLauncher getFragmentLauncher() {
@@ -35,10 +34,10 @@ public class PTHWelcomeFragment extends PTHBaseFragment implements BackEventList
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.pth_welcome_fragment, container, false);
-       // mPTHBaseFragmentProgressBar = (ProgressBar) view.findViewById(R.id.initialize_progress_bar);
-        mPTHBaseFragmentProgressBar = new ProgressBar(getContext());
-        presenter.onEvent(R.id.initialize_progress_bar);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.pth_welcome_fragment, container, false);
+        getContext().getTheme().applyStyle(R.style.PTHCircularPB, true);
+        createCustomProgressBar();
+        view.addView(mPTHBaseFragmentProgressBar);
         ((PTHWelcomePresenter)presenter).initializeAwsdk();
         getActionBarListener().updateActionBar("",false);
         return view;

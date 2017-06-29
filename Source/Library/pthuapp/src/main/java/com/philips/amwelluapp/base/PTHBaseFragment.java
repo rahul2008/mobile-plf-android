@@ -1,21 +1,24 @@
 package com.philips.amwelluapp.base;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
+import com.philips.amwelluapp.R;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.view.widget.ProgressBar;
 
-/**
- * Created by philips on 6/20/17.
- */
 
-public class PTHBaseFragment extends Fragment implements UIBaseView{
+public class PTHBaseFragment extends Fragment implements PTHBaseView {
 
 
     public FragmentLauncher mFragmentLauncher;
-    protected com.philips.platform.uid.view.widget.ProgressBar mPTHBaseFragmentProgressBar;
+    public com.philips.platform.uid.view.widget.ProgressBar mPTHBaseFragmentProgressBar;
     private ActionBarListener actionBarListener;
 
     @Override
@@ -25,7 +28,7 @@ public class PTHBaseFragment extends Fragment implements UIBaseView{
 
     @Override
     public FragmentActivity getFragmentActivity() {
-        return null;
+        return getActivity();
     }
 
     @Override
@@ -60,5 +63,21 @@ public class PTHBaseFragment extends Fragment implements UIBaseView{
         }
     }
 
+    @Override
+    public void addFragment(PTHBaseFragment fragment, String fragmentTag, Bundle bundle) {
+        fragment.setArguments(bundle);
+        FragmentTransaction fragmentTransaction;
+        fragmentTransaction = getFragmentActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(getContainerID(), fragment, fragmentTag);
+        fragmentTransaction.addToBackStack(fragmentTag);
+        fragment.setActionBarListener(getActionBarListener());
+        fragmentTransaction.commit();
+    }
 
+    public void createCustomProgressBar() {
+        mPTHBaseFragmentProgressBar = new ProgressBar(getContext(), null, R.attr.pth_cirucular_pb);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        mPTHBaseFragmentProgressBar.setLayoutParams(params);
+    }
 }

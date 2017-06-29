@@ -65,6 +65,10 @@ allprojects {
         maven { url "https://mvnrepository.com/artifact/org.robolectric/shadows-core" }
         maven {
             url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-snapshot'
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
         }
         maven {
             url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"

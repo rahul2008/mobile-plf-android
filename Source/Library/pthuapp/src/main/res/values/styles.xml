@@ -14,4 +14,12 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="PTHCircularPB">
+        <item name="pth_cirucular_pb">@style/UIDProgressBarCircularIndeterminateBig</item>
+    </style>
+
+    <style name="amwellCentralesansBookFont">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
+
 </resources>

@@ -6,7 +6,7 @@ import com.americanwell.sdk.entity.practice.Practice;
 import java.util.List;
 
 public interface PTHPracticesListCallback {
-
+    //TODO: Review Comment - Spoorti - wrap SDKError to PTHError
     void onPracticesListReceived(PTHPractice practices, SDKError sdkError);
     void onPracticesListFetchError(Throwable throwable);
 }

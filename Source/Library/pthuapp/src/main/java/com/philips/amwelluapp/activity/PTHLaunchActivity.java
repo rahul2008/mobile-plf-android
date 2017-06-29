@@ -123,15 +123,6 @@ public class PTHLaunchActivity extends AppCompatActivity {
             super.setTitle(titleId);
     }
 
-    public void addFragment(Fragment fragment, String fragmentTag) {
-
-        containerId = getContainerId();
-        FragmentTransaction fragmentTransaction;
-        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(containerId, fragment, fragmentTag);
-        fragmentTransaction.addToBackStack(fragmentTag);
-        fragmentTransaction.commit();
-    }
 
     private int getContainerId() {
         return R.id.parent_layout;

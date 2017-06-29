@@ -13,7 +13,7 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.philips.amwelluapp.R;
 import com.philips.amwelluapp.base.PTHBaseFragment;
-import com.philips.amwelluapp.base.UIBasePresenter;
+import com.philips.amwelluapp.base.PTHBasePresenter;
 import com.philips.amwelluapp.providerslist.PTHProvidersListFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -22,8 +22,9 @@ import com.philips.platform.uid.view.widget.ProgressBar;
 
 public class PTHPracticeFragment extends PTHBaseFragment implements BackEventListener {
 
+    //TODO: Review Comment - Spoorti - Can we make mConsumer as local variable instead of global?
     private Consumer mConsumer;
-    private UIBasePresenter mPresenter;
+    private PTHBasePresenter mPresenter;
     private Label mTitle;
     private RecyclerView mPracticeRecyclerView;
     private PracticeRecyclerViewAdapter mPracticeRecyclerViewAdapter;
@@ -49,6 +50,7 @@ public class PTHPracticeFragment extends PTHBaseFragment implements BackEventLis
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        //TODO: Review Comment - Spoorti - Do not hard code the String. Take it from Strings.xml
         mTitle.setText("To start a consult, pick a subject");
         mPracticeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         if(null!=((PTHPracticePresenter)mPresenter)) {
@@ -71,6 +73,7 @@ public class PTHPracticeFragment extends PTHBaseFragment implements BackEventLis
         return false;
     }
 
+    //TODO: Review Comment - Spoorti - finish the activity here
     @Override
     public void finishActivityAffinity() {
 
@@ -86,6 +89,7 @@ public class PTHPracticeFragment extends PTHBaseFragment implements BackEventLis
         return ((ViewGroup)getView().getParent()).getId();
     }
 
+    //TODO: Review Comment - Spoorti - Not sure why Presenter is created inside setConsumer
     public void setConsumer(Consumer consumer){
         mConsumer=consumer;
         mPresenter = new PTHPracticePresenter(this,consumer);
@@ -101,6 +105,8 @@ public class PTHPracticeFragment extends PTHBaseFragment implements BackEventLis
                 PTHProvidersListFragment providerListFragment = new PTHProvidersListFragment();
                 providerListFragment.setPracticeAndConsumer(practice,mConsumer);
                 providerListFragment.setActionBarListener(getActionBarListener());
+                //TODO: Review Comment - Spoorti - Use PTHBaseView.addFragment for doing the below operation
+                //TODO: Review comment - Rakesh - Please move the action to presenter and the addition of fragment will be called from presenter with a hook(base view)
                 getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), providerListFragment,"ProviderListFragment").addToBackStack(null).commit();
             }
         });

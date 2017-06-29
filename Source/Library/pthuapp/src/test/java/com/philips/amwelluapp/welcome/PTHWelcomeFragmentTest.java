@@ -10,6 +10,9 @@ import com.philips.amwelluapp.activity.PTHLaunchActivity;
 import com.philips.amwelluapp.utility.PTHManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.view.widget.ProgressBar;
+
+import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +30,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 @Config(constants = BuildConfig.class, sdk = 21, application = ApplicationTestClass.class, libraries = "../../../../../../../build/intermediates/exploded-aar/com.philips.cdp/uid/0.1.1-SNAPSHOT.20170623170225")
 public class PTHWelcomeFragmentTest {
     private PTHLaunchActivity mActivity;
-    private PTHWelcomeFragment mWelcomeFragment;
+    private WelcomeFragmentMock mWelcomeFragment;
 
     @Mock
     Bundle bundle;
@@ -41,14 +44,20 @@ public class PTHWelcomeFragmentTest {
     @Mock
     FragmentLauncher fragmentLauncherMock;
 
+    @Mock
+    ProgressBar progressBar;
+
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         ShadowLog.stream = System.out;
         PTHManager.getInstance().setAwsdk(awsdkMock);
         mActivity = Robolectric.buildActivity(PTHLaunchActivity.class).create().get();
-        mWelcomeFragment = new PTHWelcomeFragment();
+        mWelcomeFragment = new WelcomeFragmentMock();
         mWelcomeFragment.setActionBarListener(actionBarListenerMock);
+      //  ProgressBarMock progressBar = new ProgressBarMock(mActivity.getApplicationContext());
+        mWelcomeFragment.mPTHBaseFragmentProgressBar = progressBar;
     }
 
     @Test
@@ -88,7 +97,7 @@ public class PTHWelcomeFragmentTest {
 
     @Test
     public void handleBackEvent() throws Exception {
-        mWelcomeFragment.handleBackEvent();
+        Assert.assertEquals(mWelcomeFragment.handleBackEvent(),true);
     }
 
     @Test

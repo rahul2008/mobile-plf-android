@@ -8,9 +8,8 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.ConsumerInfo;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.philips.amwelluapp.activity.PTHLaunchActivity;
-import com.philips.amwelluapp.base.UIBasePresenter;
-import com.philips.amwelluapp.base.UIBaseView;
+import com.philips.amwelluapp.base.PTHBasePresenter;
+import com.philips.amwelluapp.base.PTHBaseView;
 import com.philips.amwelluapp.login.PTHAuthentication;
 import com.philips.amwelluapp.login.PTHGetConsumerObjectCallBack;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
@@ -18,18 +17,19 @@ import com.philips.amwelluapp.practice.PTHPracticeFragment;
 import com.philips.amwelluapp.registration.PTHConsumer;
 import com.philips.amwelluapp.registration.PTHRegistrationDetailsFragment;
 import com.philips.amwelluapp.sdkerrors.PTHSDKError;
+import com.philips.amwelluapp.utility.AmwellLog;
 import com.philips.amwelluapp.utility.PTHManager;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
-
-public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallBack<Void,PTHSDKError>, PTHLoginCallBack<PTHAuthentication,PTHSDKError> ,PTHGetConsumerObjectCallBack {
-    UIBaseView uiBaseView;
+//TODO: Review Comment - Spoorti - Do not implement PTHGetConsumerObjectCallBack in WelcomePresenter
+//TODO: Review Comment - Spoorti - Can we rename PTHGetConsumerObjectCallBack to PTHGetConsumerCallBack?
+public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallBack<Void,PTHSDKError>, PTHLoginCallBack<PTHAuthentication,PTHSDKError> ,PTHGetConsumerObjectCallBack {
+    PTHBaseView uiBaseView;
     private Consumer consumer;
 
-    PTHWelcomePresenter(UIBaseView uiBaseView){
+    PTHWelcomePresenter(PTHBaseView uiBaseView){
         this.uiBaseView = uiBaseView;
     }
 
@@ -41,6 +41,7 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
     protected void initializeAwsdk() {
         ((PTHWelcomeFragment) uiBaseView).showProgressBar();
         try {
+            AmwellLog.i(AmwellLog.LOG,"Initialize - Call initiated from Client");
             PTHManager.getInstance().initializeTeleHealth(uiBaseView.getFragmentActivity(), this);
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -55,12 +56,14 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
 
     @Override
     public void onInitializationResponse(Void aVoid, PTHSDKError sdkError) {
+        AmwellLog.i(AmwellLog.LOG,"Initialize - UI updated");
         loginUserSilently();
     }
 
     private void loginUserSilently() {
         try {
-            PTHManager.getInstance().authenticate(uiBaseView.getFragmentActivity(),"sumit.prasad@philips.com","Philips@123",null,this);
+            AmwellLog.i(AmwellLog.LOG,"Login - call initialted from client");
+            PTHManager.getInstance().authenticate(uiBaseView.getFragmentActivity(),"spoorti.h86@gmail.com","sujata123*",null,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -74,6 +77,7 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
 
     @Override
     public void onLoginResponse(PTHAuthentication pthAuthentication, PTHSDKError sdkError) {
+        AmwellLog.i(AmwellLog.LOG,"Login - UI updated");
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
         Log.d("Login","Login success");
         Toast.makeText(uiBaseView.getFragmentActivity(),"LOGIN SUCCESS",Toast.LENGTH_SHORT).show();
@@ -95,9 +99,7 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
     private void checkIfTheUserIsPartiallyRegistered(PTHAuthentication pthAuthentication) {
         boolean isUserPartiallyRegistered = pthAuthentication.needsToCompleteEnrollment();
         if (isUserPartiallyRegistered){
-            final FragmentLauncher fragmentLauncher = ((PTHWelcomeFragment)uiBaseView).getFragmentLauncher();
-            ((PTHLaunchActivity) fragmentLauncher.getFragmentActivity()).
-                    addFragment(new PTHRegistrationDetailsFragment(), PTHRegistrationDetailsFragment.TAG);
+            uiBaseView.addFragment(new PTHRegistrationDetailsFragment(),PTHRegistrationDetailsFragment.TAG,null);
         }
     }
 
@@ -108,6 +110,8 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
         Toast.makeText(uiBaseView.getFragmentActivity(),"LOGIN Failed",Toast.LENGTH_SHORT).show();
     }
 
+    //TODO: Review Comment - Spoorti - move to the relevant presenter
+    //TODO: Review Comment - Spoorti - use bundle to pass arguments to fragment instead od setter. Use PTHBaseView.addFragment for replacing the fragment
     @Override
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
 

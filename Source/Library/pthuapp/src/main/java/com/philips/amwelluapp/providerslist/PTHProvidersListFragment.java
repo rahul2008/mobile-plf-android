@@ -8,14 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.philips.amwelluapp.R;
 import com.philips.amwelluapp.base.PTHBaseFragment;
-import com.philips.amwelluapp.intake.PTHMedication;
-import com.philips.amwelluapp.intake.PTHMedicationFragment;
+import com.philips.amwelluapp.providerdetails.PTHProviderDetailsFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
@@ -23,7 +23,7 @@ import com.philips.platform.uid.view.widget.ProgressBar;
 
 import java.util.List;
 
-public class PTHProvidersListFragment extends PTHBaseFragment implements SwipeRefreshLayout.OnRefreshListener,PTHProviderListViewInterface {
+public class PTHProvidersListFragment extends PTHBaseFragment implements View.OnClickListener,SwipeRefreshLayout.OnRefreshListener,PTHProviderListViewInterface {
 
     private FragmentLauncher fragmentLauncher;
     private RecyclerView recyclerView;
@@ -35,7 +35,8 @@ public class PTHProvidersListFragment extends PTHBaseFragment implements SwipeRe
     private ProgressBar progressBar;
     private PTHProvidersListAdapter pthProvidersListAdapter;
     private ActionBarListener actionBarListener;
-    private Button getStartedButton;
+    Button btn_get_started;
+
 
 
     @Nullable
@@ -43,22 +44,12 @@ public class PTHProvidersListFragment extends PTHBaseFragment implements SwipeRe
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.pth_providers_list_fragment,container,false);
-        pthProviderListPresenter = new PTHProviderListPresenter(getActivity(),this);
+        pthProviderListPresenter = new PTHProviderListPresenter(this,this);
         recyclerView = (RecyclerView) view.findViewById(R.id.providerListRecyclerView);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
-        getStartedButton = (Button) view.findViewById(R.id.getStartedButton);
-        final ViewGroup baseContainer= container;
-        getStartedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PTHMedicationFragment pTHMedicationFragment = new PTHMedicationFragment();
-                pTHMedicationFragment.setActionBarListener(getActionBarListener());
-                PTHProvidersListFragment.this.getFragmentManager().beginTransaction().replace(baseContainer.getId(), pTHMedicationFragment,"PTHMedication").addToBackStack(null).commit();
-
-            }
-        });
         swipeRefreshLayout.setOnRefreshListener(this);
-
+        btn_get_started = (Button) view.findViewById(R.id.getStartedButton);
+        btn_get_started.setOnClickListener(this);
         return view;
     }
 
@@ -78,6 +69,7 @@ public class PTHProvidersListFragment extends PTHBaseFragment implements SwipeRe
         onRefresh();
     }
 
+    //TODO: Review Comment - Spoorti - Not sure if setter can be removed in case parameters are passed by bundle
     public void setPracticeAndConsumer(Practice practice, Consumer consumer){
         this.practice = practice;
         this.consumer = consumer;
@@ -92,10 +84,34 @@ public class PTHProvidersListFragment extends PTHBaseFragment implements SwipeRe
     }
 
     @Override
-    public void updateProviderAdapterList(List<ProviderInfo> providerInfos) {
+    public void updateProviderAdapterList(final List<ProviderInfo> providerInfos) {
         swipeRefreshLayout.setRefreshing(false);
         pthProvidersListAdapter = new PTHProvidersListAdapter(providerInfos,pthProviderListPresenter);
+        pthProvidersListAdapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
+            @Override
+            public void onItemClick(ProviderInfo item) {
+
+                PTHProviderDetailsFragment pthProviderDetailsFragment = new PTHProviderDetailsFragment();
+                pthProviderDetailsFragment.setActionBarListener(getActionBarListener());
+                pthProviderDetailsFragment.setProviderAndConsumer(item,consumer);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(),pthProviderDetailsFragment,"Provider Details").addToBackStack(null).commit();
+                Toast.makeText(getActivity(),"Clicked provider item"+item.getFullName(),Toast.LENGTH_SHORT).show();
+            }
+        });
         recyclerView.setAdapter(pthProvidersListAdapter);
 
+    }
+
+    @Override
+    public int getContainerID() {
+        return ((ViewGroup)getView().getParent()).getId();
+    }
+
+    @Override
+    public void onClick(View view) {
+        int i = view.getId();
+        if (i == R.id.getStartedButton) {
+            pthProviderListPresenter.onEvent(R.id.getStartedButton);
+        }
     }
 }

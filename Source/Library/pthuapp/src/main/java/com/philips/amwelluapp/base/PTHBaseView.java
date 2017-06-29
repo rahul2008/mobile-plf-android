@@ -6,10 +6,13 @@
 */
 package com.philips.amwelluapp.base;
 
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-public interface UIBaseView {
+public interface PTHBaseView {
     void finishActivityAffinity();
     FragmentActivity getFragmentActivity();
     int getContainerID();
+    void addFragment(PTHBaseFragment fragment, String fragmentTag, Bundle bundle);
 }

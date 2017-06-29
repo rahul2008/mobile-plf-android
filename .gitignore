@@ -6,6 +6,4 @@ Source/DemoApp/app/local.properties
 Source/Library/pthuapp/build/
 Source/DemoApp/Amwell/amwelluapp/build/
 *.crt
-*.png
-*.xml
 Source/DemoApp/app/.idea/.name
