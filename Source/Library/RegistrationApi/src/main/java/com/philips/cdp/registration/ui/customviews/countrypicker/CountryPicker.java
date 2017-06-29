@@ -18,6 +18,7 @@ import android.widget.ListView;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.ui.utils.FontLoader;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,7 +46,6 @@ public class CountryPicker extends DialogFragment implements
 
     private CountryChangeListener listener;
 
-    private String[] defaultSupportedHomeCountries = new String[]{"RW", "BG", "CZ", "DK", "AT", "CH", "DE", "GR", "AU", "CA", "GB", "HK", "ID", "IE", "IN", "MY", "NZ", "PH", "PK", "SA", "SG", "US", "ZA", "AR", "CL", "CO", "ES", "MX", "PE", "EE", "FI", "BE", "FR", "HR", "HU", "IT", "JP", "KR", "LT", "LV", "NL", "NO", "PL", "BR", "PT", "RO", "RU", "UA", "SI", "SK", "SE", "TH", "TR", "VN", "CN", "TW"};
 
 
     /**
@@ -102,28 +102,15 @@ public class CountryPicker extends DialogFragment implements
     }
 
     private List<String> handleCountryList() {
-        List<String> defaultCountries = Arrays.asList(defaultSupportedHomeCountries);
-        List<String> filteredCountryList = new ArrayList<>();
-        ArrayList<String> supportedHomeCountry = RegistrationConfiguration.getInstance().getSupportedCountry();
-        if (null != supportedHomeCountry) {
-            filteredCountryList = new ArrayList<String>(supportedHomeCountry);
+        List<String> defaultCountries = Arrays.asList(RegUtility.getDefaultSupportedHomeCountries());
+        ArrayList<String> supportedHomeCountries = RegistrationConfiguration.getInstance().getSupportedHomeCountry();
+        if (null != supportedHomeCountries) {
+            List<String> filteredCountryList = new ArrayList<String>(supportedHomeCountries);
             filteredCountryList.retainAll(defaultCountries);
+            if (filteredCountryList.size() > 0) {
+                return filteredCountryList;
+            }
         }
-
-        if (filteredCountryList.size() > 0) {
-            return filteredCountryList;
-        }
-
-        String fallbackHomeCountry = RegistrationConfiguration.getInstance().getFallBackCountry();
-        if (null != fallbackHomeCountry) {
-            filteredCountryList.add(fallbackHomeCountry);
-            filteredCountryList.retainAll(defaultCountries);
-        }
-
-        if (filteredCountryList.size() > 0) {
-            return filteredCountryList;
-        }
-
         return defaultCountries;
     }
 

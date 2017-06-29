@@ -221,14 +221,13 @@ public class RegistrationConfiguration {
         return (ArrayList<String>) providers;
     }
 
-    public ArrayList<String> getSupportedCountry() {
-        List<String> supportedCountries = appConfiguration.getSupportedCountries();
-        return (ArrayList<String>) supportedCountries;
+    public ArrayList<String> getSupportedHomeCountry() {
+        List<String> supportedHomeCountries = appConfiguration.getSupportedHomeCountries();
+        return (ArrayList<String>) supportedHomeCountries;
     }
 
-    public String getFallBackCountry() {
-        String supportedCountries = appConfiguration.getFallBackCountry();
-        return (String) supportedCountries;
+    public String getFallBackHomeCountry() {
+        return appConfiguration.getFallBackHomeCountry();
     }
 
 

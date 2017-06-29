@@ -33,7 +33,6 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -181,14 +180,13 @@ public class UserRegistrationInitializer {
         serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
-
                 RegistrationHelper.getInstance().setCountryCode(s);
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                RegistrationHelper.getInstance().setCountryCode("US");
-
+                serviceDiscoveryInterface.setHomeCountry(RegConstants.COUNTRY_CODE_US);
+                RegistrationHelper.getInstance().setCountryCode(RegConstants.COUNTRY_CODE_US);
             }
         });
 
@@ -205,10 +203,9 @@ public class UserRegistrationInitializer {
                 .subscribeWith(new DisposableSingleObserver<String>() {
                     @Override
                     public void onSuccess(String verificationUrl) {
-                        if(verificationUrl!=null && !verificationUrl.isEmpty()){
+                        if (verificationUrl != null && !verificationUrl.isEmpty()) {
                             updateAppLocale(verificationUrl, context, registrationType);
-                        }
-                        else {
+                        } else {
                             getLocaleServiceDiscoveryByCountry(context, registrationType);
                         }
                     }
@@ -236,7 +233,8 @@ public class UserRegistrationInitializer {
                     }
                 });
     }
-    private void updateAppLocale(String localeString, Context context , Configuration registrationType) {
+
+    private void updateAppLocale(String localeString, Context context, Configuration registrationType) {
         locale = localeString;
         String localeArr[] = locale.split("_");
         RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());

@@ -124,7 +124,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private Context mContext;
     private ScrollView mSvRootLayout;
     private ProgressDialog mProgressDialog;
-    private XTextView mCountryDisplayy;
+    private XTextView mCountryDisplay;
     private boolean isWechatAppRegistred;
     private String mWeChatAppId;
     private String mWeChatAppSecret;
@@ -227,18 +227,18 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                                             getParentActivity(),
                                     "wechat", token, openId, HomeFragment.this, "");
                         } catch (JSONException e) {
-                                    makeProgressInvisible();
-                                    hideProgressDialog();
+                            makeProgressInvisible();
+                            hideProgressDialog();
                         }
                     }
 
                     @Override
                     public void onFail() {
-                                makeProgressInvisible();
-                                hideProgressDialog();
-                                mRegError.setError(mContext.
-                                        getString(R.string.reg_JanRain_Server_Connection_Failed));
-                                scrollViewAutomatically(mRegError, mSvRootLayout);
+                        makeProgressInvisible();
+                        hideProgressDialog();
+                        mRegError.setError(mContext.
+                                getString(R.string.reg_JanRain_Server_Connection_Failed));
+                        scrollViewAutomatically(mRegError, mSvRootLayout);
                     }
                 });
     }
@@ -409,9 +409,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mBtnCreateAccount.setOnClickListener(this);
         mBtnMyPhilips = (XProviderButton) view.findViewById(R.id.btn_reg_my_philips);
         mBtnMyPhilips.setOnClickListener(this);
-        mCountryDisplayy = (XTextView) view.findViewById(R.id.tv_country_displat);
-        mCountryDisplayy.setText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
-        mCountryDisplayy.setOnClickListener(this);
+        mCountryDisplay = (XTextView) view.findViewById(R.id.tv_country_displat);
+        mCountryDisplay.setText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
+        mCountryDisplay.setOnClickListener(this);
 
         mTvWelcomeNeedAccount = (TextView) view.findViewById(R.id.tv_reg_create_account);
         if (mTvWelcomeNeedAccount.getText().toString().trim().length() > 0) {
@@ -438,15 +438,24 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             @Override
             public void onSuccess(String s, SOURCE source) {
                 RLog.d(RLog.SERVICE_DISCOVERY, " Country Sucess :" + s);
-                mCountryDisplayy.setText(new Locale("", s.toUpperCase()).getDisplayCountry());
+                mCountryDisplay.setText(new Locale("", s.toUpperCase()).getDisplayCountry());
                 handleSocialProviders(s.toUpperCase());
-
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
                 RLog.d(RLog.SERVICE_DISCOVERY, " Country Error :" + s);
-                mCountryDisplayy.setText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
+                String fallbackCountry = RegistrationConfiguration.getInstance().getFallBackHomeCountry();
+                String selectedCountryCode = null;
+                if (null != fallbackCountry) {
+                    serviceDiscoveryInterface.setHomeCountry(fallbackCountry.toUpperCase());
+                    selectedCountryCode = fallbackCountry;
+                } else {
+                    serviceDiscoveryInterface.setHomeCountry(RegConstants.COUNTRY_CODE_US);
+                    selectedCountryCode = RegConstants.COUNTRY_CODE_US;
+                }
+                mCountryDisplay.setText(new Locale(Locale.getDefault().getLanguage(),
+                        selectedCountryCode).getDisplayCountry());
             }
         });
     }
@@ -573,7 +582,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
         RLog.d(RLog.SERVICE_DISCOVERY, "Change Country code :" + RegistrationHelper.getInstance().getCountryCode());
         handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
-        mCountryDisplayy.setText(countryName);
+        mCountryDisplay.setText(countryName);
         hideProgressDialog();
     }
 
@@ -732,9 +741,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 mFlowId = 0;
             }
         } else if (RegConstants.JANRAIN_INIT_FAILURE.equals(event)) {
-                    makeProgressInvisible();
-                    hideProgressDialog();
-                    hideProviderProgress();
+            makeProgressInvisible();
+            hideProgressDialog();
+            hideProviderProgress();
             mFlowId = 0;
         } else if (RegConstants.WECHAT_AUTH.equals(event)) {
             if (mWeChatCode != null) {
@@ -1118,13 +1127,13 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                     break;
                 case BaseResp.ErrCode.ERR_USER_CANCEL:
                     RLog.d("WECHAT", "WeChat - User canceled the request");
-                            makeProgressInvisible();
-                            hideProviderProgress();
+                    makeProgressInvisible();
+                    hideProviderProgress();
                     break;
                 case BaseResp.ErrCode.ERR_AUTH_DENIED:
                     RLog.d("WECHAT", "WeChat - User denied the request");
-                            makeProgressInvisible();
-                            hideProviderProgress();
+                    makeProgressInvisible();
+                    hideProviderProgress();
                     break;
             }
         }

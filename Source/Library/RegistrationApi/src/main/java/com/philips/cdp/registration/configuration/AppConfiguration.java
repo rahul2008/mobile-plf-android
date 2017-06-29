@@ -80,7 +80,7 @@ public class AppConfiguration extends BaseConfiguration {
     }
 
 
-    public List<String> getSupportedCountries() {
+    public List<String> getSupportedHomeCountries() {
         Object providersObject = appInfraWrapper.getURProperty(SUPPORTED_HOME_COUNTRIES);
         if (providersObject != null) {
             return (List<String>) providersObject;
@@ -88,7 +88,7 @@ public class AppConfiguration extends BaseConfiguration {
         return null;
     }
 
-    public String getFallBackCountry() {
+    public String getFallBackHomeCountry() {
         Object providersObject = appInfraWrapper.getURProperty(FALLBACK_HOME_COUNTRY);
         if (providersObject != null) {
             return (String) providersObject;
