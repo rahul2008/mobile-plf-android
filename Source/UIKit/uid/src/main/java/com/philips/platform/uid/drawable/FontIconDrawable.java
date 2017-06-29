@@ -334,6 +334,7 @@ public class FontIconDrawable extends Drawable {
         private Rect mRect;
 
         public SavedState(Parcelable superState) {
+
             super(superState);
         }
 
@@ -344,27 +345,6 @@ public class FontIconDrawable extends Drawable {
             out.writeString(text);
             out.writeParcelableArray(new Parcelable[]{(Parcelable) paint, colorStateList, mRect}, flags);
             out.writeFloat(textSize);
-        }
-
-        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
-            }
-
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
-
-        protected SavedState(Parcel in) {
-            super(in);
-
-            text = in.readString();
-            Parcelable[] parcelables = in.readParcelableArray(getClass().getClassLoader());
-            paint = (TextPaint) parcelables[0];
-            colorStateList = (ColorStateList) parcelables[1];
-            mRect = (Rect) parcelables[2];
-            textSize = in.readInt();
         }
     }
 
