@@ -16,6 +16,7 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityManager;
@@ -138,7 +139,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 if (serviceDiscoveryError.getPropositionURLs() != null) {
                     serviceDiscoveryError.getPropositionURLs().setError(new ServiceDiscovery.Error
                             (OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server is not reachable at the moment,Please try after some time"));
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "Server is not reachable at the moment,Please try after some time");
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Server is not reachable at the moment,Please try after some time");
 
                 }
 
@@ -157,7 +158,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
 
         if (mRequestItemManager.getPropositionEnabled(mAppInfra)) {
 
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD Call", "Downloading from platform microsite id  and should return the URL's for Service id.  ");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Downloading from platform microsite id  and should return the URL's for Service id.  ");
             platformService = downloadPlatformService();
             if (platformService != null && platformService.isSuccess()) {
                /* String country = fetchFromSecureStorage(COUNTRY);
@@ -173,7 +174,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 response.setPlatformURLs(platformService);
             }
         } else {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD Call", "Downloading from  both proposition microsite id and platform microsite id ");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Downloading from  both proposition microsite id and platform microsite id ");
             propositionService = downloadPropositionService();
             if (propositionService != null && propositionService.isSuccess()) {
                 /* String country = fetchFromSecureStorage(COUNTRY);
@@ -199,7 +200,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "DOWNLOAD FAILED");
                 }
             } else {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call",
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY,
                         "Download failed");
             }
         }
@@ -243,10 +244,10 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 service = mRequestItemManager.execute(urlBuild, aisdurlType);
                 if (service.isSuccess()) {
                     holdbackTime = 0;   //remove hold back time
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SD call", "SD Fetched from server");
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "SD Fetched from server");
                 } else {
                     holdbackTime = new Date().getTime() + 10000; // curent time + 10 Seconds
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "SD call", service.getError().toString());
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"Error in process request"+ service.getError().toString());
                 }
             } else {
                 service.setError(new ServiceDiscovery.Error(OnErrorListener.ERRORVALUES.UNKNOWN_ERROR, "URL is null"));
@@ -323,9 +324,9 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             if (country != null) {
                 url += "&country=" + country;
             }
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "URL", "" + url);
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "URL " + url);
         } else {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Build URL in SD", ""
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"Build URL in SD"
                     + "Appidentity values are null");
         }
         return url;
@@ -378,7 +379,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     @Override
     public void getHomeCountry(final OnGetHomeCountryListener listener) {
         if (listener == null) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Service Discovery",
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY,
                     "OnGetServiceUrlListener is null initialized");
         } else {
             homeCountryCode(listener);
@@ -406,15 +407,15 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 queueResultListener(true, new AbstractDownloadItemListener() {
                     @Override
                     public void onDownloadDone(AISDResponse result) {
-                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Force Refresh is done", "Force Refresh is done");
+                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Force Refresh is done Force Refresh is done");
                     }
                 });
 
             } else {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "SAME COUNTRY", "Entered Country code is same as old one");
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"SAME COUNTRY Entered Country code is same as old one");
             }
         } else {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "Invalid COUNTRY", "Country code is INVALID");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"Invalid COUNTRY Country code is INVALID");
         }
     }
 
@@ -443,7 +444,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private void getURlwithLanguageOrCountry(final String serviceId, final OnGetServiceUrlListener urlListener,
                                              final Map<String, String> replacement, final AISDResponse.AISDPreference preference) {
         if (urlListener == null) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Service Discovery",
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY,
                     "OnGetServiceUrlListener is null initialized");
         } else {
             if (serviceId == null || serviceId.isEmpty()) {
@@ -505,7 +506,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private void getURlMAPwithLanguageOrCountry(final ArrayList<String> serviceIds, final OnGetServiceUrlMapListener urlMapListener,
                                                 final Map<String, String> replacement, final AISDResponse.AISDPreference preference) {
         if (urlMapListener == null) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Service Discovery",
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY,
                     "OnGetServiceUrlMapListener is null initialized");
         } else {
             if (serviceIds == null || serviceIds.isEmpty()) {
@@ -554,8 +555,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
     private void getServiceLocale(final String serviceId, final OnGetServiceLocaleListener localeListener,
                                   final AISDResponse.AISDPreference preference) {
         if (localeListener == null) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Service Discovery",
-                    "OnGetServiceUrlMapListener is null initialized");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY,
+                    "OnGetServiceLocaleUrlMapListener is null initialized");
         } else {
             if (serviceId == null) {
                 localeListener.onError(OnErrorListener.ERRORVALUES.INVALID_RESPONSE, "INVALID_INPUT");
@@ -606,8 +607,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             output = new URL(url);
             return output;
         } catch (MalformedURLException ex) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery URL error",
-                    "Malformed URL");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "ServiceDiscovery URL error Malformed URL");
             return null;
         }
     }
@@ -730,8 +730,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             }
             return countryCode;
         } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ServiceDiscovery URL error",
-                    e.toString());
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"ServiceDiscovery URL error"+e.toString());
         }
         return countryCode;
     }
@@ -808,10 +807,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             }
         }
 
-        if (mRequestItemManager.isServiceDiscoveryDataExpired()) {
-            return true;
-        }
-        return false;
+        return mRequestItemManager.isServiceDiscoveryDataExpired();
     }
 
     /**
@@ -831,8 +827,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
                     .unregisterReceiver(receiver);
         } else {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                    "unregister Home country update", "" + "context is null");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SERVICE_DISCOVERY,
+                    "unregister Home country update" + "context is null");
         }
     }
 
@@ -843,7 +839,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     .registerReceiver(receiver, new IntentFilter(AIL_SERVICE_DISCOVERY_HOMECOUNTRY_CHANGE_ACTION));
         } else {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                    "unregister Home country update ", "" + "context is null");
+                    AppInfraLogEventID.AI_SERVICE_DISCOVERY, "unregister Home country update "+ "context is null");
         }
     }
 

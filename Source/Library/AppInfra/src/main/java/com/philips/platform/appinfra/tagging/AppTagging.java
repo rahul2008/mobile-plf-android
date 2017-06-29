@@ -10,7 +10,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ApplicationInfo;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -18,6 +17,7 @@ import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Config;
 import com.adobe.mobile.MobilePrivacyStatus;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.securestorage.SecureStorage;
@@ -75,8 +75,7 @@ public class AppTagging implements AppTaggingInterface {
 			if (jSONObject != null) {
 				sslValue = jSONObject.getJSONObject("analytics").optBoolean("ssl");
 				if (sslValue) {
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "ssl value",
-							"true");
+					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_TAGGING,"ssl value true");
 					return sslValue;
 				} else {
 					if (!checkForProductionState())
@@ -84,7 +83,7 @@ public class AppTagging implements AppTaggingInterface {
 				}
 			}
 		} catch (JSONException e) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "AdobeMobile Configuration exception",
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_TAGGING, "AdobeMobile Configuration exception"+
 					Log.getStackTraceString(e));
 		}
 
@@ -111,10 +110,10 @@ public class AppTagging implements AppTaggingInterface {
 				mStringBuilder.append(line).append('\n');
 			}
 			result = new JSONObject(mStringBuilder.toString());
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, "Json",
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_TAGGING,"Master ADB Mobile Config Json"+
 					result.toString());
 		} catch (Exception e) {
-			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "Tagging ADBMobileConfig file reading exception",
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_TAGGING, "Tagging ADBMobileConfig file reading exception"+
 					Log.getStackTraceString(e));
 		}
 		return result;
@@ -165,7 +164,7 @@ public class AppTagging implements AppTaggingInterface {
 				}
 			} catch (Exception e) {
 				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-						"Tagging", "" + e);
+						AppInfraLogEventID.AI_TAGGING,"Tagging" + e);
 			}
 		}
 		return data;
@@ -187,7 +186,7 @@ public class AppTagging implements AppTaggingInterface {
 						getAppState().toString();
 			} catch (Exception e) {
 				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-						"Tagging", "" + e);
+						AppInfraLogEventID.AI_TAGGING,"Tagging"+ e);
 			}
 		}
 
@@ -211,7 +210,7 @@ public class AppTagging implements AppTaggingInterface {
 
 			mUTCTimestamp = dateFormat.format(mAppInfra.getTime().getUTCTime());
 			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-					"Tagging", mUTCTimestamp);
+					AppInfraLogEventID.AI_TAGGING,"Tagging"+ mUTCTimestamp);
 
 		}
 
@@ -221,8 +220,7 @@ public class AppTagging implements AppTaggingInterface {
 	private String getLocalTimestamp() {
 		final Calendar calendar = Calendar.getInstance();
 		final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a", Locale.ENGLISH);
-		final String mLocalTimestamp = dateFormat.format(calendar.getTime());
-		return mLocalTimestamp;
+		return dateFormat.format(calendar.getTime());
 	}
 
 	private String getComponentId() {
@@ -292,7 +290,7 @@ public class AppTagging implements AppTaggingInterface {
 						getAppState().toString().equalsIgnoreCase("Production");
 			} catch (Exception e) {
 				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-						"Tagging", "" + e);
+						AppInfraLogEventID.AI_TAGGING,"Tagging" + e);
 			}
 		}
 
@@ -300,7 +298,7 @@ public class AppTagging implements AppTaggingInterface {
 	}
 
 	private void trackData(String pageName, Map<String, String> paramMap, boolean isTrackPage) {
-		boolean isDebuggable = (0 != (mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
+		//boolean isDebuggable = (0 != (mAppInfra.getAppInfraContext().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
 		Map contextData = addAnalyticsDataObject();
 		if (paramMap != null) {
 			paramMap.putAll(contextData);
@@ -315,7 +313,7 @@ public class AppTagging implements AppTaggingInterface {
 
 				if(pageName.getBytes().length>100)
 				{
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "App Tagging", "Page name exceeds 100 bytes in length");
+					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TAGGING,"Page name exceeds 100 bytes in length");
 					/*if(isDebuggable) {
 						if (!checkForProductionState()) {
 							mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "App Tagging", "Page name exceeds 100 bytes in length");
@@ -326,7 +324,7 @@ public class AppTagging implements AppTaggingInterface {
 
 				}
 				if(pageName.equalsIgnoreCase(prevPage)){
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "App Tagging", "Page name and previous page name shouldn't be same");
+					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_TAGGING,"Page name and previous page name shouldn't be same");
 					/*if(isDebuggable) {
 						if (!checkForProductionState()) {
 							mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "App Tagging", "Page name and previous page name shouldn't be same");
@@ -339,7 +337,7 @@ public class AppTagging implements AppTaggingInterface {
 			}
 			else
 			{
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "App Tagging","Page name should not  be empty ");
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_TAGGING,"Page name should not  be empty ");
 			}
 
 			contextData.put(PAGE_NAME, pageName);
@@ -350,7 +348,7 @@ public class AppTagging implements AppTaggingInterface {
 
 				if(event.getBytes().length>255)
 				{
-					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "App Tagging", "Event  exceeds 255 bytes in length");
+					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TAGGING, "Event  exceeds 255 bytes in length");
 					/*if(isDebuggable) {
 						if (!checkForProductionState()) {
 							mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "App Tagging", "Event  exceeds 255 bytes in length");
@@ -366,7 +364,7 @@ public class AppTagging implements AppTaggingInterface {
 			}
 			else
 			{
-				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, "App Tagging","Event  is null ");
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_TAGGING,"Event  is null ");
 			}
 			contextData.put(ACTION_NAME ,event);
 		}
@@ -394,7 +392,7 @@ public class AppTagging implements AppTaggingInterface {
 		final String consentValueString = mAppInfra.getSecureStorage().fetchValueForKey(AIL_PRIVACY_CONSENT, getSecureStorageErrorValue());
 		final boolean consentValue = consentValueString != null && consentValueString.equalsIgnoreCase("true");
 		mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
-				"Tagging-consentValue", "" + consentValue);
+				AppInfraLogEventID.AI_TAGGING,"Tagging-consentValue" + consentValue);
 		return consentValue;
 	}
 
@@ -497,7 +495,7 @@ public class AppTagging implements AppTaggingInterface {
 					.unregisterReceiver(receiver);
 		} else {
 			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-					"unregisterTaggingData", "" + "context is null");
+					AppInfraLogEventID.AI_TAGGING,"unregisterTaggingData" + "context is null");
 		}
 	}
 
@@ -508,7 +506,7 @@ public class AppTagging implements AppTaggingInterface {
 					.registerReceiver(receiver, new IntentFilter(ACTION_TAGGING_DATA));
 		} else {
 			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-					"unregisterTaggingData", "" + "context is null");
+					AppInfraLogEventID.AI_TAGGING,"unregisterTaggingData" + "context is null");
 		}
 	}
 

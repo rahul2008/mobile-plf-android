@@ -3,21 +3,19 @@ package com.philips.platform.appinfra;
 import android.content.Context;
 
 /**
- * Created by philips on 3/13/17.
+ * AppInfra Test class.
  */
 
-public class AppInfraTest extends MockitoTestCase {
+public class AppInfraTest extends AppInfraInstrumentation {
 
 
 
     AppInfra mAppInfra;
-    private Context context;
-    private final String AppInfraID = "ail:"; // Please refer http://devportal.spssvr1.htce.nl.philips.com/assets/
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        context = getInstrumentation().getContext();
+        Context context = getInstrumentation().getContext();
         assertNotNull(context);
 
         mAppInfra = new AppInfra.Builder().build(context);
@@ -31,6 +29,7 @@ public class AppInfraTest extends MockitoTestCase {
 
     public void testComponentID(){
         assertNotNull(mAppInfra.getComponentId());
-        assertEquals(AppInfraID,mAppInfra.getComponentId()); // ail = AppInfra Language
+        String appInfraID = "ail:";
+        assertEquals(appInfraID,mAppInfra.getComponentId()); // ail = AppInfra Language
     }
 }

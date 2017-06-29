@@ -17,6 +17,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.R;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -65,6 +66,7 @@ public class TimeSyncSntpClient implements TimeInterface {
     private void refreshIfNeeded() {
         final Calendar now = Calendar.getInstance();
         if (!mRefreshInProgressLock.isLocked() && now.after(mNextRefreshTime)) {
+            Log.i(AppInfraLogEventID.AI_TIME_SYNC, "Time to be Refresh");
             refreshTime();
         }
     }
@@ -95,7 +97,7 @@ public class TimeSyncSntpClient implements TimeInterface {
         final SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putLong(OFFSET, pOffset);
         editor.apply();
-        Log.i("TimeSyncError", "saveOffset");
+        Log.i(AppInfraLogEventID.AI_TIME_SYNC, "Successfully saved Offset");
     }
 
     private long getOffset() {
@@ -170,6 +172,7 @@ public class TimeSyncSntpClient implements TimeInterface {
             try {
                 Object mServerPool = mAppInfra.getConfigInterface().getPropertyForKey
                         ("timesync.ntp.hosts", "appinfra", configError);
+                Log.i(AppInfraLogEventID.AI_TIME_SYNC, "TimeSync Server Pool From Config");
                 if (mServerPool != null) {
                     if (mServerPool instanceof ArrayList<?>) {
                         ArrayList<String> mServerPoolList = new ArrayList<>();
@@ -189,7 +192,7 @@ public class TimeSyncSntpClient implements TimeInterface {
                     }
                 }
             } catch (IllegalArgumentException exception) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "TIMESYNCCLIENT",
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TIME_SYNC,
                         exception.toString());
             }
         }
@@ -205,24 +208,31 @@ public class TimeSyncSntpClient implements TimeInterface {
             date = new Date(getOffset() + System.currentTimeMillis());
             return date;
         } catch (Exception e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "TimeSyncError", e.getMessage());
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TIME_SYNC, "TimeSyncError" + e.getMessage());
         }
         return null;
     }
 
     @Override
     public void refreshTime() {
+
         if (null != mAppInfra.getRestClient() && mAppInfra.getRestClient().isInternetReachable()) {
             if (!mRefreshInProgressLock.isLocked()) {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        refreshOffset();
+                        try {
+                            refreshOffset();
+                        } catch (IllegalArgumentException e) {
+                            if (mAppInfra != null && mAppInfra.getAppInfraLogInstance() != null)
+                                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_TIME_SYNC, "TimeSyncError" +
+                                        e.getMessage());
+                        }
                     }
                 }).start();
             }
         } else {
-            Log.e("TimeSyncError", "Network connectivity not found");
+            Log.e(AppInfraLogEventID.AI_TIME_SYNC, "Network connectivity not found");
             isSynchronized = false;
         }
     }
@@ -248,10 +258,10 @@ public class TimeSyncSntpClient implements TimeInterface {
         @Override
         public void onReceive(final Context context, final Intent intent) {
             if (null != mAppInfra.getRestClient() && !mAppInfra.getRestClient().isInternetReachable()) {
-                Log.e("TimeSyncError", "Network connectivity not found");
+                Log.e(AppInfraLogEventID.AI_TIME_SYNC, "Network connectivity not found");
                 isSynchronized = false;
             } else {
-                Log.i("TimeSyncError", "Received DateTimeChangedReceiver BroadcastReceiver Inside Thread");
+                Log.i(AppInfraLogEventID.AI_TIME_SYNC, "Received DateTimeChangedReceiver BroadcastReceiver Inside Thread");
                 refreshTime();
             }
 

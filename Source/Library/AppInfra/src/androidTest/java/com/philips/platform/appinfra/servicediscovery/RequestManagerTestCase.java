@@ -3,7 +3,7 @@ package com.philips.platform.appinfra.servicediscovery;
 import android.content.Context;
 
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.appinfra.MockitoTestCase;
+import com.philips.platform.appinfra.AppInfraInstrumentation;
 import com.philips.platform.appinfra.servicediscovery.model.AISDResponse;
 
 import org.json.JSONArray;
@@ -14,9 +14,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * Created by 310238655 on 8/11/2016.
+ * RequestManager Test class.
  */
-public class RequestManagerTestCase extends MockitoTestCase {
+public class RequestManagerTestCase extends AppInfraInstrumentation {
 
     private Context context;
     ServiceDiscoveryInterface mServiceDiscoveryInterface = null;
@@ -162,7 +162,7 @@ public class RequestManagerTestCase extends MockitoTestCase {
     }
 
     public void testparseResponse() {
-        Method method = null;
+        Method method;
         try {
 
             method = RequestManager.class.getDeclaredMethod("parseResponse", JSONObject.class);

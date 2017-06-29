@@ -18,7 +18,7 @@
 
 package android.net;
 import android.os.SystemClock;
-import android.util.Log;
+
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -106,7 +106,6 @@ public class SntpClient
             mRoundTripTime = roundTripTime;
         } catch (Exception e) {
             System.out.println("EXCEPTION"+" "+e);
-            if (false) Log.d(TAG, "request time failed: " + e);
             return false;
         } finally {
             if (socket != null) {
