@@ -921,7 +921,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
         final String constrain = mSearchBox.getText().toString().trim();
 
-        if (mResultModelSet != null) {
+        if (mResultModelSet != null && mAdapter.getFilter()!=null) {
             mAdapter.getFilter().filter(constrain,
                     new Filter.FilterListener() {
                         public void onFilterComplete(int count) {
