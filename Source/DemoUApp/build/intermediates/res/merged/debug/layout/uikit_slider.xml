@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/slider_linearlayout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <FrameLayout
+        android:id="@+id/slider_framelayout"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/slider_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+        <TextView
+            android:id="@+id/indicator_text"
+            fontPath="fonts/centralesansbold.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/slider_textview_margin_bottom"
+            android:lines="1"
+            android:text="@string/uikit_slider_indicator_text_value"
+            android:textColor="?attr/uikit_baseColor"
+            android:textSize="@dimen/slider_text_size"
+            />
+    </FrameLayout>
+
+    <com.philips.cdp.uikit.customviews.BaseSlider
+        android:id="@+id/slider"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/slider_indicator"
+        android:layout_marginLeft="@dimen/slider_padding"
+        android:layout_marginRight="@dimen/slider_padding"
+        android:layout_marginTop="@dimen/slider_indicator_margin"
+        />
+</LinearLayout>
+
+
+
+

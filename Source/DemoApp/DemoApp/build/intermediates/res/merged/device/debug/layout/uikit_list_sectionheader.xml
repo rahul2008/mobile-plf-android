@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="33dp"
+    android:background="?attr/uikit_gradientColorForListSectionTitle">
+<TextView
+    android:id="@+id/sectionheader"
+    android:layout_width="match_parent"
+    android:visibility="visible"
+    android:textSize="16sp"
+    android:text="SubHeading"
+    android:paddingTop="9dp"
+    android:includeFontPadding="true"
+    android:layout_marginLeft="12dp"
+    android:layout_centerVertical="true"
+    android:textColor="?attr/uikit_baseColor"
+    fontPath="fonts/centralesansbook.ttf"
+    android:layout_height="33dp" />
+</LinearLayout>

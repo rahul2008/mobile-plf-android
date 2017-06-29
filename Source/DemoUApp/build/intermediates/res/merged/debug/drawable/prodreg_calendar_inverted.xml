@@ -1,0 +1,28 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportHeight="159.9"
+    android:viewportWidth="160.0"
+
+    app:uikit_vc_viewportHeight="159.9"
+    app:uikit_vc_viewportWidth="160.0">
+    <path
+        android:fillColor="@color/uikit_philips_dark_blue"
+        android:pathData="M42.5,0c4,0 7.5,3.2 7.5,7.2V28c0,4 -3.5,7.2 -7.5,7.2S35,32 35,28V7.2C35,3.2 38.5,0 42.5,0"
+
+        app:uikit_vc_fillColor="@color/uikit_philips_dark_blue"
+        app:uikit_vc_pathData="M42.5,0c4,0 7.5,3.2 7.5,7.2V28c0,4 -3.5,7.2 -7.5,7.2S35,32 35,28V7.2C35,3.2 38.5,0 42.5,0" />
+    <path
+        android:fillColor="@color/uikit_philips_dark_blue"
+        android:pathData="M117.5,0c4,0 7.5,3.2 7.5,7.2V28c0,4 -3.5,7.2 -7.5,7.2S110,32 110,28V7.2C110,3.2 113.5,0 117.5,0"
+
+        app:uikit_vc_fillColor="@color/uikit_philips_dark_blue"
+        app:uikit_vc_pathData="M117.5,0c4,0 7.5,3.2 7.5,7.2V28c0,4 -3.5,7.2 -7.5,7.2S110,32 110,28V7.2C110,3.2 113.5,0 117.5,0" />
+    <path
+        android:fillColor="@color/uikit_philips_dark_blue"
+        android:pathData="M145.2,19.9H135v9.4c0,8.8 -8.4,16 -17.3,16c-8.8,0 -17.7,-7.2 -17.7,-16v-9.4H60v9.4c0,8.8 -8.4,16 -17.3,16c-8.8,0 -17.7,-7.2 -17.7,-16v-9.4H15c-10,0 -15,4.9 -15,14.9v110c0,10 5,15.1 14.7,15.1h131.2c9.3,0 14.1,-5.1 14.1,-15.1V35.1C160,24.8 155.2,19.9 145.2,19.9M45,139.9H25v-20h20V139.9zM45,109.9H25v-20h20V109.9zM45,79.9H25v-20h20V79.9zM75,139.9H55v-20h20V139.9zM75,109.9H55v-20h20V109.9zM75,79.9H55v-20h20V79.9zM105,139.9H85v-20h20V139.9zM105,109.9H85v-20h20V109.9zM105,79.9H85v-20h20V79.9zM135,109.9h-20v-20h20V109.9zM135,79.9h-20v-20h20V79.9z"
+
+        app:uikit_vc_fillColor="@color/uikit_philips_dark_blue"
+        app:uikit_vc_pathData="M145.2,19.9H135v9.4c0,8.8 -8.4,16 -17.3,16c-8.8,0 -17.7,-7.2 -17.7,-16v-9.4H60v9.4c0,8.8 -8.4,16 -17.3,16c-8.8,0 -17.7,-7.2 -17.7,-16v-9.4H15c-10,0 -15,4.9 -15,14.9v110c0,10 5,15.1 14.7,15.1h131.2c9.3,0 14.1,-5.1 14.1,-15.1V35.1C160,24.8 155.2,19.9 145.2,19.9M45,139.9H25v-20h20V139.9zM45,109.9H25v-20h20V109.9zM45,79.9H25v-20h20V79.9zM75,139.9H55v-20h20V139.9zM75,109.9H55v-20h20V109.9zM75,79.9H55v-20h20V79.9zM105,139.9H85v-20h20V139.9zM105,109.9H85v-20h20V109.9zM105,79.9H85v-20h20V79.9zM135,109.9h-20v-20h20V109.9zM135,79.9h-20v-20h20V79.9z" />
+</vector>

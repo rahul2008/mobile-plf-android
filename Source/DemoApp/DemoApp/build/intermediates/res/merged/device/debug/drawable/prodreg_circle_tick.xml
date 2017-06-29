@@ -1,0 +1,8 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:shape="oval">
+    <solid android:color="@color/uikit_philips_dark_blue"/>
+
+    <size
+        android:width="12dp"
+        android:height="10dp"/>
+</shape>

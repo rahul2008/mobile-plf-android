@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoApp/DemoApp/build/intermediates/res/merged/device/debug/menu/jr_provider_listview_row_menu.xml",
+        "source": "/Users/philips/.android/build-cache/4ec8ef34c76776674d807a70ad3515b49bc40dec/output/res/menu/jr_provider_listview_row_menu.xml"
+    },
+    {
+        "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoApp/DemoApp/build/intermediates/res/merged/device/debug/menu/menu_main.xml",
+        "source": "/Users/philips/Documents/projects/product_registration/Source/DemoApp/DemoApp/src/main/res/menu/menu_main.xml"
+    },
+    {
+        "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoApp/DemoApp/build/intermediates/res/merged/device/debug/menu/jr_about_menu.xml",
+        "source": "/Users/philips/.android/build-cache/4ec8ef34c76776674d807a70ad3515b49bc40dec/output/res/menu/jr_about_menu.xml"
+    }
+]

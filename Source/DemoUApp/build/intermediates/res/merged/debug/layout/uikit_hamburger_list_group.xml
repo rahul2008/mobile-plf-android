@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/transparentView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uikit_hamburger_list_top_margin"
+        android:background="@android:color/transparent"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/hamburger_parent"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uikit_hamburger_group_item_height">
+
+        <TextView
+            android:id="@+id/hamburger_item_text"
+            fontPath="fonts/centralesansbold.ttf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/uikit_hamburger_item_icon_left_margin"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/uikit_hamburger_item_text_title_size" />
+
+    </RelativeLayout>
+</LinearLayout>

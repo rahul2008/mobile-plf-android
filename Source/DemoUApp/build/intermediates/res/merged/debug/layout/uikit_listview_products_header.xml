@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/ratingtheme"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/uikit_gradientColorForListHeader"
+    >
+    <TextView
+        android:id="@+id/textproduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        fontPath="fonts/centralesansbook.ttf"
+        android:layout_gravity="center"
+        android:gravity="start|center"
+        android:textSize="16sp"
+        android:paddingLeft="12dp"
+        android:paddingRight="20dp"
+        android:textColor="?attr/uikit_baseColor"
+        android:text="Lorem ipsum dolor sit amet, consec tetur adipisicing elit, sed do eiusmod."
+        android:minHeight="101dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:includeFontPadding="true"
+        android:lineSpacingExtra="9dp"
+        />
+
+</RelativeLayout>

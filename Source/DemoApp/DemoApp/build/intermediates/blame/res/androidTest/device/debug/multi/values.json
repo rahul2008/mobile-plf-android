@@ -1,0 +1,26 @@
+[
+    {
+        "outputFile": "/Users/philips/Documents/projects/product_registration/Source/DemoApp/DemoApp/build/intermediates/incremental/mergeDeviceDebugAndroidTestResources/merged.dir/values/values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 45,
+                    "endOffset": 96
+                },
+                "from": {
+                    "file": "/Users/philips/.android/build-cache/ebf0ea7b011380e244b659cdb59cb94f774c6a84/output/res/values/values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 229,
+                        "endColumn": 45,
+                        "endOffset": 270
+                    }
+                }
+            }
+        ]
+    }
+]

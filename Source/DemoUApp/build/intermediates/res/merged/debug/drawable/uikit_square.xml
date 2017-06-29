@@ -1,0 +1,10 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:shape="rectangle">
+    <solid android:color="@color/uikit_philips_dark_blue"/>
+    <corners
+        android:bottomLeftRadius="@dimen/uikit_button_corner_rounding"
+        android:bottomRightRadius="@dimen/uikit_button_corner_rounding"
+        android:topLeftRadius="@dimen/uikit_button_corner_rounding"
+        android:topRightRadius="@dimen/uikit_button_corner_rounding"/>
+
+</shape>

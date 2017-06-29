@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/build/intermediates/res/merged/debug/mipmap-hdpi-v4/ic_launcher.png",
+        "source": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/src/main/res/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/build/intermediates/res/merged/debug/mipmap-hdpi-v4/toggle_on.png",
+        "source": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/src/main/res/mipmap-hdpi/toggle_on.png"
+    },
+    {
+        "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/build/intermediates/res/merged/debug/mipmap-hdpi-v4/toggle_off.png",
+        "source": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/src/main/res/mipmap-hdpi/toggle_off.png"
+    }
+]

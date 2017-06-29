@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/build/intermediates/res/merged/debug/layout-large-v4/prodreg_register_success.xml",
+        "source": "/Users/philips/Documents/projects/product_registration/Source/Library/product-registration-lib/build/intermediates/bundles/default/res/layout-large-v4/prodreg_register_success.xml"
+    },
+    {
+        "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/build/intermediates/res/merged/debug/layout-large-v4/prodreg_find_serial_number.xml",
+        "source": "/Users/philips/Documents/projects/product_registration/Source/Library/product-registration-lib/build/intermediates/bundles/default/res/layout-large-v4/prodreg_find_serial_number.xml"
+    },
+    {
+        "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/build/intermediates/res/merged/debug/layout-large-v4/prodreg_already_registered_dialog.xml",
+        "source": "/Users/philips/Documents/projects/product_registration/Source/Library/product-registration-lib/build/intermediates/bundles/default/res/layout-large-v4/prodreg_already_registered_dialog.xml"
+    },
+    {
+        "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/build/intermediates/res/merged/debug/layout-large-v4/prodreg_single_product.xml",
+        "source": "/Users/philips/Documents/projects/product_registration/Source/Library/product-registration-lib/build/intermediates/bundles/default/res/layout-large-v4/prodreg_single_product.xml"
+    },
+    {
+        "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/build/intermediates/res/merged/debug/layout-large-v4/prodreg_connection.xml",
+        "source": "/Users/philips/Documents/projects/product_registration/Source/Library/product-registration-lib/build/intermediates/bundles/default/res/layout-large-v4/prodreg_connection.xml"
+    },
+    {
+        "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/build/intermediates/res/merged/debug/layout-large-v4/prodreg_first_launch.xml",
+        "source": "/Users/philips/Documents/projects/product_registration/Source/Library/product-registration-lib/build/intermediates/bundles/default/res/layout-large-v4/prodreg_first_launch.xml"
+    }
+]

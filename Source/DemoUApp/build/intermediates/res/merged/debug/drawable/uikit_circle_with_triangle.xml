@@ -1,0 +1,38 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:width="20dp"
+        android:height="20dp"
+        android:viewportHeight="20.0"
+    android:viewportWidth="20.0"
+    app:uikit_vc_viewportHeight="20.0"
+    app:uikit_vc_viewportWidth="20.0">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M10,10m-9.95,0a9.95,9.95 0,1 1,19.9 0a9.95,9.95 0,1 1,-19.9 0"
+        app:uikit_vc_fillColor="#FFFFFF"
+        app:uikit_vc_pathData="M10,10m-9.95,0a9.95,9.95 0,1 1,19.9 0a9.95,9.95 0,1 1,-19.9 0" />
+    <path
+        android:fillAlpha="0.5"
+        android:fillColor="#00000000"
+        android:pathData="M10,10m-9.59,0a9.59,9.59 0,1 1,19.18 0a9.59,9.59 0,1 1,-19.18 0"
+        android:strokeAlpha="0.5"
+        android:strokeColor="?attr/uikit_baseColor"
+        android:strokeWidth="1"
+        app:uikit_vc_fillAlpha="0.5"
+        app:uikit_vc_fillColor="#00000000"
+        app:uikit_vc_pathData="M10,10m-9.59,0a9.59,9.59 0,1 1,19.18 0a9.59,9.59 0,1 1,-19.18 0"
+        app:uikit_vc_strokeAlpha="0.5"
+        app:uikit_vc_strokeColor="?attr/uikit_baseColor"
+        app:uikit_vc_strokeWidth="1" />
+    <path
+        android:fillColor="?attr/uikit_baseColor"
+        android:pathData="M11.021,7.002l0,5.996l2.958,-2.998z"
+        app:uikit_vc_fillColor="?attr/uikit_baseColor"
+        app:uikit_vc_pathData="M11.021,7.002l0,5.996l2.958,-2.998z" />
+    <path
+        android:fillColor="?attr/uikit_baseColor"
+        android:pathData="M8.979,7.002l0,5.996l-2.958,-2.998z"
+        app:uikit_vc_fillColor="?attr/uikit_baseColor"
+        app:uikit_vc_pathData="M8.979,7.002l0,5.996l-2.958,-2.998z" />
+</vector>
+

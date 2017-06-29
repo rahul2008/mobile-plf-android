@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_vertical"
+    android:gravity="center"
+    android:minHeight="52dp"
+    android:paddingBottom="11dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="20dp"
+    android:paddingTop="11dp">
+
+    <TextView
+        android:id="@+id/text_description_without_icons"
+        fontPath="fonts/centralesansbook.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/switch_button"
+        android:layout_marginTop="11dp"
+        android:includeFontPadding="true"
+        android:text="By enabling analytics, usage data is sent to us anonymously so we can continue to improve this Philips app."
+        android:textColor="?attr/uikit_listtextselector"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+    <com.philips.cdp.uikit.customviews.PuiSwitch
+        android:id="@+id/switch_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/medium"
+        fontPath="fonts/centralesanslight.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="19dp"
+        android:layout_toLeftOf="@+id/arrowwithouticons"
+        android:text="Medium"
+        android:textColor="?attr/uikit_listtextselector"
+        android:textSize="20sp"
+        android:visibility="gone" />
+
+
+    <com.shamanland.fonticon.FontIconTextView
+        android:id="@+id/arrowwithouticons"
+        style="@style/FontIcon.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/medium"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="-3dp"
+        android:includeFontPadding="true"
+        android:text="@string/uikit_fonticon_arrow_right"
+        android:textAlignment="center"
+        android:textColor="?attr/uikit_listtextselector"
+        android:textSize="13sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/ifo"
+        fontPath="fonts/centralesansbook.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/medium"
+        android:layout_alignParentTop="true"
+        android:includeFontPadding="true"
+        android:layout_toLeftOf="@id/medium"
+        android:text="Version"
+        android:layout_alignParentLeft="true"
+        android:textColor="?attr/uikit_listtextselector"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/numberwithouticon"
+        fontPath="fonts/centralesanslight.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/ifo"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/arrowwithouticons"
+        android:text="Medium"
+        android:textColor="?attr/uikit_listtextselector"
+        android:textSize="20sp"
+        android:visibility="gone" />
+
+</RelativeLayout>

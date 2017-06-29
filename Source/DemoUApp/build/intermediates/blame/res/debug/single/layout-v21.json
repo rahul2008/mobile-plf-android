@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/build/intermediates/res/merged/debug/layout-v21/notification_action_tombstone.xml",
+        "source": "/Users/philips/.android/build-cache/95a6ab596dae429277b7fd81427bbafcf3c4c59d/output/res/layout-v21/notification_action_tombstone.xml"
+    },
+    {
+        "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/build/intermediates/res/merged/debug/layout-v21/notification_action.xml",
+        "source": "/Users/philips/.android/build-cache/95a6ab596dae429277b7fd81427bbafcf3c4c59d/output/res/layout-v21/notification_action.xml"
+    },
+    {
+        "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/build/intermediates/res/merged/debug/layout-v21/notification_template_custom_big.xml",
+        "source": "/Users/philips/.android/build-cache/95a6ab596dae429277b7fd81427bbafcf3c4c59d/output/res/layout-v21/notification_template_custom_big.xml"
+    },
+    {
+        "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/build/intermediates/res/merged/debug/layout-v21/notification_template_icon_group.xml",
+        "source": "/Users/philips/.android/build-cache/95a6ab596dae429277b7fd81427bbafcf3c4c59d/output/res/layout-v21/notification_template_icon_group.xml"
+    }
+]

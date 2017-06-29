@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tab_title"
+        fontPath="fonts/centralesansbook.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textSize="@dimen/uikit_tab_text_size_without_image" />
+    <View
+        android:id="@+id/tab_divider"
+        android:layout_width="@dimen/uikit_tab_divider_width"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:alpha="0.3"
+        android:background="?attr/uikit_veryLightColor" />
+    <View
+        android:id="@+id/tab_divider_last"
+        android:layout_width="@dimen/uikit_tab_divider_width"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:alpha="0.3"
+        android:background="?attr/uikit_veryLightColor"
+        android:visibility="gone" />
+</RelativeLayout>

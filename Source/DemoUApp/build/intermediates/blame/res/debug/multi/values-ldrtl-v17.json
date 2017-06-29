@@ -1,0 +1,26 @@
+[
+    {
+        "outputFile": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ldrtl-v17/values-ldrtl-v17.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 49,
+                    "endOffset": 100
+                },
+                "from": {
+                    "file": "/Users/philips/.android/build-cache/1c51d5ef4e09136d5923c4ba0db42ed51ff5a5e7/output/res/values-ldrtl-v17/values.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 168,
+                        "endColumn": 49,
+                        "endOffset": 213
+                    }
+                }
+            }
+        ]
+    }
+]

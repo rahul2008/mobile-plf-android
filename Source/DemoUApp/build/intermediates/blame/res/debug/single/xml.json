@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/build/intermediates/res/merged/debug/xml/log4j2.xml",
+        "source": "/Users/philips/.android/build-cache/e9d7620291a2afe88fd37a14ed28fc5bb509f9c5/output/res/xml/log4j2.xml"
+    },
+    {
+        "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/build/intermediates/res/merged/debug/xml/uikit_fonticon_base.xml",
+        "source": "/Users/philips/.android/build-cache/d11a2a9c594a09a29255bab2326304f058180b45/output/res/xml/uikit_fonticon_base.xml"
+    },
+    {
+        "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/build/intermediates/res/merged/debug/xml/uikit_fonticon_shield_xml.xml",
+        "source": "/Users/philips/.android/build-cache/d11a2a9c594a09a29255bab2326304f058180b45/output/res/xml/uikit_fonticon_shield_xml.xml"
+    }
+]

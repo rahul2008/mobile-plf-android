@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/parent_id"
+        android:layout_width="@dimen/uikit_modal_alert_dialog_width"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/uikit_modal_alert"
+        android:minHeight="@dimen/uikit_modal_alert_dialog_height"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/dialogTitle"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/uikit_modal_alert_button_left_margin"
+            android:layout_marginTop="@dimen/uikit_modal_alert_text_top_margin"
+            android:text="@string/uikit_modal_alert_label"
+            android:textColor="?attr/uikit_baseColor"
+            android:textSize="@dimen/uikit_modal_alert_label_text_size" />
+
+        <TextView
+            android:id="@+id/dialogDescription"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/uikit_modal_alert_button_left_margin"
+            android:layout_marginRight="@dimen/uikit_modal_alert_text_right_margin"
+            android:layout_marginTop="@dimen/uikit_modal_alert_message_text_top_margin"
+            android:text="@string/uikit_modal_alert_message"
+            android:textColor="?attr/uikit_baseColor"
+            android:layout_weight="1"
+            android:textSize="@dimen/uikit_modal_alert_message_text_size" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/uikit_modal_alert_bottom_margin"
+            android:layout_marginLeft="@dimen/uikit_modal_alert_bottom_layout_margin"
+            android:layout_marginRight="@dimen/uikit_modal_alert_bottom_layout_margin"
+            android:layout_marginTop="@dimen/uikit_modal_alert_button_top_margin"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <!--Make this button gone in case only one button is required.-->
+            <Button
+                android:id="@+id/dialogButtonCancel"
+                style="?attr/uikit_outlinedButtonStyle"
+                fontPath="fonts/centralesansbook.ttf"
+                android:layout_width="0dip"
+                android:layout_marginRight="@dimen/uikit_modal_alert_button_left_margin"
+                android:layout_height="wrap_content"
+                android:text="@string/uikit_modal_alert_negative_button_text"
+                android:textSize="@dimen/uikit_modal_alert_message_text_size"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/dialogButtonOK"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/uikit_modal_alert_positive_button_text"
+                android:textSize="@dimen/uikit_modal_alert_message_text_size"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>

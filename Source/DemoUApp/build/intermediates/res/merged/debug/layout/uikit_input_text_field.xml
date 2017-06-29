@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditText
+        android:id="@+id/edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"/>
+
+    <View
+        android:id="@+id/space"
+        android:layout_width="0dp"
+        android:layout_height="63dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        />
+
+    <ImageView
+        android:id="@+id/error_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/space"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/error_text"
+        fontPath="fonts/centralesansbook.ttf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/error_image"
+        android:layout_below="@+id/space"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="-4dp"
+        android:layout_toRightOf="@+id/error_image"
+        android:textSize="16sp"
+        android:visibility="gone"
+        />
+</merge>
