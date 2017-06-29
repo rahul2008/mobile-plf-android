@@ -44,7 +44,7 @@ def generateTheme(ComponentParser componentParser, BrushParser brushParser, Vali
 
         def colorRange = it.value.toString()
         def colorRangeTheme = colorRange.&capitalize
-        def baseTheme = "${DLSResourceConstants.THEME_PREFIX}.${colorRangeTheme}"
+        def baseTheme = "${DLSResourceConstants.THEME_PREFIX}." + NameConversionHelper.removeHyphensAndCapitalize("${colorRangeTheme}")
         xml.resources() {
             DLSResourceConstants.TONAL_RANGES.each {
                 def tonalRange = it.toString()

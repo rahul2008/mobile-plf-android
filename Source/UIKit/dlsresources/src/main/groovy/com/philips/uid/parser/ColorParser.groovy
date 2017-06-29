@@ -61,7 +61,7 @@ class ColorParser {
                     it.colorValueMap.each {
                         def code = NameConversionHelper.replaceHyphenWithUnderScores(it.key).toLowerCase()
                         def level = it.key.number ? "level_": ""
-                        color("name":"${colorName}_${level}${code}", it.value)
+                        color("name":"${DLSResourceConstants.LIB_PREFIX}_${colorName}_${level}${code}", it.value)
                     }
                 }
             }

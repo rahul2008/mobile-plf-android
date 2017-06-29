@@ -5,6 +5,8 @@
 
 package com.philips.uid
 
+import com.philips.uid.helpers.NameConversionHelper
+
 class DLSResourceConstants {
     //Theme specific constants
     static final String LIB_PREFIX = "uid"
@@ -41,7 +43,7 @@ class DLSResourceConstants {
     public static final String HOVER = "Hover"
 
     static def getThemeFilePath(fileName) {
-        String.format(PATH_OUT_THEME_FILE, "${fileName}")
+        String.format(PATH_OUT_THEME_FILE, NameConversionHelper.replaceHyphenWithUnderScores("${fileName}"))
     }
 
 }
