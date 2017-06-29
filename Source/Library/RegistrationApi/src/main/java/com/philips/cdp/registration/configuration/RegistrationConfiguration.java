@@ -226,9 +226,9 @@ public class RegistrationConfiguration {
         return (ArrayList<String>) supportedCountries;
     }
 
-    public ArrayList<String> getFallBackCountry() {
-        List<String> supportedCountries = appConfiguration.getFallBackCountry();
-        return (ArrayList<String>) supportedCountries;
+    public String getFallBackCountry() {
+        String supportedCountries = appConfiguration.getFallBackCountry();
+        return (String) supportedCountries;
     }
 
 

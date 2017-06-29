@@ -11,14 +11,14 @@ package com.philips.cdp.registration.configuration;
 import java.util.List;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.DEFAULT;
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.FALLBACK_COUNTRY;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.FALLBACK_HOME_COUNTRY;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.FLOW_EMAIL_VERIFICATION_REQUIRED;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.FLOW_MINIMUM_AGE_LIMIT;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.FLOW_TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.PIL_CONFIGURATION_CAMPAIGN_ID;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.SHOW_COUNTRY_SELECTION;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.SIGNIN_PROVIDERS;
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.SUPPORTED_COUNTRIES;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.SUPPORTED_HOME_COUNTRIES;
 
 public class AppConfiguration extends BaseConfiguration {
 
@@ -81,17 +81,17 @@ public class AppConfiguration extends BaseConfiguration {
 
 
     public List<String> getSupportedCountries() {
-        Object providersObject = appInfraWrapper.getAppSettingsProperty(SUPPORTED_COUNTRIES);
+        Object providersObject = appInfraWrapper.getURProperty(SUPPORTED_HOME_COUNTRIES);
         if (providersObject != null) {
             return (List<String>) providersObject;
         }
         return null;
     }
 
-    public List<String> getFallBackCountry() {
-        Object providersObject = appInfraWrapper.getAppSettingsProperty(FALLBACK_COUNTRY);
+    public String getFallBackCountry() {
+        Object providersObject = appInfraWrapper.getURProperty(FALLBACK_HOME_COUNTRY);
         if (providersObject != null) {
-            return (List<String>) providersObject;
+            return (String) providersObject;
         }
         return null;
     }

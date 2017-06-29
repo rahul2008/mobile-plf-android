@@ -13,8 +13,8 @@ public class URConfigurationConstants {
     public static final String FLOW_TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED = "Flow.TermsAndConditionsAcceptanceRequired";
     public static final String FLOW_MINIMUM_AGE_LIMIT = "Flow.MinimumAgeLimit";
     public static final String SIGNIN_PROVIDERS = "SigninProviders.";
-    public static final String SUPPORTED_COUNTRIES = "supportedCountries";
-    public static final String FALLBACK_COUNTRY = "fallbackCountry";
+    public static final String SUPPORTED_HOME_COUNTRIES = "supportedHomeCountries";
+    public static final String FALLBACK_HOME_COUNTRY = "fallbackHomeCountry";
     public static final String DEFAULT = "default";
     public static final String HSDP_CONFIGURATION_APPLICATION_NAME = "HSDPConfiguration.ApplicationName";
     public static final String HSDP_CONFIGURATION_SECRET = "HSDPConfiguration.Secret";

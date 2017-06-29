@@ -18,7 +18,6 @@ import android.widget.ListView;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.ui.utils.FontLoader;
-import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,15 +28,9 @@ import java.util.Locale;
 
 public class CountryPicker extends DialogFragment implements
         Comparator<Country> {
-    /**
-     * View components
-     */
     private EditText searchEditText;
     private ListView countryListView;
 
-    /**
-     * Adapter for the listview
-     */
     private CountryAdapter adapter;
 
     /**
@@ -50,10 +43,10 @@ public class CountryPicker extends DialogFragment implements
      */
     private List<Country> selectedCountriesList;
 
-    /**
-     * Listener to which country user selected
-     */
     private CountryChangeListener listener;
+
+    private String[] defaultSupportedHomeCountries = new String[]{"RW", "BG", "CZ", "DK", "AT", "CH", "DE", "GR", "AU", "CA", "GB", "HK", "ID", "IE", "IN", "MY", "NZ", "PH", "PK", "SA", "SG", "US", "ZA", "AR", "CL", "CO", "ES", "MX", "PE", "EE", "FI", "BE", "FR", "HR", "HU", "IT", "JP", "KR", "LT", "LV", "NL", "NO", "PL", "BR", "PT", "RO", "RU", "UA", "SI", "SK", "SE", "TH", "TR", "VN", "CN", "TW"};
+
 
     /**
      * Set listener
@@ -90,7 +83,7 @@ public class CountryPicker extends DialogFragment implements
                     country.setName(nameLocale.getDisplayCountry());
                     allCountriesList.add(country);
                 }
-                
+
                 if (allCountriesList != null) {
                     // Sort the all countries list based on country name
                     Collections.sort(allCountriesList, this);
@@ -109,27 +102,37 @@ public class CountryPicker extends DialogFragment implements
     }
 
     private List<String> handleCountryList() {
-        RLog.d("HomeFragment : ", "handle list of countries ");
-        List<String> common = null;
-
-        if (null != RegistrationConfiguration.getInstance().getSupportedCountry()) {
-            ArrayList<String> providers = new ArrayList<String>();
-            providers = RegistrationConfiguration.getInstance().getSupportedCountry();
-            List recourseList = Arrays.asList(this.getResources().getStringArray(R.array.country_code));
-            common = new ArrayList<String>(providers);
-            common.retainAll(recourseList);
-        } else {
-            common = RegistrationConfiguration.getInstance().getFallBackCountry();
+        List<String> defaultCountries = Arrays.asList(defaultSupportedHomeCountries);
+        List<String> filteredCountryList = new ArrayList<>();
+        ArrayList<String> supportedHomeCountry = RegistrationConfiguration.getInstance().getSupportedCountry();
+        if (null != supportedHomeCountry) {
+            filteredCountryList = new ArrayList<String>(supportedHomeCountry);
+            filteredCountryList.retainAll(defaultCountries);
         }
-        return common;
+
+        if (filteredCountryList.size() > 0) {
+            return filteredCountryList;
+        }
+
+        String fallbackHomeCountry = RegistrationConfiguration.getInstance().getFallBackCountry();
+        if (null != fallbackHomeCountry) {
+            filteredCountryList.add(fallbackHomeCountry);
+            filteredCountryList.retainAll(defaultCountries);
+        }
+
+        if (filteredCountryList.size() > 0) {
+            return filteredCountryList;
+        }
+
+        return defaultCountries;
     }
+
     /**
      * Create view
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate view
         View view = inflater.inflate(R.layout.reg_country_picker, null);
         // Get countries from the json
         getAllCountries();
@@ -141,7 +144,7 @@ public class CountryPicker extends DialogFragment implements
         searchEditText = (EditText) view
                 .findViewById(R.id.reg_country_picker_search);
 
-        FontLoader.getInstance().setTypeface(searchEditText,"CentraleSans-Book.OTF");
+        FontLoader.getInstance().setTypeface(searchEditText, "CentraleSans-Book.OTF");
         countryListView = (ListView) view
                 .findViewById(R.id.reg_country_picker_listview);
         // Set adapter
