@@ -4,7 +4,7 @@
  */
 
 rootProject.setName 'shinelib'
-include ':shinelib', ':pluginreferenceboard', ':bluelibtestapp', ':bluelibexampleapp', ':bleexampledemo'
+include ':shinelib', ':pluginreferenceboard', ':bluelibtestapp', ':DemoUApp', ':DemoApp'
 
 def commonDir = '../common'
 include ':common'
