@@ -6,21 +6,22 @@ import android.widget.ListView;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.philips.amwelluapp.base.UIBasePresenter;
-import com.philips.amwelluapp.base.UIBaseView;
+
+import com.philips.amwelluapp.base.PTHBasePresenter;
+import com.philips.amwelluapp.base.PTHBaseView;
 import com.philips.amwelluapp.utility.PTHManager;
 
 /**
  * Created by philips on 6/28/17.
  */
 
-public class PTHMedicationPresenter implements UIBasePresenter, PTHMedicationCallback.PTHGetMedicationCallback {
-    UIBaseView uiBaseView;
+public class PTHMedicationPresenter implements PTHBasePresenter, PTHMedicationCallback.PTHGetMedicationCallback {
+    PTHBaseView uiBaseView;
 
 
 
 
-    public PTHMedicationPresenter(UIBaseView uiBaseView){
+    public PTHMedicationPresenter(PTHBaseView uiBaseView){
         this.uiBaseView = uiBaseView;
     }
     @Override

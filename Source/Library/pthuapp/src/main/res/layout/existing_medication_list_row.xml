@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="30dp">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/pth_existing_medication_list_row_label"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        />
+
+    <ImageView
+        android:id="@+id/pth_existing_medication_list_row_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@android:drawable/ic_delete"
+        android:layout_alignParentRight="true"
+        />
+
+
+</RelativeLayout>

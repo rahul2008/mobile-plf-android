@@ -9,7 +9,7 @@ import android.widget.ListView;
 
 import com.philips.amwelluapp.R;
 import com.philips.amwelluapp.base.PTHBaseFragment;
-import com.philips.amwelluapp.base.UIBasePresenter;
+import com.philips.amwelluapp.base.PTHBasePresenter;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.SearchBox;
@@ -21,7 +21,7 @@ import com.philips.platform.uid.view.widget.SearchBox;
 public class PTHMedicationFragment extends PTHBaseFragment implements BackEventListener {
     SearchBox searchBox;
     private ActionBarListener actionBarListener;
-    private UIBasePresenter mPresenter;
+    private PTHBasePresenter mPresenter;
     ListView mExistingMedicationListView;
     PTHExistingMedicationListAdapter mPTHExistingMedicationListAdapter;
 
