@@ -84,15 +84,16 @@ public class PTHProvidersListFragment extends PTHBaseFragment implements View.On
     }
 
     @Override
-    public void updateProviderAdapterList(List<ProviderInfo> providerInfos) {
+    public void updateProviderAdapterList(final List<ProviderInfo> providerInfos) {
         swipeRefreshLayout.setRefreshing(false);
         pthProvidersListAdapter = new PTHProvidersListAdapter(providerInfos,pthProviderListPresenter);
         pthProvidersListAdapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
             @Override
             public void onItemClick(ProviderInfo item) {
 
-                PTHBaseFragment pthProviderDetailsFragment = new PTHProviderDetailsFragment();
+                PTHProviderDetailsFragment pthProviderDetailsFragment = new PTHProviderDetailsFragment();
                 pthProviderDetailsFragment.setActionBarListener(getActionBarListener());
+                pthProviderDetailsFragment.setProviderAndConsumer(item,consumer);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(),pthProviderDetailsFragment,"Provider Details").addToBackStack(null).commit();
                 Toast.makeText(getActivity(),"Clicked provider item"+item.getFullName(),Toast.LENGTH_SHORT).show();
             }

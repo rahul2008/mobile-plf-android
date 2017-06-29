@@ -2,6 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeProviderLayout"
+        android:layout_above="@+id/bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -20,6 +25,8 @@
     <RelativeLayout
         android:id="@+id/visitCostLayout"
         android:layout_below="@+id/horizontalLine"
+        android:paddingTop="@dimen/uid_grid_title_padding"
+        android:paddingBottom="@dimen/uid_grid_title_padding"
         android:layout_marginStart="@dimen/uid_grid_title_padding"
         android:layout_marginEnd="@dimen/uid_grid_title_padding"
         android:layout_width="match_parent"
@@ -65,8 +72,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Profile"
+        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
         android:padding="@dimen/uid_grid_title_padding"
-        android:textSize="@dimen/uid_grid_descrption_size"
         android:textColor="?attr/uidLabelValueNormalTextColor"
         />
     <com.philips.platform.uid.view.widget.Label
@@ -76,7 +83,7 @@
         android:layout_height="wrap_content"
         android:text="Rating"
         android:padding="@dimen/uid_grid_title_padding"
-        android:textSize="@dimen/uid_grid_descrption_size"
+        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
         android:textColor="?attr/uidLabelValueNormalTextColor"
         />
     <com.philips.platform.uid.view.widget.RatingBar
@@ -88,6 +95,7 @@
         android:stepSize=".1"
         android:layout_marginStart="@dimen/uid_grid_title_padding"
         android:layout_marginEnd="@dimen/uid_grid_title_padding"
+        android:layout_marginBottom="@dimen/uid_grid_title_padding"
         android:textSize="@dimen/uid_grid_descrption_size"
         style="@style/UIDRatingBarStandardDisplay"
         android:textColor="?attr/uidLabelValueNormalTextColor"
@@ -104,10 +112,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Spoken Language"
+        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingTop="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
-        android:textSize="@dimen/uid_grid_descrption_size"
         android:textColor="?attr/uidLabelValueNormalTextColor"
         />
     <com.philips.platform.uid.view.widget.Label
@@ -115,11 +123,10 @@
         android:id="@+id/spokenLanguageValueLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="English, Spanish"
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
         android:paddingBottom="@dimen/uid_grid_title_padding"
-        android:textSize="@dimen/uid_grid_descrption_size"
+        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
         android:textColor="?attr/uidLabelValueNormalTextColor"
         />
     <View android:background="@color/uid_gray_level_5"
@@ -137,7 +144,7 @@
         android:paddingTop="@dimen/uid_grid_title_padding"
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
-        android:textSize="@dimen/uid_grid_descrption_size"
+        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
         android:textColor="?attr/uidLabelValueNormalTextColor"
         />
     <com.philips.platform.uid.view.widget.Label
@@ -145,11 +152,10 @@
         android:id="@+id/yearsOfExpValueLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="17"
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
         android:paddingBottom="@dimen/uid_grid_title_padding"
-        android:textSize="@dimen/uid_grid_descrption_size"
+        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
         android:textColor="?attr/uidLabelValueNormalTextColor"
         />
     <View android:background="@color/uid_gray_level_5"
@@ -167,7 +173,7 @@
         android:paddingTop="@dimen/uid_grid_title_padding"
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
-        android:textSize="@dimen/uid_grid_descrption_size"
+        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
         android:textColor="?attr/uidLabelValueNormalTextColor"
         />
     <com.philips.platform.uid.view.widget.Label
@@ -175,11 +181,10 @@
         android:id="@+id/graduatedValueLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Harvard Medical in 1992"
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
         android:paddingBottom="@dimen/uid_grid_title_padding"
-        android:textSize="@dimen/uid_grid_descrption_size"
+        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
         android:textColor="?attr/uidLabelValueNormalTextColor"
         />
     <View android:background="@color/uid_gray_level_5"
@@ -198,7 +203,8 @@
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
         android:paddingTop="@dimen/uid_grid_title_padding"
-        android:textSize="@dimen/uid_grid_descrption_size"
+        android:paddingBottom="@dimen/uid_grid_title_padding"
+        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
         android:textColor="?attr/uidLabelValueNormalTextColor"
         />
     <com.philips.platform.uid.view.widget.Label
@@ -206,11 +212,11 @@
         android:id="@+id/aboutMeValueLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="When the user takes the DOD  ow, this doc- tor detail is shown after the system matches a doctor. The user can read the whole pro le and continue to the waiting screen"
+        android:paddingTop="@dimen/uid_grid_title_padding"
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
         android:paddingBottom="@dimen/uid_grid_title_padding"
-        android:textSize="@dimen/uid_grid_descrption_size"
+        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
         android:textColor="?attr/uidLabelValueNormalTextColor"
         />
     <View android:background="@color/uid_gray_level_5"
@@ -221,4 +227,29 @@
         />
     </RelativeLayout>
     </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+    <RelativeLayout
+        android:id="@+id/bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/uid_grid_title_padding"
+        android:paddingEnd="@dimen/uid_grid_title_padding"
+        android:layout_marginTop="@dimen/uid_grid_title_padding"
+        android:layout_marginBottom="@dimen/uid_grid_title_padding"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_alignParentBottom="true">
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/detailsButtonOne"
+            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/detailsButtonTwo"
+            android:layout_below="@+id/detailsButtonOne"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </RelativeLayout>
 </RelativeLayout>

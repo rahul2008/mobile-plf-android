@@ -5,7 +5,7 @@
     android:id="@+id/providerListItemLayout"
     >
     <ImageView
-        android:id="@+id/providerImage"
+        android:id="@+id/details_providerImage"
         android:layout_marginStart="@dimen/uid_label_margin_start"
         android:layout_centerVertical="true"
         android:layout_marginTop="18dp"
@@ -15,46 +15,43 @@
         android:src="@drawable/doctor_pic"/>
 
     <RelativeLayout
-        android:id="@+id/providerDetailLayout"
-        android:layout_toRightOf="@+id/providerImage"
+        android:id="@+id/details_providerDetailLayout"
+        android:layout_toRightOf="@+id/details_providerImage"
         android:layout_width="wrap_content"
         android:layout_marginStart="@dimen/uid_label_margin_start"
         android:layout_marginLeft="@dimen/uid_label_margin_start"
         android:layout_height="wrap_content">
         <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/providerNameLabel"
+            android:id="@+id/details_providerNameLabel"
             android:textSize="@dimen/uid_recyclerview_item_title_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/uid_grid_icon_padding"
             android:layout_marginBottom="@dimen/uid_dot_navigation_icon_margin"
-            android:textColor="?attr/uidLabelValueNormalTextColor"
-            android:text="Dr. Monica Juliana Suzuki"/>
+            android:textColor="?attr/uidLabelValueNormalTextColor" />
         <com.philips.platform.uid.view.widget.Label
-            android:layout_below="@+id/providerNameLabel"
-            android:id="@+id/practiceNameLabel"
+            android:layout_below="@+id/details_providerNameLabel"
+            android:id="@+id/details_practiceNameLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/uid_grid_descrption_size"
-            android:textColor="?attr/uidLabelValueNormalTextColor"
-            android:text="Location specialist"/>
+            android:textColor="?attr/uidLabelValueNormalTextColor" />
         <RelativeLayout
-            android:layout_below="@+id/practiceNameLabel"
+            android:layout_below="@+id/details_practiceNameLabel"
             android:id="@+id/isAvailableLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <com.philips.platform.uid.view.widget.Label
-                android:layout_toRightOf="@+id/isAvailableImage"
-                android:id="@+id/isAvailableLabel"
+                android:layout_toRightOf="@+id/details_isAvailableImage"
+                android:id="@+id/details_isAvailableLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/uid_label_margin_start"
                 android:layout_marginStart="@dimen/uid_alert_dialog_message_line_spacing"
                 android:textColor="?attr/uidLabelValueNormalTextColor"
-                android:textSize="@dimen/uid_grid_descrption_size"
-                android:text="schedule appointment"/>
+                android:textSize="@dimen/uid_grid_descrption_size" />
             <ImageView
-                android:id="@+id/isAvailableImage"
+                android:id="@+id/details_isAvailableImage"
                 android:layout_marginTop="@dimen/uid_alert_dialog_title_icon_padding"
                 android:layout_width="14dp"
                 android:layout_height="14dp"

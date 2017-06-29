@@ -24,7 +24,7 @@ public class PTHProviderDetailsPresenter implements PTHProviderDetailsCallback{
 
     @Override
     public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
-
+        viewInterface.updateView(provider);
     }
 
     @Override
