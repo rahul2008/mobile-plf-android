@@ -1,7 +1,5 @@
 package com.philips.cdp.registration.ui.traditional;
 
-import android.view.View;
-
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
@@ -16,7 +14,6 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -27,11 +24,12 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 
 public class CreateAccountPresenter implements NetworStateListener,EventListener,TraditionalRegistrationHandler {
 
-    CreateAccountContract createAccountContract;
-
     private static final int FAILURE_TO_CONNECT = -1;
 
     private final static int EMAIL_ADDRESS_ALREADY_USE_CODE = 390;
+
+    private final CreateAccountContract createAccountContract;
+
 
     public CreateAccountPresenter(CreateAccountContract createAccountContract) {
         URInterface.getComponent().inject(this);
@@ -58,9 +56,9 @@ public class CreateAccountPresenter implements NetworStateListener,EventListener
                 this);
     }
 
-    public void registerUserInfo(User mUser, String sEtName, String mEmail, String password, boolean olderThanAgeLimit, boolean isMarketingOpt){
-        mUser.registerUserInfoForTraditional(sEtName, mEmail
-                , password.toString(), olderThanAgeLimit, isMarketingOpt,this);
+    public void registerUserInfo(User user, String name, String email, String password, boolean olderThanAgeLimit, boolean isReceiveMarketingEmail){
+        user.registerUserInfoForTraditional(name, email
+                , password.toString(), olderThanAgeLimit, isReceiveMarketingEmail,this);
     }
 
     @Override
@@ -86,7 +84,7 @@ public class CreateAccountPresenter implements NetworStateListener,EventListener
     private void handleRegistrationSuccess() {
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
         if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-            createAccountContract.storePref();
+            createAccountContract.storeEMail();
         }
         createAccountContract.hideSpinner();
         createAccountContract.trackCheckMarketing();
@@ -140,7 +138,6 @@ public class CreateAccountPresenter implements NetworStateListener,EventListener
 
     private void handleRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterFailedWithFailure"+userRegistrationFailureInfo.getErrorCode());
-
         if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
             if (RegistrationHelper.getInstance().isChinaFlow()) {
                 createAccountContract.emailError(R.string.reg_CreateAccount_Using_Phone_Alreadytxt);
@@ -149,7 +146,6 @@ public class CreateAccountPresenter implements NetworStateListener,EventListener
             }
             createAccountContract.scrollViewAutomaticallyToEmail();
             createAccountContract.emailAlreadyUsed();
-
         } else if (userRegistrationFailureInfo.getErrorCode() == FAILURE_TO_CONNECT) {
             createAccountContract.emailError(R.string.reg_JanRain_Server_Connection_Failed);
         } else {
@@ -157,9 +153,7 @@ public class CreateAccountPresenter implements NetworStateListener,EventListener
             createAccountContract.scrollViewAutomaticallyToError();
         }
         AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
-        createAccountContract.regFail();
-
-
+        createAccountContract.registrtionFail();
     }
 
 }

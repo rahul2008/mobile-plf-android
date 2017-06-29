@@ -1,8 +1,5 @@
 package com.philips.cdp.registration.ui.traditional;
 
-import com.philips.cdp.registration.app.tagging.AppTaggingPages;
-import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
-
 /**
  * Created by philips on 22/06/17.
  */
@@ -39,10 +36,10 @@ public interface CreateAccountContract {
 
     void hideSpinner();
 
-    void storePref();
+    void storeEMail();
 
     void emailAlreadyUsed();
 
-    void regFail();
+    void registrtionFail();
 
 }
