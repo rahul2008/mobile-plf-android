@@ -39,7 +39,7 @@ public class ProductModelSelectionHelper {
     private static final String TAG = ProductModelSelectionHelper.class.getSimpleName();
     private static ProductModelSelectionHelper mProductModelSelectionHelper = null;
     private Context mContext = null;
-    private static Locale mLocale = null;
+    //private static Locale mLocale = null;
     private static boolean isTabletLandscape = false;
     private static Configuration mVerticalOrientation = null;
     private ProductSelectionListener mProductSelectionListener = null;
@@ -72,10 +72,10 @@ public class ProductModelSelectionHelper {
         return mProductModelSelectionType;
     }
 
-    public Locale getLocale() {
+  /*  public Locale getLocale() {
         return mLocale;
     }
-
+*/
 
     /**
      * Returns the Context used in the product selection Component
@@ -149,7 +149,6 @@ public class ProductModelSelectionHelper {
 
         PrxWrapper prxWrapperCode = new PrxWrapper(mContext, mAppInfraInterface, null,
                 productModelSelectionType.getSector(),
-                getLocale().toString(),
                 productModelSelectionType.getCatalog());
 
         prxWrapperCode.requestPrxSummaryList(new SummaryDataListener() {
@@ -183,7 +182,7 @@ public class ProductModelSelectionHelper {
                                   int parentContainerResId,
                                   ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
                                   int exitAnim) {
-        if (mContext == null || mLocale == null) {
+        if (mContext == null ) {
             throw new RuntimeException("Please initialise context, locale before component invocation");
         }
         SharedPreferences prefs = context.getSharedPreferences(
@@ -221,8 +220,8 @@ public class ProductModelSelectionHelper {
     }
 
     private void invokeAsActivity(int startAnimation, int endAnimation, ActivityLauncher.ActivityOrientation orientation) {
-        if (mContext == null || mLocale == null) {
-            throw new RuntimeException("Please initialise context, locale before component invocation");
+        if (mContext == null) {
+            throw new RuntimeException("Please initialise context before component invocation");
         }
         Intent intent = new Intent(this.getContext(), ProductSelectionActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -239,14 +238,14 @@ public class ProductModelSelectionHelper {
     public void setProductSelectionListener(ProductSelectionListener mProductListener) {
         this.mProductSelectionListener = mProductListener;
     }
-
+/*
     public void setLocale(String langCode, String countryCode) {
 
         if (langCode != null && countryCode != null) {
             mLocale = new Locale(langCode, countryCode);
             ProductSelectionLogger.i(TAG, "setLocale API of ProductSelection : " + mLocale.toString());
         }
-    }
+    }*/
 
     public String getProductSelectionLibVersion() {
         return BuildConfig.VERSION_NAME;
