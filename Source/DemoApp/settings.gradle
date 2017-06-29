@@ -1,4 +1,5 @@
 rootProject.setName 'product-registration-lib'
-include ':app'
+include ':DemoApp', ':DemoUApp'
+project(':DemoUApp').projectDir = new File('../DemoUApp')
 include 'product-registration-lib'
 project(':product-registration-lib').projectDir = new File('../Library/product-registration-lib')

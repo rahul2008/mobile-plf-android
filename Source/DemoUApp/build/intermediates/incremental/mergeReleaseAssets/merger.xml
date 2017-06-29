@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/philips/Documents/projects/product_registration/Source/DemoUApp/src/main/assets"/><source path="/Users/philips/Documents/projects/product_registration/Source/DemoUApp/build/generated/assets/shaders/release"/></dataSet><dataSet config="release"><source path="/Users/philips/Documents/projects/product_registration/Source/DemoUApp/src/release/assets"/></dataSet></merger>
