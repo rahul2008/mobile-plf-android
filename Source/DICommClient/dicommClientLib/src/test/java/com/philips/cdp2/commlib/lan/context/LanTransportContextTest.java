@@ -25,7 +25,6 @@ public class LanTransportContextTest extends RobolectricTest {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-
     }
 
     @Test

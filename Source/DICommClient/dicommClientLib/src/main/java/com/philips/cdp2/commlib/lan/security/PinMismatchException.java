@@ -7,13 +7,10 @@ package com.philips.cdp2.commlib.lan.security;
 
 import android.support.annotation.NonNull;
 
-import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 
 /**
  * This exception indicates a certificate pin mismatch.
- *
- * @see Certificate
  */
 public class PinMismatchException extends CertificateException {
     public PinMismatchException(final @NonNull String message) {
