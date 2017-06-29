@@ -49,7 +49,7 @@ public class SntpClient
     // 70 years plus 17 leap days
     private static final long OFFSET_1900_TO_1970 = ((365L * 70L) + 17L) * 24L * 60L * 60L;
     // system time computed from NTP server response
-    private long mNtpTime;
+    private long mNtpTime= 0L;
     // value of SystemClock.elapsedRealtime() corresponding to mNtpTime
     private long mNtpTimeReference;
     // round trip time in milliseconds

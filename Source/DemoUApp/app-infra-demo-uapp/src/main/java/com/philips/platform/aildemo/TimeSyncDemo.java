@@ -23,6 +23,7 @@ public class TimeSyncDemo extends AppCompatActivity {
 
     TimeInterface mTimeSyncInterface;
     Button refreshButton;
+    SimpleDateFormat formatter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,8 +48,8 @@ public class TimeSyncDemo extends AppCompatActivity {
 
         localTimeTextvalue.setText(getDeviceTime());
 //        utcTimeTextvalue.setText(mTimeSyncInterface.getUTCTime());
-        Log.i("TimeSyncDemo", "UTCTime  " + mTimeSyncInterface.getUTCTime());
-
+       Log.i("TimeSyncDemo", "UTCTime  " + mTimeSyncInterface.getUTCTime());
+        formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a");
         localTimeUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,15 +60,15 @@ public class TimeSyncDemo extends AppCompatActivity {
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS a");
+
                 isSynchronized.setText("Not Synchronized");
                 refreshButton.setVisibility(View.INVISIBLE);
                 mTimeSyncInterface.refreshTime();
-                Date date = mTimeSyncInterface.getUTCTime();
+               /* Date date = mTimeSyncInterface.getUTCTime();
                 formatter.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
                 System.out.println("KAVYA DEMO"+" "+formatter.format(date));
                 UTCtimeVal.setText(formatter.format(date));
-
+*/
             }
         });
 
@@ -81,6 +82,10 @@ public class TimeSyncDemo extends AppCompatActivity {
                     refreshButton.setVisibility(View.INVISIBLE);
                     isSynchronized.setText("Not Synchronized");
                 }
+                Date date = mTimeSyncInterface.getUTCTime();
+                formatter.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
+                System.out.println("KAVYA DEMO"+" "+formatter.format(date));
+                UTCtimeVal.setText(formatter.format(date));
             }
         });
     }
