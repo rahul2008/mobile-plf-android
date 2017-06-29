@@ -3,6 +3,7 @@ package com.philips.platform.uid.utilstest;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.VectorDrawable;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
@@ -115,7 +116,7 @@ public class UIDUtilsTest {
 
     @Test
     public void verifyHideNavigationIcon(){
-        waitFor(testResources, 750);
+        waitFor(testResources, 500);
         toolbar = (Toolbar) activity.findViewById(com.philips.platform.uid.test.R.id.uid_toolbar);
         activity.runOnUiThread(new Runnable() {
             @Override
@@ -132,7 +133,7 @@ public class UIDUtilsTest {
 
     @Test
     public void verifyRestoreNavigationIcon(){
-        waitFor(testResources, 750);
+        waitFor(testResources, 500);
         toolbar = (Toolbar) activity.findViewById(com.philips.platform.uid.test.R.id.uid_toolbar);
         activity.runOnUiThread(new Runnable() {
             @Override
@@ -143,8 +144,9 @@ public class UIDUtilsTest {
                 toggler.restoreNavigationIcon();
             }
         });
-        waitFor(testResources, 750);
-        if (BuildConfig.DEBUG && !(activity.getToolbar().getNavigationIcon() instanceof VectorDrawable)) {
+        waitFor(testResources, 500);
+        Object icon = activity.getToolbar().getNavigationIcon();
+        if (BuildConfig.DEBUG && !(icon instanceof VectorDrawableCompat || icon instanceof VectorDrawable)) {
             throw new AssertionError();
         }
     }
