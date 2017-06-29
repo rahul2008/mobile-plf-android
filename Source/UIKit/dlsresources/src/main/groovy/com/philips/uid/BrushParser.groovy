@@ -23,7 +23,7 @@ class BrushParser {
 
         new AttributeGenerator().flushAttrsFile(allBrushAttributes, allComponentAttributes, dataValidationThemeValues)
         new ThemeGenerator().createThemeXml(allBrushAttributes, allComponentAttributes, dataValidationThemeValues)
-        new NavigationStyleCreator().create(allBrushAttributes, allComponentAttributes)
+//        new NavigationStyleCreator().create(allBrushAttributes, allComponentAttributes)
         new AccentRangeGenerator().generateAccentRanges()
     }
 

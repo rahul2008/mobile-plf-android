@@ -128,7 +128,7 @@ class ThemeGenerator {
 
                     allBrushAttributes.each {
                         if (it.attrName == brushName) {
-//                            println(it.attrName + " " + brushName)
+//                            println(it.attrName + " " + componentName)
                             TonalRange themeValue = it.attributeMap.get(newTonalRange).clone();
                             dataValidation.decorateValidations(themeValue, dataValidationThemeValues, it.attrName, colorName, newTonalRange)
                             value = themeValue.getValue("${colorName}", colorsXmlInput, allBrushAttributes)

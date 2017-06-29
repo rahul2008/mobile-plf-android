@@ -6,6 +6,7 @@ import com.philips.uid.helpers.NameConversionHelper
 import com.philips.uid.model.brush.BrushValue
 import com.philips.uid.model.color.Colors
 import com.philips.uid.model.component.Control
+import com.philips.uid.model.navigation.NavigationAttribute
 import com.philips.uid.parser.BrushParser
 import com.philips.uid.parser.ColorParser
 import com.philips.uid.parser.ComponentParser
@@ -29,8 +30,14 @@ ValidationParser validationParser = new ValidationParser()
 Colors.addColorAttributes()
 Colors.addAccentColorAttributes()
 
+//Generate accent colors
+new AccentRangeGenerator().generateAccentRanges()
+
 //Generate and write component files
 generateTheme(componentParser, brushParser, validationParser)
+
+//Generate Navigation styles, must be called when all the components are created.
+NavigationStylesGenerator.instance.generateNavigationStyles()
 
 //flush all the attributes
 flushAllAttributes()
@@ -46,6 +53,14 @@ def generateTheme(ComponentParser componentParser, BrushParser brushParser, Vali
         def colorRangeTheme = colorRange.&capitalize
         def baseTheme = "${DLSResourceConstants.THEME_PREFIX}." + NameConversionHelper.removeHyphensAndCapitalize("${colorRangeTheme}")
         xml.resources() {
+            xml.style("${DLSResourceConstants.ITEM_NAME}": "${baseTheme}") {
+                5.step(95, 5) {
+                    item("${DLSResourceConstants.ITEM_NAME}": com.philips.uid.BrushParser.getAttributeName("Color_Level_" + "$it"),
+                            "${DLSResourceConstants.COLOR_REFERENCE}${DLSResourceConstants.LIB_PREFIX}_${colorRange}_${DLSResourceConstants.LEVEL}_" + "$it")
+                }
+            }
+
+            //Add individual attributes
             DLSResourceConstants.TONAL_RANGES.each {
                 def tonalRange = it.toString()
                 def tonalRangeTheme = "${baseTheme}." + NameConversionHelper.removeHyphensAndCapitalize("${tonalRange}")
@@ -62,6 +77,7 @@ def generateTheme(ComponentParser componentParser, BrushParser brushParser, Vali
                         } else {
                             result = getComponentsValues(it, null, brushParser, validationparser, colorRange, tonalRange)
                             item(name: "${result[0]}", "${result[1]}")
+                            getMkp().comment("${result[2]}")
                         }
                     }
                 }
@@ -87,6 +103,10 @@ def getComponentsValues(Control control, parent, brushParser, validationparser, 
 
     //Update list of attributes
     AttributeManager.instance.addAtrribute(controlName, brushValue)
+
+    //Update NavigationItems
+    addNavigationItems(colorRange, tonalRange, controlName, control.component, val)
+
     return [controlName, val, brushName]
 }
 
@@ -106,4 +126,11 @@ def flushAllAttributes() {
         }
     }
     attrsFile.write(writer.toString())
+}
+
+def addNavigationItems(colorRange, tonalRange, controlName, component, value) {
+    if(component == "navigation") {
+        def navAttribute = new NavigationAttribute(colorRange: colorRange, tonalRange: tonalRange, componentName: controlName, value: value)
+        NavigationStylesGenerator.instance.addNavigationAttribute(navAttribute)
+    }
 }

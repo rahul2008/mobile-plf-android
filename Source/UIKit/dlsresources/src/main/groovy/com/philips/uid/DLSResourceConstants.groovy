@@ -27,6 +27,9 @@ class DLSResourceConstants {
 
     static final TONAL_RANGES = ['ultra-light', 'very-light'/*, 'light'*/, 'bright', 'very-dark']
 
+    //use this for debugging in Intellij
+    //static final String PATH_RES = "../../../../resources"
+
     //Path constants
     static final String PATH_RES = "src/main/resources"
     static final String PATH_SEMANTIC_BRUSH_JSON = "${PATH_RES}/brushes.json"

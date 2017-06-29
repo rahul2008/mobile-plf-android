@@ -1,33 +1,32 @@
+package com.philips.uid
+
+import com.philips.uid.helpers.NameConversionHelper
+
 /*
  * (C) Koninklijke Philips N.V., 2017.
  * All rights reserved.
  *
  */
-
-import com.philips.uid.DLSResourceConstants
-import com.philips.uid.TonalRange
+import com.philips.uid.model.color.Colors
 import groovy.xml.MarkupBuilder
 
 class AccentRangeGenerator {
 
-    private void generateAccentRanges() {
+    def generateAccentRanges() {
 
-        def colorsXmlInput = new XmlParser().parseText(new File(DLSResourceConstants.PATH_OUT_COLORS_FILE).text)
         def writer = new StringWriter()
         def xml = new MarkupBuilder(writer)
         xml.setDoubleQuotes(true)
         xml.resources() {
-
             DLSResourceConstants.COLOR_RANGES.each {
-                theme, colorName ->
-                    xml.style("${DLSResourceConstants.ITEM_NAME}": "Accent" + theme) {
-
-                        for (int colorLevel = 5; colorLevel <= 90;) {
-                            def colorValue = TonalRange.getColorValue(colorsXmlInput, getColorName(colorLevel, colorName))
-                            item("${DLSResourceConstants.ITEM_NAME}": "${DLSResourceConstants.LIB_PREFIX}" + "AccentLevel" + colorLevel, colorValue)
-                            colorLevel = colorLevel + DLSResourceConstants.COLOR_OFFSET
-                        }
+                def colorRange = "${it.value}".toString()
+                def theme = NameConversionHelper.removeHyphensAndCapitalize(colorRange)
+                xml.style("${DLSResourceConstants.ITEM_NAME}": "Accent" + theme) {
+                    5.step(95, 5) {
+                        def colorValue = Colors.instance.getColorForRange(colorRange, "${it}")
+                        item("${DLSResourceConstants.ITEM_NAME}": "${DLSResourceConstants.LIB_PREFIX}AccentLevel${it}", colorValue)
                     }
+                }
             }
         }
         def themeFile = new File(DLSResourceConstants.PATH_OUT_ACCENT_FILE)
@@ -37,9 +36,5 @@ class AccentRangeGenerator {
 
         themeFile.createNewFile()
         themeFile.write(writer.toString())
-    }
-
-    private String getColorName(int colorLevel, def colorName) {
-        return "${DLSResourceConstants.LIB_PREFIX}_" + colorName + "_level_" + colorLevel
     }
 }

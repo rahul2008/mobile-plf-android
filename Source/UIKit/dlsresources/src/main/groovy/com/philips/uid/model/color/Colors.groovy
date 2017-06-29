@@ -13,8 +13,9 @@ class Colors {
     }
 
     def getColorNameForXmlItem(colorRange, colorCode) {
+        def level = colorCode.number ? "level_": ""
         def alignedColorName = NameConversionHelper.replaceHyphenWithUnderScores(colorRange).toLowerCase()
-        return "@color/${alignedColorName}_${colorCode}"
+        return "@color/${alignedColorName}_${level}${colorCode}"
     }
 
     //Only for hardcode colors which have no entry in brushes.json
