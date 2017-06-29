@@ -146,18 +146,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.9.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-            {
-                transitive = true
-            }
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.2.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-            {
-                transitive = true
-            }
-    compile(group: 'com.philips.cdp', name: 'prx', version: '3.3.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-            {
-                transitive = true
-            }
+
     compile project(':DemoUApp')
 
 }

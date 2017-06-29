@@ -159,31 +159,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
     compile project(':product-registration-lib')
-    compile 'com.android.support:multidex:1.0.1'
-    androidTestCompile 'junit:junit:4.12'
-    androidTestCompile 'org.mockito:mockito-core:1.9.5'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.5'
-    compile 'com.android.support:customtabs:25.3.1'
-    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.9.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-            {
-                transitive = true
-            }
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.2.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-            {
-                transitive = true
-            }
-    compile(group: 'com.philips.cdp', name: 'prx', version: '3.3.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-            {
-                transitive = true
-            }
+
 }
