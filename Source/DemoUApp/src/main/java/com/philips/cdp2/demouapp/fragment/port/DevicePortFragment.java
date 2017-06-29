@@ -5,9 +5,11 @@
 
 package com.philips.cdp2.demouapp.fragment.port;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +28,15 @@ import com.philips.cdp2.commlib.demouapp.R;
 
 import java.util.Locale;
 
+import static com.philips.cdp2.commlib.lan.context.LanTransportContext.clearStoredCertificateFor;
+
 public class DevicePortFragment extends Fragment {
 
     private static final String TAG = "DevicePortFragment";
 
-    private Appliance currentAppliance;
+    private View rootView;
     private EditText deviceNameEdit;
+    private Appliance currentAppliance;
 
     private DICommPortListener<DevicePort> portListener = new DICommPortListener<DevicePort>() {
         @Override
@@ -42,14 +47,18 @@ public class DevicePortFragment extends Fragment {
 
         @Override
         public void onPortError(DevicePort port, Error error, @Nullable String errorData) {
-            DICommLog.e(TAG, String.format(Locale.US, "Device port error: %s, data: %s", error.getErrorMessage(), errorData));
+            DICommLog.e(TAG, String.format(Locale.US, "Device port error: [%s], data: [%s]", error.getErrorMessage(), errorData));
+
+            if (error == Error.INSECURE_CONNECTION) {
+                promptCertificateMismatch();
+            }
         }
     };
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_device_port, container, false);
+        rootView = inflater.inflate(R.layout.fragment_device_port, container, false);
 
         deviceNameEdit = (EditText) rootView.findViewById(R.id.device_name);
         Button setButton = (Button) rootView.findViewById(R.id.btn_set);
@@ -61,7 +70,7 @@ public class DevicePortFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        currentAppliance.getDevicePort().putProperties("name", deviceNameEdit.getText().toString());
+                        currentAppliance.getDevicePort().setDeviceName(deviceNameEdit.getText().toString());
                     }
                 }
         );
@@ -81,6 +90,10 @@ public class DevicePortFragment extends Fragment {
         super.onResume();
 
         currentAppliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
+        if (currentAppliance == null) {
+            getFragmentManager().popBackStack();
+            return;
+        }
 
         currentAppliance.getDevicePort().addPortListener(portListener);
         currentAppliance.getDevicePort().reloadProperties();
@@ -109,4 +122,24 @@ public class DevicePortFragment extends Fragment {
             }
         }
     };
+
+    private void promptCertificateMismatch() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.prompt_certificate_mismatch_message);
+        builder.setNegativeButton(R.string.prompt_certificate_mismatch_ignore, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Nothing to do, just dismiss
+            }
+        });
+        builder.setPositiveButton(R.string.prompt_certificate_mismatch_accept, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (currentAppliance != null) {
+                    clearStoredCertificateFor(currentAppliance);
+                }
+            }
+        });
+        builder.show();
+    }
 }

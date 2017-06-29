@@ -47,4 +47,8 @@
     <string name="enable_communication">Enable Communication</string>
     <string name="ms">milliseconds</string>
     <string name="get">Get</string>
+
+    <string name="prompt_certificate_mismatch_message">"Certificate doesn't match the stored certificate. This can occur after a factory reset but may also indicate a man-in-the-middle \n\nAccept the new certificate?"</string>
+    <string name="prompt_certificate_mismatch_ignore">Ignore</string>
+    <string name="prompt_certificate_mismatch_accept">Accept</string>
 </resources>

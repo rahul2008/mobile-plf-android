@@ -75,7 +75,7 @@ public class AirPortFragment extends Fragment {
 
             @Override
             public void onPortError(AirPort<AirPortProperties> port, Error error, @Nullable String errorData) {
-                DICommLog.e(TAG, String.format(Locale.US, "Air port error: %s, data: %s", error.getErrorMessage(), errorData));
+                DICommLog.e(TAG, String.format(Locale.US, "Air port error: [%s], data: [%s]", error.getErrorMessage(), errorData));
             }
         };
         currentAppliance.getAirPort().addPortListener(portListener);

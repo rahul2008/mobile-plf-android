@@ -35,8 +35,7 @@ public class CurrentApplianceManager implements PropertyChangeListener {
         }
 
         @Override
-        public void onPortError(DICommPort<?> port, Error error,
-                                String errorData) {
+        public void onPortError(DICommPort<?> port, Error error, String errorData) {
             notifyApplianceListenersOnErrorOccurred(port, error);
         }
     };

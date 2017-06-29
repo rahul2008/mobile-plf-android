@@ -69,7 +69,7 @@ public class TimePortFragment extends Fragment {
 
         @Override
         public void onPortError(TimePort port, Error error, @Nullable String errorData) {
-            DICommLog.e(TAG, String.format(Locale.US, "Time port error: %s, data: %s", error.getErrorMessage(), errorData));
+            DICommLog.e(TAG, String.format(Locale.US, "Time port error: [%s], data: [%s]", error.getErrorMessage(), errorData));
 
             if (isAdded()) {
                 updateResult(getString(R.string.lblResultPortError, error.getErrorMessage()));

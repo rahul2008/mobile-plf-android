@@ -29,6 +29,7 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortListener;
+import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties;
 import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.appliance.reference.ReferenceAppliance;
 
@@ -86,13 +87,21 @@ public class FirmwareUpgradeFragment extends Fragment {
     private final DICommPortListener<FirmwarePort> portListener = new DICommPortListener<FirmwarePort>() {
         @Override
         public void onPortUpdate(FirmwarePort port) {
-            stateTextView.setText(port.getPortProperties().getState().toString());
+            FirmwarePortProperties properties = port.getPortProperties();
+            if (properties == null) {
+                return;
+            }
+            stateTextView.setText(properties.getState().toString());
             versionTextView.setText(port.getPortProperties().getVersion());
         }
 
         @Override
         public void onPortError(FirmwarePort port, Error error, String errorData) {
-            stateTextView.setText(port.getPortProperties().getState().toString());
+            FirmwarePortProperties properties = port.getPortProperties();
+            if (properties == null) {
+                return;
+            }
+            stateTextView.setText(properties.getState().toString());
             statusTextView.setText(String.format(Locale.US, "Error: %s", error.getErrorMessage()));
         }
     };
