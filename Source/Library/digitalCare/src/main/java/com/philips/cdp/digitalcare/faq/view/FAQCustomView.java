@@ -433,9 +433,9 @@ public class FAQCustomView implements Serializable {
                         }
                     }
 
-                    Locale locale = DigitalCareConfigManager.getInstance().
-                            getLocaleMatchResponseWithCountryFallBack();
-                    String languageCode = locale.getLanguage();
+                    /*Locale locale = DigitalCareConfigManager.getInstance().
+                            getLocaleMatchResponseWithCountryFallBack();*/
+                   // String languageCode = locale.getLanguage();
 /*
 
                     if (languageCode.equalsIgnoreCase("en")) {

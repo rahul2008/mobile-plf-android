@@ -42,6 +42,12 @@ public class Utils {
                 progressBar.setVisibility(View.VISIBLE);
             }
 
+           @Override
+            public void onPageCommitVisible(WebView view, String url) {
+                super.onPageCommitVisible(view, url);
+                progressBar.setVisibility(View.GONE);
+            }
+
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);

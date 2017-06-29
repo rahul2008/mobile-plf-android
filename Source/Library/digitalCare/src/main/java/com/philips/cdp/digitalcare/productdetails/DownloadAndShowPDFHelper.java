@@ -62,12 +62,12 @@ public class DownloadAndShowPDFHelper {
                     mContext.startService(downloadService);
 
                     mAlertDialog = new AlertDialog.Builder(mContext);
-                    Locale locale = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack();
-                    String language = null;
-                    if(locale != null){
+                   // Locale locale = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack();
+                    //String language = null;
+                   /* if(locale != null){
                         language = locale.getLanguage();
-                    }
-                    String message = String.format(mContext.getString(R.string.ManualDownLoadConfirmMessage), language);
+                    }*/
+                    String message = String.format(mContext.getString(R.string.ManualDownLoadConfirmMessage), Locale.getDefault().getLanguage());
                     mAlertDialog.setMessage(message);
                     mAlertDialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         @Override

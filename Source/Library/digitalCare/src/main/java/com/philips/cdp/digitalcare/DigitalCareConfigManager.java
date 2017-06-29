@@ -21,8 +21,8 @@ import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
 import com.philips.cdp.digitalcare.listeners.CcListener;
-import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
-import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
+//import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
+//import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
@@ -47,11 +47,11 @@ public class DigitalCareConfigManager {
     public static String[] mCtnList = null;
     private static DigitalCareConfigManager mDigitalCareInstance = null;
     private Context mContext = null;
-    private static LocaleMatchHandler mLocaleMatchHandler = null;
+    //private static LocaleMatchHandler mLocaleMatchHandler = null;
     private static Locale mLocale = null;
     private static Locale mLocaleMatchWithCountryFallBack = null;
     //  private static Locale mLocaleMatchWithLanguageFallBack = null;
-    private static LocaleMatchHandlerObserver mLocaleMatchHandlerObserver = null;
+    //private static LocaleMatchHandlerObserver mLocaleMatchHandlerObserver = null;
     private UiLauncher mUiLauncher = null;
     AppInfraInterface mAppInfraInterface;
     private ConsumerProductInfo mConsumerProductInfo = null;
@@ -115,9 +115,9 @@ public class DigitalCareConfigManager {
             appInfraInterface) {
         if (mContext == null) {
             mContext = applicationContext;
-            mLocaleMatchHandler = new LocaleMatchHandler(mContext);
-            mLocaleMatchHandlerObserver = new LocaleMatchHandlerObserver();
-            LocaleMatchHandler.initializePRXMap();
+            //mLocaleMatchHandler = new LocaleMatchHandler(mContext);
+            //mLocaleMatchHandlerObserver = new LocaleMatchHandlerObserver();
+            //LocaleMatchHandler.initializePRXMap();
             mAppInfraInterface = appInfraInterface;
 
             // initializeTaggingContext(mContext);
@@ -126,22 +126,20 @@ public class DigitalCareConfigManager {
         ProductModelSelectionHelper.getInstance().initialize(mContext, mAppInfraInterface);
 
         //PILLocaleManager localeManager = new PILLocaleManager(mContext);
-        String[] localeArray = new String[2];
+/*        String[] localeArray = new String[2];
         String locale = Locale.getDefault().getLanguage()+"_"+getCountry();//localeManager.getInputLocale();
         localeArray = locale.split("_");
         mLocale = new Locale(localeArray[0], localeArray[1]);
         if (mLocaleMatchWithCountryFallBack == null)
             mLocaleMatchWithCountryFallBack = mLocale;
-           /* if (mLocaleMatchWithLanguageFallBack == null)
-                mLocaleMatchWithLanguageFallBack = mLocale;*/
-        mLocaleMatchHandler.initializeLocaleMatchService(localeArray[0], localeArray[1]);
+        mLocaleMatchHandler.initializeLocaleMatchService(localeArray[0], localeArray[1]);*/
 
     }
 
-    public LocaleMatchHandlerObserver getObserver() {
+   /* public LocaleMatchHandlerObserver getObserver() {
         return mLocaleMatchHandlerObserver;
     }
-
+*/
     /**
      * <p> Invoking DigitalCareComponent feautures to your Fragment Container. Please use this
      * method.
@@ -161,7 +159,7 @@ public class DigitalCareConfigManager {
                                                int parentContainerResId,
                                                ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
                                                int exitAnim) {
-        if (mContext == null || mLocale == null) {
+        if (mContext == null) {
             throw new RuntimeException("Please initialise context, before Support page is invoked");
         }
 
@@ -261,7 +259,7 @@ public class DigitalCareConfigManager {
                                                com.philips.cdp.productselection.launchertype.
                                                        ActivityLauncher.ActivityOrientation
                                                        orientation) {
-        if (mContext == null || mLocale == null) {
+        if (mContext == null) {
             throw new RuntimeException("Please initialise context, " +
                     " and locale before Support page is invoked");
         }
@@ -363,18 +361,18 @@ public class DigitalCareConfigManager {
      *
      * @return Retuns the {@link Locale} object using by DigitalCare component.
      */
-    public Locale getLocale() {
+/*    public Locale getLocale() {
         return mLocale;
     }
 
     public Locale getLocaleMatchResponseWithCountryFallBack() {
         return mLocaleMatchWithCountryFallBack;
-    }
+    }*/
 
-    public void setLocaleMatchResponseLocaleWithCountryFallBack(Locale localeMatchLocale) {
+/*    public void setLocaleMatchResponseLocaleWithCountryFallBack(Locale localeMatchLocale) {
         mLocaleMatchWithCountryFallBack = localeMatchLocale;
         DigiCareLogger.d(TAG, "Country Fallback : " + localeMatchLocale.toString());
-    }
+    }*/
 
 
     /*public Locale getLocaleMatchResponseWithLanguageFallBack() {

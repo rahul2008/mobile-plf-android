@@ -36,20 +36,6 @@ public class CcInterface implements UappInterface {
         CcSettings ccSettings = (CcSettings) uappSettings;
         CcDependencies ccDependencies = (CcDependencies) uappDependencies;
 
-        ccDependencies.getAppInfra().getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
-            @Override
-            public void onSuccess(String s, SOURCE source) {
-                DigitalCareConfigManager.getInstance().setCountry(s);
-                //Log.i("sdlocale","inside ccInterface - getHomeCountry : "+s);
-                DigiCareLogger.v(TAG,"Response from Service Discovery : getHomeCountry() - "+s);
-            }
-
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-                DigiCareLogger.v(TAG,"Error response from Service Discovery : getHomeCountry() - "+s);
-            }
-        });
-
         DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(ccSettings.getContext()
                 , ccDependencies.getAppInfra());
 
