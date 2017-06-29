@@ -185,7 +185,7 @@
     <string name="reg_InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nメールを送信しました。メール受信まで少々時間がかかる場合があります。\n\nメールを確認してアカウントをアクティベートしてください。\n\nそれまでの間はアプリを使用できます。</string>
     <string name="reg_InitialSignedIn_SigninEmailText">次のアカウントでログインしています：%s</string>
     <string name="reg_InitialSignedIn_SigninMobileNumberText">次のコードでログインしています： %s</string>
-    <string name="reg_InitialSignedIn_Welcome_User_lbltxt">%s へようこそ</string>
+    <string name="reg_InitialSignedIn_Welcome_User_lbltxt">%s さん へようこそ</string>
     <string name="reg_InvalidEmailAdddress_ErrorMsg">メールアドレスが無効です。確認してください。</string>
     <string name="reg_InvalidEmail_PhoneNumber_ErrorMsg">入力されたメールアドレスまたは電話番号を認識できません。確認してください。</string>
     <string name="reg_InvalidMobilenumber">携帯電話番号が無効です</string>

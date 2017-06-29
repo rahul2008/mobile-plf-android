@@ -1359,8 +1359,6 @@
     <string name="PPR_registered_serial">You have registered serial</string>
     <string name="PPR_serial_number_consists">The serial number consists of</string>
     <string name="PPR_warranty_until">Warranty until</string>
-    <string name="Register" translatable="false">Register</string>
-    <string name="SerialNumber" translatable="false">Serial number:</string>
     <string name="Welcome_needAccountto_lbltxt"/>
     <string name="abc_action_bar_home_description">Navigate home</string>
     <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
@@ -1393,9 +1391,9 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
-    <string name="action_settings" translatable="false">Settings</string>
+    <string name="action_settings">Settings</string>
     <string name="ail_locale">en</string>
-    <string name="app_name" translatable="false">Product Registration</string>
+    <string name="app_name">Product Registration</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="authFailureError">Error indicating that there was an authentication failure when performing a Request.</string>
     <string name="bottom_sheet_behavior" translatable="false">android.support.design.widget.BottomSheetBehavior</string>
@@ -1405,16 +1403,15 @@
     <string name="character_counter_pattern" translatable="false">%1$d / %2$d</string>
     <string name="com_philips_app_fmwk_app_flow_url">json/Appflow.json</string>
     <string name="content_desc">ContentDesc</string>
-    <string name="ctn" translatable="false">Ctn:</string>
     <string name="custom_tab_label">"%1$s (custom tab)"</string>
     <string name="date_format" translatable="false">yyyy-MM-dd</string>
-    <string name="date_formate" translatable="false">yyyy-MM-dd</string>
+    <string name="date_formate">yyyy-MM-dd</string>
     <string name="delete_row">Delete</string>
-    <string name="demo_app_home" translatable="false">demoapp:home</string>
+    <string name="demo_app_home">demoapp:home</string>
     <string name="desc_list_item_icon">Item Icon</string>
-    <string name="device_name" translatable="false">Device name</string>
-    <string name="diCom_integration" translatable="false">DiCom Integration</string>
-    <string name="enter_ctn_number" translatable="false">Enter CTN number</string>
+    <string name="device_name">Device name</string>
+    <string name="diCom_integration">DiCom Integration</string>
+    <string name="enter_ctn_number">Enter CTN number</string>
     <string name="google_auth_redirect_uri" translatable="false">com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp:/oauth2redirect</string>
     <string name="google_client_id" translatable="false">346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp.apps.googleusercontent.com</string>
     <string name="google_discovery_uri" translatable="false">https://accounts.google.com/.well-known/openid-configuration</string>
@@ -1446,7 +1443,7 @@
     <string name="ic_reg_twitter">\uE60a</string>
     <string name="ic_reg_up">\uE610</string>
     <string name="ic_reg_youtube">\uE60b</string>
-    <string name="integratingApplicationAppsId" translatable="false">integratingApplicationAppsId</string>
+    <string name="integratingApplicationAppsId">integratingApplicationAppsId</string>
     <string name="invalid_email_format">Incorrect email format</string>
     <string name="jr_about_URL">www.janrain.com</string>
     <string name="jr_about_menu_item">About Janrain Engage</string>
@@ -1533,30 +1530,30 @@
     </string>
     <string name="jr_welcome_back_message">Welcome back</string>
     <string name="library_name">AppInfraLib</string>
-    <string name="light_state" translatable="false">Light state</string>
+    <string name="light_state">Light state</string>
     <string name="link_another_account">Link Accounts</string>
     <string name="linked_accounts">You have not linked any accounts.</string>
     <string name="localized_commercial_app_name">AppInfra</string>
-    <string name="my_id" translatable="false">My ID:</string>
+    <string name="my_id">My ID:</string>
     <string name="networkError">Indicates that there was a network error when performing a Volley request.</string>
     <string name="no_internet_message">No internet connection</string>
     <string name="no_selected_account">No Account was selected.</string>
-    <string name="pair" translatable="false">Pair</string>
-    <string name="pairing_failed" translatable="false">Pairing failed</string>
-    <string name="pairing_successful" translatable="false">Pairing successful</string>
+    <string name="pair">Pair</string>
+    <string name="pairing_failed">Pairing failed</string>
+    <string name="pairing_successful">Pairing successful</string>
     <string name="parseErrors">Indicates that the server response could not be parsed.</string>
     <string name="password_toggle_content_description">Toggle password visibility</string>
-    <string name="past_purchase_date_error" translatable="false">error in date selection</string>
+    <string name="past_purchase_date_error">error in date selection</string>
     <string name="path_password_eye" translatable="false">M12,4.5C7,4.5 2.73,7.61 1,12c1.73,4.39 6,7.5 11,7.5s9.27,-3.11 11,-7.5c-1.73,-4.39 -6,-7.5 -11,-7.5zM12,17c-2.76,0 -5,-2.24 -5,-5s2.24,-5 5,-5 5,2.24 5,5 -2.24,5 -5,5zM12,9c-1.66,0 -3,1.34 -3,3s1.34,3 3,3 3,-1.34 3,-3 -1.34,-3 -3,-3z</string>
     <string name="path_password_eye_mask_strike_through" translatable="false">M2,4.27 L19.73,22 L22.27,19.46 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z</string>
     <string name="path_password_eye_mask_visible" translatable="false">M2,4.27 L2,4.27 L4.54,1.73 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z</string>
     <string name="path_password_strike_through" translatable="false">M3.27,4.27 L19.74,20.74</string>
     <string name="prod_reg_benefits_conf_message" translatable="false">@string/prod_reg_benefits_conf_text</string>
-    <string name="prod_reg_benefits_conf_text" translatable="false">- Extend your warranty for 24 months.\n- Receive 10% discount in the Philips.\n- Receive free product accessories.</string>
+    <string name="prod_reg_benefits_conf_text">- Extend your warranty for 24 months.\n- Receive 10% discount in the Philips.\n- Receive free product accessories.</string>
     <string name="prod_reg_success_conf_message" translatable="false">@string/prod_reg_success_conf_text</string>
-    <string name="prod_reg_success_conf_text" translatable="false">An email with extended warranty contact has been sent to your email address</string>
-    <string name="product_registered_successfully" translatable="false">Product registered successfully</string>
-    <string name="product_registration" translatable="false">Product Registration</string>
+    <string name="prod_reg_success_conf_text">An email with extended warranty contact has been sent to your email address</string>
+    <string name="product_registered_successfully">Product registered successfully</string>
+    <string name="product_registration">Product Registration</string>
     <string name="provider_unknown">Unknown provider</string>
     <string name="purchase_date_format" translatable="false">YYYY-MM-DD</string>
     <string name="reg_Access_More_Account_Setting_lbltxt">Do you want to access more account settings?\nVisit %s via your browser.</string>
@@ -1822,11 +1819,11 @@
     <string name="reg_xing">XING</string>
     <string name="reg_yahoo">Yahoo!</string>
     <string name="reg_your_phone_number">Your phone number</string>
-    <string name="register_list" translatable="false">Product List</string>
+    <string name="register_list">Product List</string>
     <string name="search_menu_title">Search</string>
     <string name="serverErrors">Indicates that the error responded with an error response.</string>
-    <string name="set" translatable="false">Set</string>
-    <string name="spinner_title" translatable="false">SPinner</string>
+    <string name="set">Set</string>
+    <string name="spinner_title">SPinner</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="timeoutError">Indicates that the connection or the socket timed out.</string>
     <string name="uikit_about_screen_actionbar_title">About</string>
@@ -1880,9 +1877,9 @@
     <string name="uikit_splash_title">Hello World</string>
     <string name="uikit_springboard_textview_label">TextView</string>
     <string name="unknown">unknown</string>
-    <string name="user_not_signed" translatable="false">user not signed</string>
-    <string name="user_registration" translatable="false">User Registration</string>
-    <string name="zero" translatable="false">0</string>
+    <string name="user_not_signed">user not signed</string>
+    <string name="user_registration">User Registration</string>
+    <string name="zero">0</string>
     <style name="ASActionBar" parent="Widget.AppCompat.ActionBar">
         <item name="background">@android:color/transparent</item>
         <item name="contentInsetStart">0dp</item>

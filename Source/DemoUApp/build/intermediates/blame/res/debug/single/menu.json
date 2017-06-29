@@ -1,14 +1,18 @@
 [
     {
         "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/build/intermediates/res/merged/debug/menu/menu_main.xml",
-        "source": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/src/main/res/menu/menu_main.xml"
+        "source": "/Users/philips/.android/build-cache/d11a2a9c594a09a29255bab2326304f058180b45/output/res/menu/menu_main.xml"
+    },
+    {
+        "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/build/intermediates/res/merged/debug/menu/menu_prdemo.xml",
+        "source": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/src/main/res/menu/menu_prdemo.xml"
     },
     {
         "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/build/intermediates/res/merged/debug/menu/jr_provider_listview_row_menu.xml",
-        "source": "/Users/philips/.android/build-cache/4ec8ef34c76776674d807a70ad3515b49bc40dec/output/res/menu/jr_provider_listview_row_menu.xml"
+        "source": "/Users/philips/.android/build-cache/36c8d49956666913620d56dff390bf66d855692b/output/res/menu/jr_provider_listview_row_menu.xml"
     },
     {
         "merged": "/Users/philips/Documents/projects/product_registration/Source/DemoUApp/build/intermediates/res/merged/debug/menu/jr_about_menu.xml",
-        "source": "/Users/philips/.android/build-cache/4ec8ef34c76776674d807a70ad3515b49bc40dec/output/res/menu/jr_about_menu.xml"
+        "source": "/Users/philips/.android/build-cache/36c8d49956666913620d56dff390bf66d855692b/output/res/menu/jr_about_menu.xml"
     }
 ]
