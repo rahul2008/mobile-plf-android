@@ -29,6 +29,7 @@ import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -101,19 +102,18 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 
                 @Override
                 public void onLoginSuccess() {
-                    mTraditionalLoginHandler.onLoginSuccess();
+                    ThreadUtils.postInMainThread(mContext,()->
+                            mTraditionalLoginHandler.onLoginSuccess());
                 }
 
                 @Override
                 public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
                     AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo,AppTagingConstants.HSDP);
-                    mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                    ThreadUtils.postInMainThread(mContext,()->mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
                  }
             });
-
-          
         } else {
-            mTraditionalLoginHandler.onLoginSuccess();
+            ThreadUtils.postInMainThread(mContext,()->mTraditionalLoginHandler.onLoginSuccess());
         }
     }
 
@@ -132,7 +132,8 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
             userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
             AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
-            mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+            ThreadUtils.postInMainThread(mContext,()->
+            mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
     }catch (Exception e){
             RLog.e("Login failed :","exception :"+e.getMessage());
         }
@@ -173,21 +174,14 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
                 if (jsonObject != null) {
                     if (!jsonObject.isNull(RegConstants.USER_INFORMATION_FORM)) {
                         userRegistrationFailureInfo.setEmailErrorMessage(mContext.getResources().getString(R.string.reg_JanRain_Invalid_Credentials));
-                        /*userRegistrationFailureInfo.setEmailErrorMessage(getErrorMessage(jsonObject
-                                .getJSONArray(RegConstants.USER_INFORMATION_FORM)));*/
                     }
-
                     if (!jsonObject.isNull(RegConstants.USER_INFORMATION_FORM)) {
                         userRegistrationFailureInfo.setPasswordErrorMessage(mContext.getResources().getString(R.string.reg_JanRain_Invalid_Credentials));
-                        /*userRegistrationFailureInfo
-                                .setPasswordErrorMessage(getErrorMessage(jsonObject
-                                        .getJSONArray(RegConstants.USER_INFORMATION_FORM)));*/
                     }
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                //NOP
             }
-
         }
     }
 
@@ -210,11 +204,11 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         if (mTraditionalLoginHandler != null) {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
-            userRegistrationFailureInfo.setErrorCode(RegConstants.MERGE_TRADITIONAL_FAILED_SERVER_ERROR);
-            mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+            userRegistrationFailureInfo.setErrorCode(RegConstants.TRADITIONAL_LOGIN_FAILED_SERVER_ERROR);
+            ThreadUtils.postInMainThread(mContext,()->
+            mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
         }
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
-
     }
 
 
@@ -226,37 +220,19 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
             if(RegistrationHelper.getInstance().isChinaFlow()){
                 mEmail= user.getMobile();
             }
-
             hsdpUser.socialLogin(mEmail, user.getAccessToken(),Jump.getRefreshSecret(), new SocialLoginHandler() {
-
                 @Override
                 public void onLoginSuccess() {
-                    mTraditionalLoginHandler.onLoginSuccess();
+                    ThreadUtils.postInMainThread(mContext,()->
+                    mTraditionalLoginHandler.onLoginSuccess());
                 }
-
                 @Override
                 public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
                     AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo,AppTagingConstants.HSDP);
-                    mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+                    ThreadUtils.postInMainThread(mContext,()->
+                    mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
                 }
             });
         }
     }
-
-//    private static String generateRefreshSecret() {
-//        final int SECRET_LENGTH = 40;
-//        SecureRandom random = new SecureRandom();
-//        StringBuilder buffer = new StringBuilder();
-//
-//        while (buffer.length() < SECRET_LENGTH) {
-//            buffer.append(Integer.toHexString(random.nextInt()));
-//        }
-//        String refreshSecret = buffer.toString().substring(0, SECRET_LENGTH);
-//        return refreshSecret;
-//    }
-//
-//    private static void printRefreshSecretUsage() {
-//        System.out.println("Invalid refreshSecret command,Please provide valid command");
-//        System.out.println("Example : java -jar RequestAuthenticator.jar getrefreshsecret");
-//    }
 }

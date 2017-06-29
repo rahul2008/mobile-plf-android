@@ -43,7 +43,7 @@ node ('android&&device') {
             	   chmod -R 775 . 
                    cd ./Source/DemoApp
                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
-                   cd ./Source/Library
+                   cd ../Library
                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
                 '''
             }

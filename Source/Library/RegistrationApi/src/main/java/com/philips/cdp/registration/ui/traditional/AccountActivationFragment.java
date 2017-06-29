@@ -43,8 +43,6 @@ import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.URInterface;
 
-import org.json.JSONException;
-
 import java.util.HashMap;
 
 import javax.inject.Inject;
@@ -167,11 +165,12 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     }
 
     private Bundle mBundle;
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         mBundle = outState;
         super.onSaveInstanceState(mBundle);
-        if(mEMailVerifiedError.getVisibility() == View.VISIBLE){
+        if (mEMailVerifiedError.getVisibility() == View.VISIBLE) {
             isEmailVerifiedError = true;
             mBundle.putBoolean("isEmailVerifiedError", isEmailVerifiedError);
             mBundle.putString("saveEmailVerifiedErrorText", mContext.getResources().getString(R.string.reg_RegEmailNotVerified_AlertPopupErrorText));
@@ -181,8 +180,8 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null){
-            if(savedInstanceState.getString("saveEmailVerifiedErrorText")!=null && savedInstanceState.getBoolean("isEmailVerifiedError") ){
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getString("saveEmailVerifiedErrorText") != null && savedInstanceState.getBoolean("isEmailVerifiedError")) {
                 mEMailVerifiedError.setError(savedInstanceState.getString("saveEmailVerifiedErrorText"));
             }
         }
@@ -219,7 +218,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     private void handleActivate() {
         showActivateSpinner();
         mBtnActivate.setEnabled(false);
-       	mUser.refreshUser( this);
+        mUser.refreshUser(this);
     }
 
     private void initUI(View view) {
@@ -338,32 +337,22 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public int getTitleResourceId() {
-        if(isSocialProvider){
+        if (isSocialProvider) {
             return R.string.reg_SigIn_TitleTxt;
-        }else{
+        } else {
             return R.string.reg_RegCreateAccount_NavTitle;
         }
     }
 
     @Override
     public void onRefreshUserSuccess() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserSuccess");
-                updateActivationUIState();
-            }
-        });
+        RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserSuccess");
+        updateActivationUIState();
     }
 
     @Override
     public void onRefreshUserFailed(final int error) {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                handleRefreshUserFailed(error);
-            }
-        });
+        handleRefreshUserFailed(error);
     }
 
     private void handleRefreshUserFailed(int error) {
@@ -379,12 +368,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void onResendVerificationEmailSuccess() {
-       handleOnUIThread(new Runnable() {
-           @Override
-           public void run() {
-               handleResendVerificationEmailSuccess();
-           }
-       });
+        handleResendVerificationEmailSuccess();
     }
 
     private void handleResendVerificationEmailSuccess() {
@@ -392,7 +376,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         HashMap<String, String> map = new HashMap<String, String>();
         map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
         map.put(AppTagingConstants.STATUS_NOTIFICATION, AppTagingConstants.RESEND_VERIFICATION_MAIL_LINK_SENT);
-        trackMultipleActionsMap(AppTagingConstants.SEND_DATA,map);
+        trackMultipleActionsMap(AppTagingConstants.SEND_DATA, map);
         updateResendUIState();
         RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.reg_Verification_email_Title),
                 mContext.getResources().getString(R.string.reg_Verification_email_Message), getRegistrationFragment().getParentActivity(), mContinueBtnClick);
@@ -413,22 +397,16 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public void onResendVerificationEmailFailedWithError(
             final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                handleResendVerificationEmailFailedWithError(userRegistrationFailureInfo);
-            }
-        });
-
+        handleResendVerificationEmailFailedWithError(userRegistrationFailureInfo);
     }
 
     private void handleResendVerificationEmailFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK,"AccountActivationFragment : onResendVerificationEmailFailedWithError");
+        RLog.i(RLog.CALLBACK, "AccountActivationFragment : onResendVerificationEmailFailedWithError");
         updateResendUIState();
-        AppTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
+        AppTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
         try {
             mRegError.setError(userRegistrationFailureInfo.getError().raw_response.getString("message"));
-        } catch (Exception e){
+        } catch (Exception e) {
             mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
         }
 
@@ -445,33 +423,17 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
     @Override
     public void onLoginSuccess() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                updateActivationUIState();
-            }
-        });
+        updateActivationUIState();
     }
 
     @Override
     public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
 
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                mEMailVerifiedError.setError(userRegistrationFailureInfo.getErrorDescription());
-                hideActivateSpinner();
-                mBtnActivate.setEnabled(true);
-            }
-        });
 
+        mEMailVerifiedError.setError(userRegistrationFailureInfo.getErrorDescription());
+        hideActivateSpinner();
+        mBtnActivate.setEnabled(true);
     }
 
-    private OnClickListener mContinueBtnClick = new OnClickListener() {
-
-        @Override
-        public void onClick(View view) {
-            RegAlertDialog.dismissDialog();
-        }
-    };
+    private OnClickListener mContinueBtnClick = view -> RegAlertDialog.dismissDialog();
 }

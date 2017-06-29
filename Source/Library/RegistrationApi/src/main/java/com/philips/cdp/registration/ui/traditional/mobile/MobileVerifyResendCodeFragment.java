@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
 import com.philips.cdp.registration.HttpClientService;
 import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.R;
@@ -43,12 +44,14 @@ import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.URInterface;
+
 import java.util.HashMap;
 import java.util.Map;
-import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_INAPPNATIFICATION;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_RESEND_EMAIL_VERFICATION;
 import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION;
@@ -212,7 +215,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     }
 
     public void handleUI() {
-        handleOnUIThread(() -> updateUiStatus());
+       updateUiStatus();
     }
 
     @Override
@@ -297,15 +300,9 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @Override
     public void updateResendTime(long timeLeft) {
         if (user.getMobile().equals(phoneNumberEditText.getText().toString())) {
-            handleOnUIThread(new Runnable() {
-                @Override
-                public void run() {
                     int timeRemaining = (int)(timeLeft / 1000);
                         resendSMSButton.setText(RESEND_SMS + " (" + timeRemaining + "s)");
                         disableResendButton();
-                }
-            });
-
         }
     }
 

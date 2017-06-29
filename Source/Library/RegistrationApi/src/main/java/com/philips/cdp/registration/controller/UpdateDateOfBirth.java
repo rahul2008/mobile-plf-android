@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.JanrainInitializer;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.cdp.registration.update.UpdateUser;
 import com.philips.ntputils.ServerTime;
 
@@ -48,7 +49,8 @@ public class UpdateDateOfBirth extends UpdateUserDetailsBase {
             Date firstDate = sdf.parse(mBirthDate);
             Date secondDate = sdf.parse(ServerTime.getCurrentTime());
             if (firstDate.compareTo(secondDate) > 0) {
-                mUpdateUserDetails.onUpdateFailedWithError(-1);
+                ThreadUtils.postInMainThread(mContext,()->
+                mUpdateUserDetails.onUpdateFailedWithError(-1));
                 return;
             }
             if (isJanrainInitializeRequired()) {
@@ -57,7 +59,8 @@ public class UpdateDateOfBirth extends UpdateUserDetailsBase {
             }
             performActualUpdate();
         } catch (ParseException e) {
-            mUpdateUserDetails.onUpdateFailedWithError(-1);
+            ThreadUtils.postInMainThread(mContext,()->
+            mUpdateUserDetails.onUpdateFailedWithError(-1));
         }
     }
 
@@ -74,8 +77,9 @@ public class UpdateDateOfBirth extends UpdateUserDetailsBase {
         } catch (JSONException e) {
             e.printStackTrace();
             if (null != mUpdateUserDetails)
+                ThreadUtils.postInMainThread(mContext,()->
                 mUpdateUserDetails.
-                        onUpdateFailedWithError(-1);
+                        onUpdateFailedWithError(-1));
         }
     }
 

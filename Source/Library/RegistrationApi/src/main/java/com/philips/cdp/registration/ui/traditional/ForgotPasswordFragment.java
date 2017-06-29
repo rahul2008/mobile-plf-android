@@ -336,22 +336,12 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     @Override
     public void onUpdate() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
                 updateUiStatus();
-            }
-        });
     }
 
     @Override
     public void onSendForgotPasswordSuccess() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
                 handleSendForgotPasswordSuccess();
-            }
-        });
     }
 
     private void handleSendForgotPasswordSuccess() {
@@ -368,14 +358,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     @Override
     public void onSendForgotPasswordFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
                 handleSendForgotPasswordFailedWithError(userRegistrationFailureInfo);
-            }
-        });
-
     }
 
     private void handleSendForgotPasswordFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
@@ -582,5 +565,4 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
         }
     }
-
 }

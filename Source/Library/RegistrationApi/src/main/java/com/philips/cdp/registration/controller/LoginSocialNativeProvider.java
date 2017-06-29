@@ -15,6 +15,7 @@ import android.content.Context;
 import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRProvider;
 import com.janrain.android.engage.types.JRDictionary;
+import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
@@ -27,18 +28,15 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
 import org.json.JSONObject;
 
-public class LoginSocialNativeProvider implements Jump.SignInResultHandler, Jump.SignInCodeHandler, JumpFlowDownloadStatusListener {
-
+public class LoginSocialNativeProvider implements Jump.SignInResultHandler, Jump.SignInCodeHandler,
+        JumpFlowDownloadStatusListener {
     private Context mContext;
-
     private SocialProviderLoginHandler mSocialLoginHandler;
-
-
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
-
     public LoginSocialNativeProvider(SocialProviderLoginHandler socialLoginHandler, Context context,
                                      UpdateUserRecordHandler updateUserRecordHandler) {
         mSocialLoginHandler = socialLoginHandler;
@@ -54,30 +52,31 @@ public class LoginSocialNativeProvider implements Jump.SignInResultHandler, Jump
         if (RegistrationConfiguration.getInstance().isHsdpFlow() && user.getEmailVerificationStatus()) {
             HsdpUser hsdpUser = new HsdpUser(mContext);
             String emailorMobile;
-            if (FieldsValidator.isValidEmail(user.getEmail())){
+            if (FieldsValidator.isValidEmail(user.getEmail())) {
                 emailorMobile = user.getEmail();
-            }else {
-                emailorMobile =user.getMobile();
+            } else {
+                emailorMobile = user.getMobile();
             }
-            hsdpUser.socialLogin(emailorMobile, user.getAccessToken(),Jump.getRefreshSecret() ,
-            new SocialLoginHandler() {
+            hsdpUser.socialLogin(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(),
+                    new SocialLoginHandler() {
 
-                @Override
-                public void onLoginSuccess() {
-                    mSocialLoginHandler.onLoginSuccess();
-                }
+                        @Override
+                        public void onLoginSuccess() {
+                            ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginSuccess());
+                        }
 
-                @Override
-                public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                    mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
-                }
-            });
+                        @Override
+                        public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+                            ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                        }
+                    });
 
         } else {
-            mSocialLoginHandler.onLoginSuccess();
+            ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginSuccess());
         }
 
     }
+
 
     @Override
     public void onCode(String code) {
@@ -102,22 +101,24 @@ public class LoginSocialNativeProvider implements Jump.SignInResultHandler, Jump
                     .getLocalizedName(conflictingIdentityProvider);
             String existingIdpNameLocalized = JRProvider
                     .getLocalizedName(conflictingIdentityProvider);
-            mSocialLoginHandler.onLoginFailedWithMergeFlowError(mMergeToken, existingProvider,
+            String finalEmailId = emailId;
+            ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginFailedWithMergeFlowError(mMergeToken, existingProvider,
                     conflictingIdentityProvider, conflictingIdpNameLocalized,
-                    existingIdpNameLocalized, emailId);
+                    existingIdpNameLocalized, finalEmailId));
+
         } else if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
                 && error.captureApiError.isTwoStepRegFlowError()) {
 
             JSONObject prefilledRecord = error.captureApiError.getPreregistrationRecord();
             String socialRegistrationToken = error.captureApiError.getSocialRegistrationToken();
-            mSocialLoginHandler.onLoginFailedWithTwoStepError(prefilledRecord,
-                    socialRegistrationToken);
+            ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginFailedWithTwoStepError(prefilledRecord,
+                    socialRegistrationToken));
 
         } else {
 
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
-            mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+            ThreadUtils.postInMainThread(mContext, () -> mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
 
         }
     }
@@ -139,11 +140,11 @@ public class LoginSocialNativeProvider implements Jump.SignInResultHandler, Jump
         mMergeToken = mergeToken;
         mAccessToken = accessToken;
         mTokenSecret = tokenSecret;
-        if(!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+        if (!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
-        }else{
+        } else {
             Jump.startTokenAuthForNativeProvider(mActivity,
-                    mProviderName,mAccessToken,mTokenSecret,this, mMergeToken);
+                    mProviderName, mAccessToken, mTokenSecret, this, mMergeToken);
             return;
         }
         if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
@@ -154,12 +155,20 @@ public class LoginSocialNativeProvider implements Jump.SignInResultHandler, Jump
     @Override
     public void onFlowDownloadSuccess() {
         Jump.startTokenAuthForNativeProvider(mActivity,
-                mProviderName,mAccessToken,mTokenSecret,this, mMergeToken);
+                mProviderName, mAccessToken, mTokenSecret, this, mMergeToken);
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
     }
 
     @Override
     public void onFlowDownloadFailure() {
+        if (mSocialLoginHandler != null) {
+            UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+            userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
+            userRegistrationFailureInfo.setErrorCode(RegConstants.SOCIAL_LOGIN_FAILED_SERVER_ERROR);
+            ThreadUtils.postInMainThread(mContext,()->
+                    mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+        }
+        UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
 
     }
 }

@@ -60,7 +60,8 @@
 <string name="reg_Social_Merge_Cancel_btntxt">キャンセル</string>
 <string name="reg_Account_Merge_lbltxt">アカウントをマージ</string>
 <string name="reg_Social_Merge_btntxt">接続</string>
-<string name="reg_InitialSignedIn_Welcome_User_lbltxt">%s へようこそ</string>
+
+<string name="reg_InitialSignedIn_Welcome_User_lbltxt">%s さん へようこそ</string>
 <string name="reg_InitialSignedIn_SigninEmailText">次のアカウントでログインしています：%s</string>
 <string name="reg_VerifyEmail_VerifyEmail_lbltxt">メールアドレスの照合を行ってください</string>
 <string name="reg_VerifyEmail_EmailSentto_lbltxt">次のアドレスにメールを送信しています： %s</string>

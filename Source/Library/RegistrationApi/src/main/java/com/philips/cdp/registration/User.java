@@ -59,6 +59,7 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.cdp.registration.ui.utils.URInterface;
 
 import org.json.JSONArray;
@@ -150,45 +151,41 @@ public class User {
         if (traditionalLoginHandler == null && emailAddress == null && password == null) {
             throw new RuntimeException("Email , Password , TraditionalLoginHandler can't be null");
         }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                LoginTraditional loginTraditionalResultHandler = new LoginTraditional(
-                        new TraditionalLoginHandler() {
-                            @Override
-                            public void onLoginSuccess() {
-                                DIUserProfile diUserProfile = getUserInstance();
-                                if (diUserProfile != null && traditionalLoginHandler != null) {
-                                    diUserProfile.setPassword(password);
-                                    traditionalLoginHandler.onLoginSuccess();
-                                } else {
-                                    if (traditionalLoginHandler != null) {
-                                        UserRegistrationFailureInfo
-                                                userRegistrationFailureInfo =
-                                                new UserRegistrationFailureInfo();
-                                        userRegistrationFailureInfo.
-                                                setErrorCode(RegConstants.
-                                                        DI_PROFILE_NULL_ERROR_CODE);
-                                        traditionalLoginHandler.
-                                                onLoginFailedWithError(userRegistrationFailureInfo
-                                                );
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onLoginFailedWithError(UserRegistrationFailureInfo
-                                                                       userRegistrationFailureInfo) {
+        new Thread(() -> {
+            LoginTraditional loginTraditionalResultHandler = new LoginTraditional(
+                    new TraditionalLoginHandler() {
+                        @Override
+                        public void onLoginSuccess() {
+                            DIUserProfile diUserProfile = getUserInstance();
+                            if (diUserProfile != null && traditionalLoginHandler != null) {
+                                diUserProfile.setPassword(password);
+                                ThreadUtils.postInMainThread(mContext, traditionalLoginHandler::onLoginSuccess);
+                            } else {
                                 if (traditionalLoginHandler != null) {
-                                    traditionalLoginHandler.
-                                            onLoginFailedWithError(userRegistrationFailureInfo);
+                                    UserRegistrationFailureInfo
+                                            userRegistrationFailureInfo =
+                                            new UserRegistrationFailureInfo();
+                                    userRegistrationFailureInfo.
+                                            setErrorCode(RegConstants.
+                                                    DI_PROFILE_NULL_ERROR_CODE);
+                                    ThreadUtils.postInMainThread(mContext, () -> traditionalLoginHandler.
+                                            onLoginFailedWithError(userRegistrationFailureInfo
+                                            ));
                                 }
                             }
-                        }, mContext, mUpdateUserRecordHandler, emailAddress,
-                        password);
+                        }
 
-                loginTraditionalResultHandler.loginTraditionally(emailAddress, password);
-            }
+                        @Override
+                        public void onLoginFailedWithError(UserRegistrationFailureInfo
+                                                                   userRegistrationFailureInfo) {
+                            if (traditionalLoginHandler != null) {
+                                ThreadUtils.postInMainThread(mContext, () -> traditionalLoginHandler.
+                                        onLoginFailedWithError(userRegistrationFailureInfo));
+                            }
+                        }
+                    }, mContext, mUpdateUserRecordHandler, emailAddress,
+                    password);
+            loginTraditionalResultHandler.loginTraditionally(emailAddress, password);
         }).start();
     }
 
@@ -204,21 +201,19 @@ public class User {
     public void loginUserUsingSocialProvider(final Activity activity, final String providerName,
                                              final SocialProviderLoginHandler socialLoginHandler,
                                              final String mergeToken) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (providerName != null && activity != null) {
-                    LoginSocialProvider loginSocialResultHandler = new LoginSocialProvider(
-                            socialLoginHandler, mContext, mUpdateUserRecordHandler);
-                    loginSocialResultHandler.loginSocial(activity, providerName, mergeToken);
-                } else {
-                    if (socialLoginHandler != null) {
-                        UserRegistrationFailureInfo userRegistrationFailureInfo =
-                                new UserRegistrationFailureInfo();
-                        userRegistrationFailureInfo.setErrorCode(RegConstants.
-                                DI_PROFILE_NULL_ERROR_CODE);
-                        socialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
-                    }
+        new Thread(() -> {
+            if (providerName != null && activity != null) {
+                LoginSocialProvider loginSocialResultHandler = new LoginSocialProvider(
+                        socialLoginHandler, mContext, mUpdateUserRecordHandler);
+                loginSocialResultHandler.loginSocial(activity, providerName, mergeToken);
+            } else {
+                if (socialLoginHandler != null) {
+                    UserRegistrationFailureInfo userRegistrationFailureInfo =
+                            new UserRegistrationFailureInfo();
+                    userRegistrationFailureInfo.setErrorCode(RegConstants.
+                            DI_PROFILE_NULL_ERROR_CODE);
+                    ThreadUtils.postInMainThread(mContext, () ->
+                            socialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
                 }
             }
         }).start();
@@ -240,22 +235,19 @@ public class User {
                                                    final SocialProviderLoginHandler
                                                            socialLoginHandler,
                                                    final String mergeToken) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (providerName != null && activity != null) {
-                    LoginSocialNativeProvider loginSocialResultHandler = new LoginSocialNativeProvider(
-                            socialLoginHandler, mContext, mUpdateUserRecordHandler);
-                    loginSocialResultHandler.loginSocial(activity,providerName,accessToken,
-                            tokenSecret,mergeToken);
-                } else {
-                    if (socialLoginHandler != null) {
-                        UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-                        userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
-                        socialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
-                    }
+        new Thread(() -> {
+            if (providerName != null && activity != null) {
+                LoginSocialNativeProvider loginSocialResultHandler = new LoginSocialNativeProvider(
+                        socialLoginHandler, mContext, mUpdateUserRecordHandler);
+                loginSocialResultHandler.loginSocial(activity, providerName, accessToken,
+                        tokenSecret, mergeToken);
+            } else {
+                if (socialLoginHandler != null) {
+                    UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+                    userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
+                    ThreadUtils.postInMainThread(mContext, () ->
+                            socialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
                 }
-
             }
         }).start();
     }
@@ -276,15 +268,11 @@ public class User {
                                                final boolean olderThanAgeLimit,
                                                final boolean isReceiveMarketingEmail,
                                                final TraditionalRegistrationHandler traditionalRegisterHandler) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                RegisterTraditional registerTraditional = new RegisterTraditional(traditionalRegisterHandler, mContext, mUpdateUserRecordHandler);
-                ABCD.getInstance().setmP(password);
-                registerTraditional.registerUserInfoForTraditional(mGivenName, mUserEmail,
-                        password, olderThanAgeLimit, isReceiveMarketingEmail);
-
-            }
+        new Thread(() -> {
+            RegisterTraditional registerTraditional = new RegisterTraditional(traditionalRegisterHandler, mContext, mUpdateUserRecordHandler);
+            ABCD.getInstance().setmP(password);
+            registerTraditional.registerUserInfoForTraditional(mGivenName, mUserEmail,
+                    password, olderThanAgeLimit, isReceiveMarketingEmail);
         }).start();
     }
 
@@ -302,8 +290,8 @@ public class User {
         } else {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
-
-            forgotPasswordHandler.onSendForgotPasswordFailedWithError(userRegistrationFailureInfo);
+            ThreadUtils.postInMainThread(mContext, () ->
+                    forgotPasswordHandler.onSendForgotPasswordFailedWithError(userRegistrationFailureInfo));
         }
     }
 
@@ -326,17 +314,16 @@ public class User {
      */
     public void resendVerificationMail(final String emailAddress,
                                        final ResendVerificationEmailHandler resendVerificationEmail) {
-
         if (emailAddress != null) {
             ResendVerificationEmail resendVerificationEmailHandler = new ResendVerificationEmail(mContext, resendVerificationEmail);
             resendVerificationEmailHandler.resendVerificationMail(emailAddress);
         } else {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
-            resendVerificationEmail.onResendVerificationEmailFailedWithError(userRegistrationFailureInfo);
+            ThreadUtils.postInMainThread(mContext, () ->
+                    resendVerificationEmail.onResendVerificationEmailFailedWithError(userRegistrationFailureInfo));
         }
     }
-
 
     private void mergeTraditionalAccount(final String emailAddress, final String password, final String mergeToken,
                                          final TraditionalLoginHandler traditionalLoginHandler) {
@@ -345,12 +332,11 @@ public class User {
                     traditionalLoginHandler, mContext, mUpdateUserRecordHandler, emailAddress,
                     password);
             loginTraditionalResultHandler.mergeTraditionally(emailAddress, password, mergeToken);
-
         } else {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
-
-            traditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+            ThreadUtils.postInMainThread(mContext, () ->
+                    traditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
         }
 
     }
@@ -366,8 +352,6 @@ public class User {
     public void mergeToTraditionalAccount(final String emailAddress, final String password, final String mergeToken,
                                           final TraditionalLoginHandler traditionalLoginHandler) {
         mergeTraditionalAccount(emailAddress, password, mergeToken, traditionalLoginHandler);
-
-
     }
 
     /**
@@ -385,13 +369,10 @@ public class User {
     public void registerUserInfoForSocial(final String givenName, final String displayName, final String familyName,
                                           final String userEmail, final boolean olderThanAgeLimit, final boolean isReceiveMarketingEmail,
                                           final SocialProviderLoginHandler socialProviderLoginHandler, final String socialRegistrationToken) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (socialProviderLoginHandler != null) {
-                    RegisterSocial registerSocial = new RegisterSocial(socialProviderLoginHandler, mContext, mUpdateUserRecordHandler);
-                    registerSocial.registerUserForSocial(givenName, displayName, familyName, userEmail, olderThanAgeLimit, isReceiveMarketingEmail, socialRegistrationToken);
-                }
+        new Thread(() -> {
+            if (socialProviderLoginHandler != null) {
+                RegisterSocial registerSocial = new RegisterSocial(socialProviderLoginHandler, mContext, mUpdateUserRecordHandler);
+                registerSocial.registerUserForSocial(givenName, displayName, familyName, userEmail, olderThanAgeLimit, isReceiveMarketingEmail, socialRegistrationToken);
             }
         }).start();
     }
@@ -423,9 +404,9 @@ public class User {
             diUserProfile.setCountryCode(userAddress.getString(CONSUMER_COUNTRY));
             diUserProfile.setLanguageCode(captureRecord.getString(CONSUMER_PREFERED_LANGUAGE));
             //Need to change in better way
-            try{
+            try {
                 diUserProfile.setMobile(captureRecord.getString(USER_MOBILE));
-            }catch (Exception ignored){
+            } catch (Exception ignored) {
 
             }
 
@@ -439,15 +420,15 @@ public class User {
             }
 
             String dob = captureRecord.getString(UpdateDateOfBirth.USER_DATE_OF_BIRTH);
-            if(null!= dob && !dob.equalsIgnoreCase("null")){
+            if (null != dob && !dob.equalsIgnoreCase("null")) {
                 DateFormat formatter = new SimpleDateFormat(UpdateDateOfBirth.DATE_FORMAT_FOR_DOB, Locale.ROOT);
                 Date date = formatter.parse(dob);
                 diUserProfile.setDateOfBirth(date);
             }
         } catch (JSONException e) {
-            Log.e(LOG_TAG, "On getUserInstance,Caught JSON Exception : " +e);
+            Log.e(LOG_TAG, "On getUserInstance,Caught JSON Exception : " + e);
         } catch (ParseException e) {
-            Log.e(LOG_TAG, "ParseException :"+e);
+            Log.e(LOG_TAG, "ParseException :" + e);
             e.printStackTrace();
         }
         return diUserProfile;
@@ -456,14 +437,13 @@ public class User {
     // For checking email verification
     public boolean getEmailVerificationStatus() {
         CaptureRecord captured = Jump.getSignedInUser();
-
         if (captured == null)
             return false;
         try {
             JSONObject mObject = new JSONObject(captured.toString());
-            if (!mObject.isNull(USER_EMAIL_VERIFIED)){
+            if (!mObject.isNull(USER_EMAIL_VERIFIED)) {
                 return true;
-            } else if(!mObject.isNull(USER_MOBILE_VERIFIED)){
+            } else if (!mObject.isNull(USER_MOBILE_VERIFIED)) {
                 return true;
             }
         } catch (JSONException e) {
@@ -486,7 +466,7 @@ public class User {
             return false;
         }
 
-        boolean isEmailVerificationRequired  = RegistrationConfiguration.getInstance().
+        boolean isEmailVerificationRequired = RegistrationConfiguration.getInstance().
                 isEmailVerificationRequired();
         boolean isHsdpFlow = RegistrationConfiguration.getInstance().isHsdpFlow();
         boolean isAcceptTerms = RegistrationConfiguration.getInstance().
@@ -519,13 +499,13 @@ public class User {
         return signedIn;
     }
 
-    public boolean isTermsAndConditionAccepted(){
+    public boolean isTermsAndConditionAccepted() {
         boolean isTermAccepted = false;
         String mobileNo = getMobile();
-        String email  = getEmail();
-        if(FieldsValidator.isValidMobileNumber(mobileNo)){
+        String email = getEmail();
+        if (FieldsValidator.isValidMobileNumber(mobileNo)) {
             isTermAccepted = RegPreferenceUtility.getStoredState(mContext, mobileNo);
-        }else if(FieldsValidator.isValidEmail(email)){
+        } else if (FieldsValidator.isValidEmail(email)) {
             isTermAccepted = RegPreferenceUtility.getStoredState(mContext, email);
         }
         return isTermAccepted;
@@ -682,7 +662,8 @@ public class User {
         if (networkUtility.isNetworkAvailable()) {
             new RefreshandUpdateUserHandler(mUpdateUserRecordHandler, mContext).refreshAndUpdateUser(handler, this, ABCD.getInstance().getmP());
         } else {
-            handler.onRefreshUserFailed(-1);
+            ThreadUtils.postInMainThread(mContext, () ->
+                    handler.onRefreshUserFailed(-1));
         }
     }
 
@@ -695,7 +676,8 @@ public class User {
                 if (logoutHandler != null) {
                     AppTagging.trackAction(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                             AppTagingConstants.LOGOUT_SUCCESS);
-                    logoutHandler.onLogoutSuccess();
+                    ThreadUtils.postInMainThread(mContext, () ->
+                            logoutHandler.onLogoutSuccess());
                     RegistrationHelper.getInstance().getUserRegistrationListener()
                             .notifyOnUserLogoutSuccess();
                 }
@@ -708,14 +690,16 @@ public class User {
                         || responseCode == Integer.parseInt(RegConstants.INVALID_REFRESH_TOKEN_CODE)) {
                     clearData();
                     if (logoutHandler != null) {
-                        logoutHandler.onLogoutSuccess();
+                        ThreadUtils.postInMainThread(mContext, () ->
+                                logoutHandler.onLogoutSuccess());
                         RegistrationHelper.getInstance().getUserRegistrationListener()
                                 .notifyOnLogoutSuccessWithInvalidAccessToken();
                     }
                     return;
                 } else {
                     if (logoutHandler != null) {
-                        logoutHandler.onLogoutFailure(responseCode, message);
+                        ThreadUtils.postInMainThread(mContext, () ->
+                                logoutHandler.onLogoutFailure(responseCode, message));
                         RegistrationHelper.getInstance().getUserRegistrationListener()
                                 .notifyOnUserLogoutFailure();
                     }
@@ -736,6 +720,7 @@ public class User {
         }
         return diUserProfile.getEmail();
     }
+
     /**
      * {@code getMobile} method returns the Mobile Number of a logged in user.
      *

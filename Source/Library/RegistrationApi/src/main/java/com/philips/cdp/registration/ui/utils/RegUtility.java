@@ -53,7 +53,6 @@ public class RegUtility {
     }
 
 
-
     public static void linkifyTermsandCondition(
             TextView termsAndConditionsAcceptance,
             final Activity activity, ClickableSpan termsAndConditionClickListener) {
@@ -75,7 +74,7 @@ public class RegUtility {
         termsAndConditionsAcceptance.setLinkTextColor(ContextCompat.
                 getColor(activity, R.color.reg_hyperlink_highlight_color));
         termsAndConditionsAcceptance.setHighlightColor(ContextCompat.getColor
-                (activity,android.R.color.transparent));
+                (activity, android.R.color.transparent));
     }
 
     public static void linkifyPhilipsNews(TextView receivePhilipsNewsView,
@@ -99,13 +98,13 @@ public class RegUtility {
         receivePhilipsNewsView.setLinkTextColor(ContextCompat.getColor(activity,
                 R.color.reg_hyperlink_highlight_color));
         receivePhilipsNewsView.setHighlightColor
-                (ContextCompat.getColor(activity,android.R.color.transparent));
+                (ContextCompat.getColor(activity, android.R.color.transparent));
 
     }
 
     public static void linkifyPhilipsNewsMarketing(TextView receivePhilipsNewsView,
-                                          final Activity activity, ClickableSpan
-                                                  receivePhilipsNewsClickListener) {
+                                                   final Activity activity, ClickableSpan
+                                                           receivePhilipsNewsClickListener) {
         String receivePhilipsNews = activity.getString(R.string.reg_Opt_In_Receive_Promotional);
         String doesThisMeanStr = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
         receivePhilipsNews = String.format(receivePhilipsNews, doesThisMeanStr);
@@ -124,7 +123,7 @@ public class RegUtility {
         receivePhilipsNewsView.setLinkTextColor(ContextCompat.getColor(activity,
                 R.color.reg_hyperlink_highlight_color));
         receivePhilipsNewsView.setHighlightColor
-                (ContextCompat.getColor(activity,android.R.color.transparent));
+                (ContextCompat.getColor(activity, android.R.color.transparent));
 
     }
 
@@ -150,11 +149,10 @@ public class RegUtility {
         accountSettingPhilipsNews.setText(spanableString);
         accountSettingPhilipsNews.setMovementMethod(LinkMovementMethod.getInstance());
         accountSettingPhilipsNews.setLinkTextColor(ContextCompat.getColor
-                        (activity,R.color.reg_hyperlink_highlight_color));
+                (activity, R.color.reg_hyperlink_highlight_color));
         accountSettingPhilipsNews.setHighlightColor(ContextCompat.getColor
-                (activity,android.R.color.transparent));
+                (activity, android.R.color.transparent));
     }
-
 
 
     private static void removeUnderlineFromLink(SpannableString spanableString) {
@@ -179,9 +177,8 @@ public class RegUtility {
     }
 
 
-
     public static Configuration getConfiguration(String registrationEnv) {
-        if(registrationEnv==null){
+        if (registrationEnv == null) {
             return Configuration.EVALUATION;
         }
         if (registrationEnv.equalsIgnoreCase(Configuration.DEVELOPMENT.getValue()))
@@ -201,28 +198,29 @@ public class RegUtility {
 
     public static UIFlow getUiFlow() {
 
-        if(uiFlow != null) {
+        if (uiFlow != null) {
             return uiFlow;
         }
 
         ABTestClientInterface abTestClientInterface = URInterface.getComponent().getAbTestClientInterface();
         String flowType = abTestClientInterface.getTestValue(RegConstants.DOT_RECEIVE_MARKETING_OPT_IN, UIFlow.FLOW_A.getValue(),
-                                ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE, null);
-      if(flowType.equalsIgnoreCase(UIFlow.FLOW_B.getValue())){
+                ABTestClientInterface.UPDATETYPES.ONLY_AT_APP_UPDATE, null);
+        if (flowType.equalsIgnoreCase(UIFlow.FLOW_B.getValue())) {
             return UIFlow.FLOW_B;
-        }else if(flowType.equalsIgnoreCase(UIFlow.FLOW_C.getValue())){
+        } else if (flowType.equalsIgnoreCase(UIFlow.FLOW_C.getValue())) {
             return UIFlow.FLOW_C;
         }
         return UIFlow.FLOW_A;
     }
+
     public static void checkIsValidSignInProviders(HashMap<String, ArrayList<String>> providers) {
-        if(providers!=null){
+        if (providers != null) {
             for (Map.Entry<String, ArrayList<String>> entry : providers.entrySet()) {
                 String countryKeyCode = entry.getKey();
                 ArrayList<String> value = entry.getValue();
-                for(String val : value){
-                    if(providers.get(countryKeyCode).contains(SocialProvider.TWITTER)){
-                        throw new RuntimeException( SocialProvider.TWITTER +
+                for (String val : value) {
+                    if (providers.get(countryKeyCode).contains(SocialProvider.TWITTER)) {
+                        throw new RuntimeException(SocialProvider.TWITTER +
                                 " Provider is not supporting");
                     }
                 }
@@ -239,16 +237,14 @@ public class RegUtility {
     }
 
     /**
-     *
      * @param local : This parameter passes language and Country Code to Check weather Counter code
-     *                 is US or Not
-     * @return      Country code US return true  or False
+     *              is US or Not
+     * @return Country code US return true  or False
      */
     public static boolean isCountryUS(String local) {
-        if (local!=null && local.length()==5){
-            return local.substring(3,5).equalsIgnoreCase(RegConstants.COUNTRY_CODE_US);
+        if (local != null && local.length() == 5) {
+            return local.substring(3, 5).equalsIgnoreCase(RegConstants.COUNTRY_CODE_US);
         }
         return false;
     }
-
 }

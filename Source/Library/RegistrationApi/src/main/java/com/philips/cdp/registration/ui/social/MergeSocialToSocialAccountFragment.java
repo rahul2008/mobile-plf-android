@@ -34,9 +34,9 @@ import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.customviews.XButton;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
@@ -196,9 +196,9 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
         trackActionStatus(AppTagingConstants.SEND_DATA,
                 AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_SOCIAL_MERGE);
 
-        String socialProvider = "reg_"+bundle.getString(RegConstants.SOCIAL_PROVIDER);
+        String socialProvider = "reg_" + bundle.getString(RegConstants.SOCIAL_PROVIDER);
         mConflictProvider = bundle.getString(RegConstants.CONFLICTING_SOCIAL_PROVIDER);
-        String conflictingProvider = "reg_"+ mConflictProvider;
+        String conflictingProvider = "reg_" + mConflictProvider;
 
         int currentSocialProviderId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(socialProvider, "string",
                 getRegistrationFragment().getParentActivity().getPackageName());
@@ -213,12 +213,12 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
         String previousSocialProviderDetails = getString(R.string.reg_Social_Merge_Used_EmailError_lbltxt);
         previousSocialProviderDetails = String.format(previousSocialProviderDetails, mContext.getResources().getString(conflictSocialProviderId)
-                ,mEmailId,mContext.getResources().getString(currentSocialProviderId));
+                , mEmailId, mContext.getResources().getString(currentSocialProviderId));
         mTvCurrentProviderDetails.setText(previousSocialProviderDetails);
 
         TextView mergeAccountBoxView = (TextView) view.findViewById(R.id.tv_reg_merge_account_box);
         String signInWith = getString(R.string.reg_Social_Merge_Cancel_And_Restart_Registration_lbltxt);
-        signInWith = String.format(signInWith,mContext.getResources().getString(currentSocialProviderId) , mContext.getResources().getString(conflictSocialProviderId));
+        signInWith = String.format(signInWith, mContext.getResources().getString(currentSocialProviderId), mContext.getResources().getString(conflictSocialProviderId));
         mergeAccountBoxView.setText(signInWith);
     }
 
@@ -311,12 +311,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     @Override
     public void onUpdate() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                updateUiStatus();
-            }
-        });
+        updateUiStatus();
     }
 
     @Override
@@ -326,10 +321,10 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     private void launchWelcomeFragment() {
         String emailorMobile;
-        if (FieldsValidator.isValidEmail(mUser.getEmail())){
+        if (FieldsValidator.isValidEmail(mUser.getEmail())) {
             emailorMobile = mUser.getEmail();
-        }else {
-            emailorMobile =mUser.getMobile();
+        } else {
+            emailorMobile = mUser.getMobile();
         }
         if (emailorMobile != null && RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired() &&
                 !RegPreferenceUtility.getStoredState(mContext, emailorMobile) || !mUser.getReceiveMarketingEmail()) {
@@ -356,26 +351,20 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     @Override
     public void onLoginSuccess() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                hideMergeSpinner();
-                trackActionStatus(AppTagingConstants.SEND_DATA,
-                        AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_SOCIAL_MERGE);
-                launchWelcomeFragment();
-            }
-        });
+
+        hideMergeSpinner();
+        trackActionStatus(AppTagingConstants.SEND_DATA,
+                AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_SOCIAL_MERGE);
+        launchWelcomeFragment();
+
+
     }
 
     @Override
     public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
 
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                handleLoginFaiedWithError(userRegistrationFailureInfo);
-            }
-        });
+        handleLoginFaiedWithError(userRegistrationFailureInfo);
+
 
     }
 
@@ -390,48 +379,32 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
     @Override
     public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord, String socialRegistrationToken) {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                RLog.i(RLog.CALLBACK, "MergeSocialToSocialAccountFragment : onLoginFailedWithTwoStepError");
-                hideMergeSpinner();
-            }
-        });
+
+        RLog.i(RLog.CALLBACK, "MergeSocialToSocialAccountFragment : onLoginFailedWithTwoStepError");
+        hideMergeSpinner();
+
     }
 
     @Override
     public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider
             , String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                RLog.i(RLog.CALLBACK, "MergeSocialToSocialAccountFragment : onLoginFailedWithMergeFlowError");
-                hideMergeSpinner();
-            }
-        });
+
+        RLog.i(RLog.CALLBACK, "MergeSocialToSocialAccountFragment : onLoginFailedWithMergeFlowError");
+        hideMergeSpinner();
+
 
     }
 
     @Override
     public void onContinueSocialProviderLoginSuccess() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                RLog.i(RLog.CALLBACK, "MergeSocialToSocialAccountFragment : onContinueSocialProviderLoginSuccess");
-                hideMergeSpinner();
-                launchWelcomeFragment();
-            }
-        });
+        RLog.i(RLog.CALLBACK, "MergeSocialToSocialAccountFragment : onContinueSocialProviderLoginSuccess");
+        hideMergeSpinner();
+        launchWelcomeFragment();
     }
 
     @Override
     public void onContinueSocialProviderLoginFailure(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                RLog.i(RLog.CALLBACK, "MergeSocialToSocialAccountFragment : onContinueSocialProviderLoginFailure");
-                hideMergeSpinner();
-            }
-        });
+        RLog.i(RLog.CALLBACK, "MergeSocialToSocialAccountFragment : onContinueSocialProviderLoginFailure");
+        hideMergeSpinner();
     }
 }

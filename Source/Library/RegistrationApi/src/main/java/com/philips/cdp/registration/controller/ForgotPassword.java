@@ -10,7 +10,6 @@
 package com.philips.cdp.registration.controller;
 
 import android.content.Context;
-import android.content.Intent;
 
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureApiError;
@@ -22,6 +21,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,7 +38,8 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler , JumpFl
 
 	@Override
 	public void onSuccess() {
-		mForgotPaswordHandler.onSendForgotPasswordSuccess();
+		ThreadUtils.postInMainThread(mContext,()->
+		mForgotPaswordHandler.onSendForgotPasswordSuccess());
 
 	}
 
@@ -49,7 +50,8 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler , JumpFl
 		handleAccountExistance(error.captureApiError, userRegistrationFailureInfo);
 		handleOnlySocialSignIn(error.captureApiError, userRegistrationFailureInfo);
 		userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
-		mForgotPaswordHandler.onSendForgotPasswordFailedWithError(userRegistrationFailureInfo);
+		ThreadUtils.postInMainThread(mContext,()->
+		mForgotPaswordHandler.onSendForgotPasswordFailedWithError(userRegistrationFailureInfo));
 	}
 
 	private void handleAccountExistance(CaptureApiError error,
@@ -65,7 +67,6 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler , JumpFl
 						userRegistrationFailureInfo.setEmailErrorMessage(getErrorMessage(jsonObject
 						        .getJSONArray(RegConstants.FORGOT_PASSWORD_FORM)));
 					}
-
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -79,16 +80,13 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler , JumpFl
 		        && error.code == RegConstants.ONLY_SOCIAL_SIGN_IN_ERROR_CODE) {
 			try {
 				JSONObject object = error.raw_response;
-
 				if (!object.isNull(RegConstants.MESSAGE)) {
 					userRegistrationFailureInfo.setSocialOnlyError(object
 					        .getString(RegConstants.MESSAGE));
 				}
-
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-
 		}
 	}
 
@@ -99,7 +97,6 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler , JumpFl
 		}
 		return (String) jsonArray.get(0);
 	}
-
 	private String mEmailAddress;
 
 	public void performForgotPassword(final String  emailAddress){
@@ -130,7 +127,8 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler , JumpFl
 			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
 			userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
 			userRegistrationFailureInfo.setErrorCode(RegConstants.FORGOT_PASSWORD_FAILED_SERVER_ERROR);
-			mForgotPaswordHandler.onSendForgotPasswordFailedWithError(userRegistrationFailureInfo);
+			ThreadUtils.postInMainThread(mContext,()->
+			mForgotPaswordHandler.onSendForgotPasswordFailedWithError(userRegistrationFailureInfo));
 		}
 		UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
 

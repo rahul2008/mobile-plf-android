@@ -21,6 +21,7 @@ import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,7 +38,8 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback,JumpFl
 	}
 
 	public void onSuccess() {
-		mResendVerificationEmail.onResendVerificationEmailSuccess();
+		ThreadUtils.postInMainThread(mContext,()->
+		mResendVerificationEmail.onResendVerificationEmailSuccess());
 
 	}
 
@@ -47,8 +49,9 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback,JumpFl
 		handleInvalidInputs(error, userRegistrationFailureInfo);
 		handleInvalidCredentials(error, userRegistrationFailureInfo);
 		userRegistrationFailureInfo.setErrorCode(error.code);
+		ThreadUtils.postInMainThread(mContext,()->
 		mResendVerificationEmail
-		        .onResendVerificationEmailFailedWithError(userRegistrationFailureInfo);
+		        .onResendVerificationEmailFailedWithError(userRegistrationFailureInfo));
 	}
 
 	private void handleInvalidInputs(CaptureApiError error,
@@ -128,7 +131,8 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback,JumpFl
 			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
 			userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
 			userRegistrationFailureInfo.setErrorCode(RegConstants.RESEND_MAIL_FAILED_SERVER_ERROR);
-			mResendVerificationEmail.onResendVerificationEmailFailedWithError(userRegistrationFailureInfo);
+			ThreadUtils.postInMainThread(mContext,()->
+			mResendVerificationEmail.onResendVerificationEmailFailedWithError(userRegistrationFailureInfo));
 		}
 		UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
 
