@@ -70,6 +70,10 @@ public interface AppConfigurationInterface {
         void onSuccess(REFRESH_RESULT result);
     }
 
+    /**
+     * This method clears dynamic config and downloaded cloud config
+     * from both local cache and persistence memory.
+     */
     void resetConfig();
 
     /**
