@@ -32,7 +32,7 @@ class BrushParser {
         new File(DLSResourceConstants.PATH_SEMANTIC_BRUSH_JSON).text
     }
 
-    def getBrushValueFromBrushName(brsuhName, tonalRange) {
-        brushes.find{it.brushName == brsuhName}.brushValueMap.get(tonalRange)
+    def getBrushValueFromBrushName(brushName, tonalRange) {
+        brushes.find{it.brushName == brushName}.brushValueMap.get(tonalRange)
     }
 }

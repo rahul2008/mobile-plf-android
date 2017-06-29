@@ -13,7 +13,7 @@ class AttributeManager {
     }
 
     def addAttribute(AttributeModel model) {
-        if (isAttributeAllowed(model.name)) {
+        if (isAttributeAllowed(model.name) && !attributesList.contains(model)) {
             attributesList.add(model)
         }
     }

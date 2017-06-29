@@ -14,7 +14,7 @@ import groovy.xml.MarkupBuilder
 
 //Generate Colors
 ColorParser colorParser = new ColorParser()
-colorParser.generateColors()
+colorParser.generateColorsXML()
 
 //Generate Brushes
 BrushParser brushParser = new BrushParser()
@@ -42,12 +42,13 @@ def generateTheme(ComponentParser componentParser, BrushParser brushParser, Vali
         def xml = new MarkupBuilder(writer)
         xml.setDoubleQuotes(true)
 
-        def colorRange = it.key
-        def baseTheme = "${DLSResourceConstants.THEME_PREFIX}.${colorRange}"
+        def colorRange = it.value.toString()
+        def colorRangeTheme = colorRange.&capitalize
+        def baseTheme = "${DLSResourceConstants.THEME_PREFIX}.${colorRangeTheme}"
         xml.resources() {
             DLSResourceConstants.TONAL_RANGES.each {
-                def tonalRange = "${it}"
-                def tonalRangeTheme = "${baseTheme}.${tonalRange}"
+                def tonalRange = it.toString()
+                def tonalRangeTheme = "${baseTheme}." + NameConversionHelper.removeHyphensAndCapitalize("${tonalRange}")
                 xml.style("${DLSResourceConstants.ITEM_NAME}": "${tonalRangeTheme}") {
                     componentParser.controls.each {
                         def result
@@ -74,33 +75,6 @@ def generateTheme(ComponentParser componentParser, BrushParser brushParser, Vali
         themeFile.createNewFile()
         themeFile.write(writer.toString())
     }
-
-//    File colorXml = new File("generated/uid_theme.xml")
-//    if (colorXml.exists())
-//        colorXml.delete()
-//
-//    colorXml.createNewFile()
-//
-//    def writer = new StringWriter()
-//    def colorXML = new MarkupBuilder(writer)
-//    colorXML.setDoubleQuotes(true)
-//    colorXML.resources() {
-//        componentParser.controls.each {
-//            def result
-//            if (it.parent) {
-//                Control control = it
-//                it.parent.each {
-//                    result = getComponentsValues(control, it, componentParser, brushParser, validationparser)
-//                    item(name: "${result[0]}", "${result[1]}")
-//                    getMkp().comment("${result[2]}")
-//                }
-//            } else {
-//                result = getComponentsValues(it, null, componentParser, brushParser, validationparser)
-//                item(name: "${result[0]}", "${result[1]}")
-//            }
-//        }
-//    }
-//    colorXml.write(writer.toString())
 }
 
 private

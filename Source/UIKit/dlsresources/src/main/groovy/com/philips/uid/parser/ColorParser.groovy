@@ -38,7 +38,7 @@ class ColorParser {
         new File(DLSResourceConstants.PATH_COLOR_RANGES_JSON).text
     }
 
-    def generateColors() {
+    def generateColorsXML() {
         def outDir = new File(DLSResourceConstants.PATH_OUT)
         if(outDir.exists()) {
             outDir.delete()
@@ -60,7 +60,8 @@ class ColorParser {
                     def colorName = NameConversionHelper.replaceHyphenWithUnderScores(it.colorName).toLowerCase()
                     it.colorValueMap.each {
                         def code = NameConversionHelper.replaceHyphenWithUnderScores(it.key).toLowerCase()
-                        color("name":"${colorName}_level_${code}", it.value)
+                        def level = it.key.number ? "level_": ""
+                        color("name":"${colorName}_${level}${code}", it.value)
                     }
                 }
             }

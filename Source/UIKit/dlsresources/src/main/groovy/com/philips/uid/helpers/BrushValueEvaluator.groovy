@@ -17,7 +17,7 @@ class BrushValueEvaluator {
             updateCloneBrushWithRealValues(brushValue, clonedBrushValue)
             return getValue(clonedBrushValue, brushes, colorRange, tonalRange)
         } else if (brushValue.colorCode) {
-            if (colorRange == "accent") {
+            if (brushValue.colorRange == "accent") {
                 return "?attr/uidAccentLevel" + brushValue.colorCode
             }
 
@@ -37,8 +37,6 @@ class BrushValueEvaluator {
             assertNull(brushValue.opacity)
             return Colors.instance.getColorNameForXmlItem(brushValue.colorRange?:colorRange, colorCode)
         } else if (brushValue.color) {
-//            assertEquals("white", brushValue.color)
-
             def color = Colors.instance.getColorValueHardCodedColor(brushValue.color)
             if (brushValue.opacity) {
                 return applyOpacityOnColor(color, brushValue.opacity)
@@ -49,7 +47,7 @@ class BrushValueEvaluator {
 
     static def addOffsetIfAny(BrushValue brushValue) {
         if (brushValue.colorCode && brushValue.offset) {
-            return Integer.valueOf(brushValue.colorCode) + Integer.valueOf(brushValue.offset)
+            return String.valueOf(Integer.valueOf(brushValue.colorCode) + Integer.valueOf(brushValue.offset))
         }
         return brushValue.colorCode
     }
@@ -57,16 +55,16 @@ class BrushValueEvaluator {
     static def updateCloneBrushWithRealValues(brushValue, clonedBrushValue) {
         clonedBrushValue.colorCode = brushValue.colorCode ?: clonedBrushValue.colorCode
         clonedBrushValue.offset = brushValue.offset ?: clonedBrushValue.offset
-        clonedBrushValue.colorRange = brushValue.colorCode ?: clonedBrushValue.colorRange
-        clonedBrushValue.opacity = brushValue.colorCode ?: clonedBrushValue.opacity
+        clonedBrushValue.colorRange = brushValue.colorRange ?: clonedBrushValue.colorRange
+        clonedBrushValue.opacity = brushValue.opacity ?: clonedBrushValue.opacity
 
         if (brushValue.colorCode == null) {
             def colorCode = clonedBrushValue.colorCode
             if (brushValue.offset != null && colorCode != null) {
-                clonedBrushValue.colorCode = Integer.valueOf(colorCode) + Integer.valueOf(brushValue.offset)
+                clonedBrushValue.colorCode = String.valueOf(Integer.valueOf(colorCode) + Integer.valueOf(brushValue.offset))
             }
             if (brushValue.offset != null && colorCode == null) {
-                clonedBrushValue.colorCode = Integer.valueOf(brushValue.offset)
+                clonedBrushValue.colorCode = brushValue.offset
             }
         }
     }
