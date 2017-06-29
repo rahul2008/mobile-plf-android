@@ -14,8 +14,11 @@ import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.philips.amwelluapp.R;
 import com.philips.amwelluapp.base.PTHBaseFragment;
+import com.philips.amwelluapp.intake.PTHMedication;
+import com.philips.amwelluapp.intake.PTHMedicationFragment;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.ProgressBar;
 
 import java.util.List;
@@ -32,6 +35,7 @@ public class PTHProvidersListFragment extends PTHBaseFragment implements SwipeRe
     private ProgressBar progressBar;
     private PTHProvidersListAdapter pthProvidersListAdapter;
     private ActionBarListener actionBarListener;
+    private Button getStartedButton;
 
 
     @Nullable
@@ -42,6 +46,17 @@ public class PTHProvidersListFragment extends PTHBaseFragment implements SwipeRe
         pthProviderListPresenter = new PTHProviderListPresenter(getActivity(),this);
         recyclerView = (RecyclerView) view.findViewById(R.id.providerListRecyclerView);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
+        getStartedButton = (Button) view.findViewById(R.id.getStartedButton);
+        final ViewGroup baseContainer= container;
+        getStartedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PTHMedicationFragment pTHMedicationFragment = new PTHMedicationFragment();
+                pTHMedicationFragment.setActionBarListener(getActionBarListener());
+                PTHProvidersListFragment.this.getFragmentManager().beginTransaction().replace(baseContainer.getId(), pTHMedicationFragment,"PTHMedication").addToBackStack(null).commit();
+
+            }
+        });
         swipeRefreshLayout.setOnRefreshListener(this);
 
         return view;

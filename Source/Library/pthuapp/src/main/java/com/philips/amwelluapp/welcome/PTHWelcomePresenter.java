@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
+import com.americanwell.sdk.entity.consumer.ConsumerInfo;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.amwelluapp.activity.PTHLaunchActivity;
@@ -14,6 +15,7 @@ import com.philips.amwelluapp.login.PTHAuthentication;
 import com.philips.amwelluapp.login.PTHGetConsumerObjectCallBack;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
 import com.philips.amwelluapp.practice.PTHPracticeFragment;
+import com.philips.amwelluapp.registration.PTHConsumer;
 import com.philips.amwelluapp.registration.PTHRegistrationDetailsFragment;
 import com.philips.amwelluapp.sdkerrors.PTHSDKError;
 import com.philips.amwelluapp.utility.PTHManager;
@@ -110,6 +112,12 @@ public class PTHWelcomePresenter implements UIBasePresenter , PTHInitializeCallB
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
 
         this.consumer = consumer;
+        //////////////////////////////////////
+        //setting PTHconsumer  in PTHManager so any presenter/fragment can access it
+        PTHConsumer pthConsumer = new PTHConsumer();
+        pthConsumer.setConsumer(consumer);
+        PTHManager.getInstance().setPTHConsumer(pthConsumer);
+        //////////////////////////////////////
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
         Log.d("Login","Consumer object received");
         Toast.makeText(uiBaseView.getFragmentActivity(),"CONSUMER OBJECT RECEIVED",Toast.LENGTH_SHORT).show();
