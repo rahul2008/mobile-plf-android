@@ -149,6 +149,7 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 25
+        multiDexEnabled true
         versionCode 1
         versionName objcdp.getVersionWithHash()
         testApplicationId "com.philips.cdp.test"

@@ -118,6 +118,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
+        multiDexEnabled true  // this line will solve this problem
+
         versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
