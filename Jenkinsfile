@@ -45,7 +45,7 @@ node ('android&&docker') {
             	   chmod -R 775 . 
                    cd ./Source/DemoApp 
                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
-            	   ../Library 
+            	   cd ../Library
                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
                 '''
             }
