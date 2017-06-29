@@ -57,13 +57,15 @@ public class ABTestClientManager implements ABTestClientInterface {
                 Config.setContext(mContext.getApplicationContext());
                 mCacheModel = new CacheModel();
                 // loadfromDisk();
+                mCachestatusvalues = CACHESTATUSVALUES.EXPERIENCES_NOT_UPDATED;
                 mSharedPreferences = mAppInfra.getAppInfraContext().getSharedPreferences(ABTEST_PRREFERENCE,
                         Context.MODE_PRIVATE);
                 editor = mSharedPreferences.edit();
             }
         }).start();
     }
-    private void loadfromDisk() {
+
+    protected void loadfromDisk() {
         ArrayList<String> testList = new ArrayList<>();
         CacheModel cacheModel = getCachefromPreference();
         if (cacheModel != null) {

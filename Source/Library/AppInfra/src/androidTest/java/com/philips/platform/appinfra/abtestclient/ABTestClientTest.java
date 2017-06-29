@@ -79,6 +79,7 @@ public class ABTestClientTest extends AppInfraInstrumentation {
 
 
     public void testCacheStatusValue() {
+
         try {
             method = abTestClienTestManager.getClass().getDeclaredMethod("getCacheStatus");
             method.setAccessible(true);
