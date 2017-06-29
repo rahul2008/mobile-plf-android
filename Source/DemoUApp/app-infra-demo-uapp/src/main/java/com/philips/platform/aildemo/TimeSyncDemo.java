@@ -79,7 +79,6 @@ public class TimeSyncDemo extends AppCompatActivity {
                     refreshButton.setVisibility(View.VISIBLE);
                     isSynchronized.setText("Synchronized");
                 }else{
-                    refreshButton.setVisibility(View.INVISIBLE);
                     isSynchronized.setText("Not Synchronized");
                 }
                 Date date = mTimeSyncInterface.getUTCTime();
