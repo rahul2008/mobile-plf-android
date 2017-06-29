@@ -25,29 +25,8 @@ import com.philips.platform.uid.utils.UIDLocaleHelper;
  * <p>Provides an implementation for a customized RadioButton.
  * </p>
  * <p>In order to customize the RadioButton to your own needs, it is recommended to create a new style and use UIDRadioButton style as your parent style. <br>
+ * It is recommended to use customized UID RadioGroup class instead of Android RadioGroup class. <br>
  * The provided background is used for the ripple effect from lollipop onwards.</p>
- * <p>The attributes mapping follows below table.</p>
- * <table border="2" width="85%" align="center" cellpadding="5">
- * <thead>
- * <tr><th>ResourceID</th> <th>Configuration</th></tr>
- * </thead>
- * <p>
- * <tbody>
- * <tr>
- * <td rowspan="1">paddingStart</td>
- * <td rowspan="1">Padding used between the RadioButton and label</td>
- * </tr>
- * <tr>
- * <td rowspan="1">paddingEnd</td>
- * <td rowspan="1">Padding used after the label</td>
- * </tr>
- * <tr>
- * <td rowspan="1">fontPath</td>
- * <td rowspan="1">Path used to specify your custom font</td>
- * </tr>
- * </tbody>
- * <p>
- * </table>
  */
 public class RadioButton extends AppCompatRadioButton{
 
