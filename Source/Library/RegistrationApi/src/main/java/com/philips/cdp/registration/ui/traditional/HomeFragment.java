@@ -64,6 +64,7 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.wechat.WeChatAuthenticationListener;
 import com.philips.cdp.registration.wechat.WeChatAuthenticator;
@@ -565,7 +566,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
                     @Override
                     public void onError(Throwable e) {
-                        EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+                        ThreadUtils.postInMainThread(mContext, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_SUCCESS));
                         hideProgressDialog();
                         mRegError.setError(mContext.getString(R.string.reg_Generic_Network_Error));
                         scrollViewAutomatically(mRegError, mSvRootLayout);
@@ -1123,7 +1124,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             switch (error_code) {
                 case BaseResp.ErrCode.ERR_OK:
                     mWeChatCode = weChatCode;
-                    EventHelper.getInstance().notifyEventOccurred(RegConstants.WECHAT_AUTH);
+                    ThreadUtils.postInMainThread(context, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.WECHAT_AUTH));
                     break;
                 case BaseResp.ErrCode.ERR_USER_CANCEL:
                     RLog.d("WECHAT", "WeChat - User canceled the request");
