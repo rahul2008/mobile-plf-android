@@ -60,8 +60,10 @@
     <string name="gridview_item_opacity">0.35</string>
 
     <!-- Radio Button-->
+    <dimen name="radiobutton_list_margin_top_bottom">14dp</dimen>
+    <dimen name="radiobutton_margin_left">4dp</dimen>
     <dimen name="radio_button_height">48dp</dimen>
-    <dimen name="radio_button_text_padding_left_right">16dp</dimen>
+    <dimen name="radio_button_text_padding_left_right">12dp</dimen>
 
     <dimen name="show_more_icon_size">12dp</dimen>
 
@@ -78,5 +80,8 @@
     <dimen name="rating_bar_reset_button_width">224dp</dimen>
 
     <dimen name="search_list_margin_top">8dp</dimen>
+
+    <!-- Radio Group-->
+    <dimen name="radio_group_top_margin">12dp</dimen>
 
 </resources>

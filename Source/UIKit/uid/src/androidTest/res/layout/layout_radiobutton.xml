@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.RadioGroup
+        android:id="@+id/test_radiogroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <com.philips.platform.uid.view.widget.RadioButton
+            android:id="@+id/test_radiobutton1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/radiobutton1"/>
+
+        <com.philips.platform.uid.view.widget.RadioButton
+            android:id="@+id/test_radiobutton2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/radiobutton2"/>
+
+    </com.philips.platform.uid.view.widget.RadioGroup>
+
+</LinearLayout>
+

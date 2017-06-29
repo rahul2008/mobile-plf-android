@@ -260,7 +260,7 @@ public class FunctionDrawableMatchers {
                 Drawable drawable = getDrawable(view, funcName, -1);
                 BaseTypeSafteyMatcher<Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameRippleColor(attr, expectedValue);
                 boolean matches = colorMatcher.matches(drawable);
-                setValues(colorMatcher.actual, colorMatcher.expected);
+                setValues(Integer.toHexString((Integer) colorMatcher.actual), Integer.toHexString((Integer) colorMatcher.expected));
                 return matches;
             }
         };
