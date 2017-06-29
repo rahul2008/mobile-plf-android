@@ -39,7 +39,7 @@
             android:textSize="20sp"/>
 
         <TextView
-            id="@+id/serial_number_guide_text"
+            android:id="@+id/serial_number_guide_text"
             fontPath="fonts/centralesansbook.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
