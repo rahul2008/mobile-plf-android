@@ -233,8 +233,8 @@ public class PTHManager {
                 PTHConsumer pthConsumer = new PTHConsumer();
                 pthConsumer.setConsumer(consumer);
 
-                PTHSDKError pthSDKError = new PTHSDKError();
-                pthSDKError.setSdkError(sdkPasswordError);
+                PTHSDKPasswordError pthSDKError = new PTHSDKPasswordError();
+                pthSDKError.setSdkPasswordError(sdkPasswordError);
 
                 pthUpdateConsumer.onUpdateConsumerResponse(pthConsumer,pthSDKError);
             }
