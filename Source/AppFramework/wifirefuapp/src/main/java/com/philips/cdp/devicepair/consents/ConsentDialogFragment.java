@@ -183,10 +183,10 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
     public void onSuccess(final List<? extends ConsentDetail> data) {
         refreshUi((ArrayList<OrmConsentDetail>) data);
         dismissProgressDialog();
-        removeCurrentFragment();
 
         StateContext stateContext = new StateContext();
         if (isConsentAccepted(data)) {
+            removeCurrentFragment();
             stateContext.setState(new CreateSubjectProfileState(mPairDevice, mDeviceStatusListener, mFragmentLauncher));
             stateContext.start();
         } else {
