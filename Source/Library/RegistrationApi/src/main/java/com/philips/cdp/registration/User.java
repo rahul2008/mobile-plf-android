@@ -434,8 +434,14 @@ public class User {
         return diUserProfile;
     }
 
-    // For checking email verification
+
+    @Deprecated
     public boolean getEmailVerificationStatus() {
+        return (isEmailVerified()||isMobileVerified());
+    }
+
+
+    public boolean isEmailVerified() {
         CaptureRecord captured = Jump.getSignedInUser();
         if (captured == null)
             return false;
@@ -443,7 +449,20 @@ public class User {
             JSONObject mObject = new JSONObject(captured.toString());
             if (!mObject.isNull(USER_EMAIL_VERIFIED)) {
                 return true;
-            } else if (!mObject.isNull(USER_MOBILE_VERIFIED)) {
+            }
+        } catch (JSONException e) {
+            Log.e(LOG_TAG, "On isEmailVerificationStatus,Caught JSON Exception");
+        }
+        return false;
+    }
+
+    public boolean isMobileVerified() {
+        CaptureRecord captured = Jump.getSignedInUser();
+        if (captured == null)
+            return false;
+        try {
+            JSONObject mObject = new JSONObject(captured.toString());
+            if (!mObject.isNull(USER_MOBILE_VERIFIED)) {
                 return true;
             }
         } catch (JSONException e) {

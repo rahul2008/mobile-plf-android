@@ -308,7 +308,7 @@ public class AlmostDonePresenter implements NetworStateListener, SocialProviderL
     }
 
     public boolean isEmailVerificationStatus() {
-        return mUser.getEmailVerificationStatus();
+        return (mUser.isEmailVerified() || mUser.isMobileVerified());
     }
 
     public void handleClearUserData() {

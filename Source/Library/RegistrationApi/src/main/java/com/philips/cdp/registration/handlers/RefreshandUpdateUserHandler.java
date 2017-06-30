@@ -21,15 +21,9 @@ import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.security.SecureStorage;
-import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONObject;
-
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 
 /**
  * Created by 310202337 on 4/27/2016.
@@ -81,7 +75,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                     return;
                 }
 
-                if (user.getEmailVerificationStatus()) {
+                if ((user.isEmailVerified() || user.isMobileVerified())) {
                     DIUserProfile userProfile = user.getUserInstance();
                     HsdpUser hsdpUser = new HsdpUser(mContext);
                     HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
