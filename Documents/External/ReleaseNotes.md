@@ -19,6 +19,7 @@ See backwards compatibility
 
 ### Defects solved
 * \#56444 Fix firmware upgrade maxchunksize.
+* \#52917 Fixed ConcurrentModificationException in logger
 
 ### Residual anomalies
 * To be filled in at release
