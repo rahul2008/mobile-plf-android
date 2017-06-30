@@ -107,6 +107,7 @@ class BrushValueEvaluator {
         assertNull(brushValue.colorCode)
         assertNotNull(brushValue.offset)
         brushValue.colorCode = brushValue.offset
+        brushValue.offset = null
     }
 
     static def getBrushFormatNameFromBrushValue(BrushValue brushValue) {
