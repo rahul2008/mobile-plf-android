@@ -247,6 +247,19 @@ public class TextViewPropertiesMatchers {
         };
     }
 
+    public static Matcher<? super View> hasSameText(final CharSequence text) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                if (view instanceof TextView) {
+                    setValues(((TextView) view).getText(), text);
+                    return areEqual();
+                }
+                return false;
+            }
+        };
+    }
+
     public static Matcher<? super View> noCompoundDrawable(final int index) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
