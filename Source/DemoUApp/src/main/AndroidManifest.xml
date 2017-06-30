@@ -3,14 +3,7 @@
 
     package="com.philips.platform.dscdemo">
 
-    <application android:allowBackup="true" android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:hardwareAccelerated="true"
-        android:icon="@mipmap/ic_launcher"
-        android:resizeableActivity="true"
-        android:screenOrientation="portrait"
-        android:theme="@style/Theme.Philips.DarkBlue.WhiteBackground"
-        tools:replace="android:label">
+    <application>
 
         <activity
             android:name="com.philips.platform.dscdemo.activity.DemoActivity"

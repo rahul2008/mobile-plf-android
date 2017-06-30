@@ -10,5 +10,5 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:onClick="launch"
-        android:text="Button" />
+        android:text="Launch" />
 </RelativeLayout>
