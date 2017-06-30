@@ -10,12 +10,13 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 
 public class UappDemoInterface implements UappInterface {
 
     private Context context;
-
+    public static ThemeConfiguration themeConfiguration;
     /**
      * @param uappDependencies - App dependencies
      * @param uappSettings     - App settings
@@ -35,6 +36,7 @@ public class UappDemoInterface implements UappInterface {
         if (uiLauncher instanceof ActivityLauncher) {
             Intent intent = new Intent(context, LaunchActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            UappDemoInterface.themeConfiguration = ((ActivityLauncher) uiLauncher).getDlsThemeConfiguration();
             context.startActivity(intent);
         }
     }

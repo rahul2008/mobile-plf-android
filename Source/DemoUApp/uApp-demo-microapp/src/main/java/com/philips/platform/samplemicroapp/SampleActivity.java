@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,15 +13,16 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.platform.uappdemo.UappDemoInterface;
 import com.philips.platform.uappdemolibrary.R;
 import com.philips.platform.uappframework.listener.BackEventListener;
-
-
+import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.utils.UIDActivity;
 
 import static com.philips.platform.samplemicroapp.SampleMicroAppInterface.WELCOME_MESSAGE;
 
 
-public class SampleActivity extends AppCompatActivity {
+public class SampleActivity extends UIDActivity {
 
     private FragmentManager fragmentManager;
     private TextView mTitleTextView;
@@ -30,6 +30,7 @@ public class SampleActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        UIDHelper.init(UappDemoInterface.themeConfiguration);
         super.onCreate(savedInstanceState);
         initCustomActionBar();
         setContentView(R.layout.activity_test_ur);
