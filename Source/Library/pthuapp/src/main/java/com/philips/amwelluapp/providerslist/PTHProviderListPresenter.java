@@ -24,7 +24,6 @@ public class PTHProviderListPresenter implements PTHProvidersListCallback, PTHBa
 
     private PTHBaseView mUiBaseView;
     private PTHProviderListViewInterface PTHProviderListViewInterface;
-    Consumer consumer; ProviderInfo providerInfo;
 
 
     public PTHProviderListPresenter(PTHBaseView uiBaseView, PTHProviderListViewInterface PTHProviderListViewInterface){
@@ -33,7 +32,6 @@ public class PTHProviderListPresenter implements PTHProvidersListCallback, PTHBa
     }
 
     public void fetchProviderList(Consumer consumer, Practice practice){
-        this.consumer = consumer;
         try {
             PTHManager.getInstance().getProviderList(mUiBaseView.getFragmentActivity(),consumer,practice,this);
         } catch (AWSDKInstantiationException e) {
@@ -53,7 +51,6 @@ public class PTHProviderListPresenter implements PTHProvidersListCallback, PTHBa
     @Override
     public void onProvidersListReceived(List<ProviderInfo> providerInfoList, SDKError sdkError) {
         PTHProviderListViewInterface.updateProviderAdapterList(providerInfoList);
-        this.providerInfo = providerInfoList.get(0);
     }
 
     @Override
@@ -63,18 +60,6 @@ public class PTHProviderListPresenter implements PTHProvidersListCallback, PTHBa
 
     @Override
     public void onEvent(int componentID) {
-        if (componentID == R.id.getStartedButton) {
-            PTHConsumer pthConsumer = new PTHConsumer();
-            pthConsumer.setConsumer(consumer);
 
-            PTHProviderInfo pthProviderInfo = new PTHProviderInfo();
-            pthProviderInfo.setProviderInfo(providerInfo);
-
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("Consumer",pthConsumer);
-            bundle.putSerializable("providerInfo",pthProviderInfo);
-
-            mUiBaseView.addFragment(new PTHSymptomsFragment(),PTHSymptomsFragment.TAG,bundle);
-        }
     }
 }

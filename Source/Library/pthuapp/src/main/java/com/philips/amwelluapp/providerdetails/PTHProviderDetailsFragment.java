@@ -2,6 +2,7 @@ package com.philips.amwelluapp.providerdetails;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +26,7 @@ import java.util.List;
 /**
  * This class is used to display the provider details selected by the user.
  */
-public class PTHProviderDetailsFragment extends PTHBaseFragment implements PTHPRoviderDetailsViewInterface ,SwipeRefreshLayout.OnRefreshListener{
+public class PTHProviderDetailsFragment extends PTHBaseFragment implements View.OnClickListener, PTHPRoviderDetailsViewInterface ,SwipeRefreshLayout.OnRefreshListener{
     private Consumer consumer;
     private ProviderInfo providerInfo;
     private PTHProviderDetailsPresenter providerDetailsPresenter;
@@ -63,6 +64,7 @@ public class PTHProviderDetailsFragment extends PTHBaseFragment implements PTHPR
 
         detailsButtonOne.setVisibility(Button.GONE);
         detailsButtonOne.setEnabled(false);
+        detailsButtonOne.setOnClickListener(this);
     }
 
 
@@ -168,10 +170,28 @@ public class PTHProviderDetailsFragment extends PTHBaseFragment implements PTHPR
     }
 
     @Override
+    public FragmentActivity getFragmentActivity() {
+        return getActivity();
+    }
+
+    @Override
+    public int getContainerID() {
+        return ((ViewGroup)getView().getParent()).getId();
+    }
+
+    @Override
     public void onRefresh() {
         if(!swipeRefreshLayout.isRefreshing()){
             swipeRefreshLayout.setRefreshing(true);
         }
         providerDetailsPresenter.fetchProviderDetails();
+    }
+
+    @Override
+    public void onClick(View view) {
+        int i = view.getId();
+        if (i == R.id.detailsButtonOne) {
+            providerDetailsPresenter.onEvent(R.id.detailsButtonOne);
+        }
     }
 }
