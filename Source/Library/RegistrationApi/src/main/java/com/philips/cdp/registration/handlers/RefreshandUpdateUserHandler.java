@@ -14,7 +14,6 @@ import com.janrain.android.Jump;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.controller.LoginTraditional;
-import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.hsdp.HsdpUser;
@@ -25,9 +24,6 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.json.JSONObject;
 
-/**
- * Created by 310202337 on 4/27/2016.
- */
 public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListener {
 
     public UpdateUserRecordHandler mUpdateUserRecordHandler;
@@ -36,16 +32,16 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
     private String password;
     private RefreshUserHandler refreshUserHandler;
 
-    public RefreshandUpdateUserHandler(UpdateUserRecordHandler updateUserRecordHandler, Context context){
+    public RefreshandUpdateUserHandler(UpdateUserRecordHandler updateUserRecordHandler, Context context) {
         mUpdateUserRecordHandler = updateUserRecordHandler;
         mContext = context;
     }
 
-    public void refreshAndUpdateUser( final RefreshUserHandler handler, final User user, final String password){
+    public void refreshAndUpdateUser(final RefreshUserHandler handler, final User user, final String password) {
         refreshUserHandler = handler;
         this.user = user;
         this.password = password;
-        if(!UserRegistrationInitializer.getInstance().isJumpInitializated() && UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
+        if (!UserRegistrationInitializer.getInstance().isJumpInitializated() && UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
             RegistrationHelper.getInstance().initializeUserRegistration(mContext);
             return;
@@ -58,7 +54,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
         }
 
         refreshUpdateUser(handler, user, password);
-     }
+    }
 
     private void refreshUpdateUser(final RefreshUserHandler handler, final User user, final String password) {
         if (Jump.getSignedInUser() == null) {
@@ -76,10 +72,9 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                 }
 
                 if ((user.isEmailVerified() || user.isMobileVerified())) {
-                    DIUserProfile userProfile = user.getUserInstance();
                     HsdpUser hsdpUser = new HsdpUser(mContext);
                     HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
-                    if (userProfile != null && null != userProfile.getEmail() && null != password && hsdpUserRecord == null) {
+                    if (hsdpUserRecord == null) {
                         LoginTraditional loginTraditional = new LoginTraditional(new TraditionalLoginHandler() {
                             @Override
                             public void onLoginSuccess() {
@@ -90,7 +85,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
                             public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
                                 handler.onRefreshUserFailed(RegConstants.HSDP_ACTIVATE_ACCOUNT_FAILED);
                             }
-                        }, mContext, mUpdateUserRecordHandler, userProfile.getEmail(), password);
+                        }, mContext, mUpdateUserRecordHandler, null, null);
                         loginTraditional.loginIntoHsdp();
                     } else {
                         handler.onRefreshUserSuccess();
@@ -129,7 +124,7 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
 
     @Override
     public void onFlowDownloadSuccess() {
-        refreshAndUpdateUser(refreshUserHandler,user,password);
+        refreshAndUpdateUser(refreshUserHandler, user, password);
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
 
     }
@@ -137,8 +132,8 @@ public class RefreshandUpdateUserHandler implements JumpFlowDownloadStatusListen
     @Override
     public void onFlowDownloadFailure() {
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
-        if(refreshUserHandler!=null){
-           refreshUserHandler.onRefreshUserFailed(0);
+        if (refreshUserHandler != null) {
+            refreshUserHandler.onRefreshUserFailed(0);
         }
 
     }

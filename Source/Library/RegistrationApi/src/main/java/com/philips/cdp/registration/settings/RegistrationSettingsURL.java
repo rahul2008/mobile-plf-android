@@ -11,6 +11,7 @@ import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
@@ -183,7 +184,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     }
                     RLog.d(RLog.SERVICE_DISCOVERY, " onSuccess  : userreg.janrain.api :" + urlLocal);
                     if (jumpConfig.engageAppId == null || jumpConfig.captureAppId == null){
-                        EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+                        ThreadUtils.postInMainThread(mContext, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE));
                         return;
                     }
 
@@ -192,7 +193,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
                 } else {
                     RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.janrain.api");
-                    EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+                    ThreadUtils.postInMainThread(mContext, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE));
                     return;
                 }
 
@@ -206,7 +207,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
 
                 } else {
                     RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.landing.emailverif :");
-                    EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+                    ThreadUtils.postInMainThread(mContext, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE));
                     return;
                 }
 
@@ -222,7 +223,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                             + jumpConfig.captureRecoverUri);
                 } else {
                     RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.landing.resetpass : ");
-                    EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+                    ThreadUtils.postInMainThread(mContext, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE));
                     return;
                 }
 
@@ -233,7 +234,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     jumpConfig.downloadFlowUrl = serviceDiscoveyService.getConfigUrls();
                 } else {
                     RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.janrain.cdn : ");
-                    EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+                    ThreadUtils.postInMainThread(mContext, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE));
                     return;
                 }
 
@@ -289,7 +290,7 @@ public class RegistrationSettingsURL extends RegistrationSettings {
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
                 RLog.d(RLog.SERVICE_DISCOVERY, " onError  : group : ");
-                EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+                ThreadUtils.postInMainThread(mContext, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE));
             }
         });
 

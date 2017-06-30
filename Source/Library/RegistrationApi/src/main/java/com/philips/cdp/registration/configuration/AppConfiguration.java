@@ -11,12 +11,14 @@ package com.philips.cdp.registration.configuration;
 import java.util.List;
 
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.DEFAULT;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.FALLBACK_HOME_COUNTRY;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.FLOW_EMAIL_VERIFICATION_REQUIRED;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.FLOW_MINIMUM_AGE_LIMIT;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.FLOW_TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.PIL_CONFIGURATION_CAMPAIGN_ID;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.SHOW_COUNTRY_SELECTION;
 import static com.philips.cdp.registration.configuration.URConfigurationConstants.SIGNIN_PROVIDERS;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.SUPPORTED_HOME_COUNTRIES;
 
 public class AppConfiguration extends BaseConfiguration {
 
@@ -76,6 +78,24 @@ public class AppConfiguration extends BaseConfiguration {
         providersObject = appInfraWrapper.getURProperty(SIGNIN_PROVIDERS + DEFAULT);
         return (List<String>) providersObject;
     }
+
+
+    public List<String> getSupportedHomeCountries() {
+        Object providersObject = appInfraWrapper.getURProperty(SUPPORTED_HOME_COUNTRIES);
+        if (providersObject != null) {
+            return (List<String>) providersObject;
+        }
+        return null;
+    }
+
+    public String getFallBackHomeCountry() {
+        Object providersObject = appInfraWrapper.getURProperty(FALLBACK_HOME_COUNTRY);
+        if (providersObject != null) {
+            return (String) providersObject;
+        }
+        return null;
+    }
+
 
     public String getShowCountrySelection() {
         Object showCountrySelectionObject = appInfraWrapper.getURProperty(SHOW_COUNTRY_SELECTION);

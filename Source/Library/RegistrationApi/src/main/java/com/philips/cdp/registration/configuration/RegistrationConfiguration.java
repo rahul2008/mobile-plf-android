@@ -19,7 +19,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -216,9 +215,16 @@ public class RegistrationConfiguration {
      * @param countryCode Country code
      * @return List of providers
      */
-    public ArrayList<String> getProvidersForCountry(String countryCode) {
-        List<String> providers = appConfiguration.getProvidersForCountry(countryCode);
-        return (ArrayList<String>) providers;
+    public List<String> getProvidersForCountry(String countryCode) {
+        return appConfiguration.getProvidersForCountry(countryCode);
+    }
+
+    public List<String> getSupportedHomeCountry() {
+        return appConfiguration.getSupportedHomeCountries();
+    }
+
+    public String getFallBackHomeCountry() {
+        return appConfiguration.getFallBackHomeCountry();
     }
 
 
