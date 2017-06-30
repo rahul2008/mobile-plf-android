@@ -10,3 +10,5 @@ include 'jump'
 project (':jump').projectDir=new File('../Library/jump')
 include 'RegistrationApi'
 project (':RegistrationApi').projectDir=new File('../Library/RegistrationApi')
+include 'coppa'
+project (':coppa').projectDir=new File('../Library/coppa')

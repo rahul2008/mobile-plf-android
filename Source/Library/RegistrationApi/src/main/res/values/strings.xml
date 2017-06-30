@@ -263,66 +263,6 @@
     <string name="Welcome_needAccountto_lbltxt"></string>
     <string name="LegalNoticeForPrivacy">Please read our %s</string>
 
-    <string-array name="country_code" >
-        <item>AU</item>
-        <item>BG</item>
-        <item>RW</item>
-        <item>CZ</item>
-        <item>DK</item>
-        <item>AT</item>
-        <item>CH</item>
-        <item>DE</item>
-        <item>GR</item>
-        <item>CA</item>
-        <item>GB</item>
-        <item>ID</item>
-        <item>IE</item>
-        <item>IN</item>
-        <item>MY</item>
-        <item>NZ</item>
-        <item>PH</item>
-        <item>PK</item>
-        <item>SA</item>
-        <item>SG</item>
-        <item>US</item>
-        <item>ZA</item>
-        <item>AR</item>
-        <item>CL</item>
-        <item>CO</item>
-        <item>ES</item>
-        <item>MX</item>
-        <item>PE</item>
-        <item>EE</item>
-        <item>FI</item>
-        <item>BE</item>
-        <item>FR</item>
-        <item>HR</item>
-        <item>HU</item>
-        <item>IT</item>
-        <item>JP</item>
-        <item>KR</item>
-        <item>LT</item>
-        <item>LV</item>
-        <item>NL</item>
-        <item>NO</item>
-        <item>PL</item>
-        <item>BR</item>
-        <item>PT</item>
-        <item>RO</item>
-        <item>RU</item>
-        <item>UA</item>
-        <item>SI</item>
-        <item>SK</item>
-        <item>SE</item>
-        <item>TH</item>
-        <item>TR</item>
-        <item>VN</item>
-        <item>CN</item>
-        <item>TW</item>
-        <item>HK</item>
-    </string-array>
-
-
 
     <!-- Profile Listview Strings -->
     <string name="link_another_account">Link Accounts</string>
