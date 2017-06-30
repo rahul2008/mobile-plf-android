@@ -88,7 +88,7 @@ public class ThemeHelper {
 
     public void saveThemeSettings() {
         saveThemeValues(UIDHelper.COLOR_RANGE, randomEnum(ColorRange.class).name());
-        saveThemeValues(UIDHelper.NAVIGATION_RANGE, NavigationColor.LIGHT.name());
+        saveThemeValues(UIDHelper.NAVIGATION_RANGE, NavigationColor.BRIGHT.name());
         saveThemeValues(UIDHelper.CONTENT_TONAL_RANGE,ContentColor.VERY_LIGHT.name());
     }
 

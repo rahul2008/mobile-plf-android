@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            app:uidLabelTextSize="25sp"
+            android:textSize="25sp"
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="5dip"
             android:textStyle="bold"

@@ -97,6 +97,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
             if (productList.size() != 0) {
                 mProductAdapter = new ListViewWithOptions(getActivity(), productList);
                 mProductListView.setAdapter(mProductAdapter);
+                mProductAdapter.notifyDataSetChanged();
             } else
                 ProductModelSelectionHelper.getInstance().getProductSelectionListener().onProductModelSelected(mUserSelectedProduct);
 

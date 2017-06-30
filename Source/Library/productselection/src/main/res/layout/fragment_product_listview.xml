@@ -7,9 +7,9 @@
         android:id="@+id/productListView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:divider="?attr/uidSeparator"
+        android:divider="?attr/uidSeparatorButtonNormalBackgroundColor"
         android:dividerHeight="@dimen/uid_divider_Height"
-        android:listSelector="?attr/uidListPressed"
+        android:listSelector="@drawable/uid_list_item_selector"
         android:saveEnabled="true" />
 
 </RelativeLayout>

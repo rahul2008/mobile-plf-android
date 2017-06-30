@@ -22,13 +22,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dip"
-                app:uidLabelTextSize="20sp"
+                android:textSize="20sp"
                 android:id="@+id/detailed_screen_productname"/>
 
             <com.philips.platform.uid.view.widget.Label
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:uidLabelTextSize="12sp"
+                android:textSize="12sp"
                 android:layout_marginTop="4dip"
                 style="@style/UIDLabel"
                 android:id="@+id/detailed_screen_productctn"/>

@@ -46,12 +46,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/product_name_view"
             android:layout_marginTop="4dp"
-            app:uidLabelTextSize="12sp"
             android:layout_toEndOf="@+id/from"
             android:layout_toRightOf="@+id/from"
             android:includeFontPadding="false"
             android:text=""
-            android:textSize="16sp" />
+            android:textSize="12sp" />
 
         <com.philips.platform.uid.view.widget.Label
             style="@style/UIDLabel.SliderMarginBottom"
