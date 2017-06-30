@@ -37,17 +37,16 @@ class BrushValueEvaluator {
 
             //We have opacity, we have to give hardcoded color
             if (brushValue.opacity) {
-                def color
-                if (brushValue.colorRange) {
-                    color = Colors.instance.getColorForRange(brushValue.colorRange, colorCode)
-                } else {
-                    color = Colors.instance.getColorForRange(colorRange, colorCode)
-                }
+                def color = Colors.instance.getColorForRange(brushValue.colorRange?:colorRange, colorCode)
                 return applyOpacityOnColor(color, brushValue.opacity)
             }
-            assertNull(brushValue.opacity)
             return Colors.instance.getColorNameForXmlItem(brushValue.colorRange ?: colorRange, colorCode)
         } else if (brushValue.color) {
+            //We consider white as colorCode 0. So add offset if present
+            if(brushValue.color == "white" && brushValue.offset) {
+                nullifyOffsetWithColorCode(brushValue)
+                return getValue(brushValue, brushes, colorRange, tonalRange)
+            }
             def color = Colors.instance.getColorValueHardCodedColor(brushValue.color)
             if (brushValue.opacity) {
                 return applyOpacityOnColor(color, brushValue.opacity)
