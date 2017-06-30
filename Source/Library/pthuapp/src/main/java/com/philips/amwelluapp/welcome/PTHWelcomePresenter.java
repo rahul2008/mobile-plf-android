@@ -77,8 +77,7 @@ public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallB
     public void onLoginResponse(PTHAuthentication pthAuthentication, PTHSDKError sdkError) {
         AmwellLog.i(AmwellLog.LOG,"Login - UI updated");
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
-        Log.d("Login","Login success");
-        Toast.makeText(uiBaseView.getFragmentActivity(),"LOGIN SUCCESS",Toast.LENGTH_SHORT).show();
+        AmwellLog.d("Login","Login success");
         ((PTHWelcomeFragment) uiBaseView).showProgressBar();
         try {
             PTHManager.getInstance().getConsumerObject(uiBaseView.getFragmentActivity(),pthAuthentication.getAuthentication(),this);
