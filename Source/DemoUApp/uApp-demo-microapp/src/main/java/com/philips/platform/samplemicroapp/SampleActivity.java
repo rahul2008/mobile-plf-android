@@ -51,32 +51,34 @@ public class SampleActivity extends AppCompatActivity {
 
     private void initCustomActionBar() {
         ActionBar mActionBar = this.getSupportActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
+        if (mActionBar != null) {
+            mActionBar.setDisplayShowHomeEnabled(false);
+            mActionBar.setDisplayShowTitleEnabled(false);
 
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the text view in the ActionBar !
-                ActionBar.LayoutParams.MATCH_PARENT,
-                ActionBar.LayoutParams.WRAP_CONTENT,
-                Gravity.CENTER);
-        View mCustomView = LayoutInflater.from(this).inflate(R.layout.custom_action_bar, null); // layout which contains your button.
+            ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the text view in the ActionBar !
+                    ActionBar.LayoutParams.MATCH_PARENT,
+                    ActionBar.LayoutParams.WRAP_CONTENT,
+                    Gravity.CENTER);
+            View mCustomView = LayoutInflater.from(this).inflate(R.layout.custom_action_bar, null); // layout which contains your button.
 
-        mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
+            mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
 
-        final FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
-        frameLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                onBackPressed();
-            }
-        });
+            final FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
+            frameLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    onBackPressed();
+                }
+            });
 
-        ImageView arrowImage = (ImageView) mCustomView
-                .findViewById(R.id.arrow);
+            ImageView arrowImage = (ImageView) mCustomView
+                    .findViewById(R.id.arrow);
 //        arrowImage.setBackground(getResources().getDrawable(R.drawable.prodreg_left_arrow));
 
-        mActionBar.setCustomView(mCustomView, params);
-        setTitle(getString(R.string.app_name));
-        mActionBar.setDisplayShowCustomEnabled(true);
+            mActionBar.setCustomView(mCustomView, params);
+            setTitle(getString(R.string.app_name));
+            mActionBar.setDisplayShowCustomEnabled(true);
+        }
     }
 
     @Override

@@ -8,6 +8,8 @@ package com.philips.platform.uappframework.launcher;
 
 import android.os.Bundle;
 
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+
 
 /**
  The purpose of the class if to launch microapp as activity
@@ -67,6 +69,8 @@ public class ActivityLauncher extends UiLauncher  {
      */
     protected Bundle mBundle;
 
+    private ThemeConfiguration mDLSThemeConfiguration;
+
 
     /**
      Constructor
@@ -93,6 +97,19 @@ public class ActivityLauncher extends UiLauncher  {
         mUiKitTheme=uikitTheme;
 
     }
+
+    /**
+     Constructor
+     @param screenOrientation : takes screen Oreintation
+     @param dlsThemeConfiguration takes Uikit Theme
+     @param bundle bundle object
+
+     */
+    public ActivityLauncher(ActivityLauncher.ActivityOrientation screenOrientation, ThemeConfiguration dlsThemeConfiguration, Bundle bundle) {
+        mScreenOrientation = screenOrientation;
+        mBundle = bundle;
+        mDLSThemeConfiguration =dlsThemeConfiguration;
+    }
     /**
      @returns screen orientation
      */
@@ -114,5 +131,8 @@ public class ActivityLauncher extends UiLauncher  {
         return mBundle;
     }
 
+    public ThemeConfiguration getDlsThemeConfiguration() {
+        return mDLSThemeConfiguration;
+    }
 }
 
