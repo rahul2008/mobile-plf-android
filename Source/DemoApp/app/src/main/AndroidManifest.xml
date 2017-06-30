@@ -9,7 +9,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Philips.DarkBlue.WhiteBackground">
+        android:theme="@style/Theme.Philips.DarkOrange.WhiteBackground">
         <activity
             android:name="com.philips.platform.UappActivity"
             android:label="@string/app_name"

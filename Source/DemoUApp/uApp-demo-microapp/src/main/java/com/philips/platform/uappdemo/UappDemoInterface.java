@@ -16,7 +16,8 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 public class UappDemoInterface implements UappInterface {
 
     private Context context;
-    public static ThemeConfiguration themeConfiguration;
+    public static ThemeConfiguration THEME_CONFIGURATION;
+    public static int DLS_THEME;
     /**
      * @param uappDependencies - App dependencies
      * @param uappSettings     - App settings
@@ -36,7 +37,8 @@ public class UappDemoInterface implements UappInterface {
         if (uiLauncher instanceof ActivityLauncher) {
             Intent intent = new Intent(context, LaunchActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            UappDemoInterface.themeConfiguration = ((ActivityLauncher) uiLauncher).getDlsThemeConfiguration();
+            UappDemoInterface.THEME_CONFIGURATION = ((ActivityLauncher) uiLauncher).getDlsThemeConfiguration();
+            UappDemoInterface.DLS_THEME = ((ActivityLauncher) uiLauncher).getUiKitTheme();
             context.startActivity(intent);
         }
     }

@@ -56,7 +56,7 @@ public class ActivityLauncher extends UiLauncher  {
             return this.value;
         }
     }
-    protected int mUiKitTheme;
+    protected static int mUiKitTheme;
 
 
     /**
@@ -86,7 +86,7 @@ public class ActivityLauncher extends UiLauncher  {
 
     /**
      Constructor
-     @param screenOrientation : takes screen Oreintation
+     @param screenOrientation : takes screen Orientation
      @param uikitTheme takes Uikit Theme
      @param bundle bundle object
 
@@ -100,15 +100,18 @@ public class ActivityLauncher extends UiLauncher  {
 
     /**
      Constructor
-     @param screenOrientation : takes screen Oreintation
-     @param dlsThemeConfiguration takes Uikit Theme
+     @param screenOrientation : takes screen Orientation
+     @param dlsThemeConfiguration takes DLS configuration
+     @param dlsUiKitTheme takes UiKit Theme
      @param bundle bundle object
 
      */
-    public ActivityLauncher(ActivityLauncher.ActivityOrientation screenOrientation, ThemeConfiguration dlsThemeConfiguration, Bundle bundle) {
+    public ActivityLauncher(ActivityLauncher.ActivityOrientation screenOrientation, ThemeConfiguration dlsThemeConfiguration,
+                            int dlsUiKitTheme, Bundle bundle) {
         mScreenOrientation = screenOrientation;
         mBundle = bundle;
         mDLSThemeConfiguration =dlsThemeConfiguration;
+        mUiKitTheme = dlsUiKitTheme;
     }
     /**
      @returns screen orientation

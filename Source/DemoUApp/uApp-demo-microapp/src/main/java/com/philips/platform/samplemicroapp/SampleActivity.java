@@ -30,7 +30,7 @@ public class SampleActivity extends UIDActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        UIDHelper.init(UappDemoInterface.themeConfiguration);
+        UIDHelper.init(UappDemoInterface.THEME_CONFIGURATION);
         super.onCreate(savedInstanceState);
         initCustomActionBar();
         setContentView(R.layout.activity_test_ur);

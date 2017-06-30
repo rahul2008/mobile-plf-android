@@ -11,6 +11,7 @@ import com.philips.platform.uappdemo.UappDemoInterface;
 import com.philips.platform.uappdemo.UappDemoSettings;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
@@ -26,14 +27,13 @@ public class UappActivity extends AppCompatActivity {
         UappDemoApplication uappDemoApplication = (UappDemoApplication) getApplicationContext();
         UappDemoDependencies uappDependencies = new UappDemoDependencies(uappDemoApplication.getAppInfra());
         uAppInterface.init(uappDependencies, new UappDemoSettings(this));// pass App-infra instance instead of null
-        ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, getDlsThemeConfiguration(), null);
+        ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, getDlsThemeConfiguration(),R.style.Theme_DLS_Aqua_VeryDark, null);
         uAppInterface.launch(uiLauncher, null);// pass launch input if required
         finish();
     }
 
     @NonNull
     private ThemeConfiguration getDlsThemeConfiguration() {
-
-        return new ThemeConfiguration(this, ContentColor.BRIGHT, AccentRange.PURPLE, NavigationColor.BRIGHT);
+        return new ThemeConfiguration(this, ColorRange.GROUP_BLUE, NavigationColor.BRIGHT, ContentColor.VERY_DARK, AccentRange.GROUP_BLUE);
     }
 }
