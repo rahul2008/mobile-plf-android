@@ -5,4 +5,5 @@
 
 <resources>
     <string name="app">commlib-ble</string>
+    <string name="app_name">DEVICE TEST APP</string>
 </resources>
