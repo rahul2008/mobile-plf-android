@@ -196,6 +196,8 @@ public class AppTagging implements AppTaggingInterface {
 		if (mLanguage == null) {
 			String uiLocale = mAppInfra.getInternationalization().getUILocaleString();
 			mLanguage = uiLocale.substring(0,2);
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+					AppInfraLogEventID.AI_TAGGING,"Tagging"+ mLanguage);
 		}
 		return mLanguage;
 

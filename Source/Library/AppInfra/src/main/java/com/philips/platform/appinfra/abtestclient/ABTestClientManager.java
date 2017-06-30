@@ -56,8 +56,8 @@ public class ABTestClientManager implements ABTestClientInterface {
             public void run() {
                 Config.setContext(mContext.getApplicationContext());
                 mCacheModel = new CacheModel();
-                // loadfromDisk();
-                mCachestatusvalues = CACHESTATUSVALUES.EXPERIENCES_NOT_UPDATED;
+              //  mCachestatusvalues = CACHESTATUSVALUES.EXPERIENCES_NOT_UPDATED;
+                loadfromDisk();
                 mSharedPreferences = mAppInfra.getAppInfraContext().getSharedPreferences(ABTEST_PRREFERENCE,
                         Context.MODE_PRIVATE);
                 editor = mSharedPreferences.edit();
@@ -97,7 +97,7 @@ public class ABTestClientManager implements ABTestClientInterface {
             }
         }
 
-        if (testList != null && testList.size() == 0) {
+        if (testList == null || (testList != null && testList.size() == 0)) {
             mCachestatusvalues = CACHESTATUSVALUES.NO_TESTS_DEFINED;
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
                     "Cache Status values NO_TESTS_DEFINED");
