@@ -462,7 +462,7 @@
     <item name="uidButtonSocialMediaPrimaryPressedBackgroundColor">@color/uid_group_blue_level_55</item><!-- control-primary-pressed -->
     <item name="uidButtonSocialMediaWhiteNormalBackgroundColor">#00FFFFFF</item><!-- control-white -->
     <item name="uidButtonSocialMediaWhiteNormalIconColor">#00FFFFFF</item><!-- control-white-text -->
-    <item name="uidButtonSocialMediaWhitePressedBackgroundColor">#009DD3E3</item><!-- control-white-pressed -->
+    <item name="uidButtonSocialMediaWhitePressedBackgroundColor">#00DAF1F7</item><!-- control-white-pressed -->
     <item name="uidCarouselDefaultNormalIconColor">#CC1C2D66</item><!-- text-secondary -->
     <item name="uidCarouselDefaultPressedIconColor">@color/uid_group_blue_level_75</item><!-- text-primary -->
     <item name="uidCarouselDefaultDisabledIconColor">#591C2D66</item><!-- text-primary-disabled -->
@@ -845,7 +845,7 @@
     <item name="uidButtonSocialMediaPrimaryPressedBackgroundColor">@color/uid_group_blue_level_85</item><!-- control-primary-pressed -->
     <item name="uidButtonSocialMediaWhiteNormalBackgroundColor">@color/uid_level_white</item><!-- control-white -->
     <item name="uidButtonSocialMediaWhiteNormalIconColor">@color/uid_group_blue_level_50</item><!-- control-white-text -->
-    <item name="uidButtonSocialMediaWhitePressedBackgroundColor">@color/uid_group_blue_level_20</item><!-- control-white-pressed -->
+    <item name="uidButtonSocialMediaWhitePressedBackgroundColor">@color/uid_group_blue_level_10</item><!-- control-white-pressed -->
     <item name="uidCarouselDefaultNormalIconColor">#D9FFFFFF</item><!-- text-secondary -->
     <item name="uidCarouselDefaultPressedIconColor">@color/uid_level_white</item><!-- text-primary -->
     <item name="uidCarouselDefaultDisabledIconColor">#59FFFFFF</item><!-- text-primary-disabled -->
@@ -1228,7 +1228,7 @@
     <item name="uidButtonSocialMediaPrimaryPressedBackgroundColor">@color/uid_group_blue_level_55</item><!-- control-primary-pressed -->
     <item name="uidButtonSocialMediaWhiteNormalBackgroundColor">@color/uid_level_white</item><!-- control-white -->
     <item name="uidButtonSocialMediaWhiteNormalIconColor">@color/uid_group_blue_level_80</item><!-- control-white-text -->
-    <item name="uidButtonSocialMediaWhitePressedBackgroundColor">@color/uid_group_blue_level_20</item><!-- control-white-pressed -->
+    <item name="uidButtonSocialMediaWhitePressedBackgroundColor">@color/uid_group_blue_level_10</item><!-- control-white-pressed -->
     <item name="uidCarouselDefaultNormalIconColor">#CCFFFFFF</item><!-- text-secondary -->
     <item name="uidCarouselDefaultPressedIconColor">@color/uid_level_white</item><!-- text-primary -->
     <item name="uidCarouselDefaultDisabledIconColor">#59FFFFFF</item><!-- text-primary-disabled -->
