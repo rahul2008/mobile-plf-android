@@ -361,8 +361,6 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             Log.v(AppInfraLogEventID.AI_APPINFRA, "SecureStorage Intitialization Done");
             ai.setLogging(logger == null ? new AppInfraLogging(ai) : logger);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "Logging Intitialization Done");
-            ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APPINFRA,
-                    "Device name:"+ Build.MANUFACTURER+" "+ Build.MODEL+" "+" OS version:"+Build.VERSION.RELEASE);
 
             ai.setAppIdentity(appIdentity == null ? new AppIdentityManager(ai) : appIdentity);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "AppIdentity Intitialization Done");
@@ -371,9 +369,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
 
             ai.setServiceDiscoveryInterface(mServiceDiscoveryInterface == null ? new ServiceDiscoveryManager(ai) : mServiceDiscoveryInterface);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "ServiceDiscovery Intitialization Done");
-            if (ai.getAppIdentity() != null) {
-                initializeLogs(ai);
-            }
+
             ai.setAbTesting(aIabtesting == null ? new ABTestClientManager(ai) : aIabtesting);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "ABTESTING Intitialization Done");
 
@@ -395,11 +391,19 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APPINFRA,
+                            "Device name:"+ Build.MANUFACTURER+" "+ Build.MODEL+" "+" OS version:"+Build.VERSION.RELEASE);
+
+                    if (ai.getAppIdentity() != null) {
+                        initializeLogs(ai);
+                    }
                     appConfigurationManager.migrateDynamicData();
                   //  downloadCloudConfig(ai, appConfigurationManager);
                     appUpdateManager.appInfraRefresh();
                 }
             }).start();
+
+
             Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Auto Refresh ENDS");
             Log.v(AppInfraLogEventID.AI_APPINFRA, "AppInfra Initialization ENDS");
             postLog(ai,startTime, "App-infra initialization ends with ");

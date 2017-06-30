@@ -74,7 +74,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
 
     protected JSONObject getMasterConfigFromApp() {
         try {
-            logAppConfiguration(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_APP_CONFIGUARTION,"Reading Master Config from app ");
+         //   logAppConfiguration(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_APP_CONFIGUARTION,"Reading Master Config from app ");
             final InputStream mInputStream = mContext.getAssets().open("AppConfig.json");
             final BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
             final StringBuilder total = new StringBuilder();
@@ -97,7 +97,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         if (null == dynamicConfigJsonCache) {
             dynamicConfigJsonCache = getDynamicJSONFromDevice();
         }
-        logAppConfiguration(LoggingInterface.LogLevel.VERBOSE,AppInfraLogEventID.AI_APP_CONFIGUARTION, "get Dynamic Config JsonCache");
+      //  logAppConfiguration(LoggingInterface.LogLevel.VERBOSE,AppInfraLogEventID.AI_APP_CONFIGUARTION, "get Dynamic Config JsonCache");
         return dynamicConfigJsonCache;
     }
 
@@ -105,13 +105,13 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         if (staticConfigJsonCache == null) {
             staticConfigJsonCache = getMasterConfigFromApp();
         }
-        logAppConfiguration(LoggingInterface.LogLevel.VERBOSE,AppInfraLogEventID.AI_APP_CONFIGUARTION, "get Static Config JsonCache");
+     //   logAppConfiguration(LoggingInterface.LogLevel.VERBOSE,AppInfraLogEventID.AI_APP_CONFIGUARTION, "get Static Config JsonCache");
         return staticConfigJsonCache;
     }
 
 
     private JSONObject getDynamicJSONFromDevice() {
-        logAppConfiguration(LoggingInterface.LogLevel.VERBOSE,AppInfraLogEventID.AI_APP_CONFIGUARTION, "get Dynamic JSON From Device");
+      //  logAppConfiguration(LoggingInterface.LogLevel.VERBOSE,AppInfraLogEventID.AI_APP_CONFIGUARTION, "get Dynamic JSON From Device");
         JSONObject mJsonObject = null;
         final SecureStorageInterface.SecureStorageError secureStorageError = new SecureStorageInterface.SecureStorageError();
         mSecureStorageInterface = mAppInfra.getSecureStorage();
@@ -133,12 +133,12 @@ public class AppConfigurationManager implements AppConfigurationInterface {
         if (cloudConfigJsonCache == null) {
             cloudConfigJsonCache = getCloudJSONFromDevice();
         }
-        logAppConfiguration(LoggingInterface.LogLevel.VERBOSE,AppInfraLogEventID.AI_APP_CONFIGUARTION, "get CloudConfig JsonCache");
+  //      logAppConfiguration(LoggingInterface.LogLevel.VERBOSE,AppInfraLogEventID.AI_APP_CONFIGUARTION, "get CloudConfig JsonCache");
         return cloudConfigJsonCache;
     }
 
     private JSONObject getCloudJSONFromDevice() {
-        logAppConfiguration(LoggingInterface.LogLevel.VERBOSE,AppInfraLogEventID.AI_APP_CONFIGUARTION, "get Cloud JSON From Device");
+     //   logAppConfiguration(LoggingInterface.LogLevel.VERBOSE,AppInfraLogEventID.AI_APP_CONFIGUARTION, "get Cloud JSON From Device");
         JSONObject cloudConfigJsonObj = null;
         mSharedPreferences = getCloudConfigSharedPreferences();
         if (null != mSharedPreferences && mSharedPreferences.contains(CLOUD_APP_CONFIG_JSON)) {
@@ -146,9 +146,6 @@ public class AppConfigurationManager implements AppConfigurationInterface {
             if (null != savedCloudConfigJson) {
                 try {
                     cloudConfigJsonObj = new JSONObject(savedCloudConfigJson);
-                } catch (JSONException e) {
-                    logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_CONFIGUARTION,"AppConfiguration exception "+
-                            Log.getStackTraceString(e));
                 } catch (Exception e) {
                     logAppConfiguration(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_APP_CONFIGUARTION, "AppConfiguration exception "+
                             Log.getStackTraceString(e));
@@ -175,13 +172,13 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                         configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.KeyNotExists) {   // key in dynamic config does not exist
                     configError.setErrorCode(null);// reset error code to null
                     object = getKey(key, group, configError, getCloudConfigJsonCache()); // Level 2 search in cloud config
-                    logAppConfiguration(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_APP_CONFIGUARTION, "Search in cloud config");
+                  //  logAppConfiguration(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_APP_CONFIGUARTION, "Search in cloud config");
                     if (configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.NoDataFoundForKey || // cloud config does not exist
                             configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.GroupNotExists || // Group in cloud config does not exist
                             configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.KeyNotExists) {   // key in cloud config does not exist
                         configError.setErrorCode(null);// reset error code to null
                         object = getKey(key, group, configError, getStaticConfigJsonCache()); // Level 3 search in static config
-                        logAppConfiguration(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_APP_CONFIGUARTION, "Search in static config");
+                     //   logAppConfiguration(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_APP_CONFIGUARTION, "Search in static config");
                         if (configError.getErrorCode() == AppConfigurationError.AppConfigErrorEnum.NoError) { //if key is found in cloud config
                             logAppConfiguration(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_CONFIGUARTION,"uAppConfig Group:" + group + "   Key:" + key + "  found in static config");
                         }

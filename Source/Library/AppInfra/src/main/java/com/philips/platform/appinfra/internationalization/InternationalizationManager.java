@@ -39,7 +39,7 @@ public class InternationalizationManager implements InternationalizationInterfac
      */
     @Override
     public Locale getUILocale() {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_INTERNATIONALIZATION, "get UI locale");
+       // mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_INTERNATIONALIZATION, "get UI locale");
         return Locale.getDefault();
     }
 
