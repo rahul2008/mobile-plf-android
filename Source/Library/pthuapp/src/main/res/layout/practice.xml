@@ -23,7 +23,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:textSize="@dimen/pth_title_text"
+        android:textSize="@dimen/pth_body_text"
         android:gravity="center_vertical"
         android:lineSpacingExtra="@dimen/pth_title_text_line_spacing_extra"
        />
