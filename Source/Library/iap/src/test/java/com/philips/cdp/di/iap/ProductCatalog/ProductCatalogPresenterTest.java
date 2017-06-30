@@ -21,7 +21,9 @@ import com.philips.cdp.di.iap.response.products.PaginationEntity;
 import com.philips.cdp.di.iap.session.HybrisDelegate;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.MockNetworkController;
+import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
+import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.error.PrxError;
 import com.philips.cdp.prxclient.request.ProductSummaryRequest;
@@ -32,9 +34,9 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 
 import java.util.ArrayList;
 
@@ -45,7 +47,6 @@ import static junit.framework.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 public class ProductCatalogPresenterTest implements ProductCatalogPresenter.ProductCatalogListener, IAPListener {
-    @Mock
     private Context mContext;
 
     private MockNetworkController mNetworkController;
@@ -58,6 +59,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
     public void setUP() {
         MockitoAnnotations.initMocks(this);
         mHybrisDelegate = TestUtils.getStubbedHybrisDelegate();
+        mContext = RuntimeEnvironment.application;
         mNetworkController = (MockNetworkController) mHybrisDelegate.getNetworkController(mContext);
 
         mCTNS.add("HX9033/64");
@@ -188,7 +190,7 @@ public class ProductCatalogPresenterTest implements ProductCatalogPresenter.Prod
         mProductCatalogPresenter = new ProductCatalogPresenter(mContext, this);
         mMockPRXDataBuilder = new MockPRXSummaryExecutor(mContext, mCTNS, mProductCatalogPresenter);
         mProductCatalogPresenter.setHybrisDelegate(mHybrisDelegate);
-
+        Utility.addCountryInPreference(mContext, IAPConstant.IAP_COUNTRY_KEY, "en_US");
         mProductCatalogPresenter.getCompleteProductList(this);
 
         JSONObject obj = new JSONObject(TestUtils.readFile(ProductCatalogPresenterTest

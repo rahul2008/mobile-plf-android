@@ -79,8 +79,7 @@ public class Utility {
 
     public static String getCountryFromPreferenceForKey(Context pContext, String key) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(pContext);
-        String value = sharedPreferences.getString(key, null);
-        return value;
+        return sharedPreferences.getString(key, null);
     }
 
     protected static void appendAddressWithNewLineIfNotNull(StringBuilder sb, String code) {
