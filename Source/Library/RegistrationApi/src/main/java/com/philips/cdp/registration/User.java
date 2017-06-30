@@ -440,14 +440,13 @@ public class User {
         return (isEmailVerified()||isMobileVerified());
     }
 
-
-    public boolean isEmailVerified() {
+    private boolean isLoginTypeVerified(String loginType) {
         CaptureRecord captured = Jump.getSignedInUser();
         if (captured == null)
             return false;
         try {
             JSONObject mObject = new JSONObject(captured.toString());
-            if (!mObject.isNull(USER_EMAIL_VERIFIED)) {
+            if (!mObject.isNull(loginType)) {
                 return true;
             }
         } catch (JSONException e) {
@@ -456,19 +455,12 @@ public class User {
         return false;
     }
 
+    public boolean isEmailVerified() {
+        return isLoginTypeVerified(USER_EMAIL_VERIFIED);
+    }
+
     public boolean isMobileVerified() {
-        CaptureRecord captured = Jump.getSignedInUser();
-        if (captured == null)
-            return false;
-        try {
-            JSONObject mObject = new JSONObject(captured.toString());
-            if (!mObject.isNull(USER_MOBILE_VERIFIED)) {
-                return true;
-            }
-        } catch (JSONException e) {
-            Log.e(LOG_TAG, "On isEmailVerificationStatus,Caught JSON Exception");
-        }
-        return false;
+        return isLoginTypeVerified(USER_MOBILE_VERIFIED);
     }
 
     /**
