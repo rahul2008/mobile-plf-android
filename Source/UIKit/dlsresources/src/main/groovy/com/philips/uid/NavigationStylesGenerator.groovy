@@ -1,6 +1,5 @@
 package com.philips.uid
 
-import com.philips.uid.attribute.AttributeManager
 import com.philips.uid.helpers.NameConversionHelper
 import com.philips.uid.model.navigation.NavigationAttribute
 import groovy.xml.MarkupBuilder
@@ -25,20 +24,11 @@ class NavigationStylesGenerator {
                 def themeTonalRange = NameConversionHelper.removeHyphensAndCapitalize("$it")
                 colorXML.style("${DLSResourceConstants.ITEM_NAME}": "UIDNavigationbar" + themeTonalRange) {
 
-                    navigationList.findAll { it.tonalRange == tonalRange}.each {
-                        item("${DLSResourceConstants.ITEM_NAME}": it.componentName, it.value)
+                    navigationList.findAll { it.tonalRange == tonalRange }.each {
+                        item("${DLSResourceConstants.ITEM_NAME}": it.componentName, it.getColorValue())
                     }
                 }
             }
-        }
-
-        def outDir = new File(DLSResourceConstants.PATH_OUT)
-
-        if (!outDir.exists()) {
-            outDir.mkdir()
-        } else {
-            outDir.delete()
-            outDir.mkdir()
         }
 
         def colorFile = new File(DLSResourceConstants.PATH_OUT_NAVIGATION_FILE)

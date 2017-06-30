@@ -55,8 +55,7 @@ def generateTheme(ComponentParser componentParser, BrushParser brushParser, Vali
         xml.resources() {
             xml.style("${DLSResourceConstants.ITEM_NAME}": "${baseTheme}") {
                 5.step(95, 5) {
-                    item("${DLSResourceConstants.ITEM_NAME}": com.philips.uid.BrushParser.getAttributeName("Color_Level_" + "$it"),
-                            "${DLSResourceConstants.COLOR_REFERENCE}${DLSResourceConstants.LIB_PREFIX}_${colorRange}_${DLSResourceConstants.LEVEL}_" + "$it")
+                    item("${DLSResourceConstants.ITEM_NAME}": "uidColorLevel${it}", "${Colors.getColorNameForXmlItem(colorRange, it.toString())}")
                 }
             }
 
@@ -71,13 +70,17 @@ def generateTheme(ComponentParser componentParser, BrushParser brushParser, Vali
                             Control control = it
                             it.parent.each {
                                 result = getComponentsValues(control, it, brushParser, validationparser, colorRange, tonalRange)
-                                item(name: "${result[0]}", "${result[1]}")
-                                getMkp().comment("${result[2]}")
+                                if (AttributeManager.instance.isAttributeAllowed("${result[0]}")) {
+                                    item(name: "${result[0]}", "${result[1]}")
+                                    getMkp().comment("${result[2]}")
+                                }
                             }
                         } else {
                             result = getComponentsValues(it, null, brushParser, validationparser, colorRange, tonalRange)
-                            item(name: "${result[0]}", "${result[1]}")
-                            getMkp().comment("${result[2]}")
+                            if (AttributeManager.instance.isAttributeAllowed("${result[0]}")) {
+                                item(name: "${result[0]}", "${result[1]}")
+                                getMkp().comment("${result[2]}")
+                            }
                         }
                     }
                 }
@@ -105,7 +108,11 @@ def getComponentsValues(Control control, parent, brushParser, validationparser, 
     AttributeManager.instance.addAtrribute(controlName, brushValue)
 
     //Update NavigationItems
-    addNavigationItems(colorRange, tonalRange, controlName, control.component, val)
+    addNavigationItems(tonalRange, controlName, control.component, val)
+
+    if(val == null || val == "@null") {
+        println("invalid brush ${colorRange}:${tonalRange}:${brushName}  ${NameConversionHelper.getControlName(control, parent)}")
+    }
 
     return [controlName, val, brushName]
 }
@@ -121,16 +128,18 @@ def flushAllAttributes() {
     def attrsXML = new MarkupBuilder(writer)
     attrsXML.setDoubleQuotes(true)
     attrsXML.resources() {
-        AttributeManager.instance.getAttributesList().each {
-            attr(name: "${it.name}", format: "${it.refType}")
+        attrsXML."${DLSResourceConstants.THEME_DECLARED_STYLEABLE}"("${DLSResourceConstants.ITEM_NAME}": DLSResourceConstants.THEME_DECLARED_ID) {
+            AttributeManager.instance.getAttributesList().each {
+                attr(name: "${it.name}", format: "${it.refType}")
+            }
         }
     }
     attrsFile.write(writer.toString())
 }
 
-def addNavigationItems(colorRange, tonalRange, controlName, component, value) {
-    if(component == "navigation") {
-        def navAttribute = new NavigationAttribute(colorRange: colorRange, tonalRange: tonalRange, componentName: controlName, value: value)
+def addNavigationItems(tonalRange, controlName, component, value) {
+    if (component == "navigation") {
+        def navAttribute = new NavigationAttribute(tonalRange: tonalRange, componentName: controlName, value: value)
         NavigationStylesGenerator.instance.addNavigationAttribute(navAttribute)
     }
 }

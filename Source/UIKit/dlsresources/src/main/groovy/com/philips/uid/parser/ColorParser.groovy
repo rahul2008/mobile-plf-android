@@ -25,7 +25,7 @@ class ColorParser {
                     range.colorValueMap.put(it.key, it.value.toString())
                 }
             }
-            Colors.instance.colorRangeMap.put(it.key, range)
+            Colors.colorRangeMap.put(it.key, range)
         }
     }
 
@@ -66,9 +66,10 @@ class ColorParser {
                 }
             }
             //Inject white and black colors
-            color("name":"uid_white", "#FFFFFF")
-            color("name":"uid_black", "#000000")
+            color("name":"uid_level_white", "#FFFFFF")
+            color("name":"uid_level_black", "#000000")
         }
+
         colorXml.write(writer.toString())
     }
 }

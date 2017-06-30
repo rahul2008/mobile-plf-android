@@ -1,6 +1,6 @@
 package component.override
 
-import com.philips.uid.BrushParser
+
 import com.philips.uid.DLSResourceConstants
 
 public class ComponentTROverride {

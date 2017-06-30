@@ -22,7 +22,7 @@ class AttributeManager {
         attributesList.clone()
     }
 
-    private def isAttributeAllowed(name) {
+    def isAttributeAllowed(name) {
         !name.toLowerCase().contains("hover")
     }
 }

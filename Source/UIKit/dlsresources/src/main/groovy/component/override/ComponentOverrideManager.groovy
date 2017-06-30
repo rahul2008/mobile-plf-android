@@ -1,6 +1,5 @@
 package component.override
 
-import com.philips.uid.BrushParser
 
 public class ComponentOverrideManager {
     private static final String DIALOG_ALERT_DEFAULT_BODY = "uidDialogAlertDefaultBody"

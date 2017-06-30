@@ -4,10 +4,21 @@ import com.philips.uid.model.brush.Brush
 import com.philips.uid.model.brush.BrushValue
 import com.philips.uid.model.color.Colors
 
+import static junit.framework.Assert.assertNotNull
 import static junit.framework.Assert.assertNull
 
 class BrushValueEvaluator {
     static def getValue(BrushValue brushValue, List<Brush> brushes, colorRange, tonalRange) {
+
+        //Can happen if value is missing from validation json
+        if (brushValue.colorRange == "validation") {
+            return "@null"
+        }
+
+        if (containsOnlyOffset(brushValue)) {
+            nullifyOffsetWithColorCode(brushValue)
+        }
+
         if (containsOnlyOpacity(brushValue)) {
             return brushValue.opacity
         }
@@ -35,7 +46,7 @@ class BrushValueEvaluator {
                 return applyOpacityOnColor(color, brushValue.opacity)
             }
             assertNull(brushValue.opacity)
-            return Colors.instance.getColorNameForXmlItem(brushValue.colorRange?:colorRange, colorCode)
+            return Colors.instance.getColorNameForXmlItem(brushValue.colorRange ?: colorRange, colorCode)
         } else if (brushValue.color) {
             def color = Colors.instance.getColorValueHardCodedColor(brushValue.color)
             if (brushValue.opacity) {
@@ -53,6 +64,7 @@ class BrushValueEvaluator {
     }
 
     static def updateCloneBrushWithRealValues(brushValue, clonedBrushValue) {
+        clonedBrushValue.color = brushValue.color ?: clonedBrushValue.color
         clonedBrushValue.colorCode = brushValue.colorCode ?: clonedBrushValue.colorCode
         clonedBrushValue.offset = brushValue.offset ?: clonedBrushValue.offset
         clonedBrushValue.colorRange = brushValue.colorRange ?: clonedBrushValue.colorRange
@@ -60,9 +72,9 @@ class BrushValueEvaluator {
 
         if (brushValue.colorCode == null) {
             def colorCode = clonedBrushValue.colorCode
-            if (brushValue.offset != null && colorCode != null) {
-                clonedBrushValue.colorCode = String.valueOf(Integer.valueOf(colorCode) + Integer.valueOf(brushValue.offset))
-            }
+//            if (brushValue.offset != null && colorCode != null) {
+//                clonedBrushValue.colorCode = String.valueOf(Integer.valueOf(colorCode) + Integer.valueOf(brushValue.offset))
+//            }
             if (brushValue.offset != null && colorCode == null) {
                 clonedBrushValue.colorCode = brushValue.offset
             }
@@ -83,13 +95,28 @@ class BrushValueEvaluator {
         return hexAlpha
     }
 
-    static private def containsOnlyOpacity(BrushValue brushValue) {
-        return ((brushValue.opacity != null)
+    //Don't consider offset for this comparison
+    static def containsOnlyOpacity(BrushValue brushValue) {
+        return ((brushValue.opacity)
                 && (brushValue.color == null
-                && brushValue.color == null
                 && brushValue.reference == null
                 && brushValue.colorCode == null
                 && brushValue.colorRange == null))
+    }
+
+    //Don't consider opacity for this comparison
+    static def containsOnlyOffset(BrushValue brushValue) {
+        return ((brushValue.offset)
+                && (brushValue.color == null
+                && brushValue.reference == null
+                && brushValue.colorCode == null
+                && brushValue.colorRange == null))
+    }
+
+    static def nullifyOffsetWithColorCode(BrushValue brushValue) {
+        assertNull(brushValue.colorCode)
+        assertNotNull(brushValue.offset)
+        brushValue.colorCode = brushValue.offset
     }
 
     static def getBrushFormatNameFromBrushValue(BrushValue brushValue) {
@@ -98,4 +125,5 @@ class BrushValueEvaluator {
         }
         return "reference|color"
     }
+
 }

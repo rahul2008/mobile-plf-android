@@ -7,8 +7,11 @@ import static org.junit.Assert.assertNotNull
 class NameConversionHelper {
     static def getControlAttributeName(control, parent = null) {
         assertNotNull(control)
-        def prefix = DLSResourceConstants.LIB_PREFIX
-        prefix = prefix + (removeHyphensAndCapitalize(parent ?: ""))
+        return DLSResourceConstants.LIB_PREFIX + getControlName(control, parent)
+    }
+
+    static String getControlName(control, parent) {
+        def prefix = removeHyphensAndCapitalize(parent ?: "")
         return prefix
                 .concat(removeHyphensAndCapitalize(control.component))
                 .concat(removeHyphensAndCapitalize(control.getContext()))

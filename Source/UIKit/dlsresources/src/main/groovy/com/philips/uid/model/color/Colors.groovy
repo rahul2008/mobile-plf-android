@@ -1,21 +1,22 @@
 package com.philips.uid.model.color
 
+import com.philips.uid.DLSResourceConstants
 import com.philips.uid.attribute.AttributeManager
 import com.philips.uid.attribute.AttributeModel
 import com.philips.uid.helpers.NameConversionHelper
 
 @Singleton
 class Colors {
-    Map<String, ColorRange> colorRangeMap = new TreeMap<>();
+    static Map<String, ColorRange> colorRangeMap = new TreeMap<>();
 
-    def getColorForRange(colorRange, colorcode) {
+    static def getColorForRange(colorRange, colorcode) {
         colorRangeMap.get(colorRange).colorValueMap.get(colorcode)
     }
 
-    def getColorNameForXmlItem(colorRange, colorCode) {
+    static def getColorNameForXmlItem(colorRange, colorCode) {
         def level = colorCode.number ? "level_": ""
         def alignedColorName = NameConversionHelper.replaceHyphenWithUnderScores(colorRange).toLowerCase()
-        return "@color/${alignedColorName}_${level}${colorCode}"
+        return "@color/${DLSResourceConstants.LIB_PREFIX}_${alignedColorName}_${level}${colorCode}"
     }
 
     //Only for hardcode colors which have no entry in brushes.json
@@ -23,7 +24,7 @@ class Colors {
         if (color.startsWith("#")) {
             return color
         }
-        return "@color/uid_${color}"
+        return "@color/uid_level_${color}"
     }
 
     //Only for hardcode colors which have no entry in brushes.json
