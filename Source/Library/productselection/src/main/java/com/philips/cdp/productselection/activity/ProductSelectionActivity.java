@@ -44,7 +44,6 @@ public class ProductSelectionActivity extends ProductSelectionBaseActivity {
             showFragment(new ProductSelectionListingFragment());
         }
         UIDHelper.setupToolbar(this);
-        getTheme().applyStyle(com.philips.cdp.uikit.R.style.Theme_Philips_BrightOrange_Gradient, true);
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_back_icon);
     }
