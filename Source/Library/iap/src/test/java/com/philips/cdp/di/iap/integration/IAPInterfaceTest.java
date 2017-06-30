@@ -8,15 +8,16 @@ import com.philips.cdp.di.iap.TestUtils;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-
-import java.util.ArrayList;
 
 @RunWith(RobolectricTestRunner.class)
 public class IAPInterfaceTest {
@@ -30,50 +31,25 @@ public class IAPInterfaceTest {
     @Mock
     private IAPLaunchInput mIapLaunchInput;
 
+
     private IAPSettings mIAPSettings;
     private IAPInterface mIapInterface;
+    @Mock
+    private IAPHandler mockHandler;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         mIAPSettings = new IAPSettings(mContext);
         mIapInterface = new MockIAPInterface();
-        mIapLaunchInput.setIapListener(new IAPListener() {
-            @Override
-            public void onGetCartCount(int count) {
-
-            }
-
-            @Override
-            public void onUpdateCartCount() {
-
-            }
-
-            @Override
-            public void updateCartIconVisibility(boolean shouldShow) {
-
-            }
-
-            @Override
-            public void onGetCompleteProductList(ArrayList<String> productList) {
-
-            }
-
-            @Override
-            public void onSuccess() {
-
-            }
-
-            @Override
-            public void onFailure(int errorCode) {
-
-            }
-        });
+        mIapLaunchInput.setIapListener(Mockito.mock(IAPListener.class));
     }
 
     @Test
     public void testInit() {
         mIapInterface.init(mIAPDependencies, mIAPSettings);
+        Assert.assertNotNull(mIAPDependencies);
+        Assert.assertNotNull(mIAPSettings);
     }
 
     @Test
@@ -85,57 +61,22 @@ public class IAPInterfaceTest {
         iapLaunchInput.setIAPFlow(IAPLaunchInput.IAPFlows.IAP_PRODUCT_DETAIL_VIEW, input);
         mIAPSettings.setUseLocalData(true);
         mIapInterface.init(mIAPDependencies, mIAPSettings);
-        mIapInterface.launch(new FragmentLauncher(activity, R.id.cart_container, new ActionBarListener() {
-            @Override
-            public void updateActionBar(int i, boolean b) {
-
-            }
-
-            @Override
-            public void updateActionBar(String s, boolean b) {
-
-            }
-        }), iapLaunchInput);
+        mIapInterface.launch(new FragmentLauncher(activity, R.id.cart_container, Mockito.mock(ActionBarListener.class)), iapLaunchInput);
     }
 
     @Test
-    public void testGetProductCount(){
-        mIapInterface.getProductCartCount(new IAPListener() {
-            @Override
-            public void onGetCartCount(int count) {
+    public void testGetProductCount() {
+        IAPListener listener = Mockito.mock(IAPListener.class);
+        mIapInterface.getProductCartCount(listener);
+        Assert.assertNotNull(listener);
 
-            }
-
-            @Override
-            public void onUpdateCartCount() {
-
-            }
-
-            @Override
-            public void updateCartIconVisibility(boolean shouldShow) {
-
-            }
-
-            @Override
-            public void onGetCompleteProductList(ArrayList<String> productList) {
-
-            }
-
-            @Override
-            public void onSuccess() {
-
-            }
-
-            @Override
-            public void onFailure(int errorCode) {
-
-            }
-        });
     }
 
     @Test
-    public void getCompleteProductList(){
-        mIapInterface.getCompleteProductList(null);
+    public void getCompleteProductList() {
+        IAPListener listener = Mockito.mock(IAPListener.class);
+        mIapInterface.getCompleteProductList(listener);
+        Assert.assertNotNull(listener);
     }
 
 }
