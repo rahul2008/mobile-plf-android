@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by 310190678 on 28-Mar-16.
+ * Rich Texts.
  */
 
 public class RichTexts {

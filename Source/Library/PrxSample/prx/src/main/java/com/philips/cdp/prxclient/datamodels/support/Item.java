@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by 310190678 on 28-Mar-16.
+ * Item model class.
  */
 
 public class Item {

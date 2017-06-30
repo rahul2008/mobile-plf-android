@@ -6,13 +6,13 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 /**
- * Created by 310243577 on 12/16/2016.
+ * PRX Dependencies Class.
  */
 
 public class PRXDependencies {
 
-    private AppInfraInterface mAppInfraInterface;
-    private Context mContext;
+    private final AppInfraInterface mAppInfraInterface;
+    private final Context mContext;
     private String mParentTLA;
     public LoggingInterface mAppInfraLogging;
 

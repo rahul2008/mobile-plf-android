@@ -1,12 +1,12 @@
 package com.philips.cdp.prxclient.error;
 
 /**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
+ *  Prx Error Handle Class
+ *
  */
 public class PrxError {
-    private String description;
-    private int statusCode;
+    private final String description;
+    private final int statusCode;
 
     public PrxError(String description, int statusCode) {
         this.description = description;

@@ -24,8 +24,8 @@ public abstract class PrxRequest {
     private PrxConstants.Catalog mCatalog;
     private int maxRetries = 0;
     private int requestTimeOut = 5000;
-    private String mCtn;
-    private String mServiceId;
+    private final String mCtn;
+    private final String mServiceId;
 
     /**
      * @param ctn ctn of the product.

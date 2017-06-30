@@ -9,7 +9,7 @@ import com.philips.cdp.prxclient.response.ResponseData;
 import org.json.JSONObject;
 
 /**
- * Created by naveen@philips.com on 28-Mar-16.
+ * Product Support Request class
  */
 public class ProductSupportRequest extends PrxRequest {
 

@@ -8,7 +8,7 @@ import com.philips.cdp.prxclient.response.ResponseData;
 import org.json.JSONObject;
 
 /**
- * Created by 310190678 on 28-Mar-16.
+ * Support Model.
  */
 
 public class SupportModel extends ResponseData {
@@ -50,10 +50,8 @@ public class SupportModel extends ResponseData {
 
     @Override
     public ResponseData parseJsonResponseData(JSONObject response) {
-        JSONObject supportResponse = response;
-        if (supportResponse != null) {
-            SupportModel  supportModel = new Gson().fromJson(response.toString(), SupportModel.class);
-            return supportModel;
+        if (response != null) {
+            return new Gson().fromJson(response.toString(), SupportModel.class);
 
         }
         return null;

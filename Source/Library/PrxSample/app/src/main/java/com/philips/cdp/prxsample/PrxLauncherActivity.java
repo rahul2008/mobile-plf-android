@@ -49,21 +49,24 @@ public class PrxLauncherActivity extends AppCompatActivity {
 
     private String selectedCtn, selectedCountry;
 
-    private String mRequestTag = null;
-    Spinner mSector_spinner_prx, mSector_catalog_prx, spinner_ctn, spinner_country;
+    private final String mRequestTag = null;
+    private Spinner mSector_spinner_prx;
+    private Spinner mSector_catalog_prx;
+    private Spinner spinner_ctn;
+    private Spinner spinner_country;
     private String mSector[], mCatalog[], mCtn[], mCountry[];
-    PrxConstants.Sector selectedSector;
-    PrxConstants.Catalog selectedCatalog;
+    private PrxConstants.Sector selectedSector;
+    private PrxConstants.Catalog selectedCatalog;
 
-    PRXDependencies prxDependencies;
-    AppInfraInterface mAppInfra;
+    private PRXDependencies prxDependencies;
+    private AppInfraInterface mAppInfra;
     private ListView listview;
     private ImageView imageView;
     private TextView descTextView;
     private TextView priceTextView;
     private TextView productTitleText;
     private TextView subtitelText;
-    RequestManager mRequestManager;
+    private RequestManager mRequestManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

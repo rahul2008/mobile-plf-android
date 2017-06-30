@@ -44,7 +44,6 @@ public class SummaryModelTest extends InstrumentationTestCase {
 
 
     public void testSummaryDataLoad() {
-        JSONObject mJsonObject = null;
         try {
             StringBuilder sb = new StringBuilder();
             try {
@@ -64,8 +63,8 @@ public class SummaryModelTest extends InstrumentationTestCase {
                 e.printStackTrace();
             }
             Log.d(TAG, "Parsed Data : " + sb.toString());
-            mJsonObject = new JSONObject(sb.toString());
-            ResponseData mResponseData = mProductSummaryBuilder.getResponseData(mJsonObject);
+            JSONObject mJsonObject = new JSONObject(sb.toString());
+            //ResponseData mResponseData = mProductSummaryBuilder.getResponseData(mJsonObject);
             SummaryModel summaryModel = new SummaryModel();
             ResponseData responseData = summaryModel.parseJsonResponseData(mJsonObject);
             assertNotNull(responseData);
@@ -79,7 +78,6 @@ public class SummaryModelTest extends InstrumentationTestCase {
 
 
     public void testSummaryObjectModelWithSingleCOnstructorData() {
-        JSONObject mJsonObject = null;
         try {
             StringBuilder sb = new StringBuilder();
             try {
@@ -99,7 +97,7 @@ public class SummaryModelTest extends InstrumentationTestCase {
                 e.printStackTrace();
             }
             Log.d(TAG, "Parsed Data : " + sb.toString());
-            mJsonObject = new JSONObject(sb.toString());
+            JSONObject mJsonObject = new JSONObject(sb.toString());
             ResponseData mResponseData = mProductSummaryBuilder.getResponseData(mJsonObject);
            /* SummaryModel summaryModel = new SummaryModel();
             ResponseData responseData = summaryModel.parseJsonResponseData(mJsonObject);
@@ -124,7 +122,6 @@ public class SummaryModelTest extends InstrumentationTestCase {
 
 
     public void testSummaryDataLoadToModel() {
-        JSONObject mJsonObject = null;
         try {
             StringBuilder sb = new StringBuilder();
             try {
@@ -144,7 +141,7 @@ public class SummaryModelTest extends InstrumentationTestCase {
                 e.printStackTrace();
             }
             Log.d(TAG, "Parsed Data : " + sb.toString());
-            mJsonObject = new JSONObject(sb.toString());
+            JSONObject mJsonObject = new JSONObject(sb.toString());
             ResponseData mResponseData = mProductSummaryBuilder.getResponseData(mJsonObject);
            /* SummaryModel summaryModel = new SummaryModel();
             ResponseData responseData = summaryModel.parseJsonResponseData(mJsonObject);

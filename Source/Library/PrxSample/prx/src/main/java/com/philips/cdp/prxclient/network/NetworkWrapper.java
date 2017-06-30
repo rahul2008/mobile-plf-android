@@ -31,9 +31,8 @@ import java.io.UnsupportedEncodingException;
  */
 public class NetworkWrapper {
 
-    private static final String TAG = "prx "+NetworkWrapper.class.getSimpleName();
-    private PRXDependencies mPrxDependencies;
-    private LoggingInterface mPrxLogging;
+    private final PRXDependencies mPrxDependencies;
+    private final LoggingInterface mPrxLogging;
 
     public NetworkWrapper(PRXDependencies prxDependencies) {
         mPrxDependencies = prxDependencies;
