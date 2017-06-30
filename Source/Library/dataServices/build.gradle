@@ -148,7 +148,6 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName objcdp.getVersionWithHash()
-        multiDexEnabled true
         testApplicationId "com.philips.platform.dataservices.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         generatedDensities = []
@@ -212,7 +211,6 @@ dependencies {
     
     //Android Support
     compile 'com.android.support:support-annotations:25.3.1'
-    compile 'com.android.support:multidex:1.0.0'
 
     //3rd Party
     compile fileTree(include: ['*.jar'], dir: 'libs')
