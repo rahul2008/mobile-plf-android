@@ -31,7 +31,6 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:text="@string/launch_button_as_activity"
-            android:visibility="gone"
             android:textStyle="bold" />
 
         <com.philips.platform.uid.view.widget.Button
@@ -45,7 +44,7 @@
             android:visibility="gone"
             android:layout_marginRight="10dp"
             android:layout_marginTop="20dp"
-            android:text="@string/launch_digital_care"
+            android:text="@string/launch_button_as_fragment"
             android:textStyle="bold" />
 
         <com.philips.platform.uid.view.widget.Button

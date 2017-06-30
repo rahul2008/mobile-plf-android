@@ -168,7 +168,7 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         });
 
         if (mActivityButtonSelected) {
-            mLaunchDigitalCare.setVisibility(View.INVISIBLE);
+            mLaunchDigitalCare.setVisibility(View.VISIBLE);
         } else {
             mLaunchDigitalCare.setVisibility(View.INVISIBLE);
         }
