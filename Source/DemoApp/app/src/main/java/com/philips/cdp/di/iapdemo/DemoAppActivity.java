@@ -1,3 +1,4 @@
+/*
 package com.philips.cdp.di.iapdemo;
 
 import android.app.Activity;
@@ -22,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.iap.demouapp.TestClass;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
@@ -35,7 +37,6 @@ import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.cdp.uikit.UiKitActivity;
@@ -84,7 +85,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
         IAPLog.enableLogging(true);
         mApplicationContext = (DemoApplication) getApplicationContext();
-
         addActionBar();
         setContentView(R.layout.demo_app_layout);
         showAppVersion();
@@ -96,7 +96,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
         mLaunchFragment = (Button) findViewById(R.id.btn_fragment_launch);
         mLaunchFragment.setOnClickListener(this);
-        mLaunchFragment.setVisibility(View.GONE);
+        mLaunchFragment.setVisibility(View.VISIBLE);
 
         mBuyDirect = (Button) findViewById(R.id.btn_buy_direct);
         mBuyDirect.setOnClickListener(this);
@@ -311,7 +311,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         } else {
             mPurchaseHistory.setVisibility(View.GONE);
             mBuyDirect.setVisibility(View.GONE);
-            mLaunchFragment.setVisibility(View.GONE);
+            mLaunchFragment.setVisibility(View.VISIBLE);
             mShoppingCart.setVisibility(View.GONE);
         }
     }
@@ -482,4 +482,4 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     public void onUserLogoutSuccessWithInvalidAccessToken() {
 
     }
-}
+}*/

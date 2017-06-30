@@ -1,7 +1,7 @@
 package com.philips.cdp.di.iap;
 
 import org.junit.runners.model.InitializationError;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.manifest.AndroidManifest;
 import org.robolectric.res.FileFsFile;
@@ -13,7 +13,7 @@ import org.robolectric.res.FsFile;
  * This workaround is only for Mac Users necessary and only if they don't use the $MODULE_DIR$
  * workaround. Follow this issue at https://code.google.com/p/android/issues/detail?id=158015
  */
-public class CustomRobolectricRunner extends RobolectricGradleTestRunner {
+public class CustomRobolectricRunner extends RobolectricTestRunner {
 
     public CustomRobolectricRunner(Class<?> klass) throws InitializationError {
         super(klass);

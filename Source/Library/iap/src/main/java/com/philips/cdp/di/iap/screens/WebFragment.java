@@ -91,6 +91,7 @@ public abstract class WebFragment extends InAppBaseFragment {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
             mProgress.setVisibility(View.VISIBLE);
             super.onPageStarted(view, url, favicon);
         }

@@ -1,8 +1,9 @@
 package com.philips.cdp.di.iapdemo;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.os.LocaleList;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.philips.cdp.registration.AppIdentityInfo;
@@ -18,15 +19,15 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.squareup.leakcanary.LeakCanary;
 
-import java.util.Locale;
-
-public class DemoApplication extends Application {
+public class DemoApplication extends Application implements Application.ActivityLifecycleCallbacks {
     final String UR = "UserRegistration";
     private AppInfra mAppInfra;
+    private Activity currentActivity;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        registerActivityLifecycleCallbacks(this);
         LeakCanary.install(this);
         mAppInfra = new AppInfra.Builder().build(getApplicationContext());
         HSDPConfiguration();
@@ -336,4 +337,42 @@ public class DemoApplication extends Application {
         Log.i(SERVICE_DISCOVERY_TAG, " AppIdentity ServiceDiscoveryEnvironment : " + appIdentityInfo.getServiceDiscoveryEnvironment());
     }
 
+    @Override
+    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+        currentActivity = activity;
+    }
+
+    @Override
+    public void onActivityStarted(Activity activity) {
+        currentActivity = activity;
+    }
+
+    @Override
+    public void onActivityResumed(Activity activity) {
+        currentActivity = activity;
+    }
+
+    @Override
+    public void onActivityPaused(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityStopped(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+    }
+
+    @Override
+    public void onActivityDestroyed(Activity activity) {
+
+    }
+
+    public Activity getCurrentActivity() {
+        return currentActivity;
+    }
 }
