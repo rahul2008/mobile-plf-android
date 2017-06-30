@@ -22,7 +22,7 @@ node ('android&&device') {
     			stage ('build') {
                     sh '''#!/bin/bash -l
                         chmod -R 775 . 
-                        cd ./Source/Library 
+                        cd ./Source/DemoApp
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
                         ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test zipDocuments artifactoryPublish
                     '''
@@ -31,7 +31,7 @@ node ('android&&device') {
     			stage ('build') {
                     sh '''#!/bin/bash -l
                         chmod -R 775 . 
-                        cd ./Source/Library 
+                        cd ./Source/DemoApp
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
                         ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test
                     '''
@@ -41,7 +41,9 @@ node ('android&&device') {
     		stage ('save dependencies list') {
                 sh '''#!/bin/bash -l
             	   chmod -R 775 . 
-                   cd ./Source/Library 
+                   cd ./Source/DemoApp
+                   ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
+                   cd ../Library
                    ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
                 '''
             }

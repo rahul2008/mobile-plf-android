@@ -53,16 +53,6 @@ public abstract class RegistrationBaseFragment extends Fragment {
     protected static int mWidth = 0;
     protected static int mHeight = 0;
 
-    private final Handler mHandler = new Handler(Looper.getMainLooper());
-    private Thread mUiThread = Looper.getMainLooper().getThread();
-    protected final void handleOnUIThread(Runnable runnable) {
-        if (Thread.currentThread() != mUiThread) {
-            mHandler.post(runnable);
-        } else {
-            runnable.run();
-        }
-    }
-
     private final int JELLY_BEAN = 16;
 
     @Override

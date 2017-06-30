@@ -162,7 +162,7 @@ public class MobileVerifyCodeFragment extends RegistrationBaseFragment implement
 
 
     public void handleUI() {
-        handleOnUIThread(() -> updateUiStatus());
+        updateUiStatus();
     }
 
     @Override

@@ -338,7 +338,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
             urLaunchInput.setAccountSettings(false);
             urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
             urLaunchInput.setRegistrationContentConfiguration(getRegistrationContentConfiguration());
-            urLaunchInput.setUIFlow(UIFlow.FLOW_B);
+            urLaunchInput.setUIFlow(UIFlow.FLOW_C);
             urLaunchInput.setUserRegistrationUIEventListener(this);
             activityLauncher = new ActivityLauncher(ActivityLauncher.
                     ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0);

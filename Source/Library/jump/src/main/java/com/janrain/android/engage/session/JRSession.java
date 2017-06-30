@@ -63,6 +63,7 @@ import com.janrain.android.utils.CollectionUtils;
 import com.janrain.android.utils.LogUtils;
 import com.janrain.android.utils.PrefUtils;
 import com.janrain.android.utils.StringUtils;
+
 import net.openid.appauth.AuthorizationService;
 
 import org.apache.http.HttpStatus;
@@ -1196,8 +1197,9 @@ public class JRSession implements JRConnectionManagerDelegate {
         if (!TextUtils.isEmpty(mTokenUrl)) {
             makeCallToTokenUrl(mTokenUrl, authInfoToken, mCurrentlyAuthenticatingProvider.getName());
         }
-
-        mCurrentlyAuthenticatingProvider.clearForceReauth();
+        if (mCurrentlyAuthenticatingProvider != null) {
+            mCurrentlyAuthenticatingProvider.clearForceReauth();
+        }
         setCurrentlyAuthenticatingProvider(null);
     }
 

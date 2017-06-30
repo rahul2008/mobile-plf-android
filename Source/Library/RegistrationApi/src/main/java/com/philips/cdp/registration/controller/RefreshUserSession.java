@@ -22,6 +22,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
 public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowDownloadStatusListener {
 
@@ -45,7 +46,8 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
             UserRegistrationInitializer.getInstance().setRefreshUserSessionInProgress(true);
             captureRecord.refreshAccessToken(new RefreshLoginSession(this), mContext);
         }else{
-            mRefreshLoginSessionHandler.onRefreshLoginSessionInProgress("Refresh already scheduled");
+            ThreadUtils.postInMainThread(mContext,()->
+            mRefreshLoginSessionHandler.onRefreshLoginSessionInProgress("Refresh already scheduled"));
         }
     }
 
@@ -55,7 +57,8 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
             @Override
             public void onRefreshLoginSessionSuccess() {
                 UserRegistrationInitializer.getInstance().setRefreshUserSessionInProgress(false);
-                mRefreshLoginSessionHandler.onRefreshLoginSessionSuccess();
+                ThreadUtils.postInMainThread(mContext,()->
+                mRefreshLoginSessionHandler.onRefreshLoginSessionSuccess());
             }
 
             @Override
@@ -67,12 +70,14 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
                     clearData();
                     RegistrationHelper.getInstance().getUserRegistrationListener().notifyOnLogoutSuccessWithInvalidAccessToken();
                 }
-                mRefreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(error);
+                ThreadUtils.postInMainThread(mContext,()->
+                mRefreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(error));
             }
 
             @Override
             public void onRefreshLoginSessionInProgress(String message) {
-                mRefreshLoginSessionHandler.onRefreshLoginSessionInProgress(message);
+                ThreadUtils.postInMainThread(mContext,()->
+                mRefreshLoginSessionHandler.onRefreshLoginSessionInProgress(message));
             }
         });
     }
@@ -104,7 +109,8 @@ public class RefreshUserSession implements RefreshLoginSessionHandler, JumpFlowD
     @Override
     public void onFlowDownloadFailure() {
         RLog.i(LOG_TAG, "Jump not initialized, was initialized but failed");
-        mRefreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(-1);
+        ThreadUtils.postInMainThread(mContext,()->
+        mRefreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(-1));
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
     }
 

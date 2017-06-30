@@ -24,7 +24,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
@@ -44,11 +43,10 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.URInterface;
-
 import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -127,16 +125,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     private Context mContext;
 
     private long mTrackCreateAccountTime;
-
-  //  private boolean isTermsAndConditionVisible;
-
-    //private boolean isSavedEmailErr;
-
-   // private boolean isSavedCBTermsChecked;
-
-    //private boolean isSavedCbAcceptTermsChecked;
-
-    //private boolean isSavedPasswordErr;
 
     private CreateAccountPresenter createAccountPresenter;
 
@@ -349,8 +337,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         } else {
             mEmail = FieldsValidator.getMobileNumber(mEtEmail.getEmailId());
         }
-        createAccountPresenter.registerUserInfo(mUser, mEtName.getName().toString(), mEmail
-                , mEtPassword.getPassword().toString(), true, mCbMarketingOpt.isChecked());
+        createAccountPresenter.registerUserInfo(mUser, mEtName.getName(), mEmail
+                , mEtPassword.getPassword(), true, mCbMarketingOpt.isChecked());
     }
 
 
@@ -401,12 +389,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @Override
     public void hideSpinner() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                mPbSpinner.setVisibility(View.INVISIBLE);
-                mBtnCreateAccount.setEnabled(true);
-            }
+        ThreadUtils.postInMainThread(mContext, () -> {
+            mPbSpinner.setVisibility(View.INVISIBLE);
+            mBtnCreateAccount.setEnabled(true);
         });
     }
 
@@ -417,25 +402,19 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @Override
     public void emailAlreadyUsed() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                mEtEmail.showInvalidAlert();
-                mEtEmail.showErrPopUp();
-                mPasswordHintView.setVisibility(View.GONE);
-                mTvEmailExist.setVisibility(View.VISIBLE);
-            }
+        ThreadUtils.postInMainThread(mContext, () -> {
+            mEtEmail.showInvalidAlert();
+            mEtEmail.showErrPopUp();
+            mPasswordHintView.setVisibility(View.GONE);
+            mTvEmailExist.setVisibility(View.VISIBLE);
         });
     }
 
     @Override
     public void registrtionFail() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                mPbSpinner.setVisibility(View.INVISIBLE);
-                mBtnCreateAccount.setEnabled(false);
-            }
+        ThreadUtils.postInMainThread(mContext, () -> {
+            mPbSpinner.setVisibility(View.INVISIBLE);
+            mBtnCreateAccount.setEnabled(false);
         });
     }
 
@@ -477,6 +456,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     }
 
 
+
     @Override
     public void launchMarketingAccountFragment() {
         addFragment(new MarketingAccountFragment());
@@ -499,7 +479,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         getRegistrationFragment().addFragment(fragment);
     }
 
-
     @Override
     public void launchWelcomeFragment() {
         getRegistrationFragment().replaceWelcomeFragmentOnLogin(new WelcomeFragment());
@@ -514,12 +493,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @Override
     public void onUpdate() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                updateUiStatus();
-            }
-        });
+        updateUiStatus();
     }
 
     @Override
@@ -585,23 +559,14 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @Override
     public void scrollViewAutomaticallyToEmail() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                scrollViewAutomatically(mEtEmail, mSvRootLayout);
-            }
-        });
-
+        ThreadUtils.postInMainThread(mContext, () -> scrollViewAutomatically(mEtEmail, mSvRootLayout));
     }
 
     @Override
     public void scrollViewAutomaticallyToError() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                scrollViewAutomatically(mRegError, mSvRootLayout);
-            }
-        });
+
+        ThreadUtils.postInMainThread(mContext, () -> scrollViewAutomatically(mRegError, mSvRootLayout));
+
 
     }
 }
