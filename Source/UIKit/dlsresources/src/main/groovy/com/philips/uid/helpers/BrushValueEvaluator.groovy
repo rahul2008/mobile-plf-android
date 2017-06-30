@@ -69,16 +69,6 @@ class BrushValueEvaluator {
         clonedBrushValue.offset = brushValue.offset ?: clonedBrushValue.offset
         clonedBrushValue.colorRange = brushValue.colorRange ?: clonedBrushValue.colorRange
         clonedBrushValue.opacity = brushValue.opacity ?: clonedBrushValue.opacity
-
-        if (brushValue.colorCode == null) {
-            def colorCode = clonedBrushValue.colorCode
-//            if (brushValue.offset != null && colorCode != null) {
-//                clonedBrushValue.colorCode = String.valueOf(Integer.valueOf(colorCode) + Integer.valueOf(brushValue.offset))
-//            }
-            if (brushValue.offset != null && colorCode == null) {
-                clonedBrushValue.colorCode = brushValue.offset
-            }
-        }
     }
 
     static private def applyOpacityOnColor(colorValue, opacity) {
