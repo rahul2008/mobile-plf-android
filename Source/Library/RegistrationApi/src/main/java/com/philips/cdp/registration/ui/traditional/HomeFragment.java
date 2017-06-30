@@ -78,6 +78,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -295,7 +296,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 @Override
                 public void run() {
                     mLlSocialProviderBtnContainer.removeAllViews();
-                    ArrayList<String> providers = new ArrayList<String>();
+                    List<String> providers = new ArrayList<String>();
                     providers = RegistrationConfiguration.getInstance().getProvidersForCountry(countryCode);
                     if (null != providers) {
                         for (int i = 0; i < providers.size(); i++) {
@@ -513,7 +514,11 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             if (picker != null && picker.getDialog() != null
                     && picker.getDialog().isShowing()) {
             } else {
-                picker.show(getRegistrationFragment().getFragmentManager(), "COUNTRY_PICKER");
+                try {
+                    picker.show(getRegistrationFragment().getFragmentManager(), "COUNTRY_PICKER");
+                } catch (Exception e) {
+                    //Nop
+                }
             }
         } else {
             handleUiState();

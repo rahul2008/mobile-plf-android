@@ -103,7 +103,7 @@ public class CountryPicker extends DialogFragment implements
 
     private List<String> handleCountryList() {
         List<String> defaultCountries = Arrays.asList(RegUtility.getDefaultSupportedHomeCountries());
-        ArrayList<String> supportedHomeCountries = RegistrationConfiguration.getInstance().getSupportedHomeCountry();
+        List<String> supportedHomeCountries = RegistrationConfiguration.getInstance().getSupportedHomeCountry();
         if (null != supportedHomeCountries) {
             List<String> filteredCountryList = new ArrayList<String>(supportedHomeCountries);
             filteredCountryList.retainAll(defaultCountries);
