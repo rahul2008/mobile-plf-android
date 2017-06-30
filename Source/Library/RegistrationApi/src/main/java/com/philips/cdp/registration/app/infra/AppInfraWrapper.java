@@ -21,6 +21,7 @@ public class AppInfraWrapper {
         this.appInfra = appInfra;
         appConfigurationInterface = appInfra.getConfigInterface();
         error = new AppConfigurationError();
+
     }
 
     public Object getAppInfraProperty(String key) {
@@ -32,16 +33,18 @@ public class AppInfraWrapper {
     }
 
     private Object getProperty(String key, String group) {
-        Object property = appConfigurationInterface.getPropertyForKey(key, group, error);
-        return property;
+        try {
+            return appConfigurationInterface.getPropertyForKey(key, group, error);
+        } catch (Exception illegalAppStateException) {
+            return null;
+        }
     }
 
     public AppState getAppState() {
         try {
             return appInfra.getAppIdentity().getAppState();
-        } catch (IllegalArgumentException illegalAppStateException) {
-            throw illegalAppStateException;
+        } catch (Exception illegalAppStateException) {
+            return AppState.STAGING;
         }
-
     }
 }

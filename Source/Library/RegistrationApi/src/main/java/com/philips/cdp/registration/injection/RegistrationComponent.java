@@ -16,6 +16,7 @@ import com.philips.cdp.registration.ui.social.MergeAccountFragment;
 import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment;
 import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
 import com.philips.cdp.registration.ui.traditional.CreateAccountFragment;
+import com.philips.cdp.registration.ui.traditional.CreateAccountPresenter;
 import com.philips.cdp.registration.ui.traditional.ForgotPasswordFragment;
 import com.philips.cdp.registration.ui.traditional.HomeFragment;
 import com.philips.cdp.registration.ui.traditional.LogoutFragment;
@@ -117,4 +118,6 @@ public interface RegistrationComponent {
     void inject(AddSecureEmailPresenter addSecureEmailPresenter);
 
     void inject(AlmostDonePresenter almostDonePresenter);
+
+    void inject(CreateAccountPresenter createAccountPresenter);
 }

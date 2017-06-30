@@ -441,12 +441,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onLoginSuccess() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
                 handleLoginSuccess();
-            }
-        });
     }
 
     private void launchWelcomeFragment() {
@@ -456,12 +451,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
+
                 handleLogInFailed(userRegistrationFailureInfo);
-            }
-        });
     }
 
     private void handleLogInFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
@@ -498,14 +489,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onSendForgotPasswordSuccess() {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
                 handleSendForgotSuccess();
-            }
-        });
-
     }
 
     private void handleSendForgotSuccess() {
@@ -523,16 +507,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     @Override
     public void onSendForgotPasswordFailedWithError(final
                                                     UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-
                 handleSendForgetPasswordFailure(userRegistrationFailureInfo);
-            }
-        });
-
-
     }
 
     private void handleSendForgetPasswordFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
@@ -660,12 +635,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onUpdate() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
                 updateUiStatus();
-            }
-        });
     }
 
     @Override
@@ -686,13 +656,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onResendVerificationEmailSuccess() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
                 handleResendVerificationEmailSuccess();
-            }
-        });
-
     }
 
     private void handleResendVerificationEmailSuccess() {
@@ -711,13 +675,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onResendVerificationEmailFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
                 handleResendVerificationEmailFailed(userRegistrationFailureInfo);
-            }
-        });
+
     }
 
     private void handleResendVerificationEmailFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {

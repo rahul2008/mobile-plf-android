@@ -79,10 +79,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Locale;
 
-
 import javax.inject.Inject;
 
-import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -204,9 +202,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void makeProviderButtonsClickable() {
         ViewGroup providerButtonGroup = mLlSocialProviderBtnContainer;
-        for(int i = 0; i < providerButtonGroup.getChildCount(); i++) {
+        for (int i = 0; i < providerButtonGroup.getChildCount(); i++) {
             View childView = providerButtonGroup.getChildAt(i);
-            if(childView instanceof XProviderButton) {
+            if (childView instanceof XProviderButton) {
                 childView.setClickable(true);
             }
         }
@@ -229,29 +227,18 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                                             getParentActivity(),
                                     "wechat", token, openId, HomeFragment.this, "");
                         } catch (JSONException e) {
-                            handleOnUIThread(new Runnable() {
-                                @Override
-                                public void run() {
                                     makeProgressInvisible();
                                     hideProgressDialog();
-                                }
-                            });
                         }
                     }
 
                     @Override
                     public void onFail() {
-                        handleOnUIThread(new Runnable() {
-                            @Override
-                            public void run() {
                                 makeProgressInvisible();
                                 hideProgressDialog();
                                 mRegError.setError(mContext.
                                         getString(R.string.reg_JanRain_Server_Connection_Failed));
-                                scrollViewAutomatically(mRegError,mSvRootLayout);
-
-                            }
-                        });
+                                scrollViewAutomatically(mRegError, mSvRootLayout);
                     }
                 });
     }
@@ -366,12 +353,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 trackPage(AppTaggingPages.CREATE_ACCOUNT);
 
                 RLog.d(RLog.ONCLICK, "HomeFragment : " + providerName);
-                if(mRegError.isShown())mRegError.hideError();
+                if (mRegError.isShown()) mRegError.hideError();
                 if (networkUtility.isNetworkAvailable()) {
                     mFlowId = 3;
                     mProvider = providerName;
                     if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-                        if(!providerName.equalsIgnoreCase(WECHAT)) {
+                        if (!providerName.equalsIgnoreCase(WECHAT)) {
                             providerBtn.showProgressBar();
                         } else {
                             providerBtn.setClickable(false);
@@ -438,7 +425,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mPbJanrainInit.setEnabled(false);
         mLlSocialProviderBtnContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_social_provider_container);
-        mCountrySelectionContainer= (RelativeLayout) view.findViewById(R.id.reg_country_selection);
+        mCountrySelectionContainer = (RelativeLayout) view.findViewById(R.id.reg_country_selection);
         mUser = new User(mContext);
         linkifyTermAndPolicy(mTvWelcomeDesc);
         handleUiState();
@@ -467,9 +454,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private void showCountrySelection() {
         mShowCountrySelection = appConfiguration.getShowCountrySelection();
         RLog.d(RLog.SERVICE_DISCOVERY, " Country Show Country Selection :" + mShowCountrySelection);
-        if (mShowCountrySelection!=null)
-        {
-            if (mShowCountrySelection.equalsIgnoreCase("false")){
+        if (mShowCountrySelection != null) {
+            if (mShowCountrySelection.equalsIgnoreCase("false")) {
                 mCountrySelectionContainer.setVisibility(View.INVISIBLE);
             }
         }
@@ -481,7 +467,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
          * Library does not include resource constants after ADT 14 Link
          * :http://tools.android.com/tips/non-constant-fields
          */
-        if(mRegError.isShown())mRegError.hideError();
+        if (mRegError.isShown()) mRegError.hideError();
         if (v.getId() == R.id.btn_reg_create_account) {
             RLog.d(RLog.ONCLICK, "HomeFragment : Create Account");
             trackMultipleActionsRegistration();
@@ -497,6 +483,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     final CountryPicker picker = new CountryPicker();
+
     private void handleCountrySelection() {
         if (networkUtility.isNetworkAvailable()) {
             picker.setListener(new CountryChangeListener() {
@@ -513,12 +500,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             });
 
 
-            if(picker!=null &&  picker.getDialog()!=null
+            if (picker != null && picker.getDialog() != null
                     && picker.getDialog().isShowing()) {
             } else {
                 picker.show(getRegistrationFragment().getFragmentManager(), "COUNTRY_PICKER");
             }
-        }else{
+        } else {
             handleUiState();
         }
     }
@@ -543,9 +530,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 .subscribeWith(new DisposableSingleObserver<String>() {
                     @Override
                     public void onSuccess(String verificationUrl) {
-                        if(!verificationUrl.isEmpty()){
+                        if (!verificationUrl.isEmpty()) {
                             updateAppLocale(verificationUrl, countryName);
-                        return;
+                            return;
                         }
                         getLocaleServiceDiscoveryByCountry(countryName);
                     }
@@ -571,19 +558,20 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                     public void onError(Throwable e) {
                         EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
                         hideProgressDialog();
-                        mRegError.setError(e.getMessage());
+                        mRegError.setError(mContext.getString(R.string.reg_Generic_Network_Error));
                         scrollViewAutomatically(mRegError, mSvRootLayout);
 
                     }
                 });
     }
-    private void updateAppLocale(String localeString,String countryName) {
+
+    private void updateAppLocale(String localeString, String countryName) {
         mLocale = localeString;
         RLog.d(RLog.SERVICE_DISCOVERY, "STRING S : " + mLocale);
         String localeArr[] = mLocale.toString().split("_");
         RegistrationHelper.getInstance().initializeUserRegistration(mContext);
         RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
-        RLog.d(RLog.SERVICE_DISCOVERY,"Change Country code :" + RegistrationHelper.getInstance().getCountryCode());
+        RLog.d(RLog.SERVICE_DISCOVERY, "Change Country code :" + RegistrationHelper.getInstance().getCountryCode());
         handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
         mCountryDisplayy.setText(countryName);
         hideProgressDialog();
@@ -643,12 +631,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         if (networkUtility.isNetworkAvailable()) {
             trackMultipleActionsLogin(providerName);
             trackSocialProviderPage();
-         if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
+            if (!UserRegistrationInitializer.getInstance().isRegInitializationInProgress()) {
                 if (providerName.equalsIgnoreCase(WECHAT)) {
                     if (isWeChatAuthenticate()) {
 //                        makeProgressVisible();
                         startWeChatAuthentication();
-                    }else{
+                    } else {
                         hideProviderProgress();
                     }
                     return;
@@ -675,7 +663,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }
         if (!mWeChatApi.isWXAppSupportAPI()) {
             makeProviderButtonsClickable();
-            Toast.makeText(mContext,  mContext.getText(R.string.reg_Reg_Provider_Not_Supported)
+            Toast.makeText(mContext, mContext.getText(R.string.reg_Reg_Provider_Not_Supported)
                     , Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -734,7 +722,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                         hideProgressDialog();
                         hideProviderProgress();
                         startWeChatAuthentication();
-                    }else{
+                    } else {
                         hideProviderProgress();
                     }
                 } else {
@@ -744,14 +732,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 mFlowId = 0;
             }
         } else if (RegConstants.JANRAIN_INIT_FAILURE.equals(event)) {
-            handleOnUIThread(new Runnable() {
-                @Override
-                public void run() {
                     makeProgressInvisible();
                     hideProgressDialog();
                     hideProviderProgress();
-                }
-            });
             mFlowId = 0;
         } else if (RegConstants.WECHAT_AUTH.equals(event)) {
             if (mWeChatCode != null) {
@@ -847,7 +830,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
         @Override
         public void onClick(View widget) {
-            if(mRegError.isShown())mRegError.hideError();
+            if (mRegError.isShown()) mRegError.hideError();
             handlePrivacyPolicy();
         }
 
@@ -857,7 +840,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
         @Override
         public void onClick(View widget) {
-            if(mRegError.isShown())mRegError.hideError();
+            if (mRegError.isShown()) mRegError.hideError();
             handleTermsCondition();
         }
 
@@ -922,12 +905,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Override
     public void onLoginSuccess() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                handleLoginSuccess();
-            }
-        });
+
+        handleLoginSuccess();
+
     }
 
     private void handleLoginSuccess() {
@@ -997,12 +977,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Override
     public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                handleLoginFailedWithError(userRegistrationFailureInfo);
-            }
-        });
+        handleLoginFailedWithError(userRegistrationFailureInfo);
     }
 
     private void handleLoginFailedWithError(UserRegistrationFailureInfo
@@ -1012,30 +987,25 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         trackPage(AppTaggingPages.HOME);
         hideProviderProgress();
         enableControls(true);
-           //Temp fix need to be changed
-        if(userRegistrationFailureInfo.getErrorCode() == AUTHENTICATION_FAILED){
+        //Temp fix need to be changed
+        if (userRegistrationFailureInfo.getErrorCode() == AUTHENTICATION_FAILED) {
             mRegError.setError(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
-            scrollViewAutomatically(mRegError,mSvRootLayout);
-        } else{
+            scrollViewAutomatically(mRegError, mSvRootLayout);
+        } else {
             mRegError.setError(mContext.getString(R.string.reg_Generic_Network_Error));
-            scrollViewAutomatically(mRegError,mSvRootLayout);
+            scrollViewAutomatically(mRegError, mSvRootLayout);
         }
     }
 
     @Override
     public void onLoginFailedWithTwoStepError(final JSONObject prefilledRecord,
                                               final String socialRegistrationToken) {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                RLog.i(RLog.CALLBACK, "HomeFragment : onLoginFailedWithTwoStepError");
-                hideProviderProgress();
-                enableControls(true);
-                RLog.i("HomeFragment", "Login failed with two step error" + "JSON OBJECT :"
-                        + prefilledRecord);
-                launchAlmostDoneFragment(prefilledRecord, socialRegistrationToken);
-            }
-        });
+        RLog.i(RLog.CALLBACK, "HomeFragment : onLoginFailedWithTwoStepError");
+        hideProviderProgress();
+        enableControls(true);
+        RLog.i("HomeFragment", "Login failed with two step error" + "JSON OBJECT :"
+                + prefilledRecord);
+        launchAlmostDoneFragment(prefilledRecord, socialRegistrationToken);
     }
 
     private void launchAlmostDoneFragment(JSONObject prefilledRecord, String socialRegistrationToken) {
@@ -1048,13 +1018,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     public void onLoginFailedWithMergeFlowError(final String mergeToken, final String existingProvider,
                                                 final String conflictingIdentityProvider, String conflictingIdpNameLocalized,
                                                 String existingIdpNameLocalized, final String emailId) {
-
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                handleLoginFailedWithMergeFlowError(existingProvider, mergeToken, conflictingIdentityProvider, emailId);
-            }
-        });
+        handleLoginFailedWithMergeFlowError(existingProvider, mergeToken, conflictingIdentityProvider, emailId);
     }
 
     private void handleLoginFailedWithMergeFlowError(String existingProvider, String mergeToken, String conflictingIdentityProvider, String emailId) {
@@ -1085,26 +1049,17 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Override
     public void onContinueSocialProviderLoginSuccess() {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                RLog.i(RLog.CALLBACK, "HomeFragment : onContinueSocialProviderLoginSuccess");
-                hideProviderProgress();
-                enableControls(true);
-                launchWelcomeFragment();
-            }
-        });
+
+        RLog.i(RLog.CALLBACK, "HomeFragment : onContinueSocialProviderLoginSuccess");
+        hideProviderProgress();
+        enableControls(true);
+        launchWelcomeFragment();
     }
 
     @Override
     public void onContinueSocialProviderLoginFailure(
             final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        handleOnUIThread(new Runnable() {
-            @Override
-            public void run() {
-                handleContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
-            }
-        });
+        handleContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
     }
 
     private void handleContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
@@ -1163,23 +1118,13 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                     break;
                 case BaseResp.ErrCode.ERR_USER_CANCEL:
                     RLog.d("WECHAT", "WeChat - User canceled the request");
-                    handleOnUIThread(new Runnable() {
-                        @Override
-                        public void run() {
                             makeProgressInvisible();
                             hideProviderProgress();
-                        }
-                    });
                     break;
                 case BaseResp.ErrCode.ERR_AUTH_DENIED:
                     RLog.d("WECHAT", "WeChat - User denied the request");
-                    handleOnUIThread(new Runnable() {
-                        @Override
-                        public void run() {
                             makeProgressInvisible();
                             hideProviderProgress();
-                        }
-                    });
                     break;
             }
         }
