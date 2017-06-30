@@ -1,7 +1,12 @@
 package com.philips.amwelluapp.intake;
 
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,11 +28,15 @@ import com.philips.amwelluapp.providerslist.PTHProviderInfo;
 import com.philips.amwelluapp.providerslist.PTHProvidersListFragment;
 import com.philips.amwelluapp.registration.PTHConsumer;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.drawable.FontIconDrawable;
 import com.philips.platform.uid.view.widget.CheckBox;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.List;
+
+import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 public class PTHSymptomsFragment extends PTHBaseFragment implements BackEventListener {
     public static final String TAG = PTHSymptomsFragment.class.getSimpleName();
@@ -35,6 +44,7 @@ public class PTHSymptomsFragment extends PTHBaseFragment implements BackEventLis
     PTHConsumer consumer;
     PTHProviderInfo providerInfo;
     LinearLayout topicLayout;
+    FloatingActionButton floatingActionButton;
 
     @Nullable
     @Override
@@ -44,6 +54,13 @@ public class PTHSymptomsFragment extends PTHBaseFragment implements BackEventLis
         consumer = (PTHConsumer) bundle.getSerializable("Consumer");
         providerInfo = (PTHProviderInfo) bundle.getSerializable("providerInfo");
         topicLayout = (LinearLayout) view.findViewById(R.id.checkbox_container);
+        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.floating_button);
+
+        Typeface face= TypefaceUtils.load(getActivity().getAssets(),"fonts/pui_icon.ttf");
+        FontIconDrawable fontIconDrawable = new FontIconDrawable(getContext(),"\uE612",face).actionBarSize().color(Color.BLACK);
+
+        floatingActionButton.setImageDrawable(fontIconDrawable);
+
         return view;
     }
 
@@ -57,6 +74,13 @@ public class PTHSymptomsFragment extends PTHBaseFragment implements BackEventLis
             getActionBarListener().updateActionBar(getString(R.string.pth_prepare_your_visit),true);
         }
         getVisistContext();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        consumer = null;
+        providerInfo = null;
     }
 
     @Override
