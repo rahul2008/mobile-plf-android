@@ -7,4 +7,5 @@
     <string name="additional_reason">Additional Reason</string>
     <string name="write_here">write here</string>
     <string name="pth_prepare_your_visit">prepare your visit</string>
+    <string name="button_greaterthan"> &gt;</string>
 </resources>
