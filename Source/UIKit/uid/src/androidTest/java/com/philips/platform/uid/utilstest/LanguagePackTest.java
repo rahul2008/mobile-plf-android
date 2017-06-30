@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.assertion.ViewAssertions;
@@ -49,6 +50,8 @@ public class LanguagePackTest {
         final Intent launchIntent = new Intent(Intent.ACTION_MAIN);
         activity = testRule.launchActivity(launchIntent);
         activity.switchTo(com.philips.platform.uid.test.R.layout.main_layout);
+        IdlingResource idlingResource = activity.getIdlingResource();
+        Espresso.registerIdlingResources(idlingResource);
         testResources = activity.getResources();
     }
 
@@ -79,10 +82,11 @@ public class LanguagePackTest {
 
     @Test
     public void verifySetTitle() {
-        InstrumentationRegistry.getInstrumentation().waitForIdle(new Runnable() {
+        activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 UIDHelper.setTitle(activity, "ABCD");
+
             }
         });
         Espresso.onView(ViewMatchers.withId(com.philips.platform.uid.R.id.uid_toolbar_title)).check(matches(TextViewPropertiesMatchers.hasSameText("ABCD")));
@@ -90,10 +94,11 @@ public class LanguagePackTest {
 
     @Test
     public void verifySetTitleWithRes() {
-        InstrumentationRegistry.getInstrumentation().waitForIdle(new Runnable() {
+        activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 UIDHelper.setTitle(activity, com.philips.platform.uid.test.R.string.search_menu_title);
+
             }
         });
         Espresso.onView(ViewMatchers.withId(com.philips.platform.uid.R.id.uid_toolbar_title)).check(matches(TextViewPropertiesMatchers.hasSameText("Search")));
