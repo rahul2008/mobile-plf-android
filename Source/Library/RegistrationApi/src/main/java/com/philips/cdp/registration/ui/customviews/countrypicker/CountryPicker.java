@@ -1,28 +1,27 @@
 package com.philips.cdp.registration.ui.customviews.countrypicker;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.ui.utils.FontLoader;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -30,15 +29,9 @@ import java.util.Locale;
 
 public class CountryPicker extends DialogFragment implements
         Comparator<Country> {
-    /**
-     * View components
-     */
     private EditText searchEditText;
     private ListView countryListView;
 
-    /**
-     * Adapter for the listview
-     */
     private CountryAdapter adapter;
 
     /**
@@ -51,10 +44,9 @@ public class CountryPicker extends DialogFragment implements
      */
     private List<Country> selectedCountriesList;
 
-    /**
-     * Listener to which country user selected
-     */
     private CountryChangeListener listener;
+
+
 
     /**
      * Set listener
@@ -83,7 +75,7 @@ public class CountryPicker extends DialogFragment implements
         if (allCountriesList == null) {
             try {
                 allCountriesList = new ArrayList<Country>();
-                String[] recourseList = this.getResources().getStringArray(R.array.country_code);
+                String[] recourseList = handleCountryList().toArray(new String[handleCountryList().size()]);
                 for (int i = 0; i < recourseList.length; i++) {
                     Country country = new Country();
                     country.setCode(recourseList[i]);
@@ -91,11 +83,14 @@ public class CountryPicker extends DialogFragment implements
                     country.setName(nameLocale.getDisplayCountry());
                     allCountriesList.add(country);
                 }
-                // Sort the all countries list based on country name
-                Collections.sort(allCountriesList, this);
-                // Initialize selected countries with all countries
-                selectedCountriesList = new ArrayList<Country>();
-                selectedCountriesList.addAll(allCountriesList);
+
+                if (allCountriesList != null) {
+                    // Sort the all countries list based on country name
+                    Collections.sort(allCountriesList, this);
+                    // Initialize selected countries with all countries
+                    selectedCountriesList = new ArrayList<Country>();
+                    selectedCountriesList.addAll(allCountriesList);
+                }
                 // Return
                 return allCountriesList;
 
@@ -106,16 +101,29 @@ public class CountryPicker extends DialogFragment implements
         return null;
     }
 
+    private List<String> handleCountryList() {
+        List<String> defaultCountries = Arrays.asList(RegUtility.getDefaultSupportedHomeCountries());
+        List<String> supportedHomeCountries = RegistrationConfiguration.getInstance().getSupportedHomeCountry();
+        if (null != supportedHomeCountries) {
+            List<String> filteredCountryList = new ArrayList<String>(supportedHomeCountries);
+            filteredCountryList.retainAll(defaultCountries);
+            if (filteredCountryList.size() > 0) {
+                return filteredCountryList;
+            }
+        }
+        return defaultCountries;
+    }
+
     /**
      * Create view
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate view
         View view = inflater.inflate(R.layout.reg_country_picker, null);
         // Get countries from the json
         getAllCountries();
+        handleCountryList();
 
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -123,7 +131,7 @@ public class CountryPicker extends DialogFragment implements
         searchEditText = (EditText) view
                 .findViewById(R.id.reg_country_picker_search);
 
-        FontLoader.getInstance().setTypeface(searchEditText,"CentraleSans-Book.OTF");
+        FontLoader.getInstance().setTypeface(searchEditText, "CentraleSans-Book.OTF");
         countryListView = (ListView) view
                 .findViewById(R.id.reg_country_picker_listview);
         // Set adapter
