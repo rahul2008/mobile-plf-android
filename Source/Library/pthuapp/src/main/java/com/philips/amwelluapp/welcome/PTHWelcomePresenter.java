@@ -1,11 +1,9 @@
 package com.philips.amwelluapp.welcome;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
-import com.americanwell.sdk.entity.consumer.ConsumerInfo;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.amwelluapp.base.PTHBasePresenter;
@@ -72,7 +70,6 @@ public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallB
     @Override
     public void onInitializationFailure(Throwable var1) {
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
-        Toast.makeText(uiBaseView.getFragmentActivity(),"INIT FAILED",Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -80,7 +77,6 @@ public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallB
         AmwellLog.i(AmwellLog.LOG,"Login - UI updated");
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
         Log.d("Login","Login success");
-        Toast.makeText(uiBaseView.getFragmentActivity(),"LOGIN SUCCESS",Toast.LENGTH_SHORT).show();
         ((PTHWelcomeFragment) uiBaseView).showProgressBar();
         try {
             PTHManager.getInstance().getConsumerObject(uiBaseView.getFragmentActivity(),pthAuthentication.getAuthentication(),this);
@@ -107,7 +103,6 @@ public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallB
     @Override
     public void onLoginFailure(Throwable var1) {
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
-        Toast.makeText(uiBaseView.getFragmentActivity(),"LOGIN Failed",Toast.LENGTH_SHORT).show();
     }
 
     //TODO: Review Comment - Spoorti - move to the relevant presenter
@@ -116,15 +111,12 @@ public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallB
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
 
         this.consumer = consumer;
-        //////////////////////////////////////
         //setting PTHconsumer  in PTHManager so any presenter/fragment can access it
         PTHConsumer pthConsumer = new PTHConsumer();
         pthConsumer.setConsumer(consumer);
         PTHManager.getInstance().setPTHConsumer(pthConsumer);
-        //////////////////////////////////////
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
         Log.d("Login","Consumer object received");
-        Toast.makeText(uiBaseView.getFragmentActivity(),"CONSUMER OBJECT RECEIVED",Toast.LENGTH_SHORT).show();
         PTHPracticeFragment PTHPracticeFragment = new PTHPracticeFragment();
         PTHPracticeFragment.setConsumer(consumer);
         PTHPracticeFragment.setActionBarListener(((PTHWelcomeFragment) uiBaseView).getActionBarListener());

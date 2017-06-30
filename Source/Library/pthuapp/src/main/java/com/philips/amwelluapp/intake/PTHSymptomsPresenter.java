@@ -1,7 +1,5 @@
 package com.philips.amwelluapp.intake;
 
-import android.widget.Toast;
-
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.legal.LegalText;
 import com.americanwell.sdk.entity.visit.Visit;
@@ -40,7 +38,6 @@ public class PTHSymptomsPresenter implements PTHBasePresenter, PTHVisitContextCa
 
     @Override
     public void onResponse(PTHVisitContext pthVisitContext, PTHSDKError pthsdkError) {
-        Toast.makeText(pthBaseView.getFragmentActivity(),"OnSuccess - topics",Toast.LENGTH_SHORT).show();
         final List<LegalText> legalTexts = pthVisitContext.getLegalTexts();
         for (LegalText legalText:legalTexts
              ) {
@@ -63,7 +60,6 @@ public class PTHSymptomsPresenter implements PTHBasePresenter, PTHVisitContextCa
 
     @Override
     public void onFailure(Throwable throwable) {
-        Toast.makeText(pthBaseView.getFragmentActivity(),"OnFailure - topics",Toast.LENGTH_SHORT).show();
     }
 
     void getVisitContext() throws MalformedURLException, AWSDKInstantiationException, AWSDKInitializationException, URISyntaxException {
