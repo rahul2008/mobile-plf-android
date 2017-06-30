@@ -9,6 +9,7 @@ import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.AWSDKFactory;
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.Authentication;
+import com.americanwell.sdk.entity.Language;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.SDKLocalDate;
 import com.americanwell.sdk.entity.State;
@@ -16,7 +17,13 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.ConsumerType;
 import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.entity.insurance.Subscription;
+import com.americanwell.sdk.entity.practice.OnDemandSpecialty;
 import com.americanwell.sdk.entity.practice.Practice;
+import com.americanwell.sdk.entity.practice.PracticeInfo;
+import com.americanwell.sdk.entity.provider.Provider;
+import com.americanwell.sdk.entity.provider.ProviderInfo;
+import com.americanwell.sdk.entity.provider.ProviderType;
+import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ConsumerManager;
@@ -24,8 +31,9 @@ import com.americanwell.sdk.manager.PracticeProvidersManager;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.philips.amwelluapp.login.PTHAuthentication;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
-import com.philips.amwelluapp.practice.PTHPractice;
 import com.philips.amwelluapp.practice.PTHPracticesListCallback;
+import com.philips.amwelluapp.providerdetails.PTHProviderDetailsCallback;
+import com.philips.amwelluapp.providerslist.PTHProvidersListCallback;
 import com.philips.amwelluapp.registration.PTHRegistrationDetailCallback;
 import com.philips.amwelluapp.registration.PTHState;
 import com.philips.amwelluapp.sdkerrors.PTHSDKError;
@@ -42,6 +50,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -52,8 +61,11 @@ import static org.mockito.Mockito.when;
 public class PTHManagerTest {
     PTHManager pthManager;
 
-
     Consumer mConsumer;
+
+    Practice practice;
+
+    ProviderInfo providerInfo;
 
     @Mock
     PracticeProvidersManager practiseprovidermanagerMock;
@@ -113,6 +125,17 @@ public class PTHManagerTest {
     @Captor
     private ArgumentCaptor<SDKCallback<List<Practice>, SDKError>> requestPracticeCaptor;
 
+    @Mock
+    PTHProvidersListCallback pthProvidersListCallback;
+
+    @Captor
+    private ArgumentCaptor<SDKCallback<List<ProviderInfo>,SDKError>> providerListCaptor;
+
+    @Mock
+    PTHProviderDetailsCallback pthProviderDetailsCallback;
+
+    @Captor
+    private ArgumentCaptor<SDKCallback<Provider,SDKError>> providerDetailsCaptor;
 
     @Before
     public void setUp() {
@@ -120,6 +143,8 @@ public class PTHManagerTest {
         pthManager = PTHManager.getInstance();
         pthManager.setAwsdk(awsdkMock);
         mConsumer = getConsumer();
+        practice = getPractice();
+        providerInfo = getProviderInfo();
     }
 
     @Test
@@ -188,6 +213,26 @@ public class PTHManagerTest {
         SDKCallback value = requestPracticeCaptor.getValue();
         value.onResponse(any(List.class), any(SDKError.class));
 
+    }
+
+    @Test
+    public void getProviderListTest() throws AWSDKInstantiationException {
+        when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
+        pthManager.getProviderList(contextMock,mConsumer,practice,pthProvidersListCallback);
+        verify(practiseprovidermanagerMock).findProviders(any(Consumer.class), any(Practice.class), any(OnDemandSpecialty.class), any(String.class), any(Set.class), any(Set.class), any(State.class), any(Language.class), any(Integer.class), providerListCaptor.capture());
+        SDKCallback value =  providerListCaptor.getValue();
+        value.onResponse(any(List.class),any(SDKError.class));
+        value.onFailure(any(Throwable.class));
+    }
+
+    @Test
+    public void getProviderDetailsTest() throws AWSDKInstantiationException{
+        when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
+        pthManager.getProviderDetails(contextMock,mConsumer,providerInfo,pthProviderDetailsCallback);
+        verify(practiseprovidermanagerMock).getProvider(any(ProviderInfo.class),any(Consumer.class),providerDetailsCaptor.capture());
+        SDKCallback value = providerDetailsCaptor.getValue();
+        value.onResponse(any(Provider.class), any(SDKError.class));
+        value.onFailure(any(Throwable.class));
     }
 
     Consumer getConsumer() {
@@ -299,4 +344,156 @@ public class PTHManagerTest {
         return consumer;
     }
 
+    public Practice getPractice() {
+
+        Practice practiceObj = new Practice() {
+            @Override
+            public Address getAddress() {
+                return null;
+            }
+
+            @Override
+            public String getPhone() {
+                return null;
+            }
+
+            @Override
+            public String getFax() {
+                return null;
+            }
+
+            @Override
+            public String getHours() {
+                return null;
+            }
+
+            @Override
+            public String getWelcomeMessage() {
+                return null;
+            }
+
+            @Override
+            public boolean isShowScheduling() {
+                return false;
+            }
+
+            @Override
+            public boolean isShowAvailableNow() {
+                return false;
+            }
+
+            @Override
+            public String getPracticeType() {
+                return "Practice Test";
+            }
+
+            @Override
+            public boolean hasLogo() {
+                return true;
+            }
+
+            @Override
+            public boolean hasSmallLogo() {
+                return true;
+            }
+
+            @Override
+            public String getName() {
+                return "TS Patient Test";
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+
+            }
+        };
+
+        return practiceObj;
+    }
+
+    public ProviderInfo getProviderInfo() {
+
+        ProviderInfo providerInfoObj = new ProviderInfo() {
+            @Override
+            public ProviderVisibility getVisibility() {
+                return ProviderVisibility.WEB_AVAILABLE;
+            }
+
+            @Nullable
+            @Override
+            public PracticeInfo getPracticeInfo() {
+                return null;
+            }
+
+            @Override
+            public ProviderType getSpecialty() {
+                return null;
+            }
+
+            @Override
+            public int getRating() {
+                return 4;
+            }
+
+            @Override
+            public Integer getWaitingRoomCount() {
+                return null;
+            }
+
+            @Override
+            public Gender getGender() {
+                return Gender.MALE;
+            }
+
+            @Override
+            public String getSourceId() {
+                return null;
+            }
+
+            @Override
+            public boolean hasImage() {
+                return true;
+            }
+
+            @NonNull
+            @Override
+            public String getFirstName() {
+                return "Dr. Welsh";
+            }
+
+            @Nullable
+            @Override
+            public String getMiddleInitial() {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            public String getLastName() {
+                return "Something";
+            }
+
+            @NonNull
+            @Override
+            public String getFullName() {
+                return "Dr. Welsh Something";
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+
+            }
+        };
+        return providerInfoObj;
+    }
 }
