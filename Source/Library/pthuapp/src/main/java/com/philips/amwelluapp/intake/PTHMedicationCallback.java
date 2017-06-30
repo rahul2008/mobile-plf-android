@@ -16,11 +16,11 @@ public interface PTHMedicationCallback {
 
     }
 
-    interface PTHSearchMedicationCallback {
+   /* interface PTHSearchMedicationCallback {
         void onSearchMedicationReceived(PTHMedication pTHMedication, SDKError sDKError );
 
 
-    }
+    }*/
 
     interface PTHUpdateMedicationCallback {
         void onUpdateMedicationSent( SDKError sDKError);

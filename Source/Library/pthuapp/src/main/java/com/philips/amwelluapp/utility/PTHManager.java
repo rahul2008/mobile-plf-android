@@ -283,4 +283,26 @@ public class PTHManager {
         });
 
     }
+
+    public void searchMedication(Context context , Consumer consumer, final PTHSDKValidatedCallback pTHSDKValidatedCallback ) throws AWSDKInstantiationException{
+        getAwsdk(context).getConsumerManager().getMedications(consumer, new SDKValidatedCallback<List<Medication>, SDKError>() {
+            @Override
+            public void onValidationFailure(Map<String, ValidationReason> map) {
+                pTHSDKValidatedCallback.onValidationFailure(map);
+            }
+
+            @Override
+            public void onResponse(List<Medication> medications, SDKError sdkError) {
+
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Log.v("onGetMedicationReceived","failure");
+                pTHSDKValidatedCallback.onFailure(throwable);
+            }
+        });
+
+
+    }
 }

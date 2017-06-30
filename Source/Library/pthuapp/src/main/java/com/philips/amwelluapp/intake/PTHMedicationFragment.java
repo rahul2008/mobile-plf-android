@@ -19,6 +19,7 @@ import com.philips.platform.uid.view.widget.SearchBox;
  */
 
 public class PTHMedicationFragment extends PTHBaseFragment implements BackEventListener {
+    public static final String TAG = PTHBaseFragment.class.getSimpleName();
     SearchBox searchBox;
     private ActionBarListener actionBarListener;
     private PTHBasePresenter mPresenter;
