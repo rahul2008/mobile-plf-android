@@ -176,7 +176,7 @@ public class ProdRegBaseActivity extends UiKitActivity {
             //noinspection deprecation
             arrowImage.setBackground(getResources().getDrawable(R.drawable.prodreg_left_arrow));
             mActionBar.setCustomView(mCustomView, params);
-            setTitle(getString(R.string.app_name));
+           // setTitle(getString(R.string.app_name));
         }
     }
 

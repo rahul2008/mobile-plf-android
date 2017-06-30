@@ -94,7 +94,7 @@ public class MainActivity extends UiKitActivity {
         arrowImage.setBackground(getResources().getDrawable(R.drawable.prodreg_left_arrow));
 
         mActionBar.setCustomView(mCustomView, params);
-        setTitle(getString(R.string.app_name));
+        setTitle(getString(R.string.prg_app_name));
         mActionBar.setDisplayShowCustomEnabled(true);
     }
 
