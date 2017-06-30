@@ -177,7 +177,7 @@ public class UserWithProducts {
     @NonNull
     protected RequestManager getRequestManager(final Context context) {
         AppInfraInterface appInfra = PRUiHelper.getInstance().getAppInfraInstance();
-        PRXDependencies prxDependencies = new PRXDependencies(context , appInfra); // use existing appinfra instance
+        PRXDependencies prxDependencies = new PRXDependencies(context , appInfra,ProdRegConstants.PRG_SUFFIX); // use existing appinfra instance
         RequestManager mRequestManager = new RequestManager();
         mRequestManager.init(prxDependencies); // pass prxdependency
 

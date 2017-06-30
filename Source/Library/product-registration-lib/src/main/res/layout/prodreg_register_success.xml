@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/pr_top_padding_sm"
-                android:text="@string/PPR_Thank_You_Lbltxt"/>
+                android:text="@string/PPR_Extended_Warranty_Lbltxt"/>
 
             <TextView
                 android:id="@+id/pr_success_configurable_textView"

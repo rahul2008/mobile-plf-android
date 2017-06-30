@@ -4,7 +4,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/pr_e_value_tablet"
-            android:fillViewport="true">
+            android:fillViewport="true"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -253,7 +255,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/pr_success_title_textview"
                     android:layout_marginTop="@dimen/pr_c_value_tablet"
-                    android:text="@string/PPR_Thank_You_Lbltxt"/>
+                    android:text="@string/PPR_Extended_Warranty_Lbltxt"/>
 
                 <TextView
                     android:id="@+id/pr_success_configurable_textView"

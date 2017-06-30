@@ -42,4 +42,5 @@ public class ProdRegConstants {
     public static final String CHINA_DOMAIN = "philips.com.cn";
     public static final String CHINA_PROVIDER_KEY = "x-provider";
     public static final String CHINA_PROVIDER_VAL = "JANRAIN-CN";
+    public static final String PRG_SUFFIX= "prg";
 }

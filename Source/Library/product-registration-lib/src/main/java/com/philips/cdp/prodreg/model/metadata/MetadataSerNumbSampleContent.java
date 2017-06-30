@@ -17,6 +17,8 @@ public class MetadataSerNumbSampleContent implements Serializable{
 
     private String snFormat;
 
+    private String description;
+
     public String getTitle() {
         return title;
     }
@@ -49,8 +51,12 @@ public class MetadataSerNumbSampleContent implements Serializable{
         this.snFormat = snFormat;
     }
 
+    public void setSnDescription(String snDescription){this.description = snDescription;}
+
+    public String getSnDescription(){return description;}
+
     @Override
     public String toString() {
-        return "ClassPojo [title = " + title + ", asset = " + asset + ", snExample = " + snExample + ", snFormat = " + snFormat + "]";
+        return "ClassPojo [title = " + title + ", asset = " + asset + ", snExample = " + snExample + ", description = " + description + ", snFormat = " + snFormat + "]";
     }
 }

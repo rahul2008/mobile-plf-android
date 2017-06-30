@@ -1,4 +1,4 @@
-apply plugin: 'com.android.library'
+apply plugin: 'com.android.application'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'jacoco'
@@ -26,14 +26,15 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+<<<<<<< HEAD:Source/DemoApp/app/build.gradle
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-<<<<<<< HEAD
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.1', changing: true
 =======
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.2', changing: true
->>>>>>> develop
         classpath 'com.github.jruby-gradle:jruby-gradle-plugin:1.1.5'
+>>>>>>> develop:Source/DemoApp/DemoApp/build.gradle
     }
 }
 
@@ -50,7 +51,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment )
-archivesBaseName = rootProject.name
+archivesBaseName = rootProject.name + "App"
 
 allprojects {
     repositories {
@@ -68,13 +69,16 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
-	    
+<<<<<<< HEAD:Source/DemoApp/app/build.gradle
+=======
+
+>>>>>>> develop:Source/DemoApp/DemoApp/build.gradle
         apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
 
         flatDir {
             dirs 'libs'
-        }        
+        }
     }
 }
 
@@ -94,7 +98,7 @@ artifactory {
                 publishIvy = false
                 publishBuildInfo = true
                 publishArtifacts = true
-                publications ('aar')
+                publications ('apk')
                 properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
         }
@@ -113,24 +117,14 @@ artifacts {
     archives zipDoc
 }
 
-task zipDocuments(type: Zip) {
-    from files(objcdp.getExternalDocPath()) {
-        baseName = project.name
-        classifier 'docs'
-    }
-}
-//=======To zip and upload "Documents/External" ==ENDS=============
-
 publishing {
     publications {
-        aar(MavenPublication) {
+        apk(MavenPublication) {
             groupId group
             version = version
             artifactId archivesBaseName
 
-            artifact zipDocuments
-
-            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
+            artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
@@ -149,41 +143,71 @@ publishing {
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
+<<<<<<< HEAD:Source/DemoApp/app/build.gradle
 
+
+    defaultConfig {
+        applicationId "com.philips.cdp.demo"
+        minSdkVersion 21
+        targetSdkVersion 25
+        versionCode 3
+        versionName "2.0.1"
+        testApplicationId "com.philips.cdp.demo.test"
+=======
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 25
-<<<<<<< HEAD
-=======
-        multiDexEnabled true
->>>>>>> develop
         versionCode 1
-        versionName objcdp.getVersionWithHash()
-        testApplicationId "com.philips.cdp.test"
-        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        multiDexEnabled true  // this line will solve this problem
+
+        versionName "1.0.0"
+>>>>>>> develop:Source/DemoApp/DemoApp/build.gradle
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]
     }
-
-
+    signingConfigs {
+        release
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
-        debug {
-            debuggable true
-            minifyEnabled false
-            testCoverageEnabled true
+    }
+    android {
+        lintOptions {
+            abortOnError false
         }
     }
 
+    /*
+    This defined for signing the apk -- start
+     */
+    def Properties props = new Properties()
+    def propFile = new File('signing.properties')
+    if (propFile.canRead()) {
+        props.load(new FileInputStream(propFile))
 
-    dexOptions {
-        javaMaxHeapSize "4g"
-        jumboMode true
+        if (props != null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') && props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+            println 'signing.properties found and fully filled in'
+            android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+            android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+            android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+            android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+        } else {
+            println 'NOPE - signing.properties NOT found'
+            android.buildTypes.release.signingConfig = null
+        }
+    } else {
+        println 'signing.properties not found'
+        android.buildTypes.release.signingConfig = null
     }
+    /*
+    This defined for signing the apk -- end
+    */
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
@@ -197,114 +221,11 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
     }
-
-    lintOptions {
-        abortOnError false
-    }
-
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
-}
-
-configurations.all {
-    // check for updates every build
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.9.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    {
-           transitive = true
-    }
-	compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.2.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    {
-           transitive = true
-    }
-    compile(group: 'com.philips.cdp', name: 'prx', version: '3.3.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    {
-        transitive = true
-    }
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-all:1.10.17'
-    testCompile "org.robolectric:robolectric:3.1.1"
-}
+    compile fileTree(include: ['*.jar'], dir: 'libs')
 
-task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
+    compile project(':DemoUApp')
 
-    description 'Run findbugs'
-    group 'verification'
-    ignoreFailures = true
-    classes = fileTree('build/intermediates/classes/debug')
-    source = fileTree('src/main/java')
-    classpath = files()
-
-    effort = 'max'
-
-    excludeFilter = file("findbugs-exclude.xml")
-
-    reports {
-        xml.enabled = true
-        html.enabled = false
-    }
-}
-
-task pmd(type: Pmd, dependsOn: "assembleDebug") {
-
-    description 'Run pmd'
-    group 'verification'
-    ignoreFailures = true
-    ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
-    source = fileTree('src/main/java')
-
-    reports {
-        xml.enabled = true
-        html.enabled = false
-    }
-}
-
-task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
-    group = "Reporting"
-
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(
-            dir: '../product-registration-lib/build/intermediates/classes/debug',
-            excludes: ['**/R.class',
-                       '**/R$*.class',
-                       '**/*$ViewInjector*.*',
-                       '**/listener/*.class',
-                       '**/activity/*.class',
-                       '**/adaptor/*.class',
-                       '**/constants/*.class',
-                       '**/fragments/*.class',
-                       '**/imagehandler/*.class',
-                       '**/launcher/*.class',
-                       '**/logging/*.class',
-                       '**/tagging/*.class',
-                       '**/BuildConfig.*',
-                       '**/Manifest*.*']
-    )
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    executionData = files('../product-registration-lib/build/jacoco/testDebugUnitTest.exec')
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-}
-tasks.withType(Test) {
-    ignoreFailures = true
-    maxHeapSize = '4g'
-    scanForTestClasses = false
-    include "**/*Test.class"
-    test {
-        // set JVM arguments for the test JVM(s)
-        jvmArgs '-noverify'
-    }
 }

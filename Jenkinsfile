@@ -11,7 +11,11 @@ properties([
 def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_App_chassis@philips.com '
 def errors = []
 
+<<<<<<< HEAD
 node ('android&&device') {
+=======
+node ('android&&docker') {
+>>>>>>> develop
 	timestamps {        
 		try {
             stage ('Checkout') {
@@ -25,7 +29,7 @@ node ('android&&device') {
                         chmod -R 775 . 
                         cd ./Source/DemoApp 
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
-                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test jacocoTestReport  zipDocuments artifactoryPublish
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test jacocoTestReport  zipDocuments artifactoryPublish
                     ''' 
                 }
             } 
@@ -35,7 +39,7 @@ node ('android&&device') {
                         chmod -R 775 . 
                         cd ./Source/DemoApp 
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint 
-                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC test jacocoTestReport 
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test jacocoTestReport 
                     '''
                 }
             }
@@ -44,21 +48,48 @@ node ('android&&device') {
                 sh '''#!/bin/bash -l
             	   chmod -R 775 . 
                    cd ./Source/DemoApp 
-                   ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
-            	   ../Library 
-                   ./gradlew -PenvCode=${JENKINS_ENV} saveResDep
+                   ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
+            	   cd ../Library
+                   ./gradlew -PenvCode=${JENKINS_ENV} saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat
                 '''
             }
 
+            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
+                stage ('callIntegrationPipeline') {
+                    if (BranchName =~ "/") {
+                        BranchName = BranchName.replaceAll('/','%2F')
+                        echo "BranchName changed to ${BranchName}"
+                    }
+                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'prg'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
+                }            
+            } 
+        } catch(err) {
+            errors << "errors found: ${err}"      
+        } finally {
+            if (errors.size() > 0) {
+                stage ('error reporting') {
+                    currentBuild.result = 'FAILURE'
+                    for (int i = 0; i < errors.size(); i++) {
+                        echo errors[i]; 
+                    }
+                }                
+            }      
             stage ('reporting') {
                 androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
-                junit allowEmptyResults: true, testResults: 'Source/Library/*/build/test-results/*/*.xml'
-                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/product-registration-lib/build/reports/jacoco/jacocoTestReport/html', reportFiles: 'index.html', reportName: 'jacocoTestReport']) 
-                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/product-registration-lib/build/reports/tests/testDebugUnitTest/debug', reportFiles: 'index.html', reportName: 'unit test debug']) 
-                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/product-registration-lib/build/reports/tests/testReleaseUnitTest/release', reportFiles: 'index.html', reportName: 'unit test release']) 
-                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/product-registration-lib/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'coverage debug']) 
-                archiveArtifacts '**/dependencies.lock'
+                junit allowEmptyResults: false, testResults: 'Source/Library/*/build/test-results/**/*.xml'
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/product-registration-lib/build/reports/jacoco/jacocoTestReport/html', reportFiles: 'index.html', reportName: 'jacocoTestReport']) 
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/product-registration-lib/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'unit test debug']) 
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/product-registration-lib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'unit test release']) 
+                archiveArtifacts '**/*dependencies*.lock'
+            }       
+            stage('informing') {
+            	step([$class: 'StashNotifier'])
+            	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
             }
+            stage('Cleaning workspace') {
+                step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
+            }
+<<<<<<< HEAD
 
             if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
                 stage ('callIntegrationPipeline') {
@@ -87,6 +118,8 @@ node ('android&&device') {
             stage('Cleaning workspace') {
                 step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
             }
+=======
+>>>>>>> develop
         }
 	} // end timestamps
 } // end node ('android')
