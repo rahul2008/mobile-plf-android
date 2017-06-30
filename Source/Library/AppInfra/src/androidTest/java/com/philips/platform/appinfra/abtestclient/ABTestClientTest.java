@@ -88,6 +88,11 @@ public class ABTestClientTest extends AppInfraInstrumentation {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTestClient",
                     e.getMessage());
         }
+        try {
+            Thread.sleep(20);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         assertNotNull(mAbTestClientInterface.getCacheStatus());
     }
 
