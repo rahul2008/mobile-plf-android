@@ -1,7 +1,6 @@
 package com.philips.amwelluapp.welcome;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
@@ -12,7 +11,8 @@ import com.philips.amwelluapp.base.PTHBaseView;
 import com.philips.amwelluapp.login.PTHAuthentication;
 import com.philips.amwelluapp.login.PTHGetConsumerObjectCallBack;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
-import com.philips.amwelluapp.practice.PracticeFragment;
+import com.philips.amwelluapp.practice.PTHPracticeFragment;
+import com.philips.amwelluapp.registration.PTHConsumer;
 import com.philips.amwelluapp.registration.PTHRegistrationDetailsFragment;
 import com.philips.amwelluapp.sdkerrors.PTHSDKError;
 import com.philips.amwelluapp.utility.AmwellLog;
@@ -70,7 +70,6 @@ public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallB
     @Override
     public void onInitializationFailure(Throwable var1) {
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
-        Toast.makeText(uiBaseView.getFragmentActivity(),"INIT FAILED",Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -104,7 +103,6 @@ public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallB
     @Override
     public void onLoginFailure(Throwable var1) {
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
-        Toast.makeText(uiBaseView.getFragmentActivity(),"LOGIN Failed",Toast.LENGTH_SHORT).show();
     }
 
     //TODO: Review Comment - Spoorti - move to the relevant presenter
@@ -113,13 +111,16 @@ public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallB
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
 
         this.consumer = consumer;
+        //setting PTHconsumer  in PTHManager so any presenter/fragment can access it
+        PTHConsumer pthConsumer = new PTHConsumer();
+        pthConsumer.setConsumer(consumer);
+        PTHManager.getInstance().setPTHConsumer(pthConsumer);
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
         Log.d("Login","Consumer object received");
-        Toast.makeText(uiBaseView.getFragmentActivity(),"CONSUMER OBJECT RECEIVED",Toast.LENGTH_SHORT).show();
-        PracticeFragment practiceFragment = new PracticeFragment();
-        practiceFragment.setConsumer(consumer);
-        practiceFragment.setActionBarListener(((PTHWelcomeFragment) uiBaseView).getActionBarListener());
-        uiBaseView.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(uiBaseView.getContainerID(),practiceFragment,"PTHPractice List").addToBackStack(null).commit();
+        PTHPracticeFragment PTHPracticeFragment = new PTHPracticeFragment();
+        PTHPracticeFragment.setConsumer(consumer);
+        PTHPracticeFragment.setActionBarListener(((PTHWelcomeFragment) uiBaseView).getActionBarListener());
+        uiBaseView.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(uiBaseView.getContainerID(), PTHPracticeFragment,"PTHPractice List").addToBackStack(null).commit();
 
     }
 

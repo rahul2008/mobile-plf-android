@@ -2,6 +2,7 @@ package com.philips.amwelluapp.utility;
 
 import android.content.Context;
 import android.support.annotation.VisibleForTesting;
+import android.util.Log;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.AWSDKFactory;
@@ -10,6 +11,7 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.SDKPasswordError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
+import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
@@ -20,6 +22,8 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.ValidationReason;
+import com.philips.amwelluapp.intake.PTHMedication;
+import com.philips.amwelluapp.intake.PTHMedicationCallback;
 import com.philips.amwelluapp.intake.PTHSDKValidatedCallback;
 import com.philips.amwelluapp.intake.PTHUpdateConsumerCallback;
 import com.philips.amwelluapp.intake.PTHVisitContext;
@@ -46,6 +50,16 @@ import java.util.Map;
 public class PTHManager {
     private static PTHManager sPthManager = null;
     private AWSDK mAwsdk = null;
+    private PTHConsumer mPTHConsumer= null;
+
+    public PTHConsumer getPTHConsumer() {
+        return mPTHConsumer;
+    }
+
+    public void setPTHConsumer(PTHConsumer mPTHConsumer) {
+        this.mPTHConsumer = mPTHConsumer;
+    }
+
 
     public static PTHManager getInstance() {
         if (sPthManager == null) {
@@ -85,9 +99,9 @@ public class PTHManager {
 
     public void initializeTeleHealth(Context context, final PTHInitializeCallBack pthInitializeCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
         final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
-      /*  initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
+       /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
         initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key*/
-        initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
+         initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
         initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key
 
         AmwellLog.i(AmwellLog.LOG,"Initialize - SDK API Called");
@@ -198,7 +212,7 @@ public class PTHManager {
 
             @Override
             public void onFailure(Throwable throwable) {
-
+                pthProvidersListCallback.onProvidersListFetchError(throwable);
             }
         });
 
@@ -249,5 +263,22 @@ public class PTHManager {
     @VisibleForTesting
     public void setAwsdk(AWSDK awsdk) {
         this.mAwsdk = awsdk;
+    }
+
+    public void getMedication(Context context , Consumer consumer, final PTHMedicationCallback.PTHGetMedicationCallback pTHGetMedicationCallback ) throws AWSDKInstantiationException{
+        getAwsdk(context).getConsumerManager().getMedications(consumer, new SDKCallback<List<Medication>, SDKError>() {
+            @Override
+            public void onResponse(List<Medication> medications, SDKError sdkError) {
+                PTHMedication pTHMedication = new PTHMedication();
+                pTHMedication.setMedicationList(medications);
+                pTHGetMedicationCallback.onGetMedicationReceived(pTHMedication,sdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Log.v("onGetMedicationReceived","failure");
+            }
+        });
+
     }
 }

@@ -1,7 +1,5 @@
 package com.philips.amwelluapp.intake;
 
-import android.widget.Toast;
-
 import com.americanwell.sdk.entity.legal.LegalText;
 import com.americanwell.sdk.entity.visit.Topic;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
@@ -36,7 +34,6 @@ public class PTHSymptomsPresenter implements PTHBasePresenter, PTHVisitContextCa
 
     @Override
     public void onResponse(PTHVisitContext pthVisitContext, PTHSDKError pthsdkError) {
-        Toast.makeText(pthBaseView.getFragmentActivity(),"OnSuccess - topics",Toast.LENGTH_SHORT).show();
         final List<LegalText> legalTexts = pthVisitContext.getLegalTexts();
         for (LegalText legalText:legalTexts
              ) {
@@ -44,14 +41,12 @@ public class PTHSymptomsPresenter implements PTHBasePresenter, PTHVisitContextCa
         }
 
         if(pthVisitContext!=null){
-            final List<Topic> topics = pthVisitContext.getTopics();
-            ((PTHSymptomsFragment)pthBaseView).addTopicsToView(topics);
+            ((PTHSymptomsFragment)pthBaseView).addTopicsToView(pthVisitContext);
         }
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-        Toast.makeText(pthBaseView.getFragmentActivity(),"OnFailure - topics",Toast.LENGTH_SHORT).show();
     }
 
     void getVisitContext()  {

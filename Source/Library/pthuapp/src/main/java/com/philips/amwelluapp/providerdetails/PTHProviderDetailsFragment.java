@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.americanwell.sdk.entity.Language;
 import com.americanwell.sdk.entity.consumer.Consumer;
@@ -111,6 +110,7 @@ public class PTHProviderDetailsFragment extends PTHBaseFragment implements View.
      */
     @Override
     public void updateView(Provider provider) {
+
         checkAvailability(provider);
         swipeRefreshLayout.setRefreshing(false);
         providerName.setText(provider.getFullName());
@@ -121,7 +121,6 @@ public class PTHProviderDetailsFragment extends PTHBaseFragment implements View.
         yearsOfExpValueLabel.setText(""+provider.getYearsExperience());
         graduatedValueLabel.setText(provider.getSchoolName());
         aboutMeValueLabel.setText(provider.getTextGreeting());
-        Toast.makeText(getActivity(),""+provider.getSchoolName(),Toast.LENGTH_SHORT).show();;
 
     }
 
@@ -132,6 +131,7 @@ public class PTHProviderDetailsFragment extends PTHBaseFragment implements View.
      * @param provider
      */
     private void checkAvailability(Provider provider) {
+
         if(ProviderVisibility.isOnCall(provider.getVisibility()) || ProviderVisibility.isVideoBusy(provider.getVisibility())){
             isAvailableImage.setVisibility(ImageView.GONE);
             detailsButtonOne.setVisibility(Button.VISIBLE);
@@ -150,6 +150,7 @@ public class PTHProviderDetailsFragment extends PTHBaseFragment implements View.
             detailsButtonOne.setVisibility(Button.GONE);
             detailsButtonTwo.setText("Schedule an appointment");
         }
+
     }
 
     /**
@@ -158,6 +159,7 @@ public class PTHProviderDetailsFragment extends PTHBaseFragment implements View.
      */
 
     private String getSpokenLanguages(List<Language> spokenLanguages) {
+
         String languageList = "";
         for(Language language: spokenLanguages){
             if(languageList.length() == 0){

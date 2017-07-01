@@ -114,26 +114,21 @@ public class PTHWelcomePresenterTest {
         verify(awsdk).authenticate(anyString(),anyString(),anyString(),any(SDKCallback.class));
     }
 
-    @Test
-    public void onInitializationFailure() throws Exception {
-
-    }
-
-  /*  @Test(expected = NullPointerException.class)
+ /*   @Test
     public void onLoginResponse() throws Exception {
         when(pthAuthenticationMock.getAuthentication()).thenReturn(authenticationMock);
         when(awsdk.getConsumerManager()).thenReturn(ConsumerManagerMock);
         pthWelcomePresenter.onLoginResponse(pthAuthenticationMock,sdkErrorMock);
-       verify(awsdk).getConsumerManager().getConsumer(any(Authentication.class),any(SDKCallback.class));
+        verify(awsdk).getConsumerManager().getConsumer(any(Authentication.class),any(SDKCallback.class));
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void getConsumerThrowsAWSDKInstantiationException() throws Exception {
         when(pthAuthenticationMock.getAuthentication()).thenReturn(authenticationMock);
         when(awsdk.getConsumerManager()).thenReturn(ConsumerManagerMock);
         doThrow(AWSDKInstantiationException.class).when(ConsumerManagerMock).getConsumer(any(Authentication.class),any(SDKCallback.class));
         pthWelcomePresenter.onLoginResponse(pthAuthenticationMock,sdkErrorMock);
-        verify(awsdk).getConsumerManager().getConsumer(any(Authentication.class),any(SDKCallback.class));
+        ConsumerManagerMock.getConsumer(any(Authentication.class),any(SDKCallback.class));
     }*/
 
     @Test

@@ -192,12 +192,12 @@ dependencies {
         exclude group: 'com.google.dagger'
     }
     debugCompile 'com.facebook.stetho:stetho:1.2.0'
-    testCompile 'junit:junit:4.12'
+    /*testCompile 'junit:junit:4.12'
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
     testCompile 'org.robolectric:robolectric:3.3.1'
     testCompile 'org.robolectric:shadows-multidex:3.3.1'
     testCompile 'org.robolectric:shadows-support-v4:3.3.1'
-    testCompile 'org.mockito:mockito-all:1.10.17'
+    testCompile 'org.mockito:mockito-all:1.10.17'*/
 //    testCompile "com.squareup.assertj:assertj-android:${androidAssertJVer}"
  compile project(':pthuapp')
 }

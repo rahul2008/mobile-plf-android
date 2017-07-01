@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.visit.Topic;
+import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.amwelluapp.R;
@@ -102,8 +103,9 @@ public class PTHSymptomsFragment extends PTHBaseFragment implements BackEventLis
         mPTHSymptomsPresenter.getVisitContext();
     }
 
-    public void addTopicsToView(List<Topic> topics){
-        for (Topic topic:topics
+    public void addTopicsToView(PTHVisitContext visitContext){
+        List<Topic> topics = visitContext.getTopics();
+        for (final Topic topic:topics
              ) {
             CheckBox checkBox = new CheckBox(getContext());
             ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -111,6 +113,12 @@ public class PTHSymptomsFragment extends PTHBaseFragment implements BackEventLis
             checkBox.setEnabled(true);
             checkBox.setText(topic.getTitle());
             topicLayout.addView(checkBox);
+            checkBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    topic.setSelected(true);
+                }
+            });
         }
     }
 }

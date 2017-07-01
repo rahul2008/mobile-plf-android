@@ -1,3 +1,17 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="pth_fab_margin">16dp</dimen>
+
+    <dimen name="pth_title_text">20sp</dimen>
+    <dimen name="pth_title_text_line_spacing_extra">8dp</dimen>
+
+    <dimen name="pth_body_text">16sp</dimen>
+    <dimen name="pth_body_text_line_spacing_extra">6dp</dimen>
+
+    <dimen name="pth_small_body_text">12sp</dimen>
+    <dimen name="pth_small_body_text_line_spacing_extra">6dp</dimen>
+
+    <dimen name="pth_image_height">84dp</dimen>
+    <dimen name="pth_image_width">84dp</dimen>
+
+
 </resources>

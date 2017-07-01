@@ -4,27 +4,28 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/pth_fab_margin"
+    android:layout_marginRight="@dimen/pth_fab_margin"
+    >
 
-    android:padding="15dp">
-
-    <com.philips.platform.uid.view.widget.ProgressBar
+    <!--<ProgressBar
         android:id="@+id/pth_id_practice_progress_bar"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerHorizontal="true"
-        style="@style/UIDProgressBarCircularIndeterminateMiddle"
+
         android:visibility="gone"
 
-        />
+        />-->
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_id_practice_label"
-        android:layout_below="@+id/pth_id_practice_progress_bar"
+
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:textSize="16sp"
+        android:textSize="@dimen/pth_title_text"
         android:gravity="center_vertical"
-        android:text="asd"
+        android:lineSpacingExtra="@dimen/pth_title_text_line_spacing_extra"
        />
 
 

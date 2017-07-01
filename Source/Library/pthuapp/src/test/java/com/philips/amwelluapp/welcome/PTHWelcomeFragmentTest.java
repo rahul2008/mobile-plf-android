@@ -7,19 +7,18 @@ import com.philips.amwelluapp.ApplicationTestClass;
 import com.philips.amwelluapp.BuildConfig;
 import com.philips.amwelluapp.CustomRobolectricRunnerAmwel;
 import com.philips.amwelluapp.activity.PTHLaunchActivity;
-import com.philips.amwelluapp.base.PTHBaseFragment;
 import com.philips.amwelluapp.utility.PTHManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.ProgressBar;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 import org.robolectric.Robolectric;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowLog;
@@ -28,7 +27,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(CustomRobolectricRunnerAmwel.class)
-@Config(constants = BuildConfig.class, sdk = 21, application = ApplicationTestClass.class, libraries = "../../../../../../../build/intermediates/exploded-aar/com.philips.cdp/uid/0.1.1-SNAPSHOT.20170623170225")
+@Config(constants = BuildConfig.class, sdk = 21, application = ApplicationTestClass.class)
 public class PTHWelcomeFragmentTest {
     private PTHLaunchActivity mActivity;
     private WelcomeFragmentMock mWelcomeFragment;
@@ -98,7 +97,7 @@ public class PTHWelcomeFragmentTest {
 
     @Test
     public void handleBackEvent() throws Exception {
-        mWelcomeFragment.handleBackEvent();
+        Assert.assertEquals(mWelcomeFragment.handleBackEvent(),true);
     }
 
     @Test

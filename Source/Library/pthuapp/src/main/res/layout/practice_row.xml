@@ -5,38 +5,37 @@
     android:id="@+id/pth_practice_row_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:minHeight="100dp"
-
     >
 
 
     <ImageView
-        android:layout_margin="5dp"
-        android:id="@+id/pth_practice_logo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentTop="true"
 
-         />
+        android:id="@+id/pth_practice_logo"
+        android:layout_width="@dimen/pth_image_width"
+        android:layout_height="@dimen/pth_image_height"
+        android:layout_alignParentTop="true"
+        />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_practice_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="12dp"
         android:layout_toRightOf="@+id/pth_practice_logo"
+        android:lineSpacingExtra="@dimen/pth_body_text_line_spacing_extra"
         android:maxLines="3"
-        android:padding="8dp"
 
-        android:textSize="20sp"
+        android:paddingLeft="15dp"
         android:textColor="?attr/uidLabelValueNormalTextColor"
+        android:textSize="@dimen/pth_body_text"
         android:textStyle="bold" />
-    <View android:background="@color/uid_blue_level_50"
-        android:layout_below="@+id/pth_practice_logo"
-        android:layout_width = "match_parent"
+
+    <View
+        android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="5dp"
+        android:background="@color/uid_gray_level_5"
+        android:layout_below="@+id/pth_practice_logo"
+       
+
         />
 </RelativeLayout>
