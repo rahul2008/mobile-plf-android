@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply from: 'build-awsdk-dependencies.gradle'
-apply from: 'build.workaround-missing-resource.gradle'
 
 buildscript {
     repositories {
