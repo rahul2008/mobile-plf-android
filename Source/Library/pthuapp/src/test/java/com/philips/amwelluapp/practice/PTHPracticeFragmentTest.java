@@ -1,8 +1,6 @@
 package com.philips.amwelluapp.practice;
 
 import com.americanwell.sdk.AWSDK;
-import com.philips.amwelluapp.ApplicationTestClass;
-import com.philips.amwelluapp.BuildConfig;
 import com.philips.amwelluapp.CustomRobolectricRunnerAmwel;
 import com.philips.amwelluapp.activity.PTHLaunchActivity;
 import com.philips.amwelluapp.utility.PTHManager;
@@ -13,9 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.matchers.NotNull;
 import org.robolectric.Robolectric;
-import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowLog;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
