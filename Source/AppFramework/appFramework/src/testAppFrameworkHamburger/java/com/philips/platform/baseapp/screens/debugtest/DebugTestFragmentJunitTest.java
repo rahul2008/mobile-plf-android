@@ -105,6 +105,11 @@ public class DebugTestFragmentJunitTest extends TestCase {
             public void refreshCloudConfig(OnRefreshListener onRefreshListener) {
 
             }
+
+            @Override
+            public void resetConfig() {
+
+            }
         };
 
         when(appInfra.getConfigInterface()).thenReturn(appConfigurationInterface);
