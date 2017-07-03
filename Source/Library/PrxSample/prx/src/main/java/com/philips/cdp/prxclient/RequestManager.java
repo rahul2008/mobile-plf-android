@@ -16,7 +16,6 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
  */
 public class RequestManager {
 
-	private static final String TAG = RequestManager.class.getSimpleName();
 	private PRXDependencies mPrxDependencies;
 
 	public void init(PRXDependencies prxDependencies) {
@@ -43,8 +42,6 @@ public class RequestManager {
 		makeRequest(prxRequest, listener);
 	}
 
-	public void cancelRequest(String requestTag) {
-	}
 
 	private void makeRequest(final PrxRequest prxRequest, final ResponseListener listener) {
 		try {

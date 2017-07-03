@@ -1,7 +1,6 @@
 package cdp.cdp.philips.com.prxclientlib;
 
 import android.test.InstrumentationTestCase;
-import android.test.mock.MockContext;
 import android.util.Log;
 
 import com.philips.cdp.prxclient.request.ProductAssetRequest;
@@ -24,47 +23,19 @@ import java.io.InputStreamReader;
 public class ProductSummaryRequestTest extends InstrumentationTestCase {
 
     private static final String TAG = ProductAssetRequestTest.class.getSimpleName();
-    MockContext mContext;
-    PrxRequest mProductAssetBuilder = null;
+    private PrxRequest mProductAssetBuilder = null;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
 
         mProductAssetBuilder = new ProductSummaryRequest("125",null,null, null);
-      //  mProductAssetBuilder.setmCatalogCode("COnsumer");
-      //  mProductAssetBuilder.setSectorCode("HAIR");
     }
 
-    public void testAssetBuilderObject() {
-
-//        String mURL = mProductAssetBuilder.getRequestUrl();
-//        assertNotNull(mURL);
-    }
-
-//    public void testBuilderLocale() {
-//        String locale = mProductAssetBuilder.getLocaleMatchResult();
-//        assertEquals("nl_NL", locale);
-//    }
 
 
-    public void testPrxBuilderServerInfo() {
 
-//        String mURL = mProductAssetBuilder.getRequestUrl();
-//        assertNotNull("http://www.philips.com/prx/product/HAIR/nl_NL/COnsumer/products/125.summary", mURL);
-    }
 
-   /* public void testPrxBuilderSectorCode() {
-
-        String response = mProductAssetBuilder.getSectorCode();
-        assertEquals("HAIR", response);
-    }
-
-    public void testPrxBuilderCatalogCode() {
-
-        String response = mProductAssetBuilder.getCatalogCode();
-        assertNull(response);
-    }*/
 
     public void testPrxBuilderObjectWithQueueParameter() {
         mProductAssetBuilder = new ProductAssetRequest("125",null ,null, "TAGINFO");
@@ -74,7 +45,6 @@ public class ProductSummaryRequestTest extends InstrumentationTestCase {
 
     public void testSummaryResponseSuccess()
     {
-        JSONObject mJsonObject = null;
         try {
             StringBuilder sb = new StringBuilder();
             try {
@@ -94,8 +64,8 @@ public class ProductSummaryRequestTest extends InstrumentationTestCase {
                 e.printStackTrace();
             }
             Log.d(TAG, "Parsed Data : " + sb.toString());
-            mJsonObject = new JSONObject(sb.toString());
-            ResponseData mResponseData = mProductAssetBuilder.getResponseData(mJsonObject);
+            JSONObject mJsonObject = new JSONObject(sb.toString());
+            //ResponseData mResponseData = mProductAssetBuilder.getResponseData(mJsonObject);
             assertNotNull(mJsonObject);
         } catch (JSONException e) {
             Log.d(TAG, "JSON : " + e);
@@ -107,7 +77,6 @@ public class ProductSummaryRequestTest extends InstrumentationTestCase {
 
     public void testSummaryResponseObject()
     {
-        JSONObject mJsonObject = null;
         try {
             StringBuilder sb = new StringBuilder();
             try {
@@ -127,7 +96,7 @@ public class ProductSummaryRequestTest extends InstrumentationTestCase {
                 e.printStackTrace();
             }
             Log.d(TAG, "Parsed Data : " + sb.toString());
-            mJsonObject = new JSONObject(sb.toString());
+            JSONObject mJsonObject = new JSONObject(sb.toString());
             ResponseData mResponseData = mProductAssetBuilder.getResponseData(mJsonObject);
             assertNotNull(mResponseData);
         } catch (JSONException e) {

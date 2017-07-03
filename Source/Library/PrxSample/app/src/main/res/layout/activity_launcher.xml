@@ -92,13 +92,6 @@
             android:layout_marginTop="5dp" />
     </GridLayout>
 
-    <!-- <EditText  android:layout_width="250dp"
-         android:layout_height="wrap_content"
-
-
-
-         android:layout_marginTop="119dp"
-         android:layout_toStartOf="@+id/assets_reqst_button" />-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -142,6 +135,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:scaleType="fitXY"
+            android:src="@mipmap/ic_launcher"
             android:layout_gravity="center"
             android:visibility="gone" />
 

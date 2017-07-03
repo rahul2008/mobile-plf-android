@@ -28,15 +28,14 @@ import java.util.List;
 public class AssetModelTest extends InstrumentationTestCase {
 
     private static final String TAG = AssetModelTest.class.getSimpleName();
-    String mCode = "RQ1250_17";
-    String mDescription = "User manual";
-    String mExtension = "pdf";
-    String mExtent = "36822233";
-    String mLastModified = "2015-11-09";
-    String mLocale = "en_GB";
-    String mNumber = "001";
-    String mType = "DFU";
-    String mAssetResource = "http://download.p4c.philips.com/files/r/rq1250_17/rq1250_17_dfu_eng.pdf";
+    private final String mCode = "RQ1250_17";
+    private final String mDescription = "User manual";
+    private final String mExtension = "pdf";
+    private final String mExtent = "36822233";
+    private final String mLocale = "en_GB";
+    private final String mNumber = "001";
+    private final String mType = "DFU";
+    private final String mAssetResource = "http://download.p4c.philips.com/files/r/rq1250_17/rq1250_17_dfu_eng.pdf";
     private PrxRequest mProductAssetBuilder = null;
     private Asset mAssetObject = null;
     private Assets mAssetsObject = null;
@@ -58,12 +57,13 @@ public class AssetModelTest extends InstrumentationTestCase {
     }
 
 
-    public void loadResources() {
+    private void loadResources() {
 
         mAssetObject.setCode(mCode);
         mAssetObject.setDescription(mDescription);
         mAssetObject.setExtension(mExtension);
         mAssetObject.setExtent(mExtent);
+        String mLastModified = "2015-11-09";
         mAssetObject.setLastModified(mLastModified);
         mAssetObject.setLocale(mLocale);
         mAssetObject.setNumber(mNumber);
@@ -72,7 +72,6 @@ public class AssetModelTest extends InstrumentationTestCase {
     }
 
     public void testAssetDataLoad() {
-        JSONObject mJsonObject = null;
         try {
             StringBuilder sb = new StringBuilder();
             try {
@@ -92,8 +91,8 @@ public class AssetModelTest extends InstrumentationTestCase {
                 e.printStackTrace();
             }
             Log.d(TAG, "Parsed Data : " + sb.toString());
-            mJsonObject = new JSONObject(sb.toString());
-            ResponseData mResponseData = mProductAssetBuilder.getResponseData(mJsonObject);
+            JSONObject mJsonObject = new JSONObject(sb.toString());
+            //ResponseData mResponseData = mProductAssetBuilder.getResponseData(mJsonObject);
             AssetModel mAssetModel = new AssetModel();
             ResponseData responseData = mAssetModel.parseJsonResponseData(mJsonObject);
             assertNotNull(responseData);
@@ -106,7 +105,6 @@ public class AssetModelTest extends InstrumentationTestCase {
     }
 
     public void testAssetDataSuccess() {
-        JSONObject mJsonObject = null;
         try {
             StringBuilder sb = new StringBuilder();
             try {
@@ -126,8 +124,8 @@ public class AssetModelTest extends InstrumentationTestCase {
                 e.printStackTrace();
             }
             Log.d(TAG, "Parsed Data : " + sb.toString());
-            mJsonObject = new JSONObject(sb.toString());
-            ResponseData mResponseData = mProductAssetBuilder.getResponseData(mJsonObject);
+            JSONObject mJsonObject = new JSONObject(sb.toString());
+            //ResponseData mResponseData = mProductAssetBuilder.getResponseData(mJsonObject);
             AssetModel assetModel = new AssetModel();
             ResponseData responseData = assetModel.parseJsonResponseData(mJsonObject);
             AssetModel assetModelObject = (AssetModel) responseData;
