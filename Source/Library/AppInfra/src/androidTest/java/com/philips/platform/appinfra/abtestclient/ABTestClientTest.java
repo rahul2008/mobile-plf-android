@@ -133,6 +133,7 @@ public class ABTestClientTest extends AppInfraInstrumentation {
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTestClient",
                     e.getMessage());
+
         }
     }
 
