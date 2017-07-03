@@ -12,8 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="15dp"
+        android:layout_marginTop="10dp"
         android:text="Step 3 of 5: Medicines"
-        android:textSize="@dimen/pth_title_text" />
+        android:textSize="@dimen/pth_body_text" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_intake_medication_question"
@@ -26,35 +27,53 @@
         android:textColor="@color/awsdk_color_black"
         android:textSize="@dimen/pth_body_text" />
 
-    <com.philips.platform.uid.view.widget.SearchBox
+    <RelativeLayout
+        android:id="@+id/pth_intake_medication_searchbox_relative_layout"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pth_intake_medication_question"
+        android:layout_marginTop="15dp">
 
-        android:text="Search for medicines"
-        android:textColor="@color/awsdk_color_black"
-        android:id="@+id/pth_intake_medication_searchbox"
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/pth_intake_medication_searchbox_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Search"
 
-        android:layout_below="@+id/pth_intake_medication_question">
+            />
 
-    </com.philips.platform.uid.view.widget.SearchBox>
+        <com.philips.platform.uid.view.widget.SearchBox
+            android:id="@+id/pth_intake_medication_searchbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/pth_intake_medication_searchbox_button"
+            android:layout_toLeftOf="@+id/pth_intake_medication_searchbox_button"
+            android:text="Search for medicines"
+            android:textColor="@color/awsdk_color_black"
+
+            >
+
+        </com.philips.platform.uid.view.widget.SearchBox>
+    </RelativeLayout>
+
     <ListView
         android:id="@+id/pth_intake_medication_listview"
-        android:layout_below="@+id/pth_intake_medication_searchbox"
-        android:layout_above="@+id/pth_intake_medication_continue_button"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
-        >
+        android:layout_above="@+id/pth_intake_medication_continue_button"
+        android:layout_below="@+id/pth_intake_medication_searchbox_relative_layout"
+        android:layout_marginTop="20dp">
 
-        </ListView>
+    </ListView>
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/pth_intake_medication_continue_button"
-        android:layout_above="@+id/pth_intake_medication_skip_step_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/pth_intake_medication_skip_step_label"
 
-        android:text="Continue"/>
+        android:text="Continue" />
 
 
     <com.philips.platform.uid.view.widget.Label

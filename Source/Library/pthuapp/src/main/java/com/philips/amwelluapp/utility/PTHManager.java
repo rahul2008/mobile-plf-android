@@ -271,9 +271,11 @@ public class PTHManager {
         getAwsdk(context).getConsumerManager().getMedications(consumer, new SDKCallback<List<Medication>, SDKError>() {
             @Override
             public void onResponse(List<Medication> medications, SDKError sdkError) {
-                PTHMedication pTHMedication = new PTHMedication();
-                pTHMedication.setMedicationList(medications);
-                pTHGetMedicationCallback.onGetMedicationReceived(pTHMedication,sdkError);
+                if(null!=medications && !medications.isEmpty()) {
+                    PTHMedication pTHMedication = new PTHMedication();
+                    pTHMedication.setMedicationList(medications);
+                    pTHGetMedicationCallback.onGetMedicationReceived(pTHMedication, sdkError);
+                }
             }
 
             @Override
@@ -284,8 +286,8 @@ public class PTHManager {
 
     }
 
-    public void searchMedication(Context context , Consumer consumer, final PTHSDKValidatedCallback pTHSDKValidatedCallback ) throws AWSDKInstantiationException{
-        getAwsdk(context).getConsumerManager().getMedications(consumer, new SDKValidatedCallback<List<Medication>, SDKError>() {
+    public void searchMedication(Context context , String medicineName, Consumer consumer, final PTHSDKValidatedCallback pTHSDKValidatedCallback ) throws AWSDKInstantiationException{
+        getAwsdk(context).getConsumerManager().searchMedications(consumer,medicineName, new SDKValidatedCallback<List<Medication>, SDKError>() {
             @Override
             public void onValidationFailure(Map<String, ValidationReason> map) {
                 pTHSDKValidatedCallback.onValidationFailure(map);
@@ -293,12 +295,17 @@ public class PTHManager {
 
             @Override
             public void onResponse(List<Medication> medications, SDKError sdkError) {
-
+                Log.v("onSearchMedication","sucess");
+                if(null!=medications && !medications.isEmpty()) {
+                    PTHMedication pTHMedication = new PTHMedication();
+                    pTHMedication.setMedicationList(medications);
+                    pTHSDKValidatedCallback.onResponse(pTHMedication, sdkError);
+                }
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                Log.v("onGetMedicationReceived","failure");
+                Log.v("onSearchMedication","failure");
                 pTHSDKValidatedCallback.onFailure(throwable);
             }
         });

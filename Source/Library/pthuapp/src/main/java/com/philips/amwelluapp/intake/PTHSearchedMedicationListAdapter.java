@@ -5,30 +5,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.amwelluapp.R;
 import com.philips.platform.uid.view.widget.Label;
 
 /**
- * Created by philips on 6/29/17.
+ * Created by philips on 6/30/17.
  */
 
-public class PTHExistingMedicationListAdapter extends BaseAdapter {
-    PTHMedication mPTHExistingMedication;
+public class PTHSearchedMedicationListAdapter extends BaseAdapter {
+    PTHMedication mPTHSearchedMedication;
     Context mContext;
 
-
-    public PTHExistingMedicationListAdapter(Context context){
-        this.mContext=context;
-
+    public PTHSearchedMedicationListAdapter(Context context, PTHMedication pTHMedication) {
+        this.mContext = context;
+        this.mPTHSearchedMedication = pTHMedication;
     }
 
-    void setData(PTHMedication pTHMedication) {
-        this.mPTHExistingMedication = pTHMedication;
-        notifyDataSetChanged();
-    }
 
     /**
      * How many items are in the data set represented by this Adapter.
@@ -37,8 +31,8 @@ public class PTHExistingMedicationListAdapter extends BaseAdapter {
      */
     @Override
     public int getCount() {
-        if (null != mPTHExistingMedication && null != mPTHExistingMedication.getMedicationList() && !mPTHExistingMedication.getMedicationList().isEmpty()) {
-            return mPTHExistingMedication.getMedicationList().size();
+        if (null != mPTHSearchedMedication && null != mPTHSearchedMedication.getMedicationList() && !mPTHSearchedMedication.getMedicationList().isEmpty()) {
+            return mPTHSearchedMedication.getMedicationList().size();
         } else {
             return 0;
         }
@@ -53,8 +47,8 @@ public class PTHExistingMedicationListAdapter extends BaseAdapter {
      */
     @Override
     public Object getItem(int position) {
-        if (null != mPTHExistingMedication && null != mPTHExistingMedication.getMedicationList() && !mPTHExistingMedication.getMedicationList().isEmpty()) {
-            return mPTHExistingMedication.getMedicationList().get(position);
+        if (null != mPTHSearchedMedication && null != mPTHSearchedMedication.getMedicationList() && !mPTHSearchedMedication.getMedicationList().isEmpty()) {
+            return mPTHSearchedMedication.getMedicationList().get(position);
         } else {
             return null;
         }
@@ -90,41 +84,30 @@ public class PTHExistingMedicationListAdapter extends BaseAdapter {
      * @return A View corresponding to the data at the specified position.
      */
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-
+    public View getView(int position, View convertView, ViewGroup parent) {
         View rowView = convertView;
-        if(null==rowView){
+        if (null == rowView) {
 
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-            rowView = inflater.inflate(R.layout.existing_medication_list_row, null);
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            rowView = inflater.inflate(R.layout.searched_medication_list_row, null);
             // configure view holder
             ViewHolder viewHolder = new ViewHolder();
-            viewHolder.MedicineName=(TextView) rowView.findViewById(R.id.pth_existing_medication_list_row_label);
-            viewHolder.DeleteButton=(ImageView) rowView.findViewById(R.id.pth_existing_medication_list_row_delete);
+            viewHolder.MedicineName = (TextView) rowView.findViewById(R.id.pth_searched_medication_list_row_label);
+
             rowView.setTag(viewHolder);
         }
 
         ViewHolder holder = (ViewHolder) rowView.getTag();
-        String medicineName= mPTHExistingMedication.getMedicationList().get(position).getName();
+        String medicineName = mPTHSearchedMedication.getMedicationList().get(position).getName();
         holder.MedicineName.setText(medicineName);
-        holder.DeleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // delete selected medicine
-                mPTHExistingMedication.getMedicationList().remove(position);
-                notifyDataSetChanged();
-            }
-        });
-
-
-
 
         return rowView;
     }
 
+
     private class ViewHolder {
         private TextView MedicineName;
-        private ImageView DeleteButton;
+
 
     }
 }
