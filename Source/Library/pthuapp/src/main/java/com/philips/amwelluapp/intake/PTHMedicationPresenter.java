@@ -2,6 +2,7 @@ package com.philips.amwelluapp.intake;
 
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
@@ -72,7 +73,7 @@ public class PTHMedicationPresenter implements PTHBasePresenter, PTHMedicationCa
     //////////////// start of call backs for get existing medicines//////////////
     @Override
     public void onGetMedicationReceived(PTHMedication pTHMedication, SDKError sDKError) {
-        if (null != pTHMedication.getMedicationList()) {
+        if (null != pTHMedication.getMedicationList() && !pTHMedication.getMedicationList().isEmpty()) {
             Log.v("onGetMedicationReceived", "Success");
             ((PTHMedicationFragment) uiBaseView).showExistingMedicationList(pTHMedication);
         } else {
@@ -87,23 +88,29 @@ public class PTHMedicationPresenter implements PTHBasePresenter, PTHMedicationCa
     //////////////// start of call backs for search medicines//////////////
     @Override
     public void onValidationFailure(Map<String, ValidationReason> var1) {
+        ((PTHMedicationFragment) uiBaseView).hideProgressBar();
         Log.v("onFetchMedication", "failure");
     }
 
     @Override
     public void onResponse(PTHMedication pthMedication, SDKError sdkError) {
-        if (null != pthMedication.getMedicationList()) {
-            ((PTHMedicationFragment) uiBaseView).hideProgressBar();
+        ((PTHMedicationFragment) uiBaseView).hideProgressBar();
+        if (null!=pthMedication && null != pthMedication.getMedicationList() &&  !pthMedication.getMedicationList().isEmpty()) {
+
             Log.v("onFetchMedication", "Success");
             ((PTHMedicationFragment) uiBaseView).showSearchedMedicationList(pthMedication);
         } else {
             Log.v("onFetchMedication", "failure");
+            Toast.makeText( ((PTHMedicationFragment) uiBaseView).getActivity(), "No match found",Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onFailure(Throwable throwable) {
+
+        ((PTHMedicationFragment) uiBaseView).hideProgressBar();
         Log.v("onFetchMedication", "failure");
+        Toast.makeText( ((PTHMedicationFragment) uiBaseView).getActivity(), "Search failure",Toast.LENGTH_SHORT).show();
     }
     //////////////// end of call backs for search medicines//////////////
 

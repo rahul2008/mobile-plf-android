@@ -294,7 +294,7 @@ public class PTHManager {
             @Override
             public void onResponse(List<Medication> medications, SDKError sdkError) {
                 Log.v("onSearchMedication","sucess");
-                if(null!=medications && !medications.isEmpty()) {
+                if(null!=medications ) {
                     PTHMedication pTHMedication = new PTHMedication();
                     pTHMedication.setMedicationList(medications);
                     pTHSDKValidatedCallback.onResponse(pTHMedication, sdkError);
