@@ -59,6 +59,9 @@ public class PTHWelcomePresenterTest {
     @Mock
     AWSDK awsdk;
 
+    @Mock
+    Throwable throwable;
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -106,6 +109,13 @@ public class PTHWelcomePresenterTest {
        pthWelcomePresenter.onInitializationResponse(null,sdkErrorMock);
         verify(awsdk).authenticate(anyString(),anyString(),anyString(),any(SDKCallback.class));
     }
+
+    @Test
+    public void onInitializationFailure()  {
+        pthWelcomePresenter.onInitializationFailure(throwable);
+        verify(pTHBaseViewMock).hideProgressBar();
+    }
+
 
     @Test
     public void authenticateThrowsAWSDKInstantiationException() throws Exception {
