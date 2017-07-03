@@ -79,6 +79,7 @@ public class ABTestClientTest extends AppInfraInstrumentation {
 
 
     public void testCacheStatusValue() {
+
         try {
             method = abTestClienTestManager.getClass().getDeclaredMethod("getCacheStatus");
             method.setAccessible(true);
@@ -86,6 +87,11 @@ public class ABTestClientTest extends AppInfraInstrumentation {
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTestClient",
                     e.getMessage());
+        }
+        try {
+            Thread.sleep(20);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         assertNotNull(mAbTestClientInterface.getCacheStatus());
     }

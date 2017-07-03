@@ -77,10 +77,6 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
 
     }
 
-    public static Object getAutoRefreshValue(AppConfigurationManager appConfigurationManager) {
-        AppConfigurationInterface.AppConfigurationError configurationError = new AppConfigurationInterface.AppConfigurationError();
-        return appConfigurationManager.getPropertyForKey("appUpdate.autoRefresh", "appinfra", configurationError);
-    }
 
     public Context getAppInfraContext() {
         return appInfraContext;
@@ -361,16 +357,10 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             ai.setTime(mTimeSyncInterfaceBuilder == null ? new TimeSyncSntpClient(ai) : mTimeSyncInterfaceBuilder);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "TimeSync Intitialization Done");
 
-            //ai.setAppInfraLogger(aiLogger == null ? new AppInfraLogging(ai) : aiLogger);
             ai.setSecureStorage(secStor == null ? new SecureStorage(ai) : secStor);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "SecureStorage Intitialization Done");
             ai.setLogging(logger == null ? new AppInfraLogging(ai) : logger);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "Logging Intitialization Done");
-            // ai.setLogging(new AppInfraLogging(ai));
-            ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APPINFRA,
-                    "Device name:"+android.os.Build.MANUFACTURER+" "+ android.os.Build.MODEL+" "+" OS version:"+Build.VERSION.RELEASE);
-
-            ai.setAbTesting(aIabtesting == null ? new ABTestClientManager(ai) : aIabtesting);
 
             ai.setAppIdentity(appIdentity == null ? new AppIdentityManager(ai) : appIdentity);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "AppIdentity Intitialization Done");
@@ -379,88 +369,41 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
 
             ai.setServiceDiscoveryInterface(mServiceDiscoveryInterface == null ? new ServiceDiscoveryManager(ai) : mServiceDiscoveryInterface);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "ServiceDiscovery Intitialization Done");
-            if (ai.getAppIdentity() != null) {
-                final StringBuilder appInfraLogStatement = new StringBuilder();
 
-                try {
-                    appInfraLogStatement.append("AppInfra initialized for application \"");
-                    appInfraLogStatement.append(ai.getAppIdentity().getAppName());
-                    appInfraLogStatement.append("\" version \"");
-                    appInfraLogStatement.append(ai.getAppIdentity().getAppVersion());
-                    appInfraLogStatement.append("\" in state \"");
-                    appInfraLogStatement.append(ai.getAppIdentity().getAppState());
+            ai.setAbTesting(aIabtesting == null ? new ABTestClientManager(ai) : aIabtesting);
+            Log.v(AppInfraLogEventID.AI_APPINFRA, "ABTESTING Intitialization Done");
 
-                } catch (IllegalArgumentException e) {
-                    Log.e(AppInfraLogEventID.AI_APPINFRA, e.getMessage());
-                }
-                appInfraLogStatement.append("\"");
-                ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APPINFRA,"AppInfra initialized " +appInfraLogStatement.toString());
-            }
             ai.setRestInterface(mRestInterface == null ? new RestManager(ai) : mRestInterface);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "Rest Intitialization Done");
 
             ai.setTagging(tagging == null ? new AppTagging(ai) : tagging);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "Tagging Intitialization Done");
 
-            Log.v(AppInfraLogEventID.AI_APPINFRA, "AppConfig Migration Starts");
-
-            /////////////
-            appConfigurationManager.migrateDynamicData();
-            appConfigurationManager.refreshCloudConfig(new AppConfigurationInterface.OnRefreshListener() {
-                @Override
-                public void onError(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum error, String message) {
-                    ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_APPINFRA,
-                            "refreshCloudConfig "+message);
-
-                }
-                @Override
-                public void onSuccess(REFRESH_RESULT result) {
-                    ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_APPINFRA,
-                            "refreshCloudConfig "+result.toString());
-                }
-            });
-            Log.v(AppInfraLogEventID.AI_APPINFRA, "AppConfig Migration ENDS");
 
             ai.setLanguagePackInterface(languagePack == null? new LanguagePackManager(ai) : languagePack);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "Language Pack Initialization done");
 
-            AppUpdateManager appUpdateManager = new AppUpdateManager(ai);
+            final AppUpdateManager appUpdateManager = new AppUpdateManager(ai);
 
             ai.setAppupdateInterface(appupdateInterface == null ? appUpdateManager : appupdateInterface);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Initialization done");
             Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Auto Refresh Starts");
-            try {
-                Object isappUpdateRq = getAutoRefreshValue(appConfigurationManager);
-                if (isappUpdateRq != null && isappUpdateRq instanceof Boolean) {
-                    final Boolean isautorefreshEnabled = (Boolean) isappUpdateRq;
-                    File appupdateCache = appUpdateManager.getAppUpdatefromCache(AppUpdateConstants.LOCALE_FILE_DOWNLOADED
-                            , AppUpdateConstants.APPUPDATE_PATH);
-                    if (appupdateCache != null && appupdateCache.exists() && appupdateCache.length() > 0) {
-                        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APPINFRA,
-                                "AppUpdate Auto Refresh Cache is available");
-                    } else if (isautorefreshEnabled) {
-                        appUpdateManager.refresh(new AppUpdateInterface.OnRefreshListener() {
-                            @Override
-                            public void onError(AIAppUpdateRefreshResult error, String message) {
-                                ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_APPINFRA,
-                                        "AppConfiguration Auto refresh failed- AppUpdate" + " " + error);
-                            }
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APPINFRA,
+                            "Device name:"+ Build.MANUFACTURER+" "+ Build.MODEL+" "+" OS version:"+Build.VERSION.RELEASE);
 
-                            @Override
-                            public void onSuccess(AIAppUpdateRefreshResult result) {
-                                ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_APPINFRA,
-                                        "AppConfiguration Auto refresh success- AppUpdate" + " " + result);
-                            }
-                        });
+                    if (ai.getAppIdentity() != null) {
+                        initializeLogs(ai);
                     }
-                } else {
-                    ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APPINFRA,
-                            "AppConfiguration Auto refresh failed- AppUpdate");
+                    appConfigurationManager.migrateDynamicData();
+                  //  downloadCloudConfig(ai, appConfigurationManager);
+                    appUpdateManager.appInfraRefresh();
                 }
-            } catch (IllegalArgumentException exception) {
-                ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_APPINFRA,
-                       "AppConfiguration "+exception.toString());
-            }
+            }).start();
+
+
             Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Auto Refresh ENDS");
             Log.v(AppInfraLogEventID.AI_APPINFRA, "AppInfra Initialization ENDS");
             postLog(ai,startTime, "App-infra initialization ends with ");
@@ -469,32 +412,38 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
 
     }
 
-    private String getAndroidOSVersion()
-    {
-        StringBuilder builder = new StringBuilder();
-        builder.append("android : ").append(Build.VERSION.RELEASE);
+    private static void initializeLogs(AppInfra ai) {
+        final StringBuilder appInfraLogStatement = new StringBuilder();
 
-        Field[] fields = Build.VERSION_CODES.class.getFields();
-        for (Field field : fields) {
-            String fieldName = field.getName();
-            int fieldValue = -1;
+        try {
+            appInfraLogStatement.append("AppInfra initialized for application \"");
+            appInfraLogStatement.append(ai.getAppIdentity().getAppName());
+            appInfraLogStatement.append("\" version \"");
+            appInfraLogStatement.append(ai.getAppIdentity().getAppVersion());
+            appInfraLogStatement.append("\" in state \"");
+            appInfraLogStatement.append(ai.getAppIdentity().getAppState());
 
-            try {
-                fieldValue = field.getInt(new Object());
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-
-            if (fieldValue == Build.VERSION.SDK_INT) {
-                builder.append(" : ").append(fieldName).append(" : ");
-                builder.append("sdk=").append(fieldValue);
-            }
+        } catch (IllegalArgumentException e) {
+            Log.v(AppInfraLogEventID.AI_APPINFRA, e.getMessage());
         }
-
-        return "OS: " + builder.toString();
+        appInfraLogStatement.append("\"");
+        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APPINFRA,"AppInfra initialized " +appInfraLogStatement.toString());
     }
+
+//    private static void downloadCloudConfig(final AppInfra ai, AppConfigurationManager appConfigurationManager) {
+//        appConfigurationManager.refreshCloudConfig(new AppConfigurationInterface.OnRefreshListener() {
+//            @Override
+//            public void onError(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum error, String message) {
+//                ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APPINFRA,
+//                        "refreshCloudConfig "+message);
+//
+//            }
+//            @Override
+//            public void onSuccess(REFRESH_RESULT result) {
+//                ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_APPINFRA,
+//                        "refreshCloudConfig "+result.toString());
+//            }
+//        });
+//    }
+
 }

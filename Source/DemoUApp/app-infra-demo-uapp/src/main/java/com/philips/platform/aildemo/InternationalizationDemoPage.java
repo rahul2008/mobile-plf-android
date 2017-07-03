@@ -3,7 +3,7 @@ package com.philips.platform.aildemo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+
 import android.widget.TextView;
 
 import com.philips.platform.appinfra.AppInfraInterface;
@@ -28,9 +28,6 @@ public class InternationalizationDemoPage extends AppCompatActivity {
         mAppTaggingInterface = appInfra.getTagging().createInstanceForComponent("I18n", "I18nVersion");
 
         mAppTaggingInterface.trackPageWithInfo("InternationalizationDemoPage", "I18NKEy", "I18NValue");
-        ((TextView) findViewById(R.id.localValue)).setText(mappIdentityinterface.getUILocale().toString());
         ((TextView) findViewById(R.id.localStringValue)).setText(mappIdentityinterface.getUILocaleString());
-
-        Log.i("TAG-Local-language", "" + mappIdentityinterface.getUILocale());
     }
 }

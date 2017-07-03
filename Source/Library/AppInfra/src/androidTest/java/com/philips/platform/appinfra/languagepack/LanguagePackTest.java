@@ -273,26 +273,26 @@ public class LanguagePackTest extends AppInfraInstrumentation {
     }
 
 
-    public void testDownloadLanguagePack() {
-        try {
-            Method method = mLanguagePackManager.getClass().getDeclaredMethod("downloadLanguagePack"
-                    , String.class, LanguagePackInterface.OnRefreshListener.class);
-            method.setAccessible(true);
-            LanguagePackInterface.OnRefreshListener listener = new LanguagePackInterface.OnRefreshListener() {
-                @Override
-                public void onError(AILPRefreshResult error, String message) {
-                }
-
-                @Override
-                public void onSuccess(AILPRefreshResult result) {
-                }
-            };
-            //URL url = new URL("https:\\/\\/hashim-rest.herokuapp.com\\/sd\\/dev\\/en_IN\\/appinfra\\/lp\\/en_GB.json");
-            method.invoke(mLanguagePackManager, "https://hashim-rest.herokuapp.com/sd/dev/en_IN/appinfra/lp/en_GB.json", listener);
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void testDownloadLanguagePack() {
+//        try {
+//            Method method = mLanguagePackManager.getClass().getDeclaredMethod("downloadLanguagePack"
+//                    , String.class, LanguagePackInterface.OnRefreshListener.class);
+//            method.setAccessible(true);
+//            LanguagePackInterface.OnRefreshListener listener = new LanguagePackInterface.OnRefreshListener() {
+//                @Override
+//                public void onError(AILPRefreshResult error, String message) {
+//                }
+//
+//                @Override
+//                public void onSuccess(AILPRefreshResult result) {
+//                }
+//            };
+//            //URL url = new URL("https:\\/\\/hashim-rest.herokuapp.com\\/sd\\/dev\\/en_IN\\/appinfra\\/lp\\/en_GB.json");
+//            method.invoke(mLanguagePackManager, "https://hashim-rest.herokuapp.com/sd/dev/en_IN/appinfra/lp/en_GB.json", listener);
+//        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
     public void testGetPreferredLocaleURL() {

@@ -256,6 +256,16 @@ public class AppConfigurationActivity extends AppCompatActivity {
                 });
             }
         });
+
+        Button btResetConfig = (Button) findViewById(R.id.btn_resetConfig);
+        btResetConfig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mConfigInterface.resetConfig();
+                Toast.makeText(AppConfigurationActivity.this,"RESET CONFIG" ,Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
     private Map jsonToMap(Object JSON) throws JSONException {

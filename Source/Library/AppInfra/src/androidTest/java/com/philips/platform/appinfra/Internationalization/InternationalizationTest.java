@@ -24,9 +24,6 @@ public class InternationalizationTest extends AppInfraInstrumentation {
 
     }
 
-    public void testgetUILocale() {
-        assertNotNull(mInternationalizationInterface.getUILocale());
-    }
 
     public void testgetUILocaleString() {
         assertNotNull(mInternationalizationInterface.getUILocaleString());
