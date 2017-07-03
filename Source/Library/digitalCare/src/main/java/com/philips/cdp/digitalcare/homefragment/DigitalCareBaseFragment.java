@@ -370,7 +370,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 
         if (mContainerId != 0) {
             containerId = mContainerId;
-            mFragmentActivityContext = mActivityContext;
+            mFragmentActivityContext = mFragmentLauncher.getFragmentActivity();
         } else {
             enableActionBarLeftArrow();
             InputMethodManager imm = (InputMethodManager) mFragmentActivityContext
@@ -382,7 +382,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
             }
         }
         try {
-            FragmentTransaction fragmentTransaction = getActivity()
+            FragmentTransaction fragmentTransaction = mFragmentActivityContext
                     .getSupportFragmentManager().beginTransaction();
             if (mEnterAnimation != 0 && mExitAnimation != 0) {
                 fragmentTransaction.setCustomAnimations(mEnterAnimation,
