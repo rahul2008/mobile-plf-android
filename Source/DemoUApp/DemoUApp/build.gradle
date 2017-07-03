@@ -122,6 +122,9 @@ publishing {
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
+    dexOptions {
+        jumboMode true
+    }
 
     defaultConfig {
 
@@ -129,6 +132,8 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
+
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -150,6 +155,11 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
     }
+
+    lintOptions {
+        abortOnError false
+    }
+
 }
 
 dependencies {

@@ -59,7 +59,7 @@ public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInRes
 		User user = new User(mContext);
 		mUpdateUserRecordHandler.updateUserRecordRegister();
 
-		if (RegistrationConfiguration.getInstance().isHsdpFlow() && user.getEmailVerificationStatus()) {
+		if (RegistrationConfiguration.getInstance().isHsdpFlow() && (user.isEmailVerified() || user.isMobileVerified())) {
 			HsdpUser hsdpUser = new HsdpUser(mContext);
 			String emailOrMobile;
 			if (FieldsValidator.isValidEmail(user.getEmail())){

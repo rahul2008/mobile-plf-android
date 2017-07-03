@@ -931,11 +931,18 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         RLog.i(RLog.CALLBACK, "HomeFragment : onLoginSuccess");
         hideProviderProgress();
         enableControls(true);
-        User user = new User(mContext);
-        if (user.getEmailVerificationStatus()) {
+
+        boolean isEmailAvailable = mUser.getEmail() != null && FieldsValidator.isValidEmail( mUser.getEmail());
+        boolean isMobileNoAvailable = mUser.getMobile() != null && FieldsValidator.isValidMobileNumber( mUser.getMobile());
+        if (isEmailAvailable && isMobileNoAvailable && !mUser.isEmailVerified()) {
+            launchAccountActivationFragment();
+            return;
+        }
+
+        if ((mUser.isEmailVerified() || mUser.isMobileVerified())) {
             launchWelcomeFragment();
         } else {
-            if (FieldsValidator.isValidEmail(mUser.getEmail())) {
+            if (isEmailAvailable) {
                 launchAccountActivationFragment();
             } else {
                 launchMobileVerifyCodeFragment();

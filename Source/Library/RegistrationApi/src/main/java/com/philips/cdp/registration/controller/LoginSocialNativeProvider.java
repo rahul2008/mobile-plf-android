@@ -49,7 +49,8 @@ public class LoginSocialNativeProvider implements Jump.SignInResultHandler, Jump
         Jump.saveToDisk(mContext);
         User user = new User(mContext);
         mUpdateUserRecordHandler.updateUserRecordLogin();
-        if (RegistrationConfiguration.getInstance().isHsdpFlow() && user.getEmailVerificationStatus()) {
+        if (RegistrationConfiguration.getInstance().isHsdpFlow() &&
+                (user.isEmailVerified() || user.isMobileVerified())) {
             HsdpUser hsdpUser = new HsdpUser(mContext);
             String emailorMobile;
             if (FieldsValidator.isValidEmail(user.getEmail())) {

@@ -56,7 +56,8 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
         Jump.saveToDisk(mContext);
         User user = new User(mContext);
         mUpdateUserRecordHandler.updateUserRecordLogin();
-        if (RegistrationConfiguration.getInstance().isHsdpFlow() && user.getEmailVerificationStatus()) {
+        if (RegistrationConfiguration.getInstance().isHsdpFlow() &&
+                (user.isEmailVerified() || user.isMobileVerified())) {
             HsdpUser hsdpUser = new HsdpUser(mContext);
 
             String emailorMobile;
