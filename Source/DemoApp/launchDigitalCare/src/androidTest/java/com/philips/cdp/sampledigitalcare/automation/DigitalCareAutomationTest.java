@@ -1,6 +1,5 @@
 package com.philips.cdp.sampledigitalcare.automation;
 
-
 import android.graphics.Point;
 import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
@@ -58,7 +57,7 @@ public class DigitalCareAutomationTest extends AutomationTestHelper{
 
     @Test
     public void viewProductInformationTest() {
-       testSelectedProduct(0);
+        testSelectedProduct(0);
         testViewProductInformationFlow();
     }
 
@@ -89,7 +88,7 @@ public class DigitalCareAutomationTest extends AutomationTestHelper{
                         withParent(withId(R.id.optionParent)),
                         isDisplayed()));
         if(exists(recyclerView2))
-        recyclerView2.perform(actionOnItemAtPosition(4, click()));
+            recyclerView2.perform(actionOnItemAtPosition(4, click()));
 
         ViewInteraction button2 = onView(
                 allOf(withId(R.id.tellus_PhilipsReviewButton)));
@@ -110,7 +109,7 @@ public class DigitalCareAutomationTest extends AutomationTestHelper{
                         withParent(withId(R.id.optionParent)),
                         isDisplayed()));
         if(exists(recyclerView2))
-         recyclerView2.perform(actionOnItemAtPosition(2, click()));
+            recyclerView2.perform(actionOnItemAtPosition(2, click()));
 
         ViewInteraction button3 = onView(
                 allOf(withId(R.id.contactUsChat),
@@ -159,7 +158,7 @@ public class DigitalCareAutomationTest extends AutomationTestHelper{
                         withParent(withId(R.id.optionParent)),
                         isDisplayed()));
         if(exists(recyclerView2))
-        recyclerView2.perform(actionOnItemAtPosition(1, click()));
+            recyclerView2.perform(actionOnItemAtPosition(1, click()));
 
         sleepTwoSec();
 
@@ -249,4 +248,3 @@ public class DigitalCareAutomationTest extends AutomationTestHelper{
     }*/
 
 }
-
