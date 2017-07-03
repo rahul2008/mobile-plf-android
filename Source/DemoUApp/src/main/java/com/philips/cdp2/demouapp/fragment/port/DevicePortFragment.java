@@ -28,6 +28,7 @@ import com.philips.cdp2.commlib.demouapp.R;
 
 import java.util.Locale;
 
+import static com.philips.cdp2.commlib.lan.context.LanTransportContext.acceptNewPinFor;
 import static com.philips.cdp2.commlib.lan.context.LanTransportContext.rejectNewPinFor;
 
 public class DevicePortFragment extends Fragment {
@@ -128,17 +129,19 @@ public class DevicePortFragment extends Fragment {
     private void promptCertificateMismatch() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.prompt_certificate_mismatch_message);
-        builder.setNegativeButton(R.string.prompt_certificate_mismatch_ignore, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.prompt_certificate_mismatch_reject, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Nothing to do, just dismiss
+                if (currentAppliance != null) {
+                    rejectNewPinFor(currentAppliance);
+                }
             }
         });
         builder.setPositiveButton(R.string.prompt_certificate_mismatch_accept, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (currentAppliance != null) {
-                    rejectNewPinFor(currentAppliance);
+                    acceptNewPinFor(currentAppliance);
                 }
             }
         });

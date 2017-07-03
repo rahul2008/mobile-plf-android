@@ -16,7 +16,7 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 
 public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DB_VERSION = 4;
+    private static final int DB_VERSION = 6;
 
     public static final String DB_NAME = "network_node.db";
     public static final String TABLE_NETWORK_NODE = "network_node";
@@ -90,7 +90,9 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
                 case 4:
                     upgradeToVersion4(db);
                     break;
-                // TODO upgrade to version 6 (add mismatched pin)
+                case 6:
+                    upgradeToVersion6(db);
+                    break;
                 default:
                     DICommLog.e(DICommLog.DATABASE, "Table creation error");
                     break;
@@ -111,9 +113,9 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("INSERT INTO " + TABLE_NETWORK_NODE + "(" + KEY_ID + "," + KEY_CPP_ID + "," + KEY_BOOT_ID + "," + KEY_ENCRYPTION_KEY + "," +
                 KEY_DEVICE_NAME + "," + KEY_LAST_KNOWN_NETWORK + "," + KEY_IS_PAIRED + "," + KEY_LAST_PAIRED + "," + KEY_IP_ADDRESS + "," + KEY_DEVICE_TYPE + "," + KEY_MODEL_ID + "," + KEY_HTTPS + ")\n" +
-                   "SELECT " + KEY_ID + "," + KEY_CPP_ID + "," + KEY_BOOT_ID + "," + KEY_ENCRYPTION_KEY + "," +
+                "SELECT " + KEY_ID + "," + KEY_CPP_ID + "," + KEY_BOOT_ID + "," + KEY_ENCRYPTION_KEY + "," +
                 KEY_DEVICE_NAME + "," + KEY_LAST_KNOWN_NETWORK + "," + KEY_IS_PAIRED + "," + KEY_LAST_PAIRED + "," + KEY_IP_ADDRESS + "," + KEY_DEVICE_TYPE + ",model_type," + KEY_HTTPS + "\n" +
-                   "FROM tmp_" + TABLE_NETWORK_NODE + ";");
+                "FROM tmp_" + TABLE_NETWORK_NODE + ";");
 
         db.execSQL("DROP TABLE tmp_" + TABLE_NETWORK_NODE + ";");
 
@@ -122,5 +124,9 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 
     private void upgradeToVersion4(SQLiteDatabase db) {
         db.execSQL("ALTER TABLE " + TABLE_NETWORK_NODE + " ADD COLUMN " + KEY_PIN + " TEXT;");
+    }
+
+    private void upgradeToVersion6(SQLiteDatabase db) {
+        db.execSQL("ALTER TABLE " + TABLE_NETWORK_NODE + " ADD COLUMN " + KEY_MISMATCHED_PIN + " TEXT;");
     }
 }

@@ -46,12 +46,12 @@ public class LanTransportContext implements TransportContext {
     }
 
     public static void rejectNewPinFor(final @NonNull Appliance appliance) {
-        final NetworkNode networkNode = appliance.getNetworkNode();
-        networkNode.setPin(null);
+        appliance.getNetworkNode().setPin(null);
     }
 
     public static void acceptNewPinFor(final @NonNull Appliance appliance) {
         final NetworkNode networkNode = appliance.getNetworkNode();
+
         networkNode.setPin(networkNode.getMismatchedPin());
         networkNode.setMismatchedPin(null);
     }

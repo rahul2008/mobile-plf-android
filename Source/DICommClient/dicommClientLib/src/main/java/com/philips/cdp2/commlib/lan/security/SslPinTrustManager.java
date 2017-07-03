@@ -53,6 +53,8 @@ public class SslPinTrustManager implements X509TrustManager {
             DICommLog.d(TAG, "Certificate is accepted.");
         } else {
             DICommLog.e(TAG, "Pin mismatch for appliance with cppid " + networkNode.getCppId());
+            networkNode.setMismatchedPin(certificatePin.toString());
+
             throw new PinMismatchException("The appliance's certificate doesn't match the stored pin.");
         }
     }
