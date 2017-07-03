@@ -37,7 +37,6 @@ import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
 import java.io.File;
 import java.io.Serializable;
-import java.lang.reflect.Field;
 
 /**
  * The AppInfra Base class, here using builder design pattern to create object .
@@ -69,11 +68,11 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         appInfraContext = pContext;
     }
 
-    private static void postLog(AppInfra ai,long startTime, String message) {
-        long endTime = System.currentTimeMillis();
-        long methodDuration = (endTime - startTime);
+    private static void postLog(AppInfra ai,long startTime) {
+        final long endTime = System.currentTimeMillis();
+        final long methodDuration = (endTime - startTime);
         ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_APPINFRA,
-                message + methodDuration);
+                "App-infra initialization ends with " + methodDuration);
 
     }
 
@@ -206,8 +205,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
 
     @Override
     public String getComponentId() {
-        final String appInfraComponentID = "ail:";
-        return appInfraComponentID;
+        return "ail:";
     }
 
     @Override
@@ -463,38 +461,9 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             }
             Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Auto Refresh ENDS");
             Log.v(AppInfraLogEventID.AI_APPINFRA, "AppInfra Initialization ENDS");
-            postLog(ai,startTime, "App-infra initialization ends with ");
+            postLog(ai,startTime);
             return ai;
         }
 
-    }
-
-    private String getAndroidOSVersion()
-    {
-        StringBuilder builder = new StringBuilder();
-        builder.append("android : ").append(Build.VERSION.RELEASE);
-
-        Field[] fields = Build.VERSION_CODES.class.getFields();
-        for (Field field : fields) {
-            String fieldName = field.getName();
-            int fieldValue = -1;
-
-            try {
-                fieldValue = field.getInt(new Object());
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-
-            if (fieldValue == Build.VERSION.SDK_INT) {
-                builder.append(" : ").append(fieldName).append(" : ");
-                builder.append("sdk=").append(fieldValue);
-            }
-        }
-
-        return "OS: " + builder.toString();
     }
 }

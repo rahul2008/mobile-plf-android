@@ -118,9 +118,7 @@ public class HSDPPHSApiSigning implements ApiSigningInterface {
             }
             Log.v(AppInfraLogEventID.AI_API_SIGNING, "hash Mac SecretKeySpec");
             return mac.doFinal(data.getBytes(UTF_8_CHARSET));
-        } catch (NoSuchAlgorithmException e) {
-            throw new IllegalArgumentException("Error during hash generation", e);
-        } catch (InvalidKeyException e) {
+        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             throw new IllegalArgumentException("Error during hash generation", e);
         }
     }

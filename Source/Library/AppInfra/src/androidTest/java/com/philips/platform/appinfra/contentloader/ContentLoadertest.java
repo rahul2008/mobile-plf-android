@@ -37,7 +37,7 @@ public class ContentLoadertest extends AppInfraInstrumentation {
     private String serviceId = "appinfra.testing.contentloader.service1";
     private Method method;
     private JsonObject jsonObject;
-    private List downloadedContents;
+    private List<ContentItem> downloadedContents;
     ContentDatabaseHandler contentDatabaseHandler;
 
 
@@ -284,9 +284,7 @@ public class ContentLoadertest extends AppInfraInstrumentation {
                         downloadedContents.add(contentItem);
                         String articleId = contentItem.getId();
                         Log.i("CL Ariticle", "" + articleId + "  TAGs ");
-                    } catch (InstantiationException e) {
-                        e.printStackTrace();
-                    } catch (IllegalAccessException e) {
+                    } catch (InstantiationException | IllegalAccessException e) {
                         e.printStackTrace();
                     }
                 }
