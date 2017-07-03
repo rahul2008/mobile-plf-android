@@ -3,7 +3,6 @@ package com.iap.demouapp;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -270,6 +269,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
                 mCategorizedProductList.add(str);
             }
             mEtCTN.setText("");
+            hideKeypad(this);
         }
     }
 
