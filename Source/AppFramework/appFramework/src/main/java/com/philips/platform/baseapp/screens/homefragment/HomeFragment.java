@@ -34,13 +34,13 @@ import static android.content.Context.MODE_PRIVATE;
  * All the fragments are added on top of this , handleBack event from all other fragemnts ends up  landing here
  */
 
-public class HomeFragmentAbstract extends AbstractAppFrameworkBaseFragment {
-    public static final String TAG = HomeFragmentAbstract.class.getSimpleName();
+public class HomeFragment extends AbstractAppFrameworkBaseFragment {
+    public static final String TAG = HomeFragment.class.getSimpleName();
     private static final String JAIL_BROKEN_ENABLED = "JAIL_BROKEN";
     private static final String SCREEN_LOCK_DISABLED = "SCREEN_LOCK";
     private static final String JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED = "JAIL_BROKEN_SCREEN_LOCK";
 
-    public HomeFragmentAbstract() {
+    public HomeFragment() {
     }
 
     @Override

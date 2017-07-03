@@ -37,7 +37,7 @@ public class CocoVersionState extends BaseState {
         RALog.d(TAG, "navigate called");
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         ((AbstractAppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).
-                handleFragmentBackStack( new CocoVersionFragmentAbstract(), CocoVersionFragmentAbstract.TAG,getUiStateData().getFragmentLaunchState());
+                handleFragmentBackStack( new CocoVersionFragment(), CocoVersionFragment.TAG,getUiStateData().getFragmentLaunchState());
     }
 
     @Override

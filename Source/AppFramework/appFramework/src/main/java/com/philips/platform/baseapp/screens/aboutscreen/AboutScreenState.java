@@ -27,7 +27,7 @@ public class AboutScreenState extends BaseState {
     }
 
     /**
-     * Navigating to AboutScreenFragmentAbstract
+     * Navigating to AboutScreenFragment
      * @param uiLauncher requires UiLauncher
      */
     @Override
@@ -35,7 +35,7 @@ public class AboutScreenState extends BaseState {
         RALog.d(TAG, " navigate called ");
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         ((AbstractAppFrameworkBaseActivity)fragmentLauncher.getFragmentActivity()).
-                handleFragmentBackStack( new AboutScreenFragmentAbstract(), AboutScreenFragmentAbstract.TAG,getUiStateData().getFragmentLaunchState());
+                handleFragmentBackStack( new AboutScreenFragment(), AboutScreenFragment.TAG,getUiStateData().getFragmentLaunchState());
     }
 
     @Override

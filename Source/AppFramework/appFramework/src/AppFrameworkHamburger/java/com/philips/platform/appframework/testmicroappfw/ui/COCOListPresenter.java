@@ -2,7 +2,6 @@ package com.philips.platform.appframework.testmicroappfw.ui;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
@@ -19,6 +18,7 @@ import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
+import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.ArrayList;
@@ -97,7 +97,7 @@ public class COCOListPresenter extends AbstractUIBasePresenter implements COCOLi
 
     public void onEvent(String cocoName) {
         String eventState = getEventState(cocoName);
-        Log.d(TAG,"Event state:"+eventState);
+        RALog.d(TAG,"Event state:"+eventState);
         try {
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
             baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.TEST_MICROAPP),eventState);
@@ -108,7 +108,7 @@ public class COCOListPresenter extends AbstractUIBasePresenter implements COCOLi
             }
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {
-            Log.d(getClass() + "", e.getMessage());
+            RALog.d(getClass() + "", e.getMessage());
         }
     }
     protected String getEventState(String cocoName) {

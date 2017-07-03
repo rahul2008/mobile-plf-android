@@ -10,7 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 import com.philips.platform.appframework.R;
-import com.philips.platform.baseapp.screens.introscreen.LaunchActivityAbstract;
+import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 import com.philips.platform.baseapp.screens.introscreen.LaunchView;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -30,26 +30,26 @@ public abstract class AbstractOnboardingBaseFragment extends Fragment implements
 
     @Override
     public void showActionBar() {
-        final LaunchActivityAbstract launchActivity = (LaunchActivityAbstract) getActivity();
+        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
         launchActivity.showActionBar();
     }
 
     @Override
     public void hideActionBar() {
-        final LaunchActivityAbstract launchActivity = (LaunchActivityAbstract) getActivity();
+        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
         launchActivity.hideActionBar();
     }
 
     @Override
     public void finishActivityAffinity() {
         RALog.d(TAG," finishActivityAffinity called");
-        final LaunchActivityAbstract launchActivity = (LaunchActivityAbstract) getActivity();
+        final LaunchActivity launchActivity = (LaunchActivity) getActivity();
         launchActivity.finishAffinity();
     }
 
     @Override
     public ActionBarListener getActionBarListener() {
-        return (LaunchActivityAbstract) getActivity();
+        return (LaunchActivity) getActivity();
     }
 
     @Override

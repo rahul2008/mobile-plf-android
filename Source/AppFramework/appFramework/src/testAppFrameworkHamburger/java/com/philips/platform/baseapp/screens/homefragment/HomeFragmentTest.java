@@ -26,7 +26,7 @@ import static org.mockito.Mockito.mock;
 @Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 public class HomeFragmentTest extends TestCase{
     private HamburgerActivity hamburgerActivity;
-    private HomeFragmentAbstract homeFragment;
+    private HomeFragment homeFragment;
     private static final String JAIL_BROKEN_ENABLED = "JAIL_BROKEN";
     private static final String SCREEN_LOCK_DISABLED = "SCREEN_LOCK";
     private static final String JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED = "JAIL_BROKEN_SCREEN_LOCK";
@@ -35,7 +35,7 @@ public class HomeFragmentTest extends TestCase{
     public void setUp() throws Exception{
         super.setUp();
         hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
-        homeFragment = new HomeFragmentAbstract();
+        homeFragment = new HomeFragment();
         hamburgerActivity.getSupportFragmentManager().beginTransaction().add(homeFragment,"HomeFragmentTest").commit();
     }
     @Test
