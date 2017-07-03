@@ -32,7 +32,7 @@ class BrushValueEvaluator {
                 return "?attr/uidAccentLevel" + brushValue.colorCode
             }
 
-            //Add offset before calculating final value
+            //Add offset before calculating final value, should not be possible. Only for white it should occur
             def colorCode = addOffsetIfAny(brushValue)
 
             //We have opacity, we have to give hardcoded color

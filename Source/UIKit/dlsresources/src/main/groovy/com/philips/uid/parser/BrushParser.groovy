@@ -10,11 +10,16 @@ class BrushParser {
     List<Brush> brushes = new ArrayList<>()
 
     BrushParser() {
-        createBrushes()
+        this(readBrushesJSON())
     }
 
-    def createBrushes() {
-        new JsonSlurper().parseText(readBrushesJSON()).each {
+    //Helps for testing
+    BrushParser(jsonData) {
+        createBrushes(jsonData)
+    }
+
+    def createBrushes(jsonData) {
+        new JsonSlurper().parseText(jsonData).each {
             //Brush name
             it.each {
                 Brush brush = new Brush();
@@ -28,7 +33,7 @@ class BrushParser {
         }
     }
 
-    def readBrushesJSON() {
+    static def readBrushesJSON() {
         new File(DLSResourceConstants.PATH_SEMANTIC_BRUSH_JSON).text
     }
 
