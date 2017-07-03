@@ -34,7 +34,7 @@ public class ActionSetText implements ViewAction {
 
     @Override
     public String getDescription() {
-        return "Sends action down on the view";
+        return "Type the text on the view";
     }
 
     @Override

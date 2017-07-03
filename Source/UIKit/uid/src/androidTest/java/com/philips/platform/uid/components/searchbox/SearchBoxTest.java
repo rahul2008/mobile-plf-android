@@ -10,19 +10,26 @@ package com.philips.platform.uid.components.searchbox;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.philips.platform.uid.R;
+import com.philips.platform.uid.actions.ActionSetText;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.components.BaseTest;
+import com.philips.platform.uid.components.separator.ComponentListFragment;
 import com.philips.platform.uid.matcher.SearchBoxMatcher;
+import com.philips.platform.uid.matcher.TextViewPropertiesMatchers;
 import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.utils.UIDTestUtils;
+import com.philips.platform.uid.view.widget.SearchBox;
 
 import org.junit.After;
 import org.junit.Before;
@@ -33,6 +40,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static com.philips.platform.uid.matcher.ViewPropertiesMatchers.isVisible;
 
 public class SearchBoxTest extends BaseTest {
 
@@ -46,13 +54,10 @@ public class SearchBoxTest extends BaseTest {
         final Intent launchIntent = getLaunchIntent(NavigationColor.BRIGHT.ordinal(), ColorRange.GROUP_BLUE.ordinal());
         activity = testRule.launchActivity(launchIntent);
         activity.switchTo(com.philips.platform.uid.test.R.layout.layout_searchbox);
+        IdlingResource idlingResource = activity.getIdlingResource();
+        Espresso.registerIdlingResources(idlingResource);
         resources = activity.getResources();
-    }
 
-    @After
-    public void tearDown() {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 
     public ViewInteraction getSearchBox() {
@@ -144,5 +149,43 @@ public class SearchBoxTest extends BaseTest {
         getSearchBox().check(matches(SearchBoxMatcher.isSameFillColor(expectedFillColor)));
     }
 
+    @Test
+    public void verifySearchBoxBackButtonClose() {
+        getSearchBox();
+        onView(withId(com.philips.platform.uid.R.id.uid_search_back_button)).perform(click());
+        onView(withId(R.id.uid_search_box_layout)).check(matches(isVisible(View.GONE)));
+    }
 
+    @Test
+    public void verifySearchBoxIconHolderTrigger() {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                SearchBox searchBox = (SearchBox) activity.findViewById(com.philips.platform.uid.test.R.id.test_search_box);
+                searchBox.setSearchIconified(true);
+                searchBox.setDecoySearchViewHint(com.philips.platform.uid.test.R.string.search_menu_title);
+                searchBox.setSearchBoxHint(com.philips.platform.uid.test.R.string.search_menu_title);
+
+            }
+        });
+        onView(withId(com.philips.platform.uid.R.id.uid_search_icon_holder)).perform(click());
+        onView(withId(R.id.uid_search_box_layout)).check(matches(isVisible(View.VISIBLE)));
+    }
+
+    @Test
+    public void verifySearchBoxClearText() {
+        getSearchBox();
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                SearchBox searchBox = (SearchBox) activity.findViewById(com.philips.platform.uid.test.R.id.test_search_box);
+                searchBox.setSearchIconified(true);
+                searchBox.setDecoySearchViewHint("mytest");
+                searchBox.setSearchBoxHint("mytest");
+                searchBox.setQuery("mytest");
+            }
+        });
+        onView(withId(com.philips.platform.uid.R.id.uid_search_close_btn)).perform(click());
+        onView(withId(R.id.uid_search_src_text)).check(matches(TextViewPropertiesMatchers.hasNoText()));
+    }
 }
