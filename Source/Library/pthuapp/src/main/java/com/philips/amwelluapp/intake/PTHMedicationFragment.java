@@ -23,11 +23,13 @@ import com.philips.platform.uid.view.widget.SearchBox;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 /**
  * Created by philips on 6/28/17.
  */
 
-public class PTHMedicationFragment extends PTHBaseFragment implements BackEventListener {
+public class PTHMedicationFragment extends PTHBaseFragment implements  View.OnClickListener {
     public static final String TAG = PTHBaseFragment.class.getSimpleName();
     SearchBox searchBox;
     private ActionBarListener actionBarListener;
@@ -36,28 +38,35 @@ public class PTHMedicationFragment extends PTHBaseFragment implements BackEventL
     PTHExistingMedicationListAdapter mPTHExistingMedicationListAdapter;
     Button searchButton;
     PTHMedication mExistingMedication;
-
-
-    @Override
-    public boolean handleBackEvent() {
-        return false;
-    }
+    Button updateMedicationButton;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.intake_medication, container, false);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.intake_medication, container, false);
         mPresenter = new PTHMedicationPresenter(this);
         searchBox = (SearchBox) view.findViewById(R.id.pth_intake_medication_searchbox);
+
+        updateMedicationButton = (Button) view.findViewById(R.id.pth_intake_medication_continue_button);
+        updateMedicationButton.setOnClickListener(this);
+
         searchBox.getCollapseView().setVisibility(View.GONE);
         searchBox.getClearIconView().setVisibility(View.GONE);
 
 
         mExistingMedicationListView = (ListView) view.findViewById(R.id.pth_intake_medication_listview);
         searchButton = (Button) view.findViewById(R.id.pth_intake_medication_searchbox_button);
+        searchButton.setOnClickListener(this);
         mPTHExistingMedicationListAdapter = new PTHExistingMedicationListAdapter(getActivity());
         mExistingMedicationListView.setAdapter(mPTHExistingMedicationListAdapter);
+
+
+        getContext().getTheme().applyStyle(R.style.PTHCircularPB, true);
+        createCustomProgressBar();
+        view.addView(mPTHBaseFragmentProgressBar);
+
+
         return view;
     }
 
@@ -70,15 +79,7 @@ public class PTHMedicationFragment extends PTHBaseFragment implements BackEventL
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         actionBarListener = getActionBarListener();
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String medicineName = searchBox.getSearchTextView().getText().toString();
-                if (null != medicineName && medicineName.length() > 2) {
-                    searchMedication(medicineName);
-                }
-            }
-        });
+
 
         // load existing medicines
         ((PTHMedicationPresenter) mPresenter).fetchMedication();
@@ -94,6 +95,7 @@ public class PTHMedicationFragment extends PTHBaseFragment implements BackEventL
     }
 
     public void showExistingMedicationList(PTHMedication pTHMedication) {
+        hideProgressBar();
         if (null != pTHMedication) {
             mExistingMedication = pTHMedication;
             mPTHExistingMedicationListAdapter.setData(pTHMedication);
@@ -101,9 +103,6 @@ public class PTHMedicationFragment extends PTHBaseFragment implements BackEventL
         }
     }
 
-    public void searchMedication(String medicineName) {
-        ((PTHMedicationPresenter) mPresenter).searchMedication(medicineName);
-    }
 
     public void showSearchedMedicationList(PTHMedication pTHMedication) {
         FragmentManager manager = getFragmentManager();
@@ -119,11 +118,30 @@ public class PTHMedicationFragment extends PTHBaseFragment implements BackEventL
             mExistingMedication.setMedicationList(medication);
 
         }
-        if (null!=mExistingMedication.getMedicationList() && !mExistingMedication.getMedicationList().contains(searchedMedication)) {
+        if (null != mExistingMedication.getMedicationList() && !mExistingMedication.getMedicationList().contains(searchedMedication)) {
             mExistingMedication.getMedicationList().add(searchedMedication);
             mPTHExistingMedicationListAdapter.setData(mExistingMedication);
         }
 
     }
 
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        if (id == R.id.pth_intake_medication_searchbox_button) {
+            String medicineName = searchBox.getSearchTextView().getText().toString();
+            if (null != medicineName && medicineName.length() > 2) {
+                showProgressBar();
+                ((PTHMedicationPresenter) mPresenter).searchMedication(medicineName);
+            }
+        } else if (id == R.id.pth_intake_medication_continue_button) {
+            showProgressBar();
+            ((PTHMedicationPresenter) mPresenter).updateMedication(mExistingMedication);
+        }
+    }
 }

@@ -10,8 +10,8 @@ import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.SDKPasswordError;
 import com.americanwell.sdk.entity.consumer.Consumer;
-import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
+import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
@@ -20,10 +20,10 @@ import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.SDKCallback;
-import com.philips.amwelluapp.intake.PTHMedication;
-import com.philips.amwelluapp.intake.PTHMedicationCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.ValidationReason;
+import com.philips.amwelluapp.intake.PTHMedication;
+import com.philips.amwelluapp.intake.PTHMedicationCallback;
 import com.philips.amwelluapp.intake.PTHSDKValidatedCallback;
 import com.philips.amwelluapp.intake.PTHUpdateConsumerCallback;
 import com.philips.amwelluapp.intake.PTHVisitContext;
@@ -36,8 +36,6 @@ import com.philips.amwelluapp.practice.PTHPracticesListCallback;
 import com.philips.amwelluapp.providerdetails.PTHProviderDetailsCallback;
 import com.philips.amwelluapp.providerslist.PTHProviderInfo;
 import com.philips.amwelluapp.providerslist.PTHProvidersListCallback;
-
-import com.philips.amwelluapp.registration.PTHConsumer;
 import com.philips.amwelluapp.registration.PTHConsumer;
 import com.philips.amwelluapp.sdkerrors.PTHSDKError;
 import com.philips.amwelluapp.sdkerrors.PTHSDKPasswordError;
@@ -101,9 +99,9 @@ public class PTHManager {
 
     public void initializeTeleHealth(Context context, final PTHInitializeCallBack pthInitializeCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
         final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
-      /*  initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
+       /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
         initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key*/
-        initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
+         initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
         initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key
 
         AmwellLog.i(AmwellLog.LOG,"Initialize - SDK API Called");
@@ -214,7 +212,7 @@ public class PTHManager {
 
             @Override
             public void onFailure(Throwable throwable) {
-                Log.v("onGetMedicationReceived","failure");
+                pthProvidersListCallback.onProvidersListFetchError(throwable);
             }
         });
 
@@ -267,8 +265,8 @@ public class PTHManager {
         this.mAwsdk = awsdk;
     }
 
-    public void getMedication(Context context , Consumer consumer, final PTHMedicationCallback.PTHGetMedicationCallback pTHGetMedicationCallback ) throws AWSDKInstantiationException{
-        getAwsdk(context).getConsumerManager().getMedications(consumer, new SDKCallback<List<Medication>, SDKError>() {
+    public void getMedication(Context context , final PTHMedicationCallback.PTHGetMedicationCallback pTHGetMedicationCallback ) throws AWSDKInstantiationException{
+        getAwsdk(context).getConsumerManager().getMedications(getPTHConsumer().getConsumer(), new SDKCallback<List<Medication>, SDKError>() {
             @Override
             public void onResponse(List<Medication> medications, SDKError sdkError) {
                 if(null!=medications && !medications.isEmpty()) {
@@ -286,8 +284,8 @@ public class PTHManager {
 
     }
 
-    public void searchMedication(Context context , String medicineName, Consumer consumer, final PTHSDKValidatedCallback pTHSDKValidatedCallback ) throws AWSDKInstantiationException{
-        getAwsdk(context).getConsumerManager().searchMedications(consumer,medicineName, new SDKValidatedCallback<List<Medication>, SDKError>() {
+    public void searchMedication(Context context , String medicineName, final PTHSDKValidatedCallback pTHSDKValidatedCallback ) throws AWSDKInstantiationException{
+        getAwsdk(context).getConsumerManager().searchMedications(getPTHConsumer().getConsumer(),medicineName, new SDKValidatedCallback<List<Medication>, SDKError>() {
             @Override
             public void onValidationFailure(Map<String, ValidationReason> map) {
                 pTHSDKValidatedCallback.onValidationFailure(map);
@@ -312,4 +310,24 @@ public class PTHManager {
 
 
     }
+
+    public void updateMedication(Context context , PTHMedication pTHMedication, final PTHMedicationCallback.PTHUpdateMedicationCallback pTHUpdateMedicationCallback) throws AWSDKInstantiationException{
+        getAwsdk(context).getConsumerManager().updateMedications(getPTHConsumer().getConsumer(), pTHMedication.getMedicationList(), new SDKCallback<Void, SDKError>() {
+            @Override
+            public void onResponse(Void aVoid, SDKError sdkError) {
+              // sdkError comes null even after successfully updating the medication
+                Log.v("onUpdateMedication","success");
+                pTHUpdateMedicationCallback.onUpdateMedicationSent(aVoid,sdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Log.v("onUpdateMedication","failure");
+            }
+        });
+    }
+
+
+
+
 }

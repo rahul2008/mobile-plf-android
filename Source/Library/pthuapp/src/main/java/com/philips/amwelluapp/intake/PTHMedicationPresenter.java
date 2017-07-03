@@ -19,24 +19,23 @@ import java.util.Map;
  * Created by philips on 6/28/17.
  */
 
-public class PTHMedicationPresenter implements PTHBasePresenter, PTHMedicationCallback.PTHGetMedicationCallback , PTHSDKValidatedCallback<PTHMedication,SDKError>{
+public class PTHMedicationPresenter implements PTHBasePresenter, PTHMedicationCallback.PTHGetMedicationCallback, PTHSDKValidatedCallback<PTHMedication, SDKError>, PTHMedicationCallback.PTHUpdateMedicationCallback {
     PTHBaseView uiBaseView;
 
 
-
-
-    public PTHMedicationPresenter(PTHBaseView uiBaseView){
+    public PTHMedicationPresenter(PTHBaseView uiBaseView) {
         this.uiBaseView = uiBaseView;
     }
+
     @Override
     public void onEvent(int componentID) {
 
     }
 
 
-    protected void fetchMedication(){
-        try{
-            PTHManager.getInstance().getMedication(uiBaseView.getFragmentActivity(),PTHManager.getInstance().getPTHConsumer().getConsumer(),this);
+    protected void fetchMedication() {
+        try {
+            PTHManager.getInstance().getMedication(uiBaseView.getFragmentActivity(), this);
 
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
@@ -44,9 +43,9 @@ public class PTHMedicationPresenter implements PTHBasePresenter, PTHMedicationCa
 
     }
 
-    protected void searchMedication(String medicineName){
-        try{
-            PTHManager.getInstance().searchMedication(uiBaseView.getFragmentActivity(),medicineName,PTHManager.getInstance().getPTHConsumer().getConsumer(),this);
+    protected void searchMedication(String medicineName) {
+        try {
+            PTHManager.getInstance().searchMedication(uiBaseView.getFragmentActivity(), medicineName,  this);
 
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
@@ -54,47 +53,72 @@ public class PTHMedicationPresenter implements PTHBasePresenter, PTHMedicationCa
 
     }
 
-    protected void addSearchedMedication(Medication medication){
-        ((PTHMedicationFragment)uiBaseView).addSearchedMedicineToExistingMedication(medication);
+    protected void updateMedication(PTHMedication pTHMedication) {
+        if(null!=pTHMedication) {
+            try {
+                PTHManager.getInstance().updateMedication(uiBaseView.getFragmentActivity(), pTHMedication, this);
+
+            } catch (AWSDKInstantiationException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    protected void addSearchedMedication(Medication medication) {
+        ((PTHMedicationFragment) uiBaseView).addSearchedMedicineToExistingMedication(medication);
     }
 
     //////////////// start of call backs for get existing medicines//////////////
     @Override
     public void onGetMedicationReceived(PTHMedication pTHMedication, SDKError sDKError) {
-       if( null!=pTHMedication.getMedicationList()){
-           Log.v("onGetMedicationReceived","Success");
-           ((PTHMedicationFragment)uiBaseView).showExistingMedicationList(pTHMedication);
-       }else{
-           Log.v("onGetMedicationReceived","failure");
-       }
+        if (null != pTHMedication.getMedicationList()) {
+            Log.v("onGetMedicationReceived", "Success");
+            ((PTHMedicationFragment) uiBaseView).showExistingMedicationList(pTHMedication);
+        } else {
+            Log.v("onGetMedicationReceived", "failure");
+        }
 
 
     }
     //////////////// end of call backs for get existing medicines//////////////
 
 
-
-
     //////////////// start of call backs for search medicines//////////////
     @Override
     public void onValidationFailure(Map<String, ValidationReason> var1) {
-        Log.v("onFetchMedication","failure");
+        Log.v("onFetchMedication", "failure");
     }
 
     @Override
     public void onResponse(PTHMedication pthMedication, SDKError sdkError) {
-        if( null!=pthMedication.getMedicationList()){
-            Log.v("onFetchMedication","Success");
-            ((PTHMedicationFragment)uiBaseView).showSearchedMedicationList(pthMedication);
-        }else{
-            Log.v("onFetchMedication","failure");
+        if (null != pthMedication.getMedicationList()) {
+            ((PTHMedicationFragment) uiBaseView).hideProgressBar();
+            Log.v("onFetchMedication", "Success");
+            ((PTHMedicationFragment) uiBaseView).showSearchedMedicationList(pthMedication);
+        } else {
+            Log.v("onFetchMedication", "failure");
         }
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-        Log.v("onFetchMedication","failure");
+        Log.v("onFetchMedication", "failure");
     }
-
     //////////////// end of call backs for search medicines//////////////
+
+
+
+
+    //////////////// start of call backs for update medicines//////////////
+
+
+    @Override
+    public void onUpdateMedicationSent(Void pVoid, SDKError sDKError) {
+        ((PTHMedicationFragment) uiBaseView).hideProgressBar();
+        Log.v("onUpdateMedication", "success");
+        // TODO  call next intake fragment here
+
+    }
+    //////////////// end of call backs for update medicines//////////////
 }

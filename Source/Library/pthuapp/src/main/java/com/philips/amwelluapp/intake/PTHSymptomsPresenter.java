@@ -1,25 +1,21 @@
 package com.philips.amwelluapp.intake;
 
-import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.legal.LegalText;
-import com.americanwell.sdk.entity.visit.Visit;
+import com.americanwell.sdk.entity.visit.Topic;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.amwelluapp.base.PTHBasePresenter;
 import com.philips.amwelluapp.base.PTHBaseView;
 import com.philips.amwelluapp.providerslist.PTHProviderInfo;
 import com.philips.amwelluapp.registration.PTHConsumer;
 import com.philips.amwelluapp.sdkerrors.PTHSDKError;
-import com.philips.amwelluapp.sdkerrors.PTHSDKPasswordError;
 import com.philips.amwelluapp.utility.PTHManager;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Map;
 
-public class PTHSymptomsPresenter implements PTHBasePresenter, PTHVisitContextCallBack<PTHVisitContext,PTHSDKError>, PTHSDKValidatedCallback<Visit, SDKError>, PTHUpdateConsumerCallback <PTHConsumer, PTHSDKPasswordError> {
+public class PTHSymptomsPresenter implements PTHBasePresenter, PTHVisitContextCallBack<PTHVisitContext,PTHSDKError>{
     PTHBaseView pthBaseView;
     PTHConsumer pthConsumer;
     PTHProviderInfo pthProviderInfo;
@@ -45,44 +41,15 @@ public class PTHSymptomsPresenter implements PTHBasePresenter, PTHVisitContextCa
         }
 
         if(pthVisitContext!=null){
-            try {
-                createVisit(pthVisitContext);
-            } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
-            }
+            ((PTHSymptomsFragment)pthBaseView).addTopicsToView(pthVisitContext);
         }
-    }
-
-    @Override
-    public void onResponse(Visit visit, SDKError sdkError) {
-
     }
 
     @Override
     public void onFailure(Throwable throwable) {
     }
 
-    void getVisitContext() throws MalformedURLException, AWSDKInstantiationException, AWSDKInitializationException, URISyntaxException {
-        PTHManager.getInstance().updateConsumer(pthBaseView.getFragmentActivity(),pthConsumer,this);
-    }
-
-    void createVisit(PTHVisitContext visitContext) throws AWSDKInstantiationException {
-        PTHManager.getInstance().createVisit(pthBaseView.getFragmentActivity(),visitContext,this);
-    }
-
-    @Override
-    public void onValidationFailure(Map<String, ValidationReason> var1) {
-
-    }
-
-
-    @Override
-    public void onUpdateConsumerValidationFailure(Map<String, ValidationReason> var1) {
-
-    }
-
-    @Override
-    public void onUpdateConsumerResponse(PTHConsumer pthConsumer, PTHSDKPasswordError sdkPasswordError) {
+    void getVisitContext()  {
         try {
             PTHManager.getInstance().getVisitContext(pthBaseView.getFragmentActivity(),pthConsumer,pthProviderInfo,this);
         } catch (MalformedURLException e) {
@@ -94,10 +61,5 @@ public class PTHSymptomsPresenter implements PTHBasePresenter, PTHVisitContextCa
         } catch (AWSDKInitializationException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onUpdateConsumerFailure(Throwable var1) {
-
     }
 }

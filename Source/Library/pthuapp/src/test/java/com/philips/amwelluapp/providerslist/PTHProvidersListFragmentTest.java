@@ -1,11 +1,11 @@
-package com.philips.amwelluapp.practice;
+package com.philips.amwelluapp.providerslist;
+
 
 import com.americanwell.sdk.AWSDK;
 import com.philips.amwelluapp.CustomRobolectricRunnerAmwel;
 import com.philips.amwelluapp.activity.PTHLaunchActivity;
 import com.philips.amwelluapp.utility.PTHManager;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,37 +15,34 @@ import org.robolectric.Robolectric;
 import org.robolectric.shadows.ShadowLog;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
-/**
- * Created by philips on 6/27/17.
- */
-@RunWith(CustomRobolectricRunnerAmwel.class)
-//@Config(constants = BuildConfig.class, sdk = 21, application = ApplicationTestClass.class, libraries = "../../../../../../../build/intermediates/exploded-aar/com.philips.cdp/uid/0.1.1-SNAPSHOT.20170623170225")
+import static org.junit.Assert.assertNotNull;
 
-public class PTHPracticeFragmentTest {
+@RunWith(CustomRobolectricRunnerAmwel.class)
+public class PTHProvidersListFragmentTest {
+
     private PTHLaunchActivity mActivity;
-    private PTHPracticeFragment mPTHPracticeFragment;
+    private PTHProvidersListFragment pthProvidersListFragment;
 
     @Mock
     AWSDK awsdkMock;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws Exception{
         MockitoAnnotations.initMocks(this);
         ShadowLog.stream = System.out;
         PTHManager.getInstance().setAwsdk(awsdkMock);
         mActivity = Robolectric.buildActivity(PTHLaunchActivity.class).create().get();
-        Assert.assertNotNull(mActivity);
-        mPTHPracticeFragment = new PTHPracticeFragment();
-        Assert.assertNotNull(mPTHPracticeFragment);
+        assertNotNull(mActivity);
+        pthProvidersListFragment = new PTHProvidersListFragment();
     }
-
 
     @Test
-    public void getFragmentActivity() throws Exception {
-        SupportFragmentTestUtil.startFragment(mPTHPracticeFragment);
-        Assert.assertNotNull(mPTHPracticeFragment.getFragmentActivity());
-
+    public  void testFragment(){
+        assertNotNull(pthProvidersListFragment);
     }
 
+    @Test
+    public void testFragmentActionBarName(){
+//        SupportFragmentTestUtil.startFragment(pthProvidersListFragment);
+    }
 }
-

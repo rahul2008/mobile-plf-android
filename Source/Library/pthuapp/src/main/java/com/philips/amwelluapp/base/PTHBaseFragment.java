@@ -1,5 +1,6 @@
 package com.philips.amwelluapp.base;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -11,7 +12,10 @@ import android.widget.RelativeLayout;
 import com.philips.amwelluapp.R;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.drawable.FontIconDrawable;
 import com.philips.platform.uid.view.widget.ProgressBar;
+
+import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 
 public class PTHBaseFragment extends Fragment implements PTHBaseView {
