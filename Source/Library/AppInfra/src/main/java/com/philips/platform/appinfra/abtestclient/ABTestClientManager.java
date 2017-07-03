@@ -34,7 +34,7 @@ public class ABTestClientManager implements ABTestClientInterface {
     private AppInfra mAppInfra;
     private String mExperience = null;
     private HashMap<String, CacheModel.ValueModel> mCacheStatusValue = new HashMap<>();
-    private CACHESTATUSVALUES mCachestatusvalues;
+    protected CACHESTATUSVALUES mCachestatusvalues;
     private boolean isAppRestarted = false;
     private String previousVersion;
     private SharedPreferences mSharedPreferences;
@@ -46,15 +46,26 @@ public class ABTestClientManager implements ABTestClientInterface {
         mAppInfra = appInfra;
         Context mContext = appInfra.getAppInfraContext();
         isAppRestarted = true;
-        Config.setContext(mContext.getApplicationContext());
-        mCacheModel = new CacheModel();
-        loadfromDisk();
-        mSharedPreferences = mAppInfra.getAppInfraContext().getSharedPreferences(ABTEST_PRREFERENCE,
-                Context.MODE_PRIVATE);
-        editor = mSharedPreferences.edit();
+       init(mContext);
     }
 
-    private void loadfromDisk() {
+
+    private void init(final Context mContext) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Config.setContext(mContext.getApplicationContext());
+                mCacheModel = new CacheModel();
+              //  mCachestatusvalues = CACHESTATUSVALUES.EXPERIENCES_NOT_UPDATED;
+                loadfromDisk();
+                mSharedPreferences = mAppInfra.getAppInfraContext().getSharedPreferences(ABTEST_PRREFERENCE,
+                        Context.MODE_PRIVATE);
+                editor = mSharedPreferences.edit();
+            }
+        }).start();
+    }
+
+    protected void loadfromDisk() {
         ArrayList<String> testList = new ArrayList<>();
         CacheModel cacheModel = getCachefromPreference();
         if (cacheModel != null) {
@@ -86,7 +97,7 @@ public class ABTestClientManager implements ABTestClientInterface {
             }
         }
 
-        if (testList != null && testList.size() == 0) {
+        if (testList == null || (testList != null && testList.size() == 0)) {
             mCachestatusvalues = CACHESTATUSVALUES.NO_TESTS_DEFINED;
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
                     "Cache Status values NO_TESTS_DEFINED");
@@ -481,7 +492,6 @@ public class ABTestClientManager implements ABTestClientInterface {
     }
 
     private void saveAppVeriontoPref(String mAppVerion) {
-
         mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
                 "save AppVerion to Pref"+mAppVerion);
         editor.putString("APPVERSION", mAppVerion);

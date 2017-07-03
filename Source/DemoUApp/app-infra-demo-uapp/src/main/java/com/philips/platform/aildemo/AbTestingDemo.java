@@ -52,7 +52,7 @@ public class AbTestingDemo extends Activity {
 
         abTestingInterface = AILDemouAppInterface.mAppInfra.getAbTesting();
 
-        testName.setText("philipsmobileappabtest1content");
+       // testName.setText("DOT-ReceiveMarketingOptIn");
         defaultValue.setText("Experience K");
 
         ArrayAdapter<String> input_adapter = new ArrayAdapter<String>(this,
