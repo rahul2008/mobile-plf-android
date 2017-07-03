@@ -64,6 +64,7 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
+import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.wechat.WeChatAuthenticationListener;
 import com.philips.cdp.registration.wechat.WeChatAuthenticator;
@@ -77,6 +78,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -124,7 +126,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private Context mContext;
     private ScrollView mSvRootLayout;
     private ProgressDialog mProgressDialog;
-    private XTextView mCountryDisplayy;
+    private XTextView mCountryDisplay;
     private boolean isWechatAppRegistred;
     private String mWeChatAppId;
     private String mWeChatAppSecret;
@@ -227,18 +229,18 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                                             getParentActivity(),
                                     "wechat", token, openId, HomeFragment.this, "");
                         } catch (JSONException e) {
-                                    makeProgressInvisible();
-                                    hideProgressDialog();
+                            makeProgressInvisible();
+                            hideProgressDialog();
                         }
                     }
 
                     @Override
                     public void onFail() {
-                                makeProgressInvisible();
-                                hideProgressDialog();
-                                mRegError.setError(mContext.
-                                        getString(R.string.reg_JanRain_Server_Connection_Failed));
-                                scrollViewAutomatically(mRegError, mSvRootLayout);
+                        makeProgressInvisible();
+                        hideProgressDialog();
+                        mRegError.setError(mContext.
+                                getString(R.string.reg_JanRain_Server_Connection_Failed));
+                        scrollViewAutomatically(mRegError, mSvRootLayout);
                     }
                 });
     }
@@ -294,7 +296,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 @Override
                 public void run() {
                     mLlSocialProviderBtnContainer.removeAllViews();
-                    ArrayList<String> providers = new ArrayList<String>();
+                    List<String> providers = new ArrayList<String>();
                     providers = RegistrationConfiguration.getInstance().getProvidersForCountry(countryCode);
                     if (null != providers) {
                         for (int i = 0; i < providers.size(); i++) {
@@ -409,9 +411,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mBtnCreateAccount.setOnClickListener(this);
         mBtnMyPhilips = (XProviderButton) view.findViewById(R.id.btn_reg_my_philips);
         mBtnMyPhilips.setOnClickListener(this);
-        mCountryDisplayy = (XTextView) view.findViewById(R.id.tv_country_displat);
-        mCountryDisplayy.setText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
-        mCountryDisplayy.setOnClickListener(this);
+        mCountryDisplay = (XTextView) view.findViewById(R.id.tv_country_displat);
+        mCountryDisplay.setText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
+        mCountryDisplay.setOnClickListener(this);
 
         mTvWelcomeNeedAccount = (TextView) view.findViewById(R.id.tv_reg_create_account);
         if (mTvWelcomeNeedAccount.getText().toString().trim().length() > 0) {
@@ -438,15 +440,24 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             @Override
             public void onSuccess(String s, SOURCE source) {
                 RLog.d(RLog.SERVICE_DISCOVERY, " Country Sucess :" + s);
-                mCountryDisplayy.setText(new Locale("", s.toUpperCase()).getDisplayCountry());
+                mCountryDisplay.setText(new Locale("", s.toUpperCase()).getDisplayCountry());
                 handleSocialProviders(s.toUpperCase());
-
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
                 RLog.d(RLog.SERVICE_DISCOVERY, " Country Error :" + s);
-                mCountryDisplayy.setText(RegistrationHelper.getInstance().getLocale(mContext).getDisplayCountry());
+                String fallbackCountry = RegistrationConfiguration.getInstance().getFallBackHomeCountry();
+                String selectedCountryCode = null;
+                if (null != fallbackCountry) {
+                    serviceDiscoveryInterface.setHomeCountry(fallbackCountry.toUpperCase());
+                    selectedCountryCode = fallbackCountry;
+                } else {
+                    serviceDiscoveryInterface.setHomeCountry(RegConstants.COUNTRY_CODE_US);
+                    selectedCountryCode = RegConstants.COUNTRY_CODE_US;
+                }
+                mCountryDisplay.setText(new Locale(Locale.getDefault().getLanguage(),
+                        selectedCountryCode).getDisplayCountry());
             }
         });
     }
@@ -503,7 +514,11 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             if (picker != null && picker.getDialog() != null
                     && picker.getDialog().isShowing()) {
             } else {
-                picker.show(getRegistrationFragment().getFragmentManager(), "COUNTRY_PICKER");
+                try {
+                    picker.show(getRegistrationFragment().getFragmentManager(), "COUNTRY_PICKER");
+                } catch (Exception e) {
+                    //Nop
+                }
             }
         } else {
             handleUiState();
@@ -556,7 +571,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
                     @Override
                     public void onError(Throwable e) {
-                        EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
+                        ThreadUtils.postInMainThread(mContext, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.JANRAIN_INIT_SUCCESS));
                         hideProgressDialog();
                         mRegError.setError(mContext.getString(R.string.reg_Generic_Network_Error));
                         scrollViewAutomatically(mRegError, mSvRootLayout);
@@ -573,7 +588,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         RegistrationHelper.getInstance().setLocale(localeArr[0].trim(), localeArr[1].trim());
         RLog.d(RLog.SERVICE_DISCOVERY, "Change Country code :" + RegistrationHelper.getInstance().getCountryCode());
         handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
-        mCountryDisplayy.setText(countryName);
+        mCountryDisplay.setText(countryName);
         hideProgressDialog();
     }
 
@@ -732,9 +747,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 mFlowId = 0;
             }
         } else if (RegConstants.JANRAIN_INIT_FAILURE.equals(event)) {
-                    makeProgressInvisible();
-                    hideProgressDialog();
-                    hideProviderProgress();
+            makeProgressInvisible();
+            hideProgressDialog();
+            hideProviderProgress();
             mFlowId = 0;
         } else if (RegConstants.WECHAT_AUTH.equals(event)) {
             if (mWeChatCode != null) {
@@ -1114,17 +1129,17 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             switch (error_code) {
                 case BaseResp.ErrCode.ERR_OK:
                     mWeChatCode = weChatCode;
-                    EventHelper.getInstance().notifyEventOccurred(RegConstants.WECHAT_AUTH);
+                    ThreadUtils.postInMainThread(context, () -> EventHelper.getInstance().notifyEventOccurred(RegConstants.WECHAT_AUTH));
                     break;
                 case BaseResp.ErrCode.ERR_USER_CANCEL:
                     RLog.d("WECHAT", "WeChat - User canceled the request");
-                            makeProgressInvisible();
-                            hideProviderProgress();
+                    makeProgressInvisible();
+                    hideProviderProgress();
                     break;
                 case BaseResp.ErrCode.ERR_AUTH_DENIED:
                     RLog.d("WECHAT", "WeChat - User denied the request");
-                            makeProgressInvisible();
-                            hideProviderProgress();
+                    makeProgressInvisible();
+                    hideProviderProgress();
                     break;
             }
         }
