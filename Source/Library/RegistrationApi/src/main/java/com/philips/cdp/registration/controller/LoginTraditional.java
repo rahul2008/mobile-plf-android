@@ -89,7 +89,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         Jump.saveToDisk(mContext);
         final User user = new User(mContext);
         mUpdateUserRecordHandler.updateUserRecordLogin();
-        if (RegistrationConfiguration.getInstance().isHsdpFlow() && user.getEmailVerificationStatus()) {
+        if (RegistrationConfiguration.getInstance().isHsdpFlow() && (user.isEmailVerified() || user.isMobileVerified())) {
 
             HsdpUser hsdpUser = new HsdpUser(mContext);
             String emailorMobile;

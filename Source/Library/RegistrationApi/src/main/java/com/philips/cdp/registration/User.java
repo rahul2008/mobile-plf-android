@@ -57,7 +57,6 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.Gender;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -73,6 +72,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import javax.inject.Inject;
+
+import static com.philips.cdp.registration.ui.utils.RegPreferenceUtility.getStoredState;
 
 /**
  * {@code User} class represents information related to a logged in user of User Registration component.
@@ -434,22 +435,33 @@ public class User {
         return diUserProfile;
     }
 
-    // For checking email verification
+
+    @Deprecated
     public boolean getEmailVerificationStatus() {
+        return (isEmailVerified()||isMobileVerified());
+    }
+
+    private boolean isLoginTypeVerified(String loginType) {
         CaptureRecord captured = Jump.getSignedInUser();
         if (captured == null)
             return false;
         try {
             JSONObject mObject = new JSONObject(captured.toString());
-            if (!mObject.isNull(USER_EMAIL_VERIFIED)) {
-                return true;
-            } else if (!mObject.isNull(USER_MOBILE_VERIFIED)) {
+            if (!mObject.isNull(loginType)) {
                 return true;
             }
         } catch (JSONException e) {
             Log.e(LOG_TAG, "On isEmailVerificationStatus,Caught JSON Exception");
         }
         return false;
+    }
+
+    public boolean isEmailVerified() {
+        return isLoginTypeVerified(USER_EMAIL_VERIFIED);
+    }
+
+    public boolean isMobileVerified() {
+        return isLoginTypeVerified(USER_MOBILE_VERIFIED);
     }
 
     /**
@@ -500,15 +512,18 @@ public class User {
     }
 
     public boolean isTermsAndConditionAccepted() {
-        boolean isTermAccepted = false;
         String mobileNo = getMobile();
         String email = getEmail();
-        if (FieldsValidator.isValidMobileNumber(mobileNo)) {
-            isTermAccepted = RegPreferenceUtility.getStoredState(mContext, mobileNo);
-        } else if (FieldsValidator.isValidEmail(email)) {
-            isTermAccepted = RegPreferenceUtility.getStoredState(mContext, email);
+        boolean isValidMobileNo = FieldsValidator.isValidMobileNumber(mobileNo);
+        boolean isValidEmail = FieldsValidator.isValidEmail(email);
+        if (isValidMobileNo && isValidEmail) {
+            return getStoredState(mContext, mobileNo) &&
+                    getStoredState(mContext, email);
         }
-        return isTermAccepted;
+        if (isValidMobileNo) {
+            return getStoredState(mContext, mobileNo);
+        }
+        return isValidEmail && getStoredState(mContext, email);
     }
 
     // check merge flow error for capture
