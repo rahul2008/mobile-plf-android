@@ -13,7 +13,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
@@ -22,9 +21,8 @@ import static android.support.test.espresso.contrib.RecyclerViewActions.actionOn
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.philips.cdp.sampledigitalcare.launcher.Matchers.withRecyclerView;
+import static com.philips.cdp.sampledigitalcare.automation.Matchers.withRecyclerView;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.core.IsAnything.anything;
 
 @LargeTest
 @Ignore
@@ -47,66 +45,32 @@ public class AutomationTests {
     @Test
     public void productInformationTest() {
 
-        // launch screen
-        clickOn(R.id.launchAsFragment).clickAtPosition(R.id.supportMenuContainer, 0);
 
-        // assert screen and elements displayed
+        clickOn(R.id.launchAsFragment).waiting(8000).clickAtPosition(R.id.supportMenuContainer, 0);
         assertDisplayed(R.id.products_layout, R.id.productimage, R.id.prodbuttonsParent, R.id.videoContainerParent);
-
-        // check clickable item behaviors
-        // 1.FAQ page
         clickAtPosition(R.id.prodbuttonsParent, 0).assertDisplayed(R.id.faq_list_recycle_view).pressBack();
-
-        // 2.Product information at philips.com
         clickAtPosition(R.id.prodbuttonsParent, 1).assertWebViewDisplayed().pressBack();
-
         // 3.play videos
         //clickOn(R.id.videoPlay).assertDisplayed();
     }
 
-
     @Test
     public void faqScreenTest() {
-
-        // launch screen
         clickOn(R.id.launchAsFragment).clickAtPosition(R.id.supportMenuContainer, 1);
-        // assert screen and elements displayed
         assertDisplayed(R.id.faq_list_recycle_view);
         onView(withRecyclerView(R.id.faq_list_item_recycle_view).atPosition(0)).perform(click());
         assertWebViewDisplayed();
-
     }
 
 
     @Test
     public void contactUsTest() {
 
-        // launch screen
-
         clickOn(R.id.launchAsFragment).clickAtPosition(R.id.supportMenuContainer, 2);
-
-        // assert screen and elements displayed
-
         assertDisplayed(R.id.contactUsCall, R.id.contactUsChat, R.id.contactUsSocialParent, R.id.contactUsSocialProvideButtonsParent);
-
-        // check clickable item behaviors
-
-        // tap on call us
-
-        //clickOn(R.id.contactUsCall);
-
-        //pressBack();
-
-
-        //tap on live chat
-
         clickOn(R.id.contactUsChat).assertDisplayed(R.id.chatnow_bg, R.id.chatNow);
-        // click chat now
         clickOn(R.id.chatNow).assertWebViewDisplayed().pressBack().pressBack();
         clickAtPosition(R.id.contactUsSocialProvideButtonsParent, 0).pressBack();
-
-//        clickAtPosition(R.id.contactUsSocialProvideButtonsParent, 1).pressBack();
-
 //        clickAtPosition(R.id.contactUsSocialProvideButtonsParent, 2).pressBack();
 
     }
@@ -115,30 +79,17 @@ public class AutomationTests {
     @Test
     public void opinionOverviewTest() {
 
-        // launch screen
-
         clickOn(R.id.launchAsFragment).clickAtPosition(R.id.supportMenuContainer, 4);
-
-        // assert screen and elements displayed
-
         assertDisplayed(R.id.tellus_container, R.id.tellus_bg, R.id.tellus_PhilipsReviewButton, R.id.tellus_PlayStoreReviewButton);
-
-        // check clickable item behaviors
-
-        // 1.Write a review
-
         clickOn(R.id.tellus_PhilipsReviewButton).assertWebViewDisplayed();
-
         //pressBack();
 
         // 2.Rate this app
-
         //clickOn(R.id.tellus_PlayStoreReviewButton);
-
     }
 
 
-    @Test
+   /* @Test
     public void selectProductTest() {
 
         // launch screen
@@ -155,8 +106,7 @@ public class AutomationTests {
         // confirm selection
         clickOn(R.id.savedscreen_button_continue).assertDisplayed(R.id.supportMenuContainer);
     }
-
-
+*/
     private AutomationTests waiting(long millis) {
 
          /*Added a sleep statement to match the app's execution delay.

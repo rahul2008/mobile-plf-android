@@ -1,4 +1,4 @@
-package com.philips.cdp.sampledigitalcare.launcher;
+package com.philips.cdp.sampledigitalcare.automation;
 
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;

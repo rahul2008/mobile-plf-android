@@ -1,25 +1,15 @@
 package com.philips.cdp.sampledigitalcare.automation;
 
 
-import android.support.test.espresso.AmbiguousViewMatcherException;
-import android.support.test.espresso.NoMatchingRootException;
-import android.support.test.espresso.NoMatchingViewException;
-import android.support.test.espresso.UiController;
-import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 
 import com.philips.cdp.sampledigitalcare.launcher.uAppComponetLaunch.MicroAppLauncher;
 import com.philips.cl.di.dev.pa.R;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,21 +27,27 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.core.IsInstanceOf.any;
 
 
 @LargeTest
 @Ignore
 @RunWith(AndroidJUnit4.class)
-public class FindNearByPhilipsAutomationTest {
+public class FindNearByPhilipsAutomationTest extends AutomationTestHelper {
+
+    private MicroAppLauncher activity;
 
     @Rule
     public ActivityTestRule<MicroAppLauncher> mActivityTestRule = new ActivityTestRule<>(MicroAppLauncher.class);
 
+    @Before
+    public void setUp() throws Exception {
+        activity = mActivityTestRule.getActivity();
+    }
+
     @Test
     public void microAppLauncherTest() throws InterruptedException {
         ViewInteraction button = onView(
-                allOf(withId(R.id.launchAsFragment), withText("Launch DigitalCare")));
+                allOf(withId(R.id.launchAsFragment)));
         button.perform(scrollTo(), click());
 
         ViewInteraction recyclerView = onView(
@@ -61,13 +57,13 @@ public class FindNearByPhilipsAutomationTest {
 
         if(exists(recyclerView)){
             recyclerView.perform(actionOnItemAtPosition(3, click()));
-            Thread.sleep(8000);
+            sleepEightSec();
         }
 
         ViewInteraction relativeLayout = onView(
                 allOf(withId(R.id.welcome_screen_parent_two),
                         withParent(withId(R.id.welcome_screen_parent_one))));
-        Thread.sleep(5000);
+        sleepFourSec();
         if(exists(relativeLayout)){
             relativeLayout.perform(scrollTo(), click());
         }
@@ -83,11 +79,25 @@ public class FindNearByPhilipsAutomationTest {
         }
 
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.detailedscreen_select_button), withText("Select this product"),
-                        withParent(allOf(withId(R.id.detailed_screen_parent_one),
-                                withParent(withId(R.id.detailed_screen_parent))))));
+                allOf(withId(R.id.welcome_screen_parent_two), withText("Find product")));
         if(exists(appCompatButton)){
             appCompatButton.perform(scrollTo(), click());
+        }
+
+        ViewInteraction recyclerView2 = onView(
+                allOf(withId(R.id.supportMenuContainer),
+                        withParent(withId(R.id.optionParent)),
+                        isDisplayed()));
+
+        if(exists(recyclerView2)){
+            recyclerView2.perform(actionOnItemAtPosition(3, click()));
+        }
+        sleepTwoSec();
+        ViewInteraction selectThisProductBtn = onView(
+                allOf(withId(R.id.detailedscreen_select_button), withText("Select this product")));
+
+        if(exists(selectThisProductBtn)){
+            selectThisProductBtn.perform(scrollTo(), click());
         }
 
         ViewInteraction appCompatButton2 = onView(
@@ -99,36 +109,54 @@ public class FindNearByPhilipsAutomationTest {
             appCompatButton2.perform(scrollTo(), click());
         }
 
-        ViewInteraction recyclerView2 = onView(
+//Start
+        ViewInteraction button1 = onView(
+                allOf(withId(R.id.launchAsFragment), withText("Launch DigitalCare")));
+        if(exists(button1)){
+            button1.perform(scrollTo(), click());
+        }
+
+        ViewInteraction recyclerView1 = onView(
                 allOf(withId(R.id.supportMenuContainer),
                         withParent(withId(R.id.optionParent)),
                         isDisplayed()));
 
-        if(exists(recyclerView2)){
-            recyclerView2.perform(actionOnItemAtPosition(3, click()));
+        if(exists(recyclerView1)){
+            recyclerView.perform(actionOnItemAtPosition(3, click()));
+            sleepEightSec();
         }
 
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        ViewInteraction relativeLayout1 = onView(
+                allOf(withId(R.id.welcome_screen_parent_two),
+                        withParent(withId(R.id.welcome_screen_parent_one))));
+        sleepFourSec();
+        if(exists(relativeLayout1)){
+            relativeLayout.perform(scrollTo(), click());
         }
 
-        ViewInteraction button2 = onView(
-                allOf(withId(R.id.uid_alert_positive_button), withText("OK"),
-                        withParent(allOf(withId(R.id.uid_alert_control_area),
-                                withParent(withId(R.id.uid_alert)))),
-                        isDisplayed()));
-
-        if(exists(button2)){
-            button2.perform(click());
+        ViewInteraction relativeLayout22 = onView(
+                allOf(withId(R.id.productselection_ratingtheme),
+                        childAtPosition(
+                                allOf(withId(R.id.productListView),
+                                        withParent(withId(R.id.productListContainer))),
+                                2)));
+        if(exists(relativeLayout22)){
+            relativeLayout22.perform(scrollTo(), click());
         }
 
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        ViewInteraction philipsAlertBtn = onView(allOf(withId(getViewId("uid_alert_positive_button")), withText("OK"),isDisplayed()));
+
+        if (exists(philipsAlertBtn)) {
+            philipsAlertBtn.perform(click());
         }
+
+        ViewInteraction permissionAllowBtn = onView(
+                allOf(withId(getViewId("permission_allow_button")), withText("ALLOW"),isDisplayed()));
+
+        if (exists(permissionAllowBtn)) {
+            permissionAllowBtn.perform(click());
+        }
+        sleepFourSec();
 
         ViewInteraction customSearchView = onView(
                 allOf(withId(R.id.search_box),
@@ -136,7 +164,7 @@ public class FindNearByPhilipsAutomationTest {
                         isDisplayed()));
         if(exists(customSearchView)){
             customSearchView.perform(replaceText("bangalo"), closeSoftKeyboard());
-            Thread.sleep(4000);
+           sleepFourSec();
         }
 
         ViewInteraction relativeLayout3 = onView(
@@ -152,29 +180,15 @@ public class FindNearByPhilipsAutomationTest {
                 allOf(withId(R.id.getdirection), withText("Get directions"),
                         withParent(allOf(withId(R.id.showlayout),
                                 withParent(withId(R.id.locationDetailScroll))))));
-        try {
-            Thread.sleep(6000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleepSixSec();
 
         if(exists(button3)){
             button3.perform(scrollTo(), click());
         }
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleepFourSec();
 
         pressBack();
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleepFourSec();
 
         ViewInteraction recyclerView3 = onView(
                 allOf(withId(R.id.supportMenuContainer),
@@ -183,12 +197,7 @@ public class FindNearByPhilipsAutomationTest {
         if(exists(recyclerView3)){
             recyclerView3.perform(actionOnItemAtPosition(3, click()));
         }
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        sleepFourSec();
 
         //pressBack();
 
@@ -207,46 +216,8 @@ public class FindNearByPhilipsAutomationTest {
             button4.perform(scrollTo(), click());
         }
     }
-
-    private boolean exists(ViewInteraction interaction) {
-        try {
-            interaction.perform(new ViewAction() {
-                @Override public Matcher<View> getConstraints() {
-                    return any(View.class);
-                }
-                @Override public String getDescription() {
-                    return "check for existence";
-                }
-                @Override public void perform(UiController uiController, View view) {
-                }
-            });
-            return true;
-        } catch (AmbiguousViewMatcherException ex) {
-            return true;
-        } catch (NoMatchingViewException ex) {
-            return false;
-        } catch (NoMatchingRootException ex) {
-            return false;
-        }
+    private int getViewId(final String viewName) {
+        return activity.getResources().getIdentifier(viewName, "id", "android");
     }
 
-
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
-
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
-    }
 }
