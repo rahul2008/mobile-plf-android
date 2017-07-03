@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.CcDependencies;
 import com.philips.cdp.digitalcare.CcInterface;
@@ -282,7 +283,7 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
             mLaunchAsFragment.setVisibility(View.INVISIBLE);
 
 
-            String[] ctnList = new String[mList.size()];
+            final String[] ctnList = new String[mList.size()];
             for (int i = 0; i < mList.size(); i++)
                 ctnList[i] = mList.get(i);
             //  if (ctnList.length != 0) {
@@ -322,12 +323,20 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
                     } else {
                         ccLaunchInput.setLiveChatUrl(null);
                     }
-                    ccInterface.launch(activityLauncher, ccLaunchInput);
+
+                    if(!(ctnList.length == 0))
+                        ccInterface.launch(activityLauncher, ccLaunchInput);
+                    else
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_ctn), Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onError(ERRORVALUES errorvalues, String s) {
-                    ccInterface.launch(activityLauncher, ccLaunchInput);
+
+                    if(!(ctnList.length == 0))
+                        ccInterface.launch(activityLauncher, ccLaunchInput);
+                    else
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_ctn), Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -337,8 +346,12 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
 
             mLaunchDigitalCare.setVisibility(View.INVISIBLE);
 
-
-            startActivity(new Intent(getApplicationContext(), CCDemoUAppFragmentActivity.class));
+            if(mList.size() != 0) {
+                startActivity(new Intent(getApplicationContext(), CCDemoUAppFragmentActivity.class));
+            }
+            else{
+                Toast.makeText(this, getResources().getString(R.string.no_ctn), Toast.LENGTH_SHORT).show();
+            }
 
         } else if (i1 == R.id.change_theme) {
             Resources.Theme theme = super.getTheme();

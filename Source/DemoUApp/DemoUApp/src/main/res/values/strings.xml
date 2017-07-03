@@ -299,5 +299,7 @@
 
     <bool name="productreview_required">true</bool>
 
+    <string name="no_ctn">No CTN found. Relaunch the app and select atleast one CTN</string>
+
 
 </resources>
