@@ -570,9 +570,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void updateMarketingOptFailedError() {
-                marketingOptCheck.setOnCheckedChangeListener(null);
-                marketingOptCheck.setChecked(!marketingOptCheck.isChecked());
-                marketingOptCheck.setOnCheckedChangeListener(AlmostDoneFragment.this);
+        marketingOptCheck.setOnCheckedChangeListener(null);
+        marketingOptCheck.setChecked(!marketingOptCheck.isChecked());
+        marketingOptCheck.setOnCheckedChangeListener(AlmostDoneFragment.this);
     }
 
     @Override

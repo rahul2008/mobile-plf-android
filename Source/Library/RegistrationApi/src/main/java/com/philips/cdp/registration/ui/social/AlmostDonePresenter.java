@@ -296,10 +296,14 @@ public class AlmostDonePresenter implements NetworStateListener, SocialProviderL
             almostDoneContract.storePreference(mEmail);
             return;
         }
-        if (mUser.getMobile() != null && !mUser.getMobile().equalsIgnoreCase("null")) {
-            almostDoneContract.storePreference(mUser.getMobile());
-        } else if (mUser.getEmail() != null && !mUser.getEmail().equalsIgnoreCase("null")) {
-            almostDoneContract.storePreference(mUser.getEmail());
+        String mobileNo = mUser.getMobile();
+        String email = mUser.getEmail();
+
+        if (FieldsValidator.isValidMobileNumber(mobileNo)) {
+            almostDoneContract.storePreference(mobileNo);
+        }
+        if (FieldsValidator.isValidEmail(email)) {
+            almostDoneContract.storePreference(email);
         }
     }
 
