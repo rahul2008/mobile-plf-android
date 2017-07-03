@@ -36,6 +36,7 @@ public class HamburgerActivityPresenter extends UappBasePresenter {
     private FragmentLauncher fragmentLauncher;
     private BaseState baseState;
     private final int SAMPLE = 2;
+    private final int DLS = 3;
 
     public HamburgerActivityPresenter(final UappFragmentView fragmentView) {
         super(fragmentView);
@@ -54,6 +55,7 @@ public class HamburgerActivityPresenter extends UappBasePresenter {
             BaseFlowManager targetFlowManager = fragmentView.getTargetFlowManager();
             baseState = targetFlowManager.getNextState(targetFlowManager.getState(UappStates.HAMBURGER_HOME), eventState);
             if (null != baseState) {
+                baseState.init(fragmentView.getFragmentActivity());
                 baseState.setUiStateData(setStateData(baseState.getStateID()));
                 fragmentLauncher = getFragmentLauncher();
                 baseState.navigate(fragmentLauncher);
@@ -85,6 +87,8 @@ public class HamburgerActivityPresenter extends UappBasePresenter {
                 return HOME_ABOUT;
             case SAMPLE:
                 return "sample";
+            case DLS:
+                return "dls";
             default:
                 return HOME_FRAGMENT;
         }

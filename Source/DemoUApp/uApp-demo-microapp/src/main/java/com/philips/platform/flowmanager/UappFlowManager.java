@@ -11,6 +11,7 @@ import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.flowmanager.condition.UappConditionAppLaunch;
 import com.philips.platform.flowmanager.condition.UappConditionIsDonePressed;
 import com.philips.platform.screens.aboutscreen.AboutScreenState;
+import com.philips.platform.screens.dls.DlsState;
 import com.philips.platform.screens.homefragment.HomeFragmentState;
 import com.philips.platform.screens.introscreen.welcomefragment.WelcomeState;
 import com.philips.platform.screens.sample.SampleState;
@@ -31,6 +32,7 @@ public class UappFlowManager extends BaseFlowManager {
         uiStateMap.put(UappStates.SPLASH, new SplashState());
         uiStateMap.put(UappStates.HAMBURGER_HOME,new HamburgerActivityState());
         uiStateMap.put(UappStates.SAMPLE, new SampleState());
+        uiStateMap.put(UappStates.DLS, new DlsState());
 
     }
 

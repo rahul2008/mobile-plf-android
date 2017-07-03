@@ -54,6 +54,7 @@
         <item>Home</item>
         <item>About</item>
         <item>Sample</item>
+        <item>DLS</item>
     </string-array>
 
     <!--<array name="hamburger_drawer_icons">-->

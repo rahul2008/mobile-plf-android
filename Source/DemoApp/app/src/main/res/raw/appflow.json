@@ -74,6 +74,15 @@
                 "nextState": "sample"
               }
             ]
+          },
+          {
+            "eventId": "dls",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "dls"
+              }
+            ]
           }
            ]
       }

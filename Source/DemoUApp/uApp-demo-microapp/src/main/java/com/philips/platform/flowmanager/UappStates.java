@@ -14,6 +14,7 @@ public class UappStates {
     public static final String ABOUT = "about";
     public static final String HOME_FRAGMENT = "home_fragment";
     public static final String HAMBURGER_HOME = "home";
+    public static final String DLS = "dls";
 
 
     public static String SAMPLE = "sample";
