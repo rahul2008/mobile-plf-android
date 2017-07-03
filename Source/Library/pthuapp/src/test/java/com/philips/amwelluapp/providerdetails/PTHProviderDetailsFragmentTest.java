@@ -1,14 +1,15 @@
-package com.philips.amwelluapp.providerslist;
+package com.philips.amwelluapp.providerdetails;
 
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.consumer.Consumer;
-import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.manager.PracticeProvidersManager;
 import com.philips.amwelluapp.CustomRobolectricRunnerAmwel;
 import com.philips.amwelluapp.activity.PTHLaunchActivity;
 import com.philips.amwelluapp.base.PTHBaseView;
+import com.philips.amwelluapp.providerslist.PTHProviderListPresenter;
+import com.philips.amwelluapp.providerslist.PTHProviderListViewInterface;
 import com.philips.amwelluapp.utility.PTHManager;
 
 import org.junit.Before;
@@ -24,10 +25,10 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(CustomRobolectricRunnerAmwel.class)
-public class PTHProvidersListFragmentTest {
+public class PTHProviderDetailsFragmentTest {
 
     private PTHLaunchActivity mActivity;
-    private PTHProvidersListFragment pthProvidersListFragment;
+    private PTHProviderDetailsFragment providerDetailsFragment;
 
     @Mock
     AWSDK awsdkMock;
@@ -40,9 +41,6 @@ public class PTHProvidersListFragmentTest {
 
     @Mock
     Consumer consumer;
-    @Mock
-    Practice practice;
-
     @Mock
     ProviderInfo providerInfo;
 
@@ -59,17 +57,17 @@ public class PTHProvidersListFragmentTest {
         PTHManager.getInstance().setAwsdk(awsdkMock);
         Mockito.when(pthBaseView.getFragmentActivity()).thenReturn(mActivity);
         Mockito.when(PTHManager.getInstance().getAwsdk(mActivity).getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
-        pthProvidersListFragment = new PTHProvidersListFragment();
-        pthProvidersListFragment.setPracticeAndConsumer(practice,consumer);
+        providerDetailsFragment = new PTHProviderDetailsFragment();
+        providerDetailsFragment.setProviderAndConsumer(providerInfo,consumer);
     }
 
     @Test
     public  void testFragment(){
-        assertNotNull(pthProvidersListFragment);
+        assertNotNull(providerDetailsFragment);
     }
 
     @Test
     public void testFragmentActionBarName(){
-        SupportFragmentTestUtil.startFragment(pthProvidersListFragment);
+        SupportFragmentTestUtil.startFragment(providerDetailsFragment);
     }
 }
