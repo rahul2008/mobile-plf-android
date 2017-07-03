@@ -30,6 +30,7 @@ import com.philips.amwelluapp.providerslist.PTHProvidersListFragment;
 import com.philips.amwelluapp.registration.PTHConsumer;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.drawable.FontIconDrawable;
+import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
 
 import java.io.IOException;
@@ -39,23 +40,26 @@ import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
-public class PTHSymptomsFragment extends PTHBaseFragment implements BackEventListener {
+public class PTHSymptomsFragment extends PTHBaseFragment implements BackEventListener, View.OnClickListener {
     public static final String TAG = PTHSymptomsFragment.class.getSimpleName();
     PTHSymptomsPresenter mPTHSymptomsPresenter;
     PTHConsumer consumer;
     PTHProviderInfo providerInfo;
     LinearLayout topicLayout;
     FloatingActionButton floatingActionButton;
+    Button mContinue;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.pth_symptoms, container, false);
         Bundle bundle = getArguments();
-        consumer = (PTHConsumer) bundle.getSerializable("Consumer");
-        providerInfo = (PTHProviderInfo) bundle.getSerializable("providerInfo");
+        consumer = (PTHConsumer) bundle.getParcelable("Consumer");
+        providerInfo = (PTHProviderInfo) bundle.getParcelable("providerInfo");
         topicLayout = (LinearLayout) view.findViewById(R.id.checkbox_container);
         floatingActionButton = (FloatingActionButton) view.findViewById(R.id.floating_button);
+        mContinue = (Button) view.findViewById(R.id.continue_btn);
+        mContinue.setOnClickListener(this);
 
         Typeface face= TypefaceUtils.load(getActivity().getAssets(),"fonts/pui_icon.ttf");
         FontIconDrawable fontIconDrawable = new FontIconDrawable(getContext(),"\uE612",face).actionBarSize().color(Color.BLACK);
@@ -119,6 +123,14 @@ public class PTHSymptomsFragment extends PTHBaseFragment implements BackEventLis
                     topic.setSelected(true);
                 }
             });
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        int i = view.getId();
+        if (i == R.id.continue_btn) {
+            mPTHSymptomsPresenter.onEvent(R.id.continue_btn);
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.philips.amwelluapp.providerslist;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
 import com.americanwell.sdk.entity.consumer.Gender;
@@ -8,10 +10,28 @@ import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.provider.ProviderType;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 
-import java.io.Serializable;
-
-public class PTHProviderInfo implements Serializable{
+public class PTHProviderInfo implements Parcelable{
     ProviderInfo providerInfo;
+
+    public PTHProviderInfo(){
+
+    }
+
+    protected PTHProviderInfo(Parcel in) {
+        providerInfo = in.readParcelable(ProviderInfo.class.getClassLoader());
+    }
+
+    public static final Creator<PTHProviderInfo> CREATOR = new Creator<PTHProviderInfo>() {
+        @Override
+        public PTHProviderInfo createFromParcel(Parcel in) {
+            return new PTHProviderInfo(in);
+        }
+
+        @Override
+        public PTHProviderInfo[] newArray(int size) {
+            return new PTHProviderInfo[size];
+        }
+    };
 
     public ProviderInfo getProviderInfo() {
         return providerInfo;
@@ -54,4 +74,13 @@ public class PTHProviderInfo implements Serializable{
         return providerInfo.hasImage();
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeParcelable(providerInfo, i);
+    }
 }

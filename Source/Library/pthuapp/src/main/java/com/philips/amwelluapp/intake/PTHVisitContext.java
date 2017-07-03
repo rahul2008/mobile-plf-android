@@ -1,5 +1,7 @@
 package com.philips.amwelluapp.intake;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
@@ -12,9 +14,29 @@ import com.americanwell.sdk.exception.FeatureNotEnabledException;
 import java.util.List;
 import java.util.Set;
 
-public class PTHVisitContext {
+public class PTHVisitContext implements Parcelable{
 
     VisitContext visitContext;
+
+    public PTHVisitContext(){
+        
+    }
+
+    protected PTHVisitContext(Parcel in) {
+        visitContext = in.readParcelable(VisitContext.class.getClassLoader());
+    }
+
+    public static final Creator<PTHVisitContext> CREATOR = new Creator<PTHVisitContext>() {
+        @Override
+        public PTHVisitContext createFromParcel(Parcel in) {
+            return new PTHVisitContext(in);
+        }
+
+        @Override
+        public PTHVisitContext[] newArray(int size) {
+            return new PTHVisitContext[size];
+        }
+    };
 
     public VisitContext getVisitContext() {
         return visitContext;
@@ -110,5 +132,15 @@ public class PTHVisitContext {
 
     void setGuestInvitationEmails(@NonNull Set<String> guestInvitationEmails) throws FeatureNotEnabledException{
         visitContext.setGuestInvitationEmails(guestInvitationEmails);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeParcelable(visitContext, i);
     }
 }

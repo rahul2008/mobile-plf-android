@@ -1,14 +1,36 @@
 package com.philips.amwelluapp.registration;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.entity.insurance.Subscription;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class PTHConsumer implements Serializable{
+public class PTHConsumer implements Parcelable{
     Consumer consumer;
+
+    public PTHConsumer(){
+
+    }
+
+    protected PTHConsumer(Parcel in) {
+        consumer = in.readParcelable(Consumer.class.getClassLoader());
+    }
+
+    public static final Creator<PTHConsumer> CREATOR = new Creator<PTHConsumer>() {
+        @Override
+        public PTHConsumer createFromParcel(Parcel in) {
+            return new PTHConsumer(in);
+        }
+
+        @Override
+        public PTHConsumer[] newArray(int size) {
+            return new PTHConsumer[size];
+        }
+    };
 
     public Consumer getConsumer() {
         return consumer;
@@ -52,5 +74,15 @@ public class PTHConsumer implements Serializable{
 
     public boolean isDependent(){
         return consumer.isDependent();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeParcelable(consumer, i);
     }
 }

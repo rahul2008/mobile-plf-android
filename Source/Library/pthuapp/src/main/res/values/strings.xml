@@ -8,4 +8,14 @@
     <string name="write_here">write here</string>
     <string name="pth_prepare_your_visit">prepare your visit</string>
     <string name="button_greaterthan"> &gt;</string>
+    <string name="vitals_want">What do you want from vitals?</string>
+    <string name="vitals_blood_pressure">Blood Pressure</string>
+    <string name="vitals_systolic">Systolic</string>
+    <string name="vitals_diastolic">Diastolic</string>
+    <string name="temperature">Temperature</string>
+    <string name="vitals_faranheit">Farenheit</string>
+    <string name="vitals_f">oF</string>
+    <string name="weight">Weight</string>
+    <string name="vitals_ponds">Pounds</string>
+    <string name="vitals_skip">Skip this step</string>
 </resources>

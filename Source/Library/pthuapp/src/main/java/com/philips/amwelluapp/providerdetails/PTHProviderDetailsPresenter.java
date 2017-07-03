@@ -50,8 +50,8 @@ public class PTHProviderDetailsPresenter implements PTHBasePresenter,PTHProvider
             pthProviderInfo.setProviderInfo(viewInterface.getProviderInfo());
 
             Bundle bundle = new Bundle();
-            bundle.putSerializable("Consumer",pthConsumer);
-            bundle.putSerializable("providerInfo",pthProviderInfo);
+            bundle.putParcelable("Consumer",pthConsumer);
+            bundle.putParcelable("providerInfo",pthProviderInfo);
 
             ((PTHBaseView)viewInterface).addFragment(new PTHSymptomsFragment(),PTHSymptomsFragment.TAG,bundle);
         }
