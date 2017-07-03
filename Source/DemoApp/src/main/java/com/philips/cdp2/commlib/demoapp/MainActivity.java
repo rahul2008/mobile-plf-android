@@ -1,5 +1,5 @@
 /*
- * (C) 2015-2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 
@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.facebook.stetho.Stetho;
 import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.DefaultCommlibUappDependencies;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -21,9 +22,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.activity_main, null);
+
         CommlibUapp commlibUapp = CommlibUapp.instance;
         commlibUapp.init(new DefaultCommlibUappDependencies(getApplicationContext()), null);
         commlibUapp.launch(fragmentLauncher, null);
+
+        if (BuildConfig.DEBUG) {
+            Stetho.initializeWithDefaults(this);
+        }
     }
 
     @Override
