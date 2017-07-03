@@ -150,6 +150,14 @@ android {
         abortOnError false
     }
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+        // set JVM arguments for the test JVM(s)
+        unitTests.all {
+            jvmArgs '-noverify'
+        }
+    }
+
     resourcePrefix 'consumercare'
 
     buildTypes {
@@ -207,6 +215,10 @@ dependencies {
            transitive = true
     }
     compile 'com.google.android.gms:play-services-maps:10.2.0'
+
+    testCompile "org.robolectric:robolectric:3.3.2"
+
+
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
