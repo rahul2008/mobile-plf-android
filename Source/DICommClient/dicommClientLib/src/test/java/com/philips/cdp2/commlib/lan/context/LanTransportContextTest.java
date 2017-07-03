@@ -14,7 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import static com.philips.cdp2.commlib.lan.context.LanTransportContext.clearStoredCertificateFor;
+import static com.philips.cdp2.commlib.lan.context.LanTransportContext.rejectNewPinFor;
 import static junit.framework.Assert.assertNull;
 
 public class LanTransportContextTest extends RobolectricTest {
@@ -39,7 +39,7 @@ public class LanTransportContextTest extends RobolectricTest {
             }
         };
 
-        clearStoredCertificateFor(appliance);
+        rejectNewPinFor(appliance);
         assertNull(appliance.getNetworkNode().getPin());
     }
 }

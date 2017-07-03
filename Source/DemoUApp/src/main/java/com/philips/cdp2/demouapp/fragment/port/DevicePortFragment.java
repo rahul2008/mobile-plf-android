@@ -28,7 +28,7 @@ import com.philips.cdp2.commlib.demouapp.R;
 
 import java.util.Locale;
 
-import static com.philips.cdp2.commlib.lan.context.LanTransportContext.clearStoredCertificateFor;
+import static com.philips.cdp2.commlib.lan.context.LanTransportContext.rejectNewPinFor;
 
 public class DevicePortFragment extends Fragment {
 
@@ -138,7 +138,7 @@ public class DevicePortFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (currentAppliance != null) {
-                    clearStoredCertificateFor(currentAppliance);
+                    rejectNewPinFor(currentAppliance);
                 }
             }
         });

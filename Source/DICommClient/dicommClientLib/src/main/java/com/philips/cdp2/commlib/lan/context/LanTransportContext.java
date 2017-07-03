@@ -2,6 +2,7 @@
  * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.cdp2.commlib.lan.context;
 
 import android.content.Context;
@@ -44,7 +45,14 @@ public class LanTransportContext implements TransportContext {
         return new ScheduledThreadPoolExecutor(2);
     }
 
-    public static void clearStoredCertificateFor(final @NonNull Appliance appliance) {
-        appliance.getNetworkNode().setPin(null);
+    public static void rejectNewPinFor(final @NonNull Appliance appliance) {
+        final NetworkNode networkNode = appliance.getNetworkNode();
+        networkNode.setPin(null);
+    }
+
+    public static void acceptNewPinFor(final @NonNull Appliance appliance) {
+        final NetworkNode networkNode = appliance.getNetworkNode();
+        networkNode.setPin(networkNode.getMismatchedPin());
+        networkNode.setMismatchedPin(null);
     }
 }

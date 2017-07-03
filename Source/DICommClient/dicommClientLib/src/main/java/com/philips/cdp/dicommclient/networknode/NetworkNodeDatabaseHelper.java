@@ -37,6 +37,7 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_LAST_PAIRED = "last_paired";
     public static final String KEY_MODEL_ID = "model_id";
     public static final String KEY_PIN = "pin";
+    public static final String KEY_MISMATCHED_PIN = "mismatched_pin";
 
     public NetworkNodeDatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -64,6 +65,7 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_MODEL_ID + " TEXT,"
                 + KEY_HTTPS + " SMALLINT NOT NULL DEFAULT 0,"
                 + KEY_PIN + " TEXT,"
+                + KEY_MISMATCHED_PIN + " TEXT,"
                 + "PRIMARY KEY(" + KEY_ID + ")"
                 + ");";
 
@@ -88,6 +90,7 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
                 case 4:
                     upgradeToVersion4(db);
                     break;
+                // TODO upgrade to version 6 (add mismatched pin)
                 default:
                     DICommLog.e(DICommLog.DATABASE, "Table creation error");
                     break;
