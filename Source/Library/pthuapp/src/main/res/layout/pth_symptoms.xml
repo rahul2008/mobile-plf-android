@@ -63,7 +63,7 @@
         />
 
     <com.philips.platform.uid.view.widget.EditText
-        android:id="@+id/write_here"
+        android:id="@+id/edit_farenheit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/additional_comment"
@@ -77,7 +77,7 @@
         style="@style/UIDImageTextButton.Center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/write_here"
+        android:layout_below="@id/edit_farenheit"
         android:enabled="true"
         android:text="Continue" />
 

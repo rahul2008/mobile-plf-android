@@ -1,10 +1,11 @@
 package com.philips.amwelluapp.welcome;
 
-import android.app.Activity;
 import android.support.v4.app.FragmentActivity;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.Authentication;
+import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ConsumerManager;
@@ -27,6 +28,7 @@ import java.util.Map;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -42,7 +44,7 @@ public class PTHWelcomePresenterTest {
     private ArgumentCaptor<SDKCallback> initializationCallback;
 
     @Mock
-    PTHSDKError sdkErrorMock;
+    PTHSDKError pthsdkError;
 
     @Mock
     PTHAuthentication pthAuthenticationMock;
@@ -60,7 +62,14 @@ public class PTHWelcomePresenterTest {
     AWSDK awsdk;
 
     @Mock
-    Throwable throwable;
+    Throwable throwableMock;
+
+    @Mock
+    Consumer consumerMock;
+
+    @Mock
+    SDKError sdkErrorMock;
+
 
     @Before
     public void setUp() {
@@ -106,13 +115,13 @@ public class PTHWelcomePresenterTest {
 
     @Test
     public void onInitializationResponse() throws Exception {
-       pthWelcomePresenter.onInitializationResponse(null,sdkErrorMock);
+       pthWelcomePresenter.onInitializationResponse(null, pthsdkError);
         verify(awsdk).authenticate(anyString(),anyString(),anyString(),any(SDKCallback.class));
     }
 
     @Test
     public void onInitializationFailure()  {
-        pthWelcomePresenter.onInitializationFailure(throwable);
+        pthWelcomePresenter.onInitializationFailure(throwableMock);
         verify(pTHBaseViewMock).hideProgressBar();
     }
 
@@ -120,30 +129,42 @@ public class PTHWelcomePresenterTest {
     @Test
     public void authenticateThrowsAWSDKInstantiationException() throws Exception {
         doThrow(AWSDKInstantiationException.class).when(awsdk).authenticate(anyString(),anyString(),anyString(),any(SDKCallback.class));
-        pthWelcomePresenter.onInitializationResponse(null,sdkErrorMock);
+        pthWelcomePresenter.onInitializationResponse(null, pthsdkError);
         verify(awsdk).authenticate(anyString(),anyString(),anyString(),any(SDKCallback.class));
     }
 
- /*   @Test
+   @Test
     public void onLoginResponse() throws Exception {
         when(pthAuthenticationMock.getAuthentication()).thenReturn(authenticationMock);
         when(awsdk.getConsumerManager()).thenReturn(ConsumerManagerMock);
-        pthWelcomePresenter.onLoginResponse(pthAuthenticationMock,sdkErrorMock);
-        verify(awsdk).getConsumerManager().getConsumer(any(Authentication.class),any(SDKCallback.class));
+        pthWelcomePresenter.onLoginResponse(pthAuthenticationMock, pthsdkError);
+        verify(ConsumerManagerMock, atLeast(1)).getConsumer(any(Authentication.class),any(SDKCallback.class));
     }
 
-    @Test(expected = NullPointerException.class)
+     @Test
     public void getConsumerThrowsAWSDKInstantiationException() throws Exception {
         when(pthAuthenticationMock.getAuthentication()).thenReturn(authenticationMock);
         when(awsdk.getConsumerManager()).thenReturn(ConsumerManagerMock);
         doThrow(AWSDKInstantiationException.class).when(ConsumerManagerMock).getConsumer(any(Authentication.class),any(SDKCallback.class));
-        pthWelcomePresenter.onLoginResponse(pthAuthenticationMock,sdkErrorMock);
-        ConsumerManagerMock.getConsumer(any(Authentication.class),any(SDKCallback.class));
-    }*/
+        pthWelcomePresenter.onLoginResponse(pthAuthenticationMock, pthsdkError);
+         verify(ConsumerManagerMock, atLeast(1)).getConsumer(any(Authentication.class),any(SDKCallback.class));
+    }
 
     @Test
     public void onLoginFailure() throws Exception {
+        pthWelcomePresenter.onLoginFailure(throwableMock);
+        verify(pTHBaseViewMock).hideProgressBar();
+    }
 
+    @Test
+    public void onError() throws Exception {
+        pthWelcomePresenter.onError(throwableMock);
+        verify(pTHBaseViewMock).hideProgressBar();
+    }
+
+    @Test
+    public void onReceiveConsumerObject(){
+        pthWelcomePresenter.onReceiveConsumerObject(consumerMock, sdkErrorMock);
     }
 
 }

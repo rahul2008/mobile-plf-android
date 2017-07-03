@@ -85,7 +85,7 @@ public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallB
         }
     }
 
-    private boolean isResponseSuccess(Object responseObject) {
+   /* private boolean isResponseSuccess(Object responseObject) {
         if(responseObject!=null) {
             return true;
         }
@@ -97,7 +97,7 @@ public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallB
         if (isUserPartiallyRegistered){
             uiBaseView.addFragment(new PTHRegistrationDetailsFragment(),PTHRegistrationDetailsFragment.TAG,null);
         }
-    }
+    }*/
 
     //TODO: Move it to Login Presenter one's Silent Login is removed
     @Override
@@ -116,11 +116,13 @@ public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallB
         pthConsumer.setConsumer(consumer);
         PTHManager.getInstance().setPTHConsumer(pthConsumer);
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
-        Log.d("Login","Consumer object received");
+        AmwellLog.d("Login","Consumer object received");
         PTHPracticeFragment PTHPracticeFragment = new PTHPracticeFragment();
         PTHPracticeFragment.setConsumer(consumer);
-        PTHPracticeFragment.setActionBarListener(((PTHWelcomeFragment) uiBaseView).getActionBarListener());
-        uiBaseView.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(uiBaseView.getContainerID(), PTHPracticeFragment,"PTHPractice List").addToBackStack(null).commit();
+       /* PTHPracticeFragment.setActionBarListener(((PTHWelcomeFragment) uiBaseView).getActionBarListener());
+        uiBaseView.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(uiBaseView.getContainerID(), PTHPracticeFragment,"PTHPractice List").addToBackStack(null).commit();*/
+
+       uiBaseView.addFragment(PTHPracticeFragment,PTHPracticeFragment.TAG,null);
 
     }
 

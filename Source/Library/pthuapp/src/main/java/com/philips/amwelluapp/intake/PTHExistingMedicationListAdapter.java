@@ -11,9 +11,6 @@ import android.widget.TextView;
 import com.philips.amwelluapp.R;
 import com.philips.platform.uid.view.widget.Label;
 
-/**
- * Created by philips on 6/29/17.
- */
 
 public class PTHExistingMedicationListAdapter extends BaseAdapter {
     PTHMedication mPTHExistingMedication;

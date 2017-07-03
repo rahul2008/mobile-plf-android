@@ -19,7 +19,7 @@ public class PTHVisitContext implements Parcelable{
     VisitContext visitContext;
 
     public PTHVisitContext(){
-        
+
     }
 
     protected PTHVisitContext(Parcel in) {

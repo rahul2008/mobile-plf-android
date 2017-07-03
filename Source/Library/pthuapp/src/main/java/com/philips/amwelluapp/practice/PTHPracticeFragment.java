@@ -22,6 +22,7 @@ import com.philips.platform.uid.view.widget.ProgressBar;
 
 public class PTHPracticeFragment extends PTHBaseFragment implements BackEventListener {
 
+    public static final String TAG = PTHPracticeFragment.class.getSimpleName();
     //TODO: Review Comment - Spoorti - Can we make mConsumer as local variable instead of global?
     private Consumer mConsumer;
     private PTHBasePresenter mPresenter;
