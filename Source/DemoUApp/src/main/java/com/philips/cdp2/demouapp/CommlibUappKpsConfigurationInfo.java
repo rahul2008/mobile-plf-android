@@ -7,7 +7,7 @@ package com.philips.cdp2.demouapp;
 
 import com.philips.cdp.cloudcontroller.KpsConfigurationInfo;
 
-class SampleKpsConfigurationInfo extends KpsConfigurationInfo {
+class CommlibUappKpsConfigurationInfo extends KpsConfigurationInfo {
 
     // Example configuration for test environment in Europe
 
