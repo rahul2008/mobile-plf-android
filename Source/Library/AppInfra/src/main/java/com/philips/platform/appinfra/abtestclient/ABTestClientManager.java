@@ -34,7 +34,7 @@ public class ABTestClientManager implements ABTestClientInterface {
     private AppInfra mAppInfra;
     private String mExperience = null;
     private HashMap<String, CacheModel.ValueModel> mCacheStatusValue = new HashMap<>();
-    private CACHESTATUSVALUES mCachestatusvalues;
+    protected CACHESTATUSVALUES mCachestatusvalues;
     private boolean isAppRestarted = false;
     private String previousVersion;
     private SharedPreferences mSharedPreferences;
