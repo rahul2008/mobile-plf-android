@@ -14,6 +14,7 @@ import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -60,8 +61,26 @@ public class SearchBoxTest extends BaseTest {
 
     }
 
+    @After
+    public void tearDown(){
+        try{
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+        }catch (NullPointerException e){
+            Log.e(getClass().getSimpleName(),e.getMessage());
+        }
+
+    }
+
     public ViewInteraction getSearchBox() {
         return onView(withId(com.philips.platform.uid.test.R.id.test_search_box)).perform(click());
+    }
+
+    @Test
+    public void verifySearchBoxBackButtonClose() {
+        getSearchBox();
+        onView(withId(com.philips.platform.uid.R.id.uid_search_back_button)).perform(click());
+        onView(withId(R.id.uid_search_box_layout)).check(matches(isVisible(View.GONE)));
     }
 
     @Test
@@ -149,12 +168,7 @@ public class SearchBoxTest extends BaseTest {
         getSearchBox().check(matches(SearchBoxMatcher.isSameFillColor(expectedFillColor)));
     }
 
-    @Test
-    public void verifySearchBoxBackButtonClose() {
-        getSearchBox();
-        onView(withId(com.philips.platform.uid.R.id.uid_search_back_button)).perform(click());
-        onView(withId(R.id.uid_search_box_layout)).check(matches(isVisible(View.GONE)));
-    }
+
 
     @Test
     public void verifySearchBoxIconHolderTrigger() {
