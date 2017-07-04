@@ -75,7 +75,7 @@ public interface ABTestClientInterface {
      * Download experience values from the server. Call will have no effect if state equals
      * NO_TESTS_DEFINED or EXPERIENCES_UPDATED and return onSuccess.
      *
-     * @param listener
+     * @param listener for OnRefresh
      */
     void updateCache(OnRefreshListener listener);
 }

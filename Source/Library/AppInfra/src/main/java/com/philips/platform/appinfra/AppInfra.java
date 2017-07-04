@@ -15,7 +15,6 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityManager;
-import com.philips.platform.appinfra.appupdate.AppUpdateConstants;
 import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
@@ -35,9 +34,7 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
-import java.io.File;
 import java.io.Serializable;
-import java.lang.reflect.Field;
 
 /**
  * The AppInfra Base class, here using builder design pattern to create object .
@@ -69,11 +66,11 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         appInfraContext = pContext;
     }
 
-    private static void postLog(AppInfra ai,long startTime, String message) {
-        long endTime = System.currentTimeMillis();
-        long methodDuration = (endTime - startTime);
+    private static void postLog(AppInfra ai,long startTime) {
+        final long endTime = System.currentTimeMillis();
+        final long methodDuration = (endTime - startTime);
         ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_APPINFRA,
-                message + methodDuration);
+                "App-infra initialization ends with " + methodDuration);
 
     }
 
@@ -202,8 +199,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
 
     @Override
     public String getComponentId() {
-        final String appInfraComponentID = "ail:";
-        return appInfraComponentID;
+        return "ail:";
     }
 
     @Override
@@ -406,7 +402,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
 
             Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Auto Refresh ENDS");
             Log.v(AppInfraLogEventID.AI_APPINFRA, "AppInfra Initialization ENDS");
-            postLog(ai,startTime, "App-infra initialization ends with ");
+            postLog(ai,startTime);
             return ai;
         }
 

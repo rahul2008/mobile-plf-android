@@ -35,7 +35,6 @@ import static org.mockito.Mockito.verify;
 public class LoggingTest extends AppInfraInstrumentation {
     private LoggingInterface loggingInterface ;
     private LoggingInterface loggingInterfaceMock;
-    private AppConfigurationInterface mConfigInterface = null;
     private Context context;
     private AppInfra mAppInfra;
 
@@ -46,7 +45,7 @@ public class LoggingTest extends AppInfraInstrumentation {
         assertNotNull(context);
 
         mAppInfra = new AppInfra.Builder().build(context);
-        mConfigInterface = new AppConfigurationManager(mAppInfra) {
+        AppConfigurationInterface mConfigInterface = new AppConfigurationManager(mAppInfra) {
             @Override
             protected JSONObject getMasterConfigFromApp() {
                 JSONObject result = null;
@@ -378,9 +377,6 @@ public class LoggingTest extends AppInfraInstrumentation {
             Method method = loggingInterface.getClass().getDeclaredMethod("log", LoggingInterface.LogLevel.class,String.class,String.class,Map.class);
             method.setAccessible(true);
             String event= "Log Event";
-            Map<String,String> map = new HashMap<>();
-            map.put("key1","val1");
-            map.put("key2","val2");
             method.invoke(loggingInterface, LoggingInterface.LogLevel.DEBUG,event,null,null);
 
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {

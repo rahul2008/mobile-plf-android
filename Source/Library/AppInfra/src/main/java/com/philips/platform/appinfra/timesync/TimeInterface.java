@@ -16,11 +16,11 @@ public interface TimeInterface {
      *
      * @return the utc time
      */
-    public Date getUTCTime();
+    Date getUTCTime();
 
     /**
      * Refresh time.
      * Calls UTCtime and update local Offset variable (Offset=UTCtime-Devicetime)
      */
-    public void refreshTime();
+    void refreshTime();
 }
