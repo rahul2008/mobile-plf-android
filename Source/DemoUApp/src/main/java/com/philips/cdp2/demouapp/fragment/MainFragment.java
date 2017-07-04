@@ -20,6 +20,13 @@ import com.philips.cdp2.commlib.demouapp.R;
 
 public class MainFragment extends Fragment {
 
+    private static final int NUMBER_OF_PAGES = 2;
+
+    private static final int PAGE_DISCOVERED_APPLIANCES = 0;
+    private static final int PAGE_MISMATCHED_PIN_APPLIANCES = 1;
+
+    private MismatchedPinAppliancesFragment mismatchedPinAppliancesFragment;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -32,6 +39,26 @@ public class MainFragment extends Fragment {
         // Set up the ViewPager with the sections adapter.
         ViewPager viewPager = (ViewPager) rootview.findViewById(R.id.container);
         viewPager.setAdapter(sectionsPagerAdapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                // Do nothing
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == PAGE_MISMATCHED_PIN_APPLIANCES) {
+                    if (mismatchedPinAppliancesFragment != null) {
+                        mismatchedPinAppliancesFragment.refresh();
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                // Do nothing
+            }
+        });
 
         TabLayout tabLayout = (TabLayout) rootview.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
@@ -41,8 +68,6 @@ public class MainFragment extends Fragment {
 
     private class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        private static final int NUMBER_OF_PAGES = 2;
-
         SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -50,12 +75,14 @@ public class MainFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             switch (position) {
-                case 0:
+                case PAGE_DISCOVERED_APPLIANCES:
                     return DiscoveredAppliancesFragment.newInstance();
-                case 1:
-                    return MismatchedPinAppliancesFragment.newInstance();
+                case PAGE_MISMATCHED_PIN_APPLIANCES:
+                    mismatchedPinAppliancesFragment = MismatchedPinAppliancesFragment.newInstance();
+                    return mismatchedPinAppliancesFragment;
+                default:
+                    throw new IllegalStateException("No fragment defined for position: " + position);
             }
-            throw new IllegalStateException("No fragment defined for position: " + position);
         }
 
         @Override
@@ -66,9 +93,9 @@ public class MainFragment extends Fragment {
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
-                case 0:
+                case PAGE_DISCOVERED_APPLIANCES:
                     return getString(R.string.tab_title_discovered_appliances);
-                case 1:
+                case PAGE_MISMATCHED_PIN_APPLIANCES:
                     return getString(R.string.tab_title_mismatched_pin_appliances);
             }
             return null;

@@ -58,11 +58,15 @@ public class MismatchedPinAppliancesFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        applianceAdapter.clear();
-        applianceAdapter.addAll(findAppliancesWithMismatchedPinIn(new HashSet<Appliance>(discoveryManager.getAllDiscoveredAppliances())));
+        refresh();
     }
 
     public static MismatchedPinAppliancesFragment newInstance() {
         return new MismatchedPinAppliancesFragment();
+    }
+
+    public void refresh() {
+        applianceAdapter.clear();
+        applianceAdapter.addAll(findAppliancesWithMismatchedPinIn(new HashSet<Appliance>(discoveryManager.getAllDiscoveredAppliances())));
     }
 }
