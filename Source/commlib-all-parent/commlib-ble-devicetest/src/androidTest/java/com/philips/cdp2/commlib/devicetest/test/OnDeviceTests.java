@@ -12,8 +12,13 @@ import cucumber.api.junit.Cucumber;
 
 
 @CucumberOptions(
-        features = "features",
-        glue = {"com.philips.cdp2.commlib.devicetest.test"}
+        features = "commlib-bdd",
+        glue = {"com.philips.cdp2.commlib.devicetest.test"},
+        format = {
+                "json:/data/data/com.philips.cdp2.commlib.devicetest/report.json",
+                "html:/data/data/com.philips.cdp2.commlib.devicetest/cucumber-reports/html"
+        },
+        tags = {"@automated", "@android", "~@not_android", "@target"}
 )
 @RunWith(Cucumber.class)
 public class OnDeviceTests {
