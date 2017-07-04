@@ -21,6 +21,8 @@ import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.appliance.ApplianceAdapter;
 
+import java.util.HashSet;
+
 import static com.philips.cdp2.commlib.lan.context.LanTransportContext.findAppliancesWithMismatchedPinIn;
 
 public class MismatchedPinAppliancesFragment extends Fragment {
@@ -57,7 +59,7 @@ public class MismatchedPinAppliancesFragment extends Fragment {
         super.onResume();
 
         applianceAdapter.clear();
-        applianceAdapter.addAll(findAppliancesWithMismatchedPinIn(discoveryManager.getAllDiscoveredAppliances()));
+        applianceAdapter.addAll(findAppliancesWithMismatchedPinIn(new HashSet<Appliance>(discoveryManager.getAllDiscoveredAppliances())));
     }
 
     public static MismatchedPinAppliancesFragment newInstance() {

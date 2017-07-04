@@ -16,8 +16,7 @@ import com.philips.cdp2.commlib.lan.NetworkMonitor;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
 import com.philips.cdp2.commlib.lan.discovery.LanDiscoveryStrategy;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
@@ -60,9 +59,15 @@ public class LanTransportContext implements TransportContext {
     }
 
     @NonNull
-    public static Set<? extends Appliance> findAppliancesWithMismatchedPinIn(final @NonNull Collection<? extends Appliance> appliances) {
-        // TODO implement
+    public static <A extends Appliance> Set<A> findAppliancesWithMismatchedPinIn(final @NonNull Set<A> appliances) {
+        Set<A> appliancesWithMismatchedPin = new HashSet<>();
 
-        return Collections.emptySet();
+        for (A appliance : appliances) {
+            if (appliance.getNetworkNode().getMismatchedPin() != null) {
+                appliancesWithMismatchedPin.add(appliance);
+            }
+        }
+
+        return appliancesWithMismatchedPin;
     }
 }

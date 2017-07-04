@@ -56,7 +56,7 @@ public class CommlibUapp implements UappInterface {
     public void nextFragment(Fragment fragment) {
         fragmentLauncher.getFragmentActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(fragmentLauncher.getParentContainerResourceID(), fragment)
+                .add(fragmentLauncher.getParentContainerResourceID(), fragment)
                 .addToBackStack(null)
                 .commit();
     }
