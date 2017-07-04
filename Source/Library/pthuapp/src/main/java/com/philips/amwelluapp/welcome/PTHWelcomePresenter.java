@@ -1,7 +1,5 @@
 package com.philips.amwelluapp.welcome;
 
-import android.util.Log;
-
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
@@ -13,7 +11,6 @@ import com.philips.amwelluapp.login.PTHGetConsumerObjectCallBack;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
 import com.philips.amwelluapp.practice.PTHPracticeFragment;
 import com.philips.amwelluapp.registration.PTHConsumer;
-import com.philips.amwelluapp.registration.PTHRegistrationDetailsFragment;
 import com.philips.amwelluapp.sdkerrors.PTHSDKError;
 import com.philips.amwelluapp.utility.AmwellLog;
 import com.philips.amwelluapp.utility.PTHManager;

@@ -58,7 +58,7 @@ public class PTHLaunchActivity extends AppCompatActivity {
         }
     }
 
-    private void initCustomActionBar() {
+    /*private void initCustomActionBar() {
         ActionBar mActionBar = this.getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
@@ -86,7 +86,7 @@ public class PTHLaunchActivity extends AppCompatActivity {
         mActionBar.setCustomView(mCustomView, params);
         setTitle(getString(R.string.app_name));
         mActionBar.setDisplayShowCustomEnabled(true);
-    }
+    }*/
 
     @Override
     public void onBackPressed() {

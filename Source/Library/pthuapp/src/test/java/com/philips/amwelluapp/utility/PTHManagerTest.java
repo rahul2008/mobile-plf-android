@@ -14,10 +14,8 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.SDKLocalDate;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Consumer;
-import com.americanwell.sdk.entity.consumer.ConsumerInfo;
 import com.americanwell.sdk.entity.consumer.ConsumerType;
 import com.americanwell.sdk.entity.consumer.Gender;
-import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.insurance.Subscription;
 import com.americanwell.sdk.entity.practice.OnDemandSpecialty;
 import com.americanwell.sdk.entity.practice.Practice;
@@ -47,11 +45,9 @@ import com.philips.amwelluapp.providerslist.PTHProviderInfo;
 import com.philips.amwelluapp.providerslist.PTHProvidersListCallback;
 import com.philips.amwelluapp.registration.PTHConsumer;
 import com.philips.amwelluapp.registration.PTHRegistrationDetailCallback;
-import com.philips.amwelluapp.registration.PTHState;
 import com.philips.amwelluapp.sdkerrors.PTHSDKError;
 import com.philips.amwelluapp.welcome.PTHInitializeCallBack;
 
-import org.apache.tools.ant.taskdefs.Length;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -157,9 +153,6 @@ public class PTHManagerTest {
 
     @Mock
     PTHRegistrationDetailCallback pthRegistrationDetailCallbackMock;
-
-    @Mock
-    PTHState pthStateMock;
 
     @Mock
     PTHVisitContextCallBack pthVisitContextCallBack;
