@@ -15,8 +15,11 @@ import android.view.inputmethod.InputMethodManager;
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
-import com.philips.cdp.productselection.utils.ThemeHelper;
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.shamanland.fonticon.FontIconTypefaceHolder;
@@ -36,11 +39,11 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
     private static String TAG = ProductSelectionBaseActivity.class.getSimpleName();
     private FragmentManager fragmentManager = null;
     private ProductModelSelectionHelper mProductModelSelectionHelper = null;
-    protected ThemeHelper themeHelper;
+    protected static int DLS_THEME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initTheme();
+         initTheme();
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         ProductModelSelectionHelper.getInstance();
@@ -142,10 +145,8 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
     }
 
     protected void initTheme() {
-        UIDHelper.injectCalligraphyFonts();
-        themeHelper = new ThemeHelper(this);
-        ThemeConfiguration config = themeHelper.getThemeConfig();
-        setTheme(themeHelper.getThemeResourceId());
+        ThemeConfiguration config = getDlsThemeConfiguration();
+        setTheme(DLS_THEME);
         UIDHelper.init(config);
         FontIconTypefaceHolder.init(getAssets(), "fonts/puicon.ttf");
     }
@@ -154,5 +155,10 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
     protected void attachBaseContext(final Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
+    protected ThemeConfiguration getDlsThemeConfiguration() {
+        return new ThemeConfiguration(this, ColorRange.GROUP_BLUE, NavigationColor.BRIGHT, ContentColor.VERY_DARK, AccentRange.GROUP_BLUE);
+    }
+
 
 }

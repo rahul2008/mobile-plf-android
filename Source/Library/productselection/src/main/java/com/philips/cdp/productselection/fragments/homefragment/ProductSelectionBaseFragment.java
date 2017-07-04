@@ -30,11 +30,11 @@ import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenF
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
 import com.philips.cdp.productselection.fragments.savedscreen.SavedScreenFragmentSelection;
 import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
-import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.listeners.NetworkStateListener;
 import com.philips.cdp.productselection.utils.NetworkReceiver;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.List;
 
@@ -53,7 +53,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     private static String TAG = ProductSelectionBaseFragment.class.getSimpleName();
     private static boolean isConnectionAvailable;
     private static int mContainerId = 0;
-    private static ActionbarUpdateListener mActionbarUpdateListener = null;
+    private static ActionBarListener mActionbarUpdateListener = null;
     private static String mPreviousPageName = null;
     private static int mEnterAnimation = 0;
     private static int mExitAnimation = 0;
@@ -365,7 +365,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
 
 
     public void showFragment(FragmentActivity context, int parentContainer,
-                             Fragment fragment, ActionbarUpdateListener actionbarUpdateListener,
+                             Fragment fragment, ActionBarListener actionbarUpdateListener,
                              int startAnimation, int endAnimation) {
         mContainerId = parentContainer;
         mActivityContext = context;
@@ -547,7 +547,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
 
     private void updateActionbar() {
         if (mActionbarUpdateListener != null)
-            mActionbarUpdateListener.updateActionbar(getActionbarTitle(), true);
+            mActionbarUpdateListener.updateActionBar(getActionbarTitle(), true);
     }
 
     protected void setListViewRequiredInTablet(Boolean listViewRequired) {

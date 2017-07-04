@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.activity.ProductSelectionBaseActivity;
-import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
@@ -24,11 +23,16 @@ import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.hor_productselection_android.adapter.CtnListViewListener;
 import com.philips.hor_productselection_android.adapter.SampleAdapter;
 import com.philips.hor_productselection_android.adapter.SimpleItemTouchHelperCallback;
+import com.philips.hor_productselection_android.util.ThemeHelper;
 import com.philips.hor_productselection_android.view.CustomDialog;
 import com.philips.hor_productselection_android.view.SampleActivitySelection;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
+import com.shamanland.fonticon.FontIconTypefaceHolder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,6 +51,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
     private SampleAdapter adapter = null;
     private Button change_theme = null;
     private AppInfraInterface mAppInfraInterface;
+    private ThemeHelper themeHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,12 +171,17 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         productsSelection.setCatalog(PrxConstants.Catalog.CARE);
         productsSelection.setSector(PrxConstants.Sector.B2C);
 
+        ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
+                getDlsThemeConfiguration(),R.style.Theme_DLS_Aqua_VeryDark, null);
+
+        DLS_THEME = ((ActivityLauncher) uiLauncher).getUiKitTheme();
+
 
         mProductSelectionHelper.setLocale("en", "GB");
-        final ActivityLauncher activityLauncher =
+        /*final ActivityLauncher activityLauncher =
                 new ActivityLauncher
                         (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
-                                themeHelper.getThemeResourceId());
+                                themeHelper.getThemeResourceId());*/
 
         ProductModelSelectionHelper.getInstance().setProductSelectionListener(new ProductSelectionListener() {
             @Override
@@ -184,12 +194,21 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
                 }
             }
         });
-        ProductModelSelectionHelper.getInstance().invokeProductSelection(activityLauncher, productsSelection);
+        ProductModelSelectionHelper.getInstance().invokeProductSelection(uiLauncher, productsSelection);
     }
 
 
     private void launchProductSelectionAsFragment() {
         startActivity(new Intent(this, SampleActivitySelection.class));
+    }
+
+    protected void initTheme() {
+        UIDHelper.injectCalligraphyFonts();
+        themeHelper = new ThemeHelper(this);
+        ThemeConfiguration config = themeHelper.getThemeConfig();
+        setTheme(themeHelper.getThemeResourceId());
+        UIDHelper.init(config);
+        FontIconTypefaceHolder.init(getAssets(), "fonts/puicon.ttf");
     }
 
     protected void changeTheme(){

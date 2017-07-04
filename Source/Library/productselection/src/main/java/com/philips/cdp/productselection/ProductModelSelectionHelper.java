@@ -10,10 +10,6 @@ import android.util.DisplayMetrics;
 import com.philips.cdp.productselection.activity.ProductSelectionActivity;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
 import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
-import com.philips.cdp.productselection.launchertype.ActivityLauncher;
-import com.philips.cdp.productselection.launchertype.FragmentLauncher;
-import com.philips.cdp.productselection.launchertype.UiLauncher;
-import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.productselection.prx.PrxWrapper;
@@ -24,6 +20,10 @@ import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.launcher.UiLauncher;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import java.util.List;
 import java.util.Locale;
@@ -142,7 +142,7 @@ public class ProductModelSelectionHelper {
                     } else if (uiLauncher instanceof FragmentLauncher) {
                         FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
                         invokeAsFragment(fragmentLauncher.getFragmentActivity(), fragmentLauncher.getParentContainerResourceID(),
-                                fragmentLauncher.getActionbarUpdateListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
+                                fragmentLauncher.getActionbarListener(), uiLauncher.getEnterAnimation(), uiLauncher.getExitAnimation());
                     }
                 } else {
                     if (mProductSelectionListener != null)
@@ -157,7 +157,7 @@ public class ProductModelSelectionHelper {
 
     private void invokeAsFragment(FragmentActivity context,
                                   int parentContainerResId,
-                                  ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
+                                  ActionBarListener actionbarUpdateListener, int enterAnim,
                                   int exitAnim) {
         if (mContext == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale before component invocation");

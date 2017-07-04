@@ -56,7 +56,7 @@ dependencies {
            transitive = true
     }
 
-	compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.5.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+	compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.6.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     {
            transitive = true
     }

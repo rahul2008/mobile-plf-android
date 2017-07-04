@@ -1,6 +1,7 @@
 package com.philips.hor_productselection_android.view;
 
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,10 +15,10 @@ import android.widget.TextView;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.activity.ProductSelectionBaseActivity;
-import com.philips.cdp.productselection.listeners.ActionbarUpdateListener;
 import com.philips.hor_productselection_android.R;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.thememanager.UIDHelper;
 
 /**
@@ -35,10 +36,15 @@ public class SampleActivitySelection extends ProductSelectionBaseActivity implem
     private AppInfraInterface mAppInfraInterface;
     private Toolbar toolbar;
 
-    private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
+    private ActionBarListener actionBarClickListener = new ActionBarListener() {
+        @Override
+        public void updateActionBar(@StringRes int i, boolean b) {
+
+        }
 
         @Override
-        public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
+        public void updateActionBar(String titleActionbar, boolean hamburgerIconAvailable) {
+
             mActionBarTitle.setText(titleActionbar);
             if (hamburgerIconAvailable) {
                 enableActionBarHome();
