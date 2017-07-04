@@ -486,10 +486,11 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     @Override
     public void onStop() {
-        super.onStop();
         dismissDialogs();
-    }
+        super.onStop();
 
+    }
+    
     private void dismissDialogs() {
         dismissAlertOnError();
         dismissLoadingDialog();
