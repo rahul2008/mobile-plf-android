@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * <p>
@@ -225,7 +226,7 @@ public class SHNLogger {
 
     private static class DelegatingLogger implements LoggerImplementation {
 
-        private final List<LoggerImplementation> loggers = new ArrayList<>();
+        private final List<LoggerImplementation> loggers = new CopyOnWriteArrayList<>();
 
         @Override
         public void logLine(final int priority, final String tag, final String msg, final Throwable tr) {
