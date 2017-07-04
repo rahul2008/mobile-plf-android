@@ -68,7 +68,6 @@ public class LaunchFragment extends Fragment implements BackEventListener, Launc
     private AlertDialog.Builder mAlertDialogBuilder;
     private AlertDialog mAlertDialog;
     private StateContext mStateContext;
-    private boolean mIsCreate;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -163,7 +162,7 @@ public class LaunchFragment extends Fragment implements BackEventListener, Launc
     public void onResume() {
         super.onResume();
 
-        if (!(getActivity().isFinishing()) && !((mFragmentLauncher.getFragmentActivity()).isFinishing())) {
+        if (!((mFragmentLauncher.getFragmentActivity()).isFinishing())) {
             mStateContext = new StateContext();
             mStateContext.setState(new GetPairedDevicesState(mFragmentLauncher, this));
             mStateContext.start();
