@@ -71,6 +71,6 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile deps.support.appcompatv7
 
-    debugCompile project(path: ':bluelibexampleapp', configuration: 'debug')
-    releaseCompile project(path: ':bluelibexampleapp', configuration: 'release')
+    debugCompile project(path: ':DemoUApp', configuration: 'debug')
+    releaseCompile project(path: ':DemoUApp', configuration: 'release')
 }

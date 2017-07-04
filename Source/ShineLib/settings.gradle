@@ -4,8 +4,16 @@
  */
 
 rootProject.setName 'shinelib'
-include ':shinelib', ':pluginreferenceboard', ':bluelibtestapp', ':bluelibexampleapp', ':bleexampledemo'
+include ':shinelib', ':pluginreferenceboard', ':bluelibtestapp'
 
 def commonDir = '../common'
 include ':common'
 project(':common').projectDir = new File(commonDir)
+
+def demoAppDir = '../DemoApp'
+include ':DemoApp'
+project(':DemoApp').projectDir=new File(demoAppDir)
+
+def demoUAppDir = '../DemoUApp'
+include ':DemoUApp'
+project(':DemoUApp').projectDir=new File(demoUAppDir)
