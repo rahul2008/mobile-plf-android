@@ -7,9 +7,9 @@ class AppUpdateVersion {
 
 	/**
 	 * This method compares two verions .
-	 * @param appVer
-	 * @param cloudVer
-	 * @return
+	 * @param appVer application version
+	 * @param cloudVer cloud version
+	 * @return It will return 0,-1,or 1 integer value
 	 */
 	private static int compareVersion(String appVer, String cloudVer) {
 		if (appVer != null && !appVer.isEmpty() && cloudVer != null && !cloudVer.isEmpty()) {
@@ -45,7 +45,7 @@ class AppUpdateVersion {
 	 * This method returns true if version < cloudver
 	 * @param version version
 	 * @param cloudver cloud version
-	 * @return
+	 * @return true or false if app version less than to cloud or not
 	 */
 	static boolean isAppVerionLessthanCloud(String version, String cloudver) {
         return compareVersion(splitVersion(version), splitVersion(cloudver)) == -1;
@@ -53,9 +53,9 @@ class AppUpdateVersion {
 
 	/**
 	 * This method returns true if both versions are same.
-	 * @param version
-	 * @param cloudver
-	 * @return
+	 * @param version app version
+	 * @param cloudver cloud version
+	 * @return true if both versions are same else return false
 	 */
 	static boolean isBothVersionSame(String version, String cloudver) {
         return compareVersion(splitVersion(version), splitVersion(cloudver)) == 0;
@@ -63,9 +63,9 @@ class AppUpdateVersion {
 
 	/**
 	 * This method returns true if version <= cloudversion.
-	 * @param version
-	 * @param cloudver
-	 * @return
+	 * @param version app version
+	 * @param cloudver cloud version
+	 * @return true or false if app version less than or equal to cloud or not
 	 */
 	static boolean isAppVersionLessthanEqualsto(String version, String cloudver) {
         return compareVersion(splitVersion(version), splitVersion(cloudver)) == -1 ||
@@ -75,8 +75,8 @@ class AppUpdateVersion {
 	/**
 	 * This method split the version and fetches the first 3 numbers . For example if version is
 	 * 1.2.3-SNAPSHOT , this method return 1.2.3.
-	 * @param version
-	 * @return
+	 * @param version to be split version
+	 * @return return split version string
 	 */
 	private static String splitVersion(String version) {
 		if (version != null) {

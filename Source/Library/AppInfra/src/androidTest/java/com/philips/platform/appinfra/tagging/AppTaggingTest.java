@@ -382,19 +382,16 @@ public class AppTaggingTest extends AppInfraInstrumentation {
 
 
 	public void testTimedActionStart() {
-		Method method = null;
 		try {
 			testConfig("Production");
-			method = AppTagging.class.getDeclaredMethod("trackTimedActionStart", String.class);
+			Method method = AppTagging.class.getDeclaredMethod("trackTimedActionStart", String.class);
 			method.setAccessible(true);
 			method.invoke(mAppTagging, "TestData");
 
 			method = AppTagging.class.getDeclaredMethod("trackTimedActionEnd", String.class);
 			method.setAccessible(true);
 			method.invoke(mAppTagging, "TestData");
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
+		} catch (NoSuchMethodException | InvocationTargetException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
@@ -402,9 +399,8 @@ public class AppTaggingTest extends AppInfraInstrumentation {
 	}
 
 	public void testVideostartactions() {
-		Method method = null;
 		try {
-			method = AppTagging.class.getDeclaredMethod("trackVideoStart", String.class);
+			Method method = AppTagging.class.getDeclaredMethod("trackVideoStart", String.class);
 			method.setAccessible(true);
 			method.invoke(mAppTagging, "Start");
 
@@ -451,14 +447,12 @@ public class AppTaggingTest extends AppInfraInstrumentation {
 			Testclass tTestclass = new Testclass();
 			method.invoke(mAppTagging, (Activity) tTestclass);
 
-			method = AppTagging.class.getDeclaredMethod("collectLifecycleInfo", new Class[]{Activity.class, Map.class});
+			method = AppTagging.class.getDeclaredMethod("collectLifecycleInfo", Activity.class, Map.class);
 			method.setAccessible(true);
-			Map map = new HashMap();
+			Map<String,String> map = new HashMap();
 			map.put("Test1", "Test2");
-			method.invoke(mAppTagging, new Object[]{(Activity) tTestclass, map});
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
+			method.invoke(mAppTagging, tTestclass, map);
+		} catch (NoSuchMethodException | InvocationTargetException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
@@ -473,15 +467,12 @@ public class AppTaggingTest extends AppInfraInstrumentation {
 	}
 
 	public void testSocialSharing() {
-		Method method = null;
 		try {
-			method = AppTagging.class.getDeclaredMethod("trackSocialSharing", new Class[]{AppTaggingInterface.SocialMedium.class, String.class});
+			Method method = AppTagging.class.getDeclaredMethod("trackSocialSharing", AppTaggingInterface.SocialMedium.class, String.class);
 			method.setAccessible(true);
-			method.invoke(mAppTagging, new Object[]{AppTaggingInterface.SocialMedium.Facebook, "TestSocial"});
+			method.invoke(mAppTagging, AppTaggingInterface.SocialMedium.Facebook, "TestSocial");
 
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
+		} catch (NoSuchMethodException | InvocationTargetException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
@@ -489,16 +480,13 @@ public class AppTaggingTest extends AppInfraInstrumentation {
 	}
 
 	public void testgetAppState() {
-		Method method = null;
 		try {
 			testConfig(null);
-			method = AppTagging.class.getDeclaredMethod("getAppStateFromConfig");
+			Method method = AppTagging.class.getDeclaredMethod("getAppStateFromConfig");
 			method.setAccessible(true);
 			method.invoke(mAppTagging);
 
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
+		} catch (NoSuchMethodException | InvocationTargetException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
@@ -508,57 +496,54 @@ public class AppTaggingTest extends AppInfraInstrumentation {
 	public void testApplicationLifeCycle() {
 		ApplicationLifeCycleHandler mApplicationLifeCycleHandler = new ApplicationLifeCycleHandler(mAppInfra);
 		assertNotNull(mApplicationLifeCycleHandler);
-		mApplicationLifeCycleHandler.isInBackground = true;
+		ApplicationLifeCycleHandler.isInBackground = true;
 		Testclass tTestclass = new Testclass();
 		Bundle bundle = new Bundle();
 		Configuration mConfiguration = new Configuration();
 
-		Method method = null;
 		try {
-			method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityResumed", new Class[]{Activity.class});
+			Method method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityResumed", Activity.class);
 			method.setAccessible(true);
-			method.invoke(mApplicationLifeCycleHandler, new Object[]{(Activity) tTestclass});
+			method.invoke(mApplicationLifeCycleHandler, tTestclass);
 
-			method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityPaused", new Class[]{Activity.class});
+			method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityPaused", Activity.class);
 			method.setAccessible(true);
-			method.invoke(mApplicationLifeCycleHandler, new Object[]{(Activity) tTestclass});
+			method.invoke(mApplicationLifeCycleHandler, tTestclass);
 
-			method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityCreated", new Class[]{Activity.class, Bundle.class});
+			method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityCreated", Activity.class, Bundle.class);
 			method.setAccessible(true);
-			method.invoke(mApplicationLifeCycleHandler, new Object[]{(Activity) tTestclass, bundle});
+			method.invoke(mApplicationLifeCycleHandler, tTestclass, bundle);
 
-			method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityDestroyed", new Class[]{Activity.class});
+			method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityDestroyed", Activity.class);
 			method.setAccessible(true);
-			method.invoke(mApplicationLifeCycleHandler, new Object[]{(Activity) tTestclass});
+			method.invoke(mApplicationLifeCycleHandler, tTestclass);
 
-			method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivitySaveInstanceState", new Class[]{Activity.class, Bundle.class});
+			method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivitySaveInstanceState", Activity.class, Bundle.class);
 			method.setAccessible(true);
-			method.invoke(mApplicationLifeCycleHandler, new Object[]{(Activity) tTestclass, bundle});
+			method.invoke(mApplicationLifeCycleHandler, tTestclass, bundle);
 
-			method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityStarted", new Class[]{Activity.class});
+			method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityStarted", Activity.class);
 			method.setAccessible(true);
-			method.invoke(mApplicationLifeCycleHandler, new Object[]{(Activity) tTestclass});
+			method.invoke(mApplicationLifeCycleHandler, tTestclass);
 
-			method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityStopped", new Class[]{Activity.class});
+			method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityStopped", Activity.class);
 			method.setAccessible(true);
-			method.invoke(mApplicationLifeCycleHandler, new Object[]{(Activity) tTestclass});
+			method.invoke(mApplicationLifeCycleHandler, tTestclass);
 
-			method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onConfigurationChanged", new Class[]{Configuration.class});
+			method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onConfigurationChanged", Configuration.class);
 			method.setAccessible(true);
-			method.invoke(mApplicationLifeCycleHandler, new Object[]{mConfiguration});
+			method.invoke(mApplicationLifeCycleHandler, mConfiguration);
 
 			method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onLowMemory");
 			method.setAccessible(true);
 			method.invoke(mApplicationLifeCycleHandler);
 
-			method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onTrimMemory", new Class[]{int.class});
+			method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onTrimMemory", int.class);
 			method.setAccessible(true);
-			method.invoke(mApplicationLifeCycleHandler, new Object[]{20});
+			method.invoke(mApplicationLifeCycleHandler, 20);
 
 
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
+		} catch (NoSuchMethodException | InvocationTargetException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
@@ -566,35 +551,32 @@ public class AppTaggingTest extends AppInfraInstrumentation {
 	}
 
 	public void testTrackActionMethods() {
-		Method method = null;
 		try {
 
 			testConfig("Staging");
 			testAdobeJsonConfig(false);
 
-			method = AppTagging.class.getDeclaredMethod("trackTimedActionStart", new Class[]{String.class});
+			Method method = AppTagging.class.getDeclaredMethod("trackTimedActionStart", String.class);
 			method.setAccessible(true);
-			method.invoke(mAppTagging, new Object[]{"TestTrackAction"});
+			method.invoke(mAppTagging, "TestTrackAction");
 
 			testAdobeJsonConfig(true);
-			method = AppTagging.class.getDeclaredMethod("trackTimedActionStart", new Class[]{String.class});
+			method = AppTagging.class.getDeclaredMethod("trackTimedActionStart", String.class);
 			method.setAccessible(true);
-			method.invoke(mAppTagging, new Object[]{"TestTrackAction"});
+			method.invoke(mAppTagging, "TestTrackAction");
 
 			testConfig("Staging");
 			testAdobeJsonConfig(false);
 
-			method = AppTagging.class.getDeclaredMethod("trackTimedActionEnd", new Class[]{String.class});
+			method = AppTagging.class.getDeclaredMethod("trackTimedActionEnd", String.class);
 			method.setAccessible(true);
-			method.invoke(mAppTagging, new Object[]{"TestTrackAction"});
+			method.invoke(mAppTagging, "TestTrackAction");
 
 			testAdobeJsonConfig(true);
-			method = AppTagging.class.getDeclaredMethod("trackTimedActionEnd", new Class[]{String.class});
+			method = AppTagging.class.getDeclaredMethod("trackTimedActionEnd", String.class);
 			method.setAccessible(true);
-			method.invoke(mAppTagging, new Object[]{"TestTrackAction"});
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
+			method.invoke(mAppTagging, "TestTrackAction");
+		} catch (NoSuchMethodException | InvocationTargetException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
@@ -603,12 +585,11 @@ public class AppTaggingTest extends AppInfraInstrumentation {
 	}
 
 	public void testCheckStates() {
-		Method method = null;
 		try {
 
 			testConfig("Staging");
 
-			method = AppTagging.class.getDeclaredMethod("checkForProductionState");
+			Method method = AppTagging.class.getDeclaredMethod("checkForProductionState");
 			method.setAccessible(true);
 			method.invoke(mAppTagging);
 
@@ -627,9 +608,7 @@ public class AppTaggingTest extends AppInfraInstrumentation {
 			method.setAccessible(true);
 			method.invoke(mAppTagging);
 
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
+		} catch (NoSuchMethodException | InvocationTargetException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();

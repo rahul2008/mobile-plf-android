@@ -11,7 +11,6 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import junit.framework.TestCase;
 
 import org.junit.Before;
-import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -55,7 +54,6 @@ public class AppUpdateTest extends TestCase {
 		mAppUpdateManager = mock(AppUpdateManager.class);
 	}
 
-	@Test
 	public void testServiceIdKey() {
 		when(mAppUpdateManager.getServiceIdFromAppConfig()).thenReturn(null);
 		assertNull(mAppUpdateManager.getServiceIdFromAppConfig());

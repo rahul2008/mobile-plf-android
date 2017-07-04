@@ -49,7 +49,7 @@ public class TimeSyncTest extends AppInfraInstrumentation {
         final SimpleDateFormat sdf = new SimpleDateFormat(TimeSyncSntpClient.DATE_FORMAT, Locale.ENGLISH);
         Date date = new Date(0);
         sdf.setTimeZone(TimeZone.getTimeZone(TimeSyncSntpClient.UTC));
-        String firstJan1970 = sdf.format(date);
+        //String firstJan1970 = sdf.format(date);
     }
 
 

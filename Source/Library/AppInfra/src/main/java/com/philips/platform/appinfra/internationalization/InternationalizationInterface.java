@@ -21,12 +21,6 @@ public interface InternationalizationInterface {
      */
 //    public String getCountry();
 
-    /**
-     * Gets local .
-     *
-     * @return the local
-     */
-    Locale getUILocale();
 
     /**
      * Gets String locale value .

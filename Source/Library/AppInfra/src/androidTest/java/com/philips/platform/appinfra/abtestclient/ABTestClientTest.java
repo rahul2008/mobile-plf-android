@@ -77,20 +77,6 @@ public class ABTestClientTest extends AppInfraInstrumentation {
         mAppInfra = new AppInfra.Builder().setConfig(configInterface).build(mContext);
     }
 
-
-    public void testCacheStatusValue() {
-        try {
-            method = abTestClienTestManager.getClass().getDeclaredMethod("getCacheStatus");
-            method.setAccessible(true);
-            method.invoke(mAbTestClientInterface);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTestClient",
-                    e.getMessage());
-        }
-        assertNotNull(mAbTestClientInterface.getCacheStatus());
-    }
-
-
     public void testgetTestValue() {
         try {
             method = abTestClienTestManager.getClass().getDeclaredMethod("getTestValue", Object[].class);
@@ -147,6 +133,7 @@ public class ABTestClientTest extends AppInfraInstrumentation {
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTestClient",
                     e.getMessage());
+
         }
     }
 
@@ -265,4 +252,19 @@ public class ABTestClientTest extends AppInfraInstrumentation {
                     e.getMessage());
         }
     }
+
+    public void testCacheStatusValue() {
+        abTestClienTestManager.mCachestatusvalues = ABTestClientInterface.CACHESTATUSVALUES.EXPERIENCES_NOT_UPDATED;
+        try {
+            method = abTestClienTestManager.getClass().getDeclaredMethod("getCacheStatus");
+            method.setAccessible(true);
+            method.invoke(mAbTestClientInterface);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, "ABTestClient",
+                    e.getMessage());
+        }
+
+        assertNotNull(abTestClienTestManager.mCachestatusvalues);
+    }
+
 }
