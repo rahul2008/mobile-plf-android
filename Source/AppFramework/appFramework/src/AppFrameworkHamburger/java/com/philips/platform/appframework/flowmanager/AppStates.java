@@ -25,6 +25,7 @@ public class AppStates {
     public static final String CONNECTIVITY = "connectivity";
     public static final String TEST_MICROAPP="testmicroapp";
     public static final String COCO_VERSION_INFO="coco_version_info";
+    public static final String DEVICE_PAIRING = "device_pairing";
     public static final String TESTDATASERVICE="demoDataService";
     public static final String TESTIAP="demoInAppState";
     public static final String TESTAPPINFRA="demoAppInfra";
@@ -35,5 +36,4 @@ public class AppStates {
     public static final String TESTDICOMM="demoDicommClient";
     public static final String TESTDLS="demoPhilipsDLSKit";
     public static final String TESTCONARTIST="demoConnectvityState";
-
 }

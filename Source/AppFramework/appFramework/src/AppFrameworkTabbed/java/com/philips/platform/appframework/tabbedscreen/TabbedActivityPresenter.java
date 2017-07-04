@@ -8,7 +8,6 @@ package com.philips.platform.appframework.tabbedscreen;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
@@ -36,7 +35,7 @@ import static com.philips.platform.baseapp.screens.utility.Constants.UI_RENDERIN
  * This class id used for loading various fragments that are supported by home activity ,
  * based on user selection this class loads the next state of the application.
  */
-public class TabbedActivityPresenter extends AbstractUIBasePresenter implements UIStateListener{
+public class TabbedActivityPresenter extends AbstractUIBasePresenter implements UIStateListener {
     public static final String TAG = TabbedActivityPresenter.class.getSimpleName();
 
     private FragmentView fragmentView;
@@ -56,7 +55,7 @@ public class TabbedActivityPresenter extends AbstractUIBasePresenter implements 
      */
     @Override
     public void onEvent(int componentID) {
-        RALog.d(TAG," OnEvent ");
+        RALog.d(TAG, " OnEvent ");
         appFrameworkApplication = getApplicationContext();
         String eventState = getEventState(componentID);
         try {
@@ -82,8 +81,9 @@ public class TabbedActivityPresenter extends AbstractUIBasePresenter implements 
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             //Logger.e(TAG, "IllegalStateException" + e.getMessage());
-            RALog.e(TAG+ UI_RENDERING,
-                    e.getMessage());        }
+            RALog.e(TAG + UI_RENDERING,
+                    e.getMessage());
+        }
     }
 
     @NonNull
@@ -121,11 +121,13 @@ public class TabbedActivityPresenter extends AbstractUIBasePresenter implements 
             case MENU_OPTION_PR:
                 return HOME_SUPPORT_PR;
             case MENU_OPTION_DATA_SYNC:
-                return  HOME_DATA_SYNC;
+                return HOME_DATA_SYNC;
             case MENU_OPTION_CONNECTIVITY:
                 return HOME_CONNECTIVITY;
             case MENU_OPTION_COCOVERSION:
                 return HOME_COCO_VERSION_INFO;
+            case MENU_OPTION_DEVICE_PAIRING:
+                return HOME_DEVICE_PAIRING;
             default:
                 return HOME_FRAGMENT;
         }

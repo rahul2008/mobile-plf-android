@@ -28,8 +28,8 @@ abstract public class AbstractUIBasePresenter {
     protected static final int MENU_OPTION_COCOVERSION = 7;
     protected static final int MENU_OPTION_DEBUG = 8;
     protected static final int MENU_OPTION_TEST_MICROAPP = 9;
-    protected static final int MENU_OPTION_PR = 10;
-
+    protected static final int MENU_OPTION_PR = 11;
+    protected static final int MENU_OPTION_DEVICE_PAIRING = 10;
 
     /* event to state map */
     protected static final String HOME_SETTINGS = "settings";
@@ -44,6 +44,8 @@ abstract public class AbstractUIBasePresenter {
     protected static final String HOME_TEST_MICROAPP = "testmicroapp";
     protected static final String HOME_COCO_VERSION_INFO="coco_version_info";
     protected static final String HOME_DEBUG="debug";
+    protected static final String HOME_DEVICE_PAIRING = "device_pairing";
+
 
     private UIView uiView;
 
@@ -118,6 +120,10 @@ abstract public class AbstractUIBasePresenter {
                 final UIStateData testStateData=new UIStateData();
                 testStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
                 return testStateData;
+            case AppStates.DEVICE_PAIRING:
+                final UIStateData devicePairingStateData = new UIStateData();
+                devicePairingStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
+                return devicePairingStateData;
             default:
                 RALog.d(TAG," default case selected ");
                 homeStateData = new UIStateData();

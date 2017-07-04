@@ -43,7 +43,6 @@
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|locale|layoutDirection"
             android:theme="@style/Theme.Philips.DarkBlue.Gradient"/>
 
-
         <activity
             android:name="com.philips.platform.referenceapp.wxapi.WXEntryActivity"
             android:exported="true"></activity>

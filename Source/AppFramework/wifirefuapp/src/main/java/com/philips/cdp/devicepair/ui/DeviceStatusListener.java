@@ -1,0 +1,20 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
+package com.philips.cdp.devicepair.ui;
+
+import java.util.List;
+
+public interface DeviceStatusListener {
+    void onGetPairedDevices(List<String> pairedDeviceList);
+
+    void onDevicePaired(String pairedDeviceID);
+
+    void onDeviceUnPaired(String unPairedDeviceID);
+
+    void onError(String errorMessage);
+
+    void onInternetError();
+}
