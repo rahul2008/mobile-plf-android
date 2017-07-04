@@ -75,7 +75,6 @@ public class LaunchFragment extends Fragment implements BackEventListener, Launc
         initializeDiComm();
 
         mNetworkChangeListener = new NetworkChangeListener();
-        mIsCreate = true;
     }
 
     @Override
