@@ -11,9 +11,9 @@ include ':common'
 project(':common').projectDir = new File(commonDir)
 
 def demoAppDir = '../DemoApp'
-include ':DemoApp'
-project(':DemoApp').projectDir=new File(demoAppDir)
+include ':bluelib-demoapp'
+project(':bluelib-demoapp').projectDir=new File(demoAppDir)
 
 def demoUAppDir = '../DemoUApp'
-include ':DemoUApp'
-project(':DemoUApp').projectDir=new File(demoUAppDir)
+include ':bluelib-demouapp'
+project(':bluelib-demouapp').projectDir=new File(demoUAppDir)
