@@ -68,6 +68,10 @@ android {
     lintOptions {
         abortOnError false
     }
+
+    sourceSets {
+        androidTest.assets.srcDirs += '../commlib-all/src/test/features'
+    }
 }
 
 dependencies {
