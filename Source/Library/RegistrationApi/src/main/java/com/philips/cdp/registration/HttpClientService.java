@@ -40,14 +40,12 @@ public class HttpClientService extends IntentService{
 
         RequestBody body = RequestBody.create(mediaType,bodyContent);
         Request request = null;
-        if (url != null) {
             request = new Request.Builder()
                     .url(url)
                     .post(body)
                     .addHeader("cache-control", "no-cache")
                     .addHeader("content-type", "application/x-www-form-urlencoded")
                     .build();
-        }
         String responseStr;
         Response response;
         Bundle responseBundle = new Bundle();
