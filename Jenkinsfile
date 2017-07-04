@@ -17,7 +17,7 @@ node('Android') {
 
     Slack.notify('#conartists') {
         stage('Build') {
-            sh "$gradle --refresh-dependencies assembleRelease assembleDebug saveResDep generateJavadoc"
+            sh "$gradle --refresh-dependencies assembleRelease saveResDep saveAllResolvedDependencies saveAllResolvedDependenciesGradleFormat assembleDebug saveResDep generateJavadoc"
         }
 
         stage('Unit test') {
@@ -41,10 +41,10 @@ node('Android') {
         stage('Archive artifacts') {
             archiveArtifacts artifacts: '**/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
             archiveArtifacts artifacts: '**/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
-            archiveArtifacts '**/dependencies.lock'
+            archiveArtifacts '**/*dependencies*.lock'
         }
 
-        if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master") {
+        if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME =~ "master") {
             stage('Publish') {
                 sh "$gradle zipDocuments artifactoryPublish"
             }
