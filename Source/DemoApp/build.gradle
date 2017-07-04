@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Koninklijke Philips N.V., 2017
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 apply plugin: 'com.android.application'
@@ -70,5 +70,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile deps.support.appcompatv7
-    compile project(':DemoUApp')
+
+    debugCompile project(path: ':DemoUApp', configuration: 'debug')
+    releaseCompile project(path: ':DemoUApp', configuration: 'release')
 }
