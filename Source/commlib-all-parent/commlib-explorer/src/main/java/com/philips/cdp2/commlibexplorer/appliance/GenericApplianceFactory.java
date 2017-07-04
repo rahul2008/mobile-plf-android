@@ -40,7 +40,7 @@ public class GenericApplianceFactory implements DICommApplianceFactory<GenericAp
     }
 
     @Override
-    public Set<String> getSupportedModelNames() {
+    public Set<String> getSupportedDeviceTypes() {
         Set<String> modelNames = new HashSet<>();
         modelNames.add("AirPurifier");
         modelNames.add("Polaris");

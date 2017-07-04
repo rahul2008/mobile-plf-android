@@ -138,7 +138,7 @@ public class BleDiscoveryStrategyTestSteps {
             }
 
             @Override
-            public Set<String> getSupportedModelNames() {
+            public Set<String> getSupportedDeviceTypes() {
                 return new HashSet<>(applianceTypes);
             }
         };
@@ -169,7 +169,6 @@ public class BleDiscoveryStrategyTestSteps {
         }
     }
 
-    //TODO: Check with Peter F. whether there is a better method iso timeout(), to improve stability
     @Then("^startScanning is called (\\d+) time on BlueLib$")
     public void startscanningIsCalledTimeOnBlueLib(int times) {
         verify(deviceScanner, timeout(TIMEOUT_EXTERNAL_WRITE_OCCURRED_MS).times(times)).startScanning(any(SHNDeviceScanner.SHNDeviceScannerListener.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), anyLong());
