@@ -44,8 +44,6 @@ import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
 
-import org.w3c.dom.Text;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -494,6 +492,8 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
 
     private void dismissDialogs() {
         dismissAlertOnError();
+        dismissLoadingDialog();
+
         if (dialog != null) {
             dialog.dismiss();
         }
