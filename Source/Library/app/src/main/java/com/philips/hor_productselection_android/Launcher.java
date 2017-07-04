@@ -14,12 +14,12 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
+import com.philips.cdp.productselection.activity.ProductSelectionBaseActivity;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
-import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.hor_productselection_android.adapter.CtnListViewListener;
 import com.philips.hor_productselection_android.adapter.SampleAdapter;
 import com.philips.hor_productselection_android.adapter.SimpleItemTouchHelperCallback;
@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Launcher extends UiKitActivity implements View.OnClickListener {
+public class Launcher extends ProductSelectionBaseActivity implements View.OnClickListener {
 
     private static ArrayList<String> mList = null;
     private static ConsumerProductInfo productInfo = null;
@@ -61,6 +61,7 @@ public class Launcher extends UiKitActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initTheme();
         setContentView(R.layout.main);
 
         mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
@@ -177,7 +178,8 @@ public class Launcher extends UiKitActivity implements View.OnClickListener {
         ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
                 getDlsThemeConfiguration(),R.style.Theme_DLS_Aqua_VeryDark, null);
 
-        DLS_THEME = ((ActivityLauncher) uiLauncher).getUiKitTheme();
+       // DLS_THEME = ((ActivityLauncher) uiLauncher).getUiKitTheme();
+
 
         initTheme();
 
@@ -207,6 +209,7 @@ public class Launcher extends UiKitActivity implements View.OnClickListener {
     }
 
     protected void initTheme() {
+        DLS_THEME = R.style.Theme_DLS_Aqua_UltraLight;
         ThemeConfiguration config = getDlsThemeConfiguration();
         setTheme(DLS_THEME);
         UIDHelper.init(config);
