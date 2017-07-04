@@ -14,12 +14,12 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
-import com.philips.cdp.productselection.activity.ProductSelectionBaseActivity;
 import com.philips.cdp.productselection.listeners.ProductSelectionListener;
 import com.philips.cdp.productselection.productselectiontype.HardcodedProductList;
 import com.philips.cdp.productselection.productselectiontype.ProductModelSelectionType;
 import com.philips.cdp.prxclient.PrxConstants;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
+import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.hor_productselection_android.adapter.CtnListViewListener;
 import com.philips.hor_productselection_android.adapter.SampleAdapter;
 import com.philips.hor_productselection_android.adapter.SimpleItemTouchHelperCallback;
@@ -30,6 +30,10 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.shamanland.fonticon.FontIconTypefaceHolder;
@@ -38,7 +42,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Launcher extends ProductSelectionBaseActivity implements View.OnClickListener {
+public class Launcher extends UiKitActivity implements View.OnClickListener {
 
     private static ArrayList<String> mList = null;
     private static ConsumerProductInfo productInfo = null;
@@ -52,11 +56,10 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
     private Button change_theme = null;
     private AppInfraInterface mAppInfraInterface;
     private ThemeHelper themeHelper;
+    private static int DLS_THEME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initTheme();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
@@ -176,6 +179,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
 
         DLS_THEME = ((ActivityLauncher) uiLauncher).getUiKitTheme();
 
+        initTheme();
 
         mProductSelectionHelper.setLocale("en", "GB");
         /*final ActivityLauncher activityLauncher =
@@ -203,6 +207,13 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
     }
 
     protected void initTheme() {
+        ThemeConfiguration config = getDlsThemeConfiguration();
+        setTheme(DLS_THEME);
+        UIDHelper.init(config);
+        FontIconTypefaceHolder.init(getAssets(), "fonts/puicon.ttf");
+    }
+
+    /* protected void initTheme() {
         UIDHelper.injectCalligraphyFonts();
         themeHelper = new ThemeHelper(this);
         ThemeConfiguration config = themeHelper.getThemeConfig();
@@ -210,10 +221,16 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         UIDHelper.init(config);
         FontIconTypefaceHolder.init(getAssets(), "fonts/puicon.ttf");
     }
-
+*/
     protected void changeTheme(){
         themeHelper.changeTheme();
     }
+
+    protected ThemeConfiguration getDlsThemeConfiguration() {
+        return new ThemeConfiguration(this, ColorRange.GROUP_BLUE, NavigationColor.BRIGHT, ContentColor.VERY_DARK, AccentRange.GROUP_BLUE);
+    }
+
+
 
 
 }
