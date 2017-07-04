@@ -62,9 +62,12 @@
     <string name="clienttype_default">CDP-AND-DEV</string>
     <string name="client_provider_default">cpp</string>
 
+    <string name="tab_title_discovered_appliances">Discovered</string>
+    <string name="tab_title_mismatched_pin_appliances">Pin mismatch</string>
+
     <string name="prompt_certificate_mismatch_message">"Certificate doesn't match the stored certificate. This can occur after a factory reset but may also indicate a man-in-the-middle attack.\n\nAccept the new certificate?"</string>
     <string name="prompt_certificate_mismatch_reject">Reject</string>
     <string name="prompt_certificate_mismatch_accept">Accept</string>
-    <string name="tab_title_discovered_appliances">Discovered</string>
-    <string name="tab_title_mismatched_pin_appliances">Pin mismatch</string>
+    <string name="prompt_certificate_mismatch_cancel">Cancel</string>
+    <string name="prompt_certificate_mismatch_title">Invalid certificate</string>
 </resources>

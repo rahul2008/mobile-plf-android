@@ -28,6 +28,9 @@ import com.philips.cdp2.commlib.demouapp.R;
 
 import java.util.Locale;
 
+import static android.content.DialogInterface.BUTTON_NEGATIVE;
+import static android.content.DialogInterface.BUTTON_NEUTRAL;
+import static android.content.DialogInterface.BUTTON_POSITIVE;
 import static com.philips.cdp2.commlib.lan.context.LanTransportContext.acceptNewPinFor;
 import static com.philips.cdp2.commlib.lan.context.LanTransportContext.rejectNewPinFor;
 
@@ -54,6 +57,23 @@ public class DevicePortFragment extends Fragment {
 
             if (error == Error.INSECURE_CONNECTION) {
                 promptCertificateMismatch();
+            }
+        }
+    };
+
+    private final DialogInterface.OnClickListener mismatchDialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which) {
+                case BUTTON_NEUTRAL:
+                    dialog.dismiss();
+                    break;
+                case BUTTON_NEGATIVE:
+                    if (currentAppliance != null) rejectNewPinFor(currentAppliance);
+                    break;
+                case BUTTON_POSITIVE:
+                    if (currentAppliance != null) acceptNewPinFor(currentAppliance);
+                    break;
             }
         }
     };
@@ -129,22 +149,12 @@ public class DevicePortFragment extends Fragment {
     private void promptCertificateMismatch() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.prompt_certificate_mismatch_message);
-        builder.setNegativeButton(R.string.prompt_certificate_mismatch_reject, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (currentAppliance != null) {
-                    rejectNewPinFor(currentAppliance);
-                }
-            }
-        });
-        builder.setPositiveButton(R.string.prompt_certificate_mismatch_accept, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (currentAppliance != null) {
-                    acceptNewPinFor(currentAppliance);
-                }
-            }
-        });
+        builder.setTitle(R.string.prompt_certificate_mismatch_title);
+
+        builder.setNeutralButton(R.string.prompt_certificate_mismatch_cancel, mismatchDialogClickListener);
+        builder.setNegativeButton(R.string.prompt_certificate_mismatch_reject, mismatchDialogClickListener);
+        builder.setPositiveButton(R.string.prompt_certificate_mismatch_accept, mismatchDialogClickListener);
+
         builder.show();
     }
 }
