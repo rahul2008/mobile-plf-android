@@ -475,6 +475,7 @@ public class SearchBox extends LinearLayout {
     @SuppressWarnings("unused")
     public void setMaxWidth(int maxWidth) {
         this.maxWidth = maxWidth;
+        updateViews();
     }
 
     private int getPreferredHeight() {

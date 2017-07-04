@@ -14,4 +14,5 @@
     <string name="language_pack_label">Language pack label</string>
     <string name="test_links_description"><a href="http://www.philips.com">Philips website</a>
        <a href="http://www.google.com">Google</a></string>
+    <string name="search_box_no_result">No result found</string>
 </resources>
