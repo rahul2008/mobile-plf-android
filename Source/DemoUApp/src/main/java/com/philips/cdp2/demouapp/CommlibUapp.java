@@ -5,10 +5,13 @@
 
 package com.philips.cdp2.demouapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 import com.philips.cdp2.demouapp.fragment.MainFragment;
 import com.philips.platform.uappframework.UappInterface;
+import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
@@ -17,10 +20,13 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class CommlibUapp implements UappInterface {
 
+    public static CommlibUapp instance = new CommlibUapp();
+
     private CommlibUappDependencies dependencies;
+
     private FragmentLauncher fragmentLauncher;
 
-    public static CommlibUapp instance = new CommlibUapp();
+    private Context context;
 
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
@@ -29,6 +35,8 @@ public class CommlibUapp implements UappInterface {
         }
 
         dependencies = (CommlibUappDependencies) uappDependencies;
+
+        context = uappSettings.getContext();
     }
 
     @Override
@@ -37,16 +45,21 @@ public class CommlibUapp implements UappInterface {
             throw new UnsupportedOperationException("No CommlibUappDependencies set during init.");
         }
 
-        if (!(uiLauncher instanceof FragmentLauncher)) {
+        if (uiLauncher instanceof FragmentLauncher) {
+            fragmentLauncher = (FragmentLauncher) uiLauncher;
+
+            fragmentLauncher.getFragmentActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(fragmentLauncher.getParentContainerResourceID(), new MainFragment())
+                    .commit();
+        } else if (uiLauncher instanceof ActivityLauncher) {
+            Intent intent = new Intent(context, CommlibUappActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        } else {
             throw new IllegalArgumentException("This Uapp only works with FragmentLaunchers");
         }
 
-        fragmentLauncher = (FragmentLauncher) uiLauncher;
-
-        fragmentLauncher.getFragmentActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .add(fragmentLauncher.getParentContainerResourceID(), new MainFragment())
-                .commit();
     }
 
     public FragmentLauncher getFragmentLauncher() {
