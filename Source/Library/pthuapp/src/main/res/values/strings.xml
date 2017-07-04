@@ -18,4 +18,5 @@
     <string name="weight">Weight</string>
     <string name="vitals_ponds">Pounds</string>
     <string name="vitals_skip">Skip this step</string>
+    <string name="ths_medical_conditions">Have you diagnosed with any of these medical conditions ?</string>
 </resources>
