@@ -14,8 +14,10 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.SDKLocalDate;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Consumer;
+import com.americanwell.sdk.entity.consumer.ConsumerInfo;
 import com.americanwell.sdk.entity.consumer.ConsumerType;
 import com.americanwell.sdk.entity.consumer.Gender;
+import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.insurance.Subscription;
 import com.americanwell.sdk.entity.practice.OnDemandSpecialty;
 import com.americanwell.sdk.entity.practice.Practice;
@@ -24,21 +26,32 @@ import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.provider.ProviderType;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
+import com.americanwell.sdk.entity.visit.VisitContext;
+import com.americanwell.sdk.entity.visit.Vitals;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.americanwell.sdk.manager.PracticeProvidersManager;
 import com.americanwell.sdk.manager.SDKCallback;
+import com.americanwell.sdk.manager.VisitManager;
+import com.philips.amwelluapp.intake.PTHVisitContext;
+import com.philips.amwelluapp.intake.PTHVisitContextCallBack;
+import com.philips.amwelluapp.intake.THSConditionsCallBack;
+import com.philips.amwelluapp.intake.THSVitalSDKCallback;
+import com.philips.amwelluapp.intake.THSVitals;
 import com.philips.amwelluapp.login.PTHAuthentication;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
 import com.philips.amwelluapp.practice.PTHPracticesListCallback;
 import com.philips.amwelluapp.providerdetails.PTHProviderDetailsCallback;
+import com.philips.amwelluapp.providerslist.PTHProviderInfo;
 import com.philips.amwelluapp.providerslist.PTHProvidersListCallback;
+import com.philips.amwelluapp.registration.PTHConsumer;
 import com.philips.amwelluapp.registration.PTHRegistrationDetailCallback;
 import com.philips.amwelluapp.registration.PTHState;
 import com.philips.amwelluapp.sdkerrors.PTHSDKError;
 import com.philips.amwelluapp.welcome.PTHInitializeCallBack;
 
+import org.apache.tools.ant.taskdefs.Length;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -68,10 +81,34 @@ public class PTHManagerTest {
     ProviderInfo providerInfo;
 
     @Mock
+    PTHProviderInfo pthProviderInfo;
+
+    @Mock
+    VisitContext visitContextMock;
+
+    @Mock
+    THSConditionsCallBack thsConditionsCallback;
+
+    @Mock
+    THSVitalSDKCallback thsVitalCallBackMock;
+
+    @Mock
+    VisitManager visitManagerMock;
+
+    @Mock
     PracticeProvidersManager practiseprovidermanagerMock;
 
     @Mock
     Context contextMock;
+
+    @Mock
+    Consumer consumerMock;
+
+    @Mock
+    ProviderInfo providerInfoMock;
+
+    @Mock
+    PTHConsumer pthConsumerMock;
 
     @Mock
     AWSDK awsdkMock;
@@ -104,6 +141,15 @@ public class PTHManagerTest {
     private ArgumentCaptor<SDKCallback> initializationCallback;
 
     @Captor
+    private ArgumentCaptor<SDKCallback> visitContextCaptor;
+
+    @Captor
+    private ArgumentCaptor<SDKCallback> vitalsCaptor;
+
+    @Captor
+    private ArgumentCaptor<SDKCallback> conditionsCaptor;
+
+    @Captor
     private ArgumentCaptor<SDKCallback> pthRegistrationDetailCallbackArgumentCaptor;
 
     @Mock
@@ -116,7 +162,13 @@ public class PTHManagerTest {
     PTHState pthStateMock;
 
     @Mock
+    PTHVisitContextCallBack pthVisitContextCallBack;
+
+    @Mock
     ConsumerManager consumerManagerMock;
+
+    @Mock
+    PTHVisitContext pthVisitContextMock;
 
 
     @Mock
@@ -204,6 +256,98 @@ public class PTHManagerTest {
         verify(pthInitializeCallBack).onInitializationResponse(any(Object.class), any(PTHSDKError.class));
     }
 
+    @Test
+    public void getVisitContext() throws MalformedURLException, AWSDKInstantiationException, AWSDKInitializationException, URISyntaxException {
+        when(pthConsumerMock.getConsumer()).thenReturn(consumerMock);
+        when(pthProviderInfo.getProviderInfo()).thenReturn(providerInfoMock);
+        when(awsdkMock.getVisitManager()).thenReturn(visitManagerMock);
+        pthManager.getVisitContext(contextMock, pthConsumerMock,pthProviderInfo,pthVisitContextCallBack);
+
+        verify(visitManagerMock).getVisitContext(any(Consumer.class), any(ProviderInfo.class),visitContextCaptor.capture());
+        SDKCallback value = visitContextCaptor.getValue();
+        value.onResponse(any(VisitContext.class), any(SDKError.class));
+
+        verify(pthVisitContextCallBack).onResponse(any(PTHVisitContext.class), any(PTHSDKError.class));
+    }
+
+    @Test
+    public void getVisitContextOnFailure() throws MalformedURLException, AWSDKInstantiationException, AWSDKInitializationException, URISyntaxException {
+        when(pthConsumerMock.getConsumer()).thenReturn(consumerMock);
+        when(pthProviderInfo.getProviderInfo()).thenReturn(providerInfoMock);
+        when(awsdkMock.getVisitManager()).thenReturn(visitManagerMock);
+        pthManager.getVisitContext(contextMock, pthConsumerMock,pthProviderInfo,pthVisitContextCallBack);
+
+        verify(visitManagerMock).getVisitContext(any(Consumer.class), any(ProviderInfo.class),visitContextCaptor.capture());
+        SDKCallback value = visitContextCaptor.getValue();
+        value.onFailure(any(Throwable.class));
+
+        verify(pthVisitContextCallBack).onFailure(any(Throwable.class));
+    }
+
+    @Test
+    public void getVitals() throws AWSDKInstantiationException {
+        pthManager.setPTHConsumer(pthConsumerMock);
+        when(pthVisitContextMock.getVisitContext()).thenReturn(visitContextMock);
+        when(pthConsumerMock.getConsumer()).thenReturn(consumerMock);
+        when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
+        pthManager.getVitals(contextMock, pthVisitContextMock,thsVitalCallBackMock);
+
+        verify(consumerManagerMock).getVitals(any(Consumer.class),any(VisitContext.class), vitalsCaptor.capture());
+        SDKCallback value = vitalsCaptor.getValue();
+        value.onResponse(any(Vitals.class), any(SDKError.class));
+
+        verify(thsVitalCallBackMock).onResponse(any(THSVitals.class), any(PTHSDKError.class));
+    }
+
+    @Test
+    public void getVitalsOnFailure() throws AWSDKInstantiationException {
+        pthManager.setPTHConsumer(pthConsumerMock);
+        when(pthVisitContextMock.getVisitContext()).thenReturn(visitContextMock);
+        when(pthConsumerMock.getConsumer()).thenReturn(consumerMock);
+        when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
+        pthManager.getVitals(contextMock, pthVisitContextMock,thsVitalCallBackMock);
+
+        verify(consumerManagerMock).getVitals(any(Consumer.class),any(VisitContext.class), vitalsCaptor.capture());
+        SDKCallback value = vitalsCaptor.getValue();
+        value.onFailure(any(Throwable.class));
+
+        verify(thsVitalCallBackMock).onFailure(any(Throwable.class));
+    }
+
+    @Test
+    public void getConditions() throws AWSDKInstantiationException {
+        pthManager.setPTHConsumer(pthConsumerMock);
+
+        when(pthConsumerMock.getConsumer()).thenReturn(consumerMock);
+        when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
+
+
+        pthManager.getConditions(contextMock,thsConditionsCallback);
+
+        verify(consumerManagerMock).getConditions(any(Consumer.class), conditionsCaptor.capture());
+        SDKCallback value = conditionsCaptor.getValue();
+        value.onResponse(any(List.class), any(SDKError.class));
+
+        verify(thsConditionsCallback).onResponse(any(List.class), any(PTHSDKError.class));
+    }
+
+    @Test
+    public void getOnFailure() throws AWSDKInstantiationException {
+        pthManager.setPTHConsumer(pthConsumerMock);
+
+        when(pthConsumerMock.getConsumer()).thenReturn(consumerMock);
+        when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
+
+
+        pthManager.getConditions(contextMock,thsConditionsCallback);
+
+        verify(consumerManagerMock).getConditions(any(Consumer.class), conditionsCaptor.capture());
+        SDKCallback value = conditionsCaptor.getValue();
+        value.onFailure(any(Throwable.class));
+
+        verify(thsConditionsCallback).onFailure(any(Throwable.class));
+    }
+
 
     @Test
     public void getPracticesOnResponse() throws AWSDKInstantiationException {
@@ -233,6 +377,14 @@ public class PTHManagerTest {
         SDKCallback value = providerDetailsCaptor.getValue();
         value.onResponse(any(Provider.class), any(SDKError.class));
         value.onFailure(any(Throwable.class));
+    }
+
+    @Test
+    public void getConsumerTest(){
+        pthManager.setPTHConsumer(pthConsumerMock);
+        PTHConsumer consumer = pthManager.getPTHConsumer();
+        assertThat(consumer).isNotNull();
+        assertThat(consumer).isInstanceOf(PTHConsumer.class);
     }
 
     Consumer getConsumer() {

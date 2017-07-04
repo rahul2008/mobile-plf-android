@@ -14,7 +14,7 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
 
-public class THSVitalsFragment extends PTHBaseFragment implements BackEventListener, View.OnClickListener{
+public class THSVitalsFragment extends PTHBaseFragment implements BackEventListener, View.OnClickListener {
 
     public static final String TAG = THSVitalsFragment.class.getSimpleName();
     PTHVisitContext mPthVisitContext;
@@ -32,11 +32,11 @@ public class THSVitalsFragment extends PTHBaseFragment implements BackEventListe
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.pth_intake_vitals, container, false);
         Bundle bundle = getArguments();
         mPthVisitContext = bundle.getParcelable(PTHConstants.THS_VISIT_CONTEXT);
-        mSystolic = (EditText)view.findViewById(R.id.systolic);
-        mDiastolic = (EditText)view.findViewById(R.id.diastolic);
-        mTemperature = (EditText)view.findViewById(R.id.edit_farenheit);
-        mWeight = (EditText)view.findViewById(R.id.ponds);
-        mContinue = (Button)view.findViewById(R.id.vitals_continue_btn);
+        mSystolic = (EditText) view.findViewById(R.id.systolic);
+        mDiastolic = (EditText) view.findViewById(R.id.diastolic);
+        mTemperature = (EditText) view.findViewById(R.id.edit_farenheit);
+        mWeight = (EditText) view.findViewById(R.id.ponds);
+        mContinue = (Button) view.findViewById(R.id.vitals_continue_btn);
         mContinue.setOnClickListener(this);
         return view;
     }
@@ -45,9 +45,9 @@ public class THSVitalsFragment extends PTHBaseFragment implements BackEventListe
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mThsVitalsPresenter = new THSVitalsPresenter(this,mPthVisitContext);
-        if(null != getActionBarListener()){
-            getActionBarListener().updateActionBar(getString(R.string.pth_prepare_your_visit),true);
+        mThsVitalsPresenter = new THSVitalsPresenter(this, mPthVisitContext);
+        if (null != getActionBarListener()) {
+            getActionBarListener().updateActionBar(getString(R.string.pth_prepare_your_visit), true);
         }
         try {
             mThsVitalsPresenter.getVitals();
@@ -58,7 +58,7 @@ public class THSVitalsFragment extends PTHBaseFragment implements BackEventListe
 
     @Override
     public int getContainerID() {
-        return ((ViewGroup)getView().getParent()).getId();
+        return ((ViewGroup) getView().getParent()).getId();
     }
 
     @Override
@@ -70,11 +70,14 @@ public class THSVitalsFragment extends PTHBaseFragment implements BackEventListe
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.vitals_continue_btn) {
-            mTHSVitals.setSystolic(Integer.parseInt(mSystolic.getText().toString()));
-            mTHSVitals.setDiastolic(Integer.parseInt(mDiastolic.getText().toString()));
-            mTHSVitals.setTemperature(Double.parseDouble(mTemperature.getText().toString()));
-            mTHSVitals.setWeight(Integer.parseInt(mWeight.getText().toString()));
+            try {
+                mTHSVitals.setSystolic(Integer.parseInt(mSystolic.getText().toString()));
+                mTHSVitals.setDiastolic(Integer.parseInt(mDiastolic.getText().toString()));
+                mTHSVitals.setTemperature(Double.parseDouble(mTemperature.getText().toString()));
+                mTHSVitals.setWeight(Integer.parseInt(mWeight.getText().toString()));
+            } catch (Exception ex) {
 
+            }
             mThsVitalsPresenter.onEvent(R.id.vitals_continue_btn);
         }
     }

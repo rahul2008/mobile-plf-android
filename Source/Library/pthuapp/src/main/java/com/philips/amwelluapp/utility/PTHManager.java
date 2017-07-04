@@ -11,6 +11,7 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.SDKPasswordError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
+import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.Provider;
@@ -29,6 +30,8 @@ import com.philips.amwelluapp.intake.PTHSDKValidatedCallback;
 import com.philips.amwelluapp.intake.PTHUpdateConsumerCallback;
 import com.philips.amwelluapp.intake.PTHVisitContext;
 import com.philips.amwelluapp.intake.PTHVisitContextCallBack;
+import com.philips.amwelluapp.intake.THSConditions;
+import com.philips.amwelluapp.intake.THSConditionsCallBack;
 import com.philips.amwelluapp.intake.THSVitalSDKCallback;
 import com.philips.amwelluapp.intake.THSVitals;
 import com.philips.amwelluapp.login.PTHAuthentication;
@@ -148,6 +151,7 @@ public class PTHManager {
                 });
     }
 
+    //TODO: What happens when getConsumer is null
     public void getVitals(Context context, PTHVisitContext pthVisitContext, final THSVitalSDKCallback thsVitalCallBack) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().getVitals(getPTHConsumer().getConsumer(), pthVisitContext.getVisitContext(), new SDKCallback<Vitals, SDKError>() {
             @Override
@@ -169,7 +173,7 @@ public class PTHManager {
         });
     }
 
-    public void createVisit(Context context, PTHVisitContext pthVisitContext, final PTHSDKValidatedCallback pthsdkValidatedCallback) throws AWSDKInstantiationException {
+    /*public void createVisit(Context context, PTHVisitContext pthVisitContext, final PTHSDKValidatedCallback pthsdkValidatedCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getVisitManager().createVisit(pthVisitContext.getVisitContext(), new SDKValidatedCallback<Visit, SDKError>() {
             @Override
             public void onValidationFailure(Map<String, ValidationReason> map) {
@@ -188,7 +192,7 @@ public class PTHManager {
                 pthsdkValidatedCallback.onFailure(throwable);
             }
         });
-    }
+    }*/
 
 
     public void getConsumerObject(Context context,Authentication authentication,final PTHGetConsumerObjectCallBack pthGetConsumerObjectCallBack) throws AWSDKInstantiationException {
@@ -202,6 +206,26 @@ public class PTHManager {
             @Override
             public void onFailure(Throwable throwable) {
                 pthGetConsumerObjectCallBack.onError(throwable);
+            }
+        });
+    }
+
+    public void getConditions(Context context, final THSConditionsCallBack thsConditionsCallBack) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getConditions(getPTHConsumer().getConsumer(), new SDKCallback<List<Condition>, SDKError>() {
+            @Override
+            public void onResponse(List<Condition> conditions, SDKError sdkError) {
+                THSConditions thsConditions = new THSConditions();
+                thsConditions.setConditions(conditions);
+
+                PTHSDKError pthsdkError = new PTHSDKError();
+                pthsdkError.setSdkError(sdkError);
+
+                thsConditionsCallBack.onResponse(thsConditions,pthsdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                thsConditionsCallBack.onFailure(throwable);
             }
         });
     }
@@ -257,7 +281,7 @@ public class PTHManager {
         });
     }
 
-    public void updateConsumer(Context context, final PTHConsumer pthConsumer, final PTHUpdateConsumerCallback pthUpdateConsumer) throws AWSDKInstantiationException {
+    /*public void updateConsumer(Context context, final PTHConsumer pthConsumer, final PTHUpdateConsumerCallback pthUpdateConsumer) throws AWSDKInstantiationException {
         ConsumerUpdate consumerUpdate = getAwsdk(context).getConsumerManager().getNewConsumerUpdate(pthConsumer.getConsumer());
         consumerUpdate.setPhone("8665264527");
         getAwsdk(context).getConsumerManager().updateConsumer(consumerUpdate, new SDKValidatedCallback<Consumer, SDKPasswordError>() {
@@ -282,7 +306,7 @@ public class PTHManager {
                 pthUpdateConsumer.onUpdateConsumerFailure(throwable);
             }
         });
-    }
+    }*/
 
     @VisibleForTesting
     public void setAwsdk(AWSDK awsdk) {
