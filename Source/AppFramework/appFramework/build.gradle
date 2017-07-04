@@ -9,7 +9,8 @@ jacoco {
 
 buildscript {
     repositories {
-        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+        maven {
+            url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
@@ -41,9 +42,10 @@ if (project.hasProperty('envCode')) {
 
 apply plugin: 'cdpSCM'
 import com.philips.cdp.cdpSCM
+
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
-objcdp.setEnv(platform: 'android', env: environment )
+objcdp.setEnv(platform: 'android', env: environment)
 archivesBaseName = rootProject.name
 
 allprojects {
@@ -92,12 +94,13 @@ artifactory {
             repoKey = objcdp.getArtifactoryResolveRepoKey()
         }
     }
-    clientConfig.timeout = 600 // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
+    clientConfig.timeout = 600
+    // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
 //=======To zip and upload "Documents/External" ==STARTS=============
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
-def zipSrc = file(buildDir.name + "/distributions/$project.name-$version-src" + '.tgz' )
+def zipSrc = file(buildDir.name + "/distributions/$project.name-$version-src" + '.tgz')
 artifacts {
     archives zipDoc
     archives zipSrc
@@ -114,7 +117,7 @@ task tgzTask(type: Tar) {
     classifier = 'src'
     from projectDir
     include '**/*'
-    exclude ('build')
+    exclude('build')
     extension = 'tgz'
     compression = Compression.GZIP
 }
@@ -131,7 +134,7 @@ publishing {
 
             artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
 
-            pom.withXml{
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
                 def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
                 resolvedArtifacts.each {
@@ -165,9 +168,9 @@ android {
         resConfigs "ar", "bg",  "cs", "da", "de", "el", "en", "en_GB", "es", "es_AR", "es_MX", "et", "fi", "fr", "fr_CA", "he", "hr", "hu", "it", "ja", "ko",  "lt", "lv",  "nb", "nl",  "pl",  "pt", "pt_BR", "ro", "ru", "sk", "sl", "sv", "th", "tr", "vi", "zh_CN", "zh_HK", "zh_TW"
         // replace the below string with your own Google client ID. Make sure this is consistent
         // with the values used in openid_appauth_idp_configs.xml
-            manifestPlaceholders = [
+        manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-arpks5qhm771a2mfbm4e829va12olmtf'
-            ]
+        ]
     }
 
     productFlavors {
@@ -196,7 +199,7 @@ android {
         }
 
     }
-    
+
     lintOptions {
         abortOnError false
     }
@@ -319,10 +322,9 @@ configurations.all {
 }
 
 dependencies {
-    compile ('com.android.support:support-annotations:25.3.1') {
+    compile('com.android.support:support-annotations:25.3.1') {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
@@ -332,17 +334,14 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.dagger'
     }
-
     debugCompile 'com.facebook.stetho:stetho:1.2.0'
-
-    compile "com.j256.ormlite:ormlite-core:5.0"
-    compile "com.j256.ormlite:ormlite-android:5.0"
+    compile 'com.j256.ormlite:ormlite-core:5.0'
+    compile 'com.j256.ormlite:ormlite-android:5.0'
     compile 'com.android.support:multidex:1.0.1'
 
     compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.5.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive = true
     }
-
     compile(group: 'com.philips.cdp', name: 'digitalCare', version: '7.5.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive=true
     }
@@ -370,6 +369,7 @@ dependencies {
     testCompile 'org.mockito:mockito-all:1.10.17'
     testCompile "com.squareup.assertj:assertj-android:${androidAssertJVer}"
     compile project(':pushnotification')
+    compile project(':wifirefuapp')
 }
 
 task copyToLib(type: Copy) {
@@ -411,72 +411,72 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
 }
 
 
-    project.afterEvaluate {
-        // Grab all build types and product flavors
-        def buildTypes = android.buildTypes.collect { type ->
-            type.name
-        }
-        def productFlavors = android.productFlavors.collect { flavor ->
-            flavor.name
-        }
-        // When no product flavors defined, use empty
-        if (!productFlavors) productFlavors.add('')
-
-        //iterate over the flavors
-
-        productFlavors.each {
-
-            productFlavorName ->
-//iterate over build types like debug,release,prod etc.
-                buildTypes.each {
-
-                    buildTypeName ->
-                        //sourceName — e.g. freeDebug ,sourcePath — e.g. free/debug
-                        def sourceName, sourcePath
-                        if (!productFlavorName) {
-                            sourceName = sourcePath = "${buildTypeName}"
-                        } else {
-                            sourceName = "${productFlavorName}${buildTypeName.capitalize()}"
-                            sourcePath = "${productFlavorName}/${buildTypeName}"
-                        }
-                        // testTaskName —  e.g. testFreeDebugtest task that the coverage task depends on,
-                        def testTaskName = "test${sourceName.capitalize()}UnitTest"
-                        // Create coverage task of form 'testFlavorTypeCoverage' depending on 'testFlavorTypeUnitTest'
-                        task "${testTaskName}Coverage" (type:JacocoReport, dependsOn: "$testTaskName") {
-                            group = "Reporting"
-                            description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
-                            classDirectories = fileTree(
-                                    dir: "${project.buildDir}/intermediates/classes/${sourcePath}",
-                                    excludes: [
-                                            '**/R.class',
-                                            '**/R$*.class',
-                                            '**/*$ViewInjector*.*',
-                                            '**/*$ViewBinder*.*',
-                                            '**/BuildConfig.*',
-                                            '**/Manifest*.*',
-                                            '**/com/philips/platform/baseapp/screens/dataservices/**'
-                                    ]
-                            )
-                            def coverageSourceDirs = [
-                                    "src/main/java",
-                                    "src/$productFlavorName/java",
-                                    "src/$buildTypeName/java"
-                            ]
-                            additionalSourceDirs = files(coverageSourceDirs)
-                            sourceDirectories = files(coverageSourceDirs)
-                            executionData = files("${project.buildDir}/jacoco/${testTaskName}.exec")
-                            reports {
-                                //enables and disable the type of file you need
-                                xml.enabled = false
-                                html.enabled = true
-                            }
-                        }
-
-                }
-        }
+project.afterEvaluate {
+    // Grab all build types and product flavors
+    def buildTypes = android.buildTypes.collect { type ->
+        type.name
     }
+    def productFlavors = android.productFlavors.collect { flavor ->
+        flavor.name
+    }
+    // When no product flavors defined, use empty
+    if (!productFlavors) productFlavors.add('')
+
+    //iterate over the flavors
+
+    productFlavors.each {
+
+        productFlavorName ->
+//iterate over build types like debug,release,prod etc.
+            buildTypes.each {
+
+                buildTypeName ->
+                    //sourceName — e.g. freeDebug ,sourcePath — e.g. free/debug
+                    def sourceName, sourcePath
+                    if (!productFlavorName) {
+                        sourceName = sourcePath = "${buildTypeName}"
+                    } else {
+                        sourceName = "${productFlavorName}${buildTypeName.capitalize()}"
+                        sourcePath = "${productFlavorName}/${buildTypeName}"
+                    }
+                    // testTaskName —  e.g. testFreeDebugtest task that the coverage task depends on,
+                    def testTaskName = "test${sourceName.capitalize()}UnitTest"
+                    // Create coverage task of form 'testFlavorTypeCoverage' depending on 'testFlavorTypeUnitTest'
+                    task "${testTaskName}Coverage"(type: JacocoReport, dependsOn: "$testTaskName") {
+                        group = "Reporting"
+                        description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
+                        classDirectories = fileTree(
+                                dir: "${project.buildDir}/intermediates/classes/${sourcePath}",
+                                excludes: [
+                                        '**/R.class',
+                                        '**/R$*.class',
+                                        '**/*$ViewInjector*.*',
+                                        '**/*$ViewBinder*.*',
+                                        '**/BuildConfig.*',
+                                        '**/Manifest*.*',
+                                        '**/com/philips/platform/baseapp/screens/dataservices/**'
+                                ]
+                        )
+                        def coverageSourceDirs = [
+                                "src/main/java",
+                                "src/$productFlavorName/java",
+                                "src/$buildTypeName/java"
+                        ]
+                        additionalSourceDirs = files(coverageSourceDirs)
+                        sourceDirectories = files(coverageSourceDirs)
+                        executionData = files("${project.buildDir}/jacoco/${testTaskName}.exec")
+                        reports {
+                            //enables and disable the type of file you need
+                            xml.enabled = false
+                            html.enabled = true
+                        }
+                    }
+
+            }
+    }
+}
 
 
 tasks.withType(Test) {
-  ignoreFailures = true
+    ignoreFailures = true
 }

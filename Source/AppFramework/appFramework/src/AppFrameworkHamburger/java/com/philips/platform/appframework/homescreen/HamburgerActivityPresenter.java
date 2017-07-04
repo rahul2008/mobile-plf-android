@@ -13,7 +13,6 @@ import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoConditionFoundException;
 import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundException;
@@ -22,7 +21,6 @@ import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetExc
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
-import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
@@ -56,21 +54,21 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
 
         try {
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-          BaseState currentState=targetFlowManager.getCurrentState();
-            if(targetFlowManager == null){
+            BaseState currentState = targetFlowManager.getCurrentState();
+            if (targetFlowManager == null) {
                 Toast.makeText(fragmentView.getFragmentActivity(), fragmentView.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
                 return;
             }
             baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.HAMBURGER_HOME), eventState);
-          if(currentState!=null && currentState.getStateID()==baseState.getStateID()){
-               return;
-           }
+            if (currentState != null && currentState.getStateID() == baseState.getStateID()) {
+                return;
+            }
             if (null != baseState) {
                 baseState.setUiStateData(setStateData(baseState.getStateID()));
                 fragmentLauncher = getFragmentLauncher();
                 baseState.navigate(fragmentLauncher);
             }
-        }  catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
+        } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {
             RALog.d(TAG, e.getMessage());
             Toast.makeText(fragmentView.getFragmentActivity(), fragmentView.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
@@ -114,6 +112,8 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
                 return HOME_CONNECTIVITY;
             case MENU_OPTION_COCOVERSION:
                 return HOME_COCO_VERSION_INFO;
+            case MENU_OPTION_DEVICE_PAIRING:
+                return HOME_DEVICE_PAIRING;
             case MENU_OPTION_DEBUG:
                 return HOME_DEBUG;
             case MENU_OPTION_TEST_MICROAPP:

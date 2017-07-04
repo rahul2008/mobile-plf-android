@@ -4,7 +4,6 @@
       {
         "state": "splash",
         "events": [
-
           {
             "eventId": "onSplashTimeOut",
             "nextStates": [
@@ -173,6 +172,15 @@
               {
                 "condition": [],
                 "nextState": "debug"
+              }
+            ]
+          },
+          {
+            "eventId": "device_pairing",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "device_pairing"
               }
             ]
           }
