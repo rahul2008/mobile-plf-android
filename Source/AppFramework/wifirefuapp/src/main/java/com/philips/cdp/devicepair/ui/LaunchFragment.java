@@ -175,7 +175,7 @@ public class LaunchFragment extends Fragment implements BackEventListener, Launc
         test.add("1c5a6bfffecc9127");
         updateDiscoveredDevices(test);*/
 
-        if (!(getActivity().isFinishing())) {
+        if (!(getActivity().isFinishing()) && !((mFragmentLauncher.getFragmentActivity()).isFinishing())) {
             mStateContext = new StateContext();
             mStateContext.setState(new GetPairedDevicesState(mFragmentLauncher, this));
             mStateContext.start();
