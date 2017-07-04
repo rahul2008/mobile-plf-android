@@ -16,6 +16,9 @@ import com.philips.cdp2.commlib.lan.NetworkMonitor;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
 import com.philips.cdp2.commlib.lan.discovery.LanDiscoveryStrategy;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public class LanTransportContext implements TransportContext {
@@ -54,5 +57,12 @@ public class LanTransportContext implements TransportContext {
 
         networkNode.setPin(networkNode.getMismatchedPin());
         networkNode.setMismatchedPin(null);
+    }
+
+    @NonNull
+    public static Set<? extends Appliance> findAppliancesWithMismatchedPinIn(final @NonNull Collection<? extends Appliance> appliances) {
+        // TODO implement
+
+        return Collections.emptySet();
     }
 }
