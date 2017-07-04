@@ -17,6 +17,7 @@ import com.philips.cdp.registration.ui.traditional.AccountActivationFragment;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.traditional.WelcomeFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -156,5 +157,10 @@ public class AddSecureEmailFragment extends RegistrationBaseFragment implements 
     @Override
     public void hideProgress() {
         addEmailProgress.setVisibility(GONE);
+    }
+
+    @Override
+    public void storePreference(String emailOrMobileNumber) {
+        RegPreferenceUtility.storePreference(getRegistrationFragment().getContext(), emailOrMobileNumber, true);
     }
 }
