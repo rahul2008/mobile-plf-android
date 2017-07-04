@@ -60,7 +60,7 @@ public class NetworkNodeDatabase {
                     int pairedStatus = cursor.getInt(cursor.getColumnIndex(KEY_IS_PAIRED));
                     long lastPairedTime = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_LAST_PAIRED));
                     String ipAddress = cursor.getString(cursor.getColumnIndex(KEY_IP_ADDRESS));
-                    String modelName = cursor.getString(cursor.getColumnIndex(KEY_DEVICE_TYPE));
+                    String deviceType = cursor.getString(cursor.getColumnIndex(KEY_DEVICE_TYPE));
                     String modelId = cursor.getString(cursor.getColumnIndex(KEY_MODEL_ID));
                     boolean https = cursor.getShort(cursor.getColumnIndex(KEY_HTTPS)) == 1;
                     String pin = cursor.getString(cursor.getColumnIndex(KEY_PIN));
@@ -75,7 +75,7 @@ public class NetworkNodeDatabase {
                     networkNode.setPairedState(NetworkNode.getPairedStatusKey(pairedStatus));
                     networkNode.setLastPairedTime(lastPairedTime);
                     networkNode.setIpAddress(ipAddress);
-                    networkNode.setDeviceType(modelName);
+                    networkNode.setDeviceType(deviceType);
                     networkNode.setModelId(modelId);
                     networkNode.setPin(pin);
 
