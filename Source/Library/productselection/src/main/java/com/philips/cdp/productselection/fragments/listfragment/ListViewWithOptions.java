@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,23 +21,24 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
+import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.prx.VolleyWrapper;
+import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.datamodels.summary.Data;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
-import com.philips.cdp.productselection.utils.ProductSelectionLogger;
-import com.philips.cdp.productselection.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ListViewWithOptions extends BaseAdapter {
+public class ListViewWithOptions extends BaseAdapter implements Filterable {
 
     private static final String TAG = ListViewWithOptions.class.getSimpleName();
     private LayoutInflater inflater = null;
     private ArrayList<String> listOfItems = null;
     private List<SummaryModel> mProductsList = null;
     private Activity mActivity = null;
+    private CustomFilter mCustomFilter;
 
     public ListViewWithOptions(Activity activity, List<SummaryModel> data) {
         if (activity != null)
@@ -66,8 +69,6 @@ public class ListViewWithOptions extends BaseAdapter {
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
         View vi = convertView;
-
-
         if (convertView == null)
             vi = inflater.inflate(R.layout.fragment_listscreen_adaper_view, null);
 
@@ -112,5 +113,61 @@ public class ListViewWithOptions extends BaseAdapter {
         vi.setTag(position);
         notifyDataSetChanged();
         return vi;
+    }
+
+    private class CustomFilter extends Filter {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults filterResults = new FilterResults();
+            /*if (constraint != null && constraint.length() > 0) {
+                ArrayList<AtosResultsModel> FilteredResultModelSet = new ArrayList<AtosResultsModel>();
+                for (int i = 0; i < mOriginalSet.size(); i++) {
+                    AtosResultsModel resultModel = mOriginalSet.get(i);
+                    AtosAddressModel addressModel = resultModel
+                            .getAddressModel();
+                    if ((addressModel.getCityState().toUpperCase())
+                            .contains(constraint.toString().toUpperCase())) {
+
+                        AtosResultsModel filteredResultModel = new AtosResultsModel();
+
+                        filteredResultModel.setId(resultModel.getId());
+                        filteredResultModel.setInfoType(resultModel
+                                .getInfoType());
+                        filteredResultModel.setTitle(resultModel.getTitle());
+                        filteredResultModel.setLocationModel(resultModel
+                                .getLocationModel());
+                        filteredResultModel.setAddressModel(resultModel
+                                .getAddressModel());
+                        FilteredResultModelSet.add(filteredResultModel);
+                    }
+
+                }
+                filterResults.count = FilteredResultModelSet.size();
+                filterResults.values = FilteredResultModelSet;
+            } else {
+                synchronized (this) {
+                    filterResults.count = mOriginalSet.size();
+                    filterResults.values = mOriginalSet;
+                }
+            }*/
+            return filterResults;
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        protected void publishResults(CharSequence constraint,
+                                      FilterResults results) {
+           // mResultModelSet = (ArrayList<AtosResultsModel>) results.values;
+            notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public Filter getFilter() {
+        if (mCustomFilter == null) {
+            mCustomFilter = new CustomFilter();
+        }
+        return mCustomFilter;
     }
 }

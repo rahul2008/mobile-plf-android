@@ -1,15 +1,46 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/productListContainer"
     android:layout_width="match_parent"
+    android:paddingLeft="16dip"
+    android:paddingRight="16dip"
+    android:layout_alignParentTop="true"
+    android:orientation="vertical"
     android:layout_height="match_parent">
+
+   <com.philips.cdp.productselection.utils.CustomSearchView
+        android:id="@+id/search_box"
+        android:layout_width="match_parent"
+        android:layout_height="43dip"
+        android:paddingLeft="10dp"
+        android:paddingStart="10dp"
+        android:paddingRight="10dp"
+        android:paddingEnd="10dp"
+        android:background="@drawable/consumercare_search_bar"
+        android:drawableLeft="@drawable/uid_search_icon"
+        android:drawableStart="@drawable/uid_search_icon"
+        android:drawableRight="@drawable/uid_texteditbox_clear_icon"
+        android:drawableEnd="@drawable/uid_texteditbox_clear_icon"
+        android:drawablePadding="20dp"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:queryHint="Search"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:hint="Search for a location"
+        android:textColorHint="@color/border_disable_color"
+        android:layout_centerVertical="true"
+        android:textColor="?attr/uidSearchBoxAndroidDefaultNormalInputTextColor"
+        android:focusableInTouchMode="true"/>
 
     <ListView
         android:id="@+id/productListView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_marginTop="5dip"
+        android:layout_below="@id/search_box"
         android:divider="?attr/uidSeparatorButtonNormalBackgroundColor"
         android:dividerHeight="@dimen/uid_divider_Height"
         android:listSelector="@drawable/uid_list_item_selector"
         android:saveEnabled="true" />
 
-</RelativeLayout>
+</LinearLayout>

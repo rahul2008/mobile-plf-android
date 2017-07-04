@@ -3,6 +3,8 @@ package com.philips.cdp.productselection.fragments.listfragment;
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.fragments.detailedscreen.DetailedScreenFragmentSelection;
 import com.philips.cdp.productselection.fragments.homefragment.ProductSelectionBaseFragment;
 import com.philips.cdp.productselection.utils.Constants;
+import com.philips.cdp.productselection.utils.CustomSearchView;
 import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 
@@ -27,13 +30,14 @@ import java.util.Map;
  * @author : ritesh.jha@philips.com
  * @since : 29 Jan 2016
  */
-public class ProductSelectionListingFragment extends ProductSelectionBaseFragment {
+public class ProductSelectionListingFragment extends ProductSelectionBaseFragment implements TextWatcher,CustomSearchView.OnHideListView {
 
     private String TAG = ProductSelectionListingFragment.class.getSimpleName();
     private ListView mProductListView = null;
     private ListViewWithOptions mProductAdapter = null;
     private ProgressDialog mSummaryDialog = null;
     private ArrayList<SummaryModel> productList = null;
+    private CustomSearchView mSearchBox = null;
 
     public ProductSelectionListingFragment() {
 
@@ -43,7 +47,14 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_product_listview, container, false);
+        initView(view);
         return view;
+    }
+
+    private void initView(View view) {
+        mSearchBox = (CustomSearchView) view.findViewById(R.id.search_box);
+        mSearchBox.addTextChangedListener(this);
+        mSearchBox.setOnHideListListener(this);
     }
 
     @Override
@@ -117,6 +128,33 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
 
     }
 
+   /* private void showListView() {
+
+        final String constrain = mSearchBox.getText().toString().trim();
+
+        if (mResultModelSet != null && mProductAdapter.getFilter()!=null) {
+            mAdapter.getFilter().filter(constrain,
+                    new Filter.FilterListener() {
+                        public void onFilterComplete(int count) {
+                            Map<String, String> contextData = new HashMap<String, String>();
+                            contextData.put(AnalyticsConstants.
+                                    ACTION_KEY_LOCATE_PHILIPS_SEARCH_TERM, constrain);
+                            contextData.put(AnalyticsConstants.
+                                            ACTION_KEY_LOCATE_PHILIPS_SEARCH_RESULTS,
+                                    String.valueOf(count));
+                            DigitalCareConfigManager.getInstance().getTaggingInterface().
+                                    trackActionWithInfo(AnalyticsConstants.ACTION_SEND_DATA,
+                                            contextData);
+                            mListView.setAdapter(mAdapter);
+                            mListView.setVisibility(View.VISIBLE);
+                            mLinearLayout.setVisibility(View.GONE);
+                            if (mArabicSearchIcon.getVisibility() == View.VISIBLE)
+                                mArabicMarkerIcon.setVisibility(View.VISIBLE);
+                        }
+                    });
+        }
+    }*/
+
     @Override
     public String getActionbarTitle() {
         return getResources().getString(R.string.Product_Title);
@@ -130,5 +168,25 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+
+    @Override
+    public void hideListView() {
+
     }
 }
