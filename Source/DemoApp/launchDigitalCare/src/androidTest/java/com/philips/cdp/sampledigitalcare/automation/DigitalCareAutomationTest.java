@@ -92,7 +92,8 @@ public class DigitalCareAutomationTest extends AutomationTestHelper{
 
         ViewInteraction button2 = onView(
                 allOf(withId(R.id.tellus_PhilipsReviewButton)));
-        button2.perform(scrollTo(), click());
+        if(exists(button2))
+          button2.perform(scrollTo(), click());
 
         pressBack();
         pressBack();
@@ -115,12 +116,14 @@ public class DigitalCareAutomationTest extends AutomationTestHelper{
                 allOf(withId(R.id.contactUsChat),
                         withParent(allOf(withId(R.id.contactUsHelpParent),
                                 withParent(withId(R.id.contactUsParent))))));
-        button3.perform(scrollTo(), click());
+        if(exists(button3))
+          button3.perform(scrollTo(), click());
 
         ViewInteraction button4 = onView(
                 allOf(withId(R.id.chatNow),
                         withParent(withId(R.id.chatNowParentPort))));
-        button4.perform(scrollTo(), click());
+        if(exists(button4))
+          button4.perform(scrollTo(), click());
 
         pressBack();
 
@@ -130,7 +133,8 @@ public class DigitalCareAutomationTest extends AutomationTestHelper{
                 allOf(withId(R.id.contactUsSocialProvideButtonsParent),
                         withParent(allOf(withId(R.id.contactUsSocialParent),
                                 withParent(withId(R.id.contactUsParent))))));
-        recyclerView3.perform(actionOnItemAtPosition(0, click()));
+        if(exists(recyclerView3))
+          recyclerView3.perform(actionOnItemAtPosition(0, click()));
 
         pressBack();
 
@@ -138,15 +142,17 @@ public class DigitalCareAutomationTest extends AutomationTestHelper{
                 allOf(withId(R.id.contactUsSocialProvideButtonsParent),
                         withParent(allOf(withId(R.id.contactUsSocialParent),
                                 withParent(withId(R.id.contactUsParent))))));
-        recyclerView4.perform(actionOnItemAtPosition(1, click()));
-
+        if(exists(recyclerView4)){
+            recyclerView4.perform(actionOnItemAtPosition(1, click()));
+        }
         pressBack();
 
         ViewInteraction recyclerView5 = onView(
                 allOf(withId(R.id.contactUsSocialProvideButtonsParent),
                         withParent(allOf(withId(R.id.contactUsSocialParent),
                                 withParent(withId(R.id.contactUsParent))))));
-        recyclerView5.perform(actionOnItemAtPosition(2, click()));
+        if(exists(recyclerView5))
+           recyclerView5.perform(actionOnItemAtPosition(2, click()));
         pressBack();
         pressBack();
     }
@@ -157,11 +163,10 @@ public class DigitalCareAutomationTest extends AutomationTestHelper{
                 allOf(withId(R.id.supportMenuContainer),
                         withParent(withId(R.id.optionParent)),
                         isDisplayed()));
-        if(exists(recyclerView2))
+        if(exists(recyclerView2)){
             recyclerView2.perform(actionOnItemAtPosition(1, click()));
-
+        }
         sleepTwoSec();
-
         onView(withRecyclerView(R.id.faq_list_item_recycle_view).atPosition(0)).perform(click());
         assertWebViewDisplayed();
 

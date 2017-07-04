@@ -131,7 +131,11 @@ public class AutomationTestHelper {
                         isDisplayed()));
 
         if(exists(recyclerView2)){
-            onData(anything()).inAdapterView(withId(R.id.productListView)).atPosition(0).perform(click());
+            if(position == 6){
+                onData(anything()).inAdapterView(withId(R.id.productListView)).atPosition(1).perform(click());
+            }else{
+                onData(anything()).inAdapterView(withId(R.id.productListView)).atPosition(0).perform(click());
+            }
         }else{
             return;
         }

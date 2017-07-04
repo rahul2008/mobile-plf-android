@@ -6,7 +6,6 @@ package com.philips.cdp.sampledigitalcare.util;/*
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -42,13 +41,13 @@ public class ThemeHelper {
     }
 
     public ContentColor initContentTonalRange() {
-        String tonalRange = sharedPreferences.getString(UIDHelper.CONTENT_TONAL_RANGE, ContentColor.VERY_LIGHT.name());
+        String tonalRange = sharedPreferences.getString(UIDHelper.CONTENT_TONAL_RANGE, ContentColor.ULTRA_LIGHT.name());
         final ContentColor contentColor = ContentColor.valueOf(tonalRange);
         return contentColor;
     }
 
     public ThemeConfiguration getThemeConfig() {
-        return new ThemeConfiguration(mContext, this.initContentTonalRange(), this.initNavigationRange());
+        return new ThemeConfiguration( mContext, this.initContentTonalRange(), this.initNavigationRange());
     }
 
 
@@ -89,7 +88,7 @@ public class ThemeHelper {
 
     public void saveThemeSettings() {
         saveThemeValues(UIDHelper.COLOR_RANGE, randomEnum(ColorRange.class).name());
-        saveThemeValues(UIDHelper.NAVIGATION_RANGE, NavigationColor.ULTRA_LIGHT.name());
+        saveThemeValues(UIDHelper.NAVIGATION_RANGE, NavigationColor.BRIGHT.name());
         saveThemeValues(UIDHelper.CONTENT_TONAL_RANGE,ContentColor.VERY_LIGHT.name());
     }
 
