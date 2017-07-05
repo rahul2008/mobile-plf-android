@@ -24,6 +24,7 @@ import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 import java.util.List;
 import java.util.Locale;
@@ -40,6 +41,8 @@ public class ProductModelSelectionHelper {
     private AppInfraInterface mAppInfraInterface;
     private static boolean isTabletLandscape = false;
     private static Configuration mVerticalOrientation = null;
+    private static int DLS_THEME;
+    private static ThemeConfiguration themeConfiguration;
 
     /*
      * Initialize everything(resources, variables etc) required for product selection.
@@ -119,10 +122,13 @@ public class ProductModelSelectionHelper {
 
 
     public void invokeProductSelection(final UiLauncher uiLauncher, final ProductModelSelectionType productModelSelectionType) {
+
+        themeConfiguration =((ActivityLauncher) uiLauncher).getDlsThemeConfiguration();
+        DLS_THEME = ((ActivityLauncher) uiLauncher).getUiKitTheme();
+
         if (uiLauncher == null || productModelSelectionType == null) {
             throw new IllegalArgumentException("Please make sure to set the valid parameters before you invoke");
         }
-
         PrxWrapper prxWrapperCode = new PrxWrapper(mContext, mAppInfraInterface, null,
                 productModelSelectionType.getSector(),
                 getLocale().toString(),
@@ -232,6 +238,14 @@ public class ProductModelSelectionHelper {
 
     public UiLauncher getLauncherType() {
         return mLauncherType;
+    }
+
+    public ThemeConfiguration getThemeConfiguration() {
+        return themeConfiguration;
+    }
+
+    public int getDlsTheme(){
+        return DLS_THEME;
     }
 
 }

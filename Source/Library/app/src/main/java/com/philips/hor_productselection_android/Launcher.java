@@ -23,7 +23,6 @@ import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.hor_productselection_android.adapter.CtnListViewListener;
 import com.philips.hor_productselection_android.adapter.SampleAdapter;
 import com.philips.hor_productselection_android.adapter.SimpleItemTouchHelperCallback;
-import com.philips.hor_productselection_android.util.ThemeHelper;
 import com.philips.hor_productselection_android.view.CustomDialog;
 import com.philips.hor_productselection_android.view.SampleActivitySelection;
 import com.philips.platform.appinfra.AppInfra;
@@ -55,19 +54,14 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
     private SampleAdapter adapter = null;
     private Button change_theme = null;
     private AppInfraInterface mAppInfraInterface;
-    private ThemeHelper themeHelper;
     private static int DLS_THEME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        initAppInfra();
         initTheme();
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
-        mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
-        mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
-        mProductSelectionHelper.initialize(this, mAppInfraInterface);
-
         AppTaggingInterface aiAppTaggingInterface = ProductModelSelectionHelper.getInstance().getAPPInfraInstance().getTagging();
         aiAppTaggingInterface.setPreviousPage("demoapp:home");
         aiAppTaggingInterface.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
@@ -88,6 +82,12 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
                 new SimpleItemTouchHelperCallback(adapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mRecyclerView);
+    }
+
+    private void initAppInfra() {
+        mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
+        mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
+        mProductSelectionHelper.initialize(this, mAppInfraInterface);
     }
 
     private void relaunchActivity() {
@@ -176,19 +176,9 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         productsSelection.setSector(PrxConstants.Sector.B2C);
 
         ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
-                getDlsThemeConfiguration(),R.style.Theme_DLS_Aqua_VeryDark, null);
-
-       // DLS_THEME = ((ActivityLauncher) uiLauncher).getUiKitTheme();
-
-
-        initTheme();
+                getDlsThemeConfiguration(),R.style.Theme_DLS_Blue_VeryLight, null);
 
         mProductSelectionHelper.setLocale("en", "GB");
-        /*final ActivityLauncher activityLauncher =
-                new ActivityLauncher
-                        (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
-                                themeHelper.getThemeResourceId());*/
-
         ProductModelSelectionHelper.getInstance().setProductSelectionListener(new ProductSelectionListener() {
             @Override
             public void onProductModelSelected(SummaryModel productSummaryModel) {
@@ -209,31 +199,18 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
     }
 
     protected void initTheme() {
-        DLS_THEME = R.style.Theme_DLS_Aqua_UltraLight;
+        DLS_THEME = R.style.Theme_DLS_Blue_VeryLight;
         ThemeConfiguration config = getDlsThemeConfiguration();
         setTheme(DLS_THEME);
         UIDHelper.init(config);
         FontIconTypefaceHolder.init(getAssets(), "fonts/puicon.ttf");
     }
 
-    /* protected void initTheme() {
-        UIDHelper.injectCalligraphyFonts();
-        themeHelper = new ThemeHelper(this);
-        ThemeConfiguration config = themeHelper.getThemeConfig();
-        setTheme(themeHelper.getThemeResourceId());
-        UIDHelper.init(config);
-        FontIconTypefaceHolder.init(getAssets(), "fonts/puicon.ttf");
-    }
-*/
     protected void changeTheme(){
-        themeHelper.changeTheme();
+       // themeHelper.changeTheme();
     }
 
     protected ThemeConfiguration getDlsThemeConfiguration() {
         return new ThemeConfiguration(this, ColorRange.GROUP_BLUE, NavigationColor.BRIGHT, ContentColor.VERY_DARK, AccentRange.GROUP_BLUE);
     }
-
-
-
-
 }

@@ -32,11 +32,9 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
     private static String TAG = ProductSelectionBaseActivity.class.getSimpleName();
     private FragmentManager fragmentManager = null;
     private ProductModelSelectionHelper mProductModelSelectionHelper = null;
-    //protected static int DLS_THEME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // initTheme();
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         ProductModelSelectionHelper.getInstance();
@@ -136,13 +134,6 @@ public abstract class ProductSelectionBaseActivity extends UiKitActivity {
                     .getWindowToken(), 0);
         }
     }
-
-    /*protected void initTheme() {
-        ThemeConfiguration config = getDlsThemeConfiguration();
-        setTheme(DLS_THEME);
-        UIDHelper.init(config);
-        FontIconTypefaceHolder.init(getAssets(), "fonts/puicon.ttf");
-    }*/
 
     @Override
     protected void attachBaseContext(final Context newBase) {

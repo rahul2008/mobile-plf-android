@@ -2,19 +2,19 @@ package com.philips.cdp.productselection.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
+import com.philips.cdp.productselection.ProductModelSelectionHelper;
 import com.philips.cdp.productselection.R;
 import com.philips.cdp.productselection.fragments.listfragment.ProductSelectionListingFragment;
 import com.philips.cdp.productselection.fragments.welcomefragment.WelcomeScreenFragmentSelection;
 import com.philips.cdp.productselection.utils.Constants;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.shamanland.fonticon.FontIconTypefaceHolder;
 
 
 public class ProductSelectionActivity extends ProductSelectionBaseActivity {
@@ -28,6 +28,7 @@ public class ProductSelectionActivity extends ProductSelectionBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getDlSThemeLauncher();
         if (savedInstanceState != null) {
             // if app killed by vm.
             savedInstanceState = null;
@@ -38,14 +39,29 @@ public class ProductSelectionActivity extends ProductSelectionBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_productselection_layout);
         animateThisScreen();
+        loadFirstFragment();
+        initDLSActionBar();
+    }
+
+    private void loadFirstFragment() {
         if (getCtnFromPreference()) {
             showFragment(new WelcomeScreenFragmentSelection());
         } else {
             showFragment(new ProductSelectionListingFragment());
         }
+    }
+
+    private void initDLSActionBar() {
         UIDHelper.setupToolbar(this);
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_back_icon);
+    }
+
+    private void getDlSThemeLauncher() {
+        ThemeConfiguration config = ProductModelSelectionHelper.getInstance().getThemeConfiguration();
+        setTheme(ProductModelSelectionHelper.getInstance().getDlsTheme());
+        UIDHelper.init(config);
+        FontIconTypefaceHolder.init(getAssets(), "fonts/puicon.ttf");
     }
 
     @Override
