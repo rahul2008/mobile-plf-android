@@ -29,7 +29,9 @@ import cucumber.api.java.en.When;
 
 import static android.app.Instrumentation.newApplication;
 import static android.support.test.InstrumentationRegistry.getTargetContext;
+import static java.util.Collections.emptyList;
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class Steps {
@@ -102,8 +104,10 @@ public class Steps {
         PortListener listener = portListeners.get(TimePort.class);
         listener.waitForPortUpdate(3, MINUTES);
 
+        scenario.write("Errors:" + listener.errors.toString());
+
+        assertEquals(emptyList(), listener.errors);
         assertTrue(listener.valueWasReceived);
-        assertTrue(listener.errors.isEmpty());
 
         final String datetime = current.getTimePort().getPortProperties().datetime;
         scenario.write("Got time: " + datetime);
