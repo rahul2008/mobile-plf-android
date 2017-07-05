@@ -67,6 +67,12 @@ abstract class ProdRegBaseFragment extends Fragment implements BackEventListener
     }
 
     @Override
+    public void onStop() {
+        dismissAlertOnError();
+        super.onStop();
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
     }

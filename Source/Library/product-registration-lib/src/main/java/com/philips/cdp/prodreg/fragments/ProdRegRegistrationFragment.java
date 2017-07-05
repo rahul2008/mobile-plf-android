@@ -488,13 +488,10 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public void onStop() {
         dismissDialogs();
         super.onStop();
-
     }
     
     private void dismissDialogs() {
-        dismissAlertOnError();
         dismissLoadingDialog();
-
         if (dialog != null) {
             dialog.dismiss();
         }
