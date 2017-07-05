@@ -11,6 +11,7 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.DrawableRes;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -100,7 +101,7 @@ public class InputValidationLayout extends LinearLayout {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            if (validator != null && isShowingError && validator.validate(charSequence)) {
+            if (validator != null && validator.validate(charSequence) && isShowingError) {
                 hideError();
             }
         }
@@ -200,6 +201,7 @@ public class InputValidationLayout extends LinearLayout {
      *
      * @param drawable
      */
+    @SuppressWarnings("unused")
     public void setErrorDrawable(Drawable drawable) {
         errorIcon.setImageDrawable(drawable);
         errorIcon.setVisibility(VISIBLE);
@@ -207,10 +209,10 @@ public class InputValidationLayout extends LinearLayout {
 
     /**
      * Sets error drawable from the resourceID
-     *
      * @param resID
      */
-    public void setErrorDrawable(int resID) {
+    @SuppressWarnings("unused")
+    public void setErrorDrawable(@DrawableRes int resID) {
         errorIcon.setImageResource(resID);
         errorIcon.setVisibility(VISIBLE);
     }
@@ -220,7 +222,7 @@ public class InputValidationLayout extends LinearLayout {
      */
     public void showError() {
         isShowingError = true;
-        validationEditText.setError(isShowingError);
+        validationEditText.setError(true);
         errorLayout.setVisibility(VISIBLE);
     }
 
@@ -254,7 +256,7 @@ public class InputValidationLayout extends LinearLayout {
      */
     public void hideError() {
         isShowingError = false;
-        validationEditText.setError(isShowingError);
+        validationEditText.setError(false);
         errorLayout.setVisibility(GONE);
     }
 
@@ -279,7 +281,7 @@ public class InputValidationLayout extends LinearLayout {
     /**
      * Returns error icon view.
      *
-     * @return
+     * @return Imageview containing error icon
      */
     public ImageView getErrorIconView() {
         return errorIcon;
