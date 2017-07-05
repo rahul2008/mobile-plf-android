@@ -19,6 +19,7 @@ import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
 import com.philips.cdp2.commlib.lan.discovery.LanDiscoveryStrategy;
 
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
@@ -64,7 +65,7 @@ public class LanTransportContext implements TransportContext {
 
         networkNode.setMismatchedPin(null);
 
-        DICommLog.i(TAG, "Mismatched pin rejected for appliance with cppid " + networkNode.getCppId());
+        DICommLog.i(TAG, String.format(Locale.US, "Mismatched pin rejected for appliance with cppid [%s]", networkNode.getCppId()));
     }
 
     /**
@@ -83,7 +84,7 @@ public class LanTransportContext implements TransportContext {
         networkNode.setPin(networkNode.getMismatchedPin());
         networkNode.setMismatchedPin(null);
 
-        DICommLog.i(TAG, "Re-pinnned appliance with cppid " + networkNode.getCppId());
+        DICommLog.i(TAG, String.format(Locale.US, "Re-pinned appliance with cppid [%s]", networkNode.getCppId()));
     }
 
     /**
