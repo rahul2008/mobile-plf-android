@@ -9,6 +9,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.context.TransportContext;
@@ -22,6 +23,7 @@ import java.util.Set;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public class LanTransportContext implements TransportContext {
+    private static final String TAG = "LanTransportContext";
 
     @NonNull
     private final DiscoveryStrategy discoveryStrategy;
@@ -58,7 +60,11 @@ public class LanTransportContext implements TransportContext {
      * @param appliance the appliance to reject the new pin for
      */
     public static void rejectNewPinFor(final @NonNull Appliance appliance) {
-        appliance.getNetworkNode().setMismatchedPin(null);
+        final NetworkNode networkNode = appliance.getNetworkNode();
+
+        networkNode.setMismatchedPin(null);
+
+        DICommLog.i(TAG, "Mismatched pin rejected for appliance with cppid " + networkNode.getCppId());
     }
 
     /**
@@ -76,6 +82,8 @@ public class LanTransportContext implements TransportContext {
 
         networkNode.setPin(networkNode.getMismatchedPin());
         networkNode.setMismatchedPin(null);
+
+        DICommLog.i(TAG, "Re-pinnned appliance with cppid " + networkNode.getCppId());
     }
 
     /**
