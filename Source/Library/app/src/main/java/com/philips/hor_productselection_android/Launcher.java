@@ -23,6 +23,7 @@ import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.hor_productselection_android.adapter.CtnListViewListener;
 import com.philips.hor_productselection_android.adapter.SampleAdapter;
 import com.philips.hor_productselection_android.adapter.SimpleItemTouchHelperCallback;
+import com.philips.hor_productselection_android.util.ThemeHelper;
 import com.philips.hor_productselection_android.view.CustomDialog;
 import com.philips.hor_productselection_android.view.SampleActivitySelection;
 import com.philips.platform.appinfra.AppInfra;
@@ -55,6 +56,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
     private Button change_theme = null;
     private AppInfraInterface mAppInfraInterface;
     private static int DLS_THEME;
+    private ThemeHelper themeHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,7 +178,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         productsSelection.setSector(PrxConstants.Sector.B2C);
 
         ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
-                getDlsThemeConfiguration(),R.style.Theme_DLS_Blue_VeryLight, null);
+                getDlsThemeConfiguration(),themeHelper.getThemeResourceId(), null);
 
         mProductSelectionHelper.setLocale("en", "GB");
         ProductModelSelectionHelper.getInstance().setProductSelectionListener(new ProductSelectionListener() {
@@ -199,15 +201,15 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
     }
 
     protected void initTheme() {
-        DLS_THEME = R.style.Theme_DLS_Blue_VeryLight;
         ThemeConfiguration config = getDlsThemeConfiguration();
-        setTheme(DLS_THEME);
+        themeHelper = new ThemeHelper(this);
+        setTheme(themeHelper.getThemeResourceId());
         UIDHelper.init(config);
         FontIconTypefaceHolder.init(getAssets(), "fonts/puicon.ttf");
     }
 
     protected void changeTheme(){
-       // themeHelper.changeTheme();
+        themeHelper.changeTheme();
     }
 
     protected ThemeConfiguration getDlsThemeConfiguration() {
