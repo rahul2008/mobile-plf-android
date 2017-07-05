@@ -6,6 +6,8 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
+import com.philips.cdp.di.iap.session.RequestListener;
+
 /**
  * Handles the scenario where the CTNs are provided from the vertical app.
  * All other urls, we are forced to override though it makes no sense.
@@ -15,5 +17,10 @@ public class LocalStore extends AbstractStore {
 
     public LocalStore(final Context context) {
         mContext = context;
+    }
+
+    @Override
+    public void initStoreConfig(RequestListener listener) {
+
     }
 }

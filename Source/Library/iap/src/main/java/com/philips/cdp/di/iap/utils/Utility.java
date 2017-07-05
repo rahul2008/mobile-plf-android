@@ -147,7 +147,11 @@ public class Utility {
         }
 
         if (isNotNullNorEmpty(addresses.getPhone1())) {
-            fields.setPhoneNumber(addresses.getPhone1());
+            fields.setPhone1(addresses.getPhone1());
+        }
+
+        if (isNotNullNorEmpty(addresses.getPhone2())) {
+            fields.setPhone2(addresses.getPhone2());
         }
 
         if (addresses.getRegion() != null) {

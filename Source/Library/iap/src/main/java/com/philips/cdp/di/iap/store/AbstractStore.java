@@ -6,8 +6,6 @@ package com.philips.cdp.di.iap.store;
 
 import android.content.Context;
 
-import com.philips.cdp.di.iap.session.RequestListener;
-
 public abstract class AbstractStore implements StoreListener {
 
     protected boolean mStoreInitialized;
@@ -23,10 +21,6 @@ public abstract class AbstractStore implements StoreListener {
         checkAndUpdateStoreChange(language, countryCode);
         mLanguage = language;
         mCountry = countryCode;
-    }
-
-    @Override
-    public void initStoreConfig(/*final String language, final String countryCode,*/ final RequestListener listener) {
     }
 
     protected void checkAndUpdateStoreChange(String language, String countryCode) {

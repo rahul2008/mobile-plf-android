@@ -21,8 +21,8 @@ public class SalutationDropDown {
         void onSalutationSelect(String salutation);
     }
 
-    UIKitListPopupWindow mPopUp;
-    SalutationListener mSalutationListener;
+    private UIKitListPopupWindow mPopUp;
+    private SalutationListener mSalutationListener;
 
     public SalutationDropDown(Context context, View anchor, SalutationListener salutationListener) {
         mSalutationListener = salutationListener;
@@ -67,7 +67,7 @@ public class SalutationDropDown {
         mPopUp.dismiss();
     }
 
-    public boolean isShowing() {
+    private boolean isShowing() {
         return mPopUp.isShowing();
     }
 

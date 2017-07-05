@@ -20,7 +20,8 @@ public class AddressFields implements Serializable, Cloneable {
     private String line2;
     private String postalCode;
     private String town;
-    private String phoneNumber;
+    private String phone1;
+    private String phone2;
 
     private String regionIsoCode;
     private String regionName;
@@ -97,12 +98,20 @@ public class AddressFields implements Serializable, Cloneable {
         this.town = town;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getPhone1() {
+        return phone1;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhone1(String phone1) {
+        this.phone1 = phone1;
+    }
+
+    public String getPhone2() {
+        return phone2;
+    }
+
+    public void setPhone2(String phone2) {
+        this.phone2 = phone2;
     }
 
     public String getRegionIsoCode() {
@@ -133,7 +142,8 @@ public class AddressFields implements Serializable, Cloneable {
         newFields.line2 = line2;
         newFields.postalCode = postalCode;
         newFields.town = town;
-        newFields.phoneNumber = phoneNumber;
+        newFields.phone1 = phone1;
+        newFields.phone2 = phone2;
         newFields.regionIsoCode = regionIsoCode;
         newFields.regionName = regionName;
         return newFields;

@@ -186,7 +186,8 @@ public class BuyDirectFragment extends InAppBaseFragment implements
         addressFields.setLastName(address.getLastName());
         addressFields.setLine1(address.getLine1());
         addressFields.setLine2(address.getLine2());
-        addressFields.setPhoneNumber(address.getPhone1());
+        addressFields.setPhone1(address.getPhone1());
+        addressFields.setPhone2(address.getPhone2());
         addressFields.setPostalCode(address.getPostalCode());
         addressFields.setEmail(address.getEmail());
         String titleCode = address.getTitleCode();

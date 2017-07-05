@@ -97,4 +97,45 @@ public class IAPServiceDiscoveryWrapper {
         IAPLog.i(IAPLog.LOG, "setLangAndCountry Locale = " + HybrisDelegate.getInstance().getStore().getLocale());
     }
 
+    public void getLocaleFromServiceDiscovery(final IAPHandler pIAPHandler, final IAPListener iapListener) {
+        AppInfraInterface appInfra = CartModelContainer.getInstance().getAppInfraInstance();
+        final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+        serviceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                IAPLog.i(IAPLog.LOG, "ServiceDiscoveryInterface ==errorvalues " + errorvalues.name() + "String= " + s);
+            }
+
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
+                IAPLog.i(IAPLog.LOG, " getServicesWithCountryPreference Map" + map.toString());
+                Collection<ServiceDiscoveryService> collection = map.values();
+
+                List<ServiceDiscoveryService> list = new ArrayList<>();
+                list.addAll(collection);
+                ServiceDiscoveryService serviceDiscoveryService = list.get(0);
+
+                String locale = serviceDiscoveryService.getLocale();
+                String configUrls = serviceDiscoveryService.getConfigUrls();
+
+
+                if (configUrls != null) {
+                    // TODO Retailer view hence making the userLocalData to true
+                    mIAPSettings.setUseLocalData(false);
+                    if (locale != null) {
+                        pIAPHandler.initIAPRequisite();
+                        setLangAndCountry(locale);
+                    }
+                    String urlPort = "https://acc.us.pil.shop.philips.com/en_US";//;"https://www.occ.shop.philips.com/en_US";
+                    mIAPSettings.setHostPort(urlPort.substring(0, urlPort.length() - 5));
+                    mIAPSettings.setProposition(loadConfigParams());
+                    pIAPHandler.getExposedAPIImplementor().getCompleteProductList(iapListener);
+                } else {
+                    mIAPSettings.setUseLocalData(true);
+                }
+            }
+        };
+        serviceDiscoveryInterface.getServicesWithCountryPreference(listOfServiceId, serviceUrlMapListener);
+    }
 }

@@ -167,8 +167,8 @@ public class AddressController implements AbstractModel.DataLoadListener {
         params.put(ModelConstants.LINE_2, addressFields.getLine2());
         params.put(ModelConstants.POSTAL_CODE, addressFields.getPostalCode());
         params.put(ModelConstants.TOWN, addressFields.getTown());
-        params.put(ModelConstants.PHONE_1, addressFields.getPhoneNumber());
-        params.put(ModelConstants.PHONE_2, "");
+        params.put(ModelConstants.PHONE_1, addressFields.getPhone1());
+        params.put(ModelConstants.PHONE_2, addressFields.getPhone1());
         params.put(ModelConstants.REGION_ISOCODE, addressFields.getRegionIsoCode());
         return params;
     }
@@ -190,7 +190,7 @@ public class AddressController implements AbstractModel.DataLoadListener {
         addressHashMap.put(ModelConstants.ADDRESS_ID, addr.getId());
         addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, isDefaultAddress.toString());
         addressHashMap.put(ModelConstants.PHONE_1, addr.getPhone1());
-        addressHashMap.put(ModelConstants.PHONE_2, "");
+        addressHashMap.put(ModelConstants.PHONE_2, addr.getPhone2());
         if (addr.getRegion() != null)
             addressHashMap.put(ModelConstants.REGION_ISOCODE, addr.getRegion().getIsocode());
         return addressHashMap;

@@ -124,6 +124,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
         mIAPSettings = new IAPSettings(this);
         mIAPSettings.setUseLocalData(true);
+        mIAPSettings.setProposition("");
 
         IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
         mIapInterface = new IAPInterface();
@@ -189,14 +190,14 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         if (mUser.isUserSignIn()) {
             displayViews();
             showProgressDialog();
-            try {
-                if (!mIAPSettings.isUseLocalData())
-                    mIapInterface.getProductCartCount(this);
-                else
-                    dismissProgressDialog();
-            } catch (RuntimeException exception) {
-                dismissProgressDialog();
-            }
+            //try {
+                // if (!mIAPSettings.isUseLocalData())
+                mIapInterface.getCompleteProductList(this);
+//                else
+//                    dismissProgressDialog();
+//            } catch (RuntimeException exception) {
+//                dismissProgressDialog();
+//            }
         } else {
             hideViews();
         }
@@ -253,7 +254,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mEtCTN.setText("");
             hideKeypad(this);
         } else if (view == mRegister) {
-           // mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
+            // mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
             //RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
             URLaunchInput urLaunchInput = new URLaunchInput();
             urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
@@ -263,7 +264,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             URInterface urInterface = new URInterface();
             urInterface.launch(new ActivityLauncher(ActivityLauncher.
                     ActivityOrientation.SCREEN_ORIENTATION_SENSOR, 0), urLaunchInput);
-        }  else if (view == mAddCtn) {
+        } else if (view == mAddCtn) {
             String str = mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", "");
             if (!mCategorizedProductList.contains(str)) {
                 mCategorizedProductList.add(str);
@@ -425,6 +426,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     @Override
     public void onGetCompleteProductList(ArrayList<String> productList) {
+        Toast.makeText(this, "Total Products in Hybris = " + productList.toString(), Toast.LENGTH_SHORT).show();
+        mEtCTN.setText(productList.get(0));
         dismissProgressDialog();
     }
 

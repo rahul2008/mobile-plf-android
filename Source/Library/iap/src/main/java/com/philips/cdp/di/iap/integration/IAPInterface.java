@@ -54,7 +54,11 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     public void getCompleteProductList(IAPListener iapListener) {
         mUser = new User(mIAPSettings.getContext());
         if (mUser.isUserSignIn())
-            mIAPHandler.getExposedAPIImplementor().getCompleteProductList(iapListener);
+        {
+            mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(mIAPHandler, iapListener);
+//            mIAPHandler.initIAPRequisite();
+//            mIAPHandler.getExposedAPIImplementor().getCompleteProductList(iapListener);
+        }
         else throw new RuntimeException("User is not logged in.");
     }
 }
