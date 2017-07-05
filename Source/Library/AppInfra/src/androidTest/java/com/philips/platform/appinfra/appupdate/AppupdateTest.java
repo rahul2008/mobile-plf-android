@@ -74,8 +74,9 @@ public class AppupdateTest extends AppInfraInstrumentation {
 		};
 		assertNotNull(mServiceDiscoveryInterface);
 		mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).setServiceDiscovery(mServiceDiscoveryInterface).build(mContext);
-		mAppUpdateInterface = mAppInfra.getAppUpdate();
 		mAppUpdateManager = new AppUpdateManager(mAppInfra);
+		mAppUpdateInterface = (AppUpdateInterface) mAppUpdateManager;
+
 		assertNotNull(mAppUpdateInterface);
 
 

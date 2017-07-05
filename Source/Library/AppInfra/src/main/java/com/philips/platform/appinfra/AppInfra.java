@@ -20,6 +20,7 @@ import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
+import com.philips.platform.appinfra.languagepack.LanguagePackConstants;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackManager;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
@@ -38,6 +39,11 @@ import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 import java.io.File;
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import static com.philips.platform.appinfra.languagepack.LanguagePackConstants.LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY;
 
 /**
  * The AppInfra Base class, here using builder design pattern to create object .
@@ -367,11 +373,9 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             ai.setLocal(local == null ? new InternationalizationManager(ai) : local);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "Local Intitialization Done");
 
-            ai.setServiceDiscoveryInterface(mServiceDiscoveryInterface == null ? new ServiceDiscoveryManager(ai) : mServiceDiscoveryInterface);
+            ai.setServiceDiscoveryInterface(mServiceDiscoveryInterface == null ?
+                    new ServiceDiscoveryManager(ai) : mServiceDiscoveryInterface);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "ServiceDiscovery Intitialization Done");
-
-            ai.setAbTesting(aIabtesting == null ? new ABTestClientManager(ai) : aIabtesting);
-            Log.v(AppInfraLogEventID.AI_APPINFRA, "ABTESTING Intitialization Done");
 
             ai.setRestInterface(mRestInterface == null ? new RestManager(ai) : mRestInterface);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "Rest Intitialization Done");
@@ -379,38 +383,70 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             ai.setTagging(tagging == null ? new AppTagging(ai) : tagging);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "Tagging Intitialization Done");
 
-
-            ai.setLanguagePackInterface(languagePack == null? new LanguagePackManager(ai) : languagePack);
-            Log.v(AppInfraLogEventID.AI_APPINFRA, "Language Pack Initialization done");
-
-            final AppUpdateManager appUpdateManager = new AppUpdateManager(ai);
-
-            ai.setAppupdateInterface(appupdateInterface == null ? appUpdateManager : appupdateInterface);
-            Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Initialization done");
-            Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Auto Refresh Starts");
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    Object abTestConfig = ABTestClientManager.getAbtestConfig(appConfigurationManager, ai);
+                    if (abTestConfig != null) {
+                        ai.setAbTesting(aIabtesting == null ? new ABTestClientManager(ai) : aIabtesting);
+                        Log.v(AppInfraLogEventID.AI_APPINFRA, "ABTESTING Intitialization Done");
+                    } else {
+                        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+                                AppInfraLogEventID.AI_APPINFRA,"Please add the Abtest Config Values " +
+                                        "in config json and create Abtesting Instance ");
+                    }
                     ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APPINFRA,
-                            "Device name:"+ Build.MANUFACTURER+" "+ Build.MODEL+" "+" OS version:"+Build.VERSION.RELEASE);
+                            "Device name:" + Build.MANUFACTURER + " " + Build.MODEL + " " + " OS version:" + Build.VERSION.RELEASE);
 
                     if (ai.getAppIdentity() != null) {
                         initializeLogs(ai);
                     }
+
                     appConfigurationManager.migrateDynamicData();
-                  //  downloadCloudConfig(ai, appConfigurationManager);
-                    appUpdateManager.appInfraRefresh();
+                }
+            }).start();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String languagePackConfig = LanguagePackManager.getLanguagePackConfig(appConfigurationManager,ai);
+                    if (languagePackConfig != null) {
+                        ai.setLanguagePackInterface(languagePack == null? new LanguagePackManager(ai) : languagePack);
+                        Log.v(AppInfraLogEventID.AI_APPINFRA, "Language Pack Initialization done");
+                    } else {
+                        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+                                AppInfraLogEventID.AI_APPINFRA,"Please add the LanguagePack Config Values " +
+                                        "in config json and create LanguagePack Instance ");
+                    }
+                }
+            }).start();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Object appUpdateConfig = AppUpdateManager.getAutoRefreshValue(appConfigurationManager, ai);
+                    if (appUpdateConfig != null) {
+                        final AppUpdateManager appUpdateManager = new AppUpdateManager(ai);
+                        ai.setAppupdateInterface(appupdateInterface == null ? appUpdateManager : appupdateInterface);
+                        Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Initialization done");
+                        Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Auto Refresh Starts");
+                        appUpdateManager.appInfraRefresh();
+                        Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Auto Refresh ENDS");
+                    } else {
+                        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+                                AppInfraLogEventID.AI_APPINFRA,"Please add the AppUpdate Config Values " +
+                                        "in config json and create AppUpdate Instance ");
+                    }
                 }
             }).start();
 
 
-            Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Auto Refresh ENDS");
             Log.v(AppInfraLogEventID.AI_APPINFRA, "AppInfra Initialization ENDS");
             postLog(ai,startTime, "App-infra initialization ends with ");
             return ai;
         }
-
     }
+
 
     private static void initializeLogs(AppInfra ai) {
         final StringBuilder appInfraLogStatement = new StringBuilder();
@@ -429,21 +465,5 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         appInfraLogStatement.append("\"");
         ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APPINFRA,"AppInfra initialized " +appInfraLogStatement.toString());
     }
-
-//    private static void downloadCloudConfig(final AppInfra ai, AppConfigurationManager appConfigurationManager) {
-//        appConfigurationManager.refreshCloudConfig(new AppConfigurationInterface.OnRefreshListener() {
-//            @Override
-//            public void onError(AppConfigurationInterface.AppConfigurationError.AppConfigErrorEnum error, String message) {
-//                ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APPINFRA,
-//                        "refreshCloudConfig "+message);
-//
-//            }
-//            @Override
-//            public void onSuccess(REFRESH_RESULT result) {
-//                ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_APPINFRA,
-//                        "refreshCloudConfig "+result.toString());
-//            }
-//        });
-//    }
 
 }
