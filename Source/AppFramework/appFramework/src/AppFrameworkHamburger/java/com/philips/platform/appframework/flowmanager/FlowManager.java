@@ -8,14 +8,15 @@ package com.philips.platform.appframework.flowmanager;
 import com.philips.platform.appframework.flowmanager.base.BaseCondition;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
-import com.philips.platform.appframework.stateimpl.DemoAppInfraState;
-import com.philips.platform.appframework.stateimpl.DemoCCState;
+import com.philips.platform.appframework.stateimpl.DemoAILState;
+import com.philips.platform.appframework.stateimpl.DemoBLLState;
+import com.philips.platform.appframework.stateimpl.DemoCMLState;
+import com.philips.platform.appframework.stateimpl.DemoDCCState;
 import com.philips.platform.appframework.stateimpl.DemoDSState;
-import com.philips.platform.appframework.stateimpl.DemoDicommClientState;
 import com.philips.platform.appframework.stateimpl.DemoIAPState;
-import com.philips.platform.appframework.stateimpl.DemoPRState;
-import com.philips.platform.appframework.stateimpl.DemoURState;
-import com.philips.platform.appframework.stateimpl.DemoUappState;
+import com.philips.platform.appframework.stateimpl.DemoPRGState;
+import com.philips.platform.appframework.stateimpl.DemoUFWState;
+import com.philips.platform.appframework.stateimpl.DemoUSRState;
 import com.philips.platform.appframework.stateimpl.HamburgerActivityState;
 import com.philips.platform.appframework.testmicroappfw.stateimpl.TestFragmentState;
 import com.philips.platform.baseapp.FlowManagerUtil;
@@ -31,14 +32,15 @@ public class FlowManager extends BaseFlowManager {
         new FlowManagerUtil().addValuesToMap(uiStateMap);
         uiStateMap.put(AppStates.HAMBURGER_HOME, new HamburgerActivityState());
         uiStateMap.put(AppStates.TEST_MICROAPP,new TestFragmentState());
-		uiStateMap.put(AppStates.TESTAPPINFRA,new DemoAppInfraState());
-        uiStateMap.put(AppStates.TESTUR,new DemoURState());
-        uiStateMap.put(AppStates.TESTPR,new DemoPRState());
+		uiStateMap.put(AppStates.TESTAPPINFRA,new DemoAILState());
+        uiStateMap.put(AppStates.TESTUR,new DemoUSRState());
+        uiStateMap.put(AppStates.TESTPR,new DemoPRGState());
         uiStateMap.put(AppStates.TESTIAP,new DemoIAPState());
-        uiStateMap.put(AppStates.TESTUAPP,new DemoUappState());
+        uiStateMap.put(AppStates.TESTUAPP,new DemoUFWState());
         uiStateMap.put(AppStates.TESTDATASERVICE,new DemoDSState());
-        uiStateMap.put(AppStates.TESTCC,new DemoCCState());
-        uiStateMap.put(AppStates.TESTDICOMM, new DemoDicommClientState());
+        uiStateMap.put(AppStates.TESTCC,new DemoDCCState());
+        uiStateMap.put(AppStates.TESTDICOMM, new DemoCMLState());
+        uiStateMap.put(AppStates.TESTBLUELIB,new DemoBLLState());
     }
 
     public void populateConditionMap(final Map<String, BaseCondition> baseConditionMap) {

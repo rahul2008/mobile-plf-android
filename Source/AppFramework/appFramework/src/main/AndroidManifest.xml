@@ -22,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Philips.DarkBlue.WhiteBackground"
         android:allowBackup="false"
-        tools:replace="android:theme,android:label,android:allowBackup,android:icon">
+        tools:replace="android:theme,android:label,android:allowBackup,android:icon,android:name">
 
         <activity
             android:name="com.philips.platform.baseapp.screens.introscreen.LaunchActivity"
