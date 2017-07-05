@@ -6,4 +6,6 @@
 
 <resources>
     <string name="app_name">Commlib DemoApp</string>
+    <string name="launch_uapp_as_fragment">Launch uApp as fragment</string>
+    <string name="launch_uapp_as_activity">Launch uApp as activity</string>
 </resources>

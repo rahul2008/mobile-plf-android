@@ -95,7 +95,6 @@ public class FirmwareUpgradeFragment extends Fragment {
         @Override
         public void onPortError(FirmwarePort port, Error error, String errorData) {
             if (isAdded()) {
-                stateTextView.setText(port.getPortProperties().getState().toString());
                 statusTextView.setText(String.format(Locale.US, "Error: %s", error.getErrorMessage()));
             }
         }
