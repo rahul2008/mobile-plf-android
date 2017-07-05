@@ -2,7 +2,8 @@
  * @author 310202701 on 9/16/2015.
  * <p/>
  * Copyright (c) 2016 Philips. All rights reserved.
- */
+ *//*
+
 package com.philips.cdp.digitalcare.localematch;
 
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
@@ -11,9 +12,11 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+*/
 /**
  * Locale change/countryfall back/ language fallback observer class.
- */
+ *//*
+
 public class LocaleMatchHandlerObserver extends Observable {
 
     private static final String TAG = LocaleMatchHandlerObserver.class.getSimpleName();
@@ -37,4 +40,4 @@ public class LocaleMatchHandlerObserver extends Observable {
             }
         }
     }
-}
+}*/

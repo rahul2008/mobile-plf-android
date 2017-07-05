@@ -86,8 +86,8 @@ public class EmailFragment extends DigitalCareBaseFragment {
     }
 
     private String getEmailUrl() {
-       if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() == null)
-            return null;
+       /*if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() == null)
+            return null;*/
         /*String language = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
                 .getLanguage().toLowerCase();
 

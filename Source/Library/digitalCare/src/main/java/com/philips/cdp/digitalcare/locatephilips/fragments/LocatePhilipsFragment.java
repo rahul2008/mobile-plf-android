@@ -272,31 +272,31 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private String formAtosURL() {
         ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
                 .getInstance().getConsumerProductInfo();
-        Locale locale = DigitalCareConfigManager
-                .getInstance().getLocale();
-        if (isConsProdInfoAvailable(consumerProductInfo, locale)) return null;
-        String atosUrl = getAtosUrl(consumerProductInfo);
+        //Locale locale = DigitalCareConfigManager
+               // .getInstance().getLocale();
+        if (isConsProdInfoAvailable(consumerProductInfo)) return null;
+        String atosUrl = getAtosUrl(consumerProductInfo.getSubCategory());
         DigiCareLogger.i(TAG, "ATOS URL : " + atosUrl);
         return atosUrl;
 
 
     }
 
-    private String getAtosUrl(ConsumerProductInfo consumerProductInfo) {
+/*    private String getAtosUrl(ConsumerProductInfo consumerProductInfo) {
         return getAtosUrl(consumerProductInfo.getCtn(),
                 consumerProductInfo.getSubCategory(), DigitalCareConfigManager
                         .getInstance().getLocale().getCountry().toLowerCase());
-    }
+    }*/
 
-    private boolean isConsProdInfoAvailable(ConsumerProductInfo consumerProductInfo, Locale locale) {
-        if (consumerProductInfo == null || locale == null) {
+    private boolean isConsProdInfoAvailable(ConsumerProductInfo consumerProductInfo) {
+        if (consumerProductInfo == null) {
             getActivity().finish();
             return true;
         }
         return false;
     }
 
-    protected String getAtosUrl(String ctn, String subcategory, String country) {
+    protected String getAtosUrl(String subcategory) {
 
         HashMap<String, String> hm = new HashMap<String, String>();
         hm.put(DigitalCareConstants.KEY_PRODUCT_SUBCATEGORY, subcategory);

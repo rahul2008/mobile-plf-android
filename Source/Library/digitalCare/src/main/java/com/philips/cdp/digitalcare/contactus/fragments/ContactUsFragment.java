@@ -51,7 +51,7 @@ import com.philips.cdp.digitalcare.contactus.models.CdlsResponseModel;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsParsingCallback;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsResponseParser;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
+//import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
 import com.philips.cdp.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cdp.digitalcare.request.RequestData;
 import com.philips.cdp.digitalcare.request.ResponseCallback;
@@ -212,10 +212,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         if (isInternetAvailable && isCdlsUrlNull()) {
             requestCdlsData();
         } else {
-            LocaleMatchHandlerObserver observer = DigitalCareConfigManager.getInstance().getObserver();
+            /*LocaleMatchHandlerObserver observer = DigitalCareConfigManager.getInstance().getObserver();
             if (observer != null) {
                 observer.addObserver(this);
-            }
+            }*/
 
             String contactNumber = prefs.getString(USER_SELECTED_PRODUCT_CTN_CALL, "");
             String hours = prefs.getString(USER_SELECTED_PRODUCT_CTN_HOURS, "");

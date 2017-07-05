@@ -153,13 +153,13 @@ public class PrxWrapper {
             mRequestManager = new RequestManager();
         }
         PRXDependencies prxDependencies = new PRXDependencies(mActivity, DigitalCareConfigManager.getInstance().getAPPInfraInstance());
-        Locale locale = mConfigManager.getLocaleMatchResponseWithCountryFallBack();
+        //Locale locale = mConfigManager.getLocaleMatchResponseWithCountryFallBack();
         mRequestManager.init(prxDependencies);
         final DigitalCareConfigManager mConfigManager = DigitalCareConfigManager.getInstance();
         mProductInfo = mConfigManager.getConsumerProductInfo();
         mCtn = mProductInfo.getCtn();
         mSectorCode = mProductInfo.getSector();
-        if (locale != null) mLocale = locale.toString();
+        //if (locale != null) mLocale = locale.toString();
         mCatalogCode = mProductInfo.getCatalog();
 
     }

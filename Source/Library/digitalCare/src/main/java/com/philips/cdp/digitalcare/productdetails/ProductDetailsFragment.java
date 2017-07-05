@@ -412,14 +412,15 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
         if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
                 R.string.product_download_manual))) {
-            Locale locale = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack();
-            String country = locale.getCountry();
-            String language = locale.getLanguage();
+           // Locale locale = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack();
+            //String country = locale.getCountry();
+            //String language = locale.getLanguage();
             String mFilePath = mViewProductDetailsModel.getManualLink();
             DigiCareLogger.d(TAG, "Manual name : " + mFilePath);
 
             // creating the name of the manual. So that Same manual should not be downloaded again and again.
-            String pdfName = mViewProductDetailsModel.getProductName() + language + '_' + country + ".pdf";
+            String pdfName = mFilePath.substring(mFilePath.lastIndexOf("/")+1);
+            //String pdfName = mViewProductDetailsModel.getProductName() + language + '_' + country + ".pdf";
             if ((mFilePath != null) && (mFilePath != "")) {
                 if (isConnectionAvailable()) {
 

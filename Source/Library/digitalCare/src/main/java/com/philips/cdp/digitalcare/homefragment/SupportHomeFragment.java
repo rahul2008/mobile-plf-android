@@ -152,27 +152,27 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         if (mIsFirstScreenLaunch || DigitalCareConfigManager.getInstance().
                 getProductModelSelectionType().getHardCodedProductList().length < 2) {
             synchronized (this) {
-                if (DigitalCareConfigManager.getInstance().
+               /* if (DigitalCareConfigManager.getInstance().
                         getLocaleMatchResponseWithCountryFallBack() != null &&
                         DigitalCareConfigManager.getInstance().
-                                getLocaleMatchResponseWithCountryFallBack() != null) {
-                    if (DigitalCareConfigManager.getInstance().
-                            getProductModelSelectionType().getHardCodedProductList().length == 1) {
-                        ProductModelSelectionType modelSelectionType =
-                                DigitalCareConfigManager.getInstance().
-                                        getProductModelSelectionType();
-                        DigitalCareConfigManager.getInstance().getConsumerProductInfo().
-                                setCtn(modelSelectionType.getHardCodedProductList()[0]);
-                        DigitalCareConfigManager.getInstance().getConsumerProductInfo().
-                                setSector(modelSelectionType.getSector().toString());
-                        DigitalCareConfigManager.getInstance().getConsumerProductInfo().
-                                setCatalog(modelSelectionType.getCatalog().toString());
-                    }
-
-                    DigiCareLogger.v(TAG, "Sending PRX Request");
-                    mPrxWrapper = new PrxWrapper(getActivity(), this);
-                    mPrxWrapper.executeRequests();
+                                getLocaleMatchResponseWithCountryFallBack() != null) {*/
+                if (DigitalCareConfigManager.getInstance().
+                        getProductModelSelectionType().getHardCodedProductList().length == 1) {
+                    ProductModelSelectionType modelSelectionType =
+                            DigitalCareConfigManager.getInstance().
+                                    getProductModelSelectionType();
+                    DigitalCareConfigManager.getInstance().getConsumerProductInfo().
+                            setCtn(modelSelectionType.getHardCodedProductList()[0]);
+                    DigitalCareConfigManager.getInstance().getConsumerProductInfo().
+                            setSector(modelSelectionType.getSector().toString());
+                    DigitalCareConfigManager.getInstance().getConsumerProductInfo().
+                            setCatalog(modelSelectionType.getCatalog().toString());
                 }
+
+                DigiCareLogger.v(TAG, "Sending PRX Request");
+                mPrxWrapper = new PrxWrapper(getActivity(), this);
+                mPrxWrapper.executeRequests();
+            //}
             }
         } else {
             createMainMenu();
@@ -415,10 +415,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) DigitalCareConfigManager.
                 getInstance().getUiLauncher();
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
-        mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().
+       /* mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().
                         getLocaleMatchResponseWithCountryFallBack().getLanguage(),
                 DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
-                        .getCountry());
+                        .getCountry());*/
 
         /*Initialize product selection tagging*/
         DigitalCareConfigManager ccConfigManager = DigitalCareConfigManager.getInstance();
@@ -470,11 +470,11 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         }
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         //mProductSelectionHelper.initialize(getActivity());
-        mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().
+       /* mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().
                         getLocaleMatchResponseWithCountryFallBack().getLanguage(),
                 DigitalCareConfigManager.getInstance().
                         getLocaleMatchResponseWithCountryFallBack().getCountry());
-
+*/
         /*Initialize product selection tagging*/
         DigitalCareConfigManager ccConfigManager = DigitalCareConfigManager.getInstance();
         /*AppInfraSingleton.setInstance(new AppInfra.Builder().build(getActivity()));*/
@@ -562,11 +562,11 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                     setCtn(summaryModel.getData().getCtn());
             updateMenus(null);
 
-            if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
-                    DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null) {
+            //if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null &&
+              //      DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() != null) {
                 setDataToModels(productSummaryModel);
                 initialiseServiceDiscoveryRequests();
-            }
+            //}
         }
     }
 
@@ -638,7 +638,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         String sector = consumerProductInfo.getSector();
         String catalog = consumerProductInfo.getCatalog();
         String subCategory = consumerProductInfo.getSubCategory();
-        Locale locale = digitalCareConfigManager.getLocaleMatchResponseWithCountryFallBack();
+       // Locale locale = digitalCareConfigManager.getLocaleMatchResponseWithCountryFallBack();
 
         //return String.format(SUBCATEGORY_URL_PORT, sector, locale.toString(), catalog, subCategory);
         return DigitalCareConfigManager.getInstance().getSubCategoryUrl();
@@ -809,6 +809,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
     private void initialiseServiceDiscoveryRequests() {
 
+        initializeCountry();
         ArrayList<String> var1 = new ArrayList<>();
         var1.add(DigitalCareConstants.SERVICE_ID_CC_CDLS);
         var1.add(DigitalCareConstants.SERVICE_ID_CC_EMAILFROMURL);
@@ -872,6 +873,24 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                 DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo(AnalyticsConstants.ACTION_SET_ERROR, AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR, s);
             }
         }, hm);
+    }
+
+    private void initializeCountry() {
+
+
+        DigitalCareConfigManager.getInstance().getAPPInfraInstance().getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+            @Override
+            public void onSuccess(String s, SOURCE source) {
+                DigitalCareConfigManager.getInstance().setCountry(s);
+                //Log.i("sdlocale","inside ccInterface - getHomeCountry : "+s);
+                DigiCareLogger.v(TAG,"Response from Service Discovery : getHomeCountry() - "+s);
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                DigiCareLogger.v(TAG,"Error response from Service Discovery : getHomeCountry() - "+s);
+            }
+        });
     }
 
 }

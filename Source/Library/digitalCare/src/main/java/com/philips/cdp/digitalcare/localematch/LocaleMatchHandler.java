@@ -1,12 +1,5 @@
-/**
- * This is bridge class to interact with LocaleMatch SDK to check the country
- * fallback with respect to the ConsumerCare values set by the Launcher
- * Application.
- *
- * @author naveen@philips.com
- * <p/>
- * Copyright (c) 2016 Philips. All rights reserved.
- */
+/*
+
 package com.philips.cdp.digitalcare.localematch;
 
 import android.content.Context;
@@ -115,6 +108,7 @@ public class LocaleMatchHandler  {
         //mPLocaleManager.refresh(this);
     }
 
+*/
 /*
     @Override
     public void onErrorOccurredForLocaleMatch(LocaleMatchError arg0) {
@@ -138,7 +132,9 @@ public class LocaleMatchHandler  {
         int mSectorValue = isSectorExistsInLocaleMatch(mSector);
         if (mSectorValue != 0) {
 
-           */
+           *//*
+
+*/
 /* PILLocale mPilLocaleWithCountryFallBack = mPLocaleManager.
                     currentLocaleWithCountryFallbackForPlatform(mContext,
                     arg0, Platform.PRX,
@@ -148,6 +144,8 @@ public class LocaleMatchHandler  {
                 localeFailCallback();
                 return;
             }*//*
+*/
+/*
 
             //Locale countryFallbackLocale = new Locale(DigitalCareConfigManager.getInstance().getLocaleFromSeviceDiscovery());
             //DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithCountryFallBack(countryFallbackLocale);
@@ -158,7 +156,8 @@ public class LocaleMatchHandler  {
         }
         initializePRXMap();
     }
-*/
+*//*
+
 
     private void localeFailCallback() {
         DigiCareLogger.v(TAG, "Sector Not exists");
@@ -192,4 +191,4 @@ public class LocaleMatchHandler  {
         }
     }
 
-}
+}*/
