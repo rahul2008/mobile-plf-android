@@ -53,6 +53,7 @@ public class AddSecureEmailPresenter implements NetworStateListener {
                 .subscribeWith(new DisposableCompletableObserver() {
                     @Override
                     public void onComplete() {
+                        addSecureEmailContract.storePreference(emailId);
                         addSecureEmailContract.hideProgress();
                         addSecureEmailContract.onAddRecoveryEmailSuccess();
                     }

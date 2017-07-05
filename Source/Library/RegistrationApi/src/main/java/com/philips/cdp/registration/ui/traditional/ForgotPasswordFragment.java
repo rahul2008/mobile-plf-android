@@ -431,7 +431,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
                 .map(serviceUrl -> getBaseUrl(serviceUrl))
                 .map(baseUrl -> {
                     resetPasswordSmsRedirectUri = baseUrl + USER_REQUEST_RESET_PASSWORD_REDIRECT_URI_SMS;
-                    return baseUrl + USER_REQUEST_PASSWORD_RESET_SMS_CODE;
+                    verificationSmsCodeURL = baseUrl + USER_REQUEST_PASSWORD_RESET_SMS_CODE;
+                    return verificationSmsCodeURL;
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
