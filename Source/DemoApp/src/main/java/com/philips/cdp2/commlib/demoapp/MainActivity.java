@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_launch_uapp_as_activity).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                launchUAppAsActivity();
+                launchUappAsActivity();
             }
         });
 
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         commlibUapp.launch(launcher, null);
     }
 
-    private void launchUAppAsActivity() {
+    private void launchUappAsActivity() {
         ActivityLauncher launcher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0);
         commlibUapp.launch(launcher, null);
     }

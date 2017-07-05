@@ -29,14 +29,14 @@ public class CommlibUapp implements UappInterface {
     private Context context;
 
     @Override
-    public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
-        if (!(uappDependencies instanceof CommlibUappDependencies)) {
+    public void init(UappDependencies dependencies, UappSettings settings) {
+        if (!(dependencies instanceof CommlibUappDependencies)) {
             throw new IllegalArgumentException("This Uapp only accepts CommlibUappDependencies");
         }
 
-        dependencies = (CommlibUappDependencies) uappDependencies;
+        this.dependencies = (CommlibUappDependencies) dependencies;
 
-        context = uappSettings.getContext();
+        context = settings.getContext();
     }
 
     @Override
@@ -57,9 +57,8 @@ public class CommlibUapp implements UappInterface {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } else {
-            throw new IllegalArgumentException("This Uapp only works with FragmentLaunchers");
+            throw new IllegalArgumentException("Unsupported UiLauncher provided");
         }
-
     }
 
     public FragmentLauncher getFragmentLauncher() {
