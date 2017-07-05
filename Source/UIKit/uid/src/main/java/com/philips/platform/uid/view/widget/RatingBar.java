@@ -121,8 +121,6 @@ public class RatingBar extends AppCompatRatingBar {
     private void setProgressDrawableCustom() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setProgressDrawableTiled(getStarDrawable());
-        } else {
-            setProgressDrawable(tileify(this, getStarDrawable()));
         }
     }
 
@@ -170,20 +168,6 @@ public class RatingBar extends AppCompatRatingBar {
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);
         return bitmap;
-    }
-
-    private Drawable tileify(android.widget.ProgressBar bar, Drawable d) {
-        try {
-            Method tileify = android.widget.ProgressBar.class.getDeclaredMethod("tileify", Drawable.class, Boolean.TYPE);
-            tileify.setAccessible(true);
-            Object o = tileify.invoke(bar, d, false);
-            if (o instanceof Drawable) {
-                d = (Drawable) o;
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Something went wrong");
-        }
-        return d;
     }
 
     /**
