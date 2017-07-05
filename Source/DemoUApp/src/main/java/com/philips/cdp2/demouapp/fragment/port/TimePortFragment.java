@@ -51,19 +51,20 @@ public class TimePortFragment extends Fragment {
 
         @Override
         public void onPortUpdate(TimePort timePort) {
-            final String datetime = timePort.getPortProperties().datetime;
-            if (datetime == null) {
-                return;
-            }
-            DateTime dt = new DateTime(datetime);
-            String dateTimeString = DATETIME_FORMATTER.print(dt);
-
             if (isAdded()) {
-                updateResult(dateTimeString);
-            }
+                final String datetime = timePort.getPortProperties().datetime;
 
-            if (switchLoopGet.isChecked()) {
-                timePort.reloadProperties();
+                if (datetime == null) {
+                    return;
+                }
+                DateTime dt = new DateTime(datetime);
+                String dateTimeString = DATETIME_FORMATTER.print(dt);
+
+                updateResult(dateTimeString);
+
+                if (switchLoopGet.isChecked()) {
+                    timePort.reloadProperties();
+                }
             }
         }
 

@@ -55,7 +55,7 @@ public class DevicePortFragment extends Fragment {
         public void onPortError(DevicePort port, Error error, @Nullable String errorData) {
             DICommLog.e(TAG, String.format(Locale.US, "Device port error: [%s], data: [%s]", error.getErrorMessage(), errorData));
 
-            if (error == Error.INSECURE_CONNECTION) {
+            if (isAdded() && error == Error.INSECURE_CONNECTION) {
                 promptCertificateMismatch();
             }
         }

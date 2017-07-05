@@ -100,11 +100,7 @@ public class FirmwareUpgradeFragment extends Fragment {
         @Override
         public void onPortError(FirmwarePort port, Error error, String errorData) {
             if (isAdded()) {
-                FirmwarePortProperties properties = port.getPortProperties();
-                if (properties == null) {
-                    return;
-                }
-                stateTextView.setText(properties.getState().toString());
+                stateTextView.setText(getString(R.string.n_a));
                 statusTextView.setText(String.format(Locale.US, "Error: %s", error.getErrorMessage()));
             }
         }
