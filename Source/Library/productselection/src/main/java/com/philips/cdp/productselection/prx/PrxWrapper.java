@@ -33,24 +33,17 @@ public class PrxWrapper {
 
     private String mCtn = null;
     private Sector mSectorCode = null;
-    private String mLocale = null;
     private Catalog mCatalogCode = null;
     private Context mContext = null;
     private AppInfraInterface mAppInfraInterface = null;
 
 
-    public PrxWrapper(Context context, AppInfraInterface appInfraInterface, String ctn, Sector sectorCode, String locale, Catalog catalog) {
+    public PrxWrapper(Context context, AppInfraInterface appInfraInterface, String ctn, Sector sectorCode, Catalog catalog) {
         this.mContext = context;
         this.mAppInfraInterface = appInfraInterface;
         this.mCtn = ctn;
         this.mSectorCode = sectorCode;
-        this.mLocale = locale;
         this.mCatalogCode = catalog;
-
-        //PILLocaleManager localeManager = new PILLocaleManager(mContext);
-        //String[] locales = mLocale.split("_");
-        //localeManager.setInputLocale(locales[0], locales[1]);
-
     }
 
     public void requestPrxSummaryData(final PrxSummaryDataListener listener, final String requestTag) {
@@ -61,8 +54,6 @@ public class PrxWrapper {
         final ProductSummaryRequest summaryBuilder = new ProductSummaryRequest(mCtn, requestTag);
         summaryBuilder.setSector(mSectorCode);
         summaryBuilder.setCatalog(mCatalogCode);
-        //  summaryBuilder.setLocale(mLocale);
-
 
         PRXDependencies prxDependencies = new PRXDependencies(mContext, mAppInfraInterface, Constants.COMPONENT_NAME_PS);
 
@@ -75,12 +66,9 @@ public class PrxWrapper {
                 ProductSelectionLogger.d(TAG, "Response Success for the CTN : " + mCtn);
                 SummaryModel summaryModel = (SummaryModel) responseData;
                 if (summaryModel.isSuccess()) {
-
                     listener.onSuccess(summaryModel);
-
                 } else
                     ProductSelectionLogger.e(TAG, "Response Failed  for the CTN as \"isSuccess\" false: " + mCtn);
-
             }
 
             @Override
@@ -89,8 +77,6 @@ public class PrxWrapper {
                 listener.onFail(error.getDescription());
             }
         });
-
-
     }
 
     public void requestPrxAssetData(final PrxAssetDataListener listener, final String requestTag) {
@@ -127,8 +113,6 @@ public class PrxWrapper {
                 listener.onFail(error.getDescription());
             }
         });
-
-
     }
 
 
@@ -143,7 +127,6 @@ public class PrxWrapper {
             final ProductSummaryRequest summaryBuilder = new ProductSummaryRequest(ctnList[i], requestTag);
             summaryBuilder.setSector(mSectorCode);
             summaryBuilder.setCatalog(mCatalogCode);
-            //summaryBuilder.setLocale(mLocale);
 
             PRXDependencies prxDependencies = new PRXDependencies(mContext, mAppInfraInterface, Constants.COMPONENT_NAME_PS);
 

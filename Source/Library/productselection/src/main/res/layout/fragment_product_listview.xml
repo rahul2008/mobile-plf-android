@@ -5,6 +5,7 @@
     android:paddingRight="16dip"
     android:layout_alignParentTop="true"
     android:orientation="vertical"
+    android:background="@android:color/white"
     android:layout_height="match_parent">
 
    <com.philips.cdp.productselection.utils.CustomSearchView
@@ -15,6 +16,7 @@
         android:paddingStart="10dp"
         android:paddingRight="10dp"
         android:paddingEnd="10dp"
+       android:layout_marginTop="16dip"
         android:background="@drawable/consumercare_search_bar"
         android:drawableLeft="@drawable/uid_search_icon"
         android:drawableStart="@drawable/uid_search_icon"

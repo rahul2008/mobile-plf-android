@@ -120,25 +120,20 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults filterResults = new FilterResults();
-            /*if (constraint != null && constraint.length() > 0) {
-                ArrayList<AtosResultsModel> FilteredResultModelSet = new ArrayList<AtosResultsModel>();
-                for (int i = 0; i < mOriginalSet.size(); i++) {
-                    AtosResultsModel resultModel = mOriginalSet.get(i);
-                    AtosAddressModel addressModel = resultModel
-                            .getAddressModel();
-                    if ((addressModel.getCityState().toUpperCase())
-                            .contains(constraint.toString().toUpperCase())) {
+            if (constraint != null && constraint.length() > 0) {
+                ArrayList<SummaryModel> FilteredResultModelSet = new ArrayList<SummaryModel>();
 
-                        AtosResultsModel filteredResultModel = new AtosResultsModel();
-
-                        filteredResultModel.setId(resultModel.getId());
-                        filteredResultModel.setInfoType(resultModel
-                                .getInfoType());
-                        filteredResultModel.setTitle(resultModel.getTitle());
-                        filteredResultModel.setLocationModel(resultModel
-                                .getLocationModel());
-                        filteredResultModel.setAddressModel(resultModel
-                                .getAddressModel());
+                for (int i = 0; i < mProductsList.size(); i++) {
+                    SummaryModel summaryModel = mProductsList.get(i);
+                    Data data = summaryModel.getData();
+                    System.out.println("****** ctn : "+data.getCtn());
+                    System.out.println("****** title : "+data.getProductTitle());
+                    System.out.println("****** url : "+data.getImageURL());
+                    if ((data.getProductTitle()).contains(constraint.toString().toUpperCase())) {
+                        SummaryModel filteredResultModel = new SummaryModel();
+                        filteredResultModel.getData().setCtn(data.getCtn());
+                        filteredResultModel.getData().setProductTitle(data.getProductTitle());
+                        filteredResultModel.getData().setImageURL(data.getImageURL());
                         FilteredResultModelSet.add(filteredResultModel);
                     }
 
@@ -147,10 +142,10 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
                 filterResults.values = FilteredResultModelSet;
             } else {
                 synchronized (this) {
-                    filterResults.count = mOriginalSet.size();
-                    filterResults.values = mOriginalSet;
+                    filterResults.count = mProductsList.size();
+                    filterResults.values = mProductsList;
                 }
-            }*/
+            }
             return filterResults;
         }
 
@@ -158,7 +153,7 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
         @Override
         protected void publishResults(CharSequence constraint,
                                       FilterResults results) {
-           // mResultModelSet = (ArrayList<AtosResultsModel>) results.values;
+            mProductsList = (ArrayList<SummaryModel>) results.values;
             notifyDataSetChanged();
         }
     }

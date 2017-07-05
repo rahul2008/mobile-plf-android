@@ -90,6 +90,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         mProductSelectionHelper.initialize(this, mAppInfraInterface);
+        mAppInfraInterface.getServiceDiscovery().setHomeCountry("GB");
     }
 
     private void relaunchActivity() {
@@ -135,7 +136,6 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
 
         List<String> mCtnList = Arrays.asList(getResources().getStringArray(R.array.ctn_list));
 
-
         for (int i = 0; i < mCtnList.size(); i++) {
             mList.add(mCtnList.get(i));
         }
@@ -180,7 +180,7 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
         ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED,
                 getDlsThemeConfiguration(),themeHelper.getThemeResourceId(), null);
 
-        mProductSelectionHelper.setLocale("en", "GB");
+        //mProductSelectionHelper.setLocale("en", "IN");
         ProductModelSelectionHelper.getInstance().setProductSelectionListener(new ProductSelectionListener() {
             @Override
             public void onProductModelSelected(SummaryModel productSummaryModel) {

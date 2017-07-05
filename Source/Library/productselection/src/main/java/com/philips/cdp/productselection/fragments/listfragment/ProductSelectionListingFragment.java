@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Filter;
 import android.widget.ListView;
 
 import com.philips.cdp.productselection.ProductModelSelectionHelper;
@@ -99,7 +100,6 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
     private void injectSummaryDataList() {
         SummaryModel[] summaryList = ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getSummaryModelList();
         if(summaryList!=null){
-            ProductSelectionLogger.i(TAG, "Found " + summaryList.length + " products in region " + ProductModelSelectionHelper.getInstance().getLocale().toString());
             productList = new ArrayList<SummaryModel>();
 
             for (int i = 0; i < summaryList.length; i++) {
@@ -128,32 +128,21 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
 
     }
 
-   /* private void showListView() {
+    private void showListView() {
 
-        final String constrain = mSearchBox.getText().toString().trim();
+       final String constrain = mSearchBox.getText().toString().trim();
 
-        if (mResultModelSet != null && mProductAdapter.getFilter()!=null) {
-            mAdapter.getFilter().filter(constrain,
+        if (productList != null && mProductAdapter.getFilter()!=null) {
+            mProductAdapter.getFilter().filter(constrain,
                     new Filter.FilterListener() {
                         public void onFilterComplete(int count) {
-                            Map<String, String> contextData = new HashMap<String, String>();
-                            contextData.put(AnalyticsConstants.
-                                    ACTION_KEY_LOCATE_PHILIPS_SEARCH_TERM, constrain);
-                            contextData.put(AnalyticsConstants.
-                                            ACTION_KEY_LOCATE_PHILIPS_SEARCH_RESULTS,
-                                    String.valueOf(count));
-                            DigitalCareConfigManager.getInstance().getTaggingInterface().
-                                    trackActionWithInfo(AnalyticsConstants.ACTION_SEND_DATA,
-                                            contextData);
-                            mListView.setAdapter(mAdapter);
-                            mListView.setVisibility(View.VISIBLE);
-                            mLinearLayout.setVisibility(View.GONE);
-                            if (mArabicSearchIcon.getVisibility() == View.VISIBLE)
-                                mArabicMarkerIcon.setVisibility(View.VISIBLE);
+                            mProductListView.setAdapter(mProductAdapter);
+                            mProductListView.setVisibility(View.VISIBLE);
+                           // mProductListView.setVisibility(View.GONE);
                         }
                     });
         }
-    }*/
+    }
 
     @Override
     public String getActionbarTitle() {
@@ -182,7 +171,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
 
     @Override
     public void afterTextChanged(Editable s) {
-
+            showListView();
     }
 
     @Override

@@ -5,7 +5,10 @@
     <string name="action_settings">Settings</string>
     <string name="dummyTitleMultiProduct">Dummy Actionbar Title MP</string>
 
+
     <string-array name="ctn_list">
+        <item>SCD888/26</item>
+        <item>RQ1250/16</item>
         <item>RQ1250/17</item>
         <item>HD3197/03</item>
         <item>HX6321_02</item>
@@ -22,7 +25,12 @@
         <item>RQ1150/16</item>
         <item>SC5994/00</item>
         <item>SC2008/11</item>
+        <item>HR1871_00</item>
+        <item>SC2009/00</item>
+        <item>HX9192/01</item>
+        <item>HX9192/02</item>
+        <item>HX9192/03</item>
+        <item>HX9192/04</item>
+        <item>HX9191/06</item>
     </string-array>
-
-
 </resources>
