@@ -68,7 +68,6 @@ public class LaunchFragment extends Fragment implements BackEventListener, Launc
     private AlertDialog.Builder mAlertDialogBuilder;
     private AlertDialog mAlertDialog;
     private StateContext mStateContext;
-    private boolean mIsCreate;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,7 +75,6 @@ public class LaunchFragment extends Fragment implements BackEventListener, Launc
         initializeDiComm();
 
         mNetworkChangeListener = new NetworkChangeListener();
-        mIsCreate = true;
     }
 
     @Override
@@ -115,13 +113,12 @@ public class LaunchFragment extends Fragment implements BackEventListener, Launc
         mAvailableDevicesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                if (mAppliancesList != null && mAppliancesList.size() > 0){
+                if (mAppliancesList != null && mAppliancesList.size() > 0) {
                     PairDevice pairDeviceDetails = getDeviceDetails(mAvailableDevicesList.get(position));
-                    if(pairDeviceDetails != null){
+                    if (pairDeviceDetails != null) {
                         mLaunchFragmentPresenter.pairDevice(pairDeviceDetails, LaunchFragment.this);
                     }
                 }
-//                mLaunchFragmentPresenter.pairDevice(getTestDeviceDetails(), LaunchFragment.this);
             }
         });
 
@@ -152,12 +149,6 @@ public class LaunchFragment extends Fragment implements BackEventListener, Launc
     @Override
     public void onAttachFragment(Fragment childFragment) {
         super.onAttachFragment(childFragment);
-       /* if (mIsCreate) {
-            mStateContext = new StateContext();
-            mStateContext.setState(new GetPairedDevicesState(mFragmentLauncher, this));
-            mStateContext.start();
-            mIsCreate = false;
-        }*/
     }
 
     @Override
@@ -170,12 +161,7 @@ public class LaunchFragment extends Fragment implements BackEventListener, Launc
     public void onResume() {
         super.onResume();
 
-        //For testing
-        /*List<String> test = new ArrayList<>();
-        test.add("1c5a6bfffecc9127");
-        updateDiscoveredDevices(test);*/
-
-        if (!(getActivity().isFinishing())) {
+        if (!((mFragmentLauncher.getFragmentActivity()).isFinishing())) {
             mStateContext = new StateContext();
             mStateContext.setState(new GetPairedDevicesState(mFragmentLauncher, this));
             mStateContext.start();
@@ -230,17 +216,9 @@ public class LaunchFragment extends Fragment implements BackEventListener, Launc
         return mFragmentLauncher;
     }
 
-    //For testing
-    /*private PairDevice getTestDeviceDetails() {
-        mPairDevice = new PairDevice();
-        mPairDevice.setDeviceID("1c5a6bfffecc9127");
-        mPairDevice.setDeviceType("urn:philips-com:device:DiProduct:1");
-        return mPairDevice;
-    }*/
-
     private PairDevice getDeviceDetails(String id) {
-        for ( int i = 0; i < mAppliancesList.size(); i++){
-            if(mAppliancesList.get(i).getNetworkNode().getCppId().equalsIgnoreCase(id)){
+        for (int i = 0; i < mAppliancesList.size(); i++) {
+            if (mAppliancesList.get(i).getNetworkNode().getCppId().equalsIgnoreCase(id)) {
                 mPairDevice = new PairDevice();
                 mPairDevice.setDeviceID(mAppliancesList.get(i).getNetworkNode().getCppId());
                 mPairDevice.setDeviceType(mAppliancesList.get(i).getDeviceType());

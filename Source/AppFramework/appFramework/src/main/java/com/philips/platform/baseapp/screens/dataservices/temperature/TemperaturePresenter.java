@@ -164,7 +164,13 @@ public class TemperaturePresenter {
                         popupWindow.dismiss();
                         break;
                     case UPDATE:
-                        addOrUpdateMoment(UPDATE, data.get(selectedItem));
+                        final TemperatureMomentHelper helper = new TemperatureMomentHelper();
+                        if(String.valueOf(helper.getTemperature(data.get(selectedItem))).equalsIgnoreCase("default")){
+                            Toast.makeText(mContext,
+                                    R.string.RA_invalid_temperature, Toast.LENGTH_SHORT).show();
+                        }else {
+                            addOrUpdateMoment(UPDATE, data.get(selectedItem));
+                        }
                         popupWindow.dismiss();
                         break;
                     default:
