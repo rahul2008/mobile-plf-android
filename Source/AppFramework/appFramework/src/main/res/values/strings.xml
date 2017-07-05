@@ -153,7 +153,7 @@
         <item>@string/RA_Coco_Version</item>
         <item>@string/RA_DebugScreen_Title</item>
         <item>@string/RA_Demo_Menu_Title</item>
-
+        <item>@string/RA_Device_Pairing</item>
     </string-array>
 
     <string-array name="demo_drawer_items">
@@ -225,7 +225,7 @@ Receive free product accessories</string>
     <string name="insights" translatable="false">Insights</string>
     <string name="logout" translatable="false">logout</string>
     <string name="RA_Coco_Version" translatable="false">App Info</string>
-
+    <string name="RA_Device_Pairing" translatable="false">Device Pairing</string>
     <!--<array name="hamburger_drawer_icons">-->
     <!--<item>@drawable/uikit_cart</item>-->
     <!--<item>@drawable/uikit_cart</item>-->

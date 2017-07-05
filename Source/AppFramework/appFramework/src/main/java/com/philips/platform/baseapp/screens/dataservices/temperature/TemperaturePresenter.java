@@ -19,16 +19,12 @@ import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.utils.RowItem;
 import com.philips.platform.appframework.R;
-import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.baseapp.base.AppFrameworkApplication;
-import com.philips.platform.baseapp.screens.dataservices.DataServicesState;
 import com.philips.platform.baseapp.screens.dataservices.database.DatabaseHelper;
 import com.philips.platform.baseapp.screens.dataservices.database.EmptyForeignCollection;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MeasurementDetailType;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MeasurementGroupDetailType;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MeasurementType;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentDetailType;
-import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentType;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMoment;
 import com.philips.platform.baseapp.screens.dataservices.database.table.OrmSynchronisationData;
 import com.philips.platform.baseapp.screens.utility.RALog;
@@ -124,7 +120,7 @@ public class TemperaturePresenter {
     }
 
     void fetchData(DBFetchRequestListner dbFetchRequestListner) {
-        mDataServices.fetchMomentWithType(dbFetchRequestListner, MomentType.TEMPERATURE);
+        mDataServices.fetchAllMoment(dbFetchRequestListner);
     }
 
     private void saveRequest(Moment moment) {
@@ -133,13 +129,7 @@ public class TemperaturePresenter {
         } else {
 
             List<Moment> moments = new ArrayList<>();
-
             moments.add(moment);
-            //moments.add(moment);
-            //moments.add(moment);
-            //moments.add(moment);
-            //moments.add(moment);
-
             mDataServices.saveMoments(moments, dbRequestListener);
         }
     }
@@ -174,7 +164,13 @@ public class TemperaturePresenter {
                         popupWindow.dismiss();
                         break;
                     case UPDATE:
-                        addOrUpdateMoment(UPDATE, data.get(selectedItem));
+                        final TemperatureMomentHelper helper = new TemperatureMomentHelper();
+                        if(String.valueOf(helper.getTemperature(data.get(selectedItem))).equalsIgnoreCase("default")){
+                            Toast.makeText(mContext,
+                                    R.string.RA_invalid_temperature, Toast.LENGTH_SHORT).show();
+                        }else {
+                            addOrUpdateMoment(UPDATE, data.get(selectedItem));
+                        }
                         popupWindow.dismiss();
                         break;
                     default:
@@ -201,7 +197,7 @@ public class TemperaturePresenter {
                 DSLog.i(DSLog.LOG, "e = " + e.getMessage());
             }
         } catch (SQLException e) {
-            RALog.e(TAG+SQLITE_EXCEPTION,
+            RALog.e(TAG + SQLITE_EXCEPTION,
                     e.getMessage());
         }
     }
@@ -279,13 +275,14 @@ public class TemperaturePresenter {
                         dialog.dismiss();
 
                         try {
-                            Dao<OrmSynchronisationData, Integer> ormSynchronisationDataDao =DatabaseHelper.getInstance(mContext).getSynchronisationDataDao();
+                            Dao<OrmSynchronisationData, Integer> ormSynchronisationDataDao = DatabaseHelper.getInstance(mContext).getSynchronisationDataDao();
                             ormSynchronisationDataDao.refresh((OrmSynchronisationData) moment.getSynchronisationData());
-                            Dao<OrmMoment, Integer> momentDao =DatabaseHelper.getInstance(mContext).getMomentDao();
+                            Dao<OrmMoment, Integer> momentDao = DatabaseHelper.getInstance(mContext).getMomentDao();
                             momentDao.refresh((OrmMoment) moment);
                         } catch (SQLException e) {
                             RALog.e(TAG + SQLITE_EXCEPTION,
-                                    e.getMessage());                        }
+                                    e.getMessage());
+                        }
                         updateMoment((OrmMoment) moment);
                         break;
                 }
@@ -330,7 +327,6 @@ public class TemperaturePresenter {
 
     private boolean validateInputFields() {
         String temperature = mTemperature.getText().toString();
-        //validate temperature
         try {
             Double.valueOf(temperature);
             return true;

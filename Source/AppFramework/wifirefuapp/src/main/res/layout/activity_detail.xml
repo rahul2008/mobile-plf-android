@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:paddingBottom="5dp"
+              android:paddingLeft="5dp"
+              android:paddingRight="5dp"
+              android:paddingTop="5dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:text="Device Name"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:gravity="end"
+            android:minWidth="256dp">
+
+            <EditText
+                android:id="@+id/editTextName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="128dp"
+                tools:text="Some name"
+                android:inputType="text"/>
+
+            <Button
+                android:id="@+id/buttonSet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Set"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:text="Light State"/>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/switchLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"/>
+    </FrameLayout>
+
+    <Button
+        android:layout_margin="5dp"
+        android:id="@+id/buttonPair"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pair"/>
+
+    <Button
+        android:layout_margin="5dp"
+        android:id="@+id/buttonUnPair"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="UnPair"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/userId"
+        android:hint="User ID"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/userToken"
+        android:hint="Access Token"/>
+
+</LinearLayout>

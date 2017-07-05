@@ -108,7 +108,11 @@ public class AppFrameworkApplication extends Application {
         }
         RALog.d("test", "onCreate end::");
         callback.onAppStatesInitialization();
+
+
     }
+
+
 
     public void initUserRegistrationState() {
         userRegistrationState = new UserRegistrationOnBoardingState();

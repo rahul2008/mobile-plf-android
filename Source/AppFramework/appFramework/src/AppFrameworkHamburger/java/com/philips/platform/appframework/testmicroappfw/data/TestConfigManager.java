@@ -7,8 +7,6 @@ import com.google.gson.GsonBuilder;
 import com.philips.platform.appframework.testmicroappfw.models.Chapter;
 import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
 import com.philips.platform.appframework.testmicroappfw.models.TestFwConfig;
-import com.philips.platform.appinfra.logging.LoggingInterface;
-import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
 import java.io.IOException;

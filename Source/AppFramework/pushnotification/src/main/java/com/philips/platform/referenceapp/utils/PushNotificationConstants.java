@@ -22,5 +22,5 @@ public class PushNotificationConstants {
         public static final String PUSH_JPUSH="Push.JPush";
         public static final String PLATFORM_KEY ="platform";
         public static final String DSC = "dsc";
-        
+
 }

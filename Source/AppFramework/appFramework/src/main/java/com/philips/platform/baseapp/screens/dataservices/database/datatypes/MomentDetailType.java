@@ -16,7 +16,7 @@ import java.util.List;
 public class MomentDetailType {
 
     public static final String UNKNOWN = "UNKNOWN";
-    public static final String NOTE = "NOTE";
+    public static final String NOTE = "Note";
     public static final String PHOTO = "PHOTO";
     public static final String STICKER = "STICKER";
     public static final String VIDEO = "VIDEO";
@@ -31,6 +31,9 @@ public class MomentDetailType {
 
         if(description.equalsIgnoreCase(PHASE)){
             return 55;
+        }
+        if(description.equalsIgnoreCase(NOTE)){
+            return 50;
         }else {
             return -1;
         }
