@@ -75,6 +75,6 @@ dependencies {
     compile deps.stetho
     compile deps.support.appcompatv7
 
-    debugCompile project(path: ':bluelibexampleapp', configuration: 'debug')
-    releaseCompile project(path: ':bluelibexampleapp', configuration: 'release')
+    debugCompile project(path: ':bluelib-demouapp', configuration: 'debug')
+    releaseCompile project(path: ':bluelib-demouapp', configuration: 'release')
 }
