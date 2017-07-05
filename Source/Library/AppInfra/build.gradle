@@ -4,10 +4,6 @@ apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
-def coverageSourceDirs = [
-        '../AppInfra/src/main/java'
-]
-
 buildscript {
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
@@ -147,6 +143,9 @@ android {
     signingConfigs {
         release
     }
+    lintOptions {
+        abortOnError false
+    }
 //    signingConfigs {
 //        config {
 //            keyAlias 'AppInfra'
@@ -163,9 +162,6 @@ android {
         versionName objcdp.getVersionWithHash()
         testApplicationId "com.philips.platform.appinfra.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
-        consumerProguardFiles 'proguard-rules-ail.pro'
-
-
     }
 
     sourceSets.main
@@ -196,6 +192,8 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
+            minifyEnabled true
+            proguardFiles 'proguard-rules-ail.pro'
         }
         debug {
             testCoverageEnabled true
