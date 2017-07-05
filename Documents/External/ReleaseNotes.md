@@ -6,10 +6,12 @@ Version {next}
 
 ### Functionality Delivered
 * \#37438: component now exposes its version and tla via BuildConfig
-* \#35191: `LanTransportContext` received utility methods to handle pin mismatches:
-	* `LanTransportContext#rejectNewPinFor`
-	* `LanTransportContext#acceptNewPinFor`
-	* `LanTransportContext#findAppliancesWithMismatchedPinIn`
+* \#35191: Pin mismatch api added
+	* `onPortError` will give `Error.INSECURE_CONNECTION` when there is a pin mismatch.
+	* `LanTransportContext` received utility methods to handle pin mismatches:
+		* `LanTransportContext#rejectNewPinFor`
+		* `LanTransportContext#acceptNewPinFor`
+		* `LanTransportContext#findAppliancesWithMismatchedPinIn`
 
 ### Backwards Compatibility
 * N/A
