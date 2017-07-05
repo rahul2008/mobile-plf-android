@@ -278,7 +278,7 @@ public class PTHManager {
 
             @Override
             public void onFailure(Throwable throwable) {
-                Log.v("onGetMedicationReceived","failure");
+              //  Log.v("onGetMedicationReceived","failure");
             }
         });
 
@@ -293,7 +293,7 @@ public class PTHManager {
 
             @Override
             public void onResponse(List<Medication> medications, SDKError sdkError) {
-                Log.v("onSearchMedication","sucess");
+                //Log.v("onSearchMedication","sucess");
                 if(null!=medications ) {
                     PTHMedication pTHMedication = new PTHMedication();
                     pTHMedication.setMedicationList(medications);
@@ -303,7 +303,7 @@ public class PTHManager {
 
             @Override
             public void onFailure(Throwable throwable) {
-                Log.v("onSearchMedication","failure");
+
                 pTHSDKValidatedCallback.onFailure(throwable);
             }
         });
@@ -316,13 +316,13 @@ public class PTHManager {
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
               // sdkError comes null even after successfully updating the medication
-                Log.v("onUpdateMedication","success");
+                //Log.v("onUpdateMedication","success");
                 pTHUpdateMedicationCallback.onUpdateMedicationSent(aVoid,sdkError);
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                Log.v("onUpdateMedication","failure");
+               // Log.v("onUpdateMedication","failure");
             }
         });
     }
