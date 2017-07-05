@@ -8,6 +8,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.amwelluapp.base.PTHBasePresenter;
 import com.philips.amwelluapp.base.PTHBaseView;
 import com.philips.amwelluapp.intake.PTHMedicationFragment;
+import com.philips.amwelluapp.intake.THSFollowUpFragment;
 import com.philips.amwelluapp.utility.PTHManager;
 
 import java.util.List;
@@ -45,6 +46,7 @@ public class PTHProviderListPresenter implements PTHProvidersListCallback, PTHBa
 
     @Override
     public void onEvent(int componentID) {
-        mUiBaseView.addFragment(new PTHMedicationFragment(), PTHMedicationFragment.TAG,null );
+       // mUiBaseView.addFragment(new PTHMedicationFragment(), PTHMedicationFragment.TAG,null );
+        mUiBaseView.addFragment(new THSFollowUpFragment(), THSFollowUpFragment.TAG,null );
     }
 }

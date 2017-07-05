@@ -16,6 +16,7 @@ import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.ConsumerType;
 import com.americanwell.sdk.entity.consumer.Gender;
+import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.insurance.Subscription;
 import com.americanwell.sdk.entity.practice.OnDemandSpecialty;
 import com.americanwell.sdk.entity.practice.Practice;
@@ -29,11 +30,13 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.americanwell.sdk.manager.PracticeProvidersManager;
 import com.americanwell.sdk.manager.SDKCallback;
+import com.philips.amwelluapp.intake.PTHMedicationCallback;
 import com.philips.amwelluapp.login.PTHAuthentication;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
 import com.philips.amwelluapp.practice.PTHPracticesListCallback;
 import com.philips.amwelluapp.providerdetails.PTHProviderDetailsCallback;
 import com.philips.amwelluapp.providerslist.PTHProvidersListCallback;
+import com.philips.amwelluapp.registration.PTHConsumer;
 import com.philips.amwelluapp.registration.PTHRegistrationDetailCallback;
 import com.philips.amwelluapp.registration.PTHState;
 import com.philips.amwelluapp.sdkerrors.PTHSDKError;
@@ -61,7 +64,12 @@ import static org.mockito.Mockito.when;
 public class PTHManagerTest {
     PTHManager pthManager;
 
+    PTHConsumer mPTHConsumer;
+
     Consumer mConsumer;
+
+    @Mock
+    Consumer mConsumerMock;
 
     Practice practice;
 
@@ -69,6 +77,8 @@ public class PTHManagerTest {
 
     @Mock
     PracticeProvidersManager practiseprovidermanagerMock;
+
+
 
     @Mock
     Context contextMock;
@@ -137,6 +147,14 @@ public class PTHManagerTest {
     @Captor
     private ArgumentCaptor<SDKCallback<Provider,SDKError>> providerDetailsCaptor;
 
+    @Mock
+    PTHMedicationCallback.PTHGetMedicationCallback pTHGetMedicationCallbackMock;
+
+    @Captor
+    private ArgumentCaptor<SDKCallback<List<Medication>, SDKError>>getMedicationCaptor;
+
+
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -145,6 +163,9 @@ public class PTHManagerTest {
         mConsumer = getConsumer();
         practice = getPractice();
         providerInfo = getProviderInfo();
+        mPTHConsumer = new PTHConsumer();
+        mPTHConsumer.setConsumer(getConsumer());
+        pthManager.setPTHConsumer(mPTHConsumer);
     }
 
     @Test
@@ -212,7 +233,7 @@ public class PTHManagerTest {
         verify(practiseprovidermanagerMock).getPractices(any(Consumer.class), requestPracticeCaptor.capture());
         SDKCallback value = requestPracticeCaptor.getValue();
         value.onResponse(any(List.class), any(SDKError.class));
-
+        value.onFailure(any(Throwable.class));
     }
 
     @Test
@@ -232,6 +253,19 @@ public class PTHManagerTest {
         verify(practiseprovidermanagerMock).getProvider(any(ProviderInfo.class),any(Consumer.class),providerDetailsCaptor.capture());
         SDKCallback value = providerDetailsCaptor.getValue();
         value.onResponse(any(Provider.class), any(SDKError.class));
+        value.onFailure(any(Throwable.class));
+    }
+
+    @Test
+    public void getMedicationTest() throws AWSDKInstantiationException {
+        when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
+        //when(pthManager.getPTHConsumer().getConsumer()).thenReturn(mConsumerMock);
+
+
+        pthManager.getMedication(contextMock,pTHGetMedicationCallbackMock);
+        verify(consumerManagerMock).getMedications(any(Consumer.class),getMedicationCaptor.capture());
+        SDKCallback value = getMedicationCaptor.getValue();
+        value.onResponse(any(List.class), any(SDKError.class));
         value.onFailure(any(Throwable.class));
     }
 
