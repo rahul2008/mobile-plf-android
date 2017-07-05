@@ -72,9 +72,9 @@ public class ProductModelSelectionHelper {
         return mProductModelSelectionType;
     }
 
-    public Locale getLocale() {
+    /*//public Locale getLocale() {
         return mLocale;
-    }
+    }*/
 
 
     /**
@@ -149,7 +149,6 @@ public class ProductModelSelectionHelper {
 
         PrxWrapper prxWrapperCode = new PrxWrapper(mContext, mAppInfraInterface, null,
                 productModelSelectionType.getSector(),
-                getLocale().toString(),
                 productModelSelectionType.getCatalog());
 
         prxWrapperCode.requestPrxSummaryList(new SummaryDataListener() {
@@ -183,7 +182,7 @@ public class ProductModelSelectionHelper {
                                   int parentContainerResId,
                                   ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
                                   int exitAnim) {
-        if (mContext == null || mLocale == null) {
+        if (mContext == null) {
             throw new RuntimeException("Please initialise context, locale before component invocation");
         }
         SharedPreferences prefs = context.getSharedPreferences(
@@ -221,7 +220,7 @@ public class ProductModelSelectionHelper {
     }
 
     private void invokeAsActivity(int startAnimation, int endAnimation, ActivityLauncher.ActivityOrientation orientation) {
-        if (mContext == null || mLocale == null) {
+        if (mContext == null) {
             throw new RuntimeException("Please initialise context, locale before component invocation");
         }
         Intent intent = new Intent(this.getContext(), ProductSelectionActivity.class);
@@ -240,13 +239,13 @@ public class ProductModelSelectionHelper {
         this.mProductSelectionListener = mProductListener;
     }
 
-    public void setLocale(String langCode, String countryCode) {
+    /*public void setLocale(String langCode, String countryCode) {
 
         if (langCode != null && countryCode != null) {
             mLocale = new Locale(langCode, countryCode);
             ProductSelectionLogger.i(TAG, "setLocale API of ProductSelection : " + mLocale.toString());
         }
-    }
+    }*/
 
     public String getProductSelectionLibVersion() {
         return BuildConfig.VERSION_NAME;

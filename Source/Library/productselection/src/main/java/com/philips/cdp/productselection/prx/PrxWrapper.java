@@ -39,12 +39,12 @@ public class PrxWrapper {
     private AppInfraInterface mAppInfraInterface = null;
 
 
-    public PrxWrapper(Context context, AppInfraInterface appInfraInterface, String ctn, Sector sectorCode, String locale, Catalog catalog) {
+    public PrxWrapper(Context context, AppInfraInterface appInfraInterface, String ctn, Sector sectorCode, Catalog catalog) {
         this.mContext = context;
         this.mAppInfraInterface = appInfraInterface;
         this.mCtn = ctn;
         this.mSectorCode = sectorCode;
-        this.mLocale = locale;
+        //this.mLocale = locale;
         this.mCatalogCode = catalog;
 
         //PILLocaleManager localeManager = new PILLocaleManager(mContext);

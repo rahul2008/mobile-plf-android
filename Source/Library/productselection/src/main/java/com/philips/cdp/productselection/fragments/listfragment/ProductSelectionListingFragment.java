@@ -94,7 +94,7 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
 
     private void injectSummaryDataList() {
         SummaryModel[] summaryList = ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getSummaryModelList();
-        ProductSelectionLogger.i(TAG, "Found " + summaryList.length + " products in region " + ProductModelSelectionHelper.getInstance().getLocale().toString());
+        //ProductSelectionLogger.i(TAG, "Found " + summaryList.length + " products in region " + ProductModelSelectionHelper.getInstance().getLocale().toString());
         productList = new ArrayList<SummaryModel>();
 
         for (int i = 0; i < summaryList.length; i++) {
@@ -140,7 +140,6 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
             final String ctn = ctnList[i];
             PrxWrapper prxWrapperCode = new PrxWrapper(getActivity().getApplicationContext(), ProductModelSelectionHelper.getInstance().getAPPInfraInstance(), ctn,
                     ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getSector(),
-                    ProductModelSelectionHelper.getInstance().getLocale().toString(),
                     ProductModelSelectionHelper.getInstance().getProductModelSelectionType().getCatalog());
 
             prxWrapperCode.requestPrxSummaryData(new PrxSummaryDataListener() {
