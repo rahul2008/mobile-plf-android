@@ -23,12 +23,6 @@
 
 -keepattributes *Annotation*,InnerClasses
 
-# Preserve all public classes, and their public and protected fields and
-# methods.
-
--keep public class * {
-    public protected *;
-}
 
 ## Preserve all .class method names.
 #
@@ -38,10 +32,10 @@
 #}
 #
 ## Preserve all native method names and the names of their classes.
-#
-#-keepclasseswithmembernames class * {
-#    native <methods>;
-#}
+
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
 
 
 
