@@ -32,7 +32,7 @@ public class DefaultCommlibUappDependencies extends CommlibUappDependencies {
         final LanTransportContext lanTransportContext = new LanTransportContext(context);
         final CloudTransportContext cloudTransportContext = new CloudTransportContext(cloudController);
 
-        final SampleApplianceFactory applianceFactory = new SampleApplianceFactory(lanTransportContext, cloudTransportContext);
+        final CommlibUappApplianceFactory applianceFactory = new CommlibUappApplianceFactory(lanTransportContext, cloudTransportContext);
 
         this.commCentral = new CommCentral(applianceFactory, lanTransportContext, cloudTransportContext);
 
@@ -44,7 +44,7 @@ public class DefaultCommlibUappDependencies extends CommlibUappDependencies {
 
     @NonNull
     private CloudController setupCloudController(Context context) {
-        final CloudController cloudController = new DefaultCloudController(context, new SampleKpsConfigurationInfo());
+        final CloudController cloudController = new DefaultCloudController(context, new CommlibUappKpsConfigurationInfo());
 
         String ICPClientVersion = cloudController.getICPClientVersion();
         DICommLog.i(DICommLog.ICPCLIENT, "ICPClientVersion :" + ICPClientVersion);

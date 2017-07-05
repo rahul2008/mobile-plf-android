@@ -8,22 +8,22 @@ Version {next}
 * 37438: component now exposes its version and tla via BuildConfig
 
 ### Backwards Compatibility
-* NA
+* N/A
 
 ### Features not covered
 * To be filled in at release
 
 ### Breaking Changes
-See backwards compatibility
+`DICommApplianceFactory#getSupportedModelNames` was changed into `DICommApplianceFactory#getSupportedDeviceTypes` to reflect the renaming of the `NetworkNode` `modelName` property into `deviceType`.
 
 ### Defects solved
-* NA
+* N/A
 
 ### Residual anomalies
 * To be filled in at release
 
 ### Risks and mitigations
-* NA
+* N/A
 
 Version 7.0.0
 -------------

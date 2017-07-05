@@ -6,6 +6,7 @@
 package com.philips.cdp.dicommclientsample;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -38,7 +39,7 @@ class SampleApplianceFactory implements DICommApplianceFactory<Appliance> {
 
     @Override
     public boolean canCreateApplianceForNode(NetworkNode networkNode) {
-        return getSupportedModelNames().contains(networkNode.getDeviceType());
+        return getSupportedDeviceTypes().contains(networkNode.getDeviceType());
     }
 
     @Override
@@ -49,12 +50,16 @@ class SampleApplianceFactory implements DICommApplianceFactory<Appliance> {
                     cloudTransportContext.createCommunicationStrategyFor(networkNode));
 
             switch (networkNode.getDeviceType()) {
-                case ComfortAirPurifier.DEVICETYPE:
+                case AirPurifier.DEVICETYPE:
                     networkNode.useLegacyHttp();
-                    return new ComfortAirPurifier(networkNode, communicationStrategy);
-                case JaguarAirPurifier.DEVICETYPE:
-                    networkNode.useLegacyHttp();
-                    return new JaguarAirPurifier(networkNode, communicationStrategy);
+
+                    final String modelId = networkNode.getModelId();
+
+                    if (TextUtils.isEmpty(modelId)) {
+                        return new JaguarAirPurifier(networkNode, communicationStrategy);
+                    } else if (modelId.equals(ComfortAirPurifier.MODELID)) {
+                        return new ComfortAirPurifier(networkNode, communicationStrategy);
+                    }
                 case WifiReferenceAppliance.DEVICETYPE:
                     return new WifiReferenceAppliance(networkNode, communicationStrategy);
             }
@@ -63,7 +68,7 @@ class SampleApplianceFactory implements DICommApplianceFactory<Appliance> {
     }
 
     @Override
-    public Set<String> getSupportedModelNames() {
+    public Set<String> getSupportedDeviceTypes() {
         return Collections.unmodifiableSet(new HashSet<String>() {{
             add(AirPurifier.DEVICETYPE);
             add(WifiReferenceAppliance.DEVICETYPE);
