@@ -117,23 +117,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="0dp" />
 
-               <!-- <com.philips.platform.uid.view.widget.Button
-                    android:id="@+id/getdirection"
-                    style="@style/UIDExtraWideButton.Center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dip"
-                    app:uidComponentType="Primary"
-                    android:text="@string/get_directions" />
-
-                <com.philips.platform.uid.view.widget.Button
-                    android:id="@+id/call"
-                    style="@style/UIDExtraWideButton.Center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:uidComponentType="Secondary"
-                    android:text="@string/call" />-->
-
                 <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/getdirection"
                     style="@style/UIDImageTextButton.Center"
