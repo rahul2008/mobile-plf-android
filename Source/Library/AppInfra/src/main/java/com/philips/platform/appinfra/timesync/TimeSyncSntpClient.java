@@ -65,8 +65,7 @@ public class TimeSyncSntpClient implements TimeInterface {
 
     private void refreshIfNeeded() {
         final Calendar now = Calendar.getInstance();
-        if (!mRefreshInProgressLock.isLocked() && now.after(mNextRefreshTime)) {
-            Log.i(AppInfraLogEventID.AI_TIME_SYNC, "Time to be Refresh");
+        if (!mRefreshInProgressLock.isLocked() && now.after(mNextRefreshTime) && getOffset()==0L) {
             refreshTime();
         }
     }
@@ -109,7 +108,9 @@ public class TimeSyncSntpClient implements TimeInterface {
         if (lockAcquired) {
             Message msg = new Message();
             msg.obj = false;
+            isSynchronized=false;
             responseHandler.sendMessage(msg);
+
             boolean offsetUpdated = false;
             long offsetOfLowestRoundTrip = 0;
             long lowestRoundTripDelay = Long.MAX_VALUE;
@@ -145,6 +146,7 @@ public class TimeSyncSntpClient implements TimeInterface {
             if (offsetUpdated) {
                 Message flagMsg = new Message();
                 flagMsg.obj = true;
+                isSynchronized=true;
                 responseHandler.sendMessage(flagMsg);
                 mNextRefreshTime.add(Calendar.HOUR, REFRESH_INTERVAL_IN_HOURS);
                 mOffset = offsetOfLowestRoundTrip;
@@ -155,6 +157,10 @@ public class TimeSyncSntpClient implements TimeInterface {
             mRefreshInProgressLock.unlock();
         } else {
             // another refresh is already in progress
+            Message msg = new Message();
+            msg.obj = false;
+            isSynchronized=false;
+            responseHandler.sendMessage(msg);
             throw new IllegalArgumentException("TimeSync--another refresh is already in progress");
 
         }
@@ -172,7 +178,6 @@ public class TimeSyncSntpClient implements TimeInterface {
             try {
                 Object mServerPool = mAppInfra.getConfigInterface().getPropertyForKey
                         ("timesync.ntp.hosts", "appinfra", configError);
-                Log.i(AppInfraLogEventID.AI_TIME_SYNC, "TimeSync Server Pool From Config");
                 if (mServerPool != null) {
                     if (mServerPool instanceof ArrayList<?>) {
                         ArrayList<String> mServerPoolList = new ArrayList<>();
@@ -261,7 +266,6 @@ public class TimeSyncSntpClient implements TimeInterface {
                 Log.e(AppInfraLogEventID.AI_TIME_SYNC, "Network connectivity not found");
                 isSynchronized = false;
             } else {
-                Log.i(AppInfraLogEventID.AI_TIME_SYNC, "Received DateTimeChangedReceiver BroadcastReceiver Inside Thread");
                 refreshTime();
             }
 
