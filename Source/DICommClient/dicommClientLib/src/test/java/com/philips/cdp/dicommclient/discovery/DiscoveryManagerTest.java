@@ -522,7 +522,7 @@ public class DiscoveryManagerTest extends RobolectricTest {
         }
 
         @Override
-        public Set<String> getSupportedModelNames() {
+        public Set<String> getSupportedDeviceTypes() {
             return null;
         }
     }

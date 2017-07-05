@@ -15,7 +15,7 @@ Version {next}
 * To be filled in at release
 
 ### Breaking Changes
-See backwards compatibility
+`DICommApplianceFactory#getSupportedModelNames` was changed into `DICommApplianceFactory#getSupportedDeviceTypes` to reflect the renaming of the `NetworkNode` `modelName` property into `deviceType`.
 
 ### Defects solved
 * N/A
