@@ -47,10 +47,29 @@ public class LanTransportContext implements TransportContext {
         return new ScheduledThreadPoolExecutor(2);
     }
 
+    /**
+     * Reject new pin for an appliance.
+     * <p>
+     * When the appliance has a stored pin and a new (mismatching) pin was received,
+     * this rejects that new pin. The currently stored pin will remain untouched.
+     * </p>
+     *
+     * @param appliance the appliance to reject the new pin for
+     */
     public static void rejectNewPinFor(final @NonNull Appliance appliance) {
-        appliance.getNetworkNode().setPin(null);
+        appliance.getNetworkNode().setMismatchedPin(null);
     }
 
+    /**
+     * Accept new pin for an appliance.
+     * <p>
+     * When the appliance has a stored pin and a new (mismatching) pin was received,
+     * this accepts that new pin. The currently stored pin will be overwritten with the
+     * new pin and the mismatched pin will be cleared.
+     * </p>
+     *
+     * @param appliance the appliance to accept the new pin for
+     */
     public static void acceptNewPinFor(final @NonNull Appliance appliance) {
         final NetworkNode networkNode = appliance.getNetworkNode();
 
@@ -58,6 +77,13 @@ public class LanTransportContext implements TransportContext {
         networkNode.setMismatchedPin(null);
     }
 
+    /**
+     * Find appliances with mismatched pin.
+     *
+     * @param <A>        the appliance type parameter
+     * @param appliances the appliances to find the appliances with mismatched pin in
+     * @return the set of appliances that have a mismatched pin
+     */
     @NonNull
     public static <A extends Appliance> Set<A> findAppliancesWithMismatchedPinIn(final @NonNull Set<A> appliances) {
         Set<A> appliancesWithMismatchedPin = new HashSet<>();
@@ -67,7 +93,6 @@ public class LanTransportContext implements TransportContext {
                 appliancesWithMismatchedPin.add(appliance);
             }
         }
-
         return appliancesWithMismatchedPin;
     }
 }

@@ -6,7 +6,10 @@ Version {next}
 
 ### Functionality Delivered
 * \#37438: component now exposes its version and tla via BuildConfig
-* \#35191: DevicePortFragment now shows a prompt to handle a certificate (pin) mismatch
+* \#35191: `LanTransportContext` received utility methods to handle pin mismatches:
+	* `LanTransportContext#rejectNewPinFor`
+	* `LanTransportContext#acceptNewPinFor`
+	* `LanTransportContext#findAppliancesWithMismatchedPinIn`
 
 ### Backwards Compatibility
 * N/A

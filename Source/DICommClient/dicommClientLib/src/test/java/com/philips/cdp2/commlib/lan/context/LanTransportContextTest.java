@@ -39,29 +39,20 @@ public class LanTransportContextTest extends RobolectricTest {
     }
 
     @Test
-    public void whenRejectingStoredPinForAppliance_thenTheNetworkNodePinShouldBeNull() {
+    public void whenRejectingNewPinForAppliance_thenThePinShouldRemainUntouched_andTheMismatchedPinShouldBeNull() {
         NetworkNode networkNode = new NetworkNode();
         networkNode.setPin("1234567890");
+        networkNode.setMismatchedPin("ABCDEF");
 
         Appliance appliance = createTestAppliance(networkNode);
         rejectNewPinFor(appliance);
 
-        assertNull(appliance.getNetworkNode().getPin());
-    }
-
-    @Test
-    public void whenRejectingStoredPinForAppliance_thenTheNetworkNodeMismatchedPinShouldBeNull() {
-        NetworkNode networkNode = new NetworkNode();
-        networkNode.setPin("1234567890");
-
-        Appliance appliance = createTestAppliance(networkNode);
-        rejectNewPinFor(appliance);
-
+        assertEquals("1234567890", appliance.getNetworkNode().getPin());
         assertNull(appliance.getNetworkNode().getMismatchedPin());
     }
 
     @Test
-    public void whenAcceptingStoredPinForAppliance_thenTheNetworkNodeMismatchedPinShouldBeNull() {
+    public void whenAcceptingNewPinForAppliance_thenThePinShouldBeTheNewPin_andTheMismatchedPinShouldBeNull() {
         NetworkNode networkNode = new NetworkNode();
         networkNode.setPin("1234567890");
         networkNode.setMismatchedPin("ABCDEF");

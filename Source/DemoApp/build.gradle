@@ -3,7 +3,6 @@
  * All rights reserved.
  */
 
-
 apply plugin: 'com.android.application'
 
 buildscript { bs ->
