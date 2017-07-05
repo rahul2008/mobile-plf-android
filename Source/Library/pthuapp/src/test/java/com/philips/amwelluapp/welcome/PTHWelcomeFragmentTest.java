@@ -99,7 +99,9 @@ public class PTHWelcomeFragmentTest {
     @Test
     public void getContainerID() {
         mWelcomeFragment.setFragmentLauncher(fragmentLauncherMock);
-        mWelcomeFragment.getContainerID();
+        int id = mWelcomeFragment.getContainerID();
+        assertThat(id).isNotNull();
+        assertThat(id).isInstanceOf(Integer.class);
     }
 
 }

@@ -28,6 +28,8 @@ import com.philips.amwelluapp.practice.PracticeRecyclerViewAdapter;
 import com.philips.amwelluapp.providerslist.PTHProviderInfo;
 import com.philips.amwelluapp.providerslist.PTHProvidersListFragment;
 import com.philips.amwelluapp.registration.PTHConsumer;
+import com.philips.amwelluapp.utility.AmwellLog;
+import com.philips.amwelluapp.utility.PTHConstants;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.drawable.FontIconDrawable;
 import com.philips.platform.uid.view.widget.Button;
@@ -48,21 +50,23 @@ public class PTHSymptomsFragment extends PTHBaseFragment implements BackEventLis
     LinearLayout topicLayout;
     FloatingActionButton floatingActionButton;
     Button mContinue;
+    Typeface face;
 
+    //TODO: Spoorti - check null condition for the bundle Arguments
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.pth_symptoms, container, false);
         Bundle bundle = getArguments();
-        consumer = (PTHConsumer) bundle.getParcelable("Consumer");
-        providerInfo = (PTHProviderInfo) bundle.getParcelable("providerInfo");
+        consumer = bundle.getParcelable(PTHConstants.THS_CONSUMER);
+        providerInfo = bundle.getParcelable(PTHConstants.THS_PROVIDER_INFO);
         topicLayout = (LinearLayout) view.findViewById(R.id.checkbox_container);
         floatingActionButton = (FloatingActionButton) view.findViewById(R.id.floating_button);
         mContinue = (Button) view.findViewById(R.id.continue_btn);
         mContinue.setOnClickListener(this);
 
-        Typeface face= TypefaceUtils.load(getActivity().getAssets(),"fonts/pui_icon.ttf");
-        FontIconDrawable fontIconDrawable = new FontIconDrawable(getContext(),"\uE612",face).actionBarSize().color(Color.BLACK);
+        face = TypefaceUtils.load(getActivity().getAssets(), "fonts/pui_icon.ttf");
+        FontIconDrawable fontIconDrawable = new FontIconDrawable(getContext(), "\uE612", face).actionBarSize().color(Color.BLACK);
 
         floatingActionButton.setImageDrawable(fontIconDrawable);
 
@@ -74,18 +78,11 @@ public class PTHSymptomsFragment extends PTHBaseFragment implements BackEventLis
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mPTHSymptomsPresenter = new PTHSymptomsPresenter(this,consumer,providerInfo);
-        if(null != getActionBarListener()){
-            getActionBarListener().updateActionBar(getString(R.string.pth_prepare_your_visit),true);
+        mPTHSymptomsPresenter = new PTHSymptomsPresenter(this, consumer, providerInfo);
+        if (null != getActionBarListener()) {
+            getActionBarListener().updateActionBar(getString(R.string.pth_prepare_your_visit), true);
         }
         getVisistContext();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        consumer = null;
-        providerInfo = null;
     }
 
     @Override
@@ -107,12 +104,13 @@ public class PTHSymptomsFragment extends PTHBaseFragment implements BackEventLis
         mPTHSymptomsPresenter.getVisitContext();
     }
 
-    public void addTopicsToView(PTHVisitContext visitContext){
+    //TODO: SPOORTI - crashing when back is pressed
+    public void addTopicsToView(PTHVisitContext visitContext) {
         List<Topic> topics = visitContext.getTopics();
-        for (final Topic topic:topics
-             ) {
+        for (final Topic topic : topics
+                ) {
             CheckBox checkBox = new CheckBox(getContext());
-            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             checkBox.setLayoutParams(layoutParams);
             checkBox.setEnabled(true);
             checkBox.setText(topic.getTitle());
