@@ -46,8 +46,8 @@ public class Steps {
     public void before(Scenario scenario) {
         this.scenario = scenario;
 
-        // In M+, trying to call a number will trigger a runtime dialog. Make sure
-        // the permission is granted before running this test.
+        // In M+, trying to access bluetooth will trigger a runtime dialog. Make sure
+        // the permission is granted before running tests.
         Log.d(LOGTAG, "Grant permissions");
         Android.grantPermission("android.permission.ACCESS_COARSE_LOCATION");
     }
@@ -102,8 +102,8 @@ public class Steps {
         PortListener listener = portListeners.get(TimePort.class);
         listener.waitForPortUpdate(3, MINUTES);
 
-        assertTrue(listener.errors.isEmpty());
         assertTrue(listener.valueWasReceived);
+        assertTrue(listener.errors.isEmpty());
 
         final String datetime = current.getTimePort().getPortProperties().datetime;
         scenario.write("Got time: " + datetime);
