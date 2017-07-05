@@ -23,25 +23,9 @@
 
 -keepattributes *Annotation*,InnerClasses
 
-# Preserve all public classes, and their public and protected fields and
-# methods.
-
--keep public class * {
-    public protected *;
+-keepclasseswithmembernames class * {
+    native <methods>;
 }
-
-## Preserve all .class method names.
-#
-#-keepclassmembernames class * {
-#    java.lang.Class class$(java.lang.String);
-#    java.lang.Class class$(java.lang.String, boolean);
-#}
-#
-## Preserve all native method names and the names of their classes.
-#
-#-keepclasseswithmembernames class * {
-#    native <methods>;
-#}
 
 
 
