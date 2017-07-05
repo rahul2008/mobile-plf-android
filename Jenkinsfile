@@ -70,8 +70,10 @@ node ('android&&docker') {
                 }                
             } 
             stage ('reporting') {
-                androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
-                junit allowEmptyResults: false, testResults: 'Source/**/build/reports/lint-results.xml'
+                androidLint canComputeNew: true, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
+                junit allowEmptyResults: true, testResults: 'Source/DemoApp/launchDigitalCare/build/reportslint-results.xml'
+                junit allowEmptyResults: true, testResults: 'Source/DemoUApp/DemoUApp/build/reportslint-results.xml'
+                junit allowEmptyResults: true, testResults: 'Source/Library/digitalCare/build/reportslint-results.xml'
                 archiveArtifacts '**/*dependencies*.lock'
             }
             stage('informing') {
