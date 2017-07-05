@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.platform.appframework.R;
+import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appframework.testmicroappfw.data.TestConfigManager;
 import com.philips.platform.appframework.testmicroappfw.models.Chapter;
 import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
@@ -76,6 +77,9 @@ public class COCOListFragment extends AbstractAppFrameworkBaseFragment implement
 
     @Override
     public int getContainerId() {
+        if(getActivity() instanceof HamburgerActivity){
+            return ((HamburgerActivity)getActivity()).getContainerId();
+        }
         return 0;
     }
 

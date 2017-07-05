@@ -340,6 +340,24 @@
                 "nextState": "demoUAPPFramework"
               }
             ]
+          },
+          {
+            "eventId": "TestDicommClientEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoDicommClient"
+              }
+            ]
+          },
+          {
+            "eventId": "TestBlueLibEvent",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "demoBlueLib"
+              }
+            ]
           }
 
 

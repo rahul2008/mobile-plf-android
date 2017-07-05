@@ -2,12 +2,12 @@ package com.philips.platform.appframework.stateimpl;
 
 import android.content.Context;
 
-import com.iap.demouapp.IapDemoAppSettings;
-import com.iap.demouapp.IapDemoUAppDependencies;
-import com.iap.demouapp.IapDemoUAppInterface;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.ccdemouapp.CCDemoUAppuAppDependencies;
+import com.philips.platform.ccdemouapp.CCDemoUAppuAppInterface;
+import com.philips.platform.ccdemouapp.CCDemoUAppuAppSettings;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
 
@@ -15,24 +15,25 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
  * Created by philips on 30/03/17.
  */
 
-public class DemoIAPState extends BaseState {
+public class DemoDCCState extends BaseState {
 
-    private Context appContext;
+    private Context context;
 
-    public DemoIAPState() {
-        super(AppStates.TESTIAP);
+    public DemoDCCState() {
+        super(AppStates.TESTCC);
     }
 
     @Override
     public void navigate(UiLauncher uiLauncher) {
-        IapDemoUAppInterface uAppInterface = new IapDemoUAppInterface();
-        uAppInterface.init(new IapDemoUAppDependencies(((AppFrameworkApplication)appContext.getApplicationContext()).getAppInfra()), new IapDemoAppSettings(appContext));
+        CCDemoUAppuAppInterface uAppInterface = new CCDemoUAppuAppInterface();
+        uAppInterface.init(new CCDemoUAppuAppDependencies(((AppFrameworkApplication)context.getApplicationContext()).getAppInfra()), new CCDemoUAppuAppSettings(context.getApplicationContext()));// pass App-infra instance instead of null
         uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);
+
     }
 
     @Override
     public void init(Context context) {
-        appContext = context;
+        this.context=context;
     }
 
     @Override
