@@ -4,83 +4,85 @@
  *
  */
 
-package com.philips.uid;
+package com.philips.uid.model.brush;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import groovy.transform.AutoClone;
 
-public class ThemeValue {
+@AutoClone
+class BrushValue {
 
     @SerializedName("color")
     @Expose
-    private String color;
+    String color;
     @SerializedName("color-code")
     @Expose
-    private String colorCode;
+    String colorCode;
     @SerializedName("color-range")
     @Expose
-    private String colorRange;
+    String colorRange;
     @SerializedName("opacity")
     @Expose
-    private String opacity;
+    String opacity;
     @SerializedName("reference")
     @Expose
-    private String reference;
+    String reference;
     @SerializedName("offset")
     @Expose
-    private String offset;
+    String offset;
 
-    public String getColor() {
+    String getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    void setColor(String color) {
         this.color = color;
     }
 
-    public String getColorCode() {
+    String getColorCode() {
         return colorCode;
     }
 
-    public void setColorCode(String colorCode) {
+    void setColorCode(String colorCode) {
         this.colorCode = colorCode;
     }
 
-    public String getColorRange() {
+    String getColorRange() {
         return colorRange;
     }
 
-    public void setColorRange(String colorRange) {
+    void setColorRange(String colorRange) {
         this.colorRange = colorRange;
     }
 
-    public String getOpacity() {
+    String getOpacity() {
         return opacity;
     }
 
-    public void setOpacity(String opacity) {
+    void setOpacity(String opacity) {
         this.opacity = opacity;
     }
 
-    public String getReference() {
+    String getReference() {
         return reference;
     }
 
-    public void setReference(String reference) {
+    void setReference(String reference) {
         this.reference = reference;
     }
 
-    public String getOffset() {
+    String getOffset() {
         return offset;
     }
 
-    public void setOffset(String offset) {
+    void setOffset(String offset) {
         this.offset = offset;
     }
 
     @Override
-    public String toString() {
-        return "ThemeValue{" +
+    String toString() {
+        return "BrushValue{" +
                 "color='" + color + '\'' +
                 ", colorCode='" + colorCode + '\'' +
                 ", colorRange='" + colorRange + '\'' +
@@ -88,5 +90,10 @@ public class ThemeValue {
                 ", reference='" + reference + '\'' +
                 ", offset='" + offset + '\'' +
                 '}';
+    }
+
+    @Override
+    protected BrushValue clone() throws CloneNotSupportedException {
+        return (BrushValue) super.clone();
     }
 }
