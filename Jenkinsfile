@@ -14,7 +14,7 @@ properties([
 def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_CDP2_TeamSabers@philips.com'
 def errors = []
 
-node ('android&&device') {
+node ('android&&docker') {
 	timestamps {
 		try {
             stage ('Checkout') {
@@ -27,7 +27,7 @@ node ('android&&device') {
                         chmod -R 755 . 
                         cd ./Source/DemoApp 
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint
-                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC zipDocuments artifactoryPublish
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease zipDocuments artifactoryPublish
                     '''
                 }
             } else {
@@ -36,7 +36,7 @@ node ('android&&device') {
                         chmod -R 755 . 
                         cd ./Source/DemoApp 
                         ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint 
-                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease cC
+                        ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease
                     '''
                 }
             }
@@ -72,8 +72,6 @@ node ('android&&device') {
             stage ('reporting') {
                 androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
                 junit allowEmptyResults: false, testResults: 'Source/**/build/reports/*.xml'
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/digitalCare/build/reports/androidTests/connected', reportFiles: 'index.html', reportName: 'connected tests']) 
-                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/digitalCare/build/reports/coverage/debug', reportFiles: 'index.html', reportName: 'coverage debug']) 
                 archiveArtifacts '**/*dependencies*.lock'
             }
             stage('informing') {
