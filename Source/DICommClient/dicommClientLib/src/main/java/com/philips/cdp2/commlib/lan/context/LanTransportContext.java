@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.lan.NetworkMonitor;
@@ -48,10 +49,10 @@ public class LanTransportContext implements TransportContext {
     }
 
     /**
-     * Reject new pin for an appliance.
+     * Reject a new pin for an appliance.
      * <p>
      * When the appliance has a stored pin and a new (mismatching) pin was received,
-     * this rejects that new pin. The currently stored pin will remain untouched.
+     * this method rejects that new pin. The currently stored pin will remain untouched.
      * </p>
      *
      * @param appliance the appliance to reject the new pin for
@@ -78,10 +79,10 @@ public class LanTransportContext implements TransportContext {
     }
 
     /**
-     * Find appliances with mismatched pin.
+     * Find appliances with a mismatched pin.
      *
      * @param <A>        the appliance type parameter
-     * @param appliances the appliances to find the appliances with mismatched pin in
+     * @param appliances the appliances to find the appliances with a mismatched pin in, usually retrieved from the {@link ApplianceManager}.
      * @return the set of appliances that have a mismatched pin
      */
     @NonNull
