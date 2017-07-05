@@ -71,7 +71,7 @@ node ('android&&docker') {
             } 
             stage ('reporting') {
                 androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
-                junit allowEmptyResults: false, testResults: 'Source/**/build/reports/*.xml'
+                junit allowEmptyResults: false, testResults: 'Source/**/build/reports/lint-results.xml'
                 archiveArtifacts '**/*dependencies*.lock'
             }
             stage('informing') {
