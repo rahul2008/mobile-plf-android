@@ -213,6 +213,10 @@ public abstract class ReferenceApplianceActivity extends AppCompatActivity {
                 DICommLog.e(TAG, "Time port error: " + error.getErrorMessage() + " (" + s + ")");
 
                 updateResult(getString(R.string.lblResultPortError, s));
+
+                if (switchLoopGet.isChecked()) {
+                    timePort.reloadProperties();
+                }
             }
         });
     }
