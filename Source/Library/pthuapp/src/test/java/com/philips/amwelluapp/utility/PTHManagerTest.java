@@ -418,7 +418,7 @@ public class PTHManagerTest {
 
     @Test
     public void getConsumerTest(){
-        pthManager.setPTHConsumer(pthConsumerMock);
+        pthManager.setPTHConsumer(mPTHConsumer);
         PTHConsumer consumer = pthManager.getPTHConsumer();
         assertThat(consumer).isNotNull();
         assertThat(consumer).isInstanceOf(PTHConsumer.class);
@@ -455,7 +455,7 @@ public class PTHManagerTest {
 
 
     // follow up test
-    @Test
+  /*  @Test
     public void updateConsumerTest()throws AWSDKInstantiationException {
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         when(consumerManagerMock.getNewConsumerUpdate(any(Consumer.class))).thenReturn(consumerUpdateMock);
@@ -464,7 +464,7 @@ public class PTHManagerTest {
         SDKCallback value = getUpdateConsumerCaptor.getValue();
         value.onResponse(any(Consumer.class), any(SDKError.class));
         value.onFailure(any(Throwable.class));
-    }
+    }*/
 
 
     Consumer getConsumer() {

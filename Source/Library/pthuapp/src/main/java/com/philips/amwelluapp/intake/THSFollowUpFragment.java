@@ -74,4 +74,9 @@ public class THSFollowUpFragment extends PTHBaseFragment implements  View.OnClic
         }
 
     }
+
+    @Override
+    public int getContainerID() {
+        return ((ViewGroup)getView().getParent()).getId();
+    }
 }
