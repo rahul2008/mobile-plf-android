@@ -2,7 +2,6 @@ package com.philips.amwelluapp.utility;
 
 import android.content.Context;
 import android.support.annotation.VisibleForTesting;
-import android.util.Log;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.AWSDKFactory;
@@ -23,6 +22,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.ValidationReason;
+import com.philips.amwelluapp.intake.PTHConditions;
 import com.philips.amwelluapp.intake.PTHMedication;
 import com.philips.amwelluapp.intake.PTHMedicationCallback;
 import com.philips.amwelluapp.intake.PTHSDKValidatedCallback;
@@ -31,6 +31,8 @@ import com.philips.amwelluapp.intake.PTHVisitContext;
 import com.philips.amwelluapp.intake.PTHVisitContextCallBack;
 import com.philips.amwelluapp.intake.THSConditions;
 import com.philips.amwelluapp.intake.THSConditionsCallBack;
+import com.philips.amwelluapp.intake.THSUpdateConditionsCallback;
+import com.philips.amwelluapp.intake.THSUpdateVitalsCallBack;
 import com.philips.amwelluapp.intake.THSVitalSDKCallback;
 import com.philips.amwelluapp.intake.THSVitals;
 import com.philips.amwelluapp.login.PTHAuthentication;
@@ -48,6 +50,7 @@ import com.philips.amwelluapp.welcome.PTHInitializeCallBack;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +59,16 @@ public class PTHManager {
     private static PTHManager sPthManager = null;
     private AWSDK mAwsdk = null;
     private PTHConsumer mPTHConsumer= null;
+    private PTHVisitContext mVisitContext = null;
+
+    public PTHVisitContext getPthVisitContext() {
+        return mVisitContext;
+    }
+
+    public void setVisitContext(PTHVisitContext mVisitContext) {
+        this.mVisitContext = mVisitContext;
+    }
+
 
     public PTHConsumer getPTHConsumer() {
         return mPTHConsumer;
@@ -127,9 +140,9 @@ public class PTHManager {
                 });
     }
 
-    public void getVisitContext(Context context, final PTHConsumer consumer, final PTHProviderInfo providerInfo, final PTHVisitContextCallBack pthVisitContextCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
+    public void getVisitContext(Context context, final PTHProviderInfo providerInfo, final PTHVisitContextCallBack pthVisitContextCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
 
-        getAwsdk(context).getVisitManager().getVisitContext(consumer.getConsumer(), providerInfo.getProviderInfo(), new SDKCallback<VisitContext, SDKError>() {
+        getAwsdk(context).getVisitManager().getVisitContext(getPTHConsumer().getConsumer(), providerInfo.getProviderInfo(), new SDKCallback<VisitContext, SDKError>() {
                     @Override
                     public void onResponse(VisitContext visitContext, SDKError sdkError) {
 
@@ -140,6 +153,7 @@ public class PTHManager {
                         pthsdkError.setSdkError(sdkError);
 
                         pthVisitContextCallBack.onResponse(pthVisitContext,pthsdkError);
+                        setVisitContext(pthVisitContext);
 
                     }
 
@@ -151,8 +165,8 @@ public class PTHManager {
     }
 
     //TODO: What happens when getConsumer is null
-    public void getVitals(Context context, PTHVisitContext pthVisitContext, final THSVitalSDKCallback thsVitalCallBack) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getVitals(getPTHConsumer().getConsumer(), pthVisitContext.getVisitContext(), new SDKCallback<Vitals, SDKError>() {
+    public void getVitals(Context context, final THSVitalSDKCallback thsVitalCallBack) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getVitals(getPTHConsumer().getConsumer(),null, new SDKCallback<Vitals, SDKError>() {
             @Override
             public void onResponse(Vitals vitals, SDKError sdkError) {
                 THSVitals thsVitals = new THSVitals();
@@ -162,6 +176,7 @@ public class PTHManager {
                 pthsdkError.setSdkError(sdkError);
 
                 thsVitalCallBack.onResponse(thsVitals,pthsdkError);
+
             }
 
             @Override
@@ -173,7 +188,7 @@ public class PTHManager {
     }
 
     /*public void createVisit(Context context, PTHVisitContext pthVisitContext, final PTHSDKValidatedCallback pthsdkValidatedCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getVisitManager().createVisit(pthVisitContext.getVisitContext(), new SDKValidatedCallback<Visit, SDKError>() {
+        getAwsdk(context).getVisitManager().createVisit(pthVisitContext.getPthVisitContext(), new SDKValidatedCallback<Visit, SDKError>() {
             @Override
             public void onValidationFailure(Map<String, ValidationReason> map) {
                 pthsdkValidatedCallback.onValidationFailure(map);
@@ -359,7 +374,48 @@ public class PTHManager {
 
     }
 
+    public void updateVitals(Context context, THSVitals thsVitals, final THSUpdateVitalsCallBack thsUpdateVitalsCallBack) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().updateVitals(getPTHConsumer().getConsumer(), thsVitals.getVitals(), null , new SDKValidatedCallback<Void, SDKError>() {
+            @Override
+            public void onValidationFailure(Map<String, ValidationReason> map) {
+                thsUpdateVitalsCallBack.onUpdateVitalsValidationFailure(map);
+            }
 
+            @Override
+            public void onResponse(Void aVoid, SDKError sdkError) {
+                thsUpdateVitalsCallBack.onUpdateVitalsResponse(sdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                thsUpdateVitalsCallBack.onUpdateVitalsFailure(throwable);
+            }
+        });
+    }
+
+    public void updateConditions(Context context, PTHConsumer pthConsumer, List<PTHConditions> pthConditionList, final THSUpdateConditionsCallback thsUpdateConditionsCallback) throws AWSDKInstantiationException {
+
+        List<Condition> conditionList = new ArrayList<>();
+        for (PTHConditions pthcondition:pthConditionList
+             ) {
+            conditionList.add(pthcondition.getCondition());
+        }
+        
+        getAwsdk(context).getConsumerManager().updateConditions(pthConsumer.getConsumer(), conditionList, new SDKCallback<Void, SDKError>() {
+            @Override
+            public void onResponse(Void aVoid, SDKError sdkError) {
+                PTHSDKError pthSDKError = new PTHSDKError();
+                pthSDKError.setSdkError(sdkError);
+
+                thsUpdateConditionsCallback.onUpdateConditonResponse(aVoid,pthSDKError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                thsUpdateConditionsCallback.onUpdateConditionFailure(throwable);
+            }
+        });
+    }
 
     public void updateMedication(Context context , PTHMedication pTHMedication, final PTHMedicationCallback.PTHUpdateMedicationCallback pTHUpdateMedicationCallback) throws AWSDKInstantiationException{
         getAwsdk(context).getConsumerManager().updateMedications(getPTHConsumer().getConsumer(), pTHMedication.getMedicationList(), new SDKCallback<Void, SDKError>() {

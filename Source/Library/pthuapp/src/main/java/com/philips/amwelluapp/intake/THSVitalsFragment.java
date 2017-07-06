@@ -18,7 +18,6 @@ import com.philips.platform.uid.view.widget.Label;
 public class THSVitalsFragment extends PTHBaseFragment implements BackEventListener, View.OnClickListener {
 
     public static final String TAG = THSVitalsFragment.class.getSimpleName();
-    PTHVisitContext mPthVisitContext;
     THSVitalsPresenter mThsVitalsPresenter;
     EditText mSystolic;
     EditText mDiastolic;
@@ -32,8 +31,6 @@ public class THSVitalsFragment extends PTHBaseFragment implements BackEventListe
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.pth_intake_vitals, container, false);
-        Bundle bundle = getArguments();
-        mPthVisitContext = bundle.getParcelable(PTHConstants.THS_VISIT_CONTEXT);
         mSystolic = (EditText) view.findViewById(R.id.systolic);
         mDiastolic = (EditText) view.findViewById(R.id.diastolic);
         mTemperature = (EditText) view.findViewById(R.id.edit_farenheit);
@@ -49,7 +46,7 @@ public class THSVitalsFragment extends PTHBaseFragment implements BackEventListe
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mThsVitalsPresenter = new THSVitalsPresenter(this, mPthVisitContext);
+        mThsVitalsPresenter = new THSVitalsPresenter(this);
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.pth_prepare_your_visit), true);
         }
@@ -74,31 +71,38 @@ public class THSVitalsFragment extends PTHBaseFragment implements BackEventListe
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.vitals_continue_btn) {
-            try {
-                mTHSVitals.setSystolic(Integer.parseInt(mSystolic.getText().toString()));
-                mTHSVitals.setDiastolic(Integer.parseInt(mDiastolic.getText().toString()));
-                mTHSVitals.setTemperature(Double.parseDouble(mTemperature.getText().toString()));
-                mTHSVitals.setWeight(Integer.parseInt(mWeight.getText().toString()));
-            } catch (Exception ex) {
-
-            }
             mThsVitalsPresenter.onEvent(R.id.vitals_continue_btn);
         }else if(i==R.id.vitals_skip){
             mThsVitalsPresenter.onEvent(R.id.vitals_skip);
         }
     }
 
+    void setVitalsValues() {
+        mTHSVitals.setSystolic(Integer.parseInt(mSystolic.getText().toString()));
+        mTHSVitals.setDiastolic(Integer.parseInt(mDiastolic.getText().toString()));
+        mTHSVitals.setTemperature(Double.parseDouble(mTemperature.getText().toString()));
+        mTHSVitals.setWeight(Integer.parseInt(mWeight.getText().toString()));
+    }
+
     public void updateUI(THSVitals thsVitals) {
         mTHSVitals = thsVitals;
         if (mTHSVitals.getDiastolic() != null)
-            mSystolic.setText(thsVitals.getSystolic());
+            mSystolic.setText(String.valueOf(thsVitals.getSystolic()));
         if (mTHSVitals.getDiastolic() != null)
-            mDiastolic.setText(thsVitals.getDiastolic());
+            mDiastolic.setText(String.valueOf(thsVitals.getDiastolic()));
         if (mTHSVitals.getTemperature() != null)
-            mTemperature.setText(thsVitals.getTemperature().toString());
+            mTemperature.setText(String.valueOf(thsVitals.getTemperature()));
         if (mTHSVitals.getWeight() != null)
-            mWeight.setText(thsVitals.getWeight());
+            mWeight.setText(String.valueOf(thsVitals.getWeight()));
 
         mContinue.setEnabled(true);
+    }
+
+    public THSVitals getTHSVitals() {
+        return mTHSVitals;
+    }
+
+    public void setTHSVitals(THSVitals mTHSVitals) {
+        this.mTHSVitals = mTHSVitals;
     }
 }

@@ -1,43 +1,26 @@
 package com.philips.amwelluapp.intake;
 
-import android.content.res.AssetFileDescriptor;
-import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.visit.Topic;
-import com.americanwell.sdk.entity.visit.VisitContext;
-import com.americanwell.sdk.exception.AWSDKInitializationException;
-import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.amwelluapp.R;
 import com.philips.amwelluapp.base.PTHBaseFragment;
-import com.philips.amwelluapp.practice.OnPracticeItemClickListener;
-import com.philips.amwelluapp.practice.PTHPractice;
-import com.philips.amwelluapp.practice.PTHPracticePresenter;
-import com.philips.amwelluapp.practice.PracticeRecyclerViewAdapter;
 import com.philips.amwelluapp.providerslist.PTHProviderInfo;
-import com.philips.amwelluapp.providerslist.PTHProvidersListFragment;
-import com.philips.amwelluapp.registration.PTHConsumer;
-import com.philips.amwelluapp.utility.AmwellLog;
 import com.philips.amwelluapp.utility.PTHConstants;
+import com.philips.amwelluapp.utility.PTHManager;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.drawable.FontIconDrawable;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
@@ -45,7 +28,6 @@ import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 public class PTHSymptomsFragment extends PTHBaseFragment implements BackEventListener, View.OnClickListener {
     public static final String TAG = PTHSymptomsFragment.class.getSimpleName();
     PTHSymptomsPresenter mPTHSymptomsPresenter;
-    PTHConsumer consumer;
     PTHProviderInfo providerInfo;
     LinearLayout topicLayout;
     FloatingActionButton floatingActionButton;
@@ -58,7 +40,6 @@ public class PTHSymptomsFragment extends PTHBaseFragment implements BackEventLis
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.pth_symptoms, container, false);
         Bundle bundle = getArguments();
-        consumer = bundle.getParcelable(PTHConstants.THS_CONSUMER);
         providerInfo = bundle.getParcelable(PTHConstants.THS_PROVIDER_INFO);
         topicLayout = (LinearLayout) view.findViewById(R.id.checkbox_container);
         floatingActionButton = (FloatingActionButton) view.findViewById(R.id.floating_button);
@@ -78,7 +59,7 @@ public class PTHSymptomsFragment extends PTHBaseFragment implements BackEventLis
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mPTHSymptomsPresenter = new PTHSymptomsPresenter(this, consumer, providerInfo);
+        mPTHSymptomsPresenter = new PTHSymptomsPresenter(this, providerInfo);
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.pth_prepare_your_visit), true);
         }
@@ -101,7 +82,13 @@ public class PTHSymptomsFragment extends PTHBaseFragment implements BackEventLis
     }
 
     private void getVisistContext() {
-        mPTHSymptomsPresenter.getVisitContext();
+        if (PTHManager.getInstance().getPthVisitContext() == null) {
+            mContinue.setEnabled(false);
+            mPTHSymptomsPresenter.getVisitContext();
+        }else {
+            mContinue.setEnabled(true);
+            addTopicsToView(PTHManager.getInstance().getPthVisitContext());
+        }
     }
 
     //TODO: SPOORTI - crashing when back is pressed

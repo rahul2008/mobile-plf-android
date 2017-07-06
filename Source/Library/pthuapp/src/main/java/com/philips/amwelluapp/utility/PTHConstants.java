@@ -5,7 +5,5 @@ public class PTHConstants {
     public static final String  PTH_API_KEY=  "3c0f99bf";
     public static final String  WELCOME_FRAGMENT=  "Welcome Fragment";
     public static final String  PRACTICE_FRAGMENT=  "Practice Fragment";
-    public static final String  THS_VISIT_CONTEXT=  "visit_context";
-    public static final String  THS_CONSUMER=  "ths_consumer";
     public static final String  THS_PROVIDER_INFO=  "ths_providerInfo";
 }

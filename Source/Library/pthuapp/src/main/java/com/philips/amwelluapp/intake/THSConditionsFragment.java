@@ -17,6 +17,7 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.Label;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class THSConditionsFragment extends PTHBaseFragment implements BackEventListener, View.OnClickListener {
@@ -25,6 +26,7 @@ public class THSConditionsFragment extends PTHBaseFragment implements BackEventL
     LinearLayout mLinerLayout;
     Button mContinueButton;
     Label mSkipLabel;
+    List<PTHConditions> mTHSConditions;
 
     @Nullable
     @Override
@@ -76,9 +78,16 @@ public class THSConditionsFragment extends PTHBaseFragment implements BackEventL
         return false;
     }
 
-    public void setConditions(List<Condition> conditions) {
+    public void setConditions(List<PTHConditions> pthConditionsList) {
+        setTHSConditions(pthConditionsList);
+        List<Condition> conditionList = new ArrayList<>();
+        for (PTHConditions pthCondition: pthConditionsList
+             ) {
+            conditionList.add(pthCondition.getCondition());
+        }
+
         if(getContext()!=null) {
-            for (final Condition condition : conditions
+            for (final Condition condition : conditionList
                     ) {
                 CheckBox checkBox = new CheckBox(getContext());
                 ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -95,5 +104,13 @@ public class THSConditionsFragment extends PTHBaseFragment implements BackEventL
             }
             mContinueButton.setEnabled(true);
         }
+    }
+
+    public List<PTHConditions> getTHSConditions() {
+        return mTHSConditions;
+    }
+
+    public void setTHSConditions(List<PTHConditions> mTHSConditions) {
+        this.mTHSConditions = mTHSConditions;
     }
 }

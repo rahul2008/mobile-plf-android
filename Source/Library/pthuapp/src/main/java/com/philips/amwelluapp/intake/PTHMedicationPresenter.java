@@ -1,14 +1,8 @@
 package com.philips.amwelluapp.intake;
 
-import android.util.Log;
-import android.widget.ListView;
-import android.widget.Toast;
-
 import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.amwelluapp.base.PTHBasePresenter;
 import com.philips.amwelluapp.base.PTHBaseView;

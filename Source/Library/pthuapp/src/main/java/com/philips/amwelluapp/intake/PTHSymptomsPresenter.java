@@ -21,14 +21,12 @@ import java.util.List;
 
 public class PTHSymptomsPresenter implements PTHBasePresenter, PTHVisitContextCallBack<PTHVisitContext,PTHSDKError>{
     PTHBaseView pthBaseView;
-    PTHConsumer pthConsumer;
     PTHProviderInfo pthProviderInfo;
     PTHVisitContext pthVisitContext;
 
 
-    PTHSymptomsPresenter(PTHBaseView uiBaseView, PTHConsumer pthConsumer, PTHProviderInfo pthProviderInfo){
+    PTHSymptomsPresenter(PTHBaseView uiBaseView, PTHProviderInfo pthProviderInfo){
         this.pthBaseView = uiBaseView;
-        this.pthConsumer = pthConsumer;
         this.pthProviderInfo = pthProviderInfo;
     }
 
@@ -36,7 +34,6 @@ public class PTHSymptomsPresenter implements PTHBasePresenter, PTHVisitContextCa
     public void onEvent(int componentID) {
         if (componentID == R.id.continue_btn) {
             Bundle bundle = new Bundle();
-            bundle.putParcelable(PTHConstants.THS_VISIT_CONTEXT,pthVisitContext);
             pthBaseView.addFragment(new THSVitalsFragment(), THSVitalsFragment.TAG,bundle);
         }
     }
@@ -61,7 +58,7 @@ public class PTHSymptomsPresenter implements PTHBasePresenter, PTHVisitContextCa
 
     void getVisitContext()  {
         try {
-            PTHManager.getInstance().getVisitContext(pthBaseView.getFragmentActivity(),pthConsumer,pthProviderInfo,this);
+            PTHManager.getInstance().getVisitContext(pthBaseView.getFragmentActivity(),pthProviderInfo,this);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
