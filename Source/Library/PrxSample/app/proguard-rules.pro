@@ -15,3 +15,43 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+##General and network
+-keep public class javax.net.ssl.**
+-keepclassmembers public class javax.net.ssl.** {*;}
+-keepclassmembers public class org.apache.http.** {*;}
+-dontwarn org.apache.**
+-keep class org.apache.http.** { *; }
+-keep class android.net.http.** { *; }
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable
+-keepattributes InnerClasses,Exceptions
+
+
+
+#GSM
+-keep  class com.google.android.gms.* { public *; }
+-dontwarn com.google.android.gms.**
+-dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
+
+#webkit
+-keep  class android.net.http.SslError
+-keep  class android.webkit.WebViewClient
+
+-dontwarn android.webkit.WebView
+-dontwarn android.net.http.SslError
+-dontwarn android.webkit.WebViewClient
+
+#notification
+-dontwarn android.app.Notification
+-dontwarn okio.**
+-keep class com.squareup.** { *; }
+-keep class java.nio.**
+-keep class org.codehaus.**
+
+-dontwarn com.janrain.android.**
+-dontwarn java.nio.**
+
+-keepattributes Signature
+-keepattributes InnerClasses,EnclosingMethod
+
