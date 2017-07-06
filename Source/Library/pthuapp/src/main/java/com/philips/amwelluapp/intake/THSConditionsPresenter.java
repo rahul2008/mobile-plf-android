@@ -1,7 +1,5 @@
 package com.philips.amwelluapp.intake;
 
-import android.widget.Toast;
-
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.amwelluapp.R;
@@ -22,8 +20,14 @@ public class THSConditionsPresenter implements PTHBasePresenter, THSConditionsCa
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.continue_btn) {
-            mPthBaseFragment.addFragment(new THSFollowUpFragment(),THSFollowUpFragment.TAG,null);
+            launchFollowUpFragment();
+        }else if(componentID == R.id.conditions_skip){
+            launchFollowUpFragment();
         }
+    }
+
+    private void launchFollowUpFragment() {
+        mPthBaseFragment.addFragment(new THSFollowUpFragment(),THSFollowUpFragment.TAG,null);
     }
 
     public void getConditions() throws AWSDKInstantiationException {
@@ -32,13 +36,12 @@ public class THSConditionsPresenter implements PTHBasePresenter, THSConditionsCa
 
     @Override
     public void onResponse(THSConditions thsConditions, PTHSDKError pthsdkError) {
-        Toast.makeText(mPthBaseFragment.getContext(),"Conditions Success", Toast.LENGTH_SHORT).show();
         final List<Condition> conditions = thsConditions.getConditions();
         ((THSConditionsFragment)mPthBaseFragment).setConditions(conditions);
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-        Toast.makeText(mPthBaseFragment.getContext(),"Conditions Failed", Toast.LENGTH_SHORT).show();
+        mPthBaseFragment.showToast("Conditions Failed");
     }
 }

@@ -15,6 +15,7 @@ import com.philips.amwelluapp.base.PTHBaseFragment;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
+import com.philips.platform.uid.view.widget.Label;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class THSConditionsFragment extends PTHBaseFragment implements BackEventL
     public static final String TAG = THSConditionsFragment.class.getSimpleName();
     LinearLayout mLinerLayout;
     Button mContinueButton;
+    Label mSkipLabel;
 
     @Nullable
     @Override
@@ -31,8 +33,11 @@ public class THSConditionsFragment extends PTHBaseFragment implements BackEventL
         mLinerLayout = (LinearLayout)view.findViewById(R.id.checkbox_container);
         mContinueButton = (Button) view.findViewById(R.id.continue_btn);
         mContinueButton.setOnClickListener(this);
+        mSkipLabel = (Label)view.findViewById(R.id.conditions_skip);
+        mSkipLabel.setOnClickListener(this);
         return view;
     }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -56,7 +61,14 @@ public class THSConditionsFragment extends PTHBaseFragment implements BackEventL
         int i = view.getId();
         if (i == R.id.continue_btn) {
             mThsConditionsPresenter.onEvent(R.id.continue_btn);
+        }else if(i == R.id.conditions_skip){
+            mThsConditionsPresenter.onEvent(R.id.conditions_skip);
         }
+    }
+
+    @Override
+    public int getContainerID() {
+        return ((ViewGroup) getView().getParent()).getId();
     }
 
     @Override
@@ -65,25 +77,23 @@ public class THSConditionsFragment extends PTHBaseFragment implements BackEventL
     }
 
     public void setConditions(List<Condition> conditions) {
-        for (final Condition condition:conditions
-                ) {
-            CheckBox checkBox = new CheckBox(getContext());
-            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-            checkBox.setLayoutParams(layoutParams);
-            checkBox.setEnabled(true);
-            checkBox.setText(condition.getName());
-            mLinerLayout.addView(checkBox);
-            checkBox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    condition.setCurrent(true);
-                }
-            });
+        if(getContext()!=null) {
+            for (final Condition condition : conditions
+                    ) {
+                CheckBox checkBox = new CheckBox(getContext());
+                ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                checkBox.setLayoutParams(layoutParams);
+                checkBox.setEnabled(true);
+                checkBox.setText(condition.getName());
+                mLinerLayout.addView(checkBox);
+                checkBox.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        condition.setCurrent(true);
+                    }
+                });
+            }
+            mContinueButton.setEnabled(true);
         }
-    }
-
-    @Override
-    public int getContainerID() {
-        return ((ViewGroup)getView().getParent()).getId();
     }
 }

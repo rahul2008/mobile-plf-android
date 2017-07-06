@@ -13,11 +13,12 @@ import com.philips.amwelluapp.base.PTHBasePresenter;
 
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.view.widget.Button;
 
-public class PTHWelcomeFragment extends PTHBaseFragment implements BackEventListener {
+public class PTHWelcomeFragment extends PTHBaseFragment implements BackEventListener, View.OnClickListener {
     public static final String TAG = PTHWelcomeFragment.class.getSimpleName();
     private PTHBasePresenter presenter;
-    //private com.philips.platform.uid.view.widget.ProgressBar progressBar;
+    private Button mInitButton;
 
     public FragmentLauncher getFragmentLauncher() {
         return mFragmentLauncher;
@@ -40,6 +41,8 @@ public class PTHWelcomeFragment extends PTHBaseFragment implements BackEventList
         view.addView(mPTHBaseFragmentProgressBar);
         ((PTHWelcomePresenter)presenter).initializeAwsdk();
         getActionBarListener().updateActionBar("",false);
+        mInitButton = (Button) view.findViewById(R.id.init_amwell);
+        mInitButton.setOnClickListener(this);
         return view;
     }
 
@@ -59,5 +62,19 @@ public class PTHWelcomeFragment extends PTHBaseFragment implements BackEventList
     @Override
     public boolean handleBackEvent() {
         return true;
+    }
+
+    @Override
+    public void onClick(View view) {
+        int i = view.getId();
+        if (i == R.id.init_amwell) {
+            presenter.onEvent(R.id.init_amwell);
+        }
+    }
+
+    void enableInitButton(boolean isEnabled){
+        if (mInitButton != null) {
+            mInitButton.setEnabled(isEnabled);
+        }
     }
 }

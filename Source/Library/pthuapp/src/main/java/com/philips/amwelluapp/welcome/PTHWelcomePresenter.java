@@ -4,8 +4,9 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.amwelluapp.R;
+import com.philips.amwelluapp.base.PTHBaseFragment;
 import com.philips.amwelluapp.base.PTHBasePresenter;
-import com.philips.amwelluapp.base.PTHBaseView;
 import com.philips.amwelluapp.login.PTHAuthentication;
 import com.philips.amwelluapp.login.PTHGetConsumerObjectCallBack;
 import com.philips.amwelluapp.login.PTHLoginCallBack;
@@ -21,20 +22,23 @@ import java.net.URISyntaxException;
 //TODO: Review Comment - Spoorti - Do not implement PTHGetConsumerObjectCallBack in WelcomePresenter
 //TODO: Review Comment - Spoorti - Can we rename PTHGetConsumerObjectCallBack to PTHGetConsumerCallBack?
 public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallBack<Void,PTHSDKError>, PTHLoginCallBack<PTHAuthentication,PTHSDKError> ,PTHGetConsumerObjectCallBack {
-    PTHBaseView uiBaseView;
+    PTHBaseFragment uiBaseView;
     private Consumer consumer;
 
-    PTHWelcomePresenter(PTHBaseView uiBaseView){
+    PTHWelcomePresenter(PTHBaseFragment uiBaseView){
         this.uiBaseView = uiBaseView;
     }
 
     @Override
     public void onEvent(int componentID) {
-
+        if (componentID == R.id.init_amwell) {
+            initializeAwsdk();
+        }
     }
 
     protected void initializeAwsdk() {
-        ((PTHWelcomeFragment) uiBaseView).showProgressBar();
+        uiBaseView.showProgressBar();
+        ((PTHWelcomeFragment) uiBaseView).enableInitButton(false);
         try {
             AmwellLog.i(AmwellLog.LOG,"Initialize - Call initiated from Client");
             PTHManager.getInstance().initializeTeleHealth(uiBaseView.getFragmentActivity(), this);
@@ -66,15 +70,19 @@ public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallB
 
     @Override
     public void onInitializationFailure(Throwable var1) {
-        ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
+        uiBaseView.hideProgressBar();
+        if (uiBaseView.getContext() != null) {
+            (uiBaseView).showToast("Init Failed!!!!!");
+            ((PTHWelcomeFragment) uiBaseView).enableInitButton(true);
+        }
     }
 
     @Override
     public void onLoginResponse(PTHAuthentication pthAuthentication, PTHSDKError sdkError) {
         AmwellLog.i(AmwellLog.LOG,"Login - UI updated");
-        ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
+        uiBaseView.hideProgressBar();
         AmwellLog.d("Login","Login success");
-        ((PTHWelcomeFragment) uiBaseView).showProgressBar();
+        uiBaseView.showProgressBar();
         try {
             PTHManager.getInstance().getConsumerObject(uiBaseView.getFragmentActivity(),pthAuthentication.getAuthentication(),this);
         } catch (AWSDKInstantiationException e) {
@@ -99,7 +107,7 @@ public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallB
     //TODO: Move it to Login Presenter one's Silent Login is removed
     @Override
     public void onLoginFailure(Throwable var1) {
-        ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
+        uiBaseView.hideProgressBar();
     }
 
     //TODO: Review Comment - Spoorti - move to the relevant presenter
@@ -112,7 +120,7 @@ public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallB
         PTHConsumer pthConsumer = new PTHConsumer();
         pthConsumer.setConsumer(consumer);
         PTHManager.getInstance().setPTHConsumer(pthConsumer);
-        ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
+        uiBaseView.hideProgressBar();
         AmwellLog.d("Login","Consumer object received");
         PTHPracticeFragment PTHPracticeFragment = new PTHPracticeFragment();
         PTHPracticeFragment.setConsumer(consumer);
@@ -125,6 +133,6 @@ public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallB
 
     @Override
     public void onError(Throwable throwable) {
-        ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
+        uiBaseView.hideProgressBar();
     }
 }

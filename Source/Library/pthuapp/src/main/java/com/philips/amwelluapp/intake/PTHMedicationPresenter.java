@@ -101,7 +101,7 @@ public class PTHMedicationPresenter implements PTHBasePresenter, PTHMedicationCa
             ((PTHMedicationFragment) uiBaseView).showSearchedMedicationList(pthMedication);
         } else {
             AmwellLog.i("onFetchMedication","failure");
-            Toast.makeText( ((PTHMedicationFragment) uiBaseView).getActivity(), "No match found",Toast.LENGTH_SHORT).show();
+            ((PTHMedicationFragment) uiBaseView).showToast("No match found");
         }
     }
 
@@ -110,7 +110,7 @@ public class PTHMedicationPresenter implements PTHBasePresenter, PTHMedicationCa
 
         ((PTHMedicationFragment) uiBaseView).hideProgressBar();
         AmwellLog.i("onFetchMedication","failure");
-        Toast.makeText( ((PTHMedicationFragment) uiBaseView).getActivity(), "Search failure",Toast.LENGTH_SHORT).show();
+        ((PTHMedicationFragment) uiBaseView).showToast("Search failure");
     }
     //////////////// end of call backs for search medicines//////////////
 

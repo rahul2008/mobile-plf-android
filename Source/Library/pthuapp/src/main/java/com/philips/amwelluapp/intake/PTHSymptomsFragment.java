@@ -124,6 +124,7 @@ public class PTHSymptomsFragment extends PTHBaseFragment implements BackEventLis
                 });
             }
         }
+        mContinue.setEnabled(true);
     }
 
     @Override
