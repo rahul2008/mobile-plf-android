@@ -64,7 +64,7 @@ public class RatingBar extends AppCompatRatingBar {
             width = (int) (getContext().getResources().getDimension(R.dimen.uid_rating_bar_input_width));
             height = (int) (getContext().getResources().getDimension(R.dimen.uid_rating_bar_input_height));
         }
-        setProgressDrawableCustom();
+        setProgressDrawableTiled(getStarDrawable());
     }
 
     private void processAttributes(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -116,12 +116,6 @@ public class RatingBar extends AppCompatRatingBar {
         paint.setTypeface(TypefaceUtils.load(getContext().getAssets(), FONT_PATH));
         paint.setTextSize(getResources().getDimensionPixelSize(R.dimen.uid_rating_bar_text));
         paint.setTextAlign(Paint.Align.CENTER);
-    }
-
-    private void setProgressDrawableCustom() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setProgressDrawableTiled(getStarDrawable());
-        }
     }
 
     private Drawable getStarDrawable() {
