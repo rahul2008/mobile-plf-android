@@ -175,8 +175,7 @@ dependencies {
 
     provided deps.support.annotations
 
-    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.6.0-SNAPSHOT.20170705181955')
-// + objcdp.getVersionSuffix())
+    compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.6.0' + objcdp.getVersionSuffix())
     def commlib = findProject(':commlib') ? ':commlib' : ':dicommClientLib'
 
     if (findProject(commlib)) {
