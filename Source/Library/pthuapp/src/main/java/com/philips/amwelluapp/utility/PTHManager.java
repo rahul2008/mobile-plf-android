@@ -317,11 +317,11 @@ public class PTHManager {
             @Override
             public void onResponse(List<Medication> medications, SDKError sdkError) {
                 AmwellLog.i("onGetMedicationReceived","success");
-                if(null!=medications && !medications.isEmpty()) {
+
                     PTHMedication pTHMedication = new PTHMedication();
                     pTHMedication.setMedicationList(medications);
                     pTHGetMedicationCallback.onGetMedicationReceived(pTHMedication, sdkError);
-                }
+
             }
 
             @Override
@@ -342,11 +342,11 @@ public class PTHManager {
             @Override
             public void onResponse(List<Medication> medications, SDKError sdkError) {
                 //Log.v("onSearchMedication","sucess");
-                if(null!=medications && !medications.isEmpty()) {
+
                     PTHMedication pTHMedication = new PTHMedication();
                     pTHMedication.setMedicationList(medications);
                     pTHSDKValidatedCallback.onResponse(pTHMedication, sdkError);
-                }
+
             }
 
             @Override

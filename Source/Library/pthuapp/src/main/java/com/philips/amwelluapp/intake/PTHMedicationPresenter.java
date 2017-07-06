@@ -12,6 +12,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.amwelluapp.base.PTHBasePresenter;
 import com.philips.amwelluapp.base.PTHBaseView;
+import com.philips.amwelluapp.utility.AmwellLog;
 import com.philips.amwelluapp.utility.PTHManager;
 
 import java.util.Map;
@@ -70,11 +71,13 @@ public class PTHMedicationPresenter implements PTHBasePresenter, PTHMedicationCa
     //////////////// start of call backs for get existing medicines//////////////
     @Override
     public void onGetMedicationReceived(PTHMedication pTHMedication, SDKError sDKError) {
+        ((PTHMedicationFragment) uiBaseView).hideProgressBar();
         if (null != pTHMedication.getMedicationList() && !pTHMedication.getMedicationList().isEmpty()) {
-            Log.v("onGetMedicationReceived", "Success");
+            AmwellLog.i("onGetMedicationReceived","Success");
             ((PTHMedicationFragment) uiBaseView).showExistingMedicationList(pTHMedication);
+
         } else {
-            Log.v("onGetMedicationReceived", "failure");
+            AmwellLog.i("onGetMedicationReceived","failure");
         }
 
 
@@ -86,7 +89,7 @@ public class PTHMedicationPresenter implements PTHBasePresenter, PTHMedicationCa
     @Override
     public void onValidationFailure(Map<String, ValidationReason> var1) {
         ((PTHMedicationFragment) uiBaseView).hideProgressBar();
-        Log.v("onFetchMedication", "failure");
+        AmwellLog.i("onFetchMedication","failure");
     }
 
     @Override
@@ -94,10 +97,10 @@ public class PTHMedicationPresenter implements PTHBasePresenter, PTHMedicationCa
         ((PTHMedicationFragment) uiBaseView).hideProgressBar();
         if (null!=pthMedication && null != pthMedication.getMedicationList() &&  !pthMedication.getMedicationList().isEmpty()) {
 
-            Log.v("onFetchMedication", "Success");
+            AmwellLog.i("onFetchMedication","success");
             ((PTHMedicationFragment) uiBaseView).showSearchedMedicationList(pthMedication);
         } else {
-            Log.v("onFetchMedication", "failure");
+            AmwellLog.i("onFetchMedication","failure");
             Toast.makeText( ((PTHMedicationFragment) uiBaseView).getActivity(), "No match found",Toast.LENGTH_SHORT).show();
         }
     }
@@ -106,7 +109,7 @@ public class PTHMedicationPresenter implements PTHBasePresenter, PTHMedicationCa
     public void onFailure(Throwable throwable) {
 
         ((PTHMedicationFragment) uiBaseView).hideProgressBar();
-        Log.v("onFetchMedication", "failure");
+        AmwellLog.i("onFetchMedication","failure");
         Toast.makeText( ((PTHMedicationFragment) uiBaseView).getActivity(), "Search failure",Toast.LENGTH_SHORT).show();
     }
     //////////////// end of call backs for search medicines//////////////
@@ -120,7 +123,8 @@ public class PTHMedicationPresenter implements PTHBasePresenter, PTHMedicationCa
     @Override
     public void onUpdateMedicationSent(Void pVoid, SDKError sDKError) {
         ((PTHMedicationFragment) uiBaseView).hideProgressBar();
-        Log.v("onUpdateMedication", "success");
+
+        AmwellLog.i("onUpdateMedication","success");
         // TODO  call next intake fragment here
 
     }

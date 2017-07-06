@@ -3,12 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <WebView
-        android:id="@+id/ths_nopp_content_webview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginRight="@dimen/pth_fab_margin"
-        android:paddingLeft="@dimen/pth_fab_margin"
-        />
+    <ScrollView android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_intake_nopp_agreement_text"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+            </com.philips.platform.uid.view.widget.Label>
+        </ScrollView>
 
 </RelativeLayout>
