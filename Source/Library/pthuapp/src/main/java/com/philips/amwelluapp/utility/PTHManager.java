@@ -316,6 +316,7 @@ public class PTHManager {
         getAwsdk(context).getConsumerManager().getMedications(getPTHConsumer().getConsumer(), new SDKCallback<List<Medication>, SDKError>() {
             @Override
             public void onResponse(List<Medication> medications, SDKError sdkError) {
+                AmwellLog.i("onGetMedicationReceived","success");
                 if(null!=medications && !medications.isEmpty()) {
                     PTHMedication pTHMedication = new PTHMedication();
                     pTHMedication.setMedicationList(medications);
@@ -325,7 +326,7 @@ public class PTHManager {
 
             @Override
             public void onFailure(Throwable throwable) {
-                Log.v("onGetMedicationReceived","failure");
+                AmwellLog.i("onGetMedicationReceived","failure");
             }
         });
 
@@ -340,7 +341,7 @@ public class PTHManager {
 
             @Override
             public void onResponse(List<Medication> medications, SDKError sdkError) {
-                Log.v("onSearchMedication","sucess");
+                //Log.v("onSearchMedication","sucess");
                 if(null!=medications && !medications.isEmpty()) {
                     PTHMedication pTHMedication = new PTHMedication();
                     pTHMedication.setMedicationList(medications);
@@ -350,7 +351,7 @@ public class PTHManager {
 
             @Override
             public void onFailure(Throwable throwable) {
-                Log.v("onSearchMedication","failure");
+                AmwellLog.i("onSearchMedication","failure");
                 pTHSDKValidatedCallback.onFailure(throwable);
             }
         });
@@ -365,13 +366,14 @@ public class PTHManager {
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
                 // sdkError comes null even after successfully updating the medication
-                Log.v("onUpdateMedication","success");
+                AmwellLog.i("onUpdateMedication","success");
                 pTHUpdateMedicationCallback.onUpdateMedicationSent(aVoid,sdkError);
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                Log.v("onUpdateMedication","failure");
+                AmwellLog.i("onUpdateMedication","failure");
+
             }
         });
     }
