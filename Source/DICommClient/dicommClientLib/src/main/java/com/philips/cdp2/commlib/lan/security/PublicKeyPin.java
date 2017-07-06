@@ -23,8 +23,7 @@ public class PublicKeyPin {
     private final byte[] pinBytes;
 
     PublicKeyPin(@NonNull Certificate certificate) {
-        // Generate the certificate's spki pin
-        MessageDigest digest;
+        final MessageDigest digest;
         try {
             digest = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
@@ -32,12 +31,11 @@ public class PublicKeyPin {
         }
         digest.reset();
 
-        byte[] spki = certificate.getPublicKey().getEncoded();
+        final byte[] spki = certificate.getPublicKey().getEncoded();
         pinBytes = digest.digest(spki);
     }
 
     PublicKeyPin(@NonNull String spkiPin) {
-        // Validate the format of the pin
         pinBytes = Base64.decode(spkiPin, Base64.DEFAULT);
         if (pinBytes.length != 32) {
             throw new IllegalArgumentException("Invalid pin: length is not 32 bytes");
@@ -52,7 +50,6 @@ public class PublicKeyPin {
         PublicKeyPin that = (PublicKeyPin) o;
 
         return Arrays.equals(pinBytes, that.pinBytes);
-
     }
 
     @Override

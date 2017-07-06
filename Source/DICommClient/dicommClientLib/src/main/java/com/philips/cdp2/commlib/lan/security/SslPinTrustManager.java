@@ -22,11 +22,22 @@ public class SslPinTrustManager implements X509TrustManager {
     }
 
     public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-        // This method will not be used
         throw new UnsupportedOperationException();
     }
 
     public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+        if (chain == null) {
+            throw new IllegalArgumentException("Certificate chain is null.");
+        }
+
+        if (chain.length == 0) {
+            throw new IllegalArgumentException("Certificate chain is empty.");
+        }
+
+        if (authType == null || authType.isEmpty()) {
+            throw new IllegalArgumentException("Invalid key exchange algorithm.");
+        }
+
         PublicKeyPin certificatePin = new PublicKeyPin(chain[0]);
         PublicKeyPin networkNodePin;
 
@@ -39,10 +50,12 @@ public class SslPinTrustManager implements X509TrustManager {
         }
 
         if (certificatePin.equals(networkNodePin)) {
-            DICommLog.d(TAG, "Certificate is accepted");
+            DICommLog.d(TAG, "Certificate is accepted.");
         } else {
             DICommLog.e(TAG, "Pin mismatch for appliance with cppid " + networkNode.getCppId());
-            throw new CertificateException();
+            networkNode.setMismatchedPin(certificatePin.toString());
+
+            throw new PinMismatchException("The appliance's certificate doesn't match the stored pin.");
         }
     }
 

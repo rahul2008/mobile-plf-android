@@ -25,6 +25,7 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_IP_ADDRESS;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_IS_PAIRED;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_LAST_PAIRED;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_MISMATCHED_PIN;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_MODEL_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_PIN;
 
@@ -55,6 +56,7 @@ public class NetworkNode implements Parcelable {
     private String modelId;
     private String name;
     private String pin;
+    private String mismatchedPin;
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
@@ -192,6 +194,16 @@ public class NetworkNode implements Parcelable {
         this.pcs.firePropertyChange(KEY_PIN, oldPin, pin);
     }
 
+    public String getMismatchedPin() {
+        return mismatchedPin;
+    }
+
+    public void setMismatchedPin(String mismatchedPin) {
+        final String oldMismatchedPin = this.mismatchedPin;
+        this.mismatchedPin = mismatchedPin;
+        this.pcs.firePropertyChange(KEY_MISMATCHED_PIN, oldMismatchedPin, mismatchedPin);
+    }
+
     /**
      * Indicate that the {@link Appliance} belonging to this {@link NetworkNode} only supports legacy HTTP connections over lan.
      * <p>
@@ -241,6 +253,7 @@ public class NetworkNode implements Parcelable {
         pairedState = PairingState.values()[in.readInt()];
         lastPairedTime = in.readLong();
         pin = in.readString();
+        mismatchedPin = in.readString();
     }
 
     @Override
@@ -262,6 +275,7 @@ public class NetworkNode implements Parcelable {
         dest.writeInt(pairedState.ordinal());
         dest.writeLong(lastPairedTime);
         dest.writeString(pin);
+        dest.writeString(mismatchedPin);
     }
 
     public static final Parcelable.Creator<NetworkNode> CREATOR = new Parcelable.Creator<NetworkNode>() {
@@ -294,7 +308,8 @@ public class NetworkNode implements Parcelable {
                 .append("   paired: ").append(getPairedState())
                 .append("   connectedState: ").append(getConnectionState())
                 .append("   HomeSsid: ").append(getHomeSsid())
-                .append("   pin: ").append(pin);
+                .append("   pin: ").append(pin)
+                .append("   mismatchedPin: ").append(mismatchedPin);
         return builder.toString();
     }
 

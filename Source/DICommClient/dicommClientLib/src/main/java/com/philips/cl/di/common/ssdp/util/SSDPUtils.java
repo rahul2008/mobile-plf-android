@@ -1,10 +1,14 @@
+/*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
 package com.philips.cl.di.common.ssdp.util;
 
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.StrictMode;
 import android.util.Log;
 
@@ -37,6 +41,7 @@ import javax.net.ssl.X509TrustManager;
  */
 public class SSDPUtils {
     private static HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+        @SuppressWarnings("BadHostnameVerifier")
         @Override
         public boolean verify(String hostname, SSLSession session) {
             return true; //Just accept everything
@@ -122,8 +127,7 @@ public class SSDPUtils {
             try {
                 connection = url.openConnection();
                 if (null != connection) {
-                    if (url.toString().startsWith("https://"))
-                    {
+                    if (url.toString().startsWith("https://")) {
                         try {
                             initializeSslFactory();
                         } catch (final NoSuchAlgorithmException e) {
@@ -132,8 +136,8 @@ public class SSDPUtils {
                             Log.e(ConnectionLibContants.LOG_TAG, "KeyManagementException: " + e.getMessage());
                         }
 
-                        ((HttpsURLConnection)connection).setHostnameVerifier(hostnameVerifier);
-                        ((HttpsURLConnection)connection).setSSLSocketFactory(sslContext.getSocketFactory());
+                        ((HttpsURLConnection) connection).setHostnameVerifier(hostnameVerifier);
+                        ((HttpsURLConnection) connection).setSSLSocketFactory(sslContext.getSocketFactory());
                     }
                     connection.setConnectTimeout(3000);
                     connection.connect();
@@ -164,7 +168,7 @@ public class SSDPUtils {
                 }
                 if (null != connection) {
                     try {
-                        ((HttpURLConnection)connection).disconnect();
+                        ((HttpURLConnection) connection).disconnect();
                     } catch (Exception e) {
                         Log.e(ConnectionLibContants.LOG_TAG, "IOException: " + e.getMessage());
                     }
@@ -178,13 +182,18 @@ public class SSDPUtils {
         if (sslContext != null) return;
         sslContext = SSLContext.getInstance("TLS");
         // Accept all certificates, DO NOT DO THIS FOR PRODUCTION CODE
-        sslContext.init(null, new X509TrustManager[]{new X509TrustManager(){
+        sslContext.init(null, new X509TrustManager[]{new X509TrustManager() {
             public void checkClientTrusted(X509Certificate[] chain,
-                                           String authType) throws CertificateException {}
+                                           String authType) throws CertificateException {
+            }
+
             public void checkServerTrusted(X509Certificate[] chain,
-                                           String authType) throws CertificateException {}
+                                           String authType) throws CertificateException {
+            }
+
             public X509Certificate[] getAcceptedIssuers() {
                 return new X509Certificate[0];
-            }}}, new SecureRandom());
+            }
+        }}, new SecureRandom());
     }
 }
