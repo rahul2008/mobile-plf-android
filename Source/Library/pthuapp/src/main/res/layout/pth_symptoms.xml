@@ -1,0 +1,96 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/wizard_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="@string/symptoms" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/help_visit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/wizard_button"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/help_visit"
+        android:textColor="?attr/uidLabelRegularNormalTextColor"
+        style="@style/UIDLabelDescription"
+        android:textSize="16dp"
+        />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/visit_reason"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/help_visit"
+        android:layout_marginBottom="8dp"
+        android:text="@string/visit_reason"
+        android:textColor="?attr/uidLabelRegularNormalTextColor"
+        style="@style/UIDAlertDialogTitleTextStyle"
+        android:textSize="16dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/checkbox_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/visit_reason"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/additional_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/checkbox_container"
+        android:text="@string/additional_reason"
+        android:layout_marginBottom="16dp"
+        android:textColor="?attr/uidLabelRegularNormalTextColor"
+        style="@style/UIDLabelDescription"
+        />
+
+    <com.philips.platform.uid.view.widget.EditText
+        android:id="@+id/edit_farenheit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/additional_comment"
+        android:layout_marginBottom="24dp"
+        android:height="200dp"
+        android:enabled="true"
+        android:hint="@string/write_here" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/continue_btn"
+        style="@style/UIDImageTextButton.Center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_farenheit"
+        android:enabled="false"
+        android:text="Continue"
+        android:layout_marginBottom="20dp"
+        />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floating_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@id/continue_btn"
+        >
+    </android.support.design.widget.FloatingActionButton>
+
+</RelativeLayout>
+</ScrollView>

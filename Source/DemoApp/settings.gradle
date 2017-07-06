@@ -1,0 +1,3 @@
+include ':app', ':pthuapp', ':awsdk'
+project(':pthuapp').projectDir =new File('../Library/pthuapp')
+project(':awsdk').projectDir =new File('../Library/sdk')

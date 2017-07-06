@@ -1,0 +1,36 @@
+<resources>
+
+    <string name="ths_nopp"><u>Notes of Privacy Practices</u></string>
+    <string name="action_settings">Settings</string>
+    <string name="app_name">AmwellUapp</string>
+    <string name="symptoms">Step 1 of 5: Symptoms</string>
+    <string name="vitals">Step 2 of 5: vitals</string>
+    <string name="conditions">Step 4 of 5: Conditions</string>
+    <string name="help_visit">please help us make your visit more efficient by sharing some details with us before your visit</string>
+    <string name="visit_reason">What is the reason for your visit?</string>
+    <string name="additional_reason">Additional Reason</string>
+    <string name="write_here">write here</string>
+    <string name="pth_prepare_your_visit">prepare your visit</string>
+    <string name="button_greaterthan"> &gt;</string>
+    <string name="vitals_want">What do you want from vitals?</string>
+    <string name="vitals_blood_pressure">Blood Pressure</string>
+    <string name="vitals_systolic">Systolic</string>
+    <string name="vitals_diastolic">Diastolic</string>
+    <string name="temperature">Temperature</string>
+    <string name="vitals_faranheit">Farenheit</string>
+    <string name="vitals_f">oF</string>
+    <string name="weight">Weight</string>
+    <string name="vitals_ponds">Pounds</string>
+    <string name="vitals_skip">Skip this step</string>
+    <string name="ths_medical_conditions">Have you diagnosed with any of these medical conditions ?</string>
+
+    <string name="pth_webview_test"><html><p>The US and South Korea have held a ballistic missile drill, after North Korea tested a long-range missile experts believe may reach Alaska.
+Self-restraint was all that separated armistice and war and could be changed at any time, the two allies said.
+It would be a "grave mistake" for the North to think otherwise, they said.</p><p>China and Russia have urged the North to suspend its weapons programme in exchange for a halt to US-South Korean military exercises.
+The launch, the latest in a series of tests, was in defiance of a ban by the UN Security Council.
+The US has asked for an urgent meeting of the UNSC to discuss the issue. A closed-door session of the 15-member body will take place later on Wednesday.
+Pyongyang claimed on Tuesday to have successfully tested an intercontinental ballistic missile (ICBM).
+However, most experts believe that the North does not yet have long-range nuclear weapon capabilities.
+The two Koreas are technically still at war as the 1950-1953 Korean War ended in an armistice.
+How have the US and South Korea responded?</p>The allies conducted a ballistic missile fire exercise in the Sea of Japan.South Korean President Moon Jae-in said allies needed to demonstrate their missile defence posture with action, not just a statement, his office said.Is the new missile test a game-changer?Can the US defend itself against North Korea?Have North Korea missile tests paid off? What can the outside world do? Meanwhile in a joint statement Gen Vincent Brooks, commander of US forces Korea, and South Korean Joint Chiefs Chairman Gen Lee Sun-jin said the allies were maintaining patience and self-restraint, but this could change.</html></string>
+</resources>

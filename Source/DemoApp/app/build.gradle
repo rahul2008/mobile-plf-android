@@ -1,0 +1,208 @@
+apply plugin: 'com.android.application'
+apply plugin: 'maven-publish'
+apply plugin: 'jacoco'
+
+
+jacoco {
+    toolVersion = "0.7.1.201405082137"
+}
+
+buildscript {
+    repositories {
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+    }
+
+    dependencies {
+        classpath 'com.trickyandroid:jacoco-everywhere:0.2.1'
+        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.1', changing: true
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+//        compile 'com.android.support:appcompat-v7:25.3.1'
+    }
+}
+
+def environment = 'production'
+if (project.hasProperty('envCode')) {
+    environment = envCode
+}
+
+apply plugin: 'cdpSCM'
+import com.philips.cdp.cdpSCM
+def objcdp = new cdpSCM()
+objcdp.setProjectDir(projectDir)
+objcdp.setEnv(platform: 'android', env: environment )
+
+allprojects {
+    repositories {
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url objcdp.getArtifactoryUrl()
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        group = 'com.philips.cdp'
+    }
+}
+
+group = 'com.philips.cdp'
+android {
+    compileSdkVersion 25
+    buildToolsVersion '25.0.3'
+
+    defaultConfig {
+        applicationId 'com.americanwell.sdksample.android.philips'
+        minSdkVersion 21
+        targetSdkVersion 25
+        versionCode 1
+        vectorDrawables.useSupportLibrary = true
+        renderscriptTargetApi 25
+        renderscriptSupportModeEnabled true
+        testInstrumentationRunner "com.android.test.runner.MultiDexTestRunner"
+        multiDexEnabled true
+
+        // replace the below string with your own Google client ID. Make sure this is consistent
+        // with the values used in openid_appauth_idp_configs.xml
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-arpks5qhm771a2mfbm4e829va12olmtf'
+        ]
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    signingConfigs {
+        release
+    }
+
+    dexOptions {
+        preDexLibraries = false
+        jumboMode = false
+    }
+    buildTypes {
+        def STRING = "string"
+        def BOOLEAN = "bool"
+        def TRUE = "true"
+        def FALSE = "false"
+        def AWSDK_DEV_SSL_ALLOW_ALL = "awsdk_dev_ssl_allow_all"
+        def AWSDKURL = "awsdkurl"
+        def AWSDKKEY = "awsdkkey"
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+            testCoverageEnabled = true
+            resValue STRING, AWSDKURL, "https://ec2-54-172-152-160.compute-1.amazonaws.com"
+            resValue STRING, AWSDKKEY, "3c0f99bf"
+            resValue BOOLEAN, AWSDK_DEV_SSL_ALLOW_ALL, TRUE
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFile 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+
+        pickFirst 'lib/mips/librsjni.so'
+        pickFirst 'lib/mips/libblasV8.so'
+        pickFirst 'lib/mips/libRSSupport.so'
+
+        pickFirst 'lib/x86/librsjni.so'
+        pickFirst 'lib/x86/libblasV8.so'
+        pickFirst 'lib/x86/libRSSupport.so'
+        pickFirst 'lib/armeabi-v7a/librsjni.so'
+        pickFirst 'lib/armeabi-v7a/libblasV8.so'
+        pickFirst 'lib/armeabi-v7a/libRSSupport.so'
+        pickFirst 'lib/arm64-v8a/libRSSupport.so'
+        pickFirst 'lib/arm64-v8a/librsjni.so'
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/rxjava.properties'
+
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+        // set JVM arguments for the test JVM(s)
+        unitTests.all {
+            jvmArgs '-noverify'
+        }
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    resolutionStrategy.force  'com.squareup.okhttp3:okhttp:3.8.0'
+
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.j256.ormlite:ormlite-core:5.0'
+    compile 'com.j256.ormlite:ormlite-android:5.0'
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.6.0' + objcdp.getVersionSuffix(), ext: 'aar') {
+        exclude group: 'com.android.support'
+        transitive = true
+    }
+    debugCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.google.dagger'
+    }
+    debugCompile 'com.facebook.stetho:stetho:1.2.0'
+    /*testCompile 'junit:junit:4.12'
+    testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
+    testCompile 'org.robolectric:robolectric:3.3.1'
+    testCompile 'org.robolectric:shadows-multidex:3.3.1'
+    testCompile 'org.robolectric:shadows-support-v4:3.3.1'
+    testCompile 'org.mockito:mockito-all:1.10.17'*/
+//    testCompile "com.squareup.assertj:assertj-android:${androidAssertJVer}"
+ compile project(':pthuapp')
+}
+
+task copyToLib(type: Copy) {
+    into "$buildDir/outputs/lib"
+    from configurations.compile
+}
