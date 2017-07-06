@@ -1,76 +1,18 @@
+# Add project specific ProGuard rules here.
+# By default, the flags in this file are appended to flags specified
+# in D:\adt-bundle-windows-x86_64-20140702\sdk/tools/proguard/proguard-android.txt
+# You can edit the include path and order by changing the proguardFiles
+# directive in build.gradle.
 #
-# This ProGuard configuration file illustrates how to process a program
-# library, such that it remains usable as a library.
-# Usage:
-#     java -jar proguard.jar @library.pro
-#
-
-# Specify the input jars, output jars, and library jars.
-# In this case, the input jar is the program library that we want to process.
-
-
-# Save the obfuscation mapping to a file, so we can de-obfuscate any stack
-# traces later on. Keep a fixed source file attribute and all line number
-# tables to get line numbers in the stack traces.
-# You can comment this out if you're not interested in stack traces.
-
--printmapping out.map
--keepparameternames
--renamesourcefileattribute SourceFile
--keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,EnclosingMethod
-
-# Preserve all annotations.
-
--keepattributes *Annotation*,InnerClasses
-
-# Preserve all public classes, and their public and protected fields and
-# methods.
-
--keep public class * {
-    public protected *;
-}
-
-# Preserve all .class method names.
-
--keepclassmembernames class * {
-    java.lang.Class class$(java.lang.String);
-    java.lang.Class class$(java.lang.String, boolean);
-}
-
-# Preserve all native method names and the names of their classes.
-
--keepclasseswithmembernames class * {
-    native <methods>;
-}
-
-
-
-
-# Your library may contain more items that need to be preserved;
-# typically classes that are dynamically created using Class.forName:
-
-# -keep public class mypackage.MyClass
-# -keep public interface mypackage.MyInterface
-# -keep public class * implements mypackage.MyInterface
-
-# This is a configuration file for AppInfra ProGuard.
-# http://proguard.sourceforge.net/index.html#manual/usage.html
--dontusemixedcaseclassnames
--dontskipnonpubliclibraryclasses
--verbose
-
-# Optimization is turned off by default. Dex does not like code run
-# through the ProGuard optimize and preverify steps (and performs some
-# of these optimizations on its own).
--dontoptimize
--dontpreverify
-# Note that if you want to enable optimization, you cannot just
-# include optimization flags in your own project configuration file;
-# instead you will need to point to the
-# "proguard-android-optimize.txt" file instead of this one from your
-# project.properties file.
-
-
+# For more details, see
+#   http://developer.android.com/guide/developing/tools/proguard.html
+# Add any project specific keep options here:
+# If your project uses WebView with JS, uncomment the following
+# and specify the fully qualified class name to the JavaScript interface
+# class:
+#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+#   public *;
+#}
 
 #GSM
 -keep  class com.google.android.gms.* { public *; }
@@ -92,7 +34,6 @@
 -keep class java.nio.**
 -keep class org.codehaus.**
 
--dontwarn com.janrain.android.**
 -dontwarn java.nio.**
 
 # The support library contains references to newer platform versions.
@@ -100,8 +41,6 @@
 # platform version.  We know about them, and they are safe.
 -dontwarn android.support.**
 
-##-keep public class pack.com.progard.** {*;}
-##Registration API specific
 ##General network
 -keep public class javax.net.ssl.**
 -keepclassmembers public class javax.net.ssl.** {*;}
@@ -118,11 +57,27 @@
 -keep public class com.j256.ormlite.** {*;}
 -keep class com.j256.ormlite.** { *; }
 -keep interface com.j256.ormlite.** { *; }
+-dontwarn com.j256.ormlite.**
+-dontwarn org.slf4j.**
+-dontwarn org.apache.log4j.**
+-dontwarn org.apache.commons.logging.**
+-dontwarn org.apache.commons.codec.binary.**
+-dontwarn javax.persistence.**
+-dontwarn javax.lang.**
+-dontwarn javax.annotation.**
+-dontwarn javax.tools.**
+
 
 #sqlcipher
 -keep public class net.sqlcipher.database.** {*;}
 -keep class net.sqlcipher.database.** { *; }
 -keep interface net.sqlcipher.database.** { *; }
+-keep enum net.sqlcipher.**
+-keepclassmembers enum net.sqlcipher.** { *; }
 
 -keep public class com.philips.platform.securedblibrary.**{*;}
 -keep interface com.philips.platform.securedblibrary.**{*;}
+
+
+
+

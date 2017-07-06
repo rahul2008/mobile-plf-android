@@ -139,7 +139,6 @@ android {
         versionCode 1
         versionName version
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
-        consumerProguardFiles 'proguard-rules-securedb.pro'
       /*  ndk {
             abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
         }*/
@@ -148,7 +147,7 @@ android {
     buildTypes {
         release {
             //   minifyEnabled false
-            //  proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles 'proguard-rules-securedb.pro'
         }
         debug {
             debuggable true
