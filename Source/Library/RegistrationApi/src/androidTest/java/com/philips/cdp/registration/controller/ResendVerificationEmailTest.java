@@ -6,11 +6,8 @@ import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.registration.RegistrationApiInstrumentationBase;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
-import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -86,45 +83,6 @@ public class ResendVerificationEmailTest extends RegistrationApiInstrumentationB
             method = ResendVerificationEmail.class.getDeclaredMethod("getErrorMessage", JSONArray.class);
             method.setAccessible(true);
             method.invoke(mResendVerificationEmail, jsonArray);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void testHandleInvalidInputs(){
-
-        synchronized(this){//synchronized block
-
-            try{
-                mResendVerificationEmail.resendVerificationMail("emailAddress@sample.com");
-
-            }catch(Exception e){System.out.println(e);}
-        }
-
-        Method method = null;
-        JSONObject response = new JSONObject();
-        try {
-            response.put("error",RegConstants.INVALID_CREDENTIALS);
-            response.put("code",200);
-            response.put("error_description","sample");
-            response.put(RegConstants.INVALID_FIELDS,RegConstants.INVALID_FIELDS);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        CaptureApiError error=new CaptureApiError( response,  "engageToken",  "conflictingProvider");
-
-        UserRegistrationFailureInfo userRegistrationFailureInfo= new UserRegistrationFailureInfo();
-        try {
-            method = ResendVerificationEmail.class.getDeclaredMethod("handleInvalidInputs", CaptureApiError.class,UserRegistrationFailureInfo.class);
-            method.setAccessible(true);
-            method.invoke(mResendVerificationEmail, error,userRegistrationFailureInfo);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

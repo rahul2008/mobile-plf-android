@@ -219,16 +219,13 @@ public class AlmostDonePresenterTest {
     @Test
     public void testContinueSocialProviderLoginFailure_displayNameErrorMessage() {
         userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-        userRegistrationFailureInfo.setDisplayNameErrorMessage("displayNameError");
         presenter.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
         verify(mockContract).hideMarketingOptSpinner();
-        verify(mockContract).displayNameErrorMessage(userRegistrationFailureInfo,null);
     }
 
     @Test
     public void testContinueSocialProviderLoginFailure_emailErrorMessage() {
         userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-        userRegistrationFailureInfo.setEmailErrorMessage("displayNameError");
         presenter.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
         verify(mockContract).hideMarketingOptSpinner();
         verify(mockContract).emailErrorMessage(userRegistrationFailureInfo);

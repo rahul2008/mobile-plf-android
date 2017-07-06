@@ -23,19 +23,8 @@ public class UserRegistrationFailureInfoTest extends ActivityInstrumentationTest
                 .getTargetContext().getCacheDir().getPath());
     }
 
-    public void testDisplayNameErrorMessage(){
 
-        userRegistrationFailureInfo.setDisplayNameErrorMessage("sampleError");
 
-        assertEquals("sampleError",userRegistrationFailureInfo.getDisplayNameErrorMessage());
-
-    }
-    public void testSocialOnlyError(){
-        userRegistrationFailureInfo.setSocialOnlyError("sampleError");
-
-        assertEquals("sampleError",userRegistrationFailureInfo.getSocialOnlyError());
-
-    }
     public void testErrorDescription(){
         userRegistrationFailureInfo.setErrorDescription("sampleError");
 
@@ -47,22 +36,6 @@ public class UserRegistrationFailureInfoTest extends ActivityInstrumentationTest
 
         assertEquals(1,userRegistrationFailureInfo.getErrorCode());
 
-    }
-    public void testFirstNameErrorMessage(){
-        userRegistrationFailureInfo.setFirstNameErrorMessage("sampleError");
-
-        assertEquals("sampleError",userRegistrationFailureInfo.getFirstNameErrorMessage());
-
-    }
-    public void testEmailErrorMessage(){
-        userRegistrationFailureInfo.setEmailErrorMessage("sampleError");
-
-        assertEquals("sampleError",userRegistrationFailureInfo.getEmailErrorMessage());
-    }
-    public void testPasswordErrorMessage(){
-        userRegistrationFailureInfo.setPasswordErrorMessage("sampleError");
-
-        assertEquals("sampleError",userRegistrationFailureInfo.getPasswordErrorMessage());
     }
 
 }

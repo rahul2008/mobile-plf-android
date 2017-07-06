@@ -29,21 +29,9 @@ public class RegConstantsTest extends RegistrationApiInstrumentationBase {
         assertEquals("traditionalRegistration_emailAddress", mRegConstants.TRADITIONAL_REGISTRATION_EMAIL_ADDRESS);
     }
 
-    public void testSiginPassword() throws Exception {
-        assertEquals("traditionalSignIn_password", mRegConstants.TRADITIONAL_SIGN_IN_PASSWORD);
-    }
 
-    public void testSignEmailAddress() throws Exception {
-        assertEquals("traditionalSignIn_emailAddress", mRegConstants.TRADITIONAL_SIGN_IN_EMAIL_ADDRESS);
-    }
 
-    public void testFields() throws Exception {
-        assertEquals("invalid_fields", mRegConstants.INVALID_FIELDS);
-    }
 
-    public void testFormFields() throws Exception {
-        assertEquals("invalid_form_fields", mRegConstants.INVALID_FORM_FIELDS);
-    }
 
     public void testSuchAccount() throws Exception {
         assertEquals("no_such_account", mRegConstants.NO_SUCH_ACCOUNT);
@@ -57,9 +45,6 @@ public class RegConstantsTest extends RegistrationApiInstrumentationBase {
         assertEquals("resendVerificationForm", mRegConstants.RESEND_VERIFICATION_FORM);
     }
 
-    public void testInvalid_credentials() throws Exception {
-        assertEquals("invalid_credentials", mRegConstants.INVALID_CREDENTIALS);
-    }
 
     public void testUserInformationForm() throws Exception {
         assertEquals("userInformationForm", mRegConstants.USER_INFORMATION_FORM);

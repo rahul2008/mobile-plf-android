@@ -11,7 +11,6 @@ package com.philips.cdp.registration.controller;
 import android.content.Context;
 
 import com.janrain.android.Jump;
-import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
@@ -30,14 +29,6 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler, JumpFlowDownloadStatusListener {
 
@@ -129,16 +120,6 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         try {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setError(error.captureApiError);
-            handleInvalidCredentials(error.captureApiError, userRegistrationFailureInfo);
-            if ( null != error.captureApiError.error) {
-                JSONObject response = error.captureApiError.raw_response;
-                String message = getErrorMessageFromInvalidField(response);
-                if (message!=null){
-                    userRegistrationFailureInfo.setErrorDescription(message);
-                }
-            }
-                userRegistrationFailureInfo.setErrorDescription(error.error_description);
-
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
             AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
             ThreadUtils.postInMainThread(mContext, () ->
@@ -146,43 +127,6 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         } catch (Exception e) {
             RLog.e("Login failed :", "exception :" + e.getMessage());
         }
-    }
-
-
-    private void handleInvalidCredentials(CaptureApiError error, UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
-    }
-
-    private String getErrorMessageFromInvalidField(JSONObject serverResponse) {
-        try{
-        JSONObject jsonObject = (JSONObject) serverResponse.get(RegConstants.INVALID_FIELDS);
-        if (jsonObject != null) {
-            jsonObject.keys();
-            List<String> keys = new ArrayList<String>();
-            Iterator<?> i = jsonObject.keys();
-            do {
-                String k = i.next().toString();
-                keys.add(k);
-            } while (i.hasNext());
-
-            StringBuilder stringBuilder = new StringBuilder();
-            for (int j = 0; j < keys.size(); j++) {
-                JSONArray jsonObject1 = (JSONArray) jsonObject.opt(keys.get(j));
-                stringBuilder.append(jsonObject1.getString(0)).append("\n");
-            }
-            return stringBuilder.toString();
-        }}catch (Exception e){
-          //NOP
-        }
-        return null;
-    }
-
-    private String getErrorMessage(JSONArray jsonArray)
-            throws JSONException {
-        if (null == jsonArray) {
-            return null;
-        }
-        return (String) jsonArray.get(0);
     }
 
     @Override
@@ -202,7 +146,6 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         }
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
     }
-
 
     public void loginIntoHsdp() {
         final User user = new User(mContext);

@@ -2,9 +2,6 @@ package com.philips.cdp.registration.ui.social;
 
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 
-/**
- * Created by philips on 3/31/17.
- */
 
 public interface AlmostDoneContract {
 
@@ -26,7 +23,6 @@ public interface AlmostDoneContract {
 
     void emailAlreadyInuseError();
 
-    void displayNameErrorMessage(UserRegistrationFailureInfo userRegistrationFailureInfo,String displayName);
 
     void emailErrorMessage(UserRegistrationFailureInfo userRegistrationFailureInfo);
 

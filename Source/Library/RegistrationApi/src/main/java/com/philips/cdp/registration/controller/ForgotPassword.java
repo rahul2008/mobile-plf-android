@@ -23,7 +23,6 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,32 +46,12 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler , JumpFl
 	public void onFailure(ForgetPasswordError error) {
 		UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
 		userRegistrationFailureInfo.setError(error.captureApiError);
-		handleAccountExistance(error.captureApiError, userRegistrationFailureInfo);
 		handleOnlySocialSignIn(error.captureApiError, userRegistrationFailureInfo);
 		userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
 		ThreadUtils.postInMainThread(mContext,()->
 		mForgotPaswordHandler.onSendForgotPasswordFailedWithError(userRegistrationFailureInfo));
 	}
 
-	private void handleAccountExistance(CaptureApiError error,
-	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
-		if (null != error && null != error.error
-		        && error.error.equals(RegConstants.NO_SUCH_ACCOUNT)) {
-			try {
-				JSONObject object = error.raw_response;
-				JSONObject jsonObject = (JSONObject) object.get(RegConstants.INVALID_FIELDS);
-				if (jsonObject != null) {
-
-					if (!jsonObject.isNull(RegConstants.FORGOT_PASSWORD_FORM)) {
-						userRegistrationFailureInfo.setEmailErrorMessage(getErrorMessage(jsonObject
-						        .getJSONArray(RegConstants.FORGOT_PASSWORD_FORM)));
-					}
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
-	}
 
 	private void handleOnlySocialSignIn(CaptureApiError error,
 	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
@@ -81,22 +60,16 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler , JumpFl
 			try {
 				JSONObject object = error.raw_response;
 				if (!object.isNull(RegConstants.MESSAGE)) {
-					userRegistrationFailureInfo.setSocialOnlyError(object
+					userRegistrationFailureInfo.setErrorDescription(object
 					        .getString(RegConstants.MESSAGE));
 				}
 			} catch (JSONException e) {
-				e.printStackTrace();
+				//NOP
 			}
 		}
 	}
 
-	private String getErrorMessage(JSONArray jsonArray)
-	        throws JSONException {
-		if (null == jsonArray) {
-			return null;
-		}
-		return (String) jsonArray.get(0);
-	}
+
 	private String mEmailAddress;
 
 	public void performForgotPassword(final String  emailAddress){

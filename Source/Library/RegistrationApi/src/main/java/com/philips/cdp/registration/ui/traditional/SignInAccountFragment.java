@@ -460,27 +460,18 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnResend.setEnabled(true);
         hideSignInSpinner();
         mBtnSignInAccount.setEnabled(false);
-
         if (userRegistrationFailureInfo.getErrorCode() == -1 || userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE
                 || userRegistrationFailureInfo.getErrorCode() == UN_EXPECTED_ERROR || userRegistrationFailureInfo.getErrorCode() == INPUTS_INVALID_CODE) {
             mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
         } else {
             if (userRegistrationFailureInfo.getErrorCode() >= RegConstants.HSDP_LOWER_ERROR_BOUND) {
-                //HSDP related error description
                 scrollViewAutomatically(mRegError, mSvRootLayout);
                 mRegError.setError(mContext.getResources().getString(R.string.reg_Generic_Network_Error));
                 scrollViewAutomatically(mRegError, mSvRootLayout);
             } else {
-                //Need to show password errors only
-                scrollViewAutomatically(mRegError, mSvRootLayout);
-                if (userRegistrationFailureInfo.getErrorCode() == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
-                    mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Invalid_Credentials));
-                } else {
-                    if (null != userRegistrationFailureInfo.getPasswordErrorMessage()) {
-                        mRegError.setError(userRegistrationFailureInfo.getPasswordErrorMessage());
-                    } else {
-                        mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
-                    }
+                if (userRegistrationFailureInfo.getErrorDescription() != null) {
+                    mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+                    scrollViewAutomatically(mRegError, mSvRootLayout);
                 }
             }
         }
@@ -534,16 +525,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             }
         }
 
-        if (null != userRegistrationFailureInfo.getSocialOnlyError()) {
-            mEtEmail.showErrPopUp();
-            mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
-            mEtEmail.showInvalidAlert();
-            AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
-            return;
-        }
 
-        if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
-            mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
+        if (null != userRegistrationFailureInfo.getErrorDescription()) {
+            mEtEmail.setErrDescription(userRegistrationFailureInfo.getErrorDescription());
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
         }
@@ -683,8 +667,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 "SignInAccountFragment : onResendVerificationEmailFailedWithError");
         updateResendUIState();
         AppTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
-        mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + "\n"
-                + userRegistrationFailureInfo.getEmailErrorMessage());
+        mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
         mBtnResend.setEnabled(true);
     }
 
@@ -944,7 +927,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private String getRedirectUri() {
-
         return resetPasswordSmsRedirectUri;
     }
 

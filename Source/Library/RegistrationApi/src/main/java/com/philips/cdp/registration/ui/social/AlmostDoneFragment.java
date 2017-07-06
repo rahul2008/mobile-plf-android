@@ -517,17 +517,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     @Override
-    public void displayNameErrorMessage(UserRegistrationFailureInfo userRegistrationFailureInfo, String displayName) {
-        loginIdEditText.setErrDescription(userRegistrationFailureInfo.getDisplayNameErrorMessage());
-        loginIdEditText.showInvalidAlert();
-        errorMessage.setError(userRegistrationFailureInfo.getErrorDescription() + ".\n'"
-                + displayName + "' "
-                + userRegistrationFailureInfo.getDisplayNameErrorMessage());
-    }
-
-    @Override
     public void emailErrorMessage(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        loginIdEditText.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
+        String errorDscription = userRegistrationFailureInfo.getErrorDescription();
+        loginIdEditText.setErrDescription(errorDscription);
         loginIdEditText.showInvalidAlert();
         loginIdEditText.showErrPopUp();
     }

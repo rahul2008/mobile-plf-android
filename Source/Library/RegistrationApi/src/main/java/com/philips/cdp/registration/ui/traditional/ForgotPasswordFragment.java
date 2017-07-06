@@ -153,7 +153,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
         mEtEmail.checkingEmailorMobileSignIn();
 
         RegistrationSettingsURL registrationSettingsURL = new RegistrationSettingsURL();
-        if(registrationSettingsURL.isChinaFlow()){
+        if (registrationSettingsURL.isChinaFlow()) {
             XTextView tv_reg_email_reset = (XTextView) view.findViewById(R.id.tv_reg_email_reset);
             tv_reg_email_reset.setText(R.string.reg_Forgot_Password_Email_Or_PhoneNumber_description);
         }
@@ -263,11 +263,11 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     }
 
     private void updateUiStatus() {
-        if (mEtEmail.isValidEmail()  && networkUtility.isNetworkAvailable()) {
+        if (mEtEmail.isValidEmail() && networkUtility.isNetworkAvailable()) {
             mBtnContinue.setEnabled(true);
             mRegError.hideError();
-        }  else {
-                mBtnContinue.setEnabled(false);
+        } else {
+            mBtnContinue.setEnabled(false);
         }
     }
 
@@ -336,12 +336,12 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     @Override
     public void onUpdate() {
-                updateUiStatus();
+        updateUiStatus();
     }
 
     @Override
     public void onSendForgotPasswordSuccess() {
-                handleSendForgotPasswordSuccess();
+        handleSendForgotPasswordSuccess();
     }
 
     private void handleSendForgotPasswordSuccess() {
@@ -358,7 +358,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     @Override
     public void onSendForgotPasswordFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                handleSendForgotPasswordFailedWithError(userRegistrationFailureInfo);
+        handleSendForgotPasswordFailedWithError(userRegistrationFailureInfo);
     }
 
     private void handleSendForgotPasswordFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
@@ -368,36 +368,17 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
             mRegError.setError(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
             mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_JanRain_Server_Connection_Failed));
             return;
-        } else {
-            if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {
-                mEtEmail.showInvalidAlert();
-                mEtEmail.setErrDescription(getString(R.string.reg_TraditionalSignIn_ForgotPwdSocialError_lbltxt));
-                mEtEmail.showErrPopUp();
-                mBtnContinue.setEnabled(false);
-            } else {
-                mEtEmail.showErrPopUp();
-                mEtEmail.setErrDescription(userRegistrationFailureInfo.getErrorDescription());
-                mEtEmail.showInvalidAlert();
-                mBtnContinue.setEnabled(false);
-            }
-
-            if (null != userRegistrationFailureInfo.getSocialOnlyError()) {
-                mEtEmail.showErrPopUp();
-                mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
-                mEtEmail.showInvalidAlert();
-                return;
-            }
-
-            if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
-                mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
-                mEtEmail.showInvalidAlert();
-                mEtEmail.showErrPopUp();
-            }
         }
-        if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
-            mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
+        if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {
             mEtEmail.showInvalidAlert();
+            mEtEmail.setErrDescription(getString(R.string.reg_TraditionalSignIn_ForgotPwdSocialError_lbltxt));
             mEtEmail.showErrPopUp();
+            mBtnContinue.setEnabled(false);
+        } else {
+            mEtEmail.showErrPopUp();
+            mEtEmail.setErrDescription(userRegistrationFailureInfo.getErrorDescription());
+            mEtEmail.showInvalidAlert();
+            mBtnContinue.setEnabled(false);
         }
         scrollViewAutomatically(mEtEmail, mSvRootLayout);
         AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
@@ -425,7 +406,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
     String verificationSmsCodeURL;
     String resetPasswordSmsRedirectUri;
 
-    private void initateCreateResendSMSIntent()  {
+    private void initateCreateResendSMSIntent() {
         RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
         disposable.add(serviceDiscoveryWrapper.getServiceUrlWithCountryPreferenceSingle("userreg.urx.verificationsmscode")
                 .map(serviceUrl -> getBaseUrl(serviceUrl))
@@ -472,10 +453,10 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     private void handleResendSMSRespone(String response) {
 
-        final String  mobileNumberKey= "mobileNumber";
-        final String tokenKey= "token";
-        final String redirectUriKey= "redirectUri";
-        final String verificationSmsCodeURLKey="verificationSmsCodeURL";
+        final String mobileNumberKey = "mobileNumber";
+        final String tokenKey = "token";
+        final String redirectUriKey = "redirectUri";
+        final String verificationSmsCodeURLKey = "verificationSmsCodeURL";
 
 
         try {
@@ -497,8 +478,8 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
                 MobileForgotPasswordVerifyCodeFragment mobileForgotPasswordVerifyCodeFragment = new MobileForgotPasswordVerifyCodeFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString(mobileNumberKey, mEtEmail.getEmailId());
-                bundle.putString(tokenKey,token);
-                bundle.putString(redirectUriKey,getRedirectUri());
+                bundle.putString(tokenKey, token);
+                bundle.putString(redirectUriKey, getRedirectUri());
                 bundle.putString(verificationSmsCodeURLKey, verificationSmsCodeURL);
                 mobileForgotPasswordVerifyCodeFragment.setArguments(bundle);
                 getRegistrationFragment().addFragment(mobileForgotPasswordVerifyCodeFragment);
@@ -519,9 +500,9 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     private Intent createResendSMSIntent(String url) {
 
-        final String receiverKey="receiver";
-        final String bodyContentKey= "bodyContent";
-        final String urlKey= "url";
+        final String receiverKey = "receiver";
+        final String bodyContentKey = "bodyContent";
+        final String urlKey = "url";
 
         RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER *** : " + mEtEmail.getEmailId());
         RLog.d("Configration : ", " envir :" + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
@@ -543,7 +524,7 @@ public class ForgotPasswordFragment extends RegistrationBaseFragment implements 
 
     private String getClientId() {
         ClientIDConfiguration clientIDConfiguration = new ClientIDConfiguration();
-        return clientIDConfiguration.getResetPasswordClientId(RegConstants.HTTPS_CONST+Jump.getCaptureDomain());
+        return clientIDConfiguration.getResetPasswordClientId(RegConstants.HTTPS_CONST + Jump.getCaptureDomain());
     }
 
     private String getRedirectUri() {

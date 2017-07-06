@@ -375,14 +375,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
     private void handleLoginFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "MergeAccountFragment : onLoginFailedWithError");
         hideMergeSpinner();
-        if (null != userRegistrationFailureInfo.getPasswordErrorMessage()) {
-            mRegError.setError(userRegistrationFailureInfo.getPasswordErrorMessage());
-        } else if (userRegistrationFailureInfo.getErrorCode() == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
-            mRegError.setError(mContext.getResources().getString(R.string.reg_Reg_merge_validate_password_mismatch_errortxt));
-        } else {
-            mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
-
-        }
+        mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
         scrollViewAutomatically(mRegError, mSvRootLayout);
     }
 
@@ -407,18 +400,11 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
     public void onSendForgotPasswordFailedWithError(final
                                                     UserRegistrationFailureInfo userRegistrationFailureInfo) {
 
-
         RLog.i(RLog.CALLBACK, "MergeAccountFragment : onSendForgotPasswordFailedWithError");
         hideForgotPasswordSpinner();
-
-        if (null != userRegistrationFailureInfo.getSocialOnlyError()) {
-            mRegError.setError(userRegistrationFailureInfo.getSocialOnlyError());
-            return;
-        }
         mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
         scrollViewAutomatically(mRegError, mSvRootLayout);
         AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
-
     }
 
     @Override
