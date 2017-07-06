@@ -233,15 +233,6 @@ configurations.all {
 }
 
 dependencies {
-    //Coco
-    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.9.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-        transitive true
-    }
-
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.2.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
-        transitive true
-    }
-
     //Android Support Libraries
     compile 'com.android.support:support-annotations:25.3.1'
     compile 'com.android.support:customtabs:25.3.1'

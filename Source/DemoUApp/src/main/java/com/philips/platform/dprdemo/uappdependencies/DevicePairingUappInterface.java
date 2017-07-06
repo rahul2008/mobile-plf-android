@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 
+import com.philips.platform.dprdemo.DemoAppManager;
 import com.philips.platform.dprdemo.ui.DevicePairingLaunchActivity;
 import com.philips.platform.dprdemo.ui.LaunchFragment;
 import com.philips.platform.uappframework.UappInterface;
@@ -21,10 +22,13 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class DevicePairingUappInterface implements UappInterface {
     private Context context;
+    private DemoAppManager demoAppManager;
 
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         this.context = uappSettings.getContext();
+        demoAppManager = DemoAppManager.getInstance();
+        demoAppManager.initPreRequisite(uappSettings.getContext(),uappDependencies.getAppInfra());
     }
 
     @Override

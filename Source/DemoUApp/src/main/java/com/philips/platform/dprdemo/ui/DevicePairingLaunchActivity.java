@@ -21,7 +21,11 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.platform.core.utils.UuidGenerator;
+import com.philips.platform.dprdemo.DemoAppManager;
 import com.philips.platform.dprdemo.R;
+import com.philips.platform.dprdemo.SyncScheduler;
+import com.philips.platform.dprdemo.database.DatabaseHelper;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -29,6 +33,7 @@ public class DevicePairingLaunchActivity extends AppCompatActivity implements Us
         UserRegistrationUIEventListener, ActionBarListener {
     private static final String TAG = "DevicePairingLaunchActivity";
     private ActionBarListener actionBarListener;
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,11 @@ public class DevicePairingLaunchActivity extends AppCompatActivity implements Us
 
         if (savedInstanceState == null)
             if (user.isUserSignIn()) {
+
+                SyncScheduler.getInstance().scheduleSync();
+                databaseHelper = DemoAppManager.getInstance().getDatabaseHelper();
+                databaseHelper.getWritableDatabase();
+
                 showFragment(new LaunchFragment(), LaunchFragment.TAG);
             } else {
                 startRegistrationFragment();

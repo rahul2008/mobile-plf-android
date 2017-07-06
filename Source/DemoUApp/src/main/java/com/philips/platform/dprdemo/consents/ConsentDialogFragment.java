@@ -29,6 +29,7 @@ import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dprdemo.R;
+import com.philips.platform.dprdemo.database.table.OrmConsentDetail;
 import com.philips.platform.dprdemo.pojo.PairDevice;
 import com.philips.platform.dprdemo.states.CreateSubjectProfileState;
 import com.philips.platform.dprdemo.states.StateContext;
@@ -114,7 +115,7 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
     @Override
     public void onStart() {
         super.onStart();
-        mFragmentLauncher.getActionbarListener().updateActionBar("Consent Detail", true);
+        getActivity().setTitle("Consent Details");
         mDataServicesManager.registerDBChangeListener(this);
     }
 

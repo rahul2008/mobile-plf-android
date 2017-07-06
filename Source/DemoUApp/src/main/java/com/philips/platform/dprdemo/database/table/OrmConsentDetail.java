@@ -1,17 +1,17 @@
-/* Copyright (c) Koninklijke Philips N.V., 2016
-* All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
-*/
-package com.philips.platform.dprdemo.consents;
-
+package com.philips.platform.dprdemo.database.table;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.core.datatypes.ConsentDetail;
+import com.philips.platform.dprdemo.database.annotations.DatabaseConstructor;
 
 import java.io.Serializable;
 
+
+/**
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
+ */
 @DatabaseTable
 public class OrmConsentDetail implements ConsentDetail, Serializable {
 
@@ -32,6 +32,7 @@ public class OrmConsentDetail implements ConsentDetail, Serializable {
 
     @DatabaseField(canBeNull = false)
     private String deviceIdentificationNumber;
+
 
     @DatabaseConstructor
     OrmConsentDetail() {
@@ -88,6 +89,6 @@ public class OrmConsentDetail implements ConsentDetail, Serializable {
 
     @Override
     public String toString() {
-        return "[OrmConsentDetail, id =" + id + ", OrmConsentDetailType =" + type + ", version =" + version + "]";
+        return "[OrmConsentDetail, id=" + id + ", OrmConsentDetailType=" + type + ", version=" + version + "]";
     }
 }

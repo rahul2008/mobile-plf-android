@@ -66,7 +66,8 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
     @Override
     public void onStart() {
         super.onStart();
-        fragmentLauncher.getActionbarListener().updateActionBar("Subject Profile", true);
+        //fragmentLauncher.getActionbarListener().updateActionBar("Subject Profile", true);
+        getActivity().setTitle("Subject Profile");
     }
 
     @Override
@@ -192,7 +193,7 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
     }
 
     private void showProgressDialog() {
-        fragmentLauncher.getFragmentActivity().runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 mProgressDialog = new ProgressDialog(getActivity());

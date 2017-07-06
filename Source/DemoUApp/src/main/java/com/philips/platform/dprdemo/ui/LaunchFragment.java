@@ -150,6 +150,8 @@ public class LaunchFragment extends Fragment implements BackEventListener,
     @Override
     public void onAttachFragment(Fragment childFragment) {
         super.onAttachFragment(childFragment);
+
+        getActivity().setTitle("Pair Device");
        /* if (mIsCreate) {
             mStateContext = new StateContext();
             mStateContext.setState(new GetPairedDevicesState(mFragmentLauncher, this));
