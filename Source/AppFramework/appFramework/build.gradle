@@ -363,6 +363,37 @@ dependencies {
         exclude group: 'com.android.support'
         transitive = true
     }
+
+    compile(group: 'com.philips.cdp', name: 'digitalCareUApp', version: '7.5.0' + objcdp.getVersionSuffix(), ext: 'aar'){
+        exclude group: 'com.android.support'
+        transitive = true
+    }
+
+
+    compile(group: 'com.philips.cdp', name: 'uAppFwLibUApp', version: '1.6.0' + objcdp.getVersionSuffix(), ext: 'aar'){
+        exclude group: 'com.android.support'
+        transitive = true
+    }
+
+    compile(group: 'com.philips.cdp', name: 'iapUApp', version: '5.4.0'+ objcdp.getVersionSuffix(), ext: 'aar'){
+        exclude group: 'com.android.support'
+        transitive = true
+    }
+    compile(group: 'com.philips.cdp', name: 'dataServicesUApp', version: '1.2.0'+ objcdp.getVersionSuffix(), ext: 'aar'){
+        exclude group: 'com.android.support'
+        exclude group: 'joda-time', module: 'joda-time'
+        transitive = true
+    }
+    compile(group: 'com.philips.cdp', name: 'product-registration-libUApp', version: '2.5.0'+ objcdp.getVersionSuffix(), ext: 'aar'){
+        exclude group: 'com.android.support'
+        transitive = true
+    }
+    compile(group: 'com.philips.cdp', name: 'UserRegistrationUApp', version: '10.2.0' + objcdp.getVersionSuffix(), ext: 'aar'){
+        exclude group: 'com.android.support'
+        exclude group: 'com.philips.cdp', module:'RegistrationApi'
+        transitive = true
+    }
+
     compile("joda-time:joda-time:2.9.2")
     testCompile 'junit:junit:4.12'
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'

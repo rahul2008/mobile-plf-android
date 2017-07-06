@@ -10,11 +10,11 @@ import com.philips.platform.uappframework.launcher.UiLauncher;
  * Created by philips on 30/03/17.
  */
 
-public class DemoAppInfraState extends BaseState {
+public class DemoAILState extends BaseState {
 
     private Context context;
 
-    public DemoAppInfraState() {
+    public DemoAILState() {
         super(AppStates.TESTAPPINFRA);
     }
 
