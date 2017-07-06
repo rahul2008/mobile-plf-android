@@ -78,7 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/edit_farenheit"
-        android:enabled="true"
+        android:enabled="false"
         android:text="Continue"
         android:layout_marginBottom="20dp"
         />
