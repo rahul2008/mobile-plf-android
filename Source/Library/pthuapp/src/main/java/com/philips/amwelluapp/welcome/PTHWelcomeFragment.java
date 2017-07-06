@@ -17,7 +17,6 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 public class PTHWelcomeFragment extends PTHBaseFragment implements BackEventListener {
     public static final String TAG = PTHWelcomeFragment.class.getSimpleName();
     private PTHBasePresenter presenter;
-    //private com.philips.platform.uid.view.widget.ProgressBar progressBar;
 
     public FragmentLauncher getFragmentLauncher() {
         return mFragmentLauncher;

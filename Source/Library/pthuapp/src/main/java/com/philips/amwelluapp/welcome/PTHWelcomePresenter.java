@@ -1,7 +1,5 @@
 package com.philips.amwelluapp.welcome;
 
-import android.widget.Toast;
-
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
@@ -70,7 +68,7 @@ public class PTHWelcomePresenter implements PTHBasePresenter, PTHInitializeCallB
     public void onInitializationFailure(Throwable var1) {
         ((PTHWelcomeFragment)uiBaseView).hideProgressBar();
         if(((PTHWelcomeFragment) uiBaseView).getContext()!=null){
-            Toast.makeText(((PTHWelcomeFragment) uiBaseView).getContext(),"Init Failed",Toast.LENGTH_SHORT).show();
+            ((PTHWelcomeFragment) uiBaseView).showToast("Init Failed!!!!!");
             uiBaseView.finishActivityAffinity();
         }
     }

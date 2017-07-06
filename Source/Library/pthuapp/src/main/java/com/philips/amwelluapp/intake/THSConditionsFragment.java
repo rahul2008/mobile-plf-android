@@ -77,21 +77,23 @@ public class THSConditionsFragment extends PTHBaseFragment implements BackEventL
     }
 
     public void setConditions(List<Condition> conditions) {
-        for (final Condition condition:conditions
-                ) {
-            CheckBox checkBox = new CheckBox(getContext());
-            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-            checkBox.setLayoutParams(layoutParams);
-            checkBox.setEnabled(true);
-            checkBox.setText(condition.getName());
-            mLinerLayout.addView(checkBox);
-            checkBox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    condition.setCurrent(true);
-                }
-            });
+        if(getContext()!=null) {
+            for (final Condition condition : conditions
+                    ) {
+                CheckBox checkBox = new CheckBox(getContext());
+                ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                checkBox.setLayoutParams(layoutParams);
+                checkBox.setEnabled(true);
+                checkBox.setText(condition.getName());
+                mLinerLayout.addView(checkBox);
+                checkBox.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        condition.setCurrent(true);
+                    }
+                });
+            }
+            mContinueButton.setEnabled(true);
         }
-        mContinueButton.setEnabled(true);
     }
 }

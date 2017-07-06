@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.philips.amwelluapp.R;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -83,5 +84,11 @@ public class PTHBaseFragment extends Fragment implements PTHBaseView {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         mPTHBaseFragmentProgressBar.setLayoutParams(params);
+    }
+
+    public void showToast(String message){
+        if (getContext() != null) {
+            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        }
     }
 }

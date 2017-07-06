@@ -1,7 +1,5 @@
 package com.philips.amwelluapp.intake;
 
-import android.widget.Toast;
-
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.amwelluapp.R;
@@ -44,6 +42,6 @@ public class THSConditionsPresenter implements PTHBasePresenter, THSConditionsCa
 
     @Override
     public void onFailure(Throwable throwable) {
-        Toast.makeText(mPthBaseFragment.getContext(),"Conditions Failed", Toast.LENGTH_SHORT).show();
+        mPthBaseFragment.showToast("Conditions Failed");
     }
 }
