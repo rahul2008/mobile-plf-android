@@ -38,7 +38,6 @@ public class THSConditionsPresenter implements PTHBasePresenter, THSConditionsCa
 
     @Override
     public void onResponse(THSConditions thsConditions, PTHSDKError pthsdkError) {
-        Toast.makeText(mPthBaseFragment.getContext(),"Conditions Success", Toast.LENGTH_SHORT).show();
         final List<Condition> conditions = thsConditions.getConditions();
         ((THSConditionsFragment)mPthBaseFragment).setConditions(conditions);
     }

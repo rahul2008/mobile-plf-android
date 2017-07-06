@@ -1,7 +1,5 @@
 package com.philips.amwelluapp.intake;
 
-import android.widget.Toast;
-
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.amwelluapp.R;
 import com.philips.amwelluapp.base.PTHBaseFragment;
