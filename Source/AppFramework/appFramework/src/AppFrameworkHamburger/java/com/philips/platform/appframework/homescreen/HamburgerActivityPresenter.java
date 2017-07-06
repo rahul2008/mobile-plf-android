@@ -54,15 +54,11 @@ public class HamburgerActivityPresenter extends AbstractUIBasePresenter {
 
         try {
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
-            BaseState currentState = targetFlowManager.getCurrentState();
             if (targetFlowManager == null) {
                 Toast.makeText(fragmentView.getFragmentActivity(), fragmentView.getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
                 return;
             }
             baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.HAMBURGER_HOME), eventState);
-            if (currentState != null && currentState.getStateID() == baseState.getStateID()) {
-                return;
-            }
             if (null != baseState) {
                 baseState.setUiStateData(setStateData(baseState.getStateID()));
                 fragmentLauncher = getFragmentLauncher();
