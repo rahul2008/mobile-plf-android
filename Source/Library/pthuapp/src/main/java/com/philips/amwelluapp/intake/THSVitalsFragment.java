@@ -92,5 +92,7 @@ public class THSVitalsFragment extends PTHBaseFragment implements BackEventListe
             mTemperature.setText(thsVitals.getTemperature().toString());
         if (mTHSVitals.getWeight() != null)
             mWeight.setText(thsVitals.getWeight());
+
+        mContinue.setEnabled(true);
     }
 }

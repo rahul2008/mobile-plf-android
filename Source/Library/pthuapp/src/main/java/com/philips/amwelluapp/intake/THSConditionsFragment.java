@@ -80,5 +80,6 @@ public class THSConditionsFragment extends PTHBaseFragment implements BackEventL
                 }
             });
         }
+        mContinueButton.setEnabled(true);
     }
 }
