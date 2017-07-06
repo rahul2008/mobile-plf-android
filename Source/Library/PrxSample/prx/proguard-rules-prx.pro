@@ -52,6 +52,13 @@
 -keepattributes Signature
 -keepattributes InnerClasses,EnclosingMethod
 
+#gson
+-keep interface com.google.gson.** { *; }
+-keep class * implements com.google.gson.TypeAdapterFactory
+-keep class * implements com.google.gson.JsonSerializer
+-keep class * implements com.google.gson.JsonDeserializer
+
+
 #prxclient
 -keep public class com.philips.cdp.prxclient.** {*;}
 -keep interface com.philips.cdp.prxclient.** { *; }
@@ -62,7 +69,7 @@
 -keep public interface com.philips.platform.appinfra.AppInfraInterface.** {*;}
 -keep public interface com.philips.platform.appinfra.logging.LoggingInterface.** {*;}
 -keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** {*;}
--keep public interface com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+-keep public interface com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.** {*;}
 
 
 #volley
@@ -70,9 +77,5 @@
 -keep interface com.android.volley.** { *; }
 
 
-#gson
--keep interface com.google.gson.** { *; }
--keep class * implements com.google.gson.TypeAdapterFactory
--keep class * implements com.google.gson.JsonSerializer
--keep class * implements com.google.gson.JsonDeserializer
+
 
