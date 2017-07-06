@@ -137,6 +137,10 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    lintOptions {
+        abortOnError false
+        disable 'MissingTranslation'
+    }
 }
 
 dependencies {
