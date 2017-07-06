@@ -70,7 +70,6 @@ public class DigitalCareConfigManager {
 
     private String country = null;
 
-    private String localeFromSeviceDiscovery = null;
     /*
      * Initialize everything(resources, variables etc) required for DigitalCare.
      * Hosting app, which will integrate this DigitalCare, has to pass app
@@ -465,14 +464,6 @@ public class DigitalCareConfigManager {
 
     public void setProductReviewUrl(String productReviewUrl) {
         this.productReviewUrl = productReviewUrl;
-    }
-
-    public String getLocaleFromSeviceDiscovery() {
-        return localeFromSeviceDiscovery;
-    }
-
-    public void setLocaleFromSeviceDiscovery(String localeFromSeviceDiscovery) {
-        this.localeFromSeviceDiscovery = localeFromSeviceDiscovery;
     }
 
     public String getCountry() {

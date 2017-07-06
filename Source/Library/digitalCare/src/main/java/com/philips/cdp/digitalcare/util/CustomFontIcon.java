@@ -1,3 +1,4 @@
+/*
 package com.philips.cdp.digitalcare.util;
 
 import android.content.Context;
@@ -7,9 +8,11 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.TypedValue;
 
+*/
 /**
  * Created by arbin on 28/02/2017.
- */
+ *//*
+
 
 public class CustomFontIcon {
     public static Bitmap getFontBitmap(Context context, String text, int color, float fontSizeSP) {
@@ -36,3 +39,4 @@ public class CustomFontIcon {
         return value;
     }
 }
+*/

@@ -632,15 +632,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
     }
 
     protected String getSubCategoryURL() {
-        DigitalCareConfigManager digitalCareConfigManager = DigitalCareConfigManager.getInstance();
-        ConsumerProductInfo consumerProductInfo = digitalCareConfigManager.getConsumerProductInfo();
 
-        String sector = consumerProductInfo.getSector();
-        String catalog = consumerProductInfo.getCatalog();
-        String subCategory = consumerProductInfo.getSubCategory();
-       // Locale locale = digitalCareConfigManager.getLocaleMatchResponseWithCountryFallBack();
-
-        //return String.format(SUBCATEGORY_URL_PORT, sector, locale.toString(), catalog, subCategory);
         return DigitalCareConfigManager.getInstance().getSubCategoryUrl();
     }
 

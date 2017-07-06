@@ -15,7 +15,6 @@ import android.os.Bundle;
 
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
-import com.philips.cdp.digitalcare.social.ProductImageHelper;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 
 /**
@@ -25,8 +24,6 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
     private static final String TAG = DigitalCareActivity.class.getSimpleName();
     private static int mEnterAnimation = -1;
     private static int mExitAnimation = -1;
-
-    private ProductImageHelper mImage = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
