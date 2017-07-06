@@ -25,10 +25,6 @@ import java.util.List;
 
 
 
-/**
- * Created by philips on 6/28/17.
- */
-
 public class PTHMedicationFragment extends PTHBaseFragment implements  View.OnClickListener {
     public static final String TAG = PTHBaseFragment.class.getSimpleName();
     SearchBox searchBox;
@@ -130,6 +126,7 @@ public class PTHMedicationFragment extends PTHBaseFragment implements  View.OnCl
      *
      * @param v The view that was clicked.
      */
+    //TODO: Review comment - Please move it to Presenter
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -142,6 +139,7 @@ public class PTHMedicationFragment extends PTHBaseFragment implements  View.OnCl
         } else if (id == R.id.pth_intake_medication_continue_button) {
             showProgressBar();
             ((PTHMedicationPresenter) mPresenter).updateMedication(mExistingMedication);
+            mPresenter.onEvent(R.id.pth_intake_medication_continue_button);
         }
     }
 }

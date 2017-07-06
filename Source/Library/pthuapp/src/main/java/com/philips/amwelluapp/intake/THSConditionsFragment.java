@@ -13,6 +13,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.amwelluapp.R;
 import com.philips.amwelluapp.base.PTHBaseFragment;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
 
 import java.util.List;
@@ -21,12 +22,14 @@ public class THSConditionsFragment extends PTHBaseFragment implements BackEventL
     THSConditionsPresenter mThsConditionsPresenter;
     public static final String TAG = THSConditionsFragment.class.getSimpleName();
     LinearLayout mLinerLayout;
+    Button mContinueButton;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_conditions, container, false);
         mLinerLayout = (LinearLayout)view.findViewById(R.id.checkbox_container);
+        mContinueButton = (Button) view.findViewById(R.id.continue_btn);
         return view;
     }
 
@@ -49,7 +52,10 @@ public class THSConditionsFragment extends PTHBaseFragment implements BackEventL
 
     @Override
     public void onClick(View view) {
-
+        int i = view.getId();
+        if (i == R.id.continue_btn) {
+            mThsConditionsPresenter.onEvent(R.id.continue_btn);
+        }
     }
 
     @Override

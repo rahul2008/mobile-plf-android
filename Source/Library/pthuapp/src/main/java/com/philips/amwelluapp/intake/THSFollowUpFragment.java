@@ -17,10 +17,6 @@ import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.Label;
 
-/**
- * Created by philips on 7/4/17.
- */
-
 public class THSFollowUpFragment extends PTHBaseFragment implements  View.OnClickListener {
     public static final String TAG = THSFollowUpFragment.class.getSimpleName();
     private EditText mPhoneNumberEditText;

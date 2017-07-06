@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:text="@string/symptoms" />
+            android:text="@string/vitals" />
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/help_visit"

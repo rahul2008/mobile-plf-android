@@ -16,9 +16,6 @@ import com.philips.amwelluapp.utility.PTHManager;
 
 import java.util.Map;
 
-/**
- * Created by philips on 6/28/17.
- */
 
 public class PTHMedicationPresenter implements PTHBasePresenter, PTHMedicationCallback.PTHGetMedicationCallback, PTHSDKValidatedCallback<PTHMedication, SDKError>, PTHMedicationCallback.PTHUpdateMedicationCallback {
     PTHBaseView uiBaseView;
@@ -30,7 +27,7 @@ public class PTHMedicationPresenter implements PTHBasePresenter, PTHMedicationCa
 
     @Override
     public void onEvent(int componentID) {
-
+        uiBaseView.addFragment(new THSConditionsFragment(),THSConditionsFragment.TAG,null);
     }
 
 

@@ -4,6 +4,7 @@ import android.widget.Toast;
 
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.amwelluapp.R;
 import com.philips.amwelluapp.base.PTHBaseFragment;
 import com.philips.amwelluapp.base.PTHBasePresenter;
 import com.philips.amwelluapp.sdkerrors.PTHSDKError;
@@ -20,7 +21,9 @@ public class THSConditionsPresenter implements PTHBasePresenter, THSConditionsCa
 
     @Override
     public void onEvent(int componentID) {
-
+        if (componentID == R.id.continue_btn) {
+            mPthBaseFragment.addFragment(new THSFollowUpFragment(),THSFollowUpFragment.TAG,null);
+        }
     }
 
     public void getConditions() throws AWSDKInstantiationException {
