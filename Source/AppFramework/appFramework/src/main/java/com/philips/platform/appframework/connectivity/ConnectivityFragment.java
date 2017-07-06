@@ -298,15 +298,16 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
 
     @Override
     public void updateConnectionStateText(final String text) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (connectionState != null) {
-                    connectionState.setText(text);
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (connectionState != null) {
+                        connectionState.setText(text);
+                    }
                 }
-            }
-        });
-
+            });
+        }
     }
 
 
