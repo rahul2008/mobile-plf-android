@@ -281,9 +281,9 @@ public class PTHManager {
         });
     }
 
-    /*public void updateConsumer(Context context, final PTHConsumer pthConsumer, final PTHUpdateConsumerCallback pthUpdateConsumer) throws AWSDKInstantiationException {
-        ConsumerUpdate consumerUpdate = getAwsdk(context).getConsumerManager().getNewConsumerUpdate(pthConsumer.getConsumer());
-        consumerUpdate.setPhone("8665264527");
+    public void updateConsumer(Context context, String updatedPhone, final PTHUpdateConsumerCallback pthUpdateConsumer) throws AWSDKInstantiationException {
+        ConsumerUpdate consumerUpdate = getAwsdk(context).getConsumerManager().getNewConsumerUpdate(getPTHConsumer().getConsumer());
+        consumerUpdate.setPhone(updatedPhone);
         getAwsdk(context).getConsumerManager().updateConsumer(consumerUpdate, new SDKValidatedCallback<Consumer, SDKPasswordError>() {
             @Override
             public void onValidationFailure(Map<String, ValidationReason> map) {
@@ -306,7 +306,7 @@ public class PTHManager {
                 pthUpdateConsumer.onUpdateConsumerFailure(throwable);
             }
         });
-    }*/
+    }
 
     @VisibleForTesting
     public void setAwsdk(AWSDK awsdk) {
