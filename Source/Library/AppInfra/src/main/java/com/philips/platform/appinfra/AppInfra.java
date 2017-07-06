@@ -393,7 +393,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
                     } else {
                         ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
                                 AppInfraLogEventID.AI_APPINFRA,"Please add the Abtest Config Values " +
-                                        "in config json and create Abtesting Instance ");
+                                        "in config json and create Abtesting Instance");
                     }
                     ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APPINFRA,
                             "Device name:" + Build.MANUFACTURER + " " + Build.MODEL + " " + " OS version:" + Build.VERSION.RELEASE);
