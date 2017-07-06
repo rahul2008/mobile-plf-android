@@ -4,7 +4,7 @@
   -->
 
 <resources>
-    <string name="app_name">DICommClientSample</string>
+    <string name="app_name">Commlib Demo uApp</string>
     <string name="light_state">Light state</string>
     <string name="set">Set</string>
     <string name="pair">Pair</string>

@@ -18,9 +18,15 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
+import java.lang.ref.WeakReference;
+
 public class CommlibUapp implements UappInterface {
 
-    public static CommlibUapp instance = new CommlibUapp();
+    private static final WeakReference<CommlibUapp> reference = new WeakReference<>(new CommlibUapp());
+
+    public static CommlibUapp get() {
+        return reference.get();
+    }
 
     private CommlibUappDependencies dependencies;
 

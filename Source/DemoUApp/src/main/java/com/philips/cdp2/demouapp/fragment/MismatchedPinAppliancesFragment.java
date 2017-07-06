@@ -45,7 +45,7 @@ public class MismatchedPinAppliancesFragment extends Fragment {
                 final Appliance appliance = applianceAdapter.getItem(position);
                 CurrentApplianceManager.getInstance().setCurrentAppliance(appliance);
 
-                CommlibUapp.instance.nextFragment(new ApplianceFragment());
+                CommlibUapp.get().nextFragment(new ApplianceFragment());
             }
         });
 

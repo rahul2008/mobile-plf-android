@@ -21,7 +21,8 @@ public class CommlibUappActivity extends AppCompatActivity {
         setContentView(R.layout.uapp_activity_main);
 
         FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.uapp_activity_main, null);
-        CommlibUapp commlibUapp = CommlibUapp.instance;
+        CommlibUapp commlibUapp = CommlibUapp.get();
+
         commlibUapp.init(new DefaultCommlibUappDependencies(getApplicationContext()), new UappSettings(getApplicationContext()));
         commlibUapp.launch(fragmentLauncher, null);
     }

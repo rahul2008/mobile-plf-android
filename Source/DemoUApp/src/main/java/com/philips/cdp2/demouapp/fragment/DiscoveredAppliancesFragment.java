@@ -33,7 +33,7 @@ import static android.content.ContentValues.TAG;
 
 public class DiscoveredAppliancesFragment extends Fragment {
 
-    private DiscoveryManager<?> discoveryManager;
+    private DiscoveryManager<?> discoveryManager = DiscoveryManager.getInstance();
     private ApplianceAdapter applianceAdapter;
 
     private DiscoveryEventListener discoveryEventListener = new DiscoveryEventListener() {
@@ -87,11 +87,9 @@ public class DiscoveredAppliancesFragment extends Fragment {
                 final Appliance appliance = applianceAdapter.getItem(position);
                 CurrentApplianceManager.getInstance().setCurrentAppliance(appliance);
 
-                CommlibUapp.instance.nextFragment(new ApplianceFragment());
+                CommlibUapp.get().nextFragment(new ApplianceFragment());
             }
         });
-
-        discoveryManager = DiscoveryManager.getInstance();
 
         ((TextView) rootview.findViewById(R.id.textViewAppId)).setText(DICommClientWrapper.getAppId());
 
