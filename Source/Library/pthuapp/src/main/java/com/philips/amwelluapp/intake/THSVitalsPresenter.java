@@ -31,12 +31,10 @@ public class THSVitalsPresenter implements PTHBasePresenter, THSVitalSDKCallback
 
     @Override
     public void onResponse(THSVitals thsVitals, PTHSDKError var2) {
-        Toast.makeText(mPthBaseFragment.getContext(),"Vitals onSuccess",Toast.LENGTH_SHORT).show();
         ((THSVitalsFragment)mPthBaseFragment).updateUI(thsVitals);
     }
 
     @Override
     public void onFailure(Throwable var1) {
-        Toast.makeText(mPthBaseFragment.getContext(),"Failed",Toast.LENGTH_SHORT).show();
     }
 }

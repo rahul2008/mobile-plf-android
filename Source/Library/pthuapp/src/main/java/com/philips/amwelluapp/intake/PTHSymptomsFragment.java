@@ -106,21 +106,23 @@ public class PTHSymptomsFragment extends PTHBaseFragment implements BackEventLis
 
     //TODO: SPOORTI - crashing when back is pressed
     public void addTopicsToView(PTHVisitContext visitContext) {
-        List<Topic> topics = visitContext.getTopics();
-        for (final Topic topic : topics
-                ) {
-            CheckBox checkBox = new CheckBox(getContext());
-            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            checkBox.setLayoutParams(layoutParams);
-            checkBox.setEnabled(true);
-            checkBox.setText(topic.getTitle());
-            topicLayout.addView(checkBox);
-            checkBox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    topic.setSelected(true);
-                }
-            });
+        if(getContext()!=null) {
+            List<Topic> topics = visitContext.getTopics();
+            for (final Topic topic : topics
+                    ) {
+                CheckBox checkBox = new CheckBox(getContext());
+                ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                checkBox.setLayoutParams(layoutParams);
+                checkBox.setEnabled(true);
+                checkBox.setText(topic.getTitle());
+                topicLayout.addView(checkBox);
+                checkBox.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        topic.setSelected(true);
+                    }
+                });
+            }
         }
     }
 
