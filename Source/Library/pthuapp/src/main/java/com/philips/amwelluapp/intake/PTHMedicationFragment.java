@@ -142,4 +142,9 @@ public class PTHMedicationFragment extends PTHBaseFragment implements  View.OnCl
             mPresenter.onEvent(R.id.pth_intake_medication_continue_button);
         }
     }
+
+    @Override
+    public int getContainerID() {
+        return ((ViewGroup)getView().getParent()).getId();
+    }
 }
