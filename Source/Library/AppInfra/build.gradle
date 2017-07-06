@@ -192,7 +192,6 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled true
             proguardFiles 'proguard-rules-ail.pro'
         }
         debug {
