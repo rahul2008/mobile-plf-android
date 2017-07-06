@@ -313,8 +313,8 @@ public class PTHManager {
         this.mAwsdk = awsdk;
     }
 
-    public void getMedication(Context context , Consumer consumer, final PTHMedicationCallback.PTHGetMedicationCallback pTHGetMedicationCallback ) throws AWSDKInstantiationException{
-        getAwsdk(context).getConsumerManager().getMedications(consumer, new SDKCallback<List<Medication>, SDKError>() {
+    public void getMedication(Context context ,  final PTHMedicationCallback.PTHGetMedicationCallback pTHGetMedicationCallback ) throws AWSDKInstantiationException{
+        getAwsdk(context).getConsumerManager().getMedications(getPTHConsumer().getConsumer(), new SDKCallback<List<Medication>, SDKError>() {
             @Override
             public void onResponse(List<Medication> medications, SDKError sdkError) {
                 if(null!=medications && !medications.isEmpty()) {
@@ -332,8 +332,8 @@ public class PTHManager {
 
     }
 
-    public void searchMedication(Context context , String medicineName, Consumer consumer, final PTHSDKValidatedCallback pTHSDKValidatedCallback ) throws AWSDKInstantiationException{
-        getAwsdk(context).getConsumerManager().searchMedications(consumer,medicineName, new SDKValidatedCallback<List<Medication>, SDKError>() {
+    public void searchMedication(Context context , String medicineName,  final PTHSDKValidatedCallback pTHSDKValidatedCallback ) throws AWSDKInstantiationException{
+        getAwsdk(context).getConsumerManager().searchMedications(getPTHConsumer().getConsumer(),medicineName, new SDKValidatedCallback<List<Medication>, SDKError>() {
             @Override
             public void onValidationFailure(Map<String, ValidationReason> map) {
                 pTHSDKValidatedCallback.onValidationFailure(map);
@@ -357,5 +357,23 @@ public class PTHManager {
         });
 
 
+    }
+
+
+
+    public void updateMedication(Context context , PTHMedication pTHMedication, final PTHMedicationCallback.PTHUpdateMedicationCallback pTHUpdateMedicationCallback) throws AWSDKInstantiationException{
+        getAwsdk(context).getConsumerManager().updateMedications(getPTHConsumer().getConsumer(), pTHMedication.getMedicationList(), new SDKCallback<Void, SDKError>() {
+            @Override
+            public void onResponse(Void aVoid, SDKError sdkError) {
+                // sdkError comes null even after successfully updating the medication
+                Log.v("onUpdateMedication","success");
+                pTHUpdateMedicationCallback.onUpdateMedicationSent(aVoid,sdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Log.v("onUpdateMedication","failure");
+            }
+        });
     }
 }
