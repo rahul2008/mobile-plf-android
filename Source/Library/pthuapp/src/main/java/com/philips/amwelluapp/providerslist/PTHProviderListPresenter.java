@@ -26,11 +26,15 @@ public class PTHProviderListPresenter implements PTHProvidersListCallback, PTHBa
 
     public void fetchProviderList(Consumer consumer, Practice practice){
         try {
-            PTHManager.getInstance().getProviderList(mUiBaseView.getFragmentActivity(),consumer,practice,this);
+            getPthManager().getProviderList(mUiBaseView.getFragmentActivity(),consumer,practice,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
 
+    }
+
+    PTHManager getPthManager() {
+        return PTHManager.getInstance();
     }
 
 

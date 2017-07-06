@@ -1,6 +1,8 @@
 package com.philips.amwelluapp.providerslist;
 
 
+import android.support.v4.widget.SwipeRefreshLayout;
+
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
@@ -20,6 +22,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.shadows.ShadowLog;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
+
+import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -44,13 +48,19 @@ public class PTHProvidersListFragmentTest {
     Practice practice;
 
     @Mock
-    ProviderInfo providerInfo;
-
-    @Mock
     PracticeProvidersManager practiseprovidermanagerMock;
 
     @Mock
     PTHBaseView pthBaseView;
+
+    @Mock
+    List<ProviderInfo> providerInfos;
+
+    @Mock
+    PTHProvidersListFragment pthProvidersListFragmentMock;
+
+    @Mock
+    SwipeRefreshLayout swipeRL;
 
     @Before
     public void setUp() throws Exception{

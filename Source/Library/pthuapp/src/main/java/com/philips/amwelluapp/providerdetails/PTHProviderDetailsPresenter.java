@@ -24,11 +24,15 @@ public class PTHProviderDetailsPresenter implements PTHBasePresenter,PTHProvider
 
     public void fetchProviderDetails(){
         try {
-            PTHManager.getInstance().getProviderDetails(viewInterface.getContext(), viewInterface.getConsumerInfo(), viewInterface.getProviderInfo(),this);
+            getPTHManager().getProviderDetails(viewInterface.getContext(), viewInterface.getConsumerInfo(), viewInterface.getProviderInfo(),this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
 
+    }
+
+    protected PTHManager getPTHManager() {
+        return PTHManager.getInstance();
     }
 
     @Override
