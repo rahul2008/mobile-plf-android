@@ -17,6 +17,7 @@ import com.philips.cl.di.dev.pa.R;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onData;
@@ -35,7 +36,7 @@ import static org.hamcrest.core.IsInstanceOf.any;
 /**
  * Created by philips on 6/5/17.
  */
-
+@Ignore
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class AutomationTestHelper {

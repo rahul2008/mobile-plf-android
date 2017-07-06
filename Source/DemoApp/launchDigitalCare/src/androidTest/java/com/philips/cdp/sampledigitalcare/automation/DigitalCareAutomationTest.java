@@ -13,6 +13,7 @@ import com.philips.cdp.sampledigitalcare.launcher.uAppComponetLaunch.MicroAppLau
 import com.philips.cl.di.dev.pa.R;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +29,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static com.philips.cdp.sampledigitalcare.automation.Matchers.withRecyclerView;
 import static org.hamcrest.Matchers.allOf;
 
+@Ignore
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class DigitalCareAutomationTest extends AutomationTestHelper{
