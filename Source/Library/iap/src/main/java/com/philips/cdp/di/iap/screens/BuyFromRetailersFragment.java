@@ -16,9 +16,12 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.adapters.BuyFromRetailersAdapter;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
+import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.response.retailers.StoreEntity;
 import com.philips.cdp.di.iap.session.NetworkConstants;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
 import java.util.ArrayList;
@@ -88,6 +91,15 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
     }
 
     private String uuidWithSupplierLink(String buyURL) {
+        AppConfigurationInterface mConfigInterface = CartModelContainer.getInstance().getAppInfraInstance().getConfigInterface();
+        AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface.AppConfigurationError();
+
+        String propositionId = (String) mConfigInterface.getPropertyForKey("propositionid", "IAP", configError);
+
+        if (configError.getErrorCode() != null) {
+            IAPLog.e(IAPLog.LOG, "VerticalAppConfig ==loadConfigurationFromAsset " + configError.getErrorCode().toString());
+        }
+
         String supplierLinkWithUUID = null;
         if (buyURL.contains(ICELEADS_HATCH)) {
             supplierLinkWithUUID = buyURL + "&CID=";
@@ -96,6 +108,6 @@ public class BuyFromRetailersFragment extends InAppBaseFragment implements BuyFr
         } else if (buyURL.contains(CHANNEL_SIGHT)) {
             supplierLinkWithUUID = buyURL + "&subTag=";
         }
-        return supplierLinkWithUUID + String.valueOf(UUID.randomUUID());
+        return supplierLinkWithUUID + String.valueOf(UUID.randomUUID() + "&wtbSource=" + propositionId);
     }
 }
