@@ -126,8 +126,8 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
                     Data data = summaryModel.getData();
                     SummaryModel filteredResultModel = new SummaryModel();
                     filteredResultModel.setData(data);
-
-                    if ((data.getProductTitle()).contains(constraint.toString())) {
+                    String productMachTitle = data.getProductTitle().toUpperCase();
+                    if ((productMachTitle).contains(constraint.toString().toUpperCase())){
                         filteredResultModel.getData().setCtn(data.getCtn());
                         filteredResultModel.getData().setProductTitle(data.getProductTitle());
                         filteredResultModel.getData().setImageURL(data.getImageURL());
