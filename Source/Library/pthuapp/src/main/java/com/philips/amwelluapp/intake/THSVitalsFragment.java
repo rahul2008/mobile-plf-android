@@ -13,6 +13,7 @@ import com.philips.amwelluapp.utility.PTHConstants;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
+import com.philips.platform.uid.view.widget.Label;
 
 public class THSVitalsFragment extends PTHBaseFragment implements BackEventListener, View.OnClickListener {
 
@@ -25,6 +26,7 @@ public class THSVitalsFragment extends PTHBaseFragment implements BackEventListe
     EditText mWeight;
     Button mContinue;
     THSVitals mTHSVitals;
+    Label mSkipLabel;
 
     @Nullable
     @Override
@@ -38,6 +40,8 @@ public class THSVitalsFragment extends PTHBaseFragment implements BackEventListe
         mWeight = (EditText) view.findViewById(R.id.ponds);
         mContinue = (Button) view.findViewById(R.id.vitals_continue_btn);
         mContinue.setOnClickListener(this);
+        mSkipLabel = (Label) view.findViewById(R.id.vitals_skip);
+        mSkipLabel.setOnClickListener(this);
         return view;
     }
 
@@ -79,6 +83,8 @@ public class THSVitalsFragment extends PTHBaseFragment implements BackEventListe
 
             }
             mThsVitalsPresenter.onEvent(R.id.vitals_continue_btn);
+        }else if(i==R.id.vitals_skip){
+            mThsVitalsPresenter.onEvent(R.id.vitals_skip);
         }
     }
 

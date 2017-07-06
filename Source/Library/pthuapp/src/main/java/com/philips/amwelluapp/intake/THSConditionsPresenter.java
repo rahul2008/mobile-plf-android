@@ -22,8 +22,14 @@ public class THSConditionsPresenter implements PTHBasePresenter, THSConditionsCa
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.continue_btn) {
-            mPthBaseFragment.addFragment(new THSFollowUpFragment(),THSFollowUpFragment.TAG,null);
+            launchFollowUpFragment();
+        }else if(componentID == R.id.conditions_skip){
+            launchFollowUpFragment();
         }
+    }
+
+    private void launchFollowUpFragment() {
+        mPthBaseFragment.addFragment(new THSFollowUpFragment(),THSFollowUpFragment.TAG,null);
     }
 
     public void getConditions() throws AWSDKInstantiationException {

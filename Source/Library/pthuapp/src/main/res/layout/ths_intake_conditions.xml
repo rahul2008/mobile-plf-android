@@ -51,7 +51,7 @@
             android:text="Continue" />
 
         <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/vitals_skip"
+            android:id="@+id/conditions_skip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/continue_btn"

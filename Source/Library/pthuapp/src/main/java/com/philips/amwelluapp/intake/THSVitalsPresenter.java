@@ -21,9 +21,14 @@ public class THSVitalsPresenter implements PTHBasePresenter, THSVitalSDKCallback
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.vitals_continue_btn) {
-           // mPthBaseFragment.addFragment(new THSConditionsFragment(),THSConditionsFragment.TAG,null);
-            mPthBaseFragment.addFragment(new PTHMedicationFragment(),PTHMedicationFragment.TAG,null);
+            launchMedicationFragment();
+        }else if(componentID == R.id.vitals_skip){
+            launchMedicationFragment();
         }
+    }
+
+    private void launchMedicationFragment() {
+        mPthBaseFragment.addFragment(new PTHMedicationFragment(),PTHMedicationFragment.TAG,null);
     }
 
     public void getVitals() throws AWSDKInstantiationException {
