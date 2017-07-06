@@ -149,7 +149,6 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
         return getResources().getString(R.string.Product_Title);
     }
 
-
     @Override
     public void setViewParams(Configuration config) {
     }

@@ -39,31 +39,29 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
     private List<SummaryModel> mProductsList = null;
     private Activity mActivity = null;
     private CustomFilter mCustomFilter;
+    private List<SummaryModel> mOriginalSet;
 
     public ListViewWithOptions(Activity activity, List<SummaryModel> data) {
         if (activity != null)
             inflater = (LayoutInflater) activity.getSystemService(activity.LAYOUT_INFLATER_SERVICE);
         this.mActivity = activity;
-        mProductsList = data;
+        this.mProductsList = data;
+        this.mOriginalSet = data;
     }
 
     @Override
     public int getCount() {
-
-        if (mProductsList.size() > 10)
-            return 10;
-        else
-            return mProductsList.size();
+        return mProductsList.size();
     }
 
     @Override
-    public Object getItem(final int position) {
-        return position;
+    public Object getItem(int position) {
+        return mProductsList.get(position);
     }
 
     @Override
-    public long getItemId(final int position) {
-        return position;
+    public long getItemId(int position) {
+        return mProductsList.indexOf(getItem(position));
     }
 
     @Override
@@ -119,31 +117,29 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
+
             FilterResults filterResults = new FilterResults();
             if (constraint != null && constraint.length() > 0) {
-                ArrayList<SummaryModel> FilteredResultModelSet = new ArrayList<SummaryModel>();
-
-                for (int i = 0; i < mProductsList.size(); i++) {
-                    SummaryModel summaryModel = mProductsList.get(i);
+                ArrayList<SummaryModel> filteredResultModelSet = new ArrayList<SummaryModel>();
+                for (int i = 0; i < mOriginalSet.size(); i++) {
+                    SummaryModel summaryModel = mOriginalSet.get(i);
                     Data data = summaryModel.getData();
-                    System.out.println("****** ctn : "+data.getCtn());
-                    System.out.println("****** title : "+data.getProductTitle());
-                    System.out.println("****** url : "+data.getImageURL());
-                    if ((data.getProductTitle()).contains(constraint.toString().toUpperCase())) {
-                        SummaryModel filteredResultModel = new SummaryModel();
+                    SummaryModel filteredResultModel = new SummaryModel();
+                    filteredResultModel.setData(data);
+
+                    if ((data.getProductTitle()).contains(constraint.toString())) {
                         filteredResultModel.getData().setCtn(data.getCtn());
                         filteredResultModel.getData().setProductTitle(data.getProductTitle());
                         filteredResultModel.getData().setImageURL(data.getImageURL());
-                        FilteredResultModelSet.add(filteredResultModel);
+                        filteredResultModelSet.add(filteredResultModel);
                     }
-
                 }
-                filterResults.count = FilteredResultModelSet.size();
-                filterResults.values = FilteredResultModelSet;
+                filterResults.count = filteredResultModelSet.size();
+                filterResults.values = filteredResultModelSet;
             } else {
                 synchronized (this) {
-                    filterResults.count = mProductsList.size();
-                    filterResults.values = mProductsList;
+                    filterResults.count = mOriginalSet.size();
+                    filterResults.values = mOriginalSet;
                 }
             }
             return filterResults;
@@ -153,8 +149,13 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
         @Override
         protected void publishResults(CharSequence constraint,
                                       FilterResults results) {
-            mProductsList = (ArrayList<SummaryModel>) results.values;
-            notifyDataSetChanged();
+            if (results.count == 0){
+                notifyDataSetInvalidated();
+            }
+            else {
+                mProductsList = (ArrayList<SummaryModel>) results.values;
+                notifyDataSetChanged();
+            }
         }
     }
 
