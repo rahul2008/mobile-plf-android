@@ -96,9 +96,4 @@ public class THSConditionsFragment extends PTHBaseFragment implements BackEventL
             mContinueButton.setEnabled(true);
         }
     }
-
-    @Override
-    public int getContainerID() {
-        return ((ViewGroup)getView().getParent()).getId();
-    }
 }
