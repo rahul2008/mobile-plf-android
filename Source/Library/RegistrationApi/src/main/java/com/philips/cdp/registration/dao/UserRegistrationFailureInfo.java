@@ -130,33 +130,33 @@ public class UserRegistrationFailureInfo {
      * {@code getEmailErrorMessage } method to get email error message
      * @return emailErrorMessage email error message
      */
-    public String getEmailErrorMessage() {
-        return emailErrorMessage;
-    }
+//    public String getEmailErrorMessage() {
+//        return emailErrorMessage;
+//    }
 
-    /**
-     * {@code setEmailErrorMessage} method to set email error message
-     * @param emailErrorMessage email error message
-     */
-    public void setEmailErrorMessage(String emailErrorMessage) {
-        this.emailErrorMessage = emailErrorMessage;
-    }
+//    /**
+//     * {@code setEmailErrorMessage} method to set email error message
+//     * @param emailErrorMessage email error message
+//     */
+//    public void setEmailErrorMessage(String emailErrorMessage) {
+//        this.emailErrorMessage = emailErrorMessage;
+//    }
 
     /**
      * {@code getPasswordErrorMessage} method to get password error message
      * @return passwordErrorMessage password error message
      */
-    public String getPasswordErrorMessage() {
-        return passwordErrorMessage;
-    }
+//    public String getPasswordErrorMessage() {
+//        return passwordErrorMessage;
+//    }
 
-    /**
-     * {@code setPasswordErrorMessage} method to set password error message
-     * @param passwordErrorMessage password error message
-     */
-    public void setPasswordErrorMessage(String passwordErrorMessage) {
-        this.passwordErrorMessage = passwordErrorMessage;
-    }
+//    /**
+//     * {@code setPasswordErrorMessage} method to set password error message
+//     * @param passwordErrorMessage password error message
+//     */
+//    public void setPasswordErrorMessage(String passwordErrorMessage) {
+//        this.passwordErrorMessage = passwordErrorMessage;
+//    }
 
     /**
      * {@code getError}method to get captured api error

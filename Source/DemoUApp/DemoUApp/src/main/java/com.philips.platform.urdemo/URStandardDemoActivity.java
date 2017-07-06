@@ -465,19 +465,14 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
                         user1.updateDateOfBirth(new UpdateUserDetailsHandler() {
                             @Override
                             public void onUpdateSuccess() {
-                                System.out.println("onUpdateSuccess");
                                 mProgressDialog.hide();
                                 showToast("onUpdateSuccess");
-                                System.out.println("post  login" + user1.getDateOfBirth());
                             }
 
                             @Override
                             public void onUpdateFailedWithError(int error) {
-                                System.out.println("onUpdateFailedWithError");
                                 mProgressDialog.hide();
                                 showToast("onUpdateFailedWithError" + error);
-                                System.out.println("post  login" + user1.getDateOfBirth());
-
                             }
                         }, c.getTime());
                     }

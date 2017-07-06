@@ -35,6 +35,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler, JumpFlowDownloadStatusListener {
 
 
@@ -58,11 +62,10 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
     }
 
 
-
     public void loginTraditionally(final String email, final String password) {
-        if(!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+        if (!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
-        }else{
+        } else {
             Jump.performTraditionalSignIn(email, password, this, null);
             return;
         }
@@ -74,8 +77,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
     public void mergeTraditionally(final String email, final String password, final String token) {
         if (!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
-        }
-        else {
+        } else {
             Jump.performTraditionalSignIn(email, password, this, token);
             return;
         }
@@ -93,27 +95,27 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 
             HsdpUser hsdpUser = new HsdpUser(mContext);
             String emailorMobile;
-            if (FieldsValidator.isValidEmail(user.getEmail())){
+            if (FieldsValidator.isValidEmail(user.getEmail())) {
                 emailorMobile = user.getEmail();
-            }else {
-                emailorMobile =user.getMobile();
+            } else {
+                emailorMobile = user.getMobile();
             }
-            hsdpUser.socialLogin(emailorMobile, user.getAccessToken(),Jump.getRefreshSecret(), new SocialLoginHandler() {
+            hsdpUser.socialLogin(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(), new SocialLoginHandler() {
 
                 @Override
                 public void onLoginSuccess() {
-                    ThreadUtils.postInMainThread(mContext,()->
+                    ThreadUtils.postInMainThread(mContext, () ->
                             mTraditionalLoginHandler.onLoginSuccess());
                 }
 
                 @Override
                 public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                    AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo,AppTagingConstants.HSDP);
-                    ThreadUtils.postInMainThread(mContext,()->mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
-                 }
+                    AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
+                    ThreadUtils.postInMainThread(mContext, () -> mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                }
             });
         } else {
-            ThreadUtils.postInMainThread(mContext,()->mTraditionalLoginHandler.onLoginSuccess());
+            ThreadUtils.postInMainThread(mContext, () -> mTraditionalLoginHandler.onLoginSuccess());
         }
     }
 
@@ -124,65 +126,55 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 
     @Override
     public void onFailure(SignInError error) {
-        try{
+        try {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setError(error.captureApiError);
-            handleInvalidInputs(error.captureApiError, userRegistrationFailureInfo);
             handleInvalidCredentials(error.captureApiError, userRegistrationFailureInfo);
-            userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
-            userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
-            AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
-            ThreadUtils.postInMainThread(mContext,()->
-            mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
-    }catch (Exception e){
-            RLog.e("Login failed :","exception :"+e.getMessage());
-        }
-    }
-
-    private void handleInvalidInputs(CaptureApiError error,
-                                     UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        if (null != error && null != error.error
-                && error.error.equals(RegConstants.INVALID_FORM_FIELDS)) {
-            try {
-                JSONObject object = error.raw_response;
-                JSONObject jsonObject = (JSONObject) object.get(RegConstants.INVALID_FIELDS);
-                if (jsonObject != null) {
-
-                    if (!jsonObject.isNull(RegConstants.TRADITIONAL_SIGN_IN_EMAIL_ADDRESS)) {
-                        userRegistrationFailureInfo.setEmailErrorMessage(getErrorMessage(jsonObject
-                                .getJSONArray(RegConstants.TRADITIONAL_SIGN_IN_EMAIL_ADDRESS)));
-                    }
-
-                    if (!jsonObject.isNull(RegConstants.TRADITIONAL_SIGN_IN_PASSWORD)) {
-                        userRegistrationFailureInfo
-                                .setPasswordErrorMessage(getErrorMessage(jsonObject
-                                        .getJSONArray(RegConstants.TRADITIONAL_SIGN_IN_PASSWORD)));
-                    }
+            if ( null != error.captureApiError.error) {
+                JSONObject response = error.captureApiError.raw_response;
+                String message = getErrorMessageFromInvalidField(response);
+                if (message!=null){
+                    userRegistrationFailureInfo.setErrorDescription(message);
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+                userRegistrationFailureInfo.setErrorDescription(error.error_description);
+
+            userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
+            AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
+            ThreadUtils.postInMainThread(mContext, () ->
+                    mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+        } catch (Exception e) {
+            RLog.e("Login failed :", "exception :" + e.getMessage());
         }
     }
+
 
     private void handleInvalidCredentials(CaptureApiError error, UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        if (null != error && null != error.error
-                && error.error.equals(RegConstants.INVALID_CREDENTIALS)) {
-            try {
-                JSONObject object = error.raw_response;
-                JSONObject jsonObject = (JSONObject) object.get(RegConstants.INVALID_FIELDS);
-                if (jsonObject != null) {
-                    if (!jsonObject.isNull(RegConstants.USER_INFORMATION_FORM)) {
-                        userRegistrationFailureInfo.setEmailErrorMessage(mContext.getResources().getString(R.string.reg_JanRain_Invalid_Credentials));
-                    }
-                    if (!jsonObject.isNull(RegConstants.USER_INFORMATION_FORM)) {
-                        userRegistrationFailureInfo.setPasswordErrorMessage(mContext.getResources().getString(R.string.reg_JanRain_Invalid_Credentials));
-                    }
-                }
-            } catch (JSONException e) {
-                //NOP
+
+    }
+
+    private String getErrorMessageFromInvalidField(JSONObject serverResponse) {
+        try{
+        JSONObject jsonObject = (JSONObject) serverResponse.get(RegConstants.INVALID_FIELDS);
+        if (jsonObject != null) {
+            jsonObject.keys();
+            List<String> keys = new ArrayList<String>();
+            Iterator<?> i = jsonObject.keys();
+            do {
+                String k = i.next().toString();
+                keys.add(k);
+            } while (i.hasNext());
+
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int j = 0; j < keys.size(); j++) {
+                JSONArray jsonObject1 = (JSONArray) jsonObject.opt(keys.get(j));
+                stringBuilder.append(jsonObject1.getString(0)).append("\n");
             }
+            return stringBuilder.toString();
+        }}catch (Exception e){
+          //NOP
         }
+        return null;
     }
 
     private String getErrorMessage(JSONArray jsonArray)
@@ -205,8 +197,8 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
             userRegistrationFailureInfo.setErrorCode(RegConstants.TRADITIONAL_LOGIN_FAILED_SERVER_ERROR);
-            ThreadUtils.postInMainThread(mContext,()->
-            mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+            ThreadUtils.postInMainThread(mContext, () ->
+                    mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
         }
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
     }
@@ -218,22 +210,23 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
         if (hsdpUserRecord == null) {
             String emailOrMobile;
-            if(RegistrationHelper.getInstance().isChinaFlow()){
-                emailOrMobile= user.getMobile();
-            }else{
-                emailOrMobile= user.getEmail();
+            if (RegistrationHelper.getInstance().isChinaFlow()) {
+                emailOrMobile = user.getMobile();
+            } else {
+                emailOrMobile = user.getEmail();
             }
-            hsdpUser.socialLogin(emailOrMobile, user.getAccessToken(),Jump.getRefreshSecret(), new SocialLoginHandler() {
+            hsdpUser.socialLogin(emailOrMobile, user.getAccessToken(), Jump.getRefreshSecret(), new SocialLoginHandler() {
                 @Override
                 public void onLoginSuccess() {
-                    ThreadUtils.postInMainThread(mContext,()->
-                    mTraditionalLoginHandler.onLoginSuccess());
+                    ThreadUtils.postInMainThread(mContext, () ->
+                            mTraditionalLoginHandler.onLoginSuccess());
                 }
+
                 @Override
                 public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                    AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo,AppTagingConstants.HSDP);
-                    ThreadUtils.postInMainThread(mContext,()->
-                    mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                    AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
+                    ThreadUtils.postInMainThread(mContext, () ->
+                            mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
                 }
             });
         }

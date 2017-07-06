@@ -16,13 +16,11 @@ public class RegConstants {
 
     public static final String TRADITIONAL_REGISTRATION_EMAIL_ADDRESS = "traditionalRegistration_emailAddress";
 
-    public static final String TRADITIONAL_SIGN_IN_PASSWORD = "traditionalSignIn_password";
 
-    public static final String TRADITIONAL_SIGN_IN_EMAIL_ADDRESS = "traditionalSignIn_emailAddress";
 
     public static final String INVALID_FIELDS = "invalid_fields";
 
-    public static final String INVALID_FORM_FIELDS = "invalid_form_fields";
+
 
     public static final String NO_SUCH_ACCOUNT = "no_such_account";
 
@@ -30,7 +28,6 @@ public class RegConstants {
 
     public static final String RESEND_VERIFICATION_FORM = "resendVerificationForm";
 
-    public static final String INVALID_CREDENTIALS = "invalid_credentials";
 
     public static final String USER_INFORMATION_FORM = "userInformationForm";
 
