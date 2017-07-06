@@ -22,10 +22,10 @@ public class LanApplianceFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.fragment_lan_appliance, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_lan_appliance, container, false);
 
         final Appliance currentAppliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
-        final CompoundButton switchEnableCommunication = ((CompoundButton) rootview.findViewById(R.id.switch_enable_communication));
+        final CompoundButton switchEnableCommunication = ((CompoundButton) rootView.findViewById(R.id.switch_enable_communication));
 
         CompoundButton.OnCheckedChangeListener communicationCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -50,6 +50,6 @@ public class LanApplianceFragment extends Fragment {
 
         switchEnableCommunication.setOnCheckedChangeListener(communicationCheckedChangeListener);
 
-        return rootview;
+        return rootView;
     }
 }

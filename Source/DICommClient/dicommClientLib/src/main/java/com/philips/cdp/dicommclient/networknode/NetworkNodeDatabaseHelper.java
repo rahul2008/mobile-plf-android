@@ -8,27 +8,46 @@ package com.philips.cdp.dicommclient.networknode;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DB_VERSION = 5;
+    static final int DB_VERSION = 6;
+    static final Set<String> DB_SCHEMA = new HashSet<String>() {{
+        add(KEY_BOOT_ID);
+        add(KEY_CPP_ID);
+        add(KEY_DEVICE_NAME);
+        add(KEY_DEVICE_TYPE);
+        add(KEY_ENCRYPTION_KEY);
+        add(KEY_HTTPS);
+        add(KEY_ID);
+        add(KEY_IP_ADDRESS);
+        add(KEY_IS_PAIRED);
+        add(KEY_LAST_KNOWN_NETWORK);
+        add(KEY_LAST_PAIRED);
+        add(KEY_MODEL_ID);
+        add(KEY_PIN);
+        add(KEY_MISMATCHED_PIN);
+    }};
 
     public static final String DB_NAME = "network_node.db";
     public static final String TABLE_NETWORK_NODE = "network_node";
 
     // NetworkNode table
     public static final String KEY_BOOT_ID = "bootid";
-    public static final String KEY_CONNECTION_STATE = "connection_state";
+    public static final String KEY_CONNECTION_STATE = "connection_state"; // Will not be persisted
     public static final String KEY_CPP_ID = "cppid";
     public static final String KEY_DEVICE_NAME = "dev_name";
     public static final String KEY_DEVICE_TYPE = "device_type";
     public static final String KEY_ENCRYPTION_KEY = "encryption_key"; // was airpur_key
-    public static final String KEY_HOME_SSID = "home_ssid";
+    public static final String KEY_HOME_SSID = "home_ssid"; // Will not be persisted
     public static final String KEY_HTTPS = "https";
     public static final String KEY_ID = "_id";
     public static final String KEY_IP_ADDRESS = "ip_address";
@@ -36,14 +55,18 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_LAST_KNOWN_NETWORK = "lastknown_network";
     public static final String KEY_LAST_PAIRED = "last_paired";
     public static final String KEY_MODEL_ID = "model_id";
+    @Deprecated
+    public static final String KEY_MODEL_NAME = "model_name";
     public static final String KEY_PIN = "pin";
+    public static final String KEY_MISMATCHED_PIN = "mismatched_pin";
 
     public NetworkNodeDatabaseHelper(Context context) {
-        super(context, DB_NAME, null, DB_VERSION);
+        this(context, DB_VERSION);
     }
 
-    public NetworkNodeDatabaseHelper(Context context, String name, CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    @VisibleForTesting
+    NetworkNodeDatabaseHelper(Context context, int version) {
+        super(context, DB_NAME, null, version);
     }
 
     @Override
@@ -64,6 +87,7 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
                 + KEY_MODEL_ID + " TEXT,"
                 + KEY_HTTPS + " SMALLINT NOT NULL DEFAULT 0,"
                 + KEY_PIN + " TEXT,"
+                + KEY_MISMATCHED_PIN + " TEXT,"
                 + "PRIMARY KEY(" + KEY_ID + ")"
                 + ");";
 
@@ -78,6 +102,8 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         for (int currentVersion = oldVersion; currentVersion < newVersion; currentVersion++) {
+            onBeforeUpgrade(db, currentVersion);
+
             switch (currentVersion + 1) {
                 case 2:
                     upgradeToVersion2(db);
@@ -91,11 +117,18 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
                 case 5:
                     upgradeToVersion5(db);
                     break;
+                case 6:
+                    upgradeToVersion6(db);
+                    break;
                 default:
                     DICommLog.e(DICommLog.DATABASE, "Table creation error");
                     break;
             }
         }
+    }
+
+    @VisibleForTesting
+    void onBeforeUpgrade(SQLiteDatabase db, int currentVersion) {
     }
 
     private void upgradeToVersion2(SQLiteDatabase db) {
@@ -112,14 +145,26 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("ALTER TABLE " + TABLE_NETWORK_NODE + " RENAME TO tmp_" + TABLE_NETWORK_NODE + ";");
 
-        onCreate(db); // This will recreate the original table
+        db.execSQL("CREATE TABLE IF NOT EXISTS network_node("
+                + "_id INTEGER NOT NULL UNIQUE,"
+                + "cppid TEXT UNIQUE,"
+                + "bootid NUMERIC,"
+                + "encryption_key TEXT,"
+                + "dev_name TEXT,"
+                + "lastknown_network TEXT,"
+                + "is_paired SMALLINT NOT NULL DEFAULT 0,"
+                + "last_paired NUMERIC,"
+                + "ip_address TEXT,"
+                + "model_name TEXT,"
+                + "model_id TEXT,"
+                + "https SMALLINT NOT NULL DEFAULT 0,"
+                + "PRIMARY KEY(_id)"
+                + ");");
 
         db.execSQL("INSERT INTO " + TABLE_NETWORK_NODE + "(" + KEY_ID + "," + KEY_CPP_ID + "," + KEY_BOOT_ID + "," + KEY_ENCRYPTION_KEY + "," +
-                KEY_DEVICE_NAME + "," + KEY_LAST_KNOWN_NETWORK + "," + KEY_IS_PAIRED + "," + KEY_LAST_PAIRED + "," + KEY_IP_ADDRESS + "," + KEY_DEVICE_TYPE + "," + KEY_MODEL_ID + "," + KEY_HTTPS + ")\n" +
-
+                KEY_DEVICE_NAME + "," + KEY_LAST_KNOWN_NETWORK + "," + KEY_IS_PAIRED + "," + KEY_LAST_PAIRED + "," + KEY_IP_ADDRESS + "," + KEY_MODEL_NAME + "," + KEY_MODEL_ID + "," + KEY_HTTPS + ")\n" +
                 "SELECT " + KEY_ID + "," + KEY_CPP_ID + "," + KEY_BOOT_ID + "," + KEY_ENCRYPTION_KEY + "," +
-                KEY_DEVICE_NAME + "," + KEY_LAST_KNOWN_NETWORK + "," + KEY_IS_PAIRED + "," + KEY_LAST_PAIRED + "," + KEY_IP_ADDRESS + "," + KEY_DEVICE_TYPE + ",model_type," + KEY_HTTPS + "\n" +
-
+                KEY_DEVICE_NAME + "," + KEY_LAST_KNOWN_NETWORK + "," + KEY_IS_PAIRED + "," + KEY_LAST_PAIRED + "," + KEY_IP_ADDRESS + "," + KEY_MODEL_NAME + ",model_type," + KEY_HTTPS + "\n" +
                 "FROM tmp_" + TABLE_NETWORK_NODE + ";");
 
         db.execSQL("DROP TABLE tmp_" + TABLE_NETWORK_NODE + ";");
@@ -146,7 +191,22 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("ALTER TABLE " + TABLE_NETWORK_NODE + " RENAME TO tmp_" + TABLE_NETWORK_NODE + ";");
 
-        onCreate(db); // This will recreate the original table
+        db.execSQL("CREATE TABLE IF NOT EXISTS network_node("
+                + "_id INTEGER NOT NULL UNIQUE,"
+                + "cppid TEXT UNIQUE,"
+                + "bootid NUMERIC,"
+                + "encryption_key TEXT,"
+                + "dev_name TEXT,"
+                + "lastknown_network TEXT,"
+                + "is_paired SMALLINT NOT NULL DEFAULT 0,"
+                + "last_paired NUMERIC,"
+                + "ip_address TEXT,"
+                + "device_type TEXT,"
+                + "model_id TEXT,"
+                + "https SMALLINT NOT NULL DEFAULT 0,"
+                + "pin TEXT,"
+                + "PRIMARY KEY(_id)"
+                + ");");
 
         db.execSQL("INSERT INTO " + TABLE_NETWORK_NODE + "(" + KEY_ID + "," + KEY_CPP_ID + "," + KEY_BOOT_ID + "," + KEY_ENCRYPTION_KEY + "," +
                 KEY_DEVICE_NAME + "," + KEY_LAST_KNOWN_NETWORK + "," + KEY_IS_PAIRED + "," + KEY_LAST_PAIRED + "," + KEY_IP_ADDRESS + "," + KEY_DEVICE_TYPE + "," + KEY_MODEL_ID + "," + KEY_HTTPS + ")\n" +
@@ -159,5 +219,9 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE tmp_" + TABLE_NETWORK_NODE + ";");
 
         db.execSQL("COMMIT;");
+    }
+
+    private void upgradeToVersion6(SQLiteDatabase db) {
+        db.execSQL("ALTER TABLE " + TABLE_NETWORK_NODE + " ADD COLUMN " + KEY_MISMATCHED_PIN + " TEXT;");
     }
 }

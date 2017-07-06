@@ -157,6 +157,14 @@ android {
         abortOnError false
     }
     publishNonDefault true
+
+    testOptions {
+        unitTests.all {
+            jacoco {
+                excludes["com.philips.cdp2.demouapp.*"]
+            }
+        }
+    }
 }
 
 task generateJavadocPublicApi(type: Javadoc) {

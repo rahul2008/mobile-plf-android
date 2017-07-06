@@ -25,15 +25,10 @@ node('Android') {
             sh "$gradle test lintDebug || true"
         }
 
-        stage('Mutation testing') {
-            sh "$gradle pitestDebug"
-        }
-
         stage("Gather reports") {
             step([$class: 'JUnitResultArchiver', testResults: '**/testDebugUnitTest/*.xml'])
             step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
             step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class,**/R$*.class,**/BuildConfig.class,**/Manifest*.*,**/*Activity*.*,**/*Fragment*.*'])
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'Source/DICommClientSample/build/report/dicommClientLib/pitest/debug/', reportFiles: 'index.html', reportName: 'Pitest'])
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'Documents/External/dicommClientLib-api', reportFiles: 'index.html', reportName: 'Commlib API'])
         }
 

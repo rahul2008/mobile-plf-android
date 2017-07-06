@@ -23,12 +23,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
-import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortListener;
+import com.philips.cdp2.commlib.core.port.firmware.FirmwarePortProperties;
 import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.appliance.reference.ReferenceAppliance;
 
@@ -87,7 +88,11 @@ public class FirmwareUpgradeFragment extends Fragment {
         @Override
         public void onPortUpdate(FirmwarePort port) {
             if (isAdded()) {
-                stateTextView.setText(port.getPortProperties().getState().toString());
+                FirmwarePortProperties properties = port.getPortProperties();
+                if (properties == null) {
+                    return;
+                }
+                stateTextView.setText(properties.getState().toString());
                 versionTextView.setText(port.getPortProperties().getVersion());
             }
         }
@@ -95,6 +100,7 @@ public class FirmwareUpgradeFragment extends Fragment {
         @Override
         public void onPortError(FirmwarePort port, Error error, String errorData) {
             if (isAdded()) {
+                stateTextView.setText(getString(R.string.n_a));
                 statusTextView.setText(String.format(Locale.US, "Error: %s", error.getErrorMessage()));
             }
         }
@@ -191,20 +197,14 @@ public class FirmwareUpgradeFragment extends Fragment {
         statusTextView = (TextView) rootview.findViewById(R.id.txtFirmwareStatusMsg);
         timeoutEditText = (EditText) rootview.findViewById(R.id.timeoutEditText);
 
-        currentAppliance = (ReferenceAppliance) CurrentApplianceManager.getInstance().getCurrentAppliance();
+        btnUpload.setOnClickListener(clickListener);
+        btnDeploy.setOnClickListener(clickListener);
+        btnCancel.setOnClickListener(clickListener);
+        updateButtons(true, false, false);
 
-        if (currentAppliance == null) {
-            getFragmentManager().popBackStack();
-        } else {
-            btnUpload.setOnClickListener(clickListener);
-            btnDeploy.setOnClickListener(clickListener);
-            btnCancel.setOnClickListener(clickListener);
-            updateButtons(true, false, false);
-
-            firmwareUploadProgressBar = (ProgressBar) rootview.findViewById(R.id.progressUploadFirmware);
-            firmwareUploadProgressBar.setProgress(0);
-            firmwareImagesListView = (ListView) rootview.findViewById(R.id.lvFirmwareImages);
-        }
+        firmwareUploadProgressBar = (ProgressBar) rootview.findViewById(R.id.progressUploadFirmware);
+        firmwareUploadProgressBar.setProgress(0);
+        firmwareImagesListView = (ListView) rootview.findViewById(R.id.lvFirmwareImages);
 
         return rootview;
     }
@@ -213,6 +213,13 @@ public class FirmwareUpgradeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        Appliance appliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
+        if (appliance == null || !(appliance instanceof ReferenceAppliance)) {
+            getFragmentManager().popBackStack();
+            return;
+        }
+        currentAppliance = (ReferenceAppliance) appliance;
 
         readFirmwareFiles();
 
@@ -225,12 +232,23 @@ public class FirmwareUpgradeFragment extends Fragment {
         checkUpgradeSupport();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (currentAppliance != null) {
+            currentAppliance.getFirmwarePort().removePortListener(portListener);
+            currentAppliance.getFirmwarePort().removeFirmwarePortListener(firmwarePortListener);
+        }
+    }
+
     private void checkUpgradeSupport() {
         final FirmwarePort firmwarePort = currentAppliance.getFirmwarePort();
-        firmwarePort.addPortListener(new DICommPortListener() {
+        firmwarePort.addPortListener(new DICommPortListener<FirmwarePort>() {
             @Override
-            public void onPortUpdate(DICommPort port) {
-                firmwarePort.removePortListener(this);
+            public void onPortUpdate(FirmwarePort port) {
+                port.removePortListener(this);
+
                 boolean canUpgrade = firmwarePort.canUpgrade();
                 if (isAdded()) {
                     ((TextView) getActivity().findViewById(R.id.tvCanUpgrade)).setText(canUpgrade ? "Yes" : "No");
@@ -238,7 +256,7 @@ public class FirmwareUpgradeFragment extends Fragment {
             }
 
             @Override
-            public void onPortError(DICommPort port, Error error, String errorData) {
+            public void onPortError(FirmwarePort port, Error error, String errorData) {
                 port.removePortListener(this);
             }
         });
@@ -295,7 +313,7 @@ public class FirmwareUpgradeFragment extends Fragment {
         final int selectedItemPosition = firmwareImagesListView.getCheckedItemPosition();
 
         if (selectedItemPosition == ListView.INVALID_POSITION) {
-            Toast.makeText(getActivity(), R.string.select_a_firmware_image, Toast.LENGTH_SHORT).show();
+            showToast(getString(R.string.select_a_firmware_image));
         } else {
             File firmwareFile = fwImageAdapter.getItem(selectedItemPosition);
             final byte[] firmwareBytes = fileToBytes(firmwareFile);
@@ -329,5 +347,14 @@ public class FirmwareUpgradeFragment extends Fragment {
     private long getTimeoutInMillisFromUi() {
         final String timeoutText = timeoutEditText.getText().toString();
         return TextUtils.isEmpty(timeoutText) ? DEFAULT_TIMEOUT_MILLIS : Long.parseLong(timeoutText);
+    }
+
+    private void showToast(final String message) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

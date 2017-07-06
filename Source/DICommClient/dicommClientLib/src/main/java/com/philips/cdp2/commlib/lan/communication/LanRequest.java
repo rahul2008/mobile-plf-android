@@ -5,6 +5,7 @@
 
 package com.philips.cdp2.commlib.lan.communication;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Network;
 import android.os.Build;
@@ -65,9 +66,8 @@ public class LanRequest extends Request {
     private final LanRequestType requestType;
     private final DISecurity diSecurity;
 
-    private static final Object LOCK = new Object();
-
     private static HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+        @SuppressLint("BadHostnameVerifier")
         @Override
         public boolean verify(String hostname, SSLSession session) {
             return true; // Just accept everything
