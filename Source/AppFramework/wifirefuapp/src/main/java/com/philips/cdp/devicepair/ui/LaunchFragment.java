@@ -161,11 +161,9 @@ public class LaunchFragment extends Fragment implements BackEventListener, Launc
     public void onResume() {
         super.onResume();
 
-        if (!((mFragmentLauncher.getFragmentActivity()).isFinishing())) {
-            mStateContext = new StateContext();
-            mStateContext.setState(new GetPairedDevicesState(mFragmentLauncher, this));
-            mStateContext.start();
-        }
+        mStateContext = new StateContext();
+        mStateContext.setState(new GetPairedDevicesState(mFragmentLauncher, this));
+        mStateContext.start();
 
         mNetworkChangeListener.addListener(this);
         mContext.registerReceiver(mNetworkChangeListener, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
@@ -352,5 +350,11 @@ public class LaunchFragment extends Fragment implements BackEventListener, Launc
 
     @Override
     public void onConnectionAvailable() {
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mStateContext.getState().clearProgressDialog();
     }
 }
