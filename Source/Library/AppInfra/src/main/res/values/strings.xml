@@ -4,11 +4,10 @@
     <string name="ail_locale">en</string>
 
     <string-array name="server_pool">
-        <item>0.pool.ntp.org</item>
-        <item>1.pool.ntp.org</item>
-        <item>2.pool.ntp.org</item>
-        <item>3.pool.ntp.org</item>
-        <item>0.cn.pool.ntp.org</item>
+        <item>time1.google.com</item>
+        <item>time2.google.com</item>
+        <item>time3.google.com</item>
+        <item>time4.google.com</item>
     </string-array>
 
 </resources>
