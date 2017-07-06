@@ -15,10 +15,6 @@ import org.robolectric.Robolectric;
 import org.robolectric.shadows.ShadowLog;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
-/**
- * Created by philips on 7/3/17.
- */
-
 
 @RunWith(CustomRobolectricRunnerAmwel.class)
 public class THSMedicationFragmentTest {
