@@ -87,28 +87,24 @@
                         android:text="@string/template_selection"/>
                 </RelativeLayout>
 
-                <RadioGroup
+                <com.philips.platform.uid.view.widget.RadioGroup
                     android:id="@+id/radioGroupTemplates"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
-                    android:orientation="vertical"
-                    >
+                    style="@style/TestRadioGroupStyle"
+                    android:orientation="vertical">
 
-                    <RadioButton
+                    <com.philips.platform.uid.view.widget.RadioButton
                         android:id="@+id/single_line_with_icon"
-                        style="@style/RecyclerViewRadioButton"
+                        style="@style/TestRadioButtonStyle"
                         android:checked="@{frag.isIconTemplateSelected}"
                         android:onCheckedChanged="@{(v, isChecked) -> frag.setIsIconTemplateSelected(isChecked)}"
-                        android:text="@string/single_line_with_icon"
-                        />
+                        android:text="@string/single_line_with_icon" />
 
-                    <RadioButton
+                    <com.philips.platform.uid.view.widget.RadioButton
                         android:id="@+id/two_lines"
-                        style="@style/RecyclerViewRadioButton"
+                        style="@style/TestRadioButtonStyle"
                         android:checked="@{!frag.isIconTemplateSelected}"
                         android:text="@string/two_lines"/>
-                </RadioGroup>
+                </com.philips.platform.uid.view.widget.RadioGroup>
             </LinearLayout>
 
             <include

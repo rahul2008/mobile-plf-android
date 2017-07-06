@@ -15,6 +15,7 @@ import android.os.Build;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.internal.util.Checks;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -366,6 +367,28 @@ public class TextViewPropertiesMatchers {
             @Override
             protected boolean matchesSafely(View view) {
                 setValues(typeface, TypefaceUtils.load(activity.getAssets(), fontPath));
+                return areEqual();
+            }
+        };
+    }
+
+    public static Matcher<View> isMultiline() {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                if (view instanceof TextView) {
+                    return (((TextView) view).getLineCount() > 1 ? true : false);
+                }
+                throw new RuntimeException("expected TextView got " + view.getClass().getName());
+            }
+        };
+    }
+
+    public static Matcher<View> isCenterVerticallyAligned() {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                setValues(((TextView) view).getGravity() & Gravity.VERTICAL_GRAVITY_MASK, Gravity.CENTER_VERTICAL);
                 return areEqual();
             }
         };

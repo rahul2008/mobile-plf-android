@@ -251,4 +251,11 @@
     <string name="links_button_page">Button page</string>
     <string name="no_internet">No internet connection available</string>
 
+
+    <!--Radiobutton-->
+    <string name="page_title_radiobutton">Radio button</string>
+    <string name="radiobutton_selection_item_1">Selection item 1</string>
+    <string name="radiobutton_selection_item_2">Selection item 2</string>
+    <string name="radiobutton_selection_item_3">Selection item 3</string>
+    <string name="radiobutton_selection_item_4">Multi-line label Lorem ipsum dolor sit amet consectetur adipiscing elit duis a feugiat tortor</string>
 </resources>

@@ -5,6 +5,8 @@
 
 package com.philips.uid
 
+import com.philips.uid.helpers.NameConversionHelper
+
 class DLSResourceConstants {
     //Theme specific constants
     static final String LIB_PREFIX = "uid"
@@ -20,10 +22,13 @@ class DLSResourceConstants {
     static final String ATTR = "?attr/"
     static final String COLOR_REFERENCE = "@color/"
     static final int COLOR_OFFSET = 5
-    static final COLOR_RANGES = [GroupBlue: 'group_blue', Blue: 'blue', Aqua: 'aqua',
+    static final COLOR_RANGES = [GroupBlue: 'group-blue', Blue: 'blue', Aqua: 'aqua',
                                  Green    : 'green', Orange: 'orange', Pink: 'pink', Purple: 'purple', Gray: 'gray']
 
     static final TONAL_RANGES = ['ultra-light', 'very-light'/*, 'light'*/, 'bright', 'very-dark']
+
+    //use this for debugging in Intellij
+    //static final String PATH_RES = "../../../../resources"
 
     //Path constants
     static final String PATH_RES = "src/main/resources"
@@ -41,7 +46,7 @@ class DLSResourceConstants {
     public static final String HOVER = "Hover"
 
     static def getThemeFilePath(fileName) {
-        String.format(PATH_OUT_THEME_FILE, "${fileName}")
+        String.format(PATH_OUT_THEME_FILE, NameConversionHelper.replaceHyphenWithUnderScores("${fileName}"))
     }
 
 }

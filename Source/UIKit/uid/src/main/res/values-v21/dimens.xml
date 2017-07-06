@@ -14,4 +14,8 @@
     <!--Label spacing-->
     <dimen name="uid_label_line_spacing">6dp</dimen>
     <integer name="uid_label_font_spacing_multiplier">1</integer>
+
+    <!--radiobutton text leading-->
+    <dimen name="uid_radiobutton_line_spacing">6dp</dimen>
+    <integer name="uid_radiobutton_font_spacing_multiplier">1</integer>
 </resources>

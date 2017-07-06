@@ -9,4 +9,5 @@
     <attr name="uidEditTextStyle" format="reference"/>
     <attr name="uidRatingBarStyle" format="reference" />
     <attr name="uidLabelStyle" format="reference" />
+    <attr name="uidRadioButtonStyle" format="reference"/>
 </resources>

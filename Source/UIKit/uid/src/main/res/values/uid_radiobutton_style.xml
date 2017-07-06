@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="UIDRadioButton" parent="Base.Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:minHeight">@dimen/uid_radiobutton_height</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/uid_radiobutton_text_size</item>
+        <item name="android:background">@drawable/uid_radiobutton_background</item>
+        <item name="android:paddingEnd">@dimen/uid_radiobutton_margin_left_right</item>
+        <item name="android:paddingStart">@dimen/uid_radiobutton_margin_left_right</item>
+        <item name="android:lineSpacingExtra">@dimen/uid_radiobutton_line_spacing</item>
+        <item name="android:lineSpacingMultiplier">@integer/uid_radiobutton_font_spacing_multiplier</item>
+        <item name="android:button">@drawable/uid_radiobutton_selector</item>
+        <item name="android:textColor">@color/uid_radiobutton_text_selector</item>
+    </style>
+</resources>

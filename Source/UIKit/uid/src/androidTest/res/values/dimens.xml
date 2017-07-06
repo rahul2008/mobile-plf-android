@@ -149,4 +149,11 @@
     <dimen name="searchbox_search_text_offset">0dp</dimen>
     <dimen name="searchbox_back_icon_margin">16dp</dimen>
     <dimen name="searchbox_font_size">20sp</dimen>
+
+    <!--Radiobutton dimens -->
+    <dimen name="radiobutton_height">48dp</dimen>
+    <dimen name="radiobutton_width">48dp</dimen>
+    <dimen name="radiobutton_margin_left_right">12dp</dimen>
+    <dimen name="radiobutton_line_spacing">0dp</dimen>
+    <integer name="radiobutton_line_spacing_multiplier">1</integer>
 </resources>
