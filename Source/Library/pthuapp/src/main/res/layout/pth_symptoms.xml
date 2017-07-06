@@ -79,7 +79,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/edit_farenheit"
         android:enabled="true"
-        android:text="Continue" />
+        android:text="Continue"
+        android:layout_marginBottom="20dp"
+        />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floating_button"
