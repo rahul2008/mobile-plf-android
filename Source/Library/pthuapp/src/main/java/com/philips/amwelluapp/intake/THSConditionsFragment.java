@@ -81,4 +81,9 @@ public class THSConditionsFragment extends PTHBaseFragment implements BackEventL
             });
         }
     }
+
+    @Override
+    public int getContainerID() {
+        return ((ViewGroup)getView().getParent()).getId();
+    }
 }
