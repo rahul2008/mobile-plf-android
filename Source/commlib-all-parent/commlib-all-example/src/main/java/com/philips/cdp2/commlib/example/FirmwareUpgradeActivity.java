@@ -283,7 +283,11 @@ public class FirmwareUpgradeActivity extends AppCompatActivity {
             File firmwareFile = fwImageAdapter.getItem(selectedItemPosition);
             final byte[] firmwareBytes = fileToBytes(firmwareFile);
 
-            currentAppliance.getFirmwarePort().pushLocalFirmware(firmwareBytes, getTimeoutInMillisFromUi());
+            try {
+                currentAppliance.getFirmwarePort().pushLocalFirmware(firmwareBytes, getTimeoutInMillisFromUi());
+            } catch (IllegalStateException e) {
+                Toast.makeText(FirmwareUpgradeActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
