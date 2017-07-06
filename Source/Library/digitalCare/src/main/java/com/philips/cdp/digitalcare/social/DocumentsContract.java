@@ -4,7 +4,8 @@
  * @author naveen@philips.com
  *
  *  Copyright (c) 2016 Philips. All rights reserved.
- */
+ *//*
+
 
 package com.philips.cdp.digitalcare.social;
 
@@ -45,4 +46,4 @@ public class DocumentsContract {
 		}
 		return DOCUMENT_URIS.contains(uri.getAuthority());
 	}
-}
+}*/

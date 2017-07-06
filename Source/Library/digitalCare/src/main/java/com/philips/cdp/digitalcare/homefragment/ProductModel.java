@@ -2,7 +2,8 @@
  * @author  naveen@philips.com on 20-Jan-16.
  *
  * Copyright (c) 2016 Philips. All rights reserved.
- */
+ *//*
+
 
 package com.philips.cdp.digitalcare.homefragment;
 
@@ -39,3 +40,4 @@ public class ProductModel {
     }
 }
 
+*/

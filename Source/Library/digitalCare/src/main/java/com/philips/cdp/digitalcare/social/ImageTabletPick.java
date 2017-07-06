@@ -1,3 +1,4 @@
+/*
 package com.philips.cdp.digitalcare.social;
 
 import android.app.Activity;
@@ -13,12 +14,14 @@ import com.philips.cdp.digitalcare.customview.TabletPopupWindow;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 
+*/
 /**
  * 
  * @author naveen@philips.com
  * @description Custom PopupWindow View Parameters & callback listeners.
  * @Since March 26, 2015
- */
+ *//*
+
 public class ImageTabletPick implements OnClickListener {
 
 	private final String TAG = ImageTabletPick.class.getSimpleName();
@@ -34,7 +37,9 @@ public class ImageTabletPick implements OnClickListener {
 	TabletPopupWindow mPointerAlert = null;
 
 	public ImageTabletPick(Activity activity) {
-		/*DigiCareLogger.i(TAG, "ImageTabletPick");*/
+		*/
+/*DigiCareLogger.i(TAG, "ImageTabletPick");*//*
+
 		mContext = activity;
 		getPointerAlert();
 	}
@@ -77,7 +82,8 @@ public class ImageTabletPick implements OnClickListener {
 			DigiCareLogger.d("IMAGE", "Library Button");
 
 			Intent intent = new Intent();
-			intent.setType("image/*");
+			intent.setType("image*/
+/*");
 			intent.setAction(Intent.ACTION_GET_CONTENT);
 			mContext.startActivityForResult(
 					Intent.createChooser(intent, null),
@@ -98,3 +104,4 @@ public class ImageTabletPick implements OnClickListener {
 	}
 
 }
+*/
