@@ -7,15 +7,21 @@
     android:orientation="vertical">
 
 
-    <com.philips.platform.uid.view.widget.Label
+    <!-- <com.philips.platform.uid.view.widget.Label
+         android:id="@+id/pth_intake_medication_label"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:paddingLeft="15dp"
+         android:layout_marginTop="10dp"
+         android:text="Step 3 of 5: Medicines"
+         android:background="@color/uid_blue_level_55"
+         android:textSize="@dimen/pth_body_text" />-->
+    <com.philips.platform.uid.view.widget.Button
         android:id="@+id/pth_intake_medication_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="15dp"
-        android:layout_marginTop="10dp"
-        android:text="Step 3 of 5: Medicines"
-        android:background="@color/uid_blue_level_55"
-        android:textSize="@dimen/pth_body_text" />
+        android:layout_alignParentTop="true"
+        android:text="Step 3 of 5: Medicines" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_intake_medication_question"
@@ -25,9 +31,9 @@
         android:paddingLeft="15dp"
         android:paddingTop="15dp"
         android:text="Are you currently using any medicine?"
-        android:textStyle="bold"
         android:textColor="@color/awsdk_color_black"
-        android:textSize="@dimen/pth_body_text" />
+        android:textSize="@dimen/pth_body_text"
+        android:textStyle="bold" />
 
     <RelativeLayout
         android:id="@+id/pth_intake_medication_searchbox_relative_layout"
