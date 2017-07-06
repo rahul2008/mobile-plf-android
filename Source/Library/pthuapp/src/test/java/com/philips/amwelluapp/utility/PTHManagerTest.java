@@ -439,7 +439,7 @@ public class PTHManagerTest {
         pthManager.searchMedication(contextMock, "dol" ,pTHSDKValidatedCallback);
         verify(consumerManagerMock).searchMedications(any(Consumer.class), any(String.class),getSearchedMedicationCaptor.capture());
         SDKCallback value = getSearchedMedicationCaptor.getValue();
-        value.onResponse(any(List.class), any(SDKError.class));
+//        value.onResponse(any(List.class), any(SDKError.class));
         //value.onFailure(any(Throwable.class));  //todo
     }
 
@@ -450,7 +450,7 @@ public class PTHManagerTest {
         verify(consumerManagerMock).updateMedications(any(Consumer.class), any(List.class),getUpdateMedicationCaptor.capture());
         SDKCallback value = getUpdateMedicationCaptor.getValue();
         value.onResponse(any(List.class), any(SDKPasswordError.class));
-        value.onFailure(any(Throwable.class));
+//        value.onFailure(any(Throwable.class));
     }
 
 
