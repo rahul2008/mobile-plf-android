@@ -14,8 +14,6 @@ import com.philips.cdp.productselection.R;
 
 public class CustomSearchView extends android.support.v7.widget.AppCompatAutoCompleteTextView {
 
-    private OnHideListView onHideListView;
-
     public CustomSearchView(Context context) {
         super(context);
     }
@@ -31,7 +29,6 @@ public class CustomSearchView extends android.support.v7.widget.AppCompatAutoCom
             @Override
             public boolean onDrawableTouch(MotionEvent event) {
                 CustomSearchView.this.setText("");
-                onHideListView.hideListView();
                 return false;
             }
         });
@@ -68,11 +65,4 @@ public class CustomSearchView extends android.support.v7.widget.AppCompatAutoCom
         super(context);
     }
 
-    public interface OnHideListView {
-        void hideListView();
-    }
-
-    public void setOnHideListListener(OnHideListView onHideListListner){
-            this.onHideListView = onHideListListner;
-    }
 }

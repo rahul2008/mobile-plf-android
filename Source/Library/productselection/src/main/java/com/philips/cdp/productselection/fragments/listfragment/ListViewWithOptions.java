@@ -8,6 +8,7 @@ package com.philips.cdp.productselection.fragments.listfragment;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -40,8 +42,14 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
     private Activity mActivity = null;
     private CustomFilter mCustomFilter;
     private List<SummaryModel> mOriginalSet;
+    private TextView productNameView;
+    private TextView ctnView;
+    private ImageView imageView;
+    private Activity activity;
+    private RelativeLayout productDeatilsView;
 
     public ListViewWithOptions(Activity activity, List<SummaryModel> data) {
+        this.activity = activity;
         if (activity != null)
             inflater = (LayoutInflater) activity.getSystemService(activity.LAYOUT_INFLATER_SERVICE);
         this.mActivity = activity;
@@ -74,8 +82,10 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
 
         Data data = summaryModel.getData();
         final ImageView image = (ImageView) vi.findViewById(R.id.image);
-        TextView name = (TextView) vi.findViewById(R.id.product_name_view);
-        TextView value = (TextView) vi.findViewById(R.id.ctn_view);
+        productNameView = (TextView) vi.findViewById(R.id.product_name_view);
+        imageView = (ImageView) vi.findViewById(R.id.image);
+        ctnView = (TextView) vi.findViewById(R.id.ctn_view);
+        productDeatilsView = (RelativeLayout) vi.findViewById(R.id.product_details_view);
 
         String imagepath = data.getImageURL();
         int imageWidth = (int) (85 * Resources.getSystem().getDisplayMetrics().density);
@@ -98,7 +108,8 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
                     }
                 });
 
-        request.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        request.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         mActivity.runOnUiThread(new Runnable() {
             @Override
@@ -106,18 +117,19 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
                 VolleyWrapper.getInstance(mActivity).addToRequestQueue(request);
             }
         });
-        name.setText(data.getProductTitle());
-        value.setText(data.getCtn());
+        productNameView.setText(data.getProductTitle());
+        ctnView.setText(data.getCtn());
         vi.setTag(position);
-        notifyDataSetChanged();
+       // notifyDataSetChanged();
         return vi;
     }
 
     private class CustomFilter extends Filter {
 
+        private String constraintStr;
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-
+            constraintStr = constraint.toString();
             FilterResults filterResults = new FilterResults();
             if (constraint != null && constraint.length() > 0) {
                 ArrayList<SummaryModel> filteredResultModelSet = new ArrayList<SummaryModel>();
@@ -149,13 +161,27 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
         @Override
         protected void publishResults(CharSequence constraint,
                                       FilterResults results) {
-            if (results.count == 0){
-                notifyDataSetInvalidated();
+            if (results.count == 0 && constraintStr.length() > 0){
+                showNoRecordsFound(constraintStr.toString());
             }
             else {
                 mProductsList = (ArrayList<SummaryModel>) results.values;
-                notifyDataSetChanged();
             }
+            notifyDataSetChanged();
+        }
+
+        private void showNoRecordsFound(String searchStr) {
+            mProductsList.clear();
+            SummaryModel summaryModel = new SummaryModel();
+            Data data=new Data();
+            data.setProductTitle(activity.getResources().getString(R.string.Zero_records_found)+" "+searchStr);
+            data.setCtn(String.valueOf(activity.getResources().getString(R.string.Zero_records_found_filter)));
+            //imageView.setImageResource(R.drawable.consumercare_marker_shadow);
+            Bitmap bitmap= BitmapFactory.decodeResource(activity.getResources(), R.drawable.consumercare_marker_shadow);
+            imageView.setImageBitmap(bitmap);
+            imageView.setVisibility(View.GONE);
+            summaryModel.setData(data);
+            mProductsList.add(summaryModel);
         }
     }
 

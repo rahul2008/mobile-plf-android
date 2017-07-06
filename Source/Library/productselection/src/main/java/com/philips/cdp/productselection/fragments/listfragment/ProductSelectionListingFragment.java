@@ -31,7 +31,7 @@ import java.util.Map;
  * @author : ritesh.jha@philips.com
  * @since : 29 Jan 2016
  */
-public class ProductSelectionListingFragment extends ProductSelectionBaseFragment implements TextWatcher,CustomSearchView.OnHideListView {
+public class ProductSelectionListingFragment extends ProductSelectionBaseFragment implements TextWatcher {
 
     private String TAG = ProductSelectionListingFragment.class.getSimpleName();
     private ListView mProductListView = null;
@@ -55,7 +55,6 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
     private void initView(View view) {
         mSearchBox = (CustomSearchView) view.findViewById(R.id.search_box);
         mSearchBox.addTextChangedListener(this);
-        mSearchBox.setOnHideListListener(this);
     }
 
     @Override
@@ -75,7 +74,6 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
                     DetailedScreenFragmentSelection detailedScreenFragmentSelection = new DetailedScreenFragmentSelection();
                     detailedScreenFragmentSelection.setUserSelectedProduct(mUserSelectedProduct);
                     showFragment(detailedScreenFragmentSelection);
-
 
                     Map<String, String> contextData = new HashMap<String, String>();
                     contextData.put(Constants.ACTION_NAME_SPECIAL_EVENT,
@@ -171,10 +169,5 @@ public class ProductSelectionListingFragment extends ProductSelectionBaseFragmen
     @Override
     public void afterTextChanged(Editable s) {
             showListView();
-    }
-
-    @Override
-    public void hideListView() {
-
     }
 }
