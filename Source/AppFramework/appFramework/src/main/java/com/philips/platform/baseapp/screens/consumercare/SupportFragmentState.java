@@ -165,7 +165,7 @@ public class SupportFragmentState extends BaseState implements CcListener {
         if (s.equalsIgnoreCase("RA_Product_Registration_Text")) {
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
             try {
-                baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), SUPPORT_PR);
+                baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.SUPPORT), SUPPORT_PR);
             } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                     e) {
                 RALog.e(TAG , e.getMessage());
