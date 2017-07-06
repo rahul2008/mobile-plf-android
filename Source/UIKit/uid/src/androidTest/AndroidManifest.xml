@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.philips.platform.catalogapp"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.philips.platform.uid">
 
     <application
-        android:allowBackup="false"
-        android:hardwareAccelerated="true"
         android:theme="@style/Theme.DLS">
-
+        <activity
+            android:name="com.philips.platform.uid.activity.OrientationChangeActivity"
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.philips.platform.uid.activity.BaseTestActivity"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.DLS.GroupBlue.UltraLight">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
         <activity
@@ -20,7 +24,7 @@
             android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.DLS.GroupBlue.UltraLight">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
     </application>

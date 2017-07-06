@@ -29,9 +29,6 @@ import static android.content.ContentValues.TAG;
 
 public final class UIDUtils {
 
-    private UIDUtils() {
-    }
-
     public static boolean isMinLollipop() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }

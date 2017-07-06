@@ -17,11 +17,7 @@ public class StrokeCompat {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && drawable instanceof GradientDrawable) {
             ((GradientDrawable) drawable).setStroke(width, list);
             return drawable;
-        } else if (drawable instanceof StrokeDrawableWrapper) {
-            ((StrokeDrawableWrapper) drawable).setStroke(width, list);
-        } else if (drawable instanceof GradientDrawable) {
-            return new StrokeDrawableWrapper((GradientDrawable) drawable, width, list);
         }
-        throw new RuntimeException("Only GradientDrawable or StrokeDrawableWrapper is supported");
+        throw new RuntimeException("Only GradientDrawable is supported");
     }
 }
