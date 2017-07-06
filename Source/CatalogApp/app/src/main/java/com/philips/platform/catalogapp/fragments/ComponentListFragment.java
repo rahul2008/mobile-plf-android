@@ -72,6 +72,7 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
         itemsMap.put(16, getString(R.string.page_title_searchbox));
         itemsMap.put(17, getString(R.string.page_title_links));
         itemsMap.put(18, getString(R.string.page_title_radiobutton));
+        itemsMap.put(19, getString(R.string.page_title_uipicker));
         return sortMap(itemsMap);
     }
 
@@ -153,6 +154,9 @@ public class ComponentListFragment extends BaseFragment implements AdapterView.O
                 break;
             case 18:
                 navigationController.switchFragment(new RadioButtonFragment());
+                break;
+            case 19:
+                navigationController.switchFragment(new UIPickerFragment());
                 break;
         }
     }

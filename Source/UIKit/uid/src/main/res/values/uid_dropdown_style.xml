@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="UIDDropDownStyle" parent="android:Widget.ListView.DropDown">
+        <item name="android:divider">@null</item>
+        <item name="android:dividerHeight">@dimen/uid_uipicker_divider_height</item>
+        <item name="android:listSelector">@drawable/uid_list_item_selector</item>
+        <item name="android:background">?attr/uidPopupDefaultNormalBackgroundColor</item>
+        <item name="android:scrollbarThumbVertical">?attr/uidThumbScrollbarNormalBackgroundColor</item>
+    </style>
+</resources>

@@ -84,4 +84,8 @@
     <!-- Radio Group-->
     <dimen name="radio_group_top_margin">12dp</dimen>
 
+    <!-- UI Picker-->
+    <dimen name="uid_ui_picker_margin_left_right">16dp</dimen>
+    <dimen name="uid_add_location_margin_start">32dp</dimen>
+
 </resources>
