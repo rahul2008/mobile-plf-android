@@ -30,6 +30,7 @@ public class THSConditionsFragment extends PTHBaseFragment implements BackEventL
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_conditions, container, false);
         mLinerLayout = (LinearLayout)view.findViewById(R.id.checkbox_container);
         mContinueButton = (Button) view.findViewById(R.id.continue_btn);
+        mContinueButton.setOnClickListener(this);
         return view;
     }
 
