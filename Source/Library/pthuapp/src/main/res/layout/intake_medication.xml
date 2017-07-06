@@ -14,6 +14,7 @@
         android:paddingLeft="15dp"
         android:layout_marginTop="10dp"
         android:text="Step 3 of 5: Medicines"
+        android:background="@color/uid_blue_level_55"
         android:textSize="@dimen/pth_body_text" />
 
     <com.philips.platform.uid.view.widget.Label
