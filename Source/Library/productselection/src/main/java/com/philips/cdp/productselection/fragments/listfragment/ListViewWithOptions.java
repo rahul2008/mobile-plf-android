@@ -47,6 +47,7 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
     private ImageView imageView;
     private Activity activity;
     private RelativeLayout productDeatilsView;
+    private RelativeLayout.LayoutParams productDeatilsViewParams;
 
     public ListViewWithOptions(Activity activity, List<SummaryModel> data) {
         this.activity = activity;
@@ -86,6 +87,7 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
         imageView = (ImageView) vi.findViewById(R.id.image);
         ctnView = (TextView) vi.findViewById(R.id.ctn_view);
         productDeatilsView = (RelativeLayout) vi.findViewById(R.id.product_details_view);
+        productDeatilsViewParams =  (RelativeLayout.LayoutParams) productDeatilsView.getLayoutParams();
 
         String imagepath = data.getImageURL();
         int imageWidth = (int) (85 * Resources.getSystem().getDisplayMetrics().density);
@@ -179,7 +181,10 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
             //imageView.setImageResource(R.drawable.consumercare_marker_shadow);
             Bitmap bitmap= BitmapFactory.decodeResource(activity.getResources(), R.drawable.consumercare_marker_shadow);
             imageView.setImageBitmap(bitmap);
-            imageView.setVisibility(View.GONE);
+            imageView.setVisibility(View.INVISIBLE);
+            productNameView.setMaxWidth(1000);
+            productDeatilsViewParams.setMargins(0,0,300,300);
+            productDeatilsViewParams.alignWithParent = true;
             summaryModel.setData(data);
             mProductsList.add(summaryModel);
         }

@@ -73,6 +73,13 @@ public class AutomationTestHelper {
             e.printStackTrace();
         }
     }
+    protected void sleepEightSec() {
+        try {
+            Thread.sleep(8000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     protected void sleepTwoSec() {
         try {
