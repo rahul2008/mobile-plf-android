@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.philips.cdp.digitalcare">
 
-    <uses-sdk android:minSdkVersion="10"
-        android:targetSdkVersion="24"/>
+    <uses-sdk android:minSdkVersion="21"
+        android:targetSdkVersion="25"/>
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -44,18 +44,8 @@
         </receiver>
 -->
 
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.philips.cdp.digitalcare.ccpdffilesprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepath" />
-        </provider>
-
         <!--
-        Facebook 
+        Facebook
         <activity
             android:name="com.facebook.LoginActivity"
             android:configChanges="orientation|screenSize"

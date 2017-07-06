@@ -106,10 +106,8 @@ public class DownloadAndShowPDFHelper {
         try {
             DigiCareLogger.d(TAG, " manualUrl " + manualFilename);
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            //intent.setDataAndType(Uri.fromFile(file), "application/pdf");
-            intent.setDataAndType(FileProvider.getUriForFile(ctx, "com.philips.cdp.digitalcare.ccpdffilesprovider", file), "application/pdf");
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            //intent.setPackage(PACKAGENAME_ADOBE_READER);
+            intent.setDataAndType(Uri.fromFile(file), "application/pdf");
+            intent.setPackage(PACKAGENAME_ADOBE_READER);
             ctx.startActivity(intent);
             DigiCareLogger.d(TAG, "Opening Manual PDF in Adobe Reader - " + manualFilename);
         } catch (Exception e) {
