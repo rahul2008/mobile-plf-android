@@ -24,6 +24,7 @@
         android:paddingLeft="15dp"
         android:paddingTop="15dp"
         android:text="Are you currently using any medicine?"
+        android:textStyle="bold"
         android:textColor="@color/awsdk_color_black"
         android:textSize="@dimen/pth_body_text" />
 

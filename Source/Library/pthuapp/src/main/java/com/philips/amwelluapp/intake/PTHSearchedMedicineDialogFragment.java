@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import com.philips.amwelluapp.R;
 import com.philips.amwelluapp.base.PTHBasePresenter;
+import com.philips.platform.uid.drawable.SeparatorDrawable;
 
 /**
  * Created by philips on 6/30/17.
@@ -38,6 +39,7 @@ public class PTHSearchedMedicineDialogFragment extends DialogFragment implements
 
         View view = inflater.inflate(R.layout.pth_searched_medicine_dialog, null, false);
         searchedMedicinesListView = (ListView) view.findViewById(R.id.pth_searched_medication_list_view);
+       // searchedMedicinesListView.setDivider(new SeparatorDrawable(getContext()));
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         return view;

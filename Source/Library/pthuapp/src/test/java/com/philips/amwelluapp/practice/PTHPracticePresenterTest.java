@@ -179,7 +179,7 @@ public class PTHPracticePresenterTest {
 
 
 
-    @Test
+   /* @Test
     public void fetchPracticeTestForNull()  {
         try {
             mMethod = PTHPracticePresenter.class.getDeclaredMethod("fetchPractices");
@@ -189,7 +189,7 @@ public class PTHPracticePresenterTest {
             e.printStackTrace();
         }
     }
-
+*/
 
 
 }
