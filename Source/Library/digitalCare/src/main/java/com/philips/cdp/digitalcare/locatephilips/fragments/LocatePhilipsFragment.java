@@ -92,7 +92,6 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -534,10 +533,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         mLocationDetailScroll = (ScrollView) getActivity().findViewById(
                 R.id.locationDetailScroll);
         mButtonCall = (Button) getActivity().findViewById(R.id.call);
-        mButtonCall.setTransformationMethod(null);
         mButtonDirection = (Button) getActivity().findViewById(
                 R.id.getdirection);
-        mButtonDirection.setTransformationMethod(null);
         mButtonCall.setOnClickListener(this);
         mArabicSearchIcon.setOnClickListener(this);
         mMarkerIcon.setOnClickListener(this);
