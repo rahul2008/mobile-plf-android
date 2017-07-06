@@ -79,7 +79,7 @@ public class UIDLocaleHelper {
 
     private void resetAllValues() {
         uidLocaleHelper.isLookUp = false;
-        uidLocaleHelper.stringMap = null;
+        uidLocaleHelper.stringMap.clear();
     }
 
     /**
