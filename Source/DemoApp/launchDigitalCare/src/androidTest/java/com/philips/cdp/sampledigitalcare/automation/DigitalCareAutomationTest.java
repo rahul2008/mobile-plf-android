@@ -13,7 +13,6 @@ import com.philips.cdp.sampledigitalcare.launcher.uAppComponetLaunch.MicroAppLau
 import com.philips.cl.di.dev.pa.R;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +28,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static com.philips.cdp.sampledigitalcare.automation.Matchers.withRecyclerView;
 import static org.hamcrest.Matchers.allOf;
 
-@Ignore
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class DigitalCareAutomationTest extends AutomationTestHelper{
@@ -59,14 +57,13 @@ public class DigitalCareAutomationTest extends AutomationTestHelper{
 
     @Test
     public void viewProductInformationTest() {
-        testSelectedProduct(0);
         testViewProductInformationFlow();
     }
 
-    @Test
+    /*@Test
     public void faqTest() {
         testFaqFlow();
-    }
+    }*/
 
     @Test
     public void contactUsTest() {
@@ -153,12 +150,11 @@ public class DigitalCareAutomationTest extends AutomationTestHelper{
                 allOf(withId(R.id.contactUsSocialProvideButtonsParent),
                         withParent(allOf(withId(R.id.contactUsSocialParent),
                                 withParent(withId(R.id.contactUsParent))))));
-        if(exists(recyclerView5))
-           recyclerView5.perform(actionOnItemAtPosition(2, click()));
-        pressBack();
-        pressBack();
+        if(exists(recyclerView5)){
+            recyclerView5.perform(actionOnItemAtPosition(2, click()));
+        }
+        return;
     }
-
     private void testFaqFlow() {
         testSelectedProduct(1);
         ViewInteraction recyclerView2 = onView(
@@ -175,6 +171,7 @@ public class DigitalCareAutomationTest extends AutomationTestHelper{
     }
 
     private void testViewProductInformationFlow() {
+        testSelectedProduct(0);
         boolean isNetworkSuccess = false;
         ViewInteraction recyclerView2 = onView(
                 allOf(withId(R.id.supportMenuContainer),
@@ -213,6 +210,7 @@ public class DigitalCareAutomationTest extends AutomationTestHelper{
 
         onView(withRecyclerView(R.id.faq_list_item_recycle_view).atPosition(0)).perform(click());
         assertWebViewDisplayed();
+        pressBack();
         pressBack();
         pressBack();
         pressBack();

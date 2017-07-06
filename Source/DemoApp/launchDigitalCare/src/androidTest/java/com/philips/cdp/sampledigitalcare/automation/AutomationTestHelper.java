@@ -102,12 +102,13 @@ public class AutomationTestHelper {
             isNetworkAvailable = true;
             recyclerView.perform(actionOnItemAtPosition(position, click()));
             sleepEightSec();
+            sleepFourSec();
         }
 
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.welcome_screen_parent_two),
                         withParent(withId(R.id.welcome_screen_parent_one))));
-        sleepFourSec();
+        sleepSixSec();
         if(exists(appCompatButton)){
             isNetworkAvailable = true;
             appCompatButton.perform(scrollTo(), click());
