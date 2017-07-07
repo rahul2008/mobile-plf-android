@@ -73,7 +73,7 @@ public class TimePortFragment extends Fragment {
             DICommLog.e(TAG, String.format(Locale.US, "Time port error: [%s], data: [%s]", error.getErrorMessage(), errorData));
 
             if (isAdded()) {
-                updateResult(getString(R.string.lblResultPortError, error.getErrorMessage()));
+                updateResult(getString(R.string.cml_lblResultPortError, error.getErrorMessage()));
             }
         }
     };
@@ -81,21 +81,21 @@ public class TimePortFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.fragment_timeport, container, false);
+        View rootview = inflater.inflate(R.layout.cml_fragment_timeport, container, false);
 
-        rootview.findViewById(R.id.btnGetTime).setOnClickListener(buttonClickListener);
-        rootview.findViewById(R.id.btnSetTime).setOnClickListener(buttonClickListener);
+        rootview.findViewById(R.id.cml_btnGetTime).setOnClickListener(buttonClickListener);
+        rootview.findViewById(R.id.cml_btnSetTime).setOnClickListener(buttonClickListener);
 
-        txtResult = (TextView) rootview.findViewById(R.id.txtResult);
-        txtProgress = (TextView) rootview.findViewById(R.id.txtProgress);
+        txtResult = (TextView) rootview.findViewById(R.id.cml_txtResult);
+        txtProgress = (TextView) rootview.findViewById(R.id.cml_txtProgress);
 
-        switchLoopGet = (CompoundButton) rootview.findViewById(R.id.switchLoopGet);
+        switchLoopGet = (CompoundButton) rootview.findViewById(R.id.cml_switchLoopGet);
         switchLoopGet.setOnCheckedChangeListener(loopGetCheckedChangeListener);
 
-        ((CompoundButton) rootview.findViewById(R.id.switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
+        ((CompoundButton) rootview.findViewById(R.id.cml_switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
 
-        rootview.findViewById(R.id.btnGetTime).setEnabled(true);
-        rootview.findViewById(R.id.btnSetTime).setEnabled(true);
+        rootview.findViewById(R.id.cml_btnGetTime).setEnabled(true);
+        rootview.findViewById(R.id.cml_btnSetTime).setEnabled(true);
 
         return rootview;
     }
@@ -127,9 +127,9 @@ public class TimePortFragment extends Fragment {
         public void onClick(View view) {
             int viewId = view.getId();
 
-            if (viewId == R.id.btnGetTime) {
+            if (viewId == R.id.cml_btnGetTime) {
                 currentAppliance.getTimePort().reloadProperties();
-            } else if (viewId == R.id.btnSetTime) {
+            } else if (viewId == R.id.cml_btnSetTime) {
                 DateTime dateTime = new DateTime(currentTimeMillis() + new Random().nextInt());
                 DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
                 String timestamp = dateTime.toString(fmt);

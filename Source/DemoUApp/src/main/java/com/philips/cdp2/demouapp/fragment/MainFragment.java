@@ -30,14 +30,14 @@ public class MainFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootview = inflater.inflate(R.layout.cml_fragment_main, container, false);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getActivity().getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        ViewPager viewPager = (ViewPager) rootview.findViewById(R.id.container);
+        ViewPager viewPager = (ViewPager) rootview.findViewById(R.id.cml_container);
         viewPager.setAdapter(sectionsPagerAdapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -60,7 +60,7 @@ public class MainFragment extends Fragment {
             }
         });
 
-        TabLayout tabLayout = (TabLayout) rootview.findViewById(R.id.tabs);
+        TabLayout tabLayout = (TabLayout) rootview.findViewById(R.id.cml_tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         return rootview;
@@ -94,9 +94,9 @@ public class MainFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case PAGE_DISCOVERED_APPLIANCES:
-                    return getString(R.string.tab_title_discovered_appliances);
+                    return getString(R.string.cml_tab_title_discovered_appliances);
                 case PAGE_MISMATCHED_PIN_APPLIANCES:
-                    return getString(R.string.tab_title_mismatched_pin_appliances);
+                    return getString(R.string.cml_tab_title_mismatched_pin_appliances);
             }
             return null;
         }

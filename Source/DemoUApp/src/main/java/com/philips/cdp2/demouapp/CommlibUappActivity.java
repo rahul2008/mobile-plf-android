@@ -18,9 +18,9 @@ public class CommlibUappActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.uapp_activity_main);
+        setContentView(R.layout.cml_uapp_activity_main);
 
-        FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.uapp_activity_main, null);
+        FragmentLauncher fragmentLauncher = new FragmentLauncher(this, R.id.cml_uapp_activity_main, null);
         CommlibUapp commlibUapp = CommlibUapp.get();
 
         commlibUapp.init(new DefaultCommlibUappDependencies(getApplicationContext()), new UappSettings(getApplicationContext()));
