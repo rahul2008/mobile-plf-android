@@ -13,14 +13,14 @@
         style="@style/Base.TextAppearance.AppCompat.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/item_padding"
+        android:padding="@dimen/bll_item_padding"
         android:text="@string/bll_device_definitions_header"
         android:textAllCaps="true" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_margin="@dimen/item_padding"
+        android:layout_margin="@dimen/bll_item_padding"
         android:background="@android:color/darker_gray" />
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -37,14 +37,14 @@
         style="@style/Base.TextAppearance.AppCompat.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/item_padding"
+        android:padding="@dimen/bll_item_padding"
         android:text="@string/bll_association_devices_header"
         android:textAllCaps="true" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_margin="@dimen/item_padding"
+        android:layout_margin="@dimen/bll_item_padding"
         android:background="@android:color/darker_gray" />
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"

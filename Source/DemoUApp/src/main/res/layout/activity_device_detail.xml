@@ -10,7 +10,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/bll_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
+        android:layout_height="@dimen/bll_app_bar_height"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -25,7 +25,7 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/bll_detail_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/action_bar_size"
+                android:layout_height="@dimen/bll_action_bar_size"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/text_margin">
+            android:padding="@dimen/bll_text_margin">
 
             <TextView
                 android:id="@+id/bll_textViewManufacturer"
@@ -169,7 +169,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|start"
-        android:layout_margin="@dimen/fab_margin"
+        android:layout_margin="@dimen/bll_fab_margin"
         android:src="@android:drawable/stat_sys_data_bluetooth"
         app:layout_anchor="@+id/bll_device_detail_container"
         app:layout_anchorGravity="top|end"
