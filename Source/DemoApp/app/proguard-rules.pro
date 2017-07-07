@@ -109,7 +109,6 @@
 -keepclassmembers public class javax.net.ssl.** {*;}
 -keepclassmembers public class org.apache.http.** {*;}
 -keepattributes InnerClasses,Exceptions
--dontwarn com.philips.platform.appinfra.**
 
 -dontwarn org.apache.**
 -keep class org.apache.http.** { *; }
@@ -123,10 +122,15 @@
 
 
 #appinfra
--keep public class com.philips.platform.appinfra.AppInfra.** { *; }
--keep public interface com.philips.platform.appinfra.AppInfraInterface.** { *; }
--keep public interface com.philips.platform.appinfra.logging.LoggingInterface.** { *; }
--keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
--keep public interface com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.** { *; }
--keep public interface com.philips.platform.appinfra.securestorage.** { *; }
--keep public class com.philips.platform.appinfra.securestorage.** { *; }
+-keep public class com.philips.platform.appinfra.**{*;}
+-keep interface com.philips.platform.appinfra.**{*;}
+
+
+##appinfra
+#-keep public class com.philips.platform.appinfra.AppInfra.** { *; }
+#-keep public interface com.philips.platform.appinfra.AppInfraInterface.** { *; }
+#-keep public interface com.philips.platform.appinfra.logging.LoggingInterface.** { *; }
+#-keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
+#-keep public interface com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.** { *; }
+#-keep public interface com.philips.platform.appinfra.securestorage.** { *; }
+#-keep public class com.philips.platform.appinfra.securestorage.** { *; }
