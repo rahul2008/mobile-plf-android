@@ -39,10 +39,10 @@ import static android.content.Context.MODE_PRIVATE;
  */
 public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelper {
 
-    private  AppInfraInterface mAppInfraInterface;
     protected AndroidConnectionSource connectionSource;
     protected boolean cancelQueriesEnabled;
     SecureStorageInterface mSecureStorage = null;
+    private AppInfraInterface mAppInfraInterface;
     private volatile boolean isOpen = true;
     private String databaseKey;
     private Context context;
@@ -56,24 +56,20 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
      * @param databaseVersion Version of the database we are opening. This causes {@link #onUpgrade(SQLiteDatabase, int, int)} to be
      *                        called if the stored database is a different version.
      */
-    public SecureDbOrmLiteSqliteOpenHelper(Context context,AppInfraInterface mAppInfraInterface, String dataBaseName, CursorFactory factory, int databaseVersion, String databaseKey) {
+    public SecureDbOrmLiteSqliteOpenHelper(Context context, AppInfraInterface mAppInfraInterface, String dataBaseName, CursorFactory factory, int databaseVersion, String databaseKey) {
         super(context, dataBaseName, factory, databaseVersion);
-        this.context=context;
+        this.context = context;
         SQLiteDatabase.loadLibs(context);
-        this.mAppInfraInterface=mAppInfraInterface;
+        this.mAppInfraInterface = mAppInfraInterface;
         this.databaseKey = databaseKey;
         appInfraLogger = mAppInfraInterface.getLogging().createInstanceForComponent("sdb:",
                 getSecureDbAppVersion());
         createKey();
-        key = getKeyValue(databaseKey,mAppInfraInterface);
-        connectionSource = new AndroidConnectionSource(this,key,appInfraLogger);
-        getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, SecureDBLogEventID.SDB_ORMLITE_SQLITE_OPEN_HELPER,"{}: constructed connectionSource {}");
+        key = getKeyValue(databaseKey, mAppInfraInterface);
+        connectionSource = new AndroidConnectionSource(this, key, appInfraLogger);
+        getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, SecureDBLogEventID.SDB_ORMLITE_SQLITE_OPEN_HELPER, "{}: constructed connectionSource {}");
 
 
-    }
-
-    private LoggingInterface getSecureDBLogInstance() {
-        return appInfraLogger;
     }
 
     /**
@@ -87,9 +83,9 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
      *                        called if the stored database is a different version.
      * @param configFileId    file-id which probably should be a R.raw.ormlite_config.txt or some static value.
      */
-    public SecureDbOrmLiteSqliteOpenHelper(Context context,AppInfraInterface mAppInfraInterface, String databaseName, CursorFactory factory, int databaseVersion,
+    public SecureDbOrmLiteSqliteOpenHelper(Context context, AppInfraInterface mAppInfraInterface, String databaseName, CursorFactory factory, int databaseVersion,
                                            int configFileId, String password) {
-        this(context,mAppInfraInterface, databaseName, factory, databaseVersion, openFileId(context, configFileId), password);
+        this(context, mAppInfraInterface, databaseName, factory, databaseVersion, openFileId(context, configFileId), password);
     }
 
     /**
@@ -102,9 +98,9 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
      *                        called if the stored database is a different version.
      * @param configFile      Configuration file to be loaded.
      */
-    public SecureDbOrmLiteSqliteOpenHelper(Context context,AppInfraInterface mAppInfraInterface, String databaseName, CursorFactory factory, int databaseVersion,
+    public SecureDbOrmLiteSqliteOpenHelper(Context context, AppInfraInterface mAppInfraInterface, String databaseName, CursorFactory factory, int databaseVersion,
                                            File configFile, String password) {
-        this(context, mAppInfraInterface,databaseName, factory, databaseVersion, openFile(configFile), password);
+        this(context, mAppInfraInterface, databaseName, factory, databaseVersion, openFile(configFile), password);
 
     }
 
@@ -119,19 +115,19 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
      *                        called if the stored database is a different version.
      * @param stream          Stream opened to the configuration file to be loaded.
      */
-    public SecureDbOrmLiteSqliteOpenHelper(Context context,AppInfraInterface mAppInfraInterface, String dataBaseName, CursorFactory factory, int databaseVersion,
+    public SecureDbOrmLiteSqliteOpenHelper(Context context, AppInfraInterface mAppInfraInterface, String dataBaseName, CursorFactory factory, int databaseVersion,
                                            InputStream stream, String databaseKey) {
         super(context, dataBaseName, factory, databaseVersion);
-        this.context=context;
+        this.context = context;
         SQLiteDatabase.loadLibs(context);
-        this.mAppInfraInterface=mAppInfraInterface;
+        this.mAppInfraInterface = mAppInfraInterface;
         this.databaseKey = databaseKey;
         appInfraLogger = mAppInfraInterface.getLogging().createInstanceForComponent("sdb:",
                 getSecureDbAppVersion());
         createKey();
-        key = getKeyValue(databaseKey,mAppInfraInterface);
-        connectionSource = new AndroidConnectionSource(this,key,appInfraLogger);
-        getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, SecureDBLogEventID.SDB_ORMLITE_SQLITE_OPEN_HELPER,"{}: constructed connectionSource {}");
+        key = getKeyValue(databaseKey, mAppInfraInterface);
+        connectionSource = new AndroidConnectionSource(this, key, appInfraLogger);
+        getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, SecureDBLogEventID.SDB_ORMLITE_SQLITE_OPEN_HELPER, "{}: constructed connectionSource {}");
 
         if (stream == null) {
             return;
@@ -171,6 +167,10 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
         }
     }
 
+    private LoggingInterface getSecureDBLogInstance() {
+        return appInfraLogger;
+    }
+
     /**
      * What to do when your database needs to be created. Usually this entails creating the tables and loading any
      * initial data.
@@ -208,7 +208,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
     public ConnectionSource getConnectionSource() {
         if (!isOpen) {
             // we don't throw this exception, but log it for debugging purposes
-            getSecureDBLogInstance().log(LoggingInterface.LogLevel.WARNING,SecureDBLogEventID.SDB_ORMLITE_SQLITE_OPEN_HELPER,""+new IllegalStateException()+"Getting connectionSource was called after closed");
+            getSecureDBLogInstance().log(LoggingInterface.LogLevel.WARNING, SecureDBLogEventID.SDB_ORMLITE_SQLITE_OPEN_HELPER, "" + new IllegalStateException() + "Getting connectionSource was called after closed");
         }
         return connectionSource;
     }
@@ -220,7 +220,7 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
     public final void onCreate(SQLiteDatabase db) {
         ConnectionSource cs = getConnectionSource();
         /*
-		 * The method is called by Android database helper's get-database calls when Android detects that we need to
+         * The method is called by Android database helper's get-database calls when Android detects that we need to
 		 * create or update the database. So we have to use the database argument and save a connection to it on the
 		 * SecureAndroidConnectionSource, otherwise it will go recursive if the subclass calls getConnectionSource().
 		 */
@@ -274,21 +274,22 @@ public abstract class SecureDbOrmLiteSqliteOpenHelper<T> extends SQLiteOpenHelpe
             }
         }
     }
-private void createKey()
-{
-    final SharedPreferences sharedPreferences = context.getSharedPreferences("com.philips.platform.database", MODE_PRIVATE);;
-    SharedPreferences.Editor editor;
-    if (sharedPreferences.getBoolean("firstRun", true)) {
-        mSecureStorage = mAppInfraInterface.getSecureStorage();
-        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError(); // to get error code if any
-        mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, databaseKey, sse);
-        editor = sharedPreferences.edit();
-        editor.putBoolean("firstRun", false);
-        editor.commit();
 
+    private void createKey() {
+        final SharedPreferences sharedPreferences = context.getSharedPreferences("com.philips.platform.database", MODE_PRIVATE);
+        ;
+        SharedPreferences.Editor editor;
+        if (sharedPreferences.getBoolean("firstRun", true)) {
+            mSecureStorage = mAppInfraInterface.getSecureStorage();
+            SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError(); // to get error code if any
+            mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, databaseKey, sse);
+            editor = sharedPreferences.edit();
+            editor.putBoolean("firstRun", false);
+            editor.commit();
+
+        }
+        getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, SecureDBLogEventID.SDB_ORMLITE_SQLITE_OPEN_HELPER, "Successfully Created Key");
     }
-    getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, SecureDBLogEventID.SDB_ORMLITE_SQLITE_OPEN_HELPER,"Successfully Created Key");
-}
 
     public SQLiteDatabase getWriteDbPermission() throws SQLException {
 
@@ -300,7 +301,7 @@ private void createKey()
         if (key != null) {
             return key;
         } else {
-            return getKeyValue(databaseKey,mAppInfraInterface);
+            return getKeyValue(databaseKey, mAppInfraInterface);
         }
     }
 
@@ -371,7 +372,7 @@ private void createKey()
         mSecureStorage = mAppInfraInterface.getSecureStorage();
         final SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError(); // to get error code if any
         if (mSecureStorage != null) {
-          final Key key = mSecureStorage.getKey(databaseKey, sse);
+            final Key key = mSecureStorage.getKey(databaseKey, sse);
             if (key != null) {
                 final byte[] keyData = key.getEncoded();
                 String keyString = null;   // if the charset is UTF-8
@@ -380,11 +381,11 @@ private void createKey()
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-            //Directly byte[] to char[] typecast not good soluation in the case getKey contains numberic value like 67,68 that time char will return ASCII Value of 67,68.
-                final  char[] keyCharArray = keyString.toCharArray();
+                //Directly byte[] to char[] typecast not good soluation in the case getKey contains numberic value like 67,68 that time char will return ASCII Value of 67,68.
+                final char[] keyCharArray = keyString.toCharArray();
                 //return Base64.encodeToString(key.getEncoded(), Base64.DEFAULT);
-                getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, SecureDBLogEventID.SDB_ORMLITE_SQLITE_OPEN_HELPER,"Successfully get Key value");
-                return  keyCharArray;
+                getSecureDBLogInstance().log(LoggingInterface.LogLevel.DEBUG, SecureDBLogEventID.SDB_ORMLITE_SQLITE_OPEN_HELPER, "Successfully get Key value");
+                return keyCharArray;
             }
         }
         return null;
@@ -393,7 +394,7 @@ private void createKey()
     }
 
     public String getSecureDbAppVersion() {
-        String mAppVersion=null;
+        String mAppVersion = null;
         try {
             mAppVersion = BuildConfig.VERSION_NAME;
         } catch (Exception e) {
