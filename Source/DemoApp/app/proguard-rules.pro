@@ -74,28 +74,11 @@
 
 
 
-#GSM
+#GMS
 -keep  class com.google.android.gms.* { public *; }
 -dontwarn com.google.android.gms.**
 -dontwarn org.w3c.dom.bootstrap.DOMImplementationRegistry
 
-#webkit
--keep  class android.net.http.SslError
--keep  class android.webkit.WebViewClient
-
--dontwarn android.webkit.WebView
--dontwarn android.net.http.SslError
--dontwarn android.webkit.WebViewClient
-
-#notification
--dontwarn android.app.Notification
--dontwarn okio.**
--keep class com.squareup.** { *; }
--keep class java.nio.**
--keep class org.codehaus.**
-
--dontwarn com.janrain.android.**
--dontwarn java.nio.**
 
 # The support library contains references to newer platform versions.
 # Don't warn about those in case this app is linking against an older

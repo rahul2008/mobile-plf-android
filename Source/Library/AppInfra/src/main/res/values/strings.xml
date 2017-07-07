@@ -1,9 +1,10 @@
 <resources>
     <string name="library_name" translatable="false">AppInfraLib</string>
-    <string name="localized_commercial_app_name">AppInfra</string>
+    <string name="localized_commercial_app_name" translatable="false">AppInfra</string>
     <string name="ail_locale">en</string>
 
-    <string-array name="server_pool">
+    <string-array name="server_pool" translatable="false">
+
         <item>0.pool.ntp.org</item>
         <item>1.pool.ntp.org</item>
         <item>2.pool.ntp.org</item>
