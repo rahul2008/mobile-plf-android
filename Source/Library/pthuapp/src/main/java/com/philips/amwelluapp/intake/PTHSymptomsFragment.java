@@ -102,6 +102,9 @@ public class PTHSymptomsFragment extends PTHBaseFragment implements BackEventLis
                 checkBox.setLayoutParams(layoutParams);
                 checkBox.setEnabled(true);
                 checkBox.setText(topic.getTitle());
+                if(topic.isSelected()){
+                    checkBox.setChecked(true);
+                }
                 topicLayout.addView(checkBox);
                 checkBox.setOnClickListener(new View.OnClickListener() {
                     @Override
