@@ -32,6 +32,11 @@ public class URInterface implements UappInterface {
 
     private static RegistrationComponent component;
 
+    /**
+     * Launches the User registration user interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
+     * @param uiLauncher
+     * @param uappLaunchInput
+     */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
         if (uiLauncher instanceof ActivityLauncher) {
@@ -149,6 +154,11 @@ public class URInterface implements UappInterface {
         }
     }
 
+    /**
+     * Entry point for User registration. Please make sure no User registration components are being used before URInterface$init.
+     * @param uappDependencies - With an AppInfraInterface instance.
+     * @param uappSettings - With an application context.
+     */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         component = initDaggerComponents(uappDependencies, uappSettings);
