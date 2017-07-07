@@ -7,6 +7,7 @@ import com.americanwell.sdk.entity.visit.Topic;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.amwelluapp.R;
+import com.philips.amwelluapp.base.PTHBaseFragment;
 import com.philips.amwelluapp.base.PTHBasePresenter;
 import com.philips.amwelluapp.base.PTHBaseView;
 import com.philips.amwelluapp.providerslist.PTHProviderInfo;
@@ -20,12 +21,12 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 public class PTHSymptomsPresenter implements PTHBasePresenter, PTHVisitContextCallBack<PTHVisitContext,PTHSDKError>{
-    PTHBaseView pthBaseView;
+    PTHBaseFragment pthBaseView;
     PTHProviderInfo pthProviderInfo;
     PTHVisitContext pthVisitContext;
 
 
-    PTHSymptomsPresenter(PTHBaseView uiBaseView, PTHProviderInfo pthProviderInfo){
+    PTHSymptomsPresenter(PTHBaseFragment uiBaseView, PTHProviderInfo pthProviderInfo){
         this.pthBaseView = uiBaseView;
         this.pthProviderInfo = pthProviderInfo;
     }
@@ -50,6 +51,7 @@ public class PTHSymptomsPresenter implements PTHBasePresenter, PTHVisitContextCa
         if(pthVisitContext!=null){
             ((PTHSymptomsFragment)pthBaseView).addTopicsToView(pthVisitContext);
         }
+        pthBaseView.hideProgressBar();
     }
 
     @Override
@@ -57,6 +59,7 @@ public class PTHSymptomsPresenter implements PTHBasePresenter, PTHVisitContextCa
     }
 
     void getVisitContext()  {
+
         try {
             PTHManager.getInstance().getVisitContext(pthBaseView.getFragmentActivity(),pthProviderInfo,this);
         } catch (MalformedURLException e) {

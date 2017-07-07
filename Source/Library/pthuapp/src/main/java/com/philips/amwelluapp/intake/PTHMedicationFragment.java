@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 
 
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import com.philips.amwelluapp.R;
 import com.philips.amwelluapp.base.PTHBaseFragment;
 import com.philips.amwelluapp.base.PTHBasePresenter;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.SearchBox;
 
@@ -56,13 +54,7 @@ public class PTHMedicationFragment extends PTHBaseFragment implements  View.OnCl
         searchButton.setOnClickListener(this);
         mPTHExistingMedicationListAdapter = new PTHExistingMedicationListAdapter(getActivity());
         mExistingMedicationListView.setAdapter(mPTHExistingMedicationListAdapter);
-
-
-        getContext().getTheme().applyStyle(R.style.PTHCircularPB, true);
-        createCustomProgressBar();
-        view.addView(mPTHBaseFragmentProgressBar);
-
-
+        createCustomProgressBar(view, BIG);
         return view;
     }
 

@@ -36,9 +36,7 @@ public class PTHWelcomeFragment extends PTHBaseFragment implements BackEventList
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.pth_welcome_fragment, container, false);
-        getContext().getTheme().applyStyle(R.style.PTHCircularPB, true);
-        createCustomProgressBar();
-        view.addView(mPTHBaseFragmentProgressBar);
+        createCustomProgressBar(view, BIG);
         ((PTHWelcomePresenter)presenter).initializeAwsdk();
         getActionBarListener().updateActionBar("",false);
         mInitButton = (Button) view.findViewById(R.id.init_amwell);

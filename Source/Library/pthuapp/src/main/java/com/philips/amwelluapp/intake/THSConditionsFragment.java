@@ -2,16 +2,19 @@ package com.philips.amwelluapp.intake;
 
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.amwelluapp.R;
 import com.philips.amwelluapp.base.PTHBaseFragment;
+import com.philips.amwelluapp.utility.AmwellLog;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
@@ -26,7 +29,8 @@ public class THSConditionsFragment extends PTHBaseFragment implements BackEventL
     LinearLayout mLinerLayout;
     Button mContinueButton;
     Label mSkipLabel;
-    List<PTHConditions> mTHSConditions;
+    List<PTHConditions> mTHSConditions =null;
+    RelativeLayout mRelativeLayout;
 
     @Nullable
     @Override
@@ -37,6 +41,8 @@ public class THSConditionsFragment extends PTHBaseFragment implements BackEventL
         mContinueButton.setOnClickListener(this);
         mSkipLabel = (Label)view.findViewById(R.id.conditions_skip);
         mSkipLabel.setOnClickListener(this);
+        mRelativeLayout = (RelativeLayout) view.findViewById(R.id.conditions_container);
+        AmwellLog.i(AmwellLog.LOG,"onCreateView called");
         return view;
     }
 
@@ -45,13 +51,21 @@ public class THSConditionsFragment extends PTHBaseFragment implements BackEventL
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        AmwellLog.i(AmwellLog.LOG,"OnActivityCreated called");
+
         mThsConditionsPresenter = new THSConditionsPresenter(this);
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.pth_prepare_your_visit), true);
         }
 
         try {
-            mThsConditionsPresenter.getConditions();
+            if (getTHSConditions() == null) {
+                createCustomProgressBar(mRelativeLayout,MEDIUM);
+                mThsConditionsPresenter.getConditions();
+            }
+            else {
+                setConditions(getTHSConditions());
+            }
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -94,6 +108,9 @@ public class THSConditionsFragment extends PTHBaseFragment implements BackEventL
                 checkBox.setLayoutParams(layoutParams);
                 checkBox.setEnabled(true);
                 checkBox.setText(condition.getName());
+                if(condition.isCurrent()){
+                    checkBox.setChecked(true);
+                }
                 mLinerLayout.addView(checkBox);
                 checkBox.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -113,4 +130,5 @@ public class THSConditionsFragment extends PTHBaseFragment implements BackEventL
     public void setTHSConditions(List<PTHConditions> mTHSConditions) {
         this.mTHSConditions = mTHSConditions;
     }
+
 }
