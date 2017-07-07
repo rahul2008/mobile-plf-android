@@ -149,10 +149,10 @@ android {
 dependencies {
 
     //Coco
-    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.8.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.10.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive true
     }
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.1.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.3.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive true
     }
 
