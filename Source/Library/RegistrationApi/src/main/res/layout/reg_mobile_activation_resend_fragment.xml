@@ -103,7 +103,7 @@
                     android:id="@+id/btn_reg_code_received"
                     style="@style/reg_forgot_password"
                     android:background="@drawable/reg_btn_forgot_selector"
-                    android:text="@string/reg_sms_received"
+                    android:text="@string/reg_Update_MobileNumber_Thanks_Got_It"
                     android:layout_height="@dimen/reg_btn_height"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 
