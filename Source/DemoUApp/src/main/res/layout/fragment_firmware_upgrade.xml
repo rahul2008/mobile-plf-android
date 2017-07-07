@@ -24,13 +24,13 @@
             android:text="@string/firmware_upgrade_port" />
 
         <TextView
-            android:id="@+id/tvFirmwareSearchLocation"
+            android:id="@+id/cml_tvFirmwareSearchLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="Firmware images directory" />
 
         <ListView
-            android:id="@+id/lvFirmwareImages"
+            android:id="@+id/cml_lvFirmwareImages"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/activity_vertical_margin"
@@ -44,13 +44,13 @@
             android:layout_height="wrap_content">
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/timeoutWrapper"
+                android:id="@+id/cml_timeoutWrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@+id/timeout_unit">
+                android:layout_toStartOf="@+id/cml_timeout_unit">
 
                 <EditText
-                    android:id="@+id/timeoutEditText"
+                    android:id="@+id/cml_timeoutEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/timeout"
@@ -59,10 +59,10 @@
             </android.support.design.widget.TextInputLayout>
 
             <TextView
-                android:id="@+id/timeout_unit"
+                android:id="@+id/cml_timeout_unit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/timeoutWrapper"
+                android:layout_alignBottom="@+id/cml_timeoutWrapper"
                 android:layout_alignParentEnd="true"
                 android:paddingBottom="8dp"
                 android:paddingStart="10dp"
@@ -71,7 +71,7 @@
         </RelativeLayout>
 
         <ProgressBar
-            android:id="@+id/progressUploadFirmware"
+            android:id="@+id/cml_progressUploadFirmware"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtFirmwareState"
+                    android:id="@+id/cml_txtFirmwareState"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:padding="3dip"
@@ -102,7 +102,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtFirmwareVersion"
+                    android:id="@+id/cml_txtFirmwareVersion"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:padding="3dip"
@@ -116,7 +116,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tvCanUpgrade"
+                    android:id="@+id/cml_tvCanUpgrade"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:padding="3dip"
@@ -131,7 +131,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtFirmwareStatusMsg"
+                    android:id="@+id/cml_txtFirmwareStatusMsg"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:lines="2"
@@ -141,7 +141,7 @@
         </TableLayout>
 
         <Button
-            android:id="@+id/btnUploadFirmware"
+            android:id="@+id/cml_btnUploadFirmware"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -149,14 +149,14 @@
             android:text="@string/upload_firmware" />
 
         <Button
-            android:id="@+id/btnDeployFirmware"
+            android:id="@+id/cml_btnDeployFirmware"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/deploy_firmware" />
 
         <Button
-            android:id="@+id/btnCancelFirmware"
+            android:id="@+id/cml_btnCancelFirmware"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

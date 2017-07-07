@@ -54,7 +54,7 @@ public class ApplianceFragment extends Fragment {
     public void addFragment(Fragment fragment) {
         getChildFragmentManager()
                 .beginTransaction()
-                .add(R.id.ports, fragment)
+                .add(R.id.cml_ports, fragment)
                 .commit();
     }
 }

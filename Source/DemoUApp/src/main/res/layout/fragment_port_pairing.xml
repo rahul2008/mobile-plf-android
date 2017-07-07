@@ -26,7 +26,7 @@
             android:layout_marginTop="8dp">
 
             <EditText
-                android:id="@+id/client_provider"
+                android:id="@+id/cml_client_provider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/client_provider"
@@ -39,7 +39,7 @@
             android:layout_marginTop="8dp">
 
             <EditText
-                android:id="@+id/client_type"
+                android:id="@+id/cml_client_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/clienttype"
@@ -52,7 +52,7 @@
             android:layout_marginTop="8dp">
 
             <EditText
-                android:id="@+id/client_id"
+                android:id="@+id/cml_client_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/client_id"
@@ -65,7 +65,7 @@
             android:layout_marginTop="8dp">
 
             <EditText
-                android:id="@+id/secret_key"
+                android:id="@+id/cml_secret_key"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/secretkey"
@@ -78,7 +78,7 @@
             android:layout_marginTop="8dp">
 
             <EditText
-                android:id="@+id/type"
+                android:id="@+id/cml_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/type"
@@ -91,7 +91,7 @@
             android:layout_marginTop="8dp">
 
             <EditText
-                android:id="@+id/permissions"
+                android:id="@+id/cml_permissions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/permissions_comma_separated"
@@ -99,7 +99,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:id="@+id/button_pair"
+            android:id="@+id/cml_button_pair"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

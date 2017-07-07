@@ -83,11 +83,11 @@ public class DevicePortFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_device_port, container, false);
 
-        deviceNameEdit = (EditText) rootview.findViewById(R.id.device_name);
-        Button setButton = (Button) rootview.findViewById(R.id.btn_set);
-        Button getButton = (Button) rootview.findViewById(R.id.btn_get);
+        deviceNameEdit = (EditText) rootview.findViewById(R.id.cml_device_name);
+        Button setButton = (Button) rootview.findViewById(R.id.cml_btn_set);
+        Button getButton = (Button) rootview.findViewById(R.id.cml_btn_get);
 
-        ((CompoundButton) rootview.findViewById(R.id.switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
+        ((CompoundButton) rootview.findViewById(R.id.cml_switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
 
         setButton.setOnClickListener(
                 new View.OnClickListener() {

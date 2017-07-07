@@ -21,7 +21,7 @@
             android:text="@string/device_port" />
 
         <Switch
-            android:id="@+id/switchSubscription"
+            android:id="@+id/cml_switchSubscription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="12dp"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/device_name"
+                android:id="@+id/cml_device_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/appliance_name"
@@ -48,7 +48,7 @@
 
             <Button
                 style="@style/Widget.AppCompat.Button.Borderless"
-                android:id="@+id/btn_get"
+                android:id="@+id/cml_btn_get"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -56,7 +56,7 @@
 
             <Button
                 style="@style/Widget.AppCompat.Button.Borderless"
-                android:id="@+id/btn_set"
+                android:id="@+id/cml_btn_set"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

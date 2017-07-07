@@ -25,7 +25,7 @@ public class LanApplianceFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_lan_appliance, container, false);
 
         final Appliance currentAppliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
-        final CompoundButton switchEnableCommunication = ((CompoundButton) rootView.findViewById(R.id.switch_enable_communication));
+        final CompoundButton switchEnableCommunication = ((CompoundButton) rootView.findViewById(R.id.cml_switch_enable_communication));
 
         CompoundButton.OnCheckedChangeListener communicationCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
             @Override

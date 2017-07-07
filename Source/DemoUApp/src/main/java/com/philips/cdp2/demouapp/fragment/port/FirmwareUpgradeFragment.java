@@ -72,11 +72,11 @@ public class FirmwareUpgradeFragment extends Fragment {
         public void onClick(View view) {
             int viewId = view.getId();
 
-            if (viewId == R.id.btnUploadFirmware) {
+            if (viewId == R.id.cml_btnUploadFirmware) {
                 uploadSelectedFirmware();
-            } else if (viewId == R.id.btnDeployFirmware) {
+            } else if (viewId == R.id.cml_btnDeployFirmware) {
                 deployFirmware();
-            } else if (viewId == R.id.btnCancelFirmware) {
+            } else if (viewId == R.id.cml_btnCancelFirmware) {
                 cancelFirmware();
             } else {
                 DICommLog.w(TAG, "Unknown view clicked.");
@@ -186,25 +186,25 @@ public class FirmwareUpgradeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_firmware_upgrade, container, false);
 
-        firmwareSearchLocationTextView = (TextView) rootview.findViewById(R.id.tvFirmwareSearchLocation);
+        firmwareSearchLocationTextView = (TextView) rootview.findViewById(R.id.cml_tvFirmwareSearchLocation);
 
-        btnUpload = (Button) rootview.findViewById(R.id.btnUploadFirmware);
-        btnDeploy = (Button) rootview.findViewById(R.id.btnDeployFirmware);
-        btnCancel = (Button) rootview.findViewById(R.id.btnCancelFirmware);
+        btnUpload = (Button) rootview.findViewById(R.id.cml_btnUploadFirmware);
+        btnDeploy = (Button) rootview.findViewById(R.id.cml_btnDeployFirmware);
+        btnCancel = (Button) rootview.findViewById(R.id.cml_btnCancelFirmware);
 
-        stateTextView = (TextView) rootview.findViewById(R.id.txtFirmwareState);
-        versionTextView = (TextView) rootview.findViewById(R.id.txtFirmwareVersion);
-        statusTextView = (TextView) rootview.findViewById(R.id.txtFirmwareStatusMsg);
-        timeoutEditText = (EditText) rootview.findViewById(R.id.timeoutEditText);
+        stateTextView = (TextView) rootview.findViewById(R.id.cml_txtFirmwareState);
+        versionTextView = (TextView) rootview.findViewById(R.id.cml_txtFirmwareVersion);
+        statusTextView = (TextView) rootview.findViewById(R.id.cml_txtFirmwareStatusMsg);
+        timeoutEditText = (EditText) rootview.findViewById(R.id.cml_timeoutEditText);
 
         btnUpload.setOnClickListener(clickListener);
         btnDeploy.setOnClickListener(clickListener);
         btnCancel.setOnClickListener(clickListener);
         updateButtons(true, false, false);
 
-        firmwareUploadProgressBar = (ProgressBar) rootview.findViewById(R.id.progressUploadFirmware);
+        firmwareUploadProgressBar = (ProgressBar) rootview.findViewById(R.id.cml_progressUploadFirmware);
         firmwareUploadProgressBar.setProgress(0);
-        firmwareImagesListView = (ListView) rootview.findViewById(R.id.lvFirmwareImages);
+        firmwareImagesListView = (ListView) rootview.findViewById(R.id.cml_lvFirmwareImages);
 
         return rootview;
     }
@@ -251,7 +251,7 @@ public class FirmwareUpgradeFragment extends Fragment {
 
                 boolean canUpgrade = firmwarePort.canUpgrade();
                 if (isAdded()) {
-                    ((TextView) getActivity().findViewById(R.id.tvCanUpgrade)).setText(canUpgrade ? "Yes" : "No");
+                    ((TextView) getActivity().findViewById(R.id.cml_tvCanUpgrade)).setText(canUpgrade ? "Yes" : "No");
                 }
             }
 

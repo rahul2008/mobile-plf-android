@@ -22,7 +22,7 @@
             android:text="@string/my_id" />
 
         <TextView
-            android:id="@+id/textViewAppId"
+            android:id="@+id/cml_textViewAppId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -31,7 +31,7 @@
     </FrameLayout>
 
     <ListView
-        android:id="@+id/listViewAppliances"
+        android:id="@+id/cml_listViewAppliances"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

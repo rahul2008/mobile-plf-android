@@ -39,7 +39,7 @@ public class AirPortFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_airport, container, false);
 
-        lightSwitch = (Switch) rootview.findViewById(R.id.switchLight);
+        lightSwitch = (Switch) rootview.findViewById(R.id.cml_switchLight);
 
         lightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -48,7 +48,7 @@ public class AirPortFragment extends Fragment {
             }
         });
 
-        ((CompoundButton) rootview.findViewById(R.id.switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
+        ((CompoundButton) rootview.findViewById(R.id.cml_switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
 
         return rootview;
     }

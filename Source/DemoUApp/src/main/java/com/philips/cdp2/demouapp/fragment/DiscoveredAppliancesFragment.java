@@ -79,7 +79,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
 
         applianceAdapter = new ApplianceAdapter(getContext());
 
-        final ListView listViewAppliances = (ListView) rootview.findViewById(R.id.listViewAppliances);
+        final ListView listViewAppliances = (ListView) rootview.findViewById(R.id.cml_listViewAppliances);
         listViewAppliances.setAdapter(applianceAdapter);
         listViewAppliances.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -91,7 +91,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
             }
         });
 
-        ((TextView) rootview.findViewById(R.id.textViewAppId)).setText(DICommClientWrapper.getAppId());
+        ((TextView) rootview.findViewById(R.id.cml_textViewAppId)).setText(DICommClientWrapper.getAppId());
 
         return rootview;
     }
