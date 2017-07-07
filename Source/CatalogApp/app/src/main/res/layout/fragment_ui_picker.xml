@@ -15,6 +15,7 @@
         android:layout_height="match_parent">
 
         <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/menu_lable"
             style="@style/ButtonsCategoryStyle"
             android:text="@string/menu_uipicker"/>
 
@@ -25,6 +26,7 @@
             android:layout_gravity="center"
             android:gravity="start|center_vertical"
             android:orientation="horizontal"
+            android:onClick="@{(v) ->frag.showListPopupWindow()}"
             android:paddingEnd="@dimen/uid_ui_picker_margin_left_right"
             android:paddingStart="@dimen/uid_ui_picker_margin_left_right">
 
@@ -47,8 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:onClick="@{(v) ->frag.showListPopupWindow()}"
-                android:text="@string/select_location"/>
+                android:text="@{frag.selectedLocation}"/>
         </LinearLayout>
 
     </LinearLayout>
