@@ -156,7 +156,7 @@ configurations.all {
 
 dependencies {
 
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.7.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.8.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
     {
         transitive = true
     }
