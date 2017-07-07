@@ -34,8 +34,8 @@ public class URInterface implements UappInterface {
 
     /**
      * Launches the User registration user interface. The component can be launched either with an ActivityLauncher or a FragmentLauncher.
-     * @param uiLauncher
-     * @param uappLaunchInput
+     * @param uiLauncher - ActivityLauncher or FragmentLauncher
+     * @param uappLaunchInput - URLaunchInput
      */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
