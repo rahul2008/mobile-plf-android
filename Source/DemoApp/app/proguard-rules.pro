@@ -121,12 +121,12 @@
 -keep class com.android.volley.** { *; }
 -keep interface com.android.volley.** { *; }
 
--keep public class com.philips.platform.appinfra.**{*;}
--keep interface com.philips.platform.appinfra.**{*;}
 
-##appinfra
-#-keep public class com.philips.platform.appinfra.AppInfra.** {*;}
-#-keep public interface com.philips.platform.appinfra.AppInfraInterface.** {*;}
-#-keep public interface com.philips.platform.appinfra.logging.LoggingInterface.** {*;}
-#-keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** {*;}
-#-keep public interface com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+#appinfra
+-keep public class com.philips.platform.appinfra.AppInfra.** { *; }
+-keep public interface com.philips.platform.appinfra.AppInfraInterface.** { *; }
+-keep public interface com.philips.platform.appinfra.logging.LoggingInterface.** { *; }
+-keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
+-keep public interface com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.** { *; }
+-keep public interface com.philips.platform.appinfra.securestorage.** { *; }
+-keep public class com.philips.platform.appinfra.securestorage.** { *; }
