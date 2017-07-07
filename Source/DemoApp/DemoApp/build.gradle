@@ -26,15 +26,10 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
-<<<<<<< HEAD:Source/DemoApp/app/build.gradle
-        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.1', changing: true
-=======
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.2', changing: true
         classpath 'com.github.jruby-gradle:jruby-gradle-plugin:1.1.5'
->>>>>>> develop:Source/DemoApp/DemoApp/build.gradle
     }
 }
 
@@ -69,11 +64,8 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
-<<<<<<< HEAD:Source/DemoApp/app/build.gradle
-=======
 
->>>>>>> develop:Source/DemoApp/DemoApp/build.gradle
-        apply plugin: 'com.jfrog.artifactory'
+       apply plugin: 'com.jfrog.artifactory'
         group = 'com.philips.cdp'
 
         flatDir {
@@ -143,25 +135,14 @@ publishing {
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
-<<<<<<< HEAD:Source/DemoApp/app/build.gradle
-
-
     defaultConfig {
         applicationId "com.philips.cdp.demo"
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 3
         versionName "2.0.1"
+        multiDexEnabled true
         testApplicationId "com.philips.cdp.demo.test"
-=======
-    defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 25
-        versionCode 1
-        multiDexEnabled true  // this line will solve this problem
-
-        versionName "1.0.0"
->>>>>>> develop:Source/DemoApp/DemoApp/build.gradle
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'

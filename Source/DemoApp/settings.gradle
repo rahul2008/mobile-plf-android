@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 rootProject.setName 'product-registration-lib_DLS'
-include ':app'
-=======
-rootProject.setName 'product-registration-lib'
 include ':DemoApp', ':DemoUApp'
 project(':DemoUApp').projectDir = new File('../DemoUApp')
->>>>>>> develop
 include 'product-registration-lib'
 project(':product-registration-lib').projectDir = new File('../Library/product-registration-lib')
