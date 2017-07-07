@@ -59,16 +59,16 @@ public class DeviceDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_device_detail);
+        setContentView(R.layout.bll_activity_device_detail);
 
         mView = findViewById(android.R.id.content);
 
         // Setup the toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.bll_detail_toolbar);
         setSupportActionBar(toolbar);
 
         // Setup the connect button
-        mFab = (FloatingActionButton) findViewById(R.id.fab);
+        mFab = (FloatingActionButton) findViewById(R.id.bll_fab);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,17 +128,17 @@ public class DeviceDetailActivity extends AppCompatActivity {
     private void updateUiState(@NonNull SHNDevice device) {
         switch (device.getState()) {
             case Connected:
-                UiUtils.showVolatileMessage(mView, String.format(Locale.US, getString(R.string.device_connected), device.getName()));
+                UiUtils.showVolatileMessage(mView, String.format(Locale.US, getString(R.string.bll_device_connected), device.getName()));
                 setupDeviceCapabilities(device);
                 break;
             case Connecting:
-                UiUtils.showPersistentMessage(mView, getString(R.string.device_connecting));
+                UiUtils.showPersistentMessage(mView, getString(R.string.bll_device_connecting));
                 break;
             case Disconnected:
-                UiUtils.showVolatileMessage(mView, getString(R.string.device_disconnected));
+                UiUtils.showVolatileMessage(mView, getString(R.string.bll_device_disconnected));
                 break;
             case Disconnecting:
-                UiUtils.showPersistentMessage(mView, getString(R.string.device_disconnecting));
+                UiUtils.showPersistentMessage(mView, getString(R.string.bll_device_disconnecting));
                 break;
         }
     }
@@ -150,13 +150,13 @@ public class DeviceDetailActivity extends AppCompatActivity {
         if (di == null) {
             SHNLogger.w(TAG, "Device Information capability not available.");
         } else {
-            displayDeviceInformation(di, SHNCapabilityDeviceInformation.SHNDeviceInformationType.FirmwareRevision, R.id.textViewFirmwareValue);
-            displayDeviceInformation(di, SHNCapabilityDeviceInformation.SHNDeviceInformationType.HardwareRevision, R.id.textViewHardwareValue);
-            displayDeviceInformation(di, SHNCapabilityDeviceInformation.SHNDeviceInformationType.ManufacturerName, R.id.textViewManufacturerValue);
-            displayDeviceInformation(di, SHNCapabilityDeviceInformation.SHNDeviceInformationType.ModelNumber, R.id.textViewModelNumberValue);
-            displayDeviceInformation(di, SHNCapabilityDeviceInformation.SHNDeviceInformationType.SerialNumber, R.id.textViewSerialNumberValue);
-            displayDeviceInformation(di, SHNCapabilityDeviceInformation.SHNDeviceInformationType.SoftwareRevision, R.id.textViewSoftwareRevisionValue);
-            displayDeviceInformation(di, SHNCapabilityDeviceInformation.SHNDeviceInformationType.SystemID, R.id.textViewSystemIDValue);
+            displayDeviceInformation(di, SHNCapabilityDeviceInformation.SHNDeviceInformationType.FirmwareRevision, R.id.bll_textViewFirmwareValue);
+            displayDeviceInformation(di, SHNCapabilityDeviceInformation.SHNDeviceInformationType.HardwareRevision, R.id.bll_textViewHardwareValue);
+            displayDeviceInformation(di, SHNCapabilityDeviceInformation.SHNDeviceInformationType.ManufacturerName, R.id.bll_textViewManufacturerValue);
+            displayDeviceInformation(di, SHNCapabilityDeviceInformation.SHNDeviceInformationType.ModelNumber, R.id.bll_textViewModelNumberValue);
+            displayDeviceInformation(di, SHNCapabilityDeviceInformation.SHNDeviceInformationType.SerialNumber, R.id.bll_textViewSerialNumberValue);
+            displayDeviceInformation(di, SHNCapabilityDeviceInformation.SHNDeviceInformationType.SoftwareRevision, R.id.bll_textViewSoftwareRevisionValue);
+            displayDeviceInformation(di, SHNCapabilityDeviceInformation.SHNDeviceInformationType.SystemID, R.id.bll_textViewSystemIDValue);
         }
 
         // Battery capability
@@ -195,7 +195,7 @@ public class DeviceDetailActivity extends AppCompatActivity {
             public void onError(@NonNull final SHNCapabilityDeviceInformation.SHNDeviceInformationType deviceInformationType, @NonNull final SHNResult error) {
                 SHNLogger.e(TAG, "Error reading device information: " + error.name());
 
-                setTextByViewId(getString(R.string.unknown), textViewId);
+                setTextByViewId(getString(R.string.bll_unknown), textViewId);
             }
         });
     }
@@ -216,7 +216,7 @@ public class DeviceDetailActivity extends AppCompatActivity {
     }
 
     private void updateBatteryLevel(int batteryLevel) {
-        setTextByViewId(String.format(Locale.US, "%d%%", batteryLevel), R.id.textViewBatteryValue);
+        setTextByViewId(String.format(Locale.US, "%d%%", batteryLevel), R.id.bll_textViewBatteryValue);
     }
 
     private void setTextByViewId(final String text, final int textViewId) {

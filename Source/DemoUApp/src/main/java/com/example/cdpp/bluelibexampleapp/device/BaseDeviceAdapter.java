@@ -28,7 +28,7 @@ public abstract class BaseDeviceAdapter<T> extends RecyclerView.Adapter<BaseDevi
     @Override
     public DeviceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.listitem_device, parent, false);
+                .inflate(R.layout.bll_listitem_device, parent, false);
         return new DeviceViewHolder(view);
     }
 
@@ -60,9 +60,9 @@ public abstract class BaseDeviceAdapter<T> extends RecyclerView.Adapter<BaseDevi
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
 
-            rssiView = (TextView) view.findViewById(R.id.rssi);
-            nameView = (TextView) view.findViewById(R.id.name);
-            addressView = (TextView) view.findViewById(R.id.address);
+            rssiView = (TextView) view.findViewById(R.id.bll_rssi);
+            nameView = (TextView) view.findViewById(R.id.bll_name);
+            addressView = (TextView) view.findViewById(R.id.bll_address);
         }
 
         @Override
