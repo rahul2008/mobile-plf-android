@@ -180,7 +180,9 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
     protected void onPause() {
         super.onPause();
         RALog.d(TAG," onPause called");
-        AppFrameworkTagging.getInstance().pauseCollectingLifecycleData();
+        if(((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
+            AppFrameworkTagging.getInstance().pauseCollectingLifecycleData();
+        }
     }
 
 }

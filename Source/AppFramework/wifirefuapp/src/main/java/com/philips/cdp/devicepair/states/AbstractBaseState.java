@@ -47,4 +47,12 @@ public abstract class AbstractBaseState {
             }
         });
     }
+
+    public void clearProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()
+                && !(context.getFragmentActivity().isFinishing())) {
+            mProgressDialog.dismiss();
+        }
+        mProgressDialog = null;
+    }
 }

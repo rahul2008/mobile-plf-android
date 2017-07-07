@@ -60,7 +60,12 @@ public class SettingsFragmentPresenter extends AbstractUIBasePresenter {
         if (settingsView != null) {
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
             try {
-                baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), eventState);
+                if(componentID==Constants.LOGOUT_BUTTON_CLICK_CONSTANT){
+                    baseState=targetFlowManager.getNextState(targetFlowManager.getState(AppStates.SETTINGS_REGISTRATION),eventState);
+                }else{
+                    baseState=targetFlowManager.getNextState(targetFlowManager.getState(AppStates.SETTINGS),eventState);
+                }
+//                baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), eventState);
             } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                     e) {
                 RALog.d(TAG, e.getMessage());
