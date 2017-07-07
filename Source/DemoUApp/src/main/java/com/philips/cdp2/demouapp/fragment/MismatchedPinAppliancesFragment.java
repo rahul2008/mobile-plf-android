@@ -33,7 +33,7 @@ public class MismatchedPinAppliancesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.fragment_mismatched_pin_appliances, container, false);
+        View rootview = inflater.inflate(R.layout.cml_fragment_mismatched_pin_appliances, container, false);
 
         applianceAdapter = new ApplianceAdapter(getContext());
 

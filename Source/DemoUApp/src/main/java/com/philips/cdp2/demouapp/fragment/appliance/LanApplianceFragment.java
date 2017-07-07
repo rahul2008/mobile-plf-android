@@ -22,7 +22,7 @@ public class LanApplianceFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_lan_appliance, container, false);
+        View rootView = inflater.inflate(R.layout.cml_fragment_lan_appliance, container, false);
 
         final Appliance currentAppliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
         final CompoundButton switchEnableCommunication = ((CompoundButton) rootView.findViewById(R.id.cml_switch_enable_communication));

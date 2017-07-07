@@ -31,7 +31,7 @@ public class PairingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.fragment_pairing, container, false);
+        View rootview = inflater.inflate(R.layout.cml_fragment_pairing, container, false);
 
         editTextUserId = (EditText) rootview.findViewById(R.id.cml_userId);
         editTextUserToken = (EditText) rootview.findViewById(R.id.cml_userToken);

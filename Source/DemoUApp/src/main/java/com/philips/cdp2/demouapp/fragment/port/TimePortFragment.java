@@ -81,7 +81,7 @@ public class TimePortFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.fragment_timeport, container, false);
+        View rootview = inflater.inflate(R.layout.cml_fragment_timeport, container, false);
 
         rootview.findViewById(R.id.cml_btnGetTime).setOnClickListener(buttonClickListener);
         rootview.findViewById(R.id.cml_btnSetTime).setOnClickListener(buttonClickListener);

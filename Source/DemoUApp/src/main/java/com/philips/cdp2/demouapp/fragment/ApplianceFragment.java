@@ -30,7 +30,7 @@ public class ApplianceFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.fragment_appliance, container, false);
+        View rootview = inflater.inflate(R.layout.cml_fragment_appliance, container, false);
 
         Appliance currentAppliance = CurrentApplianceManager.getInstance().getCurrentAppliance();
 

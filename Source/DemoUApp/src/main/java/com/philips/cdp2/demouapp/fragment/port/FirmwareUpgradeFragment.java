@@ -184,7 +184,7 @@ public class FirmwareUpgradeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.fragment_firmware_upgrade, container, false);
+        View rootview = inflater.inflate(R.layout.cml_fragment_firmware_upgrade, container, false);
 
         firmwareSearchLocationTextView = (TextView) rootview.findViewById(R.id.cml_tvFirmwareSearchLocation);
 

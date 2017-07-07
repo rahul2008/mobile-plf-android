@@ -22,7 +22,7 @@ public class PairingPortFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View rootview = inflater.inflate(R.layout.fragment_port_pairing, container, false);
+        final View rootview = inflater.inflate(R.layout.cml_fragment_port_pairing, container, false);
 
         rootview.findViewById(R.id.cml_button_pair).setOnClickListener(new View.OnClickListener() {
             @Override

@@ -81,7 +81,7 @@ public class DevicePortFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootview = inflater.inflate(R.layout.fragment_device_port, container, false);
+        rootview = inflater.inflate(R.layout.cml_fragment_device_port, container, false);
 
         deviceNameEdit = (EditText) rootview.findViewById(R.id.cml_device_name);
         Button setButton = (Button) rootview.findViewById(R.id.cml_btn_set);
