@@ -93,7 +93,7 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     private ProgressDialog mProgressDialog;
 
-    private static final String UPDATE_PHONENUMBER = "Update Phonenumber";
+    private static final String UPDATE_PHONENUMBER = "Update PhoneNumber";
 
     private static final String RESEND_SMS = "Resend SMS";
 

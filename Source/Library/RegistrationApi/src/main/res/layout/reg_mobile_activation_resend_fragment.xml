@@ -41,14 +41,14 @@
                     android:id="@+id/tv_reg_verify"
                     style="@style/reg_textStyle"
                     android:layout_marginTop="@dimen/reg_header_margin_top"
-                    android:text="@string/reg_phone_number_update_desc2"
+                    android:text="@string/reg_Update_MobileNumber_Description_One"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <com.philips.cdp.registration.ui.customviews.XTextView
                     android:id="@+id/tv_reg_verify_text"
                     style="@style/reg_textStyle"
                     android:layout_marginTop="@dimen/reg_header_margin_top"
-                    android:text="@string/reg_phone_number_update_desc1"
+                    android:text="@string/reg_Update_MobileNumber_Description_Two"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <com.philips.cdp.registration.ui.customviews.XEditText
@@ -56,7 +56,7 @@
                     style="@style/reg_style_tab_hint"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
-                    android:hint="@string/reg_your_phone_number"
+                    android:hint="@string/reg_CreateAccount_PhoneNumber"
                     android:imeOptions="actionNext"
                     android:maxLines="1"
                     android:maxLength="@integer/reg_et_name_max_length"
