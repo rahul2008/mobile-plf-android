@@ -26,7 +26,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -420,19 +419,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             locateNearCustomDialog.show();
             isDialogShown = true;
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putBoolean("dialog_key", isDialogShown);
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null)
-            isDialogShown = savedInstanceState.getBoolean("dialog_key");
     }
 
     @Override
