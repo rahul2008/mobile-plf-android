@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package cdp.philips.com.demoapp;
 
 import android.support.v7.app.AppCompatActivity;
@@ -13,14 +18,15 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 public class LauncherActivity extends AppCompatActivity {
 
     private DevicePairingUappInterface devicePairingUappInterface;
-    private AppInfra gAppInfra;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
+
         devicePairingUappInterface = new DevicePairingUappInterface();
-        gAppInfra = new AppInfra.Builder().build(getApplicationContext());
+        AppInfra gAppInfra = new AppInfra.Builder().build(getApplicationContext());
+
         UappDependencies uappDependencies = new UappDependencies(gAppInfra);
         devicePairingUappInterface.init(uappDependencies, new DevicePairingUappSettings(getApplicationContext()));
     }

@@ -113,13 +113,13 @@ public class LaunchFragment extends Fragment implements BackEventListener,
         mAvailableDevicesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                if (mAppliancesList != null && mAppliancesList.size() > 0) {
+                /*if (mAppliancesList != null && mAppliancesList.size() > 0) {
                     PairDevice pairDeviceDetails = getDeviceDetails(mAvailableDevicesList.get(position));
                     if (pairDeviceDetails != null) {
                         mLaunchFragmentPresenter.pairDevice(pairDeviceDetails, LaunchFragment.this);
                     }
-                }
-//                mLaunchFragmentPresenter.pairDevice(getTestDeviceDetails(), LaunchFragment.this);
+                }*/
+                mLaunchFragmentPresenter.pairDevice(getTestDeviceDetails(), LaunchFragment.this);
             }
         });
 
@@ -150,14 +150,7 @@ public class LaunchFragment extends Fragment implements BackEventListener,
     @Override
     public void onAttachFragment(Fragment childFragment) {
         super.onAttachFragment(childFragment);
-
         getActivity().setTitle("Pair Device");
-       /* if (mIsCreate) {
-            mStateContext = new StateContext();
-            mStateContext.setState(new GetPairedDevicesState(mFragmentLauncher, this));
-            mStateContext.start();
-            mIsCreate = false;
-        }*/
     }
 
     @Override
@@ -170,15 +163,13 @@ public class LaunchFragment extends Fragment implements BackEventListener,
         super.onResume();
 
         //For testing
-        /*List<String> test = new ArrayList<>();
+        List<String> test = new ArrayList<>();
         test.add("1c5a6bfffecc9127");
-        updateDiscoveredDevices(test);*/
+        updateDiscoveredDevices(test);
 
-        if (!(getActivity().isFinishing())) {
-            mStateContext = new StateContext();
-            mStateContext.setState(new GetPairedDevicesState(getActivity(), this));
-            mStateContext.start();
-        }
+        mStateContext = new StateContext();
+        mStateContext.setState(new GetPairedDevicesState(getActivity(), this));
+        mStateContext.start();
 
         mNetworkChangeListener.addListener(this);
         mContext.registerReceiver(mNetworkChangeListener, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
@@ -221,12 +212,12 @@ public class LaunchFragment extends Fragment implements BackEventListener,
     }
 
     //For testing
-    /*private PairDevice getTestDeviceDetails() {
+    private PairDevice getTestDeviceDetails() {
         mPairDevice = new PairDevice();
         mPairDevice.setDeviceID("1c5a6bfffecc9127");
         mPairDevice.setDeviceType("urn:philips-com:device:DiProduct:1");
         return mPairDevice;
-    }*/
+    }
 
     private PairDevice getDeviceDetails(String id) {
         for (int i = 0; i < mAppliancesList.size(); i++) {
@@ -364,5 +355,11 @@ public class LaunchFragment extends Fragment implements BackEventListener,
 
     @Override
     public void onConnectionAvailable() {
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mStateContext.getState().clearProgressDialog();
     }
 }

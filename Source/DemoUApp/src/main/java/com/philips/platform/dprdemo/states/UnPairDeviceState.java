@@ -60,7 +60,12 @@ public class UnPairDeviceState extends AbstractBaseState implements DevicePairin
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mDeviceStatusListener.onError(dataServicesError.getErrorMessage());
+                if (dataServicesError.getErrorCode() == 404) {
+                    mDeviceStatusListener.onError(dataServicesError.getErrorMessage());
+                    mDeviceStatusListener.onDeviceUnPaired(mDeviceID);
+                } else {
+                    mDeviceStatusListener.onError(dataServicesError.getErrorMessage());
+                }
             }
         });
     }

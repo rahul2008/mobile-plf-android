@@ -1,10 +1,14 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+*/
 package cdp.philips.com.demoapp;
 
 import android.app.Application;
 import android.content.SharedPreferences;
 
 import com.philips.cdp.registration.AppIdentityInfo;
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -12,13 +16,8 @@ import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
-import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.ArrayList;
-
-/**
- * Created by philips on 7/5/17.
- */
 
 public class DemoApplication extends Application {
 
@@ -26,7 +25,6 @@ public class DemoApplication extends Application {
     final String AI = "appinfra";
     private AppInfra gAppInfra;
     private AppConfigurationInterface.AppConfigurationError configError;
-    private LoggingInterface loggingInterface;
 
     @Override
     public void onCreate() {
@@ -35,14 +33,12 @@ public class DemoApplication extends Application {
 
         initializeUserRegistrationLibrary(Configuration.STAGING);
         initHSDP();
-        //init();
     }
 
     private void initAppInfra() {
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
         configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        loggingInterface = gAppInfra.getLogging().createInstanceForComponent("DataSync", "DataSync");
     }
 
     /**
