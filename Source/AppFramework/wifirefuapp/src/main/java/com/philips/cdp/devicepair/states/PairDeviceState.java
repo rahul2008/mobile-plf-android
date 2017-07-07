@@ -19,7 +19,6 @@ import java.util.List;
 
 public class PairDeviceState extends AbstractBaseState implements DevicePairingListener {
 
-//    private List<UCoreSubjectProfile> subjectProfileList;
     private PairDevice pairDevice;
     private FragmentLauncher context;
     private DeviceStatusListener mDeviceStatusListener;
@@ -28,7 +27,6 @@ public class PairDeviceState extends AbstractBaseState implements DevicePairingL
                            DeviceStatusListener deviceStatusListener, FragmentLauncher context) {
         super(context);
         this.context = context;
-//        this.subjectProfileList = subjectProfileList;
         this.pairDevice = pairDevice;
         mDeviceStatusListener = deviceStatusListener;
     }
@@ -45,9 +43,6 @@ public class PairDeviceState extends AbstractBaseState implements DevicePairingL
     private void pairDevice() {
         showProgressDialog("Pairing device...");
         List<String> list = new ArrayList();
-//        DataServicesManager.getInstance().pairDevices(pairDevice.getDeviceID(), pairDevice.getDeviceType(),
-//                getSubjectProfileIdList(subjectProfileList), getStandardObservationNameList(), "urn:cdp|datareceiver_stg", this);
-
         DataServicesManager.getInstance().pairDevices(pairDevice.getDeviceID(), pairDevice.getDeviceType(),
                 list, list, "urn:cdp|datareceiver_stg", this);
     }
@@ -80,21 +75,4 @@ public class PairDeviceState extends AbstractBaseState implements DevicePairingL
     @Override
     public void onGetPairedDevicesResponse(List<String> list) {
     }
-
-    /*private List<String> getSubjectProfileIdList(List<UCoreSubjectProfile> subjectProfileList) {
-        List<String> subjectProfileIDList = new ArrayList<>();
-        for (UCoreSubjectProfile subjectProfile : subjectProfileList) {
-            subjectProfileIDList.add(subjectProfile.getGuid());
-        }
-        return subjectProfileIDList;
-    }
-
-    private List<String> getStandardObservationNameList() {
-        List<String> standardObservationNameList = new ArrayList<>();
-        standardObservationNameList.add(ConsentDetailType.SLEEP);
-        standardObservationNameList.add(ConsentDetailType.WEIGHT);
-        standardObservationNameList.add(ConsentDetailType.TEMPERATURE);
-        return standardObservationNameList;
-    }*/
-
 }
