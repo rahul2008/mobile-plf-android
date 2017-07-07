@@ -98,7 +98,7 @@ public class TimeSyncTest extends AppInfraInstrumentation {
 
     }
 
-  /*  public void testisSynchronized() {
+    public void testisSynchronized() {
         if(mTimeSyncSntpClient.isSynchronized()){
             assertTrue(mTimeSyncSntpClient.isSynchronized());
         }
@@ -108,7 +108,7 @@ public class TimeSyncTest extends AppInfraInstrumentation {
         }
 
 
-    }*/
+    }
 
 
 }
