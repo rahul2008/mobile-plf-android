@@ -36,4 +36,5 @@ public interface MobileVerifyCodeContract {
 
     void setOtpErrorMessageFromJson(String errorDescription);
 
+    void storePreference(String emailOrMobileNumber);
 }
