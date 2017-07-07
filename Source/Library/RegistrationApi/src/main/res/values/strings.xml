@@ -178,20 +178,11 @@
     <string name="reg_Opt_In_No_Thanks">No thanks</string>
     <string name="reg_Resend_SMS_title">Resend SMS</string>
     <string name="reg_Resend_SMS_Success_Content">Resend SMS has been successfully sent to your mobile number.</string>
-    <string name="reg_Reg_merge_validate_password_mismatch_errortxt">The password is incorrect.</string>
-    <string name="reg_Reg_Country">Country</string>
-    <string name="reg_Reg_Provider_Not_Supported">Provider not supported.</string>
+    <string name="reg_Merge_validate_password_mismatch_errortxt">The password is incorrect.</string>
+    <string name="reg_Country">Country</string>
+    <string name="reg_Provider_Not_Supported">Provider not supported.</string>
     <string name="reg_CreateAccount_PhoneNumber">Your phone number</string>
     <string name="reg_Invalid_PhoneNumber_ErrorMsg">I cannot recognize the phone number you entered. Please check.</string>
-    <string name="reg_enter_code_title">Please enter your code</string>
-    <string name="reg_enter_code">Enter code</string>
-    <string name="reg_sms_not_received">I did not receive a SMS</string>
-    <string name="reg_sms_received">Thanks. I got it.</string>
-    <string name="reg_your_phone_number">Your phone number</string>
-    <string name="reg_phone_number_update_desc1">Check if your phone number is correct and press the resend button.</string>
-    <string name="reg_phone_number_update_desc2">It may take some time for the SMS with the code to arrive.</string>
-
-
     <string name="reg_Country_AR">Argentina</string>
     <string name="reg_Country_AU">Australia</string>
     <string name="reg_Country_AT">Austria</string>
@@ -255,7 +246,27 @@
     <string name="reg_Phonenumbernotfound">Phone number not found</string>
     <string name="reg_InvalidMobilenumber">Invalid Mobile number</string>
     <string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">We will send you an email or SMS to reset your password.</string>
-
+    <string name="reg_Loading_Text">Loading...</string>
+    <string name="reg_Update_MobileNumber_Title">Did not receive an SMS?</string>
+    <string name="reg_Update_MobileNumber_Description_One">It may take some time for the SMS with the code to arrive.</string>
+    <string name="reg_Update_MobileNumber_Description_Two">Check if your phone number is correct and press the resend button.</string>
+    <string name="reg_Update_MobileNumber_Thanks_Got_It">Thanks, I got it.</string>
+    <string name="reg_Update_MobileNumber_Verification_SMS_Sent">Verification SMS sent</string>
+    <string name="reg_Update_MobileNumber_Verification_SMS_Description">It may take some time for the SMS with the verification code to arrive.</string>
+    <string name="reg_Update_MobileNumber_Button_Text">Update PhoneNumber</string>
+    <string name="reg_Verify_SMS_Title">Please enter your code</string>
+    <string name="reg_Verify_SMS_Reset_Password_Description">We have sent an SMS with a code to %s, please enter this code to reset your password.</string>
+    <string name="reg_Verify_SMS_Did_Not_Receive_SMS">I did not receive an SMS</string>
+    <string name="reg_Update_MobileNumber_Alert_Title">Phone number updated</string>
+    <string name="reg_SecureData_Title">Secure access to your data</string>
+    <string name="reg_SecureData_Description_Text">Help us get in touch with you if there’s unusual activity in your account or you accidentally get locked out. Don’t worry we’ll only use this info if we need to reach you about your account.</string>
+    <string name="reg_SecureData_Add_Recovery_Email">Add recovery email now</string>
+    <string name="reg_SecureData_Maybe_Later">Maybe later</string>
+    <string name="reg_We_Are_Sorry_Text">We\'re sorry</string>
+    <string name="reg_Forgot_Password_Alert_Description_One">You have not logged in with mobile number %s on this device before. Therefore you cannot reset your password now.</string>
+    <string name="reg_Forgot_Password_Alert_Description_Two">Please login again, reset your password on your old phone or contact customer care for further support.</string>
+    <string name="reg_Try_To_Login_Button_Text">Try to login again</string>
+    <string name="reg_Contact_Customer_Care_Text">Contact customer care</string>
     <!-- added apart from the localized strings -->
     <string name="app_name">RegistrationApi</string>
     <string name="content_desc">ContentDesc</string>

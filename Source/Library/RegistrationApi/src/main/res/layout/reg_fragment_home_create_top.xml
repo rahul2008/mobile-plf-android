@@ -127,7 +127,7 @@
                         style="@style/reg_textStyle"
                         android:layout_width="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="@string/reg_Reg_Country"
+                        android:text="@string/reg_Country"
                         reglib:fontAssetName="CentraleSans-Book.OTF"/>
 
                     <com.philips.cdp.registration.ui.customviews.XTextView
