@@ -2,7 +2,7 @@
 ================================================================================
 Release notes for User Registration Android 
 ================================================================================
-Version 8.4.5     Date : 07-03-2017
+Version 10.2.0     Date : 07-07-2017
 --------------------------------------------------------------------------------
 Components and versions in this release
 
@@ -23,6 +23,13 @@ Components and versions in this release
 •	gson.jar
 •	volley.aar
 •	uAppFwLib..aar
+•	rxandroid-2.0.1.jar
+•	rxjava-2.0.1.jar
+•	butternife-8.6.0.jar
+•	dagger-2.0.2.jar
+•	customtabs-24.2.1.jar
+•	libphonenumber-7.7.1.jar
+
 
 
 
@@ -31,44 +38,122 @@ Components and versions in this release
 --------------------------------------------------------------------------------
 ### New Features 
 
-¬	China mobile registration is completed.
-¬	Wechat integration is supported.
-¬	AB testing.
-¬	Localization. 
-¬	Secure Storage is now used form AppInfra.
-¬	Stand alone server time component is removed 
-¬	Some APIs are deprecated and removed.
-¬	User events listener are now be listened form user object.
-¬	Code coverage is done up to 50%
-¬	Code quality improvements with TICS score 80.48%
+¬	Removal of Locale match 
+¬	New password reset flow
+¬	Secure email address email validation 
+¬	Standardize the countries as per platform
+¬	Country selection and default country fall back is supported .
 ¬	Bug fixes
+¬	uApp Demo app Compatibility for UR  
+¬	Additional API for Opt Screen modification 
 
 
+
+
+### List of supported language
+¬	developer default = en US
+¬	ar (Arabic)
+¬	bg (Bulgarian)
+¬	cs (Czech)
+¬	da (Danish)
+¬	de (German)
+¬	el (Greek)
+¬	en (English (US))
+¬	en-GB (English UK)
+¬	es (Spanish)
+¬	es-AR (Argentina)
+¬	es-MX (Spanish Mexico)
+¬	et (Estonian)
+¬	fi (Finnish)
+¬	fr (French (France))
+¬	fr-CA (French Canada)
+¬	he (Hebrew)
+¬	hr (Croatian)
+¬	hu (Hungarian)
+¬	it (Italian)
+¬	ja (Japanese)
+¬	ko (Korean)
+¬	lt (Lithuanian)
+¬	lv (Latvian)
+¬	nb (Norwegian Bokmal)
+¬	nl (Dutch)
+¬	pl (Polish)
+¬	pt (Portuguese (Portugal)
+¬	pt-BR (Portuguese Brazil)
+¬	ro (Romanian)
+¬	ru (Russian)
+¬	sk (Slovak)
+¬	sl (Slovenian)
+¬	sv (Swedish)
+¬	th (Thai)
+¬	tr (Turkish)
+¬	vi (Vietnamese)
+¬	zh-CN (Chinese China)
+¬	zh_HK (Chinese Hong Kong)
+¬	zh_TW (Chinese Taiwan, maps to zh_Hant on iOS).
 
 
 
 
 --------------------------------------------------------------------------------
-### Known issues:
+### Fixed issues:
 
-DE15300
-[Tuscany] HSDP login still failed even though URL’s are available in service discovery.
-DE15318
-UserRegistration [Android]: Missing icons on error messages
-DE15319
-UserRegistration [Android]: Incorrect line spacing on verification screen
-DE14374
-[uGrow] activation email is not send to consumer, user not able to use the app
-DE14566
-Android Security Vulnerability: Insecure Storage in Shared Preferences
-DE14803
-User Registration 8.x ANR.
-DE14807
-User registration : permission error issue
-DE14939
-CR for uGrow : Changes required in UR component in version 8.x.x
-DE14826
-Unable to select country field in UR when language selected is Arabic (Saudi Arabia) in In App component
+
+ID
+Title
+36168
+android [DE13279] Memory Leak Issue - USER REGISTRATION
+36861
+[Android] RandomCrash - NullPointerException - DhpApiClientSign
+40564
+[uGrow Android DE3492] Explicitly launched Marketing Opt-In screen navigation in uGrow
+48732
+(Android) Reference app crashes after logging in
+51731
+"Continue" button of the product registration is not in the Chinese language.
+51736
+Date format in the product registration page, after selecting the date is different.
+52647
+Android - Conflict using both Butterfork and Butterknife
+52925
+[artf13426] [Hon Kong]: App crashes when selected "create new Philips account" option in user registration screen: 100% reproducible
+53103
+{Japan]: "Honorific" not available -> Use Postfix "San" after the name
+53105
+{Japan]: "Honorific" not available -> Use Postfix "San" after the name
+54196
+ProductRegistration crash (2)
+55447
+[Regression] UR Failed refresh token due to NetworkTime issue (app not usable)
+56416
+User registration component shows list of countries that are not supported.
+56933
+[Android] - App crashed when tapped on Philips account/Create Philips account button
+56934
+[Android] - App crashed when tapped on "Resend email" button after verifying the email.
+56939
+[Android] - App crashed when tapped on Marketing Optin button in the demo app after login
+57087
+[Android] - "Failed to connect to server" error message is displayed when tapped on social provider before initialising
+57930
+[VitaSkin Android] User registration component shows list of countries that are not supported.
+58015
+[Android - Coppa] App crashes when user tries to login via traditional Philips account
+60172
+[Android - Forgot password] - App crashed on tapping on Resend button in the verify account screen
+60948
+[Japan] Invalid text is visible for the "My philips account" in the login screen for the existing account
+60965
+[Japan] Extra character "へ” is displaying in the login confirmation screen of the app.
+55515
+[Android][artf13522] [E2E][Taiwan]: Sometimes app throws "Unknown error" when selected "Register your product" option
+58103
+[Android] - User logged out tapping on continue button in the welcome screen(HSDP)
+60686
+[CDI] China - User registration displays "Recovery Email" screen for Android
+
+
+
 
 
 
