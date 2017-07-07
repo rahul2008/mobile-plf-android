@@ -178,9 +178,9 @@
 <string name="reg_Opt_In_No_Thanks">Não, obrigado</string>
 <string name="reg_Resend_SMS_title">Reenviar SMS</string>
 <string name="reg_Resend_SMS_Success_Content">O reenvio do SMS para seu celular foi feito com sucesso.</string>
-<string name="reg_Reg_merge_validate_password_mismatch_errortxt">A senha está incorreta.</string>
-<string name="reg_Reg_Country">País</string>
-<string name="reg_Reg_Provider_Not_Supported">Provedor incompatível.</string>
+<string name="reg_Merge_validate_password_mismatch_errortxt">A senha está incorreta.</string>
+<string name="reg_Country">País</string>
+<string name="reg_Provider_Not_Supported">Provedor incompatível.</string>
 <string name="reg_CreateAccount_PhoneNumber">Telefone</string>
 <string name="reg_Invalid_PhoneNumber_ErrorMsg">Não é possível reconhecer o telefone inserido. Verifique.</string>
 <string name="reg_Country_AR">Argentina</string>
@@ -237,7 +237,7 @@
 <string name="reg_Country_TR">Turquia</string>
 <string name="reg_Country_UA">Ucrânia</string>
 <string name="reg_Country_GB">Reino Unido</string>
-<string name="reg_Country_US">Brasil</string>
+<string name="reg_Country_US">Estados Unidos</string>
 <string name="reg_Country_VN">Vietnamita</string>
 <string name="reg_Country_Search_Text">Pesquisar...</string>
 <string name="reg_AppNotInstalled_Alert_Title">Aplicativo não instalado</string>
@@ -246,4 +246,25 @@
 <string name="reg_Phonenumbernotfound">Número de telefone não encontrado</string>
 <string name="reg_InvalidMobilenumber">Número de celular inválido</string>
 <string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Enviaremos um e-mail ou SMS para redefinir sua senha.</string>
+<string name="reg_Loading_Text">Carregando...</string>
+<string name="reg_Update_MobileNumber_Title">Não recebeu um SMS?</string>
+<string name="reg_Update_MobileNumber_Description_One">Pode levar algum tempo até que o SMS com o código seja recebido.</string>
+<string name="reg_Update_MobileNumber_Description_Two">Confirme se o número do seu telefone está correto e pressione o botão reenviar.</string>
+<string name="reg_Update_MobileNumber_Thanks_Got_It">Obrigado, recebido.</string>
+<string name="reg_Update_MobileNumber_Verification_SMS_Sent">SMS de verificação enviado</string>
+<string name="reg_Update_MobileNumber_Verification_SMS_Description">Pode levar algum tempo até que o SMS com o código de verificação seja recebido.</string>
+<string name="reg_Update_MobileNumber_Button_Text">Atualizar número do telefone</string>
+<string name="reg_Verify_SMS_Title">Insira o código</string>
+<string name="reg_Verify_SMS_Reset_Password_Description">Enviamos um SMS com o código para %s. Insira este código para redefinir sua senha.</string>
+<string name="reg_Verify_SMS_Did_Not_Receive_SMS">Eu não recebi um SMS</string>
+<string name="reg_Update_MobileNumber_Alert_Title">Número de telefone atualizado</string>
+<string name="reg_SecureData_Title">Acesso seguro aos seus dados</string>
+<string name="reg_SecureData_Description_Text">Nos ajude a entrar em contato com você em caso de atividade incomum em sua conta ou de bloqueio acidental. Não se preocupe. Nós utilizaremos estas informações somente se precisarmos falar com você sobre sua conta.</string>
+<string name="reg_SecureData_Add_Recovery_Email">Adicionar e-mail de recuperação agora</string>
+<string name="reg_SecureData_Maybe_Later">Talvez depois</string>
+<string name="reg_We_Are_Sorry_Text">Sinto muito</string>
+<string name="reg_Forgot_Password_Alert_Description_One">Você não fez login anteriormente com o celular de número %s neste dispositivo. Portanto, não é possível redefinir sua senha agora.</string>
+<string name="reg_Forgot_Password_Alert_Description_Two">Faça o login novamente, redefina sua senha em seu telefone antigo ou entre em contato com a central de atendimento ao cliente para obter mais ajuda.</string>
+<string name="reg_Try_To_Login_Button_Text">Tente fazer o login novamente</string>
+<string name="reg_Contact_Customer_Care_Text">Central de atendimento ao cliente</string>
 </resources>

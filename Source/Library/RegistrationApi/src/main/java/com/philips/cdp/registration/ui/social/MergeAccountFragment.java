@@ -378,7 +378,8 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
         if (null != userRegistrationFailureInfo.getPasswordErrorMessage()) {
             mRegError.setError(userRegistrationFailureInfo.getPasswordErrorMessage());
         } else if (userRegistrationFailureInfo.getErrorCode() == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
-            mRegError.setError(mContext.getResources().getString(R.string.reg_Reg_merge_validate_password_mismatch_errortxt));
+            mRegError.setError(mContext.getResources().getString(R.string.reg_Merge_validate_password_mismatch_errortxt));
+
         } else {
             mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
 

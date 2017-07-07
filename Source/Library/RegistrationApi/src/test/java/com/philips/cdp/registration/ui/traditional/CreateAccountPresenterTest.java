@@ -8,6 +8,7 @@ import com.philips.cdp.registration.update.UpdateUserProfile;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -49,11 +50,12 @@ public class CreateAccountPresenterTest {
 
     }
 
-//    @Test
-//    public void testAccountCreationTime(){
+    //Temp:
+   @Test
+   public void testAccountCreationTime(){
 //        presenter.accountCreationTime();
 //
-//    }
+    }
 
 //    @Test
 //    public void testOnRegisterSuccess(){

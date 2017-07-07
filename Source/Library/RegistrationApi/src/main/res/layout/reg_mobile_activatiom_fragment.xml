@@ -31,7 +31,7 @@
                     android:id="@+id/tv_reg_verify_title"
                     style="@style/reg_textStyle"
                     android:layout_marginTop="@dimen/reg_header_margin_top"
-                    android:text="@string/reg_enter_code_title"
+                    android:text="@string/reg_Verify_SMS_Title"
                     android:textSize="@dimen/reg_title_text_size"
                     android:textStyle="bold"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
@@ -48,7 +48,7 @@
                     style="@style/reg_style_tab_hint"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
-                    android:hint="@string/reg_enter_code"
+                    android:hint="@string/reg_Account_ActivationCode_EnterCode_placeholdertxt"
                     android:maxLines="1"
                     android:imeOptions="actionNext"
                     android:maxLength="@integer/reg_et_verify_code_max_length"
@@ -95,7 +95,7 @@
                 <com.philips.cdp.registration.ui.customviews.XButton
                     android:id="@+id/btn_reg_resend_code"
                     style="@style/reg_style_btn"
-                    android:text="@string/reg_sms_not_received"
+                    android:text="@string/reg_Verify_SMS_Did_Not_Receive_SMS"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
 
