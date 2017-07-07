@@ -30,8 +30,8 @@ public class THSNoppFragment extends PTHBaseFragment {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_nopp_fragment, container, false);
         legalTextsLabel = (Label) view.findViewById(R.id.ths_intake_nopp_agreement_text);
         mTHSNoppPresenter = new THSNoppPresenter(this);
-        getContext().getTheme().applyStyle(R.style.PTHCircularPB, true);
-        createCustomProgressBar();
+
+        createCustomProgressBar(view,BIG);
         view.addView(mPTHBaseFragmentProgressBar);
         return view;
     }
