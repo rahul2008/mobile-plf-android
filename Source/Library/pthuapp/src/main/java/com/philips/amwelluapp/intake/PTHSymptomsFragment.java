@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.visit.Topic;
 import com.philips.amwelluapp.R;
@@ -33,6 +34,7 @@ public class PTHSymptomsFragment extends PTHBaseFragment implements BackEventLis
     FloatingActionButton floatingActionButton;
     Button mContinue;
     Typeface face;
+    RelativeLayout mRelativeLayout;
 
     //TODO: Spoorti - check null condition for the bundle Arguments
     @Nullable
@@ -45,6 +47,7 @@ public class PTHSymptomsFragment extends PTHBaseFragment implements BackEventLis
         floatingActionButton = (FloatingActionButton) view.findViewById(R.id.floating_button);
         mContinue = (Button) view.findViewById(R.id.continue_btn);
         mContinue.setOnClickListener(this);
+        mRelativeLayout = (RelativeLayout) view.findViewById(R.id.symptoms_container);
 
         face = TypefaceUtils.load(getActivity().getAssets(), "fonts/pui_icon.ttf");
         FontIconDrawable fontIconDrawable = new FontIconDrawable(getContext(), "\uE612", face).actionBarSize().color(Color.BLACK);
@@ -83,6 +86,7 @@ public class PTHSymptomsFragment extends PTHBaseFragment implements BackEventLis
 
     private void getVisistContext() {
         if (PTHManager.getInstance().getPthVisitContext() == null) {
+            createCustomProgressBar(mRelativeLayout, MEDIUM);
             mContinue.setEnabled(false);
             mPTHSymptomsPresenter.getVisitContext();
         }else {

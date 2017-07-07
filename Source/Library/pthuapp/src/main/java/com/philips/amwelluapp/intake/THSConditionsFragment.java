@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
@@ -29,6 +30,7 @@ public class THSConditionsFragment extends PTHBaseFragment implements BackEventL
     Button mContinueButton;
     Label mSkipLabel;
     List<PTHConditions> mTHSConditions =null;
+    RelativeLayout mRelativeLayout;
 
     @Nullable
     @Override
@@ -39,6 +41,7 @@ public class THSConditionsFragment extends PTHBaseFragment implements BackEventL
         mContinueButton.setOnClickListener(this);
         mSkipLabel = (Label)view.findViewById(R.id.conditions_skip);
         mSkipLabel.setOnClickListener(this);
+        mRelativeLayout = (RelativeLayout) view.findViewById(R.id.conditions_container);
         AmwellLog.i(AmwellLog.LOG,"onCreateView called");
         return view;
     }
@@ -57,6 +60,7 @@ public class THSConditionsFragment extends PTHBaseFragment implements BackEventL
 
         try {
             if (getTHSConditions() == null) {
+                createCustomProgressBar(mRelativeLayout,MEDIUM);
                 mThsConditionsPresenter.getConditions();
             }
             else {

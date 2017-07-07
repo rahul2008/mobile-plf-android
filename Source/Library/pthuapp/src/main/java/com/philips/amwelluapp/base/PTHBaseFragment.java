@@ -25,6 +25,9 @@ public class PTHBaseFragment extends Fragment implements PTHBaseView {
     public FragmentLauncher mFragmentLauncher;
     public com.philips.platform.uid.view.widget.ProgressBar mPTHBaseFragmentProgressBar;
     private ActionBarListener actionBarListener;
+    protected final int SMALL = 0;
+    protected final int MEDIUM = 1;
+    protected final int BIG = 2;
 
     @Override
     public void finishActivityAffinity() {
@@ -79,11 +82,27 @@ public class PTHBaseFragment extends Fragment implements PTHBaseView {
         fragmentTransaction.commit();
     }
 
-    public void createCustomProgressBar() {
+    public void createCustomProgressBar(ViewGroup group, int size) {
+        switch (size){
+            case BIG:
+                getContext().getTheme().applyStyle(R.style.PTHCircularPBBig, true);
+                break;
+            case SMALL:
+                getContext().getTheme().applyStyle(R.style.PTHCircularPBSmall, true);
+                break;
+            case MEDIUM:
+                getContext().getTheme().applyStyle(R.style.PTHCircularPBMedium, true);
+                break;
+            default:
+                getContext().getTheme().applyStyle(R.style.PTHCircularPBMedium, true);
+                break;
+        }
+
         mPTHBaseFragmentProgressBar = new ProgressBar(getContext(), null, R.attr.pth_cirucular_pb);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         mPTHBaseFragmentProgressBar.setLayoutParams(params);
+        group.addView(mPTHBaseFragmentProgressBar);
     }
 
     public void showToast(String message){
