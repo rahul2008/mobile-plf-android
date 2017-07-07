@@ -18,7 +18,7 @@
             style="@style/Base.TextAppearance.AppCompat.Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/device_port" />
+            android:text="@string/cml_device_port"/>
 
         <Switch
             android:id="@+id/cml_switchSubscription"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="12dp"
             android:paddingTop="8dp"
-            android:text="@string/switchSubscription" />
+            android:text="@string/cml_switchSubscription"/>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -36,7 +36,7 @@
                 android:id="@+id/cml_device_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/appliance_name"
+                android:hint="@string/cml_appliance_name"
                 tools:text="Air purifier" />
 
         </android.support.design.widget.TextInputLayout>
@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/get" />
+                android:text="@string/cml_get"/>
 
             <Button
                 style="@style/Widget.AppCompat.Button.Borderless"
@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/set" />
+                android:text="@string/cml_set"/>
         </LinearLayout>
 
 

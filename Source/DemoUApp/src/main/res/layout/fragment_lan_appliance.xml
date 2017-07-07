@@ -19,7 +19,7 @@
             style="@style/Base.TextAppearance.AppCompat.Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/lan_appliance" />
+            android:text="@string/cml_lan_appliance"/>
 
         <Switch
             android:id="@+id/cml_switch_enable_communication"
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="12dp"
             android:paddingTop="8dp"
-            android:text="@string/enable_communication" />
+            android:text="@string/cml_enable_communication"/>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

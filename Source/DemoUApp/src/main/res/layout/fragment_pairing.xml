@@ -18,7 +18,7 @@
             style="@style/Base.TextAppearance.AppCompat.Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/pairing" />
+            android:text="@string/cml_pairing"/>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -27,7 +27,7 @@
                 android:id="@+id/cml_userId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/userId" />
+                android:hint="@string/cml_userId"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -37,7 +37,7 @@
                 android:id="@+id/cml_userToken"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/access_token" />
+                android:hint="@string/cml_access_token"/>
         </android.support.design.widget.TextInputLayout>
 
         <LinearLayout
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 style="@style/Widget.AppCompat.Button.Borderless"
-                android:text="@string/pair" />
+                android:text="@string/cml_pair"/>
 
             <Button
                 android:id="@+id/cml_buttonUnPair"
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 style="@style/Widget.AppCompat.Button.Borderless"
-                android:text="@string/unpair" />
+                android:text="@string/cml_unpair"/>
 
         </LinearLayout>
     </LinearLayout>

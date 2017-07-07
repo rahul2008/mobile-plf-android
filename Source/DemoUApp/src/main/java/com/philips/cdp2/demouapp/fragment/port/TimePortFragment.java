@@ -73,7 +73,7 @@ public class TimePortFragment extends Fragment {
             DICommLog.e(TAG, String.format(Locale.US, "Time port error: [%s], data: [%s]", error.getErrorMessage(), errorData));
 
             if (isAdded()) {
-                updateResult(getString(R.string.lblResultPortError, error.getErrorMessage()));
+                updateResult(getString(R.string.cml_lblResultPortError, error.getErrorMessage()));
             }
         }
     };

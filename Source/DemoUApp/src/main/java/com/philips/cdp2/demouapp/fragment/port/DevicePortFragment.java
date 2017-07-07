@@ -148,12 +148,12 @@ public class DevicePortFragment extends Fragment {
 
     private void promptCertificateMismatch() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.prompt_certificate_mismatch_message);
-        builder.setTitle(R.string.prompt_certificate_mismatch_title);
+        builder.setMessage(R.string.cml_prompt_certificate_mismatch_message);
+        builder.setTitle(R.string.cml_prompt_certificate_mismatch_title);
 
-        builder.setNeutralButton(R.string.prompt_certificate_mismatch_cancel, mismatchDialogClickListener);
-        builder.setNegativeButton(R.string.prompt_certificate_mismatch_reject, mismatchDialogClickListener);
-        builder.setPositiveButton(R.string.prompt_certificate_mismatch_accept, mismatchDialogClickListener);
+        builder.setNeutralButton(R.string.cml_prompt_certificate_mismatch_cancel, mismatchDialogClickListener);
+        builder.setNegativeButton(R.string.cml_prompt_certificate_mismatch_reject, mismatchDialogClickListener);
+        builder.setPositiveButton(R.string.cml_prompt_certificate_mismatch_accept, mismatchDialogClickListener);
 
         builder.show();
     }

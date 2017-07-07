@@ -94,9 +94,9 @@ public class MainFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case PAGE_DISCOVERED_APPLIANCES:
-                    return getString(R.string.tab_title_discovered_appliances);
+                    return getString(R.string.cml_tab_title_discovered_appliances);
                 case PAGE_MISMATCHED_PIN_APPLIANCES:
-                    return getString(R.string.tab_title_mismatched_pin_appliances);
+                    return getString(R.string.cml_tab_title_mismatched_pin_appliances);
             }
             return null;
         }
