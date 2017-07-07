@@ -27,6 +27,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.app.Instrumentation.newApplication;
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static java.util.Collections.emptyList;
@@ -51,7 +52,7 @@ public class Steps {
         // In M+, trying to access bluetooth will trigger a runtime dialog. Make sure
         // the permission is granted before running tests.
         Log.d(LOGTAG, "Grant permissions");
-        Android.grantPermission("android.permission.ACCESS_COARSE_LOCATION");
+        Android.grantPermission(ACCESS_COARSE_LOCATION);
     }
 
     @After

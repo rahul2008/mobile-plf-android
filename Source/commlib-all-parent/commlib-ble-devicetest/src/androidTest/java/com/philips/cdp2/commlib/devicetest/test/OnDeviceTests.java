@@ -10,7 +10,6 @@ import org.junit.runner.RunWith;
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 
-
 @CucumberOptions(
         features = "commlib-bdd",
         glue = {"com.philips.cdp2.commlib.devicetest.test"},
