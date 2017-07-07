@@ -9,7 +9,9 @@ import android.webkit.WebView;
 
 import com.philips.amwelluapp.R;
 import com.philips.amwelluapp.base.PTHBaseFragment;
+import com.philips.amwelluapp.base.PTHBasePresenter;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.view.widget.Label;
 
 /**
  * Created by philips on 7/4/17.
@@ -18,23 +20,34 @@ import com.philips.platform.uappframework.listener.ActionBarListener;
 public class THSNoppFragment extends PTHBaseFragment {
     public static final String TAG = THSNoppFragment.class.getSimpleName();
     private ActionBarListener actionBarListener;
-    private WebView noppWebView;
+    Label legalTextsLabel;
+    PTHBasePresenter mTHSNoppPresenter;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_nopp_fragment, container, false);
-       /* noppWebView = (WebView)view.findViewById(R.id.ths_nopp_content_webview);
-        noppWebView.setVerticalScrollBarEnabled(true);
-
-        noppWebView.loadData(getActivity().getApplicationContext().getResources().getString(R.string.pth_webview_test), "text/html", "UTF-8");*/
-                return view;
+        legalTextsLabel = (Label) view.findViewById(R.id.ths_intake_nopp_agreement_text);
+        mTHSNoppPresenter = new THSNoppPresenter(this);
+        getContext().getTheme().applyStyle(R.style.PTHCircularPB, true);
+        createCustomProgressBar();
+        view.addView(mPTHBaseFragmentProgressBar);
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         actionBarListener = getActionBarListener();
+        ((THSNoppPresenter) mTHSNoppPresenter).showLegalTextForNOPP();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (null != actionBarListener) {
+            actionBarListener.updateActionBar("NOPP", true);
+        }
     }
 }

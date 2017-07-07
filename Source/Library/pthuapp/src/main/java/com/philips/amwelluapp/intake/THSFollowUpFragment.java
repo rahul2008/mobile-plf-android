@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import com.philips.amwelluapp.R;
 import com.philips.amwelluapp.base.PTHBaseFragment;
@@ -33,15 +34,25 @@ public class THSFollowUpFragment extends PTHBaseFragment implements  View.OnClic
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.intake_follow_up, container, false);
         mTHSFollowUpPresenter = new THSFollowUpPresenter(this);
         mPhoneNumberEditText = (EditText)view.findViewById(R.id.pth_intake_follow_up_phone_number);
-
-        mNoppAgreeCheckBox = (CheckBox)view.findViewById(R.id.pth_intake_follow_up_nopp_agree_check_box);
-        nopp_label = (Label)view.findViewById(R.id.pth_intake_follow_up_i_agree_link_text);
-        nopp_label.setOnClickListener(this);
         mFollowUpContiueButton = (Button)view.findViewById(R.id.pth_intake_follow_up_continue_button);
         mFollowUpContiueButton.setOnClickListener(this);
+        mNoppAgreeCheckBox = (CheckBox)view.findViewById(R.id.pth_intake_follow_up_nopp_agree_check_box);
+        mNoppAgreeCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                if ( isChecked ) {
+                    mFollowUpContiueButton.setEnabled(true);
+                }else{
+                    mFollowUpContiueButton.setEnabled(false);
+                }
+            }
+        });
+        nopp_label = (Label)view.findViewById(R.id.pth_intake_follow_up_i_agree_link_text);
+        nopp_label.setOnClickListener(this);
         return view;
     }
-
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

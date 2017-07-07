@@ -12,6 +12,7 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.health.Medication;
+import com.americanwell.sdk.entity.legal.LegalText;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
@@ -31,6 +32,7 @@ import com.philips.amwelluapp.intake.PTHVisitContext;
 import com.philips.amwelluapp.intake.PTHVisitContextCallBack;
 import com.philips.amwelluapp.intake.THSConditions;
 import com.philips.amwelluapp.intake.THSConditionsCallBack;
+import com.philips.amwelluapp.intake.THSNoppCallBack;
 import com.philips.amwelluapp.intake.THSUpdateConditionsCallback;
 import com.philips.amwelluapp.intake.THSUpdateVitalsCallBack;
 import com.philips.amwelluapp.intake.THSVitalSDKCallback;
@@ -430,6 +432,20 @@ public class PTHManager {
             public void onFailure(Throwable throwable) {
                 AmwellLog.i("onUpdateMedication","failure");
 
+            }
+        });
+    }
+
+    public void getLegaltext(Context context , LegalText legalText, final THSNoppCallBack tHSNoppCallBack) throws AWSDKInstantiationException{
+        getAwsdk(context).getLegalText(legalText, new SDKCallback<String, SDKError>() {
+            @Override
+            public void onResponse(String s, SDKError sdkError) {
+                tHSNoppCallBack.onNoppReceivedSuccess(s,sdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                tHSNoppCallBack.onNoppReceivedFailure(throwable);
             }
         });
     }
