@@ -41,7 +41,7 @@ public class OrmDCSync implements DCSync, Serializable {
     OrmDCSync() {
     }
 
-    public OrmDCSync(@NonNull final int tableID,@NonNull final String tableType,boolean isSynced) {
+    public OrmDCSync(@NonNull final int tableID, @NonNull final String tableType, boolean isSynced) {
         this.tableType = tableType;
         this.isSynced=isSynced;
         this.tableID=tableID;

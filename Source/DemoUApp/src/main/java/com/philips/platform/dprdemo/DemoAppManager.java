@@ -21,22 +21,10 @@ import com.philips.platform.dprdemo.database.OrmFetchingInterfaceImpl;
 import com.philips.platform.dprdemo.database.OrmSaving;
 import com.philips.platform.dprdemo.database.OrmUpdating;
 import com.philips.platform.dprdemo.database.table.BaseAppDateTime;
-import com.philips.platform.dprdemo.database.table.OrmCharacteristics;
 import com.philips.platform.dprdemo.database.table.OrmConsentDetail;
 import com.philips.platform.dprdemo.database.table.OrmDCSync;
-import com.philips.platform.dprdemo.database.table.OrmInsight;
-import com.philips.platform.dprdemo.database.table.OrmInsightMetaData;
-import com.philips.platform.dprdemo.database.table.OrmMeasurement;
-import com.philips.platform.dprdemo.database.table.OrmMeasurementDetail;
-import com.philips.platform.dprdemo.database.table.OrmMeasurementGroup;
-import com.philips.platform.dprdemo.database.table.OrmMeasurementGroupDetail;
-import com.philips.platform.dprdemo.database.table.OrmMoment;
-import com.philips.platform.dprdemo.database.table.OrmMomentDetail;
-import com.philips.platform.dprdemo.database.table.OrmSettings;
-import com.philips.platform.dprdemo.database.table.OrmSynchronisationData;
 import com.philips.platform.dprdemo.error.ErrorHandlerInterfaceImpl;
 import com.philips.platform.dprdemo.registration.UserRegistrationInterfaceImpl;
-
 
 import java.sql.SQLException;
 
@@ -52,7 +40,8 @@ public class DemoAppManager {
     UserRegistrationInterfaceImpl userRegImple;
     final String AI = "appinfra";
     private static DemoAppManager sDemoAppManager;
-    private DemoAppManager(){
+
+    private DemoAppManager() {
 
     }
 
@@ -62,6 +51,7 @@ public class DemoAppManager {
         }
         return sDemoAppManager;
     }
+
     public AppInfraInterface getAppInfra() {
         return mAppInfra;
     }
@@ -95,41 +85,23 @@ public class DemoAppManager {
 
     void injectDBInterfacesToCore() {
         try {
-            Dao<OrmMoment, Integer> momentDao = databaseHelper.getMomentDao();
-            Dao<OrmMomentDetail, Integer> momentDetailDao = databaseHelper.getMomentDetailDao();
-            Dao<OrmMeasurement, Integer> measurementDao = databaseHelper.getMeasurementDao();
-            Dao<OrmMeasurementDetail, Integer> measurementDetailDao = databaseHelper.getMeasurementDetailDao();
-            Dao<OrmSynchronisationData, Integer> synchronisationDataDao = databaseHelper.getSynchronisationDataDao();
-            Dao<OrmMeasurementGroup, Integer> measurementGroup = databaseHelper.getMeasurementGroupDao();
-            Dao<OrmMeasurementGroupDetail, Integer> measurementGroupDetails = databaseHelper.getMeasurementGroupDetailDao();
+
 
             Dao<OrmConsentDetail, Integer> consentDetailsDao = databaseHelper.getConsentDetailsDao();
-            Dao<OrmCharacteristics, Integer> characteristicsesDao = databaseHelper.getCharacteristicsDao();
-
-            Dao<OrmSettings, Integer> settingsDao = databaseHelper.getSettingsDao();
-            Dao<OrmInsight, Integer> insightsDao = databaseHelper.getInsightDao();
-            Dao<OrmInsightMetaData, Integer> insightMetaDataDao = databaseHelper.getInsightMetaDataDao();
-
             Dao<OrmDCSync, Integer> dcSyncDao = databaseHelper.getDCSyncDao();
-            OrmSaving saving = new OrmSaving(momentDao, momentDetailDao, measurementDao, measurementDetailDao,
-                    synchronisationDataDao, consentDetailsDao, measurementGroup, measurementGroupDetails,
-                    characteristicsesDao, settingsDao, insightsDao, insightMetaDataDao, dcSyncDao);
+            OrmSaving saving = new OrmSaving(consentDetailsDao, dcSyncDao);
 
 
-            OrmUpdating updating = new OrmUpdating(momentDao, momentDetailDao, measurementDao, measurementDetailDao, settingsDao,
-                    consentDetailsDao, dcSyncDao, measurementGroup, synchronisationDataDao, measurementGroupDetails);
-            OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDetailsDao, characteristicsesDao,
-                    settingsDao, dcSyncDao, insightsDao);
-            OrmDeleting deleting = new OrmDeleting(momentDao, momentDetailDao, measurementDao,
-                    measurementDetailDao, synchronisationDataDao, measurementGroupDetails, measurementGroup, consentDetailsDao, characteristicsesDao, settingsDao, dcSyncDao, insightsDao, insightMetaDataDao);
+            OrmUpdating updating = new OrmUpdating(consentDetailsDao, dcSyncDao);
+            OrmFetchingInterfaceImpl fetching = new OrmFetchingInterfaceImpl(consentDetailsDao, dcSyncDao);
+            OrmDeleting deleting = new OrmDeleting(consentDetailsDao, dcSyncDao);
 
 
             BaseAppDateTime uGrowDateTime = new BaseAppDateTime();
             ORMSavingInterfaceImpl ORMSavingInterfaceImpl = new ORMSavingInterfaceImpl(saving, updating, fetching, deleting, uGrowDateTime);
             OrmDeletingInterfaceImpl ORMDeletingInterfaceImpl = new OrmDeletingInterfaceImpl(deleting, saving, fetching);
             ORMUpdatingInterfaceImpl dbInterfaceOrmUpdatingInterface = new ORMUpdatingInterfaceImpl(saving, updating, fetching, deleting);
-            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(momentDao, synchronisationDataDao, consentDetailsDao,
-                    characteristicsesDao, settingsDao, dcSyncDao, insightsDao);
+            OrmFetchingInterfaceImpl dbInterfaceOrmFetchingInterface = new OrmFetchingInterfaceImpl(consentDetailsDao, dcSyncDao);
 
             mDataServicesManager.initializeDatabaseMonitor(mContext, ORMDeletingInterfaceImpl, dbInterfaceOrmFetchingInterface, ORMSavingInterfaceImpl, dbInterfaceOrmUpdatingInterface);
         } catch (SQLException exception) {
@@ -142,11 +114,11 @@ public class DemoAppManager {
     }
 
     public void initPreRequisite(Context context, AppInfraInterface appInfra) {
-        this.mContext=context;
-        this.mAppInfra =appInfra;
+        this.mContext = context;
+        this.mAppInfra = appInfra;
         configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        databaseHelper=DatabaseHelper.getInstance(context,new UuidGenerator());
+        databaseHelper = DatabaseHelper.getInstance(context, new UuidGenerator());
         initAppInfra(mAppInfra);
         init();
     }

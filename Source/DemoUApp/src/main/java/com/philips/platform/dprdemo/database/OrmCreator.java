@@ -20,29 +20,10 @@ import com.philips.platform.core.datatypes.MeasurementGroupDetail;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
 import com.philips.platform.core.datatypes.Settings;
+import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.utils.UuidGenerator;
-import com.philips.platform.dprdemo.database.datatypes.MeasurementDetailType;
-import com.philips.platform.dprdemo.database.datatypes.MeasurementGroupDetailType;
-import com.philips.platform.dprdemo.database.datatypes.MeasurementType;
-import com.philips.platform.dprdemo.database.datatypes.MomentDetailType;
-import com.philips.platform.dprdemo.database.datatypes.MomentType;
-import com.philips.platform.dprdemo.database.table.OrmCharacteristics;
 import com.philips.platform.dprdemo.database.table.OrmConsentDetail;
-import com.philips.platform.dprdemo.database.table.OrmInsight;
-import com.philips.platform.dprdemo.database.table.OrmInsightMetaData;
-import com.philips.platform.dprdemo.database.table.OrmMeasurement;
-import com.philips.platform.dprdemo.database.table.OrmMeasurementDetail;
-import com.philips.platform.dprdemo.database.table.OrmMeasurementDetailType;
-import com.philips.platform.dprdemo.database.table.OrmMeasurementGroup;
-import com.philips.platform.dprdemo.database.table.OrmMeasurementGroupDetail;
-import com.philips.platform.dprdemo.database.table.OrmMeasurementGroupDetailType;
-import com.philips.platform.dprdemo.database.table.OrmMeasurementType;
-import com.philips.platform.dprdemo.database.table.OrmMoment;
-import com.philips.platform.dprdemo.database.table.OrmMomentDetail;
-import com.philips.platform.dprdemo.database.table.OrmMomentDetailType;
-import com.philips.platform.dprdemo.database.table.OrmMomentType;
-import com.philips.platform.dprdemo.database.table.OrmSettings;
-import com.philips.platform.dprdemo.database.table.OrmSynchronisationData;
+
 import org.joda.time.DateTime;
 
 import javax.inject.Singleton;
@@ -64,17 +45,15 @@ public class OrmCreator implements BaseAppDataCreator {
 
     @Override
     @NonNull
-    public OrmMoment createMoment(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull String type) {
-        final OrmMomentType ormMomentType = new OrmMomentType(MomentType.getIDFromDescription(type), type);
-
-        return new OrmMoment(creatorId, subjectId, ormMomentType);
+    public Moment createMoment(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull String type) {
+        return null;
     }
 
     @Override
     @NonNull
     public MomentDetail createMomentDetail(@NonNull final String type,
                                            @NonNull final Moment moment) {
-        return createMomentDetail(type, (OrmMoment) moment);
+        return null;
     }
 
 
@@ -82,39 +61,39 @@ public class OrmCreator implements BaseAppDataCreator {
     @NonNull
     public Measurement createMeasurement(@NonNull final String type,
                                          @NonNull final MeasurementGroup MeasurementGroup) {
-        return createMeasurement(type, (OrmMeasurementGroup) MeasurementGroup);
+        return null;
     }
 
     @Override
     @NonNull
     public MeasurementDetail createMeasurementDetail(@NonNull final String type,
                                                      @NonNull final Measurement measurement) {
-        return createMeasurementDetail(type, (OrmMeasurement) measurement);
+        return null;
     }
 
     @NonNull
     @Override
     public MeasurementGroup createMeasurementGroup(@NonNull MeasurementGroup measurementGroup) {
-        return createMeasurementGroup((OrmMeasurementGroup) measurementGroup);
+        return null;
     }
 
     @NonNull
     @Override
     public MeasurementGroup createMeasurementGroup(@NonNull Moment moment) {
-        return createMeasurementGroup((OrmMoment) moment);
+        return null;
     }
 
     @NonNull
     @Override
     public MeasurementGroupDetail createMeasurementGroupDetail(@NonNull String type, @NonNull MeasurementGroup measurementGroup) {
-        return createMeasurementGroupDetail(type, (OrmMeasurementGroup) measurementGroup);
+        return null;
     }
 
     @NonNull
     @Override
-    public OrmSynchronisationData createSynchronisationData(@NonNull final String guid, final boolean inactive,
-                                                            @NonNull DateTime lastModifiedTime, final int version) {
-        return new OrmSynchronisationData(guid, inactive, lastModifiedTime, version);
+    public SynchronisationData createSynchronisationData(@NonNull final String guid, final boolean inactive,
+                                                         @NonNull DateTime lastModifiedTime, final int version) {
+        return null;
     }
 
 
@@ -128,73 +107,36 @@ public class OrmCreator implements BaseAppDataCreator {
     @NonNull
     @Override
     public Characteristics createCharacteristics(@NonNull String type, @NonNull String value, @NonNull Characteristics characteristics) {
-        return new OrmCharacteristics(type, value, (OrmCharacteristics) characteristics);
+        return null;
     }
 
     @NonNull
     @Override
     public Characteristics createCharacteristics(@NonNull String type, @NonNull String value) {
-        return new OrmCharacteristics(type, value);
+        return null;
     }
 
     @NonNull
     @Override
     public Settings createSettings(String type, String value) {
-        return new OrmSettings(type, value);
-    }
-
-    @NonNull
-    public OrmMomentDetail createMomentDetail(@NonNull final String type,
-                                              @NonNull final OrmMoment moment) {
-        OrmMomentDetailType ormMomentDetailType = new OrmMomentDetailType(MomentDetailType.getIDFromDescription(type), type);
-        return new OrmMomentDetail(ormMomentDetailType, moment);
-    }
-
-    @NonNull
-    public OrmMeasurement createMeasurement(@NonNull final String type,
-                                            @NonNull final OrmMeasurementGroup ormMeasurementGroup) {
-        OrmMeasurementType ormMeasurementType = new OrmMeasurementType(MeasurementType.getIDFromDescription(type),
-                type,
-                MeasurementType.getUnitFromDescription(type));
-        return new OrmMeasurement(ormMeasurementType, ormMeasurementGroup);
-    }
-
-    @NonNull
-    public OrmMeasurementDetail createMeasurementDetail(@NonNull final String type,
-                                                        @NonNull final OrmMeasurement measurement) {
-        OrmMeasurementDetailType ormMeasurementDetailType = new OrmMeasurementDetailType(MeasurementDetailType.getIDFromDescription(type), type);
-        return new OrmMeasurementDetail(ormMeasurementDetailType, measurement);
-    }
-
-    @NonNull
-    public OrmMeasurementGroup createMeasurementGroup(@NonNull OrmMoment ormMoment) {
-        return new OrmMeasurementGroup(ormMoment);
+        return null;
     }
 
 
-    @NonNull
-    public OrmMeasurementGroup createMeasurementGroup(@NonNull OrmMeasurementGroup ormMeasurementGroup) {
-        return new OrmMeasurementGroup(ormMeasurementGroup);
-    }
 
-    @NonNull
-    public OrmMeasurementGroupDetail createMeasurementGroupDetail(@NonNull final String type,
-                                                                  @NonNull final OrmMeasurementGroup measurementGroup) {
-        OrmMeasurementGroupDetailType ormMeasurementGroupDetailType = new OrmMeasurementGroupDetailType(MeasurementGroupDetailType.getIDFromDescription(type), type);
-        return new OrmMeasurementGroupDetail(ormMeasurementGroupDetailType, measurementGroup);
-    }
+
 
     //Insight
     @NonNull
     @Override
     public Insight createInsight() {
-        return new OrmInsight();
+        return null;
     }
 
     @NonNull
     @Override
     public InsightMetadata createInsightMetaData(String key, String value, Insight insight) {
-        return new OrmInsightMetaData(key, value, (OrmInsight) insight);
+        return null;
     }
 
 }

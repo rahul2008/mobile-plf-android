@@ -8,11 +8,8 @@ import com.philips.platform.core.datatypes.Settings;
 import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.dbinterfaces.DBUpdatingInterface;
 import com.philips.platform.core.listeners.DBRequestListener;
-import com.philips.platform.core.utils.DSLog;
-import com.philips.platform.dprdemo.database.table.OrmCharacteristics;
-import com.philips.platform.dprdemo.database.table.OrmMoment;
-import com.philips.platform.dprdemo.database.table.OrmSettings;
 import com.philips.platform.dprdemo.utils.NotifyDBRequestListener;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -42,34 +39,15 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
     }
 
     @Override
-    public void updateSettings(Settings settings, DBRequestListener<Settings> dbRequestListener) {
-        try {
-
-            OrmSettings ormExistingSettings=null;
-            OrmSettings ormSettings = OrmTypeChecking.checkOrmType(settings, OrmSettings.class);
-
-            Settings existingSettings = fetching.fetchSettings();
-            if(existingSettings!=null){
-                ormExistingSettings = OrmTypeChecking.checkOrmType(existingSettings, OrmSettings.class);
-            }
-
-
-            if (ormExistingSettings == null) {
-                saving.saveSettings(ormSettings);
-                notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.SETTINGS);
-                return;
-            }
-
-            ormSettings.setID(ormExistingSettings.getId());
-            updating.updateSettings(ormSettings);
-            notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.SETTINGS);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (OrmTypeChecking.OrmTypeException e) {
-            e.printStackTrace();
-        }
+    public boolean updateCharacteristics(List<Characteristics> list, DBRequestListener<Characteristics> dbRequestListener) throws SQLException {
+        return false;
     }
+
+    @Override
+    public void updateSettings(Settings settings, DBRequestListener<Settings> dbRequestListener) throws SQLException {
+
+    }
+
 
     @Override
     public boolean updateSyncBit(int tableID, boolean isSynced) {
@@ -78,6 +56,21 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
+    }
+
+    @Override
+    public boolean updateInsights(List<? extends Insight> list, DBRequestListener<Insight> dbRequestListener) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public void updateMoment(Moment moment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
+
+    }
+
+    @Override
+    public boolean updateMoments(List<Moment> list, DBRequestListener<Moment> dbRequestListener) throws SQLException {
         return false;
     }
 
@@ -98,67 +91,5 @@ public class ORMUpdatingInterfaceImpl implements DBUpdatingInterface {
         return true;
     }
 
-    @Override
-    public void updateMoment(final Moment moment, DBRequestListener<Moment> dbRequestListener) throws SQLException {
 
-        OrmMoment ormMoment = getOrmMoment(moment, dbRequestListener);
-        if (ormMoment == null) {
-            return;
-        }
-        updating.updateMoment(ormMoment);
-        updating.refreshMoment(ormMoment);
-
-        notifyDBRequestListener.notifySuccess(dbRequestListener, ormMoment, SyncType.MOMENT);
-    }
-
-    @Override
-    public boolean updateMoments(List<Moment> moments, DBRequestListener<Moment> dbRequestListener) throws SQLException {
-
-        boolean isUpdated = updating.updateMoments(moments, dbRequestListener);
-        if (isUpdated) {
-            notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.MOMENT);
-        }
-        return isUpdated;
-    }
-
-    public OrmMoment getOrmMoment(final Moment moment, DBRequestListener<Moment> dbRequestListener) {
-        try {
-            return OrmTypeChecking.checkOrmType(moment, OrmMoment.class);
-        } catch (OrmTypeChecking.OrmTypeException e) {
-            notifyDBRequestListener.notifyOrmTypeCheckingFailure(dbRequestListener, e, "Orm Type check failed");
-            DSLog.e(TAG, "Eror while type checking");
-        }
-        return null;
-    }
-
-    //User AppUserCharacteristics
-    @Override
-    public boolean updateCharacteristics(List<Characteristics> characteristicsList, DBRequestListener<Characteristics> dbRequestListener) throws SQLException {
-
-        try {
-
-            deleting.deleteCharacteristics();
-
-            for (Characteristics characteristics : characteristicsList) {
-                OrmCharacteristics ormCharacteristics = OrmTypeChecking.checkOrmType(characteristics, OrmCharacteristics.class);
-                saving.saveCharacteristics(ormCharacteristics);
-            }
-            notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.CHARACTERISTICS);
-            return true;
-        } catch (OrmTypeChecking.OrmTypeException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-    }
-
-    @Override
-    public boolean updateInsights(List<? extends Insight> insights, DBRequestListener<Insight> dbRequestListener) throws SQLException {
-        boolean isSaved = saving.saveInsights((List<Insight>) insights, dbRequestListener);
-        if (isSaved)
-            notifyDBRequestListener.notifySuccess(dbRequestListener, SyncType.INSIGHT); //Should notify DB change?
-        else
-            notifyDBRequestListener.notifyFailure(new Exception("Update failed"), dbRequestListener);
-        return isSaved;
-    }
 }
