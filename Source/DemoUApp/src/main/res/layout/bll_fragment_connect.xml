@@ -35,7 +35,7 @@
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 app:layoutManager="LinearLayoutManager"
-                                                tools:listitem="@layout/listitem_device" />
+                                                tools:listitem="@layout/bll_listitem_device"/>
     </LinearLayout>
 
 </android.support.v4.widget.SwipeRefreshLayout>

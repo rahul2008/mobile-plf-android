@@ -59,7 +59,7 @@ public class DeviceDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_device_detail);
+        setContentView(R.layout.bll_activity_device_detail);
 
         mView = findViewById(android.R.id.content);
 

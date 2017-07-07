@@ -31,7 +31,7 @@ public class AboutFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_about, container, false);
+        View rootView = inflater.inflate(R.layout.bll_fragment_about, container, false);
 
         setStyle(DialogFragment.STYLE_NORMAL, R.style.AboutDialog);
 

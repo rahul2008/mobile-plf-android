@@ -28,7 +28,7 @@ public abstract class BaseDeviceAdapter<T> extends RecyclerView.Adapter<BaseDevi
     @Override
     public DeviceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.listitem_device, parent, false);
+                .inflate(R.layout.bll_listitem_device, parent, false);
         return new DeviceViewHolder(view);
     }
 

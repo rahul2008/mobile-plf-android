@@ -81,7 +81,7 @@ public class AssociatedDevicesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_associate, container, false);
+        mView = inflater.inflate(R.layout.bll_fragment_associate, container, false);
 
         // Obtain reference to BlueLib instance
         SHNCentral shnCentral = BlueLibExampleApplication.get().getShnCentral();

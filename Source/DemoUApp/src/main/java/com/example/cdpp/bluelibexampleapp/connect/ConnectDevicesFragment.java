@@ -42,7 +42,7 @@ public class ConnectDevicesFragment extends Fragment implements SwipeRefreshLayo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_connect, container, false);
+        View rootView = inflater.inflate(R.layout.bll_fragment_connect, container, false);
 
         // Setup swipe layout
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.bll_swipeLayout);

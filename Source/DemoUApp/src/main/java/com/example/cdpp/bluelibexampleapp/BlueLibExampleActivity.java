@@ -33,7 +33,7 @@ public class BlueLibExampleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.bll_activity_main);
 
         // Set title
         Toolbar toolbar = (Toolbar) findViewById(R.id.bll_toolbar);
@@ -68,7 +68,7 @@ public class BlueLibExampleActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.bll_menu_main, menu);
 
         return true;
     }
