@@ -8,22 +8,22 @@
     tools:ignore="MergeRootFrame">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
+        android:id="@+id/bll_app_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
+            android:id="@+id/bll_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:toolbarId="@+id/toolbar">
+            app:toolbarId="@+id/bll_toolbar">
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/detail_toolbar"
+                android:id="@+id/bll_detail_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/action_bar_size"
                 app:layout_collapseMode="pin"
@@ -34,7 +34,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
-        android:id="@+id/device_detail_container"
+        android:id="@+id/bll_device_detail_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -46,132 +46,132 @@
             android:padding="@dimen/text_margin">
 
             <TextView
-                android:id="@+id/textViewManufacturer"
+                android:id="@+id/bll_textViewManufacturer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/manufacturer_name"
+                android:text="@string/bll_manufacturer_name"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/textViewManufacturerValue"
+                android:id="@+id/bll_textViewManufacturerValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="16dp"
-                android:text="@string/unknown" />
+                android:text="@string/bll_unknown"/>
 
 
             <TextView
-                android:id="@+id/textViewModelNumber"
+                android:id="@+id/bll_textViewModelNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/model_number"
+                android:text="@string/bll_model_number"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/textViewModelNumberValue"
+                android:id="@+id/bll_textViewModelNumberValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="16dp"
-                android:text="@string/unknown" />
+                android:text="@string/bll_unknown"/>
 
             <TextView
-                android:id="@+id/textViewSerialNumber"
+                android:id="@+id/bll_textViewSerialNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="start"
-                android:text="@string/serial_number"
+                android:text="@string/bll_serial_number"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/textViewSerialNumberValue"
+                android:id="@+id/bll_textViewSerialNumberValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="16dp"
-                android:text="@string/unknown" />
+                android:text="@string/bll_unknown"/>
 
 
             <TextView
-                android:id="@+id/textViewHardware"
+                android:id="@+id/bll_textViewHardware"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/hardware_version"
+                android:text="@string/bll_hardware_version"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/textViewHardwareValue"
+                android:id="@+id/bll_textViewHardwareValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="16dp"
-                android:text="@string/unknown" />
+                android:text="@string/bll_unknown"/>
 
             <TextView
-                android:id="@+id/textViewSoftwareRevision"
+                android:id="@+id/bll_textViewSoftwareRevision"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/software_version"
+                android:text="@string/bll_software_version"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/textViewSoftwareRevisionValue"
+                android:id="@+id/bll_textViewSoftwareRevisionValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="16dp"
-                android:text="@string/unknown" />
+                android:text="@string/bll_unknown"/>
 
 
             <TextView
-                android:id="@+id/textViewFirmware"
+                android:id="@+id/bll_textViewFirmware"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/firmware_version"
+                android:text="@string/bll_firmware_version"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/textViewFirmwareValue"
+                android:id="@+id/bll_textViewFirmwareValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="16dp"
-                android:text="@string/unknown" />
+                android:text="@string/bll_unknown"/>
 
             <TextView
-                android:id="@+id/textViewSystemID"
+                android:id="@+id/bll_textViewSystemID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/system_id"
+                android:text="@string/bll_system_id"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/textViewSystemIDValue"
+                android:id="@+id/bll_textViewSystemIDValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="16dp"
-                android:text="@string/unknown" />
+                android:text="@string/bll_unknown"/>
 
             <TextView
-                android:id="@+id/textViewBattery"
+                android:id="@+id/bll_textViewBattery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/battery"
+                android:text="@string/bll_battery"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/textViewBatteryValue"
+                android:id="@+id/bll_textViewBatteryValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="16dp"
-                android:text="@string/unknown" />
+                android:text="@string/bll_unknown"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/bll_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|start"
         android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/stat_sys_data_bluetooth"
-        app:layout_anchor="@+id/device_detail_container"
+        app:layout_anchor="@+id/bll_device_detail_container"
         app:layout_anchorGravity="top|end"
         app:rippleColor="@android:color/white" />
 

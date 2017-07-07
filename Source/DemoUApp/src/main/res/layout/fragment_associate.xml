@@ -9,12 +9,12 @@
     tools:context=".associate.AssociatedDevicesFragment">
 
     <TextView
-        android:id="@+id/deviceDefinitionsHeader"
+        android:id="@+id/bll_deviceDefinitionsHeader"
         style="@style/Base.TextAppearance.AppCompat.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/item_padding"
-        android:text="@string/device_definitions_header"
+        android:text="@string/bll_device_definitions_header"
         android:textAllCaps="true" />
 
     <View
@@ -24,21 +24,21 @@
         android:background="@android:color/darker_gray" />
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/deviceDefinitions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/listitem_device" />
+                                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                                            xmlns:tools="http://schemas.android.com/tools"
+                                            android:id="@+id/bll_deviceDefinitions"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            app:layoutManager="LinearLayoutManager"
+                                            tools:listitem="@layout/listitem_device" />
 
     <TextView
-        android:id="@+id/associatedDevicesHeader"
+        android:id="@+id/bll_associatedDevicesHeader"
         style="@style/Base.TextAppearance.AppCompat.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/item_padding"
-        android:text="@string/association_devices_header"
+        android:text="@string/bll_association_devices_header"
         android:textAllCaps="true" />
 
     <View
@@ -48,11 +48,11 @@
         android:background="@android:color/darker_gray" />
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/associatedDevices"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/listitem_device" />
+                                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                                            xmlns:tools="http://schemas.android.com/tools"
+                                            android:id="@+id/bll_associatedDevices"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            app:layoutManager="LinearLayoutManager"
+                                            tools:listitem="@layout/listitem_device" />
 </LinearLayout>

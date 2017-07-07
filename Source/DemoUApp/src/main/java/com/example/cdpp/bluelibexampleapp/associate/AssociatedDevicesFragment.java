@@ -44,28 +44,28 @@ public class AssociatedDevicesFragment extends Fragment {
     private SHNDeviceAssociation.SHNDeviceAssociationListener mDeviceAssociationListener = new SHNDeviceAssociation.SHNDeviceAssociationListener() {
         @Override
         public void onAssociationStarted(SHNAssociationProcedure shnDeviceAssociationProcedure) {
-            UiUtils.showPersistentMessage(mView, getContext().getString(R.string.association_started));
+            UiUtils.showPersistentMessage(mView, getContext().getString(R.string.bll_association_started));
         }
 
         @Override
         public void onAssociationStopped() {
-            UiUtils.showVolatileMessage(mView, getContext().getString(R.string.association_stopped));
+            UiUtils.showVolatileMessage(mView, getContext().getString(R.string.bll_association_stopped));
         }
 
         @Override
         public void onAssociationSucceeded(SHNDevice shnDevice) {
-            UiUtils.showVolatileMessage(mView, String.format(getContext().getString(R.string.association_succeeded), shnDevice.getName()));
+            UiUtils.showVolatileMessage(mView, String.format(getContext().getString(R.string.bll_association_succeeded), shnDevice.getName()));
             mAssociatedDeviceAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void onAssociationFailed(SHNResult shnError) {
-            UiUtils.showVolatileMessage(mView, getContext().getString(R.string.association_failed) + shnError.name());
+            UiUtils.showVolatileMessage(mView, getContext().getString(R.string.bll_association_failed) + shnError.name());
         }
 
         @Override
         public void onAssociatedDevicesUpdated() {
-            UiUtils.showVolatileMessage(mView, getContext().getString(R.string.association_devices_updated));
+            UiUtils.showVolatileMessage(mView, getContext().getString(R.string.bll_association_devices_updated));
 
             mAssociatedDeviceAdapter.notifyDataSetChanged();
         }
@@ -110,7 +110,7 @@ public class AssociatedDevicesFragment extends Fragment {
             }
         });
 
-        RecyclerView deviceDefinitionsView = (RecyclerView) mView.findViewById(R.id.deviceDefinitions);
+        RecyclerView deviceDefinitionsView = (RecyclerView) mView.findViewById(R.id.bll_deviceDefinitions);
         deviceDefinitionsView.setAdapter(mDeviceDefinitionAdapter);
 
         // Setup associated devices list
@@ -130,7 +130,7 @@ public class AssociatedDevicesFragment extends Fragment {
 
             @Override
             public void onItemLongClick(final int position, View itemView) {
-                UiUtils.showConfirmationMessage(mView, getString(R.string.association_question_remove), new View.OnClickListener() {
+                UiUtils.showConfirmationMessage(mView, getString(R.string.bll_association_question_remove), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         final SHNDevice device = mAssociatedDeviceAdapter.getItem(position);
@@ -138,13 +138,13 @@ public class AssociatedDevicesFragment extends Fragment {
                         mShnDeviceAssociation.removeAssociatedDevice(device);
                         mAssociatedDeviceAdapter.notifyDataSetChanged();
 
-                        UiUtils.showVolatileMessage(mView, String.format(getContext().getString(R.string.association_removed), device.getName()));
+                        UiUtils.showVolatileMessage(mView, String.format(getContext().getString(R.string.bll_association_removed), device.getName()));
                     }
                 });
             }
         });
 
-        RecyclerView associatedDevicesView = (RecyclerView) mView.findViewById(R.id.associatedDevices);
+        RecyclerView associatedDevicesView = (RecyclerView) mView.findViewById(R.id.bll_associatedDevices);
         associatedDevicesView.setAdapter(mAssociatedDeviceAdapter);
 
         return mView;

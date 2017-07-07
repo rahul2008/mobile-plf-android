@@ -6,10 +6,10 @@
     tools:context=".about.AboutFragment">
 
     <TextView
-        android:id="@+id/versionNameTxt"
+        android:id="@+id/bll_versionNameTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/text_margin"
-        android:text="@string/version_app" />
+        android:text="@string/bll_version_app"/>
 
 </RelativeLayout>
