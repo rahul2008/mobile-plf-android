@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string msgid="4600421777120114993" name="abc_action_bar_home_description">"Придвижване към „Начало“"</string>
+    <string msgid="1397052879051804371" name="abc_action_bar_home_description_format">"„%1$s“ – %2$s"</string>
+    <string msgid="6623331958280229229" name="abc_action_bar_home_subtitle_description_format">"„%1$s“, „%2$s“ – %3$s"</string>
+    <string msgid="1594238315039666878" name="abc_action_bar_up_description">"Придвижване нагоре"</string>
+    <string msgid="3588849162933574182" name="abc_action_menu_overflow_description">"Още опции"</string>
+    <string msgid="4076576682505996667" name="abc_action_mode_done">"Готово"</string>
+    <string msgid="7468859129482906941" name="abc_activity_chooser_view_see_all">"Вижте всички"</string>
+    <string msgid="2031811694353399454" name="abc_activitychooserview_choose_application">"Изберете приложение"</string>
+    <string msgid="121134116657445385" name="abc_capital_off">"ИЗКЛ."</string>
+    <string msgid="3405795526292276155" name="abc_capital_on">"ВКЛ."</string>
+    <string msgid="7723749260725869598" name="abc_search_hint">"Търсете…"</string>
+    <string msgid="3691816814315814921" name="abc_searchview_description_clear">"Изчистване на заявката"</string>
+    <string msgid="2550479030709304392" name="abc_searchview_description_query">"Заявка за търсене"</string>
+    <string msgid="8264924765203268293" name="abc_searchview_description_search">"Търсене"</string>
+    <string msgid="8928215447528550784" name="abc_searchview_description_submit">"Изпращане на заявката"</string>
+    <string msgid="893419373245838918" name="abc_searchview_description_voice">"Гласово търсене"</string>
+    <string msgid="3421042268587513524" name="abc_shareactionprovider_share_with">"Споделяне със:"</string>
+    <string msgid="7165123711973476752" name="abc_shareactionprovider_share_with_application">"Споделяне със: %s"</string>
+    <string msgid="1603543279005712093" name="abc_toolbar_collapse_description">"Свиване"</string>
+    <string name="ail_locale">bg</string>
+    <string msgid="8585111718777012708" name="common_google_play_services_enable_button">"Активиране"</string>
+    <string msgid="7045129128108380659" name="common_google_play_services_enable_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> няма да работи, освен ако не активирате услугите за Google Play."</string>
+    <string msgid="3147157405986503375" name="common_google_play_services_enable_title">"Активиране на услугите за Google Play"</string>
+    <string msgid="9115728400623041681" name="common_google_play_services_install_button">"Инсталиране"</string>
+    <string msgid="8179894293032530091" name="common_google_play_services_install_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> няма да се изпълнява, тъй като услугите за Google Play не са инсталирани на устройството ви."</string>
+    <string msgid="7442193194585196676" name="common_google_play_services_install_title">"Изтегляне на услугите за Google Play"</string>
+    <string msgid="180394615667698242" name="common_google_play_services_notification_ticker">"Грешка в услугите за Google Play"</string>
+    <string msgid="2518680582564677258" name="common_google_play_services_unknown_issue">"<ns1:g id="APP_NAME">%1$s</ns1:g> има проблеми с услугите за Google Play. Моля, опитайте отново."</string>
+    <string msgid="5501187292256987189" name="common_google_play_services_unsupported_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> няма да се изпълнява, тъй като услугите за Google Play не се поддържат от устройството ви."</string>
+    <string msgid="8172070149091615356" name="common_google_play_services_update_button">"Актуализиране"</string>
+    <string msgid="7773943415006962566" name="common_google_play_services_update_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> няма да се изпълнява, освен ако не актуализирате услугите за Google Play."</string>
+    <string msgid="8706675115216073244" name="common_google_play_services_update_title">"Актуализиране на услугите за Google Play"</string>
+    <string msgid="7894275749778928941" name="common_google_play_services_updating_text">"<ns1:g id="APP_NAME">%1$s</ns1:g> няма да се изпълнява без услугите за Google Play. Понастоящем те се актуализират."</string>
+    <string msgid="2804989272736383918" name="common_google_play_services_wear_update_text">"Необходима е нова версия на услугите за Google Play. Скоро тя ще се актуализира автоматично."</string>
+    <string msgid="5201977337835724196" name="common_open_on_phone">"Отваряне на телефона"</string>
+    <string msgid="3441753203274453993" name="common_signin_button_text">"Вход"</string>
+    <string msgid="669893613918351210" name="common_signin_button_text_long">"Вход с Google"</string>
+    <string name="reg_Access_More_Account_Setting_lbltxt">Искате ли да имате достъп до повече настройки на акаунта?\nПосетете %s чрез браузъра си.</string>
+    <string name="reg_Account_ActivationCode_ChoosePassword_TitleTxt">Изберете нова парола, за да подновите паролата си.</string>
+    <string name="reg_Account_ActivationCode_EnterCode_placeholdertxt">Въведете код</string>
+    <string name="reg_Account_ActivationCode_ErrorTxt">Кодът за потвърждаване, който сте въвели, е грешен. Опитайте отново или натиснете \"Ново изпращане\", за да получите нов код чрез SMS.</string>
+    <string name="reg_Account_ActivationCode_Instruction_lbltxt">Имате проблеми?\n- Може да отнеме време, докато пристигне SMS с код\n- Ако не сте получили SMS, когато хронометърът за обратно отброяване изтече, натиснете бутона \"Ново изпращане\"</string>
+    <string name="reg_Account_ActivationCode_ResetPassword_lbltxt">Изпратихме SMS с код на вашия телефон, въведете кода, за да смените паролата си.</string>
+    <string name="reg_Account_ActivationCode_Title_lbltxt">Изпратихме SMS с код на вашия телефон, въведете кода, за да влезете.</string>
+    <string name="reg_Account_ActivationCode_Verify_Account">Потвърждаване на акаунта</string>
+    <string name="reg_Account_ActivationCode_resendtxt">ново изпращане</string>
+    <string name="reg_Account_ActivationCode_seconds">%ds</string>
+    <string name="reg_Account_Merge_EnterPassword_Placeholder_txtFiled">Въведете Philips парола</string>
+    <string name="reg_Account_Merge_Merge_btntxt">Сливане</string>
+    <string name="reg_Account_Merge_UsedEmail_Error_lbltxt">И преди сте използвали %s за създаване на акаунт във Philips.</string>
+    <string name="reg_Account_Merge_lbltxt">Сливане на акаунтите ви</string>
+    <string name="reg_Account_Setting_Titletxt">Настройки на акаунта</string>
+    <string name="reg_AgeLimitText">Създавайки акаунт или влизайки тук, вие удостоверявате, че сте на %s години или повече.\n</string>
+    <string name="reg_Already_Verified_Message">Имейл адресът ви е потвърден. Можете да продължите.</string>
+    <string name="reg_AppNotInstalled_Alert_Title">Приложението не е инсталирано</string>
+    <string name="reg_App_NotInstalled_AlertMessage">Инсталирайте приложението %s, за да ползвате тази функция.</string>
+    <string name="reg_App_NotInstalled_InstallButton">Инсталир.</string>
+    <string name="reg_Continue_Btntxt">Продължи</string>
+    <string name="reg_Country_AR">Аржентина</string>
+    <string name="reg_Country_AT">Австрия</string>
+    <string name="reg_Country_AU">Австралия</string>
+    <string name="reg_Country_BE">Белгия</string>
+    <string name="reg_Country_BG">България</string>
+    <string name="reg_Country_BR">Бразилия</string>
+    <string name="reg_Country_CA">Канада</string>
+    <string name="reg_Country_CH">Швейцария</string>
+    <string name="reg_Country_CL">Чили</string>
+    <string name="reg_Country_CN">Китай</string>
+    <string name="reg_Country_CO">Колумбия</string>
+    <string name="reg_Country_CZ">Чешка република</string>
+    <string name="reg_Country_DE">Германия</string>
+    <string name="reg_Country_DK">Дания</string>
+    <string name="reg_Country_EE">Естония</string>
+    <string name="reg_Country_ES">Испания</string>
+    <string name="reg_Country_FI">Финландия</string>
+    <string name="reg_Country_FR">Франция</string>
+    <string name="reg_Country_GB">Великобритания</string>
+    <string name="reg_Country_GR">Гърция</string>
+    <string name="reg_Country_HK">Хонконг</string>
+    <string name="reg_Country_HR">Хърватска</string>
+    <string name="reg_Country_HU">Унгария</string>
+    <string name="reg_Country_ID">Indonesia</string>
+    <string name="reg_Country_IE">Ирландия</string>
+    <string name="reg_Country_IN">Индия</string>
+    <string name="reg_Country_IT">Италия</string>
+    <string name="reg_Country_JP">Япония</string>
+    <string name="reg_Country_KR">Южна Кореа</string>
+    <string name="reg_Country_LT">Литва</string>
+    <string name="reg_Country_LV">Латвия</string>
+    <string name="reg_Country_MX">Мексико</string>
+    <string name="reg_Country_MY">Малайзия</string>
+    <string name="reg_Country_NL">Холандия</string>
+    <string name="reg_Country_NO">Норвегия</string>
+    <string name="reg_Country_NZ">Нова Зеландия</string>
+    <string name="reg_Country_PE">Перу</string>
+    <string name="reg_Country_PH">Филипините</string>
+    <string name="reg_Country_PK">Пакистан</string>
+    <string name="reg_Country_PL">Полша</string>
+    <string name="reg_Country_PT">Португалия</string>
+    <string name="reg_Country_RO">Румъния</string>
+    <string name="reg_Country_RU">Русия</string>
+    <string name="reg_Country_RW">Руанда</string>
+    <string name="reg_Country_SA">Саудитска Арабия</string>
+    <string name="reg_Country_SE">Швеция</string>
+    <string name="reg_Country_SG">Сингапур</string>
+    <string name="reg_Country_SI">Словения</string>
+    <string name="reg_Country_SK">Словакия</string>
+    <string name="reg_Country_Search_Text">Търсене..</string>
+    <string name="reg_Country_TH">Тайланд</string>
+    <string name="reg_Country_TR">Турция</string>
+    <string name="reg_Country_TW">Тайван</string>
+    <string name="reg_Country_UA">Украйна</string>
+    <string name="reg_Country_US">България</string>
+    <string name="reg_Country_VN">Vietnam</string>
+    <string name="reg_Country_ZA">Южна Африка</string>
+    <string name="reg_CreateAccount_Email_PhoneNumber">Ваш имейл или телефон</string>
+    <string name="reg_CreateAccount_PhoneNumber">Вашият телефонен номер</string>
+    <string name="reg_CreateAccount_Using_Phone_Alreadytxt">Този телефонен номер вече се използва.</string>
+    <string name="reg_CreateAccount_Using_Phone_Messagetxt">Този телефонен номер вече се използва с акаунт във Philips или социална мрежа.\nВърнете се към стъпката \"Влизане\" или използвайте друг телефонен номер.</string>
+    <string name="reg_Create_Account_ChoosePwd_PlaceHolder_txtField">Изберете парола</string>
+    <string name="reg_Create_Account_CreateMyPhilips_btntxt">Създаване на акаунт във Philips</string>
+    <string name="reg_Create_Account_FirstName__Placeholder_txtFiled">Въведете собствено име</string>
+    <string name="reg_Create_Account_Hint_Password_lbltxt">Защитете поверителността си, като изберете силна парола.</string>
+    <string name="reg_Create_Account_PasswordHint_Aplhabets_lbltxt">Малки и големи букви</string>
+    <string name="reg_Create_Account_PasswordHint_Length_lbltxt">8 – 32 символа</string>
+    <string name="reg_Create_Account_PasswordHint_Numbers_lbltxt">Цифри</string>
+    <string name="reg_Create_Account_PasswordHint_SpecialCharacters_lbltxt">Символи: (_.@$)</string>
+    <string name="reg_Create_With_lbltxt">Или създайте акаунт</string>
+    <string name="reg_EmailAddPlaceHolder_txtField">Въведете имейл адрес</string>
+    <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">Настоящият имейл адрес вече се използва за акаунт във Philips или друг акаунт в социални мрежи.\nВърнете се обратно към стъпка \"Влизане\" или използвайте друг имейл адрес.</string>
+    <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">Този имейл адрес вече се използва. Въведете различен имейл адрес или се върнете и влезте с този имейл адрес.</string>
+    <string name="reg_EmptyField_ErrorMsg">Въведете стойност</string>
+    <string name="reg_ForgotPwdEmailResendMsg">Изпратихме ви имейл за нулиране на паролата ви. Възможно е да мине известно време, преди имейлът да пристигне.</string>
+    <string name="reg_ForgotPwdEmailResendMsg_Title">Смяна на парола</string>
+    <string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Ще ви изпратим имейл или SMS за подновяване на паролата.</string>
+    <string name="reg_Forgot_Password_Title">Забравена парола?</string>
+    <string name="reg_Forgot_Password_description">Ще ви изпратим имейл за смяна на паролата.</string>
+    <string name="reg_Generic_Network_Error">Опа! Нещо се обърка. Опитайте отново по-късно</string>
+    <string name="reg_InValidFirstName_ErrorMsg">Полето за собствено име може да съдържа само букви.</string>
+    <string name="reg_InValid_PwdErrorMsg">Паролата не отговаря на насоките за парола по-долу.</string>
+    <string name="reg_InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nИзпратихме имейл. Възможно е да мине известно време, преди имейлът да пристигне..\n\nПроверете имейла си, за да активирате своя акаунт.\n\nМеждувременно можете да използвате приложението.</string>
+    <string name="reg_InitialSignedIn_SigninEmailText">Влезли сте, използвайки: %s</string>
+    <string name="reg_InitialSignedIn_SigninMobileNumberText">Вие сте влезли с номер: %s</string>
+    <string name="reg_InitialSignedIn_Welcome_User_lbltxt">Добре дошли, %s</string>
+    <string name="reg_InvalidEmailAdddress_ErrorMsg">Невалиден имейл адрес. Моля, проверете.</string>
+    <string name="reg_InvalidEmail_PhoneNumber_ErrorMsg">Не мога да разпозная имейла или телефонния номер, който сте въвели. Моля, проверете.</string>
+    <string name="reg_InvalidMobilenumber">Невалиден мобилен номер</string>
+    <string name="reg_InvalidPhoneNumber_ErrorMsg">Това не е телефонен номер, който мога да разпозная. Проверете отново. \nАко сте в различна държава, може би ще трябва да промените настройките за държава.</string>
+    <string name="reg_Invalid_PhoneNumber_ErrorMsg">Не мога да разпозная телефонния номер, който сте въвели. Моля, проверете.</string>
+    <string name="reg_JanRain_Error_Check_Internet">Възникна проблем във връзката с мрежата. Опитайте отново.</string>
+    <string name="reg_JanRain_Invalid_Credentials">Потребителското име или паролата, която сте въвели, е грешна.</string>
+    <string name="reg_JanRain_Invalid_Input">Въвели сте нещо, което не мога да разбера. Моля, проверете.</string>
+    <string name="reg_JanRain_LogIn_Failed">Неуспешно влизане. Опитайте отново след известно време.</string>
+    <string name="reg_JanRain_Server_Connection_Failed">Неуспешно свързване със сървъра. Опитайте отново след известно време.</string>
+    <string name="reg_Janrain_Error_Need_Email_Verification">Потвърдете вашия имейл адрес от връзката за активиране, изпратена на имейл акаунта ви</string>
+    <string name="reg_Janrain_Error_Need_Mobile_Verification">Потвърдете номера на мобилния си телефон чрез кода за активиране, който изпратихме на мобилния ви телефон</string>
+    <string name="reg_LegalNoticeText">Прочетете нашите %s</string>
+    <string formatted="false" name="reg_LegalNoticeText_With_Terms_And_Conditions">Прочетете нашите %s и %s.</string>
+    <string name="reg_Login_using_email_address">Влизане с имейл</string>
+    <string name="reg_Login_using_phonenumber_errortxt">Телефонният номер, който въведохте, още не е регистриран.</string>
+    <string name="reg_Login_using_phonenumber_mismatch_errortxt">Комбинацията от телефонен номер и/или парола, която сте въвели, е грешна. Опитайте отново.</string>
+    <string name="reg_MaxiumCharacters_ErrorMsg">Не можете да въведете повече от 256 знака.</string>
+    <string name="reg_Merge_Account_Title">Сливане на акаунтите ви</string>
+    <string name="reg_Mobile_TraditionalSignIn_Instruction_lbltxt">Имате проблеми?\n-  Може да отнеме време, докато пристигне SMS с код\n-  Ако не сте получили SMS, натиснете бутона \"Ново изпращане\"</string>
+    <string name="reg_Mobile_Verification_Invalid_Code">Това не е код за потвърждаване, който мога да разпозная. Опитайте отново.</string>
+    <string name="reg_NameField_ErrorText">Въведете собственото си име.</string>
+    <string name="reg_NoNetworkConnection">Регистрацията не е достъпна, защото сте офлайн</string>
+    <string name="reg_Ok_Btn_Txt">OK</string>
+    <string name="reg_Opt_In_Be_The_First">Научете първи!</string>
+    <string name="reg_Opt_In_Count_Me_In">ОК, включете ме</string>
+    <string name="reg_Opt_In_Join_Now">Станете част от това сега %s</string>
+    <string name="reg_Opt_In_No_Thanks">Не, благодаря</string>
+    <string name="reg_Opt_In_Over_Peers">над 140 000 от вашите сътрудници!</string>
+    <string name="reg_Opt_In_Receive_Promotional">Получаване на промоционални съобщения от Philips, базирани на моите предпочитания и онлайн поведения\n%s</string>
+    <string name="reg_Opt_In_Special_Offers">Специални предложения, промоции и информация от първа ръка за пускането на нови продукти. Подбрани за вас!</string>
+    <string name="reg_Opt_In_What_Are_You_Going_To_Get">Какво ще получите?</string>
+    <string name="reg_Philips_News_Back_btntxt">Назад</string>
+    <string name="reg_Philips_News_Description_First_Bulleted_Description_lbltxt">Данни, които искате да споделяте активно с нас, като например: вашето име, дата на раждане или възраст, имейл адрес, пощенски адрес, страна, пол, телефонен номер, профил в социални медии.\n\n</string>
+    <string name="reg_Philips_News_Description_First_Bulleted_Title_lbltxt">Данните, които сте ни дали:\n</string>
+    <string name="reg_Philips_News_Description_Normal_lbltxt">В резултат от съгласието ви фирмите от групата Philips могат да се свързват с вас за промоционални известия, базирани на вашите предпочитания и поведение, относно продукти, услуги, събития и промоции на Philips. \nМожем да се свържем с вас чрез имейл, SMS или други цифрови канали, като мобилни приложения и социални медии. За да можем да изберем известия за вашите предпочитания и поведение и за да ви предоставим най-доброто, персонализирано изживяване, можем да анализираме и комбинираме личните ви данни. \n\nТези данни може да включват:\n</string>
+    <string name="reg_Philips_News_Description_Second_Bulleted_Description_lbltxt">Данни относно вашите взаимодействия и употреба на цифровите канали на Philips, като социални медии, уеб сайтове, имейл, приложения и свързани продукти. Тези данни могат да включват: IP адрес, бисквитки, информация за устройство, известия, върху които сте щракнали, подробности за мястото и уебсайтове, които посещавате</string>
+    <string name="reg_Philips_News_Description_Second_Bulleted_Title_lbltxt">Данни, които получаваме от вашите взаимодействия с Philips:\n</string>
+    <string name="reg_Philips_News_Description_Withdrawal_Opportunity_lbltxt">Philips ще ви даде възможност да оттеглите съгласието си по всяко време.</string>
+    <string name="reg_Philips_News_Title">Съобщения от Philips</string>
+    <string name="reg_Philips_URL_txt">www.philips.com</string>
+    <string name="reg_PhoneNumberPlaceHolder_txtField">Въведете телефонен номер</string>
+    <string name="reg_Phonenumbernotfound">Телефонният номер не е намерен</string>
+    <string name="reg_PrivacyNoticeText">Бележка за поверителност</string>
+    <string name="reg_Receive_Philips_News_Meaning_lbltxt">Какво означава това?</string>
+    <string name="reg_Receive_Philips_News_lbltxt">Получаване на промоционални съобщения от Philips, базирани на моите предпочитания и онлайн поведения\n%s</string>
+    <string name="reg_ReciveMarketing_PeridicOffers_lbltxt">Бих желал да получавам периодични оферти и актуализации от Philips</string>
+    <string name="reg_RegBaseViewNav_TitleTxt">Акаунт</string>
+    <string name="reg_RegCreateAccount_NavTitle">Създай акаунт</string>
+    <string name="reg_RegEmailNotVerified_AlertPopupErrorText">Потвърдете вашия имейл адрес от връзката за активиране, изпратена на имейл акаунта ви</string>
+    <string name="reg_RegMerge_MergeLbltxt">Въведете паролата си за Philips, за да слеете акаунтите си.</string>
+    <string name="reg_RegSignWith_Lbltxt">Влизане с</string>
+    <string name="reg_RegVerifyEmailView_VerificationEmailText">Изпратихме имейл до: %s. Възможно е да мине известно време, преди имейлът да пристигне.</string>
+    <string name="reg_Reg_Country">Държава</string>
+    <string name="reg_Reg_Provider_Not_Supported">Доставчикът не се поддържа.</string>
+    <string name="reg_Reg_merge_validate_password_mismatch_errortxt">Паролата е неправилна.</string>
+    <string name="reg_Register_Using_Email_btnTxt">Регистрация с имейл</string>
+    <string name="reg_Resend_SMS_Success_Content">Ново изпращане на SMS е изпратено успешно на мобилния ви телефон.</string>
+    <string name="reg_Resend_SMS_title">Ново изпращане на SMS</string>
+    <string name="reg_Resend_btntxt">Повторно изпращане</string>
+    <string name="reg_Resetted_password_message_txt">Вие подновихте паролата си и влязохте с номер: %s</string>
+    <string name="reg_SigIn_TitleTxt">Влизане</string>
+    <string name="reg_SignInSuccess_ResendConsent_btntxt">Повторно изпращане на съдържание</string>
+    <string name="reg_SignInSuccess_Welcome_lbltxt">Добре дошли</string>
+    <string name="reg_SignIn_with_provider_lbltxt">Влизане с %s</string>
+    <string name="reg_SignOut_Alert_Message_Txt">Наистина ли искате да излезете? Ще имате ограничен достъп до приложението, докато сте излезли.</string>
+    <string name="reg_SignOut_btntxt">Изход</string>
+    <string name="reg_Signin_Success_Hello_lbltxt">Здравейте</string>
+    <string formatted="false" name="reg_SocialAccountMerger_ErrorMsg">Вече сте регистрирани с друг акаунт в %s, влезте в акаунта в %s.</string>
+    <string name="reg_Social_Merge_Accounts_lbltxt">За да се уверим, че това наистина сте вие, влезте с %s още веднъж.</string>
+    <string formatted="false" name="reg_Social_Merge_Cancel_And_Restart_Registration_lbltxt">Ако не желаете да свързвате %s с вашия акаунт, натиснете \"Отказ\" и влезте с %s.</string>
+    <string name="reg_Social_Merge_Cancel_btntxt">Отказ</string>
+    <string formatted="false" name="reg_Social_Merge_Used_EmailError_lbltxt">Преди сте влизали с %s, използвайки %s в приложение или уеб сайта на Philips. Ще свържем %s с акаунта ви.</string>
+    <string name="reg_Social_Merge_btntxt">Свързване</string>
+    <string name="reg_Social_SignIn_AlmostDone_lbltxt">Почти готово!</string>
+    <string name="reg_Social_SignIn_Email_PlaceHolder_txtFiled">Въведете имейл адреса си</string>
+    <string name="reg_TermsAndConditionsAcceptanceText">Приемам %s на приложението</string>
+    <string name="reg_TermsAndConditionsAcceptanceText_Error">Приемете правилата и условията</string>
+    <string name="reg_TermsAndConditionsText">Правила и условия</string>
+    <string name="reg_TraditionalSignIn_ForgotPwdSocialError_lbltxt">Не се тревожете! Не ви е нужна парола за Philips. И преди сте влизали с акаунт в социална мрежа.</string>
+    <string name="reg_TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt">Съжаляваме, че ви накарахме да щракнете два пъти. И преди сте влизали с акаунт в социална мрежа. Върнете се обратно до страницата за влизане и влезте в акаунта си в социалната мрежа.</string>
+    <string name="reg_TraditionalSignIn_ForgotPwd_btntxt">Забравена парола</string>
+    <string name="reg_TraditionalSignIn_PwdPlaceHolder_txtFiled">Въведете парола</string>
+    <string name="reg_TraditionalSignIn_Resend_lbltxt">Натиснете бутон \"Повторно изпращане\", ако все още не сте получили имейл.</string>
+    <string name="reg_TraditionalSignIn_SignInWithMyPhilips_lbltxt">Влизане с акаунт във Philips</string>
+    <string name="reg_URX_Invalid_Credentials">Не разпознавам телефонния номер или паролата, която сте въвели. Опитайте отново</string>
+    <string name="reg_URX_SMS_Already_Verified">Не е изпратен SMS. Акаунтът вече е потвърден.</string>
+    <string name="reg_URX_SMS_InternalServerError">Опа! Нещо се обърка и не успях да изпратя SMS. Опитайте отново по-късно.</string>
+    <string name="reg_URX_SMS_Invalid_PhoneNumber">Това не е телефонен номер, който мога да разпозная. Проверете отново. \nАко сте в различна държава, може би ще трябва да промените настройките за държава.</string>
+    <string name="reg_URX_SMS_Limit_Reached">Лимитът за телефона е достигнат. Опитайте пак след известно време.</string>
+    <string name="reg_URX_SMS_NoInformation_Available">Няма информация.</string>
+    <string name="reg_URX_SMS_Not_Sent">Не е изпратен SMS.</string>
+    <string name="reg_URX_SMS_PhoneNumber_UnAvail_ForSMS">Предоставеният телефонен номер не е активиран за получаване на SMS.</string>
+    <string name="reg_URX_SMS_Success">Успех</string>
+    <string name="reg_URX_SMS_UnSupported_Country_ForSMS">Предоставеният телефонен номер не се поддържа от държавата.</string>
+    <string name="reg_VerificationCode_ErrorText">Кодът за потвърждаване, който сте въвели, е грешен. Опитайте отново.</string>
+    <string name="reg_Verification_email_Message">Изпратихме ви имейл, чрез който да потвърдите имейл адреса си. Възможно е да мине известно време, преди имейлът да пристигне.</string>
+    <string name="reg_Verification_email_Title">Изпратен е имейл за потвърждение</string>
+    <string name="reg_VerifyEmail_ActivateInfo_lbltxt">Проверете имейла си, за да активирате своя акаунт.</string>
+    <string name="reg_VerifyEmail_Activated_btntxt">Активирах акаунта си</string>
+    <string name="reg_VerifyEmail_EmailSentto_lbltxt">Изпратихме имейл до: %s</string>
+    <string name="reg_VerifyEmail_EmailTime_lbltxt">Възможно е да мине известно време, преди имейлът да пристигне.</string>
+    <string name="reg_VerifyEmail_ResendErrorMsg_lbltxt">Имате проблеми?\n-  Възможно е да мине известно време, преди имейлът да пристигне.\n-  Вижте и в папката с нежелана поща\n-  Натиснете бутона \"Повторно изпращане\" по-долу, ако не сте получили имейла за потвърждение</string>
+    <string name="reg_VerifyEmail_VerifyEmail_lbltxt">Потвърдете имейл адреса си</string>
+    <string name="reg_Welcome_Alternate_SignInAccount_lbltxt">Или влизане с</string>
+    <string name="reg_Welcome_Welcome_lbltxt">Добре дошли!</string>
+    <string name="reg_amazon">Amazon</string>
+    <string name="reg_aol">AOL</string>
+    <string name="reg_blogger">Blogger</string>
+    <string name="reg_disqus">Disqus</string>
+    <string name="reg_facebook">Facebook</string>
+    <string name="reg_flickr">Flickr</string>
+    <string name="reg_foursquare">Foursquare</string>
+    <string name="reg_googleplus">Google+</string>
+    <string name="reg_instagram">Instagram</string>
+    <string name="reg_kemailFieldErrorText">Въведете валиден имейл адрес.</string>
+    <string name="reg_linkedin">LinkedIn</string>
+    <string name="reg_livejournal">Livejournal</string>
+    <string name="reg_microsoftaccount">Акаунт в Microsoft</string>
+    <string name="reg_mixi">Mixi</string>
+    <string name="reg_myphilips">Акаунт във Philips</string>
+    <string name="reg_myphilips_CC">Акаунт в MyPhilips</string>
+    <string name="reg_netlog">Netlog</string>
+    <string name="reg_openid">OpenID</string>
+    <string name="reg_qq">QQ</string>
+    <string name="reg_renrensinaweibo">RenrenSina Weibo</string>
+    <string name="reg_salesforce">Salesforce</string>
+    <string name="reg_sinaweibo">Sina Weibo</string>
+    <string name="reg_soundcloud">SoundCloud</string>
+    <string name="reg_tencentweibo">Tencent Weibo</string>
+    <string name="reg_tumblr">Tumblr</string>
+    <string name="reg_twitter">Twitter</string>
+    <string name="reg_verisign">Verisign</string>
+    <string name="reg_vk">VK</string>
+    <string name="reg_wechat">WeChat</string>
+    <string name="reg_wordpress">Wordpress</string>
+    <string name="reg_xing">XING</string>
+    <string name="reg_yahoo">Yahoo!</string>
+    <string msgid="146198913615257606" name="search_menu_title">"Търсене"</string>
+    <string msgid="2869576371154716097" name="status_bar_notification_info_overflow">"999+"</string>
+</resources>

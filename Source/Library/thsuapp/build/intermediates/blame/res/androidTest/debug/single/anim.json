@@ -1,0 +1,66 @@
+[
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/anim/uid_alert_dialog_fade_out.xml",
+        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/anim/uid_alert_dialog_fade_out.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/anim/abc_shrink_fade_out_from_bottom.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/anim/abc_shrink_fade_out_from_bottom.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/anim/abc_slide_in_top.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/anim/abc_slide_in_top.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/anim/abc_slide_out_top.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/anim/abc_slide_out_top.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/anim/design_fab_out.xml",
+        "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/anim/design_fab_out.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/anim/design_snackbar_in.xml",
+        "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/anim/design_snackbar_in.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/anim/design_snackbar_out.xml",
+        "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/anim/design_snackbar_out.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/anim/design_fab_in.xml",
+        "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/anim/design_fab_in.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/anim/abc_slide_out_bottom.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/anim/abc_slide_out_bottom.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/anim/uid_alert_dialog_fade_in.xml",
+        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/anim/uid_alert_dialog_fade_in.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/anim/abc_fade_out.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/anim/abc_fade_out.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/anim/abc_popup_enter.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/anim/abc_popup_enter.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/anim/abc_slide_in_bottom.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/anim/abc_slide_in_bottom.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/anim/abc_popup_exit.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/anim/abc_popup_exit.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/anim/abc_grow_fade_in_from_bottom.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/anim/abc_grow_fade_in_from_bottom.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/anim/abc_fade_in.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/anim/abc_fade_in.xml"
+    }
+]

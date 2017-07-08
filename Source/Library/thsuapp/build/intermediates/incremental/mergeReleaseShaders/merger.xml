@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/src/main/shaders"/></dataSet><dataSet config="release"><source path="/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/src/release/shaders"/></dataSet></merger>

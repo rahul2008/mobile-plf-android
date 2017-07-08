@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    * Copyright 2016 American Well Systems
+    * All rights reserved.
+    * <p/>
+    * It is illegal to use, reproduce or distribute
+    * any part of this Intellectual Property without
+    * prior written authorization from American Well.
+-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/awsdk_dialog_invite_guest_padding_bottom"
+    android:paddingEnd="@dimen/awsdk_dialog_invite_guest_padding_end"
+    android:paddingLeft="@dimen/awsdk_dialog_invite_guest_padding_start"
+    android:paddingRight="@dimen/awsdk_dialog_invite_guest_padding_end"
+    android:paddingStart="@dimen/awsdk_dialog_invite_guest_padding_start"
+    android:paddingTop="@dimen/awsdk_dialog_invite_guest_padding_top"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/awsdk_dialog_invite_guest_header_padding"
+        android:text="@string/awsdk_invite_guest_dialog_header"
+        android:textSize="@dimen/awsdk_dialog_invite_guest_header_text_size"
+        android:textIsSelectable="true"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/awsdk_dialog_invite_guest_prompt_padding"
+        android:text="@string/awsdk_invite_guest_dialog_prompt"
+        android:textSize="@dimen/awsdk_dialog_invite_guest_prompt_text_size"
+        android:textIsSelectable="true"/>
+
+    <EditText
+        android:textSize="@dimen/awsdk_dialog_invite_guest_input_text_size"
+        android:id="@+id/awsdk_invite_guest_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/awsdk_dialog_invite_guest_input_padding"
+        android:hint="@string/awsdk_invite_guest_dialog_hint"
+        android:inputType="textEmailAddress"
+        android:maxLines="1"/>
+
+</LinearLayout>
+

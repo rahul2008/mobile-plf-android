@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:color="?attr/uidTextBoxDefaultValidatedBorderColor" android:state_enabled="true" android:state_focused="false" app:uid_state_error="true" />
+    <item android:color="?attr/uidTextBoxDefaultPressedBorderColor" android:state_focused="true" android:state_pressed="true"/>
+    <item android:color="?attr/uidTextBoxDefaultFocusBorderColor" android:state_focused="true"/>
+    <item android:color="?attr/uidTextBoxDefaultDisabledBorderColor" android:state_enabled="false"/>
+    <item android:color="?attr/uidTextBoxDefaultNormalBorderColor"/>
+</selector>

@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/src/main/assets"><file name="fonts/pui_icon.ttf" path="/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/src/main/assets/fonts/pui_icon.ttf"/></source><source path="/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/generated/assets/shaders/debug"/></dataSet><dataSet config="debug"><source path="/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/src/debug/assets"/></dataSet></merger>
