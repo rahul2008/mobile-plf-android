@@ -1,5 +1,4 @@
-[
-    {
+[{
     "group-blue": {
         "90": "#0A0C1E",
         "85": "#191D4F",
@@ -219,5 +218,4 @@
     "philips-brand": {
         "philips-blue": "#0B5ED7"
     }
-    }
-]
+}]
