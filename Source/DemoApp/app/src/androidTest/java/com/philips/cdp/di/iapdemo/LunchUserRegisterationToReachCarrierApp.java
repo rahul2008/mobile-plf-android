@@ -11,7 +11,9 @@ import android.test.suitebuilder.annotation.LargeTest;
 import com.philips.cdp.di.iapdemo.idlingResources.BtnRegMyPhilipsIdlingResource;
 import com.philips.cdp.di.iapdemo.idlingResources.BtnRegisterLoginIdlingResource;
 import com.philips.cdp.di.iapdemo.idlingResources.BtnSignIdlingResource;
+import com.philips.cdp.registration.User;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +25,6 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
@@ -33,19 +34,28 @@ import static org.hamcrest.Matchers.allOf;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class LunchUserRegisterationToReachCarrierApp {
-
+    User user;
     @Rule
     public ActivityTestRule<LuncherActivity> mActivityTestRule = new ActivityTestRule<>(LuncherActivity.class);
 
-    @Test
-    public void lunchUserRegisterationToReachCarrierApp() {
-        ViewInteraction button = onView(
-                allOf(withId(R.id.btn_launch), withText("Launch Activity"), isDisplayed()));
-        button.perform(click());
+    @Before
+    public void setUp() {
+        user = new User(mActivityTestRule.getActivity());
         IdlingPolicies.setMasterPolicyTimeout(
                 1000 * 30, TimeUnit.MILLISECONDS);
         IdlingPolicies.setIdlingResourceTimeout(
                 1000 * 30, TimeUnit.MILLISECONDS);
+
+    }
+
+    @Test
+    public void lunchUserRegisterationToReachCarrierApp() {
+
+        if (user.isUserSignIn()) return;
+
+        ViewInteraction button = onView(
+                allOf(withId(R.id.btn_launch), withText("Launch Activity"), isDisplayed()));
+        button.perform(click());
 
         BtnRegisterLoginIdlingResource btnRegisterLoginIdlingResource = new BtnRegisterLoginIdlingResource();
         Espresso.registerIdlingResources(btnRegisterLoginIdlingResource);
@@ -110,10 +120,19 @@ public class LunchUserRegisterationToReachCarrierApp {
                                 withParent(withId(R.id.rl_reg_continue_id))))));
         xButton3.perform(scrollTo(), click());
 
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.iap_header_title), withText("Carrier App"), isDisplayed()));
-        textView.check(matches(withText("Carrier App")));
+//        ViewInteraction textView = onView(
+//                allOf(withId(R.id.iap_header_title), withText("Carrier App"), isDisplayed()));
+//        textView.check(matches(withText("Carrier App")));
 
     }
+
+    @Test
+    public void launchProductCatalog(){
+        ViewInteraction button = onView(
+                allOf(withId(R.id.btn_launch), withText("Launch Activity"), isDisplayed()));
+        button.perform(click());
+
+    }
+
 
 }

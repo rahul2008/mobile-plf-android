@@ -427,7 +427,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     @Override
     public void onGetCompleteProductList(ArrayList<String> productList) {
         Toast.makeText(this, "Total Products in Hybris = " + productList.toString(), Toast.LENGTH_SHORT).show();
-        mEtCTN.setText(productList.get(0));
+        mEtCTN.setText(productList.get(2    ));
         dismissProgressDialog();
     }
 

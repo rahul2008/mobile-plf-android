@@ -212,7 +212,8 @@ public class PaymentControllerTest {
         address.setLine2("Line2");
         address.setPostalCode("92821");
         address.setTown("California");
-        address.setPhoneNumber("+1877-682-8207");
+        address.setPhone1("+1877-682-8207");
+        address.setPhone2("+1877-682-8207");
         address.setEmail("testinapp@mailinator.com");
         address.setRegionName("US");
         address.clone();

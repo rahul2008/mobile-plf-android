@@ -32,7 +32,7 @@ public class DemoApplication extends Application implements Application.Activity
         LeakCanary.install(this);
         mAppInfra = new AppInfra.Builder().build(getApplicationContext());
        // HSDPConfiguration();
-        initRegistration(Configuration.STAGING);
+        initRegistration(Configuration.PRODUCTION);
 //        SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
 //        String restoredText = prefs.getString("reg_environment", null);
 //        if (restoredText != null) {

@@ -426,7 +426,8 @@ public class AddressControllerTest {
         address.setLine2("Line2");
         address.setPostalCode("92821");
         address.setTown("California");
-        address.setPhoneNumber("+1877-682-8207");
+        address.setPhone1("+1877-682-8207");
+        address.setPhone2("+1877-682-8207");
         return address;
     }
 
