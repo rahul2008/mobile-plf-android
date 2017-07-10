@@ -1,0 +1,126 @@
+[
+    {
+        "outputFile": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-sw720dp-port-v13/values-sw720dp-port-v13.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 52,
+                    "endOffset": 103
+                },
+                "from": {
+                    "file": "/Users/philips/.android/build-cache/dddac78e931e5fc12510d30afccde9cd0b378e18/output/res/values-sw720dp-port-v13/values-sw720dp-port-v13.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 52,
+                        "endOffset": 103
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 108,
+                    "endColumn": 53,
+                    "endOffset": 157
+                },
+                "from": {
+                    "file": "/Users/philips/.android/build-cache/dddac78e931e5fc12510d30afccde9cd0b378e18/output/res/values-sw720dp-port-v13/values-sw720dp-port-v13.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 108,
+                        "endColumn": 53,
+                        "endOffset": 157
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 162,
+                    "endColumn": 52,
+                    "endOffset": 210
+                },
+                "from": {
+                    "file": "/Users/philips/.android/build-cache/dddac78e931e5fc12510d30afccde9cd0b378e18/output/res/values-sw720dp-port-v13/values-sw720dp-port-v13.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 162,
+                        "endColumn": 52,
+                        "endOffset": 210
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-sw720dp-port-v13/values-sw720dp-port-v13.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 52,
+                    "endOffset": 103
+                },
+                "from": {
+                    "file": "/Users/philips/.android/build-cache/4fc57b62c9d1fa0c4da6ede3e431656a09b65402/output/res/values-sw720dp-port-v13/values-sw720dp-port-v13.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 52,
+                        "endOffset": 103
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 108,
+                    "endColumn": 53,
+                    "endOffset": 157
+                },
+                "from": {
+                    "file": "/Users/philips/.android/build-cache/4fc57b62c9d1fa0c4da6ede3e431656a09b65402/output/res/values-sw720dp-port-v13/values-sw720dp-port-v13.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 108,
+                        "endColumn": 53,
+                        "endOffset": 157
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 162,
+                    "endColumn": 52,
+                    "endOffset": 210
+                },
+                "from": {
+                    "file": "/Users/philips/.android/build-cache/4fc57b62c9d1fa0c4da6ede3e431656a09b65402/output/res/values-sw720dp-port-v13/values-sw720dp-port-v13.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 162,
+                        "endColumn": 52,
+                        "endOffset": 210
+                    }
+                }
+            }
+        ]
+    }
+]

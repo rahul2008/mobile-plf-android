@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@id/uid_progress_indicator_button_layout"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_gravity="center"
+              android:gravity="center"
+              android:minHeight="@dimen/uid_button_min_height"
+              android:minWidth="@dimen/uid_button_min_width"
+              android:orientation="horizontal">
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@id/uid_progress_indicator_button_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        app:uidButtonCenter="true"/>
+
+    <com.philips.platform.uid.view.widget.ProgressBar
+        android:id="@id/uid_progress_indicator_button_progress_bar"
+        style="@style/UIDProgressBarCircularDeterminateSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/uid_button_padding_left_right"
+        android:visibility="gone"/>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@id/uid_progress_indicator_button_text"
+        style="@style/UIDLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginEnd="@dimen/uid_button_padding_left_right"
+        android:layout_marginStart="@dimen/uid_progress_indicator_button_progress_text_padding"
+        android:textAllCaps="false"
+        android:textColor="?attr/uidTrackDetailNormalOnBackgroundColor"
+        android:visibility="gone"/>
+</LinearLayout>

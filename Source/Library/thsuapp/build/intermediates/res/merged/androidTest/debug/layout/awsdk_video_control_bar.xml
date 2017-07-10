@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    * Copyright 2016 American Well Systems
+    * All rights reserved.
+    * <p/>
+    * It is illegal to use, reproduce or distribute
+    * any part of this Intellectual Property without
+    * prior written authorization from American Well.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="@dimen/awsdk_video_control_bar_width"
+              android:layout_height="@dimen/awsdk_video_control_bar_height"
+              android:layout_alignParentBottom="true"
+              android:layout_centerHorizontal="true"
+              android:layout_gravity="center_horizontal"
+              android:orientation="horizontal"
+              android:paddingLeft="@dimen/awsdk_video_control_bar_padding_start"
+              android:paddingRight="@dimen/awsdk_video_control_bar_padding_end">
+
+    <ImageView
+        android:id="@+id/awsdk_video_alarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/awsdk_ic_alarm_green"
+        android:contentDescription="@string/awsdk_image_desc_video_alarm"
+        android:visibility="gone"/>
+
+    <View
+        android:id="@+id/awsdk_video_alarm_spacer"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1"
+        android:visibility="gone">
+    </View>
+
+    <ImageView
+        android:id="@+id/awsdk_button_toggle_dock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:enabled="false"
+        android:contentDescription="@string/awsdk_image_desc_toggle_dock"
+        android:src="@drawable/awsdk_ic_visit_dock_muted"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1"/>
+
+    <ImageView
+        android:id="@+id/awsdk_button_toggle_speaker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:enabled="false"
+        android:contentDescription="@string/awsdk_image_desc_toggle_speaker"
+        android:src="@drawable/awsdk_ic_visit_speakers_default"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1">
+    </View>
+
+    <ImageView
+        android:id="@+id/awsdk_button_toggle_mic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:enabled="false"
+        android:contentDescription="@string/awsdk_image_desc_toggle_mic"
+        android:src="@drawable/awsdk_ic_visit_mic_default"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1">
+    </View>
+
+    <ImageView
+        android:id="@+id/awsdk_button_toggle_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:enabled="false"
+        android:contentDescription="@string/awsdk_image_desc_toggle_camera"
+        android:src="@drawable/awsdk_ic_visit_camera_default"/>
+
+</LinearLayout>

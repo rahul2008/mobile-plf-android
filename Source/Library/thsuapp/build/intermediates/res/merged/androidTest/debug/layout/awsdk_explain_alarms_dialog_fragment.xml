@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    * Copyright 2016 American Well Systems
+    * All rights reserved.
+    * <p/>
+    * It is illegal to use, reproduce or distribute
+    * any part of this Intellectual Property without
+    * prior written authorization from American Well.
+-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/awsdk_color_dialog_content"
+    android:orientation="vertical"
+    android:paddingTop="9dp">
+
+    <LinearLayout
+        android:id="@+id/contentPanel"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingBottom="12dp"
+        android:paddingEnd="10dp"
+        android:paddingLeft="14dp"
+        android:paddingRight="10dp"
+        android:paddingStart="14dp"
+        android:paddingTop="2dp">
+
+        <TextView
+            android:id="@+id/alarm_explanation"
+            android:textSize="@dimen/awsdk_text_size_medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="5dp"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/awsdk_color_dialog_separator"/>
+
+    <LinearLayout
+        android:id="@+id/buttonPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/ok_button"
+            style="@style/awsdk_video_console_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_weight="1"
+            android:maxLines="2"
+            android:text="@string/awsdk_video_error_ok"/>
+    </LinearLayout>
+</LinearLayout>

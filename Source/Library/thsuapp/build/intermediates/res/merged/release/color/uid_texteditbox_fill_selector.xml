@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:color="?attr/uidTextBoxDefaultDisabledBackgroundColor" android:state_enabled="false"/>
+    <item android:color="?attr/uidTextBoxDefaultPressedBackgroundColor" android:state_focused="true" android:state_pressed="true"/>
+    <item android:color="?attr/uidTextBoxDefaultPressedBackgroundColor" android:state_focused="true"/>
+    <item android:color="?attr/uidTextBoxDefaultPressedBackgroundColor" android:state_focused="true" app:uid_state_error="true"/>
+    <item android:color="?attr/uidTextBoxDefaultValidatedBackgroundColor" android:state_focused="false" app:uid_state_error="true" />
+    <item android:color="?attr/uidTextBoxDefaultNormalBackgroundColor"/>
+</selector>

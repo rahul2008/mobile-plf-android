@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout-ldrtl-v17/reg_activity_registration.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout-ldrtl-v17/reg_activity_registration.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout-ldrtl-v17/reg_activity_registration.xml",
+        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout-ldrtl-v17/reg_activity_registration.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout-ldrtl-v17/reg_password.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout-ldrtl-v17/reg_password.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout-ldrtl-v17/reg_password.xml",
+        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout-ldrtl-v17/reg_password.xml"
+    }
+]

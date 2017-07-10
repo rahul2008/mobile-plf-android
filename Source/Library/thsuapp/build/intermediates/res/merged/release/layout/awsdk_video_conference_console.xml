@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    * Copyright 2016 American Well Systems
+    * All rights reserved.
+    * <p/>
+    * It is illegal to use, reproduce or distribute
+    * any part of this Intellectual Property without
+    * prior written authorization from American Well.
+-->
+<RelativeLayout
+    android:id="@+id/awsdk_video_conference"
+    style="@style/awsdk_video_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:keepScreenOn="true"
+    android:padding="0dp">
+
+    <!-- the TitleBar layout height is in pixels not dp because Vidyo leaves a 70px margin at top of screen -->
+
+    <FrameLayout
+        android:id="@+id/awsdk_visit_button_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/awsdk_video_guest_button_bar_height"
+        android:background="@color/awsdk_color_navbar">
+
+        <TextView
+            android:id="@+id/awsdk_visit_time_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginLeft="@dimen/awsdk_video_guest_time_left_margin_start"
+            android:layout_marginStart="@dimen/awsdk_video_guest_time_left_margin_start"
+            android:text="@string/awsdk_console_time_left_1"
+            android:textAllCaps="true"
+            android:textSize="@dimen/awsdk_video_guest_time_left_text_size"
+            android:textColor="@color/awsdk_video_guest_time_left"
+            android:visibility="invisible"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="@dimen/awsdk_video_guest_button_bar_inner_layout_margin_end"
+            android:layout_marginRight="@dimen/awsdk_video_guest_button_bar_inner_layout_margin_end"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/awsdk_button_refresh_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:visibility="gone"
+                android:contentDescription="@string/awsdk_image_desc_refresh_video"
+                android:src="@drawable/awsdk_visit_refresh"/>
+
+            <TextView
+                android:id="@+id/awsdk_button_exit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/awsdk_video_guest_button_bar_button_margin_start"
+                android:layout_marginStart="@dimen/awsdk_video_guest_button_bar_button_margin_start"
+                android:gravity="center_vertical"
+                android:text="@string/awsdk_guest_console_exit"
+                android:textAllCaps="true"
+                android:textSize="@dimen/awsdk_video_guest_button_bar_button_exit_text_size"
+                android:textColor="@color/awsdk_video_guest_button_exit"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <include
+        layout="@layout/awsdk_video_control_bar"
+        android:id="@+id/awsdk_visit_control_bar"/>
+
+    <FrameLayout
+        android:id="@+id/awsdk_video_conference_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/awsdk_visit_button_bar"
+        android:layout_above="@+id/awsdk_visit_control_bar"
+        android:background="@color/awsdk_video_guest_console_background">
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/awsdk_visit_message_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/awsdk_visit_button_bar"
+        android:layout_above="@+id/awsdk_visit_control_bar"
+        android:background="@color/awsdk_video_guest_console_background">
+
+        <TextView
+            android:id="@+id/awsdk_visit_message_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/awsdk_video_conference_begin"
+            android:textSize="@dimen/awsdk_video_guest_message_text_size"
+            android:textStyle="bold"/>
+    </FrameLayout>
+</RelativeLayout>
