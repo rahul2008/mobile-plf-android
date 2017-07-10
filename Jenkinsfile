@@ -11,12 +11,9 @@ properties([
 def MailRecipient = 'DL_CDP2_Callisto@philips.com,DL_App_chassis@philips.com '
 def errors = []
 
-<<<<<<< HEAD
-node ('android&&device') {
-=======
+
 node ('android&&docker') {
->>>>>>> develop
-	timestamps {        
+	timestamps {
 		try {
             stage ('Checkout') {
                 echo "branch to checkout ${BranchName}"
@@ -89,28 +86,6 @@ node ('android&&docker') {
             stage('Cleaning workspace') {
                 step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
             }
-<<<<<<< HEAD
-
-            if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
-                stage ('callIntegrationPipeline') {
-                    if (BranchName =~ "/") {
-                        BranchName = BranchName.replaceAll('/','%2F')
-                        echo "BranchName changed to ${BranchName}"
-                    }
-                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'prg'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
-                }            
-            } 
-        } catch(err) {
-            errors << "errors found: ${err}"      
-        } finally {
-            if (errors.size() > 0) {
-                stage ('error reporting') {
-                    currentBuild.result = 'FAILURE'
-                    for (int i = 0; i < errors.size(); i++) {
-                        echo errors[i]; 
-                    }
-                }                
-            }             
             stage('informing') {
             	step([$class: 'StashNotifier'])
             	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
@@ -118,8 +93,6 @@ node ('android&&docker') {
             stage('Cleaning workspace') {
                 step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
             }
-=======
->>>>>>> develop
         }
 	} // end timestamps
 } // end node ('android')
