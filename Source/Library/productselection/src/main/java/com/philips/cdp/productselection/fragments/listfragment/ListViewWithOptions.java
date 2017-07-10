@@ -8,7 +8,6 @@ package com.philips.cdp.productselection.fragments.listfragment;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -46,8 +44,7 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
     private TextView ctnView;
     private ImageView imageView;
     private Activity activity;
-    private RelativeLayout productDeatilsView;
-    private RelativeLayout.LayoutParams productDeatilsViewParams;
+    private boolean isNoResultFound;
 
     public ListViewWithOptions(Activity activity, List<SummaryModel> data) {
         this.activity = activity;
@@ -80,14 +77,14 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
             vi = inflater.inflate(R.layout.fragment_listscreen_adaper_view, null);
 
         SummaryModel summaryModel = mProductsList.get(position);
-
+        if (isNoResultFound){
+            vi = inflater.inflate(R.layout.consumercare_zero_results_found, null);
+        }
         Data data = summaryModel.getData();
         final ImageView image = (ImageView) vi.findViewById(R.id.image);
         productNameView = (TextView) vi.findViewById(R.id.product_name_view);
         imageView = (ImageView) vi.findViewById(R.id.image);
         ctnView = (TextView) vi.findViewById(R.id.ctn_view);
-        productDeatilsView = (RelativeLayout) vi.findViewById(R.id.product_details_view);
-        productDeatilsViewParams =  (RelativeLayout.LayoutParams) productDeatilsView.getLayoutParams();
 
         String imagepath = data.getImageURL();
         int imageWidth = (int) (85 * Resources.getSystem().getDisplayMetrics().density);
@@ -122,7 +119,6 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
         productNameView.setText(data.getProductTitle());
         ctnView.setText(data.getCtn());
         vi.setTag(position);
-       // notifyDataSetChanged();
         return vi;
     }
 
@@ -165,8 +161,10 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
                                       FilterResults results) {
             if (results.count == 0 && constraintStr.length() > 0){
                 showNoRecordsFound(constraintStr.toString());
+                isNoResultFound = true;
             }
             else {
+                isNoResultFound = false;
                 mProductsList = (ArrayList<SummaryModel>) results.values;
             }
             notifyDataSetChanged();
@@ -178,13 +176,6 @@ public class ListViewWithOptions extends BaseAdapter implements Filterable {
             Data data=new Data();
             data.setProductTitle(activity.getResources().getString(R.string.Zero_records_found)+" "+searchStr);
             data.setCtn(String.valueOf(activity.getResources().getString(R.string.Zero_records_found_filter)));
-            //imageView.setImageResource(R.drawable.consumercare_marker_shadow);
-            Bitmap bitmap= BitmapFactory.decodeResource(activity.getResources(), R.drawable.consumercare_marker_shadow);
-            imageView.setImageBitmap(bitmap);
-            imageView.setVisibility(View.INVISIBLE);
-            productNameView.setMaxWidth(1000);
-            productDeatilsViewParams.setMargins(0,0,300,300);
-            productDeatilsViewParams.alignWithParent = true;
             summaryModel.setData(data);
             mProductsList.add(summaryModel);
         }

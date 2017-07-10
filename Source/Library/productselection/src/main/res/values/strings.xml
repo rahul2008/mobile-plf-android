@@ -18,5 +18,5 @@
     <string name="Confirmation_Selected_new">Product Selected</string>
 
     <string name="Zero_records_found">0 results found for</string>
-    <string name="Zero_records_found_filter">This filters our product list. Please check that there are no types in your filter term </string>
+    <string name="Zero_records_found_filter">This filters our product list. Please check that there are no types in your filter term.</string>
 </resources>
