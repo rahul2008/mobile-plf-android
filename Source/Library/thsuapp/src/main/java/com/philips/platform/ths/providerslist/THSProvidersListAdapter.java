@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.R;
 import com.philips.platform.uid.view.widget.RatingBar;
 
@@ -68,7 +68,7 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
         holder.isAvailble.setText(""+provider.getVisibility());
         if(provider.hasImage()) {
             try {
-                PTHManager.getInstance().getAwsdk(holder.providerImage.getContext()).getPracticeProvidersManager().newImageLoader(provider, holder.providerImage, ProviderImageSize.SMALL).placeholder(holder.providerImage.getResources().getDrawable(R.drawable.doctor_placeholder)).build().load();
+                THSManager.getInstance().getAwsdk(holder.providerImage.getContext()).getPracticeProvidersManager().newImageLoader(provider, holder.providerImage, ProviderImageSize.SMALL).placeholder(holder.providerImage.getResources().getDrawable(R.drawable.doctor_placeholder)).build().load();
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }

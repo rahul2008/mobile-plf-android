@@ -16,7 +16,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.THSConstants;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.drawable.FontIconDrawable;
 import com.philips.platform.uid.view.widget.Button;
@@ -85,13 +85,13 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
     }
 
     private void getVisistContext() {
-        if (PTHManager.getInstance().getPthVisitContext() == null) {
+        if (THSManager.getInstance().getPthVisitContext() == null) {
             createCustomProgressBar(mRelativeLayout, MEDIUM);
             mContinue.setEnabled(false);
             mTHSSymptomsPresenter.getVisitContext();
         }else {
             mContinue.setEnabled(true);
-            addTopicsToView(PTHManager.getInstance().getPthVisitContext());
+            addTopicsToView(THSManager.getInstance().getPthVisitContext());
         }
     }
 

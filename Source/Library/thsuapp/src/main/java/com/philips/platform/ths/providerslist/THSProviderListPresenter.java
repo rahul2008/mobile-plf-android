@@ -7,7 +7,7 @@ import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.base.THSBaseView;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 
 import java.util.List;
 
@@ -31,8 +31,8 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
 
     }
 
-    PTHManager getPthManager() {
-        return PTHManager.getInstance();
+    THSManager getPthManager() {
+        return THSManager.getInstance();
     }
 
 

@@ -9,7 +9,7 @@ import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.PracticeProvidersManager;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +28,7 @@ import static org.mockito.Mockito.when;
 
 public class THSProviderDetailsPresenterTest {
 
-    PTHManager pthManager;
+    THSManager THSManager;
 
     THSProviderDetailsPresenter providerDetailsPresenter;
 
@@ -39,7 +39,7 @@ public class THSProviderDetailsPresenterTest {
     com.philips.platform.ths.providerdetails.THSPRoviderDetailsViewInterface THSPRoviderDetailsViewInterface;
 
     @Mock
-    PTHManager pthManagerMock;
+    THSManager THSManagerMock;
 
     @Mock
     PracticeProvidersManager practiseprovidermanagerMock;
@@ -53,8 +53,8 @@ public class THSProviderDetailsPresenterTest {
     @Before
     public void setUp() throws Exception{
         MockitoAnnotations.initMocks(this);
-        pthManager = PTHManager.getInstance();
-        pthManager.setAwsdk(awsdkMock);
+        THSManager = THSManager.getInstance();
+        THSManager.setAwsdk(awsdkMock);
         providerDetailsPresenter = new THSProviderDetailsPresenter(THSPRoviderDetailsViewInterface);
     }
 
@@ -62,13 +62,13 @@ public class THSProviderDetailsPresenterTest {
     public void testFetchProviderDetailsMethod() throws AWSDKInstantiationException {
         providerDetailsPresenter = new THSProviderDetailsPresenter(THSPRoviderDetailsViewInterface){
             @Override
-            protected PTHManager getPTHManager() {
-                return pthManagerMock;
+            protected THSManager getPTHManager() {
+                return THSManagerMock;
             }
         };
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
         providerDetailsPresenter.fetchProviderDetails();
-        verify(pthManagerMock).getProviderDetails(any(Context.class),any(Consumer.class),any(ProviderInfo.class), (THSProviderDetailsCallback) requestProviderDetialsCaptor.capture());
+        verify(THSManagerMock).getProviderDetails(any(Context.class),any(Consumer.class),any(ProviderInfo.class), (THSProviderDetailsCallback) requestProviderDetialsCaptor.capture());
         THSProviderDetailsCallback value = (THSProviderDetailsCallback) requestProviderDetialsCaptor.getValue();
         value.onProviderDetailsReceived(provider,any(SDKError.class));
 

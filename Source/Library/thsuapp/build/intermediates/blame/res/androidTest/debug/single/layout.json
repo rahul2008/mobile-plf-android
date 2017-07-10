@@ -4,24 +4,20 @@
         "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/layout/design_layout_tab_text.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_shared_footer.xml",
-        "source": "/Users/philips/.android/build-cache/42e763b865bf29dd7e8991ac50fe7e4e5d40d270/output/res/layout/jr_shared_footer.xml"
-    },
-    {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/browser_selector_layout.xml",
-        "source": "/Users/philips/.android/build-cache/42e763b865bf29dd7e8991ac50fe7e4e5d40d270/output/res/layout/browser_selector_layout.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_layout_snackbar_include.xml",
+        "source": "/Users/philips/.android/build-cache/396a3fc0430609a38adb3f7b0d3fc30fd8d07942/output/res/layout/design_layout_snackbar_include.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_error_mapping.xml",
         "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_error_mapping.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/select_dialog_item_material.xml",
-        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/select_dialog_item_material.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_search_dropdown_item_icons_2line.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_search_dropdown_item_icons_2line.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_search_view.xml",
-        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_search_view.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_social_merge_account.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_fragment_social_merge_account.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_menu.xml",
@@ -36,16 +32,16 @@
         "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_fragment_secure_email.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_fragment_host_activity.xml",
-        "source": "/Users/philips/.android/build-cache/42e763b865bf29dd7e8991ac50fe7e4e5d40d270/output/res/layout/jr_fragment_host_activity.xml"
-    },
-    {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_popup_menu_header_item_layout.xml",
         "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_popup_menu_header_item_layout.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_provider_webview.xml",
         "source": "/Users/philips/.android/build-cache/42e763b865bf29dd7e8991ac50fe7e4e5d40d270/output/res/layout/jr_provider_webview.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/fragment_main.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/fragment_main.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_capture_trad_signin.xml",
@@ -56,40 +52,32 @@
         "source": "/Users/philips/.android/build-cache/4fc57b62c9d1fa0c4da6ede3e431656a09b65402/output/res/layout/awsdk_dialog_fragment_invite_guest.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_mobile_activatiom_fragment.xml",
-        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_mobile_activatiom_fragment.xml"
-    },
-    {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/registration_activity.xml",
-        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/registration_activity.xml"
-    },
-    {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_gridview_item_plain_icon.xml",
         "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_gridview_item_plain_icon.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/registration_activity.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/registration_activity.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_forgot_password.xml",
         "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_fragment_forgot_password.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_social_merge_account.xml",
-        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_fragment_social_merge_account.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_notification_bg_white.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_notification_bg_white.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/notification_template_part_time.xml",
         "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/notification_template_part_time.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_dialog_reset_password.xml",
-        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_dialog_reset_password.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_welcome_fragment.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_welcome_fragment.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_popup_menu_item_layout.xml",
-        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_popup_menu_item_layout.xml"
-    },
-    {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_action_menu_item_layout.xml",
-        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_action_menu_item_layout.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_registration.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_fragment_registration.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_item_separator.xml",
@@ -104,44 +92,52 @@
         "source": "/Users/philips/.android/build-cache/42e763b865bf29dd7e8991ac50fe7e4e5d40d270/output/res/layout/jr_publish_email_tab_content.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_capture_forgotpassword.xml",
-        "source": "/Users/philips/.android/build-cache/42e763b865bf29dd7e8991ac50fe7e4e5d40d270/output/res/layout/jr_capture_forgotpassword.xml"
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_symptoms.xml",
+        "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_symptoms.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_indeterminate_linear_progress_indicator_with_label.xml",
         "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_indeterminate_linear_progress_indicator_with_label.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_symptoms.xml",
-        "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_symptoms.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_text_input_password_icon.xml",
+        "source": "/Users/philips/.android/build-cache/396a3fc0430609a38adb3f7b0d3fc30fd8d07942/output/res/layout/design_text_input_password_icon.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/select_dialog_singlechoice_material.xml",
-        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/select_dialog_singlechoice_material.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_shared_footer.xml",
+        "source": "/Users/philips/.android/build-cache/a4adc67c71064c38609444f9a0393f02038f517d/output/res/layout/jr_shared_footer.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_inline_validation_input.xml",
-        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_inline_validation_input.xml"
-    },
-    {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_list_menu_item_layout.xml",
-        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_list_menu_item_layout.xml"
-    },
-    {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_country_picker.xml",
-        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_country_picker.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_country_selection_row.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_country_selection_row.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_vertical_separator.xml",
         "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_vertical_separator.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_determinate_circular_progress_indicator_with_label_big.xml",
-        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_determinate_circular_progress_indicator_with_label_big.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_topics_item.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_topics_item.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_alert_dialog_material.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_alert_dialog_material.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/awsdk_explain_alarms_dialog_fragment.xml",
+        "source": "/Users/philips/.android/build-cache/dddac78e931e5fc12510d30afccde9cd0b378e18/output/res/layout/awsdk_explain_alarms_dialog_fragment.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_item_header.xml",
         "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/layout/design_navigation_item_header.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_progress_indicator_button_indeterminate.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_progress_indicator_button_indeterminate.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/notification_template_lines_media.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/notification_template_lines_media.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_screen_simple.xml",
@@ -156,24 +152,32 @@
         "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_horizontal_separator.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_activity_chooser_view.xml",
-        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_activity_chooser_view.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/activity_main.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/activity_main.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_nopp_fragment.xml",
-        "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_nopp_fragment.xml"
-    },
-    {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_provider_listview_row.xml",
-        "source": "/Users/philips/.android/build-cache/42e763b865bf29dd7e8991ac50fe7e4e5d40d270/output/res/layout/jr_provider_listview_row.xml"
-    },
-    {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_determinate_circular_progress_indicator_with_label_middle.xml",
-        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_determinate_circular_progress_indicator_with_label_middle.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/notification_template_media_custom.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/notification_template_media_custom.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_bullet_text_row.xml",
         "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_bullet_text_row.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_gridview_item_solid_icon.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_gridview_item_solid_icon.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_home_login_top.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_fragment_home_login_top.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_list_menu_item_icon.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_list_menu_item_icon.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_social_almost_done.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_fragment_social_almost_done.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_home_login_top.xml",
@@ -184,12 +188,8 @@
         "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/content_main.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_mobile_reset_password_webview.xml",
-        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_mobile_reset_password_webview.xml"
-    },
-    {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_progress_indicator_button_determinate.xml",
-        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_progress_indicator_button_determinate.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_create_account.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_fragment_create_account.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_gridview_item_solid_icon.xml",
@@ -200,28 +200,32 @@
         "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/fragment_main.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_password_hint_row.xml",
-        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_password_hint_row.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_popup_menu_item_layout.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_popup_menu_item_layout.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_screen_content_include.xml",
-        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_screen_content_include.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_search_box.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_search_box.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_select_dialog_material.xml",
-        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_select_dialog_material.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_provider_landing.xml",
+        "source": "/Users/philips/.android/build-cache/a4adc67c71064c38609444f9a0393f02038f517d/output/res/layout/jr_provider_landing.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_progress_indicator_button_indeterminate.xml",
         "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_progress_indicator_button_indeterminate.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_social_to_social_merge_account.xml",
-        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_fragment_social_to_social_merge_account.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_item_subheader.xml",
+        "source": "/Users/philips/.android/build-cache/396a3fc0430609a38adb3f7b0d3fc30fd8d07942/output/res/layout/design_navigation_item_subheader.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_indeterminate_circular_progress_indicator_with_label_small.xml",
         "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_indeterminate_circular_progress_indicator_with_label_small.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/notification_template_part_chronometer.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/notification_template_part_chronometer.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/awsdk_video_console.xml",
@@ -248,36 +252,48 @@
         "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_search_dropdown_item_icons_2line.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_recyclerview_item_two_lines.xml",
-        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_recyclerview_item_two_lines.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_provider_details_d_list.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_provider_details_d_list.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_topics_item.xml",
         "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_topics_item.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_activity_chooser_view_list_item.xml",
-        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_activity_chooser_view_list_item.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_mobile_reset_password_webview.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_mobile_reset_password_webview.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/support_simple_spinner_dropdown_item.xml",
-        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/support_simple_spinner_dropdown_item.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_searched_medicine_dialog.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_searched_medicine_dialog.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/existing_medication_list_row.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/existing_medication_list_row.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_list_item_one_line.xml",
         "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_list_item_one_line.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_activity_registration.xml",
-        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_activity_registration.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/linkaccounts_listview_row.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/linkaccounts_listview_row.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_password.xml",
         "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_password.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_provider_openid_appauth.xml",
-        "source": "/Users/philips/.android/build-cache/42e763b865bf29dd7e8991ac50fe7e4e5d40d270/output/res/layout/jr_provider_openid_appauth.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_intake_conditions.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_intake_conditions.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/activity_test_ur.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/activity_test_ur.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_publish_provider_tab_content.xml",
+        "source": "/Users/philips/.android/build-cache/a4adc67c71064c38609444f9a0393f02038f517d/output/res/layout/jr_publish_provider_tab_content.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_country_selection_row.xml",
@@ -288,12 +304,12 @@
         "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_mobile_forgot_password_verify_fragment.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/notification_template_media.xml",
-        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/notification_template_media.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_provider_details_fragment.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_provider_details_fragment.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_publish.xml",
-        "source": "/Users/philips/.android/build-cache/42e763b865bf29dd7e8991ac50fe7e4e5d40d270/output/res/layout/jr_publish.xml"
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/notification_template_media.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/notification_template_media.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_provider_details_fragment.xml",
@@ -308,8 +324,16 @@
         "source": "/Users/philips/.android/build-cache/42e763b865bf29dd7e8991ac50fe7e4e5d40d270/output/res/layout/jr_provider_landing.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/update_profile_activity.xml",
-        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/update_profile_activity.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/select_dialog_multichoice_material.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/select_dialog_multichoice_material.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_secure_email.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_fragment_secure_email.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_forgot_password.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_fragment_forgot_password.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_checkbox.xml",
@@ -324,8 +348,8 @@
         "source": "/Users/philips/.android/build-cache/42e763b865bf29dd7e8991ac50fe7e4e5d40d270/output/res/layout/jr_publish_provider_tab_content.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_bottom_navigation_item.xml",
-        "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/layout/design_bottom_navigation_item.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_search_view.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_search_view.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_list_menu_item_icon.xml",
@@ -340,16 +364,12 @@
         "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/custom_action_bar.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_plain_text.xml",
-        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_plain_text.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_provider_listview.xml",
+        "source": "/Users/philips/.android/build-cache/a4adc67c71064c38609444f9a0393f02038f517d/output/res/layout/jr_provider_listview.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_recyclerview_item_one_line_with_icon.xml",
-        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_recyclerview_item_one_line_with_icon.xml"
-    },
-    {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_intake_conditions.xml",
-        "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_intake_conditions.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_list_menu_item_radio.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_list_menu_item_radio.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_password_hint.xml",
@@ -360,32 +380,44 @@
         "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_intake_vitals.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_home_create_top.xml",
-        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_fragment_home_create_top.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_symptoms.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_symptoms.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/notification_template_media_custom.xml",
-        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/notification_template_media_custom.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_determinate_circular_progress_indicator_with_label_small.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_determinate_circular_progress_indicator_with_label_small.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_account_activation.xml",
-        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_fragment_account_activation.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_provider_list.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_provider_list.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_inline_validation_input.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_inline_validation_input.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_providers_list_fragment.xml",
         "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_providers_list_fragment.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_email.xml",
-        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_email.xml"
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_account_activation.xml",
+        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_fragment_account_activation.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_menu_item.xml",
+        "source": "/Users/philips/.android/build-cache/396a3fc0430609a38adb3f7b0d3fc30fd8d07942/output/res/layout/design_navigation_menu_item.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/browser_selector_layout.xml",
+        "source": "/Users/philips/.android/build-cache/a4adc67c71064c38609444f9a0393f02038f517d/output/res/layout/browser_selector_layout.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_plain_text.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_plain_text.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_determinate_circular_progress_indicator_with_label_small.xml",
         "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_determinate_circular_progress_indicator_with_label_small.xml"
-    },
-    {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_logout.xml",
-        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_fragment_logout.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/activity_test_ur.xml",
@@ -394,10 +426,6 @@
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_social_almost_done.xml",
         "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_fragment_social_almost_done.xml"
-    },
-    {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_menu_item.xml",
-        "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/layout/design_navigation_menu_item.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/x_verify_mobile.xml",
@@ -412,32 +440,24 @@
         "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/layout/design_layout_snackbar.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_alert_dialog_button_bar_material.xml",
-        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_alert_dialog_button_bar_material.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_recyclerview_item_two_lines.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_recyclerview_item_two_lines.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_alert_dialog.xml",
-        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_alert_dialog.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_indeterminate_circular_progress_indicator_with_label_big.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_indeterminate_circular_progress_indicator_with_label_big.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/linked_account_listview.xml",
         "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/linked_account_listview.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_provider_list.xml",
-        "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_provider_list.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_alert_dialog_title_material.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_alert_dialog_title_material.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_action_bar_view_list_nav_layout.xml",
-        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_action_bar_view_list_nav_layout.xml"
-    },
-    {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_item.xml",
-        "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/layout/design_navigation_item.xml"
-    },
-    {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_item_subheader.xml",
-        "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/layout/design_navigation_item_subheader.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/content_main.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/content_main.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/existing_medication_list_row.xml",
@@ -448,64 +468,56 @@
         "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/layout/design_layout_tab_icon.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/notification_template_lines_media.xml",
-        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/notification_template_lines_media.xml"
-    },
-    {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_layout_snackbar_include.xml",
         "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/layout/design_layout_snackbar_include.xml"
-    },
-    {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_registration_details_fragment.xml",
-        "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_registration_details_fragment.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_bottom_sheet_dialog.xml",
         "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/layout/design_bottom_sheet_dialog.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_recyclerview.xml",
-        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_recyclerview.xml"
-    },
-    {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_indeterminate_circular_progress_indicator_with_label_big.xml",
-        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_indeterminate_circular_progress_indicator_with_label_big.xml"
-    },
-    {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/intake_medication.xml",
         "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/intake_medication.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_marketing_opt.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_fragment_marketing_opt.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_provider_listview.xml",
         "source": "/Users/philips/.android/build-cache/42e763b865bf29dd7e8991ac50fe7e4e5d40d270/output/res/layout/jr_provider_listview.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/practice.xml",
-        "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/practice.xml"
-    },
-    {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_welcome.xml",
         "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_fragment_welcome.xml"
-    },
-    {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_searched_medicine_dialog.xml",
-        "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_searched_medicine_dialog.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_philips_news.xml",
         "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_fragment_philips_news.xml"
     },
     {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_layout_tab_text.xml",
+        "source": "/Users/philips/.android/build-cache/396a3fc0430609a38adb3f7b0d3fc30fd8d07942/output/res/layout/design_layout_tab_text.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_home_create_top.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_fragment_home_create_top.xml"
+    },
+    {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_action_bar_title_item.xml",
         "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_action_bar_title_item.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_dialog_title_material.xml",
-        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_dialog_title_material.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_recyclerview.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_recyclerview.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/select_dialog_multichoice_material.xml",
-        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/select_dialog_multichoice_material.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_gridview_item_gradient_icon.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_gridview_item_gradient_icon.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_dialog_title_material.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_dialog_title_material.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_provider_btn.xml",
@@ -524,20 +536,24 @@
         "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_user_name.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_action_mode_bar.xml",
-        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_action_mode_bar.xml"
-    },
-    {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_action_mode_close_item_material.xml",
         "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_action_mode_close_item_material.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_action_bar_view_list_nav_layout.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_action_bar_view_list_nav_layout.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/linkaccounts_listview_row.xml",
         "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/linkaccounts_listview_row.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_menu_item_action_area.xml",
-        "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/layout/design_menu_item_action_area.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_account_activation.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_fragment_account_activation.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_activity_registration.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_activity_registration.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_welcome_fragment.xml",
@@ -546,6 +562,634 @@
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_search_decoy_view.xml",
         "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_search_decoy_view.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_indeterminate_circular_progress_indicator_with_label_middle.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_indeterminate_circular_progress_indicator_with_label_middle.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_screen_simple_overlay_action_mode.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_screen_simple_overlay_action_mode.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_sign_in_account.xml",
+        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_fragment_sign_in_account.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_activity_chooser_view.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_activity_chooser_view.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_linear_progress_indicator_with_label.xml",
+        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_linear_progress_indicator_with_label.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_gridview_item_gradient_icon.xml",
+        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_gridview_item_gradient_icon.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_list_menu_item_checkbox.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_list_menu_item_checkbox.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_mobile_activation_resend_fragment.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_mobile_activation_resend_fragment.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_indeterminate_linear_progress_indicator_with_label.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_indeterminate_linear_progress_indicator_with_label.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/update_profile_activity.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/update_profile_activity.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_alert_dialog_material.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_alert_dialog_material.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_dialog_reset_password.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_dialog_reset_password.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_text_input_password_icon.xml",
+        "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/layout/design_text_input_password_icon.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/awsdk_explain_alarms_dialog_fragment.xml",
+        "source": "/Users/philips/.android/build-cache/4fc57b62c9d1fa0c4da6ede3e431656a09b65402/output/res/layout/awsdk_explain_alarms_dialog_fragment.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/awsdk_video_control_bar.xml",
+        "source": "/Users/philips/.android/build-cache/4fc57b62c9d1fa0c4da6ede3e431656a09b65402/output/res/layout/awsdk_video_control_bar.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_marketing_opt.xml",
+        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_fragment_marketing_opt.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/searched_medication_list_row.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/searched_medication_list_row.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/x_verify_mobile.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/x_verify_mobile.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_item_separator.xml",
+        "source": "/Users/philips/.android/build-cache/396a3fc0430609a38adb3f7b0d3fc30fd8d07942/output/res/layout/design_navigation_item_separator.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_shared_footer.xml",
+        "source": "/Users/philips/.android/build-cache/42e763b865bf29dd7e8991ac50fe7e4e5d40d270/output/res/layout/jr_shared_footer.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_password.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_password.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/practice.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/practice.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/browser_selector_layout.xml",
+        "source": "/Users/philips/.android/build-cache/42e763b865bf29dd7e8991ac50fe7e4e5d40d270/output/res/layout/browser_selector_layout.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_recyclerview_item_one_line_with_icon.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_recyclerview_item_one_line_with_icon.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_search_view.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_search_view.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/select_dialog_item_material.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/select_dialog_item_material.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_activity_chooser_view_list_item.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_activity_chooser_view_list_item.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_fragment_host_activity.xml",
+        "source": "/Users/philips/.android/build-cache/42e763b865bf29dd7e8991ac50fe7e4e5d40d270/output/res/layout/jr_fragment_host_activity.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_menu_item_action_area.xml",
+        "source": "/Users/philips/.android/build-cache/396a3fc0430609a38adb3f7b0d3fc30fd8d07942/output/res/layout/design_menu_item_action_area.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_mobile_activatiom_fragment.xml",
+        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_mobile_activatiom_fragment.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_vertical_separator.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_vertical_separator.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/registration_activity.xml",
+        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/registration_activity.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_social_merge_account.xml",
+        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_fragment_social_merge_account.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_provider_webview.xml",
+        "source": "/Users/philips/.android/build-cache/a4adc67c71064c38609444f9a0393f02038f517d/output/res/layout/jr_provider_webview.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_provider_listview_row.xml",
+        "source": "/Users/philips/.android/build-cache/a4adc67c71064c38609444f9a0393f02038f517d/output/res/layout/jr_provider_listview_row.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_list_item_one_line.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_list_item_one_line.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_action_menu_layout.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_action_menu_layout.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_popup_menu_header_item_layout.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_popup_menu_header_item_layout.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_dialog_reset_password.xml",
+        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_dialog_reset_password.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_screen_toolbar.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_screen_toolbar.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_layout_snackbar.xml",
+        "source": "/Users/philips/.android/build-cache/396a3fc0430609a38adb3f7b0d3fc30fd8d07942/output/res/layout/design_layout_snackbar.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_popup_menu_item_layout.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_popup_menu_item_layout.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_country_picker.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_country_picker.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_action_menu_item_layout.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_action_menu_item_layout.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_select_dialog_material.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_select_dialog_material.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_capture_forgotpassword.xml",
+        "source": "/Users/philips/.android/build-cache/42e763b865bf29dd7e8991ac50fe7e4e5d40d270/output/res/layout/jr_capture_forgotpassword.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_mobile_activatiom_fragment.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_mobile_activatiom_fragment.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/support_simple_spinner_dropdown_item.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/support_simple_spinner_dropdown_item.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_action_bar_title_item.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_action_bar_title_item.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/notification_template_part_time.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/notification_template_part_time.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_checkbox.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_checkbox.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/select_dialog_singlechoice_material.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/select_dialog_singlechoice_material.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_inline_validation_input.xml",
+        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_inline_validation_input.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_list_menu_item_layout.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_list_menu_item_layout.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_intake_vitals.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_intake_vitals.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_country_picker.xml",
+        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_country_picker.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_provider_openid_appauth.xml",
+        "source": "/Users/philips/.android/build-cache/a4adc67c71064c38609444f9a0393f02038f517d/output/res/layout/jr_provider_openid_appauth.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_determinate_circular_progress_indicator_with_label_big.xml",
+        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_determinate_circular_progress_indicator_with_label_big.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_search_decoy_view.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_search_decoy_view.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_philips_news.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_fragment_philips_news.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_registration_details_fragment.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_registration_details_fragment.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_alert_dialog.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_alert_dialog.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_toolbar_layout.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_toolbar_layout.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_menu.xml",
+        "source": "/Users/philips/.android/build-cache/396a3fc0430609a38adb3f7b0d3fc30fd8d07942/output/res/layout/design_navigation_menu.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_error_mapping.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_error_mapping.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/awsdk_dialog_fragment_invite_guest.xml",
+        "source": "/Users/philips/.android/build-cache/dddac78e931e5fc12510d30afccde9cd0b378e18/output/res/layout/awsdk_dialog_fragment_invite_guest.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_activity_chooser_view.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_activity_chooser_view.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_nopp_fragment.xml",
+        "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_nopp_fragment.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_provider_listview_row.xml",
+        "source": "/Users/philips/.android/build-cache/42e763b865bf29dd7e8991ac50fe7e4e5d40d270/output/res/layout/jr_provider_listview_row.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_bottom_sheet_dialog.xml",
+        "source": "/Users/philips/.android/build-cache/396a3fc0430609a38adb3f7b0d3fc30fd8d07942/output/res/layout/design_bottom_sheet_dialog.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_determinate_circular_progress_indicator_with_label_middle.xml",
+        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_determinate_circular_progress_indicator_with_label_middle.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_action_menu_item_layout.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_action_menu_item_layout.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_social_to_social_merge_account.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_fragment_social_to_social_merge_account.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_item.xml",
+        "source": "/Users/philips/.android/build-cache/396a3fc0430609a38adb3f7b0d3fc30fd8d07942/output/res/layout/design_navigation_item.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_mobile_reset_password_webview.xml",
+        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_mobile_reset_password_webview.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_progress_indicator_button_determinate.xml",
+        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_progress_indicator_button_determinate.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_user_name.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_user_name.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_password_hint_row.xml",
+        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_password_hint_row.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_sign_in_account.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_fragment_sign_in_account.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_screen_content_include.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_screen_content_include.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_select_dialog_material.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_select_dialog_material.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/linked_account_listview.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/linked_account_listview.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_screen_content_include.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_screen_content_include.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/awsdk_video_conference_console.xml",
+        "source": "/Users/philips/.android/build-cache/dddac78e931e5fc12510d30afccde9cd0b378e18/output/res/layout/awsdk_video_conference_console.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/notification_template_media.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/notification_template_media.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_provider_btn.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_provider_btn.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_social_to_social_merge_account.xml",
+        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_fragment_social_to_social_merge_account.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_capture_trad_signin.xml",
+        "source": "/Users/philips/.android/build-cache/a4adc67c71064c38609444f9a0393f02038f517d/output/res/layout/jr_capture_trad_signin.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_recyclerview_item_two_lines.xml",
+        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_recyclerview_item_two_lines.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_activity_chooser_view_list_item.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_activity_chooser_view_list_item.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_bullet_text_row.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_bullet_text_row.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/select_dialog_item_material.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/select_dialog_item_material.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/support_simple_spinner_dropdown_item.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/support_simple_spinner_dropdown_item.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_activity_registration.xml",
+        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_activity_registration.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_dialog_title_material.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_dialog_title_material.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_screen_simple.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_screen_simple.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_provider_openid_appauth.xml",
+        "source": "/Users/philips/.android/build-cache/42e763b865bf29dd7e8991ac50fe7e4e5d40d270/output/res/layout/jr_provider_openid_appauth.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_nopp_fragment.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_nopp_fragment.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_layout_tab_icon.xml",
+        "source": "/Users/philips/.android/build-cache/396a3fc0430609a38adb3f7b0d3fc30fd8d07942/output/res/layout/design_layout_tab_icon.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_publish_email_tab_content.xml",
+        "source": "/Users/philips/.android/build-cache/a4adc67c71064c38609444f9a0393f02038f517d/output/res/layout/jr_publish_email_tab_content.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_publish.xml",
+        "source": "/Users/philips/.android/build-cache/42e763b865bf29dd7e8991ac50fe7e4e5d40d270/output/res/layout/jr_publish.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/update_profile_activity.xml",
+        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/update_profile_activity.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_bottom_navigation_item.xml",
+        "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/layout/design_bottom_navigation_item.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_alert_dialog_button_bar_material.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_alert_dialog_button_bar_material.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_gridview_item_plain_icon.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_gridview_item_plain_icon.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_action_bar_up_container.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_action_bar_up_container.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_welcome.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_fragment_welcome.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_capture_forgotpassword.xml",
+        "source": "/Users/philips/.android/build-cache/a4adc67c71064c38609444f9a0393f02038f517d/output/res/layout/jr_capture_forgotpassword.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_linear_progress_indicator_with_label.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_linear_progress_indicator_with_label.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/awsdk_video_console.xml",
+        "source": "/Users/philips/.android/build-cache/dddac78e931e5fc12510d30afccde9cd0b378e18/output/res/layout/awsdk_video_console.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_logout.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_fragment_logout.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_about_dialog.xml",
+        "source": "/Users/philips/.android/build-cache/a4adc67c71064c38609444f9a0393f02038f517d/output/res/layout/jr_about_dialog.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_plain_text.xml",
+        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_plain_text.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_horizontal_separator.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_horizontal_separator.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_providers_list_fragment.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_providers_list_fragment.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_recyclerview_item_one_line_with_icon.xml",
+        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_recyclerview_item_one_line_with_icon.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_password_hint.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_password_hint.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_intake_conditions.xml",
+        "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_intake_conditions.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/intake_follow_up.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/intake_follow_up.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_home_create_top.xml",
+        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_fragment_home_create_top.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/notification_template_media_custom.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/notification_template_media_custom.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_determinate_circular_progress_indicator_with_label_big.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_determinate_circular_progress_indicator_with_label_big.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_determinate_circular_progress_indicator_with_label_middle.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_determinate_circular_progress_indicator_with_label_middle.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_email.xml",
+        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_email.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_publish.xml",
+        "source": "/Users/philips/.android/build-cache/a4adc67c71064c38609444f9a0393f02038f517d/output/res/layout/jr_publish.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_logout.xml",
+        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_fragment_logout.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_password_hint_row.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_password_hint_row.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_menu_item.xml",
+        "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/layout/design_navigation_menu_item.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/jr_fragment_host_activity.xml",
+        "source": "/Users/philips/.android/build-cache/a4adc67c71064c38609444f9a0393f02038f517d/output/res/layout/jr_fragment_host_activity.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_alert_dialog_button_bar_material.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_alert_dialog_button_bar_material.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_alert_dialog.xml",
+        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_alert_dialog.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/practice_row.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/practice_row.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_action_mode_close_item_material.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_action_mode_close_item_material.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/awsdk_video_control_bar.xml",
+        "source": "/Users/philips/.android/build-cache/dddac78e931e5fc12510d30afccde9cd0b378e18/output/res/layout/awsdk_video_control_bar.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_action_bar_view_list_nav_layout.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_action_bar_view_list_nav_layout.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_provider_list.xml",
+        "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_provider_list.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_item.xml",
+        "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/layout/design_navigation_item.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_item_subheader.xml",
+        "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/layout/design_navigation_item_subheader.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_navigation_item_header.xml",
+        "source": "/Users/philips/.android/build-cache/396a3fc0430609a38adb3f7b0d3fc30fd8d07942/output/res/layout/design_navigation_item_header.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_mobile_forgot_password_verify_fragment.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_mobile_forgot_password_verify_fragment.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_list_menu_item_layout.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_list_menu_item_layout.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_action_mode_bar.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_action_mode_bar.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_registration_details_fragment.xml",
+        "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_registration_details_fragment.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/notification_template_lines_media.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/notification_template_lines_media.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_recyclerview.xml",
+        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_recyclerview.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_indeterminate_circular_progress_indicator_with_label_big.xml",
+        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_indeterminate_circular_progress_indicator_with_label_big.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/practice.xml",
+        "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/practice.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/custom_action_bar.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/custom_action_bar.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_icon_text.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_icon_text.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/ths_searched_medicine_dialog.xml",
+        "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/ths_searched_medicine_dialog.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_progress_indicator_button_determinate.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_progress_indicator_button_determinate.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_expanded_menu_layout.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/abc_expanded_menu_layout.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/select_dialog_multichoice_material.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/select_dialog_multichoice_material.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/select_dialog_singlechoice_material.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/layout/select_dialog_singlechoice_material.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_action_mode_bar.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_action_mode_bar.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_menu_item_action_area.xml",
+        "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/layout/design_menu_item_action_area.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_email.xml",
+        "source": "/Users/philips/.android/build-cache/d152f62814a1bf20619b7aaf852d3c138b71cc0a/output/res/layout/reg_email.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_screen_toolbar.xml",
@@ -568,20 +1212,12 @@
         "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_search_box.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_sign_in_account.xml",
-        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_fragment_sign_in_account.xml"
-    },
-    {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_expanded_menu_layout.xml",
         "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_expanded_menu_layout.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_linear_progress_indicator_with_label.xml",
-        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_linear_progress_indicator_with_label.xml"
-    },
-    {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_gridview_item_gradient_icon.xml",
-        "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_gridview_item_gradient_icon.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_indeterminate_circular_progress_indicator_with_label_small.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/layout/uid_indeterminate_circular_progress_indicator_with_label_small.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_list_menu_item_checkbox.xml",
@@ -592,6 +1228,10 @@
         "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/notification_template_part_chronometer.xml"
     },
     {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/intake_medication.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/intake_medication.xml"
+    },
+    {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_action_menu_layout.xml",
         "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_action_menu_layout.xml"
     },
@@ -600,27 +1240,11 @@
         "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/bundles/debug/res/layout/practice_row.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/abc_alert_dialog_material.xml",
-        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/layout/abc_alert_dialog_material.xml"
-    },
-    {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/uid_indeterminate_circular_progress_indicator_with_label_middle.xml",
         "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/layout/uid_indeterminate_circular_progress_indicator_with_label_middle.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_text_input_password_icon.xml",
-        "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/layout/design_text_input_password_icon.xml"
-    },
-    {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/awsdk_explain_alarms_dialog_fragment.xml",
-        "source": "/Users/philips/.android/build-cache/4fc57b62c9d1fa0c4da6ede3e431656a09b65402/output/res/layout/awsdk_explain_alarms_dialog_fragment.xml"
-    },
-    {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/awsdk_video_control_bar.xml",
-        "source": "/Users/philips/.android/build-cache/4fc57b62c9d1fa0c4da6ede3e431656a09b65402/output/res/layout/awsdk_video_control_bar.xml"
-    },
-    {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/reg_fragment_marketing_opt.xml",
-        "source": "/Users/philips/.android/build-cache/8448fd821a244fc93692659c3e5325d4fb2ce272/output/res/layout/reg_fragment_marketing_opt.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/androidTest/debug/layout/design_bottom_navigation_item.xml",
+        "source": "/Users/philips/.android/build-cache/396a3fc0430609a38adb3f7b0d3fc30fd8d07942/output/res/layout/design_bottom_navigation_item.xml"
     }
 ]

@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 
 
 public class PracticeRecyclerViewAdapter extends RecyclerView.Adapter<PracticeRecyclerViewAdapter.CustomViewHolder> {
@@ -51,7 +51,7 @@ public class PracticeRecyclerViewAdapter extends RecyclerView.Adapter<PracticeRe
         customViewHolder.label.setText(practice.getName());
         if (true) {
             try {
-                PTHManager.getInstance().getAwsdk(customViewHolder.logo.getContext()).getPracticeProvidersManager()
+                THSManager.getInstance().getAwsdk(customViewHolder.logo.getContext()).getPracticeProvidersManager()
                         .newImageLoader(practice, customViewHolder.logo, false)
                         .placeholder(customViewHolder.logo.getResources()
                                 .getDrawable(R.drawable.doctor_placeholder))

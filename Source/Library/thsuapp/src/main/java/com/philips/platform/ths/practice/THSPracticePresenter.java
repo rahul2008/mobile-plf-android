@@ -5,7 +5,7 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.base.THSBaseView;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 
 
 public class THSPracticePresenter implements THSBasePresenter, THSPracticesListCallback {
@@ -26,7 +26,7 @@ public class THSPracticePresenter implements THSBasePresenter, THSPracticesListC
 
     protected void fetchPractices(){
         try {
-            PTHManager.getInstance().getPractices(uiBaseView.getFragmentActivity(),mConsumer,this);
+            THSManager.getInstance().getPractices(uiBaseView.getFragmentActivity(),mConsumer,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

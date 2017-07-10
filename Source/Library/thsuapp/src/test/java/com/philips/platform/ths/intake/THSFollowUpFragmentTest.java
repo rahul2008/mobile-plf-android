@@ -3,7 +3,7 @@ package com.philips.platform.ths.intake;
 import com.americanwell.sdk.AWSDK;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.activity.THSLaunchActivity;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -34,7 +34,7 @@ public class THSFollowUpFragmentTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         ShadowLog.stream = System.out;
-        PTHManager.getInstance().setAwsdk(awsdkMock);
+        THSManager.getInstance().setAwsdk(awsdkMock);
         mActivity = Robolectric.buildActivity(THSLaunchActivity.class).create().get();
         Assert.assertNotNull(mActivity);
         mTHSFollowUpFragment = new THSFollowUpFragment();

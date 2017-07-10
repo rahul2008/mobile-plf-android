@@ -4,14 +4,14 @@ import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class THSConditionsPresenter implements THSBasePresenter, THSConditionsCallBack<THSConditions,THSSDKError>, THSUpdateConditionsCallback<Void,THSSDKError> {
+public class THSConditionsPresenter implements THSBasePresenter, THSConditionsCallBack<THSConditionsList,THSSDKError>, THSUpdateConditionsCallback<Void,THSSDKError> {
     THSBaseFragment mTHSBaseFragment;
 
     public THSConditionsPresenter(THSBaseFragment THSBaseFragment) {
@@ -22,7 +22,7 @@ public class THSConditionsPresenter implements THSBasePresenter, THSConditionsCa
     public void onEvent(int componentID) {
         if (componentID == R.id.continue_btn) {
             try {
-                PTHManager.getInstance().updateConditions(mTHSBaseFragment.getContext(),PTHManager.getInstance().getPTHConsumer(),((THSConditionsFragment) mTHSBaseFragment).getTHSConditions(),this);
+                THSManager.getInstance().updateConditions(mTHSBaseFragment.getContext(), THSManager.getInstance().getPTHConsumer(),((THSConditionsFragment) mTHSBaseFragment).getTHSConditions(),this);
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }
@@ -37,22 +37,22 @@ public class THSConditionsPresenter implements THSBasePresenter, THSConditionsCa
     }
 
     public void getConditions() throws AWSDKInstantiationException {
-        PTHManager.getInstance().getConditions(mTHSBaseFragment.getFragmentActivity(),this);
+        THSManager.getInstance().getConditions(mTHSBaseFragment.getFragmentActivity(),this);
     }
 
     @Override
-    public void onResponse(THSConditions thsConditions, THSSDKError THSSDKError) {
+    public void onResponse(THSConditionsList thsConditions, THSSDKError THSSDKError) {
         final List<Condition> conditions = thsConditions.getConditions();
 
-        List<PTHConditions> pthConditionsList = new ArrayList<>();
+        List<THSConditions> THSConditionsList = new ArrayList<>();
         for (Condition condition : conditions) {
-            PTHConditions pthConditions = new PTHConditions();
-            pthConditions.setCondition(condition);
-            pthConditionsList.add(pthConditions);
+            THSConditions THSConditions = new THSConditions();
+            THSConditions.setCondition(condition);
+            THSConditionsList.add(THSConditions);
         }
 
 
-        ((THSConditionsFragment) mTHSBaseFragment).setConditions(pthConditionsList);
+        ((THSConditionsFragment) mTHSBaseFragment).setConditions(THSConditionsList);
     }
 
     @Override

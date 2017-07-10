@@ -1,15 +1,15 @@
 [
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/abc_tint_btn_checkable.xml",
-        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/color-v23/abc_tint_btn_checkable.xml"
-    },
-    {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/abc_btn_colored_borderless_text_material.xml",
         "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/color-v23/abc_btn_colored_borderless_text_material.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/uid_datepicker_header_selector.xml",
         "source": "/Users/philips/.android/build-cache/8d3e6b777ce72c38264375b4e488dbaf5c4e2066/output/res/color-v23/uid_datepicker_header_selector.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/abc_tint_btn_checkable.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/color-v23/abc_tint_btn_checkable.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/abc_tint_switch_thumb.xml",
@@ -20,12 +20,60 @@
         "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/color-v23/abc_color_highlight_material.xml"
     },
     {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/abc_btn_colored_borderless_text_material.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/color-v23/abc_btn_colored_borderless_text_material.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/abc_color_highlight_material.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/color-v23/abc_color_highlight_material.xml"
+    },
+    {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/abc_tint_switch_track.xml",
         "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/color-v23/abc_tint_switch_track.xml"
     },
     {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/design_tint_password_toggle.xml",
+        "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/color-v23/design_tint_password_toggle.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/abc_tint_switch_thumb.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/color-v23/abc_tint_switch_thumb.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/abc_tint_spinner.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/color-v23/abc_tint_spinner.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/abc_tint_spinner.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/color-v23/abc_tint_spinner.xml"
+    },
+    {
+        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/abc_tint_btn_checkable.xml",
+        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/color-v23/abc_tint_btn_checkable.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/uid_datepicker_header_selector.xml",
+        "source": "/Users/philips/.android/build-cache/dc7fb68fce606828884408d382e4fd79c43b2237/output/res/color-v23/uid_datepicker_header_selector.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/abc_tint_seek_thumb.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/color-v23/abc_tint_seek_thumb.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/abc_tint_edittext.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/color-v23/abc_tint_edittext.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/abc_tint_switch_track.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/color-v23/abc_tint_switch_track.xml"
+    },
+    {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/abc_tint_edittext.xml",
         "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/color-v23/abc_tint_edittext.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/abc_btn_colored_text_material.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/color-v23/abc_btn_colored_text_material.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/abc_btn_colored_text_material.xml",
@@ -36,15 +84,15 @@
         "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/color-v23/abc_tint_seek_thumb.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/design_tint_password_toggle.xml",
-        "source": "/Users/philips/.android/build-cache/bd43358e4f738051791ffbca23ceec21b775ce2a/output/res/color-v23/design_tint_password_toggle.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/design_tint_password_toggle.xml",
+        "source": "/Users/philips/.android/build-cache/396a3fc0430609a38adb3f7b0d3fc30fd8d07942/output/res/color-v23/design_tint_password_toggle.xml"
     },
     {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/abc_tint_default.xml",
         "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/color-v23/abc_tint_default.xml"
     },
     {
-        "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/abc_tint_spinner.xml",
-        "source": "/Users/philips/.android/build-cache/7653b7b458e5e6826217f2e8f7ea6d6a99f9c54a/output/res/color-v23/abc_tint_spinner.xml"
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/debug/color-v23/abc_tint_default.xml",
+        "source": "/Users/philips/.android/build-cache/27e7d8e13f33b407c81e5af434179ae4b29a577f/output/res/color-v23/abc_tint_default.xml"
     }
 ]

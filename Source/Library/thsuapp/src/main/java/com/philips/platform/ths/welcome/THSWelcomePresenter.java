@@ -13,7 +13,7 @@ import com.philips.platform.ths.practice.THSPracticeFragment;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.AmwellLog;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.R;
 
 import java.net.MalformedURLException;
@@ -41,7 +41,7 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
         ((THSWelcomeFragment) uiBaseView).enableInitButton(false);
         try {
             AmwellLog.i(AmwellLog.LOG,"Initialize - Call initiated from Client");
-            PTHManager.getInstance().initializeTeleHealth(uiBaseView.getFragmentActivity(), this);
+            THSManager.getInstance().initializeTeleHealth(uiBaseView.getFragmentActivity(), this);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
@@ -62,7 +62,7 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     private void loginUserSilently() {
         try {
             AmwellLog.i(AmwellLog.LOG,"Login - call initialted from client");
-            PTHManager.getInstance().authenticate(uiBaseView.getFragmentActivity(),"spoorti.h86@gmail.com","sujata123*",null,this);
+            THSManager.getInstance().authenticate(uiBaseView.getFragmentActivity(),"spoorti.h86@gmail.com","sujata123*",null,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -84,7 +84,7 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
         AmwellLog.d("Login","Login success");
         uiBaseView.showProgressBar();
         try {
-            PTHManager.getInstance().getConsumerObject(uiBaseView.getFragmentActivity(), THSAuthentication.getAuthentication(),this);
+            THSManager.getInstance().getConsumerObject(uiBaseView.getFragmentActivity(), THSAuthentication.getAuthentication(),this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -116,10 +116,10 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
 
         this.consumer = consumer;
-        //setting PTHconsumer  in PTHManager so any presenter/fragment can access it
+        //setting PTHconsumer  in THSManager so any presenter/fragment can access it
         THSConsumer THSConsumer = new THSConsumer();
         THSConsumer.setConsumer(consumer);
-        PTHManager.getInstance().setPTHConsumer(THSConsumer);
+        THSManager.getInstance().setPTHConsumer(THSConsumer);
         uiBaseView.hideProgressBar();
         AmwellLog.d("Login","Consumer object received");
         THSPracticeFragment PTHPracticeFragment = new THSPracticeFragment();

@@ -10,7 +10,7 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -57,7 +57,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     void getVisitContext()  {
 
         try {
-            PTHManager.getInstance().getVisitContext(pthBaseView.getFragmentActivity(), THSProviderInfo,this);
+            THSManager.getInstance().getVisitContext(pthBaseView.getFragmentActivity(), THSProviderInfo,this);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {

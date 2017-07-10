@@ -283,7 +283,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int backgroundTint=0x7f010387;
+        public static int backgroundTint=0x7f01038c;
         /** <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
@@ -297,7 +297,7 @@ containing a value of this type.
 <tr><td><code>screen</code></td><td>15</td><td></td></tr>
 </table>
          */
-        public static int backgroundTintMode=0x7f010388;
+        public static int backgroundTintMode=0x7f01038d;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -333,7 +333,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int behavior_overlapTop=0x7f0102dc;
+        public static int behavior_overlapTop=0x7f0102e1;
         /** <p>May be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -412,7 +412,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <tr><td><code>bottom</code></td><td>0x50</td><td></td></tr>
 </table>
          */
-        public static int buttonGravity=0x7f010320;
+        public static int buttonGravity=0x7f010325;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -430,7 +430,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <tr><td><code>icon_only</code></td><td>2</td><td></td></tr>
 </table>
          */
-        public static int buttonSize=0x7f0102ea;
+        public static int buttonSize=0x7f0102ef;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -481,7 +481,7 @@ containing a value of this type.
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int closeIcon=0x7f0102e1;
+        public static int closeIcon=0x7f0102e6;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -493,11 +493,11 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int collapseContentDescription=0x7f010322;
+        public static int collapseContentDescription=0x7f010327;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int collapseIcon=0x7f010321;
+        public static int collapseIcon=0x7f010326;
         /** <p>Must be one or more (separated by '|') of the following constant values.</p>
 <table>
 <colgroup align="left" />
@@ -615,7 +615,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <tr><td><code>auto</code></td><td>2</td><td></td></tr>
 </table>
          */
-        public static int colorScheme=0x7f0102eb;
+        public static int colorScheme=0x7f0102f0;
         /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
 <p>This may also be a reference to a resource (in the form
@@ -628,7 +628,7 @@ containing a value of this type.
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int commitIcon=0x7f0102e6;
+        public static int commitIcon=0x7f0102eb;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -755,7 +755,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int counterEnabled=0x7f01030d;
+        public static int counterEnabled=0x7f010312;
         /** <p>Must be an integer value, such as "<code>100</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -763,15 +763,15 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int counterMaxLength=0x7f01030e;
+        public static int counterMaxLength=0x7f010313;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int counterOverflowTextAppearance=0x7f010310;
+        public static int counterOverflowTextAppearance=0x7f010315;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int counterTextAppearance=0x7f01030f;
+        public static int counterTextAppearance=0x7f010314;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -783,7 +783,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int defaultQueryHint=0x7f0102e0;
+        public static int defaultQueryHint=0x7f0102e5;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -805,7 +805,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int discreteValue=0x7f01038e;
+        public static int discreteValue=0x7f010393;
         /** <p>Must be one or more (separated by '|') of the following constant values.</p>
 <table>
 <colgroup align="left" />
@@ -903,11 +903,11 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int errorEnabled=0x7f01030b;
+        public static int errorEnabled=0x7f010310;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int errorTextAppearance=0x7f01030c;
+        public static int errorTextAppearance=0x7f010311;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -1034,19 +1034,19 @@ containing a value of this type.
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int goIcon=0x7f0102e2;
+        public static int goIcon=0x7f0102e7;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int gradientEndColor=0x7f010340;
+        public static int gradientEndColor=0x7f010345;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int gradientStartColor=0x7f01033f;
+        public static int gradientStartColor=0x7f010344;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -1076,7 +1076,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int hintAnimationEnabled=0x7f010311;
+        public static int hintAnimationEnabled=0x7f010316;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -1084,11 +1084,11 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int hintEnabled=0x7f01030a;
+        public static int hintEnabled=0x7f01030f;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int hintTextAppearance=0x7f010309;
+        public static int hintTextAppearance=0x7f01030e;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -1108,7 +1108,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int iconifiedByDefault=0x7f0102de;
+        public static int iconifiedByDefault=0x7f0102e3;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -1150,7 +1150,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int insetForeground=0x7f0102db;
+        public static int insetForeground=0x7f0102e0;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -1241,7 +1241,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int layout=0x7f0102dd;
+        public static int layout=0x7f0102e2;
         /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -1249,7 +1249,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int layoutManager=0x7f0102d4;
+        public static int layoutManager=0x7f0102d9;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -1892,7 +1892,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int logoDescription=0x7f010325;
+        public static int logoDescription=0x7f01032a;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -1902,7 +1902,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int maxActionInlineWidth=0x7f0102ed;
+        public static int maxActionInlineWidth=0x7f0102f2;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -1912,7 +1912,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int maxButtonHeight=0x7f01031f;
+        public static int maxButtonHeight=0x7f010324;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -1936,11 +1936,11 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int navigationContentDescription=0x7f010324;
+        public static int navigationContentDescription=0x7f010329;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int navigationIcon=0x7f010323;
+        public static int navigationIcon=0x7f010328;
         /** <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
@@ -1960,7 +1960,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int notification_label_small=0x7f010389;
+        public static int notification_label_small=0x7f01038e;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -1968,7 +1968,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int overlapAnchor=0x7f0102d0;
+        public static int overlapAnchor=0x7f0102d5;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -1978,7 +1978,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int paddingBottomNoButtons=0x7f0102d2;
+        public static int paddingBottomNoButtons=0x7f0102d7;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -1988,7 +1988,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int paddingEnd=0x7f010385;
+        public static int paddingEnd=0x7f01038a;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -1998,7 +1998,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int paddingStart=0x7f010384;
+        public static int paddingStart=0x7f010389;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -2008,7 +2008,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int paddingTopNoTitle=0x7f0102d3;
+        public static int paddingTopNoTitle=0x7f0102d8;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -2034,11 +2034,11 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int passwordToggleContentDescription=0x7f010314;
+        public static int passwordToggleContentDescription=0x7f010319;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int passwordToggleDrawable=0x7f010313;
+        public static int passwordToggleDrawable=0x7f010318;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -2046,7 +2046,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int passwordToggleEnabled=0x7f010312;
+        public static int passwordToggleEnabled=0x7f010317;
         /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
 <p>This may also be a reference to a resource (in the form
@@ -2055,7 +2055,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int passwordToggleTint=0x7f010315;
+        public static int passwordToggleTint=0x7f01031a;
         /** <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
@@ -2069,11 +2069,11 @@ containing a value of this type.
 <tr><td><code>screen</code></td><td>15</td><td></td></tr>
 </table>
          */
-        public static int passwordToggleTintMode=0x7f010316;
+        public static int passwordToggleTintMode=0x7f01031b;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int popover_left_icon=0x7f01038b;
+        public static int popover_left_icon=0x7f010390;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -2081,16 +2081,16 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int popover_opacity=0x7f01038d;
+        public static int popover_opacity=0x7f010392;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int popover_right_icon=0x7f01038a;
+        public static int popover_right_icon=0x7f01038f;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
          */
-        public static int popover_title_text=0x7f01038c;
+        public static int popover_title_text=0x7f010391;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -2142,7 +2142,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int queryBackground=0x7f0102e8;
+        public static int queryBackground=0x7f0102ed;
         /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -2150,7 +2150,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int queryHint=0x7f0102df;
+        public static int queryHint=0x7f0102e4;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -2172,7 +2172,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int reg_baseColor=0x7f0102d8;
+        public static int reg_baseColor=0x7f0102dd;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -2180,7 +2180,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int reg_checked=0x7f0102d9;
+        public static int reg_checked=0x7f0102de;
         /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -2188,7 +2188,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int reg_textValue=0x7f0102da;
+        public static int reg_textValue=0x7f0102df;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -2196,7 +2196,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int reverseLayout=0x7f0102d6;
+        public static int reverseLayout=0x7f0102db;
         /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
 <p>This may also be a reference to a resource (in the form
@@ -2210,7 +2210,7 @@ containing a value of this type.
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
          */
-        public static int scopeUris=0x7f0102ec;
+        public static int scopeUris=0x7f0102f1;
         /** <p>Must be an integer value, such as "<code>100</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -2232,11 +2232,11 @@ containing a value of this type.
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int searchHintIcon=0x7f0102e4;
+        public static int searchHintIcon=0x7f0102e9;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int searchIcon=0x7f0102e3;
+        public static int searchIcon=0x7f0102e8;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -2287,7 +2287,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int showText=0x7f0102f8;
+        public static int showText=0x7f0102fd;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -2307,7 +2307,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int spanCount=0x7f0102d5;
+        public static int spanCount=0x7f0102da;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -2331,7 +2331,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int splitTrack=0x7f0102f7;
+        public static int splitTrack=0x7f0102fc;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -2343,7 +2343,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int stackFromEnd=0x7f0102d7;
+        public static int stackFromEnd=0x7f0102dc;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -2351,7 +2351,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int state_above_anchor=0x7f0102d1;
+        public static int state_above_anchor=0x7f0102d6;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -2388,7 +2388,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int submitBackground=0x7f0102e9;
+        public static int submitBackground=0x7f0102ee;
         /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -2400,7 +2400,7 @@ containing a value of this type.
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int subtitleTextAppearance=0x7f010318;
+        public static int subtitleTextAppearance=0x7f01031d;
         /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
 <p>This may also be a reference to a resource (in the form
@@ -2409,7 +2409,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int subtitleTextColor=0x7f010327;
+        public static int subtitleTextColor=0x7f01032c;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -2417,7 +2417,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int suggestionRowLayout=0x7f0102e7;
+        public static int suggestionRowLayout=0x7f0102ec;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -2427,7 +2427,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int switchMinWidth=0x7f0102f5;
+        public static int switchMinWidth=0x7f0102fa;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -2437,7 +2437,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int switchPadding=0x7f0102f6;
+        public static int switchPadding=0x7f0102fb;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -2445,11 +2445,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int switchTextAppearance=0x7f0102f4;
+        public static int switchTextAppearance=0x7f0102f9;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int tabBackground=0x7f0102fc;
+        public static int tabBackground=0x7f010301;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -2459,7 +2459,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int tabContentStart=0x7f0102fb;
+        public static int tabContentStart=0x7f010300;
         /** <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
@@ -2470,7 +2470,7 @@ containing a value of this type.
 <tr><td><code>center</code></td><td>1</td><td></td></tr>
 </table>
          */
-        public static int tabGravity=0x7f0102fe;
+        public static int tabGravity=0x7f010303;
         /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
 <p>This may also be a reference to a resource (in the form
@@ -2479,7 +2479,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int tabIndicatorColor=0x7f0102f9;
+        public static int tabIndicatorColor=0x7f0102fe;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -2489,7 +2489,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int tabIndicatorHeight=0x7f0102fa;
+        public static int tabIndicatorHeight=0x7f0102ff;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -2499,7 +2499,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int tabMaxWidth=0x7f010300;
+        public static int tabMaxWidth=0x7f010305;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -2509,7 +2509,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int tabMinWidth=0x7f0102ff;
+        public static int tabMinWidth=0x7f010304;
         /** <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
@@ -2520,7 +2520,7 @@ containing a value of this type.
 <tr><td><code>fixed</code></td><td>1</td><td></td></tr>
 </table>
          */
-        public static int tabMode=0x7f0102fd;
+        public static int tabMode=0x7f010302;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -2530,7 +2530,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int tabPadding=0x7f010308;
+        public static int tabPadding=0x7f01030d;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -2540,7 +2540,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int tabPaddingBottom=0x7f010307;
+        public static int tabPaddingBottom=0x7f01030c;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -2550,7 +2550,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int tabPaddingEnd=0x7f010306;
+        public static int tabPaddingEnd=0x7f01030b;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -2560,7 +2560,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int tabPaddingStart=0x7f010304;
+        public static int tabPaddingStart=0x7f010309;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -2570,7 +2570,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int tabPaddingTop=0x7f010305;
+        public static int tabPaddingTop=0x7f01030a;
         /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
 <p>This may also be a reference to a resource (in the form
@@ -2579,11 +2579,11 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int tabSelectedTextColor=0x7f010303;
+        public static int tabSelectedTextColor=0x7f010308;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int tabTextAppearance=0x7f010301;
+        public static int tabTextAppearance=0x7f010306;
         /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
 <p>This may also be a reference to a resource (in the form
@@ -2592,7 +2592,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int tabTextColor=0x7f010302;
+        public static int tabTextColor=0x7f010307;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a boolean value, either "<code>true</code>" or "<code>false</code>".
@@ -2650,7 +2650,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int theme=0x7f010386;
+        public static int theme=0x7f01038b;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -2670,7 +2670,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int thumbTextPadding=0x7f0102f3;
+        public static int thumbTextPadding=0x7f0102f8;
         /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
 <p>This may also be a reference to a resource (in the form
@@ -2679,7 +2679,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int thumbTint=0x7f0102ee;
+        public static int thumbTint=0x7f0102f3;
         /** <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
@@ -2694,7 +2694,7 @@ containing a value of this type.
 <tr><td><code>add</code></td><td>16</td><td></td></tr>
 </table>
          */
-        public static int thumbTintMode=0x7f0102ef;
+        public static int thumbTintMode=0x7f0102f4;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -2748,7 +2748,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int titleMargin=0x7f010319;
+        public static int titleMargin=0x7f01031e;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -2758,7 +2758,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int titleMarginBottom=0x7f01031d;
+        public static int titleMarginBottom=0x7f010322;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -2768,7 +2768,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int titleMarginEnd=0x7f01031b;
+        public static int titleMarginEnd=0x7f010320;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -2778,7 +2778,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int titleMarginStart=0x7f01031a;
+        public static int titleMarginStart=0x7f01031f;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -2788,7 +2788,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int titleMarginTop=0x7f01031c;
+        public static int titleMarginTop=0x7f010321;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -2798,11 +2798,11 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int titleMargins=0x7f01031e;
+        public static int titleMargins=0x7f010323;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int titleTextAppearance=0x7f010317;
+        public static int titleTextAppearance=0x7f01031c;
         /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
 <p>This may also be a reference to a resource (in the form
@@ -2811,7 +2811,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int titleTextColor=0x7f010326;
+        public static int titleTextColor=0x7f01032b;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -2831,7 +2831,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int track=0x7f0102f0;
+        public static int track=0x7f0102f5;
         /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
 <p>This may also be a reference to a resource (in the form
@@ -2840,7 +2840,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int trackTint=0x7f0102f1;
+        public static int trackTint=0x7f0102f6;
         /** <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
@@ -2855,7 +2855,7 @@ containing a value of this type.
 <tr><td><code>add</code></td><td>16</td><td></td></tr>
 </table>
          */
-        public static int trackTintMode=0x7f0102f2;
+        public static int trackTintMode=0x7f0102f7;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
@@ -3027,7 +3027,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int uidButtonBackgroundColorList=0x7f010328;
+        public static int uidButtonBackgroundColorList=0x7f01032d;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -3035,20 +3035,20 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int uidButtonCenter=0x7f01032f;
+        public static int uidButtonCenter=0x7f010334;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a floating point value, such as "<code>1.2</code>".
          */
-        public static int uidButtonDisabledAlpha=0x7f0102cb;
+        public static int uidButtonDisabledAlpha=0x7f0102d0;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int uidButtonDrawableColorList=0x7f01032a;
+        public static int uidButtonDrawableColorList=0x7f01032f;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int uidButtonImageColorList=0x7f01032b;
+        public static int uidButtonImageColorList=0x7f010330;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -3058,11 +3058,11 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int uidButtonImageDrawableHeight=0x7f01032c;
+        public static int uidButtonImageDrawableHeight=0x7f010331;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int uidButtonImageDrawableSrc=0x7f01032e;
+        public static int uidButtonImageDrawableSrc=0x7f010333;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -3072,7 +3072,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int uidButtonImageDrawableWidth=0x7f01032d;
+        public static int uidButtonImageDrawableWidth=0x7f010332;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
@@ -3380,7 +3380,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int uidButtonTextColorList=0x7f010329;
+        public static int uidButtonTextColorList=0x7f01032e;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
@@ -3456,7 +3456,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int uidCheckBoxPaddingStart=0x7f010330;
+        public static int uidCheckBoxPaddingStart=0x7f010335;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -3472,7 +3472,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <tr><td><code>big</code></td><td>2</td><td></td></tr>
 </table>
          */
-        public static int uidCircularProgressBarSize=0x7f010362;
+        public static int uidCircularProgressBarSize=0x7f010367;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
@@ -3593,7 +3593,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <tr><td><code>Accent</code></td><td>3</td><td></td></tr>
 </table>
          */
-        public static int uidComponentType=0x7f010331;
+        public static int uidComponentType=0x7f010336;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
@@ -3632,7 +3632,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static int uidContentItemDefaultDisabledDetailTextColor=0x7f0101a6;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-<p>May be a floating point value, such as "<code>1.2</code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
         public static int uidContentItemDefaultDisabledImageColor=0x7f0101a7;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -3737,6 +3738,12 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
         public static int uidContentTertiaryBackgroundColor=0x7f010196;
+        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         */
+        public static int uidControlNotification=0x7f0102ca;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
@@ -3994,52 +4001,52 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidDialogBackgroundColor=0x7f010334;
+        public static int uidDialogBackgroundColor=0x7f010339;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidDialogBodyTextColor=0x7f010333;
+        public static int uidDialogBodyTextColor=0x7f010338;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidDialogDimStrongColor=0x7f010339;
+        public static int uidDialogDimStrongColor=0x7f01033e;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a floating point value, such as "<code>1.2</code>".
          */
-        public static int uidDialogDimStrongColorAlpha=0x7f01033a;
+        public static int uidDialogDimStrongColorAlpha=0x7f01033f;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a floating point value, such as "<code>1.2</code>".
          */
-        public static int uidDialogDimSubtleLayerAlpha=0x7f010338;
+        public static int uidDialogDimSubtleLayerAlpha=0x7f01033d;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidDialogDimSubtleLayerColor=0x7f010337;
+        public static int uidDialogDimSubtleLayerColor=0x7f01033c;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a floating point value, such as "<code>1.2</code>".
          */
-        public static int uidDialogShadowAlpha=0x7f010336;
+        public static int uidDialogShadowAlpha=0x7f01033b;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidDialogShadowColor=0x7f010335;
+        public static int uidDialogShadowColor=0x7f01033a;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidDialogTitleTextColor=0x7f010332;
+        public static int uidDialogTitleTextColor=0x7f010337;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
@@ -4067,27 +4074,27 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int uidDotNavigationDrawable=0x7f01033b;
+        public static int uidDotNavigationDrawable=0x7f010340;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidDotNavigationIconColorList=0x7f01033e;
+        public static int uidDotNavigationIconColorList=0x7f010343;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
          */
-        public static int uidDotNavigationIconSpacingLeft=0x7f01033c;
+        public static int uidDotNavigationIconSpacingLeft=0x7f010341;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
          */
-        public static int uidDotNavigationIconSpacingRight=0x7f01033d;
+        public static int uidDotNavigationIconSpacingRight=0x7f010342;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
@@ -4134,7 +4141,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static int uidGridViewBackgroundLightHeaderTextColor=0x7f0101dd;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-<p>May be a floating point value, such as "<code>1.2</code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
         public static int uidGridViewDefaultDisabledImageColor=0x7f0101e4;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -4169,7 +4177,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static int uidGridViewDefaultNormalTitleTextColor=0x7f0101e0;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-<p>May be a floating point value, such as "<code>1.2</code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
         public static int uidGridViewDefaultPressedImageColor=0x7f0101e1;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -4205,11 +4214,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int uidImageButtonColorList=0x7f010345;
+        public static int uidImageButtonColorList=0x7f01034a;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int uidImageButtonDrawableColorList=0x7f010344;
+        public static int uidImageButtonDrawableColorList=0x7f010349;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -4219,11 +4228,11 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int uidImageButtonDrawableHeight=0x7f010341;
+        public static int uidImageButtonDrawableHeight=0x7f010346;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int uidImageButtonDrawableSrc=0x7f010343;
+        public static int uidImageButtonDrawableSrc=0x7f010348;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -4233,7 +4242,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int uidImageButtonDrawableWidth=0x7f010342;
+        public static int uidImageButtonDrawableWidth=0x7f010347;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -4241,86 +4250,104 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int uidIndeterminateLinearPBStyle=0x7f0102ca;
+        public static int uidIndeterminateLinearPBStyle=0x7f0102cf;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be an integer value, such as "<code>100</code>".
          */
-        public static int uidIndeterminateLinearProgressAnimDuration=0x7f01034b;
+        public static int uidIndeterminateLinearProgressAnimDuration=0x7f010350;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a floating point value, such as "<code>1.2</code>".
          */
-        public static int uidIndeterminateLinearProgressBGAlpha=0x7f010347;
+        public static int uidIndeterminateLinearProgressBGAlpha=0x7f01034c;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidIndeterminateLinearProgressBGColor=0x7f010346;
+        public static int uidIndeterminateLinearProgressBGColor=0x7f01034b;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidIndeterminateLinearProgressCenterColor=0x7f010349;
+        public static int uidIndeterminateLinearProgressCenterColor=0x7f01034e;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidIndeterminateLinearProgressEndColor=0x7f01034a;
+        public static int uidIndeterminateLinearProgressEndColor=0x7f01034f;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidIndeterminateLinearProgressStartColor=0x7f010348;
+        public static int uidIndeterminateLinearProgressStartColor=0x7f01034d;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int uidInputTextBorderBackground=0x7f010370;
+        public static int uidInputTextBorderBackground=0x7f010375;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int uidInputTextBorderBackgroundColorList=0x7f010371;
+        public static int uidInputTextBorderBackgroundColorList=0x7f010376;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
          */
-        public static int uidInputTextBorderWidth=0x7f01036f;
+        public static int uidInputTextBorderWidth=0x7f010374;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int uidInputTextFillBackground=0x7f01036d;
+        public static int uidInputTextFillBackground=0x7f010372;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int uidInputTextFillBackgroundColorList=0x7f01036e;
+        public static int uidInputTextFillBackgroundColorList=0x7f010373;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int uidInputTextFillColorList=0x7f01036c;
+        public static int uidInputTextFillColorList=0x7f010371;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int uidInputTextHintTextSelector=0x7f010373;
+        public static int uidInputTextHintTextSelector=0x7f010378;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int uidInputTextTextSelector=0x7f010372;
+        public static int uidInputTextTextSelector=0x7f010377;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a boolean value, either "<code>true</code>" or "<code>false</code>".
          */
-        public static int uidInputTextWithClearButton=0x7f010374;
+        public static int uidInputTextWithClearButton=0x7f010379;
+        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         */
+        public static int uidInputValidatedBackground=0x7f0102ce;
+        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         */
+        public static int uidInputValidatedBorder=0x7f0102cc;
+        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         */
+        public static int uidInputValidatedText=0x7f0102cd;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a boolean value, either "<code>true</code>" or "<code>false</code>".
          */
-        public static int uidIsIndeterminateProgressIndicator=0x7f010358;
+        public static int uidIsIndeterminateProgressIndicator=0x7f01035d;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -4328,7 +4355,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int uidIsLinearProgressBar=0x7f010355;
+        public static int uidIsLinearProgressBar=0x7f01035a;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
@@ -4355,7 +4382,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <tr><td><code>bottom_center</code></td><td>5</td><td></td></tr>
 </table>
          */
-        public static int uidLabelPosition=0x7f010361;
+        public static int uidLabelPosition=0x7f010366;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
@@ -4439,13 +4466,13 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int uidListPressedAlpha=0x7f010366;
+        public static int uidListPressedAlpha=0x7f01036b;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidListPressedColor=0x7f010365;
+        public static int uidListPressedColor=0x7f01036a;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
@@ -4505,23 +4532,23 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidNavigationShadowLevelOne=0x7f01034e;
+        public static int uidNavigationShadowLevelOne=0x7f010353;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a floating point value, such as "<code>1.2</code>".
          */
-        public static int uidNavigationShadowLevelOneAlpha=0x7f01034f;
+        public static int uidNavigationShadowLevelOneAlpha=0x7f010354;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidNavigationShadowLevelTwo=0x7f010350;
+        public static int uidNavigationShadowLevelTwo=0x7f010355;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a floating point value, such as "<code>1.2</code>".
          */
-        public static int uidNavigationShadowLevelTwoAlpha=0x7f010351;
+        public static int uidNavigationShadowLevelTwoAlpha=0x7f010356;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
@@ -4635,13 +4662,13 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidProgressBarCircularEndColor=0x7f010356;
+        public static int uidProgressBarCircularEndColor=0x7f01035b;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidProgressBarCircularProgressColorList=0x7f010357;
+        public static int uidProgressBarCircularProgressColorList=0x7f01035c;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -4650,53 +4677,53 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a floating point value, such as "<code>1.2</code>".
          */
-        public static int uidProgressIndicatorButtonBackgroundAlpha=0x7f0102cd;
+        public static int uidProgressIndicatorButtonBackgroundAlpha=0x7f0102d2;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidProgressIndicatorButtonBackgroundColor=0x7f0102cc;
+        public static int uidProgressIndicatorButtonBackgroundColor=0x7f0102d1;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int uidProgressIndicatorButtonDrawable=0x7f010359;
+        public static int uidProgressIndicatorButtonDrawable=0x7f01035e;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be an integer value, such as "<code>100</code>".
          */
-        public static int uidProgressIndicatorButtonProgress=0x7f01035b;
+        public static int uidProgressIndicatorButtonProgress=0x7f010360;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int uidProgressIndicatorButtonProgressBackground=0x7f01035d;
+        public static int uidProgressIndicatorButtonProgressBackground=0x7f010362;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidProgressIndicatorButtonProgressBackgroundColor=0x7f01035e;
+        public static int uidProgressIndicatorButtonProgressBackgroundColor=0x7f010363;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a floating point value, such as "<code>1.2</code>".
          */
-        public static int uidProgressIndicatorButtonProgressBackgroundColorAlpha=0x7f01035f;
+        public static int uidProgressIndicatorButtonProgressBackgroundColorAlpha=0x7f010364;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidProgressIndicatorButtonProgressColor=0x7f010360;
+        public static int uidProgressIndicatorButtonProgressColor=0x7f010365;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
          */
-        public static int uidProgressIndicatorButtonProgressText=0x7f01035c;
+        public static int uidProgressIndicatorButtonProgressText=0x7f010361;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
          */
-        public static int uidProgressIndicatorButtonText=0x7f01035a;
+        public static int uidProgressIndicatorButtonText=0x7f01035f;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
@@ -4748,7 +4775,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int uidRadioButtonPaddingStart=0x7f010363;
+        public static int uidRadioButtonPaddingStart=0x7f010368;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -4782,7 +4809,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidRatingBarStarOnColor=0x7f010364;
+        public static int uidRatingBarStarOnColor=0x7f010369;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -4923,12 +4950,12 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
          */
-        public static int uidSearchDecoyHintText=0x7f010368;
+        public static int uidSearchDecoyHintText=0x7f01036d;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
          */
-        public static int uidSearchInputHintText=0x7f010367;
+        public static int uidSearchInputHintText=0x7f01036c;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
@@ -4962,7 +4989,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int uidShadowDrawable=0x7f010352;
+        public static int uidShadowDrawable=0x7f010357;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
@@ -4997,7 +5024,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int uidShadowOffset=0x7f010353;
+        public static int uidShadowOffset=0x7f010358;
         /** <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
@@ -5008,7 +5035,7 @@ containing a value of this type.
 <tr><td><code>secondary</code></td><td>1</td><td></td></tr>
 </table>
          */
-        public static int uidShadowType=0x7f010354;
+        public static int uidShadowType=0x7f010359;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
@@ -5182,7 +5209,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidSwitchBorderColorList=0x7f01036a;
+        public static int uidSwitchBorderColorList=0x7f01036f;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -5192,13 +5219,13 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidSwitchThumbColorList=0x7f010369;
+        public static int uidSwitchThumbColorList=0x7f01036e;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int uidSwitchTrackColorList=0x7f01036b;
+        public static int uidSwitchTrackColorList=0x7f010370;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
@@ -5400,12 +5427,12 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int uidTextBoxValidationErrorDrawable=0x7f01034c;
+        public static int uidTextBoxValidationErrorDrawable=0x7f010351;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
          */
-        public static int uidTextBoxValidationErrorText=0x7f01034d;
+        public static int uidTextBoxValidationErrorText=0x7f010352;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
@@ -5819,6 +5846,12 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
+        public static int uidValidatedMessageText=0x7f0102cb;
+        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         */
         public static int uidWizardDefaultNormalOffCircleBackgroundColor=0x7f0102c4;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
@@ -5893,7 +5926,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int uid_state_error=0x7f0102ce;
+        public static int uid_state_error=0x7f0102d3;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -5901,7 +5934,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int uid_state_visited=0x7f0102cf;
+        public static int uid_state_visited=0x7f0102d4;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -5917,13 +5950,13 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int vc_fillAlpha=0x7f01037c;
+        public static int vc_fillAlpha=0x7f010381;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int vc_fillColor=0x7f01037b;
+        public static int vc_fillColor=0x7f010380;
         /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -5931,7 +5964,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int vc_pathData=0x7f01037d;
+        public static int vc_pathData=0x7f010382;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -5939,13 +5972,13 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int vc_strokeAlpha=0x7f01037a;
+        public static int vc_strokeAlpha=0x7f01037f;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static int vc_strokeColor=0x7f010379;
+        public static int vc_strokeColor=0x7f01037e;
         /** <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
@@ -5957,7 +5990,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <tr><td><code>square</code></td><td>2</td><td></td></tr>
 </table>
          */
-        public static int vc_strokeLineCap=0x7f010381;
+        public static int vc_strokeLineCap=0x7f010386;
         /** <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
@@ -5969,7 +6002,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <tr><td><code>bevel</code></td><td>2</td><td></td></tr>
 </table>
          */
-        public static int vc_strokeLineJoin=0x7f010382;
+        public static int vc_strokeLineJoin=0x7f010387;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -5977,7 +6010,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int vc_strokeMiterLimit=0x7f010383;
+        public static int vc_strokeMiterLimit=0x7f010388;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -5985,7 +6018,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int vc_strokeWidth=0x7f010378;
+        public static int vc_strokeWidth=0x7f01037d;
         /** <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
@@ -6000,7 +6033,7 @@ containing a value of this type.
 <tr><td><code>add</code></td><td>16</td><td></td></tr>
 </table>
          */
-        public static int vc_tintMode=0x7f010375;
+        public static int vc_tintMode=0x7f01037a;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -6008,7 +6041,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int vc_translateX=0x7f010376;
+        public static int vc_translateX=0x7f01037b;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -6016,7 +6049,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int vc_translateY=0x7f010377;
+        public static int vc_translateY=0x7f01037c;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -6024,7 +6057,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int vc_trimPathEnd=0x7f01037f;
+        public static int vc_trimPathEnd=0x7f010384;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -6032,7 +6065,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int vc_trimPathOffset=0x7f010380;
+        public static int vc_trimPathOffset=0x7f010385;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -6040,11 +6073,11 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int vc_trimPathStart=0x7f01037e;
+        public static int vc_trimPathStart=0x7f010383;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
-        public static int voiceIcon=0x7f0102e5;
+        public static int voiceIcon=0x7f0102ea;
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -6481,7 +6514,7 @@ containing a value of this type.
         public static int uid_orange_level_80=0x7f0e0104;
         public static int uid_orange_level_85=0x7f0e0105;
         public static int uid_orange_level_90=0x7f0e0106;
-        public static int uid_philips_brand_philips_blue=0x7f0e0107;
+        public static int uid_philips_brand_level_philips_blue=0x7f0e0107;
         public static int uid_pink_level_10=0x7f0e0108;
         public static int uid_pink_level_15=0x7f0e0109;
         public static int uid_pink_level_20=0x7f0e010a;
@@ -9448,107 +9481,107 @@ containing a value of this type.
          */
         public static int Theme_DLS=0x7f0b014c;
         public static int Theme_DLS_Aqua=0x7f0b014d;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Aqua_Bright=0x7f0b014e;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Aqua_UltraLight=0x7f0b014f;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Aqua_VeryDark=0x7f0b0150;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Aqua_VeryLight=0x7f0b0151;
         public static int Theme_DLS_Blue=0x7f0b0152;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Blue_Bright=0x7f0b0153;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Blue_UltraLight=0x7f0b0154;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Blue_VeryDark=0x7f0b0155;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Blue_VeryLight=0x7f0b0156;
         public static int Theme_DLS_Gray=0x7f0b0157;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Gray_Bright=0x7f0b0158;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Gray_UltraLight=0x7f0b0159;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Gray_VeryDark=0x7f0b015a;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Gray_VeryLight=0x7f0b015b;
         public static int Theme_DLS_Green=0x7f0b015c;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Green_Bright=0x7f0b015d;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Green_UltraLight=0x7f0b015e;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Green_VeryDark=0x7f0b015f;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Green_VeryLight=0x7f0b0160;
         public static int Theme_DLS_GroupBlue=0x7f0b0161;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_GroupBlue_Bright=0x7f0b0162;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_GroupBlue_UltraLight=0x7f0b0163;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_GroupBlue_VeryDark=0x7f0b0164;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_GroupBlue_VeryLight=0x7f0b0165;
         public static int Theme_DLS_Orange=0x7f0b0166;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Orange_Bright=0x7f0b0167;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Orange_UltraLight=0x7f0b0168;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Orange_VeryDark=0x7f0b0169;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Orange_VeryLight=0x7f0b016a;
         public static int Theme_DLS_Pink=0x7f0b016b;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Pink_Bright=0x7f0b016c;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Pink_UltraLight=0x7f0b016d;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Pink_VeryDark=0x7f0b016e;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Pink_VeryLight=0x7f0b016f;
         public static int Theme_DLS_Purple=0x7f0b0170;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Purple_Bright=0x7f0b0171;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Purple_UltraLight=0x7f0b0172;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Purple_VeryDark=0x7f0b0173;
-        /**  text-tertiary 
+        /**  uidTextTertiary 
          */
         public static int Theme_DLS_Purple_VeryLight=0x7f0b0174;
         public static int Theme_Design=0x7f0b0175;
@@ -15478,7 +15511,7 @@ containing a value of this type.
          */
         public static final int[] FloatingActionButton = {
             0x7f010058, 0x7f010110, 0x7f010111, 0x7f010112,
-            0x7f010113, 0x7f010114, 0x7f010387, 0x7f010388
+            0x7f010113, 0x7f010114, 0x7f01038c, 0x7f01038d
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#backgroundTint}
@@ -16573,6 +16606,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            <tr><td><code>{@link #PhilipsUID_uidContentPrimaryBackgroundColor com.philips.platform.ths:uidContentPrimaryBackgroundColor}</code></td><td></td></tr>
            <tr><td><code>{@link #PhilipsUID_uidContentSecondaryBackgroundColor com.philips.platform.ths:uidContentSecondaryBackgroundColor}</code></td><td></td></tr>
            <tr><td><code>{@link #PhilipsUID_uidContentTertiaryBackgroundColor com.philips.platform.ths:uidContentTertiaryBackgroundColor}</code></td><td></td></tr>
+           <tr><td><code>{@link #PhilipsUID_uidControlNotification com.philips.platform.ths:uidControlNotification}</code></td><td></td></tr>
            <tr><td><code>{@link #PhilipsUID_uidDataVisualizationChartsAxisColor com.philips.platform.ths:uidDataVisualizationChartsAxisColor}</code></td><td></td></tr>
            <tr><td><code>{@link #PhilipsUID_uidDataVisualizationChartsAxisLabelTextColor com.philips.platform.ths:uidDataVisualizationChartsAxisLabelTextColor}</code></td><td></td></tr>
            <tr><td><code>{@link #PhilipsUID_uidDataVisualizationChartsDisabledLegendIndicator1Color com.philips.platform.ths:uidDataVisualizationChartsDisabledLegendIndicator1Color}</code></td><td></td></tr>
@@ -16635,6 +16669,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            <tr><td><code>{@link #PhilipsUID_uidHyperlinkDefaultNormalTextColor com.philips.platform.ths:uidHyperlinkDefaultNormalTextColor}</code></td><td></td></tr>
            <tr><td><code>{@link #PhilipsUID_uidHyperlinkDefaultPressedTextColor com.philips.platform.ths:uidHyperlinkDefaultPressedTextColor}</code></td><td></td></tr>
            <tr><td><code>{@link #PhilipsUID_uidHyperlinkDefaultVisitedTextColor com.philips.platform.ths:uidHyperlinkDefaultVisitedTextColor}</code></td><td></td></tr>
+           <tr><td><code>{@link #PhilipsUID_uidInputValidatedBackground com.philips.platform.ths:uidInputValidatedBackground}</code></td><td></td></tr>
+           <tr><td><code>{@link #PhilipsUID_uidInputValidatedBorder com.philips.platform.ths:uidInputValidatedBorder}</code></td><td></td></tr>
+           <tr><td><code>{@link #PhilipsUID_uidInputValidatedText com.philips.platform.ths:uidInputValidatedText}</code></td><td></td></tr>
            <tr><td><code>{@link #PhilipsUID_uidLabelDescriptorDisabledTextColor com.philips.platform.ths:uidLabelDescriptorDisabledTextColor}</code></td><td></td></tr>
            <tr><td><code>{@link #PhilipsUID_uidLabelDescriptorNormalTextColor com.philips.platform.ths:uidLabelDescriptorNormalTextColor}</code></td><td></td></tr>
            <tr><td><code>{@link #PhilipsUID_uidLabelRegularDisabledTextColor com.philips.platform.ths:uidLabelRegularDisabledTextColor}</code></td><td></td></tr>
@@ -16847,6 +16884,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            <tr><td><code>{@link #PhilipsUID_uidTrackScrollbarDisabledBackgroundColor com.philips.platform.ths:uidTrackScrollbarDisabledBackgroundColor}</code></td><td></td></tr>
            <tr><td><code>{@link #PhilipsUID_uidTrackScrollbarNormalBackgroundColor com.philips.platform.ths:uidTrackScrollbarNormalBackgroundColor}</code></td><td></td></tr>
            <tr><td><code>{@link #PhilipsUID_uidTrackWarningNormalOnBackgroundColor com.philips.platform.ths:uidTrackWarningNormalOnBackgroundColor}</code></td><td></td></tr>
+           <tr><td><code>{@link #PhilipsUID_uidValidatedMessageText com.philips.platform.ths:uidValidatedMessageText}</code></td><td></td></tr>
            <tr><td><code>{@link #PhilipsUID_uidWizardDefaultNormalOffCircleBackgroundColor com.philips.platform.ths:uidWizardDefaultNormalOffCircleBackgroundColor}</code></td><td></td></tr>
            <tr><td><code>{@link #PhilipsUID_uidWizardDefaultNormalOffCircleIconColor com.philips.platform.ths:uidWizardDefaultNormalOffCircleIconColor}</code></td><td></td></tr>
            <tr><td><code>{@link #PhilipsUID_uidWizardDefaultNormalOffCircleTextColor com.philips.platform.ths:uidWizardDefaultNormalOffCircleTextColor}</code></td><td></td></tr>
@@ -16991,6 +17029,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #PhilipsUID_uidContentPrimaryBackgroundColor
            @see #PhilipsUID_uidContentSecondaryBackgroundColor
            @see #PhilipsUID_uidContentTertiaryBackgroundColor
+           @see #PhilipsUID_uidControlNotification
            @see #PhilipsUID_uidDataVisualizationChartsAxisColor
            @see #PhilipsUID_uidDataVisualizationChartsAxisLabelTextColor
            @see #PhilipsUID_uidDataVisualizationChartsDisabledLegendIndicator1Color
@@ -17053,6 +17092,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #PhilipsUID_uidHyperlinkDefaultNormalTextColor
            @see #PhilipsUID_uidHyperlinkDefaultPressedTextColor
            @see #PhilipsUID_uidHyperlinkDefaultVisitedTextColor
+           @see #PhilipsUID_uidInputValidatedBackground
+           @see #PhilipsUID_uidInputValidatedBorder
+           @see #PhilipsUID_uidInputValidatedText
            @see #PhilipsUID_uidLabelDescriptorDisabledTextColor
            @see #PhilipsUID_uidLabelDescriptorNormalTextColor
            @see #PhilipsUID_uidLabelRegularDisabledTextColor
@@ -17265,6 +17307,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #PhilipsUID_uidTrackScrollbarDisabledBackgroundColor
            @see #PhilipsUID_uidTrackScrollbarNormalBackgroundColor
            @see #PhilipsUID_uidTrackWarningNormalOnBackgroundColor
+           @see #PhilipsUID_uidValidatedMessageText
            @see #PhilipsUID_uidWizardDefaultNormalOffCircleBackgroundColor
            @see #PhilipsUID_uidWizardDefaultNormalOffCircleIconColor
            @see #PhilipsUID_uidWizardDefaultNormalOffCircleTextColor
@@ -17383,7 +17426,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
             0x7f0102bd, 0x7f0102be, 0x7f0102bf, 0x7f0102c0,
             0x7f0102c1, 0x7f0102c2, 0x7f0102c3, 0x7f0102c4,
             0x7f0102c5, 0x7f0102c6, 0x7f0102c7, 0x7f0102c8,
-            0x7f0102c9
+            0x7f0102c9, 0x7f0102ca, 0x7f0102cb, 0x7f0102cc,
+            0x7f0102cd, 0x7f0102ce
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidAccentLevel10}
@@ -18748,7 +18792,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-<p>May be a floating point value, such as "<code>1.2</code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           @attr name com.philips.platform.ths:uidContentItemDefaultDisabledImageColor
         */
         public static int PhilipsUID_uidContentItemDefaultDisabledImageColor = 126;
@@ -18956,6 +19001,18 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           @attr name com.philips.platform.ths:uidContentTertiaryBackgroundColor
         */
         public static int PhilipsUID_uidContentTertiaryBackgroundColor = 109;
+        /**
+          <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidControlNotification}
+          attribute's value can be found in the {@link #PhilipsUID} array.
+
+
+          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+          @attr name com.philips.platform.ths:uidControlNotification
+        */
+        public static int PhilipsUID_uidControlNotification = 417;
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidDataVisualizationChartsAxisColor}
           attribute's value can be found in the {@link #PhilipsUID} array.
@@ -19563,7 +19620,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-<p>May be a floating point value, such as "<code>1.2</code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           @attr name com.philips.platform.ths:uidGridViewDefaultDisabledImageColor
         */
         public static int PhilipsUID_uidGridViewDefaultDisabledImageColor = 187;
@@ -19634,7 +19692,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
           <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
-<p>May be a floating point value, such as "<code>1.2</code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           @attr name com.philips.platform.ths:uidGridViewDefaultPressedImageColor
         */
         public static int PhilipsUID_uidGridViewDefaultPressedImageColor = 184;
@@ -19698,6 +19757,42 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           @attr name com.philips.platform.ths:uidHyperlinkDefaultVisitedTextColor
         */
         public static int PhilipsUID_uidHyperlinkDefaultVisitedTextColor = 191;
+        /**
+          <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidInputValidatedBackground}
+          attribute's value can be found in the {@link #PhilipsUID} array.
+
+
+          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+          @attr name com.philips.platform.ths:uidInputValidatedBackground
+        */
+        public static int PhilipsUID_uidInputValidatedBackground = 421;
+        /**
+          <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidInputValidatedBorder}
+          attribute's value can be found in the {@link #PhilipsUID} array.
+
+
+          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+          @attr name com.philips.platform.ths:uidInputValidatedBorder
+        */
+        public static int PhilipsUID_uidInputValidatedBorder = 419;
+        /**
+          <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidInputValidatedText}
+          attribute's value can be found in the {@link #PhilipsUID} array.
+
+
+          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+          @attr name com.philips.platform.ths:uidInputValidatedText
+        */
+        public static int PhilipsUID_uidInputValidatedText = 420;
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidLabelDescriptorDisabledTextColor}
           attribute's value can be found in the {@link #PhilipsUID} array.
@@ -22243,6 +22338,18 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static int PhilipsUID_uidTrackWarningNormalOnBackgroundColor = 404;
         /**
+          <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidValidatedMessageText}
+          attribute's value can be found in the {@link #PhilipsUID} array.
+
+
+          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+          @attr name com.philips.platform.ths:uidValidatedMessageText
+        */
+        public static int PhilipsUID_uidValidatedMessageText = 418;
+        /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidWizardDefaultNormalOffCircleBackgroundColor}
           attribute's value can be found in the {@link #PhilipsUID} array.
 
@@ -22407,8 +22514,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #Philipsuid_uid_state_visited
          */
         public static final int[] Philipsuid = {
-            0x7f0102ca, 0x7f0102cb, 0x7f0102cc, 0x7f0102cd,
-            0x7f0102ce, 0x7f0102cf
+            0x7f0102cf, 0x7f0102d0, 0x7f0102d1, 0x7f0102d2,
+            0x7f0102d3, 0x7f0102d4
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidButtonDisabledAlpha}
@@ -22497,7 +22604,7 @@ containing a value of this type.
            @see #PopupWindow_overlapAnchor
          */
         public static final int[] PopupWindow = {
-            0x01010176, 0x010102c9, 0x7f0102d0
+            0x01010176, 0x010102c9, 0x7f0102d5
         };
         /**
           <p>This symbol is the offset where the {@link android.R.attr#popupAnimationStyle}
@@ -22536,7 +22643,7 @@ containing a value of this type.
            @see #PopupWindowBackgroundState_state_above_anchor
          */
         public static final int[] PopupWindowBackgroundState = {
-            0x7f0102d1
+            0x7f0102d6
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#state_above_anchor}
@@ -22565,7 +22672,7 @@ containing a value of this type.
            @see #RecycleListView_paddingTopNoTitle
          */
         public static final int[] RecycleListView = {
-            0x7f0102d2, 0x7f0102d3
+            0x7f0102d7, 0x7f0102d8
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#paddingBottomNoButtons}
@@ -22620,8 +22727,8 @@ containing a value of this type.
            @see #RecyclerView_stackFromEnd
          */
         public static final int[] RecyclerView = {
-            0x010100c4, 0x010100f1, 0x7f0102d4, 0x7f0102d5,
-            0x7f0102d6, 0x7f0102d7
+            0x010100c4, 0x010100f1, 0x7f0102d9, 0x7f0102da,
+            0x7f0102db, 0x7f0102dc
         };
         /**
           <p>This symbol is the offset where the {@link android.R.attr#descendantFocusability}
@@ -22702,7 +22809,7 @@ containing a value of this type.
            @see #Reg_attr_style_reg_baseColor
          */
         public static final int[] Reg_attr_style = {
-            0x7f0102d8
+            0x7f0102dd
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#reg_baseColor}
@@ -22729,7 +22836,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #Registration_CheckBox_reg_textValue
          */
         public static final int[] Registration_CheckBox = {
-            0x7f0102d9, 0x7f0102da
+            0x7f0102de, 0x7f0102df
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#reg_checked}
@@ -22770,7 +22877,7 @@ containing a value of this type.
            @see #ScrimInsetsFrameLayout_insetForeground
          */
         public static final int[] ScrimInsetsFrameLayout = {
-            0x7f0102db
+            0x7f0102e0
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#insetForeground}
@@ -22795,7 +22902,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #ScrollingViewBehavior_Layout_behavior_overlapTop
          */
         public static final int[] ScrollingViewBehavior_Layout = {
-            0x7f0102dc
+            0x7f0102e1
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#behavior_overlapTop}
@@ -22857,10 +22964,10 @@ containing a value of this type.
          */
         public static final int[] SearchView = {
             0x010100da, 0x0101011f, 0x01010220, 0x01010264,
-            0x7f0102dd, 0x7f0102de, 0x7f0102df, 0x7f0102e0,
-            0x7f0102e1, 0x7f0102e2, 0x7f0102e3, 0x7f0102e4,
-            0x7f0102e5, 0x7f0102e6, 0x7f0102e7, 0x7f0102e8,
-            0x7f0102e9
+            0x7f0102e2, 0x7f0102e3, 0x7f0102e4, 0x7f0102e5,
+            0x7f0102e6, 0x7f0102e7, 0x7f0102e8, 0x7f0102e9,
+            0x7f0102ea, 0x7f0102eb, 0x7f0102ec, 0x7f0102ed,
+            0x7f0102ee
         };
         /**
           <p>This symbol is the offset where the {@link android.R.attr#focusable}
@@ -23043,7 +23150,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #SignInButton_scopeUris
          */
         public static final int[] SignInButton = {
-            0x7f0102ea, 0x7f0102eb, 0x7f0102ec
+            0x7f0102ef, 0x7f0102f0, 0x7f0102f1
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#buttonSize}
@@ -23111,7 +23218,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #SnackbarLayout_maxActionInlineWidth
          */
         public static final int[] SnackbarLayout = {
-            0x0101011f, 0x7f010058, 0x7f0102ed
+            0x0101011f, 0x7f010058, 0x7f0102f2
         };
         /**
           <p>This symbol is the offset where the {@link android.R.attr#maxWidth}
@@ -23244,10 +23351,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #SwitchCompat_trackTintMode
          */
         public static final int[] SwitchCompat = {
-            0x01010124, 0x01010125, 0x01010142, 0x7f0102ee,
-            0x7f0102ef, 0x7f0102f0, 0x7f0102f1, 0x7f0102f2,
-            0x7f0102f3, 0x7f0102f4, 0x7f0102f5, 0x7f0102f6,
-            0x7f0102f7, 0x7f0102f8
+            0x01010124, 0x01010125, 0x01010142, 0x7f0102f3,
+            0x7f0102f4, 0x7f0102f5, 0x7f0102f6, 0x7f0102f7,
+            0x7f0102f8, 0x7f0102f9, 0x7f0102fa, 0x7f0102fb,
+            0x7f0102fc, 0x7f0102fd
         };
         /**
           <p>This symbol is the offset where the {@link android.R.attr#textOff}
@@ -23511,10 +23618,10 @@ containing a value of this type.
            @see #TabLayout_tabTextColor
          */
         public static final int[] TabLayout = {
-            0x7f0102f9, 0x7f0102fa, 0x7f0102fb, 0x7f0102fc,
-            0x7f0102fd, 0x7f0102fe, 0x7f0102ff, 0x7f010300,
-            0x7f010301, 0x7f010302, 0x7f010303, 0x7f010304,
-            0x7f010305, 0x7f010306, 0x7f010307, 0x7f010308
+            0x7f0102fe, 0x7f0102ff, 0x7f010300, 0x7f010301,
+            0x7f010302, 0x7f010303, 0x7f010304, 0x7f010305,
+            0x7f010306, 0x7f010307, 0x7f010308, 0x7f010309,
+            0x7f01030a, 0x7f01030b, 0x7f01030c, 0x7f01030d
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#tabBackground}
@@ -23898,10 +24005,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #TextInputLayout_passwordToggleTintMode
          */
         public static final int[] TextInputLayout = {
-            0x0101009a, 0x01010150, 0x7f010309, 0x7f01030a,
-            0x7f01030b, 0x7f01030c, 0x7f01030d, 0x7f01030e,
-            0x7f01030f, 0x7f010310, 0x7f010311, 0x7f010312,
-            0x7f010313, 0x7f010314, 0x7f010315, 0x7f010316
+            0x0101009a, 0x01010150, 0x7f01030e, 0x7f01030f,
+            0x7f010310, 0x7f010311, 0x7f010312, 0x7f010313,
+            0x7f010314, 0x7f010315, 0x7f010316, 0x7f010317,
+            0x7f010318, 0x7f010319, 0x7f01031a, 0x7f01031b
         };
         /**
           <p>This symbol is the offset where the {@link android.R.attr#hint}
@@ -24168,11 +24275,11 @@ containing a value of this type.
             0x010100af, 0x01010140, 0x7f010035, 0x7f010042,
             0x7f010046, 0x7f010052, 0x7f010053, 0x7f010054,
             0x7f010055, 0x7f010056, 0x7f010057, 0x7f010059,
-            0x7f010317, 0x7f010318, 0x7f010319, 0x7f01031a,
-            0x7f01031b, 0x7f01031c, 0x7f01031d, 0x7f01031e,
-            0x7f01031f, 0x7f010320, 0x7f010321, 0x7f010322,
-            0x7f010323, 0x7f010324, 0x7f010325, 0x7f010326,
-            0x7f010327
+            0x7f01031c, 0x7f01031d, 0x7f01031e, 0x7f01031f,
+            0x7f010320, 0x7f010321, 0x7f010322, 0x7f010323,
+            0x7f010324, 0x7f010325, 0x7f010326, 0x7f010327,
+            0x7f010328, 0x7f010329, 0x7f01032a, 0x7f01032b,
+            0x7f01032c
         };
         /**
           <p>This symbol is the offset where the {@link android.R.attr#gravity}
@@ -24596,8 +24703,8 @@ containing a value of this type.
            @see #UIDButton_uidButtonTextColorList
          */
         public static final int[] UIDButton = {
-            0x7f010328, 0x7f010329, 0x7f01032a, 0x7f01032b,
-            0x7f01032c, 0x7f01032d, 0x7f01032e, 0x7f01032f
+            0x7f01032d, 0x7f01032e, 0x7f01032f, 0x7f010330,
+            0x7f010331, 0x7f010332, 0x7f010333, 0x7f010334
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidButtonBackgroundColorList}
@@ -24706,7 +24813,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #UIDCheckBox_uidCheckBoxPaddingStart
          */
         public static final int[] UIDCheckBox = {
-            0x7f010330
+            0x7f010335
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidCheckBoxPaddingStart}
@@ -24735,7 +24842,7 @@ containing a value of this type.
            @see #UIDComponentType_uidComponentType
          */
         public static final int[] UIDComponentType = {
-            0x7f010331
+            0x7f010336
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidComponentType}
@@ -24783,9 +24890,9 @@ containing a value of this type.
            @see #UIDDialog_uidDialogTitleTextColor
          */
         public static final int[] UIDDialog = {
-            0x7f010332, 0x7f010333, 0x7f010334, 0x7f010335,
-            0x7f010336, 0x7f010337, 0x7f010338, 0x7f010339,
-            0x7f01033a
+            0x7f010337, 0x7f010338, 0x7f010339, 0x7f01033a,
+            0x7f01033b, 0x7f01033c, 0x7f01033d, 0x7f01033e,
+            0x7f01033f
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidDialogBackgroundColor}
@@ -24909,7 +25016,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #UIDDotNavigation_uidDotNavigationIconSpacingRight
          */
         public static final int[] UIDDotNavigation = {
-            0x7f01033b, 0x7f01033c, 0x7f01033d, 0x7f01033e
+            0x7f010340, 0x7f010341, 0x7f010342, 0x7f010343
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidDotNavigationDrawable}
@@ -24972,7 +25079,7 @@ in (inches), mm (millimeters).
            @see #UIDGradientView_gradientStartColor
          */
         public static final int[] UIDGradientView = {
-            0x7f01033f, 0x7f010340
+            0x7f010344, 0x7f010345
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#gradientEndColor}
@@ -25017,8 +25124,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #UIDImageButton_uidImageButtonDrawableWidth
          */
         public static final int[] UIDImageButton = {
-            0x7f010341, 0x7f010342, 0x7f010343, 0x7f010344,
-            0x7f010345
+            0x7f010346, 0x7f010347, 0x7f010348, 0x7f010349,
+            0x7f01034a
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidImageButtonColorList}
@@ -25103,8 +25210,8 @@ containing a value of this type.
            @see #UIDIndeterminateLinearProgressBar_uidIndeterminateLinearProgressStartColor
          */
         public static final int[] UIDIndeterminateLinearProgressBar = {
-            0x7f010346, 0x7f010347, 0x7f010348, 0x7f010349,
-            0x7f01034a, 0x7f01034b
+            0x7f01034b, 0x7f01034c, 0x7f01034d, 0x7f01034e,
+            0x7f01034f, 0x7f010350
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidIndeterminateLinearProgressAnimDuration}
@@ -25189,7 +25296,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #UIDInputValidation_uidTextBoxValidationErrorText
          */
         public static final int[] UIDInputValidation = {
-            0x7f01034c, 0x7f01034d
+            0x7f010351, 0x7f010352
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidTextBoxValidationErrorDrawable}
@@ -25234,7 +25341,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #UIDNavigationBar_uidNavigationShadowLevelTwoAlpha
          */
         public static final int[] UIDNavigationBar = {
-            0x7f01034e, 0x7f01034f, 0x7f010350, 0x7f010351
+            0x7f010353, 0x7f010354, 0x7f010355, 0x7f010356
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidNavigationShadowLevelOne}
@@ -25297,7 +25404,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #UIDNavigationContainer_uidShadowType
          */
         public static final int[] UIDNavigationContainer = {
-            0x7f010352, 0x7f010353, 0x7f010354
+            0x7f010357, 0x7f010358, 0x7f010359
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidShadowDrawable}
@@ -25358,7 +25465,7 @@ containing a value of this type.
            @see #UIDProgressBar_uidProgressBarCircularProgressColorList
          */
         public static final int[] UIDProgressBar = {
-            0x7f010355, 0x7f010356, 0x7f010357
+            0x7f01035a, 0x7f01035b, 0x7f01035c
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidIsLinearProgressBar}
@@ -25425,9 +25532,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #UIDProgressIndicatorButton_uidProgressIndicatorButtonText
          */
         public static final int[] UIDProgressIndicatorButton = {
-            0x7f010358, 0x7f010359, 0x7f01035a, 0x7f01035b,
-            0x7f01035c, 0x7f01035d, 0x7f01035e, 0x7f01035f,
-            0x7f010360
+            0x7f01035d, 0x7f01035e, 0x7f01035f, 0x7f010360,
+            0x7f010361, 0x7f010362, 0x7f010363, 0x7f010364,
+            0x7f010365
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidIsIndeterminateProgressIndicator}
@@ -25556,8 +25663,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
          */
         public static final int[] UIDProgressIndicatorWithLabel = {
             0x01010095, 0x01010098, 0x01010137, 0x01010138,
-            0x0101014f, 0x7f010355, 0x7f010358, 0x7f010361,
-            0x7f010362
+            0x0101014f, 0x7f01035a, 0x7f01035d, 0x7f010366,
+            0x7f010367
         };
         /**
           <p>This symbol is the offset where the {@link android.R.attr#progress}
@@ -25664,7 +25771,7 @@ containing a value of this type.
            @see #UIDRadioButton_uidRadioButtonPaddingStart
          */
         public static final int[] UIDRadioButton = {
-            0x7f010363
+            0x7f010368
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidRadioButtonPaddingStart}
@@ -25695,7 +25802,7 @@ containing a value of this type.
            @see #UIDRatingBar_uidRatingBarStarOnColor
          */
         public static final int[] UIDRatingBar = {
-            0x0101014f, 0x7f010364
+            0x0101014f, 0x7f010369
         };
         /**
           <p>This symbol is the offset where the {@link android.R.attr#text}
@@ -25728,7 +25835,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #UIDRecyclerView_uidListPressedColor
          */
         public static final int[] UIDRecyclerView = {
-            0x7f010365, 0x7f010366
+            0x7f01036a, 0x7f01036b
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidListPressedAlpha}
@@ -25769,7 +25876,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #UIDSearchBox_uidSearchInputHintText
          */
         public static final int[] UIDSearchBox = {
-            0x7f010367, 0x7f010368
+            0x7f01036c, 0x7f01036d
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidSearchDecoyHintText}
@@ -25813,7 +25920,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #UIDSwitch_uidSwitchTrackColorList
          */
         public static final int[] UIDSwitch = {
-            0x7f010369, 0x7f01036a, 0x7f01036b
+            0x7f01036e, 0x7f01036f, 0x7f010370
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidSwitchBorderColorList}
@@ -25878,9 +25985,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #UIDTextEditBox_uidInputTextWithClearButton
          */
         public static final int[] UIDTextEditBox = {
-            0x7f01036c, 0x7f01036d, 0x7f01036e, 0x7f01036f,
-            0x7f010370, 0x7f010371, 0x7f010372, 0x7f010373,
-            0x7f010374
+            0x7f010371, 0x7f010372, 0x7f010373, 0x7f010374,
+            0x7f010375, 0x7f010376, 0x7f010377, 0x7f010378,
+            0x7f010379
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#uidInputTextBorderBackground}
@@ -25987,7 +26094,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #VectorCompat_vc_tintMode
          */
         public static final int[] VectorCompat = {
-            0x7f010375
+            0x7f01037a
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#vc_tintMode}
@@ -26023,7 +26130,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #VectorCompatClipPath_vc_pathData
          */
         public static final int[] VectorCompatClipPath = {
-            0x01010003, 0x7f01037d
+            0x01010003, 0x7f010382
         };
         /**
           <p>This symbol is the offset where the {@link android.R.attr#name}
@@ -26071,7 +26178,7 @@ containing a value of this type.
          */
         public static final int[] VectorCompatGroup = {
             0x01010003, 0x010101b5, 0x010101b6, 0x01010324,
-            0x01010325, 0x01010326, 0x7f010376, 0x7f010377
+            0x01010325, 0x01010326, 0x7f01037b, 0x7f01037c
         };
         /**
           <p>This symbol is the offset where the {@link android.R.attr#name}
@@ -26172,10 +26279,10 @@ containing a value of this type.
            @see #VectorCompatPath_vc_trimPathStart
          */
         public static final int[] VectorCompatPath = {
-            0x01010003, 0x7f010378, 0x7f010379, 0x7f01037a,
-            0x7f01037b, 0x7f01037c, 0x7f01037d, 0x7f01037e,
-            0x7f01037f, 0x7f010380, 0x7f010381, 0x7f010382,
-            0x7f010383
+            0x01010003, 0x7f01037d, 0x7f01037e, 0x7f01037f,
+            0x7f010380, 0x7f010381, 0x7f010382, 0x7f010383,
+            0x7f010384, 0x7f010385, 0x7f010386, 0x7f010387,
+            0x7f010388
         };
         /**
           <p>This symbol is the offset where the {@link android.R.attr#name}
@@ -26374,8 +26481,8 @@ containing a value of this type.
            @see #View_theme
          */
         public static final int[] View = {
-            0x01010000, 0x010100da, 0x7f010384, 0x7f010385,
-            0x7f010386
+            0x01010000, 0x010100da, 0x7f010389, 0x7f01038a,
+            0x7f01038b
         };
         /**
           <p>This symbol is the offset where the {@link android.R.attr#focusable}
@@ -26446,7 +26553,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #ViewBackgroundHelper_backgroundTintMode
          */
         public static final int[] ViewBackgroundHelper = {
-            0x010100d4, 0x7f010387, 0x7f010388
+            0x010100d4, 0x7f01038c, 0x7f01038d
         };
         /**
           <p>This symbol is the offset where the {@link android.R.attr#background}
@@ -26535,7 +26642,7 @@ containing a value of this type.
            @see #notification_label_notification_label_small
          */
         public static final int[] notification_label = {
-            0x7f010389
+            0x7f01038e
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#notification_label_small}
@@ -26568,7 +26675,7 @@ containing a value of this type.
            @see #popover_alert_popover_title_text
          */
         public static final int[] popover_alert = {
-            0x7f01038a, 0x7f01038b, 0x7f01038c, 0x7f01038d
+            0x7f01038f, 0x7f010390, 0x7f010391, 0x7f010392
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#popover_left_icon}
@@ -26626,7 +26733,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #slider_discreteValue
          */
         public static final int[] slider = {
-            0x7f01038e
+            0x7f010393
         };
         /**
           <p>This symbol is the offset where the {@link com.philips.platform.ths.R.attr#discreteValue}

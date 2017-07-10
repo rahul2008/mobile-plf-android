@@ -10,7 +10,7 @@ import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.PracticeProvidersManager;
 import com.philips.platform.ths.base.THSBaseView;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 
 public class THSProvidersListPresenterTest {
 
-    PTHManager pthManager;
+    THSManager THSManager;
 
     @Mock
     private THSBaseView mUiBaseView;
@@ -41,7 +41,7 @@ public class THSProvidersListPresenterTest {
     com.philips.platform.ths.providerslist.THSProviderListPresenter THSProviderListPresenter;
 
     @Mock
-    PTHManager pthManagerMock;
+    THSManager THSManagerMock;
 
     @Mock
     Consumer consumer;
@@ -70,8 +70,8 @@ public class THSProvidersListPresenterTest {
     @Before
     public void setUp() throws Exception{
         MockitoAnnotations.initMocks(this);
-        pthManager = PTHManager.getInstance();
-        pthManager.setAwsdk(awsdkMock);
+        THSManager = THSManager.getInstance();
+        THSManager.setAwsdk(awsdkMock);
         THSProviderListPresenter = new THSProviderListPresenter(mUiBaseView, THSProviderListViewInterface);
 
     }
@@ -80,13 +80,13 @@ public class THSProvidersListPresenterTest {
     public void testFetchProviderListMethod() throws AWSDKInstantiationException {
         THSProviderListPresenter = new THSProviderListPresenter(mUiBaseView, THSProviderListViewInterface){
             @Override
-            PTHManager getPthManager() {
-                return pthManagerMock;
+            THSManager getPthManager() {
+                return THSManagerMock;
             }
         };
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
         THSProviderListPresenter.fetchProviderList(consumer,practice);
-        verify(pthManagerMock).getProviderList(any(Context.class),any(Consumer.class),any(Practice.class), (THSProvidersListCallback) requestProviderListCaptor.capture());
+        verify(THSManagerMock).getProviderList(any(Context.class),any(Consumer.class),any(Practice.class), (THSProvidersListCallback) requestProviderListCaptor.capture());
         THSProvidersListCallback value = (THSProvidersListCallback) requestProviderListCaptor.getValue();
         value.onProvidersListReceived(providerInfo,any(SDKError.class));
 

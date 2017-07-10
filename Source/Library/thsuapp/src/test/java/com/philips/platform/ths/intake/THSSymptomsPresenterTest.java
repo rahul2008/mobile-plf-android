@@ -14,7 +14,7 @@ import com.americanwell.sdk.manager.VisitManager;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -82,7 +82,7 @@ public class THSSymptomsPresenterTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         THSSymptomsPresenter = new THSSymptomsPresenter(pTHBaseViewMock, THSProviderInfo);
-        PTHManager.getInstance().setAwsdk(awsdk);
+        THSManager.getInstance().setAwsdk(awsdk);
         when(pTHBaseViewMock.getFragmentActivity()).thenReturn(activityMock);
     }
 

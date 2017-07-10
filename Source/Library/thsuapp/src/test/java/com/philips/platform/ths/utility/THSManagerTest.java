@@ -76,7 +76,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class THSManagerTest {
-    PTHManager pthManager;
+    THSManager THSManager;
 
     THSConsumer mTHSConsumer;
 
@@ -226,33 +226,33 @@ public class THSManagerTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        pthManager = PTHManager.getInstance();
-        pthManager.setAwsdk(awsdkMock);
+        THSManager = THSManager.getInstance();
+        THSManager.setAwsdk(awsdkMock);
         mConsumer = getConsumer();
         practice = getPractice();
         providerInfo = getProviderInfo();
         mTHSConsumer = new THSConsumer();
         mTHSConsumer.setConsumer(getConsumer());
-        pthManager.setPTHConsumer(mTHSConsumer);
+        THSManager.setPTHConsumer(mTHSConsumer);
     }
 
     @Test
     public void getInstance() {
-        PTHManager pthManager = PTHManager.getInstance();
-        assertThat(pthManager).isNotNull();
-        assertThat(pthManager).isInstanceOf(PTHManager.class);
+        THSManager THSManager = THSManager.getInstance();
+        assertThat(THSManager).isNotNull();
+        assertThat(THSManager).isInstanceOf(THSManager.class);
     }
 
     @Test
     public void getAwsdk() throws AWSDKInstantiationException {
-        AWSDK awsdk = pthManager.getAwsdk(contextMock);
+        AWSDK awsdk = THSManager.getAwsdk(contextMock);
         assertThat(awsdk).isNotNull();
         assertThat(awsdk).isInstanceOf(AWSDK.class);
     }
 
     @Test
     public void authenticateOnResponse() throws AWSDKInstantiationException {
-        pthManager.authenticate(contextMock, "username", "password", "variable", THSLoginCallBackMock);
+        THSManager.authenticate(contextMock, "username", "password", "variable", THSLoginCallBackMock);
         verify(awsdkMock).authenticate(eq("username"), eq("password"), eq("variable"), requestCaptor.capture());
         SDKCallback<Authentication, SDKError> value = requestCaptor.getValue();
         value.onResponse(authentication, sdkError);
@@ -263,7 +263,7 @@ public class THSManagerTest {
 
     @Test
     public void authenticateOnFailure() throws AWSDKInstantiationException {
-        pthManager.authenticate(contextMock, "username", "password", "variable", THSLoginCallBackMock);
+        THSManager.authenticate(contextMock, "username", "password", "variable", THSLoginCallBackMock);
         verify(awsdkMock).authenticate(eq("username"), eq("password"), eq("variable"), requestCaptor.capture());
         SDKCallback<Authentication, SDKError> value = requestCaptor.getValue();
         value.onFailure(throwable);
@@ -273,7 +273,7 @@ public class THSManagerTest {
 
     @Test
     public void initializeTeleHealthOnFailure() throws MalformedURLException, AWSDKInstantiationException, AWSDKInitializationException, URISyntaxException {
-        pthManager.initializeTeleHealth(contextMock, THSInitializeCallBack);
+        THSManager.initializeTeleHealth(contextMock, THSInitializeCallBack);
 
         verify(awsdkMock).initialize(any(Map.class), initializationCallback.capture());
         SDKCallback value = initializationCallback.getValue();
@@ -284,7 +284,7 @@ public class THSManagerTest {
 
     @Test
     public void initializeTeleHealthOnResponse() throws MalformedURLException, AWSDKInstantiationException, AWSDKInitializationException, URISyntaxException {
-        pthManager.initializeTeleHealth(contextMock, THSInitializeCallBack);
+        THSManager.initializeTeleHealth(contextMock, THSInitializeCallBack);
 
         verify(awsdkMock).initialize(any(Map.class), initializationCallback.capture());
         SDKCallback value = initializationCallback.getValue();
@@ -298,7 +298,7 @@ public class THSManagerTest {
         when(THSConsumerMock.getConsumer()).thenReturn(consumerMock);
         when(THSProviderInfo.getProviderInfo()).thenReturn(providerInfoMock);
         when(awsdkMock.getVisitManager()).thenReturn(visitManagerMock);
-        pthManager.getVisitContext(contextMock, THSProviderInfo, THSVisitContextCallBack);
+        THSManager.getVisitContext(contextMock, THSProviderInfo, THSVisitContextCallBack);
 
         verify(visitManagerMock).getVisitContext(any(Consumer.class), any(ProviderInfo.class),visitContextCaptor.capture());
         SDKCallback value = visitContextCaptor.getValue();
@@ -312,7 +312,7 @@ public class THSManagerTest {
         when(THSConsumerMock.getConsumer()).thenReturn(consumerMock);
         when(THSProviderInfo.getProviderInfo()).thenReturn(providerInfoMock);
         when(awsdkMock.getVisitManager()).thenReturn(visitManagerMock);
-        pthManager.getVisitContext(contextMock, THSProviderInfo, THSVisitContextCallBack);
+        THSManager.getVisitContext(contextMock, THSProviderInfo, THSVisitContextCallBack);
 
         verify(visitManagerMock).getVisitContext(any(Consumer.class), any(ProviderInfo.class),visitContextCaptor.capture());
         SDKCallback value = visitContextCaptor.getValue();
@@ -323,11 +323,11 @@ public class THSManagerTest {
 
     @Test
     public void getVitals() throws AWSDKInstantiationException {
-        pthManager.setPTHConsumer(THSConsumerMock);
+        THSManager.setPTHConsumer(THSConsumerMock);
         when(THSVisitContextMock.getVisitContext()).thenReturn(visitContextMock);
         when(THSConsumerMock.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
-        pthManager.getVitals(contextMock, thsVitalCallBackMock);
+        THSManager.getVitals(contextMock, thsVitalCallBackMock);
 
         verify(consumerManagerMock).getVitals(any(Consumer.class),any(VisitContext.class), vitalsCaptor.capture());
         SDKCallback value = vitalsCaptor.getValue();
@@ -338,11 +338,11 @@ public class THSManagerTest {
 
     @Test
     public void getVitalsOnFailure() throws AWSDKInstantiationException {
-        pthManager.setPTHConsumer(THSConsumerMock);
+        THSManager.setPTHConsumer(THSConsumerMock);
         when(THSVisitContextMock.getVisitContext()).thenReturn(visitContextMock);
         when(THSConsumerMock.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
-        pthManager.getVitals(contextMock, thsVitalCallBackMock);
+        THSManager.getVitals(contextMock, thsVitalCallBackMock);
 
         verify(consumerManagerMock).getVitals(any(Consumer.class),any(VisitContext.class), vitalsCaptor.capture());
         SDKCallback value = vitalsCaptor.getValue();
@@ -353,13 +353,13 @@ public class THSManagerTest {
 
     @Test
     public void getConditions() throws AWSDKInstantiationException {
-        pthManager.setPTHConsumer(THSConsumerMock);
+        THSManager.setPTHConsumer(THSConsumerMock);
 
         when(THSConsumerMock.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
 
 
-        pthManager.getConditions(contextMock,thsConditionsCallback);
+        THSManager.getConditions(contextMock,thsConditionsCallback);
 
         verify(consumerManagerMock).getConditions(any(Consumer.class), conditionsCaptor.capture());
         SDKCallback value = conditionsCaptor.getValue();
@@ -370,13 +370,13 @@ public class THSManagerTest {
 
     @Test
     public void getOnFailure() throws AWSDKInstantiationException {
-        pthManager.setPTHConsumer(THSConsumerMock);
+        THSManager.setPTHConsumer(THSConsumerMock);
 
         when(THSConsumerMock.getConsumer()).thenReturn(consumerMock);
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
 
 
-        pthManager.getConditions(contextMock,thsConditionsCallback);
+        THSManager.getConditions(contextMock,thsConditionsCallback);
 
         verify(consumerManagerMock).getConditions(any(Consumer.class), conditionsCaptor.capture());
         SDKCallback value = conditionsCaptor.getValue();
@@ -389,7 +389,7 @@ public class THSManagerTest {
     @Test
     public void getPracticesOnResponse() throws AWSDKInstantiationException {
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
-        pthManager.getPractices(contextMock, mConsumer, pTHPracticesListCallback);
+        THSManager.getPractices(contextMock, mConsumer, pTHPracticesListCallback);
         verify(practiseprovidermanagerMock).getPractices(any(Consumer.class), requestPracticeCaptor.capture());
         SDKCallback value = requestPracticeCaptor.getValue();
         value.onResponse(any(List.class), any(SDKError.class));
@@ -399,7 +399,7 @@ public class THSManagerTest {
     @Test
     public void getProviderListTest() throws AWSDKInstantiationException {
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
-        pthManager.getProviderList(contextMock, mConsumer, practice, THSProvidersListCallback);
+        THSManager.getProviderList(contextMock, mConsumer, practice, THSProvidersListCallback);
         verify(practiseprovidermanagerMock).findProviders(any(Consumer.class), any(Practice.class), any(OnDemandSpecialty.class), any(String.class), any(Set.class), any(Set.class), any(State.class), any(Language.class), any(Integer.class), providerListCaptor.capture());
         SDKCallback value = providerListCaptor.getValue();
         value.onResponse(any(List.class), any(SDKError.class));
@@ -409,7 +409,7 @@ public class THSManagerTest {
     @Test
     public void getProviderDetailsTest() throws AWSDKInstantiationException {
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
-        pthManager.getProviderDetails(contextMock, mConsumer, providerInfo, THSProviderDetailsCallback);
+        THSManager.getProviderDetails(contextMock, mConsumer, providerInfo, THSProviderDetailsCallback);
         verify(practiseprovidermanagerMock).getProvider(any(ProviderInfo.class), any(Consumer.class), providerDetailsCaptor.capture());
         SDKCallback value = providerDetailsCaptor.getValue();
         value.onResponse(any(Provider.class), any(SDKError.class));
@@ -418,15 +418,15 @@ public class THSManagerTest {
 
     @Test
     public void getConsumerTest(){
-        pthManager.setPTHConsumer(mTHSConsumer);
-        THSConsumer consumer = pthManager.getPTHConsumer();
+        THSManager.setPTHConsumer(mTHSConsumer);
+        THSConsumer consumer = THSManager.getPTHConsumer();
         assertThat(consumer).isNotNull();
         assertThat(consumer).isInstanceOf(THSConsumer.class);
     }
 
     public void getMedicationTest() throws AWSDKInstantiationException {
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
-        pthManager.getMedication(contextMock, pTHGetMedicationCallbackMock);
+        THSManager.getMedication(contextMock, pTHGetMedicationCallbackMock);
         verify(consumerManagerMock).getMedications(any(Consumer.class), getMedicationCaptor.capture());
         SDKCallback value = getMedicationCaptor.getValue();
         value.onResponse(any(List.class), any(SDKError.class));
@@ -436,7 +436,7 @@ public class THSManagerTest {
     @Test
     public void searchMedicationTest() throws AWSDKInstantiationException {
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
-        pthManager.searchMedication(contextMock, "dol" ,pTHSDKValidatedCallback);
+        THSManager.searchMedication(contextMock, "dol" ,pTHSDKValidatedCallback);
         verify(consumerManagerMock).searchMedications(any(Consumer.class), any(String.class),getSearchedMedicationCaptor.capture());
         SDKCallback value = getSearchedMedicationCaptor.getValue();
 //        value.onResponse(any(List.class), any(SDKError.class));
@@ -446,7 +446,7 @@ public class THSManagerTest {
     @Test
     public void updateMedicationTest()throws AWSDKInstantiationException {
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
-        pthManager.updateMedication(contextMock, mTHSMedication,pTHUpdateMedicationCallback);
+        THSManager.updateMedication(contextMock, mTHSMedication,pTHUpdateMedicationCallback);
         verify(consumerManagerMock).updateMedications(any(Consumer.class), any(List.class),getUpdateMedicationCaptor.capture());
         SDKCallback value = getUpdateMedicationCaptor.getValue();
         value.onResponse(any(List.class), any(SDKPasswordError.class));
@@ -459,7 +459,7 @@ public class THSManagerTest {
     public void updateConsumerTest()throws AWSDKInstantiationException {
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
         when(consumerManagerMock.getNewConsumerUpdate(any(Consumer.class))).thenReturn(consumerUpdateMock);
-        pthManager.updateConsumer(contextMock, "67767262" ,pTHUpdateConsumerCallback);
+        THSManager.updateConsumer(contextMock, "67767262" ,pTHUpdateConsumerCallback);
         verify(consumerManagerMock).updateConsumer(any(ConsumerUpdate.class),getUpdateConsumerCaptor.capture());
         SDKCallback value = getUpdateConsumerCaptor.getValue();
         value.onResponse(any(Consumer.class), any(SDKError.class));

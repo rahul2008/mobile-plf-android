@@ -30,7 +30,7 @@ public class THSConditionsFragment extends THSBaseFragment implements BackEventL
     LinearLayout mLinerLayout;
     Button mContinueButton;
     Label mSkipLabel;
-    List<PTHConditions> mTHSConditions =null;
+    List<THSConditions> mTHSConditions =null;
     RelativeLayout mRelativeLayout;
 
     @Nullable
@@ -93,10 +93,10 @@ public class THSConditionsFragment extends THSBaseFragment implements BackEventL
         return false;
     }
 
-    public void setConditions(List<PTHConditions> pthConditionsList) {
-        setTHSConditions(pthConditionsList);
+    public void setConditions(List<THSConditions> THSConditionsList) {
+        setTHSConditions(THSConditionsList);
         List<Condition> conditionList = new ArrayList<>();
-        for (PTHConditions pthCondition: pthConditionsList
+        for (THSConditions pthCondition: THSConditionsList
              ) {
             conditionList.add(pthCondition.getCondition());
         }
@@ -124,11 +124,11 @@ public class THSConditionsFragment extends THSBaseFragment implements BackEventL
         }
     }
 
-    public List<PTHConditions> getTHSConditions() {
+    public List<THSConditions> getTHSConditions() {
         return mTHSConditions;
     }
 
-    public void setTHSConditions(List<PTHConditions> mTHSConditions) {
+    public void setTHSConditions(List<THSConditions> mTHSConditions) {
         this.mTHSConditions = mTHSConditions;
     }
 

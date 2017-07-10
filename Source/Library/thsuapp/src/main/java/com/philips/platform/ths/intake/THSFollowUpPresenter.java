@@ -6,7 +6,7 @@ import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 
 import java.util.Map;
 
@@ -31,7 +31,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
 
 
         try {
-            PTHManager.getInstance().updateConsumer(uiBaseView.getFragmentActivity(), updatedPhoner,this);
+            THSManager.getInstance().updateConsumer(uiBaseView.getFragmentActivity(), updatedPhoner,this);
 
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
@@ -47,8 +47,8 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
 
     @Override
     public void onUpdateConsumerResponse(THSConsumer THSConsumer, THSSDKPasswordError sdkPasswordError) {
-        //update signleton PTHManager THSConsumer member
-        PTHManager.getInstance().setPTHConsumer(THSConsumer);
+        //update signleton THSManager THSConsumer member
+        THSManager.getInstance().setPTHConsumer(THSConsumer);
     }
 
     @Override

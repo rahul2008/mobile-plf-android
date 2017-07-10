@@ -7,7 +7,7 @@ import com.americanwell.sdk.entity.legal.LegalText;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.base.THSBaseView;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class THSNoppPresenter implements THSBasePresenter, THSNoppCallBack {
     public THSNoppPresenter(THSBaseView uiBaseView) {
 
         this.uiBaseView = uiBaseView;
-        mTHSVisitContext = PTHManager.getInstance().getPthVisitContext();
+        mTHSVisitContext = THSManager.getInstance().getPthVisitContext();
         mStringBuilder = new StringBuilder();
     }
 
@@ -34,7 +34,7 @@ public class THSNoppPresenter implements THSBasePresenter, THSNoppCallBack {
         legalTextList = mTHSVisitContext.getLegalTexts();
         for (LegalText legalText : legalTextList) {
             try{
-            PTHManager.getInstance().getLegaltext(uiBaseView.getFragmentActivity(), legalText,this);
+            THSManager.getInstance().getLegaltext(uiBaseView.getFragmentActivity(), legalText,this);
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }

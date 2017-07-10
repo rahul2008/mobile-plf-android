@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.americanwell.sdk.AWSDK;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.activity.THSLaunchActivity;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.ProgressBar;
@@ -48,7 +48,7 @@ public class THSWelcomeFragmentTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         ShadowLog.stream = System.out;
-        PTHManager.getInstance().setAwsdk(awsdkMock);
+        THSManager.getInstance().setAwsdk(awsdkMock);
         mActivity = Robolectric.buildActivity(THSLaunchActivity.class).create().get();
         mWelcomeFragment = new WelcomeFragmentMock();
         mWelcomeFragment.setActionBarListener(actionBarListenerMock);

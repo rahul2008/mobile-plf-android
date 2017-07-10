@@ -15,7 +15,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSConstants;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -86,7 +86,7 @@ public class THSSymptomsFragmentTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         ShadowLog.stream = System.out;
-        PTHManager.getInstance().setAwsdk(awsdkMock);
+        THSManager.getInstance().setAwsdk(awsdkMock);
 
         pthSymptomsFragment = new THSSymptomsFragment();
         pthSymptomsFragment.setActionBarListener(actionBarListenerMock);
@@ -97,7 +97,7 @@ public class THSSymptomsFragmentTest {
         bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, THSProviderInfoMock);
         pthSymptomsFragment.setArguments(bundle);
 
-        PTHManager.getInstance().setAwsdk(awsdkMock);
+        THSManager.getInstance().setAwsdk(awsdkMock);
 
         when(THSConsumer.getConsumer()).thenReturn(consumerMock);
         when(THSProviderInfoMock.getProviderInfo()).thenReturn(providerInfoMock);

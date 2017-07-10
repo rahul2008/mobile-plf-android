@@ -10,7 +10,7 @@ import android.widget.CompoundButton;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.registration.THSConsumer;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
@@ -58,7 +58,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements  View.OnClic
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         actionBarListener = getActionBarListener();
-       THSConsumer THSConsumer = PTHManager.getInstance().getPTHConsumer();
+       THSConsumer THSConsumer = THSManager.getInstance().getPTHConsumer();
         if(null!= THSConsumer && null!= THSConsumer.getConsumer() &&  null!= THSConsumer.getConsumer().getPhone() &&  !THSConsumer.getConsumer().getPhone().isEmpty()){
             mPhoneNumberEditText.setText(THSConsumer.getConsumer().getPhone());
         }

@@ -12,7 +12,7 @@ import com.americanwell.sdk.manager.ConsumerManager;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -75,7 +75,7 @@ public class THSWelcomePresenterTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         pthWelcomePresenter = new THSWelcomePresenter(pTHBaseViewMock);
-        PTHManager.getInstance().setAwsdk(awsdk);
+        THSManager.getInstance().setAwsdk(awsdk);
         when(pTHBaseViewMock.getFragmentActivity()).thenReturn(activityMock);
     }
 

@@ -11,7 +11,7 @@ import com.americanwell.sdk.manager.PracticeProvidersManager;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.base.THSBaseView;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -65,9 +65,9 @@ public class THSProvidersListFragmentTest {
     public void setUp() throws Exception{
         MockitoAnnotations.initMocks(this);
         ShadowLog.stream = System.out;
-        PTHManager.getInstance().setAwsdk(awsdkMock);
+        THSManager.getInstance().setAwsdk(awsdkMock);
         Mockito.when(THSBaseView.getFragmentActivity()).thenReturn(mActivity);
-        Mockito.when(PTHManager.getInstance().getAwsdk(mActivity).getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
+        Mockito.when(THSManager.getInstance().getAwsdk(mActivity).getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
         pthProvidersListFragment = new THSProvidersListFragment();
         pthProvidersListFragment.setPracticeAndConsumer(practice,consumer);
     }

@@ -1,5 +1,9 @@
 [
     {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/debug/menu/jr_about_menu.xml",
+        "source": "/Users/philips/.android/build-cache/a4adc67c71064c38609444f9a0393f02038f517d/output/res/menu/jr_about_menu.xml"
+    },
+    {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/debug/menu/jr_about_menu.xml",
         "source": "/Users/philips/.android/build-cache/42e763b865bf29dd7e8991ac50fe7e4e5d40d270/output/res/menu/jr_about_menu.xml"
     },
@@ -8,7 +12,15 @@
         "source": "/Users/philips/.android/build-cache/42e763b865bf29dd7e8991ac50fe7e4e5d40d270/output/res/menu/jr_provider_listview_row_menu.xml"
     },
     {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/debug/menu/jr_provider_listview_row_menu.xml",
+        "source": "/Users/philips/.android/build-cache/a4adc67c71064c38609444f9a0393f02038f517d/output/res/menu/jr_provider_listview_row_menu.xml"
+    },
+    {
         "merged": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/build/intermediates/res/merged/debug/menu/menu_main.xml",
         "source": "/Users/philips/AmwellWorkspace/June15/Source/Library/thsuapp/src/main/res/menu/menu_main.xml"
+    },
+    {
+        "merged": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/build/intermediates/res/merged/debug/menu/menu_main.xml",
+        "source": "/Users/philips/pth-android-telehealth-app/rename/Source/Library/thsuapp/src/main/res/menu/menu_main.xml"
     }
 ]

@@ -7,7 +7,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 
 import java.util.Map;
 
@@ -23,7 +23,7 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
         if (componentID == R.id.vitals_continue_btn) {
             ((THSVitalsFragment) mTHSBaseFragment).setVitalsValues();
             try {
-                PTHManager.getInstance().updateVitals(mTHSBaseFragment.getContext(),((THSVitalsFragment) mTHSBaseFragment).getTHSVitals(),this);
+                THSManager.getInstance().updateVitals(mTHSBaseFragment.getContext(),((THSVitalsFragment) mTHSBaseFragment).getTHSVitals(),this);
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }
@@ -38,7 +38,7 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
     }
 
     public void getVitals() throws AWSDKInstantiationException {
-        PTHManager.getInstance().getVitals(mTHSBaseFragment.getFragmentActivity(),this);
+        THSManager.getInstance().getVitals(mTHSBaseFragment.getFragmentActivity(),this);
     }
 
     @Override

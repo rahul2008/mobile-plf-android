@@ -7,7 +7,7 @@ import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.utility.AmwellLog;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 
 import java.util.Map;
 
@@ -28,7 +28,7 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
 
     protected void fetchMedication() {
         try {
-            PTHManager.getInstance().getMedication(uiBaseView.getFragmentActivity(), this);
+            THSManager.getInstance().getMedication(uiBaseView.getFragmentActivity(), this);
 
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
@@ -38,7 +38,7 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
 
     protected void searchMedication(String medicineName) {
         try {
-            PTHManager.getInstance().searchMedication(uiBaseView.getFragmentActivity(), medicineName,  this);
+            THSManager.getInstance().searchMedication(uiBaseView.getFragmentActivity(), medicineName,  this);
 
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
@@ -49,7 +49,7 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
     protected void updateMedication(THSMedication pTHMedication) {
         if(null!=pTHMedication) {
             try {
-                PTHManager.getInstance().updateMedication(uiBaseView.getFragmentActivity(), pTHMedication, this);
+                THSManager.getInstance().updateMedication(uiBaseView.getFragmentActivity(), pTHMedication, this);
 
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();

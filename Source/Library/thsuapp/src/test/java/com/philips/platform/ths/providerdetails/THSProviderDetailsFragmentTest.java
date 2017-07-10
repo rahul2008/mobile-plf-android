@@ -10,7 +10,7 @@ import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.providerslist.THSProviderListPresenter;
 import com.philips.platform.ths.providerslist.THSProviderListViewInterface;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -54,9 +54,9 @@ public class THSProviderDetailsFragmentTest {
     public void setUp() throws Exception{
         MockitoAnnotations.initMocks(this);
         ShadowLog.stream = System.out;
-        PTHManager.getInstance().setAwsdk(awsdkMock);
+        THSManager.getInstance().setAwsdk(awsdkMock);
         Mockito.when(THSBaseView.getFragmentActivity()).thenReturn(mActivity);
-        Mockito.when(PTHManager.getInstance().getAwsdk(mActivity).getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
+        Mockito.when(THSManager.getInstance().getAwsdk(mActivity).getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
         providerDetailsFragment = new THSProviderDetailsFragment();
         providerDetailsFragment.setProviderAndConsumer(providerInfo,consumer);
     }

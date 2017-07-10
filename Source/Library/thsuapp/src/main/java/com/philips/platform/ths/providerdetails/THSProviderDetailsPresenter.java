@@ -12,7 +12,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.THSConstants;
-import com.philips.platform.ths.utility.PTHManager;
+import com.philips.platform.ths.utility.THSManager;
 
 public class THSProviderDetailsPresenter implements THSBasePresenter,THSProviderDetailsCallback {
 
@@ -31,8 +31,8 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
 
     }
 
-    protected PTHManager getPTHManager() {
-        return PTHManager.getInstance();
+    protected THSManager getPTHManager() {
+        return THSManager.getInstance();
     }
 
     @Override
