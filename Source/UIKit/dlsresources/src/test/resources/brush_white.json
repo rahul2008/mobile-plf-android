@@ -1,0 +1,22 @@
+[
+  {
+    "sample-brush": {
+      "ultra-light": {
+        "color": "white"
+      },
+      "very-light": {
+        "color": "white",
+        "offset": 10
+      },
+      "light": {
+        "color": "white",
+        "opacity": 0.35
+      },
+      "bright": {
+        "color": "white",
+        "offset": 10,
+        "opacity": 0.35
+      }
+    }
+  }
+]

@@ -188,7 +188,7 @@
     "property": {
       "item": "background",
       "type": "color",
-      "value": "input-button-hover"
+      "value": "input-button-quiet-hover"
     },
     "component": "button"
   },
@@ -201,7 +201,7 @@
     "property": {
       "item": "background",
       "type": "color",
-      "value": "input-button-hover"
+      "value": "input-button-quiet-hover"
     },
     "component": "button"
   },
@@ -214,7 +214,7 @@
     "property": {
       "item": "background",
       "type": "color",
-      "value": "input-pressed"
+      "value": "input-button-quiet-pressed"
     },
     "component": "button"
   },
@@ -527,6 +527,19 @@
       "item": "text",
       "type": "color",
       "value": "text-disabled"
+    },
+    "component": "button"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "quiet-emphasis",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
     },
     "component": "button"
   },
@@ -930,17 +943,6 @@
       "item": "icon",
       "type": "color",
       "value": "text-primary-disabled"
-    },
-    "component": "carousel"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "default",
-    "property": {
-      "item": "title-text",
-      "type": "color",
-      "value": "text-primary"
     },
     "component": "carousel"
   },
@@ -2349,6 +2351,32 @@
   },
   {
     "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-disabled"
+    },
+    "component": "list-item"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-disabled"
+    },
+    "component": "list-item"
+  },
+  {
+    "state": [
       "normal",
       "on"
     ],
@@ -2358,6 +2386,34 @@
       "item": "background",
       "type": "color",
       "value": "separator"
+    },
+    "component": "menu-item"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "menu-item"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
     },
     "component": "menu-item"
   },
@@ -2376,13 +2432,145 @@
     "component": "menu-item"
   },
   {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-secondary"
+    },
+    "component": "menu-item"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-secondary"
+    },
+    "component": "menu-item"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "menu-item"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "menu-item"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "menu-item"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "menu-item"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-tertiary"
+    },
+    "component": "menu-item"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-tertiary"
+    },
+    "component": "menu-item"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "text-disabled"
+    },
+    "component": "menu-item"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-disabled"
+    },
+    "component": "menu-item"
+  },
+  {
     "state": [],
     "parent": [],
     "context": "clinical",
     "property": {
       "item": "background",
       "type": "color",
-      "value": "not-yet-defined"
+      "value": "moviebar"
     },
     "component": "movie-bar"
   },
@@ -2455,11 +2643,22 @@
   {
     "state": [],
     "parent": [],
-    "context": "default",
+    "context": "accent",
     "property": {
-      "item": "accent-background",
+      "item": "background",
       "type": "color",
       "value": "control-accent"
+    },
+    "component": "notification-badge"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "accent",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "control-accent-text"
     },
     "component": "notification-badge"
   },
@@ -2478,28 +2677,6 @@
     "state": [],
     "parent": [],
     "context": "default",
-    "property": {
-      "item": "text",
-      "type": "color",
-      "value": "control-accent-text"
-    },
-    "component": "notification-badge"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "option",
-    "property": {
-      "item": "background",
-      "type": "color",
-      "value": "control-accent"
-    },
-    "component": "notification-badge"
-  },
-  {
-    "state": [],
-    "parent": [],
-    "context": "option",
     "property": {
       "item": "text",
       "type": "color",
@@ -2977,6 +3154,19 @@
     "parent": [],
     "context": "ios-default",
     "property": {
+      "item": "cancel-text",
+      "type": "color",
+      "value": "text-secondary"
+    },
+    "component": "search-box"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "ios-default",
+    "property": {
       "item": "clear-icon",
       "type": "color",
       "value": "neutral-text-tertiary"
@@ -3063,40 +3253,14 @@
   },
   {
     "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "ios-minimal",
-    "property": {
-      "item": "cancel-text",
-      "type": "color",
-      "value": "control-primary"
-    },
-    "component": "search-box"
-  },
-  {
-    "state": [
       "pressed"
     ],
     "parent": [],
-    "context": "ios-minimal",
+    "context": "ios-default",
     "property": {
       "item": "cancel-text",
       "type": "color",
-      "value": "control-primary-pressed"
-    },
-    "component": "search-box"
-  },
-  {
-    "state": [
-      "normal"
-    ],
-    "parent": [],
-    "context": "ios-prominent",
-    "property": {
-      "item": "cancel-text",
-      "type": "color",
-      "value": "control-primary"
+      "value": "text-primary"
     },
     "component": "search-box"
   },
@@ -3110,19 +3274,6 @@
       "item": "searchbar-background",
       "type": "color",
       "value": "content-primary"
-    },
-    "component": "search-box"
-  },
-  {
-    "state": [
-      "pressed"
-    ],
-    "parent": [],
-    "context": "ios-prominent",
-    "property": {
-      "item": "cancel-text",
-      "type": "color",
-      "value": "control-primary-pressed"
     },
     "component": "search-box"
   },
@@ -3479,9 +3630,9 @@
     "parent": [],
     "context": "quiet",
     "property": {
-      "item": "content-background",
+      "item": "background",
       "type": "color",
-      "value": "content-primary"
+      "value": "no-color"
     },
     "component": "spring-board"
   },
@@ -3863,6 +4014,19 @@
     "parent": [],
     "context": "default",
     "property": {
+      "item": "arrow-icon",
+      "type": "color",
+      "value": "arrow-icon"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
       "item": "background",
       "type": "color",
       "value": "input"
@@ -3889,9 +4053,22 @@
     "parent": [],
     "context": "default",
     "property": {
+      "item": "button-background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
       "item": "clear-icon",
       "type": "color",
-      "value": "gray-tertiary-text"
+      "value": "text-tertiary"
     },
     "component": "text-box"
   },
@@ -3905,6 +4082,45 @@
       "item": "hint-text",
       "type": "color",
       "value": "input-hint-text"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "input-text"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "input-separator-v2"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "show-hide-icon",
+      "type": "color",
+      "value": "text-secondary"
     },
     "component": "text-box"
   },
@@ -3949,6 +4165,19 @@
   },
   {
     "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "button-background",
+      "type": "color",
+      "value": "input-button-hover"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
       "focus"
     ],
     "parent": [],
@@ -3970,6 +4199,19 @@
       "item": "border",
       "type": "color",
       "value": "input-border-focus"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "button-background",
+      "type": "color",
+      "value": "no-color"
     },
     "component": "text-box"
   },
@@ -4084,9 +4326,35 @@
     "parent": [],
     "context": "default",
     "property": {
+      "item": "button-background",
+      "type": "color",
+      "value": "input-button-pressed"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
       "item": "outline",
       "type": "color",
       "value": "input-outline"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "arrow-icon",
+      "type": "color",
+      "value": "arrow-icon-disabled"
     },
     "component": "text-box"
   },
@@ -4123,6 +4391,19 @@
     "parent": [],
     "context": "default",
     "property": {
+      "item": "button-background",
+      "type": "color",
+      "value": "input-disabled"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
       "item": "clear-icon",
       "type": "color",
       "value": "input-text-disabled"
@@ -4139,6 +4420,45 @@
       "item": "hint-text",
       "type": "color",
       "value": "input-text-disabled"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "input-text-disabled"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "input-separator-disabled-v2"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "show-hide-icon",
+      "type": "color",
+      "value": "text-disabled"
     },
     "component": "text-box"
   },
@@ -4217,6 +4537,331 @@
       "item": "text",
       "type": "color",
       "value": "text-primary"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "inline",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-disabled"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "arrow-icon",
+      "type": "color",
+      "value": "arrow-icon-quiet"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "button-background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "input-text"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-primary"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "input-v2"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-hover-v2"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "button-background",
+      "type": "color",
+      "value": "input-button-quiet-hover"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "input-separator-quiet-v2"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "input-v2"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-focus-v2"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "button-background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "input-v2"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "input-border-focus-v2"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "pressed"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "button-background",
+      "type": "color",
+      "value": "input-button-quiet-pressed"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "arrow-icon",
+      "type": "color",
+      "value": "arrow-icon-quiet-disabled"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "button-background",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "input-text-disabled"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "separator",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "text-box"
+  },
+  {
+    "state": [
+      "disabled"
+    ],
+    "parent": [],
+    "context": "quiet",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "text-disabled"
     },
     "component": "text-box"
   },
@@ -5112,6 +5757,60 @@
       "value": "signal-warning"
     },
     "component": "track"
+  },
+  {
+    "state": [
+      "normal"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "viewport-background",
+      "type": "color",
+      "value": "content-tertiary"
+    },
+    "component": "view-container"
+  },
+  {
+    "state": [
+      "normal",
+      "on"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "tab-background",
+      "type": "color",
+      "value": "view-container-tab-on"
+    },
+    "component": "view-container"
+  },
+  {
+    "state": [
+      "normal",
+      "off"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "tab-background",
+      "type": "color",
+      "value": "view-container-tab-off"
+    },
+    "component": "view-container"
+  },
+  {
+    "state": [
+      "focus"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "border",
+      "type": "color",
+      "value": "view-container-border"
+    },
+    "component": "view-container"
   },
   {
     "state": [
