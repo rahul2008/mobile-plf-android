@@ -9,7 +9,7 @@
     android:orientation="vertical">
 
     <ListView
-        android:id="@+id/listViewAppliances"
+        android:id="@+id/cml_listViewAppliances"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

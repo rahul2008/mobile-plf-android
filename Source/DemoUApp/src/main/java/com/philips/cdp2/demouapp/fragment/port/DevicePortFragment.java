@@ -81,13 +81,13 @@ public class DevicePortFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootview = inflater.inflate(R.layout.fragment_device_port, container, false);
+        rootview = inflater.inflate(R.layout.cml_fragment_device_port, container, false);
 
-        deviceNameEdit = (EditText) rootview.findViewById(R.id.device_name);
-        Button setButton = (Button) rootview.findViewById(R.id.btn_set);
-        Button getButton = (Button) rootview.findViewById(R.id.btn_get);
+        deviceNameEdit = (EditText) rootview.findViewById(R.id.cml_device_name);
+        Button setButton = (Button) rootview.findViewById(R.id.cml_btn_set);
+        Button getButton = (Button) rootview.findViewById(R.id.cml_btn_get);
 
-        ((CompoundButton) rootview.findViewById(R.id.switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
+        ((CompoundButton) rootview.findViewById(R.id.cml_switchSubscription)).setOnCheckedChangeListener(subscriptionCheckedChangeListener);
 
         setButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -148,12 +148,12 @@ public class DevicePortFragment extends Fragment {
 
     private void promptCertificateMismatch() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.prompt_certificate_mismatch_message);
-        builder.setTitle(R.string.prompt_certificate_mismatch_title);
+        builder.setMessage(R.string.cml_prompt_certificate_mismatch_message);
+        builder.setTitle(R.string.cml_prompt_certificate_mismatch_title);
 
-        builder.setNeutralButton(R.string.prompt_certificate_mismatch_cancel, mismatchDialogClickListener);
-        builder.setNegativeButton(R.string.prompt_certificate_mismatch_reject, mismatchDialogClickListener);
-        builder.setPositiveButton(R.string.prompt_certificate_mismatch_accept, mismatchDialogClickListener);
+        builder.setNeutralButton(R.string.cml_prompt_certificate_mismatch_cancel, mismatchDialogClickListener);
+        builder.setNegativeButton(R.string.cml_prompt_certificate_mismatch_reject, mismatchDialogClickListener);
+        builder.setPositiveButton(R.string.cml_prompt_certificate_mismatch_accept, mismatchDialogClickListener);
 
         builder.show();
     }

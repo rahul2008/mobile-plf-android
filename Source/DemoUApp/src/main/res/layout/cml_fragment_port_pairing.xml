@@ -4,21 +4,21 @@
   -->
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/card_padding">
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/cml_card_padding">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/card_padding">
+        android:padding="@dimen/cml_card_padding">
 
         <TextView
             style="@style/Base.TextAppearance.AppCompat.Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/pairing_port" />
+            android:text="@string/cml_pairing_port"/>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -26,11 +26,11 @@
             android:layout_marginTop="8dp">
 
             <EditText
-                android:id="@+id/client_provider"
+                android:id="@+id/cml_client_provider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/client_provider"
-                android:text="@string/client_provider_default" />
+                android:hint="@string/cml_client_provider"
+                android:text="@string/cml_client_provider_default"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -39,11 +39,11 @@
             android:layout_marginTop="8dp">
 
             <EditText
-                android:id="@+id/client_type"
+                android:id="@+id/cml_client_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/clienttype"
-                android:text="@string/clienttype_default" />
+                android:hint="@string/cml_clienttype"
+                android:text="@string/cml_clienttype_default"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -52,11 +52,11 @@
             android:layout_marginTop="8dp">
 
             <EditText
-                android:id="@+id/client_id"
+                android:id="@+id/cml_client_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/client_id"
-                android:text="@string/client_id_default" />
+                android:hint="@string/cml_client_id"
+                android:text="@string/cml_client_id_default"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -65,11 +65,11 @@
             android:layout_marginTop="8dp">
 
             <EditText
-                android:id="@+id/secret_key"
+                android:id="@+id/cml_secret_key"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/secretkey"
-                android:text="@string/secret_key_default" />
+                android:hint="@string/cml_secretkey"
+                android:text="@string/cml_secret_key_default"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -78,11 +78,11 @@
             android:layout_marginTop="8dp">
 
             <EditText
-                android:id="@+id/type"
+                android:id="@+id/cml_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/type"
-                android:text="@string/di_comm" />
+                android:hint="@string/cml_type"
+                android:text="@string/cml_di_comm"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -91,19 +91,19 @@
             android:layout_marginTop="8dp">
 
             <EditText
-                android:id="@+id/permissions"
+                android:id="@+id/cml_permissions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/permissions_comma_separated"
-                android:text="@string/request" />
+                android:hint="@string/cml_permissions_comma_separated"
+                android:text="@string/cml_request"/>
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:id="@+id/button_pair"
+            android:id="@+id/cml_button_pair"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/pair" />
+            android:text="@string/cml_pair"/>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>
