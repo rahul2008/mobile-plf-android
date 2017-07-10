@@ -33,10 +33,10 @@ public class BlueLibExampleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.bll_activity_main);
 
         // Set title
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.bll_toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
@@ -45,10 +45,10 @@ public class BlueLibExampleActivity extends AppCompatActivity {
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        ViewPager viewPager = (ViewPager) findViewById(R.id.container);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.bll_container);
         viewPager.setAdapter(sectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.bll_tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         // Acquire Bluetooth permission
@@ -68,7 +68,7 @@ public class BlueLibExampleActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.bll_menu_main, menu);
 
         return true;
     }
@@ -118,9 +118,9 @@ public class BlueLibExampleActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return getString(R.string.association_title);
+                    return getString(R.string.bll_association_title);
                 case 1:
-                    return getString(R.string.connect_title);
+                    return getString(R.string.bll_connect_title);
             }
             return null;
         }
