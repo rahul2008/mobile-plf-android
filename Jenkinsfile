@@ -57,6 +57,7 @@ node('Android') {
             step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class,**/R$*.class,**/BuildConfig.class,**/Manifest*.*,**/*Activity*.*,**/*Fragment*.*'])
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'android-commlib-all/Source/commlib-all-parent/build/report/commlib-all/pitest/debug/', reportFiles: 'index.html', reportName: 'Pitest'])
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'android-commlib-all/Documents/External/commlib-all-api', reportFiles: 'index.html', reportName: 'Commlib-ble API'])
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'android-commlib-all/Source/commlib-all-parent/build/cucumber-reports/html/', reportFiles: 'index.html', reportName: 'Cucumber-report'])
 
             if (fileExists('android-commlib-all/Source/commlib-all-parent/build/cucumber-reports/report.json')) {
                 step([$class: 'CucumberReportPublisher', jsonReportDirectory: 'android-commlib-all/Source/commlib-all-parent/build/cucumber-reports', fileIncludePattern: '*.json'])
@@ -67,6 +68,8 @@ node('Android') {
 
         stage('Archive artifacts') {
             archiveArtifacts artifacts: '**/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
+            sh 'mv android-commlib-all/Source/commlib-all-parent/build/cucumber-reports/report.json	android-commlib-all/Source/commlib-all-parent/build/cucumber-reports/cucumber-report-android-commlib-ble.json'
+            archiveArtifacts artifacts: 'android-commlib-all/Source/commlib-all-parent/build/cucumber-reports/cucumber-report-android-commlib-ble.json', fingerprint: true, onlyIfSuccessful: true
         }
 
         if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master") {

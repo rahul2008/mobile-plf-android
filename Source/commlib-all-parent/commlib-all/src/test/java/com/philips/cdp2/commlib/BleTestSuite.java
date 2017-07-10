@@ -1,7 +1,8 @@
 /*
- * (C) Koninklijke Philips N.V., 2016.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.cdp2.commlib;
 
 import org.junit.runner.RunWith;
@@ -18,7 +19,7 @@ import cucumber.api.junit.Cucumber;
         },
         features = "src/test/features",
         strict = true,
-        tags = {"@automated", "@android", "~@not_android"}
+        tags = {"@automated", "@android", "~@not_android", "~@target"}
 )
 public class BleTestSuite {
 
