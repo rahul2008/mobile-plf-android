@@ -19,6 +19,8 @@ import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -41,7 +44,7 @@ public class THSSymptomsFragmentTest {
     @Mock
     AWSDK awsdkMock;
 
-    THSSymptomsFragment pthSymptomsFragment;
+    THSSymptomsFragmentMock pthSymptomsFragment;
 
     @Mock
     THSSymptomsPresenter presenterMock;
@@ -50,19 +53,10 @@ public class THSSymptomsFragmentTest {
     Typeface typefaceMock;
 
     @Mock
-    THSConsumer THSConsumer;
-
-    @Mock
-    THSProviderInfo THSProviderInfoMock;
+    THSProviderInfo pthProviderInfoMock;
 
     @Mock
     ActionBarListener actionBarListenerMock;
-
-    @Mock
-    Consumer consumerMock;
-
-    @Mock
-    ProviderInfo providerInfoMock;
 
     @Mock
     VisitManager visitManagerMock;
@@ -72,7 +66,7 @@ public class THSSymptomsFragmentTest {
     FragmentLauncher fragmentLauncherMock;
 
     @Mock
-    THSVisitContext THSVisitContextMock;
+    THSVisitContext pthVisitContextMock;
 
     @Mock
     VisitContext visitContextMock;
@@ -82,55 +76,80 @@ public class THSSymptomsFragmentTest {
     @Mock
     Topic topicMock;
 
+    @Mock
+    THSConsumer pthConsumer;
+
+    @Mock
+    THSVisitContext pthVisitContext;
+
+    @Mock
+    Consumer consumerMock;
+
+    @Mock
+    ProviderInfo providerInfoMock;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         ShadowLog.stream = System.out;
         THSManager.getInstance().setAwsdk(awsdkMock);
 
-        pthSymptomsFragment = new THSSymptomsFragment();
+        pthSymptomsFragment = new THSSymptomsFragmentMock();
         pthSymptomsFragment.setActionBarListener(actionBarListenerMock);
         pthSymptomsFragment.face = typefaceMock;
 
         Bundle bundle = new Bundle();
-
-        bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, THSProviderInfoMock);
+        bundle.putParcelable(THSConstants.THS_PROVIDER_INFO,pthProviderInfoMock);
         pthSymptomsFragment.setArguments(bundle);
 
         THSManager.getInstance().setAwsdk(awsdkMock);
-
-        when(THSConsumer.getConsumer()).thenReturn(consumerMock);
-        when(THSProviderInfoMock.getProviderInfo()).thenReturn(providerInfoMock);
+        THSManager.getInstance().setPTHConsumer(pthConsumer);
+        THSManager.getInstance().setVisitContext(pthVisitContext);
+        when(pthConsumer.getConsumer()).thenReturn(consumerMock);
+        when(pthProviderInfoMock.getProviderInfo()).thenReturn(providerInfoMock);
         when(awsdkMock.getVisitManager()).thenReturn(visitManagerMock);
-
-        SupportFragmentTestUtil.startFragment(pthSymptomsFragment);
     }
 
     @Test
     public void addTopicsToViewWithListSizeZero() throws Exception {
-        when(THSVisitContextMock.getVisitContext()).thenReturn(visitContextMock);
+        SupportFragmentTestUtil.startFragment(pthSymptomsFragment);
+        when(pthVisitContextMock.getVisitContext()).thenReturn(visitContextMock);
         when(visitContextMock.getTopics()).thenReturn(topicList);
-        pthSymptomsFragment.addTopicsToView(THSVisitContextMock);
+        pthSymptomsFragment.addTopicsToView(pthVisitContextMock);
         final int childCount = pthSymptomsFragment.topicLayout.getChildCount();
         assertThat(childCount).isEqualTo(0);
     }
 
     @Test
-    public void addTopicsToView() throws Exception {
+    public void addTopicsToViewWithListHavingTopicsSelected() throws Exception {
+        SupportFragmentTestUtil.startFragment(pthSymptomsFragment);
         topicList.add(topicMock);
-        when(THSVisitContextMock.getVisitContext()).thenReturn(visitContextMock);
-        when(THSVisitContextMock.getTopics()).thenReturn(topicList);
-        pthSymptomsFragment.addTopicsToView(THSVisitContextMock);
+        when(topicMock.isSelected()).thenReturn(true);
+        when(pthVisitContextMock.getVisitContext()).thenReturn(visitContextMock);
+        when(pthVisitContextMock.getTopics()).thenReturn(topicList);
+        pthSymptomsFragment.addTopicsToView(pthVisitContextMock);
+        final int childCount = pthSymptomsFragment.topicLayout.getChildCount();
+        assertThat(childCount).isEqualTo(1);
+    }
+
+    @Test
+    public void addTopicsToView() throws Exception {
+        SupportFragmentTestUtil.startFragment(pthSymptomsFragment);
+        topicList.add(topicMock);
+        when(pthVisitContextMock.getVisitContext()).thenReturn(visitContextMock);
+        when(pthVisitContextMock.getTopics()).thenReturn(topicList);
+        pthSymptomsFragment.addTopicsToView(pthVisitContextMock);
         final int childCount = pthSymptomsFragment.topicLayout.getChildCount();
         assertThat(childCount).isEqualTo(1);
     }
 
     @Test
     public void addTopicsToViewClickCheckBox() throws Exception {
+        SupportFragmentTestUtil.startFragment(pthSymptomsFragment);
         topicList.add(topicMock);
-        when(THSVisitContextMock.getVisitContext()).thenReturn(visitContextMock);
-        when(THSVisitContextMock.getTopics()).thenReturn(topicList);
-        pthSymptomsFragment.addTopicsToView(THSVisitContextMock);
+        when(pthVisitContextMock.getVisitContext()).thenReturn(visitContextMock);
+        when(pthVisitContextMock.getTopics()).thenReturn(topicList);
+        pthSymptomsFragment.addTopicsToView(pthVisitContextMock);
         final View childAt = pthSymptomsFragment.topicLayout.getChildAt(0);
         childAt.performClick();
 
@@ -140,6 +159,7 @@ public class THSSymptomsFragmentTest {
 
     @Test
     public void onClick() throws Exception {
+        SupportFragmentTestUtil.startFragment(pthSymptomsFragment);
         pthSymptomsFragment.mTHSSymptomsPresenter = presenterMock;
         pthSymptomsFragment.setFragmentLauncher(fragmentLauncherMock);
         final View viewById = pthSymptomsFragment.getView().findViewById(R.id.continue_btn);
@@ -147,4 +167,21 @@ public class THSSymptomsFragmentTest {
         verify(presenterMock).onEvent(R.id.continue_btn);
     }
 
+    @Test
+    public void onActivityCreatedWhenActionBarIsNull(){
+        pthSymptomsFragment.setActionBarListener(null);
+        SupportFragmentTestUtil.startFragment(pthSymptomsFragment);
+        assertNull(pthSymptomsFragment.getActionBarListener());
+    }
+
+    @Test
+    public void handleBackEvent() throws Exception {
+        Assert.assertEquals(pthSymptomsFragment.handleBackEvent(),false);
+    }
+
+    @Test
+    public void getVisistContextWhenPthContextIsNotNull() {
+        pthSymptomsFragment.mThsVisitContext = pthVisitContext;
+        SupportFragmentTestUtil.startFragment(pthSymptomsFragment);
+    }
 }
