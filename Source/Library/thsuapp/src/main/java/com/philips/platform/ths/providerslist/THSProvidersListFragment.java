@@ -29,6 +29,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     private List<ProviderInfo> providerInfoList;
     private THSProviderListPresenter THSProviderListPresenter;
     private SwipeRefreshLayout swipeRefreshLayout;
+
     private Practice practice;
     private Consumer consumer;
     private ProgressBar progressBar;
@@ -92,7 +93,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
 
                 THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
                 pthProviderDetailsFragment.setActionBarListener(getActionBarListener());
-                pthProviderDetailsFragment.setProviderAndConsumer(item,consumer);
+                pthProviderDetailsFragment.setProviderAndConsumerAndPractice(item,consumer,practice);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(),pthProviderDetailsFragment,"Provider Details").addToBackStack(null).commit();
             }
         });
@@ -111,5 +112,13 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
         if (i == R.id.getStartedButton) {
             THSProviderListPresenter.onEvent(R.id.getStartedButton);
         }
+    }
+
+    public Practice getPractice() {
+        return practice;
+    }
+
+    public void setPractice(Practice practice) {
+        this.practice = practice;
     }
 }

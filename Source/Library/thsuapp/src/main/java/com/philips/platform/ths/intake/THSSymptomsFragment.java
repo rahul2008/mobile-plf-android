@@ -35,6 +35,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
     Button mContinue;
     Typeface face;
     RelativeLayout mRelativeLayout;
+    THSVisitContext mThsVisitContext;
 
     //TODO: Spoorti - check null condition for the bundle Arguments
     @Nullable
@@ -85,7 +86,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
     }
 
     private void getVisistContext() {
-        if (THSManager.getInstance().getPthVisitContext() == null) {
+        if (mThsVisitContext == null) {
             createCustomProgressBar(mRelativeLayout, MEDIUM);
             mContinue.setEnabled(false);
             mTHSSymptomsPresenter.getVisitContext();
@@ -97,6 +98,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
 
     //TODO: SPOORTI - crashing when back is pressed
     public void addTopicsToView(THSVisitContext visitContext) {
+        mThsVisitContext = visitContext;
         if(getContext()!=null) {
             List<Topic> topics = visitContext.getTopics();
             for (final Topic topic : topics

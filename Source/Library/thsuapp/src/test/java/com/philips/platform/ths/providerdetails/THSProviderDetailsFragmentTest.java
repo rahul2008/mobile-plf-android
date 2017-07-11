@@ -3,6 +3,7 @@ package com.philips.platform.ths.providerdetails;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.consumer.Consumer;
+import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.manager.PracticeProvidersManager;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
@@ -45,6 +46,9 @@ public class THSProviderDetailsFragmentTest {
     ProviderInfo providerInfo;
 
     @Mock
+    Practice practice;
+
+    @Mock
     PracticeProvidersManager practiseprovidermanagerMock;
 
     @Mock
@@ -58,7 +62,7 @@ public class THSProviderDetailsFragmentTest {
         Mockito.when(THSBaseView.getFragmentActivity()).thenReturn(mActivity);
         Mockito.when(THSManager.getInstance().getAwsdk(mActivity).getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
         providerDetailsFragment = new THSProviderDetailsFragment();
-        providerDetailsFragment.setProviderAndConsumer(providerInfo,consumer);
+        providerDetailsFragment.setProviderAndConsumerAndPractice(providerInfo,consumer,practice);
     }
 
     @Test

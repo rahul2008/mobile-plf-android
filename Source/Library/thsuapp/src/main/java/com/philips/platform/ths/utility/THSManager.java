@@ -6,6 +6,7 @@ import android.support.annotation.VisibleForTesting;
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.AWSDKFactory;
 import com.americanwell.sdk.entity.Authentication;
+import com.americanwell.sdk.entity.Language;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.SDKPasswordError;
 import com.americanwell.sdk.entity.consumer.Consumer;
@@ -14,6 +15,7 @@ import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.legal.LegalText;
 import com.americanwell.sdk.entity.practice.Practice;
+import com.americanwell.sdk.entity.provider.AvailableProviders;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.visit.VisitContext;
@@ -23,6 +25,9 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.ValidationReason;
+import com.philips.platform.ths.appointment.THSAvailableProviderList;
+import com.philips.platform.ths.appointment.THSAvailableProviders;
+import com.philips.platform.ths.appointment.THSAvailableProvidersBasedOnDateCallback;
 import com.philips.platform.ths.intake.THSConditions;
 import com.philips.platform.ths.intake.THSConditionsCallBack;
 import com.philips.platform.ths.intake.THSNoppCallBack;
@@ -53,6 +58,7 @@ import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -448,5 +454,30 @@ public class THSManager {
                 tHSNoppCallBack.onNoppReceivedFailure(throwable);
             }
         });
+    }
+
+    public void getAvailableProvidersBasedOnDate(Context context, Practice thsPractice,
+                                                 String searchItem, Language languageSpoken, Date appointmentDate,
+                                                 Integer maxresults,
+                                                 final THSAvailableProvidersBasedOnDateCallback thsAvailableProviderCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getPracticeProvidersManager().findFutureAvailableProviders(getPTHConsumer().getConsumer(), thsPractice,
+                searchItem, languageSpoken, appointmentDate, maxresults, new SDKCallback<AvailableProviders, SDKError>() {
+                    @Override
+                    public void onResponse(AvailableProviders availableProviders, SDKError sdkError) {
+                        THSAvailableProviderList thsAvailableProviderList = new THSAvailableProviderList();
+                        thsAvailableProviderList.setAvailableProviders(availableProviders);
+
+                        THSSDKError thsSDKError = new THSSDKError();
+                        thsSDKError.setSdkError(sdkError);
+
+                        thsAvailableProviderCallback.onResponse(thsAvailableProviderList,thsSDKError);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        thsAvailableProviderCallback.onFailure(throwable);
+                    }
+                });
+
     }
 }

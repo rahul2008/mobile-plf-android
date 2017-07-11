@@ -23,6 +23,10 @@
     <string name="vitals_ponds">Pounds</string>
     <string name="vitals_skip">Skip this step</string>
     <string name="ths_medical_conditions">Have you diagnosed with any of these medical conditions ?</string>
+    <string name="ths_select_a_date_and_time">Select a Date and Time</string>
+    <string name="inline_error_message_systolic_value">Please Enter values between 0 and 250</string>
+    <string name="inline_error_message_temperature_value">Please Enter values between 0 and 120</string>
+    <string name="inline_error_message_weight_value">Please Enter values between 0 and 500</string>
 
     <string name="pth_webview_test"><html><p>The US and South Korea have held a ballistic missile drill, after North Korea tested a long-range missile experts believe may reach Alaska.
 Self-restraint was all that separated armistice and war and could be changed at any time, the two allies said.
