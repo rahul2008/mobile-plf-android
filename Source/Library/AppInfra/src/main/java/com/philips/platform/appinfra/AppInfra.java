@@ -15,7 +15,6 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityManager;
-import com.philips.platform.appinfra.appupdate.AppUpdateConstants;
 import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
@@ -307,6 +306,16 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             return this;
         }
 
+        public Builder setAppIdentity(AppIdentityInterface appIdentityInterface) {
+            appIdentity = appIdentityInterface;
+            return this;
+        }
+
+        public Builder setInterNationalization (InternationalizationInterface
+                                                        internationalizationInterface) {
+            local = internationalizationInterface;
+            return this;
+        }
         /**
          * Sets Builder tagging overriding the default implementation.
          *
@@ -334,6 +343,16 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             return this;
         }
 
+        public Builder setLanguagePack(LanguagePackInterface languagePackInterface) {
+            languagePack = languagePackInterface;
+            return this;
+        }
+
+        public Builder setAppUpdate(AppUpdateInterface appupdateInterface) {
+            this.appupdateInterface = appupdateInterface;
+            return this;
+        }
+
 
         /**
          * Actual AppInfra object is created here.
@@ -342,8 +361,6 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
          * @param pContext Application Context
          * @return the app infra
          */
-
-
         public AppInfra build(Context pContext) {
             Log.v(AppInfraLogEventID.AI_APPINFRA, "AI Intitialization Starts");
             long startTime = System.currentTimeMillis();
@@ -455,7 +472,8 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             Log.v(AppInfraLogEventID.AI_APPINFRA, e.getMessage());
         }
         appInfraLogStatement.append("\"");
-        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APPINFRA,"AppInfra initialized " +appInfraLogStatement.toString());
+        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+                AppInfraLogEventID.AI_APPINFRA,"AppInfra initialized " +appInfraLogStatement.toString());
     }
 
 }
