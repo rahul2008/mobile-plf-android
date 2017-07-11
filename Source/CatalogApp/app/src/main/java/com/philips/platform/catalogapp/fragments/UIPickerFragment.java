@@ -18,11 +18,12 @@ import android.widget.ArrayAdapter;
 
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentUiPickerBinding;
+import com.philips.platform.uid.view.widget.UIPicker;
 
 public class UIPickerFragment extends BaseFragment {
 
     private FragmentUiPickerBinding fragmentUiPickerBinding;
-    private ListPopupWindow listPopupWindow;
+    private UIPicker listPopupWindow;
     public static final String SELECTED_LOCATION = "SELECTED_LOCATION";
     public final ObservableField<String> selectedLocation = new ObservableField<>("Alabama");
 
@@ -36,7 +37,7 @@ public class UIPickerFragment extends BaseFragment {
             "Connecticut",
             "Delaware",
             "Florida",
-            "Georgia",
+            "Georgiajgjflkjgfdjglkfjglkfjglkfdjglkjfdlkgjflkjglkfdjg",
             "Hawaii",
             "Idaho",
             "Illinois",
@@ -57,10 +58,12 @@ public class UIPickerFragment extends BaseFragment {
         fragmentUiPickerBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_ui_picker, container, false);
         fragmentUiPickerBinding.setFrag(this);
 
-        listPopupWindow = new ListPopupWindow(getContext());
+        listPopupWindow = new UIPicker(getContext());
         listPopupWindow.setAdapter(new ArrayAdapter<>(getContext(), R.layout.uipicker_item_text, STATES));
         listPopupWindow.setAnchorView(fragmentUiPickerBinding.selectedLocationLabel);
         listPopupWindow.setModal(true);
+
+        //listPopupWindow.setHeight(500);
 
         listPopupWindow.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
@@ -91,8 +94,10 @@ public class UIPickerFragment extends BaseFragment {
     }
 
     public void showListPopupWindow(){
-        listPopupWindow.setVerticalOffset(-fragmentUiPickerBinding.anchorLayout.getHeight());
+        //listPopupWindow.setVerticalOffset(-fragmentUiPickerBinding.anchorLayout.getHeight());
+        //listPopupWindow.shouldShowBelowAnchorView(true);
         listPopupWindow.show();
+        listPopupWindow.setSelection(8);
     }
 
 }
