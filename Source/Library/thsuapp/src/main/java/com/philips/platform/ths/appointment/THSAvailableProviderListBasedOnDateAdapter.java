@@ -8,12 +8,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.americanwell.sdk.entity.provider.AvailableProvider;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
-import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.providerslist.OnProviderListItemClickListener;
-import com.philips.platform.ths.providerslist.THSProvidersListAdapter;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.RatingBar;
 
@@ -21,12 +20,12 @@ import java.util.List;
 
 public class THSAvailableProviderListBasedOnDateAdapter extends RecyclerView.Adapter<THSAvailableProviderListBasedOnDateAdapter.MyViewHolder>{
 
-    private List<ProviderInfo> providerList;
+    private THSAvailableProviderList availableProvidersList;
     private OnProviderListItemClickListener onProviderItemClickListener;
     THSAvailableProviderListBasedOnDatePresenter mThsAvailableProviderListBasedOnDatePresenter;
 
-    public THSAvailableProviderListBasedOnDateAdapter(List<ProviderInfo> providerInfos, THSAvailableProviderListBasedOnDatePresenter thsAvailableProviderListBasedOnDatePresenter) {
-        providerList = providerInfos;
+    public THSAvailableProviderListBasedOnDateAdapter(THSAvailableProviderList providerInfos, THSAvailableProviderListBasedOnDatePresenter thsAvailableProviderListBasedOnDatePresenter) {
+        availableProvidersList = providerInfos;
         mThsAvailableProviderListBasedOnDatePresenter = thsAvailableProviderListBasedOnDatePresenter;
     }
 
@@ -44,15 +43,15 @@ public class THSAvailableProviderListBasedOnDateAdapter extends RecyclerView.Ada
 
     @Override
     public void onBindViewHolder(THSAvailableProviderListBasedOnDateAdapter.MyViewHolder holder, int position) {
-        final ProviderInfo provider = providerList.get(position);
+        final AvailableProvider availableProvider = availableProvidersList.getAvailableProvidersList().get(position);
 
-        holder.providerRating.setRating(provider.getRating());
-        holder.name.setText("Dr. " + provider.getFullName());
-        holder.practice.setText(provider.getSpecialty().getName());
-        holder.isAvailble.setText(""+provider.getVisibility());
-        if(provider.hasImage()) {
+        holder.providerRating.setRating(availableProvider.getProviderInfo().getRating());
+        holder.name.setText("Dr. " + availableProvider.getProviderInfo().getFullName());
+        holder.practice.setText(availableProvider.getProviderInfo().getSpecialty().getName());
+        holder.isAvailble.setText(""+availableProvider.getProviderInfo().getVisibility());
+        if(availableProvider.getProviderInfo().hasImage()) {
             try {
-                THSManager.getInstance().getAwsdk(holder.providerImage.getContext()).getPracticeProvidersManager().newImageLoader(provider, holder.providerImage, ProviderImageSize.SMALL).placeholder(holder.providerImage.getResources().getDrawable(R.drawable.doctor_placeholder)).build().load();
+                THSManager.getInstance().getAwsdk(holder.providerImage.getContext()).getPracticeProvidersManager().newImageLoader(availableProvider.getProviderInfo(), holder.providerImage, ProviderImageSize.SMALL).placeholder(holder.providerImage.getResources().getDrawable(R.drawable.doctor_placeholder)).build().load();
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }
@@ -60,7 +59,7 @@ public class THSAvailableProviderListBasedOnDateAdapter extends RecyclerView.Ada
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onProviderItemClickListener.onItemClick(provider);
+                onProviderItemClickListener.onItemClick(availableProvider.getProviderInfo());
             }
         };
         holder.relativeLayout.setOnClickListener(listener);
@@ -68,7 +67,7 @@ public class THSAvailableProviderListBasedOnDateAdapter extends RecyclerView.Ada
 
     @Override
     public int getItemCount() {
-        return 0;
+        return availableProvidersList.getAvailableProvidersList().size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

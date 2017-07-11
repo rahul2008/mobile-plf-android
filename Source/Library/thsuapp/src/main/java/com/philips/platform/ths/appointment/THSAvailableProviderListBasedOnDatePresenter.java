@@ -14,7 +14,7 @@ import com.philips.platform.ths.utility.THSManager;
 import java.util.Date;
 import java.util.List;
 
-public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePresenter, THSAvailableProvidersBasedOnDateCallback<List, THSSDKError> {
+public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePresenter, THSAvailableProvidersBasedOnDateCallback<THSAvailableProviderList, THSSDKError> {
     THSBaseFragment mThsBaseFragment;
 
     THSAvailableProviderListBasedOnDatePresenter(THSBaseFragment thsBaseFragment){
@@ -27,7 +27,7 @@ public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePres
     }
 
     @Override
-    public void onResponse(List availableProviders, THSSDKError sdkError) {
+    public void onResponse(THSAvailableProviderList availableProviders, THSSDKError sdkError) {
         mThsBaseFragment.showToast("Available Providers list Success");
         ((THSAvailableProviderListBasedOnDateFragment)mThsBaseFragment).updateProviderAdapterList(availableProviders);
     }
