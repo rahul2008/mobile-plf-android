@@ -60,7 +60,7 @@ public class LanguagePackManager implements LanguagePackInterface {
 	/**
 	 * Api used to refresh language pack
 	 *
-	 * @param aILPRefreshResult
+	 * @param aILPRefreshResult OnRefresh Listener
 	 */
 	@Override
 	public void refresh(final OnRefreshListener aILPRefreshResult) {

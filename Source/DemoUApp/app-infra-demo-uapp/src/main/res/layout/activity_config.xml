@@ -141,5 +141,11 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
            />
+
+        <Button
+            android:id="@+id/btn_resetConfig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reset AppConfig"/>
     </LinearLayout>
 </ScrollView>

@@ -27,21 +27,8 @@ public class InternationalizationManager implements InternationalizationInterfac
 
         context = aAppInfra.getAppInfraContext();
         this.mAppInfra = aAppInfra;
-//        monCountryResponse = this;
-        // Class shall not presume appInfra to be completely initialized at this point.
-        // At any call after the constructor, appInfra can be presumed to be complete.
-
     }
 
-    /**
-     * @return - returns default locale
-     * @deprecated
-     */
-    @Override
-    public Locale getUILocale() {
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_INTERNATIONALIZATION, "get UI locale");
-        return Locale.getDefault();
-    }
 
     @Override
     public String getUILocaleString() {

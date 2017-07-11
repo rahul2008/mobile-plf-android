@@ -116,7 +116,9 @@ public class FileUtils {
 				to.delete();
 			}
 			return from.renameTo(to);
-		} else return to.exists();
+		} else {
+			return to.exists();
+		}
 	}
 }
 

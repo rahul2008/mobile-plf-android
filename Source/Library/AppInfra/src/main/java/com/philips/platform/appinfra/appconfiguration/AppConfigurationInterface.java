@@ -33,11 +33,13 @@ public interface AppConfigurationInterface {
      *
      * @param key         the group name
      * @param group       the key
-     * @param object      the object (String/Integer/String[]/Integer[]/null/HashMap<String,String>/HashMap<String,Integer></>)   null to be passed to delete key
+     * @param object      the object (String/Integer/String[]/Integer[]/null/HashMap<String,String>
+     *                    /HashMap<String,Integer></>)   null to be passed to delete key
      * @param configError the configError object as OUT parameter
      * @return the set operation status (success/failure)
      */
-    boolean setPropertyForKey(String key, String group, Object object, AppConfigurationError configError)
+    boolean setPropertyForKey(String key, String group, Object object, AppConfigurationError
+            configError)
             throws IllegalArgumentException;
 
 
@@ -53,7 +55,8 @@ public interface AppConfigurationInterface {
      * if value is array of literal then 'array of String' Object is returned
      * if value is array of number then 'array of Integer' Object is returned
      */
-    Object getDefaultPropertyForKey(String key, String group, AppConfigurationError configError) throws IllegalArgumentException;
+    Object getDefaultPropertyForKey(String key, String group, AppConfigurationError configError)
+            throws IllegalArgumentException;
 
 
     /**
@@ -67,6 +70,11 @@ public interface AppConfigurationInterface {
         void onSuccess(REFRESH_RESULT result);
     }
 
+    /**
+     * This method clears dynamic config and downloaded cloud config
+     * from both local cache and persistence memory.
+     */
+    void resetConfig();
 
     /**
      * The type Config error.
@@ -76,7 +84,8 @@ public interface AppConfigurationInterface {
          * The enum Config error enum.
          */
         public enum AppConfigErrorEnum {
-            NoError, FatalError, InvalidKey, NoDataFoundForKey, GroupNotExists, KeyNotExists,  DeviceStoreError, ServerError
+            NoError, FatalError, InvalidKey, NoDataFoundForKey, GroupNotExists, KeyNotExists,
+            DeviceStoreError, ServerError
             ,DownloadInProgress  , SecureStorageError
         }
 

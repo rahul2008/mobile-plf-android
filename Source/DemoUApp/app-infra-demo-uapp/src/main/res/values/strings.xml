@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">AppInfra</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_app_infra_main">AppInfra</string>
-    <string name="lanuauge">Langauage :</string>
-    <string name="country">Country :</string>
+    <string name="app_name" translatable="false">AppInfra</string>
+    <string name="action_settings" translatable="false">Settings</string>
+    <string name="title_activity_app_infra_main" translatable="false">AppInfra</string>
+    <string name="lanuauge" translatable="false">Langauage :</string>
+    <string name="country" translatable="false">Country :</string>
 
     <!-- Language -->
-    <string-array name="Language">
+    <string-array name="Language" translatable="false">
         <item>English (en)</item>
         <item>Arabic (ar)</item>
         <item>Bulgarian (bg)</item>
@@ -56,7 +56,7 @@
     </string-array>
 
     <!-- Language code -->
-    <string-array name="Language_code">
+    <string-array name="Language_code" translatable="false">
         <item>en</item>
         <item>ar</item>
         <item>bg</item>
@@ -106,7 +106,7 @@
     </string-array>
 
     <!-- Country -->
-    <string-array name="country">
+    <string-array name="country" translatable="false">
         <item>United Kingdom (GB)</item>
         <item>India (IN)</item>
         <item>United States (US)</item>
@@ -168,7 +168,7 @@
 
 
     <!-- country code -->
-    <string-array name="country_code">
+    <string-array name="country_code" translatable="false">
         <item>GB</item>
         <item>IN</item>
         <item>US</item>
@@ -228,7 +228,7 @@
         <item>MY</item>
     </string-array>
 
-    <string-array name="ctn_list">
+    <string-array name="ctn_list" translatable="false">
         <item>SCD888/26</item>
         <item>RQ1250/16</item>
         <item>RQ1250/17</item>
@@ -261,7 +261,7 @@
 
     </string-array>
 
-    <string-array name="catalog_list">
+    <string-array name="catalog_list" translatable="false">
         <item>DEFAULT</item>
         <item>CONSUMER</item>
         <item>NONCONSUMER</item>
@@ -275,7 +275,7 @@
         <item>EXTENDEDCONSENT</item>
     </string-array>
 
-    <string-array name="sector_list">
+    <string-array name="sector_list" translatable="false">
         <item>DEFAULT</item>
         <item>B2C</item>
         <item>B2B_LI</item>
@@ -283,7 +283,7 @@
 
     </string-array>
 
-    <string-array name="social_share_list">
+    <string-array name="social_share_list" translatable="false">
         <item>Share</item>
         <item>facebook</item>
         <item>twitter</item>
@@ -296,13 +296,13 @@
 
     </string-array>
 
-    <string-array name="platform_list">
+    <string-array name="platform_list" translatable="false">
         <item>DEFAULT</item>
         <item>PRX</item>
         <item>JANRAIN</item>
     </string-array>
-    <string name="title_activity_config">ConfigActivity</string>
-    <string name="experience">Experience</string>
-    <string name="mbox">mBox</string>
+    <string name="title_activity_config" translatable="false">ConfigActivity</string>
+    <string name="experience" translatable="false">Experience</string>
+    <string name="mbox" translatable="false">mBox</string>
 
 </resources>

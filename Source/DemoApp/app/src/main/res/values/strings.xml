@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">AILDemo</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name" translatable="false">AILDemo</string>
+    <string name="action_settings" translatable="false">Settings</string>
 </resources>

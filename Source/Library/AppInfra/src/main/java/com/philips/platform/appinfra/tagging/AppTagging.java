@@ -54,11 +54,11 @@ public class AppTagging implements AppTaggingInterface {
 	protected String mComponentID;
 	protected String mComponentVersion;
 	private String mLanguage;
-	private Locale mLocale;
+	//private Locale mLocale;
 
 	public AppTagging(AppInfra aAppInfra) {
 		mAppInfra = aAppInfra;
-		init(mAppInfra.getInternationalization().getUILocale(), mAppInfra.getAppInfraContext());
+		init(mAppInfra.getAppInfraContext());
 		// Class shall not presume appInfra to be completely initialized at this point.
 		// At any call after the constructor, appInfra can be presumed to be complete.
 	}
@@ -90,8 +90,7 @@ public class AppTagging implements AppTaggingInterface {
 		return sslValue;
 	}
 
-	private void init(Locale locale, Context context) {
-		mLocale = locale;
+	private void init(Context context) {
 		Config.setContext(context);
 	}
 
@@ -195,7 +194,10 @@ public class AppTagging implements AppTaggingInterface {
 
 	private String getLanguage() {
 		if (mLanguage == null) {
-			mLanguage = mLocale.getLanguage();
+			String uiLocale = mAppInfra.getInternationalization().getUILocaleString();
+			mLanguage = uiLocale.substring(0,2);
+			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+					AppInfraLogEventID.AI_TAGGING,"Tagging"+ mLanguage);
 		}
 		return mLanguage;
 
