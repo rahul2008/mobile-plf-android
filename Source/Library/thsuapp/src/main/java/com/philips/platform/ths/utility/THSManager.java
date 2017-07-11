@@ -13,6 +13,7 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.health.Medication;
+import com.americanwell.sdk.entity.insurance.HealthPlan;
 import com.americanwell.sdk.entity.legal.LegalText;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.AvailableProviders;
@@ -478,6 +479,17 @@ public class THSManager {
                         thsAvailableProviderCallback.onFailure(throwable);
                     }
                 });
+
+    }
+
+    public List<HealthPlan> getHealthPlans(Context context){
+        List<HealthPlan> healthplans = null;
+        try {
+            healthplans = getAwsdk(context).getConsumerManager().getHealthPlans();
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
+        return healthplans;
 
     }
 }

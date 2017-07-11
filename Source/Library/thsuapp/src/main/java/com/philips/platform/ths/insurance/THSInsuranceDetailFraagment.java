@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+
 import android.widget.Spinner;
 
 import com.philips.platform.ths.R;
@@ -14,6 +14,7 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.EditText;
 
 /**
  * Created by philips on 7/11/17.

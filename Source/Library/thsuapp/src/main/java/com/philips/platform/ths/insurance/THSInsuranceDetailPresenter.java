@@ -2,6 +2,7 @@ package com.philips.platform.ths.insurance;
 
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.base.THSBaseView;
+import com.philips.platform.ths.utility.THSManager;
 
 /**
  * Created by philips on 7/11/17.
@@ -16,7 +17,7 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter {
 
 
     public void fetchHealthPlanList(){
-
+        THSManager.getInstance().getHealthPlans(uiBaseView.getFragmentActivity());
 
     }
 
