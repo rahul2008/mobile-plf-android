@@ -1,5 +1,6 @@
 package com.philips.platform.ths.intake;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -8,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 
 import com.americanwell.sdk.entity.health.Medication;
@@ -22,15 +24,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-public class THSMedicationFragment extends THSBaseFragment implements  View.OnClickListener {
+public class THSMedicationFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSBaseFragment.class.getSimpleName();
     SearchBox searchBox;
     private ActionBarListener actionBarListener;
     private THSBasePresenter mPresenter;
     ListView mExistingMedicationListView;
     THSExistingMedicationListAdapter mTHSExistingMedicationListAdapter;
-    Button searchButton;
+
     THSMedication mExistingMedication;
     Button updateMedicationButton;
 
@@ -44,14 +45,23 @@ public class THSMedicationFragment extends THSBaseFragment implements  View.OnCl
 
         updateMedicationButton = (Button) view.findViewById(R.id.pth_intake_medication_continue_button);
         updateMedicationButton.setOnClickListener(this);
-
+        searchBox.getSearchTextView().setText("");
         searchBox.getCollapseView().setVisibility(View.GONE);
         searchBox.getClearIconView().setVisibility(View.GONE);
+        searchBox.setQuerySubmitListener(new SearchBox.QuerySubmitListener() {
+            @Override
+            public void onQuerySubmit(CharSequence medicineName) {
+                if (null != medicineName && medicineName.length() > 2) {
+                    InputMethodManager imm = (InputMethodManager)THSMedicationFragment.this.getFragmentActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(searchBox.getWindowToken(), 0);
+                    showProgressBar();
+                    ((THSMedicationPresenter) mPresenter).searchMedication(medicineName.toString());
+                }
+            }
+        });
 
 
         mExistingMedicationListView = (ListView) view.findViewById(R.id.pth_intake_medication_listview);
-        searchButton = (Button) view.findViewById(R.id.pth_intake_medication_searchbox_button);
-        searchButton.setOnClickListener(this);
         mTHSExistingMedicationListAdapter = new THSExistingMedicationListAdapter(getActivity());
         mExistingMedicationListView.setAdapter(mTHSExistingMedicationListAdapter);
         createCustomProgressBar(view, BIG);
@@ -122,13 +132,7 @@ public class THSMedicationFragment extends THSBaseFragment implements  View.OnCl
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.pth_intake_medication_searchbox_button) {
-            String medicineName = searchBox.getSearchTextView().getText().toString();
-            if (null != medicineName && medicineName.length() > 2) {
-                showProgressBar();
-                ((THSMedicationPresenter) mPresenter).searchMedication(medicineName);
-            }
-        } else if (id == R.id.pth_intake_medication_continue_button) {
+        if (id == R.id.pth_intake_medication_continue_button) {
             showProgressBar();
             ((THSMedicationPresenter) mPresenter).updateMedication(mExistingMedication);
             mPresenter.onEvent(R.id.pth_intake_medication_continue_button);
@@ -137,6 +141,6 @@ public class THSMedicationFragment extends THSBaseFragment implements  View.OnCl
 
     @Override
     public int getContainerID() {
-        return ((ViewGroup)getView().getParent()).getId();
+        return ((ViewGroup) getView().getParent()).getId();
     }
 }

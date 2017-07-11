@@ -9,6 +9,7 @@ import android.widget.CompoundButton;
 
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.insurance.THSConfirmationFragment;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.R;
@@ -75,10 +76,11 @@ public class THSFollowUpFragment extends THSBaseFragment implements  View.OnClic
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.pth_intake_follow_up_continue_button){
-            updatedPhone= mPhoneNumberEditText.getText().toString().trim();
+            addFragment(new THSConfirmationFragment(),THSConfirmationFragment.TAG,null);
+           /* updatedPhone= mPhoneNumberEditText.getText().toString().trim();
             if(null!=updatedPhone && !updatedPhone.isEmpty()) {
                 ((THSFollowUpPresenter) mTHSFollowUpPresenter).updateConsumer(updatedPhone);
-            }
+            }*/
         }else if(v.getId() == R.id.pth_intake_follow_up_i_agree_link_text){
             ((THSFollowUpPresenter)mTHSFollowUpPresenter).onEvent(R.id.pth_intake_follow_up_i_agree_link_text);
 
