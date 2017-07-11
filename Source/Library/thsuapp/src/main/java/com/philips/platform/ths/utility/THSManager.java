@@ -14,7 +14,9 @@ import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.legal.LegalText;
+import com.americanwell.sdk.entity.practice.OnDemandSpecialty;
 import com.americanwell.sdk.entity.practice.Practice;
+import com.americanwell.sdk.entity.practice.PracticeInfo;
 import com.americanwell.sdk.entity.provider.AvailableProviders;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
@@ -146,6 +148,20 @@ public class THSManager {
                         THSInitializeCallBack.onInitializationFailure(throwable);
                     }
                 });
+    }
+
+    public void getOnDemandSpecialities(Context context, PracticeInfo practiceInfo, String searchItem) throws AWSDKInstantiationException {
+        getAwsdk(context).getPracticeProvidersManager().getOnDemandSpecialties(getPTHConsumer().getConsumer(), practiceInfo, searchItem, new SDKCallback<List<OnDemandSpecialty>, SDKError>() {
+            @Override
+            public void onResponse(List<OnDemandSpecialty> onDemandSpecialties, SDKError sdkError) {
+
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+
+            }
+        });
     }
 
     public void getVisitContext(Context context, final THSProviderInfo providerInfo, final THSVisitContextCallBack THSVisitContextCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
