@@ -86,6 +86,11 @@
                 android:layout_below="@+id/selected_pharmacy_phone"
                 />
         </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_above="@+id/choose_pharmacy_button"
+            android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/choose_pharmacy_button"
             android:text="Choose pharmacy"
@@ -105,32 +110,35 @@
         android:padding="12dp"
         >
 
-        <com.philips.platform.uid.view.widget.Button
-            style="@style/UIDPrimaryControl.Secondary"
-            android:id="@+id/retail_button"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/uidColorBlack"
-            android:layout_centerVertical="true"
-            android:text="Retail"
-            android:gravity="center_vertical"
-            android:layout_alignParentStart="true" />
-        <com.philips.platform.uid.view.widget.Button
-            style="@style/UIDPrimaryControl.Secondary"
-            android:id="@+id/mail_order_button"
-            android:layout_width="wrap_content"
-            android:textColor="@color/uidColorBlack"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="Mail order"
-            android:gravity="center_vertical"
-            android:layout_toEndOf="@+id/retail_button" />
+            android:gravity="center"
+            android:id="@+id/segmentted_control_layout"
+            >
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/retail_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/uidColorBlack"
+                android:text="Retail"
+                android:layout_weight="1"
+                />
+            <com.philips.platform.uid.view.widget.Button
+                android:id="@+id/mail_order_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/uidColorBlack"
+                android:text="Mail order"
+                android:layout_weight="1"
+                />
+        </LinearLayout>
         <com.philips.platform.uid.view.widget.ImageButton
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="12dp"
-            android:background="@drawable/green_tick"
-            android:layout_toRightOf="@id/mail_order_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:layout_alignBaseline="@+id/segmentted_control_layout"
+            android:layout_toRightOf="@id/segmentted_control_layout"
             android:id="@+id/switchpharmacyview" />
     </RelativeLayout>
 </RelativeLayout>

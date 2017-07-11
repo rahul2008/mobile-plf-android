@@ -41,7 +41,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
 
     private UIDNavigationIconToggler navIconToggler;
     private GoogleMap map;
-    private ImageButton imageButton;
+    private ImageButton switchViewImageButton;
     private SupportMapFragment mapFragment;
     private RecyclerView pharmacyListRecyclerView;
     private THSPharmacyListAdapter thsPharmacyListAdapter;
@@ -77,8 +77,9 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         navIconToggler = new UIDNavigationIconToggler(getActivity());
         navIconToggler.restoreNavigationIcon();
         mapFragment.getMapAsync(this);
-        imageButton = (ImageButton) view.findViewById(R.id.switchpharmacyview);
-        imageButton.setOnClickListener(this);
+        switchViewImageButton = (ImageButton) view.findViewById(R.id.switchpharmacyview);
+        switchViewImageButton.setImageDrawable(getResources().getDrawable(R.mipmap.list_icon,getActivity().getTheme()));
+        switchViewImageButton.setOnClickListener(this);
         pharmacyListRecyclerView = (RecyclerView) view.findViewById(R.id.pharmacy_list_recyclerview);
 
         pharmacyListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -130,10 +131,12 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         if(v.getId() == R.id.switchpharmacyview){
             if(mapFragment.isHidden()) {
                 getActivity().getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
+                switchViewImageButton.setImageDrawable(getResources().getDrawable(R.mipmap.list_icon,getActivity().getTheme()));
                 pharmacyListRecyclerView.setVisibility(View.GONE);
                 isListSelected = false;
             }else {
                 getActivity().getSupportFragmentManager().beginTransaction().hide(mapFragment).commit();
+                switchViewImageButton.setImageDrawable(getResources().getDrawable(R.mipmap.gps_icon,getActivity().getTheme()));
                 pharmacyListRecyclerView.setVisibility(View.VISIBLE);
                 isListSelected = true;
             }
