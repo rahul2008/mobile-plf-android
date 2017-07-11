@@ -20,7 +20,6 @@ import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
-import com.philips.platform.appinfra.languagepack.LanguagePackConstants;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackManager;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
@@ -36,14 +35,8 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
-import java.io.File;
 import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-import static com.philips.platform.appinfra.languagepack.LanguagePackConstants.LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY;
 
 /**
  * The AppInfra Base class, here using builder design pattern to create object .
@@ -156,7 +149,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         return mAbtesting;
     }
 
-    private void setAbTesting(ABTestClientInterface abTesting) {
+    void setAbTesting(ABTestClientInterface abTesting) {
         mAbtesting = abTesting;
     }
 
@@ -170,13 +163,12 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         return mAppupdateInterface;
     }
 
-    public void setLanguagePackInterface(LanguagePackInterface languagePackInterface) {
+    void setLanguagePackInterface(LanguagePackInterface languagePackInterface) {
         this.mLanguagePackInterface = languagePackInterface;
     }
 
     private void setRestInterface(RestInterface restInterface) {
         mRestInterface = restInterface;
-
     }
 
     private void setLocal(InternationalizationInterface locale) {
@@ -188,7 +180,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         mServiceDiscoveryInterface = mServiceDiscoveryInterfac;
     }
 
-    public void setAppupdateInterface(AppUpdateInterface appupdateInterface) {
+    void setAppupdateInterface(AppUpdateInterface appupdateInterface) {
         this.mAppupdateInterface = appupdateInterface;
     }
 
