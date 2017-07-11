@@ -241,7 +241,7 @@ public class ABTestClientManager implements ABTestClientInterface {
         } else if (mCacheStatusValue.containsKey(requestName)) {
             final CacheModel.ValueModel value = mCacheStatusValue.get(requestName);
             exp = value.getTestValue();
-            final String valueType = value.getUpdateType();
+           // final String valueType = value.getUpdateType();
            // mCacheModel.setTestValues(mCacheStatusValue);
 //            if (valueType.equalsIgnoreCase("ONLY_AT_APP_UPDATE")) {
 //                saveCachetoPreference(mCacheModel);
@@ -278,10 +278,8 @@ public class ABTestClientManager implements ABTestClientInterface {
             }
             final String appVersion = getAppVersion();
             previousVersion = getAppVerionfromPref();
-            if (previousVersion.isEmpty()) {
-                return true;
-            } else {
-                return !previousVersion.equalsIgnoreCase(appVersion);
+            if(previousVersion != null){
+                return previousVersion.isEmpty() || !previousVersion.equalsIgnoreCase(appVersion);
             }
         } catch (IllegalArgumentException exception) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
@@ -464,9 +462,11 @@ public class ABTestClientManager implements ABTestClientInterface {
      */
     private CacheModel getCachefromPreference() {
         try {
-            final String json = mSharedPreferences.getString("cacheobject", "");
-            final Gson gson = new Gson();
-            return gson.fromJson(json, CacheModel.class);
+            if(mSharedPreferences != null) {
+                final String json = mSharedPreferences.getString("cacheobject", "");
+                final Gson gson = new Gson();
+                return gson.fromJson(json, CacheModel.class);
+            }
         } catch (Exception e) {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
                     "Error in getCachefromPreference "+e.getMessage());
@@ -482,10 +482,13 @@ public class ABTestClientManager implements ABTestClientInterface {
     }
 
     private String getAppVerionfromPref() {
-        final String getAppVerionfromPref=mSharedPreferences.getString("APPVERSION", "");
-        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                "get AppVerion from Pref"+getAppVerionfromPref);
-        return getAppVerionfromPref;
+        if(mSharedPreferences != null) {
+            final String getAppVerionfromPref=mSharedPreferences.getString("APPVERSION", "");
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
+                    "get AppVerion from Pref"+getAppVerionfromPref);
+            return getAppVerionfromPref;
+        }
+        return null;
     }
 
     public static Object getAbtestConfig(AppConfigurationInterface appConfigurationManager, AppInfra ai) {

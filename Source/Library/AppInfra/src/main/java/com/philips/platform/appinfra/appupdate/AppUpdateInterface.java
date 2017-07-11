@@ -42,7 +42,7 @@ public interface AppUpdateInterface {
 	 * This will return true if applicationversion < minimumversion
 	 * true when current application version is less than minimum version
 	 * true when deprecatedVersion is greater than current application version and deprecationDate is crossed.
-	 * @return
+	 * @return it will return true if Deprecated else return false
 	 */
 	boolean isDeprecated();
 
@@ -62,25 +62,25 @@ public interface AppUpdateInterface {
 
 	/**
 	 * Deprecated Version message string.
-	 * @return
+	 * @return It will return Deprecate Message
 	 */
 	String getDeprecateMessage();
 
 	/**
 	 * To be deprecated message string.
-	 * @return
+	 * @return It will return to be Deprecated Message
 	 */
 	String getToBeDeprecatedMessage();
 
 	/**
 	 * To be deprecated date.
-	 * @return
+	 * @return It will return to be Deprecated Date
 	 */
 	Date getToBeDeprecatedDate();
 
 	/**
 	 * current version message.
-	 * @return
+	 * @return It will return Update Message
 	 */
 	String getUpdateMessage();
 

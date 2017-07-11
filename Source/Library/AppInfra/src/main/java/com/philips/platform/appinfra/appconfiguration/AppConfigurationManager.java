@@ -189,8 +189,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                     }
                 }
             } catch (Exception e) {
-                logAppConfiguration(LoggingInterface.LogLevel.ERROR, "AppConfiguration exception",
-                        Log.getStackTraceString(e));
+                logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_UPDATE, "AppConfiguration exception"+Log.getStackTraceString(e));
             }
         }
         return object;
@@ -269,7 +268,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                     }
                 }
             } catch (Exception e) {
-                logAppConfiguration(LoggingInterface.LogLevel.ERROR, "AppConfiguration exception",
+                logAppConfiguration(LoggingInterface.LogLevel.ERROR,  AppInfraLogEventID.AI_APP_CONFIGUARTION,"AppConfiguration exception"+
                         Log.getStackTraceString(e));
                 setOperation = false;
             }
@@ -291,8 +290,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                 object = getKey(key, group, configError, getStaticConfigJsonCache());
                 logAppConfiguration(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APP_CONFIGUARTION,"get Default Property For Key");
             } catch (Exception e) {
-                logAppConfiguration(LoggingInterface.LogLevel.ERROR, "AppConfiguration exception",
-                        Log.getStackTraceString(e));
+                logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_UPDATE, "AppConfiguration exception"+Log.getStackTraceString(e));
             }
         }
         return object;
@@ -332,8 +330,7 @@ public class AppConfigurationManager implements AppConfigurationInterface {
                                 try {
                                     object = jsonToMap(cocoJSONobject.opt(key));
                                 } catch (JSONException e) {
-                                    logAppConfiguration(LoggingInterface.LogLevel.ERROR, "AppConfiguration exception",
-                                            Log.getStackTraceString(e));
+                                    logAppConfiguration(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APP_UPDATE, "AppConfiguration exception"+Log.getStackTraceString(e));
                                 }
                             }
                         }
