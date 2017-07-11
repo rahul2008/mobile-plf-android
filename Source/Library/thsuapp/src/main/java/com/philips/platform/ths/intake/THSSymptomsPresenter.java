@@ -30,8 +30,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.continue_btn) {
-            Bundle bundle = new Bundle();
-            pthBaseView.addFragment(new THSVitalsFragment(), THSVitalsFragment.TAG,bundle);
+            pthBaseView.addFragment(new THSVitalsFragment(), THSVitalsFragment.TAG,null);
         }
     }
 

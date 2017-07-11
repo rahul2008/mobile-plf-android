@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.platform.ths.appointment.THSDatePickerFragment;
 import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
 import com.philips.platform.ths.registration.THSConsumer;
@@ -58,6 +59,10 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
             bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, THSProviderInfo);
 
             ((THSBaseView)viewInterface).addFragment(new THSSymptomsFragment(), THSSymptomsFragment.TAG,bundle);
+        }else if(componentID == R.id.detailsButtonTwo){
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(THSConstants.THS_PRACTICE_INFO ,viewInterface.getPracticeInfo());
+            ((THSBaseView)viewInterface).addFragment(new THSDatePickerFragment(), THSDatePickerFragment.TAG,bundle);
         }
     }
 }
