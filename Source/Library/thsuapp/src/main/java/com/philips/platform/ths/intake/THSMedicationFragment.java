@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.health.Medication;
 import com.philips.platform.ths.base.THSBasePresenter;
@@ -26,7 +27,8 @@ import java.util.List;
 
 public class THSMedicationFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSBaseFragment.class.getSimpleName();
-    SearchBox searchBox;
+    //SearchBox searchBox;
+    RelativeLayout mAddMedication;//
     private ActionBarListener actionBarListener;
     private THSBasePresenter mPresenter;
     ListView mExistingMedicationListView;
@@ -41,11 +43,11 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.intake_medication, container, false);
         mPresenter = new THSMedicationPresenter(this);
-        searchBox = (SearchBox) view.findViewById(R.id.pth_intake_medication_searchbox);
-
+        mAddMedication = (RelativeLayout) view.findViewById(R.id.pth_search_medication_relative_layout);
+        mAddMedication.setOnClickListener(this);
         updateMedicationButton = (Button) view.findViewById(R.id.pth_intake_medication_continue_button);
         updateMedicationButton.setOnClickListener(this);
-        searchBox.getSearchTextView().setText("");
+       /* searchBox.getSearchTextView().setText("");
         searchBox.getCollapseView().setVisibility(View.GONE);
         searchBox.getClearIconView().setVisibility(View.GONE);
         searchBox.setQuerySubmitListener(new SearchBox.QuerySubmitListener() {
@@ -58,7 +60,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
                     ((THSMedicationPresenter) mPresenter).searchMedication(medicineName.toString());
                 }
             }
-        });
+        });*/
 
 
         mExistingMedicationListView = (ListView) view.findViewById(R.id.pth_intake_medication_listview);
@@ -136,6 +138,8 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
             showProgressBar();
             ((THSMedicationPresenter) mPresenter).updateMedication(mExistingMedication);
             mPresenter.onEvent(R.id.pth_intake_medication_continue_button);
+        } else if (id == R.id.pth_search_medication_relative_layout) {
+                addFragment(new THSSearchFragment(),THSSearchFragment.TAG,null);
         }
     }
 
