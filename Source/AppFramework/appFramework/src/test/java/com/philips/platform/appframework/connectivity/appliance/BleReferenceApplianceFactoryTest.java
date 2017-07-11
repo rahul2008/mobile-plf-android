@@ -61,7 +61,7 @@ public class BleReferenceApplianceFactoryTest {
     }
 
     @Test
-    public void getSupportedModelNames_Contains_Ble_Model_Name(){
-        assertTrue(bleReferenceApplianceFactory.getSupportedModelNames().contains(BleReferenceAppliance.MODELNAME));
+    public void getSupportedDeviceTypes_Contains_Ble_Model_Name(){
+        assertTrue(bleReferenceApplianceFactory.getSupportedDeviceTypes().contains(BleReferenceAppliance.MODELNAME));
     }
 }
