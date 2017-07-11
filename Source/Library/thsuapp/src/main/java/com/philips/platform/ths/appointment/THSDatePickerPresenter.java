@@ -9,7 +9,7 @@ import com.philips.platform.ths.utility.THSConstants;
 
 import java.util.Date;
 
-public class THSDatePickerPresenter implements THSBasePresenter, THSAvailableProvidersBasedOnDateCallback<THSAvailableProviderList, THSSDKError>{
+public class THSDatePickerPresenter implements THSBasePresenter{
 
     THSBaseFragment mTHSBaseFragment;
     Date date;
@@ -21,16 +21,6 @@ public class THSDatePickerPresenter implements THSBasePresenter, THSAvailablePro
 
     @Override
     public void onEvent(int componentID)  {
-    }
-
-    @Override
-    public void onResponse(THSAvailableProviderList availableProviders, THSSDKError sdkError) {
-
-    }
-
-    @Override
-    public void onFailure(Throwable throwable) {
-
     }
 
     public Date getDate() {

@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.americanwell.sdk.entity.practice.Practice;
+import com.americanwell.sdk.entity.provider.AvailableProvider;
+import com.americanwell.sdk.entity.provider.AvailableProviders;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
@@ -64,8 +66,8 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         return mPractice;
     }
 
-    public void updateProviderAdapterList(final List<ProviderInfo> providerInfos) {
-        THSAvailableProviderListBasedOnDateAdapter adapter= new THSAvailableProviderListBasedOnDateAdapter(providerInfos, mTHSAvailableProviderListBasedOnDatePresenter);
+    public void updateProviderAdapterList(final THSAvailableProviderList availableProviderses) {
+        THSAvailableProviderListBasedOnDateAdapter adapter= new THSAvailableProviderListBasedOnDateAdapter(availableProviderses, mTHSAvailableProviderListBasedOnDatePresenter);
         adapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
             @Override
             public void onItemClick(ProviderInfo item) {
