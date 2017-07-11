@@ -28,7 +28,7 @@ public class SampleApplianceFactory implements DICommApplianceFactory<AbstractAi
 
     @Override
     public boolean canCreateApplianceForNode(NetworkNode networkNode) {
-        return getSupportedModelNames().contains("");
+        return getSupportedDeviceTypes().contains("");
     }
 
     @Override
@@ -46,7 +46,7 @@ public class SampleApplianceFactory implements DICommApplianceFactory<AbstractAi
     }
 
     @Override
-    public Set<String> getSupportedModelNames() {
+    public Set<String> getSupportedDeviceTypes() {
         return Collections.unmodifiableSet(new HashSet<String>() {{
             add(AbstractAirPurifier.MODELNAME);
         }});
