@@ -8,11 +8,13 @@ import com.americanwell.sdk.AWSDKFactory;
 import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.SDKPasswordError;
+import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.legal.LegalText;
+import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
@@ -25,30 +27,31 @@ import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.intake.THSConditions;
 import com.philips.platform.ths.intake.THSConditionsCallBack;
+import com.philips.platform.ths.intake.THSConditionsList;
+import com.philips.platform.ths.intake.THSMedication;
+import com.philips.platform.ths.intake.THSMedicationCallback;
 import com.philips.platform.ths.intake.THSNoppCallBack;
 import com.philips.platform.ths.intake.THSSDKValidatedCallback;
 import com.philips.platform.ths.intake.THSUpdateConditionsCallback;
 import com.philips.platform.ths.intake.THSUpdateConsumerCallback;
 import com.philips.platform.ths.intake.THSUpdateVitalsCallBack;
+import com.philips.platform.ths.intake.THSVisitContext;
 import com.philips.platform.ths.intake.THSVisitContextCallBack;
 import com.philips.platform.ths.intake.THSVitalSDKCallback;
 import com.philips.platform.ths.intake.THSVitals;
+import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
 import com.philips.platform.ths.login.THSLoginCallBack;
+import com.philips.platform.ths.pharmacy.THSGetPharmaciesCallback;
+import com.philips.platform.ths.practice.THSPractice;
+import com.philips.platform.ths.practice.THSPracticesListCallback;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsCallback;
+import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.providerslist.THSProvidersListCallback;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
-import com.philips.platform.ths.welcome.THSInitializeCallBack;
-import com.philips.platform.ths.intake.THSMedication;
-import com.philips.platform.ths.intake.THSMedicationCallback;
-import com.philips.platform.ths.intake.THSVisitContext;
-import com.philips.platform.ths.intake.THSConditionsList;
-import com.philips.platform.ths.login.THSAuthentication;
-import com.philips.platform.ths.practice.THSPractice;
-import com.philips.platform.ths.practice.THSPracticesListCallback;
-import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
+import com.philips.platform.ths.welcome.THSInitializeCallBack;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -119,10 +122,10 @@ public class THSManager {
 
     public void initializeTeleHealth(Context context, final THSInitializeCallBack THSInitializeCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
         final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
-       initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
-        initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key
-      /*   initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
-        initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key*/
+       /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
+        initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key*/
+         initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
+        initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key
 
         AmwellLog.i(AmwellLog.LOG,"Initialize - SDK API Called");
         getAwsdk(context).initialize(
@@ -446,6 +449,39 @@ public class THSManager {
             @Override
             public void onFailure(Throwable throwable) {
                 tHSNoppCallBack.onNoppReceivedFailure(throwable);
+            }
+        });
+    }
+
+    public void getPharmacies(Context context, final THSConsumer pthConsumer, String city, State state, String zipCode, final THSGetPharmaciesCallback thsGetPharmaciesCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getPharmacies(pthConsumer.getConsumer(), null,city, state, zipCode, new SDKValidatedCallback<List<Pharmacy>, SDKError>() {
+            @Override
+            public void onValidationFailure(Map<String, ValidationReason> map) {
+                thsGetPharmaciesCallback.onValidationFailure(map);
+            }
+
+            @Override
+            public void onResponse(List<Pharmacy> pharmacies, SDKError sdkError) {
+                thsGetPharmaciesCallback.onPharmacyListReceived(pharmacies,sdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                thsGetPharmaciesCallback.onFailure(throwable);
+            }
+        });
+    }
+
+    public void getPharmacies(Context context, final THSConsumer pthConsumer, float latitude, float longitude, int radius, final THSGetPharmaciesCallback thsGetPharmaciesCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getPharmacies(pthConsumer.getConsumer(), latitude, longitude, radius, true, new SDKCallback<List<Pharmacy>, SDKError>() {
+            @Override
+            public void onResponse(List<Pharmacy> pharmacies, SDKError sdkError) {
+                thsGetPharmaciesCallback.onPharmacyListReceived(pharmacies,sdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                thsGetPharmaciesCallback.onFailure(throwable);
             }
         });
     }

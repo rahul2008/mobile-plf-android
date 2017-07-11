@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/pharmacymap"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+         />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/pharmacy_list_recyclerview"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/pharmacy_type_layout"
+        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="0.5dp" />
+    <RelativeLayout
+        android:id="@+id/selected_pharmacy_layout"
+        android:layout_width="match_parent"
+        android:background="@color/uidColorWhite"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/uid_grid_title_padding"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_alignParentBottom="true">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/selected_pharmacy_details">
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/selected_pharmacy_name"
+                android:layout_marginBottom="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Miller Drug mail order"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/selected_pharmacy_address_line_one"
+                android:layout_marginBottom="12dp"
+                android:layout_below="@id/selected_pharmacy_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Miller Drug mail order"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/selected_pharmacy_address_line_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Miller Drug mail order"
+                android:layout_alignBaseline="@+id/selected_pharmacy_address_line_one"
+                android:layout_alignBottom="@+id/selected_pharmacy_address_line_one"
+                android:layout_toEndOf="@+id/selected_pharmacy_address_line_one" />
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/selected_pharmacy_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Miller Drug mail order"
+                android:layout_marginBottom="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_below="@id/selected_pharmacy_address_line_one" />
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/selected_pharmacy_zip_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="Miller Drug mail order"
+                android:layout_alignBaseline="@+id/selected_pharmacy_state"
+                android:layout_alignBottom="@+id/selected_pharmacy_state"
+                android:layout_toEndOf="@+id/selected_pharmacy_state" />
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/selected_pharmacy_phone"
+                android:layout_marginBottom="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Miller Drug mail order"
+                android:layout_below="@+id/selected_pharmacy_state"
+                />
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/selected_pharmacy_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Miller Drug mail order"
+                android:layout_below="@+id/selected_pharmacy_phone"
+                />
+        </RelativeLayout>
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/choose_pharmacy_button"
+            android:text="Choose pharmacy"
+            android:layout_below="@+id/selected_pharmacy_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/pharmacy_type_layout"
+        android:layout_alignParentTop="true"
+        android:background="@color/uidColorWhite"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="12dp"
+        >
+
+        <com.philips.platform.uid.view.widget.Button
+            style="@style/UIDPrimaryControl.Secondary"
+            android:id="@+id/retail_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/uidColorBlack"
+            android:layout_centerVertical="true"
+            android:text="Retail"
+            android:gravity="center_vertical"
+            android:layout_alignParentStart="true" />
+        <com.philips.platform.uid.view.widget.Button
+            style="@style/UIDPrimaryControl.Secondary"
+            android:id="@+id/mail_order_button"
+            android:layout_width="wrap_content"
+            android:textColor="@color/uidColorBlack"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Mail order"
+            android:gravity="center_vertical"
+            android:layout_toEndOf="@+id/retail_button" />
+        <com.philips.platform.uid.view.widget.ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="12dp"
+            android:background="@drawable/green_tick"
+            android:layout_toRightOf="@id/mail_order_button"
+            android:id="@+id/switchpharmacyview" />
+    </RelativeLayout>
+</RelativeLayout>
