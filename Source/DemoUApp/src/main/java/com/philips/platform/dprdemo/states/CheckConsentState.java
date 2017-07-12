@@ -6,7 +6,10 @@
 package com.philips.platform.dprdemo.states;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
+
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.SyncType;
@@ -14,7 +17,6 @@ import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.dprdemo.R;
 import com.philips.platform.dprdemo.consents.ConsentDialogFragment;
 import com.philips.platform.dprdemo.pojo.PairDevice;
 import com.philips.platform.dprdemo.ui.DeviceStatusListener;
@@ -116,10 +118,18 @@ class CheckConsentState extends AbstractBaseState implements DBRequestListener<C
         consentDialogFragment.setDeviceDetails(mPairDevice);
         consentDialogFragment.setDeviceStatusListener(mDeviceStatusListener);
 
-        int containerId = R.id.user_registration_frame_container;
-        FragmentTransaction fragmentTransaction = mActivity.getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(containerId, consentDialogFragment, ConsentDialogFragment.TAG);
+        FragmentTransaction fragmentTransaction = ((FragmentActivity)mActivity).getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(getActiveFragment().getId(), consentDialogFragment, ConsentDialogFragment.TAG);
         fragmentTransaction.addToBackStack(ConsentDialogFragment.TAG);
         fragmentTransaction.commit();
+    }
+
+    public Fragment getActiveFragment() {
+        if (((FragmentActivity)mActivity).getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            return null;
+        }
+
+        String tag = ((FragmentActivity)mActivity).getSupportFragmentManager().getBackStackEntryAt(((FragmentActivity)mActivity).getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
+        return ((FragmentActivity)mActivity).getSupportFragmentManager().findFragmentByTag(tag);
     }
 }

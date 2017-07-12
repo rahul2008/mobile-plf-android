@@ -6,9 +6,10 @@
 package com.philips.platform.dprdemo.states;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 
-import com.philips.platform.dprdemo.R;
 import com.philips.platform.dprdemo.pojo.PairDevice;
 import com.philips.platform.dprdemo.ui.CreateSubjectProfileFragment;
 import com.philips.platform.dprdemo.ui.DeviceStatusListener;
@@ -37,10 +38,18 @@ public class CreateSubjectProfileState extends AbstractBaseState {
         createProfileFragment.setDeviceDetails(pairDevice);
         createProfileFragment.setDeviceStatusListener(mDeviceStatusListener);
 
-        int containerId = R.id.user_registration_frame_container;
-        FragmentTransaction fragmentTransaction = mActivity.getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(containerId, createProfileFragment, CreateSubjectProfileFragment.TAG);
+        FragmentTransaction fragmentTransaction = ((FragmentActivity)mActivity).getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(getActiveFragment().getId(), createProfileFragment, CreateSubjectProfileFragment.TAG);
         fragmentTransaction.addToBackStack(CreateSubjectProfileFragment.TAG);
         fragmentTransaction.commit();
+    }
+
+    public Fragment getActiveFragment() {
+        if (((FragmentActivity)mActivity).getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            return null;
+        }
+
+        String tag = ((FragmentActivity)mActivity).getSupportFragmentManager().getBackStackEntryAt(((FragmentActivity)mActivity).getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
+        return ((FragmentActivity)mActivity).getSupportFragmentManager().findFragmentByTag(tag);
     }
 }

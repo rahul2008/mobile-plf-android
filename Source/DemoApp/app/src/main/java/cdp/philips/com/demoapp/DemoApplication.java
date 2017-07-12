@@ -9,6 +9,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 
 import com.philips.cdp.registration.AppIdentityInfo;
+import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.ui.utils.URDependancies;
 import com.philips.cdp.registration.ui.utils.URInterface;
@@ -16,14 +17,16 @@ import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.dprdemo.SyncScheduler;
+import com.philips.platform.dprdemo.reciever.ScheduleSyncReceiver;
 
 import java.util.ArrayList;
 
 public class DemoApplication extends Application {
 
-
     final String AI = "appinfra";
     private AppInfra gAppInfra;
+    ScheduleSyncReceiver mScheduleSyncReceiver;
     private AppConfigurationInterface.AppConfigurationError configError;
 
     @Override
@@ -33,6 +36,11 @@ public class DemoApplication extends Application {
 
         initializeUserRegistrationLibrary(Configuration.STAGING);
         initHSDP();
+
+        mScheduleSyncReceiver = new ScheduleSyncReceiver();
+        if(new User(this).isUserSignIn()) {
+            SyncScheduler.getInstance().scheduleSync();
+        }
     }
 
     private void initAppInfra() {

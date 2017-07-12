@@ -6,13 +6,13 @@
 package com.philips.platform.dprdemo.ui;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +28,6 @@ import com.philips.platform.dprdemo.states.PairDeviceState;
 import com.philips.platform.dprdemo.states.StateContext;
 import com.philips.platform.dprdemo.utils.NetworkChangeListener;
 import com.philips.platform.dprdemo.utils.Utility;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.List;
@@ -40,7 +39,6 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
     private EditText firstName, dob, gender, weight, creationDate;
     private Button createProfileButton;
     private PairDevice pairDevice;
-    private FragmentLauncher fragmentLauncher;
     private DeviceStatusListener mDeviceStatusListener;
     private ProgressDialog mProgressDialog;
     private AlertDialog.Builder mAlertDialogBuilder;
@@ -142,10 +140,6 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
         return null;
     }
 
-    public void setFragmentLauncher(FragmentLauncher fragmentLauncher) {
-        this.fragmentLauncher = fragmentLauncher;
-    }
-
     public void setDeviceStatusListener(DeviceStatusListener deviceStatusListener) {
         mDeviceStatusListener = deviceStatusListener;
     }
@@ -170,7 +164,7 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
         dismissProgressDialog();
 
         getFragmentManager().popBackStack();
-        getActivity().getFragmentManager().beginTransaction().remove(this).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
 
 
         StateContext stateContext = new StateContext();
@@ -182,7 +176,7 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
     @Override
     public void onError(final String message) {
         dismissProgressDialog();
-        fragmentLauncher.getFragmentActivity().runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 showAlertDialog(message);
@@ -209,7 +203,7 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
     }
 
     private void dismissProgressDialog() {
-        fragmentLauncher.getFragmentActivity().runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (mProgressDialog != null && mProgressDialog.isShowing() && !(getActivity().isFinishing())) {
