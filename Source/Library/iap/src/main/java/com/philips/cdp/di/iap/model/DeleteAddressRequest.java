@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.store.StoreListener;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.Map;
@@ -23,6 +24,7 @@ public class DeleteAddressRequest extends AbstractModel{
 
     @Override
     public int getMethod() {
+        IAPLog.d(IAPLog.LOG, "DELETE");
         return Request.Method.DELETE;
     }
 
@@ -38,6 +40,7 @@ public class DeleteAddressRequest extends AbstractModel{
             throw new RuntimeException("Address Id must be specified");
         }
         String addressId = params.get(ModelConstants.ADDRESS_ID);
+        IAPLog.d(IAPLog.LOG, "Request URL = " + store.getEditAddressUrl(addressId));
         return store.getEditAddressUrl(addressId);
     }
 }

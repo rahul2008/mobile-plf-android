@@ -3,6 +3,7 @@ package com.philips.cdp.di.iap.model;
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.utils.IAPConstant;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;
@@ -25,6 +26,7 @@ public class SetDeliveryAddressRequest extends AbstractModel {
 
     @Override
     public int getMethod() {
+        IAPLog.d(IAPLog.LOG, "PUT");
         return Request.Method.PUT;
     }
 
@@ -37,6 +39,7 @@ public class SetDeliveryAddressRequest extends AbstractModel {
 
     @Override
     public String getUrl() {
+        IAPLog.d(IAPLog.LOG, "Request URL = " + store.getSetDeliveryAddressUrl());
         return store.getSetDeliveryAddressUrl();
     }
 }

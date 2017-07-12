@@ -113,7 +113,8 @@ class IAPHandler {
                     || input.getProductCTN().equalsIgnoreCase("")) {
                 throw new RuntimeException("Invalid CTN");
             }
-        } else if (landingScreen == IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW
+        }
+        else if (landingScreen == IAPLaunchInput.IAPFlows.IAP_PRODUCT_CATALOG_VIEW
                 && (input == null || input.getProductCTNs() == null ||
                 (input.getProductCTNs() != null && input.getProductCTNs().size() == 0))) {
             throw new RuntimeException("Invalid CTN");

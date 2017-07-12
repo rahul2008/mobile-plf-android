@@ -31,7 +31,7 @@ public class IAPServiceDiscoveryWrapper {
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
 
 
-        serviceUrlMapListener= new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+        serviceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> map) {
                 IAPLog.i(IAPLog.LOG, " getServicesWithCountryPreference Map" + map.toString());
@@ -97,7 +97,7 @@ public class IAPServiceDiscoveryWrapper {
         IAPLog.i(IAPLog.LOG, "setLangAndCountry Locale = " + HybrisDelegate.getInstance().getStore().getLocale());
     }
 
-    public void getLocaleFromServiceDiscovery(final IAPHandler pIAPHandler, final IAPListener iapListener) {
+    public void getLocaleFromServiceDiscovery(final IAPHandler pIAPHandler, final IAPListener iapListener, final String entry) {
         AppInfraInterface appInfra = CartModelContainer.getInstance().getAppInfraInstance();
         final ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
         serviceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
@@ -130,7 +130,10 @@ public class IAPServiceDiscoveryWrapper {
                     String urlPort = "https://acc.us.pil.shop.philips.com/en_US";//;"https://www.occ.shop.philips.com/en_US";
                     mIAPSettings.setHostPort(urlPort.substring(0, urlPort.length() - 5));
                     mIAPSettings.setProposition(loadConfigParams());
-                    pIAPHandler.getExposedAPIImplementor().getCompleteProductList(iapListener);
+                    if (entry.equalsIgnoreCase("completeProductList"))
+                        pIAPHandler.getExposedAPIImplementor().getCompleteProductList(iapListener);
+                    else
+                        pIAPHandler.getExposedAPIImplementor().getProductCartCount(iapListener);
                 } else {
                     mIAPSettings.setUseLocalData(true);
                 }

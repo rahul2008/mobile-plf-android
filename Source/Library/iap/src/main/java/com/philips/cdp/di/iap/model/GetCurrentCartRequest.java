@@ -6,15 +6,16 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.response.carts.CartsEntity;
+import com.philips.cdp.di.iap.store.StoreListener;
+import com.philips.cdp.di.iap.utils.IAPLog;
 
 import java.util.Map;
 
-public class GetCurrentCartRequest extends AbstractModel{
+public class GetCurrentCartRequest extends AbstractModel {
 
     public GetCurrentCartRequest(StoreListener store, Map<String, String> query,
-                           DataLoadListener listener) {
+                                 DataLoadListener listener) {
         super(store, query, listener);
     }
 
@@ -25,6 +26,7 @@ public class GetCurrentCartRequest extends AbstractModel{
 
     @Override
     public int getMethod() {
+        IAPLog.d(IAPLog.LOG, "GET");
         return Request.Method.GET;
     }
 
@@ -35,6 +37,7 @@ public class GetCurrentCartRequest extends AbstractModel{
 
     @Override
     public String getUrl() {
+        IAPLog.d(IAPLog.LOG, "Request URL = " + store.getCurrentCartUrl());
         return store.getCurrentCartUrl();
     }
 }

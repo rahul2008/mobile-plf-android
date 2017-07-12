@@ -123,7 +123,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         //Integration interface
 
         mIAPSettings = new IAPSettings(this);
-        mIAPSettings.setUseLocalData(true);
+        mIAPSettings.setUseLocalData(false);
         mIAPSettings.setProposition("");
 
         IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
@@ -190,14 +190,15 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         if (mUser.isUserSignIn()) {
             displayViews();
             showProgressDialog();
-            //try {
-                // if (!mIAPSettings.isUseLocalData())
-                mIapInterface.getCompleteProductList(this);
-//                else
-//                    dismissProgressDialog();
-//            } catch (RuntimeException exception) {
-//                dismissProgressDialog();
-//            }
+            try {
+             if (!mIAPSettings.isUseLocalData())
+            mIapInterface.getProductCartCount(this);
+           // mIapInterface.getCompleteProductList(this);
+                else
+                    dismissProgressDialog();
+            } catch (RuntimeException exception) {
+                dismissProgressDialog();
+            }
         } else {
             hideViews();
         }
@@ -426,8 +427,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     @Override
     public void onGetCompleteProductList(ArrayList<String> productList) {
-        Toast.makeText(this, "Total Products in Hybris = " + productList.toString(), Toast.LENGTH_SHORT).show();
-        mEtCTN.setText(productList.get(2    ));
+      //  Toast.makeText(this, "Total Products in Hybris = " + productList.toString(), Toast.LENGTH_SHORT).show();
+        //mEtCTN.setText(productList.get(2));
         dismissProgressDialog();
     }
 
