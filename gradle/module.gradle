@@ -1,0 +1,77 @@
+/*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+ext.repos = [
+        base: 'http://artifactory-ehv.ta.philips.com:8082/artifactory'
+]
+
+ext.repos.jcenter = ext.repos.base + "/platform-jcenter-remote"
+ext.repos.plugin = ext.repos.base + "/platform-plugins-release-local"
+ext.repos.release = ext.repos.base + "/platform-pkgs-android-release"
+ext.repos.snapshot = ext.repos.base + "/platform-pkgs-android-snapshot"
+ext.repos.stage = ext.repos.base + "/platform-pkgs-android-stage"
+ext.repos.releaseexternal = ext.repos.base + "/platform-plugins-release-local"
+
+repositories {
+    maven {
+      url repos.jcenter
+      credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+      }
+    }
+    maven {
+      url repos.plugin
+      credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+      }
+    }
+    maven { url repos.releaseexternal
+        credentials {
+            username = "readonly"
+            password = "123qweasdzxc"
+        }
+    }
+}
+
+ext.builddeps = [
+        buildinfoextractor: 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12',
+        cdpscm            : [group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.2', changing: true]
+]
+
+ext.versions = [
+        sdk                : 25,
+        target             : 25,
+        minsdk             : 21,
+        buildtools         : "25.0.2",
+        support            : "25.3.1",
+
+        pitest             : "1.1.10",
+        jacoco             : '0.7.6.201602180812',
+
+        cloudcontroller    : "5.3.0",
+        cloudcontroller_api: "3.3.0",
+        commlib            : "7.0.0",
+        bluelib            : "3.1.0"
+]
+
+ext.deps = [
+        support          : [
+                annotations: "com.android.support:support-annotations:${ext.versions.support}",
+                appcompatv7: "com.android.support:appcompat-v7:${ext.versions.support}",
+                design     : "com.android.support:design:${ext.versions.support}",
+                supportv4  : "com.android.support:support-v4:${ext.versions.support}"
+        ],
+        gson             : 'com.google.code.gson:gson:2.7',
+        mockito          : 'org.mockito:mockito-core:1.10.19', // MAKE VERY SURE YOU UPGRADE TO A VERSION THAT IS COMPATIBLE WITH LATEST POWERMOCK
+        powermock_mockito: 'org.powermock:powermock-api-mockito:1.6.6',
+        powermock_junit  : 'org.powermock:powermock-module-junit4:1.6.6',
+        junit            : 'junit:junit:4.12',
+        joda_time        : 'joda-time:joda-time:2.9.7'
+
+]
+
+group = 'com.philips.cdp'
