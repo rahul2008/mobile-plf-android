@@ -1,5 +1,7 @@
 package com.philips.platform.ths.pharmacy;
 
+import android.widget.Toast;
+
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
@@ -12,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class THSPharmacyListPresenter implements THSGetPharmaciesCallback {
+public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUpdatePharmacyCallback {
 
     private THSPharmacyListViewListener thsPharmacyListViewListener;
 
@@ -40,6 +42,24 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback {
 
     @Override
     public void onFailure(Throwable throwable) {
+
+    }
+
+    public void updateConsumerPreferredPharmacy(THSConsumer thsConsumer,Pharmacy pharmacy){
+        try {
+            THSManager.getInstance().updateConsumerPreferredPharmacy(thsPharmacyListViewListener.getFragmentActivity(),thsConsumer,pharmacy,this);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onUpdateSuccess(SDKError sdkError) {
+        Toast.makeText(thsPharmacyListViewListener.getFragmentActivity(),"Update success",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onUpdateFailure(Throwable throwable) {
 
     }
 }

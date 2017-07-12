@@ -5,6 +5,7 @@ import android.support.annotation.VisibleForTesting;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.AWSDKFactory;
+import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.SDKPasswordError;
@@ -42,7 +43,10 @@ import com.philips.platform.ths.intake.THSVitals;
 import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
 import com.philips.platform.ths.login.THSLoginCallBack;
+import com.philips.platform.ths.pharmacy.THSConsumerShippingAddressCallback;
 import com.philips.platform.ths.pharmacy.THSGetPharmaciesCallback;
+import com.philips.platform.ths.pharmacy.THSPreferredPharmacyCallback;
+import com.philips.platform.ths.pharmacy.THSUpdatePharmacyCallback;
 import com.philips.platform.ths.practice.THSPractice;
 import com.philips.platform.ths.practice.THSPracticesListCallback;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsCallback;
@@ -453,8 +457,8 @@ public class THSManager {
         });
     }
 
-    public void getPharmacies(Context context, final THSConsumer pthConsumer, String city, State state, String zipCode, final THSGetPharmaciesCallback thsGetPharmaciesCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getPharmacies(pthConsumer.getConsumer(), null,city, state, zipCode, new SDKValidatedCallback<List<Pharmacy>, SDKError>() {
+    public void getPharmacies(Context context, final THSConsumer thsConsumer, String city, State state, String zipCode, final THSGetPharmaciesCallback thsGetPharmaciesCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getPharmacies(thsConsumer.getConsumer(), null,city, state, zipCode, new SDKValidatedCallback<List<Pharmacy>, SDKError>() {
             @Override
             public void onValidationFailure(Map<String, ValidationReason> map) {
                 thsGetPharmaciesCallback.onValidationFailure(map);
@@ -472,8 +476,8 @@ public class THSManager {
         });
     }
 
-    public void getPharmacies(Context context, final THSConsumer pthConsumer, float latitude, float longitude, int radius, final THSGetPharmaciesCallback thsGetPharmaciesCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getPharmacies(pthConsumer.getConsumer(), latitude, longitude, radius, true, new SDKCallback<List<Pharmacy>, SDKError>() {
+    public void getPharmacies(Context context, final THSConsumer thsConsumer, float latitude, float longitude, int radius, final THSGetPharmaciesCallback thsGetPharmaciesCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getPharmacies(thsConsumer.getConsumer(), latitude, longitude, radius, true, new SDKCallback<List<Pharmacy>, SDKError>() {
             @Override
             public void onResponse(List<Pharmacy> pharmacies, SDKError sdkError) {
                 thsGetPharmaciesCallback.onPharmacyListReceived(pharmacies,sdkError);
@@ -482,6 +486,48 @@ public class THSManager {
             @Override
             public void onFailure(Throwable throwable) {
                 thsGetPharmaciesCallback.onFailure(throwable);
+            }
+        });
+    }
+
+    public void getConsumerPreferredPharmacy(Context context, final THSConsumer thsConsumer, final THSPreferredPharmacyCallback thsPreferredPharmacyCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getConsumerPharmacy(thsConsumer.getConsumer(), new SDKCallback<Pharmacy, SDKError>() {
+            @Override
+            public void onResponse(Pharmacy pharmacy, SDKError sdkError) {
+                thsPreferredPharmacyCallback.onPharmacyReceived(pharmacy, sdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                thsPreferredPharmacyCallback.onFailure(throwable);
+            }
+        });
+    }
+
+    public void updateConsumerPreferredPharmacy(Context context, final THSConsumer thsConsumer, final Pharmacy pharmacy, final THSUpdatePharmacyCallback thsUpdatePharmacyCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().updateConsumerPharmacy(thsConsumer.getConsumer(), pharmacy, new SDKCallback<Void, SDKError>() {
+            @Override
+            public void onResponse(Void aVoid, SDKError sdkError) {
+                thsUpdatePharmacyCallback.onUpdateSuccess(sdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                thsUpdatePharmacyCallback.onUpdateFailure(throwable);
+            }
+        });
+    }
+
+    public void getConsumerShippingAddress(Context context, final THSConsumer thsConsumer, final THSConsumerShippingAddressCallback thsConsumerShippingAddressCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getShippingAddress(thsConsumer.getConsumer(), new SDKCallback<Address, SDKError>() {
+            @Override
+            public void onResponse(Address address, SDKError sdkError) {
+                thsConsumerShippingAddressCallback.onSuccessfulFetch(address, sdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                thsConsumerShippingAddressCallback.onFailure(throwable);
             }
         });
     }

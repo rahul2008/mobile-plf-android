@@ -14,7 +14,7 @@ import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.pharmacy.THSPharmacyListFragment;
+import com.philips.platform.ths.pharmacy.THSPharmacyAndShippingFragment;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -113,7 +113,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
 //        if (i == R.id.getStartedButton) {
 //            THSProviderListPresenter.onEvent(R.id.getStartedButton);
 //        }
-        THSPharmacyListFragment thsPharmacyFragment = new THSPharmacyListFragment();
+        THSPharmacyAndShippingFragment thsPharmacyFragment = new THSPharmacyAndShippingFragment();
         THSConsumer pthConsumer = new THSConsumer();
         pthConsumer.setConsumer(consumer);
         thsPharmacyFragment.setConsumer(pthConsumer);
