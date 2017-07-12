@@ -1,3 +1,5 @@
+//COMMON FILE//
+
 # Common project files
 
 This repo contains common functionality for CDP2 Android projects.
