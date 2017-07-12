@@ -71,7 +71,7 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         adapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
             @Override
             public void onItemClick(ProviderInfo item) {
-
+                mTHSAvailableProviderListBasedOnDatePresenter.startTimePickGragment(item,mDate);
             }
         });
         recyclerView.setAdapter(adapter);

@@ -42,11 +42,6 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
 
     private void updateSymptoms(THSVisitContext THSVisitContext) {
         this.THSVisitContext = THSVisitContext;
-        final List<LegalText> legalTexts = THSVisitContext.getLegalTexts();
-        for (LegalText legalText:legalTexts
-             ) {
-            legalText.setAccepted(true);
-        }
 
         if(THSVisitContext !=null){
             ((THSSymptomsFragment)pthBaseView).addTopicsToView(THSVisitContext);

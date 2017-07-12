@@ -27,6 +27,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.ValidationReason;
+import com.philips.platform.ths.appointment.THSAvailableProviderCallback;
 import com.philips.platform.ths.appointment.THSAvailableProviderList;
 import com.philips.platform.ths.appointment.THSAvailableProviders;
 import com.philips.platform.ths.appointment.THSAvailableProvidersBasedOnDateCallback;
@@ -129,10 +130,10 @@ public class THSManager {
 
     public void initializeTeleHealth(Context context, final THSInitializeCallBack THSInitializeCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
         final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
-       initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
-        initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key
-       /*  initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
-        initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key*/
+       /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
+        initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key*/
+         initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
+        initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key
 
         AmwellLog.i(AmwellLog.LOG,"Initialize - SDK API Called");
         getAwsdk(context).initialize(
@@ -533,4 +534,21 @@ public class THSManager {
                 });
 
     }
+
+/*    public void getProviderAvailability(Context context, ProviderInfo providerInfo, Date date, final THSAvailableProviderCallback thsAvailableProviderCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getPracticeProvidersManager().getProviderAvailability(getPTHConsumer().getConsumer(), providerInfo,
+                date, new SDKCallback<List<Date>, SDKError>() {
+            @Override
+            public void onResponse(List<Date> dates, SDKError sdkError) {
+                THSSDKError thssdkError = new THSSDKError();
+                thssdkError.setSdkError(sdkError);
+                thsAvailableProviderCallback.onResponse(dates,thssdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                thsAvailableProviderCallback.onFailure(throwable);
+            }
+        });
+    }*/
 }

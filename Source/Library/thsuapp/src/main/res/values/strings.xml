@@ -29,6 +29,8 @@
     <string name="inline_error_message_weight_value">Please Enter values between 0 and 500</string>
     <string name="ths_available_provider">Available Provider</string>
     <string name="ths_scedule_appointment">Schedule an appointment for</string>
+    <string name="ths_pick_time">Pick a time</string>
+    <string name="ths_available_time_slots">Available time slots</string>
 
     <string name="pth_webview_test"><html><p>The US and South Korea have held a ballistic missile drill, after North Korea tested a long-range missile experts believe may reach Alaska.
 Self-restraint was all that separated armistice and war and could be changed at any time, the two allies said.
