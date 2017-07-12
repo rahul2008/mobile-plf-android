@@ -72,7 +72,6 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         long methodDuration = (endTime - startTime);
         ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_APPINFRA,
                 message + methodDuration);
-
     }
 
 
@@ -306,16 +305,6 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             return this;
         }
 
-        public Builder setAppIdentity(AppIdentityInterface appIdentityInterface) {
-            appIdentity = appIdentityInterface;
-            return this;
-        }
-
-        public Builder setInterNationalization (InternationalizationInterface
-                                                        internationalizationInterface) {
-            local = internationalizationInterface;
-            return this;
-        }
         /**
          * Sets Builder tagging overriding the default implementation.
          *
@@ -327,10 +316,6 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             return this;
         }
 
-        public Builder setAbTesting(ABTestClientInterface abtesting) {
-            aIabtesting = abtesting;
-            return this;
-        }
 
         /**
          * Sets Builder time sync overriding the default implementation.
@@ -340,16 +325,6 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
          */
         public Builder setTimeSync(TimeInterface timeSyncSntpClient) {
             mTimeSyncInterfaceBuilder = timeSyncSntpClient;
-            return this;
-        }
-
-        public Builder setLanguagePack(LanguagePackInterface languagePackInterface) {
-            languagePack = languagePackInterface;
-            return this;
-        }
-
-        public Builder setAppUpdate(AppUpdateInterface appupdateInterface) {
-            this.appupdateInterface = appupdateInterface;
             return this;
         }
 
@@ -392,10 +367,11 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             ai.setTagging(tagging == null ? new AppTagging(ai) : tagging);
             Log.v(AppInfraLogEventID.AI_APPINFRA, "Tagging Intitialization Done");
 
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Object abTestConfig = ABTestClientManager.getAbtestConfig(appConfigurationManager, ai);
+                   final Object abTestConfig = ABTestClientManager.getAbtestConfig(appConfigurationManager, ai);
                     if (abTestConfig != null) {
                         ai.setAbTesting(aIabtesting == null ? new ABTestClientManager(ai) : aIabtesting);
                         Log.v(AppInfraLogEventID.AI_APPINFRA, "ABTESTING Intitialization Done");
@@ -418,7 +394,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    String languagePackConfig = LanguagePackManager.getLanguagePackConfig(appConfigurationManager,ai);
+                    final String languagePackConfig = LanguagePackManager.getLanguagePackConfig(appConfigurationManager,ai);
                     if (languagePackConfig != null) {
                         ai.setLanguagePackInterface(languagePack == null? new LanguagePackManager(ai) : languagePack);
                         Log.v(AppInfraLogEventID.AI_APPINFRA, "Language Pack Initialization done");
@@ -433,12 +409,11 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Object appUpdateConfig = AppUpdateManager.getAutoRefreshValue(appConfigurationManager, ai);
+                    final Object appUpdateConfig = AppUpdateManager.getAutoRefreshValue(appConfigurationManager, ai);
                     if (appUpdateConfig != null) {
                         final AppUpdateManager appUpdateManager = new AppUpdateManager(ai);
                         ai.setAppupdateInterface(appupdateInterface == null ? appUpdateManager : appupdateInterface);
-                        Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Initialization done");
-                        Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Auto Refresh Starts");
+                        Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Initialization done & Auto Refresh Starts");
                         appUpdateManager.appInfraRefresh();
                         Log.v(AppInfraLogEventID.AI_APPINFRA, "AppUpdate Auto Refresh ENDS");
                     } else {
