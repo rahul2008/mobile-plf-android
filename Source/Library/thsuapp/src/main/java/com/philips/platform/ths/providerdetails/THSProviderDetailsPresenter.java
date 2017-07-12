@@ -25,7 +25,10 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
 
     public void fetchProviderDetails(){
         try {
-            getPTHManager().getProviderDetails(viewInterface.getContext(), viewInterface.getConsumerInfo(), viewInterface.getProviderInfo(),this);
+            if (viewInterface.getProviderInfo() != null)
+                getPTHManager().getProviderDetails(viewInterface.getContext(), viewInterface.getConsumerInfo(), viewInterface.getProviderInfo(), this);
+            else
+                viewInterface.dismissRefreshLayout();
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

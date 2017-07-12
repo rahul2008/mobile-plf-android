@@ -29,11 +29,14 @@ public class THSPickTimeFragment extends THSProviderDetailsFragment {
         Bundle arguments = getArguments();
         mProviderInfo = arguments.getParcelable(THSConstants.THS_PROVIDER_INFO);
         mDate = (Date) arguments.getSerializable(THSConstants.THS_DATE);
+        onRefresh();
     }
 
-    @Override
-    public void onRefresh() {
 
+
+    @Override
+    public ProviderInfo getProviderInfo() {
+        return mProviderInfo;
     }
 
 }

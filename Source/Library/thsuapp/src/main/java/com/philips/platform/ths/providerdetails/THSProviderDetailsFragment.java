@@ -3,7 +3,9 @@ package com.philips.platform.ths.providerdetails;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,9 @@ import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.appointment.THSPickTimeFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RatingBar;
@@ -30,11 +34,11 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     private Consumer consumer;
     private ProviderInfo providerInfo;
     private THSProviderDetailsPresenter providerDetailsPresenter;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private ImageView providerImage,isAvailableImage;
-    private Label providerName,practiceName,isAvailable,spokenLanguageValueLabel,yearsOfExpValueLabel,graduatedValueLabel,aboutMeValueLabel;
-    private RatingBar providerRating;
-    private Button detailsButtonOne,detailsButtonTwo;
+    protected SwipeRefreshLayout swipeRefreshLayout;
+    protected ImageView providerImage,isAvailableImage;
+    protected Label providerName,practiceName,isAvailable,spokenLanguageValueLabel,yearsOfExpValueLabel,graduatedValueLabel,aboutMeValueLabel;
+    protected RatingBar providerRating;
+    protected Button detailsButtonOne,detailsButtonTwo;
     private Practice mPractice;
 
 
@@ -113,6 +117,11 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         return consumer;
     }
 
+    @Override
+    public void dismissRefreshLayout(){
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
     /**
      * This method is used to set the provider details in the provider details screen.
      * @param provider
@@ -141,6 +150,13 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
      */
     private void checkAvailability(Provider provider) {
 
+        FragmentManager.BackStackEntry backStackEntryAt = getFragmentManager().getBackStackEntryAt(getFragmentManager().getBackStackEntryCount()-1);
+        String name = backStackEntryAt.getName();
+
+        if(name!=null && name.equalsIgnoreCase(THSPickTimeFragment.TAG)){
+
+        }
+
         if(ProviderVisibility.isOnCall(provider.getVisibility()) || ProviderVisibility.isVideoBusy(provider.getVisibility())){
             isAvailableImage.setVisibility(ImageView.GONE);
             detailsButtonOne.setVisibility(Button.VISIBLE);
@@ -167,7 +183,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
      * display on the screen.
      */
 
-    private String getSpokenLanguages(List<Language> spokenLanguages) {
+    protected String getSpokenLanguages(List<Language> spokenLanguages) {
 
         String languageList = "";
         for(Language language: spokenLanguages){

@@ -15,4 +15,5 @@ public interface THSPRoviderDetailsViewInterface {
     Practice getPracticeInfo();
     Consumer getConsumerInfo();
     void updateView(Provider provider);
+    void dismissRefreshLayout();
 }
