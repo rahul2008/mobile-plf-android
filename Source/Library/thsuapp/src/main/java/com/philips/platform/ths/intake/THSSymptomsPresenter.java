@@ -8,6 +8,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
@@ -36,6 +37,10 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
 
     @Override
     public void onResponse(THSVisitContext THSVisitContext, THSSDKError THSSDKError) {
+        updateSymptoms(THSVisitContext);
+    }
+
+    private void updateSymptoms(THSVisitContext THSVisitContext) {
         this.THSVisitContext = THSVisitContext;
         final List<LegalText> legalTexts = THSVisitContext.getLegalTexts();
         for (LegalText legalText:legalTexts
@@ -66,5 +71,19 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
         } catch (AWSDKInitializationException e) {
             e.printStackTrace();
         }
+    }
+
+    public void getfirstavailableprovider(THSOnDemandSpeciality onDemandSpecialties) throws AWSDKInstantiationException {
+        THSManager.getInstance().getVisitContextWithOnDemandSpeciality(pthBaseView.getContext(),onDemandSpecialties, new THSVisitContextCallBack<THSVisitContext, THSSDKError>() {
+            @Override
+            public void onResponse(THSVisitContext pthVisitContext, THSSDKError thssdkError) {
+               updateSymptoms(pthVisitContext);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                pthBaseView.hideProgressBar();
+            }
+        });
     }
 }
