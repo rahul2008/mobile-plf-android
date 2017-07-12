@@ -402,7 +402,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
                     } else {
                         ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
                                 AppInfraLogEventID.AI_APPINFRA,"Please add the Abtest Config Values " +
-                                        "in config json and create Abtesting Instance");
+                                        "to use Abtesting");
                     }
                     ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_APPINFRA,
                             "Device name:" + Build.MANUFACTURER + " " + Build.MODEL + " " + " OS version:" + Build.VERSION.RELEASE);
@@ -425,7 +425,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
                     } else {
                         ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
                                 AppInfraLogEventID.AI_APPINFRA,"Please add the LanguagePack Config Values " +
-                                        "in config json and create LanguagePack Instance ");
+                                        "to use Language Pack");
                     }
                 }
             }).start();
@@ -444,7 +444,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
                     } else {
                         ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
                                 AppInfraLogEventID.AI_APPINFRA,"Please add the AppUpdate Config Values " +
-                                        "in config json and create AppUpdate Instance ");
+                                        "to use AppUpdate Feature ");
                     }
                 }
             }).start();
