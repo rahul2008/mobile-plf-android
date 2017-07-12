@@ -1,6 +1,6 @@
 package com.philips.platform.ths.intake;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -19,49 +18,39 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
-import com.philips.platform.uid.view.widget.SearchBox;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 
 public class THSMedicationFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSBaseFragment.class.getSimpleName();
+
     //SearchBox searchBox;
     RelativeLayout mAddMedication;//
     private ActionBarListener actionBarListener;
-    private THSBasePresenter mPresenter;
+    private THSMedicationPresenter mPresenter;
     ListView mExistingMedicationListView;
     THSExistingMedicationListAdapter mTHSExistingMedicationListAdapter;
 
     THSMedication mExistingMedication;
+    Medication mSelectedMedication;
     Button updateMedicationButton;
+    boolean existingMedicineFetched=  false; // flag to know if medication is fetched which can be null also
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.intake_medication, container, false);
+        setRetainInstance(true);
         mPresenter = new THSMedicationPresenter(this);
         mAddMedication = (RelativeLayout) view.findViewById(R.id.pth_search_medication_relative_layout);
         mAddMedication.setOnClickListener(this);
         updateMedicationButton = (Button) view.findViewById(R.id.pth_intake_medication_continue_button);
         updateMedicationButton.setOnClickListener(this);
-       /* searchBox.getSearchTextView().setText("");
-        searchBox.getCollapseView().setVisibility(View.GONE);
-        searchBox.getClearIconView().setVisibility(View.GONE);
-        searchBox.setQuerySubmitListener(new SearchBox.QuerySubmitListener() {
-            @Override
-            public void onQuerySubmit(CharSequence medicineName) {
-                if (null != medicineName && medicineName.length() > 2) {
-                    InputMethodManager imm = (InputMethodManager)THSMedicationFragment.this.getFragmentActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(searchBox.getWindowToken(), 0);
-                    showProgressBar();
-                    ((THSMedicationPresenter) mPresenter).searchMedication(medicineName.toString());
-                }
-            }
-        });*/
-
 
         mExistingMedicationListView = (ListView) view.findViewById(R.id.pth_intake_medication_listview);
         mTHSExistingMedicationListAdapter = new THSExistingMedicationListAdapter(getActivity());
@@ -78,11 +67,17 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         actionBarListener = getActionBarListener();
 
+        if (existingMedicineFetched) {
+            // show existing medicines
+            showExistingMedicationList(mExistingMedication);
 
-        // load existing medicines
-        ((THSMedicationPresenter) mPresenter).fetchMedication();
+        } else {
+            // fetch existing medicines
+            ((THSMedicationPresenter) mPresenter).fetchMedication();
+        }
 
     }
 
@@ -96,20 +91,14 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
 
     public void showExistingMedicationList(THSMedication pTHMedication) {
         hideProgressBar();
-        if (null != pTHMedication) {
-            mExistingMedication = pTHMedication;
-            mTHSExistingMedicationListAdapter.setData(pTHMedication);
-
+        mExistingMedication = pTHMedication; // required for server update
+        existingMedicineFetched = true;
+        if (null != mSelectedMedication) {
+            addSearchedMedicineToExistingMedication(mSelectedMedication);
         }
+            mTHSExistingMedicationListAdapter.setData(mExistingMedication);
     }
 
-
-    public void showSearchedMedicationList(THSMedication pTHMedication) {
-        FragmentManager manager = getFragmentManager();
-        THSSearchedMedicineDialogFragment pTHSearchedMedicineDialogFragment = new THSSearchedMedicineDialogFragment();
-        pTHSearchedMedicineDialogFragment.setData(getActivity(), pTHMedication, ((THSMedicationPresenter) mPresenter));
-        pTHSearchedMedicineDialogFragment.show(manager, "Select medicine");
-    }
 
     public void addSearchedMedicineToExistingMedication(Medication searchedMedication) {
         if (null == mExistingMedication) {
@@ -120,7 +109,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
         }
         if (null != mExistingMedication.getMedicationList() && !mExistingMedication.getMedicationList().contains(searchedMedication)) {
             mExistingMedication.getMedicationList().add(searchedMedication);
-            mTHSExistingMedicationListAdapter.setData(mExistingMedication);
+
         }
 
     }
@@ -135,11 +124,9 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.pth_intake_medication_continue_button) {
-            showProgressBar();
-            ((THSMedicationPresenter) mPresenter).updateMedication(mExistingMedication);
             mPresenter.onEvent(R.id.pth_intake_medication_continue_button);
         } else if (id == R.id.pth_search_medication_relative_layout) {
-                addFragment(new THSSearchFragment(),THSSearchFragment.TAG,null);
+            mPresenter.onEvent(R.id.pth_search_medication_relative_layout);
         }
     }
 
@@ -147,4 +134,16 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     public int getContainerID() {
         return ((ViewGroup) getView().getParent()).getId();
     }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 123) {
+                mSelectedMedication = data.getExtras().getParcelable("selectedMedication");
+
+
+            }
+        }
+    }
+
 }

@@ -41,17 +41,18 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/pth_search_medication_relative_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_below="@+id/pth_intake_medication_listview">
 
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/pth_existing_medication_list_row_label"
-            android:text="Add medication"
+
             style="?android:attr/dropDownItemStyle"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/listPreferredItemHeight"
             android:layout_toLeftOf="@+id/pth_search_medication_list_row_right_icon"
             android:ellipsize="marquee"
+            android:text="Add medication"
             android:minHeight="@dimen/uid_recyclerview_item_one_line_height"
             android:paddingEnd="@dimen/uid_recyclerview_margin_left_right"
             android:paddingStart="@dimen/uid_recyclerview_margin_left_right"

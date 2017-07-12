@@ -22,6 +22,10 @@ public class THSSearchedMedicationListAdapter extends BaseAdapter {
         this.mPTHSearchedMedication = pTHMedication;
     }
 
+    void setData(THSMedication pTHSearchedMedication){
+        mPTHSearchedMedication=pTHSearchedMedication;
+        notifyDataSetChanged();
+    }
 
     /**
      * How many items are in the data set represented by this Adapter.
