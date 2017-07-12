@@ -12,11 +12,11 @@ import com.philips.platform.dprdemo.states.GetPairedDevicesState;
 import com.philips.platform.dprdemo.states.StateContext;
 import com.philips.platform.dprdemo.states.UnPairDeviceState;
 
-class LaunchFragmentPresenter {
+class PairingFragmentPresenter {
 
     private Activity mActivity;
 
-    LaunchFragmentPresenter(Activity activity) {
+    PairingFragmentPresenter(Activity activity) {
         this.mActivity = activity;
     }
 

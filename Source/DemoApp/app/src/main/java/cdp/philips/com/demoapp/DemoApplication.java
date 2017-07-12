@@ -27,6 +27,7 @@ public class DemoApplication extends Application {
     final String AI = "appinfra";
     private AppInfra gAppInfra;
     ScheduleSyncReceiver mScheduleSyncReceiver;
+
     private AppConfigurationInterface.AppConfigurationError configError;
 
     @Override

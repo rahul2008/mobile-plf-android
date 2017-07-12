@@ -13,7 +13,6 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.dprdemo.R;
-import com.philips.platform.dprdemo.SyncScheduler;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 public class DevicePairingLaunchActivity extends UiKitActivity implements ActionBarListener {
@@ -21,9 +20,9 @@ public class DevicePairingLaunchActivity extends UiKitActivity implements Action
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.device_pairing_layout);
+        setContentView(R.layout.device_pairing_launch_layout);
 
-        showFragment(new DevicePairingFragment(), DevicePairingFragment.TAG);
+        showFragment(new PairingFragment(), PairingFragment.TAG);
     }
 
     public void showFragment(Fragment fragment, String fragmentTag) {
@@ -52,7 +51,7 @@ public class DevicePairingLaunchActivity extends UiKitActivity implements Action
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.dpr_frame_container);
-        if (currentFrag instanceof DevicePairingFragment) {
+        if (currentFrag instanceof PairingFragment) {
             finishAffinity();
         } else {
             super.onBackPressed();

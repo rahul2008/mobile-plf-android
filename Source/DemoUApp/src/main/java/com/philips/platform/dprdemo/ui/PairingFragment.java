@@ -45,12 +45,12 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DevicePairingFragment extends Fragment implements BackEventListener,
+public class PairingFragment extends Fragment implements BackEventListener,
         DeviceStatusListener, NetworkChangeListener.INetworkChangeListener {
-    public static String TAG = DevicePairingFragment.class.getSimpleName();
+    public static String TAG = PairingFragment.class.getSimpleName();
 
     private Context mContext;
-    private LaunchFragmentPresenter mLaunchFragmentPresenter;
+    private PairingFragmentPresenter mLaunchFragmentPresenter;
 
     private DiscoveryManager<?> mDiscoveryManager;
     private PairDevice mPairDevice;
@@ -90,15 +90,13 @@ public class DevicePairingFragment extends Fragment implements BackEventListener
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.pairing_layout, container, false);
 
         mBtnLogout=(Button)view.findViewById(R.id.btn_logout);
-        mLaunchFragmentPresenter = new LaunchFragmentPresenter(getActivity());
+        mLaunchFragmentPresenter = new PairingFragmentPresenter(getActivity());
         mPairedDevicesList = new ArrayList<>();
         mAvailableDevicesList = new ArrayList<>();
         mAppliancesList = new ArrayList<>();
-
-        SyncScheduler.getInstance().scheduleSync();
 
         mAvailableDevicesAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, android.R.id.text1) {
             public View getView(final int position, final View convertView, final ViewGroup parent) {
@@ -124,10 +122,10 @@ public class DevicePairingFragment extends Fragment implements BackEventListener
                 /*if (mAppliancesList != null && mAppliancesList.size() > 0) {
                     PairDevice pairDeviceDetails = getDeviceDetails(mAvailableDevicesList.get(position));
                     if (pairDeviceDetails != null) {
-                        mLaunchFragmentPresenter.pairDevice(pairDeviceDetails, DevicePairingFragment.this);
+                        mLaunchFragmentPresenter.pairDevice(pairDeviceDetails, PairingFragment.this);
                     }
                 }*/
-                mLaunchFragmentPresenter.pairDevice(getTestDeviceDetails(), DevicePairingFragment.this);
+                mLaunchFragmentPresenter.pairDevice(getTestDeviceDetails(), PairingFragment.this);
             }
         });
 
@@ -136,7 +134,7 @@ public class DevicePairingFragment extends Fragment implements BackEventListener
         mPairedDevicesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                mLaunchFragmentPresenter.unPairDevice(mPairedDevicesAdapter.getItem(position), DevicePairingFragment.this);
+                mLaunchFragmentPresenter.unPairDevice(mPairedDevicesAdapter.getItem(position), PairingFragment.this);
             }
         });
 
