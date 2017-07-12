@@ -1,7 +1,10 @@
 package com.philips.platform.ths.pharmacy;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.google.android.gms.maps.CameraUpdate;
@@ -18,6 +22,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -27,6 +32,7 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.pharmacy.customtoggle.SegmentControl;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -52,21 +58,27 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     private CameraUpdate cu;
     private Label selectedPharmacyName,selectedPharmacyAddressLineOne,selectedPharmacyAddressLineTwo,
     selectedPharmacyState,selectedPharmacyZip,selectedPharmacyPhone,selectedPharmacyEmail;
-    private RelativeLayout selectedPharmacyLayout,pharmacyTypeLayout;
+    private RelativeLayout selectedPharmacyLayout;
+    private SegmentControl pharmacyTypeLayout;
     private Animation slideUpFromBottomAnimation, slideDownFromBottomAnimation,slideUpFromTopAnimation,slideDownFromTopAnimation;
     private boolean handleBack = false;
     private boolean isListSelected = false;
+    private List<Pharmacy> pharmacyList;
+    private int REQUEST_LOCATION = 1001;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_pharmacy_list_fragment,container,false);
+
+        checkPermission();
         thsPharmacyListPresenter = new THSPharmacyListPresenter(this) ;
         mapFragment = (SupportMapFragment) this.getChildFragmentManager()
                 .findFragmentById(R.id.pharmacymap);
         selectedPharmacyLayout = (RelativeLayout)view.findViewById(R.id.selected_pharmacy_layout);
         selectedPharmacyLayout.setVisibility(View.GONE);
-        pharmacyTypeLayout = (RelativeLayout)view.findViewById(R.id.pharmacy_type_layout);
+        pharmacyTypeLayout = (SegmentControl)view.findViewById(R.id.pharmacy_type_layout);
         selectedPharmacyName = (Label)view.findViewById(R.id.selected_pharmacy_name);
         selectedPharmacyAddressLineOne = (Label)view.findViewById(R.id.selected_pharmacy_address_line_one);
         selectedPharmacyAddressLineTwo = (Label)view.findViewById(R.id.selected_pharmacy_address_line_two);
@@ -77,7 +89,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         navIconToggler = new UIDNavigationIconToggler(getActivity());
         navIconToggler.restoreNavigationIcon();
         mapFragment.getMapAsync(this);
-        switchViewImageButton = (ImageButton) view.findViewById(R.id.switchpharmacyview);
+        switchViewImageButton = (ImageButton) view.findViewById(R.id.switch_view_layout);
         switchViewImageButton.setImageDrawable(getResources().getDrawable(R.mipmap.list_icon,getActivity().getTheme()));
         switchViewImageButton.setOnClickListener(this);
         pharmacyListRecyclerView = (RecyclerView) view.findViewById(R.id.pharmacy_list_recyclerview);
@@ -97,6 +109,24 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         slideDownFromTopAnimation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(),
                 R.anim.slide_down_from_top);
         return view;
+    }
+
+    private void checkPermission() {
+        if (ActivityCompat.checkSelfPermission(getContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getContext(),
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions( new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                            android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_LOCATION);
+        } else {
+           fetchLocation();
+        }
+    }
+
+    private void fetchLocation() {
+
+
     }
 
     @Override
@@ -121,14 +151,11 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        LatLng sydney = new LatLng(-34, 151);
-        map.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.switchpharmacyview){
+        if(v.getId() == R.id.switch_view_layout){
             if(mapFragment.isHidden()) {
                 getActivity().getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
                 switchViewImageButton.setImageDrawable(getResources().getDrawable(R.mipmap.list_icon,getActivity().getTheme()));
@@ -150,33 +177,35 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
             @Override
             public void onItemClick(Pharmacy pharmacy) {
                 showSelectedPharmacyDetails(pharmacy);
+                addMarkerOptions(pharmacyList,pharmacy,true);
+                map.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(pharmacy.getLatitude(),pharmacy.getLongitude())));
             }
         });
         pharmacyListRecyclerView.setAdapter(thsPharmacyListAdapter);
-        setMarkerOnMap(pharmacies);
+        pharmacyList = pharmacies;
+        setMarkerOnMap();
     }
 
-    private void setMarkerOnMap(List<Pharmacy> pharmacies) {
-        List<LatLng> latLngList = new ArrayList<LatLng>();
-        for(Pharmacy pharmacy:pharmacies){
-            LatLng latLng = new LatLng(pharmacy.getLatitude(),pharmacy.getLongitude());
-            map.addMarker(new MarkerOptions().position(latLng).title(pharmacy.getName())).setTag(pharmacy);
-            map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                @Override
-                public boolean onMarkerClick(Marker marker) {
-                    showSelectedPharmacyDetails((Pharmacy)marker.getTag());
-                    Log.v("Marker clicked name : ",""+((Pharmacy)marker.getTag()).getName());
-                    return false;
-                }
-            });
-            latLngList.add(latLng);
-        }
+
+    private void setMarkerOnMap() {
+        updateCameraBounds();
+        map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                showSelectedPharmacyDetails((Pharmacy)marker.getTag());
+                addMarkerOptions(pharmacyList,(Pharmacy)marker.getTag(),true);
+                return false;
+            }
+        });
+    }
+
+    private void updateCameraBounds() {
 
         builder = new LatLngBounds.Builder();
-        for (LatLng latLng : latLngList) {
+        List<LatLng> latLngs = addMarkerOptions(pharmacyList,null,false);
+        for (LatLng latLng : latLngs) {
             builder.include(latLng);
         }
-
         /**initialize the padding for map boundary*/
         int padding = 50;
         /**create the bounds from latlngBuilder to set into map camera*/
@@ -185,6 +214,24 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
 
         map.animateCamera(cu);
+    }
+
+    private List<LatLng> addMarkerOptions(List<Pharmacy> pharmacies, Pharmacy pharmacy, boolean shouldReset) {
+
+        List<LatLng> latLngList = new ArrayList<LatLng>();
+        map.clear();
+        for(final Pharmacy pharmacyItem:pharmacies){
+            LatLng latLng = new LatLng(pharmacyItem.getLatitude(),pharmacyItem.getLongitude());
+            if(null!= pharmacy && pharmacy.equals(pharmacyItem) && shouldReset) {
+                map.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.mipmap.selected_gps_icon)).position(latLng)).setTag(pharmacyItem);
+            }else if(shouldReset){
+                map.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.mipmap.unselected_gps_icon)).position(latLng)).setTag(pharmacyItem);
+            }else {
+                map.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.mipmap.gps_icon)).position(latLng)).setTag(pharmacyItem);
+            }
+            latLngList.add(latLng);
+        }
+        return latLngList;
 
     }
 
@@ -212,11 +259,19 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         } catch (NumberParseException e) {
             Log.e("","NumberParseException was thrown: " + e.toString());
         }
-        selectedPharmacyEmail.setText("email: "+pharmacy.getEmail());
+        if(null != pharmacy.getEmail()){
+            selectedPharmacyEmail.setText("email: "+pharmacy.getEmail());
+        }
+        else {
+            selectedPharmacyEmail.setText("email: -");
+        }
+
     }
 
     @Override
     public boolean handleBackEvent() {
+        addMarkerOptions(pharmacyList,null,false);
+        updateCameraBounds();
         if(hideSelectedPharmacy()){
             return true;
         }
@@ -245,5 +300,17 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
             return false;
         }
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == REQUEST_LOCATION){
+            if(grantResults.length > 0  && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                fetchLocation();
+            }else {
+                Toast.makeText(getActivity(),"Permission denied : Going to search", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

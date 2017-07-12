@@ -29,9 +29,11 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
             android:id="@+id/selected_pharmacy_details">
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/selected_pharmacy_name"
+                style="@style/UIDLabel.RecyclerViewItemMultipleLinesTitleText"
                 android:layout_marginBottom="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -39,7 +41,8 @@
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/selected_pharmacy_address_line_one"
-                android:layout_marginBottom="12dp"
+                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                android:layout_marginBottom="4dp"
                 android:layout_below="@id/selected_pharmacy_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -47,14 +50,15 @@
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/selected_pharmacy_address_line_two"
+                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Miller Drug mail order"
-                android:layout_alignBaseline="@+id/selected_pharmacy_address_line_one"
-                android:layout_alignBottom="@+id/selected_pharmacy_address_line_one"
-                android:layout_toEndOf="@+id/selected_pharmacy_address_line_one" />
+                android:layout_below="@+id/selected_pharmacy_name"
+                android:layout_toEndOf="@+id/selected_pharmacy_state" />
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/selected_pharmacy_state"
+                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Miller Drug mail order"
@@ -63,6 +67,7 @@
                 android:layout_below="@id/selected_pharmacy_address_line_one" />
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/selected_pharmacy_zip_code"
+                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
@@ -72,7 +77,8 @@
                 android:layout_toEndOf="@+id/selected_pharmacy_state" />
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/selected_pharmacy_phone"
-                android:layout_marginBottom="12dp"
+                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+                android:layout_marginBottom="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Miller Drug mail order"
@@ -80,6 +86,7 @@
                 />
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/selected_pharmacy_email"
+                style="@style/UIDLabel.RecyclerViewItemDescriptionText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Miller Drug mail order"
@@ -89,17 +96,19 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:paddingTop="12dp"
             android:layout_above="@+id/choose_pharmacy_button"
             android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/choose_pharmacy_button"
             android:text="Choose pharmacy"
+            android:layout_marginTop="12dp"
             android:layout_below="@+id/selected_pharmacy_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
     </RelativeLayout>
-    <RelativeLayout
+<!--    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/pharmacy_type_layout"
@@ -107,10 +116,9 @@
         android:background="@color/uidColorWhite"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="12dp"
-        >
+        >-->
 
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -118,7 +126,7 @@
             >
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/retail_button"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/uidColorBlack"
                 android:text="Retail"
@@ -126,19 +134,53 @@
                 />
             <com.philips.platform.uid.view.widget.Button
                 android:id="@+id/mail_order_button"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/uidColorBlack"
                 android:text="Mail order"
                 android:layout_weight="1"
                 />
-        </LinearLayout>
-        <com.philips.platform.uid.view.widget.ImageButton
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:layout_alignBaseline="@+id/segmentted_control_layout"
-            android:layout_toRightOf="@id/segmentted_control_layout"
-            android:id="@+id/switchpharmacyview" />
-    </RelativeLayout>
+        </LinearLayout>-->
+        <com.philips.platform.ths.pharmacy.customtoggle.SegmentControl
+            android:id="@+id/pharmacy_type_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/uidColorWhite"
+            android:padding="12dp"
+            >
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/segment_control_view_one"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="?attr/uidButtonStyle"
+                android:layout_marginStart="12dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/segment_background_left"
+                android:text="Retail"/>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/segment_control_view_two"
+                style="?attr/uidButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/segment_background_right"
+                android:text="Mail Order" />
+
+            <com.philips.platform.uid.view.widget.ImageButton
+                android:id="@+id/switch_view_layout"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="12dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </com.philips.platform.ths.pharmacy.customtoggle.SegmentControl>
+
 </RelativeLayout>
