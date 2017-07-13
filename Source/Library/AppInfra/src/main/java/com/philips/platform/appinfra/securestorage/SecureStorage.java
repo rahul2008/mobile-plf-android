@@ -89,7 +89,7 @@ public class SecureStorage implements SecureStorageInterface {
     }
 
     @Override
-    public synchronized boolean storeValueForKey(String userKey, final String valueToBeEncrypted, final SecureStorageError secureStorageError) {
+    public boolean storeValueForKey(String userKey, final String valueToBeEncrypted, final SecureStorageError secureStorageError) {
         // TODO: RayKlo: define max size limit recommendation
         long startTime = System.currentTimeMillis();
             if (null == userKey || userKey.isEmpty() || userKey.trim().isEmpty() || null == valueToBeEncrypted) {
@@ -134,7 +134,7 @@ public class SecureStorage implements SecureStorageInterface {
                     }
 
         postLog(startTime, " duration for executing storeValueForKey ");
-        return true;
+        return returnResult;
 
     }
 
