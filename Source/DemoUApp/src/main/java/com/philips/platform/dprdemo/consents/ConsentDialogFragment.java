@@ -133,8 +133,12 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.btnOK) {
-            mConsentDialogAdapter.updateConsent();
-            showProgressDialog();
+            if (mConsentDialogAdapter.isAllConsentsAccepted()) {
+                mConsentDialogAdapter.updateConsent();
+                showProgressDialog();
+            } else {
+                showAlertDialog("Please accept all the consents to pair device.");
+            }
         } else if (i == R.id.btnCancel) {
             removeCurrentFragment();
         }

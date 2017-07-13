@@ -80,4 +80,18 @@ public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void setData(ArrayList<? extends ConsentDetail> consentDetails) {
         this.mConsentDetailList = consentDetails;
     }
+
+    public boolean isAllConsentsAccepted() {
+        boolean isAccepted = false;
+
+        for (ConsentDetail ormConsentDetail : mConsentDetailList) {
+            if (ormConsentDetail.getStatus().toString().equalsIgnoreCase(ConsentDetailStatusType.ACCEPTED.name())) {
+                isAccepted = true;
+            } else {
+                isAccepted = false;
+                break;
+            }
+        }
+        return isAccepted;
+    }
 }

@@ -20,7 +20,6 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.appinfra.AppInfra;
-import com.philips.platform.dprdemo.utils.SyncScheduler;
 import com.philips.platform.dprdemo.uappdependencies.DevicePairingUappInterface;
 import com.philips.platform.dprdemo.uappdependencies.DevicePairingUappSettings;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -47,7 +46,6 @@ public class LauncherActivity extends UiKitActivity implements UserRegistrationL
 
         if (savedInstanceState == null)
             if (user.isUserSignIn()) {
-                SyncScheduler.getInstance().scheduleSync();
                 showLaunchButton();
             } else {
                 startRegistrationFragment();

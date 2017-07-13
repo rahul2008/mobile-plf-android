@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.j256.ormlite.dao.Dao;
 import com.philips.cdp.registration.User;
 import com.philips.platform.appinfra.AppInfraInterface;
+import com.philips.platform.core.datatypes.SyncType;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
 import com.philips.platform.datasync.userprofile.UserRegistrationInterface;
@@ -42,6 +43,8 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DevicePairingUappInterface implements UappInterface {
     private Context mContext;
@@ -67,6 +70,12 @@ public class DevicePairingUappInterface implements UappInterface {
         OrmCreator creator = new OrmCreator(new UuidGenerator());
         UserRegistrationInterface userRegistrationInterface = new UserRegistrationInterfaceImpl(mContext, new User(mContext));
         ErrorHandlerInterfaceImpl errorHandlerInterface = new ErrorHandlerInterfaceImpl();
+
+        Set<String> fetchers = new HashSet<>(2);
+        fetchers.add(SyncType.MOMENT.getDescription());
+        fetchers.add(SyncType.CONSENT.getDescription());
+        mDataServicesManager.configureSyncDataType(fetchers);
+
         DataServicesManager.getInstance().initializeDataServices(mContext, creator, userRegistrationInterface, errorHandlerInterface);
         injectDBInterfacesToCore();
         DataServicesManager.getInstance().initializeSyncMonitors(mContext, null, null);

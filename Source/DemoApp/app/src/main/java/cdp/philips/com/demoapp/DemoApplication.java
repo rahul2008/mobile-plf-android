@@ -17,8 +17,6 @@ import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
-import com.philips.platform.dprdemo.utils.SyncScheduler;
-import com.philips.platform.dprdemo.reciever.ScheduleSyncReceiver;
 
 import java.util.ArrayList;
 
@@ -26,7 +24,6 @@ public class DemoApplication extends Application {
 
     final String AI = "appinfra";
     private AppInfra gAppInfra;
-    ScheduleSyncReceiver mScheduleSyncReceiver;
 
     private AppConfigurationInterface.AppConfigurationError configError;
 
@@ -37,11 +34,6 @@ public class DemoApplication extends Application {
 
         initializeUserRegistrationLibrary(Configuration.STAGING);
         initHSDP();
-
-        mScheduleSyncReceiver = new ScheduleSyncReceiver();
-        if(new User(this).isUserSignIn()) {
-            SyncScheduler.getInstance().scheduleSync();
-        }
     }
 
     private void initAppInfra() {
