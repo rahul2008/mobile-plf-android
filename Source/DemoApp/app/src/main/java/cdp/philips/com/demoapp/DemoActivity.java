@@ -18,7 +18,6 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.cdp.uikit.UiKitActivity;
-import com.philips.platform.dprdemo.ui.DevicePairingLaunchActivity;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
@@ -59,13 +58,12 @@ public class DemoActivity extends UiKitActivity implements UserRegistrationListe
         userObject.registerUserRegistrationListener(this);
     }
 
-
     private void runUserRegistration() {
         launchRegistrationFragment(false);
     }
 
     private void launchRegistrationFragment(boolean isAccountSettings) {
-        int containerID = R.id.frame_container;
+        int containerID = R.id.user_reg_frame_container;
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setUserRegistrationUIEventListener(this);
         urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);

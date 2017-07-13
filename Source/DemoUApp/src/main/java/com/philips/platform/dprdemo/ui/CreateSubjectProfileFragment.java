@@ -65,8 +65,7 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
     @Override
     public void onStart() {
         super.onStart();
-        //fragmentLauncher.getActionbarListener().updateActionBar("Subject Profile", true);
-        getActivity().setTitle("Subject Profile");
+        getActivity().setTitle(R.string.subject_profile_fragment_title);
     }
 
     @Override

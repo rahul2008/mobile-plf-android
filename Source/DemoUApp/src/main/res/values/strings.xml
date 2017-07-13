@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Device Pairing</string>
+
+    <string name="pairing_fragment_title" translatable="false">Pair Device</string>
+    <string name="consent_fragment_title" translatable="false">Consents</string>
+    <string name="subject_profile_fragment_title" translatable="false">Subject Profile</string>
 </resources>

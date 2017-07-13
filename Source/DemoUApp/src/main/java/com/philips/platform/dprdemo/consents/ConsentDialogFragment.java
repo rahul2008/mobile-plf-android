@@ -55,6 +55,11 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
     private AlertDialog mAlertDialog;
     private Button mBtnOk;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -112,7 +117,7 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
     @Override
     public void onStart() {
         super.onStart();
-        getActivity().setTitle("Consent Details");
+        getActivity().setTitle(R.string.consent_fragment_title);
         mDataServicesManager.registerDBChangeListener(this);
     }
 

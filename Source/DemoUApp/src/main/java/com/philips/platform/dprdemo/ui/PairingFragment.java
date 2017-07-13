@@ -150,12 +150,12 @@ public class PairingFragment extends Fragment implements BackEventListener,
     @Override
     public void onAttachFragment(Fragment childFragment) {
         super.onAttachFragment(childFragment);
-        getActivity().setTitle("Pair Device");
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        getActivity().setTitle(R.string.pairing_fragment_title);
     }
 
     @Override

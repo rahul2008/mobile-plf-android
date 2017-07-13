@@ -6,6 +6,7 @@
 package cdp.philips.com.demoapp;
 
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -18,9 +19,10 @@ import com.philips.platform.dprdemo.uappdependencies.DevicePairingUappInterface;
 import com.philips.platform.dprdemo.uappdependencies.DevicePairingUappSettings;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
-public class LauncherActivity extends UiKitActivity {
+public class LauncherActivity extends UiKitActivity implements ActionBarListener{
 
     private DevicePairingUappInterface devicePairingUappInterface;
     private Button mLaunchAsActivity;
@@ -50,9 +52,10 @@ public class LauncherActivity extends UiKitActivity {
     }
 
     public void launchAsFragment(View v) {
-        /*FragmentLauncher fragmentLauncher =
+        hideLaunchButton();
+        FragmentLauncher fragmentLauncher =
                 new FragmentLauncher(this, R.id.frame_container, this);
-        devicePairingUappInterface.launch(fragmentLauncher, null);*/
+        devicePairingUappInterface.launch(fragmentLauncher, null);
     }
 
     public void logout(View v) {
@@ -98,4 +101,13 @@ public class LauncherActivity extends UiKitActivity {
         mBtnLogout.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void updateActionBar(@StringRes int i, boolean b) {
+
+    }
+
+    @Override
+    public void updateActionBar(String s, boolean b) {
+
+    }
 }
