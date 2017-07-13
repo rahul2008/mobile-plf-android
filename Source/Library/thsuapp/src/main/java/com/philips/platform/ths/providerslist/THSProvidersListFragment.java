@@ -110,9 +110,6 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     @Override
     public void onClick(View view) {
         int i = view.getId();
-//        if (i == R.id.getStartedButton) {
-//            THSProviderListPresenter.onEvent(R.id.getStartedButton);
-//        }
         THSPharmacyAndShippingFragment thsPharmacyFragment = new THSPharmacyAndShippingFragment();
         THSConsumer pthConsumer = new THSConsumer();
         pthConsumer.setConsumer(consumer);

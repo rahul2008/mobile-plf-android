@@ -7,5 +7,5 @@ import com.philips.platform.ths.base.THSBaseView;
 public interface THSPharmacyShippingViewInterface extends THSBaseView {
 
     void onSuccessUpdateFragmentView(Pharmacy pharmacy, Address address);
-    void onFailureCallSearchPharmacy();
+    void onFailureCallSearchPharmacy(Address address);
 }

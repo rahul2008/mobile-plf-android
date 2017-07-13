@@ -15,14 +15,14 @@ import java.util.List;
 public class THSPharmacyListAdapter extends RecyclerView.Adapter<THSPharmacyListAdapter.THSPharmacyListViewHolder> {
 
     private List<Pharmacy> pharmacyList;
-    private OnPharmacyListItemClickListener onPharmacyListItemClickListener;
+    private THSOnPharmacyListItemClickListener onPharmacyListItemClickListener;
 
     public THSPharmacyListAdapter(List<Pharmacy> pharmacyList){
         this.pharmacyList = pharmacyList;
     }
 
 
-    public void setOnPharmacyItemClickListener(OnPharmacyListItemClickListener onPharmacyListItemClickListener) {
+    public void setOnPharmacyItemClickListener(THSOnPharmacyListItemClickListener onPharmacyListItemClickListener) {
         this.onPharmacyListItemClickListener = onPharmacyListItemClickListener;
     }
 

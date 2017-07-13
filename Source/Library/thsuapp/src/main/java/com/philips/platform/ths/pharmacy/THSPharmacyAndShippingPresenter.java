@@ -43,22 +43,21 @@ public class THSPharmacyAndShippingPresenter implements THSBasePresenter,THSPref
     @Override
     public void onPharmacyReceived(Pharmacy pharmacy, SDKError sdkError) {
         this.pharmacy = pharmacy;
-        if(null != pharmacy){
             getConsumerShippingAddress(thsConsumer);
-        }
-        else {
-            thsBaseView.onFailureCallSearchPharmacy();
-        }
 
     }
 
     @Override
     public void onSuccessfulFetch(Address address, SDKError sdkError) {
-        thsBaseView.onSuccessUpdateFragmentView(pharmacy,address);
+        if(null != address) {
+            thsBaseView.onSuccessUpdateFragmentView(pharmacy, address);
+        }
+        else {
+            thsBaseView.onFailureCallSearchPharmacy(address);
+        }
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-        thsBaseView.onFailureCallSearchPharmacy();
     }
 }

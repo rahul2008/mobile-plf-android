@@ -55,6 +55,7 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
 
     @Override
     public void onUpdateSuccess(SDKError sdkError) {
+        thsPharmacyListViewListener.validateForMailOrder();
         Toast.makeText(thsPharmacyListViewListener.getFragmentActivity(),"Update success",Toast.LENGTH_SHORT).show();
     }
 
