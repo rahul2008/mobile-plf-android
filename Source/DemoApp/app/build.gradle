@@ -219,7 +219,7 @@ android {
 dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:customtabs:25.3.1'
-    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.3.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.2.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive = true
     }
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
