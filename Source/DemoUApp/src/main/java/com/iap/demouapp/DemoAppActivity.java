@@ -191,9 +191,10 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             displayViews();
             showProgressDialog();
             try {
-                if (!mIAPSettings.isUseLocalData())
-                    // mIapInterface.getProductCartCount(this);
+                if (!mIAPSettings.isUseLocalData()) {
+                    mIapInterface.getProductCartCount(this);
                     mIapInterface.getCompleteProductList(this);
+                }
                 else
                     dismissProgressDialog();
             } catch (RuntimeException exception) {
@@ -292,7 +293,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         if (!mIAPSettings.isUseLocalData()) {
             showProgressDialog();
             try {
-               // mIapInterface.getProductCartCount(this);
+                mIapInterface.getProductCartCount(this);
                 mIapInterface.getCompleteProductList(this);
             } catch (RuntimeException e) {
                 Toast.makeText(DemoAppActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -407,7 +408,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         }
 
         dismissProgressDialog();
-        mIapInterface.getCompleteProductList(this);
+      //  mIapInterface.getCompleteProductList(this);
     }
 
     @Override
