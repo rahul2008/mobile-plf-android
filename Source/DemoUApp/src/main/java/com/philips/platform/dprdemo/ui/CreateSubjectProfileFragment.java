@@ -1,7 +1,7 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
- * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
 */
 package com.philips.platform.dprdemo.ui;
 
@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.philips.platform.datasync.subjectProfile.UCoreSubjectProfile;
 import com.philips.platform.dprdemo.R;
 import com.philips.platform.dprdemo.pojo.PairDevice;

@@ -1,7 +1,7 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
 * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
 */
 package com.philips.platform.dprdemo.utils;
 
@@ -10,11 +10,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 public class Utility {
-    public static int TYPE_WIFI = 1;
-    public static int TYPE_MOBILE = 2;
-    public static int TYPE_NOT_CONNECTED = 0;
-    public static final int NETWORK_STATUS_NOT_CONNECTED = 0, NETWORK_STATUS_WIFI = 1, NETWORK_STATUS_MOBILE = 2;
-
 
     public static boolean isOnline(Context context) {
         try {
@@ -29,7 +24,13 @@ public class Utility {
         }
     }
 
-    public int getConnectivityStatus(Context context) {
+    /*
+    private static int TYPE_WIFI = 1;
+    private static int TYPE_MOBILE = 2;
+    private static int TYPE_NOT_CONNECTED = 0;
+    private static final int NETWORK_STATUS_NOT_CONNECTED = 0, NETWORK_STATUS_WIFI = 1, NETWORK_STATUS_MOBILE = 2;
+
+    private int getConnectivityStatus(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
@@ -56,5 +57,5 @@ public class Utility {
         }
 
         return status;
-    }
+    }*/
 }

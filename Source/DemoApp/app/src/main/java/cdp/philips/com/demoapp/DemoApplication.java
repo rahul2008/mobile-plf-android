@@ -17,7 +17,7 @@ import com.philips.cdp.registration.ui.utils.URSettings;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
-import com.philips.platform.dprdemo.SyncScheduler;
+import com.philips.platform.dprdemo.utils.SyncScheduler;
 import com.philips.platform.dprdemo.reciever.ScheduleSyncReceiver;
 
 import java.util.ArrayList;

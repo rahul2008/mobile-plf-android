@@ -33,7 +33,6 @@ import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.platform.dprdemo.R;
-import com.philips.platform.dprdemo.SyncScheduler;
 import com.philips.platform.dprdemo.devicesetup.SampleApplianceFactory;
 import com.philips.platform.dprdemo.devicesetup.SampleKpsConfigurationInfo;
 import com.philips.platform.dprdemo.pojo.PairDevice;
@@ -92,7 +91,7 @@ public class PairingFragment extends Fragment implements BackEventListener,
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.pairing_layout, container, false);
 
-        mBtnLogout=(Button)view.findViewById(R.id.btn_logout);
+        mBtnLogout = (Button) view.findViewById(R.id.btn_logout);
         mLaunchFragmentPresenter = new PairingFragmentPresenter(getActivity());
         mPairedDevicesList = new ArrayList<>();
         mAvailableDevicesList = new ArrayList<>();
@@ -141,15 +140,13 @@ public class PairingFragment extends Fragment implements BackEventListener,
         mDiscoveryManager = DiscoveryManager.getInstance();
 
         mBtnLogout.setOnClickListener(new View.OnClickListener() {
-
-
             @Override
             public void onClick(View v) {
                 mStateContext.getState().showProgressDialog("Please wait");
                 mBtnLogout.setEnabled(false);
-                User user=new User(getActivity());
 
-                if(!user.isUserSignIn()) return;
+                User user = new User(getActivity());
+                if (!user.isUserSignIn()) return;
 
                 user.logout(new LogoutHandler() {
                     @Override
@@ -158,7 +155,7 @@ public class PairingFragment extends Fragment implements BackEventListener,
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getActivity().getApplicationContext(),"Logout Success",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity().getApplicationContext(), "Logout Success", Toast.LENGTH_SHORT).show();
                                 mStateContext.getState().dismissProgressDialog();
                                 getActivity().finish();
                             }
@@ -170,7 +167,7 @@ public class PairingFragment extends Fragment implements BackEventListener,
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getActivity().getApplicationContext(),"Logout Failed",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity().getApplicationContext(), "Logout Failed", Toast.LENGTH_SHORT).show();
                                 mStateContext.getState().dismissProgressDialog();
                                 mBtnLogout.setEnabled(true);
                             }
@@ -179,6 +176,7 @@ public class PairingFragment extends Fragment implements BackEventListener,
                 });
             }
         });
+
         return view;
     }
 

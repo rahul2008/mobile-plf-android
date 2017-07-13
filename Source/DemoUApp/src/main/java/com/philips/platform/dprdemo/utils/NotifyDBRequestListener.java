@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.dprdemo.utils;
 
 import com.philips.platform.core.datatypes.SyncType;
@@ -10,53 +15,43 @@ import com.philips.platform.dprdemo.database.table.OrmConsentDetail;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class NotifyDBRequestListener {
-
-
     public void notifySuccess(List<? extends Object> ormObjectList, DBRequestListener dbRequestListener, SyncType type) {
         if (dbRequestListener != null) {
             dbRequestListener.onSuccess((ArrayList<? extends Object>) ormObjectList);
         } else {
-            //CallBack not registered
             DSLog.i(DataServicesManager.TAG, "CallBack not registered");
         }
     }
-
 
     public void notifyPrepareForDeletion(DBRequestListener dbRequestListener) {
         if (dbRequestListener != null) {
             dbRequestListener.onSuccess(null);
         } else {
-            //Callback not registered
             DSLog.i(DataServicesManager.TAG, "Callback not registered");
         }
     }
-
 
     public void notifyFailure(Exception e, DBRequestListener dbRequestListener) {
         if (dbRequestListener != null) {
             dbRequestListener.onFailure(e);
         } else {
-            //Callback No registered
             DSLog.i(DataServicesManager.TAG, "Callback not registered");
         }
     }
-
 
     public void notifyConsentFetchSuccess(DBFetchRequestListner dbFetchRequestListner, ArrayList<OrmConsentDetail> ormConsents) {
         if (dbFetchRequestListner != null) {
             dbFetchRequestListner.onFetchSuccess(ormConsents);
         } else {
-            //CallBack not registered
             DSLog.i(DataServicesManager.TAG, "CallBack not registered");
         }
     }
 
-    public void notifyDBChange(SyncType type) {
+    /*public void notifyDBChange(SyncType type) {
         if (DataServicesManager.getInstance().getDbChangeListener() != null) {
             DataServicesManager.getInstance().getDbChangeListener().dBChangeSuccess(type);
         }
     }
-
+*/
 }

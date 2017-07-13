@@ -1,18 +1,22 @@
-package com.philips.platform.dprdemo;
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
+package com.philips.platform.dprdemo.utils;
 
 import android.os.Handler;
-
 
 import com.philips.platform.dprdemo.reciever.ScheduleSyncReceiver;
 
 import static com.janrain.android.engage.JREngage.getApplicationContext;
 
 public class SyncScheduler {
-    ScheduleSyncReceiver mScheduleSyncReceiver;
     private static volatile SyncScheduler sSyncScheduler;
-    final Handler handler = new Handler();
-    Runnable runnable;
-    public boolean isRunning = false;
+    private final Handler handler = new Handler();
+
+    private ScheduleSyncReceiver mScheduleSyncReceiver;
+    private boolean mIsRunning = false;
 
     private SyncScheduler() {
         mScheduleSyncReceiver = new ScheduleSyncReceiver();
@@ -26,16 +30,13 @@ public class SyncScheduler {
     }
 
     public void scheduleSync() {
-
-        if (isRunning == true)
+        if (mIsRunning)
             return;
 
-        runnable = new Runnable() {
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
-
-                isRunning = true;
-
+                mIsRunning = true;
                 try {
                     mScheduleSyncReceiver.onReceive(getApplicationContext());
                 } catch (Exception e) {
@@ -48,8 +49,8 @@ public class SyncScheduler {
         runnable.run();
     }
 
-    public void stopSync() {
+   /* public void stopSync() {
         handler.removeCallbacks(runnable);
-        isRunning = false;
-    }
+        mIsRunning = false;
+    }*/
 }

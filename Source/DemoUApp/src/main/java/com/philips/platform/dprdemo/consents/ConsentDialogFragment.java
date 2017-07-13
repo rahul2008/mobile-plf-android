@@ -13,7 +13,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -36,7 +35,6 @@ import com.philips.platform.dprdemo.states.CreateSubjectProfileState;
 import com.philips.platform.dprdemo.states.StateContext;
 import com.philips.platform.dprdemo.ui.DeviceStatusListener;
 import com.philips.platform.dprdemo.utils.NetworkChangeListener;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +49,6 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
     private ConsentDialogPresenter mConsentDialogPresenter;
     private ProgressDialog mProgressDialog;
     private DataServicesManager mDataServicesManager;
-    private FragmentLauncher mFragmentLauncher;
     private PairDevice mPairDevice;
     private DeviceStatusListener mDeviceStatusListener;
     private NetworkChangeListener mNetworkChangeListener;
@@ -141,10 +138,6 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
         } else if (i == R.id.btnCancel) {
             removeCurrentFragment();
         }
-    }
-
-    public void setFragmentLauncher(FragmentLauncher fragmentLauncher) {
-        this.mFragmentLauncher = fragmentLauncher;
     }
 
     public void setDeviceDetails(PairDevice pairDeviceDetails) {
