@@ -366,6 +366,7 @@ public class THSManager {
 
             @Override
             public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
+
                 THSConsumer THSConsumer = new THSConsumer();
                 THSConsumer.setConsumer(consumer);
 

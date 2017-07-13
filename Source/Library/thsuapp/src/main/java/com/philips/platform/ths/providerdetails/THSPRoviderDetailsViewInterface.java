@@ -8,6 +8,9 @@ import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 
+import java.util.Date;
+import java.util.List;
+
 public interface THSPRoviderDetailsViewInterface {
 
     Context getContext();
@@ -16,4 +19,5 @@ public interface THSPRoviderDetailsViewInterface {
     Consumer getConsumerInfo();
     void updateView(Provider provider);
     void dismissRefreshLayout();
+    List<Date> getAppointmentTimeSlots();
 }

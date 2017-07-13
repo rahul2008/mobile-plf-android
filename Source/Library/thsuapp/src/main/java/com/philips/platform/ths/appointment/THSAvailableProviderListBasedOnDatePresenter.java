@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.americanwell.sdk.entity.Language;
 import com.americanwell.sdk.entity.practice.Practice;
+import com.americanwell.sdk.entity.provider.AvailableProvider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -48,10 +49,11 @@ public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePres
 
     }
 
-    public void startTimePickGragment(ProviderInfo thsProviderInfo, Date date) {
+    public void startTimePickGragment(AvailableProvider availableProvider, ProviderInfo thsProviderInfo, Date date) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(THSConstants.THS_PROVIDER_INFO,thsProviderInfo);
         bundle.putSerializable(THSConstants.THS_DATE,date);
+        bundle.putParcelable(THSConstants.THS_AVAILABLE_PROVIDER_LIST,availableProvider);
         mThsBaseFragment.addFragment(new THSPickTimeFragment(),THSPickTimeFragment.TAG,bundle);
     }
 }

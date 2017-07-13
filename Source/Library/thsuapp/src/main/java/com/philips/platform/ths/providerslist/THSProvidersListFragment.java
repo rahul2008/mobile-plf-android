@@ -12,8 +12,8 @@ import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
+import com.americanwell.sdk.entity.provider.AvailableProvider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
-import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -90,10 +90,10 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     @Override
     public void updateProviderAdapterList(final List<ProviderInfo> providerInfos) {
         swipeRefreshLayout.setRefreshing(false);
-        THSProvidersListAdapter = new THSProvidersListAdapter(providerInfos, THSProviderListPresenter);
+        THSProvidersListAdapter = new THSProvidersListAdapter(providerInfos, null);
         THSProvidersListAdapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
             @Override
-            public void onItemClick(ProviderInfo item) {
+            public void onItemClick(ProviderInfo item, AvailableProvider availableProvider) {
 
                 THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
                 pthProviderDetailsFragment.setActionBarListener(getActionBarListener());

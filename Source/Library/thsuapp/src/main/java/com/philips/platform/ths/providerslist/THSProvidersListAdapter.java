@@ -8,9 +8,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.americanwell.sdk.entity.provider.AvailableProvider;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.platform.ths.appointment.THSAvailableProviderList;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.R;
 import com.philips.platform.uid.view.widget.RatingBar;
@@ -19,16 +21,16 @@ import java.util.List;
 
 public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersListAdapter.MyViewHolder> {
     private List<ProviderInfo> providerList;
-    private THSProviderListPresenter pthpRoviderListPresenter;
     private OnProviderListItemClickListener onProviderItemClickListener;
+    private List<AvailableProvider> mTHSAvailableProviderList;
 
 
     public void setOnProviderItemClickListener(OnProviderListItemClickListener onProviderItemClickListener) {
         this.onProviderItemClickListener = onProviderItemClickListener;
     }
-    public THSProvidersListAdapter(List<ProviderInfo> providerList, THSProviderListPresenter pthpRoviderListPresenter){
+    public THSProvidersListAdapter(List<ProviderInfo> providerList, List<AvailableProvider> availableProvidersList){
         this.providerList = providerList;
-        this.pthpRoviderListPresenter = pthpRoviderListPresenter;
+        mTHSAvailableProviderList = availableProvidersList;
     }
 
 
@@ -59,7 +61,7 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         final ProviderInfo provider = providerList.get(position);
 
         holder.providerRating.setRating(provider.getRating());
@@ -76,7 +78,11 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onProviderItemClickListener.onItemClick(provider);
+                if(mTHSAvailableProviderList==null) {
+                    onProviderItemClickListener.onItemClick(provider,null);
+                }else {
+                    onProviderItemClickListener.onItemClick(provider, mTHSAvailableProviderList.get(position));
+                }
             }
         };
         holder.relativeLayout.setOnClickListener(listener);

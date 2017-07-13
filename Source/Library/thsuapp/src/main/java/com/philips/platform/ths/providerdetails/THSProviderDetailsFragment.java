@@ -5,11 +5,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.Language;
 import com.americanwell.sdk.entity.consumer.Consumer;
@@ -20,12 +21,14 @@ import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSPickTimeFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RatingBar;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * This class is used to display the provider details selected by the user.
@@ -38,8 +41,10 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     protected ImageView providerImage,isAvailableImage;
     protected Label providerName,practiceName,isAvailable,spokenLanguageValueLabel,yearsOfExpValueLabel,graduatedValueLabel,aboutMeValueLabel;
     protected RatingBar providerRating;
-    protected Button detailsButtonOne,detailsButtonTwo;
+    protected Button detailsButtonOne,detailsButtonTwo,detailsButtonContinue;
     private Practice mPractice;
+    private RelativeLayout mTimeSlotContainer;
+    private GridView gridView;
 
 
     @Nullable
@@ -66,11 +71,16 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         aboutMeValueLabel = (Label) view.findViewById(R.id.aboutMeValueLabel);
         detailsButtonOne = (Button) view.findViewById(R.id.detailsButtonOne);
         detailsButtonTwo = (Button) view.findViewById(R.id.detailsButtonTwo);
+        detailsButtonContinue = (Button) view.findViewById(R.id.detailsButtonContinue);
+        gridView = (GridView)view.findViewById(R.id.grid);
 
         detailsButtonOne.setVisibility(Button.GONE);
         detailsButtonOne.setEnabled(false);
         detailsButtonOne.setOnClickListener(this);
         detailsButtonTwo.setOnClickListener(this);
+        detailsButtonContinue.setOnClickListener(this);
+
+        mTimeSlotContainer = (RelativeLayout) view.findViewById(R.id.calendar_container_view);
     }
 
 
@@ -122,6 +132,11 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         swipeRefreshLayout.setRefreshing(false);
     }
 
+    @Override
+    public List<Date> getAppointmentTimeSlots() {
+        return null;
+    }
+
     /**
      * This method is used to set the provider details in the provider details screen.
      * @param provider
@@ -153,10 +168,6 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         FragmentManager.BackStackEntry backStackEntryAt = getFragmentManager().getBackStackEntryAt(getFragmentManager().getBackStackEntryCount()-1);
         String name = backStackEntryAt.getName();
 
-        if(name!=null && name.equalsIgnoreCase(THSPickTimeFragment.TAG)){
-
-        }
-
         if(ProviderVisibility.isOnCall(provider.getVisibility()) || ProviderVisibility.isVideoBusy(provider.getVisibility())){
             isAvailableImage.setVisibility(ImageView.GONE);
             detailsButtonOne.setVisibility(Button.VISIBLE);
@@ -174,6 +185,21 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
             isAvailableImage.setVisibility(ImageView.GONE);
             detailsButtonOne.setVisibility(Button.GONE);
             detailsButtonTwo.setText("Schedule an appointment");
+        }
+
+        if(name!=null && name.equalsIgnoreCase(THSPickTimeFragment.TAG)){
+            detailsButtonOne.setVisibility(View.GONE);
+            detailsButtonTwo.setVisibility(View.GONE);
+            detailsButtonContinue.setVisibility(View.VISIBLE);
+            mTimeSlotContainer.setVisibility(View.VISIBLE);
+
+
+            GridAdapter itemsAdapter =
+                    new GridAdapter(getContext(), getAppointmentTimeSlots());
+            gridView.setAdapter(itemsAdapter);
+        }else {
+            detailsButtonContinue.setVisibility(View.GONE);
+            mTimeSlotContainer.setVisibility(View.GONE);
         }
 
     }
