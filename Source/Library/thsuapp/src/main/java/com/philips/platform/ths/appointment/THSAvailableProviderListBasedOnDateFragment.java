@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.AvailableProvider;
-import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.OnProviderListItemClickListener;
+import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.providerslist.THSProvidersListAdapter;
 import com.philips.platform.ths.utility.THSConstants;
 
@@ -68,14 +68,16 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
 
     public void updateProviderAdapterList(final THSAvailableProviderList availableProviderses) {
         mTHSAvailableProviderList = availableProviderses;
-        List listOfProviderInfos = new ArrayList();
+        List<THSProviderInfo> listOfProviderInfos = new ArrayList();
         for (AvailableProvider availableProvider:availableProviderses.getAvailableProvidersList()) {
-            listOfProviderInfos.add(availableProvider.getProviderInfo());
+            THSProviderInfo thsProviderInfo = new THSProviderInfo();
+            thsProviderInfo.setTHSProviderInfo(availableProvider.getProviderInfo());
+            listOfProviderInfos.add(thsProviderInfo);
         }
         THSProvidersListAdapter adapter= new THSProvidersListAdapter(listOfProviderInfos,mTHSAvailableProviderList.getAvailableProvidersList());
         adapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
             @Override
-            public void onItemClick(ProviderInfo item, AvailableProvider availableProvider) {
+            public void onItemClick(THSProviderInfo item, AvailableProvider availableProvider) {
                 mTHSAvailableProviderListBasedOnDatePresenter.startTimePickGragment(availableProvider,item,mDate);
             }
         });

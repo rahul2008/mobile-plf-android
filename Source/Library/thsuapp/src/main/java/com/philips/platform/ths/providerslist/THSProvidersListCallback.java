@@ -6,6 +6,6 @@ import java.util.List;
 
 //TODO: Review Comment - Spoorti - Use generics for type safety
 public interface THSProvidersListCallback {
-    void onProvidersListReceived(List<ProviderInfo> providerInfoList, SDKError sdkError);
+    void onProvidersListReceived(List<THSProviderInfo> providerInfoList, SDKError sdkError);
     void onProvidersListFetchError(Throwable throwable);
 }

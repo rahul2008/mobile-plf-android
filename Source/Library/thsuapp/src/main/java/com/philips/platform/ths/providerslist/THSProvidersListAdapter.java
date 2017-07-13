@@ -12,7 +12,6 @@ import com.americanwell.sdk.entity.provider.AvailableProvider;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.philips.platform.ths.appointment.THSAvailableProviderList;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.R;
 import com.philips.platform.uid.view.widget.RatingBar;
@@ -20,7 +19,7 @@ import com.philips.platform.uid.view.widget.RatingBar;
 import java.util.List;
 
 public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersListAdapter.MyViewHolder> {
-    private List<ProviderInfo> providerList;
+    private List<THSProviderInfo> thsProviderInfos;
     private OnProviderListItemClickListener onProviderItemClickListener;
     private List<AvailableProvider> mTHSAvailableProviderList;
 
@@ -28,8 +27,8 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
     public void setOnProviderItemClickListener(OnProviderListItemClickListener onProviderItemClickListener) {
         this.onProviderItemClickListener = onProviderItemClickListener;
     }
-    public THSProvidersListAdapter(List<ProviderInfo> providerList, List<AvailableProvider> availableProvidersList){
-        this.providerList = providerList;
+    public THSProvidersListAdapter(List<THSProviderInfo> thsProviderInfos, List<AvailableProvider> availableProvidersList){
+        this.thsProviderInfos = thsProviderInfos;
         mTHSAvailableProviderList = availableProvidersList;
     }
 
@@ -62,15 +61,15 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        final ProviderInfo provider = providerList.get(position);
+        final THSProviderInfo thsProviderInfo = thsProviderInfos.get(position);
 
-        holder.providerRating.setRating(provider.getRating());
-        holder.name.setText("Dr. " + provider.getFullName());
-        holder.practice.setText(provider.getSpecialty().getName());
-        holder.isAvailble.setText(""+provider.getVisibility());
-        if(provider.hasImage()) {
+        holder.providerRating.setRating(thsProviderInfo.getRating());
+        holder.name.setText("Dr. " + thsProviderInfo.getProviderInfo().getFullName());
+        holder.practice.setText(thsProviderInfo.getSpecialty().getName());
+        holder.isAvailble.setText(""+thsProviderInfo.getVisibility());
+        if(thsProviderInfo.hasImage()) {
             try {
-                THSManager.getInstance().getAwsdk(holder.providerImage.getContext()).getPracticeProvidersManager().newImageLoader(provider, holder.providerImage, ProviderImageSize.SMALL).placeholder(holder.providerImage.getResources().getDrawable(R.drawable.doctor_placeholder)).build().load();
+                THSManager.getInstance().getAwsdk(holder.providerImage.getContext()).getPracticeProvidersManager().newImageLoader(thsProviderInfo.getProviderInfo(), holder.providerImage, ProviderImageSize.SMALL).placeholder(holder.providerImage.getResources().getDrawable(R.drawable.doctor_placeholder)).build().load();
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }
@@ -79,9 +78,9 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
             @Override
             public void onClick(View v) {
                 if(mTHSAvailableProviderList==null) {
-                    onProviderItemClickListener.onItemClick(provider,null);
+                    onProviderItemClickListener.onItemClick(thsProviderInfo,null);
                 }else {
-                    onProviderItemClickListener.onItemClick(provider, mTHSAvailableProviderList.get(position));
+                    onProviderItemClickListener.onItemClick(thsProviderInfo, mTHSAvailableProviderList.get(position));
                 }
             }
         };
@@ -91,6 +90,6 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
 
     @Override
     public int getItemCount() {
-        return providerList.size();
+        return thsProviderInfos.size();
     }
 }

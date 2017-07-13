@@ -37,7 +37,7 @@ public class THSProviderInfo implements Parcelable{
         return providerInfo;
     }
 
-    public void setProviderInfo(ProviderInfo providerInfo) {
+    public void setTHSProviderInfo(ProviderInfo providerInfo) {
         this.providerInfo = providerInfo;
     }
 

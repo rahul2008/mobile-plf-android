@@ -200,9 +200,9 @@ public class THSManager {
         });
     }
 
-    public void getVisitContext(Context context, final THSProviderInfo providerInfo, final THSVisitContextCallBack THSVisitContextCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
+    public void getVisitContext(Context context, final THSProviderInfo thsProviderInfo, final THSVisitContextCallBack THSVisitContextCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
 
-        getAwsdk(context).getVisitManager().getVisitContext(getPTHConsumer().getConsumer(), providerInfo.getProviderInfo(), new SDKCallback<VisitContext, SDKError>() {
+        getAwsdk(context).getVisitManager().getVisitContext(getPTHConsumer().getConsumer(), thsProviderInfo.getProviderInfo(), new SDKCallback<VisitContext, SDKError>() {
                     @Override
                     public void onResponse(VisitContext visitContext, SDKError sdkError) {
 
@@ -329,7 +329,13 @@ public class THSManager {
         getAwsdk(context).getPracticeProvidersManager().findProviders(consumer, practice, null, null, null, null, null, null, null, new SDKCallback<List<ProviderInfo>, SDKError>() {
             @Override
             public void onResponse(List<ProviderInfo> providerInfos, SDKError sdkError) {
-                THSProvidersListCallback.onProvidersListReceived(providerInfos, sdkError);
+                List thsProvidersList = new ArrayList();
+                for (ProviderInfo providerInfo:providerInfos) {
+                    THSProviderInfo thsProviderInfo = new THSProviderInfo();
+                    thsProviderInfo.setTHSProviderInfo(providerInfo);
+                    thsProvidersList.add(thsProviderInfo);
+                }
+                THSProvidersListCallback.onProvidersListReceived(thsProvidersList, sdkError);
             }
 
             @Override
@@ -340,8 +346,8 @@ public class THSManager {
 
     }
 
-    public void getProviderDetails(Context context,Consumer consumer,ProviderInfo providerInfo,final THSProviderDetailsCallback THSProviderDetailsCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getPracticeProvidersManager().getProvider(providerInfo, consumer, new SDKCallback<Provider, SDKError>() {
+    public void getProviderDetails(Context context, Consumer consumer, THSProviderInfo thsProviderInfo, final THSProviderDetailsCallback THSProviderDetailsCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getPracticeProvidersManager().getProvider(thsProviderInfo.getProviderInfo(), consumer, new SDKCallback<Provider, SDKError>() {
             @Override
             public void onResponse(Provider provider, SDKError sdkError) {
                 THSProviderDetailsCallback.onProviderDetailsReceived(provider,sdkError);

@@ -28,7 +28,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
 
     private FragmentLauncher fragmentLauncher;
     private RecyclerView recyclerView;
-    private List<ProviderInfo> providerInfoList;
+    private List<THSProviderInfo> thsProviderInfos;
     private THSProviderListPresenter THSProviderListPresenter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -88,12 +88,12 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     }
 
     @Override
-    public void updateProviderAdapterList(final List<ProviderInfo> providerInfos) {
+    public void updateProviderAdapterList(final List<THSProviderInfo> thsProviderInfos) {
         swipeRefreshLayout.setRefreshing(false);
-        THSProvidersListAdapter = new THSProvidersListAdapter(providerInfos, null);
+        THSProvidersListAdapter = new THSProvidersListAdapter(thsProviderInfos, null);
         THSProvidersListAdapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
             @Override
-            public void onItemClick(ProviderInfo item, AvailableProvider availableProvider) {
+            public void onItemClick(THSProviderInfo item, AvailableProvider availableProvider) {
 
                 THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
                 pthProviderDetailsFragment.setActionBarListener(getActionBarListener());

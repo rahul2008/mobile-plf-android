@@ -21,21 +21,20 @@ import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSPickTimeFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RatingBar;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * This class is used to display the provider details selected by the user.
  */
 public class THSProviderDetailsFragment extends THSBaseFragment implements View.OnClickListener, THSPRoviderDetailsViewInterface,SwipeRefreshLayout.OnRefreshListener{
     private Consumer consumer;
-    private ProviderInfo providerInfo;
+    private THSProviderInfo mThsProviderInfo;
     private THSProviderDetailsPresenter providerDetailsPresenter;
     protected SwipeRefreshLayout swipeRefreshLayout;
     protected ImageView providerImage,isAvailableImage;
@@ -93,9 +92,9 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     }
 
 
-    public void setProviderAndConsumerAndPractice(ProviderInfo providerInfo, Consumer consumer, Practice practice){
+    public void setProviderAndConsumerAndPractice(THSProviderInfo thsProviderInfo, Consumer consumer, Practice practice){
         this.consumer = consumer;
-        this.providerInfo = providerInfo;
+        this.mThsProviderInfo = thsProviderInfo;
         this.mPractice = practice;
     }
 
@@ -113,8 +112,8 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     }
 
     @Override
-    public ProviderInfo getProviderInfo() {
-        return providerInfo;
+    public THSProviderInfo getTHSProviderInfo() {
+        return mThsProviderInfo;
     }
 
     @Override

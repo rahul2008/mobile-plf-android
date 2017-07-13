@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.americanwell.sdk.entity.provider.AvailableProvider;
-import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
+import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.THSConstants;
 
 import java.util.Date;
@@ -16,7 +16,7 @@ public class THSPickTimeFragment extends THSProviderDetailsFragment {
     public static final String TAG = THSPickTimeFragment.class.getSimpleName();
 
     Date mDate;
-    ProviderInfo mProviderInfo;
+    THSProviderInfo mThsProviderInfo;
     AvailableProvider mAvailableProvider;
 
 
@@ -27,7 +27,7 @@ public class THSPickTimeFragment extends THSProviderDetailsFragment {
             getActionBarListener().updateActionBar(getString(R.string.ths_pick_time), true);
         }
         Bundle arguments = getArguments();
-        mProviderInfo = arguments.getParcelable(THSConstants.THS_PROVIDER_INFO);
+        mThsProviderInfo = arguments.getParcelable(THSConstants.THS_PROVIDER_INFO);
         mDate = (Date) arguments.getSerializable(THSConstants.THS_DATE);
         mAvailableProvider = arguments.getParcelable(THSConstants.THS_AVAILABLE_PROVIDER_LIST);
         onRefresh();
@@ -36,8 +36,8 @@ public class THSPickTimeFragment extends THSProviderDetailsFragment {
 
 
     @Override
-    public ProviderInfo getProviderInfo() {
-        return mProviderInfo;
+    public THSProviderInfo getTHSProviderInfo() {
+        return mThsProviderInfo;
     }
 
     @Override

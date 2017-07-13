@@ -46,23 +46,23 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
 
 
     @Override
-    public void onProvidersListReceived(List<ProviderInfo> providerInfoList, SDKError sdkError) {
-        List<ProviderInfo> avaiableProviders = checkForProviderAvailibity(providerInfoList);
+    public void onProvidersListReceived(List<THSProviderInfo> providerInfoList, SDKError sdkError) {
+        List<THSProviderInfo> avaiableProviders = checkForProviderAvailibity(providerInfoList);
         THSProviderListViewInterface.updateProviderAdapterList(avaiableProviders);
     }
 
-    private List<ProviderInfo> checkForProviderAvailibity(List<ProviderInfo> providerInfoList) {
-        List<ProviderInfo> availableProviders = new ArrayList<>();
-        List<ProviderInfo> offlineProviders = new ArrayList<>();
-        for (ProviderInfo providerInfo: providerInfoList) {
-            if(ProviderVisibility.isOffline(providerInfo.getVisibility())){
+    private List<THSProviderInfo> checkForProviderAvailibity(List<THSProviderInfo> providerInfoList) {
+        List<THSProviderInfo> availableProviders = new ArrayList<>();
+        List<THSProviderInfo> offlineProviders = new ArrayList<>();
+        for (THSProviderInfo thsProviderInfo: providerInfoList) {
+            if(ProviderVisibility.isOffline(thsProviderInfo.getVisibility())){
                 ((THSProvidersListFragment) mThsBaseFragment).btn_get_started.setText(((THSProvidersListFragment) mThsBaseFragment).
                         getContext().getString(R.string.get_started));
-                offlineProviders.add(providerInfo);
+                offlineProviders.add(thsProviderInfo);
             }else {
                 ((THSProvidersListFragment) mThsBaseFragment).btn_get_started.setText(((THSProvidersListFragment) mThsBaseFragment).
                         getContext().getString(R.string.schedule_appointment));
-                availableProviders.add(providerInfo);
+                availableProviders.add(thsProviderInfo);
             }
         }
         if(availableProviders.size() == 0)
