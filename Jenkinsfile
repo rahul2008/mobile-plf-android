@@ -32,7 +32,7 @@ node ('android&&device') {
                     sh '''#!/bin/bash -l
                         chmod -R 755 .
                         cd ./Source/AppFramework
-                        ./gradlew -PenvCode=${JENKINS_ENV} uploadReleaseToHockeyApp
+                        ./gradlew -PenvCode=${JENKINS_ENV} uploadToHockeyApp
                     '''
                 }
             } else {
