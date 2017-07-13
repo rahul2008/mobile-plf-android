@@ -28,8 +28,6 @@ import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.KeyPairGenerator;
 import java.security.KeyStore;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.AlgorithmParameterSpec;
 import java.util.Calendar;
@@ -37,7 +35,6 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -70,13 +67,16 @@ public class SecureStorage implements SecureStorageInterface {
 
     private final Lock writeLock;
     private final Lock readLock;
+    private SecureStorageHelper secureStorageHelper;
 
     public SecureStorage(AppInfra bAppInfra) {
         mAppInfra = bAppInfra;
         mContext = mAppInfra.getAppInfraContext();
-        ReentrantReadWriteLock lazyCreationLock = new ReentrantReadWriteLock();
-        writeLock = lazyCreationLock.writeLock();
-        readLock = lazyCreationLock.readLock();
+        ReentrantReadWriteLock reentrantReadWriteLock = new ReentrantReadWriteLock();
+        writeLock = reentrantReadWriteLock.writeLock();
+        readLock = reentrantReadWriteLock.readLock();
+        secureStorageHelper = new SecureStorageHelper();
+
     }
 
     /**
@@ -112,7 +112,7 @@ public class SecureStorage implements SecureStorageInterface {
             userKey = getDecodedString(userKey);
             final String userKeyFinal = userKey;
             try {
-                final SecretKey secretKey = generateAESKey(); // generate AES key
+                final SecretKey secretKey = secureStorageHelper.generateAESKey(); // generate AES key
                 final Key key = new SecretKeySpec(secretKey.getEncoded(), "AES");
                 final Cipher cipher = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
                 final byte[] ivBlockSize = new byte[cipher.getBlockSize()];
@@ -220,7 +220,7 @@ public class SecureStorage implements SecureStorageInterface {
                 error.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
                 return false;
             }
-            final SecretKey secretKey = generateAESKey(); // generate AES key
+            final SecretKey secretKey = secureStorageHelper.generateAESKey(); // generate AES key
             returnResult = storeKey(keyName, secretKey, KEY_FILE_NAME_FOR_PLAIN_KEY);
         } catch (Exception e) {
             error.setErrorCode(SecureStorageError.secureStorageError.EncryptionError);
@@ -401,14 +401,6 @@ public class SecureStorage implements SecureStorageInterface {
         return deleteResult;
     }
 
-    private SecretKey generateAESKey() throws NoSuchAlgorithmException {
-        final int outputKeyLength = 256; // Generate a 256-bit key
-        final SecureRandom secureRandom = new SecureRandom();    // Do *not* seed secureRandom! Automatically seeded from system entropy.
-        final KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-        keyGenerator.init(outputKeyLength, secureRandom);
-        return keyGenerator.generateKey();
-    }
-
     @Override
     public byte[] encryptData(byte[] dataToBeEncrypted, SecureStorageError secureStorageError) {
         if (null == dataToBeEncrypted) {
@@ -459,7 +451,7 @@ public class SecureStorage implements SecureStorageInterface {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG, AppInfraLogEventID.AI_SECURE_STORAGE,"key ####### ########" + key.toString());
                 cipherInit(CipherEncryptOrDecryptMode, cipher, key);
             } else {
-                final SecretKey secretKey = generateAESKey(); // generate AES key
+                final SecretKey secretKey = secureStorageHelper.generateAESKey(); // generate AES key
                 final Key key = new SecretKeySpec(secretKey.getEncoded(), "AES");
                 storeKey(SINGLE_AES_KEY_TAG, secretKey, KEY_FILE_NAME);
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.DEBUG,AppInfraLogEventID.AI_SECURE_STORAGE, "key ####### ########" + key.toString());
