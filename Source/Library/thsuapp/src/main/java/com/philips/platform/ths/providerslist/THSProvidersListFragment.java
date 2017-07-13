@@ -12,11 +12,10 @@ import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
-import com.americanwell.sdk.entity.provider.AvailableProvider;
-import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
@@ -90,14 +89,15 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     @Override
     public void updateProviderAdapterList(final List<THSProviderInfo> thsProviderInfos) {
         swipeRefreshLayout.setRefreshing(false);
-        THSProvidersListAdapter = new THSProvidersListAdapter(thsProviderInfos, null);
+        THSProvidersListAdapter = new THSProvidersListAdapter(thsProviderInfos);
         THSProvidersListAdapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
             @Override
-            public void onItemClick(THSProviderInfo item, AvailableProvider availableProvider) {
+            public void onItemClick(THSProviderEntity item) {
 
                 THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
                 pthProviderDetailsFragment.setActionBarListener(getActionBarListener());
-                pthProviderDetailsFragment.setProviderAndConsumerAndPractice(item, consumer, practice);
+                pthProviderDetailsFragment.setTHSProviderEntity(item);
+                pthProviderDetailsFragment.setConsumerAndPractice(consumer, practice);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), pthProviderDetailsFragment, "Provider Details").addToBackStack(null).commit();
             }
         });

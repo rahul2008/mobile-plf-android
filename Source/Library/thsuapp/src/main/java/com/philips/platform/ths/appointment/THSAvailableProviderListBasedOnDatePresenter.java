@@ -2,11 +2,10 @@ package com.philips.platform.ths.appointment;
 
 import android.os.Bundle;
 
-import com.americanwell.sdk.entity.provider.AvailableProvider;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.providerslist.THSProviderInfo;
+import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
@@ -43,11 +42,12 @@ public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePres
 
     }
 
-    public void startTimePickGragment(AvailableProvider availableProvider, THSProviderInfo thsProviderInfo, Date date) {
+    public void startTimePickGragment(THSProviderEntity thsProviderInfo, Date date) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable(THSConstants.THS_PROVIDER_INFO,thsProviderInfo);
+        bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY,thsProviderInfo);
         bundle.putSerializable(THSConstants.THS_DATE,date);
-        bundle.putParcelable(THSConstants.THS_AVAILABLE_PROVIDER_LIST,availableProvider);
-        mThsBaseFragment.addFragment(new THSPickTimeFragment(),THSPickTimeFragment.TAG,bundle);
+        THSPickTimeFragment fragment = new THSPickTimeFragment();
+        fragment.setTHSProviderEntity(thsProviderInfo);
+        mThsBaseFragment.addFragment(fragment,THSPickTimeFragment.TAG,bundle);
     }
 }

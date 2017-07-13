@@ -19,6 +19,7 @@ import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.appointment.THSPickTimeFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
@@ -35,6 +36,7 @@ import java.util.List;
 public class THSProviderDetailsFragment extends THSBaseFragment implements View.OnClickListener, THSPRoviderDetailsViewInterface,SwipeRefreshLayout.OnRefreshListener{
     private Consumer consumer;
     private THSProviderInfo mThsProviderInfo;
+    private THSAvailableProvider mThsAvailableProvider;
     private THSProviderDetailsPresenter providerDetailsPresenter;
     protected SwipeRefreshLayout swipeRefreshLayout;
     protected ImageView providerImage,isAvailableImage;
@@ -91,10 +93,16 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         }
     }
 
+    public void setTHSProviderEntity(THSProviderEntity  thsProviderEntity){
+        if(thsProviderEntity instanceof THSProviderInfo) {
+            this.mThsProviderInfo = (THSProviderInfo) thsProviderEntity;
+        }else {
+            this.mThsAvailableProvider = (THSAvailableProvider)thsProviderEntity;
+        }
+    }
 
-    public void setProviderAndConsumerAndPractice(THSProviderInfo thsProviderInfo, Consumer consumer, Practice practice){
+    public void setConsumerAndPractice(Consumer consumer, Practice practice){
         this.consumer = consumer;
-        this.mThsProviderInfo = thsProviderInfo;
         this.mPractice = practice;
     }
 
@@ -113,7 +121,13 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
 
     @Override
     public THSProviderInfo getTHSProviderInfo() {
-        return mThsProviderInfo;
+        if (mThsProviderInfo != null) {
+            return mThsProviderInfo;
+        } else {
+            THSProviderInfo thsProviderInfo = new THSProviderInfo();
+            thsProviderInfo.setTHSProviderInfo(mThsAvailableProvider.getProviderInfo());
+            return thsProviderInfo;
+        }
     }
 
     @Override
@@ -133,7 +147,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
 
     @Override
     public List<Date> getAppointmentTimeSlots() {
-        return null;
+        return mThsAvailableProvider.getAvailableAppointmentTimeSlots();
     }
 
     /**

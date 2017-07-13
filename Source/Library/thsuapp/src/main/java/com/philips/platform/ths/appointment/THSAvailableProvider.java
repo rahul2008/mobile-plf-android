@@ -1,5 +1,6 @@
 package com.philips.platform.ths.appointment;
 
+import android.os.Parcel;
 import android.support.annotation.NonNull;
 
 import com.americanwell.sdk.entity.provider.AvailableProvider;
@@ -13,6 +14,14 @@ public class THSAvailableProvider extends THSProviderEntity{
 
     AvailableProvider availableProvider;
 
+    public THSAvailableProvider(){
+
+    }
+
+    protected THSAvailableProvider(Parcel in) {
+        super(in);
+    }
+
     public AvailableProvider getAvailableProvider() {
         return availableProvider;
     }
@@ -21,11 +30,11 @@ public class THSAvailableProvider extends THSProviderEntity{
         this.availableProvider = availableProvider;
     }
 
-    ProviderInfo getProviderInfo(){
+    public ProviderInfo getProviderInfo(){
         return availableProvider.getProviderInfo();
     }
 
-    List<Date> getAvailableAppointmentTimeSlots(){
+    public List<Date> getAvailableAppointmentTimeSlots(){
         return availableProvider.getAvailableAppointmentTimeSlots();
     }
 }

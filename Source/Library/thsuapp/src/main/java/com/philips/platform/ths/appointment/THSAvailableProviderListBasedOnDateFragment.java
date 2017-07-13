@@ -13,6 +13,7 @@ import com.americanwell.sdk.entity.provider.AvailableProvider;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.providerslist.OnProviderListItemClickListener;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.providerslist.THSProvidersListAdapter;
@@ -68,17 +69,17 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
 
     public void updateProviderAdapterList(final THSAvailableProviderList availableProviderses) {
         mTHSAvailableProviderList = availableProviderses;
-        List<THSProviderInfo> listOfProviderInfos = new ArrayList();
+        List<THSAvailableProvider> listOfProviderInfos = new ArrayList();
         for (AvailableProvider availableProvider:availableProviderses.getAvailableProvidersList()) {
-            THSProviderInfo thsProviderInfo = new THSProviderInfo();
-            thsProviderInfo.setTHSProviderInfo(availableProvider.getProviderInfo());
+            THSAvailableProvider thsProviderInfo = new THSAvailableProvider();
+            thsProviderInfo.setAvailableProvider(availableProvider);
             listOfProviderInfos.add(thsProviderInfo);
         }
-        THSProvidersListAdapter adapter= new THSProvidersListAdapter(listOfProviderInfos,mTHSAvailableProviderList.getAvailableProvidersList());
+        THSProvidersListAdapter adapter= new THSProvidersListAdapter(listOfProviderInfos);
         adapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
             @Override
-            public void onItemClick(THSProviderInfo item, AvailableProvider availableProvider) {
-                mTHSAvailableProviderListBasedOnDatePresenter.startTimePickGragment(availableProvider,item,mDate);
+            public void onItemClick(THSProviderEntity item) {
+                mTHSAvailableProviderListBasedOnDatePresenter.startTimePickGragment(item,mDate);
             }
         });
         recyclerView.setAdapter(adapter);
