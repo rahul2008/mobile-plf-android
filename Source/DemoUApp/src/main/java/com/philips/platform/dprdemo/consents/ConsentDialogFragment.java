@@ -13,6 +13,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,8 +31,8 @@ import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dprdemo.R;
 import com.philips.platform.dprdemo.pojo.PairDevice;
-import com.philips.platform.dprdemo.states.CreateSubjectProfileState;
 import com.philips.platform.dprdemo.states.StateContext;
+import com.philips.platform.dprdemo.ui.CreateSubjectProfileFragment;
 import com.philips.platform.dprdemo.ui.DeviceStatusListener;
 import com.philips.platform.dprdemo.utils.NetworkChangeListener;
 
@@ -187,11 +188,9 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
         refreshUi((ArrayList<OrmConsentDetail>) data);
         dismissProgressDialog();
 
-        StateContext stateContext = new StateContext();
         if (isConsentAccepted(data)) {
             removeCurrentFragment();
-            stateContext.setState(new CreateSubjectProfileState(mPairDevice, mDeviceStatusListener, getActivity()));
-            stateContext.start();
+            launchSubjectProfile();
         } else {
             showAlertDialog("Please accept all the consents to pair device.");
         }
@@ -305,5 +304,25 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
     @Override
     public void onConnectionAvailable() {
 
+    }
+
+    private void launchSubjectProfile() {
+        CreateSubjectProfileFragment createProfileFragment = new CreateSubjectProfileFragment();
+        createProfileFragment.setDeviceDetails(mPairDevice);
+        createProfileFragment.setDeviceStatusListener(mDeviceStatusListener);
+
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(getActiveFragment().getId(), createProfileFragment, CreateSubjectProfileFragment.TAG);
+        fragmentTransaction.addToBackStack(CreateSubjectProfileFragment.TAG);
+        fragmentTransaction.commit();
+    }
+
+    public Fragment getActiveFragment() {
+        if (getActivity().getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            return null;
+        }
+
+        String tag = getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
+        return getActivity().getSupportFragmentManager().findFragmentByTag(tag);
     }
 }

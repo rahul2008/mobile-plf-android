@@ -19,6 +19,7 @@ import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dprdemo.consents.ConsentDialogFragment;
 import com.philips.platform.dprdemo.pojo.PairDevice;
+import com.philips.platform.dprdemo.ui.CreateSubjectProfileFragment;
 import com.philips.platform.dprdemo.ui.DeviceStatusListener;
 import com.philips.platform.dprdemo.utils.Utility;
 
@@ -78,9 +79,7 @@ class CheckConsentState extends AbstractBaseState implements DBRequestListener<C
         if (!accepted) {
             launchConsentDialog();
         } else {
-            StateContext stateContext = new StateContext();
-            stateContext.setState(new CreateSubjectProfileState(mPairDevice, mDeviceStatusListener, mActivity));
-            stateContext.start();
+            launchSubjectProfile();
         }
     }
 
@@ -118,18 +117,29 @@ class CheckConsentState extends AbstractBaseState implements DBRequestListener<C
         consentDialogFragment.setDeviceDetails(mPairDevice);
         consentDialogFragment.setDeviceStatusListener(mDeviceStatusListener);
 
-        FragmentTransaction fragmentTransaction = ((FragmentActivity)mActivity).getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = ((FragmentActivity) mActivity).getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(getActiveFragment().getId(), consentDialogFragment, ConsentDialogFragment.TAG);
         fragmentTransaction.addToBackStack(ConsentDialogFragment.TAG);
         fragmentTransaction.commit();
     }
 
+    private void launchSubjectProfile() {
+        CreateSubjectProfileFragment createProfileFragment = new CreateSubjectProfileFragment();
+        createProfileFragment.setDeviceDetails(mPairDevice);
+        createProfileFragment.setDeviceStatusListener(mDeviceStatusListener);
+
+        FragmentTransaction fragmentTransaction = ((FragmentActivity) mActivity).getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(getActiveFragment().getId(), createProfileFragment, CreateSubjectProfileFragment.TAG);
+        fragmentTransaction.addToBackStack(CreateSubjectProfileFragment.TAG);
+        fragmentTransaction.commit();
+    }
+
     public Fragment getActiveFragment() {
-        if (((FragmentActivity)mActivity).getSupportFragmentManager().getBackStackEntryCount() == 0) {
+        if (((FragmentActivity) mActivity).getSupportFragmentManager().getBackStackEntryCount() == 0) {
             return null;
         }
 
-        String tag = ((FragmentActivity)mActivity).getSupportFragmentManager().getBackStackEntryAt(((FragmentActivity)mActivity).getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
-        return ((FragmentActivity)mActivity).getSupportFragmentManager().findFragmentByTag(tag);
+        String tag = ((FragmentActivity) mActivity).getSupportFragmentManager().getBackStackEntryAt(((FragmentActivity) mActivity).getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
+        return ((FragmentActivity) mActivity).getSupportFragmentManager().findFragmentByTag(tag);
     }
 }
