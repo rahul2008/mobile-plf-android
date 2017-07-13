@@ -14,10 +14,8 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.v7.widget.ListPopupWindow;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.PopupWindow;
 
@@ -106,14 +104,6 @@ public class UIPicker extends ListPopupWindow{
         }
     }
 
-    /*@Override
-    public void setInputMethodMode(int mode) {
-        super.setInputMethodMode(mode);
-    }*/
-/*@Override
-    public void setHeight(int height) {
-        super.setHeight(height);
-    }*/
 
     /*@Override
     public void setAnchorView(@Nullable View anchor) {
@@ -125,15 +115,15 @@ public class UIPicker extends ListPopupWindow{
         setHeight(heightPixels - anchor.getBottom());
     }*/
 
-//    @Override
-//    public void show() {
-//        setUIDUIPickerHeight();
-//        if(!isBelowAnchorView){
-//            setVerticalOffset(-getAnchorView().getHeight());
-//        }
-//        //setVerticalOffset(getAnchorView().getHeight());
-//        super.show();
-//    }
+    /*@Override
+    public void show() {
+        setUIDUIPickerHeight();
+        if(!isBelowAnchorView){
+            setVerticalOffset(-getAnchorView().getHeight());
+        }
+        //setVerticalOffset(getAnchorView().getHeight());
+        super.show();
+    }*/
 
     /*public void shouldShowBelowAnchorView(boolean isBelowAnchorView){
         this.isBelowAnchorView = isBelowAnchorView;

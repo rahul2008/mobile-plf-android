@@ -9,7 +9,6 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.ListPopupWindow;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +18,6 @@ import android.widget.ArrayAdapter;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentUiPickerBinding;
 import com.philips.platform.uid.view.widget.UIPicker;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 public class UIPickerFragment extends BaseFragment {
 
@@ -65,8 +61,6 @@ public class UIPickerFragment extends BaseFragment {
         listPopupWindow.setAdapter(new ArrayAdapter<>(getContext(), R.layout.uipicker_item_text, STATES));
         listPopupWindow.setAnchorView(fragmentUiPickerBinding.selectedLocationLabel);
         listPopupWindow.setModal(true);
-
-
         //listPopupWindow.setHeight(500);
 
         listPopupWindow.setOnItemClickListener(
@@ -101,21 +95,8 @@ public class UIPickerFragment extends BaseFragment {
         //listPopupWindow.setVerticalOffset(-fragmentUiPickerBinding.anchorLayout.getHeight());
         //listPopupWindow.shouldShowBelowAnchorView(true);
 
-        /*try {
-            Method method = listPopupWindow.getClass().getDeclaredMethod("setListItemExpandMax", Integer.TYPE);
-            method.setAccessible(true);
-            method.invoke(listPopupWindow, 10);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }*/
         listPopupWindow.show();
-//        listPopupWindow.setSelection(8);
-
-
+        //listPopupWindow.setSelection(8);
     }
 
 }
