@@ -10,9 +10,11 @@ import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
@@ -32,6 +34,7 @@ public class LauncherActivity extends UiKitActivity implements UserRegistrationL
     private DevicePairingUappInterface devicePairingUappInterface;
     private Button mLaunchAsActivity;
     private Button mLaunchAsFragment;
+    private Button mBtnLogout;
     private ActionBarListener actionBarListener;
 
     @Override
@@ -41,6 +44,7 @@ public class LauncherActivity extends UiKitActivity implements UserRegistrationL
 
         mLaunchAsActivity = (Button) findViewById(R.id.btn_launch_activity);
         mLaunchAsFragment = (Button) findViewById(R.id.btn_launch_fragment);
+        mBtnLogout = (Button) findViewById(R.id.btn_logout);
 
         User user = new User(this);
 
@@ -104,6 +108,38 @@ public class LauncherActivity extends UiKitActivity implements UserRegistrationL
         devicePairingUappInterface.launch(fragmentLauncher, null);
     }
 
+    public void logout(View v) {
+        mBtnLogout.setEnabled(false);
+
+        User user = new User(LauncherActivity.this);
+        if (!user.isUserSignIn()) return;
+
+        user.logout(new LogoutHandler() {
+            @Override
+            public void onLogoutSuccess() {
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(LauncherActivity.this, "Logout Success", Toast.LENGTH_SHORT).show();
+                        startRegistrationFragment();
+                    }
+                });
+            }
+
+            @Override
+            public void onLogoutFailure(int i, String s) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(LauncherActivity.this, "Logout Failed", Toast.LENGTH_SHORT).show();
+                        mBtnLogout.setEnabled(true);
+                    }
+                });
+            }
+        });
+    }
+
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
 
@@ -117,11 +153,13 @@ public class LauncherActivity extends UiKitActivity implements UserRegistrationL
     private void hideLaunchButton() {
         mLaunchAsActivity.setVisibility(View.GONE);
         mLaunchAsFragment.setVisibility(View.GONE);
+        mBtnLogout.setVisibility(View.GONE);
     }
 
     private void showLaunchButton() {
         mLaunchAsActivity.setVisibility(View.VISIBLE);
         mLaunchAsFragment.setVisibility(View.VISIBLE);
+        mBtnLogout.setVisibility(View.VISIBLE);
     }
 
     @Override

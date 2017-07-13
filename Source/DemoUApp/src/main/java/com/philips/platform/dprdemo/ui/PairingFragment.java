@@ -18,18 +18,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
 import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.handlers.LogoutHandler;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 import com.philips.platform.dprdemo.R;
@@ -70,7 +66,7 @@ public class PairingFragment extends Fragment implements BackEventListener,
     private AlertDialog.Builder mAlertDialogBuilder;
     private AlertDialog mAlertDialog;
     private StateContext mStateContext;
-    private Button mBtnLogout;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,7 +87,6 @@ public class PairingFragment extends Fragment implements BackEventListener,
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.pairing_layout, container, false);
 
-        mBtnLogout = (Button) view.findViewById(R.id.btn_logout);
         mLaunchFragmentPresenter = new PairingFragmentPresenter(getActivity());
         mPairedDevicesList = new ArrayList<>();
         mAvailableDevicesList = new ArrayList<>();
@@ -138,44 +133,6 @@ public class PairingFragment extends Fragment implements BackEventListener,
         });
 
         mDiscoveryManager = DiscoveryManager.getInstance();
-
-        mBtnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mStateContext.getState().showProgressDialog("Please wait");
-                mBtnLogout.setEnabled(false);
-
-                User user = new User(getActivity());
-                if (!user.isUserSignIn()) return;
-
-                user.logout(new LogoutHandler() {
-                    @Override
-                    public void onLogoutSuccess() {
-
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getActivity().getApplicationContext(), "Logout Success", Toast.LENGTH_SHORT).show();
-                                mStateContext.getState().dismissProgressDialog();
-                                getActivity().finish();
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onLogoutFailure(int i, String s) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getActivity().getApplicationContext(), "Logout Failed", Toast.LENGTH_SHORT).show();
-                                mStateContext.getState().dismissProgressDialog();
-                                mBtnLogout.setEnabled(true);
-                            }
-                        });
-                    }
-                });
-            }
-        });
 
         return view;
     }

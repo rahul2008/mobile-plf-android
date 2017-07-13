@@ -26,12 +26,25 @@
         android:id="@+id/btn_launch_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_launch_activity"
+        android:layout_below="@id/btn_launch_activity"
         android:layout_centerHorizontal="true"
         android:layout_margin="2dp"
         android:onClick="launchAsFragment"
         android:padding="2dp"
         android:text="@string/launch_fragment"
+        android:visibility="gone" />
+
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_launch_fragment"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="2dp"
+        android:onClick="logout"
+        android:padding="2dp"
+        android:text="@string/logout"
         android:visibility="gone" />
 
 </RelativeLayout>
