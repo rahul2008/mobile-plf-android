@@ -9,19 +9,13 @@
     android:layout_marginRight="@dimen/pth_fab_margin"
     android:orientation="vertical">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <RelativeLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/pth_intake_medication_continue_button"
-        android:layout_marginBottom="10dp"
-        android:fillViewport="true">
-
-        <RelativeLayout
-
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+        android:layout_marginBottom="5dp"
+        android:layout_above="@+id/pth_intake_medication_continue_button">
 
 
         <com.philips.platform.uid.view.widget.Button
@@ -40,7 +34,7 @@
             android:paddingTop="15dp"
             android:text="Do you currently use medication? If so, please add your medication to share with the provider"
             android:textColor="@color/awsdk_color_black"
-            android:textSize="@dimen/pth_body_text"
+            android:textSize="@dimen/pth_title_text"
             android:textStyle="bold" />
 
 
@@ -55,36 +49,26 @@
         </ListView>
 
 
-       <!-- <com.philips.platform.uid.view.widget.EditText
-            android:id="@+id/pth_search_medication_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/listPreferredItemHeight"
-            android:layout_below="@+id/pth_intake_medication_listview"
-            android:drawableRight="@android:drawable/ic_input_get"
-            android:focusable="false"
-            android:hint="Add medication"
-
-            android:textColor="@color/awsdk_color_black"></com.philips.platform.uid.view.widget.EditText>-->
-        </RelativeLayout>
-    </ScrollView>
-
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/pth_intake_medication_continue_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/pth_intake_medication_skip_step_label"
-
-            android:text="Continue" />
+    </RelativeLayout>
 
 
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/pth_intake_medication_skip_step_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:gravity="center"
-            android:padding="15dp"
-            android:text="Skip this step"
-            android:textSize="@dimen/pth_body_text" />
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/pth_intake_medication_continue_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/pth_intake_medication_skip_step_label"
+
+        android:text="Continue" />
+
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/pth_intake_medication_skip_step_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="Skip this step"
+        android:textSize="@dimen/pth_body_text" />
 
 </RelativeLayout>

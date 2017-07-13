@@ -3,6 +3,7 @@
 
     android:layout_width="match_parent" android:layout_height="?android:attr/listPreferredItemHeight">
 
+
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/pth_existing_medication_list_row_label"
         android:layout_toLeftOf="@+id/pth_existing_medication_list_row_delete"
