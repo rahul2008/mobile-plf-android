@@ -2,7 +2,7 @@ BlueLib(/ShineLib) for Android - Release Notes
 =======================================
 
 
-Version {next}
+Version 3.1.0
 -------------
 
 ### Functionality Delivered
@@ -79,10 +79,10 @@ Version 2.3.2
 Version 2.0.3
 -------------
 ### New features
-* The dafault implementation of SHNDevice interface does not ignore connect calls: 
+* The dafault implementation of SHNDevice interface does not ignore connect calls:
 	- In state Connected onStateUpdated callback will be issued.
 	- In state Connecting no callback.
-	- In state Disconnecting onFailedToConnect callback will be issued. 
+	- In state Disconnecting onFailedToConnect callback will be issued.
 	- In state Disconnected onStateUpdated callback will be issued.
 
 ### Known issues
@@ -169,7 +169,7 @@ Version 0.7.1
 Version 0.7.0
 -------------
 ### New features
-* [BG-150] Added new SHNDataType: ExtendedWeight 
+* [BG-150] Added new SHNDataType: ExtendedWeight
 
 ### Known issues
 * [BL-234] Google backup might restore previously associated devices
@@ -182,4 +182,3 @@ Version 0.6.0
 
 ### Known issues
 * [BL-234] Google backup might restore previously associated devices
-
