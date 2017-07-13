@@ -15,9 +15,7 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.Key;
@@ -62,24 +60,6 @@ public class SecureStorage implements SecureStorageInterface {
         readLock = reentrantReadWriteLock.readLock();
         secureStorageHelper = new SecureStorageHelper(mAppInfra);
 
-    }
-
-    /**
-     * Checks if the device is rooted.
-     *
-     * @return <code>true</code> if the device is rooted, <code>false</code> otherwise.
-     */
-    private static boolean checkProcess() {
-        Process process = null;
-        try {
-            process = Runtime.getRuntime().exec(new String[]{"/system/xbin/which", "/system/bin/which", "su"});
-            final BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            return in.readLine() != null;
-        } catch (Throwable t) {
-            return false;
-        } finally {
-            if (process != null) process.destroy();
-        }
     }
 
     @Override
@@ -186,14 +166,19 @@ public class SecureStorage implements SecureStorageInterface {
     }
 
     @Override
-    public synchronized boolean removeValueForKey(String userKey) {
+    public boolean removeValueForKey(String userKey) {
         boolean deleteResultValue;
         boolean deleteResultKey;
-        if (null == userKey || userKey.isEmpty()) {
-            return false;
+        try {
+            writeLock.lock();
+            if (null == userKey || userKey.isEmpty()) {
+                return false;
+            }
+            deleteResultValue = secureStorageHelper.deleteEncryptedData(userKey, DATA_FILE_NAME);
+            deleteResultKey = secureStorageHelper.deleteEncryptedData(userKey, KEY_FILE_NAME);
+        } finally {
+            writeLock.unlock();
         }
-        deleteResultValue = secureStorageHelper.deleteEncryptedData(userKey, DATA_FILE_NAME);
-        deleteResultKey = secureStorageHelper.deleteEncryptedData(userKey, KEY_FILE_NAME);
         return (deleteResultValue && deleteResultKey);
     }
 
@@ -201,6 +186,7 @@ public class SecureStorage implements SecureStorageInterface {
     public boolean createKey(KeyTypes keyType, String keyName, SecureStorageError error) {
         boolean returnResult;
         try {
+            writeLock.lock();
             if (null == keyName || keyName.isEmpty() || keyName.trim().isEmpty()) {
                 error.setErrorCode(SecureStorageError.secureStorageError.UnknownKey);
                 return false;
@@ -212,6 +198,8 @@ public class SecureStorage implements SecureStorageInterface {
             returnResult = false;
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,AppInfraLogEventID.AI_SECURE_STORAGE, "Error in SecureStorage  SqlCipher Data Key "+e.getMessage());
             //Log.e("SecureStorage", Log.getStackTraceString(e));
+        } finally {
+            writeLock.unlock();
         }
         return returnResult;
 
@@ -330,7 +318,7 @@ public class SecureStorage implements SecureStorageInterface {
         for (String path : paths) {
             if (new File(path).exists()) return "true";
         }
-        if (checkProcess()) {
+        if (secureStorageHelper.checkProcess()) {
             return "true";
         }
 

@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V. 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.appinfra.securestorage;
 
 import android.content.Context;
@@ -11,6 +16,8 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.Key;
@@ -77,7 +84,7 @@ class SecureStorageHelper {
 
 
     boolean storeEncryptedData(String key, String encryptedData, String filename) {
-        boolean storeEncryptedDataResult = true;
+        boolean storeEncryptedDataResult;
         try {
             // encrypted data will be saved in device  SharedPreferences
             SharedPreferences mAppInfraPrefs = getSharedPreferences(filename);
@@ -190,6 +197,25 @@ class SecureStorageHelper {
             deleteResult = false;
         }
         return deleteResult;
+    }
+
+
+    /**
+     * Checks if the device is rooted.
+     *
+     * @return <code>true</code> if the device is rooted, <code>false</code> otherwise.
+     */
+    boolean checkProcess() {
+        Process process = null;
+        try {
+            process = Runtime.getRuntime().exec(new String[]{"/system/xbin/which", "/system/bin/which", "su"});
+            final BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            return in.readLine() != null;
+        } catch (Throwable t) {
+            return false;
+        } finally {
+            if (process != null) process.destroy();
+        }
     }
 
 }
