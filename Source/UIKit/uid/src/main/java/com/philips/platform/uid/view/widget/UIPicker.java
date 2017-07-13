@@ -15,14 +15,48 @@ import android.support.annotation.StyleRes;
 import android.support.v7.widget.ListPopupWindow;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
+import android.widget.ListAdapter;
+import android.widget.PopupWindow;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class UIPicker extends ListPopupWindow{
 
+    private static final String TAG = "UIPicker";
+    private static Method sClipToWindowEnabledMethod;
+    private static Method sGetMaxAvailableHeightMethod;
+    private static Method sSetEpicenterBoundsMethod;
+
+    static {
+        try {
+            sClipToWindowEnabledMethod = PopupWindow.class.getDeclaredMethod(
+                    "setClipToScreenEnabled", boolean.class);
+        } catch (NoSuchMethodException e) {
+            Log.i(TAG, "Could not find method setClipToScreenEnabled() on PopupWindow. Oh well.");
+        }
+        try {
+            sGetMaxAvailableHeightMethod = PopupWindow.class.getDeclaredMethod(
+                    "getMaxAvailableHeight", View.class, int.class, boolean.class);
+        } catch (NoSuchMethodException e) {
+            Log.i(TAG, "Could not find method getMaxAvailableHeight(View, int, boolean)"
+                    + " on PopupWindow. Oh well.");
+        }
+        try {
+            sSetEpicenterBoundsMethod = PopupWindow.class.getDeclaredMethod(
+                    "setEpicenterBounds", Rect.class);
+        } catch (NoSuchMethodException e) {
+            Log.i(TAG, "Could not find method setEpicenterBounds(Rect) on PopupWindow. Oh well.");
+        }
+    }
+
     private Activity activity;
+    private ListAdapter adapter;
     public static boolean isBelowAnchorView;
+    private static final int LIST_EXPAND_MAX = 1;
 
     public UIPicker(@NonNull Context context) {
         this(context, null, android.support.v7.appcompat.R.attr.listPopupWindowStyle);
@@ -43,7 +77,40 @@ public class UIPicker extends ListPopupWindow{
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
+    @Override
+    public void setAdapter(@Nullable ListAdapter adapter) {
+        super.setAdapter(adapter);
+        this.adapter = adapter;
+    }
+
+    @Override
+    public void show() {
+        setListItemExpandMax(this, LIST_EXPAND_MAX);
+        super.show();
+    }
+
+    private void setListItemExpandMax(ListPopupWindow listPopupWindow, int max) {
+        if(!isBelowAnchorView){
+            setVerticalOffset(-getAnchorView().getHeight());
+        }
+        try {
+            Method method = ListPopupWindow.class.getDeclaredMethod("setListItemExpandMax", Integer.TYPE);
+            method.setAccessible(true);
+            method.invoke(listPopupWindow, max);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
     /*@Override
+    public void setInputMethodMode(int mode) {
+        super.setInputMethodMode(mode);
+    }*/
+/*@Override
     public void setHeight(int height) {
         super.setHeight(height);
     }*/
@@ -58,20 +125,21 @@ public class UIPicker extends ListPopupWindow{
         setHeight(heightPixels - anchor.getBottom());
     }*/
 
-    @Override
-    public void show() {
-        setUIDUIPickerHeight();
-        if(!isBelowAnchorView){
-            setVerticalOffset(-getAnchorView().getHeight());
-        }
-        super.show();
-    }
+//    @Override
+//    public void show() {
+//        setUIDUIPickerHeight();
+//        if(!isBelowAnchorView){
+//            setVerticalOffset(-getAnchorView().getHeight());
+//        }
+//        //setVerticalOffset(getAnchorView().getHeight());
+//        super.show();
+//    }
 
-    public void shouldShowBelowAnchorView(boolean isBelowAnchorView){
+    /*public void shouldShowBelowAnchorView(boolean isBelowAnchorView){
         this.isBelowAnchorView = isBelowAnchorView;
-    }
+    }*/
 
-    private void setUIDUIPickerHeight(){
+    /*private void setUIDUIPickerHeight(){
         if(getHeight() == ViewGroup.LayoutParams.WRAP_CONTENT){
             DisplayMetrics metrics = new DisplayMetrics();
             activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -81,9 +149,9 @@ public class UIPicker extends ListPopupWindow{
             int[] coordinatesArray = new int[2];
             getAnchorView().getLocationInWindow(coordinatesArray);
             int anchorViewHeight = getAnchorView().getHeight();
-
+            //setHeight(800);
             setHeight(heightPixels - (coordinatesArray[1] + anchorViewHeight));
             //setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         }
-    }
+    }*/
 }

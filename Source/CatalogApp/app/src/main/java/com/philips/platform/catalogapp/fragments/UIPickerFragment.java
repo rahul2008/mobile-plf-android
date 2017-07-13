@@ -20,6 +20,9 @@ import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentUiPickerBinding;
 import com.philips.platform.uid.view.widget.UIPicker;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 public class UIPickerFragment extends BaseFragment {
 
     private FragmentUiPickerBinding fragmentUiPickerBinding;
@@ -37,7 +40,7 @@ public class UIPickerFragment extends BaseFragment {
             "Connecticut",
             "Delaware",
             "Florida",
-            "Georgiajgjflkjgfdjglkfjglkfjglkfdjglkjfdlkgjflkjglkfdjg",
+            "Georgia",
             "Hawaii",
             "Idaho",
             "Illinois",
@@ -62,6 +65,7 @@ public class UIPickerFragment extends BaseFragment {
         listPopupWindow.setAdapter(new ArrayAdapter<>(getContext(), R.layout.uipicker_item_text, STATES));
         listPopupWindow.setAnchorView(fragmentUiPickerBinding.selectedLocationLabel);
         listPopupWindow.setModal(true);
+
 
         //listPopupWindow.setHeight(500);
 
@@ -96,8 +100,22 @@ public class UIPickerFragment extends BaseFragment {
     public void showListPopupWindow(){
         //listPopupWindow.setVerticalOffset(-fragmentUiPickerBinding.anchorLayout.getHeight());
         //listPopupWindow.shouldShowBelowAnchorView(true);
+
+        /*try {
+            Method method = listPopupWindow.getClass().getDeclaredMethod("setListItemExpandMax", Integer.TYPE);
+            method.setAccessible(true);
+            method.invoke(listPopupWindow, 10);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }*/
         listPopupWindow.show();
-        listPopupWindow.setSelection(8);
+//        listPopupWindow.setSelection(8);
+
+
     }
 
 }
