@@ -1,7 +1,7 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
 * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
 */
 package com.philips.platform.dprdemo.consents;
 
@@ -29,7 +29,6 @@ import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dprdemo.R;
-import com.philips.platform.dprdemo.database.table.OrmConsentDetail;
 import com.philips.platform.dprdemo.pojo.PairDevice;
 import com.philips.platform.dprdemo.states.CreateSubjectProfileState;
 import com.philips.platform.dprdemo.states.StateContext;
