@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ths_existing_medicine_footer_relative_layout"
+    android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:layout_marginLeft="@dimen/pth_fab_margin"
+    android:layout_marginRight="@dimen/pth_fab_margin"
+    android:layout_height="?android:attr/listPreferredItemHeight">
+
+    <com.philips.platform.uid.view.widget.Label xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ths_existing_medicine_list_footer_alabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        android:layout_toLeftOf="@+id/ths_existing_medicine_list_footer_arrow_image"
+        android:text="Add medication">
+
+    </com.philips.platform.uid.view.widget.Label>
+
+    <ImageView
+        android:id="@+id/ths_existing_medicine_list_footer_arrow_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:src="@android:drawable/ic_input_get"
+        android:layout_alignBottom="@+id/ths_existing_medicine_list_footer_alabel"
+        android:layout_alignParentRight="true"
+        ></ImageView>
+</RelativeLayout>

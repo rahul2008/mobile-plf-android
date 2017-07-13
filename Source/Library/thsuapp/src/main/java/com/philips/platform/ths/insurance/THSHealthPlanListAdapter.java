@@ -1,31 +1,39 @@
-package com.philips.platform.ths.intake;
+package com.philips.platform.ths.insurance;
 
 import android.content.Context;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.americanwell.sdk.entity.insurance.HealthPlan;
 import com.philips.platform.ths.R;
+import com.philips.platform.uid.view.widget.Label;
+
+import java.util.List;
 
 /**
- * Created by philips on 6/30/17.
+ * Created by philips on 7/12/17.
  */
 
-public class THSSearchedMedicationListAdapter extends BaseAdapter {
-    THSMedication mPTHSearchedMedication;
-    Context mContext;
+public class THSHealthPlanListAdapter extends BaseAdapter {
 
-    public THSSearchedMedicationListAdapter(Context context, THSMedication pTHMedication) {
-        this.mContext = context;
-        this.mPTHSearchedMedication = pTHMedication;
+    private Context mContext;
+    THSHealthPlan mTHSHealthPlan;
+
+
+    public THSHealthPlanListAdapter(Context context, THSHealthPlan  tHSHealthPlan) {
+
+        this.mContext=context;
+        mTHSHealthPlan=tHSHealthPlan;
+
     }
 
-    void setData(THSMedication pTHSearchedMedication){
-        mPTHSearchedMedication=pTHSearchedMedication;
-        notifyDataSetChanged();
-    }
 
     /**
      * How many items are in the data set represented by this Adapter.
@@ -34,8 +42,8 @@ public class THSSearchedMedicationListAdapter extends BaseAdapter {
      */
     @Override
     public int getCount() {
-        if (null != mPTHSearchedMedication && null != mPTHSearchedMedication.getMedicationList() && !mPTHSearchedMedication.getMedicationList().isEmpty()) {
-            return mPTHSearchedMedication.getMedicationList().size();
+        if (null != mTHSHealthPlan && null != mTHSHealthPlan.getHealthPlanList() && !mTHSHealthPlan.getHealthPlanList().isEmpty()) {
+            return mTHSHealthPlan.getHealthPlanList().size();
         } else {
             return 0;
         }
@@ -50,8 +58,8 @@ public class THSSearchedMedicationListAdapter extends BaseAdapter {
      */
     @Override
     public Object getItem(int position) {
-        if (null != mPTHSearchedMedication && null != mPTHSearchedMedication.getMedicationList() && !mPTHSearchedMedication.getMedicationList().isEmpty()) {
-            return mPTHSearchedMedication.getMedicationList().get(position);
+        if (null != mTHSHealthPlan && null != mTHSHealthPlan.getHealthPlanList() && !mTHSHealthPlan.getHealthPlanList().isEmpty()) {
+            return mTHSHealthPlan.getHealthPlanList().get(position);
         } else {
             return null;
         }
@@ -88,29 +96,24 @@ public class THSSearchedMedicationListAdapter extends BaseAdapter {
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View rowView = convertView;
-        if (null == rowView) {
+        View rowView=convertView;
 
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rowView = inflater.inflate(R.layout.ths_list_row, null);
-            // configure view holder
-            ViewHolder viewHolder = new ViewHolder();
-            viewHolder.MedicineName = (TextView) rowView.findViewById(R.id.ths_list_row_label);
-
-            rowView.setTag(viewHolder);
+        if(null==rowView){
+            LayoutInflater  layoutInflater=(LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            rowView=layoutInflater.inflate(R.layout.ths_list_row,null);
+            ViewHolder holder= new ViewHolder();
+            holder.HealthPlan=(TextView)rowView.findViewById(R.id.ths_list_row_label);
+            rowView.setTag(holder);
         }
-
         ViewHolder holder = (ViewHolder) rowView.getTag();
-        String medicineName = mPTHSearchedMedication.getMedicationList().get(position).getName();
-        holder.MedicineName.setText(medicineName);
-
+        String healthPlan = mTHSHealthPlan.getHealthPlanList().get(position).getName();
+        holder.HealthPlan.setText(healthPlan);
         return rowView;
     }
 
 
-    private class ViewHolder {
-        private TextView MedicineName;
-
-
+    private class ViewHolder{
+        private TextView HealthPlan;
     }
+
 }

@@ -1,22 +1,17 @@
 package com.philips.platform.ths.intake;
 
-import android.app.Fragment;
-
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
-import com.philips.platform.appinfra.tagging.AppTaggingConstants;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
 
-import java.util.Map;
-
 import static com.philips.platform.ths.R.id.pth_intake_medication_continue_button;
-import static com.philips.platform.ths.R.id.pth_search_medication_relative_layout;
+import static com.philips.platform.ths.R.id.pth_intake_medication_skip_step_label;
+
+import static com.philips.platform.ths.R.id.ths_existing_medicine_footer_relative_layout;
 
 
 public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCallback.PTHGetMedicationCallback, THSMedicationCallback.PTHUpdateMedicationCallback {
@@ -32,12 +27,14 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
         if(componentID == pth_intake_medication_continue_button){
             mTHSBaseFragment.showProgressBar();
             updateMedication( ((THSMedicationFragment )mTHSBaseFragment).mExistingMedication);
-        } else if (componentID == pth_search_medication_relative_layout){
+        } else if (componentID == ths_existing_medicine_footer_relative_layout){
             THSMedicationSearchFragment tHSMedicationSearchFragment= new THSMedicationSearchFragment();
             tHSMedicationSearchFragment.setTargetFragment(((THSMedicationFragment )mTHSBaseFragment), 123);
             ((THSMedicationFragment )mTHSBaseFragment).addFragment(tHSMedicationSearchFragment, THSMedicationSearchFragment.TAG, null);
+        }else if (componentID == pth_intake_medication_skip_step_label){
+            mTHSBaseFragment.addFragment(new THSConditionsFragment(),THSConditionsFragment.TAG,null);
         }
-       // mTHSBaseFragment.addFragment(new THSConditionsFragment(),THSConditionsFragment.TAG,null);
+
     }
 
 
@@ -96,7 +93,8 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
         ((THSMedicationFragment) mTHSBaseFragment).hideProgressBar();
 
         AmwellLog.i("onUpdateMedication","success");
-        // TODO  call next intake fragment here
+        // addF
+        ((THSMedicationFragment )mTHSBaseFragment).addFragment(new THSConditionsFragment(), THSConditionsFragment.TAG, null);
 
     }
     //////////////// end of call backs for update medicines//////////////

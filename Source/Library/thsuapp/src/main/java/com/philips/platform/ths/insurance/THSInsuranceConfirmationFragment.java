@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
@@ -21,12 +20,12 @@ import com.philips.platform.uid.view.widget.RadioGroup;
  * Created by philips on 7/10/17.
  */
 
-public class THSConfirmationFragment extends THSBaseFragment implements BackEventListener, View.OnClickListener, RadioGroup.OnCheckedChangeListener {
-    public static final String TAG = THSConfirmationFragment.class.getSimpleName();
+public class THSInsuranceConfirmationFragment extends THSBaseFragment implements BackEventListener, View.OnClickListener, RadioGroup.OnCheckedChangeListener {
+    public static final String TAG = THSInsuranceConfirmationFragment.class.getSimpleName();
     private ActionBarListener actionBarListener;
-    private THSBasePresenter mPresenter;
+    private THSInsuranceConfirmationPresenter mPresenter;
     private RadioGroup mConfirmationRadioGroup;
-    private RadioButton mConfirmationRadioButtono;
+    private int mConfirmationRadioButtonSelectedID;
     private Button confirmationContinueButton;
 
 
@@ -34,7 +33,7 @@ public class THSConfirmationFragment extends THSBaseFragment implements BackEven
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_insurance_confirmation, container, false);
-        mPresenter = new THSConfirmationPresenter(this);
+        mPresenter = new THSInsuranceConfirmationPresenter(this);
         mConfirmationRadioGroup = (RadioGroup) view.findViewById(R.id.pth_insurance_confirmation_radio_group);
         mConfirmationRadioGroup.setOnCheckedChangeListener(this);
         confirmationContinueButton = (Button) view.findViewById(R.id.pth_insurance_confirmation_continue_button);
@@ -50,19 +49,7 @@ public class THSConfirmationFragment extends THSBaseFragment implements BackEven
         actionBarListener = getActionBarListener();
     }
 
-    /**
-     * Called when a view has been clicked.
-     *
-     * @param view The view that was clicked.
-     */
-    @Override
-    public void onClick(View view) {
-        if(view.getId() == R.id.pth_insurance_confirmation_continue_button){
 
-
-        }
-
-    }
 
     @Override
     public boolean handleBackEvent() {
@@ -89,8 +76,9 @@ public class THSConfirmationFragment extends THSBaseFragment implements BackEven
         RadioButton radioButton = (RadioButton) radioGroup.findViewById(checkedId);
         if (null != radioButton && checkedId > -1) {
             if (radioButton.getId() == R.id.pth_insurance_confirmation_radio_option_yes) {
-
+                mConfirmationRadioButtonSelectedID = R.id.pth_insurance_confirmation_radio_option_yes;
             }else if (radioButton.getId() == R.id.pth_insurance_confirmation_radio_option_no) {
+                mConfirmationRadioButtonSelectedID = R.id.pth_insurance_confirmation_radio_option_no;
             }
 
         }
@@ -101,6 +89,23 @@ public class THSConfirmationFragment extends THSBaseFragment implements BackEven
         }
     }
 
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param view The view that was clicked.
+     */
+    @Override
+    public void onClick(View view) {
+        if(view.getId() == R.id.pth_insurance_confirmation_continue_button){
+            if(mConfirmationRadioButtonSelectedID== R.id.pth_insurance_confirmation_radio_option_yes) {
+                mPresenter.onEvent(R.id.pth_insurance_confirmation_radio_option_yes);
+            }else if (mConfirmationRadioButtonSelectedID== R.id.pth_insurance_confirmation_radio_option_no){
+                mPresenter.onEvent(R.id.pth_insurance_confirmation_radio_option_no);
+            }
+        }
+
+    }
     @Override
     public int getContainerID() {
         return ((ViewGroup)getView().getParent()).getId();

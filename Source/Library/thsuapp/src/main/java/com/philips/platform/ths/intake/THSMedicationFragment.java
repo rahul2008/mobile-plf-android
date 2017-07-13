@@ -1,23 +1,25 @@
 package com.philips.platform.ths.intake;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.health.Medication;
-import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.EditText;
+import com.philips.platform.uid.view.widget.Label;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,15 +31,17 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     public static final String TAG = THSBaseFragment.class.getSimpleName();
 
     //SearchBox searchBox;
-    RelativeLayout mAddMedication;//
+    //android.widget.EditText mAddMedication;//
     private ActionBarListener actionBarListener;
     private THSMedicationPresenter mPresenter;
+    private RelativeLayout mProgressbarContainer;
     ListView mExistingMedicationListView;
     THSExistingMedicationListAdapter mTHSExistingMedicationListAdapter;
 
     THSMedication mExistingMedication;
     Medication mSelectedMedication;
     Button updateMedicationButton;
+    Label mSkipLabel;
     boolean existingMedicineFetched=  false; // flag to know if medication is fetched which can be null also
 
 
@@ -46,16 +50,23 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.intake_medication, container, false);
         setRetainInstance(true);
+        mProgressbarContainer=(RelativeLayout) view.findViewById(R.id.ths_medication_container);
         mPresenter = new THSMedicationPresenter(this);
-        mAddMedication = (RelativeLayout) view.findViewById(R.id.pth_search_medication_relative_layout);
-        mAddMedication.setOnClickListener(this);
+       // mAddMedication = (EditText) view.findViewById(R.id.pth_search_medication_edit_text);
+      //  mAddMedication.setOnClickListener(this);
         updateMedicationButton = (Button) view.findViewById(R.id.pth_intake_medication_continue_button);
         updateMedicationButton.setOnClickListener(this);
-
+        mSkipLabel = (Label) view.findViewById(R.id.pth_intake_medication_skip_step_label);
+        mSkipLabel.setOnClickListener(this);
         mExistingMedicationListView = (ListView) view.findViewById(R.id.pth_intake_medication_listview);
+        //LayoutInflater inflater = (LayoutInflater) mContext.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        View viewFooter = inflater.inflate(R.layout.existing_medicine_footer, null);
+        RelativeLayout footer=(RelativeLayout) viewFooter.findViewById(R.id.ths_existing_medicine_footer_relative_layout);
+        footer.setOnClickListener(this);
+        mExistingMedicationListView.addFooterView(footer);
         mTHSExistingMedicationListAdapter = new THSExistingMedicationListAdapter(getActivity());
         mExistingMedicationListView.setAdapter(mTHSExistingMedicationListAdapter);
-        createCustomProgressBar(view, BIG);
+
         return view;
     }
 
@@ -67,7 +78,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        createCustomProgressBar(mProgressbarContainer, MEDIUM);
         actionBarListener = getActionBarListener();
 
         if (existingMedicineFetched) {
@@ -125,8 +136,10 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
         int id = v.getId();
         if (id == R.id.pth_intake_medication_continue_button) {
             mPresenter.onEvent(R.id.pth_intake_medication_continue_button);
-        } else if (id == R.id.pth_search_medication_relative_layout) {
-            mPresenter.onEvent(R.id.pth_search_medication_relative_layout);
+        } else if (id == R.id.ths_existing_medicine_footer_relative_layout) {
+            mPresenter.onEvent(R.id.ths_existing_medicine_footer_relative_layout);
+        }else if (id == R.id.pth_intake_medication_skip_step_label) {
+            mPresenter.onEvent(R.id.pth_intake_medication_skip_step_label);
         }
     }
 
