@@ -29,6 +29,7 @@ public class TimeSyncDemo extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.timesync_demopage);
+        AILDemouAppInterface.mAppInfra.getTime().refreshTime();
         TextView localTimeTextView = (TextView) findViewById(R.id.localtime);
         final TextView localTimeTextvalue = (TextView) findViewById(R.id.localtimevalue);
 

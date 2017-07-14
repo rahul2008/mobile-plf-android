@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 
 import java.util.ArrayList;
@@ -50,20 +51,14 @@ public class ABTestClientManager implements ABTestClientInterface {
     }
 
 
-    private void init(final Context mContext) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Config.setContext(mContext.getApplicationContext());
-                mCacheModel = new CacheModel();
-              //  mCachestatusvalues = CACHESTATUSVALUES.EXPERIENCES_NOT_UPDATED;
-                loadfromDisk();
-                mSharedPreferences = mAppInfra.getAppInfraContext().getSharedPreferences(ABTEST_PRREFERENCE,
-                        Context.MODE_PRIVATE);
-                editor = mSharedPreferences.edit();
-            }
-        }).start();
-    }
+	private void init(final Context mContext) {
+		Config.setContext(mContext.getApplicationContext());
+		mCacheModel = new CacheModel();
+		loadfromDisk();
+		mSharedPreferences = mAppInfra.getAppInfraContext().getSharedPreferences(ABTEST_PRREFERENCE,
+				Context.MODE_PRIVATE);
+		editor = mSharedPreferences.edit();
+	}
 
     protected void loadfromDisk() {
         ArrayList<String> testList = new ArrayList<>();
@@ -91,66 +86,50 @@ public class ABTestClientManager implements ABTestClientInterface {
                     // shouldRefresh = false;
                 } else {
                     cacheModel(null, UPDATETYPES.EVERY_APP_START.name(), test);
-
                     //shouldRefresh = true;
                 }
             }
-        }
-
-        if (testList == null || (testList != null && testList.size() == 0)) {
-            mCachestatusvalues = CACHESTATUSVALUES.NO_TESTS_DEFINED;
-            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                    "Cache Status values NO_TESTS_DEFINED");
-        } else {
             mCachestatusvalues = CACHESTATUSVALUES.EXPERIENCES_NOT_UPDATED;
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
                     "Cache Status values EXPERIENCES_NOT_UPDATED");
+        }  else {
+            mCachestatusvalues = CACHESTATUSVALUES.NO_TESTS_DEFINED;
+            mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
+                    "Cache Status values NO_TESTS_DEFINED");
         }
     }
 
-    /**
-     * Method to fetch the testNames from the config.
-     *
-     * @return Arraylist list of testNames.
-     */
-    private ArrayList<String> getTestNameFromConfig() {
-        final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
-                .AppConfigurationError();
-        if (mAppInfra.getConfigInterface() != null) {
-            try {
-                final Object mbox = mAppInfra.getConfigInterface().getPropertyForKey
-                        ("abtest.precache", "appinfra", configError);
-                if (mbox != null) {
-                    if (mbox instanceof ArrayList<?>) {
-                        final ArrayList<String> mBoxList = new ArrayList<>();
-                        final ArrayList<?> list = (ArrayList<?>) mbox;
-                        for (int i = 0; i < list.size(); i++) {
-                            if (list.get(i) instanceof String) {
-                                mBoxList.add((String) list.get(i));
-                            } else {
-                                throw new IllegalArgumentException("Test Names for AB testing should be array of strings" +
-                                        " in AppConfig.json file");
-                            }
-                        }
-                        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                                "fetch the testNames from the config");
-                        return mBoxList;
-                    } else {
-                        throw new IllegalArgumentException("Test Names for AB testing should be array of strings" +
-                                " in AppConfig.json file");
-                    }
-                } else {
-                    mCachestatusvalues = CACHESTATUSVALUES.NO_TESTS_DEFINED;
-                }
-            } catch (IllegalArgumentException exception) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_ABTEST_CLIENT,
-                       "Error in fetch the testNames from the config"+ exception.toString());
-            }
-
-        }
-        return null;
-    }
-
+	/**
+	 * Method to fetch the testNames from the config.
+	 *
+	 * @return Arraylist list of testNames.
+	 */
+	private ArrayList<String> getTestNameFromConfig() {
+		Object mbox = getAbtestConfig(mAppInfra.getConfigInterface(), mAppInfra);
+		if (mbox != null) {
+			if (mbox instanceof ArrayList<?>) {
+				final ArrayList<String> mBoxList = new ArrayList<>();
+				final ArrayList<?> list = (ArrayList<?>) mbox;
+				for (int i = 0; i < list.size(); i++) {
+					if (list.get(i) instanceof String) {
+						mBoxList.add((String) list.get(i));
+					} else {
+						throw new IllegalArgumentException("Test Names for AB testing should be array of strings" +
+								" in AppConfig.json file");
+					}
+				}
+				mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
+						"fetch the testNames from the config");
+				return mBoxList;
+			} else {
+				throw new IllegalArgumentException("Test Names for AB testing should be array of strings" +
+						" in AppConfig.json file");
+			}
+		} else {
+			mCachestatusvalues = CACHESTATUSVALUES.NO_TESTS_DEFINED;
+		}
+		return null;
+	}
 
     /**
      * Method to return the cachestatus.
@@ -508,6 +487,22 @@ public class ABTestClientManager implements ABTestClientInterface {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_ABTEST_CLIENT,
                     "get AppVerion from Pref"+getAppVerionfromPref);
             return getAppVerionfromPref;
+        }
+        return null;
+    }
+
+    public static Object getAbtestConfig(AppConfigurationInterface appConfigurationManager, AppInfra ai) {
+        try {
+            final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
+                    .AppConfigurationError();
+            final Object mbox = appConfigurationManager.getPropertyForKey
+                    ("abtest.precache", "appinfra", configError);
+            return mbox;
+
+        } catch (IllegalArgumentException exception) {
+            ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+                    AppInfraLogEventID.AI_APPINFRA,"Error in reading Abtesting  Config "
+                            +exception.toString());
         }
         return null;
     }
