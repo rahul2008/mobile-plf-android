@@ -1,17 +1,18 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
 * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
 */
 package com.philips.platform.dprdemo.states;
 
 import android.app.Activity;
+
 import com.philips.platform.core.listeners.SubjectProfileListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DataServicesError;
 import com.philips.platform.datasync.subjectProfile.UCoreSubjectProfile;
 import com.philips.platform.dprdemo.pojo.PairDevice;
-import com.philips.platform.dprdemo.ui.DeviceStatusListener;
+import com.philips.platform.dprdemo.ui.IDevicePairingListener;
 import com.philips.platform.dprdemo.utils.Utility;
 
 import java.util.List;
@@ -20,9 +21,9 @@ class GetSubjectProfileState extends AbstractBaseState implements SubjectProfile
 
     private PairDevice pairDevice;
     private Activity mActivity;
-    private DeviceStatusListener mDeviceStatusListener;
+    private IDevicePairingListener mDeviceStatusListener;
 
-    GetSubjectProfileState(PairDevice pairDevice, DeviceStatusListener listener, Activity activity) {
+    GetSubjectProfileState(PairDevice pairDevice, IDevicePairingListener listener, Activity activity) {
         super(activity);
         this.mActivity = activity;
         this.pairDevice = pairDevice;
@@ -67,7 +68,7 @@ class GetSubjectProfileState extends AbstractBaseState implements SubjectProfile
         if (list.size() > 0) {
             stateContext.setState(new PairDeviceState(pairDevice, list, mDeviceStatusListener, mActivity));
         } else {
-            stateContext.setState(new CheckConsentState(pairDevice, mDeviceStatusListener, mActivity));
+            stateContext.setState(new CheckConsentState(mDeviceStatusListener, mActivity));
         }
 
         stateContext.start();

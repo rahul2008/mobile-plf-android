@@ -1,14 +1,11 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
 * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
 */
 package com.philips.platform.dprdemo.states;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
@@ -17,10 +14,7 @@ import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.dprdemo.consents.ConsentDialogFragment;
-import com.philips.platform.dprdemo.pojo.PairDevice;
-import com.philips.platform.dprdemo.ui.CreateSubjectProfileFragment;
-import com.philips.platform.dprdemo.ui.DeviceStatusListener;
+import com.philips.platform.dprdemo.ui.IDevicePairingListener;
 import com.philips.platform.dprdemo.utils.Utility;
 
 import java.util.List;
@@ -28,13 +22,11 @@ import java.util.List;
 class CheckConsentState extends AbstractBaseState implements DBRequestListener<ConsentDetail>, DBFetchRequestListner<ConsentDetail>, DBChangeListener {
 
     private Activity mActivity;
-    private PairDevice mPairDevice;
-    private DeviceStatusListener mDeviceStatusListener;
+    private IDevicePairingListener mDeviceStatusListener;
 
-    CheckConsentState(PairDevice pairDevice, DeviceStatusListener deviceStatusListener, Activity activity) {
+    CheckConsentState(IDevicePairingListener deviceStatusListener, Activity activity) {
         super(activity);
         this.mActivity = activity;
-        this.mPairDevice = pairDevice;
         this.mDeviceStatusListener = deviceStatusListener;
     }
 
@@ -77,9 +69,9 @@ class CheckConsentState extends AbstractBaseState implements DBRequestListener<C
         }
 
         if (!accepted) {
-            launchConsentDialog();
+            mDeviceStatusListener.onConsentNotAccepted();
         } else {
-            launchSubjectProfile();
+            mDeviceStatusListener.onProfileNotCreated();
         }
     }
 
@@ -110,36 +102,5 @@ class CheckConsentState extends AbstractBaseState implements DBRequestListener<C
                 mDeviceStatusListener.onError(e.getMessage());
             }
         });
-    }
-
-    private void launchConsentDialog() {
-        ConsentDialogFragment consentDialogFragment = new ConsentDialogFragment();
-        consentDialogFragment.setDeviceDetails(mPairDevice);
-        consentDialogFragment.setDeviceStatusListener(mDeviceStatusListener);
-
-        FragmentTransaction fragmentTransaction = ((FragmentActivity) mActivity).getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(getActiveFragment().getId(), consentDialogFragment, ConsentDialogFragment.TAG);
-        fragmentTransaction.addToBackStack(ConsentDialogFragment.TAG);
-        fragmentTransaction.commit();
-    }
-
-    private void launchSubjectProfile() {
-        CreateSubjectProfileFragment createProfileFragment = new CreateSubjectProfileFragment();
-        createProfileFragment.setDeviceDetails(mPairDevice);
-        createProfileFragment.setDeviceStatusListener(mDeviceStatusListener);
-
-        FragmentTransaction fragmentTransaction = ((FragmentActivity) mActivity).getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(getActiveFragment().getId(), createProfileFragment, CreateSubjectProfileFragment.TAG);
-        fragmentTransaction.addToBackStack(CreateSubjectProfileFragment.TAG);
-        fragmentTransaction.commit();
-    }
-
-    public Fragment getActiveFragment() {
-        if (((FragmentActivity) mActivity).getSupportFragmentManager().getBackStackEntryCount() == 0) {
-            return null;
-        }
-
-        String tag = ((FragmentActivity) mActivity).getSupportFragmentManager().getBackStackEntryAt(((FragmentActivity) mActivity).getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
-        return ((FragmentActivity) mActivity).getSupportFragmentManager().findFragmentByTag(tag);
     }
 }

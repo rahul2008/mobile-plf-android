@@ -1,13 +1,13 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
 * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
 */
 package com.philips.platform.dprdemo.ui;
 
 import java.util.List;
 
-public interface DeviceStatusListener {
+public interface IDevicePairingListener {
     void onGetPairedDevices(List<String> pairedDeviceList);
 
     void onDevicePaired(String pairedDeviceID);
@@ -17,4 +17,8 @@ public interface DeviceStatusListener {
     void onError(String errorMessage);
 
     void onInternetError();
+
+    void onConsentNotAccepted();
+
+    void onProfileNotCreated();
 }

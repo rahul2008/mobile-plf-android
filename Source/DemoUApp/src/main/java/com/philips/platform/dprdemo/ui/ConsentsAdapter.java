@@ -3,7 +3,7 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.dprdemo.consents;
+package com.philips.platform.dprdemo.ui;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -20,12 +20,12 @@ import com.philips.platform.dprdemo.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConsentDialogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ConsentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private ArrayList<? extends ConsentDetail> mConsentDetailList;
-    private final ConsentDialogPresenter mConsentDialogPresenter;
+    private final ConsentsPresenter mConsentDialogPresenter;
 
-    public ConsentDialogAdapter(final Context context, ArrayList<? extends ConsentDetail> consentDetails, ConsentDialogPresenter consentDialogPresenter) {
+    public ConsentsAdapter(final Context context, ArrayList<? extends ConsentDetail> consentDetails, ConsentsPresenter consentDialogPresenter) {
         mContext = context;
         this.mConsentDetailList = consentDetails;
         this.mConsentDialogPresenter = consentDialogPresenter;

@@ -1,26 +1,25 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
 * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
 */
 package com.philips.platform.dprdemo.states;
 
 import android.app.Activity;
 
-import com.philips.platform.core.listeners.DevicePairingListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DataServicesError;
-import com.philips.platform.dprdemo.ui.DeviceStatusListener;
+import com.philips.platform.dprdemo.ui.IDevicePairingListener;
 import com.philips.platform.dprdemo.utils.Utility;
 
 import java.util.List;
 
-public class UnPairDeviceState extends AbstractBaseState implements DevicePairingListener {
+public class UnPairDeviceState extends AbstractBaseState implements com.philips.platform.core.listeners.DevicePairingListener {
     private String mDeviceID;
-    private DeviceStatusListener mDeviceStatusListener;
+    private IDevicePairingListener mDeviceStatusListener;
     private Activity mActivity;
 
-    public UnPairDeviceState(String deviceID, DeviceStatusListener deviceStatusListener, Activity activity) {
+    public UnPairDeviceState(String deviceID, IDevicePairingListener deviceStatusListener, Activity activity) {
         super(activity);
         mActivity = activity;
         mDeviceID = deviceID;

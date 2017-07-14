@@ -8,11 +8,9 @@ package com.philips.platform.dprdemo.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,13 +33,11 @@ import com.philips.platform.dprdemo.pojo.PairDevice;
 import com.philips.platform.dprdemo.states.GetPairedDevicesState;
 import com.philips.platform.dprdemo.states.StateContext;
 import com.philips.platform.dprdemo.utils.NetworkChangeListener;
-import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PairingFragment extends Fragment implements BackEventListener,
-        DeviceStatusListener, NetworkChangeListener.INetworkChangeListener {
+public class PairingFragment extends DevicePairingBaseFragment implements IDevicePairingListener, NetworkChangeListener.INetworkChangeListener {
     public static String TAG = PairingFragment.class.getSimpleName();
 
     private Context mContext;
@@ -80,6 +76,21 @@ public class PairingFragment extends Fragment implements BackEventListener,
     public void onAttach(Context context) {
         mContext = context;
         super.onAttach(context);
+    }
+
+    @Override
+    public int getActionbarTitleResId() {
+        return R.string.pairing_fragment_title;
+    }
+
+    @Override
+    public String getActionbarTitle() {
+        return getString(R.string.pairing_fragment_title);
+    }
+
+    @Override
+    public boolean getBackButtonState() {
+        return false;
     }
 
     @Nullable
@@ -148,17 +159,6 @@ public class PairingFragment extends Fragment implements BackEventListener,
     }
 
     @Override
-    public void onAttachFragment(Fragment childFragment) {
-        super.onAttachFragment(childFragment);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        getActivity().setTitle(R.string.pairing_fragment_title);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
 
@@ -200,11 +200,6 @@ public class PairingFragment extends Fragment implements BackEventListener,
             });
         }
     };
-
-    @Override
-    public boolean handleBackEvent() {
-        return false;
-    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -327,7 +322,17 @@ public class PairingFragment extends Fragment implements BackEventListener,
         showAlertDialog("Please check your connection and try again.");
     }
 
-    public void showAlertDialog(String message) {
+    @Override
+    public void onConsentNotAccepted() {
+        launchConsents();
+    }
+
+    @Override
+    public void onProfileNotCreated() {
+        launchSubjectProfile();
+    }
+
+    /*public void showAlertDialog(String message) {
         if (mAlertDialogBuilder == null) {
             mAlertDialogBuilder = new AlertDialog.Builder(mContext, R.style.alertDialogStyle);
             mAlertDialogBuilder.setCancelable(false);
@@ -346,8 +351,8 @@ public class PairingFragment extends Fragment implements BackEventListener,
             mAlertDialog.show();
         }
     }
-
-    @Override
+*/
+   /* @Override
     public void onConnectionLost() {
         mStateContext.getState().dismissProgressDialog();
         showAlertDialog("Please check your connection and try again.");
@@ -355,6 +360,21 @@ public class PairingFragment extends Fragment implements BackEventListener,
 
     @Override
     public void onConnectionAvailable() {
+    }
+*/
+
+    private void launchConsents() {
+        ConsentsFragment consentsFragment = new ConsentsFragment();
+        consentsFragment.setDeviceDetails(mPairDevice);
+        consentsFragment.setDeviceStatusListener(this);
+        showFragment(consentsFragment);
+    }
+
+    private void launchSubjectProfile() {
+        CreateSubjectProfileFragment createProfileFragment = new CreateSubjectProfileFragment();
+        createProfileFragment.setDeviceDetails(mPairDevice);
+        createProfileFragment.setDeviceStatusListener(this);
+        showFragment(createProfileFragment);
     }
 
     @Override

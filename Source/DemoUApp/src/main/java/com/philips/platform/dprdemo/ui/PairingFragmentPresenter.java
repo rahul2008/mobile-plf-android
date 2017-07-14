@@ -20,13 +20,13 @@ class PairingFragmentPresenter {
         this.mActivity = activity;
     }
 
-    void pairDevice(PairDevice pairDevice, DeviceStatusListener deviceStatusListener) {
+    void pairDevice(PairDevice pairDevice, IDevicePairingListener deviceStatusListener) {
         StateContext stateContext = new StateContext();
         stateContext.setState(new GetPairedDevicesState(pairDevice, mActivity, deviceStatusListener));
         stateContext.start();
     }
 
-    void unPairDevice(String deviceID, DeviceStatusListener deviceStatusListener) {
+    void unPairDevice(String deviceID, IDevicePairingListener deviceStatusListener) {
         StateContext stateContext = new StateContext();
         stateContext.setState(new UnPairDeviceState(deviceID, deviceStatusListener, mActivity));
         stateContext.start();

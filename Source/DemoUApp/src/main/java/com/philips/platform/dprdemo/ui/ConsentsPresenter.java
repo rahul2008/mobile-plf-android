@@ -3,21 +3,22 @@
  * in whole or in part is prohibited without the prior written
  * consent of the copyright holder.
 */
-package com.philips.platform.dprdemo.consents;
+package com.philips.platform.dprdemo.ui;
 
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
+import com.philips.platform.dprdemo.consents.ConsentDetailType;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConsentDialogPresenter {
+public class ConsentsPresenter {
 
     private final DBRequestListener dbRequestListener;
 
-    ConsentDialogPresenter(DBRequestListener dbRequestListener) {
+    ConsentsPresenter(DBRequestListener dbRequestListener) {
         this.dbRequestListener = dbRequestListener;
     }
 

@@ -3,17 +3,12 @@
 * in whole or in part is prohibited without the prior written
 * consent of the copyright holder.
 */
-package com.philips.platform.dprdemo.consents;
+package com.philips.platform.dprdemo.ui;
 
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,35 +25,45 @@ import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dprdemo.R;
+import com.philips.platform.dprdemo.consents.OrmConsentDetail;
 import com.philips.platform.dprdemo.pojo.PairDevice;
-import com.philips.platform.dprdemo.states.StateContext;
-import com.philips.platform.dprdemo.ui.CreateSubjectProfileFragment;
-import com.philips.platform.dprdemo.ui.DeviceStatusListener;
 import com.philips.platform.dprdemo.utils.NetworkChangeListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ConsentDialogFragment extends Fragment implements DBRequestListener<ConsentDetail>,
+public class ConsentsFragment extends DevicePairingBaseFragment implements DBRequestListener<ConsentDetail>,
         DBFetchRequestListner<ConsentDetail>, DBChangeListener, View.OnClickListener, NetworkChangeListener.INetworkChangeListener {
 
-    public static String TAG = ConsentDialogFragment.class.getSimpleName();
+    public static String TAG = ConsentsFragment.class.getSimpleName();
     private Context mContext;
-    private ConsentDialogAdapter mConsentDialogAdapter;
-    private ConsentDialogPresenter mConsentDialogPresenter;
-    private ProgressDialog mProgressDialog;
+    private ConsentsAdapter mConsentDialogAdapter;
+    private ConsentsPresenter mConsentDialogPresenter;
     private DataServicesManager mDataServicesManager;
     private PairDevice mPairDevice;
-    private DeviceStatusListener mDeviceStatusListener;
+    private IDevicePairingListener mDeviceStatusListener;
     private NetworkChangeListener mNetworkChangeListener;
-    private AlertDialog.Builder mAlertDialogBuilder;
-    private AlertDialog mAlertDialog;
     private Button mBtnOk;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public int getActionbarTitleResId() {
+        return R.string.consent_fragment_title;
+    }
+
+    @Override
+    public String getActionbarTitle() {
+        return getString(R.string.consent_fragment_title);
+    }
+
+    @Override
+    public boolean getBackButtonState() {
+        return false;
     }
 
     @Nullable
@@ -82,11 +87,10 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
 
-        mConsentDialogPresenter = new ConsentDialogPresenter(this);
-        mProgressDialog = new ProgressDialog(getActivity());
+        mConsentDialogPresenter = new ConsentsPresenter(this);
 
         ArrayList<? extends ConsentDetail> mConsentDetailList = new ArrayList<>();
-        mConsentDialogAdapter = new ConsentDialogAdapter(getActivity(), mConsentDetailList, mConsentDialogPresenter);
+        mConsentDialogAdapter = new ConsentsAdapter(getActivity(), mConsentDetailList, mConsentDialogPresenter);
         mRecyclerView.setAdapter(mConsentDialogAdapter);
 
         fetchConsent();
@@ -118,7 +122,6 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
     @Override
     public void onStart() {
         super.onStart();
-        getActivity().setTitle(R.string.consent_fragment_title);
         mDataServicesManager.registerDBChangeListener(this);
     }
 
@@ -140,7 +143,7 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
         if (i == R.id.btnOK) {
             if (mConsentDialogAdapter.isAllConsentsAccepted()) {
                 mConsentDialogAdapter.updateConsent();
-                showProgressDialog();
+                showProgressDialog("Updating Consent Data");
             } else {
                 showAlertDialog("Please accept all the consents to pair device.");
             }
@@ -153,12 +156,12 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
         this.mPairDevice = pairDeviceDetails;
     }
 
-    public void setDeviceStatusListener(DeviceStatusListener deviceStatusListener) {
+    public void setDeviceStatusListener(IDevicePairingListener deviceStatusListener) {
         mDeviceStatusListener = deviceStatusListener;
     }
 
     public void fetchConsent() {
-        showProgressDialog();
+        showProgressDialog("Fetching consent");
         DataServicesManager.getInstance().fetchConsentDetail(this);
     }
 
@@ -167,7 +170,7 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
         boolean isAccepted = false;
 
         for (ConsentDetail ormConsentDetail : data) {
-            if (ormConsentDetail.getStatus().toString().equalsIgnoreCase(ConsentDetailStatusType.ACCEPTED.name())) {
+            if (ormConsentDetail.getStatus().equalsIgnoreCase(ConsentDetailStatusType.ACCEPTED.name())) {
                 isAccepted = true;
             } else {
                 isAccepted = false;
@@ -263,7 +266,7 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
         }
     }
 
-    private void showProgressDialog() {
+   /* private void showProgressDialog() {
         if (mProgressDialog != null && !mProgressDialog.isShowing() && !(getActivity().isFinishing())) {
             mProgressDialog.setMessage("Updating Consent Data. Please wait");
             mProgressDialog.show();
@@ -293,7 +296,7 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
             mAlertDialog.setMessage(message);
             mAlertDialog.show();
         }
-    }
+    }*/
 
     @Override
     public void onConnectionLost() {
@@ -310,19 +313,20 @@ public class ConsentDialogFragment extends Fragment implements DBRequestListener
         CreateSubjectProfileFragment createProfileFragment = new CreateSubjectProfileFragment();
         createProfileFragment.setDeviceDetails(mPairDevice);
         createProfileFragment.setDeviceStatusListener(mDeviceStatusListener);
+        showFragment(createProfileFragment);
 
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+       /* FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(getActiveFragment().getId(), createProfileFragment, CreateSubjectProfileFragment.TAG);
         fragmentTransaction.addToBackStack(CreateSubjectProfileFragment.TAG);
-        fragmentTransaction.commit();
+        fragmentTransaction.commit();*/
     }
 
-    public Fragment getActiveFragment() {
+    /*public Fragment getActiveFragment() {
         if (getActivity().getSupportFragmentManager().getBackStackEntryCount() == 0) {
             return null;
         }
 
         String tag = getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
         return getActivity().getSupportFragmentManager().findFragmentByTag(tag);
-    }
+    }*/
 }

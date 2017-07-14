@@ -5,14 +5,10 @@
 */
 package com.philips.platform.dprdemo.ui;
 
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,21 +25,17 @@ import com.philips.platform.dprdemo.states.PairDeviceState;
 import com.philips.platform.dprdemo.states.StateContext;
 import com.philips.platform.dprdemo.utils.NetworkChangeListener;
 import com.philips.platform.dprdemo.utils.Utility;
-import com.philips.platform.uappframework.listener.BackEventListener;
 
 import java.util.List;
 
-public class CreateSubjectProfileFragment extends Fragment implements View.OnClickListener,
-        BackEventListener, CreateSubjectProfileViewListener, NetworkChangeListener.INetworkChangeListener {
+public class CreateSubjectProfileFragment extends DevicePairingBaseFragment implements View.OnClickListener,
+        CreateSubjectProfileViewListener, NetworkChangeListener.INetworkChangeListener {
     public static String TAG = CreateSubjectProfileFragment.class.getSimpleName();
     private View view;
     private EditText firstName, dob, gender, weight, creationDate;
     private Button createProfileButton;
     private PairDevice pairDevice;
-    private DeviceStatusListener mDeviceStatusListener;
-    private ProgressDialog mProgressDialog;
-    private AlertDialog.Builder mAlertDialogBuilder;
-    private AlertDialog mAlertDialog;
+    private IDevicePairingListener mDeviceStatusListener;
     private NetworkChangeListener mNetworkChangeListener;
     private Context mContext;
 
@@ -54,18 +46,27 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
     }
 
     @Override
+    public int getActionbarTitleResId() {
+        return R.string.subject_profile_fragment_title;
+    }
+
+    @Override
+    public String getActionbarTitle() {
+        return getString(R.string.subject_profile_fragment_title);
+    }
+
+    @Override
+    public boolean getBackButtonState() {
+        return false;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.create_subject_profile_fragment, container, false);
         mNetworkChangeListener = new NetworkChangeListener();
         setUpViews();
         createProfileButton.setOnClickListener(this);
         return view;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        getActivity().setTitle(R.string.subject_profile_fragment_title);
     }
 
     @Override
@@ -118,7 +119,7 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
     public void onClick(View v) {
         if (v.equals(createProfileButton)) {
             if (Utility.isOnline(mContext)) {
-                showProgressDialog();
+                showProgressDialog("Creating Subject Profile");
                 CreateSubjectProfileFragmentPresenter createProfilePresenter = new CreateSubjectProfileFragmentPresenter(this);
                 createProfilePresenter.createProfile();
             } else {
@@ -140,7 +141,7 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
         return null;
     }
 
-    public void setDeviceStatusListener(DeviceStatusListener deviceStatusListener) {
+    public void setDeviceStatusListener(IDevicePairingListener deviceStatusListener) {
         mDeviceStatusListener = deviceStatusListener;
     }
 
@@ -186,7 +187,7 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
 
     }
 
-    private void showProgressDialog() {
+    /*private void showProgressDialog() {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -212,9 +213,9 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
 
             }
         });
-    }
+    }*/
 
-    public void showAlertDialog(String message) {
+    /*public void showAlertDialog(String message) {
         if (mAlertDialogBuilder == null) {
             mAlertDialogBuilder = new AlertDialog.Builder(mContext, R.style.alertDialogStyle);
             mAlertDialogBuilder.setCancelable(false);
@@ -232,13 +233,8 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
             mAlertDialog.show();
         }
     }
-
-    @Override
-    public boolean handleBackEvent() {
-        return false;
-    }
-
-    @Override
+*/
+   /* @Override
     public void onConnectionLost() {
         dismissProgressDialog();
         showAlertDialog("Please check your connection and try again.");
@@ -247,5 +243,5 @@ public class CreateSubjectProfileFragment extends Fragment implements View.OnCli
     @Override
     public void onConnectionAvailable() {
 
-    }
+    }*/
 }

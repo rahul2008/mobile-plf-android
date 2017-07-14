@@ -7,8 +7,8 @@ package com.philips.platform.dprdemo.uappdependencies;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.FragmentTransaction;
 
+import com.philips.platform.dprdemo.ui.DevicePairingBaseFragment;
 import com.philips.platform.dprdemo.ui.PairingFragment;
 import com.philips.platform.dprdemo.ui.DevicePairingLaunchActivity;
 import com.philips.platform.uappframework.UappInterface;
@@ -44,11 +44,7 @@ public class DevicePairingUappInterface implements UappInterface {
 
     private void launchAsFragment(UiLauncher uiLauncher) {
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
-        FragmentTransaction fragmentTransaction = (fragmentLauncher.getFragmentActivity()).getSupportFragmentManager().beginTransaction();
-
-        PairingFragment pairingFragment = new PairingFragment();
-        fragmentTransaction.replace(fragmentLauncher.getParentContainerResourceID(), pairingFragment, PairingFragment.TAG);
-        fragmentTransaction.addToBackStack(PairingFragment.TAG);
-        fragmentTransaction.commitAllowingStateLoss();
+        DevicePairingBaseFragment pairingFragment = new PairingFragment();
+        pairingFragment.showFragment(pairingFragment, fragmentLauncher);
     }
 }

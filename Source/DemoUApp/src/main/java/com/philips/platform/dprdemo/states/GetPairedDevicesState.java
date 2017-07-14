@@ -6,23 +6,25 @@
 package com.philips.platform.dprdemo.states;
 
 import android.app.Activity;
+
 import com.philips.platform.core.listeners.DevicePairingListener;
+import com.philips.platform.core.listeners.SynchronisationCompleteListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DataServicesError;
 import com.philips.platform.dprdemo.pojo.PairDevice;
-import com.philips.platform.dprdemo.ui.DeviceStatusListener;
+import com.philips.platform.dprdemo.ui.IDevicePairingListener;
 import com.philips.platform.dprdemo.utils.Utility;
 
 import java.util.List;
 
-public class GetPairedDevicesState extends AbstractBaseState implements DevicePairingListener {
+public class GetPairedDevicesState extends AbstractBaseState implements DevicePairingListener, SynchronisationCompleteListener {
 
     private Activity mActivity;
     private PairDevice pairDevice;
-    private DeviceStatusListener mDeviceStatusListener;
+    private IDevicePairingListener mDeviceStatusListener;
     private boolean mIsPair;
 
-    public GetPairedDevicesState(PairDevice pairDevice, Activity activity, DeviceStatusListener deviceStatusListener) {
+    public GetPairedDevicesState(PairDevice pairDevice, Activity activity, IDevicePairingListener deviceStatusListener) {
         super(activity);
         this.mActivity = activity;
         this.pairDevice = pairDevice;
@@ -30,7 +32,7 @@ public class GetPairedDevicesState extends AbstractBaseState implements DevicePa
         mIsPair = true;
     }
 
-    public GetPairedDevicesState(Activity activity, DeviceStatusListener deviceStatusListener) {
+    public GetPairedDevicesState(Activity activity, IDevicePairingListener deviceStatusListener) {
         super(activity);
         this.mActivity = activity;
         mDeviceStatusListener = deviceStatusListener;
@@ -63,7 +65,12 @@ public class GetPairedDevicesState extends AbstractBaseState implements DevicePa
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mDeviceStatusListener.onError(dataServicesError.getErrorMessage());
+                if (dataServicesError.getErrorCode() == 401) {
+                    showProgressDialog("Fetching paired devices...");
+                    DataServicesManager.getInstance().synchronize();
+                } else {
+                    mDeviceStatusListener.onError(dataServicesError.getErrorMessage());
+                }
             }
         });
     }
@@ -97,5 +104,18 @@ public class GetPairedDevicesState extends AbstractBaseState implements DevicePa
 
     private boolean isDevicePaired(List<String> list) {
         return list.contains(pairDevice.getDeviceID());
+    }
+
+    @Override
+    public void onSyncComplete() {
+        dismissProgressDialog();
+        StateContext mStateContext = new StateContext();
+        mStateContext.setState(new GetPairedDevicesState(mActivity, mDeviceStatusListener));
+        mStateContext.start();
+    }
+
+    @Override
+    public void onSyncFailed(Exception e) {
+        dismissProgressDialog();
     }
 }
