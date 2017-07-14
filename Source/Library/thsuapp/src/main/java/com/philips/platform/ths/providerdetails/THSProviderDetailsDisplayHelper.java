@@ -67,14 +67,6 @@ public class THSProviderDetailsDisplayHelper {
         mTimeSlotContainer = (RelativeLayout) view.findViewById(R.id.calendar_container_view);
     }
 
-    public void decideDisplay(){
-       if(mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSProviderDetailsFragment.TAG)){
-
-       }else if(mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSPickTimeFragment.TAG)){
-
-       }
-    }
-
     void updateView(Provider provider){
         providerName.setText(provider.getFullName());
         swipeRefreshLayout.setRefreshing(false);
