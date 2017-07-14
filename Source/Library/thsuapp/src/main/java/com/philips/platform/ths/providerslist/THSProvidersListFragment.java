@@ -16,6 +16,7 @@ import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -45,7 +46,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Bundle bundle=getArguments();
-        mPractice=bundle.getParcelable("practice");
+        mPractice=bundle.getParcelable(THSConstants.PRACTICE_FRAGMENT);
         consumer= THSManager.getInstance().getPTHConsumer().getConsumer();
         View view = inflater.inflate(R.layout.ths_providers_list_fragment, container, false);
         THSProviderListPresenter = new THSProviderListPresenter(this, this);

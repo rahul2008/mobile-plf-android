@@ -10,4 +10,5 @@ public class THSConstants {
 
     public static final String  THS_DATE=  "ths_date";
     public static final String  THS_ON_DEMAND=  "ths_on_demand";
+    public static final int MEDICATION_ON_ACTIVITY_RESULT = 5555;
 }

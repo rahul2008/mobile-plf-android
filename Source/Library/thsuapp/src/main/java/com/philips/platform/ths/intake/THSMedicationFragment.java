@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static com.philips.platform.ths.utility.THSConstants.MEDICATION_ON_ACTIVITY_RESULT;
 
 
 public class THSMedicationFragment extends THSBaseFragment implements View.OnClickListener {
@@ -147,7 +148,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == 123) {
+            if (requestCode == MEDICATION_ON_ACTIVITY_RESULT) {
                 mSelectedMedication = data.getExtras().getParcelable("selectedMedication");
 
 

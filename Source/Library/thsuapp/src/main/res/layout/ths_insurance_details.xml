@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/pth_insurance_detail_search_label"
-            android:drawableRight="@android:drawable/ic_input_get"
+            android:drawableRight="@mipmap/right_arrow_icon"
             android:focusable="false"
             android:hint="Please select"
             android:textColor="@color/awsdk_color_black"

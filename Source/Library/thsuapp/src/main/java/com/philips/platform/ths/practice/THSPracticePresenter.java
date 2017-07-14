@@ -9,6 +9,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.providerslist.THSProvidersListFragment;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 
@@ -50,7 +51,7 @@ public class THSPracticePresenter implements THSBasePresenter, THSPracticesListC
     void showProviderList(Practice practice){
         THSProvidersListFragment providerListFragment = new THSProvidersListFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable("practice",practice);
+        bundle.putParcelable(THSConstants.PRACTICE_FRAGMENT,practice);
 
 
        // providerListFragment.setPracticeAndConsumer(practice,mConsumer);

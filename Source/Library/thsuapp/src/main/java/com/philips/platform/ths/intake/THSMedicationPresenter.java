@@ -12,6 +12,7 @@ import static com.philips.platform.ths.R.id.pth_intake_medication_continue_butto
 import static com.philips.platform.ths.R.id.pth_intake_medication_skip_step_label;
 
 import static com.philips.platform.ths.R.id.ths_existing_medicine_footer_relative_layout;
+import static com.philips.platform.ths.utility.THSConstants.MEDICATION_ON_ACTIVITY_RESULT;
 
 
 public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCallback.PTHGetMedicationCallback, THSMedicationCallback.PTHUpdateMedicationCallback {
@@ -29,7 +30,7 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
             updateMedication( ((THSMedicationFragment )mTHSBaseFragment).mExistingMedication);
         } else if (componentID == ths_existing_medicine_footer_relative_layout){
             THSMedicationSearchFragment tHSMedicationSearchFragment= new THSMedicationSearchFragment();
-            tHSMedicationSearchFragment.setTargetFragment(((THSMedicationFragment )mTHSBaseFragment), 123);
+            tHSMedicationSearchFragment.setTargetFragment(((THSMedicationFragment )mTHSBaseFragment), MEDICATION_ON_ACTIVITY_RESULT);
             ((THSMedicationFragment )mTHSBaseFragment).addFragment(tHSMedicationSearchFragment, THSMedicationSearchFragment.TAG, null);
         }else if (componentID == pth_intake_medication_skip_step_label){
             mTHSBaseFragment.addFragment(new THSConditionsFragment(),THSConditionsFragment.TAG,null);
