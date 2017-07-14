@@ -32,6 +32,7 @@ import java.util.Calendar;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.security.auth.x500.X500Principal;
 
@@ -41,6 +42,7 @@ class SecureStorageHelper {
     private Context mContext;
     private static final String SINGLE_UNIVERSAL_KEY = "AppInfra.SecureStorage key pair";
     private static final String RSA_ENCRYPTION_ALGORITHM = "RSA/ECB/PKCS1Padding";
+    static final String AES_ENCRYPTION_ALGORITHM = "AES/GCM/NoPadding";
     private AppInfra mAppInfra;
 
     SecureStorageHelper(AppInfra mAppInfra) {
@@ -216,6 +218,25 @@ class SecureStorageHelper {
         } finally {
             if (process != null) process.destroy();
         }
+    }
+
+
+    String encodeDecodeData(int type, Key secretKey, String value) throws Exception {
+        final Key key = new SecretKeySpec(secretKey.getEncoded(), "AES");
+        final Cipher cipher = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
+        final byte[] ivBlockSize = new byte[cipher.getBlockSize()];
+        final IvParameterSpec ivParameterSpec = new IvParameterSpec(ivBlockSize);
+        if(type == Cipher.ENCRYPT_MODE) {
+            cipher.init(Cipher.ENCRYPT_MODE, key, ivParameterSpec);
+            final byte[] encText = cipher.doFinal(value.getBytes()); // encrypt string value using AES
+            return Base64.encodeToString(encText, Base64.DEFAULT);
+        } else if(type == Cipher.DECRYPT_MODE){
+            cipher.init(Cipher.DECRYPT_MODE, key, ivParameterSpec);
+            final byte[] encryptedValueBytes = Base64.decode(value, Base64.DEFAULT);
+            final byte[] decText = cipher.doFinal(encryptedValueBytes); // decrypt string value using AES key
+            return new String(decText);
+        }
+        return null;
     }
 
 }

@@ -9,7 +9,6 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
-import android.util.Base64;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
@@ -27,6 +26,8 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import static com.philips.platform.appinfra.securestorage.SecureStorageHelper.AES_ENCRYPTION_ALGORITHM;
+
 
 /**
  * The class for store the key and value pair using AES Encryption with Cipher and Keystore .
@@ -37,7 +38,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class SecureStorage implements SecureStorageInterface {
 
 
-    private static final String AES_ENCRYPTION_ALGORITHM = "AES/GCM/NoPadding";
+
     private static final String DATA_FILE_NAME = "AppInfra.Storage.file";
     private static final String KEY_FILE_NAME = "AppInfra.Storage.kfile";
     private static final String SINGLE_AES_KEY_TAG = "AppInfra.aes";
@@ -78,21 +79,14 @@ public class SecureStorage implements SecureStorageInterface {
             final String userKeyFinal = userKey;
             try {
                 final SecretKey secretKey = secureStorageHelper.generateAESKey(); // generate AES key
-                final Key key = new SecretKeySpec(secretKey.getEncoded(), "AES");
-                final Cipher cipher = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
-                final byte[] ivBlockSize = new byte[cipher.getBlockSize()];
-                final IvParameterSpec ivParameterSpec = new IvParameterSpec(ivBlockSize);
-                cipher.init(Cipher.ENCRYPT_MODE, key, ivParameterSpec);
-                final byte[] encText = cipher.doFinal(valueToBeEncrypted.getBytes()); // encrypt string value using AES
-                String encryptedString = Base64.encodeToString(encText, Base64.DEFAULT);
+                String encryptedString = secureStorageHelper.encodeDecodeData(Cipher.ENCRYPT_MODE, secretKey, valueToBeEncrypted);
                 returnResult = secureStorageHelper.storeEncryptedData(userKeyFinal, encryptedString, DATA_FILE_NAME);// save encrypted value in data file
                 if (returnResult) {
                     returnResult = secureStorageHelper.storeKey(userKeyFinal, secretKey, KEY_FILE_NAME);
                     if (!returnResult) { // if key is not saved then remove previously saved value
                         secureStorageHelper.deleteEncryptedData(userKeyFinal, DATA_FILE_NAME);
                     }
-                }
-                if (!returnResult) {
+                } else {
                     // storing failed in shared preferences
                     secureStorageError.setErrorCode(SecureStorageError.secureStorageError.StoreError);
                 }
@@ -143,17 +137,9 @@ public class SecureStorage implements SecureStorageInterface {
             }
             try {
                 final Key key = secureStorageHelper.fetchKey(encryptedAESString, secureStorageError);
-                final Cipher cipher = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
-                final byte[] ivBlockSize = new byte[cipher.getBlockSize()];
-                final IvParameterSpec ivParameterSpec = new IvParameterSpec(ivBlockSize);
-                cipher.init(Cipher.DECRYPT_MODE, key, ivParameterSpec);
-                final byte[] encryptedValueBytes = Base64.decode(encryptedString, Base64.DEFAULT);
-                final byte[] decText = cipher.doFinal(encryptedValueBytes); // decrypt string value using AES key
-                decryptedString = new String(decText);
-
+                decryptedString = secureStorageHelper.encodeDecodeData(Cipher.DECRYPT_MODE, key, encryptedString);
             } catch (Exception e) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_SECURE_STORAGE, "Error in SecureStorage" + e.getMessage());
-                //Log.e("SecureStorage", Log.getStackTraceString(e));
                 secureStorageError.setErrorCode(SecureStorageError.secureStorageError.DecryptionError);
                 decryptedString = null; // if exception is thrown at:  decryptedString = new String(decText);
             }
