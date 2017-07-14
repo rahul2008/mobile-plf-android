@@ -13,10 +13,10 @@ import android.widget.RelativeLayout;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
-import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
@@ -25,14 +25,14 @@ import com.philips.platform.uid.view.widget.ProgressBar;
 import java.util.List;
 
 public class THSProvidersListFragment extends THSBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, THSProviderListViewInterface {
-
+    public static final String TAG = THSProvidersListFragment.class.getSimpleName();
     private FragmentLauncher fragmentLauncher;
     private RecyclerView recyclerView;
     private List<ProviderInfo> providerInfoList;
     private THSProviderListPresenter THSProviderListPresenter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private Practice practice;
+    private Practice mPractice;
     private Consumer consumer;
     private ProgressBar progressBar;
     private THSProvidersListAdapter THSProvidersListAdapter;
@@ -44,7 +44,9 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        Bundle bundle=getArguments();
+        mPractice=bundle.getParcelable("practice");
+        consumer= THSManager.getInstance().getPTHConsumer().getConsumer();
         View view = inflater.inflate(R.layout.ths_providers_list_fragment, container, false);
         THSProviderListPresenter = new THSProviderListPresenter(this, this);
         recyclerView = (RecyclerView) view.findViewById(R.id.providerListRecyclerView);
@@ -72,19 +74,14 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
         onRefresh();
     }
 
-    //TODO: Review Comment - Spoorti - Not sure if setter can be removed in case parameters are passed by bundle
-    public void setPracticeAndConsumer(Practice practice, Consumer consumer) {
-        this.practice = practice;
-        this.consumer = consumer;
 
-    }
 
     @Override
     public void onRefresh() {
         if (!swipeRefreshLayout.isRefreshing()) {
             swipeRefreshLayout.setRefreshing(true);
         }
-        THSProviderListPresenter.fetchProviderList(consumer, practice);
+        THSProviderListPresenter.fetchProviderList(consumer, mPractice);
     }
 
     @Override
@@ -97,7 +94,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
 
                 THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
                 pthProviderDetailsFragment.setActionBarListener(getActionBarListener());
-                pthProviderDetailsFragment.setProviderAndConsumerAndPractice(item, consumer, practice);
+                pthProviderDetailsFragment.setProviderAndConsumerAndPractice(item, consumer, mPractice);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), pthProviderDetailsFragment, "Provider Details").addToBackStack(null).commit();
             }
         });
@@ -119,11 +116,11 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
         }
     }
 
-    public Practice getPractice() {
-        return practice;
+    public Practice getmPractice() {
+        return mPractice;
     }
 
-    public void setPractice(Practice practice) {
-        this.practice = practice;
+    public void setmPractice(Practice mPractice) {
+        this.mPractice = mPractice;
     }
 }

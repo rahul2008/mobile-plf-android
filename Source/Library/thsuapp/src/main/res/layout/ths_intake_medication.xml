@@ -53,8 +53,9 @@
 
 
     <com.philips.platform.uid.view.widget.Button
+
         android:id="@+id/pth_intake_medication_continue_button"
-        style="@style/UIDImageTextButton.Center"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/pth_intake_medication_skip_step_label"
@@ -71,7 +72,7 @@
         android:text="Skip this step"
         android:textColor="?attr/uidLabelRegularNormalTextColor"
         style="@style/UIDLabelDescription"
-        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
          />
 
 </RelativeLayout>

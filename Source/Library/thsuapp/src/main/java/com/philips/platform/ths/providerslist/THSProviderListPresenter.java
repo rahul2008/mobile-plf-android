@@ -81,7 +81,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         if(componentID == R.id.getStartedButton){
             try {
                 THSManager.getInstance().getOnDemandSpecialities(mThsBaseFragment.getFragmentActivity(),
-                        ((THSProvidersListFragment) mThsBaseFragment).getPractice(),null,this);
+                        ((THSProvidersListFragment) mThsBaseFragment).getmPractice(),null,this);
             } catch (AWSDKInstantiationException e) {
 
 
