@@ -5,5 +5,5 @@ import com.americanwell.sdk.entity.provider.ProviderInfo;
 import java.util.List;
 
 public interface THSProviderListViewInterface {
-    void updateProviderAdapterList(List<ProviderInfo> providerInfos);
+    void updateProviderAdapterList(List<THSProviderInfo> providerInfos);
 }

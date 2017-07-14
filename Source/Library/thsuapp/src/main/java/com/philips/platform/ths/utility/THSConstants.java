@@ -6,8 +6,10 @@ public class THSConstants {
     public static final String  WELCOME_FRAGMENT=  "Welcome Fragment";
     public static final String  PRACTICE_FRAGMENT=  "Practice Fragment";
     public static final String  THS_PROVIDER_INFO=  "ths_providerInfo";
+    public static final String THS_PROVIDER_ENTITY =  "ths_provider_entity";
     public static final String  THS_PRACTICE_INFO=  "ths_practice_info";
 
     public static final String  THS_DATE=  "ths_date";
     public static final String  THS_ON_DEMAND=  "ths_on_demand";
+    public static final String THS_AVAILABLE_PROVIDER_LIST = "ths_available_provider_List";
 }

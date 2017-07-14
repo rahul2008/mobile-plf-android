@@ -62,7 +62,7 @@ public class THSProviderDetailsFragmentTest {
         Mockito.when(THSBaseView.getFragmentActivity()).thenReturn(mActivity);
         Mockito.when(THSManager.getInstance().getAwsdk(mActivity).getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
         providerDetailsFragment = new THSProviderDetailsFragment();
-        providerDetailsFragment.setProviderAndConsumerAndPractice(providerInfo,consumer,practice);
+        providerDetailsFragment.setConsumerAndPractice(consumer,practice);
     }
 
     @Test

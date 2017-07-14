@@ -25,7 +25,10 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
 
     public void fetchProviderDetails(){
         try {
-            getPTHManager().getProviderDetails(viewInterface.getContext(), viewInterface.getConsumerInfo(), viewInterface.getProviderInfo(),this);
+            if (viewInterface.getTHSProviderInfo() != null)
+                getPTHManager().getProviderDetails(viewInterface.getContext(), viewInterface.getConsumerInfo(), viewInterface.getTHSProviderInfo(), this);
+            else
+                viewInterface.dismissRefreshLayout();
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -52,17 +55,16 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
             THSConsumer THSConsumer = new THSConsumer();
             THSConsumer.setConsumer(viewInterface.getConsumerInfo());
 
-            THSProviderInfo THSProviderInfo = new THSProviderInfo();
-            THSProviderInfo.setProviderInfo(viewInterface.getProviderInfo());
-
             Bundle bundle = new Bundle();
-            bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, THSProviderInfo);
+            bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, viewInterface.getTHSProviderInfo());
 
             ((THSBaseView)viewInterface).addFragment(new THSSymptomsFragment(), THSSymptomsFragment.TAG,bundle);
         }else if(componentID == R.id.detailsButtonTwo){
             Bundle bundle = new Bundle();
             bundle.putParcelable(THSConstants.THS_PRACTICE_INFO ,viewInterface.getPracticeInfo());
             ((THSBaseView)viewInterface).addFragment(new THSDatePickerFragment(), THSDatePickerFragment.TAG,bundle);
+        }else if(componentID == R.id.detailsButtonContinue){
+
         }
     }
 }
