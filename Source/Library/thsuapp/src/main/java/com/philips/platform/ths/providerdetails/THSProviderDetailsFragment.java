@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.americanwell.sdk.entity.Language;
 import com.americanwell.sdk.entity.consumer.Consumer;
+import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
@@ -34,6 +35,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     private Label providerName,practiceName,isAvailable,spokenLanguageValueLabel,yearsOfExpValueLabel,graduatedValueLabel,aboutMeValueLabel;
     private RatingBar providerRating;
     private Button detailsButtonOne,detailsButtonTwo;
+    private Practice mPractice;
 
 
     @Nullable
@@ -64,6 +66,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         detailsButtonOne.setVisibility(Button.GONE);
         detailsButtonOne.setEnabled(false);
         detailsButtonOne.setOnClickListener(this);
+        detailsButtonTwo.setOnClickListener(this);
     }
 
 
@@ -76,9 +79,10 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     }
 
 
-    public void setProviderAndConsumer(ProviderInfo providerInfo,Consumer consumer){
+    public void setProviderAndConsumerAndPractice(ProviderInfo providerInfo, Consumer consumer, Practice practice){
         this.consumer = consumer;
         this.providerInfo = providerInfo;
+        this.mPractice = practice;
     }
 
     /**
@@ -97,6 +101,11 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     @Override
     public ProviderInfo getProviderInfo() {
         return providerInfo;
+    }
+
+    @Override
+    public Practice getPracticeInfo() {
+        return mPractice;
     }
 
     @Override
@@ -194,6 +203,8 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         int i = view.getId();
         if (i == R.id.detailsButtonOne) {
             providerDetailsPresenter.onEvent(R.id.detailsButtonOne);
+        }else if(i == R.id.detailsButtonTwo){
+            providerDetailsPresenter.onEvent(R.id.detailsButtonTwo);
         }
     }
 }

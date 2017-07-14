@@ -22,6 +22,10 @@ public class THSSearchedMedicationListAdapter extends BaseAdapter {
         this.mPTHSearchedMedication = pTHMedication;
     }
 
+    void setData(THSMedication pTHSearchedMedication){
+        mPTHSearchedMedication=pTHSearchedMedication;
+        notifyDataSetChanged();
+    }
 
     /**
      * How many items are in the data set represented by this Adapter.
@@ -88,10 +92,10 @@ public class THSSearchedMedicationListAdapter extends BaseAdapter {
         if (null == rowView) {
 
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rowView = inflater.inflate(R.layout.searched_medication_list_row, null);
+            rowView = inflater.inflate(R.layout.ths_list_row, null);
             // configure view holder
             ViewHolder viewHolder = new ViewHolder();
-            viewHolder.MedicineName = (TextView) rowView.findViewById(R.id.pth_searched_medication_list_row_label);
+            viewHolder.MedicineName = (TextView) rowView.findViewById(R.id.ths_list_row_label);
 
             rowView.setTag(viewHolder);
         }

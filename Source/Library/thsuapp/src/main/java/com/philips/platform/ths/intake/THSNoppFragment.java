@@ -30,8 +30,8 @@ public class THSNoppFragment extends THSBaseFragment {
         legalTextsLabel = (Label) view.findViewById(R.id.ths_intake_nopp_agreement_text);
         mTHSNoppPresenter = new THSNoppPresenter(this);
 
-       /* createCustomProgressBar(view,BIG);
-        view.addView(mPTHBaseFragmentProgressBar);*/
+        createCustomProgressBar(view, BIG);
+
         return view;
     }
 

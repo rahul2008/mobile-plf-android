@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/providerListItemLayoutBasedOnDate"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+   >
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/schedule_appointment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/ths_scedule_appointment"
+        android:textColor="?attr/uidLabelRegularNormalTextColor"
+        style="@style/UIDLabelDescription"
+        android:textSize="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        />
+
+    <View android:background="@color/uid_gray_level_5"
+        android:layout_below="@+id/schedule_appointment"
+        android:layout_width = "match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/separator"
+        />
+
+    <RelativeLayout
+        android:id="@+id/calendar_container"
+        android:layout_width="match_parent"
+        android:layout_below="@id/separator"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/calender"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+        android:tint="@color/uid_blue_level_30"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dip"
+        app:srcCompat="@drawable/ic_calender"/>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ths_scedule_appointment"
+        android:textColor="@color/uid_blue_level_30"
+        style="@style/UIDLabelDescription"
+        android:textSize="16dp"
+        android:layout_toRightOf="@id/calender"
+        android:layout_alignBaseline="@id/calender"
+        android:layout_centerVertical="true"
+        />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_greaterthan"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/uid_blue_level_30"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <View android:background="@color/uid_gray_level_5"
+        android:layout_below="@+id/calendar_container"
+        android:layout_width = "match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/separator_below_date"
+        />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/number_of_available_doctors"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/separator_below_date"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="@string/ths_scedule_appointment"
+        android:textColor="?attr/uidListItemDefaultNormalOffTextColor"
+        style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
+        android:background="@color/uid_aqua_level_10"
+        android:textSize="16dp"
+        android:paddingLeft="16dip"
+        />
+
+    <View android:background="@color/uid_gray_level_5"
+        android:layout_below="@+id/number_of_available_doctors"
+        android:layout_width = "match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/separator_below_number_of_doctors"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/providerListRecyclerView"
+        android:layout_below="@id/separator_below_number_of_doctors"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:scrollbars="vertical">
+    </android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>

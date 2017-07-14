@@ -1,7 +1,5 @@
 package com.philips.platform.ths.intake;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
@@ -14,29 +12,13 @@ import com.americanwell.sdk.exception.FeatureNotEnabledException;
 import java.util.List;
 import java.util.Set;
 
-public class THSVisitContext implements Parcelable{
+public class THSVisitContext {
 
     VisitContext visitContext;
 
     public THSVisitContext(){
 
     }
-
-    protected THSVisitContext(Parcel in) {
-        visitContext = in.readParcelable(VisitContext.class.getClassLoader());
-    }
-
-    public static final Creator<THSVisitContext> CREATOR = new Creator<THSVisitContext>() {
-        @Override
-        public THSVisitContext createFromParcel(Parcel in) {
-            return new THSVisitContext(in);
-        }
-
-        @Override
-        public THSVisitContext[] newArray(int size) {
-            return new THSVisitContext[size];
-        }
-    };
 
     public VisitContext getVisitContext() {
         return visitContext;
@@ -134,13 +116,4 @@ public class THSVisitContext implements Parcelable{
         visitContext.setGuestInvitationEmails(guestInvitationEmails);
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeParcelable(visitContext, i);
-    }
 }

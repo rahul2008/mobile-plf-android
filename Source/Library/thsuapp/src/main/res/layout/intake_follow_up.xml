@@ -33,7 +33,7 @@
         android:layout_marginTop="@dimen/pth_margin_top"
         android:text="When can the provider call you, for a follow up, if needed ?"
         android:textColor="@color/awsdk_color_black"
-        android:textSize="@dimen/pth_body_text"
+        a android:textSize="@dimen/pth_title_text"
         android:textStyle="bold" />
 
     <com.philips.platform.uid.view.widget.Label

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ths_medication_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="@dimen/pth_fab_margin"
@@ -7,73 +10,47 @@
     android:orientation="vertical">
 
 
-    <!-- <com.philips.platform.uid.view.widget.Label
-         android:id="@+id/pth_intake_medication_label"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:paddingLeft="15dp"
-         android:layout_marginTop="10dp"
-         android:text="Step 3 of 5: Medicines"
-         android:background="@color/uid_blue_level_55"
-         android:textSize="@dimen/pth_body_text" />-->
-    <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/pth_intake_medication_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:text="Step 3 of 5: Medicines" />
-
-    <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/pth_intake_medication_question"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/pth_intake_medication_label"
-        android:paddingLeft="15dp"
-        android:paddingTop="15dp"
-        android:text="Are you currently using any medicine?"
-        android:textColor="@color/awsdk_color_black"
-        android:textSize="@dimen/pth_body_text"
-        android:textStyle="bold" />
-
     <RelativeLayout
-        android:id="@+id/pth_intake_medication_searchbox_relative_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/pth_intake_medication_question"
-        android:layout_marginTop="15dp">
 
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/pth_intake_medication_searchbox_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="Search"
-
-            />
-
-        <com.philips.platform.uid.view.widget.SearchBox
-            android:id="@+id/pth_intake_medication_searchbox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/pth_intake_medication_searchbox_button"
-            android:layout_toLeftOf="@+id/pth_intake_medication_searchbox_button"
-            android:text="Search for medicines"
-            android:textColor="@color/awsdk_color_black"
-
-            >
-
-        </com.philips.platform.uid.view.widget.SearchBox>
-    </RelativeLayout>
-
-    <ListView
-        android:id="@+id/pth_intake_medication_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/pth_intake_medication_continue_button"
-        android:layout_below="@+id/pth_intake_medication_searchbox_relative_layout"
-        android:layout_marginTop="20dp">
+        android:layout_marginBottom="5dp"
+        android:layout_above="@+id/pth_intake_medication_continue_button">
 
-    </ListView>
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/pth_intake_medication_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="Step 3 of 5: Medicines" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/pth_intake_medication_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pth_intake_medication_label"
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp"
+            android:text="Do you currently use medication? If so, please add your medication to share with the provider"
+            android:textColor="@color/awsdk_color_black"
+            android:textSize="@dimen/pth_title_text"
+            android:textStyle="bold" />
+
+
+        <ListView
+            android:id="@+id/pth_intake_medication_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@+id/pth_intake_medication_question"
+            android:layout_marginTop="20dp">
+
+        </ListView>
+
+
+    </RelativeLayout>
+
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/pth_intake_medication_continue_button"
@@ -93,4 +70,5 @@
         android:padding="15dp"
         android:text="Skip this step"
         android:textSize="@dimen/pth_body_text" />
+
 </RelativeLayout>

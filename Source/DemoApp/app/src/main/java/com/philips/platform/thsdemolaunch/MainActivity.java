@@ -7,7 +7,8 @@ import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.view.MenuItem;
+
 
 import com.philips.platform.ths.uappclasses.THSMicroAppDependencies;
 import com.philips.platform.ths.uappclasses.THSMicroAppInterface;
@@ -24,13 +25,13 @@ import com.philips.platform.uid.utils.UIDActivity;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends UIDActivity implements ActionBarListener{
+public class MainActivity extends UIDActivity implements ActionBarListener {
 
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
     private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
     private FragmentLauncher fragmentLauncher;
-    private THSMicroAppLaunchInput THSMicroAppLaunchInput;
-    private THSMicroAppInterface THSMicroAppInterface;
+    private THSMicroAppLaunchInput PTHMicroAppLaunchInput;
+    private THSMicroAppInterface PTHMicroAppInterface;
     private Toolbar toolbar;
 
     @Override
@@ -40,24 +41,19 @@ public class MainActivity extends UIDActivity implements ActionBarListener{
         setContentView(R.layout.ths_launch_activity);
         initAppInfra();
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
-        toolbar.setNavigationIcon(VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.pth_back_icon,getTheme()));
-        toolbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationIcon(VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.pth_back_icon, getTheme()));
+        setSupportActionBar(toolbar);
         UIDHelper.setTitle(this, "Am well");
-        fragmentLauncher = new FragmentLauncher(this,R.id.uappFragmentLayout,this);
-        THSMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input");
-        THSMicroAppInterface = new THSMicroAppInterface();
-        THSMicroAppInterface.init(new THSMicroAppDependencies(((THSDemoApplication)this.getApplicationContext()).getAppInfra()),new THSMicroAppSettings(this.getApplicationContext()));
-        THSMicroAppInterface.launch(fragmentLauncher, THSMicroAppLaunchInput);
+        fragmentLauncher = new FragmentLauncher(this, R.id.uappFragmentLayout, this);
+        PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input");
+        PTHMicroAppInterface = new THSMicroAppInterface();
+        PTHMicroAppInterface.init(new THSMicroAppDependencies(((THSDemoApplication) this.getApplicationContext()).getAppInfra()), new THSMicroAppSettings(this.getApplicationContext()));
+        PTHMicroAppInterface.launch(fragmentLauncher, PTHMicroAppLaunchInput);
 
     }
 
     private void initAppInfra() {
-        ((THSDemoApplication)getApplicationContext()).initializeAppInfra(new AppInitializationCallback.AppInfraInitializationCallback() {
+        ((THSDemoApplication) getApplicationContext()).initializeAppInfra(new AppInitializationCallback.AppInfraInitializationCallback() {
             @Override
             public void onAppInfraInitialization() {
 
@@ -65,11 +61,10 @@ public class MainActivity extends UIDActivity implements ActionBarListener{
         });
     }
 
-    private void showBackImage(boolean isVisible){
-        if(isVisible){
-            toolbar.setNavigationIcon(VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.pth_back_icon,getTheme()));
-        }
-        else {
+    private void showBackImage(boolean isVisible) {
+        if (isVisible) {
+            toolbar.setNavigationIcon(VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.pth_back_icon, getTheme()));
+        } else {
             toolbar.setNavigationIcon(null);
         }
 
@@ -78,13 +73,13 @@ public class MainActivity extends UIDActivity implements ActionBarListener{
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
         UIDHelper.setTitle(this, getString(i));
-            showBackImage(b);
+        showBackImage(b);
     }
 
     @Override
     public void updateActionBar(String s, boolean b) {
         UIDHelper.setTitle(this, s);
-            showBackImage(b);
+        showBackImage(b);
     }
 
 
@@ -103,6 +98,16 @@ public class MainActivity extends UIDActivity implements ActionBarListener{
             }
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 

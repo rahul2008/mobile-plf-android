@@ -3,7 +3,9 @@ Source/DemoApp/app/gradle/wrapper/gradle-wrapper.properties
 Source/DemoApp/app/gradlew
 Source/DemoApp/app/gradlew.bat
 Source/DemoApp/app/local.properties
-Source/Library/pthuapp/build/
-Source/DemoApp/Amwell/amwelluapp/build/
+
+Source/Library/thsuapp/build/
+Source/DemoApp/THS/thsuapp/build
 *.crt
+*.class
 Source/DemoApp/app/.idea/.name

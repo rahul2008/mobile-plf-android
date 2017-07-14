@@ -8,22 +8,27 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uid.view.widget.EditText;
 
 import java.util.Map;
 
 public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback<THSVitals, THSSDKError>,THSUpdateVitalsCallBack{
-    THSBaseFragment mTHSBaseFragment;
+    THSBaseFragment mPthBaseFragment;
 
     public THSVitalsPresenter(THSVitalsFragment thsVitalsFragment) {
-        mTHSBaseFragment = thsVitalsFragment;
+        mPthBaseFragment = thsVitalsFragment;
     }
 
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.vitals_continue_btn) {
-            ((THSVitalsFragment) mTHSBaseFragment).setVitalsValues();
+            boolean isValidinput = ((THSVitalsFragment)mPthBaseFragment).validate();
+            if(!isValidinput){
+                return;
+            }
+            ((THSVitalsFragment)mPthBaseFragment).setVitalsValues();
             try {
-                THSManager.getInstance().updateVitals(mTHSBaseFragment.getContext(),((THSVitalsFragment) mTHSBaseFragment).getTHSVitals(),this);
+                THSManager.getInstance().updateVitals(mPthBaseFragment.getContext(),((THSVitalsFragment) mPthBaseFragment).getTHSVitals(),this);
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }
@@ -34,16 +39,16 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
     }
 
     private void launchMedicationFragment() {
-        mTHSBaseFragment.addFragment(new THSMedicationFragment(), THSMedicationFragment.TAG,null);
+        mPthBaseFragment.addFragment(new THSMedicationFragment(),THSMedicationFragment.TAG,null);
     }
 
     public void getVitals() throws AWSDKInstantiationException {
-        THSManager.getInstance().getVitals(mTHSBaseFragment.getFragmentActivity(),this);
+        THSManager.getInstance().getVitals(mPthBaseFragment.getFragmentActivity(),this);
     }
 
     @Override
     public void onResponse(THSVitals thsVitals, THSSDKError var2) {
-        ((THSVitalsFragment) mTHSBaseFragment).updateUI(thsVitals);
+        ((THSVitalsFragment)mPthBaseFragment).updateUI(thsVitals);
     }
 
     @Override
@@ -53,19 +58,46 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
 
     @Override
     public void onUpdateVitalsValidationFailure(Map<String, ValidationReason> map) {
-        mTHSBaseFragment.showToast("VitalsValidationFailure");
+        mPthBaseFragment.showToast("VitalsValidationFailure");
     }
 
     @Override
     public void onUpdateVitalsResponse(SDKError sdkError) {
         if (sdkError == null)
-            mTHSBaseFragment.showToast("UPDATE SUCCESS");
+            mPthBaseFragment.showToast("UPDATE SUCCESS");
         else
-            mTHSBaseFragment.showToast("UPDATE FAILED");
+            mPthBaseFragment.showToast("UPDATE FAILED");
     }
 
     @Override
     public void onUpdateVitalsFailure(Throwable throwable) {
-        mTHSBaseFragment.showToast("onUpdateVitalsFailure throwable");
+        mPthBaseFragment.showToast("onUpdateVitalsFailure throwable");
+    }
+
+    int stringToInteger(String value){
+        return Integer.parseInt(value);
+    }
+
+    String integerToString(int value){
+        return String.valueOf(value);
+    }
+
+    Double stringToDouble(String value){
+        return Double.parseDouble(value);
+    }
+
+    String doubleToString(Double value){
+        return String.valueOf(value);
+    }
+
+    boolean isTextValid(EditText editText){
+        if(editText.getText().toString()==null || editText.getText().toString().isEmpty()){
+            return false;
+        }
+        return true;
+    }
+
+    String getTextFromEditText(EditText editText) {
+        return editText.getText().toString();
     }
 }

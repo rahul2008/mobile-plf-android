@@ -12,8 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.visit.Topic;
+import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
@@ -30,11 +32,13 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
     public static final String TAG = THSSymptomsFragment.class.getSimpleName();
     THSSymptomsPresenter mTHSSymptomsPresenter;
     THSProviderInfo providerInfo;
+    THSOnDemandSpeciality thsOnDemandSpeciality;
     LinearLayout topicLayout;
     FloatingActionButton floatingActionButton;
     Button mContinue;
     Typeface face;
     RelativeLayout mRelativeLayout;
+    THSVisitContext mThsVisitContext;
 
     //TODO: Spoorti - check null condition for the bundle Arguments
     @Nullable
@@ -42,7 +46,10 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_symptoms, container, false);
         Bundle bundle = getArguments();
-        providerInfo = bundle.getParcelable(THSConstants.THS_PROVIDER_INFO);
+        if (bundle != null) {
+            providerInfo = bundle.getParcelable(THSConstants.THS_PROVIDER_INFO);
+            thsOnDemandSpeciality = bundle.getParcelable(THSConstants.THS_ON_DEMAND);
+        }
         topicLayout = (LinearLayout) view.findViewById(R.id.checkbox_container);
         floatingActionButton = (FloatingActionButton) view.findViewById(R.id.floating_button);
         mContinue = (Button) view.findViewById(R.id.continue_btn);
@@ -76,6 +83,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
 
     @Override
     public boolean handleBackEvent() {
+        THSManager.getInstance().setVisitContext(null);
         return false;
     }
 
@@ -85,10 +93,18 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
     }
 
     private void getVisistContext() {
-        if (THSManager.getInstance().getPthVisitContext() == null) {
+        if (mThsVisitContext == null) {
             createCustomProgressBar(mRelativeLayout, MEDIUM);
             mContinue.setEnabled(false);
-            mTHSSymptomsPresenter.getVisitContext();
+            if(providerInfo != null) {
+                mTHSSymptomsPresenter.getVisitContext();
+            }else {
+                try {
+                    mTHSSymptomsPresenter.getfirstavailableprovider(thsOnDemandSpeciality);
+                } catch (AWSDKInstantiationException e) {
+                    e.printStackTrace();
+                }
+            }
         }else {
             mContinue.setEnabled(true);
             addTopicsToView(THSManager.getInstance().getPthVisitContext());
@@ -97,6 +113,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
 
     //TODO: SPOORTI - crashing when back is pressed
     public void addTopicsToView(THSVisitContext visitContext) {
+        mThsVisitContext = visitContext;
         if(getContext()!=null) {
             List<Topic> topics = visitContext.getTopics();
             for (final Topic topic : topics

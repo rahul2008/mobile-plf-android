@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ths_existing_medicine_footer_relative_layout"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:layout_marginLeft="@dimen/pth_fab_margin"
+    android:layout_marginRight="@dimen/pth_fab_margin"
+   >
+
+    <com.philips.platform.uid.view.widget.Label xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ths_existing_medicine_list_footer_alabel"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:layout_toLeftOf="@+id/ths_existing_medicine_list_footer_arrow_image"
+        android:ellipsize="marquee"
+        android:minHeight="@dimen/uid_recyclerview_item_one_line_height"
+        android:paddingEnd="@dimen/uid_recyclerview_margin_left_right"
+        android:paddingStart="@dimen/uid_recyclerview_margin_left_right"
+        android:gravity="center_vertical"
+        android:text="Add medication">
+
+    </com.philips.platform.uid.view.widget.Label>
+
+    <ImageView
+        android:id="@+id/ths_existing_medicine_list_footer_arrow_image"
+        android:layout_width="wrap_content"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:gravity="center_vertical"
+        android:layout_alignBottom="@+id/ths_existing_medicine_list_footer_alabel"
+        android:layout_alignParentRight="true"
+        android:src="@android:drawable/ic_input_get"></ImageView>
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/uid_gray_level_15"
+        >
+
+    </LinearLayout>
+</RelativeLayout>
