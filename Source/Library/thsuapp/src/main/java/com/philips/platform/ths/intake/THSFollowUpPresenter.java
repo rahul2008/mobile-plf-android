@@ -2,6 +2,8 @@ package com.philips.platform.ths.intake;
 
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
+import com.philips.platform.ths.R;
+import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.base.THSBaseView;
@@ -17,13 +19,22 @@ import java.util.Map;
 public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumerCallback<THSConsumer, THSSDKPasswordError> {
     THSBaseView uiBaseView;
 
-    public THSFollowUpPresenter(THSBaseView uiBaseView) {
-        this.uiBaseView = uiBaseView;
+    public THSFollowUpPresenter(THSFollowUpFragment tHSFollowUpFragment) {
+        this.uiBaseView = tHSFollowUpFragment;
     }
 
     @Override
     public void onEvent(int componentID) {
-        uiBaseView.addFragment(new THSNoppFragment(), THSNoppFragment.TAG,null );
+        if(componentID== R.id.pth_intake_follow_up_continue_button) {
+           /* if(null!=((THSFollowUpFragment)uiBaseView).updatedPhone && !((THSFollowUpFragment)uiBaseView).updatedPhone.isEmpty()) {
+
+                updateConsumer(((THSFollowUpFragment) uiBaseView).updatedPhone);
+            }*/
+                uiBaseView.addFragment(new THSInsuranceConfirmationFragment(), THSInsuranceConfirmationFragment.TAG, null);
+        }else if (componentID== R.id.pth_intake_follow_up_i_agree_link_text){
+
+            uiBaseView.addFragment(new THSNoppFragment(), THSNoppFragment.TAG, null);
+        }
     }
 
 

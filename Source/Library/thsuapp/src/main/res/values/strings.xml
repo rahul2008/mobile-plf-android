@@ -24,6 +24,12 @@
     <string name="vitals_skip">Skip this step</string>
     <string name="ths_medical_conditions">Have you diagnosed with any of these medical conditions ?</string>
     <string name="google_maps_key">AIzaSyAvmDNdBPOJg_mW3qQH0s7D1wIq76BWEZk</string>
+    <string name="ths_select_a_date_and_time">Select a Date and Time</string>
+    <string name="inline_error_message_systolic_value">Please Enter values between 0 and 250</string>
+    <string name="inline_error_message_temperature_value">Please Enter values between 0 and 120</string>
+    <string name="inline_error_message_weight_value">Please Enter values between 0 and 500</string>
+    <string name="ths_available_provider">Available Provider</string>
+    <string name="ths_scedule_appointment">Schedule an appointment for</string>
 
     <string name="pth_webview_test"><html><p>The US and South Korea have held a ballistic missile drill, after North Korea tested a long-range missile experts believe may reach Alaska.
 Self-restraint was all that separated armistice and war and could be changed at any time, the two allies said.
@@ -34,4 +40,6 @@ Pyongyang claimed on Tuesday to have successfully tested an intercontinental bal
 However, most experts believe that the North does not yet have long-range nuclear weapon capabilities.
 The two Koreas are technically still at war as the 1950-1953 Korean War ended in an armistice.
 How have the US and South Korea responded?</p>The allies conducted a ballistic missile fire exercise in the Sea of Japan.South Korean President Moon Jae-in said allies needed to demonstrate their missile defence posture with action, not just a statement, his office said.Is the new missile test a game-changer?Can the US defend itself against North Korea?Have North Korea missile tests paid off? What can the outside world do? Meanwhile in a joint statement Gen Vincent Brooks, commander of US forces Korea, and South Korean Joint Chiefs Chairman Gen Lee Sun-jin said the allies were maintaining patience and self-restraint, but this could change.</html></string>
+    <string name="schedule_appointment">Schedule an appointment</string>
+    <string name="get_started">Get started</string>
 </resources>

@@ -36,13 +36,13 @@ import com.americanwell.sdk.manager.PracticeProvidersManager;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.VisitManager;
+import com.philips.platform.ths.intake.THSConditionsCallBack;
 import com.philips.platform.ths.intake.THSMedication;
 import com.philips.platform.ths.intake.THSMedicationCallback;
 import com.philips.platform.ths.intake.THSSDKValidatedCallback;
 import com.philips.platform.ths.intake.THSUpdateConsumerCallback;
 import com.philips.platform.ths.intake.THSVisitContext;
 import com.philips.platform.ths.intake.THSVisitContextCallBack;
-import com.philips.platform.ths.intake.THSConditionsCallBack;
 import com.philips.platform.ths.intake.THSVitalSDKCallback;
 import com.philips.platform.ths.intake.THSVitals;
 import com.philips.platform.ths.login.THSAuthentication;
@@ -226,7 +226,7 @@ public class THSManagerTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        THSManager = THSManager.getInstance();
+        THSManager = com.philips.platform.ths.utility.THSManager.getInstance();
         THSManager.setAwsdk(awsdkMock);
         mConsumer = getConsumer();
         practice = getPractice();
@@ -238,7 +238,7 @@ public class THSManagerTest {
 
     @Test
     public void getInstance() {
-        THSManager THSManager = THSManager.getInstance();
+        THSManager THSManager = com.philips.platform.ths.utility.THSManager.getInstance();
         assertThat(THSManager).isNotNull();
         assertThat(THSManager).isInstanceOf(THSManager.class);
     }

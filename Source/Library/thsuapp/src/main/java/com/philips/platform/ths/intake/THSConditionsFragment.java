@@ -52,21 +52,26 @@ public class THSConditionsFragment extends THSBaseFragment implements BackEventL
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        AmwellLog.i(AmwellLog.LOG,"OnActivityCreated called");
+        AmwellLog.i(AmwellLog.LOG, "OnActivityCreated called");
 
         mThsConditionsPresenter = new THSConditionsPresenter(this);
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.pth_prepare_your_visit), true);
         }
 
+
+        if (getTHSConditions() == null) {
+            createCustomProgressBar(mRelativeLayout, MEDIUM);
+            getConditionsFromServer();
+        } else {
+            setConditions(getTHSConditions());
+        }
+
+    }
+
+    private void getConditionsFromServer() {
         try {
-            if (getTHSConditions() == null) {
-                createCustomProgressBar(mRelativeLayout,MEDIUM);
-                mThsConditionsPresenter.getConditions();
-            }
-            else {
-                setConditions(getTHSConditions());
-            }
+        mThsConditionsPresenter.getConditions();
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -93,12 +98,14 @@ public class THSConditionsFragment extends THSBaseFragment implements BackEventL
         return false;
     }
 
-    public void setConditions(List<THSConditions> THSConditionsList) {
-        setTHSConditions(THSConditionsList);
+    public void setConditions(List<THSConditions> thsConditionses) {
+        setTHSConditions(thsConditionses);
         List<Condition> conditionList = new ArrayList<>();
-        for (THSConditions pthCondition: THSConditionsList
-             ) {
-            conditionList.add(pthCondition.getCondition());
+        if(thsConditionses == null || thsConditionses.isEmpty()){
+            return;
+        }
+        for (int i=0;i<thsConditionses.size();i++) {
+            conditionList.add(thsConditionses.get(i).getCondition());
         }
 
         if(getContext()!=null) {

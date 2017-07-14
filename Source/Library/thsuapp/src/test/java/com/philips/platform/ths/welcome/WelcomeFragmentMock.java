@@ -1,8 +1,10 @@
 package com.philips.platform.ths.welcome;
 
-public class WelcomeFragmentMock extends THSWelcomeFragment {
-   /* @Override
-    public void createProgressBar(){
+import android.view.ViewGroup;
 
-    }*/
+public class WelcomeFragmentMock extends THSWelcomeFragment {
+    @Override
+    public void createCustomProgressBar(ViewGroup group, int size) {
+
+    }
 }

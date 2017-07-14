@@ -1,6 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingLeft="16dp"
     android:paddingRight="16dp">
 
@@ -22,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/wizard_button"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="20dp"
             android:layout_marginTop="16dp"
             android:text="@string/vitals_want"
             android:textColor="?attr/uidLabelRegularNormalTextColor"
@@ -42,83 +43,129 @@
             android:textSize="16dp"
             />
 
-        <com.philips.platform.uid.view.widget.EditText
-            android:id="@+id/systolic"
+        <com.philips.platform.uid.view.widget.InputValidationLayout
+            android:id="@+id/intake_systolic_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
             android:layout_below="@id/visit_reason"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/vitals_systolic"
-            android:enabled="true"
             android:layout_marginBottom="8dp"
-            />
+            app:uidTextBoxValidationErrorText="@string/inline_error_message_systolic_value">
 
-        <com.philips.platform.uid.view.widget.EditText
-            android:id="@+id/diastolic"
-            android:layout_below="@id/systolic"
+            <com.philips.platform.uid.view.widget.ValidationEditText
+                android:id="@+id/systolic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="true"
+                android:hint="@string/vitals_systolic"
+                android:inputType="number"
+                android:maxLength="3"
+                app:uidInputTextWithClearButton="true" />
+        </com.philips.platform.uid.view.widget.InputValidationLayout>
+
+
+        <com.philips.platform.uid.view.widget.InputValidationLayout
+            android:id="@+id/intake_diastolic_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/vitals_diastolic"
+            app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+            android:layout_below="@id/intake_systolic_container"
             android:layout_marginBottom="16dp"
-            />
+            app:uidTextBoxValidationErrorText="@string/inline_error_message_systolic_value">
+
+            <com.philips.platform.uid.view.widget.ValidationEditText
+                android:id="@+id/diastolic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="true"
+                android:hint="@string/vitals_diastolic"
+                android:inputType="number"
+                android:maxLength="3"
+                app:uidInputTextWithClearButton="true" />
+        </com.philips.platform.uid.view.widget.InputValidationLayout>
+
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/additional_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/diastolic"
+            android:layout_below="@id/intake_diastolic_container"
             android:text="@string/temperature"
             android:layout_marginBottom="16dp"
             android:textColor="?attr/uidLabelRegularNormalTextColor"
             style="@style/UIDLabelDescription"
             />
 
-        <com.philips.platform.uid.view.widget.EditText
-            android:id="@+id/edit_farenheit"
+
+        <com.philips.platform.uid.view.widget.InputValidationLayout
+            android:id="@+id/intake_farenheit_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
             android:layout_below="@id/additional_comment"
             android:layout_marginBottom="24dp"
-            android:enabled="true"
-            android:hint="@string/vitals_faranheit" />
+            app:uidTextBoxValidationErrorText="@string/inline_error_message_temperature_value">
 
-       <!-- <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/f"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/vitals_f"
-            android:layout_alignParentRight="true"
-            android:layout_toRightOf="@id/edit_farenheit"
-            android:layout_below="@id/additional_comment"
-            />-->
+            <com.philips.platform.uid.view.widget.ValidationEditText
+                android:id="@+id/edit_farenheit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="true"
+                android:hint="@string/vitals_faranheit"
+                android:inputType="numberDecimal"
+                android:maxLength="3"
+                app:uidInputTextWithClearButton="true" />
+        </com.philips.platform.uid.view.widget.InputValidationLayout>
+
+        <!-- <com.philips.platform.uid.view.widget.Label
+             android:id="@+id/f"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/vitals_f"
+             android:layout_alignParentRight="true"
+             android:layout_toRightOf="@id/edit_farenheit"
+             android:layout_below="@id/additional_comment"
+             />-->
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/weight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/edit_farenheit"
+            android:layout_below="@id/intake_farenheit_container"
             android:text="@string/weight"
             android:layout_marginBottom="16dp"
             android:textColor="?attr/uidLabelRegularNormalTextColor"
             style="@style/UIDLabelDescription"
             />
 
-        <com.philips.platform.uid.view.widget.EditText
-            android:id="@+id/ponds"
+        <com.philips.platform.uid.view.widget.InputValidationLayout
+            android:id="@+id/ponds_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
             android:layout_below="@id/weight"
             android:layout_marginBottom="24dp"
-            android:enabled="true"
-            android:hint="@string/vitals_ponds" />
+            app:uidTextBoxValidationErrorText="@string/inline_error_message_weight_value">
+
+            <com.philips.platform.uid.view.widget.ValidationEditText
+                android:id="@+id/ponds"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="true"
+                android:hint="@string/vitals_ponds"
+                android:inputType="number"
+                android:maxLength="3"
+                app:uidInputTextWithClearButton="true" />
+        </com.philips.platform.uid.view.widget.InputValidationLayout>
+
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/vitals_continue_btn"
             style="@style/UIDImageTextButton.Center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ponds"
-            android:enabled="false"
-            android:layout_marginBottom="20dp"
+            android:layout_below="@id/ponds_container"
+            android:enabled="true"
             android:text="Continue" />
 
         <com.philips.platform.uid.view.widget.Label

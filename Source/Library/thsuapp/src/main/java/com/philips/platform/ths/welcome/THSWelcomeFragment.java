@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -25,7 +26,6 @@ public class THSWelcomeFragment extends THSBaseFragment implements BackEventList
     }
 
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +37,8 @@ public class THSWelcomeFragment extends THSBaseFragment implements BackEventList
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_welcome_fragment, container, false);
         createCustomProgressBar(view, BIG);
-        ((THSWelcomePresenter)presenter).initializeAwsdk();
-        getActionBarListener().updateActionBar("",false);
+        ((THSWelcomePresenter) presenter).initializeAwsdk();
+        getActionBarListener().updateActionBar("", false);
         mInitButton = (Button) view.findViewById(R.id.init_amwell);
         mInitButton.setOnClickListener(this);
         return view;
@@ -56,7 +56,6 @@ public class THSWelcomeFragment extends THSBaseFragment implements BackEventList
     }
 
 
-
     @Override
     public boolean handleBackEvent() {
         return true;
@@ -70,7 +69,7 @@ public class THSWelcomeFragment extends THSBaseFragment implements BackEventList
         }
     }
 
-    void enableInitButton(boolean isEnabled){
+    void enableInitButton(boolean isEnabled) {
         if (mInitButton != null) {
             mInitButton.setEnabled(isEnabled);
         }
