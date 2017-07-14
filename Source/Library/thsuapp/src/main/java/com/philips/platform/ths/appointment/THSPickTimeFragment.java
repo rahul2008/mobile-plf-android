@@ -33,4 +33,9 @@ public class THSPickTimeFragment extends THSProviderDetailsFragment {
         onRefresh();
     }
 
+    @Override
+    public String getFragmentTag() {
+        return THSPickTimeFragment.TAG;
+    }
+
 }

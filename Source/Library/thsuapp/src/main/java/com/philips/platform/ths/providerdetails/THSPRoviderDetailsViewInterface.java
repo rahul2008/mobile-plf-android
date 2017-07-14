@@ -21,4 +21,5 @@ public interface THSPRoviderDetailsViewInterface {
     void updateView(Provider provider);
     void dismissRefreshLayout();
     List<Date> getAppointmentTimeSlots();
+    String getFragmentTag();
 }

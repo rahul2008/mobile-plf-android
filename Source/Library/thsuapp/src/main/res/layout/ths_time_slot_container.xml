@@ -33,7 +33,7 @@
         android:layout_below="@+id/calendar_container"
         />
 
-    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.philips.platform.ths.providerdetails.THSExpandableHeightGridView
         android:id="@+id/grid"
         android:layout_below="@id/line_separator_2"
         android:layout_width="fill_parent"
