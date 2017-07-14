@@ -22,7 +22,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.uappinput.UappDependencies;
 
-public class LauncherActivity extends UiKitActivity implements ActionBarListener{
+public class LauncherActivity extends UiKitActivity implements ActionBarListener {
 
     private DevicePairingUappInterface devicePairingUappInterface;
     private Button mLaunchAsActivity;
@@ -103,11 +103,11 @@ public class LauncherActivity extends UiKitActivity implements ActionBarListener
 
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
-
+        setTitle(getResources().getString(i));
     }
 
     @Override
     public void updateActionBar(String s, boolean b) {
-
+        setTitle(s);
     }
 }

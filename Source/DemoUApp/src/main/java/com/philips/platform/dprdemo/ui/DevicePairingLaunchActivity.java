@@ -9,10 +9,10 @@ import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.dprdemo.R;
+import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 
 public class DevicePairingLaunchActivity extends UiKitActivity implements ActionBarListener {
@@ -22,20 +22,15 @@ public class DevicePairingLaunchActivity extends UiKitActivity implements Action
         super.onCreate(savedInstanceState);
         setContentView(R.layout.device_pairing_launch_layout);
 
-        DevicePairingBaseFragment pairingFragment = new PairingFragment();
-        showFragment(pairingFragment, pairingFragment.getClass().getSimpleName());
+        showFragment();
     }
 
-    public void showFragment(Fragment fragment, String fragmentTag) {
+    public void showFragment() {
         int containerId = R.id.dpr_frame_container;
-        try {
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(containerId, fragment, fragmentTag);
-            fragmentTransaction.addToBackStack(fragmentTag);
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        }
+
+        FragmentLauncher fragmentLauncher = new FragmentLauncher(this, containerId, this);
+        DevicePairingBaseFragment pairingFragment = new PairingFragment();
+        pairingFragment.showFragment(pairingFragment, fragmentLauncher);
     }
 
     @Override
@@ -61,11 +56,11 @@ public class DevicePairingLaunchActivity extends UiKitActivity implements Action
 
     @Override
     public void updateActionBar(@StringRes int i, boolean b) {
-
+        setTitle(getResources().getString(i));
     }
 
     @Override
     public void updateActionBar(String s, boolean b) {
-
+        setTitle(s);
     }
 }
