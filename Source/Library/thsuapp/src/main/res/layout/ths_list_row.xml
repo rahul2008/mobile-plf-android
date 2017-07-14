@@ -1,6 +1,6 @@
 
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/pth_searched_medication_list_row_label"
+android:id="@+id/ths_list_row_label"
 style="?android:attr/dropDownItemStyle"
     android:background="@color/uidColorWhite"
 android:layout_width="match_parent"
