@@ -55,7 +55,7 @@ import com.philips.platform.ths.pharmacy.THSGetPharmaciesCallback;
 import com.philips.platform.ths.pharmacy.THSPreferredPharmacyCallback;
 import com.philips.platform.ths.pharmacy.THSUpdatePharmacyCallback;
 import com.philips.platform.ths.pharmacy.THSUpdateShippingAddressCallback;
-import com.philips.platform.ths.practice.THSPractice;
+import com.philips.platform.ths.practice.THSPracticeList;
 import com.philips.platform.ths.practice.THSPracticesListCallback;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsCallback;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
@@ -321,7 +321,7 @@ public class THSManager {
         getAwsdk(context).getPracticeProvidersManager().getPractices(consumer, new SDKCallback<List<Practice>, SDKError>() {
             @Override
             public void onResponse(List<Practice> practices, SDKError sdkError) {
-                THSPractice pTHPractice = new THSPractice();
+                THSPracticeList pTHPractice = new THSPracticeList();
                 pTHPractice.setPractices(practices);
                 THSPracticesListCallback.onPracticesListReceived(pTHPractice,sdkError);
             }

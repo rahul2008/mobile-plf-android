@@ -42,7 +42,7 @@ public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePres
 
     }
 
-    public void startTimePickGragment(THSProviderEntity thsProviderInfo, Date date) {
+    public void startTimePickFragment(THSProviderEntity thsProviderInfo, Date date) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY,thsProviderInfo);
         bundle.putSerializable(THSConstants.THS_DATE,date);

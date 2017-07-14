@@ -15,7 +15,6 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.providerslist.OnProviderListItemClickListener;
-import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.providerslist.THSProvidersListAdapter;
 import com.philips.platform.ths.utility.THSConstants;
 
@@ -79,7 +78,7 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         adapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
             @Override
             public void onItemClick(THSProviderEntity item) {
-                mTHSAvailableProviderListBasedOnDatePresenter.startTimePickGragment(item,mDate);
+                mTHSAvailableProviderListBasedOnDatePresenter.startTimePickFragment(item,mDate);
             }
         });
         recyclerView.setAdapter(adapter);

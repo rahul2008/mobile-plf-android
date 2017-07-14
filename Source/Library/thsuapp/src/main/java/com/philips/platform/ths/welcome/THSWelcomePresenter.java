@@ -125,7 +125,7 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
         THSPracticeFragment PTHPracticeFragment = new THSPracticeFragment();
         PTHPracticeFragment.setConsumer(consumer);
        /* THSPracticeFragment.setActionBarListener(((THSWelcomeFragment) uiBaseView).getActionBarListener());
-        uiBaseView.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(uiBaseView.getContainerID(), THSPracticeFragment,"THSPractice List").addToBackStack(null).commit();*/
+        uiBaseView.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(uiBaseView.getContainerID(), THSPracticeFragment,"THSPracticeList List").addToBackStack(null).commit();*/
 
        uiBaseView.addFragment(PTHPracticeFragment,PTHPracticeFragment.TAG,null);
 
