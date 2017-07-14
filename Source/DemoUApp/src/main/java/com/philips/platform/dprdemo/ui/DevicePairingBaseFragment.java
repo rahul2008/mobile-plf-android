@@ -5,7 +5,6 @@
 */
 package com.philips.platform.dprdemo.ui;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -64,7 +63,6 @@ public abstract class DevicePairingBaseFragment extends Fragment implements Back
         setActionbarTitle();
     }
 
-
     public void onStop() {
         super.onStop();
     }
@@ -99,18 +97,9 @@ public abstract class DevicePairingBaseFragment extends Fragment implements Back
             fragmentTransaction.replace(containerId, fragment, simpleName);
             fragmentTransaction.addToBackStack(simpleName);
             fragmentTransaction.commitAllowingStateLoss();
-
-            /*Fragment currentFrag = fragmentActivity.getSupportFragmentManager().findFragmentById(this.getId());
-            if (!(currentFrag instanceof DevicePairingBaseFragment)) {
-                fragmentTransaction.addToBackStack("device_pairing_vertical_tag");
-            } else {
-                fragmentTransaction.addToBackStack(simpleName);
-            }*/
-
-
         } catch (IllegalStateException exception) {
+            exception.printStackTrace();
         }
-
     }
 
  /*   public boolean clearFragmentStack() {
@@ -135,7 +124,6 @@ public abstract class DevicePairingBaseFragment extends Fragment implements Back
 
     @Override
     public void onConnectionAvailable() {
-
     }
 
     @Override
