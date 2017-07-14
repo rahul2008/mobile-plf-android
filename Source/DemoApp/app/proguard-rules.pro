@@ -110,7 +110,6 @@
 
 
 #appinfra
--keep public class com.philips.platform.appinfra.AppInfra.** { *; }
 -keep public interface com.philips.platform.appinfra.AppInfraInterface.** { *; }
 -keep public interface com.philips.platform.appinfra.logging.LoggingInterface.** { *; }
 -keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
