@@ -71,4 +71,8 @@ public final class UIDUtils {
         DrawableCompat.setTintList(compatDrawable, colorStateList);
         return compatDrawable;
     }
+
+    public static float pxFromDp(final Context context, final float dp) {
+        return dp * context.getResources().getDisplayMetrics().density;
+    }
 }

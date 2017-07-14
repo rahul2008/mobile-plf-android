@@ -15,9 +15,14 @@ import android.support.annotation.StyleRes;
 import android.support.v7.widget.ListPopupWindow;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 import android.widget.PopupWindow;
+
+import com.philips.platform.uid.utils.UIDUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -53,8 +58,11 @@ public class UIPicker extends ListPopupWindow{
 
     private Activity activity;
     private ListAdapter adapter;
-    public static boolean isBelowAnchorView;
-    private static final int LIST_EXPAND_MAX = 1;
+    private boolean shouldSetGravity = true;
+    private boolean shouldSetHeight = true;
+    private boolean shouldSetWidth = true;
+    private final int LIST_EXPAND_MAX = 1;
+    private int adapterCount;
 
     public UIPicker(@NonNull Context context) {
         this(context, null, android.support.v7.appcompat.R.attr.listPopupWindowStyle);
@@ -79,28 +87,174 @@ public class UIPicker extends ListPopupWindow{
     public void setAdapter(@Nullable ListAdapter adapter) {
         super.setAdapter(adapter);
         this.adapter = adapter;
+        adapterCount = adapter.getCount();
     }
 
     @Override
+    public void setDropDownGravity(int dropDownGravity) {
+        super.setDropDownGravity(dropDownGravity);
+        shouldSetGravity = false;
+    }
+
+    @Override
+    public void setWidth(int width) {
+        super.setWidth(width);
+        shouldSetWidth = false;
+    }
+
+    @Override
+    public void setHeight(int height) {
+        super.setHeight(height);
+        shouldSetHeight = false;
+    }
+
+
+
+    @Override
     public void show() {
+
+
+
+        /*Rect rect = new Rect();
+        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+        int winHeight = activity.getWindow().getDecorView().getHeight();
+        int softButtonHeight = winHeight - rect.bottom;
+        setHeight(winHeight-softButtonHeight);*/
+
+
+        if(shouldSetGravity){
+            setDropDownGravity(Gravity.END);
+        }
+
+        if(shouldSetWidth){
+            setContentWidth(measureContentWidth(adapter));
+        }
+
+        if(shouldSetHeight){
+            setContentHeight();
+        }
+
+        setVerticalOffset(-getAnchorView().getHeight());
+
         setListItemExpandMax(this, LIST_EXPAND_MAX);
+
+
+
+        //popup.showAtLocation(rootView, Gravity.BOTTOM, 0, winHeight-rect.bottom);
+
         super.show();
     }
 
     private void setListItemExpandMax(ListPopupWindow listPopupWindow, int max) {
-        if(!isBelowAnchorView){
-            setVerticalOffset(-getAnchorView().getHeight());
-        }
+
         try {
             Method method = ListPopupWindow.class.getDeclaredMethod("setListItemExpandMax", Integer.TYPE);
             method.setAccessible(true);
             method.invoke(listPopupWindow, max);
+
+            Method m2 = ListPopupWindow.class.getDeclaredMethod("getMaxAvailableHeight", Boolean.TYPE);
+            m2.setAccessible(true);
+            method.invoke(listPopupWindow, getAnchorView(), -getAnchorView().getHeight(), false);
+
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    private int getMaxAvailableHeight(
+            @NonNull View anchor, int yOffset) {
+        Rect displayFrame = null;
+        final Rect visibleDisplayFrame = new Rect();
+
+        anchor.getWindowVisibleDisplayFrame(visibleDisplayFrame);
+
+        displayFrame = visibleDisplayFrame;
+
+
+
+        final int[] anchorPos = new int[2];
+        anchor.getLocationOnScreen(anchorPos);
+
+        final int bottomEdge = displayFrame.bottom;
+
+        final int distanceToBottom;
+
+            distanceToBottom = bottomEdge - anchorPos[1] - yOffset;
+
+        final int distanceToTop = anchorPos[1] - displayFrame.top + yOffset;
+
+        // anchorPos[1] is distance from anchor to top of screen
+        int returnedHeight = Math.max(distanceToBottom, distanceToTop);
+        final Rect mTempRect = new Rect();
+        if (getBackground() != null) {
+            getBackground().getPadding(mTempRect);
+            returnedHeight -= mTempRect.top + mTempRect.bottom;
+        }
+
+        return returnedHeight;
+
+    }
+
+    private void setContentHeight(){
+        int maxHeight = getMaxAvailableHeight(getAnchorView(), getAnchorView().getHeight());
+        int contentHeight = adapterCount * Math.round(UIDUtils.pxFromDp(activity, 56));
+        if(contentHeight < maxHeight){
+            setHeight(contentHeight);
+        }
+        else {
+            setHeight(maxHeight);
+        }
+
+    }
+
+
+    private int measureContentWidth(ListAdapter adapter) {
+        ViewGroup mMeasureParent = null;
+        float minWidth = UIDUtils.pxFromDp(activity, 56);
+        int maxWidth = 0;
+        View itemView = null;
+        int itemType = 0;
+
+        final int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        final int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        final int count = adapter.getCount();
+
+        for (int i = 0; i < count; i++) {
+            final int positionType = adapter.getItemViewType(i);
+            if (positionType != itemType) {
+                itemType = positionType;
+                itemView = null;
+            }
+
+            if (mMeasureParent == null) {
+                mMeasureParent = new FrameLayout(activity);
+            }
+
+            itemView = adapter.getView(i, itemView, mMeasureParent);
+            itemView.measure(widthMeasureSpec, heightMeasureSpec);
+
+            final int itemWidth = itemView.getMeasuredWidth();
+
+            if (itemWidth > maxWidth) {
+                maxWidth = itemWidth;
+            }
+        }
+
+        if(maxWidth > minWidth && maxWidth < 2 * minWidth){
+            return Math.round(2 * minWidth);
+        } else if(maxWidth > 2 * minWidth && maxWidth < 3 * minWidth){
+            return Math.round(3 * minWidth);
+        } else if(maxWidth > 3 * minWidth && maxWidth < 6 * minWidth){
+            return Math.round(6 * minWidth);
+        } else if(maxWidth > 6 * minWidth && maxWidth < 7 * minWidth){
+            return Math.round(7 * minWidth);
+        } else {
+            return maxWidth;
         }
     }
 
