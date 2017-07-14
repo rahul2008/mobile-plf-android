@@ -10,4 +10,8 @@ public interface THSPharmacyListViewListener extends THSBaseView{
 
     void updatePharmacyListView(List<Pharmacy> pharmacies);
     void validateForMailOrder();
+    void switchView();
+    void showRetailView();
+    void showMailOrderView();
+    void setPreferredPharmacy();
 }
