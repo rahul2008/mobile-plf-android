@@ -65,3 +65,5 @@ Source/PurAir/gradle.properties
 Source/pluginreferenceboard/build
 Source/DemoApp/build
 Source/DemoUApp/build
+**/~$*
+Documents/External/**/Commlib_API/*
