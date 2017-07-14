@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/shipping_address_text_label"
+        style="@style/UIDLabel.RecyclerViewItemMultipleLinesTitleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Shipping Address" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/sa_address_line_one_text"
+        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/shipping_address_text_label"
+        android:text="Address line 1" />
+
+    <com.philips.platform.uid.view.widget.EditText
+        android:id="@+id/sa_shipping_address_line_one"
+        style="@style/UIDEditTextBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sa_address_line_one_text"
+        android:layout_marginBottom="16dp"
+        android:hint="Enter first address line" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/sa_address_line_two_text"
+        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sa_shipping_address_line_one"
+        android:text="Address Line 2" />
+
+    <com.philips.platform.uid.view.widget.EditText
+        android:id="@+id/sa_shipping_address_line_two"
+        style="@style/UIDEditTextBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sa_address_line_two_text"
+        android:layout_marginBottom="16dp"
+        android:hint="(optional)" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/sa_town_text"
+        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sa_shipping_address_line_two"
+        android:text="Town/City" />
+
+    <com.philips.platform.uid.view.widget.EditText
+        android:id="@+id/sa_town"
+        style="@style/UIDEditTextBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sa_town_text"
+        android:layout_marginBottom="16dp"
+        android:hint="Enter yout town or city" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/sa_postal_code_text"
+        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sa_town"
+        android:text="Postal code" />
+
+    <com.philips.platform.uid.view.widget.EditText
+        android:id="@+id/sa_postal_code"
+        style="@style/UIDEditTextBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sa_postal_code_text"
+        android:layout_marginBottom="16dp"
+        android:hint="Enter ZIP or postal code"
+        android:inputType="number" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/sa_state_text"
+        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sa_postal_code"
+        android:text="State" />
+
+    <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/sa_state_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sa_state_text">
+
+    </android.support.v7.widget.AppCompatSpinner>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/update_shipping_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ok,continue" />
+    </RelativeLayout>
+</RelativeLayout>

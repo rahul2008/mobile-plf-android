@@ -23,6 +23,7 @@
     <string name="vitals_ponds">Pounds</string>
     <string name="vitals_skip">Skip this step</string>
     <string name="ths_medical_conditions">Have you diagnosed with any of these medical conditions ?</string>
+    <string name="google_maps_key">AIzaSyAvmDNdBPOJg_mW3qQH0s7D1wIq76BWEZk</string>
     <string name="ths_select_a_date_and_time">Select a Date and Time</string>
     <string name="inline_error_message_systolic_value">Please Enter values between 0 and 250</string>
     <string name="inline_error_message_temperature_value">Please Enter values between 0 and 120</string>
