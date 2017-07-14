@@ -60,6 +60,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 public class URStandardDemoActivity extends Activity implements OnClickListener,
         UserRegistrationUIEventListener, UserRegistrationListener, RefreshLoginSessionHandler {
 
@@ -90,14 +93,14 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
         Button mBtnRegistrationWithOutAccountSettings = (Button) findViewById(R.id.btn_registration_without_account);
         mBtnRegistrationWithOutAccountSettings.setOnClickListener(this);
 
-        Button mBtnHsdpRefreshAccessToken = (Button) findViewById(R.id.btn_refresh_token);
+        final Button mBtnHsdpRefreshAccessToken = (Button) findViewById(R.id.btn_refresh_token);
         mBtnHsdpRefreshAccessToken.setOnClickListener(this);
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setCancelable(false);
         if (RegistrationConfiguration.getInstance().isHsdpFlow()) {
-            mBtnHsdpRefreshAccessToken.setVisibility(View.VISIBLE);
+            mBtnHsdpRefreshAccessToken.setVisibility(VISIBLE);
         } else {
-            mBtnHsdpRefreshAccessToken.setVisibility(View.GONE);
+            mBtnHsdpRefreshAccessToken.setVisibility(GONE);
         }
 
         Switch mCountrySelectionSwitch = (Switch) findViewById(R.id.county_selection_switch);
@@ -141,12 +144,12 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
         }
 
-        mLlConfiguration.setVisibility(View.GONE);
+        mLlConfiguration.setVisibility(GONE);
         Button mBtnChangeConfiguaration = (Button) findViewById(R.id.btn_change_configuration);
         mBtnChangeConfiguaration.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mLlConfiguration.setVisibility(View.VISIBLE);
+                mLlConfiguration.setVisibility(VISIBLE);
             }
         });
 
@@ -168,7 +171,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
         mBtnApply.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mLlConfiguration.setVisibility(View.GONE);
+                mLlConfiguration.setVisibility(GONE);
 
                 //Resetn
                 UserRegistrationInitializer.getInstance().resetInitializationState();
@@ -206,8 +209,10 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
                     editor.putString("reg_environment", restoredText);
                     if (mCheckBox.isChecked()) {
                         editor.putString("reg_hsdp_environment", restoredText);
+                        mBtnHsdpRefreshAccessToken.setVisibility(VISIBLE);
                     } else {
                         editor.remove("reg_hsdp_environment");
+                        mBtnHsdpRefreshAccessToken.setVisibility(GONE);
                     }
                     editor.commit();
                 }
@@ -218,7 +223,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
         mBtnCancel.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mLlConfiguration.setVisibility(View.GONE);
+                mLlConfiguration.setVisibility(GONE);
             }
         });
     }
