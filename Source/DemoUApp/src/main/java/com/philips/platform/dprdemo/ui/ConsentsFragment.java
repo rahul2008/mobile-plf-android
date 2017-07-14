@@ -35,8 +35,6 @@ import java.util.List;
 
 public class ConsentsFragment extends DevicePairingBaseFragment implements DBRequestListener<ConsentDetail>,
         DBFetchRequestListner<ConsentDetail>, DBChangeListener, View.OnClickListener, NetworkChangeListener.INetworkChangeListener {
-
-    public static String TAG = ConsentsFragment.class.getSimpleName();
     private Context mContext;
     private ConsentsAdapter mConsentDialogAdapter;
     private ConsentsPresenter mConsentDialogPresenter;
@@ -165,7 +163,6 @@ public class ConsentsFragment extends DevicePairingBaseFragment implements DBReq
         DataServicesManager.getInstance().fetchConsentDetail(this);
     }
 
-
     private boolean isConsentAccepted(List<? extends ConsentDetail> data) {
         boolean isAccepted = false;
 
@@ -266,38 +263,6 @@ public class ConsentsFragment extends DevicePairingBaseFragment implements DBReq
         }
     }
 
-   /* private void showProgressDialog() {
-        if (mProgressDialog != null && !mProgressDialog.isShowing() && !(getActivity().isFinishing())) {
-            mProgressDialog.setMessage("Updating Consent Data. Please wait");
-            mProgressDialog.show();
-        }
-    }
-
-    private void dismissProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing() && !(getActivity().isFinishing())) {
-            mProgressDialog.dismiss();
-        }
-    }
-
-    public void showAlertDialog(String message) {
-        if (mAlertDialogBuilder == null) {
-            mAlertDialogBuilder = new AlertDialog.Builder(mContext, R.style.alertDialogStyle);
-            mAlertDialogBuilder.setCancelable(false);
-            mAlertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.dismiss();
-                }
-            });
-        }
-        if (mAlertDialog == null)
-            mAlertDialog = mAlertDialogBuilder.create();
-
-        if (!mAlertDialog.isShowing() && !(getActivity().isFinishing())) {
-            mAlertDialog.setMessage(message);
-            mAlertDialog.show();
-        }
-    }*/
-
     @Override
     public void onConnectionLost() {
         dismissProgressDialog();
@@ -306,7 +271,6 @@ public class ConsentsFragment extends DevicePairingBaseFragment implements DBReq
 
     @Override
     public void onConnectionAvailable() {
-
     }
 
     private void launchSubjectProfile() {
@@ -314,19 +278,5 @@ public class ConsentsFragment extends DevicePairingBaseFragment implements DBReq
         createProfileFragment.setDeviceDetails(mPairDevice);
         createProfileFragment.setDeviceStatusListener(mDeviceStatusListener);
         showFragment(createProfileFragment);
-
-       /* FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(getActiveFragment().getId(), createProfileFragment, CreateSubjectProfileFragment.TAG);
-        fragmentTransaction.addToBackStack(CreateSubjectProfileFragment.TAG);
-        fragmentTransaction.commit();*/
     }
-
-    /*public Fragment getActiveFragment() {
-        if (getActivity().getSupportFragmentManager().getBackStackEntryCount() == 0) {
-            return null;
-        }
-
-        String tag = getActivity().getSupportFragmentManager().getBackStackEntryAt(getActivity().getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
-        return getActivity().getSupportFragmentManager().findFragmentByTag(tag);
-    }*/
 }

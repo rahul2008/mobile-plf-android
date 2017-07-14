@@ -167,7 +167,6 @@ public class CreateSubjectProfileFragment extends DevicePairingBaseFragment impl
         getFragmentManager().popBackStack();
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
 
-
         StateContext stateContext = new StateContext();
         stateContext.setState(new PairDeviceState(pairDevice,
                 list, mDeviceStatusListener, getActivity()));
@@ -186,62 +185,4 @@ public class CreateSubjectProfileFragment extends DevicePairingBaseFragment impl
         });
 
     }
-
-    /*private void showProgressDialog() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mProgressDialog = new ProgressDialog(getActivity());
-                mProgressDialog.setCancelable(true);
-                mProgressDialog.setCanceledOnTouchOutside(false);
-                mProgressDialog.setMessage("Creating subject profile...");
-                if (mProgressDialog != null && !mProgressDialog.isShowing() && !(getActivity().isFinishing())) {
-                    mProgressDialog.show();
-                }
-
-            }
-        });
-    }
-
-    private void dismissProgressDialog() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (mProgressDialog != null && mProgressDialog.isShowing() && !(getActivity().isFinishing())) {
-                    mProgressDialog.dismiss();
-                }
-
-            }
-        });
-    }*/
-
-    /*public void showAlertDialog(String message) {
-        if (mAlertDialogBuilder == null) {
-            mAlertDialogBuilder = new AlertDialog.Builder(mContext, R.style.alertDialogStyle);
-            mAlertDialogBuilder.setCancelable(false);
-            mAlertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.dismiss();
-                }
-            });
-        }
-        if (mAlertDialog == null)
-            mAlertDialog = mAlertDialogBuilder.create();
-
-        if (!mAlertDialog.isShowing() && !(getActivity().isFinishing())) {
-            mAlertDialog.setMessage(message);
-            mAlertDialog.show();
-        }
-    }
-*/
-   /* @Override
-    public void onConnectionLost() {
-        dismissProgressDialog();
-        showAlertDialog("Please check your connection and try again.");
-    }
-
-    @Override
-    public void onConnectionAvailable() {
-
-    }*/
 }

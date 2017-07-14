@@ -38,8 +38,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PairingFragment extends DevicePairingBaseFragment implements IDevicePairingListener, NetworkChangeListener.INetworkChangeListener {
-    public static String TAG = PairingFragment.class.getSimpleName();
-
     private Context mContext;
     private PairingFragmentPresenter mLaunchFragmentPresenter;
 
