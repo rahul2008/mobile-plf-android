@@ -6,6 +6,9 @@ Source/DemoApp/app/local.properties
 
 Source/Library/thsuapp/build/
 Source/DemoApp/THS/thsuapp/build
+Source/Library/thsuapp/build/
+Source/Library/thsuapp/thsuapp.iml
+Source/DemoApp/Amwell/amwelluapp/build/
 *.crt
 *.class
 Source/DemoApp/app/.idea/.name
