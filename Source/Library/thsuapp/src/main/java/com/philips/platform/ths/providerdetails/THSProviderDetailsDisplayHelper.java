@@ -75,6 +75,7 @@ public class THSProviderDetailsDisplayHelper {
         yearsOfExpValueLabel.setText(""+provider.getYearsExperience());
         graduatedValueLabel.setText(provider.getSchoolName());
         aboutMeValueLabel.setText(provider.getTextGreeting());
+        practiceName.setText(provider.getSpecialty().getName());
         checkAvailability(provider);
         updateViewBasedOnType(provider);
     }
