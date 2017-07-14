@@ -51,11 +51,13 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         boolean providerAvailable = isProviderAvailable(providerInfoList);
         if(providerAvailable){
             ((THSProvidersListFragment) mThsBaseFragment).btn_get_started.setVisibility(View.VISIBLE);
+            ((THSProvidersListFragment) mThsBaseFragment).btn_schedule_appointment.setVisibility(View.GONE);
             ((THSProvidersListFragment) mThsBaseFragment).btn_get_started.setText((mThsBaseFragment).
                     getContext().getString(R.string.get_started));
         }else {
-            ((THSProvidersListFragment) mThsBaseFragment).btn_get_started.setVisibility(View.VISIBLE);
-            ((THSProvidersListFragment) mThsBaseFragment).btn_get_started.setText((mThsBaseFragment).
+            ((THSProvidersListFragment) mThsBaseFragment).btn_schedule_appointment.setVisibility(View.VISIBLE);
+            ((THSProvidersListFragment) mThsBaseFragment).btn_get_started.setVisibility(View.GONE);
+            ((THSProvidersListFragment) mThsBaseFragment).btn_schedule_appointment.setText((mThsBaseFragment).
                     getContext().getString(R.string.schedule_appointment));
         }
         THSProviderListViewInterface.updateProviderAdapterList(providerInfoList);

@@ -121,7 +121,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
             THSProviderListPresenter.onEvent(R.id.getStartedButton);
         }else if(i==R.id.getScheduleAppointmentButton){
             createCustomProgressBar(mRelativeLayoutContainer, BIG);
-            THSProviderListPresenter.onEvent(R.id.schedule_appointment);
+            THSProviderListPresenter.onEvent(R.id.getScheduleAppointmentButton);
         }
     }
 

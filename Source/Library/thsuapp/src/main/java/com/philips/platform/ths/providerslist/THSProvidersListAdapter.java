@@ -66,17 +66,19 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
         THSProviderInfo thsProviderInfo;
         if((thsProviderInfos.get(position) instanceof THSProviderInfo)){
             thsProviderInfo = (THSProviderInfo) thsProviderInfos.get(position);
+            holder.isAvailble.setText(""+thsProviderInfo.getVisibility());
         }else{
             THSAvailableProvider thsAvailableProvider = (THSAvailableProvider) thsProviderInfos.get(position);
             thsProviderInfo = new THSProviderInfo();
             thsProviderInfo.setTHSProviderInfo(thsAvailableProvider.getProviderInfo());
+            holder.isAvailble.setText(""+thsAvailableProvider.getAvailableAppointmentTimeSlots().size() + " Available timeslots");
         }
 
 
         holder.providerRating.setRating(thsProviderInfo.getRating());
         holder.name.setText("Dr. " + thsProviderInfo.getProviderInfo().getFullName());
         holder.practice.setText(thsProviderInfo.getSpecialty().getName());
-        holder.isAvailble.setText(""+thsProviderInfo.getVisibility());
+
         if(thsProviderInfo.hasImage()) {
             try {
                 THSManager.getInstance().getAwsdk(holder.providerImage.getContext()).getPracticeProvidersManager().newImageLoader(thsProviderInfo.getProviderInfo(), holder.providerImage, ProviderImageSize.SMALL).placeholder(holder.providerImage.getResources().getDrawable(R.drawable.doctor_placeholder)).build().load();
