@@ -6,7 +6,6 @@
 package com.philips.platform.dprdemo.ui;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -57,8 +56,6 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
 
     private NetworkChangeListener mNetworkChangeListener;
 
-    private AlertDialog.Builder mAlertDialogBuilder;
-    private AlertDialog mAlertDialog;
     private StateContext mStateContext;
 
 

@@ -1,7 +1,7 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
 * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
 */
 package com.philips.platform.dprdemo.ui;
 
@@ -22,7 +22,8 @@ public class DevicePairingLaunchActivity extends UiKitActivity implements Action
         super.onCreate(savedInstanceState);
         setContentView(R.layout.device_pairing_launch_layout);
 
-        showFragment(new PairingFragment(), PairingFragment.TAG);
+        DevicePairingBaseFragment pairingFragment = new PairingFragment();
+        showFragment(pairingFragment, pairingFragment.getClass().getSimpleName());
     }
 
     public void showFragment(Fragment fragment, String fragmentTag) {
