@@ -42,7 +42,7 @@ public class AddressSelectionAdapter extends RecyclerView.Adapter<AddressSelecti
         initOptionsDrawable();
     }
 
-    void initOptionsDrawable() {
+    private void initOptionsDrawable() {
         mOptionsDrawable = VectorDrawable.create(mContext, R.drawable.iap_options_icon_5x17);
     }
 

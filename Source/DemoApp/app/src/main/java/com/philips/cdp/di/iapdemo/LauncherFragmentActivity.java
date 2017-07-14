@@ -1,3 +1,4 @@
+/*
 package com.philips.cdp.di.iapdemo;
 
 import android.os.Bundle;
@@ -213,3 +214,4 @@ public class LauncherFragmentActivity extends UiKitActivity
         }
     }
 }
+*/

@@ -6,13 +6,14 @@ package com.philips.cdp.di.iap.screens;
 
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
+import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebResourceRequest;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -63,12 +64,13 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
     }
 
     private void initializeWebView() {
+        mWebView.setInitialScale(1);
         mWebView.getSettings().setLoadWithOverviewMode(true);
-        mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         mWebView.getSettings().setUseWideViewPort(true);
-        mWebView.getSettings().setBuiltInZoomControls(true);
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+        mWebView.getSettings().setJavaScriptEnabled(false);
+        mWebView.getSettings().setAllowFileAccess(true);
+        mWebView.getSettings().setAllowContentAccess(true);
+        mWebView.setScrollbarFadingEnabled(false);
         mWebView.setWebViewClient(new WebViewClient() {
             int webViewPreviousState;
             final int PAGE_STARTED = 0x1;
@@ -88,12 +90,17 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
             }
 
             @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                handler.proceed(); // Ignore SSL certificate errors
+            }
+
+            @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
                 webViewPreviousState = PAGE_STARTED;
                 if (mProgress != null) {
                     mProgress.setVisibility(View.VISIBLE);
                 }
+                super.onPageStarted(view, url, favicon);
             }
 
             @Override
@@ -101,7 +108,7 @@ public class WebBuyFromRetailers extends InAppBaseFragment {
                 if (mProgress != null) {
                     mProgress.setVisibility(View.GONE);
                 }
-
+                super.onPageFinished(view,url);
             }
         });
     }

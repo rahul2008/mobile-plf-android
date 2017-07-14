@@ -6,8 +6,9 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.response.carts.UpdateCartData;
+import com.philips.cdp.di.iap.store.StoreListener;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.HashMap;
@@ -25,6 +26,7 @@ public class CartUpdateProductQuantityRequest extends AbstractModel {
 
     @Override
     public int getMethod() {
+        IAPLog.d(IAPLog.LOG, "PUT");
         return Request.Method.PUT;
     }
 
@@ -43,6 +45,7 @@ public class CartUpdateProductQuantityRequest extends AbstractModel {
             throw new RuntimeException("product code and quantity must be supplied");
         }
         String entrycode = params.get(ModelConstants.PRODUCT_ENTRYCODE);
+        IAPLog.d(IAPLog.LOG, "Request URL = " + store.getUpdateProductUrl(entrycode));
         return store.getUpdateProductUrl(entrycode);
     }
 }

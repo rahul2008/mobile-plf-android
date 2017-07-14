@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.philips.cdp.di.iap.store.StoreListener;
+import com.philips.cdp.di.iap.utils.IAPLog;
 
 import java.util.Map;
 
@@ -23,6 +24,7 @@ public class DeleteCartRequest extends AbstractModel {
 
     @Override
     public int getMethod() {
+        IAPLog.d(IAPLog.LOG, "DELETE");
         return Request.Method.DELETE;
     }
 
@@ -33,6 +35,7 @@ public class DeleteCartRequest extends AbstractModel {
 
     @Override
     public String getUrl() {
+        IAPLog.d(IAPLog.LOG, "Request URL = " + store.getDeleteCartUrl());
         return store.getDeleteCartUrl();
     }
 }

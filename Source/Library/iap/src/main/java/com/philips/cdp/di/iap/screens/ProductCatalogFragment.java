@@ -99,7 +99,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         }
     }
 
-    ArrayList<ProductCatalogData> getCachedProductList() {
+    private ArrayList<ProductCatalogData> getCachedProductList() {
         ArrayList<ProductCatalogData> mProductList = new ArrayList<>();
         HashMap<String, ProductCatalogData> productCatalogDataSaved =
                 CartModelContainer.getInstance().getProductList();

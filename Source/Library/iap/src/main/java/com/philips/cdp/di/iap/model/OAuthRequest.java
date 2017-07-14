@@ -6,10 +6,11 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.response.oauth.OAuthResponse;
 import com.philips.cdp.di.iap.session.OAuthListener;
 import com.philips.cdp.di.iap.session.RequestListener;
+import com.philips.cdp.di.iap.store.StoreListener;
+import com.philips.cdp.di.iap.utils.IAPLog;
 
 import java.util.Map;
 
@@ -28,6 +29,7 @@ public class OAuthRequest extends AbstractModel implements OAuthListener {
 
     @Override
     public int getMethod() {
+        IAPLog.d(IAPLog.LOG, "POST");
         return Request.Method.POST;
     }
 
@@ -38,12 +40,13 @@ public class OAuthRequest extends AbstractModel implements OAuthListener {
 
     @Override
     public String getUrl() {
+        IAPLog.d(IAPLog.LOG, "Request URL = " + store.getOauthUrl());
         return store.getOauthUrl();
     }
 
     @Override
     public String getAccessToken() {
-        if(mOAuthResponse == null) {
+        if (mOAuthResponse == null) {
             return null;
         }
         return mOAuthResponse.getAccessToken();
@@ -60,7 +63,7 @@ public class OAuthRequest extends AbstractModel implements OAuthListener {
     }
 
     public String getrefreshToken() {
-        if(mOAuthResponse == null) {
+        if (mOAuthResponse == null) {
             return ""; //Avoid NPE in Volley
         }
         return mOAuthResponse.getRefreshToken();

@@ -11,7 +11,6 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.response.error.ServerError;
@@ -111,7 +110,7 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
                 checkInsufficientStockError(mServerError);
             }
         } catch (Exception e) {
-            IAPLog.e(IAPNetworkError.class.getName(), e.getMessage());
+            IAPLog.e(e.getMessage(), IAPNetworkError.class.getName());
         }
     }
 

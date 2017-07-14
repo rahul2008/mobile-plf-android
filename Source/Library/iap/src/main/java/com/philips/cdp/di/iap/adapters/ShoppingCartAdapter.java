@@ -45,7 +45,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Resources mResources;
     private ArrayList<ShoppingCartData> mData = new ArrayList<>();
     private OutOfStockListener mOutOfStock;
-    //    private DeliveryModes mDeliveryMode;
+//    private DeliveryModes mDeliveryMode;
     private UIKitListPopupWindow mPopupWindow;
     private ShoppingCartData shoppingCartDataForProductDetailPage;
 
@@ -214,7 +214,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             shoppingCartProductHolder.mDotsLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
-                    bindDeleteOrInfoPopUP(view, holder.getItemViewType());
+                    bindDeleteOrInfoPopUP(view, holder.getAdapterPosition());
                 }
             });
             //Add arrow mark

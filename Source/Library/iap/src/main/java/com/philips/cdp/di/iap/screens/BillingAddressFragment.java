@@ -106,7 +106,8 @@ public class BillingAddressFragment extends ShippingAddressFragment {
                 mlLState.setVisibility(View.GONE);
             }
             mIgnoreTextChangeListener = false;
-            mEtPhoneNumber.setText(mBillingAddressFields.getPhoneNumber());
+            mEtPhone1.setText(mBillingAddressFields.getPhone1());
+            mEtPhone2.setText(mBillingAddressFields.getPhone2());
         }
         setTextColor();
     }
@@ -128,7 +129,8 @@ public class BillingAddressFragment extends ShippingAddressFragment {
                 }
                 mTvCountry.setTextColor(mDisabledColor);
                 mTvEmail.setTextColor(mDisabledColor);
-                mTvPhoneNumber.setTextColor(mDisabledColor);
+                mTvPhone1.setTextColor(mDisabledColor);
+                mTvPhone2.setTextColor(mDisabledColor);
 
                 mEtSalutation.setTextColor(mDisabledColor);
                 mEtFirstName.setTextColor(mDisabledColor);
@@ -142,7 +144,8 @@ public class BillingAddressFragment extends ShippingAddressFragment {
                 }
                 mEtCountry.setTextColor(mDisabledColor);
                 mEtEmail.setTextColor(mDisabledColor);
-                mEtPhoneNumber.setTextColor(mDisabledColor);
+                mEtPhone1.setTextColor(mDisabledColor);
+                mEtPhone2.setTextColor(mDisabledColor);
             }
         });
     }
@@ -156,7 +159,8 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         mEtAddressLineTwo.setText("");
         mEtTown.setText("");
         mEtPostalCode.setText("");
-        mEtPhoneNumber.setText("");
+        mEtPhone1.setText("");
+        mEtPhone2.setText("");
         mEtState.setText("");
         if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US")) {
             mlLState.setVisibility(View.VISIBLE);
@@ -197,7 +201,8 @@ public class BillingAddressFragment extends ShippingAddressFragment {
                 mInlineFormsParent.removeError(mEtAddressLineTwo);
                 mInlineFormsParent.removeError(mEtTown);
                 mInlineFormsParent.removeError(mEtPostalCode);
-                mInlineFormsParent.removeError(mEtPhoneNumber);
+                mInlineFormsParent.removeError(mEtPhone1);
+                mInlineFormsParent.removeError(mEtPhone2);
             }
         });
     }
@@ -211,7 +216,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
     @Override
     public void onClick(View v) {
         Utility.hideKeypad(mContext);
-        if(!isNetworkConnected())return;
+        if (!isNetworkConnected()) return;
         if (v == mBtnContinue) {
             mBillingAddressFields = setAddressFields(mBillingAddressFields.clone());
             CartModelContainer.getInstance().setBillingAddress(mBillingAddressFields);
@@ -245,7 +250,8 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         if (mlLState.getVisibility() == View.VISIBLE) {
             mEtState.setEnabled(enable);
         }
-        mEtPhoneNumber.setEnabled(enable);
+        mEtPhone1.setEnabled(enable);
+        mEtPhone2.setEnabled(enable);
     }
 
     private void setFieldsFocusable(boolean focusable) {
@@ -259,7 +265,8 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         if (mlLState.getVisibility() == View.VISIBLE) {
             mEtState.setFocusable(focusable);
         }
-        mEtPhoneNumber.setFocusable(focusable);
+        mEtPhone1.setFocusable(focusable);
+        mEtPhone2.setFocusable(focusable);
 
         if (focusable) {
             mEtFirstName.setFocusableInTouchMode(true);
@@ -272,7 +279,8 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             if (mlLState.getVisibility() == View.VISIBLE) {
                 mEtState.setFocusableInTouchMode(true);
             }
-            mEtPhoneNumber.setFocusableInTouchMode(true);
+            mEtPhone1.setFocusableInTouchMode(true);
+            mEtPhone2.setFocusableInTouchMode(true);
         }
 
         mEtCountry.setFocusable(false);

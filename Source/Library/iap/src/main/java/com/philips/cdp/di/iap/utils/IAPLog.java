@@ -9,7 +9,7 @@ import android.util.Log;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 
 public class IAPLog {
-    public final static String LOG = "InAppPurchase";
+    public final static String LOG = "iap";
     public static boolean isLoggingEnabled = false;
 
     public static void enableLogging(boolean enableLog) {

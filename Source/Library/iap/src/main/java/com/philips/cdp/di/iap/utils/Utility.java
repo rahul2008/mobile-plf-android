@@ -74,13 +74,12 @@ public class Utility {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(pContext);
         SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
         prefsEditor.putString(key, value);
-        prefsEditor.commit();
+        prefsEditor.apply();
     }
 
     public static String getCountryFromPreferenceForKey(Context pContext, String key) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(pContext);
-        String value = sharedPreferences.getString(key, null);
-        return value;
+        return sharedPreferences.getString(key, null);
     }
 
     protected static void appendAddressWithNewLineIfNotNull(StringBuilder sb, String code) {
@@ -148,7 +147,11 @@ public class Utility {
         }
 
         if (isNotNullNorEmpty(addresses.getPhone1())) {
-            fields.setPhoneNumber(addresses.getPhone1());
+            fields.setPhone1(addresses.getPhone1());
+        }
+
+        if (isNotNullNorEmpty(addresses.getPhone2())) {
+            fields.setPhone2(addresses.getPhone2());
         }
 
         if (addresses.getRegion() != null) {

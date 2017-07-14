@@ -6,8 +6,9 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.response.carts.Carts;
+import com.philips.cdp.di.iap.store.StoreListener;
+import com.philips.cdp.di.iap.utils.IAPLog;
 
 import java.util.Map;
 
@@ -24,6 +25,7 @@ public class GetCartsRequest extends AbstractModel {
 
     @Override
     public int getMethod() {
+        IAPLog.d(IAPLog.LOG, "GET");
         return Request.Method.GET;
     }
 
@@ -34,6 +36,7 @@ public class GetCartsRequest extends AbstractModel {
 
     @Override
     public String getUrl() {
+        IAPLog.d(IAPLog.LOG, "Request URL = " + store.getCartsUrl());
         return store.getCartsUrl();
     }
 }

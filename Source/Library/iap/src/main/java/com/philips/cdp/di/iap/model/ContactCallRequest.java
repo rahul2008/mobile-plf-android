@@ -6,8 +6,9 @@ package com.philips.cdp.di.iap.model;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.store.StoreListener;
 import com.philips.cdp.di.iap.response.orders.ContactsResponse;
+import com.philips.cdp.di.iap.store.StoreListener;
+import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.ModelConstants;
 
 import java.util.Map;
@@ -26,6 +27,7 @@ public class ContactCallRequest extends AbstractModel {
 
     @Override
     public int getMethod() {
+        IAPLog.d(IAPLog.LOG, "GET");
         return Request.Method.GET;
     }
 
@@ -41,6 +43,7 @@ public class ContactCallRequest extends AbstractModel {
             throw new RuntimeException("Category must be specified");
         }
         String category = params.get(ModelConstants.CATEGORY);
+        IAPLog.d(IAPLog.LOG, "Request URL = " + store.getPhoneContactUrl(category));
         return store.getPhoneContactUrl(category);
     }
 }

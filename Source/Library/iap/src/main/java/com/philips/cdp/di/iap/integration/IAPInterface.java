@@ -32,11 +32,6 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
         mUser = new User(mIAPSettings.getContext());// User can be inject as dependencies
         if (mUser.isUserSignIn()) {
             mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(uiLauncher, mIAPHandler, (IAPLaunchInput) uappLaunchInput);
-//            if (!mIAPSettings.isUseLocalData() && (!mIAPHandler.isStoreInitialized(mIAPSettings.getContext()))) {
-//                mIAPHandler.initIAP(uiLauncher, (IAPLaunchInput) uappLaunchInput);
-//            } else {
-//                mIAPHandler.launchIAP(uiLauncher, (IAPLaunchInput) uappLaunchInput);
-//            }
         } else {
             throw new RuntimeException("User is not logged in.");// Confirm the behaviour on error Callback
         }
@@ -46,15 +41,18 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
     public void getProductCartCount(IAPListener iapListener) {
         mUser = new User(mIAPSettings.getContext());
         if (mUser.isUserSignIn())
-            mIAPHandler.getExposedAPIImplementor().getProductCartCount(iapListener);
+            // mIAPHandler.getExposedAPIImplementor().getProductCartCount(iapListener);
+            mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(mIAPHandler, iapListener, "productCartCount");
         else throw new RuntimeException("User is not logged in.");
     }
 
     @Override
     public void getCompleteProductList(IAPListener iapListener) {
         mUser = new User(mIAPSettings.getContext());
-        if (mUser.isUserSignIn())
-            mIAPHandler.getExposedAPIImplementor().getCompleteProductList(iapListener);
-        else throw new RuntimeException("User is not logged in.");
+        if (mUser.isUserSignIn()) {
+            mIapServiceDiscoveryWrapper.getLocaleFromServiceDiscovery(mIAPHandler, iapListener, "completeProductList");
+//            mIAPHandler.initIAPRequisite();
+//            mIAPHandler.getExposedAPIImplementor().getCompleteProductList(iapListener);
+        } else throw new RuntimeException("User is not logged in.");
     }
 }

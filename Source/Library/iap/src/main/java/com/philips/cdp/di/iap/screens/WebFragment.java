@@ -7,11 +7,13 @@ package com.philips.cdp.di.iap.screens;
 
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
+import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -35,7 +37,7 @@ public abstract class WebFragment extends InAppBaseFragment {
 
         mWebView = (WebView) viewGroup.findViewById(R.id.wv_payment);
         mWebView.setWebViewClient(new IAPWebViewClient());
-        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.getSettings().setJavaScriptEnabled(false);
 
         mProgress = (ProgressBar) viewGroup.findViewById(R.id.cl_progress);
 
@@ -94,6 +96,11 @@ public abstract class WebFragment extends InAppBaseFragment {
             super.onPageStarted(view, url, favicon);
         }
 
+        @Override
+        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+            handler.proceed(); // Ignore SSL certificate errors
+        }
+
         @SuppressWarnings("deprecation")
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
@@ -112,11 +119,11 @@ public abstract class WebFragment extends InAppBaseFragment {
 
         @Override
         public void onPageFinished(final WebView view, final String url) {
-            super.onPageFinished(view, url);
             if (mProgress != null && mShowProgressBar) {
                 mShowProgressBar = false;
                 mProgress.setVisibility(View.GONE);
             }
+            super.onPageFinished(view, url);
         }
     }
 }

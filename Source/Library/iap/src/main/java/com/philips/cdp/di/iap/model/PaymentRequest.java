@@ -62,8 +62,8 @@ public class PaymentRequest extends AbstractModel {
         } else {
             params.put(ModelConstants.REGION_ISOCODE, "");
         }
-        params.put(ModelConstants.PHONE_1, billingAddress.getPhoneNumber());
-        params.put(ModelConstants.PHONE_2, billingAddress.getPhoneNumber());
+        params.put(ModelConstants.PHONE_1, billingAddress.getPhone1());
+        params.put(ModelConstants.PHONE_2, billingAddress.getPhone2());
     }
 
     @Override

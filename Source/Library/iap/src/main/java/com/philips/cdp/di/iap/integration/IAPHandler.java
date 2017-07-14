@@ -45,19 +45,19 @@ class IAPHandler {
 
     void initPreRequisite() {
         IAPAnalytics.initIAPAnalytics(mIAPDependencies);
-        initIAPRequisite();
+        //initIAPRequisite();
     }
 
-    private void initIAPRequisite() {
+    void initIAPRequisite() {
         initControllerFactory();
         initHybrisDelegate();
     }
 
-    protected void initControllerFactory() {
+    void initControllerFactory() {
         ControllerFactory.getInstance().init(mIAPSetting.isUseLocalData());
     }
 
-    protected void initHybrisDelegate() {
+    void initHybrisDelegate() {
         NetworkEssentials essentials = NetworkEssentialsFactory.getNetworkEssentials(mIAPSetting.isUseLocalData());
         HybrisDelegate.getDelegateWithNetworkEssentials(essentials, mIAPSetting);
     }
