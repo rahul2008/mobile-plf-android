@@ -46,4 +46,5 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="get_started">Get started</string>
     <string name="ths_continue">Continue</string>
     <string name="ths_select_time">Select a timeslot</string>
+    <string name="cancel">CANCEL</string>
 </resources>
