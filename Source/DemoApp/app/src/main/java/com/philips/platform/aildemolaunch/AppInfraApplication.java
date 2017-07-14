@@ -20,7 +20,6 @@ public class AppInfraApplication extends Application {
         super.onCreate();
         LeakCanary.install(this);
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
-        gAppInfra.getTime().refreshTime();
         ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler((AppInfra) gAppInfra);
         registerActivityLifecycleCallbacks(handler);
         registerComponentCallbacks(handler);

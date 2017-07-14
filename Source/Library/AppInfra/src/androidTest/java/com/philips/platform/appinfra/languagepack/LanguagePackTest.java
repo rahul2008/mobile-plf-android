@@ -88,8 +88,9 @@ public class LanguagePackTest extends AppInfraInstrumentation {
         assertNotNull(mServiceDiscoveryInterface);
 
         mAppInfra = new AppInfra.Builder().setConfig(mConfigInterface).setServiceDiscovery(mServiceDiscoveryInterface).build(context);
-        mLanguagePackInterface = mAppInfra.getLanguagePack();
         mLanguagePackManager = new LanguagePackManager(mAppInfra);
+        mLanguagePackInterface = (LanguagePackInterface) mLanguagePackManager;
+
         assertNotNull(mLanguagePackInterface);
 
         languagePackUtil = new FileUtils(mAppInfra.getAppInfraContext());
@@ -172,11 +173,7 @@ public class LanguagePackTest extends AppInfraInstrumentation {
                 return onGetServiceUrlListener;
             }
 
-            @NonNull
-            @Override
-            protected AppConfigurationInterface.AppConfigurationError getAppConfigurationError() {
-                return appConfigurationError;
-            }
+
         };
         mLanguagePackManager.refresh(onRefreshListener);
         Mockito.verify(onRefreshListener).onError(LanguagePackInterface.OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, "Invalid ServiceID");
