@@ -38,7 +38,7 @@ public class PracticeRecyclerViewAdapter extends RecyclerView.Adapter<PracticeRe
 
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.practice_row, null);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.ths_practice_row, null);
         CustomViewHolder viewHolder = new CustomViewHolder(view);
         return viewHolder;
     }

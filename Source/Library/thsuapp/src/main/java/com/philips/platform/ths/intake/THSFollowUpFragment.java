@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.ths.R;
@@ -32,7 +30,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.intake_follow_up, container, false);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_follow_up, container, false);
         mTHSFollowUpPresenter = new THSFollowUpPresenter(this);
         mPhoneNumberEditText = (EditText) view.findViewById(R.id.pth_intake_follow_up_phone_number);
         mFollowUpContiueButton = (Button) view.findViewById(R.id.pth_intake_follow_up_continue_button);

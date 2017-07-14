@@ -35,7 +35,7 @@ public class THSLaunchActivity extends AppCompatActivity {
         initTheme();
         super.onCreate(savedInstanceState);
 //        initCustomActionBar();
-        setContentView(R.layout.activity_test_ur);
+        setContentView(R.layout.ths_rename_activity_test_ur);
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
             THSWelcomeFragment pthWelcomeFragment = new THSWelcomeFragment
@@ -62,7 +62,7 @@ public class THSLaunchActivity extends AppCompatActivity {
                 ActionBar.LayoutParams.MATCH_PARENT,
                 ActionBar.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
-        View mCustomView = LayoutInflater.from(this).inflate(R.layout.custom_action_bar, null); // layout which contains your button.
+        View mCustomView = LayoutInflater.from(this).inflate(R.layout.ths_custom_action_bar, null); // layout which contains your button.
 
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
 
