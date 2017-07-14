@@ -16,7 +16,6 @@ import com.americanwell.sdk.entity.Language;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.Provider;
-import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProvider;
@@ -207,8 +206,8 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
             mTimeSlotContainer.setVisibility(View.VISIBLE);
 
 
-            GridAdapter itemsAdapter =
-                    new GridAdapter(getContext(), getAppointmentTimeSlots());
+            THSAppointmentGridAdapter itemsAdapter =
+                    new THSAppointmentGridAdapter(getContext(), getAppointmentTimeSlots());
             gridView.setAdapter(itemsAdapter);
         }else {
             detailsButtonContinue.setVisibility(View.GONE);
