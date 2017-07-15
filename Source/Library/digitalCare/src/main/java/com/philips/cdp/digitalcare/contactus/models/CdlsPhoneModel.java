@@ -24,8 +24,7 @@ public class CdlsPhoneModel {
 
 	public void setPhoneNumber(String mPhoneNumber) {
 		if (mPhoneNumber.contains("(")) {
-			this.mPhoneNumber = mPhoneNumber.substring(0,
-					mPhoneNumber.indexOf("("));
+			this.mPhoneNumber = mPhoneNumber.substring(0,mPhoneNumber.indexOf("("));
 		} else {
 			this.mPhoneNumber = mPhoneNumber;
 		}

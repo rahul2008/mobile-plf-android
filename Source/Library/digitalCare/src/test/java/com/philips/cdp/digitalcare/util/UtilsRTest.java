@@ -42,22 +42,6 @@ public class UtilsRTest {
         context = RuntimeEnvironment.application.getApplicationContext();
         utils = new Utils();
 
-        //activity = Robolectric.setupActivity(DigitalCareActivity.class);
-       /* Intent intent = new Intent(Intent.ACTION_VIEW);
-
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(DigitalCareConstants.START_ANIMATION_ID, DigitalCareConstants.START_ANIMATION_ID);
-        intent.putExtra(DigitalCareConstants.STOP_ANIMATION_ID, 0);
-        intent.putExtra(DigitalCareConstants.SCREEN_ORIENTATION, ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT);
-
-        activity = Robolectric.buildActivity(DigitalCareActivity.class).withIntent(intent).create().get();
-
-
-        DisplayMetrics metrics = new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);*/
-
-
-
     }
 
     @Test
@@ -72,6 +56,13 @@ public class UtilsRTest {
     {
         DigitalCareConfigManager.getInstance().setCountry("IN");
         Assert.assertFalse( Utils.isCountryChina());
+    }
+
+    @Test
+    public void checkCountryNotNull() throws Exception
+    {
+        DigitalCareConfigManager.getInstance().setCountry("IN");
+        Assert.assertNotNull( Utils.isCountryChina());
     }
 
     @Ignore
