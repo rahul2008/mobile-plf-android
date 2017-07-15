@@ -402,7 +402,7 @@ public class THSManagerTest {
         THSManager.getProviderList(contextMock, mConsumer, practice, THSProvidersListCallback);
         verify(practiseprovidermanagerMock).findProviders(any(Consumer.class), any(Practice.class), any(OnDemandSpecialty.class), any(String.class), any(Set.class), any(Set.class), any(State.class), any(Language.class), any(Integer.class), providerListCaptor.capture());
         SDKCallback value = providerListCaptor.getValue();
-        value.onResponse(any(List.class), any(SDKError.class));
+//        value.onResponse(any(List.class), any(SDKError.class));
         value.onFailure(any(Throwable.class));
     }
 

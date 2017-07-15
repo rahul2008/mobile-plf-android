@@ -28,8 +28,8 @@ public class THSProviderDetailsDisplayHelper {
     protected Label providerName,practiceName,isAvailable,spokenLanguageValueLabel,yearsOfExpValueLabel,graduatedValueLabel,aboutMeValueLabel;
     protected RatingBar providerRating;
     protected Button detailsButtonOne,detailsButtonTwo,detailsButtonContinue;
-    private RelativeLayout mTimeSlotContainer;
-    private THSExpandableHeightGridView gridView;
+    RelativeLayout mTimeSlotContainer;
+    THSExpandableHeightGridView gridView;
     protected SwipeRefreshLayout swipeRefreshLayout;
 
     THSProviderDetailsDisplayHelper(Context context, View.OnClickListener onClickListener,
@@ -161,17 +161,17 @@ public class THSProviderDetailsDisplayHelper {
     protected String getSpokenLanguages(List<Language> spokenLanguages) {
 
         String languageList = "";
-        for(Language language: spokenLanguages){
+        for(int i = 0;i<spokenLanguages.size();i++){
             if(languageList.length() == 0){
-                languageList = language.getName();
+                languageList = spokenLanguages.get(i).getName();
             } else {
-                languageList = languageList + " , " + language.getName();
+                languageList = languageList + " , " + spokenLanguages.get(i).getName();
             }
         }
         return languageList;
     }
 
-    void dismissRefreshLayout(boolean b){
+    void dismissRefreshLayout(){
         swipeRefreshLayout.setRefreshing(false);
     }
 

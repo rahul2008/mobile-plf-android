@@ -25,11 +25,11 @@ import java.util.List;
 public class THSProviderDetailsFragment extends THSBaseFragment implements View.OnClickListener, THSPRoviderDetailsViewInterface,SwipeRefreshLayout.OnRefreshListener{
     public static final String TAG = THSProviderDetailsFragment.class.getSimpleName();
     private Consumer consumer;
-    private THSProviderInfo mThsProviderInfo;
-    private THSAvailableProvider mThsAvailableProvider;
-    private THSProviderDetailsPresenter providerDetailsPresenter;
+    THSProviderInfo mThsProviderInfo;
+    protected THSAvailableProvider mThsAvailableProvider;
+    THSProviderDetailsPresenter providerDetailsPresenter;
     private Practice mPractice;
-    private THSProviderDetailsDisplayHelper mThsProviderDetailsDisplayHelper;
+    THSProviderDetailsDisplayHelper mThsProviderDetailsDisplayHelper;
 
     @Nullable
     @Override
@@ -64,7 +64,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     public void setTHSProviderEntity(THSProviderEntity  thsProviderEntity){
         if(thsProviderEntity instanceof THSProviderInfo) {
             this.mThsProviderInfo = (THSProviderInfo) thsProviderEntity;
-        }else {
+        }else if(thsProviderEntity instanceof THSAvailableProvider){
             this.mThsAvailableProvider = (THSAvailableProvider)thsProviderEntity;
         }
     }
@@ -91,10 +91,12 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     public THSProviderInfo getTHSProviderInfo() {
         if (mThsProviderInfo != null) {
             return mThsProviderInfo;
-        } else {
+        } else if (mThsAvailableProvider != null) {
             THSProviderInfo thsProviderInfo = new THSProviderInfo();
             thsProviderInfo.setTHSProviderInfo(mThsAvailableProvider.getProviderInfo());
             return thsProviderInfo;
+        } else {
+            return null;
         }
     }
 
@@ -110,12 +112,14 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
 
     @Override
     public void dismissRefreshLayout(){
-        mThsProviderDetailsDisplayHelper.dismissRefreshLayout(false);
+        mThsProviderDetailsDisplayHelper.dismissRefreshLayout();
     }
 
     @Override
     public List<Date> getAppointmentTimeSlots() {
-        return mThsAvailableProvider.getAvailableAppointmentTimeSlots();
+        if (mThsAvailableProvider != null)
+            return mThsAvailableProvider.getAvailableAppointmentTimeSlots();
+        return null;
     }
 
     @Override

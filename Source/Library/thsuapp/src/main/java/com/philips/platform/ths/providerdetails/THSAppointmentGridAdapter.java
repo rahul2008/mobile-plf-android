@@ -17,15 +17,16 @@ import java.util.Locale;
 
 public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
 
-    private ArrayList<Date> cardList;
+    private ArrayList<Date> cardList = new ArrayList();
     Context mContext;
     public final String TIME_FORMATTER = "h:mm a";
 
     public THSAppointmentGridAdapter(Context context, List<Date> cardList) {
         super(context, 0, cardList);
         this.mContext = context;
-        this.cardList = new ArrayList<>(cardList);
+        this.cardList = (ArrayList<Date>) cardList;
     }
+
 
     @Override
     public boolean areAllItemsEnabled() {
