@@ -44,7 +44,7 @@
 <string name="reg_Welcome_Alternate_SignInAccount_lbltxt">または次のアカウントでログイン：</string>
 <string name="reg_Welcome_Welcome_lbltxt">ようこそ</string>
 <string name="reg_Create_Account_ChoosePwd_PlaceHolder_txtField">パスワードを選択する</string>
-<string name="reg_Create_Account_CreateMyPhilips_btntxt">フィリップスアカウントを作成</string>
+<string name="reg_Create_Account_CreateMyPhilips_btntxt">MyPhilipsアカウントを作成</string>
 <string name="reg_Create_Account_FirstName__Placeholder_txtFiled">名前（名）を入力</string>
 <string name="reg_Create_Account_Hint_Password_lbltxt">お客様のプライバシーを保護するために、強度の高いパスワードを設定してください。</string>
 <string name="reg_ReciveMarketing_PeridicOffers_lbltxt">フィリップスからの特典や最新情報の定期的な受信を希望します</string>
@@ -70,7 +70,7 @@
 <string name="reg_VerifyEmail_Activated_btntxt">アカウントはアクティベート済みです</string>
 <string name="reg_VerifyEmail_ResendErrorMsg_lbltxt">問題が発生した場合\n-  確認メールが届くまで少々時間がかかることがあります\n-  スパムフォルダーも確認してみてください\n-  確認メールが届かない場合は以下の［再送信］ボタンを押してください</string>
 <string name="reg_InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nメールを送信しました。メール受信まで少々時間がかかる場合があります。\n\nメールを確認してアカウントをアクティベートしてください。\n\nそれまでの間はアプリを使用できます。</string>
-<string name="reg_myphilips">フィリップスアカウント</string>
+<string name="reg_myphilips">MyPhilips</string>
 <string name="reg_facebook">Facebook</string>
 <string name="reg_twitter">Twitter</string>
 <string name="reg_googleplus">Google+</string>
