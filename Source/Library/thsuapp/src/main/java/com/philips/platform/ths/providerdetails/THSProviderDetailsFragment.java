@@ -19,8 +19,6 @@ import com.philips.platform.ths.providerslist.THSProviderInfo;
 import java.util.Date;
 import java.util.List;
 
-import static com.philips.platform.ths.R.id.swipeRefreshLayout;
-
 /**
  * This class is used to display the provider details selected by the user.
  */
@@ -41,7 +39,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         mThsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(),this,this,this);
         mThsProviderDetailsDisplayHelper.setViews(view);
 
-        providerDetailsPresenter = new THSProviderDetailsPresenter(this);
+        providerDetailsPresenter = new THSProviderDetailsPresenter(this, this);
         return view;
     }
 

@@ -72,6 +72,6 @@ public class THSProviderDetailsFragmentTest {
 
     @Test
     public void testFragmentActionBarName(){
-        SupportFragmentTestUtil.startFragment(providerDetailsFragment);
+
     }
 }
