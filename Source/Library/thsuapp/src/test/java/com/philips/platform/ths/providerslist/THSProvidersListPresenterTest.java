@@ -9,6 +9,7 @@ import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.PracticeProvidersManager;
+import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -30,7 +31,7 @@ public class THSProvidersListPresenterTest {
     THSManager THSManager;
 
     @Mock
-    private THSBaseView mUiBaseView;
+    private THSBaseFragment mUiBaseView;
 
     @Mock
     private com.philips.platform.ths.providerslist.THSProviderListViewInterface THSProviderListViewInterface;
@@ -65,7 +66,7 @@ public class THSProvidersListPresenterTest {
     private ArgumentCaptor requestProviderListCaptor;
 
     @Mock
-    List<ProviderInfo> providerInfo;
+    List<THSProviderInfo> providerInfo;
 
     @Before
     public void setUp() throws Exception{

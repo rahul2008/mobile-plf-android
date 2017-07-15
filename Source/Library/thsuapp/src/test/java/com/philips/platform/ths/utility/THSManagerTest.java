@@ -90,7 +90,7 @@ public class THSManagerTest {
 
     Practice practice;
 
-    ProviderInfo providerInfo;
+    THSProviderInfo providerInfo;
 
     @Mock
     THSProviderInfo THSProviderInfo;
@@ -230,7 +230,7 @@ public class THSManagerTest {
         THSManager.setAwsdk(awsdkMock);
         mConsumer = getConsumer();
         practice = getPractice();
-        providerInfo = getProviderInfo();
+        providerInfo = THSProviderInfo;
         mTHSConsumer = new THSConsumer();
         mTHSConsumer.setConsumer(getConsumer());
         THSManager.setPTHConsumer(mTHSConsumer);
@@ -646,86 +646,5 @@ public class THSManagerTest {
         };
 
         return practiceObj;
-    }
-
-    public ProviderInfo getProviderInfo() {
-
-        ProviderInfo providerInfoObj = new ProviderInfo() {
-            @Override
-            public ProviderVisibility getVisibility() {
-                return ProviderVisibility.WEB_AVAILABLE;
-            }
-
-            @Nullable
-            @Override
-            public PracticeInfo getPracticeInfo() {
-                return null;
-            }
-
-            @Override
-            public ProviderType getSpecialty() {
-                return null;
-            }
-
-            @Override
-            public int getRating() {
-                return 4;
-            }
-
-            @Override
-            public Integer getWaitingRoomCount() {
-                return null;
-            }
-
-            @Override
-            public Gender getGender() {
-                return Gender.MALE;
-            }
-
-            @Override
-            public String getSourceId() {
-                return null;
-            }
-
-            @Override
-            public boolean hasImage() {
-                return true;
-            }
-
-            @NonNull
-            @Override
-            public String getFirstName() {
-                return "Dr. Welsh";
-            }
-
-            @Nullable
-            @Override
-            public String getMiddleInitial() {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            public String getLastName() {
-                return "Something";
-            }
-
-            @NonNull
-            @Override
-            public String getFullName() {
-                return "Dr. Welsh Something";
-            }
-
-            @Override
-            public int describeContents() {
-                return 0;
-            }
-
-            @Override
-            public void writeToParcel(Parcel dest, int flags) {
-
-            }
-        };
-        return providerInfoObj;
     }
 }

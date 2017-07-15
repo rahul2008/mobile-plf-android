@@ -1,5 +1,6 @@
 package com.philips.platform.ths.welcome;
 
+import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 
 import com.americanwell.sdk.AWSDK;
@@ -10,9 +11,11 @@ import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.americanwell.sdk.manager.SDKCallback;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uid.view.widget.Button;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -39,6 +42,9 @@ public class THSWelcomePresenterTest {
 
     @Mock
     THSWelcomeFragment pTHBaseViewMock;
+
+    @Mock
+    Context contextMock;
 
     @Captor
     private ArgumentCaptor<SDKCallback> initializationCallback;
@@ -70,10 +76,14 @@ public class THSWelcomePresenterTest {
     @Mock
     SDKError sdkErrorMock;
 
+    @Mock
+    Button buttonMock;
+
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        pTHBaseViewMock.mInitButton = buttonMock;
         pthWelcomePresenter = new THSWelcomePresenter(pTHBaseViewMock);
         THSManager.getInstance().setAwsdk(awsdk);
         when(pTHBaseViewMock.getFragmentActivity()).thenReturn(activityMock);
@@ -81,8 +91,8 @@ public class THSWelcomePresenterTest {
 
     @Test
     public void onEvent() throws Exception {
-        //TODO: Since its empty I am not writing any assertions for it
-        pthWelcomePresenter.onEvent(-1);
+        pthWelcomePresenter.onEvent(R.id.init_amwell);
+        verify(pTHBaseViewMock).showProgressBar();
     }
 
     @Test
@@ -121,6 +131,13 @@ public class THSWelcomePresenterTest {
 
     @Test
     public void onInitializationFailure()  {
+        pthWelcomePresenter.onInitializationFailure(throwableMock);
+        verify(pTHBaseViewMock).hideProgressBar();
+    }
+
+    @Test
+    public void onInitializationFailureWhenContextIsNotNull()  {
+        when(pTHBaseViewMock.getContext()).thenReturn(contextMock);
         pthWelcomePresenter.onInitializationFailure(throwableMock);
         verify(pTHBaseViewMock).hideProgressBar();
     }
