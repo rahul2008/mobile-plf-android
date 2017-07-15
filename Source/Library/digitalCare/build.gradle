@@ -3,7 +3,10 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
-
+apply plugin: 'jacoco'
+jacoco {
+    toolVersion = "0.7.6.201602180812"
+}
 buildscript {
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
@@ -129,7 +132,7 @@ publishing {
             } */
 
             artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
-            
+
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
                 configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
@@ -155,10 +158,20 @@ android {
         generatedDensities = []
         testApplicationId "com.philips.cdp.digitalcare.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        //   testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     lintOptions {
         abortOnError false
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
+        unitTests.all {
+            jvmArgs '-noverify'
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
     }
 
     resourcePrefix 'consumercare'
@@ -209,14 +222,14 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
     compile(group: 'com.philips.cdp', name: 'uikitLib', version: '3.8.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    {
-        transitive = true
-    }
+            {
+                transitive = true
+            }
 
-	compile(group: 'com.philips.cdp', name: 'productselection_DLS', version: '1.10.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-    {
-           transitive = true
-    }
+    compile(group: 'com.philips.cdp', name: 'productselection_DLS', version: '1.10.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+            {
+                transitive = true
+            }
 
     compile(group: 'com.philips.cdp', name: 'uid', version: '0.1.1' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
             {
@@ -227,11 +240,28 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     testCompile 'org.khronos:opengl-api:gl1.1-android-2.1_r1'
-    testCompile 'org.robolectric:robolectric:3.3.1'
-    testCompile 'org.robolectric:shadows-multidex:3.3.1'
-    testCompile 'org.robolectric:shadows-support-v4:3.3.1'
+    testCompile 'org.robolectric:robolectric:3.3.2'
+    testCompile 'org.robolectric:shadows-multidex:3.3.2'
+    testCompile 'org.robolectric:shadows-support-v4:3.3.2'
 }
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
 
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
+    def mainSrc = "${project.projectDir}/src/main/java"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = fileTree(dir: "$buildDir", includes: [
+            "jacoco/testDebugUnitTest.exec",
+            "outputs/code-coverage/connected/*coverage.ec"
+    ])
+}
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
 
     description 'Run findbugs'
@@ -269,4 +299,3 @@ task copyToLib(type: Copy) {
     into "$buildDir/outputs/lib"
     from configurations.compile
 }
-

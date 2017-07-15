@@ -10,8 +10,6 @@ import com.philips.cdp.digitalcare.BuildConfig;
 import com.philips.cdp.digitalcare.CustomRobolectricRunner;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
-import com.philips.cdp.digitalcare.homefragment.TestFragment;
-import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 
 import org.junit.Assert;
 import org.junit.Before;
