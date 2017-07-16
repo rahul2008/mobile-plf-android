@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
@@ -28,7 +27,6 @@ import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.rateandreview.fragments.ProductReviewFragment;
 import com.philips.cdp.digitalcare.rateandreview.fragments.RateThisAppFragmentContract;
 import com.philips.cdp.digitalcare.rateandreview.fragments.RateThisAppFragmentPresenter;
-import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 public class RateThisAppFragment extends DigitalCareBaseFragment implements RateThisAppFragmentContract {
     private static String TAG = RateThisAppFragment.class.getSimpleName();
@@ -91,9 +89,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Rate
         mStoreUri = Uri.parse(APPRATER_PLAYSTORE_BROWSER_BASEURL
                 +getContext().getPackageName());
 
-        Uri uri = Uri.parse(APPRATER_PLAYSTORE_APP_BASEURL
-                +DigitalCareConfigManager.getInstance().getContext()
-                .getPackageName());
+        Uri uri = Uri.parse(APPRATER_PLAYSTORE_APP_BASEURL+getContext().getPackageName());
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
         try {
             startActivity(goToMarket);
@@ -133,7 +129,6 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Rate
     @Override
     public String getActionbarTitle() {
         String title = getResources().getString(R.string.feedback);
-        DigiCareLogger.i(TAG, "Rate This App Fragment Screen title : " + title);
         return title;
     }
 

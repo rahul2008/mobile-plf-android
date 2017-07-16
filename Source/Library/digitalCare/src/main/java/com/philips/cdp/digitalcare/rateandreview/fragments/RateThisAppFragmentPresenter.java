@@ -1,5 +1,7 @@
 package com.philips.cdp.digitalcare.rateandreview.fragments;
 
+import com.philips.cdp.digitalcare.DigitalCareConfigManager;
+import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.util.Utils;
 
 /**
@@ -16,8 +18,9 @@ public class RateThisAppFragmentPresenter {
     }
 
     public void handleProductData(){
-        //ViewProductDetailsModel mProductData = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
-        //rateThisAppFragmentContract.onPRXProductPageReceived(mProductData);
+        ViewProductDetailsModel mProductData = DigitalCareConfigManager.getInstance().getViewProductDetailsData();
+        if(mProductData!=null)
+           rateThisAppFragmentContract.onPRXProductPageReceived(mProductData);
     }
 
 

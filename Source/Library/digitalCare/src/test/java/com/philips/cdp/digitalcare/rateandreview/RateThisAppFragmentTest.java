@@ -1,5 +1,6 @@
 package com.philips.cdp.digitalcare.rateandreview;
 
+import android.content.res.Configuration;
 import android.view.View;
 import android.widget.Button;
 
@@ -62,10 +63,7 @@ public class RateThisAppFragmentTest {
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
-
-
         fragment = new RateThisAppFragment();
-
         mockViewProductDetailsModel = new ViewProductDetailsModel();
         mockViewProductDetailsModel.setProductName("Maqsood");
         mockViewProductDetailsModel.setCtnName("2234");
@@ -84,8 +82,7 @@ public class RateThisAppFragmentTest {
     }
 
     @Test
-    public void testViewNotNull() throws Exception
-    {
+    public void testViewNotNull() throws Exception {
         Assert.assertNotNull(rootView);
     }
 
@@ -121,7 +118,7 @@ public class RateThisAppFragmentTest {
     }
 
     @Test
-    public void testPerformClickButtons(){
+    public void testPerformTellusPhilipsReviewButton(){
         SupportFragmentTestUtil.startFragment(digitalCareBaseFragmentspy, DigitalCareTestMock.class);
        //  Mockito.doNothing().when(digitalCareBaseFragmentspy).showFragment(fragment);
         PowerMockito.mockStatic(DigitalCareConfigManager.class);
@@ -130,8 +127,35 @@ public class RateThisAppFragmentTest {
         digitalCareBaseFragmentspy=spy(fragment);
         digitalCareBaseFragmentspy.isInternetAvailable=true;
         digitalCareBaseFragmentspy.getView().findViewById(R.id.tellus_PhilipsReviewButton).performClick();
-
     }
 
+    @Test
+    public void testPerformPlayStoreReviewButton(){
+        SupportFragmentTestUtil.startFragment(digitalCareBaseFragmentspy, DigitalCareTestMock.class);
+        //  Mockito.doNothing().when(digitalCareBaseFragmentspy).showFragment(fragment);
+        PowerMockito.mockStatic(DigitalCareConfigManager.class);
+        when(DigitalCareConfigManager.getInstance()).thenReturn(mockDigitalCareConfigManager);
+        when(DigitalCareConfigManager.getInstance().getTaggingInterface()).thenReturn(mockAppTaggingInterface);
+        digitalCareBaseFragmentspy=spy(fragment);
+        digitalCareBaseFragmentspy.isInternetAvailable=true;
+        digitalCareBaseFragmentspy.getView().findViewById(R.id.tellus_PlayStoreReviewButton).performClick();
+    }
 
+    @Test
+    public void testGetActionbarTitle(){
+        String title = fragment.getActionbarTitle();
+        Assert.assertNotNull(title);
+    }
+
+    @Test
+    public void testSetPreviousPageName(){
+        String previousPageName = fragment.setPreviousPageName();
+        Assert.assertNotNull(previousPageName);
+    }
+
+    @Test
+    public void testonConfigurationChanged(){
+        Configuration configuration = new Configuration();
+        fragment.onConfigurationChanged(configuration);
+    }
 }
