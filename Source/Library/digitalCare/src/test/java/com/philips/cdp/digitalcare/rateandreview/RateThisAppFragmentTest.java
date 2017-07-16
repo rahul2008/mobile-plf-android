@@ -7,6 +7,7 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
+import com.philips.cdp.digitalcare.rateandreview.fragments.RateThisAppFragmentPresenter;
 import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerDigitalCare;
 
 import org.junit.Assert;
@@ -46,7 +47,7 @@ public class RateThisAppFragmentTest {
     private DigitalCareBaseFragment mockDigitalCareBaseFragment;
 
     @Mock
-    RateThisAppFragmentPresenter  rateThisAppFragmentPresenter;
+    RateThisAppFragmentPresenter rateThisAppFragmentPresenter;
     private ViewProductDetailsModel mockViewProductDetailsModel;
 
     private DigitalCareBaseFragment digitalCareBaseFragmentspy;
@@ -86,7 +87,6 @@ public class RateThisAppFragmentTest {
 
     @Test
     public void testProductSelectionInit_PRX() throws Exception{
-
        // Mockito.doNothing().when(mockDigitalCareConfigManager).getViewProductDetailsData();
         //DigitalCareConfigManager.getInstance().setViewProductDetailsData(productDetailsModel);
     }

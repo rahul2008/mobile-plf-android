@@ -56,7 +56,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 
     protected static SummaryModel mViewProductSummaryModel = null;
     protected static FragmentLauncher mFragmentLauncher = null;
-    protected static boolean isInternetAvailable;
+    public static boolean isInternetAvailable;
     private static String TAG = DigitalCareBaseFragment.class.getSimpleName();
     private static int mContainerId = 0;
     private static ActionbarUpdateListener mActionbarUpdateListener = null;
