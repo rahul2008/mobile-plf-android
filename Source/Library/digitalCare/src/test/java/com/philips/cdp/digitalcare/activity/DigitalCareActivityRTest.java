@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.philips.cdp.digitalcare.BuildConfig;
-import com.philips.cdp.digitalcare.CustomRobolectricRunner;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 

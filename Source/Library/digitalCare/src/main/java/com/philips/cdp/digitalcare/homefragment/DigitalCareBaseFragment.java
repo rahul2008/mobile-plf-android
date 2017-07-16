@@ -33,12 +33,12 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.customview.NetworkAlertView;
+import com.philips.cdp.digitalcare.listeners.ActivityTitleListener;
 import com.philips.cdp.digitalcare.listeners.NetworkStateListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
@@ -73,6 +73,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     private Thread mUiThread = Looper.getMainLooper().getThread();
     private ImageView mBackToHome = null;
     private ImageView mHomeIcon = null;
+    private ActivityTitleListener activityTitleListener;
 
     public synchronized static void setStatus(boolean connection) {
         isInternetAvailable = connection;
@@ -111,6 +112,14 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     public abstract String getActionbarTitle();
 
     public abstract String setPreviousPageName();
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(activityTitleListener instanceof ActivityTitleListener){
+            activityTitleListener=(ActivityTitleListener) context;
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -513,13 +522,10 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
      * Updating action bar title. The text has to be updated at each fragment
      * seletion/creation.
      */
-    private void setActionbarTitle() {
-        if (mContainerId == 0) {
-            TextView actionBarTitle =
-
-                    ((TextView) getActivity().findViewById(
-                            R.id.action_bar_title));
-            actionBarTitle.setText(getActionbarTitle());
+    public void setActionbarTitle() {
+        if (mContainerId == 0 ) {
+            if(activityTitleListener!=null)
+                activityTitleListener.setTitle(getActionbarTitle());
         } else {
             updateActionbar();
         }

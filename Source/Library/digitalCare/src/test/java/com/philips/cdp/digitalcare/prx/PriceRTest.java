@@ -1,8 +1,6 @@
 package com.philips.cdp.digitalcare.prx;
 
 import com.philips.cdp.digitalcare.BuildConfig;
-import com.philips.cdp.digitalcare.CustomRobolectricRunner;
-import com.philips.cdp.digitalcare.prx.subcategorymodel.Data;
 import com.philips.cdp.digitalcare.prx.subcategorymodel.Price;
 
 import org.junit.Assert;

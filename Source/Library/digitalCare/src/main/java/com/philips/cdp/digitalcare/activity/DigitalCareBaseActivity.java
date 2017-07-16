@@ -12,7 +12,6 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
@@ -26,7 +25,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
-import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
+import com.philips.cdp.digitalcare.listeners.ActivityTitleListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
@@ -34,7 +33,7 @@ import com.philips.cdp.productselection.launchertype.UiLauncher;
 import com.philips.cdp.uikit.UiKitActivity;
 
 
-public abstract class DigitalCareBaseActivity extends UiKitActivity {
+public abstract class DigitalCareBaseActivity extends UiKitActivity implements ActivityTitleListener{
     private static String TAG = DigitalCareBaseActivity.class.getSimpleName();
 
     protected RelativeLayout mActionbarlayout = null;
@@ -175,6 +174,15 @@ public abstract class DigitalCareBaseActivity extends UiKitActivity {
             imm.hideSoftInputFromWindow(getWindow().getCurrentFocus()
                     .getWindowToken(), 0);
         }
+    }
+
+    @Override
+    public void setTitle(String title) {
+        TextView actionBarTitle =
+
+                ((TextView) findViewById(
+                        R.id.action_bar_title));
+        actionBarTitle.setText(title);
     }
 
 }

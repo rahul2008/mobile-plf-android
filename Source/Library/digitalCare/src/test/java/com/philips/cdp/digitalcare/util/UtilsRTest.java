@@ -1,13 +1,9 @@
 package com.philips.cdp.digitalcare.util;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.telephony.TelephonyManager;
-import android.util.DisplayMetrics;
 
 import com.philips.cdp.digitalcare.BuildConfig;
-import com.philips.cdp.digitalcare.CustomRobolectricRunner;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
 
@@ -16,11 +12,9 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowTelephonyManager;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static org.robolectric.Shadows.shadowOf;
 
@@ -28,7 +22,7 @@ import static org.robolectric.Shadows.shadowOf;
  * Created by philips on 7/6/17.
  */
 
-@RunWith(CustomRobolectricRunner.class)
+@RunWith(CustomRobolectricRunnerDigitalCare.class)
 @Config(constants = BuildConfig.class, sdk = 21)
 
 public class UtilsRTest {

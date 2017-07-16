@@ -1,12 +1,9 @@
 package com.philips.cdp.digitalcare.prx;
 
 import com.philips.cdp.digitalcare.BuildConfig;
-import com.philips.cdp.digitalcare.ConsumerProductInfo;
-import com.philips.cdp.digitalcare.CustomRobolectricRunner;
 import com.philips.cdp.digitalcare.prx.subcategorymodel.Data;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
