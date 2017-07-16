@@ -9,6 +9,7 @@ import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.rateandreview.fragments.RateThisAppFragmentPresenter;
 import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerDigitalCare;
+import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -48,6 +49,10 @@ public class RateThisAppFragmentTest {
 
     @Mock
     RateThisAppFragmentPresenter rateThisAppFragmentPresenter;
+
+    @Mock
+    AppTaggingInterface mockAppTaggingInterface;
+
     private ViewProductDetailsModel mockViewProductDetailsModel;
 
     private DigitalCareBaseFragment digitalCareBaseFragmentspy;
@@ -79,7 +84,7 @@ public class RateThisAppFragmentTest {
     }
 
     @Test
-    public void shouldNotBeNull() throws Exception
+    public void testViewNotNull() throws Exception
     {
         Assert.assertNotNull(rootView);
     }
@@ -93,13 +98,10 @@ public class RateThisAppFragmentTest {
 
 
     @Test
-    public void test_onPRXProductPageReceived_onProductLinkNull(){
-
+    public void testPhilipsReviewButtonVisibilityGone(){
         ViewProductDetailsModel viewProductDetailsModel=new ViewProductDetailsModel();
         viewProductDetailsModel.setProductInfoLink(null);
         fragment.onPRXProductPageReceived(viewProductDetailsModel);
-
-
         Button mRatePhilipsBtn=(Button) rootView.findViewById(
                 R.id.tellus_PhilipsReviewButton);
         Assert.assertEquals(View.GONE,mRatePhilipsBtn.getVisibility());
@@ -107,7 +109,7 @@ public class RateThisAppFragmentTest {
 
 
     @Test
-    public void test_onPRXProductPageReceived_onProductLinNotNull(){
+    public void testPhilipsReviewButtonVisibilityVisible(){
 
         ViewProductDetailsModel viewProductDetailsModel=new ViewProductDetailsModel();
         viewProductDetailsModel.setProductInfoLink("adfs");
@@ -119,9 +121,13 @@ public class RateThisAppFragmentTest {
     }
 
     @Test
-    public void test_OnCLick(){
+    public void testPerformClickButtons(){
         SupportFragmentTestUtil.startFragment(digitalCareBaseFragmentspy, DigitalCareTestMock.class);
        //  Mockito.doNothing().when(digitalCareBaseFragmentspy).showFragment(fragment);
+        PowerMockito.mockStatic(DigitalCareConfigManager.class);
+        when(DigitalCareConfigManager.getInstance()).thenReturn(mockDigitalCareConfigManager);
+        when(DigitalCareConfigManager.getInstance().getTaggingInterface()).thenReturn(mockAppTaggingInterface);
+        digitalCareBaseFragmentspy=spy(fragment);
         digitalCareBaseFragmentspy.isInternetAvailable=true;
         digitalCareBaseFragmentspy.getView().findViewById(R.id.tellus_PhilipsReviewButton).performClick();
 

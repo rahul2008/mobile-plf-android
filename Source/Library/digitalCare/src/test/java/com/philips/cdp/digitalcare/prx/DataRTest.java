@@ -2,6 +2,7 @@ package com.philips.cdp.digitalcare.prx;
 
 import com.philips.cdp.digitalcare.BuildConfig;
 import com.philips.cdp.digitalcare.prx.subcategorymodel.Data;
+import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerDigitalCare;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,7 +20,7 @@ import static junit.framework.Assert.assertEquals;
  */
 
 
-@RunWith(CustomRobolectricRunner.class)
+@RunWith(CustomRobolectricRunnerDigitalCare.class)
 @Config(constants = BuildConfig.class, sdk = 21)
 public class DataRTest {
 

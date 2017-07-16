@@ -2,6 +2,7 @@ package com.philips.cdp.digitalcare.prx;
 
 import com.philips.cdp.digitalcare.BuildConfig;
 import com.philips.cdp.digitalcare.prx.subcategorymodel.Price;
+import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerDigitalCare;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,7 +17,7 @@ import static junit.framework.Assert.assertEquals;
  * Created by philips on 7/15/17.
  */
 
-@RunWith(CustomRobolectricRunner.class)
+@RunWith(CustomRobolectricRunnerDigitalCare.class)
 @Config(constants = BuildConfig.class, sdk = 21)
 public class PriceRTest {
 
