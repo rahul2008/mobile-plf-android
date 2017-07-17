@@ -112,8 +112,8 @@ public class SecureStorageTest extends AppInfraInstrumentation {
         assertFalse(mSecureStorage.removeValueForKey(""));
         assertFalse(mSecureStorage.removeValueForKey(null));
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, "someData", sse);
-        assertTrue(mSecureStorage.removeValueForKey("someData"));
+        mSecureStorage.storeValueForKey("someKey", "someValue", sse);
+        assertTrue(mSecureStorage.removeValueForKey("someKey"));
     }
 
     public void testHappyPath() throws Exception {
