@@ -18,8 +18,6 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 
-import java.util.Locale;
-
 public class ProductRegistrationApplication extends Application {
 
     private static AppInfraInterface mAppInfraInterface;
@@ -32,7 +30,7 @@ public class ProductRegistrationApplication extends Application {
         MultiDex.install(this);
         initAppInfra();
         initProductRegistration();
-        initRegistration(Configuration.EVALUATION);
+        initRegistration(Configuration.STAGING);
         RLog.enableLogging();
     }
 
