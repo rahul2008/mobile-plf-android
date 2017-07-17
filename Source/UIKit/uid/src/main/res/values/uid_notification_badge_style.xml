@@ -21,5 +21,5 @@
         <item name="android:background">@drawable/uid_small_notificationbadge_background</item>
     </style>
     <!-- Notification Badge-->
-    <declare-styleable name="NotificationBadgeStyle"></declare-styleable>
+    <declare-styleable name="NotificationBadgeStyle"/>
 </resources>

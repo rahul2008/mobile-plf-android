@@ -110,7 +110,7 @@
         <attr name="uidCheckBoxPaddingStart" format="dimension"/>
     </declare-styleable>
 
-    <declare-styleable name="UIDSeparator"></declare-styleable>
+    <declare-styleable name="UIDSeparator"/>
 
     <declare-styleable name="UIDNavigationContainer">
         <attr name="uidShadowDrawable" format="reference"/>
