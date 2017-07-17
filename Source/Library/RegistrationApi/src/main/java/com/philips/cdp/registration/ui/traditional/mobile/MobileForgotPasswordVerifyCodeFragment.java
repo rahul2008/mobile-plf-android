@@ -32,7 +32,6 @@ import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.ClientIDConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
@@ -204,7 +203,6 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
 
         mBtnVerify = (Button) view.findViewById(R.id.btn_reg_Verify);
         mBtnVerify.setOnClickListener(mobileActivationController);
-        mBtnVerify.setText("fuck you");
         mEtCodeNUmber = (OtpEditTextWithResendButton) view.findViewById(R.id.rl_reg_name_field);
         mEtCodeNUmber.setOnUpdateListener(mobileActivationController);
         mPbSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_activate_spinner);
@@ -303,7 +301,7 @@ public class MobileForgotPasswordVerifyCodeFragment extends RegistrationBaseFrag
             } else {
                 mRegError.hideError();
             }
-            mBtnVerify.setEnabled(true);
+            updateUiStatus();
             mEtCodeNUmber.enableResend();
         } else {
             mRegError.setError(mContext.getResources().getString(R.string.reg_NoNetworkConnection));
