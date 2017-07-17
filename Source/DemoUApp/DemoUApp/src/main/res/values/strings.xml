@@ -255,8 +255,10 @@
     </string-array>
 
     <string-array name="productselection_ctnlist">
-        <item>SCD888/26</item>
+
         <item>RQ1250/16</item>
+<!--
+<item>SCD888/26</item>
         <item>RQ1250/17</item>
         <item>HD3197/03</item>
         <item>HX6321_02</item>
@@ -280,6 +282,7 @@
         <item>HX9192/03</item>
         <item>HX9192/04</item>
         <item>HX9191/06</item>
+-->
 
         <!--   <item>7894unre</item>
           <item>893jfd</item>
