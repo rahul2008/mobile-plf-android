@@ -134,7 +134,7 @@ public class SecureStorage implements SecureStorageInterface {
                     }
 
         postLog(startTime, " duration for executing storeValueForKey ");
-        return true;
+        return returnResult;
 
     }
 
