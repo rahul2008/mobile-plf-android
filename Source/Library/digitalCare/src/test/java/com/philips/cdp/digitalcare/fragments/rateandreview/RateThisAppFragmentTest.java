@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare.rateandreview;
+package com.philips.cdp.digitalcare.fragments.rateandreview;
 
 import android.content.res.Configuration;
 import android.view.View;
@@ -8,7 +8,7 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
-import com.philips.cdp.digitalcare.rateandreview.fragments.RateThisAppFragmentPresenter;
+import com.philips.cdp.digitalcare.fragments.rateandreview.fragments.RateThisAppFragmentPresenter;
 import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerDigitalCare;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
@@ -86,14 +86,6 @@ public class RateThisAppFragmentTest {
         Assert.assertNotNull(rootView);
     }
 
-
-    @Test
-    public void testProductSelectionInit_PRX() throws Exception{
-       // Mockito.doNothing().when(mockDigitalCareConfigManager).getViewProductDetailsData();
-        //DigitalCareConfigManager.getInstance().setViewProductDetailsData(productDetailsModel);
-    }
-
-
     @Test
     public void testPhilipsReviewButtonVisibilityGone(){
         ViewProductDetailsModel viewProductDetailsModel=new ViewProductDetailsModel();
@@ -104,10 +96,8 @@ public class RateThisAppFragmentTest {
         Assert.assertEquals(View.GONE,mRatePhilipsBtn.getVisibility());
     }
 
-
     @Test
     public void testPhilipsReviewButtonVisibilityVisible(){
-
         ViewProductDetailsModel viewProductDetailsModel=new ViewProductDetailsModel();
         viewProductDetailsModel.setProductInfoLink("adfs");
         fragment.onPRXProductPageReceived(viewProductDetailsModel);
@@ -120,7 +110,6 @@ public class RateThisAppFragmentTest {
     @Test
     public void testPerformTellusPhilipsReviewButton(){
         SupportFragmentTestUtil.startFragment(digitalCareBaseFragmentspy, DigitalCareTestMock.class);
-       //  Mockito.doNothing().when(digitalCareBaseFragmentspy).showFragment(fragment);
         PowerMockito.mockStatic(DigitalCareConfigManager.class);
         when(DigitalCareConfigManager.getInstance()).thenReturn(mockDigitalCareConfigManager);
         when(DigitalCareConfigManager.getInstance().getTaggingInterface()).thenReturn(mockAppTaggingInterface);

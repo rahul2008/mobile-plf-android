@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare.rateandreview.fragments;
+package com.philips.cdp.digitalcare.fragments.rateandreview.fragments;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;

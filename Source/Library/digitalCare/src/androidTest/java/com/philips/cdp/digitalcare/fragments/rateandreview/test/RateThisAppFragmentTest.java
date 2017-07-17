@@ -1,13 +1,12 @@
-package com.philips.cdp.digitalcare.rateandreview.test;
+package com.philips.cdp.digitalcare.fragments.rateandreview.test;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.SmallTest;
 
 import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
-import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
+import com.philips.cdp.digitalcare.fragments.rateandreview.RateThisAppFragment;
 
 
 /**

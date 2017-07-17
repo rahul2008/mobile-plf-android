@@ -6,11 +6,10 @@
  * <p>
  * Copyright (c) 2016 Philips. All rights reserved.
  */
-package com.philips.cdp.digitalcare.rateandreview.fragments;
+package com.philips.cdp.digitalcare.fragments.rateandreview.fragments;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +23,6 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.Utils;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-
-import java.net.URL;
-import java.util.HashMap;
 
 
 public class ProductReviewFragment extends DigitalCareBaseFragment {
@@ -39,6 +34,7 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private String TAG = ProductReviewFragment.class.getSimpleName();
+    private String productPageUri;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,15 +55,12 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
 
-        /*AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_REVIEW_WRITING,
-                getPreviousName());*/
         DigitalCareConfigManager.getInstance().getTaggingInterface().
                 trackPageWithInfo(AnalyticsConstants.PAGE_REVIEW_WRITING,
                         getPreviousName(), getPreviousName());
-
         initView();
-
-        loadProductpage();
+        productPageUri = getProductPageUri();
+        loadProductpage(productPageUri);
     }
 
     @Override
@@ -76,14 +69,13 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
         enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
     }
 
-    private void loadProductpage() {
-        if (getProductPageUri() == null) {
+    public void loadProductpage(String productPageUri) {
+        if (productPageUri == null) {
             mProgressBar.setVisibility(View.VISIBLE);
         } else {
-            DigiCareLogger.d(TAG, getProductPageUri().toString());
             mProductReviewWebView.getSettings().setDomStorageEnabled(true);
             mProductReviewWebView.getSettings().setBuiltInZoomControls(true);
-            Utils.loadWebPageContent(getProductPageUri(), mProductReviewWebView, mProgressBar);
+            Utils.loadWebPageContent(productPageUri, mProductReviewWebView, mProgressBar);
         }
     }
 
@@ -100,7 +92,6 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
      * @return
      */
     protected String getProductPageUri() {
-
         return DigitalCareConfigManager.getInstance().getProductReviewUrl();
     }
 
@@ -127,7 +118,6 @@ public class ProductReviewFragment extends DigitalCareBaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
         if (mProductReviewWebView != null) {
             mProductReviewWebView = null;
         }

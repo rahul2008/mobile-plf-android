@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare.rateandreview;
+package com.philips.cdp.digitalcare.fragments.rateandreview;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;

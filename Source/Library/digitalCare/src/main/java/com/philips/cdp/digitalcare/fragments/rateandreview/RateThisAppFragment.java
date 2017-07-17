@@ -7,7 +7,7 @@
  * Copyright (c) 2016 Philips. All rights reserved.
  */
 
-package com.philips.cdp.digitalcare.rateandreview;
+package com.philips.cdp.digitalcare.fragments.rateandreview;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -24,9 +24,9 @@ import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
-import com.philips.cdp.digitalcare.rateandreview.fragments.ProductReviewFragment;
-import com.philips.cdp.digitalcare.rateandreview.fragments.RateThisAppFragmentContract;
-import com.philips.cdp.digitalcare.rateandreview.fragments.RateThisAppFragmentPresenter;
+import com.philips.cdp.digitalcare.fragments.rateandreview.fragments.ProductReviewFragment;
+import com.philips.cdp.digitalcare.fragments.rateandreview.fragments.RateThisAppFragmentContract;
+import com.philips.cdp.digitalcare.fragments.rateandreview.fragments.RateThisAppFragmentPresenter;
 
 public class RateThisAppFragment extends DigitalCareBaseFragment implements RateThisAppFragmentContract {
     private static String TAG = RateThisAppFragment.class.getSimpleName();

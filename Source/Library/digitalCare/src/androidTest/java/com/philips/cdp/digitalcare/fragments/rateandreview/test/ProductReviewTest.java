@@ -1,5 +1,5 @@
 /*
-package com.philips.cdp.digitalcare.rateandreview.test;
+package com.philips.cdp.digitalcare.fragments.rateandreview.test;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,8 +11,8 @@ import android.widget.RatingBar;
 import android.widget.Switch;
 
 import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
-import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
-import com.philips.cdp.digitalcare.rateandreview.fragments.ProductWriteReviewFragment;
+import com.philips.cdp.digitalcare.fragments.rateandreview.RateThisAppFragment;
+import com.philips.cdp.digitalcare.fragments.rateandreview.fragments.ProductWriteReviewFragment;
 
 */
 /**
