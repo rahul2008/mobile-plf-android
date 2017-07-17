@@ -13,10 +13,11 @@ import android.widget.RelativeLayout;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
-import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.pharmacy.THSPharmacyAndShippingFragment;
+import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
+import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
@@ -113,9 +114,15 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     @Override
     public void onClick(View view) {
         int i = view.getId();
+        THSPharmacyAndShippingFragment thsPharmacyFragment = new THSPharmacyAndShippingFragment();
+        THSConsumer pthConsumer = new THSConsumer();
+        pthConsumer.setConsumer(consumer);
+        thsPharmacyFragment.setConsumer(pthConsumer);
+        thsPharmacyFragment.setActionBarListener(getActionBarListener());
         if (i == R.id.getStartedButton) {
-            createCustomProgressBar(mRelativeLayoutContainer, BIG);
-            THSProviderListPresenter.onEvent(R.id.getStartedButton);
+            getFragmentActivity().getSupportFragmentManager().
+                    beginTransaction().replace(getContainerID(),
+                    thsPharmacyFragment,"Pharmacy List").addToBackStack(null).commit();
         }
     }
 

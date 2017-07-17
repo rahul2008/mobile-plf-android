@@ -1,10 +1,8 @@
 package com.philips.platform.ths.pharmacy;
 
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,11 +14,10 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.pharmacy.PharmacyType;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -35,9 +32,7 @@ import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.pharmacy.customtoggle.SegmentControl;
-import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
@@ -49,7 +44,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class THSPharmacyListFragment extends THSBaseFragment implements OnMapReadyCallback, View.OnClickListener, THSPharmacyListViewListener, BackEventListener {
+public class THSPharmacyListFragment extends THSPharmacyListBaseFragment implements OnMapReadyCallback, View.OnClickListener,
+        THSPharmacyListViewListener,
+        BackEventListener{
 
     private UIDNavigationIconToggler navIconToggler;
     private GoogleMap map;
@@ -57,8 +54,6 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     private SupportMapFragment mapFragment;
     private RecyclerView pharmacyListRecyclerView;
     private THSPharmacyListAdapter thsPharmacyListAdapter;
-    private THSPharmacyListPresenter thsPharmacyListPresenter;
-    private THSConsumer thsConsumer;
     private ActionBarListener actionBarListener;
     private LatLngBounds.Builder builder;
     private CameraUpdate cu;
@@ -69,10 +64,9 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     private Animation slideUpFromBottomAnimation, slideDownFromBottomAnimation, slideUpFromTopAnimation, slideDownFromTopAnimation;
     private boolean handleBack = false;
     private boolean isListSelected = false;
-    private int REQUEST_LOCATION = 1001;
     private Button choosePharmacyButton;
     private Pharmacy pharmacy;
-    private Address address;
+
 
     @Nullable
     @Override
@@ -80,37 +74,27 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         View view = inflater.inflate(R.layout.ths_pharmacy_list_fragment, container, false);
 
         checkPermission();
+        findViewByIDs(view);
+        setOnClickListeners();
+        findViewByIDs();
+        setUpAnimations();
 
-        pharmacy_segment_control_one = (Label) view.findViewById(R.id.segment_control_view_one);
-        pharmacy_segment_control_two = (Label) view.findViewById(R.id.segment_control_view_two);
-        pharmacy_segment_control_one.setOnClickListener(this);
-        pharmacy_segment_control_two.setOnClickListener(this);
-        pharmacy_segment_control_one.setSelected(true);
-        choosePharmacyButton = (Button) view.findViewById(R.id.choose_pharmacy_button);
-        choosePharmacyButton.setOnClickListener(this);
-        thsPharmacyListPresenter = new THSPharmacyListPresenter(this);
+        return view;
+    }
 
-        selectedPharmacyLayout = (RelativeLayout) view.findViewById(R.id.selected_pharmacy_layout);
-        selectedPharmacyLayout.setVisibility(View.GONE);
-        pharmacyTypeLayout = (SegmentControl) view.findViewById(R.id.pharmacy_type_layout);
-        selectedPharmacyName = (Label) view.findViewById(R.id.selected_pharmacy_name);
-        selectedPharmacyAddressLineOne = (Label) view.findViewById(R.id.selected_pharmacy_address_line_one);
-        selectedPharmacyAddressLineTwo = (Label) view.findViewById(R.id.selected_pharmacy_address_line_two);
-        selectedPharmacyState = (Label) view.findViewById(R.id.selected_pharmacy_state);
-        selectedPharmacyZip = (Label) view.findViewById(R.id.selected_pharmacy_zip_code);
-        selectedPharmacyPhone = (Label) view.findViewById(R.id.selected_pharmacy_phone);
-        selectedPharmacyEmail = (Label) view.findViewById(R.id.selected_pharmacy_email);
-        navIconToggler = new UIDNavigationIconToggler(getActivity());
-        navIconToggler.restoreNavigationIcon();
-        switchViewImageButton = (ImageButton) view.findViewById(R.id.switch_view_layout);
+    public void findViewByIDs() {
         switchViewImageButton.setImageDrawable(getResources().getDrawable(R.mipmap.list_icon, getActivity().getTheme()));
-        switchViewImageButton.setOnClickListener(this);
-        pharmacyListRecyclerView = (RecyclerView) view.findViewById(R.id.pharmacy_list_recyclerview);
-
         pharmacyListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         pharmacyListRecyclerView.setAdapter(thsPharmacyListAdapter);
         pharmacyListRecyclerView.setVisibility(View.GONE);
+        pharmacy_segment_control_one.setSelected(true);
+        thsPharmacyListPresenter = new THSPharmacyListPresenter(this);
+        selectedPharmacyLayout.setVisibility(View.GONE);
+        navIconToggler = new UIDNavigationIconToggler(getActivity());
+        navIconToggler.restoreNavigationIcon();
+    }
 
+    public void setUpAnimations() {
         slideUpFromBottomAnimation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(),
                 R.anim.slide_up_from_bottom);
 
@@ -121,8 +105,32 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
 
         slideDownFromTopAnimation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(),
                 R.anim.slide_down_from_top);
-        return view;
     }
+
+    public void setOnClickListeners() {
+        switchViewImageButton.setOnClickListener(this);
+        pharmacy_segment_control_one.setOnClickListener(this);
+        pharmacy_segment_control_two.setOnClickListener(this);
+        choosePharmacyButton.setOnClickListener(this);
+    }
+
+    public void findViewByIDs(View view) {
+        pharmacy_segment_control_one = (Label) view.findViewById(R.id.segment_control_view_one);
+        pharmacy_segment_control_two = (Label) view.findViewById(R.id.segment_control_view_two);
+        choosePharmacyButton = (Button) view.findViewById(R.id.choose_pharmacy_button);
+        selectedPharmacyLayout = (RelativeLayout) view.findViewById(R.id.selected_pharmacy_layout);
+        pharmacyTypeLayout = (SegmentControl) view.findViewById(R.id.pharmacy_type_layout);
+        selectedPharmacyName = (Label) view.findViewById(R.id.selected_pharmacy_name);
+        selectedPharmacyAddressLineOne = (Label) view.findViewById(R.id.selected_pharmacy_address_line_one);
+        selectedPharmacyAddressLineTwo = (Label) view.findViewById(R.id.selected_pharmacy_address_line_two);
+        selectedPharmacyState = (Label) view.findViewById(R.id.selected_pharmacy_state);
+        selectedPharmacyZip = (Label) view.findViewById(R.id.selected_pharmacy_zip_code);
+        selectedPharmacyPhone = (Label) view.findViewById(R.id.selected_pharmacy_phone);
+        selectedPharmacyEmail = (Label) view.findViewById(R.id.selected_pharmacy_email);
+        switchViewImageButton = (ImageButton) view.findViewById(R.id.switch_view_layout);
+        pharmacyListRecyclerView = (RecyclerView) view.findViewById(R.id.pharmacy_list_recyclerview);
+    }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -139,36 +147,13 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         mapFragment.getMapAsync(this);
     }
 
-    private void checkPermission() {
-        if (ActivityCompat.checkSelfPermission(getContext(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(getContext(),
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                            android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_LOCATION);
-        } else {
-            fetchLocation();
-        }
-    }
-
-    private void fetchLocation() {
-
-
-    }
-
     @Override
     public void onResume() {
         super.onResume();
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Pharmacy list", true);
         }
-        thsPharmacyListPresenter.fetchPharmacyList(thsConsumer, null, thsConsumer.getConsumer().getLegalResidence(), null);
-    }
-
-    public void setConsumerAndAddress(THSConsumer thsConsumer, Address address) {
-        this.thsConsumer = thsConsumer;
-        this.address = address;
+        //thsPharmacyListPresenter.fetchPharmacyList(thsConsumer, null, thsConsumer.getConsumer().getLegalResidence(), null);
     }
 
     @Override
@@ -181,16 +166,27 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         thsPharmacyListPresenter.onEvent(v.getId());
     }
 
+
+    /**
+     * This method handles the "choose pharmacy" button. This sets the customers preferred pharmacy.
+     */
     public void setPreferredPharmacy() {
         thsPharmacyListPresenter.updateConsumerPreferredPharmacy(thsConsumer, pharmacy);
     }
 
+    /**
+     * This method handles the filter for Mail order filtering only Mail order content.
+     */
     public void showMailOrderView() {
         pharmacy_segment_control_one.setSelected(false);
         pharmacy_segment_control_two.setSelected(true);
         updateView(pharmacyMailOrderList);
     }
 
+
+    /**
+     * This method handles the filter for Retail filtering only Retail content.
+     */
     public void showRetailView() {
         pharmacy_segment_control_one.setSelected(true);
         pharmacy_segment_control_two.setSelected(false);
@@ -198,7 +194,10 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     }
 
 
-    public void switchView(){
+    /**
+     * This method handles the swtich between map view and the list view indicated by the map/list icon.
+     */
+    public void switchView() {
 
         if (mapFragment.isHidden()) {
             getActivity().getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
@@ -212,7 +211,8 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
             isListSelected = true;
         }
     }
-    private List<Pharmacy> pharmacyRetailList,pharmacyMailOrderList;
+
+    private List<Pharmacy> pharmacyRetailList, pharmacyMailOrderList;
 
     @Override
     public void updatePharmacyListView(List<Pharmacy> pharmacies) {
@@ -221,6 +221,10 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         updateView(pharmacyRetailList);
     }
 
+    /**
+     *This method updates the view based on the filter criteria. It will update the view to either Retail filter or Mail order filter
+     * @param pharmacies
+     */
     public void updateView(final List<Pharmacy> pharmacies) {
         thsPharmacyListAdapter = new THSPharmacyListAdapter(pharmacies);
         thsPharmacyListAdapter.setOnPharmacyItemClickListener(new THSOnPharmacyListItemClickListener() {
@@ -233,21 +237,34 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         });
         pharmacyListRecyclerView.setAdapter(thsPharmacyListAdapter);
         thsPharmacyListAdapter.notifyDataSetChanged();
-        setMarkerOnMap(pharmacies);
+        if(null != pharmacies && pharmacies.size() > 0){
+            setMarkerOnMap(pharmacies);
+        }
+
     }
 
+    /**
+     * Form the list of pharmacies passed, it will filter the list to either mail order or retail.
+     * @param pharmacies
+     * @param pharmacyType
+     * @return
+     */
     private List<Pharmacy> filterList(List<Pharmacy> pharmacies, PharmacyType pharmacyType) {
         Iterator<Pharmacy> pharmacyIterator = pharmacies.iterator();
-        List<Pharmacy>  list = new ArrayList<>();
+        List<Pharmacy> list = new ArrayList<>();
         while (pharmacyIterator.hasNext()) {
             Pharmacy c = pharmacyIterator.next();
             if (c.getType() == pharmacyType) {
-               list.add(c);
+                list.add(c);
             }
         }
         return list;
     }
 
+    /**
+     * This method validates if the selected preferred pharmacy by the customer is mail order.
+     * If so then Shipping address screen should be shown compulsarily
+     */
     @Override
     public void validateForMailOrder() {
         if (pharmacy.getType() == PharmacyType.MailOrder) {
@@ -311,6 +328,11 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
 
     }
 
+
+    /**
+     * This method displays the card at the bottom with the details of the selected phamracy from the list or by tapping on the map marker.
+     * @param pharmacy
+     */
     private void showSelectedPharmacyDetails(Pharmacy pharmacy) {
         this.pharmacy = pharmacy;
         handleBack = true;
@@ -346,10 +368,10 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
 
     @Override
     public boolean handleBackEvent() {
-        if(pharmacy_segment_control_one.isSelected()){
+        if (pharmacy_segment_control_one.isSelected()) {
             addMarkerOptions(pharmacyRetailList, null, false);
             updateCameraBounds(pharmacyRetailList);
-        }else {
+        } else {
             addMarkerOptions(pharmacyMailOrderList, null, false);
             updateCameraBounds(pharmacyMailOrderList);
         }
@@ -383,14 +405,17 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_LOCATION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                fetchLocation();
-            } else {
-                Toast.makeText(getActivity(), "Permission denied : Going to search", Toast.LENGTH_SHORT).show();
-            }
-        }
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }
