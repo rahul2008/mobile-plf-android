@@ -1,12 +1,17 @@
 package com.philips.platform.ths.providerdetails;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.appointment.THSConfirmAppointmentFragment;
+import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.providerslist.THSProviderInfo;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.uid.view.widget.Button;
 
 import java.text.SimpleDateFormat;
@@ -20,11 +25,15 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
     private ArrayList<Date> cardList = new ArrayList();
     Context mContext;
     public final String TIME_FORMATTER = "h:mm a";
+    THSBaseFragment thsBaseFragment;
+    THSProviderInfo thsProviderInfo;
 
-    public THSAppointmentGridAdapter(Context context, List<Date> cardList) {
+    public THSAppointmentGridAdapter(Context context, List<Date> cardList, THSBaseFragment thsBaseFragment, THSProviderInfo thsProviderInfo) {
         super(context, 0, cardList);
         this.mContext = context;
         this.cardList = (ArrayList<Date>) cardList;
+        this.thsBaseFragment = thsBaseFragment;
+        this.thsProviderInfo = thsProviderInfo;
     }
 
 
@@ -59,24 +68,28 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Date gridData = cardList.get(position);
+        final Date gridData = cardList.get(position);
 
         if (convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
-
-
-
             convertView = layoutInflater.inflate(R.layout.cell, null);
 
+            Button timeslot = (Button) convertView.findViewById(R.id.date);
 
+            timeslot.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(THSConstants.THS_PROVIDER_INFO,thsProviderInfo);
+                    bundle.putSerializable(THSConstants.THS_DATE,gridData);
+                    thsBaseFragment.addFragment(new THSConfirmAppointmentFragment(), THSConfirmAppointmentFragment.TAG,bundle);
+                }
+            });
 
-            Button thumbnail = (Button) convertView.findViewById(R.id.date);
+            timeslot.setText(getFormatedTime(gridData));
 
-
-            thumbnail.setText(getFormatedTime(gridData));
-
-            ViewHolder viewHolder = new ViewHolder(thumbnail);
+            ViewHolder viewHolder = new ViewHolder(timeslot);
             convertView.setTag(viewHolder);
         }
 

@@ -36,7 +36,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_provider_details_fragment, container, false);
 
-        mThsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(),this,this,this);
+        mThsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(),this,this,this, this);
         mThsProviderDetailsDisplayHelper.setViews(view);
 
         providerDetailsPresenter = new THSProviderDetailsPresenter(this, this);

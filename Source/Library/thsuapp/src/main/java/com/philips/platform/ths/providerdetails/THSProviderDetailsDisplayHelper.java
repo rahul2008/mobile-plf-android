@@ -3,7 +3,6 @@ package com.philips.platform.ths.providerdetails;
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -12,6 +11,7 @@ import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSPickTimeFragment;
+import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RatingBar;
@@ -31,14 +31,17 @@ public class THSProviderDetailsDisplayHelper {
     RelativeLayout mTimeSlotContainer;
     THSExpandableHeightGridView gridView;
     protected SwipeRefreshLayout swipeRefreshLayout;
+    THSBaseFragment thsBaseFragment;
 
     THSProviderDetailsDisplayHelper(Context context, View.OnClickListener onClickListener,
                                     SwipeRefreshLayout.OnRefreshListener onRefreshListener,
-                                    THSPRoviderDetailsViewInterface thspRoviderDetailsViewInterface){
+                                    THSPRoviderDetailsViewInterface thspRoviderDetailsViewInterface,
+                                    THSBaseFragment thsBaseFragment){
         mOnClickListener = onClickListener;
         mContext = context;
         mOnRefreshListener = onRefreshListener;
         mThsPRoviderDetailsViewInterface = thspRoviderDetailsViewInterface;
+        this.thsBaseFragment = thsBaseFragment;
     }
 
     void setViews(View view) {
@@ -148,7 +151,8 @@ public class THSProviderDetailsDisplayHelper {
 
     private void setAppointmentsToView() {
         THSAppointmentGridAdapter itemsAdapter =
-                new THSAppointmentGridAdapter(mContext, mThsPRoviderDetailsViewInterface.getAppointmentTimeSlots());
+                new THSAppointmentGridAdapter(mContext, mThsPRoviderDetailsViewInterface.getAppointmentTimeSlots(),
+                        thsBaseFragment,mThsPRoviderDetailsViewInterface.getTHSProviderInfo());
         gridView.setAdapter(itemsAdapter);
         gridView.setExpanded(true);
     }
