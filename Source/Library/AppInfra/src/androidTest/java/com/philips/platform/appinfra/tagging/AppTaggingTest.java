@@ -341,7 +341,7 @@ public class AppTaggingTest extends AppInfraInstrumentation {
         assertEquals("facebook", AppTaggingInterface.SocialMedium.Facebook.toString());
         assertEquals("twitter", AppTaggingInterface.SocialMedium.Twitter.toString());
         assertEquals("mail", AppTaggingInterface.SocialMedium.Mail.toString());
-        assertEquals("airdrop", AppTaggingInterface.SocialMedium.AirDrop.toString());
+       // assertEquals("airdrop", AppTaggingInterface.SocialMedium.AirDrop.toString());
     }
 
     public void testTrackVideoStart() {
