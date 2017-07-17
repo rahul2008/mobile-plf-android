@@ -7,6 +7,7 @@
 package com.philips.platform.uid.utils;
 
 import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.text.Editable;
@@ -19,10 +20,10 @@ import static android.view.View.LAYOUT_DIRECTION_RTL;
 
 public abstract class EditTextIconHandler {
 
-    static final int LEFT_DRAWABLE_INDEX = 0;
-    static final int TOP_DRAWABLE_INDEX = 1;
-    static final int RIGHT_DRAWABLE_INDEX = 2;
-    static final int BOTTOM_DRAWABLE_INDEX = 3;
+    private static final int LEFT_DRAWABLE_INDEX = 0;
+    private static final int TOP_DRAWABLE_INDEX = 1;
+    private static final int RIGHT_DRAWABLE_INDEX = 2;
+    private static final int BOTTOM_DRAWABLE_INDEX = 3;
     private final int passwordDrawableTouchArea;
     protected EditText editText;
     private boolean isIconActionUpDetected;
@@ -37,7 +38,6 @@ public abstract class EditTextIconHandler {
 
     public abstract void processIconTouch();
 
-    @NonNull
     public abstract Drawable getIconDrawable();
 
     public boolean isTouchProcessed(final MotionEvent event) {
@@ -53,10 +53,10 @@ public abstract class EditTextIconHandler {
         if (event.getAction() == MotionEvent.ACTION_UP) {
             isIconActionUpDetected = true;
         }
-        return processTouch(event);
+        return processTouch();
     }
 
-    private boolean processTouch(final MotionEvent event) {
+    private boolean processTouch() {
         if (isIconActionDownDetected && isIconActionUpDetected) {
             final Editable editableText = editText.getEditableText();
             if (editableText != null && editableText.length() > 0) {
@@ -102,8 +102,7 @@ public abstract class EditTextIconHandler {
         this.isIconDisplayed = iconDisplayed;
     }
 
-    @NonNull
-    protected Drawable getDrawable(final int drawableResourceId) {
+    protected Drawable getDrawable(@DrawableRes final int drawableResourceId) {
         return VectorDrawableCompat.create(editText.getResources(), drawableResourceId, editText.getContext().getTheme());
     }
 }

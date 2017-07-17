@@ -15,9 +15,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -127,10 +125,6 @@ public class UIDLocaleHelper {
             in.read(bytes);
             in.close();
             jsonString = new String(bytes, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            Log.e(TAG, e.getMessage());
-        } catch (FileNotFoundException e) {
-            Log.e(TAG, e.getMessage());
         } catch (IOException e) {
             Log.e(TAG, e.getMessage());
         }
