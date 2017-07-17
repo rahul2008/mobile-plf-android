@@ -82,6 +82,7 @@
 -keep class org.apache.commons.logging.**
 -keep class com.squareup.okhttp.** { *; }
 -keep class okio.** { *; }
+-keep class com.fasterxml.jackson.annotation.**{*;}
 
 #Gson
 -keep class sun.misc.Unsafe { *; }
