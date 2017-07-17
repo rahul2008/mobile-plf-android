@@ -674,22 +674,22 @@ public class THSManager {
 
     }
 
-    public void scheduleAppointment(Context context,THSProviderInfo thsProviderInfo, Date appointmentDate, THSSDKValidatedCallback thssdkValidatedCallback) throws AWSDKInstantiationException {
+    public void scheduleAppointment(Context context, final THSProviderInfo thsProviderInfo, Date appointmentDate, final THSSDKValidatedCallback thssdkValidatedCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().scheduleAppointment(getPTHConsumer().getConsumer(), thsProviderInfo.getProviderInfo(),
                 appointmentDate, null, RemindOptions.ONE_DAY, RemindOptions.EIGHT_HOURS, new SDKValidatedCallback<Void, SDKError>() {
                     @Override
                     public void onValidationFailure(Map<String, ValidationReason> map) {
-
+                        thssdkValidatedCallback.onValidationFailure(map);
                     }
 
                     @Override
                     public void onResponse(Void aVoid, SDKError sdkError) {
-
+                        thssdkValidatedCallback.onResponse(aVoid,sdkError);
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
-
+                        thssdkValidatedCallback.onFailure(throwable);
                     }
                 });
     }

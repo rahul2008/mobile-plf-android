@@ -35,6 +35,8 @@
     <string name="ths_schedule_appointment_for">You have sceduled an appointment for</string>
     <string name="ths_set_remainder">Set a remainder</string>
     <string name="ths_got_it">Ok got it</string>
+    <string name="ths_email_sent">We have sent a confirmation email to name</string>
+    <string name="ths_confirm">Confirm</string>
 
     <string name="pth_webview_test"><html><p>The US and South Korea have held a ballistic missile drill, after North Korea tested a long-range missile experts believe may reach Alaska.
 Self-restraint was all that separated armistice and war and could be changed at any time, the two allies said.

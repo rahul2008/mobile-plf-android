@@ -151,6 +151,8 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
             providerDetailsPresenter.onEvent(R.id.detailsButtonOne);
         }else if(i == R.id.detailsButtonTwo){
             providerDetailsPresenter.onEvent(R.id.detailsButtonTwo);
+        }else if(i == R.id.calendar_view){
+            providerDetailsPresenter.onEvent(R.id.calendar_view);
         }
     }
 }

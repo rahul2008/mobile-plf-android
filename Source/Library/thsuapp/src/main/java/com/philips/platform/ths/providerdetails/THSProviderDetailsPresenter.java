@@ -68,6 +68,11 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
             mThsBaseFragment.addFragment(new THSDatePickerFragment(), THSDatePickerFragment.TAG,bundle);
         }else if(componentID == R.id.detailsButtonContinue){
 
+        }else if(componentID == R.id.calendar_view){
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,viewInterface.getPracticeInfo());
+
+            mThsBaseFragment.addFragment(new THSDatePickerFragment(),THSDatePickerFragment.TAG,bundle);
         }
     }
 }

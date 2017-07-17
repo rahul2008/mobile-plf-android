@@ -31,6 +31,7 @@ public class THSProviderDetailsDisplayHelper {
     RelativeLayout mTimeSlotContainer;
     THSExpandableHeightGridView gridView;
     protected SwipeRefreshLayout swipeRefreshLayout;
+    View calendarView;
     THSBaseFragment thsBaseFragment;
 
     THSProviderDetailsDisplayHelper(Context context, View.OnClickListener onClickListener,
@@ -68,6 +69,8 @@ public class THSProviderDetailsDisplayHelper {
         detailsButtonContinue.setOnClickListener(mOnClickListener);
 
         mTimeSlotContainer = (RelativeLayout) view.findViewById(R.id.calendar_container_view);
+        calendarView = view.findViewById(R.id.calendar_container_view);
+        calendarView.setOnClickListener(mOnClickListener);
     }
 
     void updateView(Provider provider){
