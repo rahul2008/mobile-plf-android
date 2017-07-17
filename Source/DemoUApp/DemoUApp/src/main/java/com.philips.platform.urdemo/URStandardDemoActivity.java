@@ -226,6 +226,11 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
                 mLlConfiguration.setVisibility(GONE);
             }
         });
+        if (mCheckBox.isChecked()) {
+            mBtnHsdpRefreshAccessToken.setVisibility(VISIBLE);
+        } else {
+            mBtnHsdpRefreshAccessToken.setVisibility(GONE);
+        }
     }
 
     private void clearData() {
