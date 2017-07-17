@@ -17,6 +17,7 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.FileUtils;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
+import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 import com.philips.platform.appinfra.languagepack.model.LanguageList;
 import com.philips.platform.appinfra.languagepack.model.LanguagePackMetadata;
 import com.philips.platform.appinfra.languagepack.model.LanguagePackModel;
@@ -64,22 +65,13 @@ public class LanguagePackManager implements LanguagePackInterface {
 	 */
 	@Override
 	public void refresh(final OnRefreshListener aILPRefreshResult) {
-
-		final AppConfigurationInterface appConfigurationInterface = mAppInfra.getConfigInterface();
-		final AppConfigurationInterface.AppConfigurationError configError = getAppConfigurationError();
-		final String languagePackServiceId = (String) appConfigurationInterface.getPropertyForKey(LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY, "APPINFRA", configError);
+		final String languagePackServiceId = getLanguagePackConfig(mAppInfra.getConfigInterface(),mAppInfra);
 		if (null == languagePackServiceId) {
 			aILPRefreshResult.onError(OnRefreshListener.AILPRefreshResult.REFRESH_FAILED, "Invalid ServiceID");
 		} else {
 			ServiceDiscoveryInterface mServiceDiscoveryInterface = mAppInfra.getServiceDiscovery();
 			mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(languagePackServiceId, getServiceDiscoveryListener(aILPRefreshResult));
 		}
-	}
-
-
-	@NonNull
-	protected AppConfigurationInterface.AppConfigurationError getAppConfigurationError() {
-		return new AppConfigurationInterface.AppConfigurationError();
 	}
 
 	@NonNull
@@ -308,5 +300,20 @@ public class LanguagePackManager implements LanguagePackInterface {
 		final LanguagePackModel defaultLocale = new LanguagePackModel();
 		defaultLocale.setLocale("en_US"); // developer default language
 		return defaultLocale;
+	}
+
+	public static String getLanguagePackConfig(AppConfigurationInterface appConfigurationManager,AppInfra ai) {
+		try {
+			final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
+					.AppConfigurationError();
+			final String languagePackServiceId = (String) appConfigurationManager.getPropertyForKey
+					(LANGUAGE_PACK_CONFIG_SERVICE_ID_KEY, "APPINFRA", configError);
+			return languagePackServiceId;
+		} catch (IllegalArgumentException exception) {
+			ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+					AppInfraLogEventID.AI_APPINFRA,"Error in reading LanguagePack  Config "
+							+exception.toString());
+		}
+		return null;
 	}
 }

@@ -28,7 +28,7 @@ public class AppInfraMainActivity extends AppCompatActivity {
     ListView listView;
     String appInfraComponents[] = {"Secure Storage", "AppTagging", "Logging","AppIdentity",
             "Internationalization", "ServiceDiscovery", "TimeSync", "Config", "Rest Client", " A/B Testing", "Content Loader", "WhiteBox API", "Internet Check", "Language Pack",
-            "Resolution locale","App Update"};
+            "Resolution locale","App Update","Key Bag"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -233,8 +233,8 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 break;
 
             case 15:
-                Intent appUpdateIntent = new Intent(AppInfraMainActivity.this , AppUpdateActivity.class);
-                startActivity(appUpdateIntent);
+                Intent keyBagActivity = new Intent(AppInfraMainActivity.this , KeyBagActivity.class);
+                startActivity(keyBagActivity);
                 break;
         }
 

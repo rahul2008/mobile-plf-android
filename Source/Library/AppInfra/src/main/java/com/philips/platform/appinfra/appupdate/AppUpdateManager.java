@@ -181,10 +181,9 @@ public class AppUpdateManager implements AppUpdateInterface {
 		return new AppConfigurationInterface.AppConfigurationError();
 	}
 
-	private AppConfigurationInterface getAppConfigurationInterface() {
+	private  AppConfigurationInterface getAppConfigurationInterface() {
 		return mAppInfra.getConfigInterface();
 	}
-
 
 	@NonNull
 	protected ServiceDiscoveryInterface.OnGetServiceUrlListener getServiceDiscoveryListener
@@ -310,9 +309,7 @@ public class AppUpdateManager implements AppUpdateInterface {
 		return null;
 	}
 
-	public Object getAutoRefreshValue() {
-		return getAppConfigurationInterface().getPropertyForKey("appUpdate.autoRefresh", "appinfra", getAppConfigurationError());
-	}
+
 
 	public void appInfraRefresh() {
 		File appupdateCache = getAppUpdatefromCache(AppUpdateConstants.LOCALE_FILE_DOWNLOADED
@@ -322,9 +319,8 @@ public class AppUpdateManager implements AppUpdateInterface {
 					"appdate info already downloaded");
 			return;
 		}
-
 		try {
-			Object isappUpdateRq = getAutoRefreshValue();
+			Object isappUpdateRq = getAutoRefreshValue(mAppInfra.getConfigInterface() ,mAppInfra);
 			if (isappUpdateRq != null && isappUpdateRq instanceof Boolean) {
 				final Boolean isautorefreshEnabled = (Boolean) isappUpdateRq;
 				if (isautorefreshEnabled) {
@@ -350,7 +346,18 @@ public class AppUpdateManager implements AppUpdateInterface {
 			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR, AppInfraLogEventID.AI_APPINFRA,
 					"AppConfiguration " + exception.toString());
 		}
+	}
 
+	public static Object getAutoRefreshValue(AppConfigurationInterface appConfigurationInterface , AppInfra ai) {
+		try {
+			AppConfigurationInterface.AppConfigurationError error = new AppConfigurationInterface.AppConfigurationError();
+			return appConfigurationInterface.getPropertyForKey("appUpdate.autoRefresh", "appinfra", error);
+		} catch (IllegalArgumentException exception) {
+			ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+					AppInfraLogEventID.AI_APPINFRA,"Error in reading AppUpdate  Config "
+							+exception.toString());
+		}
 
+		return null;
 	}
 }

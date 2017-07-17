@@ -26,8 +26,8 @@ public class AILDemouAppInterface implements UappInterface {
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         this.mContext = uappSettings.getContext();
         AILDemouAppInterface.mAppInfra = uappDependencies.getAppInfra();
-        AppTaggingInterface mAIAppTaggingInterface = mAppInfra.getTagging().createInstanceForComponent("Component name", "Component ID");
-        mAIAppTaggingInterface.setPreviousPage("SomePreviousPage");
+//        AppTaggingInterface mAIAppTaggingInterface = mAppInfra.getTagging().createInstanceForComponent("Component name", "Component ID");
+//        mAIAppTaggingInterface.setPreviousPage("SomePreviousPage");
 
 
     }

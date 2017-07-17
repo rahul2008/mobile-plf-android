@@ -39,9 +39,10 @@ public class ABTestClientTest extends AppInfraInstrumentation {
         mAppInfra = new AppInfra.Builder().build(mContext);
         assertNotNull(mAppInfra);
         testConfig();
-        mAbTestClientInterface = mAppInfra.getAbTesting();
-        assertNotNull(mAbTestClientInterface);
+
         abTestClienTestManager = new ABTestClientManager(mAppInfra);
+        mAbTestClientInterface = (ABTestClientInterface) abTestClienTestManager;
+        assertNotNull(mAbTestClientInterface);
         cacheModel = new CacheModel();
         cacheModel = loadCacheModel();
         assertNotNull(cacheModel);

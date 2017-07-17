@@ -10,7 +10,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
+import com.philips.platform.appinfra.abtestclient.ABTestClientManager;
 import com.philips.platform.appinfra.demo.R;
 
 /**
@@ -50,7 +52,9 @@ public class AbTestingDemo extends Activity {
         testName = (EditText) findViewById(R.id.tesName);
         defaultValue = (EditText) findViewById(R.id.defaultValue);
 
-        abTestingInterface = AILDemouAppInterface.mAppInfra.getAbTesting();
+
+        //abTestingInterface = AILDemouAppInterface.mAppInfra.getAbTesting();
+        abTestingInterface =  new ABTestClientManager((AppInfra) AILDemouAppInterface.mAppInfra);
 
        // testName.setText("DOT-ReceiveMarketingOptIn");
         defaultValue.setText("Experience K");
