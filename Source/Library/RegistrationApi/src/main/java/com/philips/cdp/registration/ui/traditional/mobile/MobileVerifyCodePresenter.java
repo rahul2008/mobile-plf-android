@@ -12,6 +12,7 @@ import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.events.CounterListener;
 import com.philips.cdp.registration.events.NetworStateListener;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -52,6 +53,7 @@ public class MobileVerifyCodePresenter implements HttpClientServiceReceiver.List
     public MobileVerifyCodePresenter(MobileVerifyCodeContract mobileVerifyCodeContract) {
         URInterface.getComponent().inject(this);
         this.mobileVerifyCodeContract = mobileVerifyCodeContract;
+        RegistrationHelper.getInstance().registerNetworkStateListener(this);
     }
 
 
@@ -136,11 +138,9 @@ public class MobileVerifyCodePresenter implements HttpClientServiceReceiver.List
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
         if(isOnline) {
-            mobileVerifyCodeContract.enableVerifyButton();
-            mobileVerifyCodeContract.hideErrorMessage();
+            mobileVerifyCodeContract.netWorkStateOnlineUiHandle();
         } else {
-            mobileVerifyCodeContract.disableVerifyButton();
-            mobileVerifyCodeContract.showNoNetworkErrorMessage();
+            mobileVerifyCodeContract.netWorkStateOfflineUiHandle();
         }
     }
 

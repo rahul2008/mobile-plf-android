@@ -15,6 +15,7 @@ import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
 import com.philips.cdp.registration.configuration.ClientIDConfiguration;
 import com.philips.cdp.registration.events.NetworStateListener;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -61,6 +62,7 @@ public class MobileVerifyResendCodePresenter implements HttpClientServiceReceive
     public MobileVerifyResendCodePresenter(MobileVerifyResendCodeFragment mobileVerifyCodeContract) {
         URInterface.getComponent().inject(this);
         this.mobileVerifyCodeContract = mobileVerifyCodeContract;
+        RegistrationHelper.getInstance().registerNetworkStateListener(this);
     }
 
     public void resendOTPRequest(final String mobileNumber) {
@@ -182,11 +184,9 @@ public class MobileVerifyResendCodePresenter implements HttpClientServiceReceive
         RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER Netowrk *** network: " + isOnline);
 
         if(isOnline) {
-            mobileVerifyCodeContract.enableResendButton();
-            mobileVerifyCodeContract.hideErrorMessage();
+            mobileVerifyCodeContract.netWorkStateOnlineUiHandle();
         } else {
-            mobileVerifyCodeContract.disableResendButton();
-            mobileVerifyCodeContract.showNoNetworkErrorMessage();
+            mobileVerifyCodeContract.netWorkStateOfflineUiHandle();
         }
     }
 

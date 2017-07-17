@@ -84,6 +84,17 @@ public class OtpEditTextWithResendButton extends RelativeLayout implements TextW
         mBtResend.setEnabled(false);
     }
 
+    public void enableResend() {
+        if (mBtResend.getText().equals(mContext.getString(R.string.reg_Account_ActivationCode_resendtxt))){
+            mBtResend.setEnabled(true);
+        }
+    }
+
+    public void disableResend() {
+        mBtResend.setEnabled(false);
+    }
+
+
     public String getTimer(){
         return mTimer;
     }
