@@ -60,9 +60,9 @@
 
         <Button
             android:id="@+id/btn_add_ctn"
-            android:layout_marginStart="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:text="Add" />
     </LinearLayout>
 
@@ -125,18 +125,10 @@
         android:visibility="gone" />
 
     <Button
-        android:id="@+id/btn_fragment_launch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/btn_shop_now"
-        android:layout_marginTop="2dp"
-        android:text="@string/activity" />
-
-    <Button
         android:id="@+id/btn_launch_product_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/btn_fragment_launch"
+        android:layout_above="@id/btn_shop_now"
         android:layout_marginTop="2dp"
         android:text="@string/launch_product_detail"
         android:visibility="gone" />

@@ -59,7 +59,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private Button mShopNowCategorized;
     private Button mBuyDirect;
     private Button mPurchaseHistory;
-    private Button mLaunchFragment;
     private Button mLaunchProductDetail;
     private Button mAddCtn;
 
@@ -89,10 +88,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
         mRegister = (Button) findViewById(R.id.btn_register);
         mRegister.setOnClickListener(this);
-
-        mLaunchFragment = (Button) findViewById(R.id.btn_fragment_launch);
-        mLaunchFragment.setOnClickListener(this);
-        mLaunchFragment.setVisibility(View.GONE);
 
         mBuyDirect = (Button) findViewById(R.id.btn_buy_direct);
         mBuyDirect.setOnClickListener(this);
@@ -129,11 +124,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
         mIapInterface = new IAPInterface();
         mIapInterface.init(mIapDependencies, mIAPSettings);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         mIapLaunchInput = new IAPLaunchInput();
         mIapLaunchInput.setIapListener(this);
         init();
@@ -304,19 +294,16 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mPurchaseHistory.setVisibility(View.VISIBLE);
             mPurchaseHistory.setEnabled(true);
             mBuyDirect.setVisibility(View.VISIBLE);
-            mLaunchFragment.setVisibility(View.VISIBLE);
             mShoppingCart.setVisibility(View.VISIBLE);
         } else {
             mPurchaseHistory.setVisibility(View.GONE);
             mBuyDirect.setVisibility(View.GONE);
-            mLaunchFragment.setVisibility(View.GONE);
             mShoppingCart.setVisibility(View.GONE);
         }
     }
 
     private void hideViews() {
         mCountText.setVisibility(View.GONE);
-        mLaunchFragment.setVisibility(View.GONE);
         mShoppingCart.setVisibility(View.INVISIBLE);
         mAddCTNLl.setVisibility(View.GONE);
         mShopNow.setVisibility(View.GONE);
@@ -429,7 +416,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     @Override
     public void onGetCompleteProductList(ArrayList<String> productList) {
-        Toast.makeText(this, "Total Products in Hybris = " + productList.toString(), Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "Total Products in Hybris = " + productList.toString(), Toast.LENGTH_SHORT).show();
         mEtCTN.setText(productList.get(2));
         dismissProgressDialog();
     }
