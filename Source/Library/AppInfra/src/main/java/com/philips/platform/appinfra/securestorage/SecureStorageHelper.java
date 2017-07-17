@@ -39,10 +39,10 @@ import javax.security.auth.x500.X500Principal;
 
 class SecureStorageHelper {
 
-    private Context mContext;
+    static final String AES_ENCRYPTION_ALGORITHM = "AES/GCM/NoPadding";
     private static final String SINGLE_UNIVERSAL_KEY = "AppInfra.SecureStorage key pair";
     private static final String RSA_ENCRYPTION_ALGORITHM = "RSA/ECB/PKCS1Padding";
-    static final String AES_ENCRYPTION_ALGORITHM = "AES/GCM/NoPadding";
+    private Context mContext;
     private AppInfra mAppInfra;
 
     SecureStorageHelper(AppInfra mAppInfra) {
@@ -221,16 +221,16 @@ class SecureStorageHelper {
     }
 
 
-    String encodeDecodeData(int type, Key secretKey, String value) throws Exception {
+    String encodeDecodeData(int mode, Key secretKey, String value) throws Exception {
         final Key key = new SecretKeySpec(secretKey.getEncoded(), "AES");
         final Cipher cipher = Cipher.getInstance(AES_ENCRYPTION_ALGORITHM);
         final byte[] ivBlockSize = new byte[cipher.getBlockSize()];
         final IvParameterSpec ivParameterSpec = new IvParameterSpec(ivBlockSize);
-        if(type == Cipher.ENCRYPT_MODE) {
+        if (mode == Cipher.ENCRYPT_MODE) {
             cipher.init(Cipher.ENCRYPT_MODE, key, ivParameterSpec);
             final byte[] encText = cipher.doFinal(value.getBytes()); // encrypt string value using AES
             return Base64.encodeToString(encText, Base64.DEFAULT);
-        } else if(type == Cipher.DECRYPT_MODE){
+        } else if (mode == Cipher.DECRYPT_MODE) {
             cipher.init(Cipher.DECRYPT_MODE, key, ivParameterSpec);
             final byte[] encryptedValueBytes = Base64.decode(value, Base64.DEFAULT);
             final byte[] decText = cipher.doFinal(encryptedValueBytes); // decrypt string value using AES key

@@ -187,7 +187,7 @@ public class SecureStorageTest extends AppInfraInstrumentation {
     }
 
     public void testDeviceHasPassCode() {
-        assertNotNull(mSecureStorage.deviceHasPasscode());
+        assertTrue(mSecureStorage.deviceHasPasscode());
     }
 
     public void testByteDataEncryptionAndDecryption() throws Exception {
