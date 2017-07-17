@@ -37,6 +37,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     private THSProvidersListAdapter THSProvidersListAdapter;
     private ActionBarListener actionBarListener;
     Button btn_get_started;
+    Button btn_schedule_appointment;
     private RelativeLayout mRelativeLayoutContainer;
 
 
@@ -51,6 +52,8 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
         swipeRefreshLayout.setOnRefreshListener(this);
         btn_get_started = (Button) view.findViewById(R.id.getStartedButton);
         btn_get_started.setOnClickListener(this);
+        btn_schedule_appointment = (Button) view.findViewById(R.id.getScheduleAppointmentButton);
+        btn_schedule_appointment.setOnClickListener(this);
         mRelativeLayoutContainer = (RelativeLayout) view.findViewById(R.id.provider_list_container);
         return view;
     }
@@ -116,6 +119,9 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
         if (i == R.id.getStartedButton) {
             createCustomProgressBar(mRelativeLayoutContainer, BIG);
             THSProviderListPresenter.onEvent(R.id.getStartedButton);
+        }else if(i==R.id.getScheduleAppointmentButton){
+            createCustomProgressBar(mRelativeLayoutContainer, BIG);
+            THSProviderListPresenter.onEvent(R.id.getScheduleAppointmentButton);
         }
     }
 

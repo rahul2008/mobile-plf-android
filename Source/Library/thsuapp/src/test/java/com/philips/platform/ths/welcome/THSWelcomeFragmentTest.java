@@ -1,13 +1,16 @@
 package com.philips.platform.ths.welcome;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.americanwell.sdk.AWSDK;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.ProgressBar;
 
 import junit.framework.Assert;
@@ -22,11 +25,15 @@ import org.robolectric.shadows.ShadowLog;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 
 @RunWith(CustomRobolectricRunnerAmwel.class)
 public class THSWelcomeFragmentTest {
     private THSLaunchActivity mActivity;
     private WelcomeFragmentMock mWelcomeFragment;
+
+    @Mock
+    Button buttonInitMock;
 
     @Mock
     Bundle bundle;
@@ -42,6 +49,9 @@ public class THSWelcomeFragmentTest {
 
     @Mock
     ProgressBar progressBar;
+
+    @Mock
+    THSWelcomePresenter presenterMock;
 
 
     @Before
@@ -104,4 +114,19 @@ public class THSWelcomeFragmentTest {
         assertThat(id).isInstanceOf(Integer.class);
     }
 
+    @Test
+    public void onClick_init(){
+        SupportFragmentTestUtil.startFragment(mWelcomeFragment);
+        mWelcomeFragment.presenter = presenterMock;
+        final View viewById = mWelcomeFragment.getView().findViewById(R.id.init_amwell);
+        viewById.performClick();
+        verify(presenterMock).onEvent(R.id.init_amwell);
+    }
+
+    @Test
+    public void enableInitButton(){
+        mWelcomeFragment.mInitButton = buttonInitMock;
+        mWelcomeFragment.enableInitButton(true);
+        verify(buttonInitMock).setEnabled(true);
+    }
 }

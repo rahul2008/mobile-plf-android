@@ -19,29 +19,27 @@ import com.philips.platform.ths.providerslist.THSProviderInfo;
 import java.util.Date;
 import java.util.List;
 
-import static com.philips.platform.ths.R.id.swipeRefreshLayout;
-
 /**
  * This class is used to display the provider details selected by the user.
  */
 public class THSProviderDetailsFragment extends THSBaseFragment implements View.OnClickListener, THSPRoviderDetailsViewInterface,SwipeRefreshLayout.OnRefreshListener{
     public static final String TAG = THSProviderDetailsFragment.class.getSimpleName();
     private Consumer consumer;
-    private THSProviderInfo mThsProviderInfo;
-    private THSAvailableProvider mThsAvailableProvider;
-    private THSProviderDetailsPresenter providerDetailsPresenter;
+    THSProviderInfo mThsProviderInfo;
+    protected THSAvailableProvider mThsAvailableProvider;
+    THSProviderDetailsPresenter providerDetailsPresenter;
     private Practice mPractice;
-    private THSProviderDetailsDisplayHelper mThsProviderDetailsDisplayHelper;
+    THSProviderDetailsDisplayHelper mThsProviderDetailsDisplayHelper;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_provider_details_fragment, container, false);
 
-        mThsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(),this,this,this);
+        mThsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(),this,this,this, this);
         mThsProviderDetailsDisplayHelper.setViews(view);
 
-        providerDetailsPresenter = new THSProviderDetailsPresenter(this);
+        providerDetailsPresenter = new THSProviderDetailsPresenter(this, this);
         return view;
     }
 
@@ -66,7 +64,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     public void setTHSProviderEntity(THSProviderEntity  thsProviderEntity){
         if(thsProviderEntity instanceof THSProviderInfo) {
             this.mThsProviderInfo = (THSProviderInfo) thsProviderEntity;
-        }else {
+        }else if(thsProviderEntity instanceof THSAvailableProvider){
             this.mThsAvailableProvider = (THSAvailableProvider)thsProviderEntity;
         }
     }
@@ -93,10 +91,12 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     public THSProviderInfo getTHSProviderInfo() {
         if (mThsProviderInfo != null) {
             return mThsProviderInfo;
-        } else {
+        } else if (mThsAvailableProvider != null) {
             THSProviderInfo thsProviderInfo = new THSProviderInfo();
             thsProviderInfo.setTHSProviderInfo(mThsAvailableProvider.getProviderInfo());
             return thsProviderInfo;
+        } else {
+            return null;
         }
     }
 
@@ -112,12 +112,14 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
 
     @Override
     public void dismissRefreshLayout(){
-        mThsProviderDetailsDisplayHelper.dismissRefreshLayout(false);
+        mThsProviderDetailsDisplayHelper.dismissRefreshLayout();
     }
 
     @Override
     public List<Date> getAppointmentTimeSlots() {
-        return mThsAvailableProvider.getAvailableAppointmentTimeSlots();
+        if (mThsAvailableProvider != null)
+            return mThsAvailableProvider.getAvailableAppointmentTimeSlots();
+        return null;
     }
 
     @Override
