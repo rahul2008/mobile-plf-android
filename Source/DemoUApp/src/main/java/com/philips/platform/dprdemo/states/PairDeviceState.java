@@ -27,7 +27,7 @@ public class PairDeviceState extends AbstractBaseState implements com.philips.pl
 
     public PairDeviceState(PairDevice pairDevice, List<UCoreSubjectProfile> subjectProfileList,
                            IDevicePairingListener deviceStatusListener, Activity activity) {
-        super(activity);
+        super();
         this.mActivity = activity;
 //        this.subjectProfileList = subjectProfileList;
         this.pairDevice = pairDevice;
@@ -44,7 +44,6 @@ public class PairDeviceState extends AbstractBaseState implements com.philips.pl
     }
 
     private void pairDevice() {
-        showProgressDialog("Pairing device...");
         List<String> list = new ArrayList();
 //        DataServicesManager.getInstance().pairDevices(pairDevice.getDeviceID(), pairDevice.getDeviceType(),
 //                getSubjectProfileIdList(subjectProfileList), getStandardObservationNameList(), "urn:cdp|datareceiver_stg", this);
@@ -55,8 +54,6 @@ public class PairDeviceState extends AbstractBaseState implements com.philips.pl
 
     @Override
     public void onResponse(boolean b) {
-        dismissProgressDialog();
-
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -67,8 +64,6 @@ public class PairDeviceState extends AbstractBaseState implements com.philips.pl
 
     @Override
     public void onError(final DataServicesError dataServicesError) {
-        dismissProgressDialog();
-
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {

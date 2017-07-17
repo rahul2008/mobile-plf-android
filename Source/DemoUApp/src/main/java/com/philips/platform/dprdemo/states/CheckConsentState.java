@@ -9,8 +9,6 @@ import android.app.Activity;
 
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
-import com.philips.platform.core.datatypes.SyncType;
-import com.philips.platform.core.listeners.DBChangeListener;
 import com.philips.platform.core.listeners.DBFetchRequestListner;
 import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -19,13 +17,13 @@ import com.philips.platform.dprdemo.utils.Utility;
 
 import java.util.List;
 
-class CheckConsentState extends AbstractBaseState implements DBRequestListener<ConsentDetail>, DBFetchRequestListner<ConsentDetail>, DBChangeListener {
+class CheckConsentState extends AbstractBaseState implements DBRequestListener<ConsentDetail>, DBFetchRequestListner<ConsentDetail> {
 
     private Activity mActivity;
     private IDevicePairingListener mDeviceStatusListener;
 
     CheckConsentState(IDevicePairingListener deviceStatusListener, Activity activity) {
-        super(activity);
+        super();
         this.mActivity = activity;
         this.mDeviceStatusListener = deviceStatusListener;
     }
@@ -40,24 +38,11 @@ class CheckConsentState extends AbstractBaseState implements DBRequestListener<C
     }
 
     private void fetchConsent() {
-        showProgressDialog("Fetching Consent...");
         DataServicesManager.getInstance().fetchConsentDetail(this);
     }
 
     @Override
-    public void dBChangeSuccess(SyncType syncType) {
-        dismissProgressDialog();
-    }
-
-    @Override
-    public void dBChangeFailed(Exception e) {
-        dismissProgressDialog();
-    }
-
-    @Override
     public void onFetchSuccess(List<? extends ConsentDetail> list) {
-        dismissProgressDialog();
-
         boolean accepted = false;
         for (ConsentDetail ormConsentDetail : list) {
             if (ormConsentDetail.getStatus().equalsIgnoreCase(ConsentDetailStatusType.ACCEPTED.name())) {
@@ -77,8 +62,6 @@ class CheckConsentState extends AbstractBaseState implements DBRequestListener<C
 
     @Override
     public void onFetchFailure(final Exception e) {
-        dismissProgressDialog();
-
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -89,13 +72,10 @@ class CheckConsentState extends AbstractBaseState implements DBRequestListener<C
 
     @Override
     public void onSuccess(List<? extends ConsentDetail> list) {
-        dismissProgressDialog();
     }
 
     @Override
     public void onFailure(final Exception e) {
-        dismissProgressDialog();
-
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {

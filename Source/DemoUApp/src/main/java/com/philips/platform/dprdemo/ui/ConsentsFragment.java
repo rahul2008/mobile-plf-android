@@ -6,7 +6,6 @@
 package com.philips.platform.dprdemo.ui;
 
 import android.content.Context;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
@@ -27,21 +25,17 @@ import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dprdemo.R;
 import com.philips.platform.dprdemo.consents.OrmConsentDetail;
 import com.philips.platform.dprdemo.pojo.PairDevice;
-import com.philips.platform.dprdemo.utils.NetworkChangeListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ConsentsFragment extends DevicePairingBaseFragment implements DBRequestListener<ConsentDetail>,
-        DBFetchRequestListner<ConsentDetail>, DBChangeListener, View.OnClickListener, NetworkChangeListener.INetworkChangeListener {
-    private Context mContext;
+        DBFetchRequestListner<ConsentDetail>, DBChangeListener, View.OnClickListener {
     private ConsentsAdapter mConsentDialogAdapter;
     private ConsentsPresenter mConsentDialogPresenter;
     private DataServicesManager mDataServicesManager;
     private PairDevice mPairDevice;
     private IDevicePairingListener mDeviceStatusListener;
-    private NetworkChangeListener mNetworkChangeListener;
     private Button mBtnOk;
 
     @Override
@@ -68,8 +62,6 @@ public class ConsentsFragment extends DevicePairingBaseFragment implements DBReq
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.dialog_consent, container, false);
-
-        mNetworkChangeListener = new NetworkChangeListener();
 
         mDataServicesManager = DataServicesManager.getInstance();
 
@@ -99,22 +91,16 @@ public class ConsentsFragment extends DevicePairingBaseFragment implements DBReq
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = context;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        mNetworkChangeListener.addListener(this);
-        mContext.registerReceiver(mNetworkChangeListener, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mNetworkChangeListener.removeListener(this);
-        mContext.unregisterReceiver(mNetworkChangeListener);
     }
 
     @Override
@@ -140,10 +126,10 @@ public class ConsentsFragment extends DevicePairingBaseFragment implements DBReq
         int i = v.getId();
         if (i == R.id.btnOK) {
             if (mConsentDialogAdapter.isAllConsentsAccepted()) {
+                showProgressDialog(getString(R.string.update_consents));
                 mConsentDialogAdapter.updateConsent();
-                showProgressDialog("Updating Consent Data");
             } else {
-                showAlertDialog("Please accept all the consents to pair device.");
+                showAlertDialog(getString(R.string.accept_consents));
             }
         } else if (i == R.id.btnCancel) {
             removeCurrentFragment();
@@ -159,13 +145,12 @@ public class ConsentsFragment extends DevicePairingBaseFragment implements DBReq
     }
 
     public void fetchConsent() {
-        showProgressDialog("Fetching consent");
+        showProgressDialog(getString(R.string.get_consents));
         DataServicesManager.getInstance().fetchConsentDetail(this);
     }
 
     private boolean isConsentAccepted(List<? extends ConsentDetail> data) {
         boolean isAccepted = false;
-
         for (ConsentDetail ormConsentDetail : data) {
             if (ormConsentDetail.getStatus().equalsIgnoreCase(ConsentDetailStatusType.ACCEPTED.name())) {
                 isAccepted = true;
@@ -175,11 +160,6 @@ public class ConsentsFragment extends DevicePairingBaseFragment implements DBReq
             }
         }
         return isAccepted;
-    }
-
-    private void removeCurrentFragment() {
-        getFragmentManager().popBackStack();
-        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 
     //Update Listener
@@ -192,7 +172,7 @@ public class ConsentsFragment extends DevicePairingBaseFragment implements DBReq
             removeCurrentFragment();
             launchSubjectProfile();
         } else {
-            showAlertDialog("Please accept all the consents to pair device.");
+            showAlertDialog(getString(R.string.accept_consents));
         }
     }
 
@@ -213,7 +193,7 @@ public class ConsentsFragment extends DevicePairingBaseFragment implements DBReq
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getActivity(), "Exception :" + e.getMessage(), Toast.LENGTH_LONG).show();
+                showAlertDialog(e.getMessage());
             }
         });
     }
@@ -237,7 +217,6 @@ public class ConsentsFragment extends DevicePairingBaseFragment implements DBReq
         final ArrayList<OrmConsentDetail> ormConsents = data;
 
         if (getActivity() != null && ormConsents != null) {
-
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -252,25 +231,14 @@ public class ConsentsFragment extends DevicePairingBaseFragment implements DBReq
 
     private void refreshOnFailure(final Exception exception) {
         if (getActivity() != null) {
-
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     dismissProgressDialog();
-                    Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+                    showAlertDialog(exception.getMessage());
                 }
             });
         }
-    }
-
-    @Override
-    public void onConnectionLost() {
-        dismissProgressDialog();
-        showAlertDialog("Please check your connection and try again.");
-    }
-
-    @Override
-    public void onConnectionAvailable() {
     }
 
     private void launchSubjectProfile() {

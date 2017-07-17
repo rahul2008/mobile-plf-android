@@ -17,14 +17,14 @@ import com.philips.platform.dprdemo.utils.Utility;
 
 import java.util.List;
 
-class GetSubjectProfileState extends AbstractBaseState implements SubjectProfileListener {
+public class GetSubjectProfileState extends AbstractBaseState implements SubjectProfileListener {
 
     private PairDevice pairDevice;
     private Activity mActivity;
     private IDevicePairingListener mDeviceStatusListener;
 
-    GetSubjectProfileState(PairDevice pairDevice, IDevicePairingListener listener, Activity activity) {
-        super(activity);
+    public GetSubjectProfileState(PairDevice pairDevice, IDevicePairingListener listener, Activity activity) {
+        super();
         this.mActivity = activity;
         this.pairDevice = pairDevice;
         this.mDeviceStatusListener = listener;
@@ -40,19 +40,15 @@ class GetSubjectProfileState extends AbstractBaseState implements SubjectProfile
     }
 
     private void getSubjectProfiles() {
-        showProgressDialog("Fetching Subject Profile...");
         DataServicesManager.getInstance().getSubjectProfiles(this);
     }
 
     @Override
     public void onResponse(boolean b) {
-        dismissProgressDialog();
     }
 
     @Override
     public void onError(final DataServicesError dataServicesError) {
-        dismissProgressDialog();
-
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -63,7 +59,6 @@ class GetSubjectProfileState extends AbstractBaseState implements SubjectProfile
 
     @Override
     public void onGetSubjectProfiles(List<UCoreSubjectProfile> list) {
-        dismissProgressDialog();
         StateContext stateContext = new StateContext();
         if (list.size() > 0) {
             stateContext.setState(new PairDeviceState(pairDevice, list, mDeviceStatusListener, mActivity));

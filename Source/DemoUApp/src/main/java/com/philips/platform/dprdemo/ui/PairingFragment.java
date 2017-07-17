@@ -7,7 +7,6 @@ package com.philips.platform.dprdemo.ui;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -31,12 +30,11 @@ import com.philips.platform.dprdemo.devicesetup.SampleKpsConfigurationInfo;
 import com.philips.platform.dprdemo.pojo.PairDevice;
 import com.philips.platform.dprdemo.states.GetPairedDevicesState;
 import com.philips.platform.dprdemo.states.StateContext;
-import com.philips.platform.dprdemo.utils.NetworkChangeListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PairingFragment extends DevicePairingBaseFragment implements IDevicePairingListener, NetworkChangeListener.INetworkChangeListener {
+public class PairingFragment extends DevicePairingBaseFragment implements IDevicePairingListener {
     private Context mContext;
     private PairingFragmentPresenter mLaunchFragmentPresenter;
 
@@ -54,17 +52,10 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
     private List<Appliance> mAppliancesList;
     private List<String> mPairedDevicesList;
 
-    private NetworkChangeListener mNetworkChangeListener;
-
-    private StateContext mStateContext;
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initializeDiComm();
-
-        mNetworkChangeListener = new NetworkChangeListener();
     }
 
     @Override
@@ -125,6 +116,7 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
                         mLaunchFragmentPresenter.pairDevice(pairDeviceDetails, PairingFragment.this);
                     }
                 }*/
+                showProgressDialog(getString(R.string.pairing_device));
                 mLaunchFragmentPresenter.pairDevice(getTestDeviceDetails(), PairingFragment.this);
             }
         });
@@ -134,6 +126,7 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
         mPairedDevicesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+                showProgressDialog(getString(R.string.unpairing_device));
                 mLaunchFragmentPresenter.unPairDevice(mPairedDevicesAdapter.getItem(position), PairingFragment.this);
             }
         });
@@ -162,12 +155,12 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
         test.add("1c5a6bfffecc9127");
         updateDiscoveredDevices(test);
 
-        mStateContext = new StateContext();
-        mStateContext.setState(new GetPairedDevicesState(getActivity(), this));
-        mStateContext.start();
-
-        mNetworkChangeListener.addListener(this);
-        mContext.registerReceiver(mNetworkChangeListener, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+        if (!isProgressShowing()) {
+            showProgressDialog(getString(R.string.get_paired_device));
+            StateContext mStateContext = new StateContext();
+            mStateContext.setState(new GetPairedDevicesState(getActivity(), this));
+            mStateContext.start();
+        }
 
         mDiscoveryManager.addDiscoveryEventListener(discoveryEventListener);
         mDiscoveryManager.start();
@@ -176,9 +169,6 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
     @Override
     public void onPause() {
         super.onPause();
-        mNetworkChangeListener.removeListener(this);
-        mContext.unregisterReceiver(mNetworkChangeListener);
-
         mDiscoveryManager.removeDiscoverEventListener(discoveryEventListener);
         mDiscoveryManager.stop();
     }
@@ -257,7 +247,7 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
         List<String> devices = new ArrayList<>();
 
         if (discoveredAppliances.size() == 0) {
-            showAlertDialog("No Appliances Found");
+            showAlertDialog(getString(R.string.no_appliances_found));
         } else {
             for (int i = 0; i < discoveredAppliances.size(); i++) {
                 mAppliancesList.add(discoveredAppliances.get(i));
@@ -289,74 +279,50 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
 
     @Override
     public void onGetPairedDevices(List<String> pairedDeviceList) {
+        dismissProgressDialog();
         updatePairedDevices(pairedDeviceList);
     }
 
     @Override
     public void onDevicePaired(String pairedDeviceID) {
+        dismissProgressDialog();
         addToPairedDevices(pairedDeviceID);
         removeFromAvailableDevices(pairedDeviceID);
-        showAlertDialog("Device Paired Successfully");
+        showAlertDialog(getString(R.string.pairing_success));
     }
 
     @Override
     public void onDeviceUnPaired(String unPairedDeviceID) {
+        dismissProgressDialog();
         removeFromPairedDevices(unPairedDeviceID);
         if (mDiscoveredDevices != null && mDiscoveredDevices.size() > 0)
             addToAvailableDevices(unPairedDeviceID);
-        showAlertDialog("Device UnPaired Successfully");
+        showAlertDialog(getString(R.string.un_pairing_success));
     }
 
     @Override
     public void onError(String errorMessage) {
+        dismissProgressDialog();
         showAlertDialog(errorMessage);
     }
 
     @Override
     public void onInternetError() {
-        showAlertDialog("Please check your connection and try again.");
+        dismissProgressDialog();
+        showAlertDialog(getString(R.string.check_connection));
     }
 
     @Override
     public void onConsentNotAccepted() {
+        dismissProgressDialog();
         launchConsents();
     }
 
     @Override
     public void onProfileNotCreated() {
+        dismissProgressDialog();
         launchSubjectProfile();
     }
-
-    /*public void showAlertDialog(String message) {
-        if (mAlertDialogBuilder == null) {
-            mAlertDialogBuilder = new AlertDialog.Builder(mContext, R.style.alertDialogStyle);
-            mAlertDialogBuilder.setCancelable(false);
-            mAlertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.dismiss();
-                }
-            });
-        }
-
-        if (mAlertDialog == null)
-            mAlertDialog = mAlertDialogBuilder.create();
-
-        if (!mAlertDialog.isShowing() && !(getActivity().isFinishing())) {
-            mAlertDialog.setMessage(message);
-            mAlertDialog.show();
-        }
-    }
-*/
-   /* @Override
-    public void onConnectionLost() {
-        mStateContext.getState().dismissProgressDialog();
-        showAlertDialog("Please check your connection and try again.");
-    }
-
-    @Override
-    public void onConnectionAvailable() {
-    }
-*/
 
     private void launchConsents() {
         ConsentsFragment consentsFragment = new ConsentsFragment();
@@ -375,6 +341,6 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mStateContext.getState().clearProgressDialog();
+        clearProgressDialog();
     }
 }

@@ -6,7 +6,6 @@
 package com.philips.platform.dprdemo.ui;
 
 import android.content.Context;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.philips.platform.datasync.subjectProfile.UCoreSubjectProfile;
 import com.philips.platform.dprdemo.R;
@@ -23,20 +21,17 @@ import com.philips.platform.dprdemo.pojo.PairDevice;
 import com.philips.platform.dprdemo.pojo.SubjectProfile;
 import com.philips.platform.dprdemo.states.PairDeviceState;
 import com.philips.platform.dprdemo.states.StateContext;
-import com.philips.platform.dprdemo.utils.NetworkChangeListener;
 import com.philips.platform.dprdemo.utils.Utility;
 
 import java.util.List;
 
 public class CreateSubjectProfileFragment extends DevicePairingBaseFragment implements View.OnClickListener,
-        CreateSubjectProfileViewListener, NetworkChangeListener.INetworkChangeListener {
-    public static String TAG = CreateSubjectProfileFragment.class.getSimpleName();
+        ISubjectProfileListener {
     private View view;
     private EditText firstName, dob, gender, weight, creationDate;
     private Button createProfileButton;
     private PairDevice pairDevice;
     private IDevicePairingListener mDeviceStatusListener;
-    private NetworkChangeListener mNetworkChangeListener;
     private Context mContext;
 
     @Override
@@ -63,7 +58,6 @@ public class CreateSubjectProfileFragment extends DevicePairingBaseFragment impl
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.create_subject_profile_fragment, container, false);
-        mNetworkChangeListener = new NetworkChangeListener();
         setUpViews();
         createProfileButton.setOnClickListener(this);
         return view;
@@ -78,16 +72,11 @@ public class CreateSubjectProfileFragment extends DevicePairingBaseFragment impl
     @Override
     public void onPause() {
         super.onPause();
-        mNetworkChangeListener.removeListener(this);
-        mContext.unregisterReceiver(mNetworkChangeListener);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        mNetworkChangeListener.addListener(this);
-        mContext.registerReceiver(mNetworkChangeListener, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     private void setUpViews() {
@@ -119,11 +108,11 @@ public class CreateSubjectProfileFragment extends DevicePairingBaseFragment impl
     public void onClick(View v) {
         if (v.equals(createProfileButton)) {
             if (Utility.isOnline(mContext)) {
-                showProgressDialog("Creating Subject Profile");
+                showProgressDialog(getString(R.string.creating_profile));
                 CreateSubjectProfileFragmentPresenter createProfilePresenter = new CreateSubjectProfileFragmentPresenter(this);
                 createProfilePresenter.createProfile();
             } else {
-                showAlertDialog("Please check your connection and try again.");
+                showAlertDialog(getString(R.string.check_connection));
             }
         }
     }
@@ -156,21 +145,10 @@ public class CreateSubjectProfileFragment extends DevicePairingBaseFragment impl
     }
 
     @Override
-    public void showToastMessage() {
-        Toast.makeText(getActivity(), "Please check the values entered", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     public void onCreateSubjectProfile(List<UCoreSubjectProfile> list) {
         dismissProgressDialog();
-
-        getFragmentManager().popBackStack();
-        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-
-        StateContext stateContext = new StateContext();
-        stateContext.setState(new PairDeviceState(pairDevice,
-                list, mDeviceStatusListener, getActivity()));
-        stateContext.start();
+        removeCurrentFragment();
+        pairDevice(list);
     }
 
     @Override
@@ -183,6 +161,18 @@ public class CreateSubjectProfileFragment extends DevicePairingBaseFragment impl
 
             }
         });
+    }
 
+    @Override
+    public void onInvalidInput() {
+        showAlertDialog(getString(R.string.enter_valid_input));
+    }
+
+    private void pairDevice(List<UCoreSubjectProfile> list) {
+        showProgressDialog(getString(R.string.pairing_device));
+        StateContext stateContext = new StateContext();
+        stateContext.setState(new PairDeviceState(pairDevice,
+                list, mDeviceStatusListener, getActivity()));
+        stateContext.start();
     }
 }

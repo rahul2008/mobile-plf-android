@@ -15,9 +15,9 @@ import java.util.List;
 
 class CreateSubjectProfileFragmentPresenter implements SubjectProfileListener {
 
-    private CreateSubjectProfileViewListener subjectProfileViewListener;
+    private ISubjectProfileListener subjectProfileViewListener;
 
-    CreateSubjectProfileFragmentPresenter(CreateSubjectProfileViewListener subjectProfileViewListener) {
+    CreateSubjectProfileFragmentPresenter(ISubjectProfileListener subjectProfileViewListener) {
         this.subjectProfileViewListener = subjectProfileViewListener;
     }
 
@@ -30,7 +30,7 @@ class CreateSubjectProfileFragmentPresenter implements SubjectProfileListener {
                     subjectProfile.getWeight(),
                     subjectProfile.getCreationDate(), this);
         } else {
-            subjectProfileViewListener.showToastMessage();
+            subjectProfileViewListener.onInvalidInput();
         }
     }
 

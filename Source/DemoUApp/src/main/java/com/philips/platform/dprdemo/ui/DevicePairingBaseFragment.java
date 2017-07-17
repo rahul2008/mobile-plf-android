@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,7 @@ public abstract class DevicePairingBaseFragment extends Fragment implements Back
     private ProgressDialog mProgressDialog;
     private AlertDialog.Builder mAlertDialogBuilder;
     private AlertDialog mAlertDialog;
+    private NetworkChangeListener mNetworkChangeListener;
     private Context mContext;
 
     DevicePairingBaseFragment() {
@@ -41,6 +43,7 @@ public abstract class DevicePairingBaseFragment extends Fragment implements Back
     public abstract boolean getBackButtonState();
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mNetworkChangeListener = new NetworkChangeListener();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -61,6 +64,16 @@ public abstract class DevicePairingBaseFragment extends Fragment implements Back
     public void onResume() {
         super.onResume();
         setActionbarTitle();
+
+        mNetworkChangeListener.addListener(this);
+        mContext.registerReceiver(mNetworkChangeListener, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mNetworkChangeListener.removeListener(this);
+        mContext.unregisterReceiver(mNetworkChangeListener);
     }
 
     public void onStop() {
@@ -102,6 +115,11 @@ public abstract class DevicePairingBaseFragment extends Fragment implements Back
         }
     }
 
+    public void removeCurrentFragment(){
+        getFragmentManager().popBackStack();
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+    }
+
  /*   public boolean clearFragmentStack() {
         FragmentActivity activity = this.getActivity();
         try {
@@ -129,7 +147,7 @@ public abstract class DevicePairingBaseFragment extends Fragment implements Back
     @Override
     public void onConnectionLost() {
         dismissProgressDialog();
-        showAlertDialog("Please check your connection and try again.");
+        showAlertDialog(getString(R.string.check_connection));
     }
 
     public void showProgressDialog(final String message) {
@@ -152,12 +170,23 @@ public abstract class DevicePairingBaseFragment extends Fragment implements Back
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mProgressDialog != null && mProgressDialog.isShowing() && !(getActivity().isFinishing())) {
+                if (isProgressShowing() && !(getActivity().isFinishing())) {
                     mProgressDialog.dismiss();
                 }
 
             }
         });
+    }
+
+    public boolean isProgressShowing() {
+        return (mProgressDialog != null && mProgressDialog.isShowing());
+    }
+
+    public void clearProgressDialog() {
+        if (isProgressShowing() && !(getActivity().isFinishing())) {
+            mProgressDialog.dismiss();
+        }
+        mProgressDialog = null;
     }
 
     public void showAlertDialog(String message) {

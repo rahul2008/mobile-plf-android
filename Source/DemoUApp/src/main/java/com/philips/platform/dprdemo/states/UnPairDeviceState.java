@@ -20,7 +20,7 @@ public class UnPairDeviceState extends AbstractBaseState implements com.philips.
     private Activity mActivity;
 
     public UnPairDeviceState(String deviceID, IDevicePairingListener deviceStatusListener, Activity activity) {
-        super(activity);
+        super();
         mActivity = activity;
         mDeviceID = deviceID;
         mDeviceStatusListener = deviceStatusListener;
@@ -36,14 +36,11 @@ public class UnPairDeviceState extends AbstractBaseState implements com.philips.
     }
 
     private void unPairDevice() {
-        showProgressDialog("UnPairing device...");
         DataServicesManager.getInstance().unPairDevice(mDeviceID, this);
     }
 
     @Override
     public void onResponse(boolean b) {
-        dismissProgressDialog();
-
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -54,8 +51,6 @@ public class UnPairDeviceState extends AbstractBaseState implements com.philips.
 
     @Override
     public void onError(final DataServicesError dataServicesError) {
-        dismissProgressDialog();
-
         mActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
