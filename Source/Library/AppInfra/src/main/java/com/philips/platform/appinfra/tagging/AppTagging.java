@@ -44,11 +44,11 @@ import java.util.TimeZone;
  */
 public class AppTagging implements AppTaggingInterface {
 
-	public static final String PAGE_NAME = "ailPageName";
-	public static final String ACTION_NAME = "ailActionName";
-	public static final String ACTION_TAGGING_DATA = "ACTION_TAGGING_DATA";
-	public static final String EXTRA_TAGGING_DATA = "TAGGING_DATA";
-	private static final String AIL_PRIVACY_CONSENT = "ailPrivacyConsentForSensitiveData";
+	static final String PAGE_NAME = "ailPageName";
+	static final String ACTION_NAME = "ailActionName";
+	static final String ACTION_TAGGING_DATA = "ACTION_TAGGING_DATA";
+	static final String EXTRA_TAGGING_DATA = "TAGGING_DATA";
+	static final String AIL_PRIVACY_CONSENT = "ailPrivacyConsentForSensitiveData";
 	private static String prevPage;
 	private final AppInfra mAppInfra;
 	protected String mComponentID;
@@ -77,9 +77,8 @@ public class AppTagging implements AppTaggingInterface {
 				if (sslValue) {
 					mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_TAGGING,"ssl value true");
 					return sslValue;
-				} else {
-					if (!checkForProductionState())
-						throw new AssertionError("ssl value in ADBMobileConfig.json should be true");
+				} else if (!checkForProductionState()) {
+					throw new AssertionError("ssl value in ADBMobileConfig.json should be true");
 				}
 			}
 		} catch (JSONException e) {
@@ -194,7 +193,7 @@ public class AppTagging implements AppTaggingInterface {
 
 	private String getLanguage() {
 		if (mLanguage == null) {
-			String uiLocale = mAppInfra.getInternationalization().getUILocaleString();
+			final String uiLocale = mAppInfra.getInternationalization().getUILocaleString();
 			mLanguage = uiLocale.substring(0,2);
 			mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
 					AppInfraLogEventID.AI_TAGGING,"Tagging"+ mLanguage);
@@ -345,7 +344,7 @@ public class AppTagging implements AppTaggingInterface {
 			contextData.put(PAGE_NAME, pageName);
 			prevPage = pageName;
 		} else {
-			String event=pageName.replaceAll("\\s+","");
+			final String event=pageName.replaceAll("\\s+","");
 			if(event!=null &&  !event.isEmpty()){
 
 				if(event.getBytes().length>255)
@@ -484,7 +483,7 @@ public class AppTagging implements AppTaggingInterface {
 	 * @param data Map consists of Tagging Data
 	 */
 	private void sendBroadcast(final Map data) {
-		Intent intent = new Intent(ACTION_TAGGING_DATA);
+		final Intent intent = new Intent(ACTION_TAGGING_DATA);
 		intent.putExtra(EXTRA_TAGGING_DATA, (Serializable) data);
 		LocalBroadcastManager.getInstance(mAppInfra.getAppInfraContext())
 				.sendBroadcast(intent);
