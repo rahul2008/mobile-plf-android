@@ -155,7 +155,7 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
         test.add("1c5a6bfffecc9127");
         updateDiscoveredDevices(test);
 
-        if (!isProgressShowing()) {
+        if (isPairingFragmentVisible() && !isProgressShowing()) {
             showProgressDialog(getString(R.string.get_paired_device));
             StateContext mStateContext = new StateContext();
             mStateContext.setState(new GetPairedDevicesState(getActivity(), this));
