@@ -15,6 +15,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
+import com.philips.platform.ths.utility.THSManager;
 
 import java.util.Date;
 import java.util.List;
@@ -151,8 +152,8 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
             providerDetailsPresenter.onEvent(R.id.detailsButtonOne);
         }else if(i == R.id.detailsButtonTwo){
             providerDetailsPresenter.onEvent(R.id.detailsButtonTwo);
-        }else if(i == R.id.calendar_view){
-            providerDetailsPresenter.onEvent(R.id.calendar_view);
+        }else if(i == R.id.calendar_container){
+            providerDetailsPresenter.onEvent(R.id.calendar_container);
         }
     }
 }

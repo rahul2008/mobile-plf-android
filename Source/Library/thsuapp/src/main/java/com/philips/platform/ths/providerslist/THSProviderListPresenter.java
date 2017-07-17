@@ -9,11 +9,11 @@ import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.appointment.THSAvailableProviderFragment;
 import com.philips.platform.ths.appointment.THSDatePickerFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
-import com.philips.platform.ths.practice.THSPracticeList;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
@@ -111,7 +111,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         }else if(componentID == R.id.getScheduleAppointmentButton){
             Bundle bundle = new Bundle();
             bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,practice);
-            mThsBaseFragment.addFragment(new THSDatePickerFragment(),THSDatePickerFragment.TAG,bundle);
+            mThsBaseFragment.addFragment(new THSDatePickerFragment(), THSDatePickerFragment.TAG,bundle);
         }
     }
 

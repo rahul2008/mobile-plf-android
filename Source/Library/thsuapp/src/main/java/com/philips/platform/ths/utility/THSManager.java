@@ -32,6 +32,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.ValidationReason;
+import com.philips.platform.ths.appointment.THSAvailableProviderCallback;
 import com.philips.platform.ths.appointment.THSAvailableProviderList;
 import com.philips.platform.ths.appointment.THSAvailableProvidersBasedOnDateCallback;
 import com.philips.platform.ths.intake.THSConditions;
@@ -56,6 +57,7 @@ import com.philips.platform.ths.pharmacy.THSGetPharmaciesCallback;
 import com.philips.platform.ths.pharmacy.THSPreferredPharmacyCallback;
 import com.philips.platform.ths.pharmacy.THSUpdatePharmacyCallback;
 import com.philips.platform.ths.pharmacy.THSUpdateShippingAddressCallback;
+import com.philips.platform.ths.practice.THSPractice;
 import com.philips.platform.ths.practice.THSPracticeList;
 import com.philips.platform.ths.practice.THSPracticesListCallback;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsCallback;
@@ -357,8 +359,8 @@ public class THSManager {
 
     }
 
-    public void getProviderDetails(Context context, Consumer consumer, THSProviderInfo thsProviderInfo, final THSProviderDetailsCallback THSProviderDetailsCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getPracticeProvidersManager().getProvider(thsProviderInfo.getProviderInfo(), consumer, new SDKCallback<Provider, SDKError>() {
+    public void getProviderDetails(Context context, THSProviderInfo thsProviderInfo, final THSProviderDetailsCallback THSProviderDetailsCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getPracticeProvidersManager().getProvider(thsProviderInfo.getProviderInfo(), getPTHConsumer().getConsumer(), new SDKCallback<Provider, SDKError>() {
             @Override
             public void onResponse(Provider provider, SDKError sdkError) {
                 THSProviderDetailsCallback.onProviderDetailsReceived(provider,sdkError);
@@ -645,7 +647,6 @@ public class THSManager {
 
     }
 
-/*
     public void getProviderAvailability(Context context, ProviderInfo providerInfo, Date date, final THSAvailableProviderCallback thsAvailableProviderCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getPracticeProvidersManager().getProviderAvailability(getPTHConsumer().getConsumer(), providerInfo,
                 date, new SDKCallback<List<Date>, SDKError>() {
@@ -661,7 +662,7 @@ public class THSManager {
                 thsAvailableProviderCallback.onFailure(throwable);
             }
         });
-    }*/
+    }
 
     public List<HealthPlan> getHealthPlans(Context context){
         List<HealthPlan> healthplans = null;
@@ -693,5 +694,4 @@ public class THSManager {
                     }
                 });
     }
-
 }

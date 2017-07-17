@@ -69,7 +69,7 @@ public class THSProviderDetailsDisplayHelper {
         detailsButtonContinue.setOnClickListener(mOnClickListener);
 
         mTimeSlotContainer = (RelativeLayout) view.findViewById(R.id.calendar_container_view);
-        calendarView = view.findViewById(R.id.calendar_container_view);
+        calendarView = view.findViewById(R.id.calendar_container);
         calendarView.setOnClickListener(mOnClickListener);
     }
 
