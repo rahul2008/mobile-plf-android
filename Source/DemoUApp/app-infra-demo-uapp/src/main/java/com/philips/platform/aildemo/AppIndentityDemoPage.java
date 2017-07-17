@@ -23,10 +23,10 @@ public class AppIndentityDemoPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appidentity);
-        AppInfraInterface appInfra = AILDemouAppInterface.mAppInfra;
+        AppInfraInterface appInfra = AILDemouAppInterface.getInstance().getAppInfra();
         mAppIdentityInterface = appInfra.getAppIdentity();
         AppTaggingInterface mAppTaggingInterface;
-        mAppTaggingInterface = AILDemouAppInterface.mAppInfra.getTagging().createInstanceForComponent("AppIndentityID", "AppIndentityIDVersion");
+        mAppTaggingInterface = AILDemouAppInterface.getInstance().getAppInfra().getTagging().createInstanceForComponent("AppIndentityID", "AppIndentityIDVersion");
 
         mAppTaggingInterface.trackPageWithInfo("AppIndentityPageDemoPage", "AppIndentityKEy", "AppIndentityValue");
 

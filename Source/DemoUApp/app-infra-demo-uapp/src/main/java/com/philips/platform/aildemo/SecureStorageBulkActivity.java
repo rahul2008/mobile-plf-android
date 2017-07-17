@@ -51,7 +51,7 @@ public class SecureStorageBulkActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secure_storage_bulk);
         bulkTextView = (TextView) findViewById(R.id.bulk_txt);
-        appInfra = AILDemouAppInterface.mAppInfra;
+        appInfra = AILDemouAppInterface.getInstance().getAppInfra();
         mSecureStorage = appInfra.getSecureStorage();
     }
 

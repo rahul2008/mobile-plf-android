@@ -47,9 +47,6 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
     EditText idEditText;
     EditText idEditTextCountry;
     String editTextData;
-    private Button getUrl;
-    private Spinner requestTypeSpinner;
-
     String[] requestTypeOption = {"Get local by lang",
             "Get local by country",
             "Get url by lang",
@@ -63,14 +60,15 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
             "Get replaced Url by Language with multiple service id",
             "Refresh",
             "Get home country Synchronous"};
-
+    private Button getUrl;
+    private Spinner requestTypeSpinner;
     private HashMap<String, String> parameters;
     private HomeCountryUpdateReceiver receiver;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        appInfra = AILDemouAppInterface.mAppInfra;
+        appInfra = AILDemouAppInterface.getInstance().getAppInfra();
         mServiceDiscoveryInterface = appInfra.getServiceDiscovery();
         mOnGetServiceLocaleListener = this;
         mOnGetServiceUrlListener = this;

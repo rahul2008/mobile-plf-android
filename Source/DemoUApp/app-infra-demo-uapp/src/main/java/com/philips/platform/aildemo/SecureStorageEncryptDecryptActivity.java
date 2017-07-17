@@ -27,7 +27,7 @@ public class SecureStorageEncryptDecryptActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.secure_storage_encrypt_decrypt);
-        AppInfraInterface appInfra = AILDemouAppInterface.mAppInfra;
+        AppInfraInterface appInfra = AILDemouAppInterface.getInstance().getAppInfra();
         mSecureStorage = appInfra.getSecureStorage();
 
         final TextView textViewEncrypt = (TextView)findViewById(R.id.textViewEncrypted);
