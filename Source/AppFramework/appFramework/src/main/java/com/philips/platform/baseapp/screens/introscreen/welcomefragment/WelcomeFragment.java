@@ -158,6 +158,8 @@ public class WelcomeFragment extends AbstractOnboardingBaseFragment implements V
     public void onClick(View v) {
         if (presenter != null) {
             presenter.onEvent(v.getId());
+            // Fix for Bug 63728:Reference app crashed after the app has launched and we tap on skip button
+            v.setOnClickListener(null);
         }
     }
 
