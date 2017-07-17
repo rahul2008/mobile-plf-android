@@ -26,6 +26,7 @@ public class UIPickerFragment extends BaseFragment {
     private UIPicker listPopupWindow;
     public static final String SELECTED_LOCATION = "SELECTED_LOCATION";
     public final ObservableField<String> selectedLocation = new ObservableField<>("Alabama");
+    private ArrayAdapter adapter;
 
     private static final String[] STATES = new String[]{
             "Alabama",
@@ -58,7 +59,8 @@ public class UIPickerFragment extends BaseFragment {
         fragmentUiPickerBinding.setFrag(this);
 
         listPopupWindow = new UIPicker(getContext());
-        listPopupWindow.setAdapter(new ArrayAdapter<>(getContext(), R.layout.uipicker_item_text, STATES));
+        adapter = new ArrayAdapter<>(getContext(), R.layout.uipicker_item_text, STATES);
+        listPopupWindow.setAdapter(adapter);
         listPopupWindow.setAnchorView(fragmentUiPickerBinding.anchorLayout);
         listPopupWindow.setModal(true);
         //listPopupWindow.setHeight(600);
@@ -70,7 +72,9 @@ public class UIPickerFragment extends BaseFragment {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         selectedLocation.set(STATES[position]);
-                        listPopupWindow.dismiss();
+                        listPopupWindow.setSelection(position);
+                        adapter.notifyDataSetChanged();
+                        //listPopupWindow.dismiss();
                     }
                 }
         );
