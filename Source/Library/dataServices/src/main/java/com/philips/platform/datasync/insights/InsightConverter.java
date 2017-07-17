@@ -44,6 +44,8 @@ public class InsightConverter {
             for (UCoreInsight uCoreInsight : uCoreInsightList) {
 
                 Insight appInsight = dataCreator.createInsight();
+
+                if(appInsight==null)return appInsightList ;
                 appInsight.setGUId(uCoreInsight.getGuid());
                 appInsight.setLastModified(uCoreInsight.getLastModified());
                 appInsight.setInactive(uCoreInsight.isInactive());

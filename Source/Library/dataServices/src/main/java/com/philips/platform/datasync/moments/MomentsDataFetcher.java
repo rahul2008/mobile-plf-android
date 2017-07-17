@@ -79,8 +79,6 @@ public class MomentsDataFetcher extends DataFetcher {
 
                 List<UCoreMoment> uCoreMoments = momentsHistory.getUCoreMoments();
                 if (uCoreMoments == null || uCoreMoments.size() <= 0) {
-                    DSLog.i(DSLog.LOG, "DataPullSynchronize Moments fetch Success No change");
-                    eventing.post(new BackendMomentListSaveRequest(null, null));
                     return null;
                 }
                 DSLog.i(DSLog.LOG, "DataPullSynchronize Moments fetch Success before convert");
