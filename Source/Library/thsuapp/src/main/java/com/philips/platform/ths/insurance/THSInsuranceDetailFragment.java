@@ -7,13 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.EditText;
 
 /**
@@ -31,6 +34,8 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
     private Button detailSkipButton;
      THSHealthPlanListAdapter mTHSHealthPlanListAdapter;
     THSHealthPlan mTHSHealthPlan;
+    CheckBox mNotPrimarySubscriberCheckBox;
+    RelativeLayout mNotPrimarySubscriberRelativeLayout;
 
 
     @Nullable
@@ -38,7 +43,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_insurance_details, container, false);
         mPresenter = new THSInsuranceDetailPresenter(this);
-        insuranceSearchEditBox = (com.philips.platform.uid.view.widget.EditText)view.findViewById(R.id.pth_insurance_detail_provider_select_edit_text);
+        insuranceSearchEditBox = (com.philips.platform.uid.view.widget.EditText)view.findViewById(R.id.pth_insurance_detail_provider_select_insurance_edit_text);
         insuranceSearchEditBox.setOnClickListener(this);
         mHealPlanListView=(ListView) view.findViewById(R.id.pth_insurance_detail_provider_listview);
         mHealPlanListView.setOnItemClickListener(this);
@@ -48,6 +53,18 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
         detailContinueButton.setOnClickListener(this);
         detailSkipButton= (Button)view.findViewById(R.id.pth_insurance_detail_skip_button);
         detailSkipButton.setOnClickListener(this);
+        mNotPrimarySubscriberRelativeLayout=(RelativeLayout) view.findViewById(R.id.ths_insurance_detail_relationship_relative_layout);
+        mNotPrimarySubscriberCheckBox = (CheckBox)view.findViewById(R.id.pth_insurance_detail_is_primary_subscriber_checkbox);
+        mNotPrimarySubscriberCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    mNotPrimarySubscriberRelativeLayout.setVisibility(View.VISIBLE);
+                }else{
+                    mNotPrimarySubscriberRelativeLayout.setVisibility(View.GONE);
+                }
+            }
+        });
         return view;
     }
 
@@ -82,7 +99,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
      */
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.pth_insurance_detail_provider_select_edit_text){
+        if(view.getId() == R.id.pth_insurance_detail_provider_select_insurance_edit_text){
             if(mHealPlanListView.getVisibility()==View.GONE) {
                 mHealPlanListView.setVisibility(View.VISIBLE);
             }else{

@@ -1,9 +1,13 @@
 package com.philips.platform.ths.intake;
 
 import com.americanwell.sdk.AWSDK;
+import com.americanwell.sdk.entity.consumer.Consumer;
+import com.americanwell.sdk.manager.ConsumerManager;
 import com.philips.platform.ths.CustomRobolectricRunnerAmwel;
 import com.philips.platform.ths.activity.THSLaunchActivity;
+import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,8 +19,13 @@ import org.robolectric.Robolectric;
 import org.robolectric.shadows.ShadowLog;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.when;
+
 @RunWith(CustomRobolectricRunnerAmwel.class)
 public class THSFollowUpFragmentTest {
+
+    THSFollowUpFragmentTestMock tHSFollowUpFragment;
 
     private THSLaunchActivity mActivity;
     private THSFollowUpFragment mTHSFollowUpFragment;
@@ -25,22 +34,36 @@ public class THSFollowUpFragmentTest {
     @Mock
     AWSDK awsdkMock;
 
+    @Mock
+    THSConsumer pthConsumer;
+
+    @Mock
+    Consumer consumerMock;
+
+    @Mock
+    ActionBarListener actionBarListenerMock;
+
+    @Mock
+    ConsumerManager consumerManagerMock;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         ShadowLog.stream = System.out;
         THSManager.getInstance().setAwsdk(awsdkMock);
-        mActivity = Robolectric.buildActivity(THSLaunchActivity.class).create().get();
-        Assert.assertNotNull(mActivity);
-        mTHSFollowUpFragment = new THSFollowUpFragment();
-        Assert.assertNotNull(mTHSFollowUpFragment);
+        tHSFollowUpFragment = new THSFollowUpFragmentTestMock();
+        tHSFollowUpFragment.setActionBarListener(actionBarListenerMock);
+
+        when(pthConsumer.getConsumer()).thenReturn(consumerMock);
+        when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
+
+
     }
 
-    @Test
-    public void getFragmentActivity() throws Exception {
-        SupportFragmentTestUtil.startFragment(mTHSFollowUpFragment);
-        Assert.assertNotNull(mTHSFollowUpFragment.getFragmentActivity());
 
+    public void onActivityCreatedTest(){
+        SupportFragmentTestUtil.startFragment(tHSFollowUpFragment);
+        assertNotNull(pthConsumer.getConsumer().getPhone());
     }
 
 

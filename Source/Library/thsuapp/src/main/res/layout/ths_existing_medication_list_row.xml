@@ -22,7 +22,7 @@
         android:layout_alignBottom="@+id/pth_existing_medication_list_row_label"
         android:layout_width="wrap_content"
         android:layout_height="?android:attr/listPreferredItemHeight"
-        android:src="@android:drawable/ic_delete"
+        android:src="@mipmap/cross_icon"
         android:layout_alignParentRight="true"
         />
 

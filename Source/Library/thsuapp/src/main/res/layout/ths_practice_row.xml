@@ -14,6 +14,7 @@
         android:id="@+id/pth_practice_logo"
         android:layout_width="@dimen/pth_image_width"
         android:layout_height="@dimen/pth_image_height"
+        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true" />
 
     <com.philips.platform.uid.view.widget.Label
@@ -22,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/pth_practice_logo"
+        android:layout_toLeftOf="@+id/ths_practice_arrow_image"
         android:lineSpacingExtra="@dimen/pth_body_text_line_spacing_extra"
         android:maxLines="3"
         android:paddingLeft="15dp"
@@ -34,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="?android:attr/listPreferredItemHeight"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:gravity="center_vertical"
         android:src="@mipmap/right_arrow_icon"></ImageView>
 
