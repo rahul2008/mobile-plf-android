@@ -66,7 +66,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         OnClickListener {
 
     private static String TAG = ProductDetailsFragment.class.getSimpleName();
-    private static ImageView mProductImageTablet = null;
+    private ImageView mProductImageTablet = null;
     private static int mSmallerResolution = 0;
     private static boolean isTablet = false;
     private static int mHeight = 0;
