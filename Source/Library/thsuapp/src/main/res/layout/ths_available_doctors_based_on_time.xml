@@ -27,14 +27,16 @@
         android:id="@+id/separator"
         />
 
-    <include layout="@layout/calender_layout"
+    <include
+        android:id="@+id/calendar_view"
+        layout="@layout/calender_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/separator"
         />
 
     <View android:background="@color/uid_gray_level_5"
-        android:layout_below="@+id/calendar_container"
+        android:layout_below="@+id/calendar_view"
         android:layout_width = "match_parent"
         android:layout_height="1dp"
         android:id="@+id/separator_below_date"

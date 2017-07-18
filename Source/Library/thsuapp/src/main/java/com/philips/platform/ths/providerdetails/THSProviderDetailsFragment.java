@@ -15,6 +15,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
+import com.philips.platform.ths.utility.THSManager;
 
 import java.util.Date;
 import java.util.List;
@@ -31,13 +32,15 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     private Practice mPractice;
     THSProviderDetailsDisplayHelper mThsProviderDetailsDisplayHelper;
 
+    Provider mProvider;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_provider_details_fragment, container, false);
 
-        mThsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(),this,this,this, this);
-        mThsProviderDetailsDisplayHelper.setViews(view);
+        mThsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(),this,this,this, this,view);
+      //  mThsProviderDetailsDisplayHelper.setViews(view);
 
         providerDetailsPresenter = new THSProviderDetailsPresenter(this, this);
         return view;
@@ -49,7 +52,8 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
      */
     @Override
     public void updateView(Provider provider) {
-        mThsProviderDetailsDisplayHelper.updateView(provider);
+        setProvider(provider);
+        mThsProviderDetailsDisplayHelper.updateView(provider,null);
     }
 
 
@@ -87,6 +91,16 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
 
     }
 
+    public  THSProviderEntity getProviderEntitiy(){
+        if (mThsProviderInfo != null) {
+            return mThsProviderInfo;
+        } else if (mThsAvailableProvider != null) {
+            return mThsAvailableProvider;
+        } else {
+            return null;
+        }
+    }
+
     @Override
     public THSProviderInfo getTHSProviderInfo() {
         if (mThsProviderInfo != null) {
@@ -113,13 +127,6 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     @Override
     public void dismissRefreshLayout(){
         mThsProviderDetailsDisplayHelper.dismissRefreshLayout();
-    }
-
-    @Override
-    public List<Date> getAppointmentTimeSlots() {
-        if (mThsAvailableProvider != null)
-            return mThsAvailableProvider.getAvailableAppointmentTimeSlots();
-        return null;
     }
 
     @Override
@@ -152,5 +159,14 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         }else if(i == R.id.detailsButtonTwo){
             providerDetailsPresenter.onEvent(R.id.detailsButtonTwo);
         }
+    }
+
+    @Override
+    public Provider getProvider() {
+        return mProvider;
+    }
+
+    public void setProvider(Provider mProvider) {
+        this.mProvider = mProvider;
     }
 }

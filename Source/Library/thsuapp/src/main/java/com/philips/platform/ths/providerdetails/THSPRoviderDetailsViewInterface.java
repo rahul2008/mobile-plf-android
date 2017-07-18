@@ -20,6 +20,6 @@ public interface THSPRoviderDetailsViewInterface {
     Consumer getConsumerInfo();
     void updateView(Provider provider);
     void dismissRefreshLayout();
-    List<Date> getAppointmentTimeSlots();
     String getFragmentTag();
+    Provider getProvider();
 }

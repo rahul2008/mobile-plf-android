@@ -13,7 +13,6 @@ import com.philips.platform.ths.appointment.THSDatePickerFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
-import com.philips.platform.ths.practice.THSPracticeList;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
@@ -52,13 +51,17 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         if(providerAvailable){
             ((THSProvidersListFragment) mThsBaseFragment).btn_get_started.setVisibility(View.VISIBLE);
             ((THSProvidersListFragment) mThsBaseFragment).btn_schedule_appointment.setVisibility(View.GONE);
-            ((THSProvidersListFragment) mThsBaseFragment).btn_get_started.setText((mThsBaseFragment).
-                    getContext().getString(R.string.get_started));
+            if (mThsBaseFragment.getContext() != null) {
+                ((THSProvidersListFragment) mThsBaseFragment).btn_get_started.setText((mThsBaseFragment).
+                        getContext().getString(R.string.get_started));
+            }
         }else {
             ((THSProvidersListFragment) mThsBaseFragment).btn_schedule_appointment.setVisibility(View.VISIBLE);
             ((THSProvidersListFragment) mThsBaseFragment).btn_get_started.setVisibility(View.GONE);
-            ((THSProvidersListFragment) mThsBaseFragment).btn_schedule_appointment.setText((mThsBaseFragment).
-                    getContext().getString(R.string.schedule_appointment));
+            if (mThsBaseFragment.getContext() != null) {
+                ((THSProvidersListFragment) mThsBaseFragment).btn_schedule_appointment.setText((mThsBaseFragment).
+                        getContext().getString(R.string.schedule_appointment));
+            }
         }
         THSProviderListViewInterface.updateProviderAdapterList(providerInfoList);
     }
@@ -111,7 +114,8 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         }else if(componentID == R.id.getScheduleAppointmentButton){
             Bundle bundle = new Bundle();
             bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,practice);
-            mThsBaseFragment.addFragment(new THSDatePickerFragment(),THSDatePickerFragment.TAG,bundle);
+            bundle.putBoolean(THSConstants.THS_IS_DETAILS,false);
+            mThsBaseFragment.addFragment(new THSDatePickerFragment(), THSDatePickerFragment.TAG,bundle);
         }
     }
 

@@ -2,9 +2,12 @@ package com.philips.platform.ths.appointment;
 
 import android.os.Bundle;
 
+import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.practice.THSPractice;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSConstants;
@@ -21,7 +24,11 @@ public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePres
 
     @Override
     public void onEvent(int componentID) {
-
+        if(componentID == R.id.calendar_view){
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,((THSAvailableProviderListBasedOnDateFragment)mThsBaseFragment).getPractice());
+            mThsBaseFragment.addFragment(new THSDatePickerFragment(),THSDatePickerFragment.TAG,bundle);
+        }
     }
 
     @Override
@@ -42,12 +49,13 @@ public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePres
 
     }
 
-    public void startTimePickFragment(THSProviderEntity thsProviderInfo, Date date) {
+    public void startTimePickFragment(THSProviderEntity thsProviderInfo, Date date, Practice practice) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY,thsProviderInfo);
         bundle.putSerializable(THSConstants.THS_DATE,date);
-        THSPickTimeFragment fragment = new THSPickTimeFragment();
+        bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,practice);
+        THSAvailableProviderDetailFragment fragment = new THSAvailableProviderDetailFragment();
         fragment.setTHSProviderEntity(thsProviderInfo);
-        mThsBaseFragment.addFragment(fragment,THSPickTimeFragment.TAG,bundle);
+        mThsBaseFragment.addFragment(fragment, THSAvailableProviderDetailFragment.TAG,bundle);
     }
 }

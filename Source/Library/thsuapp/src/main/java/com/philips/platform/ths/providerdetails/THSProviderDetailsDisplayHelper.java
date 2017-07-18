@@ -10,12 +10,13 @@ import com.americanwell.sdk.entity.Language;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.appointment.THSPickTimeFragment;
+import com.philips.platform.ths.appointment.THSAvailableProviderDetailFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RatingBar;
 
+import java.util.Date;
 import java.util.List;
 
 public class THSProviderDetailsDisplayHelper {
@@ -31,17 +32,19 @@ public class THSProviderDetailsDisplayHelper {
     RelativeLayout mTimeSlotContainer;
     THSExpandableHeightGridView gridView;
     protected SwipeRefreshLayout swipeRefreshLayout;
+    View calendarView;
     THSBaseFragment thsBaseFragment;
 
-    THSProviderDetailsDisplayHelper(Context context, View.OnClickListener onClickListener,
+    public THSProviderDetailsDisplayHelper(Context context, View.OnClickListener onClickListener,
                                     SwipeRefreshLayout.OnRefreshListener onRefreshListener,
                                     THSPRoviderDetailsViewInterface thspRoviderDetailsViewInterface,
-                                    THSBaseFragment thsBaseFragment){
+                                    THSBaseFragment thsBaseFragment,View view){
         mOnClickListener = onClickListener;
         mContext = context;
         mOnRefreshListener = onRefreshListener;
         mThsPRoviderDetailsViewInterface = thspRoviderDetailsViewInterface;
         this.thsBaseFragment = thsBaseFragment;
+        setViews(view);
     }
 
     void setViews(View view) {
@@ -68,9 +71,11 @@ public class THSProviderDetailsDisplayHelper {
         detailsButtonContinue.setOnClickListener(mOnClickListener);
 
         mTimeSlotContainer = (RelativeLayout) view.findViewById(R.id.calendar_container_view);
+        calendarView = view.findViewById(R.id.calendar_container);
+        calendarView.setOnClickListener(mOnClickListener);
     }
 
-    void updateView(Provider provider){
+    public void updateView(Provider provider,List<Date> dates){
         providerName.setText(provider.getFullName());
         swipeRefreshLayout.setRefreshing(false);
         providerRating.setRating(provider.getRating());
@@ -80,15 +85,15 @@ public class THSProviderDetailsDisplayHelper {
         aboutMeValueLabel.setText(provider.getTextGreeting());
         practiceName.setText(provider.getSpecialty().getName());
         checkAvailability(provider);
-        updateViewBasedOnType(provider);
+        updateViewBasedOnType(provider,dates);
     }
 
-    public void updateViewBasedOnType(Provider provider) {
+    public void updateViewBasedOnType(Provider provider,List<Date> dates) {
 
-        if(mThsPRoviderDetailsViewInterface.getFragmentTag()!=null && mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSPickTimeFragment.TAG)){
+        if(dates!=null){
             mTimeSlotContainer.setVisibility(View.VISIBLE);
-            isAvailable.setText(""+mThsPRoviderDetailsViewInterface.getAppointmentTimeSlots().size() + " " + "Available time slots");
-            setAppointmentsToView();
+            isAvailable.setText(""+dates.size() + " " + "Available time slots");
+            setAppointmentsToView(dates);
         }else {
             detailsButtonContinue.setVisibility(View.GONE);
             mTimeSlotContainer.setVisibility(View.GONE);
@@ -118,7 +123,7 @@ public class THSProviderDetailsDisplayHelper {
         }
         else if(ProviderVisibility.isVideoAvailable(provider.getVisibility())){
             isAvailableImage.setVisibility(ImageView.VISIBLE);
-            if(mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSPickTimeFragment.TAG)){
+            if(mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG)){
                 setButtonVisibilityForAvailableProvider();
             }else {
                 detailsButtonOne.setVisibility(Button.VISIBLE);
@@ -129,7 +134,7 @@ public class THSProviderDetailsDisplayHelper {
             }
         }else if(ProviderVisibility.isOffline(provider.getVisibility())){
             isAvailableImage.setVisibility(ImageView.GONE);
-            if(mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSPickTimeFragment.TAG)){
+            if(mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG)){
                 setButtonVisibilityForAvailableProvider();
             }else {
                 detailsButtonOne.setVisibility(Button.GONE);
@@ -140,7 +145,7 @@ public class THSProviderDetailsDisplayHelper {
     }
 
     private boolean isAvailableProviderData() {
-        return mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSPickTimeFragment.TAG);
+        return mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG);
     }
 
     private void setButtonVisibilityForAvailableProvider() {
@@ -149,9 +154,9 @@ public class THSProviderDetailsDisplayHelper {
         detailsButtonContinue.setVisibility(View.VISIBLE);
     }
 
-    private void setAppointmentsToView() {
+    private void setAppointmentsToView(List<Date> dates) {
         THSAppointmentGridAdapter itemsAdapter =
-                new THSAppointmentGridAdapter(mContext, mThsPRoviderDetailsViewInterface.getAppointmentTimeSlots(),
+                new THSAppointmentGridAdapter(mContext, dates,
                         thsBaseFragment,mThsPRoviderDetailsViewInterface.getTHSProviderInfo());
         gridView.setAdapter(itemsAdapter);
         gridView.setExpanded(true);
