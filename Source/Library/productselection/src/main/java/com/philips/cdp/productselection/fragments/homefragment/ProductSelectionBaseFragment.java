@@ -57,8 +57,8 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
     private static String mPreviousPageName = null;
     private static int mEnterAnimation = 0;
     private static int mExitAnimation = 0;
-    private static FragmentActivity mFragmentActivityContext = null;
-    private static FragmentActivity mActivityContext = null;
+    private FragmentActivity mFragmentActivityContext = null;
+    private FragmentActivity mActivityContext = null;
     private static String FRAGMENT_TAG_NAME = "productselection";
     private static Boolean mListViewRequired = true;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
@@ -319,7 +319,7 @@ public abstract class ProductSelectionBaseFragment extends Fragment implements
 
         if (mContainerId != 0) {
             containerId = mContainerId;
-            mFragmentActivityContext = mActivityContext;
+            mFragmentActivityContext = getActivity();
         } else {
             InputMethodManager imm = (InputMethodManager) mFragmentActivityContext
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
