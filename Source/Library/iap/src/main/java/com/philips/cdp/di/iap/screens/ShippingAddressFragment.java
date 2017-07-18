@@ -156,7 +156,6 @@ public class ShippingAddressFragment extends InAppBaseFragment
         mlLState = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_state);
         mLlEmail = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_email);
         mLlPhone1 = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_phone1);
-        //mLlPhone2 = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_phone2);
 
         mTvSalutation = (TextView) mInlineFormsParent.findViewById(R.id.tv_salutation);
         mTvFirstName = (TextView) mInlineFormsParent.findViewById(R.id.tv_first_name);
@@ -169,7 +168,6 @@ public class ShippingAddressFragment extends InAppBaseFragment
         mTvState = (TextView) mInlineFormsParent.findViewById(R.id.tv_state);
         mTvEmail = (TextView) mInlineFormsParent.findViewById(R.id.tv_email);
         mTvPhone1 = (TextView) mInlineFormsParent.findViewById(R.id.tv_phone1);
-        // mTvPhone2 = (TextView) mInlineFormsParent.findViewById(R.id.tv_phone2);
 
         mEtFirstName = (EditText) mInlineFormsParent.findViewById(R.id.et_first_name);
         mEtLastName = (EditText) mInlineFormsParent.findViewById(R.id.et_last_name);
@@ -182,7 +180,6 @@ public class ShippingAddressFragment extends InAppBaseFragment
         mEtState = (EditText) mInlineFormsParent.findViewById(R.id.et_state);
         mEtEmail = (EditText) mInlineFormsParent.findViewById(R.id.et_email);
         mEtPhone1 = (EditText) mInlineFormsParent.findViewById(R.id.et_phone1);
-        //  mEtPhone2 = (EditText) mInlineFormsParent.findViewById(R.id.et_phone2);
 
         mEtPostalCode.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         mEtSalutation.setKeyListener(null);
@@ -217,7 +214,6 @@ public class ShippingAddressFragment extends InAppBaseFragment
         mEtCountry.addTextChangedListener(new IAPTextWatcher(mEtCountry));
         mEtEmail.addTextChangedListener(new IAPTextWatcher(mEtEmail));
         mEtPhone1.addTextChangedListener(new IAPTextWatcher(mEtPhone1));
-        // mEtPhone2.addTextChangedListener(new IAPTextWatcher(mEtPhone2));
 
         mEtState.addTextChangedListener(new IAPTextWatcher(mEtState));
         mEtSalutation.addTextChangedListener(new IAPTextWatcher(mEtSalutation));
@@ -415,7 +411,6 @@ public class ShippingAddressFragment extends InAppBaseFragment
         String addressLineTwo = mEtAddressLineTwo.getText().toString();
         String postalCode = mEtPostalCode.getText().toString().replaceAll(" ", "");
         String phone1 = mEtPhone1.getText().toString().replaceAll(" ", "");
-        //  String phone2 = mEtPhone2.getText().toString().replaceAll(" ", "");
         String town = mEtTown.getText().toString();
         String country = mEtCountry.getText().toString();
         String email = mEtEmail.getText().toString();
@@ -458,11 +453,6 @@ public class ShippingAddressFragment extends InAppBaseFragment
                     , mEtPhone1.getText().toString());
             errorMessage = getResources().getString(R.string.iap_phone_error);
         }
-//        if (editText.getId() == R.id.et_phone2 && !hasFocus) {
-//            result = validatePhoneNumber(mEtPhone2, HybrisDelegate.getInstance().getStore().getCountry()
-//                    , mEtPhone2.getText().toString());
-//            errorMessage = getResources().getString(R.string.iap_phone_error);
-//        }
         if (editText.getId() == R.id.et_country && !hasFocus) {
             result = mValidator.isValidCountry(mEtCountry.getText().toString());
             errorMessage = getResources().getString(R.string.iap_country_error);

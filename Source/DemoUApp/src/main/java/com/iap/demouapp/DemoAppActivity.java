@@ -295,11 +295,11 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mPurchaseHistory.setEnabled(true);
             mBuyDirect.setVisibility(View.VISIBLE);
             mShoppingCart.setVisibility(View.VISIBLE);
-        } else {
+        } /*else {
             mPurchaseHistory.setVisibility(View.GONE);
             mBuyDirect.setVisibility(View.GONE);
             mShoppingCart.setVisibility(View.GONE);
-        }
+        }*/
     }
 
     private void hideViews() {
@@ -410,7 +410,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mCountText.setVisibility(View.VISIBLE);
         } else {
             mShoppingCart.setVisibility(View.INVISIBLE);
-            mCountText.setVisibility(View.INVISIBLE);
+            mCountText.setVisibility(View.GONE);
         }
     }
 

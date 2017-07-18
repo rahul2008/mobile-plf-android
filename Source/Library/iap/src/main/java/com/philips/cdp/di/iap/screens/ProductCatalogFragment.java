@@ -205,24 +205,25 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private void fetchProductList() {
         if (!isProgressDialogShowing()) {
             showProgressDialog(mContext, getString(R.string.iap_please_wait));
-        }
 
-        if (mPresenter == null)
-            mPresenter = ControllerFactory.getInstance().
-                    getProductCatalogPresenter(mContext, this);
 
-        if (!mPresenter.getProductCatalog(mCurrentPage++, PAGE_SIZE, null)) {
-            mIsProductsAvailable = false;
-            dismissProgress();
+            if (mPresenter == null)
+                mPresenter = ControllerFactory.getInstance().
+                        getProductCatalogPresenter(mContext, this);
+
+            if (!mPresenter.getProductCatalog(mCurrentPage++, PAGE_SIZE, null)) {
+                mIsProductsAvailable = false;
+                dismissProgressDialog();
+            }
         }
     }
 
     private void loadMoreItems() {
         if (mCurrentPage == mTotalPages) {
-            dismissProgress();
+            dismissProgressDialog();
             return;
-        }
-        fetchProductList();
+        } else
+            fetchProductList();
     }
 
     @Override
@@ -233,7 +234,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mAdapter.tagProducts();
 
         mIapListener.onSuccess();
-        dismissProgress();
+        dismissProgressDialog();
 
         if (paginationEntity == null)
             return;
@@ -267,7 +268,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         }
 
         mIapListener.onFailure(error.getIAPErrorCode());
-        dismissProgress();
+        dismissProgressDialog();
     }
 
     private void updateProductCatalogList(final ArrayList<ProductCatalogData> dataFetched) {
@@ -317,9 +318,9 @@ public class ProductCatalogFragment extends InAppBaseFragment
         }
     };
 
-    private void dismissProgress() {
-        if (isProgressDialogShowing()) {
-            dismissProgressDialog();
-        }
-    }
+//    private void dismissProgress() {
+//        if (isProgressDialogShowing()) {
+//            dismissProgressDialog();
+//        }
+//    }
 }

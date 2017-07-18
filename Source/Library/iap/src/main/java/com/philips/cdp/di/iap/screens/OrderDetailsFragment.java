@@ -282,12 +282,12 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
         if (detail.getDeliveryAddress() != null) {
             mDeliveryName.setText(detail.getDeliveryAddress().getFirstName() + " " + detail.getDeliveryAddress().getLastName());
-            mDeliveryAddress.setText(Utility.formatAddress(detail.getDeliveryAddress().getFormattedAddress()));
+            mDeliveryAddress.setText(Utility.formatAddress(detail.getDeliveryAddress().getFormattedAddress()) + "\n" + detail.getDeliveryAddress().getCountry().getName());
         }
         if (detail.getPaymentInfo() != null) {
             if (detail.getPaymentInfo().getBillingAddress() != null) {
                 mBillingName.setText(detail.getPaymentInfo().getBillingAddress().getFirstName() + " " + detail.getPaymentInfo().getBillingAddress().getLastName());
-                mBillingAddress.setText(Utility.formatAddress(detail.getPaymentInfo().getBillingAddress().getFormattedAddress()));
+                mBillingAddress.setText(Utility.formatAddress(detail.getPaymentInfo().getBillingAddress().getFormattedAddress()) + "\n" + detail.getDeliveryAddress().getCountry().getName());
             }
             if (detail.getPaymentInfo().getCardType() != null) {
                 mPaymentCardType.setText(detail.getPaymentInfo().getCardType().getCode() + " " + detail.getPaymentInfo().getCardNumber());

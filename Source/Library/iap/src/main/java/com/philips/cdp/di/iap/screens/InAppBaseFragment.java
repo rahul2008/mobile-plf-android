@@ -42,6 +42,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
         @Override
         public void onSuccess(final int count) {
             updateCount(count);
+            dismissProgressDialog();
         }
 
         @Override
