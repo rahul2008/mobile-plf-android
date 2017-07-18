@@ -6,7 +6,11 @@ package com.philips.platform.ths.insurance;
 
 public interface THSInsuranceCallback {
 
+    interface THSSDKCallBack <THSSubscription, THSSDKError>{
+        void onResponse (THSSubscription tHSSubscription, THSSDKError tHSSDKError);
+        void onFailure(Throwable throwable);
 
+    }
 
 
 }

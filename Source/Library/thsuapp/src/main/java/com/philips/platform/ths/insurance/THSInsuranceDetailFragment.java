@@ -1,16 +1,25 @@
 package com.philips.platform.ths.insurance;
 
+import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+
+
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.americanwell.sdk.entity.insurance.HealthPlan;
+import com.americanwell.sdk.entity.insurance.Relationship;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -19,23 +28,48 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.EditText;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by philips on 7/11/17.
  */
 
-public class THSInsuranceDetailFragment extends THSBaseFragment implements BackEventListener , View.OnClickListener, AdapterView.OnItemClickListener{
+public class THSInsuranceDetailFragment extends THSBaseFragment implements BackEventListener, View.OnClickListener {
     public static final String TAG = THSInsuranceDetailFragment.class.getSimpleName();
     private ActionBarListener actionBarListener;
     private THSInsuranceDetailPresenter mPresenter;
-    private EditText insuranceSearchEditBox;
-    private EditText subscriptionIDEditBox;
-     ListView mHealPlanListView;
+     EditText insuranceEditBox;
+     EditText subscriptionIDEditBox;
+
+     EditText relationshipEditBox;
+     EditText firstNameEditBox;
+     EditText lastNameEditBox;
+     EditText relationDOBEditBox;
+    ListView mHealPlanListView;
+    AlertDialog.Builder mAlertDialog;
+    THSSubscription thsSubscriptionExisting;
+
+
     private Button detailContinueButton;
     private Button detailSkipButton;
-     THSHealthPlanListAdapter mTHSHealthPlanListAdapter;
-    THSHealthPlan mTHSHealthPlan;
+    THSHealthPlanListAdapter mTHSHealthPlanListAdapter;
+    THSSubscriberRelationshipListAdapter mTHSSubscriberRelationshipListAdapter;
     CheckBox mNotPrimarySubscriberCheckBox;
     RelativeLayout mNotPrimarySubscriberRelativeLayout;
+
+
+
+    /// editable fields
+    THSHealthPlan mTHSHealthPlanList;
+    THSRelationship mTHSRelationshipList;
+    HealthPlan mHealthPlan;
+    Relationship mInsuranceRelationship;
+
+
+
 
 
     @Nullable
@@ -43,42 +77,68 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_insurance_details, container, false);
         mPresenter = new THSInsuranceDetailPresenter(this);
-        insuranceSearchEditBox = (com.philips.platform.uid.view.widget.EditText)view.findViewById(R.id.pth_insurance_detail_provider_select_insurance_edit_text);
-        insuranceSearchEditBox.setOnClickListener(this);
-        mHealPlanListView=(ListView) view.findViewById(R.id.pth_insurance_detail_provider_listview);
-        mHealPlanListView.setOnItemClickListener(this);
-        subscriptionIDEditBox = (com.philips.platform.uid.view.widget.EditText)view.findViewById(R.id.pth_insurance_detail_subscription_edit_text);
-        //subscriptionIDEditBox.setOnClickListener(this);
-        detailContinueButton= (Button)view.findViewById(R.id.pth_insurance_detail_continue_button);
+
+
+        //AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        /////////
+
+        mAlertDialog = new AlertDialog.Builder(getActivity());
+
+        View convertView = (View) inflater.inflate(R.layout.ths_list, null);
+        //mAlertDialog.setContentView(convertView);
+
+        mHealPlanListView = (ListView) convertView.findViewById(R.id.ths_listView);
+
+        /////////
+        insuranceEditBox = (com.philips.platform.uid.view.widget.EditText) view.findViewById(R.id.ths_insurance_detail_provider_select_insurance_edit_text);
+        insuranceEditBox.setOnClickListener(this);
+        relationshipEditBox = (com.philips.platform.uid.view.widget.EditText) view.findViewById(R.id.ths_insurance_detail_provider_select_relation_edit_text);
+        relationshipEditBox.setOnClickListener(this);
+        firstNameEditBox = (com.philips.platform.uid.view.widget.EditText) view.findViewById(R.id.ths_insurance_detail_provider_relation_firstname_edittext);
+        firstNameEditBox.setOnClickListener(this);
+        lastNameEditBox = (com.philips.platform.uid.view.widget.EditText) view.findViewById(R.id.ths_insurance_detail_provider_relation_lastname_edittext);
+        lastNameEditBox.setOnClickListener(this);
+        relationDOBEditBox = (com.philips.platform.uid.view.widget.EditText) view.findViewById(R.id.ths_insurance_detail_provider_relation_dob_edittext);
+        relationDOBEditBox.setOnClickListener(this);
+
+        subscriptionIDEditBox = (com.philips.platform.uid.view.widget.EditText) view.findViewById(R.id.ths_insurance_detail_subscription_edit_text);
+
+        detailContinueButton = (Button) view.findViewById(R.id.ths_insurance_detail_continue_button);
         detailContinueButton.setOnClickListener(this);
-        detailSkipButton= (Button)view.findViewById(R.id.pth_insurance_detail_skip_button);
+        detailSkipButton = (Button) view.findViewById(R.id.ths_insurance_detail_skip_button);
         detailSkipButton.setOnClickListener(this);
-        mNotPrimarySubscriberRelativeLayout=(RelativeLayout) view.findViewById(R.id.ths_insurance_detail_relationship_relative_layout);
-        mNotPrimarySubscriberCheckBox = (CheckBox)view.findViewById(R.id.pth_insurance_detail_is_primary_subscriber_checkbox);
+        mNotPrimarySubscriberRelativeLayout = (RelativeLayout) view.findViewById(R.id.ths_insurance_detail_relationship_relative_layout);
+        mNotPrimarySubscriberCheckBox = (CheckBox) view.findViewById(R.id.ths_insurance_detail_is_primary_subscriber_checkbox);
         mNotPrimarySubscriberCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     mNotPrimarySubscriberRelativeLayout.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     mNotPrimarySubscriberRelativeLayout.setVisibility(View.GONE);
                 }
             }
         });
+        //mPresenter.getCurrentSubscription();
+
         return view;
+
+
     }
+
 
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         actionBarListener = getActionBarListener();
-        mTHSHealthPlan =  ((THSInsuranceDetailPresenter)mPresenter).fetchHealthPlanList();
-        mTHSHealthPlanListAdapter= new THSHealthPlanListAdapter(getActivity(),mTHSHealthPlan);
-        mHealPlanListView.setAdapter(mTHSHealthPlanListAdapter);
-
+        mTHSHealthPlanList = ((THSInsuranceDetailPresenter) mPresenter).fetchHealthPlanList();
+        mTHSRelationshipList = ((THSInsuranceDetailPresenter) mPresenter).fetchSubscriberRelationList();
+        mTHSHealthPlanListAdapter = new THSHealthPlanListAdapter(getActivity(), mTHSHealthPlanList);
+        mTHSSubscriberRelationshipListAdapter = new THSSubscriberRelationshipListAdapter(getActivity(), mTHSRelationshipList);
+        mPresenter.fetchExistingSubscription();
     }
-
 
 
     @Override
@@ -89,7 +149,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
 
     @Override
     public int getContainerID() {
-        return ((ViewGroup)getView().getParent()).getId();
+        return ((ViewGroup) getView().getParent()).getId();
     }
 
     /**
@@ -99,39 +159,104 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
      */
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.pth_insurance_detail_provider_select_insurance_edit_text){
-            if(mHealPlanListView.getVisibility()==View.GONE) {
+        if (view.getId() == R.id.ths_insurance_detail_provider_select_insurance_edit_text) {
+           /* if(mHealPlanListView.getVisibility()==View.GONE) {
                 mHealPlanListView.setVisibility(View.VISIBLE);
+
             }else{
                 mHealPlanListView.setVisibility(View.GONE);
-            }
+            }*/
+            String names[] = {"A", "B", "C", "D"};
 
-        }else if(view.getId() == R.id.pth_insurance_detail_continue_button){
+
+            showInsuranceListDialog("Select Health Plan", mTHSHealthPlanListAdapter);
+
+        } else if (view.getId() == R.id.ths_insurance_detail_provider_select_relation_edit_text) {
+            showRelationshipListDialog("Select relationship", mTHSSubscriberRelationshipListAdapter);
+
+        } else if (view.getId() == R.id.ths_insurance_detail_skip_button) {
+
+        } else if (view.getId() == R.id.ths_insurance_detail_continue_button){
+            mPresenter.updateTHSInsuranceSubscription();
 
 
-        } else  if(view.getId() == R.id.pth_insurance_detail_skip_button){
+        }else if (view.getId() == R.id.ths_insurance_detail_provider_relation_dob_edittext){
 
+            showDatePicker(relationDOBEditBox,getActivity(),false);
         }
 
 
     }
 
-    /**
-     * Callback method to be invoked when an item in this AdapterView has
-     * been clicked.
-     * <p>
-     * Implementers can call getItemAtPosition(position) if they need
-     * to access the data associated with the selected item.
-     *
-     * @param parent   The AdapterView where the click happened.
-     * @param view     The view within the AdapterView that was clicked (this
-     *                 will be a view provided by the adapter)
-     * @param position The position of the view in the adapter.
-     * @param id       The row id of the item that was clicked.
-     */
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        insuranceSearchEditBox.setText(mTHSHealthPlan.getHealthPlanList().get(position).getName());
-        mHealPlanListView.setVisibility(View.GONE);
+    private void showInsuranceListDialog(String title, BaseAdapter adapter) {
+        mAlertDialog.setTitle(title);
+
+        mAlertDialog.setAdapter(adapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int position) {
+                mHealthPlan= mTHSHealthPlanList.getHealthPlanList().get(position);
+                insuranceEditBox.setText(mHealthPlan.getName());
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alert = mAlertDialog.create();
+        alert.show();
     }
+    private void showRelationshipListDialog(String title, BaseAdapter adapter) {
+        mAlertDialog.setTitle(title);
+
+        mAlertDialog.setAdapter(adapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int position) {
+                mInsuranceRelationship= mTHSRelationshipList.getRelationShipList().get(position);
+                relationshipEditBox.setText(mInsuranceRelationship.getName());
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alert = mAlertDialog.create();
+        alert.show();
+    }
+
+    public void showDatePicker(final EditText editText, final Context context, boolean allowFuture) {
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        final Calendar calendar = Calendar.getInstance();
+        String dateText = editText.getText().toString();
+
+        if (dateText.length() > 0) {
+            Date date;
+            try {
+                date = dateFormat.parse(dateText);
+            }
+            catch (ParseException exception) {
+                throw new RuntimeException(exception);
+            }
+
+            calendar.setTime(date);
+        }
+
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                editText.setText(dateFormat.format(calendar.getTime()));
+            }
+        };
+
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                context,
+                dateSetListener,
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
+
+        if (!allowFuture) {
+            datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        }
+
+        datePickerDialog.show();
+    }
+
 }

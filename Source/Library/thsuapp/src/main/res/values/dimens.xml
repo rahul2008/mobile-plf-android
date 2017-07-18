@@ -16,6 +16,7 @@
     <dimen name="pth_margin_bottom">15dp</dimen>
     <dimen name="pth_margin_top_large">25dp</dimen>
     <dimen name="pth_margin_between_buttons">15dp</dimen>
+    <dimen name="pth_margin_between_ui_control">10dp</dimen>
 
 
 </resources>
