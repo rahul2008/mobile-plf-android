@@ -594,7 +594,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (mEditText != mEtPhone1 && mEditText != mEtPhone2 && !mIgnoreTextChangeListener) {
+            if (mEditText != mEtPhone1 && !mIgnoreTextChangeListener) {
                 validate(mEditText, false);
             }
         }
@@ -602,7 +602,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         private boolean isInAfterTextChanged;
 
         public synchronized void afterTextChanged(Editable text) {
-            if (mEditText == mEtPhone1 && mEditText == mEtPhone2 && !isInAfterTextChanged && !mIgnoreTextChangeListener) {
+            if (mEditText == mEtPhone1  && !isInAfterTextChanged && !mIgnoreTextChangeListener) {
                 isInAfterTextChanged = true;
                 validate(mEditText, false);
                 isInAfterTextChanged = false;
