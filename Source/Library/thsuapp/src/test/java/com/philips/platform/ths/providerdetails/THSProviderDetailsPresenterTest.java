@@ -12,7 +12,6 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.PracticeProvidersManager;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.appointment.THSAvailableProviderFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
@@ -133,7 +132,7 @@ public class THSProviderDetailsPresenterTest {
     @Test
     public void onEventdetailsButtonTwo(){
         providerDetailsPresenter.onEvent(R.id.detailsButtonTwo);
-        verify(thsBaseFragmentMock).addFragment(any(THSAvailableProviderFragment.class),anyString(),any(Bundle.class));
+        verify(thsBaseFragmentMock).addFragment(any(THSAvailableProviderDetailFragment.class),anyString(),any(Bundle.class));
     }
 
     //TODO: add the validation one's code is added - Action on Spoorti

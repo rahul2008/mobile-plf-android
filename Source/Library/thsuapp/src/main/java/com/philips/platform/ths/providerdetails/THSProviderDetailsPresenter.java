@@ -5,19 +5,25 @@ import android.os.Bundle;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.philips.platform.ths.appointment.THSAvailableProviderFragment;
+import com.philips.platform.ths.R;
+import com.philips.platform.ths.appointment.THSAvailableProviderCallback;
 import com.philips.platform.ths.appointment.THSDatePickerFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
 import com.philips.platform.ths.registration.THSConsumer;
-import com.philips.platform.ths.R;
-import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
-public class THSProviderDetailsPresenter implements THSBasePresenter,THSProviderDetailsCallback {
+import java.util.Date;
+import java.util.List;
+
+public class THSProviderDetailsPresenter implements THSBasePresenter,THSProviderDetailsCallback{
 
     THSPRoviderDetailsViewInterface viewInterface;
+
+    Provider mProvider;
     THSBaseFragment mThsBaseFragment;
 
     public THSProviderDetailsPresenter(THSPRoviderDetailsViewInterface viewInterface, THSBaseFragment thsBaseFragment){
@@ -64,13 +70,14 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
         }else if(componentID == R.id.detailsButtonTwo){
             Bundle bundle = new Bundle();
             bundle.putParcelable(THSConstants.THS_PRACTICE_INFO ,viewInterface.getPracticeInfo());
+            bundle.putParcelable(THSConstants.THS_PROVIDER_INFO ,viewInterface.getTHSProviderInfo());
             mThsBaseFragment.addFragment(new THSDatePickerFragment(), THSDatePickerFragment.TAG,bundle);
         }else if(componentID == R.id.detailsButtonContinue){
 
         }else if(componentID == R.id.calendar_container){
             Bundle bundle = new Bundle();
             bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,viewInterface.getPracticeInfo());
-
+            bundle.putParcelable(THSConstants.THS_PROVIDER_INFO ,viewInterface.getTHSProviderInfo());
             mThsBaseFragment.addFragment(new THSDatePickerFragment(), THSDatePickerFragment.TAG,bundle);
         }
     }

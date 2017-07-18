@@ -10,7 +10,7 @@ import com.americanwell.sdk.entity.Language;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.appointment.THSPickTimeFragment;
+import com.philips.platform.ths.appointment.THSAvailableProviderDetailFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
@@ -88,7 +88,7 @@ public class THSProviderDetailsDisplayHelper {
 
     public void updateViewBasedOnType(Provider provider) {
 
-        if(mThsPRoviderDetailsViewInterface.getFragmentTag()!=null && mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSPickTimeFragment.TAG)){
+        if(mThsPRoviderDetailsViewInterface.getFragmentTag()!=null && mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG)){
             mTimeSlotContainer.setVisibility(View.VISIBLE);
             isAvailable.setText(""+mThsPRoviderDetailsViewInterface.getAppointmentTimeSlots().size() + " " + "Available time slots");
             setAppointmentsToView();
@@ -121,7 +121,7 @@ public class THSProviderDetailsDisplayHelper {
         }
         else if(ProviderVisibility.isVideoAvailable(provider.getVisibility())){
             isAvailableImage.setVisibility(ImageView.VISIBLE);
-            if(mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSPickTimeFragment.TAG)){
+            if(mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG)){
                 setButtonVisibilityForAvailableProvider();
             }else {
                 detailsButtonOne.setVisibility(Button.VISIBLE);
@@ -132,7 +132,7 @@ public class THSProviderDetailsDisplayHelper {
             }
         }else if(ProviderVisibility.isOffline(provider.getVisibility())){
             isAvailableImage.setVisibility(ImageView.GONE);
-            if(mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSPickTimeFragment.TAG)){
+            if(mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG)){
                 setButtonVisibilityForAvailableProvider();
             }else {
                 detailsButtonOne.setVisibility(Button.GONE);
@@ -143,7 +143,7 @@ public class THSProviderDetailsDisplayHelper {
     }
 
     private boolean isAvailableProviderData() {
-        return mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSPickTimeFragment.TAG);
+        return mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG);
     }
 
     private void setButtonVisibilityForAvailableProvider() {

@@ -9,7 +9,6 @@ import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.appointment.THSAvailableProviderFragment;
 import com.philips.platform.ths.appointment.THSDatePickerFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
@@ -52,13 +51,17 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         if(providerAvailable){
             ((THSProvidersListFragment) mThsBaseFragment).btn_get_started.setVisibility(View.VISIBLE);
             ((THSProvidersListFragment) mThsBaseFragment).btn_schedule_appointment.setVisibility(View.GONE);
-            ((THSProvidersListFragment) mThsBaseFragment).btn_get_started.setText((mThsBaseFragment).
-                    getContext().getString(R.string.get_started));
+            if (mThsBaseFragment.getContext() != null) {
+                ((THSProvidersListFragment) mThsBaseFragment).btn_get_started.setText((mThsBaseFragment).
+                        getContext().getString(R.string.get_started));
+            }
         }else {
             ((THSProvidersListFragment) mThsBaseFragment).btn_schedule_appointment.setVisibility(View.VISIBLE);
             ((THSProvidersListFragment) mThsBaseFragment).btn_get_started.setVisibility(View.GONE);
-            ((THSProvidersListFragment) mThsBaseFragment).btn_schedule_appointment.setText((mThsBaseFragment).
-                    getContext().getString(R.string.schedule_appointment));
+            if (mThsBaseFragment.getContext() != null) {
+                ((THSProvidersListFragment) mThsBaseFragment).btn_schedule_appointment.setText((mThsBaseFragment).
+                        getContext().getString(R.string.schedule_appointment));
+            }
         }
         THSProviderListViewInterface.updateProviderAdapterList(providerInfoList);
     }

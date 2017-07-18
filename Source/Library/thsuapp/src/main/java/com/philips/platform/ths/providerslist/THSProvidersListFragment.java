@@ -101,7 +101,8 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
                 pthProviderDetailsFragment.setActionBarListener(getActionBarListener());
                 pthProviderDetailsFragment.setTHSProviderEntity(item);
                 pthProviderDetailsFragment.setConsumerAndPractice(consumer, practice);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), pthProviderDetailsFragment, "Provider Details").addToBackStack(null).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(),
+                        pthProviderDetailsFragment, "Provider Details").addToBackStack(null).commit();
             }
         });
         recyclerView.setAdapter(THSProvidersListAdapter);
