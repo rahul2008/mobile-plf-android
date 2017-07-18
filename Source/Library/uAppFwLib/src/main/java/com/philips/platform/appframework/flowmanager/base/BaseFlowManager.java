@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RawRes;
 import android.util.Log;
 
+import com.philips.platform.appframework.flowmanager.exceptions.AppFlowNullException;
 import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
 import com.philips.platform.appframework.flowmanager.exceptions.JsonAlreadyParsedException;
 import com.philips.platform.appframework.flowmanager.exceptions.JsonFileNotFoundException;
@@ -90,6 +91,27 @@ public abstract class BaseFlowManager {
                         parseFlowManagerJson(context, resId, flowManagerListener);
                     }
                 }).start();
+        }
+
+    }
+
+    public void initialize(@NonNull final Context context, @NonNull final AppFlowModel appFlow, @NonNull final FlowManagerListener flowManagerListener) throws JsonAlreadyParsedException, AppFlowNullException {
+        if (appFlowMap != null) {
+            throw new JsonAlreadyParsedException();
+        } else {
+            flowManagerHandler = getHandler(context);
+            new Thread (new Runnable() {
+                @Override
+                public void run() {
+                    mapAppFlowStates(context, appFlow);
+                    flowManagerStack = new FlowManagerStack();
+                    stateMap = new TreeMap<>();
+                    conditionMap = new TreeMap<>();
+                    populateStateMap(stateMap);
+                    populateConditionMap(conditionMap);
+                    postCallBack(flowManagerListener);
+                }
+            }).start();
         }
 
     }
@@ -356,6 +378,15 @@ public abstract class BaseFlowManager {
         final AppFlowParser appFlowParser = new AppFlowParser(context);
         AppFlowModel appFlowModel = appFlowParser.getAppFlow(resId);
         getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
+    }
+
+    private void mapAppFlowStates(Context context, final AppFlowModel appFlowModel) throws AppFlowNullException{
+        if (appFlowModel != null) {
+            final AppFlowParser appFlowParser = new AppFlowParser(context);
+            getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
+        } else {
+            throw new AppFlowNullException();
+        }
     }
 
     @NonNull
