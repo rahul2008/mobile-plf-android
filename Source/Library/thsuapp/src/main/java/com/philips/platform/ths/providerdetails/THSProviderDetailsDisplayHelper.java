@@ -16,6 +16,7 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RatingBar;
 
+import java.util.Date;
 import java.util.List;
 
 public class THSProviderDetailsDisplayHelper {
@@ -34,15 +35,16 @@ public class THSProviderDetailsDisplayHelper {
     View calendarView;
     THSBaseFragment thsBaseFragment;
 
-    THSProviderDetailsDisplayHelper(Context context, View.OnClickListener onClickListener,
+    public THSProviderDetailsDisplayHelper(Context context, View.OnClickListener onClickListener,
                                     SwipeRefreshLayout.OnRefreshListener onRefreshListener,
                                     THSPRoviderDetailsViewInterface thspRoviderDetailsViewInterface,
-                                    THSBaseFragment thsBaseFragment){
+                                    THSBaseFragment thsBaseFragment,View view){
         mOnClickListener = onClickListener;
         mContext = context;
         mOnRefreshListener = onRefreshListener;
         mThsPRoviderDetailsViewInterface = thspRoviderDetailsViewInterface;
         this.thsBaseFragment = thsBaseFragment;
+        setViews(view);
     }
 
     void setViews(View view) {
@@ -73,7 +75,7 @@ public class THSProviderDetailsDisplayHelper {
         calendarView.setOnClickListener(mOnClickListener);
     }
 
-    void updateView(Provider provider){
+    public void updateView(Provider provider,List<Date> dates){
         providerName.setText(provider.getFullName());
         swipeRefreshLayout.setRefreshing(false);
         providerRating.setRating(provider.getRating());
@@ -83,15 +85,15 @@ public class THSProviderDetailsDisplayHelper {
         aboutMeValueLabel.setText(provider.getTextGreeting());
         practiceName.setText(provider.getSpecialty().getName());
         checkAvailability(provider);
-        updateViewBasedOnType(provider);
+        updateViewBasedOnType(provider,dates);
     }
 
-    public void updateViewBasedOnType(Provider provider) {
+    public void updateViewBasedOnType(Provider provider,List<Date> dates) {
 
-        if(mThsPRoviderDetailsViewInterface.getFragmentTag()!=null && mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG)){
+        if(dates!=null){
             mTimeSlotContainer.setVisibility(View.VISIBLE);
-            isAvailable.setText(""+mThsPRoviderDetailsViewInterface.getAppointmentTimeSlots().size() + " " + "Available time slots");
-            setAppointmentsToView();
+            isAvailable.setText(""+dates.size() + " " + "Available time slots");
+            setAppointmentsToView(dates);
         }else {
             detailsButtonContinue.setVisibility(View.GONE);
             mTimeSlotContainer.setVisibility(View.GONE);
@@ -152,9 +154,9 @@ public class THSProviderDetailsDisplayHelper {
         detailsButtonContinue.setVisibility(View.VISIBLE);
     }
 
-    private void setAppointmentsToView() {
+    private void setAppointmentsToView(List<Date> dates) {
         THSAppointmentGridAdapter itemsAdapter =
-                new THSAppointmentGridAdapter(mContext, mThsPRoviderDetailsViewInterface.getAppointmentTimeSlots(),
+                new THSAppointmentGridAdapter(mContext, dates,
                         thsBaseFragment,mThsPRoviderDetailsViewInterface.getTHSProviderInfo());
         gridView.setAdapter(itemsAdapter);
         gridView.setExpanded(true);
