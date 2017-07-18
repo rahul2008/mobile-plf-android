@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/calendar_container"
+    android:layout_width="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:layout_height="wrap_content"
+    >
+
+    <ImageView
+        android:id="@+id/calender"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+        android:tint="@color/uid_blue_level_30"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dip"
+        app:srcCompat="@drawable/ic_calender" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ths_scedule_appointment"
+        android:textColor="@color/uid_blue_level_30"
+        style="@style/UIDLabelDescription"
+        android:textSize="16dp"
+        android:layout_toRightOf="@id/calender"
+        android:layout_alignBaseline="@id/calender"
+        android:layout_centerVertical="true" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_greaterthan"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/uid_blue_level_30"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

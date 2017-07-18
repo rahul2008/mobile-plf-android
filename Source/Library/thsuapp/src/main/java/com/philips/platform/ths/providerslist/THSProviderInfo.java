@@ -9,8 +9,9 @@ import com.americanwell.sdk.entity.practice.PracticeInfo;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.provider.ProviderType;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
+import com.philips.platform.ths.providerdetails.THSProviderEntity;
 
-public class THSProviderInfo implements Parcelable{
+public class THSProviderInfo extends THSProviderEntity implements Parcelable{
     ProviderInfo providerInfo;
 
     public THSProviderInfo(){
@@ -37,7 +38,7 @@ public class THSProviderInfo implements Parcelable{
         return providerInfo;
     }
 
-    public void setProviderInfo(ProviderInfo providerInfo) {
+    public void setTHSProviderInfo(ProviderInfo providerInfo) {
         this.providerInfo = providerInfo;
     }
 

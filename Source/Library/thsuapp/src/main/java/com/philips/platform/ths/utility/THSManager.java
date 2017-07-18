@@ -13,6 +13,7 @@ import com.americanwell.sdk.entity.SDKPasswordError;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
+import com.americanwell.sdk.entity.consumer.RemindOptions;
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.insurance.HealthPlan;
@@ -55,7 +56,7 @@ import com.philips.platform.ths.pharmacy.THSGetPharmaciesCallback;
 import com.philips.platform.ths.pharmacy.THSPreferredPharmacyCallback;
 import com.philips.platform.ths.pharmacy.THSUpdatePharmacyCallback;
 import com.philips.platform.ths.pharmacy.THSUpdateShippingAddressCallback;
-import com.philips.platform.ths.practice.THSPractice;
+import com.philips.platform.ths.practice.THSPracticeList;
 import com.philips.platform.ths.practice.THSPracticesListCallback;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsCallback;
 import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
@@ -139,7 +140,7 @@ public class THSManager {
         final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
        initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
         initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key
-         /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
+      /*   initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
         initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key*/
 
         AmwellLog.i(AmwellLog.LOG,"Initialize - SDK API Called");
@@ -209,9 +210,9 @@ public class THSManager {
         });
     }
 
-    public void getVisitContext(Context context, final THSProviderInfo providerInfo, final THSVisitContextCallBack THSVisitContextCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
+    public void getVisitContext(Context context, final THSProviderInfo thsProviderInfo, final THSVisitContextCallBack THSVisitContextCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
 
-        getAwsdk(context).getVisitManager().getVisitContext(getPTHConsumer().getConsumer(), providerInfo.getProviderInfo(), new SDKCallback<VisitContext, SDKError>() {
+        getAwsdk(context).getVisitManager().getVisitContext(getPTHConsumer().getConsumer(), thsProviderInfo.getProviderInfo(), new SDKCallback<VisitContext, SDKError>() {
                     @Override
                     public void onResponse(VisitContext visitContext, SDKError sdkError) {
 
@@ -320,7 +321,7 @@ public class THSManager {
         getAwsdk(context).getPracticeProvidersManager().getPractices(consumer, new SDKCallback<List<Practice>, SDKError>() {
             @Override
             public void onResponse(List<Practice> practices, SDKError sdkError) {
-                THSPractice pTHPractice = new THSPractice();
+                THSPracticeList pTHPractice = new THSPracticeList();
                 pTHPractice.setPractices(practices);
                 THSPracticesListCallback.onPracticesListReceived(pTHPractice,sdkError);
             }
@@ -338,7 +339,13 @@ public class THSManager {
         getAwsdk(context).getPracticeProvidersManager().findProviders(consumer, practice, null, null, null, null, null, null, null, new SDKCallback<List<ProviderInfo>, SDKError>() {
             @Override
             public void onResponse(List<ProviderInfo> providerInfos, SDKError sdkError) {
-                THSProvidersListCallback.onProvidersListReceived(providerInfos, sdkError);
+                List thsProvidersList = new ArrayList();
+                for (ProviderInfo providerInfo:providerInfos) {
+                    THSProviderInfo thsProviderInfo = new THSProviderInfo();
+                    thsProviderInfo.setTHSProviderInfo(providerInfo);
+                    thsProvidersList.add(thsProviderInfo);
+                }
+                THSProvidersListCallback.onProvidersListReceived(thsProvidersList, sdkError);
             }
 
             @Override
@@ -349,8 +356,8 @@ public class THSManager {
 
     }
 
-    public void getProviderDetails(Context context,Consumer consumer,ProviderInfo providerInfo,final THSProviderDetailsCallback THSProviderDetailsCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getPracticeProvidersManager().getProvider(providerInfo, consumer, new SDKCallback<Provider, SDKError>() {
+    public void getProviderDetails(Context context, Consumer consumer, THSProviderInfo thsProviderInfo, final THSProviderDetailsCallback THSProviderDetailsCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getPracticeProvidersManager().getProvider(thsProviderInfo.getProviderInfo(), consumer, new SDKCallback<Provider, SDKError>() {
             @Override
             public void onResponse(Provider provider, SDKError sdkError) {
                 THSProviderDetailsCallback.onProviderDetailsReceived(provider,sdkError);
@@ -375,6 +382,7 @@ public class THSManager {
 
             @Override
             public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
+
                 THSConsumer THSConsumer = new THSConsumer();
                 THSConsumer.setConsumer(consumer);
 
@@ -636,6 +644,24 @@ public class THSManager {
 
     }
 
+/*
+    public void getProviderAvailability(Context context, ProviderInfo providerInfo, Date date, final THSAvailableProviderCallback thsAvailableProviderCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getPracticeProvidersManager().getProviderAvailability(getPTHConsumer().getConsumer(), providerInfo,
+                date, new SDKCallback<List<Date>, SDKError>() {
+            @Override
+            public void onResponse(List<Date> dates, SDKError sdkError) {
+                THSSDKError thssdkError = new THSSDKError();
+                thssdkError.setSdkError(sdkError);
+                thsAvailableProviderCallback.onResponse(dates,thssdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                thsAvailableProviderCallback.onFailure(throwable);
+            }
+        });
+    }*/
+
     public List<HealthPlan> getHealthPlans(Context context){
         List<HealthPlan> healthplans = null;
         try {
@@ -645,6 +671,26 @@ public class THSManager {
         }
         return healthplans;
 
+    }
+
+    public void scheduleAppointment(Context context,THSProviderInfo thsProviderInfo, Date appointmentDate, THSSDKValidatedCallback thssdkValidatedCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().scheduleAppointment(getPTHConsumer().getConsumer(), thsProviderInfo.getProviderInfo(),
+                appointmentDate, null, RemindOptions.ONE_DAY, RemindOptions.EIGHT_HOURS, new SDKValidatedCallback<Void, SDKError>() {
+                    @Override
+                    public void onValidationFailure(Map<String, ValidationReason> map) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Void aVoid, SDKError sdkError) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+
+                    }
+                });
     }
 
 }

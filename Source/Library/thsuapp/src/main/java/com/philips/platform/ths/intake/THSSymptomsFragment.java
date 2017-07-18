@@ -31,7 +31,7 @@ import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 public class THSSymptomsFragment extends THSBaseFragment implements BackEventListener, View.OnClickListener {
     public static final String TAG = THSSymptomsFragment.class.getSimpleName();
     THSSymptomsPresenter mTHSSymptomsPresenter;
-    THSProviderInfo providerInfo;
+    THSProviderInfo mThsProviderInfo;
     THSOnDemandSpeciality thsOnDemandSpeciality;
     LinearLayout topicLayout;
     FloatingActionButton floatingActionButton;
@@ -47,7 +47,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_symptoms, container, false);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            providerInfo = bundle.getParcelable(THSConstants.THS_PROVIDER_INFO);
+            mThsProviderInfo = bundle.getParcelable(THSConstants.THS_PROVIDER_INFO);
             thsOnDemandSpeciality = bundle.getParcelable(THSConstants.THS_ON_DEMAND);
         }
         topicLayout = (LinearLayout) view.findViewById(R.id.checkbox_container);
@@ -69,7 +69,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mTHSSymptomsPresenter = new THSSymptomsPresenter(this, providerInfo);
+        mTHSSymptomsPresenter = new THSSymptomsPresenter(this, mThsProviderInfo);
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.pth_prepare_your_visit), true);
         }
@@ -96,7 +96,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
         if (mThsVisitContext == null) {
             createCustomProgressBar(mRelativeLayout, MEDIUM);
             mContinue.setEnabled(false);
-            if(providerInfo != null) {
+            if(mThsProviderInfo != null) {
                 mTHSSymptomsPresenter.getVisitContext();
             }else {
                 try {

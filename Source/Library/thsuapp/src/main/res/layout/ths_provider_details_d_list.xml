@@ -49,6 +49,7 @@
                 android:layout_marginTop="@dimen/uid_label_margin_start"
                 android:layout_marginStart="@dimen/uid_alert_dialog_message_line_spacing"
                 android:textColor="?attr/uidLabelValueNormalTextColor"
+                android:text="@string/ths_available_time_slots"
                 android:textSize="@dimen/uid_grid_descrption_size" />
             <ImageView
                 android:id="@+id/details_isAvailableImage"

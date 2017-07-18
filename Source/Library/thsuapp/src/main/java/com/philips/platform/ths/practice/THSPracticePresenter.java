@@ -34,7 +34,7 @@ public class THSPracticePresenter implements THSBasePresenter, THSPracticesListC
     }
 
     @Override
-    public void onPracticesListReceived(THSPractice practices, SDKError sdkError) {
+    public void onPracticesListReceived(THSPracticeList practices, SDKError sdkError) {
         ((THSPracticeFragment)uiBaseView).showPracticeList(practices);
 
     }

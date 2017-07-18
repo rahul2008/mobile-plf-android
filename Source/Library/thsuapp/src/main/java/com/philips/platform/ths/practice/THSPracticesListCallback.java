@@ -4,6 +4,6 @@ import com.americanwell.sdk.entity.SDKError;
 
 public interface THSPracticesListCallback {
     //TODO: Review Comment - Spoorti - wrap SDKError to PTHError
-    void onPracticesListReceived(THSPractice practices, SDKError sdkError);
+    void onPracticesListReceived(THSPracticeList practices, SDKError sdkError);
     void onPracticesListFetchError(Throwable throwable);
 }

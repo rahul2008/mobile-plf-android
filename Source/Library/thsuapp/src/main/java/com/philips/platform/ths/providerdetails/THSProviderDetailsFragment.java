@@ -7,66 +7,49 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import com.americanwell.sdk.entity.Language;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.Provider;
-import com.americanwell.sdk.entity.provider.ProviderInfo;
-import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.uid.view.widget.Button;
-import com.philips.platform.uid.view.widget.Label;
-import com.philips.platform.uid.view.widget.RatingBar;
+import com.philips.platform.ths.providerslist.THSProviderInfo;
 
+import java.util.Date;
 import java.util.List;
 
 /**
  * This class is used to display the provider details selected by the user.
  */
 public class THSProviderDetailsFragment extends THSBaseFragment implements View.OnClickListener, THSPRoviderDetailsViewInterface,SwipeRefreshLayout.OnRefreshListener{
+    public static final String TAG = THSProviderDetailsFragment.class.getSimpleName();
     private Consumer consumer;
-    private ProviderInfo providerInfo;
-    private THSProviderDetailsPresenter providerDetailsPresenter;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private ImageView providerImage,isAvailableImage;
-    private Label providerName,practiceName,isAvailable,spokenLanguageValueLabel,yearsOfExpValueLabel,graduatedValueLabel,aboutMeValueLabel;
-    private RatingBar providerRating;
-    private Button detailsButtonOne,detailsButtonTwo;
+    THSProviderInfo mThsProviderInfo;
+    protected THSAvailableProvider mThsAvailableProvider;
+    THSProviderDetailsPresenter providerDetailsPresenter;
     private Practice mPractice;
-
+    THSProviderDetailsDisplayHelper mThsProviderDetailsDisplayHelper;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_provider_details_fragment, container, false);
-        setViews(view);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeProviderLayout);
-        swipeRefreshLayout.setOnRefreshListener(this);
-        providerDetailsPresenter = new THSProviderDetailsPresenter(this);
+
+        mThsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(),this,this,this, this);
+        mThsProviderDetailsDisplayHelper.setViews(view);
+
+        providerDetailsPresenter = new THSProviderDetailsPresenter(this, this);
         return view;
     }
 
-    private void setViews(View view) {
-        providerImage = (ImageView) view.findViewById(R.id.details_providerImage);
-        providerName = (Label) view.findViewById(R.id.details_providerNameLabel);
-        practiceName = (Label) view.findViewById(R.id.details_practiceNameLabel);
-        isAvailable = (Label) view.findViewById(R.id.details_isAvailableLabel);
-        isAvailableImage = (ImageView) view.findViewById(R.id.details_isAvailableImage);
-        providerRating = (RatingBar) view.findViewById(R.id.providerRatingValue);
-        spokenLanguageValueLabel = (Label) view.findViewById(R.id.spokenLanguageValueLabel);
-        yearsOfExpValueLabel = (Label) view.findViewById(R.id.yearsOfExpValueLabel);
-        graduatedValueLabel = (Label) view.findViewById(R.id.graduatedValueLabel);
-        aboutMeValueLabel = (Label) view.findViewById(R.id.aboutMeValueLabel);
-        detailsButtonOne = (Button) view.findViewById(R.id.detailsButtonOne);
-        detailsButtonTwo = (Button) view.findViewById(R.id.detailsButtonTwo);
-
-        detailsButtonOne.setVisibility(Button.GONE);
-        detailsButtonOne.setEnabled(false);
-        detailsButtonOne.setOnClickListener(this);
-        detailsButtonTwo.setOnClickListener(this);
+    /**
+     * This method is used to set the provider details in the provider details screen.
+     * @param provider
+     */
+    @Override
+    public void updateView(Provider provider) {
+        mThsProviderDetailsDisplayHelper.updateView(provider);
     }
 
 
@@ -78,10 +61,16 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         }
     }
 
+    public void setTHSProviderEntity(THSProviderEntity  thsProviderEntity){
+        if(thsProviderEntity instanceof THSProviderInfo) {
+            this.mThsProviderInfo = (THSProviderInfo) thsProviderEntity;
+        }else if(thsProviderEntity instanceof THSAvailableProvider){
+            this.mThsAvailableProvider = (THSAvailableProvider)thsProviderEntity;
+        }
+    }
 
-    public void setProviderAndConsumerAndPractice(ProviderInfo providerInfo, Consumer consumer, Practice practice){
+    public void setConsumerAndPractice(Consumer consumer, Practice practice){
         this.consumer = consumer;
-        this.providerInfo = providerInfo;
         this.mPractice = practice;
     }
 
@@ -99,8 +88,16 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     }
 
     @Override
-    public ProviderInfo getProviderInfo() {
-        return providerInfo;
+    public THSProviderInfo getTHSProviderInfo() {
+        if (mThsProviderInfo != null) {
+            return mThsProviderInfo;
+        } else if (mThsAvailableProvider != null) {
+            THSProviderInfo thsProviderInfo = new THSProviderInfo();
+            thsProviderInfo.setTHSProviderInfo(mThsAvailableProvider.getProviderInfo());
+            return thsProviderInfo;
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -113,72 +110,23 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         return consumer;
     }
 
-    /**
-     * This method is used to set the provider details in the provider details screen.
-     * @param provider
-     */
     @Override
-    public void updateView(Provider provider) {
-
-        checkAvailability(provider);
-        swipeRefreshLayout.setRefreshing(false);
-        providerName.setText(provider.getFullName());
-        practiceName.setText(provider.getSpecialty().getName());
-        isAvailable.setText(""+provider.getVisibility());
-        providerRating.setRating(provider.getRating());
-        spokenLanguageValueLabel.setText(getSpokenLanguages(provider.getSpokenLanguages()));
-        yearsOfExpValueLabel.setText(""+provider.getYearsExperience());
-        graduatedValueLabel.setText(provider.getSchoolName());
-        aboutMeValueLabel.setText(provider.getTextGreeting());
-
+    public void dismissRefreshLayout(){
+        mThsProviderDetailsDisplayHelper.dismissRefreshLayout();
     }
 
-    /**
-     * This method checks for the provider visibility, if visible, user can schedule an appointment or start video chat right away
-     * If provider is busy, user can schedule an appointment or wait in line.
-     * If provider is offline, user can schedule an appointment
-     * @param provider
-     */
-    private void checkAvailability(Provider provider) {
-
-        if(ProviderVisibility.isOnCall(provider.getVisibility()) || ProviderVisibility.isVideoBusy(provider.getVisibility())){
-            isAvailableImage.setVisibility(ImageView.GONE);
-            detailsButtonOne.setVisibility(Button.VISIBLE);
-            detailsButtonOne.setEnabled(true);
-            detailsButtonOne.setText("I'll wait in line");
-            detailsButtonTwo.setText("Schedule an appointment");
-        }
-        else if(ProviderVisibility.isVideoAvailable(provider.getVisibility())){
-            isAvailableImage.setVisibility(ImageView.VISIBLE);
-            detailsButtonOne.setVisibility(Button.VISIBLE);
-            detailsButtonOne.setEnabled(true);
-            detailsButtonOne.setText("See this doctor now");
-            detailsButtonTwo.setText("Schedule an appointment");
-        }else if(ProviderVisibility.isOffline(provider.getVisibility())){
-            isAvailableImage.setVisibility(ImageView.GONE);
-            detailsButtonOne.setVisibility(Button.GONE);
-            detailsButtonTwo.setText("Schedule an appointment");
-        }
-
+    @Override
+    public List<Date> getAppointmentTimeSlots() {
+        if (mThsAvailableProvider != null)
+            return mThsAvailableProvider.getAvailableAppointmentTimeSlots();
+        return null;
     }
 
-    /**
-     * This method is used to break up the list of spoken languages into comma separated strings to
-     * display on the screen.
-     */
-
-    private String getSpokenLanguages(List<Language> spokenLanguages) {
-
-        String languageList = "";
-        for(Language language: spokenLanguages){
-            if(languageList.length() == 0){
-                languageList = language.getName();
-            } else {
-                languageList = languageList + " , " + language.getName();
-            }
-        }
-        return languageList;
+    @Override
+    public String getFragmentTag() {
+        return THSProviderDetailsFragment.TAG;
     }
+
 
     @Override
     public FragmentActivity getFragmentActivity() {
@@ -192,9 +140,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
 
     @Override
     public void onRefresh() {
-        if(!swipeRefreshLayout.isRefreshing()){
-            swipeRefreshLayout.setRefreshing(true);
-        }
+        mThsProviderDetailsDisplayHelper.setRefreshing();
         providerDetailsPresenter.fetchProviderDetails();
     }
 

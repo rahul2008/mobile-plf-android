@@ -1,6 +1,7 @@
 package com.philips.platform.ths.appointment;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -58,6 +59,13 @@ public class THSDatePickerFragment extends THSBaseFragment implements DatePicker
         calendar.setTime(date);
         DatePickerDialog datePickerDialog = new DatePickerDialog(this.getActivity(),
                 this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == DialogInterface.BUTTON_NEGATIVE) {
+                    getFragmentManager().popBackStackImmediate();
+                }
+            }
+        });
         datePickerDialog.show();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             datePickerDialog.setOnDateSetListener(this);
