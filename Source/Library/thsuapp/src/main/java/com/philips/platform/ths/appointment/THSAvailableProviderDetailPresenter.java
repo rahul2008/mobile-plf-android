@@ -74,17 +74,24 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
 
     @Override
     public void onResponse(List dates, THSSDKError sdkError) {
-        if(dates==null || dates.size()==0){
+        if (dates == null || dates.size() == 0) {
             Bundle bundle = new Bundle();
-            bundle.putSerializable(THSConstants.THS_DATE,mDate);
-            bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,((THSDatePickerFragment)mThsBaseFragment).getPractice());
-            bundle.putParcelable(THSConstants.THS_PROVIDER ,((THSAvailableProviderDetailFragment)mThsBaseFragment).getProvider());
-            mThsBaseFragment.addFragment(new THSProviderNotAvailableFragment(),THSProviderNotAvailableFragment.TAG,bundle);
-            bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY ,((THSAvailableProviderDetailFragment)mThsBaseFragment).getProviderEntitiy());
-        }else {
+            bundle.putSerializable(THSConstants.THS_DATE, mDate);
+            bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getPracticeInfo());
+            bundle.putParcelable(THSConstants.THS_PROVIDER, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider());
+            bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProviderEntitiy());
+            mThsBaseFragment.addFragment(new THSProviderNotAvailableFragment(), THSProviderNotAvailableFragment.TAG, bundle);
+        } else {
             mthsProviderDetailsDisplayHelper.updateView(((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider(), dates);
             mThsBaseFragment.hideProgressBar();
         }
+
+        /*Bundle bundle = new Bundle();
+        bundle.putSerializable(THSConstants.THS_DATE,mDate);
+        bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,((THSAvailableProviderDetailFragment)mThsBaseFragment).getPracticeInfo());
+        bundle.putParcelable(THSConstants.THS_PROVIDER ,((THSAvailableProviderDetailFragment)mThsBaseFragment).getProvider());
+        mThsBaseFragment.addFragment(new THSProviderNotAvailableFragment(),THSProviderNotAvailableFragment.TAG,bundle);
+        bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY ,((THSAvailableProviderDetailFragment)mThsBaseFragment).getProviderEntitiy());*/
     }
 
     @Override

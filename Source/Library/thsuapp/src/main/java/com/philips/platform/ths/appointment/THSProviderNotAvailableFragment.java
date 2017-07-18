@@ -3,6 +3,7 @@ package com.philips.platform.ths.appointment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -29,6 +30,9 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
         Bundle bundle = getArguments();
         mProvider = bundle.getParcelable(THSConstants.THS_PROVIDER);
         mThsProviderEntity = bundle.getParcelable(THSConstants.THS_PROVIDER_ENTITY);
+        if (null != getActionBarListener()) {
+            getActionBarListener().updateActionBar(getString(R.string.ths_available_provider), true);
+        }
     }
 
     public Provider getProvider() {
@@ -74,5 +78,10 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
 
     public void setThsProviderEntity(THSProviderEntity mThsProviderEntity) {
         this.mThsProviderEntity = mThsProviderEntity;
+    }
+
+    @Override
+    public int getContainerID() {
+        return ((ViewGroup)getView().getParent()).getId();
     }
 }
