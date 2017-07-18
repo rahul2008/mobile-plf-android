@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/provider_not_available"
+    >
+
+    <include
+        android:id="@+id/provider_detail_container_view"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        layout="@layout/ths_provider_list" />
+
+    <View android:background="@color/uid_gray_level_5"
+        android:layout_below="@+id/schedule_appointment"
+        android:layout_width = "match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/separator"
+        />
+
+    <include
+        android:id="@+id/calendar_view"
+        layout="@layout/calender_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/separator"
+        />
+
+</RelativeLayout>
