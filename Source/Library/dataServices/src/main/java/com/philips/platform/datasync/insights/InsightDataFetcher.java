@@ -90,6 +90,7 @@ public class InsightDataFetcher extends DataFetcher {
             uCoreAccessProvider.saveLastSyncTimeStamp(insightList.getSyncurl(), UCoreAccessProvider.INSIGHT_LAST_SYNC_URL_KEY);
 
             List<Insight> insights = insightConverter.convertToAppInsights(insightList);
+            if(insights==null || insights.size()==0)return;
             eventing.post(new FetchInsightsResponse(insights, null));
         } catch (RetrofitError retrofitError) {
             eventing.post(new BackendDataRequestFailed(retrofitError));
