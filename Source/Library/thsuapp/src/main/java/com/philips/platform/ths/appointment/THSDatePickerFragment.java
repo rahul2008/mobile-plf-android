@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +11,11 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 
 import com.americanwell.sdk.entity.practice.Practice;
-import com.americanwell.sdk.entity.provider.ProviderInfo;
+import com.americanwell.sdk.entity.provider.Provider;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.providerdetails.THSProviderEntity;
+import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.THSConstants;
 
 import java.util.Calendar;
@@ -28,6 +29,10 @@ public class THSDatePickerFragment extends THSBaseFragment implements DatePicker
     THSDatePickerPresenter thsDatePickerPresenter;
 
     private Practice mPractice;
+    private boolean mIsLaunchedFromDetails;
+    private Provider mProvider;
+
+    private THSProviderEntity mThsProviderEntity;
 
     @Nullable
     @Override
@@ -38,6 +43,9 @@ public class THSDatePickerFragment extends THSBaseFragment implements DatePicker
         thsDatePickerPresenter = new THSDatePickerPresenter(this);
         Bundle arguments = getArguments();
         mPractice = arguments.getParcelable(THSConstants.THS_PRACTICE_INFO);
+        mIsLaunchedFromDetails = arguments.getBoolean(THSConstants.THS_IS_DETAILS);
+        mProvider = arguments.getParcelable(THSConstants.THS_PROVIDER);
+        mThsProviderEntity = arguments.getParcelable(THSConstants.THS_PROVIDER_ENTITY);
         return view;
     }
 
@@ -78,7 +86,11 @@ public class THSDatePickerFragment extends THSBaseFragment implements DatePicker
         calendar.set(year,month,day);
         date.setTime(calendar.getTimeInMillis());
         thsDatePickerPresenter.setDate(date);
-        thsDatePickerPresenter.launchProviderListBasedOnTime();
+        if(mIsLaunchedFromDetails){
+            thsDatePickerPresenter.launchProviderDetailBasedOnTime();
+        }else {
+            thsDatePickerPresenter.launchProviderListBasedOnTime();
+        }
     }
 
 
@@ -93,5 +105,21 @@ public class THSDatePickerFragment extends THSBaseFragment implements DatePicker
 
     public void setPractice(Practice mPractice) {
         this.mPractice = mPractice;
+    }
+
+    public Provider getProvider() {
+        return mProvider;
+    }
+
+    public void setProvider(Provider mProvider) {
+        this.mProvider = mProvider;
+    }
+
+    public THSProviderEntity getThsProviderEntity() {
+        return mThsProviderEntity;
+    }
+
+    public void setThsProviderEntity(THSProviderEntity mThsProviderInfo) {
+        this.mThsProviderEntity = mThsProviderInfo;
     }
 }

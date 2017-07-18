@@ -32,6 +32,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.ValidationReason;
+import com.philips.platform.ths.appointment.THSAvailableProviderCallback;
 import com.philips.platform.ths.appointment.THSAvailableProviderList;
 import com.philips.platform.ths.appointment.THSAvailableProvidersBasedOnDateCallback;
 import com.philips.platform.ths.intake.THSConditions;
@@ -138,11 +139,11 @@ public class THSManager {
 
     public void initializeTeleHealth(Context context, final THSInitializeCallBack THSInitializeCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
         final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
-      /* initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
-        initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key*/
+       initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
+        initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key
 
-         initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
-        initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key
+        /* initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
+        initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key*/
 
         AmwellLog.i(AmwellLog.LOG,"Initialize - SDK API Called");
         getAwsdk(context).initialize(
@@ -357,8 +358,8 @@ public class THSManager {
 
     }
 
-    public void getProviderDetails(Context context, Consumer consumer, THSProviderInfo thsProviderInfo, final THSProviderDetailsCallback THSProviderDetailsCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getPracticeProvidersManager().getProvider(thsProviderInfo.getProviderInfo(), consumer, new SDKCallback<Provider, SDKError>() {
+    public void getProviderDetails(Context context, THSProviderInfo thsProviderInfo, final THSProviderDetailsCallback THSProviderDetailsCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getPracticeProvidersManager().getProvider(thsProviderInfo.getProviderInfo(), getPTHConsumer().getConsumer(), new SDKCallback<Provider, SDKError>() {
             @Override
             public void onResponse(Provider provider, SDKError sdkError) {
                 THSProviderDetailsCallback.onProviderDetailsReceived(provider,sdkError);
@@ -645,23 +646,27 @@ public class THSManager {
 
     }
 
-/*
-    public void getProviderAvailability(Context context, ProviderInfo providerInfo, Date date, final THSAvailableProviderCallback thsAvailableProviderCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getPracticeProvidersManager().getProviderAvailability(getPTHConsumer().getConsumer(), providerInfo,
-                date, new SDKCallback<List<Date>, SDKError>() {
-            @Override
-            public void onResponse(List<Date> dates, SDKError sdkError) {
-                THSSDKError thssdkError = new THSSDKError();
-                thssdkError.setSdkError(sdkError);
-                thsAvailableProviderCallback.onResponse(dates,thssdkError);
-            }
+    public void getProviderAvailability(Context context, Provider provider, Date date, final THSAvailableProviderCallback<List,THSSDKError> thsAvailableProviderCallback) throws AWSDKInstantiationException {
+        try {
+            getAwsdk(context).getPracticeProvidersManager().getProviderAvailability(getPTHConsumer().getConsumer(), provider,
+                    date, new SDKCallback<List<Date>, SDKError>() {
+                        @Override
+                        public void onResponse(List<Date> dates, SDKError sdkError) {
+                            THSSDKError thssdkError = new THSSDKError();
+                            thssdkError.setSdkError(sdkError);
+                            thsAvailableProviderCallback.onResponse(dates,thssdkError);
+                        }
 
-            @Override
-            public void onFailure(Throwable throwable) {
-                thsAvailableProviderCallback.onFailure(throwable);
-            }
-        });
-    }*/
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            thsAvailableProviderCallback.onFailure(throwable);
+                        }
+                    });
+        }catch (Exception ex){
+            thsAvailableProviderCallback.onFailure(ex);
+        }
+
+    }
 
     public List<HealthPlan> getHealthPlans(Context context){
         List<HealthPlan> healthplans = null;
@@ -674,24 +679,25 @@ public class THSManager {
 
     }
 
-    public void scheduleAppointment(Context context,THSProviderInfo thsProviderInfo, Date appointmentDate, THSSDKValidatedCallback thssdkValidatedCallback) throws AWSDKInstantiationException {
+    public void scheduleAppointment(Context context, final THSProviderInfo thsProviderInfo, Date appointmentDate, final THSSDKValidatedCallback thssdkValidatedCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().scheduleAppointment(getPTHConsumer().getConsumer(), thsProviderInfo.getProviderInfo(),
                 appointmentDate, null, RemindOptions.ONE_DAY, RemindOptions.EIGHT_HOURS, new SDKValidatedCallback<Void, SDKError>() {
                     @Override
                     public void onValidationFailure(Map<String, ValidationReason> map) {
-
+                        thssdkValidatedCallback.onValidationFailure(map);
                     }
 
                     @Override
                     public void onResponse(Void aVoid, SDKError sdkError) {
-
+                        thssdkValidatedCallback.onResponse(aVoid,sdkError);
                     }
 
                     @Override
                     public void onFailure(Throwable throwable) {
-
+                        thssdkValidatedCallback.onFailure(throwable);
                     }
                 });
     }
+
 
 }

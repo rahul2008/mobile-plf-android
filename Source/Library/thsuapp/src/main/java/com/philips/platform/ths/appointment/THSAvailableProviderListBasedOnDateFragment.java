@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment{
+public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment implements View.OnClickListener{
     public static final String TAG = THSAvailableProviderListBasedOnDateFragment.class.getSimpleName();
     Date mDate;
     THSAvailableProviderListBasedOnDatePresenter mTHSAvailableProviderListBasedOnDatePresenter;
@@ -30,6 +30,7 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
     private Practice mPractice;
     private RecyclerView recyclerView;
     THSAvailableProviderList mTHSAvailableProviderList;
+    View mChangeAppointDateView;
 
     @Nullable
     @Override
@@ -40,6 +41,8 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         mPractice = bundle.getParcelable(THSConstants.THS_PRACTICE_INFO);
         mTHSAvailableProviderListBasedOnDatePresenter = new THSAvailableProviderListBasedOnDatePresenter(this);
         recyclerView = (RecyclerView) view.findViewById(R.id.providerListRecyclerView);
+        mChangeAppointDateView = view.findViewById(R.id.calendar_view);
+        mChangeAppointDateView.setOnClickListener(this);
         return view;
     }
 
@@ -78,11 +81,19 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         adapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
             @Override
             public void onItemClick(THSProviderEntity item) {
-                mTHSAvailableProviderListBasedOnDatePresenter.startTimePickFragment(item,mDate);
+                mTHSAvailableProviderListBasedOnDatePresenter.startTimePickFragment(item,mDate,mPractice);
             }
         });
         recyclerView.setAdapter(adapter);
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        int viewId = view.getId();
+        if(viewId == R.id.calendar_view){
+            mTHSAvailableProviderListBasedOnDatePresenter.onEvent(R.id.calendar_view);
+        }
     }
 }
 
