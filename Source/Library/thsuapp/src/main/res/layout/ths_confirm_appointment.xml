@@ -1,0 +1,97 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/schedule_appointment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/ths_schedule_appointment_for"
+        android:textColor="?attr/uidLabelRegularNormalTextColor"
+        style="@style/UIDLabelDescription"
+        android:textSize="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        />
+
+    <View android:background="@color/uid_gray_level_5"
+        android:id="@+id/line_separator"
+        android:layout_width = "match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/schedule_appointment"
+        />
+
+    <include
+        android:id="@+id/calendar_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/calender_layout"
+        android:layout_below="@+id/line_separator"
+        />
+
+    <View android:background="@color/uid_gray_level_5"
+        android:id="@+id/line_separator_1"
+        android:layout_width = "match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/calendar_date"
+        />
+
+    <include
+        android:id="@+id/providerDetailDListLayout"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/line_separator_1"
+        layout="@layout/ths_provider_details_d_list" />
+
+    <View android:background="@color/uid_gray_level_5"
+        android:layout_below="@+id/providerDetailDListLayout"
+        android:id="@+id/horizontalLine"
+        android:layout_width = "match_parent"
+        android:layout_height="1dp"
+        />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/email_sent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/ths_email_sent"
+        android:textColor="?attr/uidLabelRegularNormalTextColor"
+        style="@style/UIDLabelDescription"
+        android:textSize="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_below="@id/horizontalLine"
+        />
+
+    <RelativeLayout
+        android:id="@+id/bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/uid_grid_title_padding"
+        android:paddingEnd="@dimen/uid_grid_title_padding"
+        android:layout_marginTop="@dimen/uid_grid_title_padding"
+        android:layout_marginBottom="@dimen/uid_grid_title_padding"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_alignParentBottom="true">
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/set_remainder"
+            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ths_set_remainder"
+            />
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/ok_got_it"
+            android:layout_below="@+id/set_remainder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ths_got_it"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>
