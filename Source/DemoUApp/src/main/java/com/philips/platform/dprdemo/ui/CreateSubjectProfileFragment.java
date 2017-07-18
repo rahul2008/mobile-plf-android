@@ -17,10 +17,7 @@ import android.widget.EditText;
 
 import com.philips.platform.datasync.subjectProfile.UCoreSubjectProfile;
 import com.philips.platform.dprdemo.R;
-import com.philips.platform.dprdemo.pojo.PairDevice;
 import com.philips.platform.dprdemo.pojo.SubjectProfile;
-import com.philips.platform.dprdemo.states.PairDeviceState;
-import com.philips.platform.dprdemo.states.StateContext;
 import com.philips.platform.dprdemo.utils.Utility;
 
 import java.util.List;
@@ -30,7 +27,6 @@ public class CreateSubjectProfileFragment extends DevicePairingBaseFragment impl
     private View view;
     private EditText firstName, dob, gender, weight, creationDate;
     private Button createProfileButton;
-    private PairDevice pairDevice;
     private IDevicePairingListener mDeviceStatusListener;
     private Context mContext;
 
@@ -89,10 +85,6 @@ public class CreateSubjectProfileFragment extends DevicePairingBaseFragment impl
         creationDate.setEnabled(false);
     }
 
-    public void setDeviceDetails(PairDevice pairDevice) {
-        this.pairDevice = pairDevice;
-    }
-
     private boolean validate() {
         String firstNameText = firstName.getText().toString();
         String dobText = dob.getText().toString();
@@ -102,7 +94,6 @@ public class CreateSubjectProfileFragment extends DevicePairingBaseFragment impl
 
         return !(firstNameText.length() == 0 || dobText.length() == 0 || genderText.length() == 0 || weightText.length() == 0 || creationDateText.length() == 0);
     }
-
 
     @Override
     public void onClick(View v) {
@@ -148,7 +139,7 @@ public class CreateSubjectProfileFragment extends DevicePairingBaseFragment impl
     public void onCreateSubjectProfile(List<UCoreSubjectProfile> list) {
         dismissProgressDialog();
         removeCurrentFragment();
-        pairDevice(list);
+        mDeviceStatusListener.onProfileCreated();
     }
 
     @Override
@@ -166,13 +157,5 @@ public class CreateSubjectProfileFragment extends DevicePairingBaseFragment impl
     @Override
     public void onInvalidInput() {
         showAlertDialog(getString(R.string.enter_valid_input));
-    }
-
-    private void pairDevice(List<UCoreSubjectProfile> list) {
-        showProgressDialog(getString(R.string.pairing_device));
-        StateContext stateContext = new StateContext();
-        stateContext.setState(new PairDeviceState(pairDevice,
-                list, mDeviceStatusListener, getActivity()));
-        stateContext.start();
     }
 }

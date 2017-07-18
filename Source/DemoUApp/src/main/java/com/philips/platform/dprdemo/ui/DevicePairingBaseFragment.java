@@ -28,7 +28,7 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 
 public abstract class DevicePairingBaseFragment extends Fragment implements BackEventListener, NetworkChangeListener.INetworkChangeListener {
     private static ActionBarListener mActionbarUpdateListener;
-    private ProgressDialog mProgressDialog;
+    private static ProgressDialog mProgressDialog;
     private AlertDialog.Builder mAlertDialogBuilder;
     private AlertDialog mAlertDialog;
     private NetworkChangeListener mNetworkChangeListener;
@@ -90,6 +90,12 @@ public abstract class DevicePairingBaseFragment extends Fragment implements Back
         super.onDestroyView();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        clearProgressDialog();
+    }
+
     public void showFragment(Fragment fragment, FragmentLauncher fragmentLauncher) {
         FragmentActivity fragmentActivity = fragmentLauncher.getFragmentActivity();
         mActionbarUpdateListener = fragmentLauncher.getActionbarListener();
@@ -121,17 +127,14 @@ public abstract class DevicePairingBaseFragment extends Fragment implements Back
         }
     }
 
-    public void removeCurrentFragment(){
+    public void removeCurrentFragment() {
         getFragmentManager().popBackStack();
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 
-    public boolean isPairingFragmentVisible(){
-        PairingFragment myFragment = (PairingFragment)getFragmentManager().findFragmentByTag(PairingFragment.class.getSimpleName());
-        if (myFragment != null && myFragment.isVisible()) {
-            return true;
-        }
-        return false;
+    public boolean isPairingFragmentVisible() {
+        PairingFragment myFragment = (PairingFragment) getFragmentManager().findFragmentByTag(PairingFragment.class.getSimpleName());
+        return myFragment != null && myFragment.isVisible();
     }
 
  /*   public boolean clearFragmentStack() {
@@ -168,14 +171,15 @@ public abstract class DevicePairingBaseFragment extends Fragment implements Back
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mProgressDialog = new ProgressDialog(mContext);
-                mProgressDialog.setCancelable(true);
+                if (mProgressDialog == null) {
+                    mProgressDialog = new ProgressDialog(mContext);
+                }
+                mProgressDialog.setCancelable(false);
                 mProgressDialog.setCanceledOnTouchOutside(false);
                 mProgressDialog.setMessage(message);
-                if (mProgressDialog != null && !mProgressDialog.isShowing() && !(((Activity)mContext).isFinishing())) {
+                if (mProgressDialog != null && !mProgressDialog.isShowing() && !(((Activity) mContext).isFinishing())) {
                     mProgressDialog.show();
                 }
-
             }
         });
     }
@@ -184,10 +188,9 @@ public abstract class DevicePairingBaseFragment extends Fragment implements Back
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (isProgressShowing() && !(((Activity)mContext).isFinishing())) {
+                if (isProgressShowing() && !(((Activity) mContext).isFinishing())) {
                     mProgressDialog.dismiss();
                 }
-
             }
         });
     }
@@ -197,7 +200,7 @@ public abstract class DevicePairingBaseFragment extends Fragment implements Back
     }
 
     public void clearProgressDialog() {
-        if (isProgressShowing() && !(((Activity)mContext).isFinishing())) {
+        if (isProgressShowing() && !(((Activity) mContext).isFinishing())) {
             mProgressDialog.dismiss();
         }
         mProgressDialog = null;
@@ -213,10 +216,11 @@ public abstract class DevicePairingBaseFragment extends Fragment implements Back
                 }
             });
         }
+
         if (mAlertDialog == null)
             mAlertDialog = mAlertDialogBuilder.create();
 
-        if (!mAlertDialog.isShowing() && !(((Activity)mContext).isFinishing())) {
+        if (!mAlertDialog.isShowing() && !(((Activity) mContext).isFinishing())) {
             mAlertDialog.setMessage(message);
             mAlertDialog.show();
         }

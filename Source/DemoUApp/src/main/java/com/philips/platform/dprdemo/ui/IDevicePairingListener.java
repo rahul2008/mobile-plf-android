@@ -14,11 +14,15 @@ public interface IDevicePairingListener {
 
     void onDeviceUnPaired(String unPairedDeviceID);
 
-    void onError(String errorMessage);
+    void onConsentNotAccepted();
+
+    void onConsentsAccepted();
+
+    void onProfileNotCreated();
+
+    void onProfileCreated();
 
     void onInternetError();
 
-    void onConsentNotAccepted();
-
-    void onProfileNotCreated();
+    void onError(String errorMessage);
 }

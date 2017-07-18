@@ -1,7 +1,7 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
 * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
 */
 package com.philips.platform.dprdemo.ui;
 
@@ -319,21 +319,31 @@ public class PairingFragment extends DevicePairingBaseFragment implements IDevic
     }
 
     @Override
+    public void onConsentsAccepted() {
+        dismissProgressDialog();
+        launchSubjectProfile();
+    }
+
+    @Override
     public void onProfileNotCreated() {
         dismissProgressDialog();
         launchSubjectProfile();
     }
 
+    @Override
+    public void onProfileCreated() {
+        showProgressDialog(getString(R.string.pairing_device));
+        mLaunchFragmentPresenter.pairDevice(getTestDeviceDetails(), PairingFragment.this);
+    }
+
     private void launchConsents() {
         ConsentsFragment consentsFragment = new ConsentsFragment();
-        consentsFragment.setDeviceDetails(mPairDevice);
         consentsFragment.setDeviceStatusListener(this);
         showFragment(consentsFragment);
     }
 
     private void launchSubjectProfile() {
         CreateSubjectProfileFragment createProfileFragment = new CreateSubjectProfileFragment();
-        createProfileFragment.setDeviceDetails(mPairDevice);
         createProfileFragment.setDeviceStatusListener(this);
         showFragment(createProfileFragment);
     }

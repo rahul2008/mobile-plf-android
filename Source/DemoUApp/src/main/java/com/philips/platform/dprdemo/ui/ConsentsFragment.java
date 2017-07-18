@@ -24,7 +24,6 @@ import com.philips.platform.core.listeners.DBRequestListener;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.dprdemo.R;
 import com.philips.platform.dprdemo.consents.OrmConsentDetail;
-import com.philips.platform.dprdemo.pojo.PairDevice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,6 @@ public class ConsentsFragment extends DevicePairingBaseFragment implements DBReq
     private ConsentsAdapter mConsentDialogAdapter;
     private ConsentsPresenter mConsentDialogPresenter;
     private DataServicesManager mDataServicesManager;
-    private PairDevice mPairDevice;
     private IDevicePairingListener mDeviceStatusListener;
     private Button mBtnOk;
 
@@ -136,10 +134,6 @@ public class ConsentsFragment extends DevicePairingBaseFragment implements DBReq
         }
     }
 
-    public void setDeviceDetails(PairDevice pairDeviceDetails) {
-        this.mPairDevice = pairDeviceDetails;
-    }
-
     public void setDeviceStatusListener(IDevicePairingListener deviceStatusListener) {
         mDeviceStatusListener = deviceStatusListener;
     }
@@ -170,7 +164,7 @@ public class ConsentsFragment extends DevicePairingBaseFragment implements DBReq
 
         if (isConsentAccepted(data)) {
             removeCurrentFragment();
-            launchSubjectProfile();
+            mDeviceStatusListener.onConsentsAccepted();
         } else {
             showAlertDialog(getString(R.string.accept_consents));
         }
@@ -239,12 +233,5 @@ public class ConsentsFragment extends DevicePairingBaseFragment implements DBReq
                 }
             });
         }
-    }
-
-    private void launchSubjectProfile() {
-        CreateSubjectProfileFragment createProfileFragment = new CreateSubjectProfileFragment();
-        createProfileFragment.setDeviceDetails(mPairDevice);
-        createProfileFragment.setDeviceStatusListener(mDeviceStatusListener);
-        showFragment(createProfileFragment);
     }
 }
