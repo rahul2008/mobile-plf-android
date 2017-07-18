@@ -22,7 +22,8 @@
         android:largeHeap="true">
         <activity
             android:name="com.philips.cdp.digitalcare.activity.DigitalCareActivity"
-            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|locale|layoutDirection|fontScale">
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|locale|layoutDirection|fontScale"
+            android:exported="false">
 
             <intent-filter>
                 <action android:name="android.intent.action.SUPPORT_DIGITAL" />
