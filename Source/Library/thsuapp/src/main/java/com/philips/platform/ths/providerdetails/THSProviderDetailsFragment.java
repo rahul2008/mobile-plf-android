@@ -32,6 +32,8 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     private Practice mPractice;
     THSProviderDetailsDisplayHelper mThsProviderDetailsDisplayHelper;
 
+    Provider mProvider;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
      */
     @Override
     public void updateView(Provider provider) {
+        setProvider(provider);
         mThsProviderDetailsDisplayHelper.updateView(provider,null);
     }
 
@@ -86,6 +89,16 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
         super.onActivityCreated(savedInstanceState);
         onRefresh();
 
+    }
+
+    public  THSProviderEntity getProviderEntitiy(){
+        if (mThsProviderInfo != null) {
+            return mThsProviderInfo;
+        } else if (mThsAvailableProvider != null) {
+            return mThsAvailableProvider;
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -145,8 +158,15 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
             providerDetailsPresenter.onEvent(R.id.detailsButtonOne);
         }else if(i == R.id.detailsButtonTwo){
             providerDetailsPresenter.onEvent(R.id.detailsButtonTwo);
-        }else if(i == R.id.calendar_container){
-            providerDetailsPresenter.onEvent(R.id.calendar_container);
         }
+    }
+
+    @Override
+    public Provider getProvider() {
+        return mProvider;
+    }
+
+    public void setProvider(Provider mProvider) {
+        this.mProvider = mProvider;
     }
 }

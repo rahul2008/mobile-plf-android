@@ -71,6 +71,7 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
             Bundle bundle = new Bundle();
             bundle.putParcelable(THSConstants.THS_PRACTICE_INFO ,viewInterface.getPracticeInfo());
             bundle.putParcelable(THSConstants.THS_PROVIDER_INFO ,viewInterface.getTHSProviderInfo());
+            bundle.putBoolean(THSConstants.THS_IS_DETAILS,true);
             mThsBaseFragment.addFragment(new THSDatePickerFragment(), THSDatePickerFragment.TAG,bundle);
         }else if(componentID == R.id.detailsButtonContinue){
 
@@ -78,6 +79,7 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
             Bundle bundle = new Bundle();
             bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,viewInterface.getPracticeInfo());
             bundle.putParcelable(THSConstants.THS_PROVIDER_INFO ,viewInterface.getTHSProviderInfo());
+            bundle.putBoolean(THSConstants.THS_IS_DETAILS,true);
             mThsBaseFragment.addFragment(new THSDatePickerFragment(), THSDatePickerFragment.TAG,bundle);
         }
     }

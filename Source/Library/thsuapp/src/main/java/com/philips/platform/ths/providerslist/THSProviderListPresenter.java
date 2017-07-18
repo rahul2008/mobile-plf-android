@@ -114,6 +114,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         }else if(componentID == R.id.getScheduleAppointmentButton){
             Bundle bundle = new Bundle();
             bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,practice);
+            bundle.putBoolean(THSConstants.THS_IS_DETAILS,false);
             mThsBaseFragment.addFragment(new THSDatePickerFragment(), THSDatePickerFragment.TAG,bundle);
         }
     }
