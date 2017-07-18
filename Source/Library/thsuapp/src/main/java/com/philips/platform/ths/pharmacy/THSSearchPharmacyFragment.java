@@ -17,7 +17,7 @@ import com.philips.platform.uid.view.widget.SearchBox;
 public class THSSearchPharmacyFragment extends THSBaseFragment implements SearchBox.ExpandListener, SearchBox.QuerySubmitListener,View.OnClickListener {
 
     private UIDNavigationIconToggler navIconToggler;
-    //private SearchBox searchBox;
+    private SearchBox searchBox;
     private Button button;
 
     @Override
@@ -45,19 +45,23 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //inflater.inflate(R.menu.search_pharmacy_menu,menu);
+        inflater.inflate(R.menu.ths_pharmacy_search_menu,menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-//        searchBox = (SearchBox) menu.findItem(R.id.search_pharmacy_menu).getActionView();
-//        searchBox.setExpandListener(this);
-//        searchBox.setQuerySubmitListener(this);
-//        searchBox.setQuery(searchBox.getQuery());
-//        searchBox.setSearchBoxHint("Search for pharmacy");
-//        searchBox.setDecoySearchViewHint("Search for pharmacy");
+        searchBox = (SearchBox) menu.findItem(R.id.ths_pharmacy_search).getActionView();
+        searchBox.setExpandListener(this);
+        searchBox.setQuerySubmitListener(this);
+        searchBox.setQuery(searchBox.getQuery());
+        searchBox.setSearchBoxHint("Search for pharmacy");
+        searchBox.setDecoySearchViewHint("Search for pharmacy");
+        searchBox.setExpandListener(this);
+        searchBox.setQuerySubmitListener(this);
+        searchBox.setSearchIconified(true);
+        searchBox.setSearchCollapsed(true);
     }
 
     @Override

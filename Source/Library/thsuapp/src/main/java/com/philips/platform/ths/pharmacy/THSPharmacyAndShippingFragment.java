@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
@@ -22,11 +23,14 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
             consumerName, consumerCity, consumerShippingAddress, consumerState, consumerShippingZip;
     private THSConsumer thsConsumer;
     private ImageButton editPharmacy, ps_edit_consumer_shipping_address;
+    private RelativeLayout ths_shipping_pharmacy_layout;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_pharmacy_shipping_fragment, container, false);
+        ths_shipping_pharmacy_layout = (RelativeLayout) view.findViewById(R.id.ths_shipping_pharmacy_layout);
+        ths_shipping_pharmacy_layout.setVisibility(View.INVISIBLE);
         thsPharmacyAndShippingPresenter = new THSPharmacyAndShippingPresenter(this);
         editPharmacy = (ImageButton) view.findViewById(R.id.ps_edit_pharmacy);
         ps_edit_consumer_shipping_address = (ImageButton) view.findViewById(R.id.ps_edit_consumer_shipping_address);
@@ -58,6 +62,7 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
 
     @Override
     public void onSuccessUpdateFragmentView(Pharmacy pharmacy, Address address) {
+        ths_shipping_pharmacy_layout.setVisibility(View.VISIBLE);
         consumerName.setText(thsConsumer.getConsumer().getFullName());
         consumerState.setText(address.getState().getCode());
         consumerShippingAddress.setText(address.getAddress1());

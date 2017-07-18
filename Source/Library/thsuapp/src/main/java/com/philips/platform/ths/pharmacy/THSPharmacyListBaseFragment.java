@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.americanwell.sdk.entity.Address;
@@ -36,9 +37,21 @@ public class THSPharmacyListBaseFragment extends THSBaseFragment implements
     protected Address address;
     protected THSPharmacyListPresenter thsPharmacyListPresenter;
 
+
     public void setConsumerAndAddress(THSConsumer thsConsumer, Address address) {
         this.thsConsumer = thsConsumer;
         this.address = address;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        locationListener = null;
+    }
+
+    @Override
+    public int getContainerID() {
+        return ((ViewGroup)getView().getParent()).getId();
     }
 
 
@@ -47,7 +60,7 @@ public class THSPharmacyListBaseFragment extends THSBaseFragment implements
         public void onLocationChanged(Location location) {
             Log.v("Location", "Lon : " + location.getLongitude() + "::::Lat : " + location.getLatitude());
             updatedLocation = location;
-            thsPharmacyListPresenter.fetchPharmacyList(thsConsumer,Double.valueOf(-87.6).floatValue(),Double.valueOf(41.8).floatValue(),5);
+            //thsPharmacyListPresenter.fetchPharmacyList(thsConsumer,Double.valueOf(-87.6).floatValue(),Double.valueOf(41.8).floatValue(),5);
 
         }
 
@@ -98,6 +111,7 @@ public class THSPharmacyListBaseFragment extends THSBaseFragment implements
         if (!checkGooglePlayServices()) {
             getActivity().finish();
         }
+        setHasOptionsMenu(true);
     }
 
     public void checkPermission() {
@@ -136,11 +150,7 @@ public class THSPharmacyListBaseFragment extends THSBaseFragment implements
         super.onStart();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        locationListener = null;
-    }
+
 
 
     private boolean checkGooglePlayServices() {
