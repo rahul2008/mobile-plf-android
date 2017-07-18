@@ -34,6 +34,9 @@ public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePres
     @Override
     public void onResponse(THSAvailableProviderList availableProviders, THSSDKError sdkError) {
         mThsBaseFragment.showToast("Available Providers list Success");
+        if(mThsBaseFragment instanceof THSProviderNotAvailableFragment){
+            ((THSProviderNotAvailableFragment)mThsBaseFragment).updateProviderDetails(mThsBaseFragment.getView());
+        }
         ((THSAvailableProviderListBasedOnDateFragment)mThsBaseFragment).updateProviderAdapterList(availableProviders);
     }
 
@@ -45,7 +48,7 @@ public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePres
     public void getAvailableProvidersBasedOnDate() throws AWSDKInstantiationException {
         THSManager.getInstance().getAvailableProvidersBasedOnDate(mThsBaseFragment.getContext(),
                 ((THSAvailableProviderListBasedOnDateFragment)mThsBaseFragment).getPractice(),
-                null,null,((THSAvailableProviderListBasedOnDateFragment)mThsBaseFragment).mDate,3,this);
+                null,null,((THSAvailableProviderListBasedOnDateFragment)mThsBaseFragment).mDate,null,this);
 
     }
 

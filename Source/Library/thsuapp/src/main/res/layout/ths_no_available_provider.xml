@@ -12,9 +12,9 @@
         layout="@layout/ths_provider_list" />
 
     <View android:background="@color/uid_gray_level_5"
-        android:layout_below="@+id/schedule_appointment"
+        android:layout_below="@+id/provider_detail_container_view"
         android:layout_width = "match_parent"
-        android:layout_height="1dp"
+        android:layout_height="10dp"
         android:id="@+id/separator"
         />
 
@@ -25,5 +25,68 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/separator"
         />
+
+    <View android:background="@color/uid_gray_level_5"
+        android:layout_below="@+id/calendar_view"
+        android:layout_width = "match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/below_calendar_view"
+        />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/no_available_providers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/ths_no_available_appointments"
+        android:textColor="?attr/uidLabelRegularNormalTextColor"
+        style="@style/UIDLabelDescription"
+        android:textSize="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_below="@id/below_calendar_view"
+        />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:layout_below="@+id/no_available_providers"
+        android:id="@+id/selectanother"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/uid_grid_descrption_size"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textColor="?attr/uidLabelValueNormalTextColor"
+        android:layout_marginBottom="10dp"
+        android:text="@string/ths_select_other_provider"/>
+
+    <View android:background="@color/uid_gray_level_5"
+        android:layout_below="@+id/selectanother"
+        android:layout_width = "match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/below_select_other"
+        />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/below_providers"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/uidLabelValueNormalTextColor"
+        android:text="Or pick on these doctors to schedule an appointment"
+        android:layout_below="@id/below_select_other"
+        android:background="@color/uid_gray_level_5"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/providerListRecyclerView"
+        android:layout_below="@id/below_providers"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:scrollbars="vertical">
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

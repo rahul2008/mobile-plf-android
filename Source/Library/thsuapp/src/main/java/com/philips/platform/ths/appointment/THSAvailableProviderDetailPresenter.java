@@ -75,7 +75,12 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
     @Override
     public void onResponse(List dates, THSSDKError sdkError) {
         if(dates==null || dates.size()==0){
-            mThsBaseFragment.addFragment(new THSProviderNotAvailableFragment(),THSProviderNotAvailableFragment.TAG,null);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(THSConstants.THS_DATE,mDate);
+            bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,((THSDatePickerFragment)mThsBaseFragment).getPractice());
+            bundle.putParcelable(THSConstants.THS_PROVIDER ,((THSAvailableProviderDetailFragment)mThsBaseFragment).getProvider());
+            mThsBaseFragment.addFragment(new THSProviderNotAvailableFragment(),THSProviderNotAvailableFragment.TAG,bundle);
+            bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY ,((THSAvailableProviderDetailFragment)mThsBaseFragment).getProviderEntitiy());
         }else {
             mthsProviderDetailsDisplayHelper.updateView(((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider(), dates);
             mThsBaseFragment.hideProgressBar();

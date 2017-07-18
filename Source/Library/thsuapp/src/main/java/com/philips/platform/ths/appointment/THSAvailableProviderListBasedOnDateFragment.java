@@ -17,6 +17,7 @@ import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.providerslist.OnProviderListItemClickListener;
 import com.philips.platform.ths.providerslist.THSProvidersListAdapter;
 import com.philips.platform.ths.utility.THSConstants;
+import com.philips.platform.uid.view.widget.Label;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,6 +32,7 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
     private RecyclerView recyclerView;
     THSAvailableProviderList mTHSAvailableProviderList;
     View mChangeAppointDateView;
+    Label mLabelNumberOfAvailableDoctors;
 
     @Nullable
     @Override
@@ -43,12 +45,8 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         recyclerView = (RecyclerView) view.findViewById(R.id.providerListRecyclerView);
         mChangeAppointDateView = view.findViewById(R.id.calendar_view);
         mChangeAppointDateView.setOnClickListener(this);
-        return view;
-    }
+        mLabelNumberOfAvailableDoctors = (Label)view.findViewById(R.id.number_of_available_doctors);
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_available_provider), true);
@@ -58,6 +56,8 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
+
+        return view;
     }
 
     @Override
@@ -71,6 +71,7 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
 
     public void updateProviderAdapterList(final THSAvailableProviderList availableProviderses) {
         mTHSAvailableProviderList = availableProviderses;
+
         List<THSAvailableProvider> listOfProviderInfos = new ArrayList();
         for (AvailableProvider availableProvider:availableProviderses.getAvailableProvidersList()) {
             THSAvailableProvider thsProviderInfo = new THSAvailableProvider();
@@ -78,6 +79,9 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
             listOfProviderInfos.add(thsProviderInfo);
         }
         THSProvidersListAdapter adapter= new THSProvidersListAdapter(listOfProviderInfos);
+
+        mLabelNumberOfAvailableDoctors.setText(listOfProviderInfos.size() + " available location specialists");
+
         adapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
             @Override
             public void onItemClick(THSProviderEntity item) {
