@@ -9,7 +9,6 @@ package com.philips.cdp.digitalcare.contactus.fragments;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +16,12 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +35,7 @@ public class EmailFragment extends DigitalCareBaseFragment {
     private ImageView mActionBarArrow = null;
     private String EMAIL_URL = "https://%s/content/%s/%s_%s/support-home/support-contact-form-mrs.html?param1=%s";
     private String TAG = EmailFragment.class.getSimpleName();
+    private String mEmailUrl;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,7 +58,8 @@ public class EmailFragment extends DigitalCareBaseFragment {
                 (AnalyticsConstants.PAGE_CONTACTUS_EMAIL,
                         contextData);
         initView();
-        loadEmail();
+        mEmailUrl = getEmailUrl();
+        loadEmail(mEmailUrl);
     }
 
     private void initView() {
@@ -75,29 +73,16 @@ public class EmailFragment extends DigitalCareBaseFragment {
     }
 
 
-    private void loadEmail() {
-        if (getEmailUrl() == null) {
+    public void loadEmail(String emailUrl) {
+        if (emailUrl == null) {
             mProgressBar.setVisibility(View.GONE);
         } else {
-            String url = getEmailUrl() + "&origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app";
-            DigiCareLogger.d(TAG, url);
+            String url = emailUrl + "&origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app";
             setWebSettingForWebview(url, mWebView, mProgressBar);
         }
     }
 
     private String getEmailUrl() {
-       /*if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() == null)
-            return null;*/
-        /*String language = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
-                .getLanguage().toLowerCase();
-
-        String country = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
-                .getCountry().toUpperCase();
-
-        ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
-                .getInstance().getConsumerProductInfo();*/
-
-       
         return DigitalCareConfigManager.getInstance().getEmailUrl();
     }
 
@@ -122,7 +107,6 @@ public class EmailFragment extends DigitalCareBaseFragment {
     public void onClick(View view) {
 
     }
-
 
     @Override
     public void onResume() {

@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare.fragments.rateandreview.fragments;
+package com.philips.cdp.digitalcare.contactus.fragments;
 
 import android.content.res.Configuration;
 import android.view.View;
@@ -29,12 +29,17 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import static org.powermock.api.mockito.PowerMockito.spy;
 import static org.powermock.api.mockito.PowerMockito.when;
 
+/**
+ * Created by philips on 7/18/17.
+ */
+
+
 @RunWith(CustomRobolectricRunnerDigitalCare.class)
 @PrepareForTest(DigitalCareConfigManager.class)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
-public class ProductReviewFragmentTest extends MockitoConfiguration{
+public class EmailFragmentTest extends MockitoConfiguration {
 
-    private ProductReviewFragment fragment;
+    private EmailFragment fragment;
 
     private View rootView;
 
@@ -51,15 +56,15 @@ public class ProductReviewFragmentTest extends MockitoConfiguration{
 
     @Before
     public void setUp(){
+        Robolectric.buildActivity(DigitalCareTestMock.class).create().get();
         MockitoAnnotations.initMocks(this);
-        fragment = new ProductReviewFragment();
+        fragment = new EmailFragment();
         PowerMockito.mockStatic(DigitalCareConfigManager.class);
         when(DigitalCareConfigManager.getInstance()).thenReturn(mockDigitalCareConfigManager);
         when(DigitalCareConfigManager.getInstance().getTaggingInterface()).thenReturn(mockAppTaggingInterface);
         digitalCareBaseFragmentspy=spy(fragment);
         SupportFragmentTestUtil.startFragment(fragment,DigitalCareTestMock.class);
         rootView=fragment.getView();
-        Robolectric.buildActivity(DigitalCareTestMock.class).create().get();
     }
 
     @Test
@@ -68,27 +73,25 @@ public class ProductReviewFragmentTest extends MockitoConfiguration{
     }
 
     @Test
-    public void testLoadProductpageNull() throws Exception {
-        when(mockDigitalCareConfigManager.getProductReviewUrl()).thenReturn("http://www.philips.com");
-        fragment.loadProductpage(null);
-        ProgressBar mProgressBar =(ProgressBar) rootView.findViewById(
-                R.id.common_webview_progress);
-        Assert.assertEquals(View.VISIBLE,mProgressBar.getVisibility());
-    }
-
-    @Test
-    public void testLoadProductpageNotNull() throws Exception {
-        when(mockDigitalCareConfigManager.getProductReviewUrl()).thenReturn("http://www.philips.com");
-        fragment.loadProductpage("Khan");
-        ProgressBar mProgressBar =(ProgressBar) rootView.findViewById(
-                R.id.common_webview_progress);
-        Assert.assertEquals(View.VISIBLE,mProgressBar.getVisibility());
-    }
-
-    @Test
     public void testGetActionbarTitle(){
         String title = fragment.getActionbarTitle();
         Assert.assertNotNull(title);
+    }
+
+    @Test
+    public void testLoadEmailPageNull() throws Exception {
+        fragment.loadEmail(null);
+        ProgressBar mProgressBar =(ProgressBar) rootView.findViewById(
+                R.id.common_webview_progress);
+        Assert.assertEquals(View.GONE,mProgressBar.getVisibility());
+    }
+
+    @Test
+    public void testLoadEmailPageNotNull() throws Exception {
+        fragment.loadEmail("DummyData");
+        ProgressBar mProgressBar =(ProgressBar) rootView.findViewById(
+                R.id.common_webview_progress);
+        Assert.assertEquals(View.VISIBLE,mProgressBar.getVisibility());
     }
 
     @Test
@@ -108,4 +111,3 @@ public class ProductReviewFragmentTest extends MockitoConfiguration{
         fragment.onDestroy();
     }
 }
-

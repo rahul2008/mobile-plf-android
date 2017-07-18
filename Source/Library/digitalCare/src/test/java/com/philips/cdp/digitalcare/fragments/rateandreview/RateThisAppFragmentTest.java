@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.configuration.MockitoConfiguration;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -35,8 +36,8 @@ import static org.powermock.api.mockito.PowerMockito.when;
  */
 @RunWith(CustomRobolectricRunnerDigitalCare.class)
 @PrepareForTest(DigitalCareConfigManager.class)
-@PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*", "com.philips.cdp.ohc.utility.ui.*"})
-public class RateThisAppFragmentTest {
+@PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
+public class RateThisAppFragmentTest extends MockitoConfiguration {
 
     @Mock
     private DigitalCareConfigManager mockDigitalCareConfigManager;
