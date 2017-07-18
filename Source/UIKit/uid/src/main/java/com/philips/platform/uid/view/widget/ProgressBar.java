@@ -126,8 +126,9 @@ public class ProgressBar extends android.widget.ProgressBar {
 
     private void setGradientOnProvidedDrawable(@NonNull final RotateDrawable progress) {
         GradientDrawable gradientDrawable = (GradientDrawable) progress.getDrawable();
-        gradientDrawable.setGradientType(GradientDrawable.SWEEP_GRADIENT);
-
-        gradientDrawable.setColors(new int[]{Color.TRANSPARENT, indeterminateCircularEndColor});
+        if (gradientDrawable != null) {
+            gradientDrawable.setGradientType(GradientDrawable.SWEEP_GRADIENT);
+            gradientDrawable.setColors(new int[]{Color.TRANSPARENT, indeterminateCircularEndColor});
+        }
     }
 }

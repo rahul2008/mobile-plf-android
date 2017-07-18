@@ -227,9 +227,9 @@ public class Label extends AppCompatTextView {
             UIDClickableSpanWrapper[] spans = text.getSpans(0, text.length(), UIDClickableSpanWrapper.class);
             if (spans.length > 0) {
                 ArrayList<URLSpan> urlSpanList = new ArrayList<>();
-                for (int index = 0; index < spans.length; index++) {
-                    if (spans[index].getWrappedSpan() instanceof URLSpan) {
-                        urlSpanList.add((URLSpan) spans[index].getWrappedSpan());
+                for (UIDClickableSpanWrapper span : spans) {
+                    if (span.getWrappedSpan() instanceof URLSpan) {
+                        urlSpanList.add((URLSpan) span.getWrappedSpan());
                     }
                 }
                 return urlSpanList.toArray(new URLSpan[0]);

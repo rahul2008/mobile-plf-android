@@ -30,12 +30,6 @@ import com.philips.platform.uid.utils.UIDInputTextUtils;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
 
 public class EditText extends AppCompatEditText {
-    private final static int DRAWABLE_FILL_INDEX = 0;
-    private final static int DRAWABLE_STROKE_INDEX = 1;
-
-    private ColorStateList strokeColorStateList;
-    private ColorStateList fillColorStateList;
-
     private boolean passwordVisible = false;
 
     private boolean isClearIconSupported = false;
@@ -45,7 +39,7 @@ public class EditText extends AppCompatEditText {
         this(context, null);
     }
 
-    public EditText(@NonNull final Context context, @NonNull final AttributeSet attrs) {
+    public EditText(@NonNull final Context context, final AttributeSet attrs) {
         this(context, attrs, R.attr.uidEditTextStyle);
     }
 
@@ -54,7 +48,7 @@ public class EditText extends AppCompatEditText {
         processAttributes(context, attrs, defStyleAttr);
     }
 
-    private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs, @NonNull int defStyleAttr) {
+    private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs,int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDTextEditBox, defStyleAttr, R.style.UIDEditTextBox);
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
 

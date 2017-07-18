@@ -44,11 +44,11 @@ public class ProgressBarButton extends LinearLayout {
         this(context, null);
     }
 
-    public ProgressBarButton(@NonNull final Context context, @NonNull final AttributeSet attrs) {
+    public ProgressBarButton(@NonNull final Context context, final AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ProgressBarButton(@NonNull final Context context, @NonNull final AttributeSet attrs, @NonNull final int defStyleAttr) {
+    public ProgressBarButton(@NonNull final Context context, @NonNull final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setOrientation(VERTICAL);
         gestureDetector = new GestureDetectorCompat(context, new TapDetector());
@@ -66,7 +66,7 @@ public class ProgressBarButton extends LinearLayout {
     }
 
     @Override
-    public void setOnClickListener(@NonNull final OnClickListener listener) {
+    public void setOnClickListener(final OnClickListener listener) {
         clickListener = listener;
         super.setOnClickListener(listener);
     }
@@ -230,7 +230,7 @@ public class ProgressBarButton extends LinearLayout {
     /**
      * Get the progress text of the button
      *
-     * @String progress text of the button
+     * @return  progress text of the button
      */
     public String getProgressText() {
         return progressTextView.getText().toString();
@@ -267,7 +267,7 @@ public class ProgressBarButton extends LinearLayout {
     /**
      * Get the text of the button
      *
-     * @String text of the button
+     * @return text of the button
      */
     public String getText() {
         return button.getText().toString();
