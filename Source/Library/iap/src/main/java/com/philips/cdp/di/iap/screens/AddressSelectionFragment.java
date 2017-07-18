@@ -307,6 +307,7 @@ public class AddressSelectionFragment extends InAppBaseFragment implements Addre
         addressHashMap.put(ModelConstants.TOWN, address.getTown());
         addressHashMap.put(ModelConstants.ADDRESS_ID, address.getId());
         addressHashMap.put(ModelConstants.PHONE_1, address.getPhone1());
+        addressHashMap.put(ModelConstants.PHONE_2, address.getPhone1());
 
         if (address.getRegion() != null) {
             addressHashMap.put(ModelConstants.REGION_ISOCODE, address.getRegion().getName());

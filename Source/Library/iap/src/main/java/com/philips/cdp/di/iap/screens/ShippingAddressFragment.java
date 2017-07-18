@@ -383,10 +383,6 @@ public class ShippingAddressFragment extends InAppBaseFragment
                     errorMessage = getResources().getString(R.string.iap_phone_error);
                     mInlineFormsParent.setErrorMessage(errorMessage);
                     mInlineFormsParent.showError(mEtPhone1);
-                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.PHONE_2)) {
-                    errorMessage = getResources().getString(R.string.iap_phone_error);
-                    mInlineFormsParent.setErrorMessage(errorMessage);
-                    mInlineFormsParent.showError(mEtPhone2);
                 } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_2)) {
                     errorMessage = getResources().getString(R.string.iap_address_error);
                     mInlineFormsParent.setErrorMessage(errorMessage);
@@ -670,9 +666,11 @@ public class ShippingAddressFragment extends InAppBaseFragment
         mEtPhone1.setText(mAddressFieldsHashmap.get(ModelConstants.PHONE_1));
         mEtEmail.setText(mAddressFieldsHashmap.get(ModelConstants.EMAIL_ADDRESS));
 
-        if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_ISOCODE) &&
-                mAddressFieldsHashmap.get(ModelConstants.REGION_ISOCODE) != null) {
-            mEtState.setText(mAddressFieldsHashmap.get(ModelConstants.REGION_ISOCODE));
+        if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_CODE) &&
+                mAddressFieldsHashmap.get(ModelConstants.REGION_CODE) != null) {
+            String code = mAddressFieldsHashmap.get(ModelConstants.REGION_CODE);
+            String stateCode = code.substring(code.length()-2);
+            mEtState.setText(stateCode);
             mlLState.setVisibility(View.VISIBLE);
         } else {
             mlLState.setVisibility(View.GONE);
