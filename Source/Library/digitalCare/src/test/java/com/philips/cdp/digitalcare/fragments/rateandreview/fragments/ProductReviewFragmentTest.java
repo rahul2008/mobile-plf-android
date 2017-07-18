@@ -1,4 +1,5 @@
-package com.philips.cdp.digitalcare.fragments.rateandreview;
+/*
+package com.philips.cdp.digitalcare.fragments.rateandreview.fragments;
 
 import android.content.res.Configuration;
 import android.view.View;
@@ -6,9 +7,9 @@ import android.widget.ProgressBar;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
-import com.philips.cdp.digitalcare.fragments.rateandreview.fragments.ProductReviewFragment;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerDigitalCare;
+import com.philips.cdp.digitalcare.util.DigitalCareTestMock;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
 import org.junit.Assert;
@@ -28,9 +29,11 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import static org.powermock.api.mockito.PowerMockito.spy;
 import static org.powermock.api.mockito.PowerMockito.when;
 
+*/
 /**
  * Created by philips on 7/17/17.
- */
+ *//*
+
 
 @RunWith(CustomRobolectricRunnerDigitalCare.class)
 @PrepareForTest(DigitalCareConfigManager.class)
@@ -111,3 +114,4 @@ public class ProductReviewFragmentTest {
         fragment.onDestroy();
     }
 }
+*/
