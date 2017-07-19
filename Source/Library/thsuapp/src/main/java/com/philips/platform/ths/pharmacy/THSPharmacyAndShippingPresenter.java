@@ -43,7 +43,7 @@ public class THSPharmacyAndShippingPresenter implements THSBasePresenter,THSPref
     @Override
     public void onPharmacyReceived(Pharmacy pharmacy, SDKError sdkError) {
         this.pharmacy = pharmacy;
-            getConsumerShippingAddress(thsConsumer);
+        getConsumerShippingAddress(thsConsumer);
 
     }
 

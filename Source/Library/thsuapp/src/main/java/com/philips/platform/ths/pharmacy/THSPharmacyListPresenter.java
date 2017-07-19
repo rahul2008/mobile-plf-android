@@ -49,6 +49,13 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
         }
     }
 
+    public void fetchPharmacyList(THSConsumer thsConsumer,float latitude,float longitude,int radius){
+        try {
+            THSManager.getInstance().getPharmacies(thsPharmacyListViewListener.getFragmentActivity(),thsConsumer,latitude,longitude,radius,this);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public void onValidationFailure(Map<String, ValidationReason> map) {
 
