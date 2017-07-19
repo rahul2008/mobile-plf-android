@@ -35,7 +35,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -51,14 +50,11 @@ import com.philips.cdp.digitalcare.contactus.models.CdlsResponseModel;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsParsingCallback;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsResponseParser;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-//import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
-import com.philips.cdp.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cdp.digitalcare.request.RequestData;
 import com.philips.cdp.digitalcare.request.ResponseCallback;
 import com.philips.cdp.digitalcare.social.facebook.FacebookWebFragment;
 import com.philips.cdp.digitalcare.social.twitter.TwitterWebFragment;
 import com.philips.cdp.digitalcare.util.CommonRecyclerViewAdapter;
-import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.MenuItem;
 import com.philips.cdp.digitalcare.util.Utils;
 import com.philips.platform.uid.view.widget.Label;
@@ -72,16 +68,12 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-public class ContactUsFragment extends DigitalCareBaseFragment implements
-        /*TwitterAuthenticationCallback,*/ OnClickListener, ResponseCallback, Observer {
-    private static final String CDLS_URL_PORT = "https://www.philips.com/prx/cdls/%s/%s/%s/%s.querytype.(fallback)";
-    private static final String TAG = ContactUsFragment.class.getSimpleName();
-    private static final String USER_SELECTED_PRODUCT_CTN = "mCtnFromPreference";
+public class ContactUsFragment extends DigitalCareBaseFragment implements OnClickListener, ResponseCallback, Observer {
     private static final String USER_PREFERENCE = "user_product";
     private static final String USER_SELECTED_PRODUCT_CTN_CALL = "contact_call";
     private static final String USER_SELECTED_PRODUCT_CTN_HOURS = "contact_hours";
-    private static View mView = null;
-    private static boolean isFirstTimeCdlsCall = true;
+    private View mView = null;
+    private boolean isFirstTimeCdlsCall = true;
     private SharedPreferences prefs = null;
     private Button mChat = null;
     private Button mCallPhilips = null;
@@ -90,21 +82,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     private TextView mContactUsOpeningHours = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
-    private String mCdlsResponseStr = null;
     private ProgressDialog mPostProgress = null;
     RecyclerView mContactUsSocilaProviderButtonsParent = null;
     private LinearLayout.LayoutParams mSecondContainerParams = null;
     private LinearLayout mLLSocialParent = null;
-    private final Runnable mTwitteroAuthRunnable = new Runnable() {
-
-        @Override
-        public void run() {
-            if (mPostProgress != null && mPostProgress.isShowing()) {
-                mPostProgress.dismiss();
-                mPostProgress = null;
-            }
-        }
-    };
     private ProgressDialog mDialog = null;
     private final CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
         @Override
@@ -162,7 +143,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         try {
             mView = inflater.inflate(R.layout.consumercare_fragment_contact_us, container, false);
         } catch (InflateException e) {
-            DigiCareLogger.e(TAG, "UI Inflation error : " + e);
         }
 
         return mView;
@@ -219,9 +199,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
             String contactNumber = prefs.getString(USER_SELECTED_PRODUCT_CTN_CALL, "");
             String hours = prefs.getString(USER_SELECTED_PRODUCT_CTN_HOURS, "");
-
-            DigiCareLogger.v(TAG, "CACHED Number : " + contactNumber);
-            DigiCareLogger.v(TAG, "CACHED Hours : " + hours);
             if (mFirstRowText != null && isContactHoursCached()) {
                 mFirstRowText.setVisibility(View.VISIBLE);
                 mFirstRowText.setText(hours);
@@ -244,7 +221,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                     (AnalyticsConstants.PAGE_CONTACT_US,
                             getPreviousName(), getPreviousName());
         } catch (Exception e) {
-            DigiCareLogger.e(TAG, "IllegaleArgumentException : " + e);
         }
         config = getResources().getConfiguration();
 
@@ -300,11 +276,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
 
     protected void requestCdlsData() {
-        DigiCareLogger.d(TAG, "CDLS Request Thread is started");
         startProgressDialog();
         if (isCdlsUrlNull()) {
             String url = getCdlsUrl();
-            DigiCareLogger.d(TAG, "CDLS Request URL : " + url);
             RequestData requestData = new RequestData();
             requestData.setRequestUrl(url);
             requestData.setResponseCallback(this);
@@ -320,9 +294,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     public void onResponseReceived(String response) {
         if (isAdded()) {
             closeProgressDialog();
-           /* DigiCareLogger.i(TAG, "onResponseReceived : " + response);*/
             if (response != null && isAdded()) {
-                mCdlsResponseStr = response;
                 parseCdlsResponse(response);
             } else {
                 /*
@@ -444,8 +416,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             myintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(myintent);
         } catch (NullPointerException e) {
-            // DigiCareLogger.d(TAG, "on Call Click : "+ mCdlsParsedResponse.getPhone().getPhoneNumber());
-            DigiCareLogger.e(TAG, "Null Pointer Exception on  callPhilips method : " + e);
         }
     }
 
@@ -463,26 +433,15 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                         .onSocialProviderItemClicked(tag.toString());
             }
         } catch (NullPointerException exception) {
-            DigiCareLogger.e(TAG, "SocialProvider listener not added in vertical side..");
         }
         if (actionTaken) {
             return;
         }
 
         if (id == R.id.contactUsChat && isConnectionAvailable()) {
-//            if (mCdlsResponseStr == null) {
-//                showAlert(getActivity().getString(R.string.no_data));
-//                return;
-//            } else if (mCdlsParsedResponse != null
-//                    && !mCdlsParsedResponse.getSuccess()) {
-//                showAlert(getActivity().getString(R.string.no_data));
-//                return;
-//            }
             tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_CHAT);
-            DigiCareLogger.i(TAG, "Clicked on the Chat Button");
             showFragment(new ChatFragment());
         } else if (id == R.id.contactUsCall) {
-            DigiCareLogger.i(TAG, "Clicked on the Call Button");
             if (!isContactNumberCached()) {
                 showDialog(getActivity().getString(R.string.no_data));
             } else if (isSimAvailable() && !isTelephonyEnabled()){
@@ -506,14 +465,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         } else if (tag != null
                 && tag.equalsIgnoreCase(getStringKey(R.string.twitter))
                 && isConnectionAvailable()) {
-            DigiCareLogger.i(TAG, "Clicked on the Twitter button");
             launchTwitterFeature();
 
 
         } else if (tag != null && (tag.equalsIgnoreCase(getStringKey(R.string.send_email))) && isConnectionAvailable()) {
 
             tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_EMAIL);
-            DigiCareLogger.i(TAG, "Clicked on the Email button");
             sendEmail();
         }
     }
@@ -532,7 +489,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             final Uri uri = Uri.parse("fb://page/"
                     + getActivity().getResources().getString(
                     R.string.facebook_product_pageID));
-            DigiCareLogger.i(TAG, "Launching Facebook with Information : " + uri);
             final Map<String, String> contextData = new HashMap<String, String>();
             contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
                     AnalyticsConstants.ACTION_VALUE_FACEBOOK);
@@ -540,8 +496,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                     AnalyticsConstants.ACTION_VALUE_FACEBOOK);
             contextData.put(AnalyticsConstants.ACTION_KEY_EXIT_LINK,
                     uri + toString());
-          /*  AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_EXIT_LINK,
-                    contextData);*/
             DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo
                     (AnalyticsConstants.ACTION_EXIT_LINK,
                             contextData);
@@ -549,9 +503,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             getActivity().getApplicationContext().getPackageManager()
                     .getPackageInfo("com.facebook.katana", 0);
             startActivity(new Intent(Intent.ACTION_VIEW, uri));
-            DigiCareLogger.v(TAG, "Launced Installed Facebook Application");
         } catch (Exception e) {
-            DigiCareLogger.v(TAG, "Launching Facebook Webpage");
             showFragment(new FacebookWebFragment());
         }
     }
@@ -561,7 +513,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         final Intent tweetIntent = new Intent(Intent.ACTION_SEND);
         String information = getProductInformation();
         tweetIntent.putExtra(Intent.EXTRA_TEXT, information);
-        DigiCareLogger.i(TAG, "Launching Twitter with information : " + information);
         tweetIntent.setType("text/plain");
 
         final PackageManager packManager = getActivity().getPackageManager();
@@ -658,17 +609,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         boolean isChatEnabled = mChat.getVisibility() == View.VISIBLE ? true : false;
         boolean isCallEnabled = mCallPhilips.getVisibility() == View.VISIBLE ? true : false;
 
-       /* if (!(isSocialButtonsEnabled && isEmailEnabled && isChatEnabled && isCallEnabled)) {
-            showAlert(getResources().getString(R.string.NO_SUPPORT_KEY));
-        }*/
-
         if (!isSocialButtonsEnabled && DigitalCareConfigManager.getInstance().getEmailUrl() == null) {
             showDialog(getResources().getString(R.string.NO_SUPPORT_KEY));
         }
-
-      /*if (mChat != null) {
-            mChat.setVisibility(View.GONE);
-        }*/
     }
 
 
@@ -676,12 +619,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     public void setViewParams(Configuration config) {
 
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            // if (mLeftRightMarginPort != 0)
-            //mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
             mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginPort;
         } else {
-            // if (mLeftRightMarginLand != 0)
-            //mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
             mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginPort;
         }
         mContactUsSocilaProviderButtonsParent.setLayoutParams(mSecondContainerParams);
@@ -829,19 +768,19 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
     private void showDialog(String message){
 
-            mAlertDialog = new AlertDialog.Builder(getActivity(), R.style.alertDialogStyle)
-                    .setTitle(null)
-                    .setMessage(message)
-                    .setPositiveButton(android.R.string.yes,
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    mAlertDialog.dismiss();
+        mAlertDialog = new AlertDialog.Builder(getActivity(), R.style.alertDialogStyle)
+                .setTitle(null)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.yes,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+                                mAlertDialog.dismiss();
 
-                                }
-                            }).show();
+                            }
+                        }).show();
 
-        }
+    }
 
     private void createContactUsSocialProvideMenu() {
         final ContactUsFragment context = this;
