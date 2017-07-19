@@ -88,7 +88,7 @@ public class EmailFragmentTest extends MockitoConfiguration {
 
     @Test
     public void testLoadEmailPageNotNull() throws Exception {
-        fragment.loadEmail("DummyData");
+        fragment.loadEmail("http://www.philips.com");
         ProgressBar mProgressBar =(ProgressBar) rootView.findViewById(
                 R.id.common_webview_progress);
         Assert.assertEquals(View.VISIBLE,mProgressBar.getVisibility());

@@ -67,8 +67,8 @@ public class RateThisAppFragmentTest extends MockitoConfiguration {
         MockitoAnnotations.initMocks(this);
         fragment = new RateThisAppFragment();
         mockViewProductDetailsModel = new ViewProductDetailsModel();
-        mockViewProductDetailsModel.setProductName("Maqsood");
-        mockViewProductDetailsModel.setCtnName("2234");
+        mockViewProductDetailsModel.setProductName("AqvaShaver");
+        mockViewProductDetailsModel.setCtnName("Shaver_2234");
         mockViewProductDetailsModel.setProductImage("http://www.philips.com");
         mockViewProductDetailsModel.setProductInfoLink("http://www.philips.com");
         mockViewProductDetailsModel.setDomain("Philips");
@@ -101,7 +101,7 @@ public class RateThisAppFragmentTest extends MockitoConfiguration {
     @Test
     public void testPhilipsReviewButtonVisibilityVisible(){
         ViewProductDetailsModel viewProductDetailsModel=new ViewProductDetailsModel();
-        viewProductDetailsModel.setProductInfoLink("adfs");
+        viewProductDetailsModel.setProductInfoLink("http://www.philips.com");
         fragment.onPRXProductPageReceived(viewProductDetailsModel);
 
         Button mRatePhilipsBtn=(Button) rootView.findViewById(

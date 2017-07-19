@@ -79,7 +79,7 @@ public class ProductReviewFragmentTest extends MockitoConfiguration{
     @Test
     public void testLoadProductpageNotNull() throws Exception {
         when(mockDigitalCareConfigManager.getProductReviewUrl()).thenReturn("http://www.philips.com");
-        fragment.loadProductpage("Khan");
+        fragment.loadProductpage("Philips");
         ProgressBar mProgressBar =(ProgressBar) rootView.findViewById(
                 R.id.common_webview_progress);
         Assert.assertEquals(View.VISIBLE,mProgressBar.getVisibility());
