@@ -80,6 +80,15 @@ public abstract class BaseFlowManager {
 
     }
 
+    /**
+     * Should be called to initialize flow manager
+     * @param context - context
+     * @param resId - resId of the json file placed in raw folder
+     * @param flowManagerListener - call back listener on parse success
+     * @throws JsonFileNotFoundException
+     * @throws JsonStructureException
+     * @throws JsonAlreadyParsedException
+     */
     public void initialize(@NonNull final Context context, @RawRes final int resId, @NonNull final FlowManagerListener flowManagerListener) throws JsonFileNotFoundException, JsonStructureException, JsonAlreadyParsedException {
         if (appFlowMap != null) {
             throw new JsonAlreadyParsedException();
@@ -95,6 +104,14 @@ public abstract class BaseFlowManager {
 
     }
 
+    /**
+     * Should be called to initialize flow manager
+     * @param context - context
+     * @param appFlow - AppFlow object which is mapped to Json response
+     * @param flowManagerListener - call back listener on parse success
+     * @throws AppFlowNullException
+     * @throws JsonAlreadyParsedException
+     */
     public void initialize(@NonNull final Context context, @NonNull final AppFlowModel appFlow, @NonNull final FlowManagerListener flowManagerListener) throws JsonAlreadyParsedException, AppFlowNullException {
         if (appFlowMap != null) {
             throw new JsonAlreadyParsedException();
@@ -104,9 +121,7 @@ public abstract class BaseFlowManager {
                 @Override
                 public void run() {
                     mapAppFlowStates(context, appFlow);
-                    flowManagerStack = new FlowManagerStack();
-                    stateMap = new TreeMap<>();
-                    conditionMap = new TreeMap<>();
+                    init();
                     populateStateMap(stateMap);
                     populateConditionMap(conditionMap);
                     postCallBack(flowManagerListener);
@@ -114,6 +129,12 @@ public abstract class BaseFlowManager {
             }).start();
         }
 
+    }
+
+    private void init() {
+        flowManagerStack = new FlowManagerStack();
+        stateMap = new TreeMap<>();
+        conditionMap = new TreeMap<>();
     }
 
     @NonNull
@@ -124,9 +145,7 @@ public abstract class BaseFlowManager {
     private void parseFlowManagerJson(final @NonNull Context context, final @NonNull String jsonPath, final @NonNull FlowManagerListener flowManagerListener) {
         this.context = context;
         mapAppFlowStates(jsonPath);
-        flowManagerStack = new FlowManagerStack();
-        stateMap = new TreeMap<>();
-        conditionMap = new TreeMap<>();
+        init();
         populateStateMap(stateMap);
         populateConditionMap(conditionMap);
         postCallBack(flowManagerListener);
@@ -140,9 +159,7 @@ public abstract class BaseFlowManager {
     private void parseFlowManagerJson(final @NonNull Context context, final @RawRes int resId, final @NonNull FlowManagerListener flowManagerListener) {
         this.context = context;
         mapAppFlowStates(context, resId);
-        flowManagerStack = new FlowManagerStack();
-        stateMap = new TreeMap<>();
-        conditionMap = new TreeMap<>();
+        init();
         populateStateMap(stateMap);
         populateConditionMap(conditionMap);
         postCallBack(flowManagerListener);
