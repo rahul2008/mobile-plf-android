@@ -40,22 +40,4 @@ public class THSDatePickerFragmentUtility{
         calendar.set(year,month,day);
         date.setTime(calendar.getTimeInMillis());
     }
-
-   /* public void launchProviderListBasedOnTime() {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(THSConstants.THS_DATE,date);
-        bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,getPractice());
-        mThsBaseFragment.addFragment(new THSAvailableProviderListBasedOnDateFragment(),THSAvailableProviderListBasedOnDateFragment.TAG,bundle);
-    }*/
-
-  /*  public void launchProviderDetailBasedOnTime() {
-        THSAvailableProviderDetailFragment thsAvailableProviderDetailFragment = new THSAvailableProviderDetailFragment();
-        thsAvailableProviderDetailFragment.setTHSProviderEntity(getThsProviderEntity());
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(THSConstants.THS_DATE,date);
-        bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,getPractice());
-        bundle.putParcelable(THSConstants.THS_PROVIDER,getProvider());
-        bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY,getThsProviderEntity());
-        mThsBaseFragment.addFragment(thsAvailableProviderDetailFragment,THSAvailableProviderDetailFragment.TAG,bundle);
-    }*/
 }
