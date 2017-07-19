@@ -7,7 +7,7 @@ import android.widget.ProgressBar;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerDigitalCare;
+import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerCC;
 import com.philips.cdp.digitalcare.util.DigitalCareTestMock;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
@@ -29,7 +29,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import static org.powermock.api.mockito.PowerMockito.spy;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-@RunWith(CustomRobolectricRunnerDigitalCare.class)
+@RunWith(CustomRobolectricRunnerCC.class)
 @PrepareForTest(DigitalCareConfigManager.class)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
 public class ProductReviewFragmentTest extends MockitoConfiguration{
@@ -79,7 +79,7 @@ public class ProductReviewFragmentTest extends MockitoConfiguration{
     @Test
     public void testLoadProductpageNotNull() throws Exception {
         when(mockDigitalCareConfigManager.getProductReviewUrl()).thenReturn("http://www.philips.com");
-        fragment.loadProductpage("Khan");
+        fragment.loadProductpage("Philips");
         ProgressBar mProgressBar =(ProgressBar) rootView.findViewById(
                 R.id.common_webview_progress);
         Assert.assertEquals(View.VISIBLE,mProgressBar.getVisibility());

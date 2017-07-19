@@ -7,7 +7,7 @@ import android.widget.ProgressBar;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerDigitalCare;
+import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerCC;
 import com.philips.cdp.digitalcare.util.DigitalCareTestMock;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
@@ -34,7 +34,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
  */
 
 
-@RunWith(CustomRobolectricRunnerDigitalCare.class)
+@RunWith(CustomRobolectricRunnerCC.class)
 @PrepareForTest(DigitalCareConfigManager.class)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
 public class EmailFragmentTest extends MockitoConfiguration {
@@ -88,7 +88,7 @@ public class EmailFragmentTest extends MockitoConfiguration {
 
     @Test
     public void testLoadEmailPageNotNull() throws Exception {
-        fragment.loadEmail("DummyData");
+        fragment.loadEmail("http://www.philips.com");
         ProgressBar mProgressBar =(ProgressBar) rootView.findViewById(
                 R.id.common_webview_progress);
         Assert.assertEquals(View.VISIBLE,mProgressBar.getVisibility());

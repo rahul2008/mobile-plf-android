@@ -9,7 +9,7 @@ import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.fragments.rateandreview.fragments.RateThisAppFragmentPresenter;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
-import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerDigitalCare;
+import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerCC;
 import com.philips.cdp.digitalcare.util.DigitalCareTestMock;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
@@ -34,7 +34,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 /**
  * Created by philips on 7/10/17.
  */
-@RunWith(CustomRobolectricRunnerDigitalCare.class)
+@RunWith(CustomRobolectricRunnerCC.class)
 @PrepareForTest(DigitalCareConfigManager.class)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
 public class RateThisAppFragmentTest extends MockitoConfiguration {
@@ -67,8 +67,8 @@ public class RateThisAppFragmentTest extends MockitoConfiguration {
         MockitoAnnotations.initMocks(this);
         fragment = new RateThisAppFragment();
         mockViewProductDetailsModel = new ViewProductDetailsModel();
-        mockViewProductDetailsModel.setProductName("Maqsood");
-        mockViewProductDetailsModel.setCtnName("2234");
+        mockViewProductDetailsModel.setProductName("AqvaShaver");
+        mockViewProductDetailsModel.setCtnName("Shaver_2234");
         mockViewProductDetailsModel.setProductImage("http://www.philips.com");
         mockViewProductDetailsModel.setProductInfoLink("http://www.philips.com");
         mockViewProductDetailsModel.setDomain("Philips");
@@ -101,7 +101,7 @@ public class RateThisAppFragmentTest extends MockitoConfiguration {
     @Test
     public void testPhilipsReviewButtonVisibilityVisible(){
         ViewProductDetailsModel viewProductDetailsModel=new ViewProductDetailsModel();
-        viewProductDetailsModel.setProductInfoLink("adfs");
+        viewProductDetailsModel.setProductInfoLink("http://www.philips.com");
         fragment.onPRXProductPageReceived(viewProductDetailsModel);
 
         Button mRatePhilipsBtn=(Button) rootView.findViewById(
