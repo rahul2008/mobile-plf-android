@@ -8,16 +8,20 @@ package com.philips.platform.uid.view.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.v7.widget.ListPopupWindow;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsSpinner;
 import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 import android.widget.PopupWindow;
@@ -143,6 +147,7 @@ public class UIPicker extends ListPopupWindow{
         //popup.showAtLocation(rootView, Gravity.BOTTOM, 0, winHeight-rect.bottom);
 
         super.show();
+        setSelection(UIPicker.this.getSelectedItemPosition());
     }
 
     private void setListItemExpandMax(ListPopupWindow listPopupWindow, int max) {
@@ -214,6 +219,12 @@ public class UIPicker extends ListPopupWindow{
 
 
     private int measureContentWidth(ListAdapter adapter) {
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int heightPixels = metrics.heightPixels;
+        int widthPixels = metrics.widthPixels;
+
         ViewGroup mMeasureParent = null;
         float minWidth = UIDUtils.pxFromDp(activity, 56);
         int maxWidth = 0;
@@ -253,10 +264,90 @@ public class UIPicker extends ListPopupWindow{
             return Math.round(6 * minWidth);
         } else if(maxWidth > 6 * minWidth && maxWidth < 7 * minWidth){
             return Math.round(7 * minWidth);
-        } else {
+        } else if(maxWidth < widthPixels){
             return maxWidth;
+        } else{
+            return widthPixels - Math.round(UIDUtils.pxFromDp(activity, 32));
         }
     }
+
+
+
+    /*static class SavedState extends View.BaseSavedState {
+        long selectedId;
+        int position;
+
+        *//**
+         * Constructor called from {@link AbsSpinner#onSaveInstanceState()}
+         *//*
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        *//**
+         * Constructor called from {@link #CREATOR}
+         *//*
+        SavedState(Parcel in) {
+            super(in);
+            selectedId = in.readLong();
+            position = in.readInt();
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeLong(selectedId);
+            out.writeInt(position);
+        }
+
+        @Override
+        public String toString() {
+            return "UIPicker.SavedState{"
+                    + Integer.toHexString(System.identityHashCode(this))
+                    + " selectedId=" + selectedId
+                    + " position=" + position + "}";
+        }
+
+        public static final Parcelable.Creator<SavedState> CREATOR
+                = new Parcelable.Creator<SavedState>() {
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
+    }*/
+
+    /*@Override
+    public Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        SavedState ss = new SavedState(superState);
+        ss.selectedId = getSelectedItemId();
+        if (ss.selectedId >= 0) {
+            ss.position = getSelectedItemPosition();
+        } else {
+            ss.position = INVALID_POSITION;
+        }
+        return ss;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        SavedState ss = (SavedState) state;
+
+        super.onRestoreInstanceState(ss.getSuperState());
+
+        if (ss.selectedId >= 0) {
+            mDataChanged = true;
+            mNeedSync = true;
+            mSyncRowId = ss.selectedId;
+            mSyncPosition = ss.position;
+            mSyncMode = SYNC_SELECTED_POSITION;
+            requestLayout();
+        }
+    }*/
 
 
     /*@Override

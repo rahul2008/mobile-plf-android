@@ -27,7 +27,7 @@ public class UIPickerFragment extends BaseFragment {
     public static final String SELECTED_LOCATION = "SELECTED_LOCATION";
     public final ObservableField<String> selectedLocation = new ObservableField<>("Alabama");
     private ArrayAdapter adapter;
-
+    private static int selectedPosition = 0;
     private static final String[] STATES = new String[]{
             "Alabama",
             "Alaska",
@@ -35,7 +35,7 @@ public class UIPickerFragment extends BaseFragment {
             "Arkansas",
             "California",
             "Colorado",
-            "Connecticut",
+            "Connecticut jfskjklejrlkejrlekle hjgjhghjgjhgjghjghjh hjgjkjhkhkjhjkhkjhkjh",
             "Delaware",
             "Florida",
             "Georgia",
@@ -72,15 +72,19 @@ public class UIPickerFragment extends BaseFragment {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         selectedLocation.set(STATES[position]);
+                        //view.setSelected(true);
+                        selectedPosition = position;
                         listPopupWindow.setSelection(position);
-                        adapter.notifyDataSetChanged();
-                        //listPopupWindow.dismiss();
+
+                        listPopupWindow.dismiss();
                     }
                 }
         );
 
         return fragmentUiPickerBinding.getRoot();
     }
+
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -102,7 +106,7 @@ public class UIPickerFragment extends BaseFragment {
         //listPopupWindow.shouldShowBelowAnchorView(true);
 
         listPopupWindow.show();
-        //listPopupWindow.setSelection(8);
+        listPopupWindow.setSelection(selectedPosition);
     }
 
 }
