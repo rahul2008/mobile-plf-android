@@ -38,6 +38,9 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_provider_details_fragment, container, false);
+        if (null != getActionBarListener()) {
+            getActionBarListener().updateActionBar(getString(R.string.ths_provider_details), true);
+        }
         mThsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(),this,this,this, this,view);
         providerDetailsPresenter = new THSProviderDetailsPresenter(this, this);
         onRefresh();
@@ -52,15 +55,6 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     public void updateView(Provider provider) {
         setProvider(provider);
         mThsProviderDetailsDisplayHelper.updateView(provider,null);
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(null != getActionBarListener()) {
-            getActionBarListener().updateActionBar("Provider details", true);
-        }
     }
 
     public void setTHSProviderEntity(THSProviderEntity  thsProviderEntity){

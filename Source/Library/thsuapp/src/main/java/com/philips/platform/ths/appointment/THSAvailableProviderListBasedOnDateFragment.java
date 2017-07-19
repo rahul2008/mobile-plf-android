@@ -42,6 +42,16 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_available_doctors_based_on_time, container, false);
+        if (null != getActionBarListener()) {
+            getActionBarListener().updateActionBar(getString(R.string.ths_available_provider), true);
+        }
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        View view = getView();
         Bundle bundle = getArguments();
         mDate = (Date)bundle.getSerializable(THSConstants.THS_DATE);
         mPractice = bundle.getParcelable(THSConstants.THS_PRACTICE_INFO);
@@ -53,11 +63,8 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         mLabelDate = (Label) view.findViewById(R.id.date);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        if (null != getActionBarListener()) {
-            getActionBarListener().updateActionBar(getString(R.string.ths_available_provider), true);
-        }
+
         refreshView();
-        return view;
     }
 
     @Override

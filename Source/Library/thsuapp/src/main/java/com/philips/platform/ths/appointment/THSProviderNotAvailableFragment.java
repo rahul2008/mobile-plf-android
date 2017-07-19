@@ -2,6 +2,7 @@ package com.philips.platform.ths.appointment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -28,20 +29,23 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
     private THSProviderNotAvailablePresenter mThsProviderNotAvailablePresenter;
     View mChangeAppointDateView;
 
+    @Nullable
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_available_doctors_based_on_time, container, false);
+        if (null != getActionBarListener()) {
+            getActionBarListener().updateActionBar(getString(R.string.ths_select_date_and_time), true);
+        }
 
-        mChangeAppointDateView = getView().findViewById(R.id.calendar_view);
+        mChangeAppointDateView = view.findViewById(R.id.calendar_view);
         mChangeAppointDateView.setOnClickListener(this);
 
         Bundle bundle = getArguments();
         mProvider = bundle.getParcelable(THSConstants.THS_PROVIDER);
         mThsProviderEntity = bundle.getParcelable(THSConstants.THS_PROVIDER_ENTITY);
-        if (null != getActionBarListener()) {
-            getActionBarListener().updateActionBar(getString(R.string.ths_available_provider), true);
-        }
         mThsProviderNotAvailablePresenter = new THSProviderNotAvailablePresenter(this);
+
+        return view;
     }
 
     public Provider getProvider() {
