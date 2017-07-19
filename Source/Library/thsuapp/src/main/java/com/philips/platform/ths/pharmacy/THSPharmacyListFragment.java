@@ -1,7 +1,7 @@
 package com.philips.platform.ths.pharmacy;
 
+import android.location.Location;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -19,9 +19,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.entity.pharmacy.PharmacyType;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -36,7 +36,9 @@ import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.pharmacy.customtoggle.SegmentControl;
+import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
@@ -49,7 +51,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class THSPharmacyListFragment extends THSPharmacyListBaseFragment implements OnMapReadyCallback, View.OnClickListener,
+public class THSPharmacyListFragment extends THSBaseFragment implements OnMapReadyCallback, View.OnClickListener,
         SearchBox.ExpandListener, SearchBox.QuerySubmitListener,
         THSPharmacyListViewListener,
         BackEventListener{
@@ -61,6 +63,7 @@ public class THSPharmacyListFragment extends THSPharmacyListBaseFragment impleme
     private RecyclerView pharmacyListRecyclerView;
     private THSPharmacyListAdapter thsPharmacyListAdapter;
     private ActionBarListener actionBarListener;
+    protected THSPharmacyListPresenter thsPharmacyListPresenter;
     private LatLngBounds.Builder builder;
     private CameraUpdate cu;
     private Label selectedPharmacyName, selectedPharmacyAddressLineOne, selectedPharmacyAddressLineTwo,
@@ -73,13 +76,15 @@ public class THSPharmacyListFragment extends THSPharmacyListBaseFragment impleme
     private Button choosePharmacyButton;
     private Pharmacy pharmacy;
     private SearchBox searchBox;
+    protected THSConsumer thsConsumer;
+    protected Address address;
+    private Location location;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_pharmacy_list_fragment, container, false);
         navIconToggler = new UIDNavigationIconToggler(getActivity());
-        checkPermission();
         findViewByIDs(view);
         setOnClickListeners();
         findViewByIDs();
@@ -131,6 +136,14 @@ public class THSPharmacyListFragment extends THSPharmacyListBaseFragment impleme
         }else {
             Toast.makeText(getActivity(), "Please enter zip code only", Toast.LENGTH_SHORT).show();
         }
+    }
+    public void setConsumerAndAddress(THSConsumer thsConsumer, Address address) {
+        this.thsConsumer = thsConsumer;
+        this.address = address;
+    }
+
+    public void setLocation(Location location){
+        this.location = location;
     }
 
     @Override
@@ -210,7 +223,13 @@ public class THSPharmacyListFragment extends THSPharmacyListBaseFragment impleme
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Pharmacy list", true);
         }
-        thsPharmacyListPresenter.fetchPharmacyList(thsConsumer, null, thsConsumer.getConsumer().getLegalResidence(), null);
+        if( null!= location){
+            thsPharmacyListPresenter.fetchPharmacyList(thsConsumer,Double.valueOf(42.360082).floatValue(),Double.valueOf(-71.058880).floatValue(),5);
+        }
+        else {
+            thsPharmacyListPresenter.fetchPharmacyList(thsConsumer, null, thsConsumer.getConsumer().getLegalResidence(), null);
+        }
+
     }
 
     @Override
@@ -275,9 +294,11 @@ public class THSPharmacyListFragment extends THSPharmacyListBaseFragment impleme
     public void updatePharmacyListView(List<Pharmacy> pharmacies) {
         pharmacyRetailList = filterList(pharmacies, PharmacyType.Retail);
         pharmacyMailOrderList = filterList(pharmacies, PharmacyType.MailOrder);
-        if(pharmacyRetailList.size() == 0){
+        if(pharmacyRetailList.size() == 0 && pharmacyMailOrderList.size() > 0){
             showMailOrderView();
-        }else if(pharmacyMailOrderList.size() == 0){
+        }else if(pharmacyMailOrderList.size() == 0 && pharmacyRetailList.size() > 0){
+            showRetailView();
+        } else if(pharmacyMailOrderList.size() > 0 && pharmacyRetailList.size() > 0){
             showRetailView();
         }
     }
@@ -466,21 +487,6 @@ public class THSPharmacyListFragment extends THSPharmacyListBaseFragment impleme
             handleBack = false;
             return false;
         }
-
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
 }
