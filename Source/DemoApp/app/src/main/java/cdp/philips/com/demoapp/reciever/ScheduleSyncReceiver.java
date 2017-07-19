@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
-import com.philips.platform.dprdemo.utils.Utility;
+import com.philips.platform.devicepair.utils.Utility;
 
 import org.joda.time.DateTimeConstants;
 
