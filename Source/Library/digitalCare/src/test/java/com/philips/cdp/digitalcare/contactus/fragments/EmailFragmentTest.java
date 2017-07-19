@@ -11,6 +11,7 @@ import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerCC;
 import com.philips.cdp.digitalcare.util.DigitalCareTestMock;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -28,11 +29,6 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import static org.powermock.api.mockito.PowerMockito.spy;
 import static org.powermock.api.mockito.PowerMockito.when;
-
-/**
- * Created by philips on 7/18/17.
- */
-
 
 @RunWith(CustomRobolectricRunnerCC.class)
 @PrepareForTest(DigitalCareConfigManager.class)
@@ -65,6 +61,15 @@ public class EmailFragmentTest extends MockitoConfiguration {
         digitalCareBaseFragmentspy=spy(fragment);
         SupportFragmentTestUtil.startFragment(fragment,DigitalCareTestMock.class);
         rootView=fragment.getView();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        fragment = null;
+        digitalCareBaseFragmentspy = null;
+        mockDigitalCareConfigManager = null;
+        mockAppTaggingInterface = null;
+        rootView = null;
     }
 
     @Test

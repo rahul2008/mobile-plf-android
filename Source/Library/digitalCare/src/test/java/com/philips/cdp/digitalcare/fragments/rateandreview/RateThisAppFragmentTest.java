@@ -13,6 +13,7 @@ import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerCC;
 import com.philips.cdp.digitalcare.util.DigitalCareTestMock;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -81,6 +82,15 @@ public class RateThisAppFragmentTest extends MockitoConfiguration {
         SupportFragmentTestUtil.startFragment(fragment,DigitalCareTestMock.class);
         rootView=fragment.getView();
         Robolectric.buildActivity(DigitalCareTestMock.class).create().get();
+    }
+
+    @After
+    public void tearDown() throws Exception{
+        fragment = null;
+        digitalCareBaseFragmentspy = null;
+        mockDigitalCareConfigManager = null;
+        mockAppTaggingInterface = null;
+        rootView = null;
     }
 
     @Test
