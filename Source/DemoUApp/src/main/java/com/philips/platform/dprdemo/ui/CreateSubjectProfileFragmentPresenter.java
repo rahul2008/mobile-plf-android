@@ -1,7 +1,7 @@
 /* Copyright (c) Koninklijke Philips N.V., 2016
 * All rights are reserved. Reproduction or dissemination
- * in whole or in part is prohibited without the prior written
- * consent of the copyright holder.
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
 */
 package com.philips.platform.dprdemo.ui;
 
@@ -15,23 +15,18 @@ import java.util.List;
 
 class CreateSubjectProfileFragmentPresenter implements SubjectProfileListener {
 
-    private ISubjectProfileListener subjectProfileViewListener;
+    private ISubjectProfileListener mSubjectProfileListener;
 
-    CreateSubjectProfileFragmentPresenter(ISubjectProfileListener subjectProfileViewListener) {
-        this.subjectProfileViewListener = subjectProfileViewListener;
+    CreateSubjectProfileFragmentPresenter(ISubjectProfileListener subjectProfileListener) {
+        mSubjectProfileListener = subjectProfileListener;
     }
 
-    void createProfile() {
-        if (subjectProfileViewListener.validateViews()) {
-            SubjectProfile subjectProfile = subjectProfileViewListener.getSubjectProfile();
-            DataServicesManager.getInstance().createSubjectProfile(subjectProfile.getFirstName(),
-                    subjectProfile.getDob(),
-                    subjectProfile.getGender(),
-                    subjectProfile.getWeight(),
-                    subjectProfile.getCreationDate(), this);
-        } else {
-            subjectProfileViewListener.onInvalidInput();
-        }
+    void createProfile(SubjectProfile subjectProfile) {
+        DataServicesManager.getInstance().createSubjectProfile(subjectProfile.getFirstName(),
+                subjectProfile.getDob(),
+                subjectProfile.getGender(),
+                subjectProfile.getWeight(),
+                subjectProfile.getCreationDate(), this);
     }
 
     @Override
@@ -43,11 +38,11 @@ class CreateSubjectProfileFragmentPresenter implements SubjectProfileListener {
 
     @Override
     public void onError(DataServicesError dataServicesError) {
-        subjectProfileViewListener.onError(dataServicesError.getErrorMessage());
+        mSubjectProfileListener.onError(dataServicesError.getErrorMessage());
     }
 
     @Override
-    public void onGetSubjectProfiles(List<UCoreSubjectProfile> list) {
-        subjectProfileViewListener.onCreateSubjectProfile(list);
+    public void onGetSubjectProfiles(List<UCoreSubjectProfile> subjectProfileList) {
+        mSubjectProfileListener.onSuccess(subjectProfileList);
     }
 }

@@ -132,26 +132,9 @@ public abstract class DevicePairingBaseFragment extends Fragment implements Back
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 
-    public boolean isPairingFragmentVisible() {
-        PairingFragment myFragment = (PairingFragment) getFragmentManager().findFragmentByTag(PairingFragment.class.getSimpleName());
-        return myFragment != null && myFragment.isVisible();
+    public void moveToPairingFragment() {
+        getFragmentManager().popBackStack(PairingFragment.class.getSimpleName(), 0);
     }
-
- /*   public boolean clearFragmentStack() {
-        FragmentActivity activity = this.getActivity();
-        try {
-            if (activity != null && !activity.isFinishing()) {
-                if (!(activity instanceof DevicePairingLaunchActivity)) {
-                    FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                    return fragmentManager.popBackStackImmediate("device_pairing_vertical_tag", 1);
-                }
-                activity.finish();
-            }
-        } catch (IllegalStateException var3) {
-            ProdRegLogger.e(TAG, var3.getMessage());
-        }
-        return false;
-    }*/
 
     public boolean handleBackEvent() {
         return false;

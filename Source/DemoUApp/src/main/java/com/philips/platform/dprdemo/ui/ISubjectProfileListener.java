@@ -6,18 +6,12 @@
 package com.philips.platform.dprdemo.ui;
 
 import com.philips.platform.datasync.subjectProfile.UCoreSubjectProfile;
-import com.philips.platform.dprdemo.pojo.SubjectProfile;
 
 import java.util.List;
 
 interface ISubjectProfileListener {
-    boolean validateViews();
 
-    SubjectProfile getSubjectProfile();
+    void onSuccess(List<UCoreSubjectProfile> subjectProfileList);
 
-    void onCreateSubjectProfile(List<UCoreSubjectProfile> list);
-
-    void onError(String message);
-
-    void onInvalidInput();
+    void onError(String errorMessage);
 }

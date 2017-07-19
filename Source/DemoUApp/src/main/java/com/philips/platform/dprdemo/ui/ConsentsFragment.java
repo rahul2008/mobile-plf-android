@@ -163,7 +163,6 @@ public class ConsentsFragment extends DevicePairingBaseFragment implements DBReq
         dismissProgressDialog();
 
         if (isConsentAccepted(data)) {
-            removeCurrentFragment();
             mDeviceStatusListener.onConsentsAccepted();
         } else {
             showAlertDialog(getString(R.string.accept_consents));

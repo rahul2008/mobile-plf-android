@@ -100,25 +100,31 @@ public class CreateSubjectProfileFragment extends DevicePairingBaseFragment impl
         if (v.equals(createProfileButton)) {
             if (Utility.isOnline(mContext)) {
                 showProgressDialog(getString(R.string.creating_profile));
-                CreateSubjectProfileFragmentPresenter createProfilePresenter = new CreateSubjectProfileFragmentPresenter(this);
-                createProfilePresenter.createProfile();
+                if (isValidInput()) {
+                    SubjectProfile subjectProfile = getSubjectProfile();
+                    CreateSubjectProfileFragmentPresenter createProfilePresenter = new CreateSubjectProfileFragmentPresenter(this);
+                    createProfilePresenter.createProfile(subjectProfile);
+                } else {
+                    showAlertDialog(getString(R.string.enter_valid_input));
+                }
             } else {
                 showAlertDialog(getString(R.string.check_connection));
             }
         }
     }
 
-    private SubjectProfile getSubjectProfileDetails() {
+    private boolean isValidInput() {
+        return validate();
+    }
+
+    private SubjectProfile getSubjectProfile() {
         SubjectProfile subjectProfile = new SubjectProfile();
-        if (validate()) {
-            subjectProfile.setFirstName(firstName.getText().toString());
-            subjectProfile.setDob(dob.getText().toString());
-            subjectProfile.setGender(gender.getText().toString());
-            subjectProfile.setWeight(Double.parseDouble(weight.getText().toString()));
-            subjectProfile.setCreationDate(creationDate.getText().toString());
-            return subjectProfile;
-        }
-        return null;
+        subjectProfile.setFirstName(firstName.getText().toString());
+        subjectProfile.setDob(dob.getText().toString());
+        subjectProfile.setGender(gender.getText().toString());
+        subjectProfile.setWeight(Double.parseDouble(weight.getText().toString()));
+        subjectProfile.setCreationDate(creationDate.getText().toString());
+        return subjectProfile;
     }
 
     public void setDeviceStatusListener(IDevicePairingListener deviceStatusListener) {
@@ -126,19 +132,9 @@ public class CreateSubjectProfileFragment extends DevicePairingBaseFragment impl
     }
 
     @Override
-    public boolean validateViews() {
-        return validate();
-    }
-
-    @Override
-    public SubjectProfile getSubjectProfile() {
-        return getSubjectProfileDetails();
-    }
-
-    @Override
-    public void onCreateSubjectProfile(List<UCoreSubjectProfile> list) {
+    public void onSuccess(List<UCoreSubjectProfile> subjectProfileList) {
         dismissProgressDialog();
-        removeCurrentFragment();
+        moveToPairingFragment();
         mDeviceStatusListener.onProfileCreated();
     }
 
@@ -149,13 +145,7 @@ public class CreateSubjectProfileFragment extends DevicePairingBaseFragment impl
             @Override
             public void run() {
                 showAlertDialog(message);
-
             }
         });
-    }
-
-    @Override
-    public void onInvalidInput() {
-        showAlertDialog(getString(R.string.enter_valid_input));
     }
 }
