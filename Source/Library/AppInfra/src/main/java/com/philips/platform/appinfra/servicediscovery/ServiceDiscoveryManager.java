@@ -877,10 +877,8 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             try {
                 final Object countryMapping = mAppInfra.getConfigInterface().getPropertyForKey
                         ("servicediscovery.countryMapping", "appinfra", configError);
-                if (countryMapping != null) {
-                    if (countryMapping instanceof Map) {
-                        return (Map<String, String>) countryMapping;
-                    }
+                if (countryMapping != null && countryMapping instanceof Map) {
+                    return (Map<String, String>) countryMapping;
                 }
             } catch (IllegalArgumentException exception) {
                 mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,

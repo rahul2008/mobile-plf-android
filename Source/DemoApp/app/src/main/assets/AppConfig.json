@@ -33,7 +33,7 @@
     "appconfig.cloudServiceId":"appinfra.appconfigdownload",
     "timesync.ntp.hosts":["time1.google.com","time2.google.com","time3.google.com","time4.google.com"],
     "LANGUAGEPACK.SERVICEID":"appinfra.languagepack",
-    "servicediscovery.countryMapping":{"IN":"BE","MO":"HK"},
+    "servicediscovery.countryMapping":{"LU":"BE","MO":"HK"},
     "appUpdate.serviceId":"appinfra.testing.version",
     "appUpdate.autoRefresh":true,
     "logging.releaseConfig":{
