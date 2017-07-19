@@ -224,7 +224,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
             actionBarListener.updateActionBar("Pharmacy list", true);
         }
         if( null!= location){
-            thsPharmacyListPresenter.fetchPharmacyList(thsConsumer,Double.valueOf(42.360082).floatValue(),Double.valueOf(-71.058880).floatValue(),5);
+            thsPharmacyListPresenter.fetchPharmacyList(thsConsumer,Double.valueOf(location.getLatitude()).floatValue(),Double.valueOf(location.getLongitude()).floatValue(),5);
         }
         else {
             thsPharmacyListPresenter.fetchPharmacyList(thsConsumer, null, thsConsumer.getConsumer().getLegalResidence(), null);
