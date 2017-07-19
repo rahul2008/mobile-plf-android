@@ -2,11 +2,14 @@ package com.philips.platform.ths.appointment;
 
 
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -28,6 +31,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
     Label mPracticeNameLabel;
     Label mEmailSentMessage;
     Label mLabelDate;
+    ImageView mImageProviderImage;
 
     @Nullable
     @Override
@@ -41,11 +45,23 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
         mPracticeNameLabel = (Label) view.findViewById(R.id.details_practiceNameLabel);
         mEmailSentMessage = (Label) view.findViewById(R.id.email_sent);
         mLabelDate = (Label) view.findViewById(R.id.date);
+        mImageProviderImage = (ImageView)view.findViewById(R.id.details_providerImage);
 
         mProviderFullName.setText(mThsProviderInfo.getProviderInfo().getFullName());
         mPracticeNameLabel.setText(mThsProviderInfo.getProviderInfo().getSpecialty().getName());
         mEmailSentMessage.setText(getString(R.string.ths_email_sent) + " "+ mThsProviderInfo.getProviderInfo().getFullName());
         mLabelDate.setText(new SimpleDateFormat(THSConstants.DATE_FORMATTER, Locale.getDefault()).format(mAppointmentDate));
+
+        if(mThsProviderInfo.getProviderInfo().hasImage()) {
+            try {
+                THSManager.getInstance().getAwsdk(getContext()).getPracticeProvidersManager().
+                        newImageLoader(mThsProviderInfo.getProviderInfo(), mImageProviderImage,
+                                ProviderImageSize.SMALL).placeholder(mImageProviderImage.getResources().
+                        getDrawable(R.drawable.doctor_placeholder)).build().load();
+            } catch (AWSDKInstantiationException e) {
+                e.printStackTrace();
+            }
+        }
         return view;
     }
 

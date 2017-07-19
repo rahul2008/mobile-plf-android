@@ -8,11 +8,15 @@ import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.Language;
 import com.americanwell.sdk.entity.provider.Provider;
+import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
+import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.appointment.THSAvailableProviderDetailFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSConstants;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RatingBar;
@@ -87,6 +91,18 @@ public class THSProviderDetailsDisplayHelper {
         graduatedValueLabel.setText(provider.getSchoolName());
         aboutMeValueLabel.setText(provider.getTextGreeting());
         practiceName.setText(provider.getSpecialty().getName());
+
+        if(mThsPRoviderDetailsViewInterface.getProvider().hasImage()) {
+            try {
+                THSManager.getInstance().getAwsdk(thsBaseFragment.getContext()).getPracticeProvidersManager().
+                        newImageLoader(mThsPRoviderDetailsViewInterface.getTHSProviderInfo().getProviderInfo(), providerImage,
+                                ProviderImageSize.SMALL).placeholder(providerImage.getResources().
+                        getDrawable(R.drawable.doctor_placeholder)).build().load();
+            } catch (AWSDKInstantiationException e) {
+                e.printStackTrace();
+            }
+        }
+
         checkAvailability(provider);
         updateViewBasedOnType(provider,dates);
     }
