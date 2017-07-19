@@ -40,6 +40,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
         mProviderFullName = (Label) view.findViewById(R.id.details_providerNameLabel);
         mPracticeNameLabel = (Label) view.findViewById(R.id.details_practiceNameLabel);
         mEmailSentMessage = (Label) view.findViewById(R.id.email_sent);
+        mLabelDate = (Label) view.findViewById(R.id.date);
 
         mProviderFullName.setText(mThsProviderInfo.getProviderInfo().getFullName());
         mPracticeNameLabel.setText(mThsProviderInfo.getProviderInfo().getSpecialty().getName());
