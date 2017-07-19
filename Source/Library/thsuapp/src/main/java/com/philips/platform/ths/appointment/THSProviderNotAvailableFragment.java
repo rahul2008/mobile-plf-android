@@ -18,21 +18,30 @@ import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RatingBar;
 
-public class THSProviderNotAvailableFragment extends THSAvailableProviderListBasedOnDateFragment{
+import java.util.Date;
+
+public class THSProviderNotAvailableFragment extends THSAvailableProviderListBasedOnDateFragment implements View.OnClickListener{
     public static final String TAG = THSProviderNotAvailableFragment.class.getSimpleName();
 
     private Provider mProvider;
     private THSProviderEntity mThsProviderEntity;
+    private THSProviderNotAvailablePresenter mThsProviderNotAvailablePresenter;
+    View mChangeAppointDateView;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        mChangeAppointDateView = getView().findViewById(R.id.calendar_view);
+        mChangeAppointDateView.setOnClickListener(this);
+
         Bundle bundle = getArguments();
         mProvider = bundle.getParcelable(THSConstants.THS_PROVIDER);
         mThsProviderEntity = bundle.getParcelable(THSConstants.THS_PROVIDER_ENTITY);
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_available_provider), true);
         }
+        mThsProviderNotAvailablePresenter = new THSProviderNotAvailablePresenter(this);
     }
 
     public Provider getProvider() {
@@ -85,5 +94,17 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
     @Override
     public int getContainerID() {
         return ((ViewGroup)getView().getParent()).getId();
+    }
+
+    @Override
+    public void onClick(View view) {
+        int viewId = view.getId();
+        if(viewId == R.id.calendar_view){
+            mThsProviderNotAvailablePresenter.onEvent(R.id.calendar_view);
+        }
+    }
+
+    public void setDate(Date mDate) {
+        this.mDate = mDate;
     }
 }
