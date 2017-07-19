@@ -17,7 +17,7 @@ import com.philips.platform.ths.utility.THSConstants;
 
 import java.util.Date;
 
-public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragment implements View.OnClickListener{
+public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragment implements View.OnClickListener, OnDateSetChangedInterface{
     public static final String TAG = THSAvailableProviderDetailFragment.class.getSimpleName();
 
     Date mDate;
@@ -40,8 +40,8 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
         mPractice = arguments.getParcelable(THSConstants.THS_PRACTICE_INFO);
 
         THSProviderDetailsDisplayHelper thsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(),this,this,this,this,view);
-        thsAvailableDetailProviderPresenter = new THSAvailableProviderDetailPresenter(this,mDate,thsProviderDetailsDisplayHelper);
-        thsAvailableDetailProviderPresenter.fetchProviderDetails(getContext(),getProviderEntity());
+        thsAvailableDetailProviderPresenter = new THSAvailableProviderDetailPresenter(this,thsProviderDetailsDisplayHelper,this);
+        refreshView();
         return view;
     }
 
@@ -69,5 +69,18 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
         THSProviderInfo thsProviderInfo = new THSProviderInfo();
         thsProviderInfo.setTHSProviderInfo(providerInfo);
         return thsProviderInfo;
+    }
+
+    @Override
+    public void refreshView() {
+        thsAvailableDetailProviderPresenter.fetchProviderDetails(getContext(),getProviderEntity());
+    }
+
+    public void setDate(Date date) {
+        this.mDate = date;
+    }
+
+    public Date getDate() {
+        return mDate;
     }
 }

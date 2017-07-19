@@ -25,13 +25,14 @@ import java.util.List;
 
 public class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProviderDetailsCallback, THSAvailableProviderCallback<List, THSSDKError> {
     THSBaseFragment mThsBaseFragment;
-    Date mDate;
     THSProviderDetailsDisplayHelper mthsProviderDetailsDisplayHelper;
+    OnDateSetChangedInterface onDateSetChangedInterface;
 
-    THSAvailableProviderDetailPresenter(THSBaseFragment thsBaseFragment, Date date, THSProviderDetailsDisplayHelper thsProviderDetailsDisplayHelper) {
+    THSAvailableProviderDetailPresenter(THSBaseFragment thsBaseFragment, THSProviderDetailsDisplayHelper thsProviderDetailsDisplayHelper,
+                                        OnDateSetChangedInterface onDateSetChangedInterface) {
         mThsBaseFragment = thsBaseFragment;
-        mDate = date;
         mthsProviderDetailsDisplayHelper = thsProviderDetailsDisplayHelper;
+        this.onDateSetChangedInterface = onDateSetChangedInterface;
     }
 
     @Override
@@ -43,7 +44,16 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
 
                 @Override
                 public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                    launchAvailableProviderDetailFragment(year, month, day, thsDatePickerFragmentUtility);
+                    thsDatePickerFragmentUtility.setCalendar(year, month, day);
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(year,month,day);
+                    Date date = new Date();
+                    date.setTime(calendar.getTimeInMillis());
+
+                    ((THSAvailableProviderDetailFragment)mThsBaseFragment).setDate(date);
+
+                    onDateSetChangedInterface.refreshView();
 
                 }
             };
@@ -52,7 +62,7 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
 
     }
 
-    private void launchAvailableProviderDetailFragment(int year, int month, int day, THSDatePickerFragmentUtility thsDatePickerFragmentUtility) {
+    /*private void launchAvailableProviderDetailFragment(int year, int month, int day, THSDatePickerFragmentUtility thsDatePickerFragmentUtility) {
         thsDatePickerFragmentUtility.setCalendar(year, month, day);
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);
@@ -66,7 +76,7 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
         bundle.putParcelable(THSConstants.THS_PROVIDER, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider());
         bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProviderEntitiy());
         mThsBaseFragment.addFragment(thsAvailableProviderDetailFragment, THSAvailableProviderDetailFragment.TAG, bundle);
-    }
+    }*/
 
     public void fetchProviderDetails(Context context, THSProviderInfo thsProviderInfo) {
         try {
@@ -84,7 +94,8 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
 
     private void getProviderAvailability(Provider provider) {
         try {
-            THSManager.getInstance().getProviderAvailability(mThsBaseFragment.getContext(), provider, mDate, this);
+            THSManager.getInstance().getProviderAvailability(mThsBaseFragment.getContext(), provider,
+                    ((THSAvailableProviderDetailFragment)mThsBaseFragment).getDate(), this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -99,7 +110,7 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
     public void onResponse(List dates, THSSDKError sdkError) {
         if (dates == null || dates.size() == 0) {
             Bundle bundle = new Bundle();
-            bundle.putSerializable(THSConstants.THS_DATE, mDate);
+            bundle.putSerializable(THSConstants.THS_DATE, ((THSAvailableProviderDetailFragment)mThsBaseFragment).getDate());
             bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getPracticeInfo());
             bundle.putParcelable(THSConstants.THS_PROVIDER, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider());
             bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProviderEntitiy());

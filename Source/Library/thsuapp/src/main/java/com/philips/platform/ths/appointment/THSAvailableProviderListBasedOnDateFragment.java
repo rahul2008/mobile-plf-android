@@ -23,8 +23,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment implements View.OnClickListener{
+public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment implements View.OnClickListener, OnDateSetChangedInterface{
     public static final String TAG = THSAvailableProviderListBasedOnDateFragment.class.getSimpleName();
+
     Date mDate;
     THSAvailableProviderListBasedOnDatePresenter mTHSAvailableProviderListBasedOnDatePresenter;
 
@@ -41,7 +42,7 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         Bundle bundle = getArguments();
         mDate = (Date)bundle.getSerializable(THSConstants.THS_DATE);
         mPractice = bundle.getParcelable(THSConstants.THS_PRACTICE_INFO);
-        mTHSAvailableProviderListBasedOnDatePresenter = new THSAvailableProviderListBasedOnDatePresenter(this);
+        mTHSAvailableProviderListBasedOnDatePresenter = new THSAvailableProviderListBasedOnDatePresenter(this,this);
         recyclerView = (RecyclerView) view.findViewById(R.id.providerListRecyclerView);
         mChangeAppointDateView = view.findViewById(R.id.calendar_view);
         mChangeAppointDateView.setOnClickListener(this);
@@ -51,12 +52,7 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_available_provider), true);
         }
-        try {
-            mTHSAvailableProviderListBasedOnDatePresenter.getAvailableProvidersBasedOnDate();
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
-        }
-
+        refreshView();
         return view;
     }
 
@@ -98,6 +94,19 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         if(viewId == R.id.calendar_view){
             mTHSAvailableProviderListBasedOnDatePresenter.onEvent(R.id.calendar_view);
         }
+    }
+
+    @Override
+    public void refreshView() {
+        try {
+            mTHSAvailableProviderListBasedOnDatePresenter.getAvailableProvidersBasedOnDate();
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setDate(Date mDate) {
+        this.mDate = mDate;
     }
 }
 

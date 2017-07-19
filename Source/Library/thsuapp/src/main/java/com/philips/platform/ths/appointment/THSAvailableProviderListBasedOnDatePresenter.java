@@ -15,13 +15,16 @@ import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePresenter, THSAvailableProvidersBasedOnDateCallback<THSAvailableProviderList, THSSDKError> {
     THSBaseFragment mThsBaseFragment;
+    OnDateSetChangedInterface onDateSetChangedInterface;
 
-    THSAvailableProviderListBasedOnDatePresenter(THSBaseFragment thsBaseFragment){
+    THSAvailableProviderListBasedOnDatePresenter(THSBaseFragment thsBaseFragment,OnDateSetChangedInterface onDateSetChangedInterface){
         mThsBaseFragment = thsBaseFragment;
+        this.onDateSetChangedInterface = onDateSetChangedInterface;
     }
 
     @Override
@@ -33,10 +36,18 @@ public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePres
                 @Override
                 public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                     thsDatePickerFragmentUtility.setCalendar(year, month, day);
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(year,month,day);
+                    Date date = new Date();
+                    date.setTime(calendar.getTimeInMillis());
+
+                    ((THSAvailableProviderListBasedOnDateFragment)mThsBaseFragment).setDate(date);
+
+                    onDateSetChangedInterface.refreshView();
                 }
             };
             thsDatePickerFragmentUtility.showDatePicker(onDateSetListener);
-
         }
     }
 
