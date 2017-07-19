@@ -79,8 +79,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         contactUsFragmentPresenter = new ContactUsPresenter(this);
-        prefs = getActivity().getSharedPreferences(
-                USER_PREFERENCE, Context.MODE_PRIVATE);
+        prefs = getActivity().getSharedPreferences(USER_PREFERENCE, Context.MODE_PRIVATE);
         View view = inflater.inflate(R.layout.consumercare_fragment_contact_us, container, false);
         return view;
     }
@@ -92,16 +91,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
                 R.id.contactUsSocialProvideButtonsParent);
         mSecondContainerParams = (LinearLayout.LayoutParams) mContactUsSocilaProviderButtonsParent
                 .getLayoutParams();
-
-        mChatBtn = (Button) getActivity().findViewById(
-                R.id.contactUsChat);
-        mCallPhilipsBtn = (Button) getActivity().findViewById(
-                R.id.contactUsCall);
-        mContactUsOpeningHours = (TextView) getActivity().findViewById(
-                R.id.contactUsOpeningHours);
-        mFirstRowText = (TextView) getActivity()
-                .findViewById(R.id.firstRowText);
-
+        mChatBtn = (Button) getActivity().findViewById(R.id.contactUsChat);
+        mCallPhilipsBtn = (Button) getActivity().findViewById(R.id.contactUsCall);
+        mContactUsOpeningHours = (TextView) getActivity().findViewById(R.id.contactUsOpeningHours);
+        mFirstRowText = (TextView) getActivity().findViewById(R.id.firstRowText);
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         mLLSocialParent = (LinearLayout) getActivity().findViewById(R.id.contactUsSocialParent);
@@ -136,9 +129,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
 
         }
         DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
-                    (AnalyticsConstants.PAGE_CONTACT_US,
-                            getPreviousName(), getPreviousName());
-
+                    (AnalyticsConstants.PAGE_CONTACT_US,getPreviousName(), getPreviousName());
         config = getResources().getConfiguration();
         createContactUsSocialProvideMenu();
         setViewParams(config);
@@ -146,9 +137,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
 
     @Override
     public void setTextCallPhilipsBtn(String phoneNumber){
-        mCallPhilipsBtn.setText(getResources().getString(R.string.call_number)
-                        + " "
-                        + phoneNumber);
+        mCallPhilipsBtn.setText(getResources().getString(R.string.call_number)+ " "+ phoneNumber);
     }
 
     protected boolean isContactNumberCached() {
@@ -214,8 +203,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     protected void callPhilips() {
         try {
             final Intent myintent = new Intent(Intent.ACTION_DIAL);
-            myintent.setData(Uri.parse("tel:"
-                    + prefs.getString(USER_SELECTED_PRODUCT_CTN_CALL, "")));
+            myintent.setData(Uri.parse("tel:"+ prefs.getString(USER_SELECTED_PRODUCT_CTN_CALL, "")));
             myintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(myintent);
         } catch (NullPointerException e) {
@@ -230,8 +218,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
 
         try {
             if (tag != null) {
-                actionTaken = DigitalCareConfigManager.getInstance()
-                        .getCcListener()
+                actionTaken = DigitalCareConfigManager.getInstance().getCcListener()
                         .onSocialProviderItemClicked(tag.toString());
             }
         } catch (NullPointerException exception) {
@@ -258,13 +245,11 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
                 showDialog(getActivity().getString(R.string.check_sim));
             }
         } else if (tag != null
-                && tag.equalsIgnoreCase(getStringKey(R.string.facebook))
-                && isConnectionAvailable()) {
+                && tag.equalsIgnoreCase(getStringKey(R.string.facebook)) && isConnectionAvailable()) {
 
             launchFacebookFeature();
         } else if (tag != null
-                && tag.equalsIgnoreCase(getStringKey(R.string.twitter))
-                && isConnectionAvailable()) {
+                && tag.equalsIgnoreCase(getStringKey(R.string.twitter)) && isConnectionAvailable()) {
             launchTwitterFeature();
         } else if (tag != null && (tag.equalsIgnoreCase(getStringKey(R.string.send_email))) && isConnectionAvailable()) {
             tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_EMAIL);
@@ -319,8 +304,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         boolean resolved = false;
         for (ResolveInfo resolveInfo : resolvedInfoList) {
             if (resolveInfo.activityInfo.packageName.startsWith("com.twitter.android")) {
-                tweetIntent.setClassName(
-                        resolveInfo.activityInfo.packageName,
+                tweetIntent.setClassName(resolveInfo.activityInfo.packageName,
                         resolveInfo.activityInfo.name);
                 resolved = true;
                 break;
