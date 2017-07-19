@@ -1,10 +1,11 @@
 CommLib for Android - Release Notes
 =======================================
 
-Version {next}
+Version 7.0.0
 -------------
 
 ### Functionality Delivered
+* \#35187 Pin HTTPS certificate on first use. At this moment you can't revoke a pinned certificate, so when an appliance gets a new certificate you have to remove all data from your app to let it pin the certificate again.
 * \#37438: component now exposes its version and tla via BuildConfig
 * \#35191: Pin mismatch api added
 	* `onPortError` will give `Error.INSECURE_CONNECTION` when there is a pin mismatch.
@@ -12,30 +13,6 @@ Version {next}
 		* `LanTransportContext#rejectNewPinFor`
 		* `LanTransportContext#acceptNewPinFor`
 		* `LanTransportContext#findAppliancesWithMismatchedPinIn`
-
-### Backwards Compatibility
-* N/A
-
-### Features not covered
-* To be filled in at release
-
-### Breaking Changes
-`DICommApplianceFactory#getSupportedModelNames` was changed into `DICommApplianceFactory#getSupportedDeviceTypes` to reflect the renaming of the `NetworkNode` `modelName` property into `deviceType`.
-
-### Defects solved
-* N/A
-
-### Residual anomalies
-* To be filled in at release
-
-### Risks and mitigations
-* N/A
-
-Version 7.0.0
--------------
-
-### Functionality Delivered
-* \#35187 Pin HTTPS certificate on first use. At this moment you can't revoke a pinned certificate, so when an appliance gets a new certificate you have to remove all data from your app to let it pin the certificate again.
 
 ### Backwards Compatibility
 * Appliances that do not support HTTPS should call networkNode.useLegacyHttp() in their `DICommApplianceFactory.createApplianceForNode(..)` implementation. This is only here for older appliances, newer appliances with HTTPS support should never call this function!
@@ -46,15 +23,16 @@ Version 7.0.0
 ### Breaking Changes
 * `NetworkNode.PAIRED_STATUS` has been renamed to `NetworkNode.PairingState`
 * `NetworkNode` no longer extends `Observable`, but adds `PropertyChangeSupport` instead.
+* `DICommApplianceFactory#getSupportedModelNames` was changed into `DICommApplianceFactory#getSupportedDeviceTypes` to reflect the renaming of the `NetworkNode` `modelName` property into `deviceType`.
 
 ### Defects solved
-* NA
+* N/A
 
 ### Residual anomalies
 * To be filled in at release
 
 ### Risks and mitigations
-* NA
+* N/A
 
 
 Version 6.0.0
