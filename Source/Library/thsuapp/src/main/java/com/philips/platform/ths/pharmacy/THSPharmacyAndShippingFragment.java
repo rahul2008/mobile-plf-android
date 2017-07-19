@@ -61,7 +61,7 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         this.thsConsumer = thsConsumer;
     }
 
-    public void setPharmacyAndAddress(Address address,Pharmacy pharmacy){
+    public void setPharmacyAndAddress(Address address, Pharmacy pharmacy) {
         this.address = address;
         this.pharmacy = pharmacy;
     }
@@ -77,6 +77,7 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
     public void onSuccessUpdateFragmentView(Pharmacy pharmacy, Address address) {
         ths_shipping_pharmacy_layout.setVisibility(View.VISIBLE);
         consumerName.setText(thsConsumer.getConsumer().getFullName());
+        consumerCity.setText(address.getCity());
         consumerState.setText(address.getState().getCode());
         consumerShippingAddress.setText(address.getAddress1());
         consumerShippingZip.setText(address.getZipCode());

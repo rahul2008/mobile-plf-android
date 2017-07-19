@@ -94,6 +94,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
         if (null != pharmacy) {
             this.pharmacy = pharmacy;
             getConsumerShippingAddress(THSManager.getInstance().getPTHConsumer());
+            //((THSFollowUpFragment) uiBaseView).displaySearchPharmacy();
         } else {
             ((THSFollowUpFragment) uiBaseView).displaySearchPharmacy();
         }

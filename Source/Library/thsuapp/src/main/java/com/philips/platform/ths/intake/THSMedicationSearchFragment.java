@@ -13,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -24,7 +23,6 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.SearchBox;
 
-import static android.R.id.list;
 import static android.app.Activity.RESULT_OK;
 
 /**
@@ -75,13 +73,13 @@ public class THSMedicationSearchFragment extends THSBaseFragment implements Sear
     @Override
     public void onResume() {
         super.onResume();
-        navIconToggler.restoreNavigationIcon();
+        navIconToggler.hideNavigationIcon();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        navIconToggler.hideNavigationIcon();
+        navIconToggler.restoreNavigationIcon();
     }
 
     @Override
