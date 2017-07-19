@@ -37,14 +37,12 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Rate
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private Uri mStoreUri = null;
-    private Bundle mBundle;
     private RateThisAppFragmentPresenter rateThisAppFragmentPresenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mBundle = getArguments();
         rateThisAppFragmentPresenter = new RateThisAppFragmentPresenter(this);
         View mView = inflater.inflate(R.layout.consumercare_fragment_tellus, container,false);
         intiView(mView);
