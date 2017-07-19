@@ -2,10 +2,11 @@ package com.philips.platform.ths.appointment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.americanwell.sdk.entity.practice.Practice;
-import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsDisplayHelper;
@@ -25,11 +26,11 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     THSAvailableProviderDetailPresenter thsAvailableDetailProviderPresenter;
     Practice mPractice;
 
-
-
+    @Nullable
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.ths_provider_details_fragment, container, false);
+
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_pick_time), true);
         }
@@ -38,12 +39,10 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
         mDate = (Date) arguments.getSerializable(THSConstants.THS_DATE);
         mPractice = arguments.getParcelable(THSConstants.THS_PRACTICE_INFO);
 
-        THSProviderDetailsDisplayHelper thsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(),this,this,this,this,getView());
+        THSProviderDetailsDisplayHelper thsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(),this,this,this,this,view);
         thsAvailableDetailProviderPresenter = new THSAvailableProviderDetailPresenter(this,mDate,thsProviderDetailsDisplayHelper);
-
-
-
         thsAvailableDetailProviderPresenter.fetchProviderDetails(getContext(),getProviderEntity());
+        return view;
     }
 
     @Override

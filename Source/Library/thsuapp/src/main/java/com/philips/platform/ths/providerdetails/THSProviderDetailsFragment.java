@@ -38,11 +38,6 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_provider_details_fragment, container, false);
-
-        mThsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(),this,this,this, this,view);
-      //  mThsProviderDetailsDisplayHelper.setViews(view);
-
-        providerDetailsPresenter = new THSProviderDetailsPresenter(this, this);
         return view;
     }
 
@@ -87,6 +82,10 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mThsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(),this,this,this, this,getView());
+        //  mThsProviderDetailsDisplayHelper.setViews(view);
+
+        providerDetailsPresenter = new THSProviderDetailsPresenter(this, this);
         onRefresh();
 
     }
