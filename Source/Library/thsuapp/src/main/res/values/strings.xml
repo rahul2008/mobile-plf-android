@@ -35,7 +35,7 @@
     <string name="ths_schedule_appointment_for">You have sceduled an appointment for</string>
     <string name="ths_set_remainder">Set a remainder</string>
     <string name="ths_got_it">Ok got it</string>
-    <string name="ths_email_sent">We have sent a confirmation email to name</string>
+    <string name="ths_email_sent">We have sent a confirmation email to</string>
     <string name="ths_confirm">Confirm</string>
     <string name="ths_no_available_appointments">No available appointments</string>h
     <string name="ths_select_date_and_time">Select date and time</string>

@@ -32,6 +32,8 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
     Label mEmailSentMessage;
     Label mLabelDate;
     ImageView mImageProviderImage;
+    Label mLabelIsAvailable;
+    ImageView mImageIsAvailable;
 
     @Nullable
     @Override
@@ -47,10 +49,15 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
         mLabelDate = (Label) view.findViewById(R.id.date);
         mImageProviderImage = (ImageView)view.findViewById(R.id.details_providerImage);
 
+        mLabelIsAvailable = (Label)view.findViewById(R.id.details_isAvailableLabel);
+        mLabelIsAvailable.setVisibility(View.GONE);
+        mImageIsAvailable = (ImageView)view.findViewById(R.id.details_isAvailableImage);
+        mImageIsAvailable.setVisibility(View.GONE);
+        
         mProviderFullName.setText(mThsProviderInfo.getProviderInfo().getFullName());
         mPracticeNameLabel.setText(mThsProviderInfo.getProviderInfo().getSpecialty().getName());
-        mEmailSentMessage.setText(getString(R.string.ths_email_sent) + " "+ mThsProviderInfo.getProviderInfo().getFullName());
-        mLabelDate.setText(new SimpleDateFormat(THSConstants.DATE_FORMATTER, Locale.getDefault()).format(mAppointmentDate));
+        mEmailSentMessage.setText(getString(R.string.ths_email_sent) + " "+ THSManager.getInstance().getPTHConsumer().getConsumer().getEmail());
+        mLabelDate.setText(new SimpleDateFormat(THSConstants.DATE_TIME_FORMATTER, Locale.getDefault()).format(mAppointmentDate));
 
         if(mThsProviderInfo.getProviderInfo().hasImage()) {
             try {
