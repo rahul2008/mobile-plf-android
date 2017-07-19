@@ -132,6 +132,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     @Override
     protected void onRestart() {
         super.onRestart();
+        mIapInterface.getProductCartCount(this);
     }
 
     private void addActionBar() {
@@ -182,7 +183,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             showProgressDialog();
             try {
                 if (!mIAPSettings.isUseLocalData()) {
-                    mIapInterface.getProductCartCount(this);
+                   // mIapInterface.getProductCartCount(this);
                     mIapInterface.getCompleteProductList(this);
                 }
                 else
@@ -194,6 +195,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             hideViews();
         }
     }
+
 
     @Override
     protected void onDestroy() {
@@ -438,12 +440,12 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         activity.finish();
         displayViews();
 
-        IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
-        mIapInterface = new IAPInterface();
-        mIapInterface.init(mIapDependencies, mIAPSettings);
-        mIapLaunchInput = new IAPLaunchInput();
-        mIapLaunchInput.setIapListener(this);
-        init();
+//        IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
+//        mIapInterface = new IAPInterface();
+//        mIapInterface.init(mIapDependencies, mIAPSettings);
+//        mIapLaunchInput = new IAPLaunchInput();
+//        mIapLaunchInput.setIapListener(this);
+//        init();
     }
 
     @Override
