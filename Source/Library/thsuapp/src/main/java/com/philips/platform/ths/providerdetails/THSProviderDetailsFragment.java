@@ -38,6 +38,9 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_provider_details_fragment, container, false);
+        mThsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(),this,this,this, this,view);
+        providerDetailsPresenter = new THSProviderDetailsPresenter(this, this);
+        onRefresh();
         return view;
     }
 
@@ -71,23 +74,6 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     public void setConsumerAndPractice(Consumer consumer, Practice practice){
         this.consumer = consumer;
         this.mPractice = practice;
-    }
-
-    /**
-     * As soon as the activity is created for the component, onRefresh method is called so that the
-     * provider details are fetched. This will,avoid code duplication in creating new method which
-     * will inturn call the same getprovider details method.
-     * @param savedInstanceState
-     */
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mThsProviderDetailsDisplayHelper = new THSProviderDetailsDisplayHelper(getContext(),this,this,this, this,getView());
-        //  mThsProviderDetailsDisplayHelper.setViews(view);
-
-        providerDetailsPresenter = new THSProviderDetailsPresenter(this, this);
-        onRefresh();
-
     }
 
     public  THSProviderEntity getProviderEntitiy(){
