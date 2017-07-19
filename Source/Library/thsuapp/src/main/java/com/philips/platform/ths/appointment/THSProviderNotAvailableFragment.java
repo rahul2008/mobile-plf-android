@@ -44,6 +44,8 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
     }
 
     public void updateProviderDetails(View view) {
+        if(view == null)
+            return;
         Label label = (Label) view.findViewById(R.id.schedule_appointment);
         label.setVisibility(View.GONE);
         RelativeLayout detailsContainer = (RelativeLayout) view.findViewById(R.id.details_container);
