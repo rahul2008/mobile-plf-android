@@ -1,9 +1,5 @@
 package com.philips.cdp.digitalcare.contactus.fragments;
 
-/**
- * Created by philips on 7/19/17.
- */
-
 public interface ContactUsContract {
 
     void showCallPhilipsBtn();

@@ -48,10 +48,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 
-public class ContactUsFragment extends DigitalCareBaseFragment implements ContactUsContract,OnClickListener, Observer {
+public class ContactUsFragment extends DigitalCareBaseFragment implements ContactUsContract,OnClickListener {
     private static final String USER_PREFERENCE = "user_product";
     private static final String USER_SELECTED_PRODUCT_CTN_CALL = "contact_call";
     private static final String USER_SELECTED_PRODUCT_CTN_HOURS = "contact_hours";
@@ -68,27 +66,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     private LinearLayout mLLSocialParent = null;
     private ProgressDialog mDialog = null;
     private ContactUsPresenter contactUsFragmentPresenter;
-
-    /*private final CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
-        @Override
-        public void onCdlsParsingComplete(final CdlsResponseModel response) {
-            if ((response!=null) && response.getSuccess()) {
-                mCdlsParsedResponse = response;
-                updateUi();
-            } else {
-              *//*
-                First hit CDLS server wit SubCategory, if that fails then hit
-                CDLS again with Category.
-                 *//*
-                if (isFirstTimeCdlsCall) {
-                    isFirstTimeCdlsCall = false;
-                    requestCdlsData();
-                } else {
-                    fadeoutButtons();
-                }
-            }
-        }
-    };*/
     private Configuration config = null;
     private Utils mUtils = null;
     private AlertDialog mAlertDialog = null;
@@ -96,8 +73,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // isFirstTimeCdlsCall = true;
-
     }
 
     @Override
@@ -132,11 +107,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         mLLSocialParent = (LinearLayout) getActivity().findViewById(R.id.contactUsSocialParent);
         mUtils = new Utils();
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
-
-
         final float density = getResources().getDisplayMetrics().density;
         setHelpButtonParams(density);
-        //Live chat is configurable parameter. Developer can enable/disable it.
         if (getResources().getBoolean(R.bool.live_chat_required)) {
             mChatBtn.setVisibility(View.VISIBLE);
         }
@@ -168,7 +140,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
                             getPreviousName(), getPreviousName());
 
         config = getResources().getConfiguration();
-
         createContactUsSocialProvideMenu();
         setViewParams(config);
     }
@@ -204,100 +175,16 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         setViewParams(config);
     }
 
-  /*  protected void requestCdlsData() {
-        startProgressDialog();
-        if (isCdlsUrlNull()) {
-            String url = getCdlsUrl();
-            RequestData requestData = new RequestData();
-            requestData.setRequestUrl(url);
-            requestData.setResponseCallback(this);
-            requestData.execute();
-        }
-    }*/
-
-   /* private boolean isCdlsUrlNull() {
-        return getCdlsUrl() != null;
-    }
-*/
-   /* @Override
-    public void onResponseReceived(String response) {
-        if (isAdded()) {
-            closeProgressDialog();
-            if (response != null && isAdded()) {
-                parseCdlsResponse(response);
-            } else {
-                *//*
-                First hit CDLS server wit SubCategory, if that fails then hit
-                CDLS again with Category.
-                 *//*
-                if (isFirstTimeCdlsCall) {
-                    isFirstTimeCdlsCall = false;
-                    requestCdlsData();
-                } else {
-                    fadeoutButtons();
-                }
-            }
-        }
-    }*/
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         closeProgressDialog();
     }
 
-  /*  protected void parseCdlsResponse(String response) {
-        final CdlsResponseParser cdlsResponseParser = new CdlsResponseParser(
-                mParsingCompletedCallback);
-        cdlsResponseParser.parseCdlsResponse(response);
-    }*/
-
-    /*protected void updateUi() {
-        if (mCdlsParsedResponse.getSuccess()) {
-            final CdlsPhoneModel phoneModel = mCdlsParsedResponse.getPhone();
-            if (phoneModel != null) {
-                if (phoneModel.getPhoneNumber() != null) {
-                    showCallPhilipsBtn();
-                }
-                enableBottomText();
-                final StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append(phoneModel.getOpeningHoursWeekdays())
-                        .append(phoneModel.getOpeningHoursSaturday())
-                        .append(phoneModel.getOpeningHoursSunday())
-                        .append(phoneModel.getOptionalData1())
-                        .append(phoneModel.getOptionalData2())
-                        .append("\n" + phoneModel.getmPhoneTariff() + "\n");
-                enableBottomText();
-                mCallPhilipsBtn
-                        .setText(getResources().getString(R.string.call_number)
-                                + " "
-                                + mCdlsParsedResponse.getPhone()
-                                .getPhoneNumber());
-                mFirstRowText.setText(stringBuilder);
-
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString(USER_SELECTED_PRODUCT_CTN_HOURS, stringBuilder.toString());
-                editor.putString(USER_SELECTED_PRODUCT_CTN_CALL, mCdlsParsedResponse.getPhone()
-                        .getPhoneNumber());
-
-                editor.apply();
-            }
-        } else if (isCdlsResponseModelNull()) {
-            fadeoutButtons();
-        } else {
-            fadeoutButtons();
-        }
-
-    }*/
-
     @Override
     public void showCallPhilipsBtn() {
         mCallPhilipsBtn.setVisibility(View.VISIBLE);
     }
-
-  /*  private boolean isCdlsResponseModelNull() {
-        return mCdlsParsedResponse.getError() != null;
-    }*/
 
     @Override
     public void closeProgressDialog() {
@@ -332,7 +219,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
             myintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(myintent);
         } catch (NullPointerException e) {
-        }
+      }
     }
 
     @Override
@@ -360,7 +247,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
             if (!isContactNumberCached()) {
                 showDialog(getActivity().getString(R.string.no_data));
             } else if (isSimAvailable() && !isTelephonyEnabled()){
-                //show alert
                 showDialog(getActivity().getString(R.string.no_call_functionality));
             } else if (isSimAvailable()) {
                 tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_CALL);
@@ -376,15 +262,11 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
                 && isConnectionAvailable()) {
 
             launchFacebookFeature();
-
         } else if (tag != null
                 && tag.equalsIgnoreCase(getStringKey(R.string.twitter))
                 && isConnectionAvailable()) {
             launchTwitterFeature();
-
-
         } else if (tag != null && (tag.equalsIgnoreCase(getStringKey(R.string.send_email))) && isConnectionAvailable()) {
-
             tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_EMAIL);
             sendEmail();
         }
@@ -522,7 +404,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
 
     @Override
     public void setViewParams(Configuration config) {
-
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
             mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginPort;
         } else {
@@ -544,7 +425,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
                 .getDimension(R.dimen.support_btn_height) * density));
-
         params.topMargin = (int) getActivity().getResources().getDimension(R.dimen.marginTopButton);
         mCallPhilipsBtn.setLayoutParams(params);
         mChatBtn.setLayoutParams(params);
@@ -563,16 +443,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     @Override
     public void onDestroy() {
         super.onDestroy();
-
         if(null != mAlertDialog && mAlertDialog.isShowing())
             mAlertDialog.cancel();
-    }
-
-    @Override
-    public void update(Observable observable, Object data) {
-        if (!(getActivity() == null)) {
-            contactUsFragmentPresenter.requestCdlsData();
-        }
     }
 
     private void showDialog(String message){

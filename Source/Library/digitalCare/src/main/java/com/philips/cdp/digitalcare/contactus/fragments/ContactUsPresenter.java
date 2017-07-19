@@ -8,8 +8,11 @@ import com.philips.cdp.digitalcare.contactus.parser.CdlsResponseParser;
 import com.philips.cdp.digitalcare.request.RequestData;
 import com.philips.cdp.digitalcare.request.ResponseCallback;
 
+import java.util.Observable;
+import java.util.Observer;
 
-public class ContactUsPresenter implements ResponseCallback {
+
+public class ContactUsPresenter implements ResponseCallback ,Observer {
 
     private ContactUsContract contract;
 
@@ -109,5 +112,10 @@ public class ContactUsPresenter implements ResponseCallback {
                 }
             }
         }
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        requestCdlsData();
     }
 }
