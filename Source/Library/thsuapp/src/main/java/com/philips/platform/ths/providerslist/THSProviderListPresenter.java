@@ -121,6 +121,11 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
 
     @Override
     public void onResponse(List<THSOnDemandSpeciality> onDemandSpecialties, THSSDKError sdkError) {
+        if(onDemandSpecialties == null || onDemandSpecialties.size()==0){
+            mThsBaseFragment.showToast("No OnDemandSpecialities available at present, please try after some time");
+            mThsBaseFragment.hideProgressBar();
+            return;
+        }
         mThsOnDemandSpeciality = onDemandSpecialties;
         Bundle bundle = new Bundle();
         bundle.putParcelable(THSConstants.THS_ON_DEMAND,onDemandSpecialties.get(0));
