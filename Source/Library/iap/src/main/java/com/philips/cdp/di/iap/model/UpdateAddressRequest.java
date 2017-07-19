@@ -32,7 +32,7 @@ public class UpdateAddressRequest extends AbstractModel {
         Map<String, String> addressHashMap = new HashMap<>();
         addressHashMap.put(ModelConstants.FIRST_NAME, getValue(ModelConstants.FIRST_NAME));
         addressHashMap.put(ModelConstants.LAST_NAME, getValue(ModelConstants.LAST_NAME));
-        addressHashMap.put(ModelConstants.TITLE_CODE, getValue(ModelConstants.TITLE_CODE));
+        addressHashMap.put(ModelConstants.TITLE_CODE, getValue(ModelConstants.TITLE_CODE).toLowerCase() + ".");
         addressHashMap.put(ModelConstants.COUNTRY_ISOCODE, getValue(ModelConstants.COUNTRY_ISOCODE));
         addressHashMap.put(ModelConstants.LINE_1, getValue(ModelConstants.LINE_1));
         addressHashMap.put(ModelConstants.LINE_2, getValue(ModelConstants.LINE_2));
@@ -42,7 +42,7 @@ public class UpdateAddressRequest extends AbstractModel {
         addressHashMap.put(ModelConstants.PHONE_2, getValue(ModelConstants.PHONE_2));
         addressHashMap.put(ModelConstants.REGION_ISOCODE, getValue(ModelConstants.REGION_ISOCODE));
         //if (params.containsKey(ModelConstants.DEFAULT_ADDRESS)) {
-            addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, "true");
+        addressHashMap.put(ModelConstants.DEFAULT_ADDRESS, "true");
         //}
         addressHashMap.put(ModelConstants.ADDRESS_ID, getValue(ModelConstants.ADDRESS_ID));
         return addressHashMap;

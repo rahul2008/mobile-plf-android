@@ -321,7 +321,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
             CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
             updateCartDetails(mShoppingCartAPI);
         }
-        dismissProgressDialog();
+        //dismissProgressDialog();
     }
 
     @Override

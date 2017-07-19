@@ -124,7 +124,7 @@ public class IAPServiceDiscoveryWrapper {
                     // TODO Retailer view hence making the userLocalData to true
                     mIAPSettings.setUseLocalData(false);
                     if (locale != null) {
-                        pIAPHandler.initIAPRequisite();
+                       // pIAPHandler.initIAPRequisite();
                         setLangAndCountry(locale);
                     }
                     String urlPort = "https://acc.us.pil.shop.philips.com/en_US";//;"https://www.occ.shop.philips.com/en_US";
