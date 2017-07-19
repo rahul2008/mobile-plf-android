@@ -1,7 +1,10 @@
 package com.philips.platform.ths.providerslist;
 
+import android.app.DatePickerDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.DatePicker;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
@@ -9,7 +12,8 @@ import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.appointment.THSDatePickerFragment;
+import com.philips.platform.ths.appointment.THSAvailableProviderListBasedOnDateFragment;
+import com.philips.platform.ths.appointment.THSDatePickerFragmentUtility;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
@@ -17,6 +21,8 @@ import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class THSProviderListPresenter implements THSProvidersListCallback, THSBasePresenter,THSOnDemandSpecialtyCallback<List<THSOnDemandSpeciality>,THSSDKError> {
@@ -101,21 +107,35 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
     }
 
     @Override
-    public void onEvent(int componentID){
-        Practice practice = ((THSProvidersListFragment) mThsBaseFragment).getPractice();
-        if(componentID == R.id.getStartedButton){
+    public void onEvent(int componentID) {
+        final Practice practice = ((THSProvidersListFragment) mThsBaseFragment).getPractice();
+        if (componentID == R.id.getStartedButton) {
             try {
                 THSManager.getInstance().getOnDemandSpecialities(mThsBaseFragment.getFragmentActivity(),
-                        practice,null,this);
+                        practice, null, this);
             } catch (AWSDKInstantiationException e) {
 
 
             }
-        }else if(componentID == R.id.getScheduleAppointmentButton){
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,practice);
-            bundle.putBoolean(THSConstants.THS_IS_DETAILS,false);
-            mThsBaseFragment.addFragment(new THSDatePickerFragment(), THSDatePickerFragment.TAG,bundle);
+        } else if (componentID == R.id.getScheduleAppointmentButton) {
+            final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment);
+
+
+            final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                    thsDatePickerFragmentUtility.setCalendar(year, month, day);
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(year, month, day);
+                    Date date = new Date();
+                    date.setTime(calendar.getTimeInMillis());
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(THSConstants.THS_DATE, date);
+                    bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, practice);
+                    mThsBaseFragment.addFragment(new THSAvailableProviderListBasedOnDateFragment(), THSAvailableProviderListBasedOnDateFragment.TAG, bundle);
+                }
+            };
+            thsDatePickerFragmentUtility.showDatePicker(onDateSetListener);
         }
     }
 

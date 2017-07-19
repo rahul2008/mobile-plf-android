@@ -697,6 +697,7 @@ public class THSManager {
                         thssdkValidatedCallback.onFailure(throwable);
                     }
                 });
+
     }
 
 

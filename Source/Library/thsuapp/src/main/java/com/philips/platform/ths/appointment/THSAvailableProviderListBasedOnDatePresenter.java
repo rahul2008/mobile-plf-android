@@ -1,13 +1,15 @@
 package com.philips.platform.ths.appointment;
 
+import android.app.DatePickerDialog;
+import android.os.Build;
 import android.os.Bundle;
+import android.widget.DatePicker;
 
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.practice.THSPractice;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSConstants;
@@ -24,10 +26,17 @@ public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePres
 
     @Override
     public void onEvent(int componentID) {
-        if(componentID == R.id.calendar_view){
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,((THSAvailableProviderListBasedOnDateFragment)mThsBaseFragment).getPractice());
-            mThsBaseFragment.addFragment(new THSDatePickerFragment(),THSDatePickerFragment.TAG,bundle);
+        if (componentID == R.id.calendar_view) {
+            final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment);
+
+            final DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                    thsDatePickerFragmentUtility.setCalendar(year, month, day);
+                }
+            };
+            thsDatePickerFragmentUtility.showDatePicker(onDateSetListener);
+
         }
     }
 
