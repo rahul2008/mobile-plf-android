@@ -18,10 +18,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -34,7 +32,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
-import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
@@ -66,7 +63,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
     private static final String USER_SELECTED_PRODUCT_CTN_HOURS = "contact_hours";
     private boolean isFirstTimeCdlsCall = true;
     private SharedPreferences prefs = null;
-    private Button mChat = null;
+    private Button mChatBtn = null;
     private Button mCallPhilipsBtn = null;
     private CdlsResponseModel mCdlsParsedResponse = null;
     private TextView mFirstRowText = null;
@@ -74,7 +71,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
     private ProgressDialog mPostProgress = null;
-    RecyclerView mContactUsSocilaProviderButtonsParent = null;
+    private RecyclerView mContactUsSocilaProviderButtonsParent = null;
     private LinearLayout.LayoutParams mSecondContainerParams = null;
     private LinearLayout mLLSocialParent = null;
     private ProgressDialog mDialog = null;
@@ -131,7 +128,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
         mSecondContainerParams = (LinearLayout.LayoutParams) mContactUsSocilaProviderButtonsParent
                 .getLayoutParams();
 
-        mChat = (Button) getActivity().findViewById(
+        mChatBtn = (Button) getActivity().findViewById(
                 R.id.contactUsChat);
         mCallPhilipsBtn = (Button) getActivity().findViewById(
                 R.id.contactUsCall);
@@ -151,10 +148,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
         setHelpButtonParams(density);
         //Live chat is configurable parameter. Developer can enable/disable it.
         if (getResources().getBoolean(R.bool.live_chat_required)) {
-            mChat.setVisibility(View.VISIBLE);
+            mChatBtn.setVisibility(View.VISIBLE);
         }
-        mChat.setOnClickListener(this);
-        mChat.setTransformationMethod(null);
+        mChatBtn.setOnClickListener(this);
+        mChatBtn.setTransformationMethod(null);
         mCallPhilipsBtn.setOnClickListener(this);
         mCallPhilipsBtn.setTransformationMethod(null);
 
@@ -187,15 +184,13 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
     }
 
     protected boolean isContactNumberCached() {
-        String customerSupportNumber = null;
-        customerSupportNumber = prefs.getString(USER_SELECTED_PRODUCT_CTN_CALL, "");
+        String customerSupportNumber = prefs.getString(USER_SELECTED_PRODUCT_CTN_CALL, "");
         return (customerSupportNumber != null && customerSupportNumber != "");
     }
 
 
     protected boolean isContactHoursCached() {
-        String contactHours = null;
-        contactHours = prefs.getString(USER_SELECTED_PRODUCT_CTN_HOURS, "");
+        String contactHours = prefs.getString(USER_SELECTED_PRODUCT_CTN_HOURS, "");
         return (contactHours != null && contactHours != "");
     }
 
@@ -210,14 +205,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
      * Forming CDLS url. This url will be different for US and other countries.
      */
     protected String getCdlsUrl() {
-        final ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
-                .getInstance().getConsumerProductInfo();
-
-        return loadCdlsUrl();
-    }
-
-    private String loadCdlsUrl(){
-
         return DigitalCareConfigManager.getInstance().getCdlsUrl();
     }
 
@@ -355,7 +342,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
     public void onClick(View view) {
         final int id = view.getId();
         final String tag = (String) view.getTag();
-
         boolean actionTaken = false;
 
         try {
@@ -462,21 +448,23 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
             }
         }
         if (resolved) {
-            final String twitterUrl = "www.twitter.com/";
-            final String twitterSupportAccount = getActivity().getString(R.string.twitter_page);
-            final String twitterPageName = twitterUrl + "@" + twitterSupportAccount;
-            final Map<String, String> contextData = new HashMap<String, String>();
-            contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_TWITTER);
-            contextData.put(AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_TWITTER);
-            contextData.put(AnalyticsConstants.ACTION_KEY_EXIT_LINK, twitterPageName);
-            //  AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_EXIT_LINK, contextData);
-            DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
-                    (AnalyticsConstants.ACTION_EXIT_LINK, contextData);
-
+            trackTwitterAction();
             startActivity(tweetIntent);
         } else {
             showFragment(new TwitterWebFragment());
         }
+    }
+
+    private void trackTwitterAction() {
+        final String twitterUrl = "www.twitter.com/";
+        final String twitterSupportAccount = getActivity().getString(R.string.twitter_page);
+        final String twitterPageName = twitterUrl + "@" + twitterSupportAccount;
+        final Map<String, String> contextData = new HashMap<String, String>();
+        contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_TWITTER);
+        contextData.put(AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_TWITTER);
+        contextData.put(AnalyticsConstants.ACTION_KEY_EXIT_LINK, twitterPageName);
+        DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
+                (AnalyticsConstants.ACTION_EXIT_LINK, contextData);
     }
 
     protected String getProductInformation() {
@@ -516,18 +504,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
                         AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_RESPONSE_CDLS);
     }
 
-    /*
-     * If CDLS response received then enable to bottom text.
-     */
     protected void enableBottomText() {
         mCallPhilipsBtn.setVisibility(View.VISIBLE);
         mContactUsOpeningHours.setVisibility(View.VISIBLE);
         mFirstRowText.setVisibility(View.VISIBLE);
     }
 
-    /*
-     * If feature is not available then fade it out.
-     */
     protected void fadeoutButtons() {
         tagTechnicalError();
         mCallPhilipsBtn.setVisibility(View.GONE);
@@ -538,7 +520,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
             showDialog(getResources().getString(R.string.NO_SUPPORT_KEY));
         }
     }
-
 
     @Override
     public void setViewParams(Configuration config) {
@@ -555,10 +536,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
         showFragment(new EmailFragment());
     }
 
-    private Drawable getDrawable(int resId) {
-        return ContextCompat.getDrawable(getActivity(), resId);
-    }
-
     private String getStringKey(int resId) {
         return getResources().getResourceEntryName(resId);
     }
@@ -571,7 +548,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
 
         params.topMargin = (int) getActivity().getResources().getDimension(R.dimen.marginTopButton);
         mCallPhilipsBtn.setLayoutParams(params);
-        mChat.setLayoutParams(params);
+        mChatBtn.setLayoutParams(params);
     }
 
     @Override
@@ -600,7 +577,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
     }
 
     private void showDialog(String message){
-
         mAlertDialog = new AlertDialog.Builder(getActivity(), R.style.alertDialogStyle)
                 .setTitle(null)
                 .setMessage(message)
@@ -632,11 +608,19 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
             }
 
         if(menus.size() == 0){
-            mLLSocialParent.setVisibility(View.GONE);
-            View view = (View) getActivity().findViewById(R.id.dividerContactUsSplit);
-            view.setVisibility(View.GONE);
+            hideSocialView();
         }
 
+        updateRecyclerView(context, menus);
+    }
+
+    private void hideSocialView() {
+        mLLSocialParent.setVisibility(View.GONE);
+        View view = (View) getActivity().findViewById(R.id.dividerContactUsSplit);
+        view.setVisibility(View.GONE);
+    }
+
+    private void updateRecyclerView(final ContactUsFragment context, final ArrayList<MenuItem> menus) {
         RecyclerView recyclerView = mContactUsSocilaProviderButtonsParent;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new RecyclerViewSeparatorItemDecoration(getContext()));
