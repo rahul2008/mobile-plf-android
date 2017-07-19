@@ -12,9 +12,9 @@ import org.robolectric.res.FsFile;
  * Created by philips on 7/14/17.
  */
 
-public class CustomRobolectricRunnerConsumerCare extends RobolectricTestRunner {
+public class CustomRobolectricRunnerCC extends RobolectricTestRunner {
 
-    public CustomRobolectricRunnerConsumerCare(Class<?> klass) throws InitializationError {
+    public CustomRobolectricRunnerCC(Class<?> klass) throws InitializationError {
         super(klass);
     }
 

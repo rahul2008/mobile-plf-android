@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.philips.cdp.digitalcare.BuildConfig;
-import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerConsumerCare;
+import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerCC;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.productselection.launchertype.ActivityLauncher;
 
@@ -22,7 +22,7 @@ import org.robolectric.annotation.Config;
  * Created by philips on 6/29/17.
  */
 
-@RunWith(CustomRobolectricRunnerConsumerCare.class)
+@RunWith(CustomRobolectricRunnerCC.class)
 @Config(constants = BuildConfig.class, sdk = 21)
 
 public class DigitalCareActivityRTest {
