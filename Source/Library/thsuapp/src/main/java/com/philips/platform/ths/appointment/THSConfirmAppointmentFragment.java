@@ -15,7 +15,9 @@ import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Label;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class THSConfirmAppointmentFragment extends THSBaseFragment implements THSAppointmentInterface{
 
@@ -25,6 +27,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
     Label mProviderFullName;
     Label mPracticeNameLabel;
     Label mEmailSentMessage;
+    Label mLabelDate;
 
     @Nullable
     @Override
@@ -41,6 +44,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
         mProviderFullName.setText(mThsProviderInfo.getProviderInfo().getFullName());
         mPracticeNameLabel.setText(mThsProviderInfo.getProviderInfo().getSpecialty().getName());
         mEmailSentMessage.setText(getString(R.string.ths_email_sent) + " "+ mThsProviderInfo.getProviderInfo().getFullName());
+        mLabelDate.setText(new SimpleDateFormat(THSConstants.DATE_FORMATTER, Locale.getDefault()).format(mAppointmentDate));
         return view;
     }
 

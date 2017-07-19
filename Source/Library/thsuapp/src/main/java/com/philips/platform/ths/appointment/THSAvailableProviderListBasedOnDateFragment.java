@@ -19,9 +19,11 @@ import com.philips.platform.ths.providerslist.THSProvidersListAdapter;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.uid.view.widget.Label;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment implements View.OnClickListener, OnDateSetChangedInterface{
     public static final String TAG = THSAvailableProviderListBasedOnDateFragment.class.getSimpleName();
@@ -34,6 +36,7 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
     THSAvailableProviderList mTHSAvailableProviderList;
     View mChangeAppointDateView;
     Label mLabelNumberOfAvailableDoctors;
+    Label mLabelDate;
 
     @Nullable
     @Override
@@ -47,6 +50,7 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         mChangeAppointDateView = view.findViewById(R.id.calendar_view);
         mChangeAppointDateView.setOnClickListener(this);
         mLabelNumberOfAvailableDoctors = (Label)view.findViewById(R.id.number_of_available_doctors);
+        mLabelDate = (Label) view.findViewById(R.id.date);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         if (null != getActionBarListener()) {
@@ -67,6 +71,8 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
 
     public void updateProviderAdapterList(final THSAvailableProviderList availableProviderses) {
         mTHSAvailableProviderList = availableProviderses;
+
+        mLabelDate.setText(new SimpleDateFormat(THSConstants.DATE_FORMATTER, Locale.getDefault()).format(mDate));
 
         List<THSAvailableProvider> listOfProviderInfos = new ArrayList();
         for (AvailableProvider availableProvider:availableProviderses.getAvailableProvidersList()) {
