@@ -91,7 +91,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             serviceDiscovery = null;
         }
         downloadAwaiters.add(listener);
-
             if (new Date().getTime() > holdbackTime) {// if current time is greater then holdback time
                 new Thread(new Runnable() {
                     @Override
@@ -170,7 +169,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     }
                     saveToSecureStore(platformService.getCountry(), COUNTRY);
                 }*/
-                fetchCountryAndCountrySource(platformService.getCountry());
+               // fetchCountryAndCountrySource(platformService.getCountry());
                 response.setPlatformURLs(platformService);
             }
         } else {
@@ -186,7 +185,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     }
                     saveToSecureStore(propositionService.getCountry(), COUNTRY);
                 }*/
-                fetchCountryAndCountrySource(propositionService.getCountry());
+             //   fetchCountryAndCountrySource(propositionService.getCountry());
                 platformService = downloadPlatformService();
             }
             if (platformService != null && propositionService != null) {
@@ -207,11 +206,24 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         return response;
     }
 
-    private void fetchCountryAndCountrySource(String platformOrPropositionCountry) {
+    private void fetchCountryAndCountrySource(String platformOrPropositionCountry,
+                                              String url, ServiceDiscovery service, AISDURLType aisdurlType) {
         String country = fetchFromSecureStorage(COUNTRY);
+        boolean shouldRetry = false;
         if (country == null) {
+            country = platformOrPropositionCountry;
             countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
-           saveToSecureStore(platformOrPropositionCountry, countryCodeSource.toString());
+            saveToSecureStore(platformOrPropositionCountry, countryCodeSource.toString());
+            String countryMapped = getMappedCountry(country);
+            if(countryMapped != null) {
+                shouldRetry = true;
+                url += "&country=" + countryMapped;
+            } else {
+                url += "&country=" + country;
+            }
+            if(shouldRetry) {
+                processRequest(url,service,aisdurlType);
+            }
         }
     }
 
@@ -244,6 +256,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 service = mRequestItemManager.execute(urlBuild, aisdurlType);
                 if (service.isSuccess()) {
                     holdbackTime = 0;   //remove hold back time
+                    fetchCountryAndCountrySource(service.getCountry(),urlBuild , service ,aisdurlType);
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "SD Fetched from server");
                 } else {
                     holdbackTime = new Date().getTime() + 10000; // curent time + 10 Seconds
@@ -321,7 +334,12 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     saveToSecureStore(country, countryCodeSource.toString());
                 }
             }
-            if (country != null) {
+
+            String countryMapped = getMappedCountry(country);
+
+            if (countryMapped != null) {
+                url += "&country=" + countryMapped;
+            } else if (country != null) {
                 url += "&country=" + country;
             }
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "URL " + url);
@@ -330,6 +348,14 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     + "Appidentity values are null");
         }
         return url;
+    }
+
+    private String getMappedCountry(String country) {
+        Map<String, String> countryMapping = getServiceDiscoveryCountryMapping();
+        if (countryMapping != null && countryMapping.size() > 0 && country != null) {
+           return countryMapping.get(country);
+        }
+        return null;
     }
 
     private void checkArgumentException(String micrositeid,String environment){
@@ -841,6 +867,28 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
                     AppInfraLogEventID.AI_SERVICE_DISCOVERY, "unregister Home country update "+ "context is null");
         }
+    }
+
+    @SuppressWarnings({"unchecked"})
+    private Map<String, String> getServiceDiscoveryCountryMapping() {
+        final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
+                .AppConfigurationError();
+        if (mAppInfra.getConfigInterface() != null) {
+            try {
+                final Object countryMapping = mAppInfra.getConfigInterface().getPropertyForKey
+                        ("servicediscovery.countryMapping", "appinfra", configError);
+                if (countryMapping != null) {
+                    if (countryMapping instanceof Map) {
+                        return (Map<String, String>) countryMapping;
+                    }
+                }
+            } catch (IllegalArgumentException exception) {
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+                        "ServiceDiscovery-getServiceDiscoveryCountryMapping",
+                        exception.toString());
+            }
+        }
+        return null;
     }
 
     /**
