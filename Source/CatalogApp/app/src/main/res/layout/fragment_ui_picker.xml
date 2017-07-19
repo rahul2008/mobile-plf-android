@@ -47,8 +47,9 @@
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/selected_location_label"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:gravity="center_vertical|end"
                 android:text="@{frag.selectedLocation}"/>
         </LinearLayout>
 

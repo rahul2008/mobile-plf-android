@@ -65,6 +65,7 @@ public class UIPicker extends ListPopupWindow{
     private boolean shouldSetGravity = true;
     private boolean shouldSetHeight = true;
     private boolean shouldSetWidth = true;
+    private boolean isBelowAnchorView = false;
     private final int LIST_EXPAND_MAX = 1;
     private int adapterCount;
 
@@ -112,7 +113,9 @@ public class UIPicker extends ListPopupWindow{
         shouldSetHeight = false;
     }
 
-
+    public void shouldShowBelowAnchorView(boolean isBelowAnchorView){
+        this.isBelowAnchorView = isBelowAnchorView;
+    }
 
     @Override
     public void show() {
@@ -138,7 +141,10 @@ public class UIPicker extends ListPopupWindow{
             setContentHeight();
         }
 
-        setVerticalOffset(-getAnchorView().getHeight());
+        if(!isBelowAnchorView){
+            setVerticalOffset(-getAnchorView().getHeight());
+        }
+
 
         setListItemExpandMax(this, LIST_EXPAND_MAX);
 
@@ -212,7 +218,10 @@ public class UIPicker extends ListPopupWindow{
             setHeight(contentHeight);
         }
         else {
-            setHeight(maxHeight);
+            if(isBelowAnchorView)
+                setHeight(maxHeight -getAnchorView().getHeight());
+            else
+                setHeight(maxHeight);
         }
 
     }

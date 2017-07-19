@@ -25,9 +25,10 @@ public class UIPickerFragment extends BaseFragment {
     private FragmentUiPickerBinding fragmentUiPickerBinding;
     private UIPicker listPopupWindow;
     public static final String SELECTED_LOCATION = "SELECTED_LOCATION";
+    public static final String SELECTED_POSITION = "SELECTED_POSITION";
     public final ObservableField<String> selectedLocation = new ObservableField<>("Alabama");
     private ArrayAdapter adapter;
-    private static int selectedPosition = 0;
+    private int selectedPosition = 0;
     private static final String[] STATES = new String[]{
             "Alabama",
             "Alaska",
@@ -35,7 +36,7 @@ public class UIPickerFragment extends BaseFragment {
             "Arkansas",
             "California",
             "Colorado",
-            "Connecticut jfskjklejrlkejrlekle hjgjhghjgjhgjghjghjh hjgjkjhkhkjhjkhkjhkjh",
+            "Connecticut",
             "Delaware",
             "Florida",
             "Georgia",
@@ -61,10 +62,10 @@ public class UIPickerFragment extends BaseFragment {
         listPopupWindow = new UIPicker(getContext());
         adapter = new ArrayAdapter<>(getContext(), R.layout.uipicker_item_text, STATES);
         listPopupWindow.setAdapter(adapter);
-        listPopupWindow.setAnchorView(fragmentUiPickerBinding.anchorLayout);
+        listPopupWindow.setAnchorView(fragmentUiPickerBinding.selectedLocationLabel);
         listPopupWindow.setModal(true);
         //listPopupWindow.setHeight(600);
-        //listPopupWindow.setWidth(600);
+        //listPopupWindow.setWidth(300);
         //listPopupWindow.setDropDownGravity(Gravity.START);
 
         listPopupWindow.setOnItemClickListener(
@@ -90,6 +91,7 @@ public class UIPickerFragment extends BaseFragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(SELECTED_LOCATION, selectedLocation.get());
+        outState.putInt(SELECTED_POSITION, selectedPosition);
     }
 
     @Override
@@ -98,6 +100,8 @@ public class UIPickerFragment extends BaseFragment {
         if (savedInstanceState != null) {
             String savedLocation = savedInstanceState.getString(SELECTED_LOCATION);
             selectedLocation.set(savedLocation);
+            selectedPosition = savedInstanceState.getInt(SELECTED_POSITION);
+            //listPopupWindow.setSelection(selectedPosition);
         }
     }
 
@@ -107,6 +111,12 @@ public class UIPickerFragment extends BaseFragment {
 
         listPopupWindow.show();
         listPopupWindow.setSelection(selectedPosition);
+
+        /*listPopupWindow.setHeight(600);
+        listPopupWindow.setWidth(600);
+        listPopupWindow.setDropDownGravity(Gravity.START);
+        listPopupWindow.shouldShowBelowAnchorView(true);*/
+
     }
 
 }
