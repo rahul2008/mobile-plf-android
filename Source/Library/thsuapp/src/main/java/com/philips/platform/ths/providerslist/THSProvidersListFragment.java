@@ -12,9 +12,9 @@ import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
-import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -124,6 +124,12 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
             createCustomProgressBar(mRelativeLayoutContainer, BIG);
             THSProviderListPresenter.onEvent(R.id.getScheduleAppointmentButton);
         }
+
+        /*THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();
+        THSConsumer thsConsumer = new THSConsumer();
+        thsConsumer.setConsumer(consumer);
+        thsPharmacyAndShippingFragment.setConsumer(thsConsumer);
+        getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(),thsPharmacyAndShippingFragment,"Pharmacy").addToBackStack(null).commit();*/
     }
 
     public Practice getPractice() {

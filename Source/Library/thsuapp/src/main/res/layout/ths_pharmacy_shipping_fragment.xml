@@ -2,18 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:id="@+id/ths_shipping_pharmacy_layout"
+    android:layout_height="match_parent"
+    android:background="?attr/uidSeparatorContentNormalBackgroundColor">
+
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ps_prescription_sent_label"
-        style="@style/UIDLabel.RecyclerViewItemMultipleLinesTitleText"
+        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="12dp"
+        android:layout_marginTop="14dp"
         android:layout_marginStart="16dp"
-        android:text="Miller Drug mail order" />
+        android:text="Prescriptions will be sent to" />
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/ps_pharmacy_list_layout_item"
@@ -23,6 +27,9 @@
         android:layout_below="@+id/ps_prescription_sent_label"
         android:orientation="vertical"
         android:paddingEnd="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:background="@color/uidColorWhite"
         android:paddingStart="16dp">
 
         <com.philips.platform.uid.view.widget.Label
@@ -85,18 +92,17 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/ps_pharmacy_list_layout_item"
-        android:layout_marginTop="12dp"
         android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ps_shipped_to_label"
-        style="@style/UIDLabel.RecyclerViewItemMultipleLinesTitleText"
+        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/ps_prescription_sent_label"
         android:layout_below="@+id/divider_one"
         android:layout_marginTop="14dp"
-        android:text="Miller Drug mail order" />
+        android:text="Medications will be shipped to" />
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/ps_shipping_layout_item"
@@ -104,8 +110,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ps_shipped_to_label"
         android:layout_marginTop="16dp"
+        android:paddingTop="12dp"
         android:orientation="vertical"
+        android:background="@color/uidColorWhite"
         android:paddingEnd="16dp"
+        android:paddingBottom="12dp"
         android:paddingStart="16dp">
 
         <com.philips.platform.uid.view.widget.Label
@@ -167,13 +176,13 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/ps_shipping_layout_item"
-        android:layout_marginTop="12dp"
         android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@color/uidColorWhite"
         android:padding="16dp">
 
         <com.philips.platform.uid.view.widget.Button
