@@ -27,6 +27,14 @@ node ('android&&device') {
                     ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test assembleLeakCanary zipDoc appFramework:aP
                 '''
                 }
+                stage('HockeyApp upload') {
+                    echo "Uploading to HockeyApp"
+                    sh '''#!/bin/bash -l
+                        chmod -R 755 .
+                        cd ./Source/AppFramework
+                        ./gradlew -PenvCode=${JENKINS_ENV} uploadToHockeyApp
+                    '''
+                }
             } else {
                 stage ('build') {
                 sh '''#!/bin/bash -l

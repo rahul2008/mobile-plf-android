@@ -217,10 +217,9 @@ public static <fields>;
 #     void onEvent*(**);
 #     void onEvent*(***);
 
-#-keep enum org.greenrobot.eventbus.ThreadMode { *; }
-#-keep class de.greenrobot.event.** { *; }
-#-keep class de.greenrobot.** {*;}
-
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+-keep class de.greenrobot.event.** { *; }
+-keep class de.greenrobot.** { *; }
 #-keepclassmembers,includedescriptorclasses class ** { public void onEvent*(**); }
 
 #-keep class * {
