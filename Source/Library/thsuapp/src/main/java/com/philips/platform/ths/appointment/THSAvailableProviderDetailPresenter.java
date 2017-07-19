@@ -48,12 +48,12 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
 
                     Calendar calendar = Calendar.getInstance();
                     calendar.set(year,month,day);
-                    Date date = new Date();
+                    final Date date = new Date();
                     date.setTime(calendar.getTimeInMillis());
 
                     ((THSAvailableProviderDetailFragment)mThsBaseFragment).setDate(date);
 
-                    onDateSetChangedInterface.refreshView();
+                    launchAvailableProviderDetailBasedOnAvailibity();
 
                 }
             };
@@ -62,21 +62,53 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
 
     }
 
-    /*private void launchAvailableProviderDetailFragment(int year, int month, int day, THSDatePickerFragmentUtility thsDatePickerFragmentUtility) {
-        thsDatePickerFragmentUtility.setCalendar(year, month, day);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day);
-        Date date = new Date();
-        date.setTime(calendar.getTimeInMillis());
-        THSAvailableProviderDetailFragment thsAvailableProviderDetailFragment = new THSAvailableProviderDetailFragment();
-        thsAvailableProviderDetailFragment.setTHSProviderEntity(((THSAvailableProviderDetailFragment) mThsBaseFragment).getProviderEntitiy());
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(THSConstants.THS_DATE, date);
-        bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getPracticeInfo());
-        bundle.putParcelable(THSConstants.THS_PROVIDER, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider());
-        bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProviderEntitiy());
-        mThsBaseFragment.addFragment(thsAvailableProviderDetailFragment, THSAvailableProviderDetailFragment.TAG, bundle);
-    }*/
+    private void launchAvailableProviderDetailBasedOnAvailibity() {
+        try {
+            THSManager.getInstance().getProviderDetails(mThsBaseFragment.getContext(),
+                    ((THSAvailableProviderDetailFragment) mThsBaseFragment).getTHSProviderInfo(), new THSProviderDetailsCallback() {
+                        @Override
+                        public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
+                            ((THSAvailableProviderDetailFragment) mThsBaseFragment).setProvider(provider);
+                            try {
+                                THSManager.getInstance().getProviderAvailability(mThsBaseFragment.getContext(), provider,
+                                        ((THSAvailableProviderDetailFragment) mThsBaseFragment).getDate(), new THSAvailableProviderCallback<List, THSSDKError>() {
+                                            @Override
+                                            public void onResponse(List dates, THSSDKError sdkError) {
+                                                if(dates == null || dates.size()==0){
+                                                    Bundle bundle = new Bundle();
+                                                    bundle.putSerializable(THSConstants.THS_DATE, ((THSAvailableProviderDetailFragment)mThsBaseFragment).getDate());
+                                                    bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getPracticeInfo());
+                                                    bundle.putParcelable(THSConstants.THS_PROVIDER, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider());
+                                                    bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProviderEntitiy());
+                                                    mThsBaseFragment.addFragment(new THSProviderNotAvailableFragment(), THSProviderNotAvailableFragment.TAG, bundle);
+                                                    mThsBaseFragment.hideProgressBar();
+                                                }else {
+                                                    mthsProviderDetailsDisplayHelper.updateView(((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider(), dates);
+                                                    mThsBaseFragment.hideProgressBar();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(Throwable throwable) {
+                                                mThsBaseFragment.hideProgressBar();
+                                            }
+                                        });
+                            } catch (AWSDKInstantiationException e) {
+                                e.printStackTrace();
+                                mThsBaseFragment.hideProgressBar();
+                            }
+                        }
+
+                        @Override
+                        public void onProviderDetailsFetchError(Throwable throwable) {
+                            mThsBaseFragment.hideProgressBar();
+                        }
+                    });
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+            mThsBaseFragment.hideProgressBar();
+        }
+    }
 
     public void fetchProviderDetails(Context context, THSProviderInfo thsProviderInfo) {
         try {
@@ -108,24 +140,8 @@ public class THSAvailableProviderDetailPresenter implements THSBasePresenter, TH
 
     @Override
     public void onResponse(List dates, THSSDKError sdkError) {
-        if (dates == null || dates.size() == 0) {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(THSConstants.THS_DATE, ((THSAvailableProviderDetailFragment)mThsBaseFragment).getDate());
-            bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getPracticeInfo());
-            bundle.putParcelable(THSConstants.THS_PROVIDER, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider());
-            bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY, ((THSAvailableProviderDetailFragment) mThsBaseFragment).getProviderEntitiy());
-            mThsBaseFragment.addFragment(new THSProviderNotAvailableFragment(), THSProviderNotAvailableFragment.TAG, bundle);
-        } else {
-            mthsProviderDetailsDisplayHelper.updateView(((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider(), dates);
-            mThsBaseFragment.hideProgressBar();
-        }
-
-        /*Bundle bundle = new Bundle();
-        bundle.putSerializable(THSConstants.THS_DATE,mDate);
-        bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,((THSAvailableProviderDetailFragment)mThsBaseFragment).getPracticeInfo());
-        bundle.putParcelable(THSConstants.THS_PROVIDER ,((THSAvailableProviderDetailFragment)mThsBaseFragment).getProvider());
-        mThsBaseFragment.addFragment(new THSProviderNotAvailableFragment(),THSProviderNotAvailableFragment.TAG,bundle);
-        bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY ,((THSAvailableProviderDetailFragment)mThsBaseFragment).getProviderEntitiy());*/
+        mthsProviderDetailsDisplayHelper.updateView(((THSAvailableProviderDetailFragment) mThsBaseFragment).getProvider(), dates);
+        mThsBaseFragment.hideProgressBar();
     }
 
     @Override

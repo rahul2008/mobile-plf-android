@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
@@ -25,11 +26,13 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     THSProviderEntity thsProviderEntity;
     THSAvailableProviderDetailPresenter thsAvailableDetailProviderPresenter;
     Practice mPractice;
+    RelativeLayout mRelativelayout;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_provider_details_fragment, container, false);
+        mRelativelayout = (RelativeLayout) view.findViewById(R.id.available_provider_details_container);
 
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_pick_time), true);
@@ -59,6 +62,7 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     public void onClick(View view) {
         int viewId = view.getId();
         if(viewId == R.id.calendar_container){
+            createCustomProgressBar(mRelativelayout,BIG);
            thsAvailableDetailProviderPresenter.onEvent(R.id.calendar_container);
         }
     }
