@@ -7,7 +7,7 @@ import android.widget.ProgressBar;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerDigitalCare;
+import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerConsumerCare;
 import com.philips.cdp.digitalcare.util.DigitalCareTestMock;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
@@ -34,7 +34,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
  */
 
 
-@RunWith(CustomRobolectricRunnerDigitalCare.class)
+@RunWith(CustomRobolectricRunnerConsumerCare.class)
 @PrepareForTest(DigitalCareConfigManager.class)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
 public class EmailFragmentTest extends MockitoConfiguration {

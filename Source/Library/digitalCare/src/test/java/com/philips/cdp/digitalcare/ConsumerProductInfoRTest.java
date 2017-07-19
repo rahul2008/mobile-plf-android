@@ -1,6 +1,6 @@
 package com.philips.cdp.digitalcare;
 
-import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerDigitalCare;
+import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerConsumerCare;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,7 +15,7 @@ import static junit.framework.Assert.assertEquals;
  * Created by philips on 7/6/17.
  */
 
-@RunWith(CustomRobolectricRunnerDigitalCare.class)
+@RunWith(CustomRobolectricRunnerConsumerCare.class)
 @Config(constants = BuildConfig.class, sdk = 21)
 public class ConsumerProductInfoRTest {
 
