@@ -8,16 +8,23 @@ import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.Language;
 import com.americanwell.sdk.entity.provider.Provider;
+import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
+import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.appointment.THSAvailableProviderDetailFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.THSConstants;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RatingBar;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class THSProviderDetailsDisplayHelper {
 
@@ -26,7 +33,7 @@ public class THSProviderDetailsDisplayHelper {
     Context mContext;
     THSPRoviderDetailsViewInterface mThsPRoviderDetailsViewInterface;
     protected ImageView providerImage,isAvailableImage;
-    protected Label providerName,practiceName,isAvailable,spokenLanguageValueLabel,yearsOfExpValueLabel,graduatedValueLabel,aboutMeValueLabel;
+    protected Label providerName,practiceName,isAvailable,spokenLanguageValueLabel,yearsOfExpValueLabel,graduatedValueLabel,aboutMeValueLabel,mLabelDate;
     protected RatingBar providerRating;
     protected Button detailsButtonOne,detailsButtonTwo,detailsButtonContinue;
     RelativeLayout mTimeSlotContainer;
@@ -69,7 +76,7 @@ public class THSProviderDetailsDisplayHelper {
         detailsButtonOne.setOnClickListener(mOnClickListener);
         detailsButtonTwo.setOnClickListener(mOnClickListener);
         detailsButtonContinue.setOnClickListener(mOnClickListener);
-
+        mLabelDate = (Label) view.findViewById(R.id.date);
         mTimeSlotContainer = (RelativeLayout) view.findViewById(R.id.calendar_container_view);
         calendarView = view.findViewById(R.id.calendar_container);
         calendarView.setOnClickListener(mOnClickListener);
@@ -84,6 +91,18 @@ public class THSProviderDetailsDisplayHelper {
         graduatedValueLabel.setText(provider.getSchoolName());
         aboutMeValueLabel.setText(provider.getTextGreeting());
         practiceName.setText(provider.getSpecialty().getName());
+
+        if(mThsPRoviderDetailsViewInterface.getProvider().hasImage()) {
+            try {
+                THSManager.getInstance().getAwsdk(thsBaseFragment.getContext()).getPracticeProvidersManager().
+                        newImageLoader(mThsPRoviderDetailsViewInterface.getTHSProviderInfo().getProviderInfo(), providerImage,
+                                ProviderImageSize.SMALL).placeholder(providerImage.getResources().
+                        getDrawable(R.drawable.doctor_placeholder)).build().load();
+            } catch (AWSDKInstantiationException e) {
+                e.printStackTrace();
+            }
+        }
+
         checkAvailability(provider);
         updateViewBasedOnType(provider,dates);
     }
@@ -93,6 +112,8 @@ public class THSProviderDetailsDisplayHelper {
         if(dates!=null){
             mTimeSlotContainer.setVisibility(View.VISIBLE);
             isAvailable.setText(""+dates.size() + " " + "Available time slots");
+            mLabelDate.setText(new SimpleDateFormat(THSConstants.DATE_FORMATTER, Locale.getDefault()).
+                    format(((THSAvailableProviderDetailFragment)thsBaseFragment).getDate()));
             setAppointmentsToView(dates);
         }else {
             detailsButtonContinue.setVisibility(View.GONE);

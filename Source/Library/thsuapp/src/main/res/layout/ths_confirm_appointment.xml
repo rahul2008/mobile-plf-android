@@ -23,19 +23,22 @@
         android:layout_below="@+id/schedule_appointment"
         />
 
-    <include
-        android:id="@+id/calendar_date"
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/calender_layout"
         android:layout_below="@+id/line_separator"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
         />
 
     <View android:background="@color/uid_gray_level_5"
         android:id="@+id/line_separator_1"
         android:layout_width = "match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/calendar_date"
+        android:layout_below="@+id/date"
         />
 
     <include
