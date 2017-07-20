@@ -372,7 +372,6 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
         finish();
     }
 
-
     protected  void initTheme(){
         UIDHelper.injectCalligraphyFonts();
         themeHelper = new ThemeHelper(this);
