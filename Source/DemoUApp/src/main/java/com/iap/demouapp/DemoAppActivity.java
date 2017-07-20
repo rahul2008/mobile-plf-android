@@ -129,10 +129,20 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         //  init();
     }
 
+    /*
+    * CA6702/00
+    CA6700/47
+    DL8791/00
+    DIS362/03
+    DL8781/37
+    DL8760/37
+    HD8967/47
+    HD8645/47
+    * */
     @Override
     protected void onResume() {
         super.onResume();
-        if (!mUser.isUserSignIn()){
+        if (!mUser.isUserSignIn()) {
             hideViews();
             return;
         }
@@ -141,6 +151,12 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mIapInterface.getProductCartCount(this);
         }
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mCategorizedProductList.clear();
     }
 
     private void addActionBar() {
@@ -181,26 +197,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     public void setTitle(CharSequence title) {
         super.setTitle(title);
         mTitleTextView.setText(title);
-    }
-
-    private void init() {
-
-        mCategorizedProductList.clear();
-        if (mUser.isUserSignIn()) {
-            displayViews();
-            showProgressDialog();
-            try {
-                if (!mIAPSettings.isUseLocalData()) {
-                    // mIapInterface.getProductCartCount(this);
-                    mIapInterface.getCompleteProductList(this);
-                } else
-                    dismissProgressDialog();
-            } catch (RuntimeException exception) {
-                dismissProgressDialog();
-            }
-        } else {
-            hideViews();
-        }
     }
 
 
@@ -288,16 +284,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mShopNow.setEnabled(true);
         mLaunchProductDetail.setVisibility(View.VISIBLE);
         mLaunchProductDetail.setEnabled(true);
-
-//        if (!mIAPSettings.isUseLocalData()) {
-//            showProgressDialog();
-//            try {
-//                // mIapInterface.getProductCartCount(this);
-//                mIapInterface.getCompleteProductList(this);
-//            } catch (RuntimeException e) {
-//                Toast.makeText(DemoAppActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//                dismissProgressDialog();
-//            }
 
         updateCartIcon();
         mPurchaseHistory.setVisibility(View.VISIBLE);
@@ -421,8 +407,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     @Override
     public void onGetCompleteProductList(ArrayList<String> productList) {
-        Toast.makeText(this, "Total Products in Hybris = " + productList.toString(), Toast.LENGTH_SHORT).show();
-        mEtCTN.setText(productList.get(1));
+        Toast.makeText(this,"Fetched product list done", Toast.LENGTH_SHORT).show();
+        //mEtCTN.setText(productList.get(1));
         dismissProgressDialog();
     }
 
@@ -442,13 +428,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     public void onUserRegistrationComplete(Activity activity) {
         activity.finish();
         displayViews();
-
-//        IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
-//        mIapInterface = new IAPInterface();
-//        mIapInterface.init(mIapDependencies, mIAPSettings);
-//        mIapLaunchInput = new IAPLaunchInput();
-//        mIapLaunchInput.setIapListener(this);
-//        init();
     }
 
     @Override
