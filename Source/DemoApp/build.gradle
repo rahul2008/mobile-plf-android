@@ -2,6 +2,8 @@
  * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
+
 apply plugin: 'com.android.application'
 
 buildscript { bs ->
@@ -69,6 +71,8 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+
+    compile deps.stetho
     compile deps.support.appcompatv7
 
     debugCompile project(path: ':bluelib-demouapp', configuration: 'debug')
