@@ -146,8 +146,14 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             return;
         }
         displayViews();
-        mIapInterface.getProductCartCount(this);
+        if (!mIAPSettings.isUseLocalData())
+            mIapInterface.getProductCartCount(this);
         super.onResume();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
     }
 
     @Override
