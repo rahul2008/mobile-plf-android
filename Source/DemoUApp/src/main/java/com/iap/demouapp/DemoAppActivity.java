@@ -141,14 +141,15 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     * */
     @Override
     protected void onResume() {
+        super.onResume();
         if (!mUser.isUserSignIn()) {
             hideViews();
             return;
         }
         displayViews();
-        if (!mIAPSettings.isUseLocalData())
+        if (!mIAPSettings.isUseLocalData()) {
             mIapInterface.getProductCartCount(this);
-        super.onResume();
+        }
     }
 
     @Override
