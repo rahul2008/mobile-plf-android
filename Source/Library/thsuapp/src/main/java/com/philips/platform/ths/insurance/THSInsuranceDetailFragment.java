@@ -40,6 +40,7 @@ import java.util.Date;
 public class THSInsuranceDetailFragment extends THSBaseFragment implements BackEventListener, View.OnClickListener {
     public static final String TAG = THSInsuranceDetailFragment.class.getSimpleName();
     private ActionBarListener actionBarListener;
+    private RelativeLayout mProgressbarContainer;
     private THSInsuranceDetailPresenter mPresenter;
      EditText insuranceEditBox;
      EditText subscriptionIDEditBox;
@@ -77,20 +78,12 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_insurance_details, container, false);
         mPresenter = new THSInsuranceDetailPresenter(this);
-
-
-        //AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        /////////
-
         mAlertDialog = new AlertDialog.Builder(getActivity());
 
         View convertView = (View) inflater.inflate(R.layout.ths_list, null);
-        //mAlertDialog.setContentView(convertView);
 
         mHealPlanListView = (ListView) convertView.findViewById(R.id.ths_listView);
 
-        /////////
         insuranceEditBox = (com.philips.platform.uid.view.widget.EditText) view.findViewById(R.id.ths_insurance_detail_provider_select_insurance_edit_text);
         insuranceEditBox.setOnClickListener(this);
         relationshipEditBox = (com.philips.platform.uid.view.widget.EditText) view.findViewById(R.id.ths_insurance_detail_provider_select_relation_edit_text);
@@ -121,7 +114,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
             }
         });
         //mPresenter.getCurrentSubscription();
-
+        mProgressbarContainer=(RelativeLayout) view.findViewById(R.id.ths_insurance_detail_container);
         return view;
 
 
@@ -133,6 +126,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         actionBarListener = getActionBarListener();
+        createCustomProgressBar(mProgressbarContainer, MEDIUM);
         mTHSHealthPlanList = ((THSInsuranceDetailPresenter) mPresenter).fetchHealthPlanList();
         mTHSRelationshipList = ((THSInsuranceDetailPresenter) mPresenter).fetchSubscriberRelationList();
         mTHSHealthPlanListAdapter = new THSHealthPlanListAdapter(getActivity(), mTHSHealthPlanList);
@@ -160,13 +154,6 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.ths_insurance_detail_provider_select_insurance_edit_text) {
-           /* if(mHealPlanListView.getVisibility()==View.GONE) {
-                mHealPlanListView.setVisibility(View.VISIBLE);
-
-            }else{
-                mHealPlanListView.setVisibility(View.GONE);
-            }*/
-            String names[] = {"A", "B", "C", "D"};
 
 
             showInsuranceListDialog("Select Health Plan", mTHSHealthPlanListAdapter);

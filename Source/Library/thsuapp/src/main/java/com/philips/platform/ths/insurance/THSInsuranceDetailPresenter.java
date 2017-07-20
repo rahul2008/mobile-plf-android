@@ -8,6 +8,7 @@ import com.americanwell.sdk.entity.insurance.Subscription;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.cost.THSCostSummaryFragment;
 import com.philips.platform.ths.intake.THSSDKValidatedCallback;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.AmwellLog;
@@ -65,6 +66,7 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
 
     void fetchExistingSubscription() {
         try {
+            ((THSInsuranceDetailFragment) mTHSBaseFragment).showProgressBar();
             THSManager.getInstance().getExistingSubscription(mTHSBaseFragment.getFragmentActivity(), this);
         } catch (Exception e) {
 
@@ -72,6 +74,7 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
     }
 
     void updateTHSInsuranceSubscription(){
+        ((THSInsuranceDetailFragment) mTHSBaseFragment).showProgressBar();
         try {
             THSSubscriptionUpdateRequest thsSubscriptionUpdateRequest = getSubscriptionUpdateRequestWithoutVistContext();
             final Subscription subscription = thsSubscriptionUpdateRequest.getSubscriptionUpdateRequest().getSubscription();
@@ -82,6 +85,7 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
             Relationship relationship = null;
             if(!((THSInsuranceDetailFragment) mTHSBaseFragment).mNotPrimarySubscriberCheckBox.isChecked()){
                 relationship = ((THSInsuranceDetailFragment) mTHSBaseFragment).mTHSRelationshipList.getRelationShipList().get(0);// primary subscriber by default
+
             } else {
                 relationship = ((THSInsuranceDetailFragment) mTHSBaseFragment).mInsuranceRelationship;
             }
@@ -124,16 +128,19 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
     ////////// start of getExistingSubscription call back
     @Override
     public void onResponse(THSSubscription tHSSubscription, THSSDKError tHSSDKError) {
+        ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
         ((THSInsuranceDetailFragment) mTHSBaseFragment).thsSubscriptionExisting = tHSSubscription;
         Subscription subscription = tHSSubscription.getSubscription();
-        if(null!=tHSSubscription) {
+        if(null!=subscription) {
             if(subscription.getHealthPlan()!=null){
+                ((THSInsuranceDetailFragment) mTHSBaseFragment).mHealthPlan=subscription.getHealthPlan();
                 ((THSInsuranceDetailFragment) mTHSBaseFragment).insuranceEditBox.setText(subscription.getHealthPlan().getName());
             }
             if(subscription.getSubscriberId()!=null){
                 ((THSInsuranceDetailFragment) mTHSBaseFragment).subscriptionIDEditBox.setText(subscription.getSubscriberId());
             }
             if(subscription.getRelationship()!=null){
+               ((THSInsuranceDetailFragment) mTHSBaseFragment).mInsuranceRelationship=subscription.getRelationship();
                 ((THSInsuranceDetailFragment) mTHSBaseFragment).relationshipEditBox.setText(subscription.getRelationship().getName());
             }
             if(subscription.getPrimarySubscriberFirstName()!=null){
@@ -153,6 +160,7 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
 
     @Override
     public void onFailure(Throwable throwable) {
+        ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
 
     }
     ////////// end of getExistingSubscription call back
@@ -163,12 +171,15 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
     ///////// start update suscription call back
     @Override
     public void onValidationFailure(Map<String, ValidationReason> var1) {
+        ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
         AmwellLog.i("updateInsurance","fail");
     }
 
     @Override
     public void onResponse(Void aVoid, SDKError sdkError) {
+        ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
         AmwellLog.i("updateInsurance","success");
+        mTHSBaseFragment.addFragment(new THSCostSummaryFragment(),THSCostSummaryFragment.TAG,null);
     }
     ///////// start update suscription call back
 
