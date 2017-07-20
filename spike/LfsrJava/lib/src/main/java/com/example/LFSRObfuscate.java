@@ -2,15 +2,7 @@ package com.example;
 
 import java.io.UnsupportedEncodingException;
 
-/**
- * Created by Yogesh on 6/16/17.
- */
-
 public class LFSRObfuscate {
-
-    char[] chars;
-    static String raviKiran = "ad 9e 95 9e df ad 9e 92 df b2 90 97 9e 91 df ad 90 86";
-
 
     private static char[] lfsr16Obfuscate(char[] data, int length, short lfsr) {
         int i, lsb;
@@ -42,42 +34,31 @@ public class LFSRObfuscate {
 
 
 
-        String string = getString(chars);
+        String obfuscatedData = getString(chars);
         String hexadecimal="";
         try {
-            hexadecimal = hexadecimal(string, "UTF-8");
-            System.out.println(raviKiran.equals(hexadecimal));
+            hexadecimal = convertToHexaDecimal(obfuscatedData, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        String data ="\\xad\\x9e\\x95\\x9e߭\\x9e\\x92߲\\x90\\x97\\x9e\\x91߭\\x90\\x86";
         System.out.println("obfuscated message: %s\n" + hexadecimal);
 
-
-       /* byte[] bytes = hexStringToByteArray(string);
-
-        for (byte b :
-                bytes) {
-            System.out.println("obfuscated message in bytes "+b);
-        }*/
-
     /* Repeat the obfuscation process to retrieve original message */
-        char[] afterDeObfuscate = lfsr16Obfuscate(data.toCharArray(), data.length(), (short) 0xACE1);
+        char[] afterDeObfuscate = lfsr16Obfuscate(obfuscatedData.toCharArray(), obfuscatedData.length(), (short) 0xACE1);
 
         System.out.println("Recovered message: %s\n" + getString(afterDeObfuscate));
-//        System.out.println("Recovered message for data : %s\n" + getString(afterDeObfuscate));
 
     }
 
 
-    public static String hexadecimal(String input, String charsetName) throws UnsupportedEncodingException {
+    private static String convertToHexaDecimal(String input, String charsetName) throws UnsupportedEncodingException {
         if (input == null) throw new NullPointerException();
         return asHex(input.getBytes(charsetName));
     }
 
     private static final char[] HEX_CHARS = "0123456789abcdef".toCharArray();
 
-    public static String asHex(byte[] buf)
+    private static String asHex(byte[] buf)
     {
         char[] chars = new char[2 * buf.length];
         for (int i = 0; i < buf.length; ++i)
@@ -95,16 +76,6 @@ public class LFSRObfuscate {
             original = original + (String.format("%c", c));
         }
         return original;
-    }
-
-    private static byte[] hexStringToByteArray(String s) {
-        final int len = s.length();
-        final byte[] data = new byte[len / 2];
-        for (int i = 0; i < len; i += 2) {
-            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
-                    + Character.digit(s.charAt(i+1), 16));
-        }
-        return data;
     }
 
 }

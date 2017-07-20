@@ -19,16 +19,16 @@ android {
     }
 }
 
-defaultConfig {
-    ndk {
-        moduleName "your dllname"
-    }
-
-    sourceSets.main {
-        jni.srcDirs = []
-        jniLibs.srcDir "src/main/libs"
-    }
-}
+//defaultConfig {
+//    ndk {
+//        moduleName "your dllname"
+//    }
+//
+//    sourceSets.main {
+//        jni.srcDirs = []
+//        jniLibs.srcDir "src/main/libs"
+//    }
+//}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
