@@ -129,6 +129,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         super.onStop();
         if (mAdapter != null)
             mAdapter.onStop();
+        dismissProgressDialog();
         NetworkUtility.getInstance().dismissErrorDialog();
     }
 
@@ -319,6 +320,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
             CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
             updateCartDetails(mShoppingCartAPI);
         }
+       // dismissProgressDialog();
     }
 
     @Override
