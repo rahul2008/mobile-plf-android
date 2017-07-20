@@ -12,7 +12,6 @@ import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.appointment.THSAvailableProviderDetailFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSConstants;
@@ -39,7 +38,6 @@ public class THSProviderDetailsDisplayHelper {
     RelativeLayout mTimeSlotContainer;
     THSExpandableHeightGridView gridView;
     protected SwipeRefreshLayout swipeRefreshLayout;
-    View calendarView;
     THSBaseFragment thsBaseFragment;
 
     public THSProviderDetailsDisplayHelper(Context context, View.OnClickListener onClickListener,
@@ -76,10 +74,9 @@ public class THSProviderDetailsDisplayHelper {
         detailsButtonOne.setOnClickListener(mOnClickListener);
         detailsButtonTwo.setOnClickListener(mOnClickListener);
         detailsButtonContinue.setOnClickListener(mOnClickListener);
-        mLabelDate = (Label) view.findViewById(R.id.date);
+        mLabelDate = (Label) view.findViewById(R.id.calendar_container);
+        mLabelDate.setOnClickListener(mOnClickListener);
         mTimeSlotContainer = (RelativeLayout) view.findViewById(R.id.calendar_container_view);
-        calendarView = view.findViewById(R.id.calendar_container);
-        calendarView.setOnClickListener(mOnClickListener);
     }
 
     public void updateView(Provider provider,List<Date> dates){

@@ -27,7 +27,7 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
     private Provider mProvider;
     private THSProviderEntity mThsProviderEntity;
     private THSProviderNotAvailablePresenter mThsProviderNotAvailablePresenter;
-    View mChangeAppointDateView;
+    Label mChangeAppointDateView;
 
     @Nullable
     @Override
@@ -37,7 +37,7 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
             getActionBarListener().updateActionBar(getString(R.string.ths_select_date_and_time), true);
         }
 
-        mChangeAppointDateView = view.findViewById(R.id.calendar_view);
+        mChangeAppointDateView = (Label) view.findViewById(R.id.calendar_view);
         mChangeAppointDateView.setOnClickListener(this);
 
         Bundle bundle = getArguments();

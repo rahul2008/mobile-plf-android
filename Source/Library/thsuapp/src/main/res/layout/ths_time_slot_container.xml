@@ -20,11 +20,19 @@
         android:textColor="?attr/uidLabelValueNormalTextColor"
         />
 
-    <include layout="@layout/calender_layout"
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/calendar_container"
+        style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
+        android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
+        android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
+        android:drawablePadding="@dimen/uid_recyclerview_drawable_padding"
+        android:drawableLeft="@drawable/ic_calender"
+        android:text = "some"
+        android:textColor="@color/uid_signal_cyan_level_45"
         android:layout_below="@id/select_time"
-        />
+        android:gravity="start|center_vertical"/>
 
     <View android:background="@color/uid_gray_level_5"
         android:id="@+id/line_separator_2"

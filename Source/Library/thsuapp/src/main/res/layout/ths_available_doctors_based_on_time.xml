@@ -40,16 +40,23 @@
         />
     </RelativeLayout>
 
-    <include
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/calendar_view"
-        layout="@layout/calender_layout"
+        style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
+        android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
+        android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
+        android:drawablePadding="@dimen/uid_recyclerview_drawable_padding"
+        android:drawableLeft="@drawable/ic_calender"
+        android:text = "some"
+        android:textColor="@color/uid_signal_cyan_level_45"
         android:layout_below="@id/details_container"
-        />
+        android:gravity="start|center_vertical"/>
+
 
     <View android:background="@color/uid_gray_level_5"
-        android:layout_below="@+id/calendar_view"
+        android:layout_below="@id/calendar_view"
         android:layout_width = "match_parent"
         android:layout_height="1dp"
         android:id="@+id/separator_below_date"
