@@ -22,7 +22,7 @@ import static org.robolectric.Shadows.shadowOf;
  * Created by philips on 7/6/17.
  */
 
-@RunWith(CustomRobolectricRunnerDigitalCare.class)
+@RunWith(CustomRobolectricRunnerCC.class)
 @Config(constants = BuildConfig.class, sdk = 21)
 
 public class UtilsRTest {

@@ -7,10 +7,11 @@ import android.widget.ProgressBar;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerDigitalCare;
+import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerCC;
 import com.philips.cdp.digitalcare.util.DigitalCareTestMock;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -29,12 +30,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import static org.powermock.api.mockito.PowerMockito.spy;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-/**
- * Created by philips on 7/18/17.
- */
-
-
-@RunWith(CustomRobolectricRunnerDigitalCare.class)
+@RunWith(CustomRobolectricRunnerCC.class)
 @PrepareForTest(DigitalCareConfigManager.class)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
 public class EmailFragmentTest extends MockitoConfiguration {
@@ -67,6 +63,15 @@ public class EmailFragmentTest extends MockitoConfiguration {
         rootView=fragment.getView();
     }
 
+    @After
+    public void tearDown() throws Exception {
+        fragment = null;
+        digitalCareBaseFragmentspy = null;
+        mockDigitalCareConfigManager = null;
+        mockAppTaggingInterface = null;
+        rootView = null;
+    }
+
     @Test
     public void testViewNotNull() throws Exception {
         Assert.assertNotNull(rootView);
@@ -88,7 +93,7 @@ public class EmailFragmentTest extends MockitoConfiguration {
 
     @Test
     public void testLoadEmailPageNotNull() throws Exception {
-        fragment.loadEmail("DummyData");
+        fragment.loadEmail("http://www.philips.com");
         ProgressBar mProgressBar =(ProgressBar) rootView.findViewById(
                 R.id.common_webview_progress);
         Assert.assertEquals(View.VISIBLE,mProgressBar.getVisibility());

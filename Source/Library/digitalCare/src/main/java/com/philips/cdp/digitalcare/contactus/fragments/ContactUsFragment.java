@@ -35,13 +35,7 @@ import android.widget.TextView;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cdp.digitalcare.contactus.models.CdlsPhoneModel;
-import com.philips.cdp.digitalcare.contactus.models.CdlsResponseModel;
-import com.philips.cdp.digitalcare.contactus.parser.CdlsParsingCallback;
-import com.philips.cdp.digitalcare.contactus.parser.CdlsResponseParser;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-import com.philips.cdp.digitalcare.request.RequestData;
-import com.philips.cdp.digitalcare.request.ResponseCallback;
 import com.philips.cdp.digitalcare.social.facebook.FacebookWebFragment;
 import com.philips.cdp.digitalcare.social.twitter.TwitterWebFragment;
 import com.philips.cdp.digitalcare.util.CommonRecyclerViewAdapter;
@@ -60,18 +54,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 
-public class ContactUsFragment extends DigitalCareBaseFragment implements OnClickListener, ResponseCallback, Observer {
+public class ContactUsFragment extends DigitalCareBaseFragment implements ContactUsContract,OnClickListener {
     private static final String USER_PREFERENCE = "user_product";
     private static final String USER_SELECTED_PRODUCT_CTN_CALL = "contact_call";
     private static final String USER_SELECTED_PRODUCT_CTN_HOURS = "contact_hours";
-    private boolean isFirstTimeCdlsCall = true;
     private SharedPreferences prefs = null;
     private Button mChatBtn = null;
     private Button mCallPhilipsBtn = null;
-    private CdlsResponseModel mCdlsParsedResponse = null;
     private TextView mFirstRowText = null;
     private TextView mContactUsOpeningHours = null;
     private ImageView mActionBarMenuIcon = null;
@@ -81,48 +71,24 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
     private LinearLayout.LayoutParams mSecondContainerParams = null;
     private LinearLayout mLLSocialParent = null;
     private ProgressDialog mDialog = null;
+
     private static String TAG = ContactUsFragment.class.getSimpleName();
 
-    private final CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
-        @Override
-        public void onCdlsParsingComplete(final CdlsResponseModel response) {
-            if ((!isCdlsResponseNull(response)) && response.getSuccess()) {
-                mCdlsParsedResponse = response;
-                updateUi();
-            } else {
-              /*
-                First hit CDLS server wit SubCategory, if that fails then hit
-                CDLS again with Category.
-                 */
-                if (isFirstTimeCdlsCall) {
-                    isFirstTimeCdlsCall = false;
-                    requestCdlsData();
-                } else {
-                    fadeoutButtons();
-                }
-            }
-        }
-    };
+    private ContactUsPresenter contactUsFragmentPresenter;
     private Configuration config = null;
     private Utils mUtils = null;
     private AlertDialog mAlertDialog = null;
 
-    private boolean isCdlsResponseNull(CdlsResponseModel response) {
-        return response == null;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        isFirstTimeCdlsCall = true;
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        prefs = getActivity().getSharedPreferences(
-                USER_PREFERENCE, Context.MODE_PRIVATE);
+        contactUsFragmentPresenter = new ContactUsPresenter(this);
+        prefs = getActivity().getSharedPreferences(USER_PREFERENCE, Context.MODE_PRIVATE);
         View view = inflater.inflate(R.layout.consumercare_fragment_contact_us, container, false);
         return view;
     }
@@ -135,26 +101,17 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
                 R.id.contactUsSocialProvideButtonsParent);
         mSecondContainerParams = (LinearLayout.LayoutParams) mContactUsSocilaProviderButtonsParent
                 .getLayoutParams();
-
-        mChatBtn = (Button) getActivity().findViewById(
-                R.id.contactUsChat);
-        mCallPhilipsBtn = (Button) getActivity().findViewById(
-                R.id.contactUsCall);
-        mContactUsOpeningHours = (TextView) getActivity().findViewById(
-                R.id.contactUsOpeningHours);
-        mFirstRowText = (TextView) getActivity()
-                .findViewById(R.id.firstRowText);
-
+        mChatBtn = (Button) getActivity().findViewById(R.id.contactUsChat);
+        mCallPhilipsBtn = (Button) getActivity().findViewById(R.id.contactUsCall);
+        mContactUsOpeningHours = (TextView) getActivity().findViewById(R.id.contactUsOpeningHours);
+        mFirstRowText = (TextView) getActivity().findViewById(R.id.firstRowText);
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         mLLSocialParent = (LinearLayout) getActivity().findViewById(R.id.contactUsSocialParent);
         mUtils = new Utils();
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
-
-
         final float density = getResources().getDisplayMetrics().density;
         setHelpButtonParams(density);
-        //Live chat is configurable parameter. Developer can enable/disable it.
         if (getResources().getBoolean(R.bool.live_chat_required)) {
             mChatBtn.setVisibility(View.VISIBLE);
         }
@@ -163,8 +120,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
         mCallPhilipsBtn.setOnClickListener(this);
         mCallPhilipsBtn.setTransformationMethod(null);
 
-        if (isInternetAvailable && isCdlsUrlNull()) {
-            requestCdlsData();
+        if (isInternetAvailable && contactUsFragmentPresenter.isCdlsUrlNull()) {
+            contactUsFragmentPresenter.requestCdlsData();
         } else {
             String contactNumber = prefs.getString(USER_SELECTED_PRODUCT_CTN_CALL, "");
             String hours = prefs.getString(USER_SELECTED_PRODUCT_CTN_HOURS, "");
@@ -234,6 +191,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
 
     }
 
+    @Override
+    public void setTextCallPhilipsBtn(String phoneNumber){
+        mCallPhilipsBtn.setText(getResources().getString(R.string.call_number)+ " "+ phoneNumber);
+    }
 
     protected boolean isContactNumberCached() {
         String customerSupportNumber = prefs.getString(USER_SELECTED_PRODUCT_CTN_CALL, "");
@@ -253,53 +214,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
         setViewParams(config);
     }
 
-    /*
-     * Forming CDLS url. This url will be different for US and other countries.
-     */
-    protected String getCdlsUrl() {
-        return DigitalCareConfigManager.getInstance().getCdlsUrl();
-    }
-
     @Override
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
         setViewParams(config);
-    }
-
-    protected void requestCdlsData() {
-        startProgressDialog();
-        if (isCdlsUrlNull()) {
-            String url = getCdlsUrl();
-            RequestData requestData = new RequestData();
-            requestData.setRequestUrl(url);
-            requestData.setResponseCallback(this);
-            requestData.execute();
-        }
-    }
-
-    private boolean isCdlsUrlNull() {
-        return getCdlsUrl() != null;
-    }
-
-    @Override
-    public void onResponseReceived(String response) {
-        if (isAdded()) {
-            closeProgressDialog();
-            if (response != null && isAdded()) {
-                parseCdlsResponse(response);
-            } else {
-                /*
-                First hit CDLS server wit SubCategory, if that fails then hit
-                CDLS again with Category.
-                 */
-                if (isFirstTimeCdlsCall) {
-                    isFirstTimeCdlsCall = false;
-                    requestCdlsData();
-                } else {
-                    fadeoutButtons();
-                }
-            }
-        }
     }
 
     @Override
@@ -308,55 +226,13 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
         closeProgressDialog();
     }
 
-    protected void parseCdlsResponse(String response) {
-        final CdlsResponseParser cdlsResponseParser = new CdlsResponseParser(
-                mParsingCompletedCallback);
-        cdlsResponseParser.parseCdlsResponse(response);
+    @Override
+    public void showCallPhilipsBtn() {
+        mCallPhilipsBtn.setVisibility(View.VISIBLE);
     }
 
-    protected void updateUi() {
-        if (mCdlsParsedResponse.getSuccess()) {
-            final CdlsPhoneModel phoneModel = mCdlsParsedResponse.getPhone();
-            if (phoneModel != null) {
-                if (phoneModel.getPhoneNumber() != null) {
-                    mCallPhilipsBtn.setVisibility(View.VISIBLE);
-                }
-                enableBottomText();
-                final StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append(phoneModel.getOpeningHoursWeekdays())
-                        .append(phoneModel.getOpeningHoursSaturday())
-                        .append(phoneModel.getOpeningHoursSunday())
-                        .append(phoneModel.getOptionalData1())
-                        .append(phoneModel.getOptionalData2())
-                        .append("\n" + phoneModel.getmPhoneTariff() + "\n");
-                enableBottomText();
-                mCallPhilipsBtn
-                        .setText(getResources().getString(R.string.call_number)
-                                + " "
-                                + mCdlsParsedResponse.getPhone()
-                                .getPhoneNumber());
-                mFirstRowText.setText(stringBuilder);
-
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString(USER_SELECTED_PRODUCT_CTN_HOURS, stringBuilder.toString());
-                editor.putString(USER_SELECTED_PRODUCT_CTN_CALL, mCdlsParsedResponse.getPhone()
-                        .getPhoneNumber());
-
-                editor.apply();
-            }
-        } else if (isCdlsResponseModelNull()) {
-            fadeoutButtons();
-        } else {
-            fadeoutButtons();
-        }
-
-    }
-
-    private boolean isCdlsResponseModelNull() {
-        return mCdlsParsedResponse.getError() != null;
-    }
-
-    protected void closeProgressDialog() {
+    @Override
+    public void closeProgressDialog() {
         if (mDialog != null && mDialog.isShowing()) {
             mDialog.dismiss();
             mDialog.cancel();
@@ -364,7 +240,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
         }
     }
 
-    protected void startProgressDialog() {
+    @Override
+    public void startProgressDialog() {
         if (getActivity() == null) {
             return;
         }
@@ -382,12 +259,11 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
     protected void callPhilips() {
         try {
             final Intent myintent = new Intent(Intent.ACTION_DIAL);
-            myintent.setData(Uri.parse("tel:"
-                    + prefs.getString(USER_SELECTED_PRODUCT_CTN_CALL, "")));
+            myintent.setData(Uri.parse("tel:"+ prefs.getString(USER_SELECTED_PRODUCT_CTN_CALL, "")));
             myintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(myintent);
         } catch (NullPointerException e) {
-        }
+      }
     }
 
     @Override
@@ -398,8 +274,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
 
         try {
             if (tag != null) {
-                actionTaken = DigitalCareConfigManager.getInstance()
-                        .getCcListener()
+                actionTaken = DigitalCareConfigManager.getInstance().getCcListener()
                         .onSocialProviderItemClicked(tag.toString());
             }
         } catch (NullPointerException exception) {
@@ -415,7 +290,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
             if (!isContactNumberCached()) {
                 showDialog(getActivity().getString(R.string.no_data));
             } else if (isSimAvailable() && !isTelephonyEnabled()){
-                //show alert
                 showDialog(getActivity().getString(R.string.no_call_functionality));
             } else if (isSimAvailable()) {
                 tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_CALL);
@@ -427,19 +301,13 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
                 showDialog(getActivity().getString(R.string.check_sim));
             }
         } else if (tag != null
-                && tag.equalsIgnoreCase(getStringKey(R.string.facebook))
-                && isConnectionAvailable()) {
+                && tag.equalsIgnoreCase(getStringKey(R.string.facebook)) && isConnectionAvailable()) {
 
             launchFacebookFeature();
-
         } else if (tag != null
-                && tag.equalsIgnoreCase(getStringKey(R.string.twitter))
-                && isConnectionAvailable()) {
+                && tag.equalsIgnoreCase(getStringKey(R.string.twitter)) && isConnectionAvailable()) {
             launchTwitterFeature();
-
-
         } else if (tag != null && (tag.equalsIgnoreCase(getStringKey(R.string.send_email))) && isConnectionAvailable()) {
-
             tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_EMAIL);
             sendEmail();
         }
@@ -492,8 +360,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
         boolean resolved = false;
         for (ResolveInfo resolveInfo : resolvedInfoList) {
             if (resolveInfo.activityInfo.packageName.startsWith("com.twitter.android")) {
-                tweetIntent.setClassName(
-                        resolveInfo.activityInfo.packageName,
+                tweetIntent.setClassName(resolveInfo.activityInfo.packageName,
                         resolveInfo.activityInfo.name);
                 resolved = true;
                 break;
@@ -556,13 +423,15 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
                         AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_RESPONSE_CDLS);
     }
 
-    protected void enableBottomText() {
+    @Override
+    public void enableBottomText() {
         mCallPhilipsBtn.setVisibility(View.VISIBLE);
         mContactUsOpeningHours.setVisibility(View.VISIBLE);
         mFirstRowText.setVisibility(View.VISIBLE);
     }
 
-    protected void fadeoutButtons() {
+    @Override
+    public void fadeoutButtons() {
         tagTechnicalError();
         mCallPhilipsBtn.setVisibility(View.GONE);
         TypedArray titles = getResources().obtainTypedArray
@@ -575,7 +444,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
 
     @Override
     public void setViewParams(Configuration config) {
-
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
             mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginPort;
         } else {
@@ -597,7 +465,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
         final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
                 .getDimension(R.dimen.support_btn_height) * density));
-
         params.topMargin = (int) getActivity().getResources().getDimension(R.dimen.marginTopButton);
         mCallPhilipsBtn.setLayoutParams(params);
         mChatBtn.setLayoutParams(params);
@@ -616,16 +483,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
     @Override
     public void onDestroy() {
         super.onDestroy();
-
         if(null != mAlertDialog && mAlertDialog.isShowing())
             mAlertDialog.cancel();
-    }
-
-    @Override
-    public void update(Observable observable, Object data) {
-        if (!(getActivity() == null)) {
-            requestCdlsData();
-        }
     }
 
     private void showDialog(String message){
@@ -666,6 +525,15 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
         updateRecyclerView(context, menus);
     }
 
+    @Override
+    public void updateFirstRowSharePreference(StringBuilder stringBuilder,String phoneNumber){
+        mFirstRowText.setText(stringBuilder);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(USER_SELECTED_PRODUCT_CTN_HOURS, stringBuilder.toString());
+        editor.putString(USER_SELECTED_PRODUCT_CTN_CALL, phoneNumber);
+        editor.apply();
+    }
+
     private void hideSocialView() {
         mLLSocialParent.setVisibility(View.GONE);
         View view = (View) getActivity().findViewById(R.id.dividerContactUsSplit);
@@ -690,4 +558,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
         });
     }
 
+    @Override
+    public boolean isViewAdded(){
+       return isAdded();
+    }
 }
