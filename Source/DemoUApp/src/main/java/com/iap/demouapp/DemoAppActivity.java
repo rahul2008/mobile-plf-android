@@ -141,16 +141,13 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     * */
     @Override
     protected void onResume() {
-        super.onResume();
         if (!mUser.isUserSignIn()) {
             hideViews();
             return;
         }
-        if (!mIAPSettings.isUseLocalData()) {
-            displayViews();
-            mIapInterface.getProductCartCount(this);
-        }
-
+        displayViews();
+        mIapInterface.getProductCartCount(this);
+        super.onResume();
     }
 
     @Override
@@ -407,7 +404,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     @Override
     public void onGetCompleteProductList(ArrayList<String> productList) {
-        Toast.makeText(this,"Fetched product list done", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Fetched product list done", Toast.LENGTH_SHORT).show();
         //mEtCTN.setText(productList.get(1));
         dismissProgressDialog();
     }
