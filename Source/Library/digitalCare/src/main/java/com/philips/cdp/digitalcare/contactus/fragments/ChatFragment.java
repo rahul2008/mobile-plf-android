@@ -11,7 +11,6 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,111 +19,63 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 
 public class ChatFragment extends DigitalCareBaseFragment {
 
-    private static final String TAG = ChatFragment.class.getSimpleName();
-
-    private static View mView = null;
     private Button mChatNow = null;
     private Button mChatNowLand = null;
-    private Button mChatNoThanks = null;
-    private Button mChatNoThanksLand = null;
-    private LinearLayout.LayoutParams mChatNowParentBottom = null;
-    private LinearLayout.LayoutParams mHelpTextParams = null;
     private FrameLayout.LayoutParams mChatNowBgParams = null;
     private LinearLayout mChatNowParentPort = null;
     private LinearLayout mChatNowParentLand = null;
-    private TextView mChatDescText = null;
-    private TextView mHelpText = null;
     private ImageView mChatNowBG = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
-    private ScrollView mChatScrollView = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        DigiCareLogger.v(TAG, "Showing the Chat With Philips Screen");
-        if (mView != null) {
-            ViewGroup parent = (ViewGroup) mView.getParent();
-            if (parent != null) {
-                parent.removeView(mView);
-            }
-        }
-        try {
-            mView = inflater.inflate(R.layout.consumercare_fragment_chat, container, false);
-        } catch (InflateException e) {
-            DigiCareLogger.i(TAG, "inflate chart view exception");
-        }
-
-        return mView;
+         View view = inflater.inflate(R.layout.consumercare_fragment_chat, container, false);
+         initView(view);
+         return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // mChatNowParent = (LinearLayout) getActivity().findViewById(
-        // R.id.chatNowParent);
-        mChatNow = (Button) getActivity().findViewById(R.id.chatNow);
-        mChatNowLand = (Button) getActivity().findViewById(
-                R.id.chatNowLand);
-
-        //mChatNoThanks = (Button) getActivity().findViewById(
-          //      R.id.chatNoThanks);
-        //mChatNoThanksLand = (Button) getActivity().findViewById(
-        //        R.id.chatNoThanksLand);
-
-        mChatDescText = (TextView) getActivity().findViewById(R.id.chatDesc);
-       // mHelpText = (TextView) getActivity().findViewById(R.id.helpText);
-
-        mChatNowBG = (ImageView) getActivity().findViewById(R.id.chatnow_bg);
-
-        mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
-        mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
-        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
-
-        mChatScrollView = (ScrollView) getActivity().findViewById(R.id.chatScrollView);
-
-        mChatNow.setOnClickListener(this);
-        mChatNowLand.setOnClickListener(this);
-       // mChatNoThanks.setOnClickListener(this);
-        //mChatNoThanksLand.setOnClickListener(this);
-
-        mChatNow.setTransformationMethod(null);
-        mChatNowLand.setTransformationMethod(null);
-        //mChatNoThanks.setTransformationMethod(null);
-        //mChatNoThanksLand.setTransformationMethod(null);
-
-        // mImageView = (ImageView) getActivity().findViewById(R.id.imageView);
-        mChatNowParentPort = (LinearLayout) getActivity().findViewById(
-                R.id.chatNowParentPort);
-        mChatNowParentLand = (LinearLayout) getActivity().findViewById(
-                R.id.chatNowParentLand);
-
-        mChatNowParentBottom = (LinearLayout.LayoutParams) mChatNowParentPort
-                .getLayoutParams();
-       // mHelpTextParams = (LinearLayout.LayoutParams) mChatDescText
-         //       .getLayoutParams();
-        mChatNowBgParams = (FrameLayout.LayoutParams) mChatNowBG
-                .getLayoutParams();
         setButtonParams();
         Configuration config = getResources().getConfiguration();
         setViewParams(config);
 
-       /* AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_LIVECHAT, getPreviousName());*/
         DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
                 (AnalyticsConstants.PAGE_CONTACTUS_LIVECHAT, getPreviousName(), getPreviousName());
+    }
+
+    private void initView(View view) {
+        mChatNow = (Button) view.findViewById(R.id.chatNow);
+        mChatNowLand = (Button) view.findViewById(
+                R.id.chatNowLand);
+        mChatNowBG = (ImageView) view.findViewById(R.id.chatnow_bg);
+
+        mActionBarMenuIcon = (ImageView) view.findViewById(R.id.home_icon);
+        mActionBarArrow = (ImageView) view.findViewById(R.id.back_to_home_img);
+        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
+
+        mChatNow.setOnClickListener(this);
+        mChatNowLand.setOnClickListener(this);
+        mChatNow.setTransformationMethod(null);
+        mChatNowLand.setTransformationMethod(null);
+        mChatNowParentPort = (LinearLayout) view.findViewById(
+                R.id.chatNowParentPort);
+        mChatNowParentLand = (LinearLayout) view.findViewById(
+                R.id.chatNowParentLand);
+        mChatNowBgParams = (FrameLayout.LayoutParams) mChatNowBG
+                .getLayoutParams();
     }
 
     @Override
@@ -151,14 +102,11 @@ public class ChatFragment extends DigitalCareBaseFragment {
 
     @Override
     public void setViewParams(Configuration config) {
-        //This is required to release the older live_chat_bg background drawable.
         mChatNowBG.setBackgroundColor(Color.BLACK);
 
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
             mChatNowParentPort.setVisibility(View.VISIBLE);
             mChatNowParentLand.setVisibility(View.GONE);
-            //mHelpText.setPadding((int) getResources().getDimension(R.dimen.activity_margin), 0, (int) getResources().getDimension(R.dimen.chatnowhelptext_padding_right), 0);
-
             if (isTablet()) {
                 mChatNowBG.setBackgroundResource(R.drawable.consumercare_live_chat_bg_tablet_port);
             } else {
@@ -169,13 +117,6 @@ public class ChatFragment extends DigitalCareBaseFragment {
         } else {
             mChatNowParentLand.setVisibility(View.VISIBLE);
             mChatNowParentPort.setVisibility(View.GONE);
-            //mHelpText.setPadding((int) getResources().getDimension(R.dimen.activity_margin), 0, (int) getResources().getDimension(R.dimen.chatnowhelptext_padding_right_land), 0);
-//            mChatScrollView.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    mChatScrollView.scrollTo(0, 270);
-//                }
-//            }, 100);
             if (isTablet()) {
                 mChatNowBG.setBackgroundResource(R.drawable.consumercare_live_chat_bg_tablet_land);
             } else {
@@ -190,19 +131,13 @@ public class ChatFragment extends DigitalCareBaseFragment {
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.chatNow || id == R.id.chatNowLand) {
-            DigiCareLogger.i(TAG, "Clicked on ChatNow Button");
             showFragment(new ChatNowFragment());
-        } /*else if (id == R.id.chatNoThanks || id == R.id.chatNoThanksLand) {
-            DigiCareLogger.i(TAG, "Clicked on Cancel button");
-            backstackFragment();
-        }*/
+        }
     }
 
     @Override
     public String getActionbarTitle() {
-
         String title = getResources().getString(R.string.chat_with_philips);
-        DigiCareLogger.i(TAG, "ChatFragment ActionBar title is : " + title);
         return title;
     }
 
@@ -220,19 +155,7 @@ public class ChatFragment extends DigitalCareBaseFragment {
         chatbuttonparams.leftMargin = chatbuttonparams.rightMargin = (int) getActivity().getResources().getDimension(R.dimen.activity_margin);
         chatbuttonparams.topMargin = chatbuttonparams.bottomMargin = (int) getActivity().getResources().getDimension(R.dimen.chat_button_top_margin);
         chatbuttonparams.weight = 1;
-        //chat button params
         mChatNow.setLayoutParams(chatbuttonparams);
         mChatNowLand.setLayoutParams(chatbuttonparams);
-
-        //cancel button params
-      /*  RelativeLayout.LayoutParams cancelbuttonparams = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
-                .getDimension(R.dimen.support_btn_height) * density));
-
-        ((ViewGroup) mChatNoThanks.getParent()).setLayoutParams(chatbuttonparams);
-        ((ViewGroup) mChatNoThanksLand.getParent()).setLayoutParams(chatbuttonparams);
-
-        mChatNoThanks.setLayoutParams(cancelbuttonparams);
-        mChatNoThanksLand.setLayoutParams(cancelbuttonparams);*/
     }
 }

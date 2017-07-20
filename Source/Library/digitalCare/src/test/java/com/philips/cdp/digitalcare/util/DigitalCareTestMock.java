@@ -12,7 +12,6 @@ import com.philips.cdp.digitalcare.listeners.ActivityTitleListener;
 
 public class DigitalCareTestMock extends FragmentActivity implements ActivityTitleListener{
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

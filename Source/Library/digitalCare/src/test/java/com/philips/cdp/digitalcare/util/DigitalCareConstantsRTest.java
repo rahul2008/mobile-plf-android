@@ -54,7 +54,6 @@ public class DigitalCareConstantsRTest extends TestCase {
         assertEquals("Value is Same", "productCatalog", DigitalCareConstants.KEY_PRODUCT_CATALOG);
         assertEquals("Value is Same", "productCategory", DigitalCareConstants.KEY_PRODUCT_CATEGORY);
         assertEquals("Value is Same", "productSubCategory", DigitalCareConstants.KEY_PRODUCT_SUBCATEGORY);
-        assertEquals("Value is Same", "productSubCategory", DigitalCareConstants.KEY_PRODUCT_SUBCATEGORY_PRX);
         assertEquals("Value is Same", "productReviewURL", DigitalCareConstants.KEY_PRODUCT_REVIEWURL);
         assertEquals("Value is Same", "appName", DigitalCareConstants.KEY_APPNAME);
         assertEquals("Value is Same", "lattitude", DigitalCareConstants.KEY_LATITUDE);

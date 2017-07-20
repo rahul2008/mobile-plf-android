@@ -1,13 +1,20 @@
 package com.philips.cdp.digitalcare.contactus.fragments;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
+import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.contactus.models.CdlsPhoneModel;
 import com.philips.cdp.digitalcare.contactus.models.CdlsResponseModel;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsParsingCallback;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsResponseParser;
 import com.philips.cdp.digitalcare.request.RequestData;
 import com.philips.cdp.digitalcare.request.ResponseCallback;
+import com.philips.cdp.digitalcare.util.DigitalCareConstants;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -118,4 +125,45 @@ public class ContactUsPresenter implements ResponseCallback ,Observer {
     public void update(Observable observable, Object data) {
         requestCdlsData();
     }
+
+    protected void initialiseSD(String appName) {
+
+        ArrayList<String> var1 = new ArrayList<>();
+        var1.add(DigitalCareConstants.SERVICE_ID_CC_CDLS);
+        var1.add(DigitalCareConstants.SERVICE_ID_CC_EMAILFROMURL);
+
+        final HashMap<String,String> hm=new HashMap<String,String>();
+
+        hm.put(DigitalCareConstants.KEY_PRODUCT_SECTOR, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSector());
+        hm.put(DigitalCareConstants.KEY_PRODUCT_CATALOG, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCatalog());
+        hm.put(DigitalCareConstants.KEY_PRODUCT_CATEGORY, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCategory());
+        hm.put(DigitalCareConstants.KEY_APPNAME, appName);
+
+
+        DigitalCareConfigManager.getInstance().getAPPInfraInstance().getServiceDiscovery().getServicesWithCountryPreference(var1, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
+
+                ServiceDiscoveryService serviceDiscoveryService = map.get("cc.emailformurl");
+                if(serviceDiscoveryService != null){
+                    DigitalCareConfigManager.getInstance().setEmailUrl(serviceDiscoveryService.getConfigUrls());
+                }
+
+                if(DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCategory() != null && !DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCategory().isEmpty()) {
+                    serviceDiscoveryService = map.get("cc.cdls");
+                    if (serviceDiscoveryService != null) {
+                        DigitalCareConfigManager.getInstance().setCdlsUrl(serviceDiscoveryService.getConfigUrls());
+                    }
+                }
+
+            }
+
+            @Override
+            public void onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalues, String s) {
+                DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo(AnalyticsConstants.ACTION_SET_ERROR, AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR, s);
+            }
+        }, hm);
+
+    }
+
 }
