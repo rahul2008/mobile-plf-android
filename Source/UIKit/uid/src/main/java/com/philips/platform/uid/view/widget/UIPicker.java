@@ -8,8 +8,6 @@ package com.philips.platform.uid.view.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.AttrRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,7 +19,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsSpinner;
 import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 import android.widget.PopupWindow;
@@ -66,7 +63,6 @@ public class UIPicker extends ListPopupWindow{
     private boolean shouldSetHeight = true;
     private boolean shouldSetWidth = true;
     private boolean isBelowAnchorView = false;
-    private final int LIST_EXPAND_MAX = 1;
     private int adapterCount;
 
     public UIPicker(@NonNull Context context) {
@@ -91,8 +87,10 @@ public class UIPicker extends ListPopupWindow{
     @Override
     public void setAdapter(@Nullable ListAdapter adapter) {
         super.setAdapter(adapter);
-        this.adapter = adapter;
-        adapterCount = adapter.getCount();
+        if(adapter != null){
+            this.adapter = adapter;
+            adapterCount = adapter.getCount();
+        }
     }
 
     @Override
@@ -120,14 +118,12 @@ public class UIPicker extends ListPopupWindow{
     @Override
     public void show() {
 
-
-
-        /*Rect rect = new Rect();
-        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
-        int winHeight = activity.getWindow().getDecorView().getHeight();
-        int softButtonHeight = winHeight - rect.bottom;
-        setHeight(winHeight-softButtonHeight);*/
-
+        View anchorView = getAnchorView();
+        int anchorHeight = 0;
+        if(anchorView != null){
+            anchorHeight = anchorView.getHeight();
+        }
+        final int LIST_EXPAND_MAX = 1;
 
         if(shouldSetGravity){
             setDropDownGravity(Gravity.END);
@@ -138,25 +134,21 @@ public class UIPicker extends ListPopupWindow{
         }
 
         if(shouldSetHeight){
-            setContentHeight();
+            setContentHeight(anchorView, anchorHeight);
         }
 
         if(!isBelowAnchorView){
-            setVerticalOffset(-getAnchorView().getHeight());
+            setVerticalOffset(- anchorHeight);
         }
 
-
-        setListItemExpandMax(this, LIST_EXPAND_MAX);
-
-
+        setListItemExpandMax(this, LIST_EXPAND_MAX, anchorView, anchorHeight);
 
         //popup.showAtLocation(rootView, Gravity.BOTTOM, 0, winHeight-rect.bottom);
 
         super.show();
-        setSelection(UIPicker.this.getSelectedItemPosition());
     }
 
-    private void setListItemExpandMax(ListPopupWindow listPopupWindow, int max) {
+    private void setListItemExpandMax(ListPopupWindow listPopupWindow, int max, View anchorView, int anchorHeight) {
 
         try {
             Method method = ListPopupWindow.class.getDeclaredMethod("setListItemExpandMax", Integer.TYPE);
@@ -165,7 +157,7 @@ public class UIPicker extends ListPopupWindow{
 
             Method m2 = ListPopupWindow.class.getDeclaredMethod("getMaxAvailableHeight", Boolean.TYPE);
             m2.setAccessible(true);
-            method.invoke(listPopupWindow, getAnchorView(), -getAnchorView().getHeight(), false);
+            method.invoke(listPopupWindow, anchorView, - anchorHeight, false);
 
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -177,25 +169,17 @@ public class UIPicker extends ListPopupWindow{
     }
 
 
-    private int getMaxAvailableHeight(
-            @NonNull View anchor, int yOffset) {
-        Rect displayFrame = null;
-        final Rect visibleDisplayFrame = new Rect();
+    private int getMaxAvailableHeight(@NonNull View anchor, int yOffset) {
 
-        anchor.getWindowVisibleDisplayFrame(visibleDisplayFrame);
-
-        displayFrame = visibleDisplayFrame;
-
-
+        final Rect displayFrame = new Rect();
+        anchor.getWindowVisibleDisplayFrame(displayFrame);
 
         final int[] anchorPos = new int[2];
         anchor.getLocationOnScreen(anchorPos);
 
         final int bottomEdge = displayFrame.bottom;
 
-        final int distanceToBottom;
-
-            distanceToBottom = bottomEdge - anchorPos[1] - yOffset;
+        final int distanceToBottom = bottomEdge - anchorPos[1] - yOffset;
 
         final int distanceToTop = anchorPos[1] - displayFrame.top + yOffset;
 
@@ -208,22 +192,20 @@ public class UIPicker extends ListPopupWindow{
         }
 
         return returnedHeight;
-
     }
 
-    private void setContentHeight(){
-        int maxHeight = getMaxAvailableHeight(getAnchorView(), getAnchorView().getHeight());
+    private void setContentHeight(View anchorView, int anchorHeight){
+        int maxHeight = getMaxAvailableHeight(anchorView, anchorHeight);
         int contentHeight = adapterCount * Math.round(UIDUtils.pxFromDp(activity, 56));
         if(contentHeight < maxHeight){
             setHeight(contentHeight);
         }
         else {
             if(isBelowAnchorView)
-                setHeight(maxHeight -getAnchorView().getHeight());
+                setHeight(maxHeight - anchorHeight);
             else
                 setHeight(maxHeight);
         }
-
     }
 
 
@@ -231,7 +213,6 @@ public class UIPicker extends ListPopupWindow{
 
         DisplayMetrics metrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int heightPixels = metrics.heightPixels;
         int widthPixels = metrics.widthPixels;
 
         ViewGroup mMeasureParent = null;
@@ -279,123 +260,4 @@ public class UIPicker extends ListPopupWindow{
             return widthPixels - Math.round(UIDUtils.pxFromDp(activity, 32));
         }
     }
-
-
-
-    /*static class SavedState extends View.BaseSavedState {
-        long selectedId;
-        int position;
-
-        *//**
-         * Constructor called from {@link AbsSpinner#onSaveInstanceState()}
-         *//*
-        SavedState(Parcelable superState) {
-            super(superState);
-        }
-
-        *//**
-         * Constructor called from {@link #CREATOR}
-         *//*
-        SavedState(Parcel in) {
-            super(in);
-            selectedId = in.readLong();
-            position = in.readInt();
-        }
-
-        @Override
-        public void writeToParcel(Parcel out, int flags) {
-            super.writeToParcel(out, flags);
-            out.writeLong(selectedId);
-            out.writeInt(position);
-        }
-
-        @Override
-        public String toString() {
-            return "UIPicker.SavedState{"
-                    + Integer.toHexString(System.identityHashCode(this))
-                    + " selectedId=" + selectedId
-                    + " position=" + position + "}";
-        }
-
-        public static final Parcelable.Creator<SavedState> CREATOR
-                = new Parcelable.Creator<SavedState>() {
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
-            }
-
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
-    }*/
-
-    /*@Override
-    public Parcelable onSaveInstanceState() {
-        Parcelable superState = super.onSaveInstanceState();
-        SavedState ss = new SavedState(superState);
-        ss.selectedId = getSelectedItemId();
-        if (ss.selectedId >= 0) {
-            ss.position = getSelectedItemPosition();
-        } else {
-            ss.position = INVALID_POSITION;
-        }
-        return ss;
-    }
-
-    @Override
-    public void onRestoreInstanceState(Parcelable state) {
-        SavedState ss = (SavedState) state;
-
-        super.onRestoreInstanceState(ss.getSuperState());
-
-        if (ss.selectedId >= 0) {
-            mDataChanged = true;
-            mNeedSync = true;
-            mSyncRowId = ss.selectedId;
-            mSyncPosition = ss.position;
-            mSyncMode = SYNC_SELECTED_POSITION;
-            requestLayout();
-        }
-    }*/
-
-
-    /*@Override
-    public void setAnchorView(@Nullable View anchor) {
-        super.setAnchorView(anchor);
-        DisplayMetrics metrics = new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        int heightPixels = metrics.heightPixels;
-        int widthPixels = metrics.widthPixels;
-        setHeight(heightPixels - anchor.getBottom());
-    }*/
-
-    /*@Override
-    public void show() {
-        setUIDUIPickerHeight();
-        if(!isBelowAnchorView){
-            setVerticalOffset(-getAnchorView().getHeight());
-        }
-        //setVerticalOffset(getAnchorView().getHeight());
-        super.show();
-    }*/
-
-    /*public void shouldShowBelowAnchorView(boolean isBelowAnchorView){
-        this.isBelowAnchorView = isBelowAnchorView;
-    }*/
-
-    /*private void setUIDUIPickerHeight(){
-        if(getHeight() == ViewGroup.LayoutParams.WRAP_CONTENT){
-            DisplayMetrics metrics = new DisplayMetrics();
-            activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-            int heightPixels = metrics.heightPixels;
-            //int widthPixels = metrics.widthPixels;
-
-            int[] coordinatesArray = new int[2];
-            getAnchorView().getLocationInWindow(coordinatesArray);
-            int anchorViewHeight = getAnchorView().getHeight();
-            //setHeight(800);
-            setHeight(heightPixels - (coordinatesArray[1] + anchorViewHeight));
-            //setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-        }
-    }*/
 }

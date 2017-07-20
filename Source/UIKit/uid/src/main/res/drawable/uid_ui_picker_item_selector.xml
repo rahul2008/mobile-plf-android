@@ -5,4 +5,10 @@
             <solid android:color="?attr/uidListItemDefaultPressedBackgroundColor" />
         </shape>
     </item>
+
+    <item android:state_activated="true">
+        <shape>
+            <solid android:color="?attr/uidListItemDefaultPressedBackgroundColor" />
+        </shape>
+    </item>
 </selector>
