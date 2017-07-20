@@ -11,7 +11,7 @@
     </style>
 
     <style name="actionbarIconArrowImageView">
-        <item name="android:src">@drawable/uikit_right_arrow</item>
+        <item name="android:src">@drawable/actionbar_back_arrow_white</item>
         <item name="android:layout_width">@dimen/actionbar_icon_margin</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:clickable">true</item>

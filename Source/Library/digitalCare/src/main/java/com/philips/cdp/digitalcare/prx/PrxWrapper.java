@@ -17,6 +17,7 @@ import android.os.Looper;
 import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
+import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.listeners.PrxFaqCallback;
 import com.philips.cdp.digitalcare.listeners.PrxSummaryListener;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
@@ -152,8 +153,7 @@ public class PrxWrapper {
         if (mRequestManager == null) {
             mRequestManager = new RequestManager();
         }
-        PRXDependencies prxDependencies = new PRXDependencies(mActivity, DigitalCareConfigManager.getInstance().getAPPInfraInstance());
-        //Locale locale = mConfigManager.getLocaleMatchResponseWithCountryFallBack();
+        PRXDependencies prxDependencies = new PRXDependencies(mActivity, DigitalCareConfigManager.getInstance().getAPPInfraInstance(), AnalyticsConstants.COMPONENT_NAME_CC);
         mRequestManager.init(prxDependencies);
         final DigitalCareConfigManager mConfigManager = DigitalCareConfigManager.getInstance();
         mProductInfo = mConfigManager.getConsumerProductInfo();

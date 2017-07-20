@@ -270,21 +270,13 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private String formAtosURL() {
         ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
                 .getInstance().getConsumerProductInfo();
-        //Locale locale = DigitalCareConfigManager
-               // .getInstance().getLocale();
         if (isConsProdInfoAvailable(consumerProductInfo)) return null;
-        String atosUrl = getAtosUrl(consumerProductInfo.getSubCategory());
+        String atosUrl = getAtosUrl();
         DigiCareLogger.i(TAG, "ATOS URL : " + atosUrl);
         return atosUrl;
 
 
     }
-
-/*    private String getAtosUrl(ConsumerProductInfo consumerProductInfo) {
-        return getAtosUrl(consumerProductInfo.getCtn(),
-                consumerProductInfo.getSubCategory(), DigitalCareConfigManager
-                        .getInstance().getLocale().getCountry().toLowerCase());
-    }*/
 
     private boolean isConsProdInfoAvailable(ConsumerProductInfo consumerProductInfo) {
         if (consumerProductInfo == null) {
@@ -294,10 +286,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         return false;
     }
 
-    protected String getAtosUrl(String subcategory) {
+    protected String getAtosUrl() {
 
         HashMap<String, String> hm = new HashMap<String, String>();
-        hm.put(DigitalCareConstants.KEY_PRODUCT_SUBCATEGORY, subcategory);
+        hm.put(DigitalCareConstants.KEY_PRODUCT_SUBCATEGORY, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSubCategory());
         hm.put(DigitalCareConstants.KEY_LATITUDE, "" + mSourceLat);
         hm.put(DigitalCareConstants.KEY_LONGITUDE, "" + mSourceLng);
 
@@ -552,7 +544,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         if(mResultModelsetDataHold!=null){
             addMarkers(mResultModelsetDataHold);
         }
-
     }
 
     private void addMarkers(final ArrayList<AtosResultsModel> resultModelSet) {

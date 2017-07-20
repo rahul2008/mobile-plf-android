@@ -393,9 +393,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                 if (supportModel == null && getActivity() != null) {
                     showAlert(getString(R.string.NO_SUPPORT_KEY));
                 } else {
-                    FaqListFragment faqListFragment = new FaqListFragment(getActivity());
-                    showFragment(faqListFragment);
-                    faqListFragment.setSupportModel(supportModel);
+
+                    if(isAdded()) {
+                        FaqListFragment faqFragment = new FaqListFragment();
+                        faqFragment.setSupportModel(supportModel);
+                        showFragment(faqFragment);
+                    }
                 }
             }
         });
@@ -414,10 +417,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) DigitalCareConfigManager.
                 getInstance().getUiLauncher();
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
-       /* mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().
-                        getLocaleMatchResponseWithCountryFallBack().getLanguage(),
-                DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
-                        .getCountry());*/
 
         /*Initialize product selection tagging*/
         DigitalCareConfigManager ccConfigManager = DigitalCareConfigManager.getInstance();
@@ -469,11 +468,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         }
         mProductSelectionHelper = ProductModelSelectionHelper.getInstance();
         //mProductSelectionHelper.initialize(getActivity());
-       /* mProductSelectionHelper.setLocale(DigitalCareConfigManager.getInstance().
-                        getLocaleMatchResponseWithCountryFallBack().getLanguage(),
-                DigitalCareConfigManager.getInstance().
-                        getLocaleMatchResponseWithCountryFallBack().getCountry());
-*/
+
         /*Initialize product selection tagging*/
         DigitalCareConfigManager ccConfigManager = DigitalCareConfigManager.getInstance();
         /*AppInfraSingleton.setInstance(new AppInfra.Builder().build(getActivity()));*/
@@ -811,8 +806,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
         hm.put(DigitalCareConstants.KEY_PRODUCT_SECTOR, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSector());
         hm.put(DigitalCareConstants.KEY_PRODUCT_CATALOG, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCatalog());
-        hm.put(DigitalCareConstants.KEY_PRODUCT_CATEGORY, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSubCategory());
-        hm.put(DigitalCareConstants.KEY_PRODUCT_SUBCATEGORY_PRX, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSubCategory());
+        hm.put(DigitalCareConstants.KEY_PRODUCT_SUBCATEGORY, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSubCategory());
         hm.put(DigitalCareConstants.KEY_PRODUCT_REVIEWURL, DigitalCareConfigManager.getInstance().getViewProductDetailsData().getProductInfoLink());
 
         hm.put(DigitalCareConstants.KEY_APPNAME, getAppName());
@@ -825,20 +819,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
                 if (serviceDiscoveryService != null) {
                     DigitalCareConfigManager.getInstance().setSubCategoryUrl(serviceDiscoveryService.getConfigUrls());
                     DigiCareLogger.v(TAG, "Response from Service Discovery : Service ID : 'cc.prx.category' - " + serviceDiscoveryService.getConfigUrls());
-                }
-
-                if (!(DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSubCategory() == null)) {
-
-                    serviceDiscoveryService = map.get("cc.cdls");
-                    if (serviceDiscoveryService != null) {
-                        DigitalCareConfigManager.getInstance().setCdlsUrl(serviceDiscoveryService.getConfigUrls());
-                        DigiCareLogger.v(TAG, "Response from Service Discovery : Service ID : 'cc.cdls' - " + serviceDiscoveryService.getConfigUrls());
-                    }
-                }
-                serviceDiscoveryService = map.get("cc.emailformurl");
-                if (serviceDiscoveryService != null) {
-                    DigitalCareConfigManager.getInstance().setEmailUrl(serviceDiscoveryService.getConfigUrls());
-                    DigiCareLogger.v(TAG, "Response from Service Discovery : Service ID : 'cc.emailformurl' - " + serviceDiscoveryService.getConfigUrls());
                 }
 
                 serviceDiscoveryService = map.get("cc.productreviewurl");

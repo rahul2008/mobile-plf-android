@@ -72,7 +72,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         OnClickListener {
 
     private static String TAG = ProductDetailsFragment.class.getSimpleName();
-    private static ImageView mProductImageTablet = null;
+    private ImageView mProductImageTablet = null;
     private static int mSmallerResolution = 0;
     private static boolean isTablet = false;
     private static int mScrollPosition = 0;
@@ -412,15 +412,11 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
         if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
                 R.string.product_download_manual))) {
-           // Locale locale = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack();
-            //String country = locale.getCountry();
-            //String language = locale.getLanguage();
             String mFilePath = mViewProductDetailsModel.getManualLink();
             DigiCareLogger.d(TAG, "Manual name : " + mFilePath);
 
             // creating the name of the manual. So that Same manual should not be downloaded again and again.
             String pdfName = mFilePath.substring(mFilePath.lastIndexOf("/")+1);
-            //String pdfName = mViewProductDetailsModel.getProductName() + language + '_' + country + ".pdf";
             if ((mFilePath != null) && (mFilePath != "")) {
                 if (isConnectionAvailable()) {
 

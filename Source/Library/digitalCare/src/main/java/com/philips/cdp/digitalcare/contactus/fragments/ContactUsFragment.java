@@ -49,6 +49,12 @@ import com.philips.cdp.digitalcare.util.MenuItem;
 import com.philips.cdp.digitalcare.util.Utils;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
+import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.digitalcare.util.DigitalCareConstants;
+import com.philips.cdp.digitalcare.util.Utils;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
+import com.shamanland.fonticon.FontIconDrawable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,6 +81,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
     private LinearLayout.LayoutParams mSecondContainerParams = null;
     private LinearLayout mLLSocialParent = null;
     private ProgressDialog mDialog = null;
+    private static String TAG = ContactUsFragment.class.getSimpleName();
 
     private final CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
         @Override
@@ -123,6 +130,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        initialiseSD();
         mContactUsSocilaProviderButtonsParent = (RecyclerView) getActivity().findViewById(
                 R.id.contactUsSocialProvideButtonsParent);
         mSecondContainerParams = (LinearLayout.LayoutParams) mContactUsSocilaProviderButtonsParent
@@ -177,11 +185,55 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements OnClic
                     (AnalyticsConstants.PAGE_CONTACT_US,
                             getPreviousName(), getPreviousName());
 
-        config = getResources().getConfiguration();
+    config = getResources().getConfiguration();
 
-        createContactUsSocialProvideMenu();
-        setViewParams(config);
+    createContactUsSocialProvideMenu();
+    setViewParams(config);
+}
+
+    private void initialiseSD() {
+
+        ArrayList<String> var1 = new ArrayList<>();
+        var1.add(DigitalCareConstants.SERVICE_ID_CC_CDLS);
+        var1.add(DigitalCareConstants.SERVICE_ID_CC_EMAILFROMURL);
+
+        final HashMap<String,String> hm=new HashMap<String,String>();
+
+        hm.put(DigitalCareConstants.KEY_PRODUCT_SECTOR, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSector());
+        hm.put(DigitalCareConstants.KEY_PRODUCT_CATALOG, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCatalog());
+        hm.put(DigitalCareConstants.KEY_PRODUCT_CATEGORY, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCategory());
+        hm.put(DigitalCareConstants.KEY_APPNAME, getAppName());
+
+
+        DigitalCareConfigManager.getInstance().getAPPInfraInstance().getServiceDiscovery().getServicesWithCountryPreference(var1, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
+
+                ServiceDiscoveryService serviceDiscoveryService = map.get("cc.emailformurl");
+                if(serviceDiscoveryService != null){
+                    DigitalCareConfigManager.getInstance().setEmailUrl(serviceDiscoveryService.getConfigUrls());
+                    DigiCareLogger.v(TAG,"Response from Service Discovery : Service ID : 'cc.emailformurl' - "+serviceDiscoveryService.getConfigUrls());
+                }
+
+                if(DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCategory() != null && !DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCategory().isEmpty()) {
+                    serviceDiscoveryService = map.get("cc.cdls");
+                    if (serviceDiscoveryService != null) {
+                        DigitalCareConfigManager.getInstance().setCdlsUrl(serviceDiscoveryService.getConfigUrls());
+                        DigiCareLogger.v(TAG, "Response from Service Discovery : Service ID : 'cc.cdls' - " + serviceDiscoveryService.getConfigUrls());
+                    }
+                }
+
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                DigiCareLogger.v(TAG,"Error Response from Service Discovery :"+s);
+                DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo(AnalyticsConstants.ACTION_SET_ERROR, AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR, s);
+            }
+        }, hm);
+
     }
+
 
     protected boolean isContactNumberCached() {
         String customerSupportNumber = prefs.getString(USER_SELECTED_PRODUCT_CTN_CALL, "");

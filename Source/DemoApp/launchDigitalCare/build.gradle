@@ -23,7 +23,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
-        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.1', changing: true
+        classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.2', changing: true
     }
 }
 
@@ -80,6 +80,7 @@ artifactory {
                 publishBuildInfo = true
                 publishArtifacts = true
 				publications ('apk')
+                properties = ['git.commitid': objcdp.getCommitHashLong()]
             }
 	    }
     }
@@ -102,11 +103,12 @@ publishing {
 
             pom.withXml{
                 def dependenciesNode = asNode().appendNode('dependencies')
-                configurations.compile.resolvedConfiguration.firstLevelModuleDependencies.each {
+                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                resolvedArtifacts.each {
                     def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.moduleGroup)
-                    dependencyNode.appendNode('artifactId', it.moduleName)
-                    dependencyNode.appendNode('version', it.moduleVersion)
+                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
+                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
+                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
                 }
             }
         }
@@ -128,10 +130,11 @@ android {
         renderscriptSupportModeEnabled true
         generatedDensities = []
 
-        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     lintOptions {
+        checkReleaseBuilds false
         abortOnError false
     }
 
@@ -211,7 +214,6 @@ calabash {
 }
 
 dependencies {
-    compile project(':digitalCare')
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
@@ -229,6 +231,12 @@ dependencies {
         exclude group: 'com.android.support', module: 'recyclerview-v7'
         androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.1'
     }
+    compile project(':DemoUApp')
+
+    androidTestCompile "com.android.support:support-annotations:25.3.1"
+    androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
 }
 
 task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
@@ -272,3 +280,6 @@ task pmd(type: Pmd, dependsOn: "assembleDebug") {
     }
 }*/
 
+tasks.withType(Test) {
+  ignoreFailures = true
+}

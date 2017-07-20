@@ -47,11 +47,7 @@ public class DigitalCareConfigManager {
     public static String[] mCtnList = null;
     private static DigitalCareConfigManager mDigitalCareInstance = null;
     private Context mContext = null;
-    //private static LocaleMatchHandler mLocaleMatchHandler = null;
     private static Locale mLocale = null;
-    private static Locale mLocaleMatchWithCountryFallBack = null;
-    //  private static Locale mLocaleMatchWithLanguageFallBack = null;
-   // private static LocaleMatchHandlerObserver mLocaleMatchHandlerObserver = null;
     private UiLauncher mUiLauncher = null;
     AppInfraInterface mAppInfraInterface;
     private ConsumerProductInfo mConsumerProductInfo = null;
@@ -114,9 +110,6 @@ public class DigitalCareConfigManager {
             appInfraInterface) {
         if (mContext == null) {
             mContext = applicationContext;
-           /* mLocaleMatchHandler = new LocaleMatchHandler(mContext);
-            mLocaleMatchHandlerObserver = new LocaleMatchHandlerObserver();
-            LocaleMatchHandler.initializePRXMap();*/
             mAppInfraInterface = appInfraInterface;
 
             // initializeTaggingContext(mContext);
@@ -124,24 +117,8 @@ public class DigitalCareConfigManager {
 
         ProductModelSelectionHelper.getInstance().initialize(mContext, mAppInfraInterface);
 
-        //PILLocaleManager localeManager = new PILLocaleManager(mContext);
-/*        String[] localeArray = new String[2];
-        String locale = Locale.getDefault().getLanguage()+"_"+getCountry();//localeManager.getInputLocale();
-        localeArray = locale.split("_");
-        mLocale = new Locale(localeArray[0], localeArray[1]);
-        if (mLocaleMatchWithCountryFallBack == null)
-            mLocaleMatchWithCountryFallBack = mLocale;
-           *//* if (mLocaleMatchWithLanguageFallBack == null)
-                mLocaleMatchWithLanguageFallBack = mLocale;*//*
-        mLocaleMatchHandler.initializeLocaleMatchService(localeArray[0], localeArray[1]);*/
 
     }
-/*
-
-    public LocaleMatchHandlerObserver getObserver() {
-        return mLocaleMatchHandlerObserver;
-    }
-*/
 
     /**
      * <p> Invoking DigitalCareComponent feautures to your Fragment Container. Please use this
@@ -370,9 +347,9 @@ public class DigitalCareConfigManager {
 
    public Locale getLocaleMatchResponseWithCountryFallBack() {
         return mLocaleMatchWithCountryFallBack;
-    }
+    }*/
 
-    public void setLocaleMatchResponseLocaleWithCountryFallBack(Locale localeMatchLocale) {
+/*    public void setLocaleMatchResponseLocaleWithCountryFallBack(Locale localeMatchLocale) {
         mLocaleMatchWithCountryFallBack = localeMatchLocale;
         DigiCareLogger.d(TAG, "Country Fallback : " + localeMatchLocale.toString());
     }*/

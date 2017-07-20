@@ -33,6 +33,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
@@ -379,7 +380,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 
         if (mContainerId != 0) {
             containerId = mContainerId;
-            mFragmentActivityContext = mActivityContext;
+            mFragmentActivityContext = mFragmentLauncher.getFragmentActivity();
         } else {
             enableActionBarLeftArrow();
             InputMethodManager imm = (InputMethodManager) mFragmentActivityContext
@@ -391,7 +392,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
             }
         }
         try {
-            FragmentTransaction fragmentTransaction = getActivity()
+            FragmentTransaction fragmentTransaction = mFragmentActivityContext
                     .getSupportFragmentManager().beginTransaction();
             if (mEnterAnimation != 0 && mExitAnimation != 0) {
                 fragmentTransaction.setCustomAnimations(mEnterAnimation,
@@ -522,10 +523,18 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
      * Updating action bar title. The text has to be updated at each fragment
      * seletion/creation.
      */
-    public void setActionbarTitle() {
-        if (mContainerId == 0 ) {
-            if(activityTitleListener!=null)
-                activityTitleListener.setTitle(getActionbarTitle());
+    private void setActionbarTitle() {
+
+        if(getActionbarTitle() == null || !isAdded()) {
+            return;
+        }
+
+        if (mContainerId == 0) {
+            TextView actionBarTitle =
+
+                    ((TextView) getActivity().findViewById(
+                            R.id.action_bar_title));
+            actionBarTitle.setText(getActionbarTitle());
         } else {
             updateActionbar();
         }

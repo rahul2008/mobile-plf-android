@@ -16,24 +16,36 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 /**
- * Created by 310190678 on 8/16/2016.
+ *
+ * Interface class for initiating and launching the consumer care library from vertical app
+ *
+ * Created by sampath.kumar on 8/16/2016.
  */
 public class CcInterface implements UappInterface {
 
 
     private static final String TAG = CcInterface.class.getSimpleName();
 
+    /**
+     * initialise the consumer care library
+     * @param uappDependencies
+     * @param uappSettings
+     */
     @Override
     public void init(UappDependencies uappDependencies, UappSettings uappSettings) {
         CcSettings ccSettings = (CcSettings) uappSettings;
         CcDependencies ccDependencies = (CcDependencies) uappDependencies;
-
 
         DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(ccSettings.getContext()
                 , ccDependencies.getAppInfra());
 
     }
 
+    /**
+     * launch the support screen through fragment or activity
+     * @param uiLauncher
+     * @param uappLaunchInput
+     */
     @Override
     public void launch(UiLauncher uiLauncher, UappLaunchInput uappLaunchInput) {
 

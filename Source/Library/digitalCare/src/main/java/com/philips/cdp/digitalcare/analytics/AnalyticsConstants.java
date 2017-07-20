@@ -22,7 +22,7 @@ public class AnalyticsConstants {
 
     public static final String PAGE_CONTACTUS_TWITTER = "digitalcare:contactus:twitter";
     public static final String PAGE_CONTACTUS_FACEBOOK = "digitalcare:contactus:facebook";
-    public static final String PAGE_CONTACTUS_CHATNOW = "digitalcare:contactus:chatnow";
+    public static final String PAGE_CONTACTUS_CHATNOW = "digitalcare:contactus:livechat:chatnow";
     public static final String PAGE_CONTACTUS_LIVECHAT = "digitalcare:contactus:livechat";
     public static final String PAGE_CONTACTUS_EMAIL = "digitalcare:contactus:email";
     public static final String PAGE_REVIEW_WRITING = "digitalcare:ratethisapp:writeReview";
@@ -82,5 +82,5 @@ public class AnalyticsConstants {
     public static final String ACTION_VALUE_SERVICE_CHANNEL_FAQ = "FAQ";
     public static final String ACTION_VALUE_SERVICE_CHANNEL_Facebook = "Facebook";
 	
-	public static final String COMPONENT_NAME_CC = "ConsumerCare";
+	public static final String COMPONENT_NAME_CC = "dcc";
 }
