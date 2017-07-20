@@ -126,13 +126,21 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mIapInterface.init(mIapDependencies, mIAPSettings);
         mIapLaunchInput = new IAPLaunchInput();
         mIapLaunchInput.setIapListener(this);
-        init();
+        //  init();
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        mIapInterface.getProductCartCount(this);
+    protected void onResume() {
+        super.onResume();
+        if (!mUser.isUserSignIn()){
+            hideViews();
+            return;
+        }
+        if (!mIAPSettings.isUseLocalData()) {
+            displayViews();
+            mIapInterface.getProductCartCount(this);
+        }
+
     }
 
     private void addActionBar() {
@@ -183,10 +191,9 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             showProgressDialog();
             try {
                 if (!mIAPSettings.isUseLocalData()) {
-                   // mIapInterface.getProductCartCount(this);
+                    // mIapInterface.getProductCartCount(this);
                     mIapInterface.getCompleteProductList(this);
-                }
-                else
+                } else
                     dismissProgressDialog();
             } catch (RuntimeException exception) {
                 dismissProgressDialog();
@@ -282,27 +289,23 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mLaunchProductDetail.setVisibility(View.VISIBLE);
         mLaunchProductDetail.setEnabled(true);
 
-        if (!mIAPSettings.isUseLocalData()) {
-            showProgressDialog();
-            try {
-                mIapInterface.getProductCartCount(this);
-                mIapInterface.getCompleteProductList(this);
-            } catch (RuntimeException e) {
-                Toast.makeText(DemoAppActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                dismissProgressDialog();
-            }
+//        if (!mIAPSettings.isUseLocalData()) {
+//            showProgressDialog();
+//            try {
+//                // mIapInterface.getProductCartCount(this);
+//                mIapInterface.getCompleteProductList(this);
+//            } catch (RuntimeException e) {
+//                Toast.makeText(DemoAppActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                dismissProgressDialog();
+//            }
 
-            updateCartIcon();
-            mPurchaseHistory.setVisibility(View.VISIBLE);
-            mPurchaseHistory.setEnabled(true);
-            mBuyDirect.setVisibility(View.VISIBLE);
-            mShoppingCart.setVisibility(View.VISIBLE);
-        } /*else {
-            mPurchaseHistory.setVisibility(View.GONE);
-            mBuyDirect.setVisibility(View.GONE);
-            mShoppingCart.setVisibility(View.GONE);
-        }*/
+        updateCartIcon();
+        mPurchaseHistory.setVisibility(View.VISIBLE);
+        mPurchaseHistory.setEnabled(true);
+        mBuyDirect.setVisibility(View.VISIBLE);
+        mShoppingCart.setVisibility(View.VISIBLE);
     }
+
 
     private void hideViews() {
         mCountText.setVisibility(View.GONE);
@@ -396,8 +399,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mShoppingCart.setVisibility(View.GONE);
         }
 
-        dismissProgressDialog();
-      //  mIapInterface.getCompleteProductList(this);
+        //dismissProgressDialog();
+        mIapInterface.getCompleteProductList(this);
     }
 
     @Override
@@ -418,8 +421,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     @Override
     public void onGetCompleteProductList(ArrayList<String> productList) {
-       // Toast.makeText(this, "Total Products in Hybris = " + productList.toString(), Toast.LENGTH_SHORT).show();
-        mEtCTN.setText(productList.get(2));
+        Toast.makeText(this, "Total Products in Hybris = " + productList.toString(), Toast.LENGTH_SHORT).show();
+        mEtCTN.setText(productList.get(1));
         dismissProgressDialog();
     }
 
