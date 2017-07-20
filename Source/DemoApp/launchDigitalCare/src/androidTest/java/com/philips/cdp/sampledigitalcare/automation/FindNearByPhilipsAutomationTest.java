@@ -6,8 +6,8 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
-import com.philips.cdp.sampledigitalcare.launcher.uAppComponetLaunch.MicroAppLauncher;
-import com.philips.cl.di.dev.pa.R;
+import com.philips.platform.ccdemouapp.CCDemoUAppActivity;
+import com.philips.platform.ccdemouapplibrary.R;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -34,10 +34,10 @@ import static org.hamcrest.Matchers.allOf;
 @RunWith(AndroidJUnit4.class)
 public class FindNearByPhilipsAutomationTest extends AutomationTestHelper {
 
-    private MicroAppLauncher activity;
+    private CCDemoUAppActivity activity;
 
     @Rule
-    public ActivityTestRule<MicroAppLauncher> mActivityTestRule = new ActivityTestRule<>(MicroAppLauncher.class);
+    public ActivityTestRule<CCDemoUAppActivity> mActivityTestRule = new ActivityTestRule<>(CCDemoUAppActivity.class);
 
     @Before
     public void setUp() throws Exception {

@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import com.philips.cl.di.dev.pa.R;
+import com.philips.platform.ccdemouapplibrary.R;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
