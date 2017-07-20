@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.facebook.stetho.Stetho;
 import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.DefaultCommlibUappDependencies;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
@@ -41,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
 
         commlibUapp = CommlibUapp.get();
         commlibUapp.init(new DefaultCommlibUappDependencies(getApplicationContext()), new UappSettings(getApplicationContext()));
+
+        if (BuildConfig.DEBUG) {
+            Stetho.initializeWithDefaults(this);
+        }
     }
 
     @Override

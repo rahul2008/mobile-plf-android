@@ -76,6 +76,7 @@ android {
 }
 
 dependencies {
+    compile deps.stetho
     compile deps.support.design
 
     debugCompile project(path: ':commlib-demouapp', configuration: 'debug')
