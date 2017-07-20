@@ -18,6 +18,7 @@ import java.util.Map;
 
 public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUpdatePharmacyCallback, THSBasePresenter {
 
+    private Pharmacy pharmacy;
     private THSPharmacyListViewListener thsPharmacyListViewListener;
 
     public THSPharmacyListPresenter(THSPharmacyListViewListener thsPharmacyListViewListener) {
@@ -72,6 +73,7 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
     }
 
     public void updateConsumerPreferredPharmacy(THSConsumer thsConsumer, Pharmacy pharmacy) {
+        this.pharmacy = pharmacy;
         try {
             THSManager.getInstance().updateConsumerPreferredPharmacy(thsPharmacyListViewListener.getFragmentActivity(), thsConsumer, pharmacy, this);
         } catch (AWSDKInstantiationException e) {
@@ -81,8 +83,8 @@ public class THSPharmacyListPresenter implements THSGetPharmaciesCallback, THSUp
 
     @Override
     public void onUpdateSuccess(SDKError sdkError) {
-        thsPharmacyListViewListener.validateForMailOrder();
-        Toast.makeText(thsPharmacyListViewListener.getFragmentActivity(), "Update success", Toast.LENGTH_SHORT).show();
+        thsPharmacyListViewListener.validateForMailOrder(pharmacy);
+        Toast.makeText(thsPharmacyListViewListener.getFragmentActivity(), "Preferred pharmacy updated", Toast.LENGTH_SHORT).show();
     }
 
     @Override

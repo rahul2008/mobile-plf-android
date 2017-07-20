@@ -16,7 +16,7 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.ImageButton;
 import com.philips.platform.uid.view.widget.Label;
 
-public class THSPharmacyAndShippingFragment extends THSBaseFragment implements THSPharmacyShippingViewInterface, View.OnClickListener, BackEventListener {
+public class THSPharmacyAndShippingFragment extends THSBaseFragment implements THSPharmacyShippingViewInterface, View.OnClickListener, BackEventListener,THSUpdatePreferredPharmacy {
 
     private THSPharmacyAndShippingPresenter thsPharmacyAndShippingPresenter;
     private Label pharmacyName, pharmacyZip, pharmacyState, pharmacyAddressLineOne, pharmacyAddressLIneTwo,
@@ -35,6 +35,8 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         ths_shipping_pharmacy_layout.setVisibility(View.INVISIBLE);
         editPharmacy.setOnClickListener(this);
         thsPharmacyAndShippingPresenter = new THSPharmacyAndShippingPresenter(this);
+        updateShippingAddressView(address);
+        updatePharmacyDetailsView(pharmacy);
         return view;
     }
 
@@ -66,21 +68,16 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         this.pharmacy = pharmacy;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        thsPharmacyAndShippingPresenter.fetchConsumerPreferredPharmacy(thsConsumer);
-
-    }
-
-    @Override
-    public void onSuccessUpdateFragmentView(Pharmacy pharmacy, Address address) {
+    public void updateShippingAddressView(Address address) {
         ths_shipping_pharmacy_layout.setVisibility(View.VISIBLE);
         consumerName.setText(thsConsumer.getConsumer().getFullName());
         consumerCity.setText(address.getCity());
         consumerState.setText(address.getState().getCode());
         consumerShippingAddress.setText(address.getAddress1());
         consumerShippingZip.setText(address.getZipCode());
+    }
+
+    public void updatePharmacyDetailsView(Pharmacy pharmacy) {
         pharmacyAddressLineOne.setText(pharmacy.getAddress().getAddress1());
         pharmacyAddressLIneTwo.setText(pharmacy.getAddress().getAddress2());
         pharmacyName.setText(pharmacy.getName());
@@ -94,25 +91,24 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
     }
 
     @Override
-    public void onFailureCallSearchPharmacy(Address address) {
-        startSearchPharmacy();
-    }
-
-    private void startSearchPharmacy() {
+    public void startSearchPharmacy() {
         THSPharmacyListFragment thsPharmacyFragment = new THSPharmacyListFragment();
         THSConsumer pthConsumer = new THSConsumer();
         pthConsumer.setConsumer(thsConsumer.getConsumer());
         thsPharmacyFragment.setConsumerAndAddress(pthConsumer, null);
+        thsPharmacyFragment.setUpdateCallback(this);
         thsPharmacyFragment.setActionBarListener(getActionBarListener());
         getFragmentActivity().getSupportFragmentManager().
                 beginTransaction().replace(getContainerID(),
                 thsPharmacyFragment, "Pharmacy List").addToBackStack(null).commit();
     }
 
-    private void startEditShippingAddress() {
+    @Override
+    public void startEditShippingAddress() {
         THSShippingAddressFragment thsShippingAddressFragment = new THSShippingAddressFragment();
         thsShippingAddressFragment.setActionBarListener(getActionBarListener());
         thsShippingAddressFragment.setConsumerAndAddress(thsConsumer, null);
+        thsShippingAddressFragment.setUpdateShippingAddressCallback(this);
         getActivity().getSupportFragmentManager().
                 beginTransaction().replace(getContainerID(),
                 thsShippingAddressFragment, "ShippingAddressFragment").addToBackStack(null).commit();
@@ -120,16 +116,22 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.ps_edit_pharmacy) {
-            startSearchPharmacy();
-        }
-        if (v.getId() == R.id.ps_edit_consumer_shipping_address) {
-            startEditShippingAddress();
-        }
+        thsPharmacyAndShippingPresenter.onEvent(v.getId());
     }
 
     @Override
     public boolean handleBackEvent() {
         return false;
+    }
+
+    @Override
+    public void updatePharmacy(Pharmacy pharmacy) {
+       this.pharmacy = pharmacy;
+    }
+
+    @Override
+    public void updateShippingAddress(Address address) {
+        this.address = address;
+
     }
 }

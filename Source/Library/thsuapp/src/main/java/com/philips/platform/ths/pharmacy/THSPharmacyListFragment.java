@@ -79,6 +79,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     protected THSConsumer thsConsumer;
     protected Address address;
     private Location location;
+    private THSUpdatePreferredPharmacy updatePreferredPharmacy;
 
     @Nullable
     @Override
@@ -140,6 +141,10 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     public void setConsumerAndAddress(THSConsumer thsConsumer, Address address) {
         this.thsConsumer = thsConsumer;
         this.address = address;
+    }
+
+    public void setUpdateCallback(THSUpdatePreferredPharmacy updatePreferredPharmacy){
+        this.updatePreferredPharmacy = updatePreferredPharmacy;
     }
 
     public void setLocation(Location location){
@@ -348,13 +353,18 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
      * If so then Shipping address screen should be shown compulsarily
      */
     @Override
-    public void validateForMailOrder() {
+    public void validateForMailOrder(Pharmacy pharmacy) {
         if (pharmacy.getType() == PharmacyType.MailOrder) {
             THSShippingAddressFragment thsShippingAddressFragment = new THSShippingAddressFragment();
             thsShippingAddressFragment.setActionBarListener(getActionBarListener());
             thsShippingAddressFragment.setConsumerAndAddress(thsConsumer, address);
             getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), thsShippingAddressFragment, "ShippingAddressFragment").addToBackStack(null).commit();
         }
+        else {
+            updatePreferredPharmacy.updatePharmacy(pharmacy);
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
+
     }
 
     @Override

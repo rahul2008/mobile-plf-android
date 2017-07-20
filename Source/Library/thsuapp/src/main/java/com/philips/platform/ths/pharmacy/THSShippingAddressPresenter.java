@@ -30,16 +30,17 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
 
     @Override
     public void onAddressValidationFailure(Map<String, ValidationReason> map) {
-        Toast.makeText(thsBaseView.getFragmentActivity(),"Address validation failure",Toast.LENGTH_SHORT).show();
+        Toast.makeText(thsBaseView.getFragmentActivity(),"Shipping Address validation failure",Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onUpdateSuccess(Address address, SDKError sdkErro) {
-        Toast.makeText(thsBaseView.getFragmentActivity(),"Update address success",Toast.LENGTH_SHORT).show();
+        ((THSShippingAddressFragment) thsBaseView).updateShippingAddressView(address);
+        Toast.makeText(thsBaseView.getFragmentActivity(),"Update Shipping address success",Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onUpdateFailure(Throwable throwable) {
-        Toast.makeText(thsBaseView.getFragmentActivity(),"Update address Failed",Toast.LENGTH_SHORT).show();
+        Toast.makeText(thsBaseView.getFragmentActivity(),"Update Shipping address Failed",Toast.LENGTH_SHORT).show();
     }
 }
