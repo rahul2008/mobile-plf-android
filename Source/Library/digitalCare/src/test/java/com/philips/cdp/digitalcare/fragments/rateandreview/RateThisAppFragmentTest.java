@@ -159,4 +159,9 @@ public class RateThisAppFragmentTest extends MockitoConfiguration {
         Configuration configuration = new Configuration();
         fragment.onConfigurationChanged(configuration);
     }
+
+    @Test
+    public void testDestroyMethod(){
+        fragment.onDestroy();
+    }
 }

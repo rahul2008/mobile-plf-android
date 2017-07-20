@@ -384,7 +384,6 @@ public class MicroAppLauncher extends FragmentActivity implements OnClickListene
         finish();
     }
 
-
     protected  void initTheme(){
         UIDHelper.injectCalligraphyFonts();
         themeHelper = new ThemeHelper(this);

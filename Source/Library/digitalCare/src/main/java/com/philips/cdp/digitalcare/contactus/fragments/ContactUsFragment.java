@@ -81,23 +81,22 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         contactUsFragmentPresenter = new ContactUsPresenter(this);
         prefs = getActivity().getSharedPreferences(USER_PREFERENCE, Context.MODE_PRIVATE);
         View view = inflater.inflate(R.layout.consumercare_fragment_contact_us, container, false);
+        initView(view);
         return view;
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mContactUsSocilaProviderButtonsParent = (RecyclerView) getActivity().findViewById(
+    private void initView(View view) {
+        mContactUsSocilaProviderButtonsParent = (RecyclerView) view.findViewById(
                 R.id.contactUsSocialProvideButtonsParent);
         mSecondContainerParams = (LinearLayout.LayoutParams) mContactUsSocilaProviderButtonsParent
                 .getLayoutParams();
-        mChatBtn = (Button) getActivity().findViewById(R.id.contactUsChat);
-        mCallPhilipsBtn = (Button) getActivity().findViewById(R.id.contactUsCall);
-        mContactUsOpeningHours = (TextView) getActivity().findViewById(R.id.contactUsOpeningHours);
-        mFirstRowText = (TextView) getActivity().findViewById(R.id.firstRowText);
-        mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
-        mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
-        mLLSocialParent = (LinearLayout) getActivity().findViewById(R.id.contactUsSocialParent);
+        mChatBtn = (Button) view.findViewById(R.id.contactUsChat);
+        mCallPhilipsBtn = (Button) view.findViewById(R.id.contactUsCall);
+        mContactUsOpeningHours = (TextView) view.findViewById(R.id.contactUsOpeningHours);
+        mFirstRowText = (TextView) view.findViewById(R.id.firstRowText);
+        mActionBarMenuIcon = (ImageView) view.findViewById(R.id.home_icon);
+        mActionBarArrow = (ImageView) view.findViewById(R.id.back_to_home_img);
+        mLLSocialParent = (LinearLayout) view.findViewById(R.id.contactUsSocialParent);
         mUtils = new Utils();
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         final float density = getResources().getDisplayMetrics().density;
@@ -109,24 +108,22 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         mChatBtn.setTransformationMethod(null);
         mCallPhilipsBtn.setOnClickListener(this);
         mCallPhilipsBtn.setTransformationMethod(null);
+    }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         if (isInternetAvailable && contactUsFragmentPresenter.isCdlsUrlNull()) {
             contactUsFragmentPresenter.requestCdlsData();
         } else {
             String contactNumber = prefs.getString(USER_SELECTED_PRODUCT_CTN_CALL, "");
             String hours = prefs.getString(USER_SELECTED_PRODUCT_CTN_HOURS, "");
-            if (mFirstRowText != null && isContactHoursCached()) {
-                mFirstRowText.setVisibility(View.VISIBLE);
-                mFirstRowText.setText(hours);
+            if (isContactHoursCached()) {
+                setContactHours(hours);
             }
-            if (mCallPhilipsBtn != null && isContactNumberCached()) {
-                mCallPhilipsBtn.setVisibility(View.VISIBLE);
-                mContactUsOpeningHours.setVisibility(View.VISIBLE);
-                mCallPhilipsBtn.setText(getResources().getString(R.string.call_number)
-                        + " "
-                        + contactNumber);
+            if (isContactNumberCached()) {
+                setContactNumberVisible(contactNumber);
             }
-
         }
         DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
                     (AnalyticsConstants.PAGE_CONTACT_US,getPreviousName(), getPreviousName());
@@ -135,18 +132,30 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         setViewParams(config);
     }
 
+    private void setContactNumberVisible(String contactNumber) {
+        mCallPhilipsBtn.setVisibility(View.VISIBLE);
+        mContactUsOpeningHours.setVisibility(View.VISIBLE);
+        mCallPhilipsBtn.setText(getResources().getString(R.string.call_number)
+                + " "
+                + contactNumber);
+    }
+
+    private void setContactHours(String hours) {
+        mFirstRowText.setVisibility(View.VISIBLE);
+        mFirstRowText.setText(hours);
+    }
+
     @Override
     public void setTextCallPhilipsBtn(String phoneNumber){
         mCallPhilipsBtn.setText(getResources().getString(R.string.call_number)+ " "+ phoneNumber);
     }
 
-    protected boolean isContactNumberCached() {
+    public boolean isContactNumberCached() {
         String customerSupportNumber = prefs.getString(USER_SELECTED_PRODUCT_CTN_CALL, "");
         return (customerSupportNumber != null && customerSupportNumber != "");
     }
 
-
-    protected boolean isContactHoursCached() {
+    public boolean isContactHoursCached() {
         String contactHours = prefs.getString(USER_SELECTED_PRODUCT_CTN_HOURS, "");
         return (contactHours != null && contactHours != "");
     }
@@ -246,7 +255,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
             }
         } else if (tag != null
                 && tag.equalsIgnoreCase(getStringKey(R.string.facebook)) && isConnectionAvailable()) {
-
             launchFacebookFeature();
         } else if (tag != null
                 && tag.equalsIgnoreCase(getStringKey(R.string.twitter)) && isConnectionAvailable()) {
@@ -257,11 +265,11 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         }
     }
 
-    private boolean isSimAvailable() {
+    boolean isSimAvailable() {
         return mUtils.isSimAvailable(getActivity());
     }
 
-    private boolean isTelephonyEnabled(){
+    boolean isTelephonyEnabled(){
         return mUtils.isTelephonyEnabled(getActivity());
     }
 
@@ -290,7 +298,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
         }
     }
 
-    protected void launchTwitterFeature() {
+    public void launchTwitterFeature() {
         tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_TWITTER);
         final Intent tweetIntent = new Intent(Intent.ACTION_SEND);
         String information = getProductInformation();
@@ -331,7 +339,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     }
 
     protected String getProductInformation() {
-        final String twitterPage = getActivity().getString(R.string.twitter_page);
+        final String twitterPage = getString(R.string.twitter_page);
         final String twitterLocalizedPrefixText = getActivity().getResources().getString(
                 R.string.support_productinformation);
         final String productTitle = DigitalCareConfigManager.getInstance()
@@ -405,7 +413,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     }
 
     private void setHelpButtonParams(float density) {
-
         final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
                 .getDimension(R.dimen.support_btn_height) * density));
