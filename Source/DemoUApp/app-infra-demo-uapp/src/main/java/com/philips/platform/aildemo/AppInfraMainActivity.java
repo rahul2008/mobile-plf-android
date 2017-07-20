@@ -233,6 +233,11 @@ public class AppInfraMainActivity extends AppCompatActivity {
                 break;
 
             case 15:
+                Intent appUpdateActivity = new Intent(AppInfraMainActivity.this , AppUpdateActivity.class);
+                startActivity(appUpdateActivity);
+                break;
+
+            case 16:
                 Intent keyBagActivity = new Intent(AppInfraMainActivity.this , KeyBagActivity.class);
                 startActivity(keyBagActivity);
                 break;
