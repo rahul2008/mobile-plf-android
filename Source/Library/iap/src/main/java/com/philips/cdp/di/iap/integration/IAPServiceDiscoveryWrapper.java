@@ -47,16 +47,18 @@ public class IAPServiceDiscoveryWrapper {
                     setLangAndCountry(locale);
                 }
 
-                if (configUrls != null) {
+                if (!locale.equalsIgnoreCase("en_US") || configUrls == null) {
+                    mIAPSettings.setUseLocalData(true);
+                    launchingIAP(pIAPHandler, pUiLauncher, pIapLaunchInput);
+                    return;
+                } else {
                     // TODO Retailer view hence making the userLocalData to true
                     mIAPSettings.setUseLocalData(false);
                     String urlPort = "https://acc.us.pil.shop.philips.com/en_US";//;"https://www.occ.shop.philips.com/en_US";
                     mIAPSettings.setHostPort(urlPort.substring(0, urlPort.length() - 5));
-                } else {
-                    mIAPSettings.setUseLocalData(true);
+                    launchingIAP(pIAPHandler, pUiLauncher, pIapLaunchInput);
                 }
 
-                launchingIAP(pIAPHandler, pUiLauncher, pIapLaunchInput);
             }
 
             @Override
@@ -119,14 +121,17 @@ public class IAPServiceDiscoveryWrapper {
                 String locale = serviceDiscoveryService.getLocale();
                 String configUrls = serviceDiscoveryService.getConfigUrls();
 
-
-                if (configUrls != null) {
+                if (locale != null) {
+                    // pIAPHandler.initIAPRequisite();
+                    setLangAndCountry(locale);
+                }
+                if (!locale.equalsIgnoreCase("en_US") || configUrls == null) {
+                    mIAPSettings.setUseLocalData(true);
+                    return;
+                } else {
                     // TODO Retailer view hence making the userLocalData to true
                     mIAPSettings.setUseLocalData(false);
-                    if (locale != null) {
-                       // pIAPHandler.initIAPRequisite();
-                        setLangAndCountry(locale);
-                    }
+
                     String urlPort = "https://acc.us.pil.shop.philips.com/en_US";//;"https://www.occ.shop.philips.com/en_US";
                     mIAPSettings.setHostPort(urlPort.substring(0, urlPort.length() - 5));
                     mIAPSettings.setProposition(loadConfigParams());
@@ -134,8 +139,6 @@ public class IAPServiceDiscoveryWrapper {
                         pIAPHandler.getExposedAPIImplementor().getCompleteProductList(iapListener);
                     else
                         pIAPHandler.getExposedAPIImplementor().getProductCartCount(iapListener);
-                } else {
-                    mIAPSettings.setUseLocalData(true);
                 }
             }
         };

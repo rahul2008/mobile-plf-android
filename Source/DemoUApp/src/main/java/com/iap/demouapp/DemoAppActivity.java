@@ -148,6 +148,9 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         }
         displayViews();
         if (!mIAPSettings.isUseLocalData()) {
+            updateCartIcon();
+            mPurchaseHistory.setVisibility(View.VISIBLE);
+            mPurchaseHistory.setEnabled(true);
             mIapInterface.getProductCartCount(this);
         }
     }
@@ -278,6 +281,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private void updateCartIcon() {
         if (mIAPSettings.isUseLocalData()) {
             mShoppingCart.setVisibility(View.INVISIBLE);
+        } else {
+            mShoppingCart.setVisibility(View.VISIBLE);
         }
     }
 
@@ -289,10 +294,8 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mLaunchProductDetail.setVisibility(View.VISIBLE);
         mLaunchProductDetail.setEnabled(true);
 
-        updateCartIcon();
-        mPurchaseHistory.setVisibility(View.VISIBLE);
-        mPurchaseHistory.setEnabled(true);
-        mShoppingCart.setVisibility(View.VISIBLE);
+
+
     }
 
 
