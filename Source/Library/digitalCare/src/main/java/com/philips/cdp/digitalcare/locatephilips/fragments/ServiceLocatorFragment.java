@@ -22,7 +22,6 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 public class ServiceLocatorFragment extends DigitalCareBaseFragment {
 
-    private View mServiceLocatorView = null;
     private WebView mServiceLocatorWebView = null;
     private ProgressBar mProgressBar = null;
     private ImageView mActionBarMenuIcon = null;
@@ -31,23 +30,15 @@ public class ServiceLocatorFragment extends DigitalCareBaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        DigiCareLogger.i(TAG, "Launching the Product Review Screen");
-        if (mServiceLocatorView == null) {
-            mServiceLocatorView = inflater.inflate(R.layout.consumercare_webview_noscroll, container, false);
-        }
-        return mServiceLocatorView;
+        View view  = inflater.inflate(R.layout.consumercare_webview_noscroll, container, false);
+        initView(view);
+        return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
-        mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
-
-        initView();
         loadServiceLocatorPage();
     }
 
@@ -63,9 +54,11 @@ public class ServiceLocatorFragment extends DigitalCareBaseFragment {
         loadWebPageContent(getServiceLocatorUrl(), mServiceLocatorWebView, mProgressBar);
     }
 
-    private void initView() {
-        mServiceLocatorWebView = (WebView) mServiceLocatorView.findViewById(R.id.webView);
-        mProgressBar = (ProgressBar) mServiceLocatorView.findViewById(R.id.common_webview_progress);
+    private void initView(View view) {
+        mActionBarMenuIcon = (ImageView) view.findViewById(R.id.home_icon);
+        mActionBarArrow = (ImageView) view.findViewById(R.id.back_to_home_img);
+        mServiceLocatorWebView = (WebView) view.findViewById(R.id.webView);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.common_webview_progress);
         mProgressBar.setVisibility(View.GONE);
     }
 
@@ -101,7 +94,6 @@ public class ServiceLocatorFragment extends DigitalCareBaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
         if (mServiceLocatorWebView != null) {
             mServiceLocatorWebView = null;
         }
@@ -114,7 +106,6 @@ public class ServiceLocatorFragment extends DigitalCareBaseFragment {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                
                 return false;
             }
 

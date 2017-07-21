@@ -1,11 +1,9 @@
-package com.philips.cdp.digitalcare.contactus.fragments;
+package com.philips.cdp.digitalcare.locatephilips.fragments;
 
 import android.content.res.Configuration;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
-import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerCC;
 import com.philips.cdp.digitalcare.util.DigitalCareTestMock;
@@ -19,7 +17,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.configuration.MockitoConfiguration;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -33,9 +30,9 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @RunWith(CustomRobolectricRunnerCC.class)
 @PrepareForTest(DigitalCareConfigManager.class)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
-public class EmailFragmentTest extends MockitoConfiguration {
+public class ServiceLocatorFragmentTest {
 
-    private EmailFragment fragment;
+    private ServiceLocatorFragment fragment;
 
     private View rootView;
 
@@ -54,7 +51,7 @@ public class EmailFragmentTest extends MockitoConfiguration {
     public void setUp(){
         Robolectric.buildActivity(DigitalCareTestMock.class).create().get();
         MockitoAnnotations.initMocks(this);
-        fragment = new EmailFragment();
+        fragment = new ServiceLocatorFragment();
         PowerMockito.mockStatic(DigitalCareConfigManager.class);
         when(DigitalCareConfigManager.getInstance()).thenReturn(mockDigitalCareConfigManager);
         when(DigitalCareConfigManager.getInstance().getTaggingInterface()).thenReturn(mockAppTaggingInterface);
@@ -78,28 +75,6 @@ public class EmailFragmentTest extends MockitoConfiguration {
     }
 
     @Test
-    public void testGetActionbarTitle(){
-        String title = fragment.getActionbarTitle();
-        Assert.assertNotNull(title);
-    }
-
-    @Test
-    public void testLoadEmailPageNull() throws Exception {
-        fragment.loadEmail(null);
-        ProgressBar mProgressBar =(ProgressBar) rootView.findViewById(
-                R.id.common_webview_progress);
-        Assert.assertEquals(View.GONE,mProgressBar.getVisibility());
-    }
-
-    @Test
-    public void testLoadEmailPageNotNull() throws Exception {
-        fragment.loadEmail("http://www.philips.com");
-        ProgressBar mProgressBar =(ProgressBar) rootView.findViewById(
-                R.id.common_webview_progress);
-        Assert.assertEquals(View.VISIBLE,mProgressBar.getVisibility());
-    }
-
-    @Test
     public void testSetPreviousPageName(){
         String previousPageName = fragment.setPreviousPageName();
         Assert.assertNotNull(previousPageName);
@@ -115,4 +90,5 @@ public class EmailFragmentTest extends MockitoConfiguration {
     public void testDestroyMethod(){
         fragment.onDestroy();
     }
+
 }

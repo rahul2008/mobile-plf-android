@@ -22,43 +22,31 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
-import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 
 public class ProductInformationFragment extends DigitalCareBaseFragment {
 
-    private View mView = null;
     private WebView mWebView = null;
     private ProgressBar mProgressBar = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
 
-    private String PRODUCT_PAGE_URL = "https://%s%s";
-    private String TAG = ProductInformationFragment.class.getSimpleName();
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        if (mView == null) {
-            mView = inflater.inflate(R.layout.consumercare_common_webview, container, false);
-        }
-
+        View view = inflater.inflate(R.layout.consumercare_common_webview, container, false);
         DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
                 (AnalyticsConstants.PAGE_VIEW_PRODUCT_WEBSITE,
                         getPreviousName(), getPreviousName());
-
-        return mView;
+        initView(view);
+        return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
-        mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
-        initView();
         loadFaq();
     }
 
@@ -68,27 +56,26 @@ public class ProductInformationFragment extends DigitalCareBaseFragment {
         enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
     }
 
-    private void loadFaq() {
+    public void loadFaq() {
         if (getPhilipsProductPageUrl() == null) {
             mProgressBar.setVisibility(View.GONE);
         } else {
-            //DigiCareLogger.d("URLTest", getPhilipsProductPageUrl());
-            DigiCareLogger.d(TAG, getPhilipsProductPageUrl());
             String url = getPhilipsProductPageUrl();
             setWebSettingForWebview(url, mWebView, mProgressBar);
         }
     }
 
-    private void initView() {
-        mWebView = (WebView) mView.findViewById(R.id.webView);
-        mProgressBar = (ProgressBar) mView
+    private void initView(View view) {
+        mWebView = (WebView) view.findViewById(R.id.webView);
+        mProgressBar = (ProgressBar) view
                 .findViewById(R.id.common_webview_progress);
         mProgressBar.setVisibility(View.GONE);
+        mActionBarMenuIcon = (ImageView) view.findViewById(R.id.home_icon);
+        mActionBarArrow = (ImageView) view.findViewById(R.id.back_to_home_img);
     }
 
     private String getPhilipsProductPageUrl() {
         String domainUrl = null;
-
         if(DigitalCareConfigManager.getInstance().getViewProductDetailsData().getDomain() == null)
             domainUrl = "www.philips.com";
         else

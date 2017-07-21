@@ -57,7 +57,7 @@ public class RateThisAppFragmentTest extends MockitoConfiguration {
     @Mock
     AppTaggingInterface mockAppTaggingInterface;
 
-    private ViewProductDetailsModel mockViewProductDetailsModel;
+    private ViewProductDetailsModel viewProductDetailsModel;
 
     private DigitalCareBaseFragment digitalCareBaseFragmentspy;
 
@@ -67,16 +67,16 @@ public class RateThisAppFragmentTest extends MockitoConfiguration {
     public void setUp(){
         MockitoAnnotations.initMocks(this);
         fragment = new RateThisAppFragment();
-        mockViewProductDetailsModel = new ViewProductDetailsModel();
-        mockViewProductDetailsModel.setProductName("AqvaShaver");
-        mockViewProductDetailsModel.setCtnName("Shaver_2234");
-        mockViewProductDetailsModel.setProductImage("http://www.philips.com");
-        mockViewProductDetailsModel.setProductInfoLink("http://www.philips.com");
-        mockViewProductDetailsModel.setDomain("Philips");
+        viewProductDetailsModel = new ViewProductDetailsModel();
+        viewProductDetailsModel.setProductName("AqvaShaver");
+        viewProductDetailsModel.setCtnName("Shaver_2234");
+        viewProductDetailsModel.setProductImage("http://www.philips.com");
+        viewProductDetailsModel.setProductInfoLink("http://www.philips.com");
+        viewProductDetailsModel.setDomain("Philips");
 
         PowerMockito.mockStatic(DigitalCareConfigManager.class);
         when(DigitalCareConfigManager.getInstance()).thenReturn(mockDigitalCareConfigManager);
-        when(mockDigitalCareConfigManager.getViewProductDetailsData()).thenReturn(mockViewProductDetailsModel);
+        when(mockDigitalCareConfigManager.getViewProductDetailsData()).thenReturn(viewProductDetailsModel);
         digitalCareBaseFragmentspy=spy(fragment);
 
         SupportFragmentTestUtil.startFragment(fragment,DigitalCareTestMock.class);
