@@ -126,6 +126,8 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
 
     @Override
     public void onRefresh() {
+        if(mThsProviderDetailsDisplayHelper == null)
+            return;
         mThsProviderDetailsDisplayHelper.setRefreshing();
         providerDetailsPresenter.fetchProviderDetails();
     }

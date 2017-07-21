@@ -92,6 +92,7 @@
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true" />
     <View android:background="@color/uid_gray_level_5"
+        android:id="@+id/end_layer"
         android:layout_below="@+id/providerDetailLayout"
         android:layout_width = "match_parent"
         android:layout_height="1dp"

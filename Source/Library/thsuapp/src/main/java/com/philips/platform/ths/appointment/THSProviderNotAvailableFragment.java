@@ -17,6 +17,7 @@ import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.NotificationBadge;
 import com.philips.platform.uid.view.widget.RatingBar;
 
 import java.util.Date;
@@ -56,13 +57,31 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
         this.mProvider = mProvider;
     }
 
-    public void updateProviderDetails(View view) {
+    public void updateProviderDetails(View view, THSAvailableProviderList availableProviders) {
         if(view == null)
             return;
         Label label = (Label) view.findViewById(R.id.schedule_appointment);
         label.setVisibility(View.GONE);
         RelativeLayout detailsContainer = (RelativeLayout) view.findViewById(R.id.details_container);
         detailsContainer.setVisibility(View.VISIBLE);
+
+        View viewEndLayer = view.findViewById(R.id.end_layer);
+        viewEndLayer.setVisibility(View.GONE);
+
+        Label labelAvailableDocs = (Label) view.findViewById(R.id.isAvailableLabel);
+
+        RelativeLayout.LayoutParams layoutParams=(RelativeLayout.LayoutParams)labelAvailableDocs.getLayoutParams();
+        layoutParams.addRule(RelativeLayout.RIGHT_OF,R.id.notification_badge);
+
+        labelAvailableDocs.setText("Available time slots");
+
+        ImageView greenTick = (ImageView)view.findViewById(R.id.isAvailableImage);
+        greenTick.setVisibility(View.GONE);
+
+        NotificationBadge notificationBadge = (NotificationBadge) view.findViewById(R.id.notification_badge);
+        notificationBadge.setVisibility(View.VISIBLE);
+
+        notificationBadge.setText("" + availableProviders.getAvailableProvidersList().size());
 
         ImageView imageView = (ImageView) view.findViewById(R.id.providerImage);
 

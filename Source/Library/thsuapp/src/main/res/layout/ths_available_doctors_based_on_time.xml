@@ -40,7 +40,7 @@
     <View android:background="@color/uid_gray_level_5"
         android:layout_below="@+id/provider_detail_container_view"
         android:layout_width = "match_parent"
-        android:layout_height="10dp"
+        android:layout_height="24dp"
         android:id="@+id/separator_details"
         />
     </RelativeLayout>
@@ -77,12 +77,11 @@
         android:id="@+id/no_available_providers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="10dp"
         android:text="@string/ths_no_available_appointments"
-        android:textColor="?attr/uidLabelRegularNormalTextColor"
-        style="@style/UIDLabelDescription"
-        android:textSize="16dp"
+        android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+        style="@style/UIDLabel.RecyclerViewHeader"
+        android:textSize="16sp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         />
@@ -95,8 +94,8 @@
         android:textSize="@dimen/uid_grid_descrption_size"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:textColor="?attr/uidLabelValueNormalTextColor"
-        android:layout_marginBottom="10dp"
+        android:textColor="?attr/uidContentItemDefaultNormalSubtleBodyTextColor"
+        android:layout_marginBottom="12dp"
         android:text="@string/ths_select_other_provider"/>
 
     <View android:background="@color/uid_gray_level_5"
