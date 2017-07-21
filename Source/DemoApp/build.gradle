@@ -10,7 +10,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:2.3.1'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.4.12'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     }
@@ -19,6 +19,19 @@ buildscript {
 allprojects {
     repositories {
         maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-jcenter-remote'
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven {
+            url "http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-plugins-release-local"
+            credentials {
+                username = "readonly"
+                password = "123qweasdzxc"
+            }
+        }
+        maven { url 'http://artifactory-ehv.ta.philips.com:8082/artifactory/platform-pkgs-android-snapshot-local'
             credentials {
                 username = "readonly"
                 password = "123qweasdzxc"
