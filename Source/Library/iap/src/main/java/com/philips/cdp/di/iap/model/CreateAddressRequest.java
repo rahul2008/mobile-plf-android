@@ -45,7 +45,7 @@ public class CreateAddressRequest extends AbstractModel {
         payload.put(ModelConstants.POSTAL_CODE, getValue(ModelConstants.POSTAL_CODE));
         payload.put(ModelConstants.TOWN, getValue(ModelConstants.TOWN));
         payload.put(ModelConstants.PHONE_1, getValue(ModelConstants.PHONE_1));
-        payload.put(ModelConstants.PHONE_2, getValue(ModelConstants.PHONE_2));
+        payload.put(ModelConstants.PHONE_2, getValue(ModelConstants.PHONE_1));
         payload.put(ModelConstants.REGION_ISOCODE, getValue(ModelConstants.REGION_ISOCODE));
         return payload;
     }
