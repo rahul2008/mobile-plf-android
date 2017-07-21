@@ -1,19 +1,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/schedule_appointment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:text="@string/ths_schedule_appointment_for"
-        android:textColor="?attr/uidLabelRegularNormalTextColor"
-        style="@style/UIDLabelDescription"
-        android:textSize="16dp"
+        android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+        style="@style/amwellCentralesansBoldFont"
+        android:textSize="20sp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
+        android:paddingBottom="@dimen/ths_body_text_padding"
+        android:paddingTop="@dimen/ths_body_text_padding"
         />
 
     <View android:background="@color/uid_gray_level_5"
@@ -25,13 +27,12 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/date"
+        style="@style/ths_list_item"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/line_separator"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
         />
 
     <View android:background="@color/uid_gray_level_5"
@@ -41,11 +42,22 @@
         android:layout_below="@+id/date"
         />
 
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/with"
+        style="@style/ths_list_header"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line_separator_1"
+        android:text="@string/ths_with"
+        />
+
     <include
         android:id="@+id/providerDetailDListLayout"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_below="@+id/line_separator_1"
+        android:layout_below="@+id/with"
         layout="@layout/ths_provider_details_d_list" />
 
     <View android:background="@color/uid_gray_level_5"
@@ -59,14 +71,10 @@
         android:id="@+id/email_sent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="24dp"
         android:layout_marginTop="16dp"
         android:text="@string/ths_email_sent"
-        android:textColor="?attr/uidLabelRegularNormalTextColor"
-        style="@style/UIDLabelDescription"
-        android:textSize="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        style="@style/ths_body_text"
         android:layout_below="@id/horizontalLine"
         />
 
@@ -94,6 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/ths_got_it"
+            app:uidComponentType="Secondary"
             />
     </RelativeLayout>
 
