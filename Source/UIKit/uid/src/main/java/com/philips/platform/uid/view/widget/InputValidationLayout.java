@@ -166,7 +166,7 @@ public class InputValidationLayout extends LinearLayout {
     /**
      * Use this to set a validator. Depending upon the return value, the error message is shown.
      *
-     * @param validator
+     * @param validator instance of the validator
      */
     public void setValidator(Validator validator) {
         this.validator = validator;
@@ -175,7 +175,7 @@ public class InputValidationLayout extends LinearLayout {
     /**
      * Sets error message based on resourceID.
      *
-     * @param resID
+     * @param resID Resource id of the message
      */
     public void setErrorMessage(int resID) {
         if (errorLabel != null) {
@@ -187,7 +187,7 @@ public class InputValidationLayout extends LinearLayout {
     /**
      * Sets the error message.
      *
-     * @param errorMsg
+     * @param errorMsg CharSeq of the message
      */
     public void setErrorMessage(CharSequence errorMsg) {
         if (errorLabel != null) {
@@ -199,7 +199,7 @@ public class InputValidationLayout extends LinearLayout {
     /**
      * Sets error drawable.
      *
-     * @param drawable
+     * @param drawable Drawable to be set for error
      */
     @SuppressWarnings("unused")
     public void setErrorDrawable(Drawable drawable) {
@@ -209,7 +209,7 @@ public class InputValidationLayout extends LinearLayout {
 
     /**
      * Sets error drawable from the resourceID
-     * @param resID
+     * @param resID ResId of the Drawable
      */
     @SuppressWarnings("unused")
     public void setErrorDrawable(@DrawableRes int resID) {

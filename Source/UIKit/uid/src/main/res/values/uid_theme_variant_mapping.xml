@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="UIDPrimaryControl"></style>
+    <style name="UIDPrimaryControl"/>
 
-    <style name="UIDPrimaryControl.AlternatePrimary"></style>
+    <style name="UIDPrimaryControl.AlternatePrimary"/>
 
     <style name="UIDPrimaryControl.Secondary">
         <item name="uidButtonPrimaryNormalBackgroundColor">

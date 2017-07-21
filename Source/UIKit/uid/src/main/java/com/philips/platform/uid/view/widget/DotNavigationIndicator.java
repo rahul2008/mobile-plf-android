@@ -156,7 +156,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
      * @param initialPosition with initialPosition selected/highlited
      */
     @Override
-    public void setViewPager(@NonNull final ViewPager newViewPager, int initialPosition) {
+    public void setViewPager(final ViewPager newViewPager, int initialPosition) {
         if (viewPager == newViewPager) {
             return;
         }

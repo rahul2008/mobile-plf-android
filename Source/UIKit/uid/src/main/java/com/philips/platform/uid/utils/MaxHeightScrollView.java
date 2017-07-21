@@ -6,9 +6,7 @@
 
 package com.philips.platform.uid.utils;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.ScrollView;
 
@@ -27,7 +25,6 @@ public class MaxHeightScrollView extends ScrollView {
         super(context, attrs, defStyleAttr);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public MaxHeightScrollView(final Context context, final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }

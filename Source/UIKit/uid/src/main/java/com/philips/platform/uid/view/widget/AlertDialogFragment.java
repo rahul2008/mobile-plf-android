@@ -19,6 +19,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,14 +109,23 @@ public class AlertDialogFragment extends DialogFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getDialog().getWindow().setWindowAnimations(R.style.UIDAlertAnimation);
-        setAlertWidth();
+        try {
+            getDialog().getWindow().setWindowAnimations(R.style.UIDAlertAnimation);
+            setAlertWidth();
+        } catch (NullPointerException e) {
+            Log.e(e.toString(),e.getMessage());
+        }
     }
 
     private void setAlertWidth() {
-        final ViewGroup.LayoutParams lp = getView().getLayoutParams();
-        lp.width = (int) getResources().getDimension(R.dimen.uid_alert_dialog_width);
-        getView().setLayoutParams(lp);
+        final ViewGroup.LayoutParams lp;
+        try {
+            lp = getView().getLayoutParams();
+            lp.width = (int) getResources().getDimension(R.dimen.uid_alert_dialog_width);
+            getView().setLayoutParams(lp);
+        } catch (NullPointerException e) {
+            Log.e(e.toString(),e.getMessage());
+        }
     }
 
     @Override

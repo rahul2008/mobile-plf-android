@@ -13,6 +13,7 @@ import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.view.animation.LinearInterpolator;
 
 public class AnimatedTranslateDrawable extends Drawable {
@@ -37,7 +38,7 @@ public class AnimatedTranslateDrawable extends Drawable {
     }
 
     @Override
-    public void draw(final Canvas canvas) {
+    public void draw(@NonNull final Canvas canvas) {
         int saveCount = canvas.save();
         canvas.translate(translateValue, 0);
         drawable.draw(canvas);
@@ -101,7 +102,7 @@ public class AnimatedTranslateDrawable extends Drawable {
      * {@inheritDoc}
      */
     @Override
-    public void setBounds(final Rect bounds) {
+    public void setBounds(@NonNull final Rect bounds) {
         super.setBounds(bounds);
     }
 

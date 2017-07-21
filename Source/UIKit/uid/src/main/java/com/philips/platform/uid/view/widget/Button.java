@@ -24,7 +24,6 @@ import android.view.Gravity;
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
-import com.philips.platform.uid.utils.UIDUtils;
 
 public class Button extends AppCompatButton {
 
@@ -38,7 +37,7 @@ public class Button extends AppCompatButton {
         this(context, null);
     }
 
-    public Button(@NonNull Context context, @NonNull AttributeSet attrs) {
+    public Button(@NonNull Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.uidButtonStyle);
     }
 
@@ -47,13 +46,13 @@ public class Button extends AppCompatButton {
         processAttributes(context, attrs, defStyleAttr);
     }
 
-    private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs, @NonNull int defStyleAttr) {
+    private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs,int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDButton, defStyleAttr, R.style.UIDDefaultButton);
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
 
         UIDLocaleHelper.setTextFromResourceID(context, this, attrs);
 
-        assignDrawableProperties(typedArray, theme, attrs);
+        assignDrawableProperties(typedArray, theme);
         applyBackgroundTinting(typedArray, theme);
         applyTextColorTinting(typedArray, theme);
         applyDrawable(typedArray);
@@ -61,10 +60,10 @@ public class Button extends AppCompatButton {
         typedArray.recycle();
     }
 
-    private void assignDrawableProperties(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme, @NonNull final AttributeSet attr) {
-        int detaultMinWidth = getResources().getDimensionPixelSize(R.dimen.uid_imagebutton_image_size);
-        drawableWidth = typedArray.getDimensionPixelSize(R.styleable.UIDButton_uidButtonImageDrawableWidth, detaultMinWidth);
-        drawableHeight = typedArray.getDimensionPixelSize(R.styleable.UIDButton_uidButtonImageDrawableHeight, detaultMinWidth);
+    private void assignDrawableProperties(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme) {
+        int defaultMinWidth = getResources().getDimensionPixelSize(R.dimen.uid_imagebutton_image_size);
+        drawableWidth = typedArray.getDimensionPixelSize(R.styleable.UIDButton_uidButtonImageDrawableWidth, defaultMinWidth);
+        drawableHeight = typedArray.getDimensionPixelSize(R.styleable.UIDButton_uidButtonImageDrawableHeight, defaultMinWidth);
         int resourceId = typedArray.getResourceId(R.styleable.UIDButton_uidButtonDrawableColorList, -1);
         if (resourceId != -1) {
             drawableColorlist = ThemeUtils.buildColorStateList(getResources(), theme, resourceId);
@@ -74,7 +73,7 @@ public class Button extends AppCompatButton {
     private void applyBackgroundTinting(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme) {
         int backGroundListID = typedArray.getResourceId(R.styleable.UIDButton_uidButtonBackgroundColorList, -1);
         if (backGroundListID != -1 && getBackground() != null) {
-            setSupportBackgroundTintList(ThemeUtils.buildColorStateList(getResources(), theme, backGroundListID));
+            setBackgroundTintList(ThemeUtils.buildColorStateList(getResources(), theme, backGroundListID));
         }
     }
 
@@ -112,10 +111,8 @@ public class Button extends AppCompatButton {
      * This method can be used to set the drawable on left inside button
      *
      * @param drawable drawable to be set as a icon on button
-     * @version 1.0.0
-     * @since 1.0.0
      */
-    public void setImageDrawable(@NonNull Drawable drawable) {
+    public void setImageDrawable(Drawable drawable) {
         Drawable wrappedDrawable = drawable;
         if (drawableColorlist != null && drawable != null) {
             drawable.setBounds(0, 0, drawableWidth, drawableHeight);
