@@ -4,7 +4,6 @@
  */
 package com.philips.cdp.di.iap.screens;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
@@ -231,8 +230,8 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             Bundle bundle = new Bundle();
             if (mOrderDetail != null) {
                 bundle.putString(IAPConstant.PURCHASE_ID, mOrderDetail.getCode());
-                if (mOrderDetail.getConsignments() != null && mOrderDetail.getConsignments().size() > 0 && mOrderDetail.getConsignments().get(0).getTrackingID() != null) {
-                    bundle.putString(IAPConstant.TRACKING_ID, mOrderDetail.getConsignments().get(0).getTrackingID());
+                if (mOrderDetail.getConsignments() != null && mOrderDetail.getConsignments().size() > 0 && mOrderDetail.getConsignments().get(0).getEntries().get(0).getTrackAndTraceIDs().get(0) != null) {
+                    bundle.putString(IAPConstant.TRACKING_ID, mOrderDetail.getConsignments().get(0).getEntries().get(0).getTrackAndTraceIDs().get(0));
                 }
                 if (mOrderDetail.getDeliveryAddress() != null) {
                     bundle.putString(IAPConstant.DELIVERY_NAME, mOrderDetail.getDeliveryAddress().getFirstName() + " " + mOrderDetail.getDeliveryAddress().getLastName());
@@ -301,9 +300,9 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
         if (detail.getStatusDisplay() != null && detail.getStatusDisplay().equalsIgnoreCase(IAPConstant.ORDER_COMPLETED)) {
             if (detail.getConsignments() != null && detail.getConsignments().size() > 0) {
-                @SuppressLint("StringFormatMatches")
-                String text = String.format(getString(R.string.iap_order_completed_text),
-                        detail.getConsignments().get(0).getTrackingID());
+                String trackTraceId = detail.getConsignments().get(0).getEntries().get(0).getTrackAndTraceIDs().get(0);
+              //  @SuppressLint("StringFormatMatches")
+                String text = getResources().getString(R.string.iap_order_completed_text)+ trackTraceId;
                 mShippingStatus.setText(text);
             } else {
                 mShippingStatus.setText(getString(R.string.iap_order_completed_text_without_track_id));
