@@ -53,7 +53,7 @@ public class ConsentsFragment extends DevicePairingBaseFragment implements DBReq
 
     @Override
     public boolean getBackButtonState() {
-        return false;
+        return true;
     }
 
     @Nullable

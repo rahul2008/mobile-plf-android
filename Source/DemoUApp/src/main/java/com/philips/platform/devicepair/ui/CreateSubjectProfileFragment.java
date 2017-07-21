@@ -48,7 +48,7 @@ public class CreateSubjectProfileFragment extends DevicePairingBaseFragment impl
 
     @Override
     public boolean getBackButtonState() {
-        return false;
+        return true;
     }
 
     @Override
