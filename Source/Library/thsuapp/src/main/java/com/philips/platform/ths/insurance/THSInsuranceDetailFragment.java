@@ -76,7 +76,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_insurance_details, container, false);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_insurance_detail, container, false);
         mPresenter = new THSInsuranceDetailPresenter(this);
         mAlertDialog = new AlertDialog.Builder(getActivity());
 

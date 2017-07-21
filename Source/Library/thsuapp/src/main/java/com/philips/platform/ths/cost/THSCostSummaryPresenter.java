@@ -2,9 +2,11 @@ package com.philips.platform.ths.cost;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.manager.ValidationReason;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.THSSDKValidatedCallback;
+import com.philips.platform.ths.payment.THSCreditCardDetailFragment;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.Map;
@@ -23,6 +25,10 @@ public class THSCostSummaryPresenter implements THSBasePresenter, THSSDKValidate
 
     @Override
     public void onEvent(int componentID) {
+        if(componentID== R.id.ths_cost_summary_continue_button){
+            // calling payment detail
+            ((THSCostSummaryFragment) mTHSBaseFragment).addFragment( new THSCreditCardDetailFragment(),THSCreditCardDetailFragment.TAG,null);
+        }
 
     }
 
