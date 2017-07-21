@@ -62,25 +62,23 @@ public class FaqListFragment extends DigitalCareBaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        DigiCareLogger.i(TAG, "Launching FAQ Screen");
-        if (view == null) {
-            view = inflater.inflate(R.layout.consumercare_fragment_faq_list, container, false);
-        }
+        view = inflater.inflate(R.layout.consumercare_fragment_faq_list, container, false);
+        initView(view);
         return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
-        mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
                 (AnalyticsConstants.PAGE_FAQ, getPreviousName(), getPreviousName());
-        initView();
     }
 
-    private void initView() {
+    private void initView(View view) {
+        mSupportData = new LinkedHashMap();
+        mActionBarMenuIcon = (ImageView) view.findViewById(R.id.home_icon);
+        mActionBarArrow = (ImageView) view.findViewById(R.id.back_to_home_img);
         if (mFaqList != null) {
             return;
         }
@@ -88,7 +86,7 @@ public class FaqListFragment extends DigitalCareBaseFragment {
         final FaqListFragment fragment = this;
         mGroupAdapters = new LinkedHashMap<>();
 
-        mFaqList = (RecyclerView) getActivity().findViewById(R.id.faq_list_recycle_view);
+        mFaqList = (RecyclerView) view.findViewById(R.id.faq_list_recycle_view);
         mFaqList.setLayoutManager(new LinearLayoutManager(getContext()));
         mFaqListAdapter = new CommonRecyclerViewAdapter<String>(getQuestionGroups(), R.layout.consumercare_fragment_faq_group) {
             @Override
@@ -206,7 +204,6 @@ public class FaqListFragment extends DigitalCareBaseFragment {
     }
 
     public void setSupportModel(SupportModel supportModel) {
-        mSupportData = new LinkedHashMap();
         if (supportModel == null) {
             DigiCareLogger.d(TAG, "Support Model is null");
             return;

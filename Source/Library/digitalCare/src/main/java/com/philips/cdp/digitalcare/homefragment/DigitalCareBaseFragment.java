@@ -20,7 +20,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,7 +69,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     protected int mLeftRightMarginPort = 0;
     protected int mLeftRightMarginLand = 0;
     private NetworkReceiver mNetworkutility = null;
-    private FragmentManager fragmentManager = null;
     private Thread mUiThread = Looper.getMainLooper().getThread();
     private ImageView mBackToHome = null;
     private ImageView mHomeIcon = null;
@@ -311,20 +309,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
         });
     }
 
-    protected void showEULAAlert(final String message) {
-        mHandler.post(new Runnable() {
-
-            @Override
-            public void run() {
-                new NetworkAlertView().showEULAAlertBox(
-                        getActivity(),
-                        // null,
-                        message);
-
-            }
-        });
-    }
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -466,34 +450,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
         } catch (IllegalStateException e) {
             DigiCareLogger.e(TAG, e.getMessage());
         }
-    }
-
-    protected boolean backstackFragment() {
-        if (fragmentManager == null && mActivityContext != null) {
-            fragmentManager = mActivityContext.getSupportFragmentManager();
-        } else if (fragmentManager == null) {
-            fragmentManager = this.getActivity().getSupportFragmentManager();
-        }
-        // if (fragmentManager.getBackStackEntryCount() == 2) {
-        // fragmentManager.popBackStack();
-        // removeCurrentFragment();
-        // } else {
-        fragmentManager.popBackStack();
-        // removeCurrentFragment();
-        // }
-        return false;
-    }
-
-    protected boolean backstackToSupportFragment() {
-        if (fragmentManager == null && mActivityContext != null) {
-            fragmentManager = mActivityContext.getSupportFragmentManager();
-        } else if (fragmentManager == null) {
-            fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
-        }
-        for (int i = 0; i < 5; i++) {
-            fragmentManager.popBackStack();
-        }
-        return false;
     }
 
     protected void hideKeyboard() {

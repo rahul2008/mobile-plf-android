@@ -14,7 +14,6 @@ import com.philips.cdp.serviceapi.productinformation.assets.Assets;*/
 package com.philips.cdp.digitalcare.productdetails;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -27,7 +26,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -54,7 +52,6 @@ import com.philips.cdp.digitalcare.listeners.PrxSummaryListener;
 import com.philips.cdp.digitalcare.productdetails.model.ViewProductDetailsModel;
 import com.philips.cdp.digitalcare.prx.PrxWrapper;
 import com.philips.cdp.digitalcare.util.CommonRecyclerViewAdapter;
-import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.MenuItem;
 import com.philips.cdp.prxclient.datamodels.summary.SummaryModel;
 import com.philips.cdp.prxclient.datamodels.support.SupportModel;
@@ -65,18 +62,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         OnClickListener {
 
-    private static String TAG = ProductDetailsFragment.class.getSimpleName();
     private ImageView mProductImageTablet = null;
     private static int mSmallerResolution = 0;
     private static boolean isTablet = false;
     private static int mScrollPosition = 0;
-    private Activity mActivity = null;
     private RecyclerView mProdButtonsParent = null;
     private LinearLayout mProdVideoContainer = null;
     private ImageView mActionBarMenuIcon = null;
@@ -96,44 +90,38 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        DigiCareLogger.i(TAG, "Luanching View Product Details Screen");
         View view = inflater.inflate(R.layout.consumercare_fragment_view_product,
                 container, false);
-        if (getActivity() != null)
-            mActivity = getActivity();
-
-        try {
-            DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
-                    (AnalyticsConstants.PAGE_VIEW_PRODUCT_DETAILS,
-                            getPreviousName(), getPreviousName());
-        } catch (Exception e) {
-            Log.e(TAG, "IllegaleArgumentException : " + e);
-        }
+        initView(view);
+        DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
+                (AnalyticsConstants.PAGE_VIEW_PRODUCT_DETAILS,
+                        getPreviousName(), getPreviousName());
         getDisplayWidth();
         return view;
+    }
+
+    private void initView(View view) {
+        mProdButtonsParent = (RecyclerView) view.findViewById(
+                R.id.prodbuttonsParent);
+
+        mProdVideoContainer = (LinearLayout) view.findViewById(
+                R.id.videoContainerParent);
+
+        mActionBarMenuIcon = (ImageView) view.findViewById(R.id.home_icon);
+        mActionBarArrow = (ImageView) view.findViewById(R.id.back_to_home_img);
+
+        mProductImageTablet = (ImageView) view.findViewById(R.id.productImageTablet);
+        mProductImage = (ImageView) view.findViewById(R.id.productimage);
+
+        mProductTitle = (TextView) view.findViewById(R.id.name);
+        mProductVideoHeader = (TextView) view.findViewById(R.id.productVideoText);
+        mCtn = (TextView) view.findViewById(R.id.variant);
+        mVideoScrollView = (HorizontalScrollView) view.findViewById(R.id.videoScrollView);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        mProdButtonsParent = (RecyclerView) mActivity.findViewById(
-                R.id.prodbuttonsParent);
-
-        mProdVideoContainer = (LinearLayout) mActivity.findViewById(
-                R.id.videoContainerParent);
-
-        mActionBarMenuIcon = (ImageView) mActivity.findViewById(R.id.home_icon);
-        mActionBarArrow = (ImageView) mActivity.findViewById(R.id.back_to_home_img);
-
-        mProductImageTablet = (ImageView) mActivity.findViewById(R.id.productImageTablet);
-        mProductImage = (ImageView) mActivity.findViewById(R.id.productimage);
-
-        mProductTitle = (TextView) mActivity.findViewById(R.id.name);
-        mProductVideoHeader = (TextView) mActivity.findViewById(R.id.productVideoText);
-        mCtn = (TextView) mActivity.findViewById(R.id.variant);
-        mVideoScrollView = (HorizontalScrollView) mActivity.findViewById(R.id.videoScrollView);
-
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         Configuration config = getResources().getConfiguration();
         createProductDetailsMenu();
@@ -151,7 +139,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
     private void initView(List<String> mVideoLength) throws NullPointerException {
 
-        DigiCareLogger.d(TAG, "Video's Length : " + mVideoLength.size());
         if (mVideoLength != null && mVideoLength.size() > 0) {
             mProductVideoHeader.setVisibility(View.VISIBLE);
         } else {
@@ -159,7 +146,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         }
 
         for (int i = 0; i < mVideoLength.size(); i++) {
-            View child = mActivity.getLayoutInflater().inflate(R.layout.consumercare_viewproduct_video_view, null);
+            View child = getActivity().getLayoutInflater().inflate(R.layout.consumercare_viewproduct_video_view, null);
             ImageView videoThumbnail = (ImageView) child.findViewById(R.id.videoContainer);
             ImageView videoPlay = (ImageView) child.findViewById(R.id.videoPlay);
             ImageView videoLeftArrow = (ImageView) child.findViewById(R.id.videoLeftArrow);
@@ -168,8 +155,8 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
             RelativeLayout.LayoutParams param = (RelativeLayout.LayoutParams) videoThumbnail
                     .getLayoutParams();
 
-            if (mActivity != null) {
-                float density = mActivity.getResources().getDisplayMetrics().density;
+            if (getActivity() != null) {
+                float density = getActivity().getResources().getDisplayMetrics().density;
 
                 if (mVideoLength.size() > 1 && (mVideoLength.size() - 1) != i && isTablet) {
                     param.rightMargin = (int) (25 * density);
@@ -186,7 +173,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
     private int getDisplayWidth() {
         DisplayMetrics metrics = new DisplayMetrics();
-        mActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int widthPixels = metrics.widthPixels;
         int heightPixels = metrics.heightPixels;
         float density = metrics.density;
@@ -200,7 +187,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         isTablet = ((float) mSmallerResolution / density > 360);
 
         if (isTablet) {
-            return (int) mActivity.getResources().getDimension(R.dimen.view_prod_details_video_height);
+            return (int) getActivity().getResources().getDimension(R.dimen.view_prod_details_video_height);
         }
 
         return mSmallerResolution;
@@ -237,7 +224,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         try {
             width = getDisplayWidth();
         } catch (NullPointerException e) {
-            width = (int) mActivity.getResources().getDimension(R.dimen.view_prod_details_video_height);
+            width = (int) getActivity().getResources().getDimension(R.dimen.view_prod_details_video_height);
         }
 
         Bitmap imageBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -264,7 +251,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                                 contextData);
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setDataAndType(Uri.parse(video), "video/mp4");
-                mActivity.startActivity(intent);
+                getActivity().startActivity(intent);
             }
         });
 
@@ -372,15 +359,12 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     }
 
     protected void requestPRXAssetData() {
-        DigiCareLogger.i(TAG, "Requesting the PRX Asset Data");
-        mPrxWrapper = new PrxWrapper(mActivity, new PrxSummaryListener() {
+        mPrxWrapper = new PrxWrapper(getActivity(), new PrxSummaryListener() {
             @Override
             public void onResponseReceived(SummaryModel isAvailable) {
                 if (getContext() != null) {
-                    DigiCareLogger.i(TAG, "PRX AssetData Received");
                     onUpdateAssetData();
                 } else {
-                    DigiCareLogger.i(TAG, "PRX AssetData not available");
                 }
             }
         });
@@ -413,8 +397,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
                 R.string.product_download_manual))) {
             String mFilePath = mViewProductDetailsModel.getManualLink();
-            DigiCareLogger.d(TAG, "Manual name : " + mFilePath);
-
             // creating the name of the manual. So that Same manual should not be downloaded again and again.
             String pdfName = mFilePath.substring(mFilePath.lastIndexOf("/")+1);
             if ((mFilePath != null) && (mFilePath != "")) {
@@ -472,7 +454,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     @Override
     public String getActionbarTitle() {
         String title = getResources().getString(R.string.product_info);
-        DigiCareLogger.i(TAG, "Title : " + title);
         return title;
     }
 
@@ -538,8 +519,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         mDomain = viewProductDetailsModel.getDomain();
         if (mDomain != null)
             viewProductDetailsModel.setDomain(mDomain);
-        DigiCareLogger.i(TAG, "Manual Link : " + mManualPdf);
-        DigiCareLogger.i(TAG, "Philips Page Link : " + mProductPage);
         List<String> productVideos = viewProductDetailsModel.getVideoLinks();
         if (productVideos != null)
             initView(viewProductDetailsModel.getVideoLinks());
