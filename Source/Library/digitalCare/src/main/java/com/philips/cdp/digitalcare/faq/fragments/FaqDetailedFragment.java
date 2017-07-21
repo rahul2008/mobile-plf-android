@@ -14,7 +14,6 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -227,16 +226,6 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
     @Override
     public String setPreviousPageName() {
         return AnalyticsConstants.PAGE_FAQ_QUESTION_ANSWER;
-    }
-
-    private boolean isTablet() {
-        DisplayMetrics metrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        float yInches = metrics.heightPixels / metrics.ydpi;
-        float xInches = metrics.widthPixels / metrics.xdpi;
-        double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
-
-        return diagonalInches >= 6.5;
     }
 
     private void clearWebViewData() {

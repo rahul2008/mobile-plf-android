@@ -285,7 +285,7 @@ public class DigitalCareConfigManager {
 
         LoggingInterface loggingInterface = null;
         AppInfraInterface appInfraInstance = getAPPInfraInstance();
-        if (appInfraInstance != null) {
+        if (appInfraInstance != null && appInfraInstance.getLogging()!=null) {
             loggingInterface = appInfraInstance.getLogging().
                     createInstanceForComponent(AnalyticsConstants.COMPONENT_NAME_CC, com.philips.cdp.digitalcare.BuildConfig.VERSION_NAME);
         }

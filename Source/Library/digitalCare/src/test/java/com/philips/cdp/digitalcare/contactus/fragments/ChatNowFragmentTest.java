@@ -1,11 +1,9 @@
-package com.philips.cdp.digitalcare.fragments.rateandreview.fragments;
+package com.philips.cdp.digitalcare.contactus.fragments;
 
 import android.content.res.Configuration;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
-import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.CustomRobolectricRunnerCC;
 import com.philips.cdp.digitalcare.util.DigitalCareTestMock;
@@ -19,7 +17,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.configuration.MockitoConfiguration;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -33,9 +30,9 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @RunWith(CustomRobolectricRunnerCC.class)
 @PrepareForTest(DigitalCareConfigManager.class)
 @PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
-public class ProductReviewFragmentTest extends MockitoConfiguration{
+public class ChatNowFragmentTest {
 
-    private ProductReviewFragment fragment;
+    private ChatNowFragment fragment;
 
     private View rootView;
 
@@ -52,19 +49,19 @@ public class ProductReviewFragmentTest extends MockitoConfiguration{
 
     @Before
     public void setUp(){
+        Robolectric.buildActivity(DigitalCareTestMock.class).create().get();
         MockitoAnnotations.initMocks(this);
-        fragment = new ProductReviewFragment();
+        fragment = new ChatNowFragment();
         PowerMockito.mockStatic(DigitalCareConfigManager.class);
         when(DigitalCareConfigManager.getInstance()).thenReturn(mockDigitalCareConfigManager);
         when(DigitalCareConfigManager.getInstance().getTaggingInterface()).thenReturn(mockAppTaggingInterface);
         digitalCareBaseFragmentspy=spy(fragment);
         SupportFragmentTestUtil.startFragment(fragment,DigitalCareTestMock.class);
         rootView=fragment.getView();
-        Robolectric.buildActivity(DigitalCareTestMock.class).create().get();
     }
 
     @After
-    public void tearDown() throws Exception{
+    public void tearDown() throws Exception {
         fragment = null;
         digitalCareBaseFragmentspy = null;
         mockDigitalCareConfigManager = null;
@@ -75,30 +72,6 @@ public class ProductReviewFragmentTest extends MockitoConfiguration{
     @Test
     public void testInitView() throws Exception {
         Assert.assertNotNull(rootView);
-    }
-
-    @Test
-    public void testLoadProductpageNull() throws Exception {
-        when(mockDigitalCareConfigManager.getProductReviewUrl()).thenReturn("http://www.philips.com");
-        fragment.loadProductpage(null);
-        ProgressBar mProgressBar =(ProgressBar) rootView.findViewById(
-                R.id.common_webview_progress);
-        Assert.assertEquals(View.VISIBLE,mProgressBar.getVisibility());
-    }
-
-    @Test
-    public void testLoadProductpageNotNull() throws Exception {
-        when(mockDigitalCareConfigManager.getProductReviewUrl()).thenReturn("http://www.philips.com");
-        fragment.loadProductpage("Philips");
-        ProgressBar mProgressBar =(ProgressBar) rootView.findViewById(
-                R.id.common_webview_progress);
-        Assert.assertEquals(View.VISIBLE,mProgressBar.getVisibility());
-    }
-
-    @Test
-    public void testGetActionbarTitle(){
-        String title = fragment.getActionbarTitle();
-        Assert.assertNotNull(title);
     }
 
     @Test
@@ -117,5 +90,10 @@ public class ProductReviewFragmentTest extends MockitoConfiguration{
     public void testDestroyMethod(){
         fragment.onDestroy();
     }
-}
 
+    @Test
+    public void testOnStopMethod(){
+        fragment.onStop();
+    }
+
+}

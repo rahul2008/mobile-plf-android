@@ -94,7 +94,7 @@ public class RateThisAppFragmentTest extends MockitoConfiguration {
     }
 
     @Test
-    public void testViewNotNull() throws Exception {
+    public void testInitView() throws Exception {
         Assert.assertNotNull(rootView);
     }
 
