@@ -7,7 +7,8 @@
 
     <Button
         android:id="@+id/date"
-        android:background="@color/uid_aqua_level_30"
+        android:background="?attr/uidContentTertiaryBackgroundColor"
+        android:textColor="?attr/uidButtonPrimaryFocusBackgroundColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
