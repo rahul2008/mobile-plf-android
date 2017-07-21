@@ -16,8 +16,6 @@ import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.drawable.GradientDrawable;
 import android.util.DisplayMetrics;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.philips.cdp.digitalcare.R;
@@ -77,7 +75,7 @@ public class ProductImageSelectorView {
 	 * 
 	 * @return {@link LinearGradient}
 	 */
-	public LinearLayout getTabletProductImageMenuView() {
+	/*public LinearLayout getTabletProductImageMenuView() {
 
 		LinearLayout mPopupWindowContainer = new LinearLayout(mContext);
 		LinearLayout.LayoutParams mPopwindowContainer = new LinearLayout.LayoutParams(
@@ -114,7 +112,7 @@ public class ProductImageSelectorView {
 		return mPopupWindowContainer;
 
 	}
-
+*/
 	/**
 	 * Custom Image Picker Menu in Social Support Buttons. And this View is only
 	 * for the Phone Menu Button(Separate type view for Tablet Menu).

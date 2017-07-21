@@ -11,15 +11,12 @@ Copyright (c) 2016 Philips. All rights reserved.
 package com.philips.cdp.digitalcare.productdetails;
 
 import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.v4.content.FileProvider;
 
-import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
@@ -31,7 +28,6 @@ public class DownloadAndShowPDFHelper {
     private static final String PACKAGENAME_ADOBE_READER = "com.adobe.reader";
     private String TAG = DownloadAndShowPDFHelper.class.getSimpleName();
 //    private static final String URL_PDF_MANUAL_EN_NEW = "http://download.p4c.philips.com/files/h/hd8977_01/hd8977_01_dfu_eng.pdf";
-
     private Context mContext;
 
     private AlertDialog.Builder mAlertDialog;
@@ -82,7 +78,7 @@ public class DownloadAndShowPDFHelper {
         }
     }
 
-    private final BroadcastReceiver receiver = new BroadcastReceiver() {
+   /* private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -91,7 +87,7 @@ public class DownloadAndShowPDFHelper {
                 openManualPDFInAcrobatReader(context, mHelpManualFileName);
             }
         }
-    };
+    };*/
 
     public void openManualPDFInAcrobatReader(Context ctx, String manualFilename) {
         if (manualFilename == null)
