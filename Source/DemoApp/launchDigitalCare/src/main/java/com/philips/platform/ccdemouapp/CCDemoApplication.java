@@ -17,8 +17,6 @@ public class CCDemoApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         gAppInfra = new AppInfra.Builder().build(getApplicationContext());
-
     }
 }

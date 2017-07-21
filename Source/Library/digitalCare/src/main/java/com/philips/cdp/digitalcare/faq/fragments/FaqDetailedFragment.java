@@ -95,7 +95,7 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
         if (savedInstanceState != null) {
             FAQ_PAGE_URL = savedInstanceState.getString("url");
         }
-        loadFaq();
+        loadFaq(FAQ_PAGE_URL);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         initView();
-        loadFaq();
+        loadFaq(FAQ_PAGE_URL);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
         super.onResume();
         enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
         initView();
-        loadFaq();
+        loadFaq(FAQ_PAGE_URL);
     }
 
 
@@ -125,8 +125,8 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
         super.onPause();
     }
 
-    private void loadFaq() {
-        if (FAQ_PAGE_URL == null) {
+    protected void loadFaq(String pageUrl) {
+        if (pageUrl == null) {
             mProgressBar.setVisibility(View.GONE);
             mWebView.setVisibility(View.VISIBLE);
         } else {
@@ -156,7 +156,6 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
             });
             mWebView.setWebViewClient(new WebViewClient() {
 
-
                 @Override
                 public void onPageStarted(WebView view, String url, Bitmap favicon) {
                     super.onPageStarted(view, url, favicon);
@@ -177,7 +176,7 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
                     DigiCareLogger.d(TAG, "OnPage Finished invoked with URL " + url);
                     mProgressBar.setVisibility(View.GONE);
                     enableWebView();
-                    setPaddingForWebdata();
+                    setPaddingForWebdata(mWebView);
                     mWebView.loadUrl("javascript:(function(){" + "document.getElementsByClassName('group faqfeedback_group')[0].remove();})()");
                     mWebView.loadUrl("javascript:window.CallToAnAndroidFunction.setVisible()");
                 }
@@ -193,13 +192,13 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
             if (mWebView.getVisibility() == View.INVISIBLE) mWebView.setVisibility(View.VISIBLE);
     }
 
-    private void setPaddingForWebdata() {
-        if (mWebView == null) initView();
-        mWebView.loadUrl("javascript:document.body.style.setProperty(\"font-size\", \"100%\");");
-        mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-top\", \"2%\");");
-        mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-bottom\", \"2%\");");
-        mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-left\", \"10%\");");
-        mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-right\", \"10%\");");
+    protected void setPaddingForWebdata(WebView webView) {
+        if (webView == null) initView();
+        webView.loadUrl("javascript:document.body.style.setProperty(\"font-size\", \"100%\");");
+        webView.loadUrl("javascript:document.body.style.setProperty(\"margin-top\", \"2%\");");
+        webView.loadUrl("javascript:document.body.style.setProperty(\"margin-bottom\", \"2%\");");
+        webView.loadUrl("javascript:document.body.style.setProperty(\"margin-left\", \"10%\");");
+        webView.loadUrl("javascript:document.body.style.setProperty(\"margin-right\", \"10%\");");
     }
 
     private void initView() {
@@ -228,7 +227,7 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
         return AnalyticsConstants.PAGE_FAQ_QUESTION_ANSWER;
     }
 
-    private void clearWebViewData() {
+    protected void clearWebViewData() {
         mWebView.stopLoading();
         mWebView.clearCache(true);
         mWebView.clearHistory();

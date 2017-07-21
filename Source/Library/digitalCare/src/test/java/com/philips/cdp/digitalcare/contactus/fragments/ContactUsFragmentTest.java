@@ -21,7 +21,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.configuration.MockitoConfiguration;
 import org.powermock.api.mockito.PowerMockito;
@@ -80,10 +79,6 @@ public class ContactUsFragmentTest extends MockitoConfiguration {
 
     private ContactUsFragment fragmentSpy;
 
-    private static final String USER_SELECTED_PRODUCT_CTN_CALL = "contact_call";
-
-    private static final String USER_SELECTED_PRODUCT_CTN_HOURS = "contact_hours";
-
     private ConsumerProductInfo consumerProductInfo;
 
     @Before
@@ -106,10 +101,9 @@ public class ContactUsFragmentTest extends MockitoConfiguration {
         consumerProductInfo.setProductReviewUrl("http://www.philips.com");
         consumerProductInfo.setSubCategory("Philips");
         consumerProductInfo.setSector("Philips");
+        DigitalCareConfigManager.getInstance().setConsumerProductInfo(consumerProductInfo);
         when(mockDigitalCareConfigManager.getConsumerProductInfo()).thenReturn(consumerProductInfo);
-        Mockito.doNothing().when(fragmentSpy).initServiceDiscovery();
         rootView=fragment.getView();
-        Mockito.doNothing().when(fragmentSpy).initServiceDiscovery();
     }
 
     @After
@@ -125,7 +119,6 @@ public class ContactUsFragmentTest extends MockitoConfiguration {
     @Test
     public void testInitView() throws Exception {
         when(mockDigitalCareConfigManager.getConsumerProductInfo()).thenReturn(consumerProductInfo);
-        Mockito.doNothing().when(fragmentSpy).initServiceDiscovery();
         Assert.assertNotNull(rootView);
     }
 
@@ -176,12 +169,12 @@ public class ContactUsFragmentTest extends MockitoConfiguration {
         digitalCareBaseFragmentspy.getView().findViewById(R.id.contactUsSocialProvideButtonsParent).performClick();
     }*/
 
-   @Test
+  /* @Test
     public void testPhoneCallFunctionality(){
         digitalCareBaseFragmentspy=spy(fragment);
         digitalCareBaseFragmentspy.isInternetAvailable=true;
         digitalCareBaseFragmentspy.getView().findViewById(R.id.contactUsSocialProvideButtonsParent).performClick();
-    }
+    }*/
 
     @Test
     public void testGetActionbarTitle(){
