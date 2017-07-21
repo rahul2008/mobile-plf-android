@@ -11,29 +11,18 @@
     <com.philips.platform.uid.view.widget.Label
         android:layout_below="@+id/line_separator"
         android:id="@+id/select_time"
-        android:background="@color/uid_gray_level_5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/ths_select_time"
-        style="@style/UIDLabel.RecyclerViewHeaderText"
-        android:padding="@dimen/uid_grid_title_padding"
-        android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
-        android:textSize="16sp"
+        style="@style/ths_list_header"
+        android:padding="@dimen/pth_fab_margin"
         />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/calendar_container"
-        style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/uid_recyclerview_item_one_line_height"
-        android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
-        android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
-        android:drawablePadding="@dimen/uid_recyclerview_drawable_padding"
-        android:drawableLeft="@drawable/ic_calender"
-        android:text = "date"
-        android:textColor="@color/uid_link_selector"
+        style="@style/ths_calendar"
         android:layout_below="@id/select_time"
-        android:gravity="start|center_vertical"/>
+        />
 
     <View android:background="@color/uid_gray_level_5"
         android:id="@+id/line_separator_2"
