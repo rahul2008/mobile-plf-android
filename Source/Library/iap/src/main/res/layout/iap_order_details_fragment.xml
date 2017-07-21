@@ -123,6 +123,7 @@
 
         </RelativeLayout>
 
+<!--
         <LinearLayout
             android:id="@+id/track_order_layout"
             android:layout_width="match_parent"
@@ -158,6 +159,7 @@
                 android:background="?attr/uikit_listDividerColor" />
 
         </LinearLayout>
+-->
 
 
         <LinearLayout

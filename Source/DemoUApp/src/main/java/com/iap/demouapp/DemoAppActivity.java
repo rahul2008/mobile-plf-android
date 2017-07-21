@@ -292,7 +292,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         updateCartIcon();
         mPurchaseHistory.setVisibility(View.VISIBLE);
         mPurchaseHistory.setEnabled(true);
-        mBuyDirect.setVisibility(View.VISIBLE);
         mShoppingCart.setVisibility(View.VISIBLE);
     }
 
