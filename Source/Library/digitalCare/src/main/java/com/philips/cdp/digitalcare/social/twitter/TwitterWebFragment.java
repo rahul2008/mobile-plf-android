@@ -2,7 +2,6 @@ package com.philips.cdp.digitalcare.social.twitter;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +17,9 @@ import com.philips.cdp.digitalcare.util.Utils;
 
 public class TwitterWebFragment extends DigitalCareBaseFragment {
 
-    private final String TAG = TwitterWebFragment.class.getSimpleName();
-    private View mTwitterScreenView = null;
     private WebView mTwitterWebView = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
-    // private ProgressDialog mProgressDialog = null;
     private ProgressBar mProgressBar = null;
     private String TWITTTERURL = "https://twitter.com/intent/tweet?source=webclient&text=";
 
@@ -31,24 +27,16 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        try {
-            mTwitterScreenView = inflater.inflate(R.layout.consumercare_common_webview, container, false);
-        } catch (InflateException e) {
-        }
-        return mTwitterScreenView;
+        View view  = inflater.inflate(R.layout.consumercare_common_webview, container, false);
+        initView(view);
+        return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
-        mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
-        initView();
         loadInAppTwitter();
-        /*AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_TWITTER,
-                getPreviousName());*/
         DigitalCareConfigManager.getInstance().getTaggingInterface().trackPageWithInfo
                 (AnalyticsConstants.PAGE_CONTACTUS_TWITTER,
                         getPreviousName(), getPreviousName());
@@ -58,10 +46,12 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
         Utils.loadWebPageContent(getTwitterUrl(), mTwitterWebView, mProgressBar);
     }
 
-    private void initView() {
-        mTwitterWebView = (WebView) mTwitterScreenView.findViewById(R.id.webView);
-        mProgressBar = (ProgressBar) mTwitterScreenView
+    private void initView(View view) {
+        mTwitterWebView = (WebView) view.findViewById(R.id.webView);
+        mProgressBar = (ProgressBar) view
                 .findViewById(R.id.common_webview_progress);
+        mActionBarMenuIcon = (ImageView) view.findViewById(R.id.home_icon);
+        mActionBarArrow = (ImageView) view.findViewById(R.id.back_to_home_img);
         mProgressBar.setVisibility(View.GONE);
     }
 
@@ -71,7 +61,6 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
     }
 
     protected String getProductInformation() {
-
         String productname = DigitalCareConfigManager.getInstance()
                 .getViewProductDetailsData().getProductName();
         productname = (productname == null) ? "" : productname;
@@ -122,7 +111,7 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
     public void onResume() {
         super.onResume();
         enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
-        initView();
+        initView(getView());
         loadInAppTwitter();
     }
 
@@ -130,15 +119,15 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
     @Override
     public void onPause() {
         mTwitterWebView.loadUrl("about:blank");
-        clearWebViewData();
+        clearWebViewData(mTwitterWebView);
         super.onPause();
     }
 
-    private void clearWebViewData() {
-        mTwitterWebView.stopLoading();
-        mTwitterWebView.clearCache(true);
-        mTwitterWebView.clearHistory();
-        mTwitterWebView.clearFormData();
+    protected void clearWebViewData(WebView webView) {
+        webView.stopLoading();
+        webView.clearCache(true);
+        webView.clearHistory();
+        webView.clearFormData();
     }
 
 }
