@@ -45,12 +45,17 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="16dp"
-        android:text="@string/ths_no_available_appointments"
-        android:textColor="?attr/uidLabelRegularNormalTextColor"
-        style="@style/UIDLabelDescription"
+        android:text="@string/ths_with"
+        android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+        style="@style/amwellCentralesansBoldFont"
         android:textSize="16dp"
+        android:layout_alignParentStart = "true"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
+        android:paddingTop="@dimen/ths_body_text_padding"
+        android:paddingBottom="@dimen/ths_body_text_padding"
         android:layout_below="@id/below_calendar_view"
         />
 
@@ -62,8 +67,11 @@
         android:textSize="@dimen/uid_grid_descrption_size"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:textColor="?attr/uidLabelValueNormalTextColor"
+        android:paddingBottom="@dimen/ths_body_text_padding"
+        android:paddingTop="@dimen/ths_body_text_padding"
+        android:textColor="?attr/uidContentItemDefaultNormalSubtleBodyTextColor"
         android:layout_marginBottom="10dp"
+        style="@style/amwellCentralesansBookFont"
         android:text="@string/ths_select_other_provider"/>
 
     <View android:background="@color/uid_gray_level_5"
@@ -75,14 +83,11 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/below_providers"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="?attr/uidLabelValueNormalTextColor"
         android:text="Or pick on these doctors to schedule an appointment"
         android:layout_below="@id/below_select_other"
-        android:background="@color/uid_gray_level_5"
+        style="@style/ths_list_header"
         />
 
     <android.support.v7.widget.RecyclerView
