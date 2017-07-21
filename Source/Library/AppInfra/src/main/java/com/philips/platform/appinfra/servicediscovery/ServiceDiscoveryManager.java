@@ -321,9 +321,14 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     saveToSecureStore(country, countryCodeSource.toString());
                 }
             }
-            if (country != null) {
+            String countryMapped = getMappedCountry(country);
+
+            if (countryMapped != null) {
+                url += "&country=" + countryMapped;
+            } else if (country != null) {
                 url += "&country=" + country;
             }
+
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "URL " + url);
         } else {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"Build URL in SD"
@@ -841,6 +846,36 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
                     AppInfraLogEventID.AI_SERVICE_DISCOVERY, "unregister Home country update "+ "context is null");
         }
+    }
+
+    private String getMappedCountry(String country) {
+        Map<String, String> countryMapping = getServiceDiscoveryCountryMapping();
+        if (countryMapping != null && countryMapping.size() > 0 && country != null) {
+            return countryMapping.get(country);
+        }
+        return null;
+    }
+
+
+    // get countrymap from appconfig
+    @SuppressWarnings({"unchecked"})
+    private Map<String, String> getServiceDiscoveryCountryMapping() {
+        final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
+                .AppConfigurationError();
+        if (mAppInfra.getConfigInterface() != null) {
+            try {
+                final Object countryMapping = mAppInfra.getConfigInterface().getPropertyForKey
+                        ("servicediscovery.countryMapping", "appinfra", configError);
+                if (countryMapping != null && countryMapping instanceof Map) {
+                    return (Map<String, String>) countryMapping;
+                }
+            } catch (IllegalArgumentException exception) {
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+                        "ServiceDiscovery-getServiceDiscoveryCountryMapping",
+                        exception.toString());
+            }
+        }
+        return null;
     }
 
     /**
