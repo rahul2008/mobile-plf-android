@@ -8,6 +8,9 @@
 
 package com.philips.cdp.registration.settings;
 
+/**
+ * Registration Functions is Registion function should be top or bottom
+ */
 public enum RegistrationFunction {
     Registration,
     SignIn

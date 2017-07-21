@@ -1,7 +1,8 @@
 package com.philips.cdp.registration.configuration;
 
-import com.philips.cdp.registration.ui.utils.RLog;
-
+/**
+ * Registrtaion Launch mode for UI lanch mode as default or account settings or Marketiitng Option .
+ */
 public enum RegistrationLaunchMode {
 
     DEFAULT("Default"),

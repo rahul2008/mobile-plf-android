@@ -15,6 +15,11 @@ public class URLaunchInput extends UappLaunchInput {
 
     private RegistrationContentConfiguration registrationContentConfiguration;
 
+    /**
+     * Get status of is current fragment need to add to backstack or no.
+     *
+     * @return true if need to add to fragment back stack
+     */
     public boolean isAddtoBackStack() {
         return isAddToBackStack;
     }
@@ -22,6 +27,11 @@ public class URLaunchInput extends UappLaunchInput {
     @Deprecated
     private boolean isAccountSettings;
 
+    /**
+     * Enable  add to back stack for current fragment.
+     *
+     * @param isAddToBackStack
+     */
     public void enableAddtoBackStack(boolean isAddToBackStack) {
         this.isAddToBackStack = isAddToBackStack;
     }
@@ -32,6 +42,10 @@ public class URLaunchInput extends UappLaunchInput {
 
     private UserRegistrationUIEventListener userRegistrationListener;
 
+    /**
+     * Get Registration function.
+     * @return Registration function  RegistrationFunction
+     */
     public RegistrationFunction getRegistrationFunction() {
         return registrationFunction;
     }
@@ -40,6 +54,7 @@ public class URLaunchInput extends UappLaunchInput {
      * RegistrationFunction is used to prioritize  between Create account and Sign in.
      * RegistrationFunction.Registration - Will display the Create account option on top
      * RegistrationFunction.SignIn - Will display the Sign in option on top.
+     *
      * @param registrationFunction
      */
     public void setRegistrationFunction(RegistrationFunction registrationFunction) {
@@ -75,11 +90,11 @@ public class URLaunchInput extends UappLaunchInput {
      *
      * @param registrationContentConfiguration
      */
-    public void setRegistrationContentConfiguration(RegistrationContentConfiguration registrationContentConfiguration){
+    public void setRegistrationContentConfiguration(RegistrationContentConfiguration registrationContentConfiguration) {
         this.registrationContentConfiguration = registrationContentConfiguration;
     }
 
-    public RegistrationContentConfiguration getRegistrationContentConfiguration(){
+    public RegistrationContentConfiguration getRegistrationContentConfiguration() {
         return this.registrationContentConfiguration;
     }
 
@@ -88,15 +103,17 @@ public class URLaunchInput extends UappLaunchInput {
     /**
      * Used to override the UI flow. Setting this will disable any server side A/B testing.
      * Advised not to use for normal use-cases.
+     *
      * @param uiFlow - Any one of the UIFlow enum values.
      */
-    public void setUIFlow(UIFlow uiFlow){
+    public void setUIFlow(UIFlow uiFlow) {
         this.uiFlow = uiFlow;
     }
 
-    public UIFlow getUIflow(){
-        return  uiFlow;
+    public UIFlow getUIflow() {
+        return uiFlow;
     }
+
     @Deprecated
     public void setAccountSettings(boolean isAccountSettings) {
         this.isAccountSettings = isAccountSettings;
