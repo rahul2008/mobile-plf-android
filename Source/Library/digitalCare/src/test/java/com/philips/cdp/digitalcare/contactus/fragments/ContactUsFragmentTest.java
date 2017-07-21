@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.view.View;
 
+import com.philips.cdp.digitalcare.ConsumerProductInfo;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
@@ -20,6 +21,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.configuration.MockitoConfiguration;
 import org.powermock.api.mockito.PowerMockito;
@@ -29,6 +31,8 @@ import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.robolectric.Robolectric;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
+
+import java.util.HashMap;
 
 import static org.powermock.api.mockito.PowerMockito.spy;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -69,6 +73,9 @@ public class ContactUsFragmentTest extends MockitoConfiguration {
     @Mock
     Utils mockUtils;
 
+    @Mock
+    HashMap map;
+
     private DigitalCareBaseFragment digitalCareBaseFragmentspy;
 
     private ContactUsFragment fragmentSpy;
@@ -76,6 +83,8 @@ public class ContactUsFragmentTest extends MockitoConfiguration {
     private static final String USER_SELECTED_PRODUCT_CTN_CALL = "contact_call";
 
     private static final String USER_SELECTED_PRODUCT_CTN_HOURS = "contact_hours";
+
+    private ConsumerProductInfo consumerProductInfo;
 
     @Before
     public void setUp(){
@@ -89,7 +98,18 @@ public class ContactUsFragmentTest extends MockitoConfiguration {
         digitalCareBaseFragmentspy=spy(fragment);
         fragmentSpy = spy(fragment);
         SupportFragmentTestUtil.startFragment(fragment,DigitalCareTestMock.class);
+
+        consumerProductInfo = new ConsumerProductInfo();
+        consumerProductInfo.setCtn("AqvaShaver");
+        consumerProductInfo.setCatalog("Shaver_2234");
+        consumerProductInfo.setGroup("http://www.philips.com");
+        consumerProductInfo.setProductReviewUrl("http://www.philips.com");
+        consumerProductInfo.setSubCategory("Philips");
+        consumerProductInfo.setSector("Philips");
+        when(mockDigitalCareConfigManager.getConsumerProductInfo()).thenReturn(consumerProductInfo);
+        Mockito.doNothing().when(fragmentSpy).initServiceDiscovery();
         rootView=fragment.getView();
+        Mockito.doNothing().when(fragmentSpy).initServiceDiscovery();
     }
 
     @After
@@ -103,7 +123,9 @@ public class ContactUsFragmentTest extends MockitoConfiguration {
     }
 
     @Test
-    public void testViewNotNull() throws Exception {
+    public void testInitView() throws Exception {
+        when(mockDigitalCareConfigManager.getConsumerProductInfo()).thenReturn(consumerProductInfo);
+        Mockito.doNothing().when(fragmentSpy).initServiceDiscovery();
         Assert.assertNotNull(rootView);
     }
 

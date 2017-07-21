@@ -116,7 +116,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        contactUsFragmentPresenter.initialiseSD(getAppName());
+        initServiceDiscovery();
         if (isInternetAvailable && contactUsFragmentPresenter.isCdlsUrlNull()) {
             contactUsFragmentPresenter.requestCdlsData();
         } else {
@@ -138,6 +138,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Contac
     createContactUsSocialProvideMenu();
     setViewParams(config);
 }
+
+    public void initServiceDiscovery() {
+        contactUsFragmentPresenter.initialiseSD(getAppName());
+    }
 
     private void setContactNumberVisible(String contactNumber) {
         mCallPhilipsBtn.setVisibility(View.VISIBLE);

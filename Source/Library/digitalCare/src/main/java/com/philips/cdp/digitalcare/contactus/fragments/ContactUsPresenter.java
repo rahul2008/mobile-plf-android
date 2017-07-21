@@ -126,18 +126,18 @@ public class ContactUsPresenter implements ResponseCallback ,Observer {
         requestCdlsData();
     }
 
-    protected void initialiseSD(String appName) {
+    public void initialiseSD(String appName) {
 
         ArrayList<String> var1 = new ArrayList<>();
         var1.add(DigitalCareConstants.SERVICE_ID_CC_CDLS);
         var1.add(DigitalCareConstants.SERVICE_ID_CC_EMAILFROMURL);
 
-        final HashMap<String,String> hm=new HashMap<String,String>();
+        HashMap<String,String> productInfoMap = new HashMap<String,String>();
 
-        hm.put(DigitalCareConstants.KEY_PRODUCT_SECTOR, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSector());
-        hm.put(DigitalCareConstants.KEY_PRODUCT_CATALOG, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCatalog());
-        hm.put(DigitalCareConstants.KEY_PRODUCT_CATEGORY, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCategory());
-        hm.put(DigitalCareConstants.KEY_APPNAME, appName);
+        productInfoMap.put(DigitalCareConstants.KEY_PRODUCT_SECTOR, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getSector());
+        productInfoMap.put(DigitalCareConstants.KEY_PRODUCT_CATALOG, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCatalog());
+        productInfoMap.put(DigitalCareConstants.KEY_PRODUCT_CATEGORY, DigitalCareConfigManager.getInstance().getConsumerProductInfo().getCategory());
+        productInfoMap.put(DigitalCareConstants.KEY_APPNAME, appName);
 
 
         DigitalCareConfigManager.getInstance().getAPPInfraInstance().getServiceDiscovery().getServicesWithCountryPreference(var1, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
@@ -162,7 +162,7 @@ public class ContactUsPresenter implements ResponseCallback ,Observer {
             public void onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalues, String s) {
                 DigitalCareConfigManager.getInstance().getTaggingInterface().trackActionWithInfo(AnalyticsConstants.ACTION_SET_ERROR, AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR, s);
             }
-        }, hm);
+        }, productInfoMap);
 
     }
 
