@@ -6,13 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSConfirmAppointmentFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.THSConstants;
-import com.philips.platform.uid.view.widget.Button;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

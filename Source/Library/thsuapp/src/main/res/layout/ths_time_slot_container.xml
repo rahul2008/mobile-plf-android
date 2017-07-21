@@ -15,9 +15,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/ths_select_time"
-        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+        style="@style/UIDLabel.RecyclerViewHeaderText"
         android:padding="@dimen/uid_grid_title_padding"
-        android:textColor="?attr/uidLabelValueNormalTextColor"
+        android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
+        android:textSize="16sp"
         />
 
     <com.philips.platform.uid.view.widget.Label
@@ -29,8 +30,8 @@
         android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
         android:drawablePadding="@dimen/uid_recyclerview_drawable_padding"
         android:drawableLeft="@drawable/ic_calender"
-        android:text = "some"
-        android:textColor="@color/uid_signal_cyan_level_45"
+        android:text = "date"
+        android:textColor="@color/uid_link_selector"
         android:layout_below="@id/select_time"
         android:gravity="start|center_vertical"/>
 
@@ -39,6 +40,7 @@
         android:layout_width = "match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/calendar_container"
+        android:layout_marginBottom="20dp"
         />
 
     <com.philips.platform.ths.providerdetails.THSExpandableHeightGridView
@@ -47,11 +49,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:columnWidth="90dp"
-        android:numColumns="auto_fit"
-        android:verticalSpacing="10dp"
-        android:horizontalSpacing="5dp"
+        android:numColumns="3"
+        android:verticalSpacing="8dp"
+        android:horizontalSpacing="8dp"
         android:stretchMode="columnWidth"
         android:gravity="center"
         android:layout_marginBottom="20dp"
+        android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
+        android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
         />
 </RelativeLayout>

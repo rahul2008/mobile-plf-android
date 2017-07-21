@@ -10,19 +10,24 @@
         android:id="@+id/schedule_appointment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="16dp"
         android:text="@string/ths_scedule_appointment"
-        android:textColor="?attr/uidLabelRegularNormalTextColor"
-        style="@style/UIDLabelDescription"
-        android:textSize="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+        style="@style/UIDLabel.GridViewHeaderText"
+        android:textSize="16sp"
+        android:padding="16dp"
+        />
+
+
+    <View android:background="@color/uid_gray_level_5"
+        android:layout_below="@+id/schedule_appointment"
+        android:layout_width = "match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/below_header_label"
         />
 
     <RelativeLayout
         android:id="@+id/details_container"
-        android:layout_below="@id/schedule_appointment"
+        android:layout_below="@id/below_header_label"
         android:layout_width="wrap_content"
         android:visibility="gone"
         android:layout_height="wrap_content">
@@ -49,8 +54,8 @@
         android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
         android:drawablePadding="@dimen/uid_recyclerview_drawable_padding"
         android:drawableLeft="@drawable/ic_calender"
-        android:text = "some"
-        android:textColor="@color/uid_signal_cyan_level_45"
+        android:text = "date"
+        android:textColor="@color/uid_link_selector"
         android:layout_below="@id/details_container"
         android:gravity="start|center_vertical"/>
 
@@ -106,19 +111,17 @@
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/number_of_available_doctors"
         android:layout_below="@id/no_available_container"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:text="@string/ths_scedule_appointment"
-        style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
-        android:textSize="16dp"
-        android:paddingLeft="16dip"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        style="@style/UIDLabel.RecyclerViewHeaderText"
         android:layout_width="match_parent"
+        android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
         android:layout_height="wrap_content"
-        android:textColor="?attr/uidLabelValueNormalTextColor"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
         android:background="@color/uid_gray_level_5"
-        />
+        android:gravity="center_vertical"
+        android:textSize="16sp"
+        android:text="@string/ths_scedule_appointment"/>
+
 
     <View android:background="@color/uid_gray_level_5"
         android:layout_below="@+id/number_of_available_doctors"
