@@ -1,7 +1,6 @@
 package com.philips.platform.ths.appointment;
 
 import android.app.DatePickerDialog;
-import android.os.Build;
 import android.os.Bundle;
 import android.widget.DatePicker;
 
@@ -55,7 +54,7 @@ public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePres
     public void onResponse(THSAvailableProviderList availableProviders, THSSDKError sdkError) {
         mThsBaseFragment.showToast("Available Providers list Success");
         if(mThsBaseFragment instanceof THSProviderNotAvailableFragment){
-            ((THSProviderNotAvailableFragment)mThsBaseFragment).updateProviderDetails(mThsBaseFragment.getView(),availableProviders);
+            ((THSProviderNotAvailableFragment)mThsBaseFragment).updateProviderDetails(availableProviders);
         }
         ((THSAvailableProviderListBasedOnDateFragment)mThsBaseFragment).updateProviderAdapterList(availableProviders);
     }

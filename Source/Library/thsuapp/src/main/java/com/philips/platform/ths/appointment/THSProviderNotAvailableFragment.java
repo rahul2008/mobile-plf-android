@@ -20,7 +20,9 @@ import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.NotificationBadge;
 import com.philips.platform.uid.view.widget.RatingBar;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class THSProviderNotAvailableFragment extends THSAvailableProviderListBasedOnDateFragment implements View.OnClickListener{
     public static final String TAG = THSProviderNotAvailableFragment.class.getSimpleName();
@@ -57,13 +59,16 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
         this.mProvider = mProvider;
     }
 
-    public void updateProviderDetails(View view, THSAvailableProviderList availableProviders) {
+    public void updateProviderDetails(THSAvailableProviderList availableProviders) {
+        View view = getView();
         if(view == null)
             return;
         Label label = (Label) view.findViewById(R.id.schedule_appointment);
         label.setVisibility(View.GONE);
         RelativeLayout detailsContainer = (RelativeLayout) view.findViewById(R.id.details_container);
         detailsContainer.setVisibility(View.VISIBLE);
+
+        mChangeAppointDateView.setText(new SimpleDateFormat(THSConstants.DATE_FORMATTER, Locale.getDefault()).format(mDate));
 
         View viewEndLayer = view.findViewById(R.id.end_layer);
         viewEndLayer.setVisibility(View.GONE);
