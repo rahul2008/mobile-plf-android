@@ -238,7 +238,7 @@ public class THSManager {
 
     //TODO: What happens when getConsumer is null
     public void getVitals(Context context, final THSVitalSDKCallback thsVitalCallBack) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getVitals(getPTHConsumer().getConsumer(),null, new SDKCallback<Vitals, SDKError>() {
+        getAwsdk(context).getConsumerManager().getVitals(getPTHConsumer().getConsumer(),getPthVisitContext().getVisitContext(), new SDKCallback<Vitals, SDKError>() {
             @Override
             public void onResponse(Vitals vitals, SDKError sdkError) {
                 THSVitals thsVitals = new THSVitals();

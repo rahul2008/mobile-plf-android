@@ -41,8 +41,8 @@
         <item name="android:layout_alignParentStart">true</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:paddingLeft">@dimen/pth_fab_margin</item>
-        <item name="android:paddingRight">@dimen/pth_fab_margin</item>
+        <item name="android:layout_marginLeft">@dimen/pth_fab_margin</item>
+        <item name="android:layout_marginRight">@dimen/pth_fab_margin</item>
         <item name="android:textSize">@dimen/pth_body_text</item>
         <item name="android:textColor">?attr/uidContentItemDefaultNormalTitleTextColor</item>
     </style>
@@ -54,8 +54,8 @@
         <item name="android:layout_alignParentStart">true</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:paddingLeft">@dimen/pth_fab_margin</item>
-        <item name="android:paddingRight">@dimen/pth_fab_margin</item>
+        <item name="android:layout_marginLeft">@dimen/pth_fab_margin</item>
+        <item name="android:layout_marginRight">@dimen/pth_fab_margin</item>
         <item name="android:textSize">@dimen/pth_body_text</item>
         <item name="android:paddingBottom">@dimen/ths_title_padding</item>
         <item name="android:paddingTop">@dimen/ths_title_padding</item>
@@ -69,8 +69,8 @@
         <item name="android:layout_alignParentStart">true</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:paddingLeft">@dimen/pth_fab_margin</item>
-        <item name="android:paddingRight">@dimen/pth_fab_margin</item>
+        <item name="android:layout_marginLeft">@dimen/pth_fab_margin</item>
+        <item name="android:layout_marginRight">@dimen/pth_fab_margin</item>
         <item name="android:textSize">@dimen/pth_body_text</item>
         <item name="android:paddingBottom">@dimen/ths_body_text_padding</item>
         <item name="android:paddingTop">@dimen/ths_body_text_padding</item>
@@ -84,8 +84,8 @@
         <item name="android:layout_alignParentStart">true</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:paddingLeft">@dimen/pth_fab_margin</item>
-        <item name="android:paddingRight">@dimen/pth_fab_margin</item>
+        <item name="android:layout_marginLeft">@dimen/pth_fab_margin</item>
+        <item name="android:layout_marginRight">@dimen/pth_fab_margin</item>
         <item name="android:textSize">@dimen/pth_title_text</item>
         <item name="android:paddingBottom">@dimen/ths_title_padding</item>
         <item name="android:paddingTop">@dimen/ths_title_padding</item>
@@ -100,8 +100,8 @@
         <item name="android:layout_alignParentStart">true</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:paddingLeft">@dimen/pth_fab_margin</item>
-        <item name="android:paddingRight">@dimen/pth_fab_margin</item>
+        <item name="android:layout_marginLeft">@dimen/pth_fab_margin</item>
+        <item name="android:layout_marginRight">@dimen/pth_fab_margin</item>
         <item name="android:textSize">@dimen/pth_body_text</item>
         <item name="android:textColor">?attr/uidContentItemDefaultNormalTitleTextColor</item>
         <item name="android:drawablePadding">@dimen/uid_recyclerview_drawable_padding</item>
