@@ -9,6 +9,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.base.THSBasePresenterHelper;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSConstants;
@@ -72,12 +73,7 @@ public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePres
     }
 
     public void launchAvailableProviderDetailFragment(THSProviderEntity thsProviderInfo, Date date, Practice practice) {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY,thsProviderInfo);
-        bundle.putSerializable(THSConstants.THS_DATE,date);
-        bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,practice);
-        THSAvailableProviderDetailFragment fragment = new THSAvailableProviderDetailFragment();
-        fragment.setTHSProviderEntity(thsProviderInfo);
-        mThsBaseFragment.addFragment(fragment, THSAvailableProviderDetailFragment.TAG,bundle);
+        final THSBasePresenterHelper thsBasePresenterHelper = new THSBasePresenterHelper();
+        thsBasePresenterHelper.launchAvailableProviderDetailFragment(mThsBaseFragment,thsProviderInfo,date,practice);
     }
 }
