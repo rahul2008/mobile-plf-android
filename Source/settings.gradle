@@ -1,7 +1,17 @@
-include ':commlib', ':commlib-all', ':commlib-ble', ':commlib-cloud', ':commlib-lan'
+include ':commlib',
+        ':commlib-all',
+        ':commlib-ble',
+        ':commlib-cloud',
+        ':commlib-lan'
 
 project(':commlib').projectDir = new File('Library/commlib')
 project(':commlib-all').projectDir = new File('Library/commlib-all')
 project(':commlib-ble').projectDir = new File('Library/commlib-ble')
 project(':commlib-cloud').projectDir = new File('Library/commlib-cloud')
 project(':commlib-lan').projectDir = new File('Library/commlib-lan')
+
+include ':commlib-demoapp',
+        ':commlib-demouapp'
+
+project(':commlib-demoapp').projectDir = new File('DemoApp')
+project(':commlib-demouapp').projectDir = new File('DemoUApp')
