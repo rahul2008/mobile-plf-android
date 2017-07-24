@@ -1,3 +1,3 @@
 [submodule "Source/common"]
-	path = Source/common
+	path = Source-old/common
 	url = ssh://git@bitbucket.atlas.philips.com:7999/con/project-common.git
