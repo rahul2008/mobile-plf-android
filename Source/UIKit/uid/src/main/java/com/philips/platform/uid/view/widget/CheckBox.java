@@ -9,8 +9,6 @@ package com.philips.platform.uid.view.widget;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.StateListDrawable;
@@ -22,9 +20,9 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.util.AttributeSet;
 import android.view.Gravity;
-
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.utils.UIDContextWrapper;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
 import com.philips.platform.uid.utils.UIDUtils;
 
@@ -61,8 +59,6 @@ import com.philips.platform.uid.utils.UIDUtils;
  * </table>
  */
 public class CheckBox extends AppCompatCheckBox {
-    private int checkBoxStartPadding = 0;
-
     public CheckBox(final Context context) {
         this(context, null);
     }
@@ -75,25 +71,15 @@ public class CheckBox extends AppCompatCheckBox {
         super(context, attrs, defStyleAttr);
 
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
-        applyCheckBoxStyling(context, theme);
+        Context themedContext = UIDContextWrapper.getThemedContext(context, theme);
+        applyCheckBoxStyling(themedContext, theme);
 
         UIDLocaleHelper.setTextFromResourceID(context, this, attrs);
-
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDCheckBox, defStyleAttr, R.style.UIDCheckBox);
-        getCheckBoxPaddingStartFromAttributes(context, typedArray);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            applyRippleTint(theme);
-        }
-        typedArray.recycle();
+        applyRippleTint(themedContext);
     }
 
-    private void getCheckBoxPaddingStartFromAttributes(final Context context, TypedArray typedArray) {
-        checkBoxStartPadding = typedArray.getDimensionPixelSize(R.styleable.UIDCheckBox_uidCheckBoxPaddingStart,
-                context.getResources().getDimensionPixelSize(R.dimen.uid_checkbox_margin_left_right));
-    }
-
-    private void applyCheckBoxStyling(Context context, Resources.Theme theme) {
-        ColorStateList colorStateList = ThemeUtils.buildColorStateList(context.getResources(), theme, R.color.uid_checkbox_text_selector);
+    private void applyCheckBoxStyling(Context themedContext, Resources.Theme theme) {
+        ColorStateList colorStateList = ThemeUtils.buildColorStateList(themedContext, R.color.uid_checkbox_text_selector);
         setTextColor(colorStateList);
 
         VectorDrawableCompat checkedEnabled = VectorDrawableCompat.create(getResources(), R.drawable.uid_checkbox_checked_enabled, theme);
@@ -105,8 +91,8 @@ public class CheckBox extends AppCompatCheckBox {
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    private void applyRippleTint(final Resources.Theme theme) {
-        ColorStateList borderColorStateID = ThemeUtils.buildColorStateList(getResources(), theme, R.color.uid_checkbox_ripple_selector);
+    private void applyRippleTint(Context themedContext) {
+        ColorStateList borderColorStateID = ThemeUtils.buildColorStateList(themedContext, R.color.uid_checkbox_ripple_selector);
 
         if (UIDUtils.isMinLollipop() && (borderColorStateID != null) && (getBackground() instanceof RippleDrawable)) {
             ((RippleDrawable) getBackground()).setColor(borderColorStateID);
@@ -145,29 +131,12 @@ public class CheckBox extends AppCompatCheckBox {
     }
 
     @Override
-    public void draw(final Canvas canvas) {
-        canvas.save();
-        canvas.translate(getStartPaddingAsPerLayoutDirection(), 0);
-        super.draw(canvas);
-        canvas.restore();
-    }
-
-    @Override
     protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        final int measuredWidth = getMeasuredWidth() + checkBoxStartPadding;
-        setMeasuredDimension(measuredWidth, ViewCompat.getMeasuredHeightAndState(this));
+        setMeasuredDimension(getMeasuredWidth(), ViewCompat.getMeasuredHeightAndState(this));
         final int gravity = getGravity() & Gravity.VERTICAL_GRAVITY_MASK;
         if(gravity == Gravity.CENTER_VERTICAL && getLineCount() >1) {
             setGravity(Gravity.TOP);
-        }
-    }
-
-    private int getStartPaddingAsPerLayoutDirection() {
-        if (getLayoutDirection() == LAYOUT_DIRECTION_RTL) {
-            return -checkBoxStartPadding;
-        } else {
-            return checkBoxStartPadding;
         }
     }
 }

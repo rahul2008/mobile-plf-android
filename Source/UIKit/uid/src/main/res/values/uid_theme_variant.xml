@@ -3,8 +3,6 @@
 
     <style name="Base">
         <item name="uidInputTextBorderWidth">@dimen/uid_edittext_stroke_width</item>
-        <item name="uidDialogTitleTextColor">?attr/uidContentItemDefaultNormalTitleTextColor</item>
-        <item name="uidDialogBodyTextColor">?attr/uidContentItemDefaultNormalBodyTextColor</item>
     </style>
 
     <style name="Base.UltraLight">
@@ -16,14 +14,6 @@
     <!--  <style name="Base.Light">
     </style>
 -->
-    <style name="Base.Bright">
-        <item name="uidDialogTitleTextColor">@color/uid_gray_level_75</item>
-        <item name="uidDialogBodyTextColor">@color/uid_gray_level_75</item>
-    </style>
-
-    <style name="Base.VeryDark">
-        <item name="uidDialogTitleTextColor">@color/uid_gray_level_75</item>
-        <item name="uidDialogBodyTextColor">@color/uid_gray_level_75</item>
-    </style>
-
+    <style name="Base.Bright"/>
+    <style name="Base.VeryDark"/>
 </resources>

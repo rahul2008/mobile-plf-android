@@ -16,9 +16,9 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
-
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.utils.UIDContextWrapper;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
 
 /**
@@ -42,18 +42,19 @@ public class RadioButton extends AppCompatRadioButton{
         super(context, attrs, defStyleAttr);
 
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
+        Context themedContext = UIDContextWrapper.getThemedContext(context, theme);
         UIDLocaleHelper.setTextFromResourceID(context, this, attrs);
-        setTextColorFromResourceID(context, this, attrs, theme);
+        setTextColorFromResourceID(context, this, attrs);
     }
 
-    private void setTextColorFromResourceID(@NonNull Context context, @NonNull View view, @NonNull final AttributeSet attr, @NonNull final Resources.Theme theme) {
+    private void setTextColorFromResourceID(@NonNull Context themedContext, @NonNull View view, @NonNull final AttributeSet attr) {
         if (view instanceof TextView) {
-            TypedArray textColorArray = context.obtainStyledAttributes(attr, new int[]{android.R.attr.textColor});
+            TypedArray textColorArray = themedContext.obtainStyledAttributes(attr, new int[]{android.R.attr.textColor});
             int resourceId = textColorArray.getResourceId(0, -1);
             if (resourceId != -1) {
                 ((TextView) view).setTextColor(resourceId);
             } else{
-                setTextColor(ThemeUtils.buildColorStateList(context.getResources(), theme, R.color.uid_radiobutton_text_selector));
+                setTextColor(ThemeUtils.buildColorStateList(themedContext, R.color.uid_radiobutton_text_selector));
             }
             textColorArray.recycle();
         }

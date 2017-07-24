@@ -36,6 +36,9 @@
     <attr name="uidAccentLevel80" format="reference|color" />
     <attr name="uidAccentLevel85" format="reference|color" />
     <attr name="uidAccentLevel90" format="reference|color" />
+    <attr name="uidColorRange" format="reference|string" />
+    <attr name="uidTonalRange" format="reference|string" />
+    <attr name="uidAccentRange" format="reference|string" />
     <attr name="uidBottomSheetDefaultBackgroundColor" format="reference|color" />
     <attr name="uidButtonAccentNormalBackgroundColor" format="reference|color" />
     <attr name="uidButtonAccentNormalIconColor" format="reference|color" />
@@ -285,6 +288,12 @@
     <attr name="uidShadowLevelOneDisabledShadowColor" format="reference|color" />
     <attr name="uidShadowLevelThreeNormalShadowColor" format="reference|color" />
     <attr name="uidShadowLevelTwoNormalShadowColor" format="reference|color" />
+    <attr name="uidSplashScreenDefaultBackgroundColor" format="reference|color" />
+    <attr name="uidSplashScreenDefaultIconColor" format="reference|color" />
+    <attr name="uidSplashScreenDefaultLightCenterColor" format="reference|color" />
+    <attr name="uidSplashScreenDefaultLightEdgeColor" format="reference|color" />
+    <attr name="uidSplashScreenDefaultShieldColor" format="reference|color" />
+    <attr name="uidSplashScreenDefaultTextColor" format="reference|color" />
     <attr name="uidSplitToggleButtonDefaultNormalOnBackgroundColor" format="reference|color" />
     <attr name="uidSplitToggleButtonDefaultNormalOnIconColor" format="reference|color" />
     <attr name="uidSplitToggleButtonDefaultNormalOnTextColor" format="reference|color" />

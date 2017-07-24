@@ -20,9 +20,9 @@ import android.support.v7.widget.AppCompatButton;
 import android.text.Layout;
 import android.util.AttributeSet;
 import android.view.Gravity;
-
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.utils.UIDContextWrapper;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
 
 public class Button extends AppCompatButton {
@@ -46,41 +46,43 @@ public class Button extends AppCompatButton {
         processAttributes(context, attrs, defStyleAttr);
     }
 
-    private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs,int defStyleAttr) {
+    private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs, int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDButton, defStyleAttr, R.style.UIDDefaultButton);
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
 
         UIDLocaleHelper.setTextFromResourceID(context, this, attrs);
 
-        assignDrawableProperties(typedArray, theme);
-        applyBackgroundTinting(typedArray, theme);
-        applyTextColorTinting(typedArray, theme);
+        Context themedContext = UIDContextWrapper.getThemedContext(context, theme);
+
+        assignDrawableProperties(typedArray, themedContext);
+        applyBackgroundTinting(typedArray, themedContext);
+        applyTextColorTinting(typedArray, themedContext);
         applyDrawable(typedArray);
         setCenterLayoutFlag(typedArray);
         typedArray.recycle();
     }
 
-    private void assignDrawableProperties(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme) {
+    private void assignDrawableProperties(@NonNull TypedArray typedArray, @NonNull final Context themedContext) {
         int defaultMinWidth = getResources().getDimensionPixelSize(R.dimen.uid_imagebutton_image_size);
         drawableWidth = typedArray.getDimensionPixelSize(R.styleable.UIDButton_uidButtonImageDrawableWidth, defaultMinWidth);
         drawableHeight = typedArray.getDimensionPixelSize(R.styleable.UIDButton_uidButtonImageDrawableHeight, defaultMinWidth);
         int resourceId = typedArray.getResourceId(R.styleable.UIDButton_uidButtonDrawableColorList, -1);
         if (resourceId != -1) {
-            drawableColorlist = ThemeUtils.buildColorStateList(getResources(), theme, resourceId);
+            drawableColorlist = ThemeUtils.buildColorStateList(themedContext, resourceId);
         }
     }
 
-    private void applyBackgroundTinting(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme) {
+    private void applyBackgroundTinting(@NonNull TypedArray typedArray, @NonNull final Context themedContext) {
         int backGroundListID = typedArray.getResourceId(R.styleable.UIDButton_uidButtonBackgroundColorList, -1);
         if (backGroundListID != -1 && getBackground() != null) {
-            setBackgroundTintList(ThemeUtils.buildColorStateList(getResources(), theme, backGroundListID));
+            setBackgroundTintList(ThemeUtils.buildColorStateList(themedContext, backGroundListID));
         }
     }
 
-    private void applyTextColorTinting(@NonNull TypedArray typedArray, @NonNull final Resources.Theme theme) {
+    private void applyTextColorTinting(@NonNull TypedArray typedArray, @NonNull final Context themedContext) {
         int textColorStateID = typedArray.getResourceId(R.styleable.UIDButton_uidButtonTextColorList, -1);
         if (textColorStateID != -1) {
-            setTextColor(ThemeUtils.buildColorStateList(getResources(), theme, textColorStateID));
+            setTextColor(ThemeUtils.buildColorStateList(themedContext, textColorStateID));
         }
     }
 

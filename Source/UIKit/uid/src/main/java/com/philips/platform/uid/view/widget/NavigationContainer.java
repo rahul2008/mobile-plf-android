@@ -13,7 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
-
 import com.philips.platform.uid.R;
 
 /**

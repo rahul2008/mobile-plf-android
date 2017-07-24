@@ -12,13 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.dataUtils.GridAdapter;
 import com.philips.platform.catalogapp.dataUtils.GridData;
 import com.philips.platform.catalogapp.dataUtils.GridDataHelper;
 import com.philips.platform.catalogapp.databinding.FragmentGridviewBinding;
 import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.utils.UIDContextWrapper;
 
 import java.util.ArrayList;
 
@@ -51,7 +51,8 @@ public class GridViewFragment extends BaseFragment {
 
     protected void updateHeaderAndBackground(final GridDataHelper gridDataHelper, final FragmentGridviewBinding fragmentGridviewBinding) {
         Resources.Theme theme = ThemeUtils.getTheme(fragmentGridviewBinding.gridView.getContext(), null);
-        ColorStateList colorStateList = ThemeUtils.buildColorStateList(fragmentGridviewBinding.gridView.getResources(), theme, R.color.uid_gridview_background_selector);
+        ColorStateList colorStateList = ThemeUtils.buildColorStateList(UIDContextWrapper.getThemedContext(getContext(),theme)
+                                        , R.color.uid_gridview_background_selector);
         final int selectedStateColor = colorStateList.getDefaultColor();
         final boolean darkBackgroundEnabled = gridDataHelper.isDarkBackgroundEnabled();
         int color = darkBackgroundEnabled ? selectedStateColor : Color.WHITE;

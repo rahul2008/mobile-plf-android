@@ -10,16 +10,12 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v4.graphics.ColorUtils;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
-
 import com.philips.platform.uid.thememanager.ThemeUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -57,12 +53,8 @@ public final class UIDUtils {
         animator.start();
     }
 
-    public static int modulateColorAlpha(int color, float alphaMod) {
-        return ColorUtils.setAlphaComponent(color, Math.round(Color.alpha(color) * alphaMod));
-    }
-
-    public static Drawable setTintOnDrawable(Drawable drawable, int tintId, Resources.Theme theme, Context context) {
-        ColorStateList colorStateList = ThemeUtils.buildColorStateList(context.getResources(), theme, tintId);
+    public static Drawable setTintOnDrawable(Drawable drawable, int tintId, Context context) {
+        ColorStateList colorStateList = ThemeUtils.buildColorStateList(context, tintId);
         Drawable compatDrawable = DrawableCompat.wrap(drawable);
         DrawableCompat.setTintList(compatDrawable, colorStateList);
         return compatDrawable;

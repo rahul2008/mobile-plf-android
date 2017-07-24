@@ -15,6 +15,8 @@ import android.util.AttributeSet;
 
 /**
  * Implementation for a customized Notification Badge</b>
+ * <br>To change background color, assign app:backgroundTint="?attr/uidNotificationBadgeAccentBackgroundColor" for accent or any other custom color.
+ * <br>To change text color, assign app:textColor="?attr/uidNotificationBadgeAccentTextColor" for accent or any other custom color.
  * <p>
  * You can use Notification Badge follow the below steps</b><br>
  * <p>

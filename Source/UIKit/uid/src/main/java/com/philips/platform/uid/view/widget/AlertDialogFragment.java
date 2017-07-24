@@ -13,11 +13,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.annotation.StyleRes;
+import android.support.annotation.*;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,8 +23,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.philips.platform.uid.R;
+import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.MaxHeightScrollView;
 import com.philips.platform.uid.utils.UIDUtils;
 
@@ -46,7 +42,6 @@ public class AlertDialogFragment extends DialogFragment {
     private int animDuration = 300;
 
     private int dimColor = Color.BLACK;
-    private float dimColorAlpha = 0.8f;
 
     public AlertDialogFragment() {
         dialogParams = new AlertDialogController.DialogParams();
@@ -62,7 +57,8 @@ public class AlertDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.uid_alert_dialog, container, false);
+        LayoutInflater layoutInflater = inflater.cloneInContext(UIDHelper.getPopupThemedContext(getContext()));
+        final View view = layoutInflater.inflate(R.layout.uid_alert_dialog, container, false);
 
         if (savedInstanceState != null) {
             dialogParams.setMessage(savedInstanceState.getString(AlertDialogController.UID_ALERT_DAILOG_MESSAGE_KEY));
@@ -113,7 +109,7 @@ public class AlertDialogFragment extends DialogFragment {
             getDialog().getWindow().setWindowAnimations(R.style.UIDAlertAnimation);
             setAlertWidth();
         } catch (NullPointerException e) {
-            Log.e(e.toString(),e.getMessage());
+            Log.e(e.toString(), e.getMessage());
         }
     }
 
@@ -124,7 +120,7 @@ public class AlertDialogFragment extends DialogFragment {
             lp.width = (int) getResources().getDimension(R.dimen.uid_alert_dialog_width);
             getView().setLayoutParams(lp);
         } catch (NullPointerException e) {
-            Log.e(e.toString(),e.getMessage());
+            Log.e(e.toString(), e.getMessage());
         }
     }
 
@@ -187,11 +183,9 @@ public class AlertDialogFragment extends DialogFragment {
      * Set the color and opacity for the dim background. Must be called before show to have effect.
      *
      * @param color           Color of background
-     * @param alphaPercentage Percentage of alpha. Must be in range of 0..1
      */
-    public void setDimColor(int color, float alphaPercentage) {
+    public void setDimColor(int color) {
         dimColor = color;
-        dimColorAlpha = alphaPercentage;
     }
 
     private void startEnterAnimation() {
@@ -217,10 +211,9 @@ public class AlertDialogFragment extends DialogFragment {
     }
 
     private void setDimColors() {
-        TypedArray array = getActivity().obtainStyledAttributes(R.styleable.UIDDialog);
-        int bgColor = array.getColor(R.styleable.UIDDialog_uidDialogDimStrongColor, dimColor);
-        float bgColorAlpha = array.getFloat(R.styleable.UIDDialog_uidDialogDimStrongColorAlpha, dimColorAlpha);
-        setDimColor(bgColor, bgColorAlpha);
+        TypedArray array = getActivity().obtainStyledAttributes(R.styleable.PhilipsUID);
+        int bgColor = array.getColor(R.styleable.PhilipsUID_uidDimLayerStrongBackgroundColor, dimColor);
+        setDimColor(bgColor);
         array.recycle();
     }
 
@@ -238,14 +231,10 @@ public class AlertDialogFragment extends DialogFragment {
 
     private void addDimView() {
         dimView = new View(getActivity());
-        dimView.setBackgroundColor(getDimColorWithAlpha());
+        dimView.setBackgroundColor(dimColor);
         dimView.setAlpha(0f);
         dimViewContainer.addView(dimView);
         decorView.addView(dimViewContainer);
-    }
-
-    private int getDimColorWithAlpha() {
-        return UIDUtils.modulateColorAlpha(dimColor, dimColorAlpha);
     }
 
     private void setTitle(final ViewGroup headerView) {

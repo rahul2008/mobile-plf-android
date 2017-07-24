@@ -65,6 +65,14 @@
                 android:text="@string/secondary_button_label"
                 app:uidComponentType="Secondary"/>
 
+            <com.philips.platform.uid.view.widget.Button
+                    android:id="@+id/seconday_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/component_bottom_spacing"
+                    android:text="Accent Button"
+                    app:uidAccent="true"/>
+
         </LinearLayout>
 
 

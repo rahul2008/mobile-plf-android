@@ -28,7 +28,7 @@
                 android:id="@+id/checkbox_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/grid_spacing_enlarged"
+                android:layout_marginStart="@dimen/layout_margin_left_right"
                 android:layout_marginTop="@dimen/layout_margin_left_right"
                 android:gravity="left|center_vertical"
                 android:text="@string/language_pack_checkbox"/>

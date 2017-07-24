@@ -21,7 +21,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
-
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.drawable.AnimatedTranslateDrawable;
 

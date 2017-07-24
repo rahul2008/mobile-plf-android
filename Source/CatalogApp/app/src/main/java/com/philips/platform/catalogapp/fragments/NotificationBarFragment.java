@@ -12,12 +12,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentNotificationBarBinding;
 import com.philips.platform.catalogapp.events.InfoMessageDismissedEvent;
 import com.philips.platform.catalogapp.events.OptionMenuClickedEvent;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -82,7 +80,7 @@ public class NotificationBarFragment extends BaseFragment {
             public void run() {
                 alterPopUpState();
             }
-        }, 200);
+        }, 300);
     }
 
     @Override

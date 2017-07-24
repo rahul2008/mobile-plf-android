@@ -14,25 +14,19 @@ import android.os.Parcelable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
-import android.text.Layout;
-import android.text.Selection;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.Spanned;
+import android.text.*;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.text.utils.UIDClickableSpan;
 import com.philips.platform.uid.text.utils.UIDClickableSpanWrapper;
+import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
 
 import java.util.ArrayList;
-
-import static com.philips.platform.uid.thememanager.ThemeUtils.buildColorStateList;
 
 /**
  * Custom implementation of {@link AppCompatTextView} to support Hyperlinks and other DLS specs.
@@ -97,8 +91,7 @@ public class Label extends AppCompatTextView {
      * @param resID Color selector resource id
      */
     public void setHyperLinkColors(@ColorRes int resID) {
-        linkColors = buildColorStateList(getContext().getResources(),
-                getContext().getTheme(), resID);
+        linkColors = ThemeUtils.buildColorStateList(getContext(), resID);
         if (getText() instanceof Spanned) {
             Spanned text = (Spanned) getText();
             UIDClickableSpan[] spans = text.getSpans(0, text.length(), UIDClickableSpan.class);

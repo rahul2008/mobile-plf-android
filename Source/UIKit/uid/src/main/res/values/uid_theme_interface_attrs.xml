@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="UIDButton">
-
         <attr name="uidButtonBackgroundColorList" format="reference"/>
         <attr name="uidButtonTextColorList" format="reference"/>
         <attr name="uidButtonDrawableColorList" format="reference"/>
@@ -32,38 +31,16 @@
         <attr name="uidInputTextWithClearButton" format="reference|boolean"/>
     </declare-styleable>
 
-    <declare-styleable name="UIDNavigationBar">
-
-        <attr name="uidNavigationShadowLevelOne" format="reference|color"/>
-        <attr name="uidNavigationShadowLevelOneAlpha" format="reference|float"/>
-        <attr name="uidNavigationShadowLevelTwo" format="reference|color"/>
-        <attr name="uidNavigationShadowLevelTwoAlpha" format="reference|float"/>
-    </declare-styleable>
-
     <declare-styleable name="UIDProgressBar">
         <attr name="uidIsLinearProgressBar" format="boolean"/>
         <attr name="uidProgressBarCircularEndColor" format="reference|color"/>
         <attr name="uidProgressBarCircularProgressColorList" format="reference|color"/>
     </declare-styleable>
 
-    <declare-styleable name="UIDDialog">
-        <attr name="uidDialogTitleTextColor" format="reference|color"/>
-        <attr name="uidDialogBodyTextColor" format="reference|color"/>
-        <attr name="uidDialogBackgroundColor" format="reference|color"/>
-        <attr name="uidDialogShadowColor" format="reference|color"/>
-        <attr name="uidDialogShadowAlpha" format="reference|float"/>
-        <attr name="uidDialogDimSubtleLayerColor" format="reference|color"/>
-        <attr name="uidDialogDimSubtleLayerAlpha" format="reference|float"/>
-        <attr name="uidDialogDimStrongColor" format="reference|color"/>
-        <attr name="uidDialogDimStrongColorAlpha" format="reference|float"/>
-    </declare-styleable>
-
-    <declare-styleable name="UIDLabel">
-    </declare-styleable>
+    <declare-styleable name="UIDLabel"/>
 
     <declare-styleable name="UIDIndeterminateLinearProgressBar">
         <attr name="uidIndeterminateLinearProgressBGColor" format="reference|color"/>
-        <attr name="uidIndeterminateLinearProgressBGAlpha" format="reference|float"/>
         <attr name="uidIndeterminateLinearProgressStartColor" format="reference|color"/>
         <attr name="uidIndeterminateLinearProgressCenterColor" format="reference|color"/>
         <attr name="uidIndeterminateLinearProgressEndColor" format="reference|color"/>
@@ -78,7 +55,6 @@
         <attr name="uidProgressIndicatorButtonProgressText" format="reference|string"/>
         <attr name="uidProgressIndicatorButtonProgressBackground" format="reference"/>
         <attr name="uidProgressIndicatorButtonProgressBackgroundColor" format="reference|color"/>
-        <attr name="uidProgressIndicatorButtonProgressBackgroundColorAlpha" format="reference|float"/>
         <attr name="uidProgressIndicatorButtonProgressColor" format="reference|color"/>
     </declare-styleable>
 
@@ -105,11 +81,6 @@
         </attr>
     </declare-styleable>
 
-
-    <declare-styleable name="UIDCheckBox">
-        <attr name="uidCheckBoxPaddingStart" format="dimension"/>
-    </declare-styleable>
-
     <declare-styleable name="UIDSeparator"/>
 
     <declare-styleable name="UIDNavigationContainer">
@@ -119,11 +90,6 @@
             <enum name="primary" value="0"/>
             <enum name="secondary" value="1"/>
         </attr>
-    </declare-styleable>
-
-    <declare-styleable name="UIDRecyclerView">
-        <attr name="uidListPressedColor" format="reference|color"/>
-        <attr name="uidListPressedAlpha" format="float"/>
     </declare-styleable>
 
     <declare-styleable name="UIDGradientView">
@@ -145,9 +111,5 @@
     <declare-styleable name="UIDSearchBox">
         <attr name="uidSearchInputHintText" format="string|reference" />
         <attr name="uidSearchDecoyHintText" format="string|reference" />
-    </declare-styleable>
-
-    <declare-styleable name="UIDRadioButton">
-        <attr name="uidRadioButtonPaddingStart" format="dimension"/>
     </declare-styleable>
 </resources>
