@@ -120,23 +120,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
         TAG = this.getClass().getSimpleName();
         mFragmentActivityContext = getActivity();
         registerNetWorkReceiver();
-        setLocaleLanguage();
-    }
-
-    private void setLocaleLanguage() {
-        //PILLocaleManager localeManager = new PILLocaleManager(getActivity().getApplicationContext());
-        String[] localeArray = new String[2];
-        String localeAsString = Locale.getDefault().getLanguage()+"_"+DigitalCareConfigManager.getInstance().getCountry();// DigitalCareConfigManager.getInstance().getLocaleFromSeviceDiscovery();//localeManager.getInputLocale();
-        localeArray = localeAsString.split("_");
-
-        Locale locale = new Locale(localeArray[0], localeArray[1]);
-        if (locale != null) {
-            Locale.setDefault(locale);
-            Configuration config = new Configuration();
-            config.locale = locale;
-            getActivity().getResources().updateConfiguration(config,
-                    getActivity().getResources().getDisplayMetrics());
-        }
+        //setLocaleLanguage();
     }
 
     private void registerNetWorkReceiver() {
@@ -319,7 +303,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         /*DigiCareLogger.i(TAG, TAG + " : onConfigurationChanged ");*/
-        setLocaleLanguage();
+       // setLocaleLanguage();
         getAppName();
     }
 

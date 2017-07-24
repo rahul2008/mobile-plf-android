@@ -64,6 +64,7 @@
     <!--<bool name="production_environment">false</bool>
     <bool name="productreview_required">false</bool>-->
 
-    <string name="service_locator_url">http://vip.crmclick.com/wxz/index.aspx</string>
+    <string name="service_locator_url">https://www.mylife.philips.com.cn/servicelocator/mobile/index.aspx</string>
+
 
 </resources>
