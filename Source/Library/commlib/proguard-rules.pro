@@ -23,3 +23,12 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Gson rules
+-keepattributes Signature, *Annotation*
+-keep class sun.misc.Unsafe { *; }
+
+# For Gson POJOs, the field names are JSON key values and should not be obfuscated
+-keepclassmembers class * implements com.philips.cdp2.commlib.core.port.PortProperties {
+    <fields>;
+}
