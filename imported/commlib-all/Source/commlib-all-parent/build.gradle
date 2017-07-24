@@ -1,0 +1,12 @@
+/*
+ * Copyright (c) Koninklijke Philips N.V., 2016, 2017
+ * All rights reserved.
+ */
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+}
+
+apply from: projectDir.absolutePath + '/../common/gradle/project.gradle'
