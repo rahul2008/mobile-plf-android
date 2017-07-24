@@ -314,3 +314,7 @@ public static <fields>;
 -keep public interface com.philips.platform.appinfra.AppInfraInterface {*;}
 
 #-----------------------------app infra ends here-----------------------------------
+
+#Device Pairing
+-keep class com.philips.platform.devicepair.** {*;}
+-keep interface com.philips.platform.devicepair.** {*;}
