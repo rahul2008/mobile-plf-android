@@ -8,6 +8,7 @@ package cdp.philips.com.demoapp.database.datatypes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * (C) Koninklijke Philips N.V., 2015. // 9164753573
@@ -41,7 +42,7 @@ public class MeasurementType {
         if(description == null){
             return "default";
         }
-        switch (description.toUpperCase()) {
+        switch (description.toUpperCase(Locale.getDefault())) {
             case UNKNOWN:
                 return "UnknownUnit";
             case TEMPERATURE:

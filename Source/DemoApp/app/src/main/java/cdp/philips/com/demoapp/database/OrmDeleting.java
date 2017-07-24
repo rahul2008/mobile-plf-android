@@ -13,11 +13,12 @@ import com.j256.ormlite.stmt.DeleteBuilder;
 import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.datatypes.ConsentDetailStatusType;
 import com.philips.platform.core.datatypes.SyncType;
-import com.philips.platform.devicepair.consents.ConsentDetailType;
-import cdp.philips.com.demoapp.database.table.OrmConsentDetail;
-import cdp.philips.com.demoapp.database.table.OrmDCSync;
 
 import java.sql.SQLException;
+
+import cdp.philips.com.demoapp.ConsentDetailType;
+import cdp.philips.com.demoapp.database.table.OrmConsentDetail;
+import cdp.philips.com.demoapp.database.table.OrmDCSync;
 
 
 /**
