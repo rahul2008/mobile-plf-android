@@ -248,7 +248,7 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
             if (v.getId() == R.id.btn_cancel) {
                 Bundle bundle = new Bundle();
                 if (mOrderDetail != null) {
-                    if (mPhoneContact == null && mOpeningHoursSaturday == null && mOpeningHoursWeekdays == null) {
+                    if (mPhoneContact == null) {
                         NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
                                 mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
                     } else {
