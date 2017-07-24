@@ -301,14 +301,15 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         }
 
         if (detail.getStatusDisplay() != null && detail.getStatusDisplay().equalsIgnoreCase(IAPConstant.ORDER_COMPLETED)) {
-            if (detail.getConsignments() != null && detail.getConsignments().size() > 0) {
-                String trackTraceId = detail.getConsignments().get(0).getEntries().get(0).getTrackAndTraceIDs().get(0);
-                //  @SuppressLint("StringFormatMatches")
-                String text = getResources().getString(R.string.iap_order_completed_text_default);
-                mShippingStatus.setText(text);
-            } else {
-                mShippingStatus.setText(getString(R.string.iap_order_completed_text_without_track_id));
-            }
+            mShippingStatus.setText(getString(R.string.iap_order_completed_text_default));
+//            if (detail.getConsignments() != null && detail.getConsignments().size() > 0) {
+//                String trackTraceId = detail.getConsignments().get(0).getEntries().get(0).getTrackAndTraceIDs().get(0);
+//                //  @SuppressLint("StringFormatMatches")
+//                String text = getResources().getString(R.string.iap_order_completed_text_default);
+//                mShippingStatus.setText(text);
+//            } else {
+//                mShippingStatus.setText(getString(R.string.iap_order_completed_text_without_track_id));
+//            }
         }
     }
 
