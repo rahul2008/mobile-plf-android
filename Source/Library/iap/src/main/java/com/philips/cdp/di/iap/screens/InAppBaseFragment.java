@@ -43,6 +43,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
         @Override
         public void onSuccess(final int count) {
             updateCount(count);
+            dismissProgressDialog();
         }
 
         @Override
@@ -189,6 +190,7 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     public void updateCount(final int count) {
         if (mIapListener != null) {
             mIapListener.onGetCartCount(count);
+            dismissProgressDialog();
         }
     }
 

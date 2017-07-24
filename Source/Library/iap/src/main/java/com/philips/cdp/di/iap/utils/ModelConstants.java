@@ -9,7 +9,7 @@ public class ModelConstants {
     //Address
     public static final String FIRST_NAME = "firstName";
     public static final String LAST_NAME = "lastName";
-    public static final String TITLE_CODE = "code";
+    public static final String TITLE_CODE = "titleCode";
     public static final String COUNTRY_ISOCODE = "country.isocode";
     public static final String LINE_1 = "line1";
     public static final String LINE_2 = "line2";

@@ -386,18 +386,18 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             cartItem.setProductTitle(data.getProductTitle());
             cartItem.setCtnNumber(ctn);
             cartItem.setQuantity(entry.getQuantity());
-           // cartItem.setFormattedPrice(entry.getBasePrice().getFormattedValue());
-           // cartItem.setValuePrice(String.valueOf(entry.getBasePrice().getValue()));
+            cartItem.setFormattedPrice(entry.getBasePrice().getFormattedValue());
+            cartItem.setValuePrice(String.valueOf(entry.getBasePrice().getValue()));
             cartItem.setFormattedTotalPriceWithTax(cartsEntity.getTotalPriceWithTax().getFormattedValue());
             cartItem.setFormattedTotalPrice(entry.getTotalPrice().getFormattedValue());
             cartItem.setTotalItems(cartsEntity.getTotalItems());
             cartItem.setMarketingTextHeader(data.getMarketingTextHeader());
             cartItem.setDeliveryAddressEntity(cartsEntity.getDeliveryAddress());
-//            cartItem.setVatValue(cartsEntity.getTotalTax().getFormattedValue());
-          //  cartItem.setVatActualValue(String.valueOf(((int) cartsEntity.getTotalTax().getValue())));
+            cartItem.setVatValue(cartsEntity.getTotalTax().getFormattedValue());
+            cartItem.setVatActualValue(String.valueOf(((int) cartsEntity.getTotalTax().getValue())));
             cartItem.setDeliveryItemsQuantity(cartsEntity.getDeliveryItemsQuantity());
             //required for Tagging
-//            cartItem.setCategory(cartsEntity.getEntries().get(0).getProduct().getCategories().get(0).getCode());
+            cartItem.setCategory(cartsEntity.getEntries().get(0).getProduct().getCategories().get(0).getCode());
             products.add(cartItem);
         }
         return products;

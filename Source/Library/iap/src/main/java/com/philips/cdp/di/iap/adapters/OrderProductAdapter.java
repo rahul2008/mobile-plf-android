@@ -18,16 +18,15 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
-import com.philips.cdp.di.iap.eventhelper.EventHelper;
-import com.philips.cdp.di.iap.screens.DeliveryModeDialog;
 import com.philips.cdp.di.iap.R;
+import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.cart.ShoppingCartData;
 import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
-import com.philips.cdp.di.iap.address.AddressFields;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.controller.AddressController.AddressListener;
+import com.philips.cdp.di.iap.eventhelper.EventHelper;
 import com.philips.cdp.di.iap.response.payment.PaymentMethod;
-import com.philips.cdp.di.iap.screens.OrderSummaryFragment;
+import com.philips.cdp.di.iap.screens.DeliveryModeDialog;
 import com.philips.cdp.di.iap.session.IAPNetworkError;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
@@ -107,7 +106,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             orderProductHolder.mTvtotalPrice.setText(price);
             orderProductHolder.mTvQuantity.setText(String.valueOf(cartData.getQuantity()));
         } else {
-            String shippingAddress = cartData.getDeliveryAddressEntity().getFormattedAddress();
+            String shippingAddress = cartData.getDeliveryAddressEntity().getFormattedAddress() + "\n" + cartData.getDeliveryAddressEntity().getCountry().getName();
             FooterOrderSummaryViewHolder footerHolder = (FooterOrderSummaryViewHolder) holder;
             footerHolder.mTitleBillingAddress.setText(R.string.iap_billing_address);
             footerHolder.mTitleDeliveryAddress.setText(R.string.iap_shipping_address);
@@ -119,7 +118,7 @@ public class OrderProductAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if (null != mBillingAddress) {
                 String billingName = mBillingAddress.getFirstName() + " " + mBillingAddress.getLastName();
                 footerHolder.mBillingFirstName.setText(billingName);
-                footerHolder.mBillingAddress.setText(Utility.getAddressToDisplay(mBillingAddress));
+                footerHolder.mBillingAddress.setText(Utility.getAddressToDisplay(mBillingAddress) + cartData.getDeliveryAddressEntity().getCountry().getName());
             }
             if (null != mPaymentMethod) {
                 String paymentBillingName = mPaymentMethod.getBillingAddress().getFirstName() + " " + mPaymentMethod.getBillingAddress().getLastName();

@@ -4,7 +4,6 @@
  */
 package com.philips.cdp.di.iap.screens;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
@@ -101,8 +100,8 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         Button mCancelOrder = (Button) view.findViewById(R.id.btn_cancel);
         mCancelOrder.setOnClickListener(this);
 
-        LinearLayout mTrackOrderLayout = (LinearLayout) view.findViewById(R.id.track_order_layout);
-        mTrackOrderLayout.setOnClickListener(this);
+//        LinearLayout mTrackOrderLayout = (LinearLayout) view.findViewById(R.id.track_order_layout);
+//        mTrackOrderLayout.setOnClickListener(this);
 
         mProductListView = (LinearLayout) view.findViewById(R.id.product_detail);
         mShippingStatus = (TextView) view.findViewById(R.id.shipping_status);
@@ -112,8 +111,8 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
         Bundle bundle = getArguments();
         if (null != bundle) {
-            if (bundle.containsKey(IAPConstant.ORDER_STATUS) && !(IAPConstant.ORDER_COMPLETED.equalsIgnoreCase(bundle.getString(IAPConstant.ORDER_STATUS))))
-                mTrackOrderLayout.setVisibility(View.GONE);
+//            if (bundle.containsKey(IAPConstant.ORDER_STATUS) && !(IAPConstant.ORDER_COMPLETED.equalsIgnoreCase(bundle.getString(IAPConstant.ORDER_STATUS))))
+//                mTrackOrderLayout.setVisibility(View.GONE);
             if (bundle.containsKey(IAPConstant.ORDER_DETAIL)) {
                 mOrderDetail = bundle.getParcelable(IAPConstant.ORDER_DETAIL);
                 if (mOrderDetail != null) {
@@ -227,38 +226,40 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
     public void onClick(View v) {
         if (v.getId() == R.id.btn_paynow)
             Toast.makeText(mContext, "Yet to implement", Toast.LENGTH_SHORT).show();
-        else if (v.getId() == R.id.track_order_layout) {
-            Bundle bundle = new Bundle();
-            if (mOrderDetail != null) {
-                bundle.putString(IAPConstant.PURCHASE_ID, mOrderDetail.getCode());
-                if (mOrderDetail.getConsignments() != null && mOrderDetail.getConsignments().size() > 0 && mOrderDetail.getConsignments().get(0).getTrackingID() != null) {
-                    bundle.putString(IAPConstant.TRACKING_ID, mOrderDetail.getConsignments().get(0).getTrackingID());
+        else
+//            if (v.getId() == R.id.track_order_layout) {
+//            Bundle bundle = new Bundle();
+//            if (mOrderDetail != null) {
+//                bundle.putString(IAPConstant.PURCHASE_ID, mOrderDetail.getCode());
+//                if (mOrderDetail.getConsignments() != null && mOrderDetail.getConsignments().size() > 0 && mOrderDetail.getConsignments().get(0).getEntries().get(0).getTrackAndTraceIDs().get(0) != null) {
+//                    bundle.putString(IAPConstant.TRACKING_ID, mOrderDetail.getConsignments().get(0).getEntries().get(0).getTrackAndTraceIDs().get(0));
+//                }
+//                if (mOrderDetail.getDeliveryAddress() != null) {
+//                    bundle.putString(IAPConstant.DELIVERY_NAME, mOrderDetail.getDeliveryAddress().getFirstName() + " " + mOrderDetail.getDeliveryAddress().getLastName());
+//                    bundle.putString(IAPConstant.DELIVERY_ADDRESS, Utility.formatAddress(mOrderDetail.getDeliveryAddress().getFormattedAddress()));
+//                }
+//
+//                if (mOrderDetail.getOrdertrackUrl() != null) {
+//                    bundle.putString(IAPConstant.ORDER_TRACK_URL, mOrderDetail.getOrdertrackUrl());
+//                }
+//                addFragment(TrackOrderFragment.createInstance(bundle, AnimationType.NONE), TrackOrderFragment.TAG);
+//            }
+//        } else
+            if (v.getId() == R.id.btn_cancel) {
+                Bundle bundle = new Bundle();
+                if (mOrderDetail != null) {
+                    if (mPhoneContact == null) {
+                        NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
+                                mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
+                    } else {
+                        bundle.putString(IAPConstant.CUSTOMER_CARE_NUMBER, mPhoneContact);
+                        bundle.putString(IAPConstant.CUSTOMER_CARE_WEEKDAYS_TIMING, mOpeningHoursWeekdays);
+                        bundle.putString(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING, mOpeningHoursSaturday);
+                        bundle.putString(IAPConstant.IAP_ORDER_ID, mOrderDetail.getCode());
+                        addFragment(CancelOrderFragment.createInstance(bundle, AnimationType.NONE), CancelOrderFragment.TAG);
+                    }
                 }
-                if (mOrderDetail.getDeliveryAddress() != null) {
-                    bundle.putString(IAPConstant.DELIVERY_NAME, mOrderDetail.getDeliveryAddress().getFirstName() + " " + mOrderDetail.getDeliveryAddress().getLastName());
-                    bundle.putString(IAPConstant.DELIVERY_ADDRESS, Utility.formatAddress(mOrderDetail.getDeliveryAddress().getFormattedAddress()));
-                }
-
-                if (mOrderDetail.getOrdertrackUrl() != null) {
-                    bundle.putString(IAPConstant.ORDER_TRACK_URL, mOrderDetail.getOrdertrackUrl());
-                }
-                addFragment(TrackOrderFragment.createInstance(bundle, AnimationType.NONE), TrackOrderFragment.TAG);
             }
-        } else if (v.getId() == R.id.btn_cancel) {
-            Bundle bundle = new Bundle();
-            if (mOrderDetail != null) {
-                if (mPhoneContact == null && mOpeningHoursSaturday == null && mOpeningHoursWeekdays == null) {
-                    NetworkUtility.getInstance().showErrorDialog(mContext, getFragmentManager(),
-                            mContext.getString(R.string.iap_ok), mContext.getString(R.string.iap_server_error), mContext.getString(R.string.iap_something_went_wrong));
-                } else {
-                    bundle.putString(IAPConstant.CUSTOMER_CARE_NUMBER, mPhoneContact);
-                    bundle.putString(IAPConstant.CUSTOMER_CARE_WEEKDAYS_TIMING, mOpeningHoursWeekdays);
-                    bundle.putString(IAPConstant.CUSTOMER_CARE_SATURDAY_TIMING, mOpeningHoursSaturday);
-                    bundle.putString(IAPConstant.IAP_ORDER_ID, mOrderDetail.getCode());
-                    addFragment(CancelOrderFragment.createInstance(bundle, AnimationType.NONE), CancelOrderFragment.TAG);
-                }
-            }
-        }
 
     }
 
@@ -282,12 +283,12 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
 
         if (detail.getDeliveryAddress() != null) {
             mDeliveryName.setText(detail.getDeliveryAddress().getFirstName() + " " + detail.getDeliveryAddress().getLastName());
-            mDeliveryAddress.setText(Utility.formatAddress(detail.getDeliveryAddress().getFormattedAddress()));
+            mDeliveryAddress.setText(Utility.formatAddress(detail.getDeliveryAddress().getFormattedAddress()) + "\n" + detail.getDeliveryAddress().getCountry().getName());
         }
         if (detail.getPaymentInfo() != null) {
             if (detail.getPaymentInfo().getBillingAddress() != null) {
                 mBillingName.setText(detail.getPaymentInfo().getBillingAddress().getFirstName() + " " + detail.getPaymentInfo().getBillingAddress().getLastName());
-                mBillingAddress.setText(Utility.formatAddress(detail.getPaymentInfo().getBillingAddress().getFormattedAddress()));
+                mBillingAddress.setText(Utility.formatAddress(detail.getPaymentInfo().getBillingAddress().getFormattedAddress()) + "\n" + detail.getDeliveryAddress().getCountry().getName());
             }
             if (detail.getPaymentInfo().getCardType() != null) {
                 mPaymentCardType.setText(detail.getPaymentInfo().getCardType().getCode() + " " + detail.getPaymentInfo().getCardNumber());
@@ -300,14 +301,15 @@ public class OrderDetailsFragment extends InAppBaseFragment implements OrderCont
         }
 
         if (detail.getStatusDisplay() != null && detail.getStatusDisplay().equalsIgnoreCase(IAPConstant.ORDER_COMPLETED)) {
-            if (detail.getConsignments() != null && detail.getConsignments().size() > 0) {
-                @SuppressLint("StringFormatMatches")
-                String text = String.format(getString(R.string.iap_order_completed_text),
-                        detail.getConsignments().get(0).getTrackingID());
-                mShippingStatus.setText(text);
-            } else {
-                mShippingStatus.setText(getString(R.string.iap_order_completed_text_without_track_id));
-            }
+            mShippingStatus.setText(getString(R.string.iap_order_completed_text_default));
+//            if (detail.getConsignments() != null && detail.getConsignments().size() > 0) {
+//                String trackTraceId = detail.getConsignments().get(0).getEntries().get(0).getTrackAndTraceIDs().get(0);
+//                //  @SuppressLint("StringFormatMatches")
+//                String text = getResources().getString(R.string.iap_order_completed_text_default);
+//                mShippingStatus.setText(text);
+//            } else {
+//                mShippingStatus.setText(getString(R.string.iap_order_completed_text_without_track_id));
+//            }
         }
     }
 

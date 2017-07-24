@@ -9,7 +9,9 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
@@ -61,7 +63,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private com.philips.platform.uid.view.widget.Button mShopNowCategorized;
     private com.philips.platform.uid.view.widget.Button mBuyDirect;
     private com.philips.platform.uid.view.widget.Button mPurchaseHistory;
-    private com.philips.platform.uid.view.widget.Button mLaunchFragment;
     private com.philips.platform.uid.view.widget.Button mLaunchProductDetail;
     private com.philips.platform.uid.view.widget.Button mAddCtn;
 
@@ -91,10 +92,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
         mRegister = (com.philips.platform.uid.view.widget.Button) findViewById(R.id.btn_register);
         mRegister.setOnClickListener(this);
-
-        mLaunchFragment = (com.philips.platform.uid.view.widget.Button) findViewById(R.id.btn_fragment_launch);
-        mLaunchFragment.setOnClickListener(this);
-        mLaunchFragment.setVisibility(View.VISIBLE);
 
         mBuyDirect = (com.philips.platform.uid.view.widget.Button) findViewById(R.id.btn_buy_direct);
         mBuyDirect.setOnClickListener(this);
@@ -130,6 +127,9 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
         mIapInterface = new IAPInterface();
         mIapInterface.init(mIapDependencies, mIAPSettings);
+        mIapLaunchInput = new IAPLaunchInput();
+        mIapLaunchInput.setIapListener(this);
+        //  init();
     }
 
     private void initTheme() {
@@ -142,12 +142,30 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     }
 
+    /*
+    * CA6702/00
+    CA6700/47
+    DL8791/00
+    DIS362/03
+    DL8781/37
+    DL8760/37
+    HD8967/47
+    HD8645/47
+    * */
     @Override
     protected void onResume() {
         super.onResume();
-        mIapLaunchInput = new IAPLaunchInput();
-        mIapLaunchInput.setIapListener(this);
-        init();
+        if (!mUser.isUserSignIn()) {
+            hideViews();
+            return;
+        }
+        displayViews();
+        if (!mIAPSettings.isUseLocalData()) {
+            updateCartIcon();
+            mPurchaseHistory.setVisibility(View.VISIBLE);
+            mPurchaseHistory.setEnabled(true);
+            mIapInterface.getProductCartCount(this);
+        }
     }
 
     @Override
@@ -155,13 +173,19 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         super.onRestart();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mCategorizedProductList.clear();
+    }
+
     private void actionBar() {
 //        Toolbar mToolbar = (Toolbar) findViewById(R.id.demoScreen_toolbar);
-  //      setSupportActionBar(mToolbar);
+        //      setSupportActionBar(mToolbar);
 //        getSupportActionBar().setDisplayShowTitleEnabled(false);
-  //      getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(false);
-    //    getSupportActionBar().setDisplayUseLogoEnabled(false);
-      //  getSupportActionBar().setDisplayShowCustomEnabled(false);
+        //      getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(false);
+        //    getSupportActionBar().setDisplayUseLogoEnabled(false);
+        //  getSupportActionBar().setDisplayShowCustomEnabled(false);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.iap_header_back_button);
         frameLayout.setOnClickListener(new View.OnClickListener() {
@@ -180,11 +204,11 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         FrameLayout mCartContainer = (FrameLayout) findViewById(R.id.shopping_cart_icon);
         ImageView mCartIcon = (ImageView) findViewById(R.id.cart_iv);
         Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
-         mCartIcon.setBackground(mCartIconDrawable);
+        mCartIcon.setBackground(mCartIconDrawable);
         mCartContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // showFragment(ShoppingCartFragment.TAG);
+                // showFragment(ShoppingCartFragment.TAG);
                 launchIAP(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null);
             }
         });
@@ -192,63 +216,10 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mCountText = (TextView) findViewById(R.id.item_count);
     }
 
-//    private void addActionBar() {
-//        ActionBar mActionBar = getSupportActionBar();
-//        if (mActionBar == null) return;
-//        mActionBar.setDisplayShowHomeEnabled(false);
-//        mActionBar.setDisplayShowTitleEnabled(false);
-//        mActionBar.setDisplayShowCustomEnabled(true);
-//        ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the textview in the ActionBar !
-//                ActionBar.LayoutParams.MATCH_PARENT,
-//                ActionBar.LayoutParams.WRAP_CONTENT,
-//                Gravity.CENTER);
-//
-//        View mCustomView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.action_bar, null); // layout which contains your button.
-//
-//        FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.iap_header_back_button);
-//        frameLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(final View v) {
-//                onBackPressed();
-//            }
-//        });
-//        ImageView arrowImage = (ImageView) mCustomView.findViewById(R.id.iap_iv_header_back_button);
-//        //noinspection deprecation
-//        arrowImage.setBackground(getResources().getDrawable(R.drawable.back_arrow));
-//
-//        mTitleTextView = (TextView) mCustomView.findViewById(R.id.iap_header_title);
-//        setTitle(getString(R.string.demo_app_name));
-//
-//        mCountText = (TextView) mCustomView.findViewById(R.id.item_count);
-//
-//        mActionBar.setCustomView(mCustomView, params);
-//        Toolbar parent = (Toolbar) mCustomView.getParent();
-//        parent.setContentInsetsAbsolute(0, 0);
-//    }
-
     @Override
     public void setTitle(CharSequence title) {
         super.setTitle(title);
         mTitleTextView.setText(title);
-    }
-
-    private void init() {
-
-        mCategorizedProductList.clear();
-        if (mUser.isUserSignIn()) {
-            displayViews();
-            showProgressDialog();
-            try {
-                if (!mIAPSettings.isUseLocalData())
-                    mIapInterface.getProductCartCount(this);
-                else
-                    dismissProgressDialog();
-            } catch (RuntimeException exception) {
-                dismissProgressDialog();
-            }
-        } else {
-            hideViews();
-        }
     }
 
     @Override
@@ -329,43 +300,46 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private void updateCartIcon() {
         if (mIAPSettings.isUseLocalData()) {
             mShoppingCart.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    private void displayViews() {
-        mAddCTNLl.setVisibility(View.VISIBLE);
-        mShopNowCategorized.setVisibility(View.VISIBLE);
-        mShopNow.setVisibility(View.VISIBLE);
-        mShopNow.setEnabled(true);
-        mLaunchProductDetail.setVisibility(View.VISIBLE);
-        mLaunchProductDetail.setEnabled(true);
-
-        if (!mIAPSettings.isUseLocalData()) {
-            showProgressDialog();
-            try {
-                mIapInterface.getProductCartCount(this);
-            } catch (RuntimeException e) {
-                Toast.makeText(DemoAppActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                dismissProgressDialog();
-            }
-
-            updateCartIcon();
-            mPurchaseHistory.setVisibility(View.VISIBLE);
-            mPurchaseHistory.setEnabled(true);
-            mBuyDirect.setVisibility(View.VISIBLE);
-            mLaunchFragment.setVisibility(View.VISIBLE);
-            mShoppingCart.setVisibility(View.VISIBLE);
         } else {
-            mPurchaseHistory.setVisibility(View.GONE);
-            mBuyDirect.setVisibility(View.GONE);
-            mLaunchFragment.setVisibility(View.VISIBLE);
-            mShoppingCart.setVisibility(View.GONE);
+            mShoppingCart.setVisibility(View.VISIBLE);
         }
     }
+
+//    private void displayViews() {
+//        mAddCTNLl.setVisibility(View.VISIBLE);
+//        mShopNowCategorized.setVisibility(View.VISIBLE);
+//        mShopNow.setVisibility(View.VISIBLE);
+//        mShopNow.setEnabled(true);
+//        mLaunchProductDetail.setVisibility(View.VISIBLE);
+//        mLaunchProductDetail.setEnabled(true);
+//
+//        if (!mIAPSettings.isUseLocalData()) {
+//            showProgressDialog();
+//            try {
+//                mIapInterface.getProductCartCount(this);
+//            } catch (RuntimeException e) {
+//                Toast.makeText(DemoAppActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                dismissProgressDialog();
+//            }
+//
+//            updateCartIcon();
+//            mPurchaseHistory.setVisibility(View.VISIBLE);
+//            mPurchaseHistory.setEnabled(true);
+//            mBuyDirect.setVisibility(View.VISIBLE);
+//           // mLaunchFragment.setVisibility(View.VISIBLE);
+//            mShoppingCart.setVisibility(View.VISIBLE);
+//        } else {
+//            mPurchaseHistory.setVisibility(View.GONE);
+//            mBuyDirect.setVisibility(View.GONE);
+//            //mLaunchFragment.setVisibility(View.VISIBLE);
+//            mShoppingCart.setVisibility(View.GONE);
+//        }
+//    }
+
+
 
     private void hideViews() {
         mCountText.setVisibility(View.GONE);
-        mLaunchFragment.setVisibility(View.GONE);
         mShoppingCart.setVisibility(View.INVISIBLE);
         mAddCTNLl.setVisibility(View.GONE);
         mShopNow.setVisibility(View.GONE);
@@ -456,7 +430,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mShoppingCart.setVisibility(View.GONE);
         }
 
-        dismissProgressDialog();
+        //dismissProgressDialog();
         mIapInterface.getCompleteProductList(this);
     }
 
@@ -472,12 +446,14 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mCountText.setVisibility(View.VISIBLE);
         } else {
             mShoppingCart.setVisibility(View.INVISIBLE);
-            mCountText.setVisibility(View.INVISIBLE);
+            mCountText.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onGetCompleteProductList(ArrayList<String> productList) {
+        Toast.makeText(this, "Fetched product list done", Toast.LENGTH_SHORT).show();
+        //mEtCTN.setText(productList.get(1));
         dismissProgressDialog();
     }
 
@@ -497,13 +473,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     public void onUserRegistrationComplete(Activity activity) {
         activity.finish();
         displayViews();
-
-        IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
-        mIapInterface = new IAPInterface();
-        mIapInterface.init(mIapDependencies, mIAPSettings);
-        mIapLaunchInput = new IAPLaunchInput();
-        mIapLaunchInput.setIapListener(this);
-        init();
     }
 
     @Override

@@ -164,7 +164,7 @@ public class ProductCatalogPresenter implements ProductCatalogAPI, AbstractModel
 
     @Override
     public void onModelDataError(final Message msg) {
-        if(mProductCatalogListener== null) return;
+       // if(mProductCatalogListener== null) return;
         if (msg.obj instanceof IAPNetworkError)
             mProductCatalogListener.onLoadError((IAPNetworkError) msg.obj);
         else {

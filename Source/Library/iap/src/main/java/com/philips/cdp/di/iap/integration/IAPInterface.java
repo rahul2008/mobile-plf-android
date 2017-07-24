@@ -24,6 +24,7 @@ public class IAPInterface implements UappInterface, IAPExposedAPI {
         mIAPSettings = (IAPSettings) uappSettings;
         mIAPHandler = new IAPHandler(mIAPDependencies, mIAPSettings);
         mIAPHandler.initPreRequisite();
+        mIAPHandler.initIAPRequisite();
         mIapServiceDiscoveryWrapper = new IAPServiceDiscoveryWrapper(mIAPSettings);
     }
 
