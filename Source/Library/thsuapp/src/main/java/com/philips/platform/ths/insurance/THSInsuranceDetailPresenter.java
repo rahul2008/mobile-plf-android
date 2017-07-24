@@ -6,6 +6,7 @@ import com.americanwell.sdk.entity.insurance.HealthPlan;
 import com.americanwell.sdk.entity.insurance.Relationship;
 import com.americanwell.sdk.entity.insurance.Subscription;
 import com.americanwell.sdk.manager.ValidationReason;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
@@ -120,6 +121,12 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
 
     @Override
     public void onEvent(int componentID) {
+        if(componentID == R.id.ths_insurance_detail_skip_button){
+            // skip insurance update
+            mTHSBaseFragment.addFragment(new THSCostSummaryFragment(),THSCostSummaryFragment.TAG,null);
+        } else if (componentID == R.id.ths_insurance_detail_continue_button){
+            updateTHSInsuranceSubscription();
+        }
 
     }
 

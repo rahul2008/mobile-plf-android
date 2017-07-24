@@ -162,10 +162,9 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
             showRelationshipListDialog("Select relationship", mTHSSubscriberRelationshipListAdapter);
 
         } else if (view.getId() == R.id.ths_insurance_detail_skip_button) {
-
+            mPresenter.onEvent(R.id.ths_insurance_detail_skip_button);
         } else if (view.getId() == R.id.ths_insurance_detail_continue_button){
-            mPresenter.updateTHSInsuranceSubscription();
-
+            mPresenter.onEvent(R.id.ths_insurance_detail_continue_button);
 
         }else if (view.getId() == R.id.ths_insurance_detail_provider_relation_dob_edittext){
 

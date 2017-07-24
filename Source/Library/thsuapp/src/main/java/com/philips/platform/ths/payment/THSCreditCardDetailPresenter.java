@@ -1,7 +1,7 @@
 package com.philips.platform.ths.payment;
 
-import com.americanwell.sdk.entity.Address;
-import com.americanwell.sdk.entity.State;
+import android.os.Bundle;
+
 import com.americanwell.sdk.entity.billing.CreatePaymentRequest;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.base.THSBasePresenter;
@@ -17,18 +17,6 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
     THSCreditCardDetailFragment mTHSCreditCardDetailFragment;
     THSCreatePaymentRequest mThsCreatePaymentRequest;
     CreatePaymentRequest mCreatePaymentRequest;
-
-    private String mCardHolderName;
-    private String mCardNumber;
-    int mExpirationMonth;
-    int mExpirationYear;
-    private String mCVVcode;
-
-    private String mZipCode;
-    private String mAddress1;
-    private String mAddress2;
-    private String mCity;
-    private State mState;
 
 
     public THSCreditCardDetailPresenter(THSCreditCardDetailFragment thsCreditCardDetailFragment) {
@@ -62,26 +50,6 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
     }
 
 
-    public void addCreditCard() throws AWSDKInstantiationException {
-
-        mCreatePaymentRequest.setNameOnCard(mCardHolderName);
-        mCreatePaymentRequest.setCreditCardNumber(mCardNumber);
-        mCreatePaymentRequest.setCreditCardMonth(mExpirationMonth);
-        mCreatePaymentRequest.setCreditCardYear(mExpirationYear);
-        mCreatePaymentRequest.setCreditCardSecCode(mCVVcode);
-        mCreatePaymentRequest.setCreditCardZip(mZipCode);
-        final Address address = THSManager.getInstance().getAwsdk(mTHSCreditCardDetailFragment.getFragmentActivity()).getNewAddress();
-
-        address.setAddress1(mAddress1);
-        address.setAddress2(mAddress2);
-        address.setCity(mCity);
-        address.setState(mState);
-        address.setZipCode(mZipCode);
-
-        mCreatePaymentRequest.setAddress(address);
-
-    }
-
     boolean validateCreditCardDetails(String cardNumber) {
         boolean validationresult = false;
         try {
@@ -104,25 +72,37 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
 
     void saveCreditCardDetail() {
 
-        mCardHolderName = mTHSCreditCardDetailFragment.mCardHolderNameEditText.getText().toString().trim();
-        mCardNumber = mTHSCreditCardDetailFragment.mCardNumberEditText.getText().toString().trim();
-        boolean isCreditcardValid = validateCreditCardDetails(mCardNumber);
+        String cardHolderName = mTHSCreditCardDetailFragment.mCardHolderNameEditText.getText().toString().trim();
+        String cardNumber = mTHSCreditCardDetailFragment.mCardNumberEditText.getText().toString().trim();
+        boolean isCreditcardValid = validateCreditCardDetails(cardNumber);
         if (!isCreditcardValid) {
             mTHSCreditCardDetailFragment.showToast("Invalid Credit card number");
             return;
         }
+        String expirationMonth = mTHSCreditCardDetailFragment.mCardExpiryMonthEditText.getText().toString().trim();
+        //todo month validation
 
-        mExpirationMonth = Integer.parseInt(mTHSCreditCardDetailFragment.mCardExpiryMonthEditText.getText().toString().trim());
-      //todo month validation
-        mExpirationYear = Integer.parseInt(mTHSCreditCardDetailFragment.mCardExpiryYearEditText.getText().toString().trim());
+        String expirationYear = mTHSCreditCardDetailFragment.mCardExpiryYearEditText.getText().toString().trim();
         //todo year validation
-        mCVVcode = mTHSCreditCardDetailFragment.mCVCcodeEditText.getText().toString().trim();
-         boolean isCVVvalid = validateCVVnumber(mCardNumber,mCVVcode);
+
+        String CVVcode = mTHSCreditCardDetailFragment.mCVCcodeEditText.getText().toString().trim();
+        //todo CVV validation
+        boolean isCVVvalid = true;//validateCVVnumber(cardNumber, CVVcode);
         if (!isCVVvalid) {
             mTHSCreditCardDetailFragment.showToast("Invalid CVV number");
             return;
-        }else{
-            // go to address fragment
+        } else {
+            // go to Billing address fragment
+
+            Bundle bundle = new Bundle();
+            bundle.putString("cardHolderName", cardHolderName);
+            bundle.putString("cardNumber", cardNumber);
+            bundle.putInt("expirationMonth", Integer.parseInt(expirationMonth));
+            bundle.putInt("expirationYear", Integer.parseInt(expirationYear));
+            bundle.putString("CVVcode", CVVcode);
+
+            mTHSCreditCardDetailFragment.addFragment(new THSCreditCardBillingAddressFragment(), THSCreditCardBillingAddressFragment.TAG, bundle);
+
         }
 
     }

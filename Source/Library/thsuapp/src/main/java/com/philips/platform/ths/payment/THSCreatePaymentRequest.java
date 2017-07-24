@@ -7,6 +7,9 @@ import com.americanwell.sdk.entity.billing.CreatePaymentRequest;
  */
 
 public class THSCreatePaymentRequest {
+    CreatePaymentRequest createPaymentRequest;
+
+
     public CreatePaymentRequest getCreatePaymentRequest() {
         return createPaymentRequest;
     }
@@ -15,5 +18,5 @@ public class THSCreatePaymentRequest {
         this.createPaymentRequest = createPaymentRequest;
     }
 
-    CreatePaymentRequest createPaymentRequest;
+
 }

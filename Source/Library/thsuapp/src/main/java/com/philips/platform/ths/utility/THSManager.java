@@ -59,6 +59,7 @@ import com.philips.platform.ths.intake.THSVitals;
 import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
 import com.philips.platform.ths.login.THSLoginCallBack;
+import com.philips.platform.ths.payment.THSAddress;
 import com.philips.platform.ths.payment.THSCreatePaymentRequest;
 import com.philips.platform.ths.payment.THSCreditCardDetailFragment;
 import com.philips.platform.ths.payment.THSPaymentCallback;
@@ -151,7 +152,7 @@ public class THSManager {
 
     public void initializeTeleHealth(Context context, final THSInitializeCallBack THSInitializeCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
         final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
-      /*  initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
+        /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
         initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key*/
         initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
         initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key
@@ -776,12 +777,49 @@ public class THSManager {
         return tHSCreatePaymentRequest;
     }
 
-    public boolean isCreditCardNumberValid(Context context,String cardNumber) throws AWSDKInstantiationException{
-       return THSManager.getInstance().getAwsdk(context).getCreditCardUtil().isCreditCardNumberValid(cardNumber);
+    public THSAddress getAddress(Context context) throws AWSDKInstantiationException {
+        THSAddress thsAddress = new THSAddress();
+        Address address = getAwsdk(context).getNewAddress();
+        thsAddress.setAddress(address);
+        return thsAddress;
     }
 
-    public boolean isSecurityCodeValid(Context context,String cardNumber, String cvv) throws AWSDKInstantiationException{
-        return THSManager.getInstance().getAwsdk(context).getCreditCardUtil().isSecurityCodeValid(cardNumber,cvv);
+    public boolean isCreditCardNumberValid(Context context, String cardNumber) throws AWSDKInstantiationException {
+        return THSManager.getInstance().getAwsdk(context).getCreditCardUtil().isCreditCardNumberValid(cardNumber);
+    }
+
+    public boolean isSecurityCodeValid(Context context, String cardNumber, String cvv) throws AWSDKInstantiationException {
+        return THSManager.getInstance().getAwsdk(context).getCreditCardUtil().isSecurityCodeValid(cardNumber, cvv);
+    }
+
+
+    public void validateCreatePaymentRequest(Context context, THSCreatePaymentRequest thsCreatePaymentRequest, Map<String, ValidationReason> errors) throws AWSDKInstantiationException {
+
+        getAwsdk(context).getConsumerManager().validateCreatePaymentRequest(thsCreatePaymentRequest.getCreatePaymentRequest(),errors );
+
+
+    }
+    public void updatePaymentMethod(Context context, THSCreatePaymentRequest thsCreatePaymentRequest, final THSPaymentCallback.THSSDKValidatedCallback<THSPaymentMethod, THSSDKError> tHSSDKValidatedCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().updatePaymentMethod(thsCreatePaymentRequest.getCreatePaymentRequest(), new SDKValidatedCallback<PaymentMethod, SDKError>() {
+            @Override
+            public void onValidationFailure(Map<String, ValidationReason> map) {
+                tHSSDKValidatedCallback.onValidationFailure(map);
+            }
+
+            @Override
+            public void onResponse(PaymentMethod paymentMethod, SDKError sdkError) {
+                THSPaymentMethod tHSPaymentMethod = new THSPaymentMethod();
+                tHSPaymentMethod.setPaymentMethod(paymentMethod);
+                THSSDKError tHSSDKError = new THSSDKError();
+                tHSSDKError.setSdkError(sdkError);
+                tHSSDKValidatedCallback.onResponse(tHSPaymentMethod, tHSSDKError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                tHSSDKValidatedCallback.onFailure(throwable);
+            }
+        });
     }
 
 }

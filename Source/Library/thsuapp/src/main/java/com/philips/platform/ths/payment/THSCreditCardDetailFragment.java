@@ -1,5 +1,6 @@
 package com.philips.platform.ths.payment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -20,15 +21,18 @@ import com.philips.platform.uid.view.widget.EditText;
 public class THSCreditCardDetailFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSCreditCardDetailFragment.class.getSimpleName();
     private ActionBarListener actionBarListener;
+
+
     THSCreditCardDetailPresenter mTHSCreditCardDetailPresenter;
     private RelativeLayout mProgressbarContainer;
 
-     EditText mCardHolderNameEditText;
-     EditText mCardNumberEditText;
-     EditText mCardExpiryMonthEditText;
-     EditText mCardExpiryYearEditText;
-     EditText mCVCcodeEditText;
+    EditText mCardHolderNameEditText;
+    EditText mCardNumberEditText;
+    EditText mCardExpiryMonthEditText;
+    EditText mCardExpiryYearEditText;
+    EditText mCVCcodeEditText;
     private Button mPaymentDetailContinueButton;
+
 
     @Nullable
     @Override
@@ -42,7 +46,7 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
         mCVCcodeEditText = (EditText) view.findViewById(R.id.ths_payment_detail_card_cvc_edittext);
         mPaymentDetailContinueButton = (Button) view.findViewById(R.id.ths_payment_detail_continue_button);
         mPaymentDetailContinueButton.setOnClickListener(this);
-        mProgressbarContainer=(RelativeLayout) view.findViewById(R.id.ths_payment_detail_container);
+        mProgressbarContainer = (RelativeLayout) view.findViewById(R.id.ths_payment_detail_container);
         return view;
     }
 
@@ -69,6 +73,7 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
         return ((ViewGroup) getView().getParent()).getId();
     }
 
+
     /**
      * Called when a view has been clicked.
      *
@@ -76,7 +81,7 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
      */
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.ths_payment_detail_continue_button);
+        if (v.getId() == R.id.ths_payment_detail_continue_button) ;
         mTHSCreditCardDetailPresenter.onEvent(R.id.ths_payment_detail_continue_button);
     }
 }
