@@ -143,6 +143,9 @@ public static <fields>;
 
 -keepclassmembers class ** {
     !private void onEvent*(**);}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+-keep class de.greenrobot.event.** { *; }
+-keep class de.greenrobot.** { *; }
 
 ##--------------- Jodatime  ----------
 
