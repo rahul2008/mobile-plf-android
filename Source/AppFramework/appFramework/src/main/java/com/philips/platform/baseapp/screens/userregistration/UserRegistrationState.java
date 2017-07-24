@@ -77,7 +77,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     private static final String DEVELOPMENT_SECRET_KEY_DEFAULT = TEST_SECRET_KEY_DEFAULT;
     private static final String DEVELOPMENT_SHARED_KEY_DEFAULT = TEST_SHARED_KEY_DEFAULT;
     private static final String UR_COMPLETE = "URComplete";
-
+    private static final String TERMS_CONSITIONS_CLICK = "TermsAndConditions";
     private static final String HSDP_CONFIGURATION_APPLICATION_NAME = "HSDPConfiguration.ApplicationName";
     private static final String HSDP_CONFIGURATION_SECRET = "HSDPConfiguration.Secret";
     private static final String HSDP_CONFIGURATION_SHARED = "HSDPConfiguration.Shared";
@@ -296,7 +296,19 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onTermsAndConditionClick(Activity activity) {
-
+        BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+        BaseState baseState = null;
+        try {
+            baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), TERMS_CONSITIONS_CLICK);
+        } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
+                e) {
+            RALog.d(TAG, e.getMessage());
+            Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
+        }
+        if (null != baseState) {
+            baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
+        }
+//        WebViewActivity.show(activity,R.string.global_terms_link,R.string.terms_and_conditions_url_about);
     }
 
     @Override
