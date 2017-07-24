@@ -47,7 +47,7 @@ public class FaqDetailedFragmentTest extends MockitoConfiguration {
     private DigitalCareConfigManager mockDigitalCareConfigManager;
 
     @Mock
-    AppTaggingInterface mockAppTaggingInterface;
+    private AppTaggingInterface mockAppTaggingInterface;
 
     private DigitalCareBaseFragment digitalCareBaseFragmentspy;
 

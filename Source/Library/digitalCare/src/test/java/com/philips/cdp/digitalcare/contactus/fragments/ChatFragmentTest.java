@@ -45,7 +45,7 @@ public class ChatFragmentTest extends MockitoConfiguration{
     private DigitalCareConfigManager mockDigitalCareConfigManager;
 
     @Mock
-    AppTaggingInterface mockAppTaggingInterface;
+    private AppTaggingInterface mockAppTaggingInterface;
 
     private DigitalCareBaseFragment digitalCareBaseFragmentspy;
 
@@ -79,7 +79,6 @@ public class ChatFragmentTest extends MockitoConfiguration{
     @Test
     public void tesChatNow(){
         SupportFragmentTestUtil.startFragment(digitalCareBaseFragmentspy, DigitalCareTestMock.class);
-        //  Mockito.doNothing().when(digitalCareBaseFragmentspy).showFragment(fragment);
         digitalCareBaseFragmentspy=spy(fragment);
         digitalCareBaseFragmentspy.isInternetAvailable=true;
         digitalCareBaseFragmentspy.getView().findViewById(R.id.chatNow).performClick();
@@ -98,7 +97,7 @@ public class ChatFragmentTest extends MockitoConfiguration{
     }
 
     @Test
-    public void testonConfigurationChanged(){
+    public void testOnConfigurationChanged(){
         Configuration configuration = new Configuration();
         fragment.onConfigurationChanged(configuration);
     }
