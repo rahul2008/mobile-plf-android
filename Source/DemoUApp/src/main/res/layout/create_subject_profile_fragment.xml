@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="First Name" />
+                android:text="@string/first_name" />
 
             <EditText
                 android:id="@+id/subject_profile_first_name_edittext"
@@ -31,10 +31,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="First Name"
+                android:hint="@string/first_name"
                 android:inputType="textPersonName"
-                android:text="UserTest" />
-
+                android:text="@string/first_name_value" />
         </LinearLayout>
 
         <LinearLayout
@@ -50,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Date of birth" />
+                android:text="@string/date_of_birth" />
 
             <EditText
                 android:id="@+id/subject_date_of_birth_editText"
@@ -58,9 +57,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Date of birth"
+                android:hint="@string/date_of_birth"
                 android:inputType="date"
-                android:text="2013-05-05" />
+                android:text="@string/date_of_birth_value" />
         </LinearLayout>
 
         <LinearLayout
@@ -75,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Gender" />
+                android:text="@string/gender" />
 
             <EditText
                 android:id="@+id/subject_gender_editText"
@@ -83,9 +82,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Gender"
+                android:hint="@string/gender"
                 android:inputType="textPersonName"
-                android:text="Male" />
+                android:text="@string/gender_value" />
         </LinearLayout>
 
         <LinearLayout
@@ -100,7 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Weight" />
+                android:text="@string/weight" />
 
             <EditText
                 android:id="@+id/subject_weight_editText"
@@ -108,9 +107,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Weight"
+                android:hint="@string/weight"
                 android:inputType="number|numberSigned|numberDecimal"
-                android:text="78.88" />
+                android:text="@string/weight_value" />
         </LinearLayout>
 
         <LinearLayout
@@ -125,7 +124,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Creation Date" />
+                android:text="@string/creation_date" />
 
             <EditText
                 android:id="@+id/subject_creation_date_editText"
@@ -133,18 +132,18 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="Creation Date"
+                android:hint="@string/creation_date"
                 android:inputType="datetime"
-                android:text="2015-10-01T12:11:10.123+0100" />
+                android:text="@string/creation_date_value" />
         </LinearLayout>
 
         <Button
             android:id="@+id/create_subject_profile_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
-            android:text="Create Profile" />
+            android:text="@string/create_profile" />
     </RelativeLayout>
 </LinearLayout>
