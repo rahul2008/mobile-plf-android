@@ -5,6 +5,8 @@
 
 package com.philips.cdp.dicommclient;
 
+import com.philips.cdp2.commlib.BuildConfig;
+
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;

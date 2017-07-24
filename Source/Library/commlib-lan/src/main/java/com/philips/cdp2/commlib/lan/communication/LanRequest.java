@@ -14,7 +14,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
-import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.Request;
@@ -243,7 +242,7 @@ public class LanRequest extends Request {
     }
 
     private Network getWifiNetwork() {
-        final Context context = DICommClientWrapper.getContext();
+        final Context context = null;//DICommClientWrapper.getContext(); TODO FIXME
 
         if (context == null) {
             throw new IllegalStateException("Context is null.");

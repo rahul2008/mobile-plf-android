@@ -167,6 +167,8 @@ task generateJavadocPublicApi(type: Javadoc) {
 }
 
 dependencies {
+    provided deps.support.annotations
+
     for (dep in [':commlib-ble', ':commlib-cloud', ':commlib-lan']) {
         debugCompile project(path: dep, configuration: 'debug')
         releaseCompile project(path: dep, configuration: 'release')
