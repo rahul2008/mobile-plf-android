@@ -44,15 +44,7 @@ public class UIPickerFragment extends BaseFragment {
             "Indiana",
             "Iowa",
             "Kansas",
-            "Louisiana",
-            "Maine",
-            "Maryland",
-            "Massachusetts",
-            "Michigan",
-            "Minnesota",
-            "Mississippi",
-            "Missouri",
-            "Montana"
+            "Louisiana"
     };
 
     @Override

@@ -28,8 +28,7 @@
             android:orientation="horizontal"
             android:onClick="@{(v) ->frag.showListPopupWindow()}"
             android:paddingEnd="@dimen/uid_ui_picker_margin_left_right"
-            android:paddingStart="@dimen/uid_ui_picker_margin_left_right"
-            android:layout_marginTop="170dp">
+            android:paddingStart="@dimen/uid_ui_picker_margin_left_right">
 
             <ImageView
                 android:id="@+id/location_icon"
