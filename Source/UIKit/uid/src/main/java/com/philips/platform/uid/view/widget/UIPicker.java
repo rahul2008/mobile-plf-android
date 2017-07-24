@@ -19,10 +19,12 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 import android.widget.PopupWindow;
 
+import com.philips.platform.uid.R;
 import com.philips.platform.uid.utils.UIDUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -57,13 +59,14 @@ public class UIPicker extends ListPopupWindow{
         }
     }
 
-    private Activity activity;
+    private Context activity;
     private ListAdapter adapter;
     private boolean shouldSetGravity = true;
     private boolean shouldSetHeight = true;
     private boolean shouldSetWidth = true;
     private boolean isBelowAnchorView = false;
     private int adapterCount;
+    private boolean isDistanceToTopLarger;
 
     public UIPicker(@NonNull Context context) {
         this(context, null, android.support.v7.appcompat.R.attr.listPopupWindowStyle);
@@ -111,7 +114,7 @@ public class UIPicker extends ListPopupWindow{
         shouldSetHeight = false;
     }
 
-    public void shouldShowBelowAnchorView(boolean isBelowAnchorView){
+    public void shouldNotOverlapAnchorView(boolean isBelowAnchorView){
         this.isBelowAnchorView = isBelowAnchorView;
     }
 
@@ -155,9 +158,9 @@ public class UIPicker extends ListPopupWindow{
             method.setAccessible(true);
             method.invoke(listPopupWindow, max);
 
-            Method m2 = ListPopupWindow.class.getDeclaredMethod("getMaxAvailableHeight", Boolean.TYPE);
+            /*Method m2 = ListPopupWindow.class.getDeclaredMethod("getMaxAvailableHeight", Boolean.TYPE);
             m2.setAccessible(true);
-            method.invoke(listPopupWindow, anchorView, - anchorHeight, false);
+            method.invoke(listPopupWindow, anchorView, - anchorHeight, false);*/
 
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -184,6 +187,9 @@ public class UIPicker extends ListPopupWindow{
         final int distanceToTop = anchorPos[1] - displayFrame.top + yOffset;
 
         // anchorPos[1] is distance from anchor to top of screen
+        if(distanceToTop > distanceToBottom){
+            isDistanceToTopLarger = true;
+        }
         int returnedHeight = Math.max(distanceToBottom, distanceToTop);
         final Rect mTempRect = new Rect();
         if (getBackground() != null) {
@@ -196,15 +202,21 @@ public class UIPicker extends ListPopupWindow{
 
     private void setContentHeight(View anchorView, int anchorHeight){
         int maxHeight = getMaxAvailableHeight(anchorView, anchorHeight);
-        int contentHeight = adapterCount * Math.round(UIDUtils.pxFromDp(activity, 56));
+        int contentHeight = adapterCount * activity.getResources().getDimensionPixelSize(R.dimen.uid_uipicker_item_height);//Math.round(UIDUtils.pxFromDp(activity, 48));
         if(contentHeight < maxHeight){
             setHeight(contentHeight);
         }
         else {
-            if(isBelowAnchorView)
+            int temp = maxHeight % activity.getResources().getDimensionPixelSize(R.dimen.uid_uipicker_item_height);//Math.round(UIDUtils.pxFromDp(activity, 48));
+            if(temp != 0){
+                maxHeight = maxHeight - temp;
+            }
+
+            if(isBelowAnchorView || isDistanceToTopLarger)
                 setHeight(maxHeight - anchorHeight);
             else
                 setHeight(maxHeight);
+            //setHeight(maxHeight - anchorHeight);
         }
     }
 
@@ -212,7 +224,7 @@ public class UIPicker extends ListPopupWindow{
     private int measureContentWidth(ListAdapter adapter) {
 
         DisplayMetrics metrics = new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        ((WindowManager)activity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(metrics);
         int widthPixels = metrics.widthPixels;
 
         ViewGroup mMeasureParent = null;

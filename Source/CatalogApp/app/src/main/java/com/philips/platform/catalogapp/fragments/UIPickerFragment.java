@@ -9,6 +9,7 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +74,7 @@ public class UIPickerFragment extends BaseFragment {
         //listPopupWindow.setHeight(600);
         //listPopupWindow.setWidth(300);
         //listPopupWindow.setDropDownGravity(Gravity.START);
-        //listPopupWindow.shouldShowBelowAnchorView(true);
+        //listPopupWindow.shouldNotOverlapAnchorView(true);
 
         listPopupWindow.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {

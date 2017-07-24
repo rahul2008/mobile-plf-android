@@ -8,7 +8,7 @@
         <item name="android:background">?attr/uidPopupDefaultNormalBackgroundColor</item>
         <item name="android:paddingTop">@dimen/uid_uipicker_top_bottom_padding</item>
         <item name="android:paddingBottom">@dimen/uid_uipicker_top_bottom_padding</item>
-        <item name="android:scrollbarThumbVertical">?attr/uidColorLevel10</item>
+        <item name="android:scrollbarThumbVertical">?attr/uidThumbScrollbarNormalBackgroundColor</item>
         <item name="android:fadeScrollbars">false</item>
     </style>
 </resources>

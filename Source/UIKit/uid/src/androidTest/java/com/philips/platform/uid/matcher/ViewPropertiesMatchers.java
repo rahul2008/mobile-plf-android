@@ -5,6 +5,8 @@
 package com.philips.platform.uid.matcher;
 
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -226,6 +228,20 @@ public class ViewPropertiesMatchers {
             }
         };
     }
+
+    /*public static Matcher<? super View> hasSameStateListDrawableNormalBackgroundColor(final int color) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                StateListDrawable background = (StateListDrawable) view.getBackground();
+                Drawable normalBackground = background.getCurrent();
+                BaseTypeSafteyMatcher<Drawable> d = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameColor(new int[]{android.R.attr.state_enabled}, color, false);
+                d.matches(normalBackground);
+                setValues(d.actual, d.expected);
+                return areEqual();
+            }
+        };
+    }*/
 
     public static Matcher<? super View> hasChildrensWithSameTextColor(final int color) {
         return new BaseTypeSafteyMatcher<View>() {
