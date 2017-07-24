@@ -52,17 +52,17 @@ public class RateThisAppFragmentTest extends MockitoConfiguration {
     private DigitalCareBaseFragment mockDigitalCareBaseFragment;
 
     @Mock
-    RateThisAppFragmentPresenter rateThisAppFragmentPresenter;
+    private RateThisAppFragmentPresenter rateThisAppFragmentPresenter;
 
     @Mock
-    AppTaggingInterface mockAppTaggingInterface;
+    private AppTaggingInterface mockAppTaggingInterface;
 
     private ViewProductDetailsModel viewProductDetailsModel;
 
     private DigitalCareBaseFragment digitalCareBaseFragmentspy;
 
+    private View rootView;
 
-    View rootView;
     @Before
     public void setUp(){
         MockitoAnnotations.initMocks(this);
@@ -155,7 +155,7 @@ public class RateThisAppFragmentTest extends MockitoConfiguration {
     }
 
     @Test
-    public void testonConfigurationChanged(){
+    public void testOnConfigurationChanged(){
         Configuration configuration = new Configuration();
         fragment.onConfigurationChanged(configuration);
     }

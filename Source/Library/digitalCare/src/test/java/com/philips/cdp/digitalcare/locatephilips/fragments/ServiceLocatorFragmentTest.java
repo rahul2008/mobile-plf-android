@@ -43,7 +43,7 @@ public class ServiceLocatorFragmentTest {
     private DigitalCareConfigManager mockDigitalCareConfigManager;
 
     @Mock
-    AppTaggingInterface mockAppTaggingInterface;
+    private AppTaggingInterface mockAppTaggingInterface;
 
     private DigitalCareBaseFragment digitalCareBaseFragmentspy;
 
@@ -81,7 +81,7 @@ public class ServiceLocatorFragmentTest {
     }
 
     @Test
-    public void testonConfigurationChanged(){
+    public void testOnConfigurationChanged(){
         Configuration configuration = new Configuration();
         fragment.onConfigurationChanged(configuration);
     }
