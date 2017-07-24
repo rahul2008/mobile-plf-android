@@ -10,9 +10,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.philips.cdp.cloudcontroller.CloudController;
-import com.philips.cdp.dicommclient.BuildConfig;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
+import com.philips.cdp2.commlib.BuildConfig;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 
 import java.util.Random;
