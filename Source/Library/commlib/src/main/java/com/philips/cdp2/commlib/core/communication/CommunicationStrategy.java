@@ -7,7 +7,6 @@ package com.philips.cdp2.commlib.core.communication;
 
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 
@@ -63,7 +62,8 @@ public abstract class CommunicationStrategy {
 
     protected Map<String, Object> getUnsubscriptionData() {
         Map<String, Object> dataMap = new HashMap<>();
-        dataMap.put(SUBSCRIBER_KEY, DICommClientWrapper.getAppId());
+        // TODO FIX APPID
+        dataMap.put(SUBSCRIBER_KEY, "fixme_not_this_one"); //DICommClientWrapper.getAppId()
         return dataMap;
     }
 }

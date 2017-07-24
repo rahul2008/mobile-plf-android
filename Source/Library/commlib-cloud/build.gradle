@@ -176,6 +176,9 @@ dependencies {
 
     compile deps.gson
 
+    testCompile deps.powermock_mockito
+    testCompile deps.powermock_junit
+
     testCompile deps.junit
     testCompile deps.mockito
 }
