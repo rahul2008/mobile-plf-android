@@ -24,9 +24,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.utils.UIDContextWrapper;
 import com.philips.platform.uid.utils.UIDUtils;
 
 public class ProgressBarButton extends LinearLayout {
@@ -60,7 +60,9 @@ public class ProgressBarButton extends LinearLayout {
         initializeViews();
 
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
-        initializeElements(context, typedArray, theme);
+        Context themedContext = UIDContextWrapper.getThemedContext(context, theme);
+
+        initializeElements(themedContext, typedArray);
         typedArray.recycle();
 
     }
@@ -130,12 +132,12 @@ public class ProgressBarButton extends LinearLayout {
         }
     }
 
-    private void initializeElements(final Context context, final TypedArray typedArray, Resources.Theme theme) {
+    private void initializeElements(final Context themedContext, final TypedArray typedArray) {
         int buttonDrawableId = typedArray.getResourceId(R.styleable.UIDProgressIndicatorButton_uidProgressIndicatorButtonDrawable, -1);
         setDrawable(buttonDrawableId);
 
         int progressButtonBackgroundDrawableId = typedArray.getResourceId(R.styleable.UIDProgressIndicatorButton_uidProgressIndicatorButtonProgressBackground, R.drawable.uid_progress_indicator_button_background);
-        progressBackgroundDrawable = UIDUtils.setTintOnDrawable(ContextCompat.getDrawable(context, progressButtonBackgroundDrawableId), R.color.uid_progress_indicator_button_background_selector, theme, context);
+        progressBackgroundDrawable = UIDUtils.setTintOnDrawable(ContextCompat.getDrawable(themedContext, progressButtonBackgroundDrawableId), R.color.uid_progress_indicator_button_background_selector, themedContext);
 
         int progress = typedArray.getInt(R.styleable.UIDProgressIndicatorButton_uidProgressIndicatorButtonProgress, 0);
         setProgress(progress);
@@ -223,6 +225,7 @@ public class ProgressBarButton extends LinearLayout {
      *
      * @param resId on the text that will be shown on the button
      */
+    @SuppressWarnings("unused")
     public void setProgressText(@StringRes int resId) {
         setProgressText(getContext().getString(resId));
     }
@@ -230,7 +233,7 @@ public class ProgressBarButton extends LinearLayout {
     /**
      * Get the progress text of the button
      *
-     * @return  progress text of the button
+     * @return progress text of the button
      */
     public String getProgressText() {
         return progressTextView.getText().toString();
@@ -318,6 +321,7 @@ public class ProgressBarButton extends LinearLayout {
      *
      * @return ProgressBar instance
      */
+    @SuppressWarnings("unused")
     public ProgressBar getProgressBar() {
         return progressBar;
     }
@@ -327,6 +331,7 @@ public class ProgressBarButton extends LinearLayout {
      *
      * @return progress TextView
      */
+    @SuppressWarnings("unused")
     public TextView getProgressTextView() {
         return progressTextView;
     }

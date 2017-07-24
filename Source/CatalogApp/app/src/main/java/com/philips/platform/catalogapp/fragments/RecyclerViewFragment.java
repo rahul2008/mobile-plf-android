@@ -20,13 +20,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.philips.platform.catalogapp.DataHolder;
 import com.philips.platform.catalogapp.DataHolderView;
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentRecyclerviewBinding;
 import com.philips.platform.uid.drawable.SeparatorDrawable;
 import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.utils.UIDContextWrapper;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
 
@@ -146,7 +146,8 @@ public class RecyclerViewFragment extends BaseFragment {
             ((RecyclerViewAdapter.BindingHolder) holder).getBinding().executePendingBindings();
 
             Resources.Theme theme = ThemeUtils.getTheme(holder.itemView.getContext(), null);
-            ColorStateList colorStateList = ThemeUtils.buildColorStateList(holder.itemView.getResources(), theme, R.color.uid_recyclerview_background_selector);
+            Context themedContext = UIDContextWrapper.getThemedContext(holder.itemView.getContext(), theme);
+            ColorStateList colorStateList = ThemeUtils.buildColorStateList(themedContext, R.color.uid_recyclerview_background_selector);
             final int selectedStateColor = colorStateList.getDefaultColor();
 
             ((BindingHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {

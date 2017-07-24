@@ -9,7 +9,6 @@ package com.philips.platform.uid.utils;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ScrollView;
-
 import com.philips.platform.uid.R;
 
 public class MaxHeightScrollView extends ScrollView {

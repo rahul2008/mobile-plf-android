@@ -12,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.text.Editable;
 import android.view.MotionEvent;
-
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.view.widget.EditText;
 

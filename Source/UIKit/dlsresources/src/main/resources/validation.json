@@ -1,13 +1,11 @@
-[{
+[
+  {
   "group-blue": {
     "input-validated-background": {
       "ultra-light": {
         "color": "#FFF1D3"
       },
       "very-light": {
-        "color": "#FFF1D3"
-      },
-      "light": {
         "color": "#FFF1D3"
       },
       "bright": {
@@ -24,9 +22,6 @@
       "very-light": {
         "color-range": "signal-red"
       },
-      "light": {
-        "color-range": "signal-red"
-      },
       "bright": {
         "color-range": "signal-red"
       },
@@ -37,18 +32,6 @@
     "input-validated-border": {
       "ultra-light": {
         "color-range": "signal-orange"
-      },
-      "very-light": {
-        "reference": "no-color"
-      },
-      "light": {
-        "reference": "no-color"
-      },
-      "bright": {
-        "reference": "no-color"
-      },
-      "very-dark": {
-        "reference": "no-color"
       }
     },
     "input-validated-text": {
@@ -56,9 +39,6 @@
         "color-range": "signal-orange"
       },
       "very-light": {
-        "color-range": "signal-orange"
-      },
-      "light": {
         "color-range": "signal-orange"
       },
       "bright": {
@@ -75,9 +55,6 @@
       "very-light": {
         "color-range": "signal-orange"
       },
-      "light": {
-        "color-range": "signal-orange"
-      },
       "bright": {
         "color-range": "signal-orange"
       },
@@ -90,9 +67,6 @@
         "color-range": "signal-orange"
       },
       "very-light": {
-        "color-range": "signal-red"
-      },
-      "light": {
         "color-range": "signal-red"
       },
       "bright": {
@@ -111,9 +85,6 @@
       "very-light": {
         "color": "#FFF1D3"
       },
-      "light": {
-        "color": "#FFF1D3"
-      },
       "bright": {
         "color": "#FFF1D3"
       },
@@ -128,9 +99,6 @@
       "very-light": {
         "color-range": "signal-red"
       },
-      "light": {
-        "color-range": "signal-red"
-      },
       "bright": {
         "color-range": "signal-red"
       },
@@ -141,18 +109,6 @@
     "input-validated-border": {
       "ultra-light": {
         "color-range": "signal-orange"
-      },
-      "very-light": {
-        "reference": "no-color"
-      },
-      "light": {
-        "reference": "no-color"
-      },
-      "bright": {
-        "reference": "no-color"
-      },
-      "very-dark": {
-        "reference": "no-color"
       }
     },
     "tooltip-validated": {
@@ -160,9 +116,6 @@
         "color-range": "signal-orange"
       },
       "very-light": {
-        "color-range": "signal-orange"
-      },
-      "light": {
         "color-range": "signal-orange"
       },
       "bright": {
@@ -179,9 +132,6 @@
       "very-light": {
         "color-range": "signal-orange"
       },
-      "light": {
-        "color-range": "signal-orange"
-      },
       "bright": {
         "color-range": "signal-orange"
       },
@@ -194,9 +144,6 @@
         "color-range": "signal-orange"
       },
       "very-light": {
-        "color-range": "signal-red"
-      },
-      "light": {
         "color-range": "signal-red"
       },
       "bright": {
@@ -215,9 +162,6 @@
       "very-light": {
         "color": "#FFF1D3"
       },
-      "light": {
-        "color": "#FFF1D3"
-      },
       "bright": {
         "color": "#FFF1D3"
       },
@@ -232,9 +176,6 @@
       "very-light": {
         "color-range": "signal-red"
       },
-      "light": {
-        "color-range": "signal-red"
-      },
       "bright": {
         "color-range": "signal-red"
       },
@@ -245,18 +186,6 @@
     "input-validated-border": {
       "ultra-light": {
         "color-range": "signal-orange"
-      },
-      "very-light": {
-        "reference": "no-color"
-      },
-      "light": {
-        "reference": "no-color"
-      },
-      "bright": {
-        "reference": "no-color"
-      },
-      "very-dark": {
-        "reference": "no-color"
       }
     },
     "tooltip-validated": {
@@ -264,9 +193,6 @@
         "color-range": "signal-orange"
       },
       "very-light": {
-        "color-range": "signal-orange"
-      },
-      "light": {
         "color-range": "signal-orange"
       },
       "bright": {
@@ -283,9 +209,6 @@
       "very-light": {
         "color-range": "signal-orange"
       },
-      "light": {
-        "color-range": "signal-orange"
-      },
       "bright": {
         "color-range": "signal-orange"
       },
@@ -298,9 +221,6 @@
         "color-range": "signal-orange"
       },
       "very-light": {
-        "color-range": "signal-red"
-      },
-      "light": {
         "color-range": "signal-red"
       },
       "bright": {
@@ -319,9 +239,6 @@
       "very-light": {
         "color": "#FFF1D3"
       },
-      "light": {
-        "color": "#FFF1D3"
-      },
       "bright": {
         "color": "#FFF1D3"
       },
@@ -336,9 +253,6 @@
       "very-light": {
         "color-range": "signal-red"
       },
-      "light": {
-        "color-range": "signal-red"
-      },
       "bright": {
         "color-range": "signal-red"
       },
@@ -349,18 +263,6 @@
     "input-validated-border": {
       "ultra-light": {
         "color-range": "signal-orange"
-      },
-      "very-light": {
-        "reference": "no-color"
-      },
-      "light": {
-        "reference": "no-color"
-      },
-      "bright": {
-        "reference": "no-color"
-      },
-      "very-dark": {
-        "reference": "no-color"
       }
     },
     "tooltip-validated": {
@@ -368,9 +270,6 @@
         "color-range": "signal-orange"
       },
       "very-light": {
-        "color-range": "signal-orange"
-      },
-      "light": {
         "color-range": "signal-orange"
       },
       "bright": {
@@ -387,9 +286,6 @@
       "very-light": {
         "color-range": "signal-orange"
       },
-      "light": {
-        "color-range": "signal-orange"
-      },
       "bright": {
         "color-range": "signal-orange"
       },
@@ -402,9 +298,6 @@
         "color-range": "signal-orange"
       },
       "very-light": {
-        "color-range": "signal-orange"
-      },
-      "light": {
         "color-range": "signal-orange"
       },
       "bright": {
@@ -423,9 +316,6 @@
       "very-light": {
         "color": "#FFBFBF"
       },
-      "light": {
-        "color": "#FFBFBF"
-      },
       "bright": {
         "color": "#FFBFBF"
       },
@@ -440,9 +330,6 @@
       "very-light": {
         "color-range": "signal-red"
       },
-      "light": {
-        "color-range": "signal-red"
-      },
       "bright": {
         "color-range": "signal-red"
       },
@@ -453,18 +340,6 @@
     "input-validated-border": {
       "ultra-light": {
         "color-range": "signal-red"
-      },
-      "very-light": {
-        "reference": "no-color"
-      },
-      "light": {
-        "reference": "no-color"
-      },
-      "bright": {
-        "reference": "no-color"
-      },
-      "very-dark": {
-        "reference": "no-color"
       }
     },
     "tooltip-validated": {
@@ -472,9 +347,6 @@
         "color-range": "signal-red"
       },
       "very-light": {
-        "color-range": "signal-red"
-      },
-      "light": {
         "color-range": "signal-red"
       },
       "bright": {
@@ -491,9 +363,6 @@
       "very-light": {
         "color-range": "signal-red"
       },
-      "light": {
-        "color-range": "signal-red"
-      },
       "bright": {
         "color-range": "signal-red"
       },
@@ -506,9 +375,6 @@
         "color-range": "signal-orange"
       },
       "very-light": {
-        "color-range": "signal-red"
-      },
-      "light": {
         "color-range": "signal-red"
       },
       "bright": {
@@ -527,9 +393,6 @@
       "very-light": {
         "color": "#FFF1D3"
       },
-      "light": {
-        "color": "#FFF1D3"
-      },
       "bright": {
         "color": "#FFF1D3"
       },
@@ -544,9 +407,6 @@
       "very-light": {
         "color-range": "signal-orange"
       },
-      "light": {
-        "color-range": "signal-orange"
-      },
       "bright": {
         "color-range": "signal-orange"
       },
@@ -557,18 +417,6 @@
     "input-validated-border": {
       "ultra-light": {
         "color-range": "signal-orange"
-      },
-      "very-light": {
-        "reference": "no-color"
-      },
-      "light": {
-        "reference": "no-color"
-      },
-      "bright": {
-        "reference": "no-color"
-      },
-      "very-dark": {
-        "reference": "no-color"
       }
     },
     "tooltip-validated": {
@@ -576,9 +424,6 @@
         "color-range": "signal-orange"
       },
       "very-light": {
-        "color-range": "signal-orange"
-      },
-      "light": {
         "color-range": "signal-orange"
       },
       "bright": {
@@ -595,9 +440,6 @@
       "very-light": {
         "color-range": "signal-orange"
       },
-      "light": {
-        "color-range": "signal-orange"
-      },
       "bright": {
         "color-range": "signal-orange"
       },
@@ -610,9 +452,6 @@
         "color-range": "signal-orange"
       },
       "very-light": {
-        "color-range": "signal-red"
-      },
-      "light": {
         "color-range": "signal-red"
       },
       "bright": {
@@ -631,9 +470,6 @@
       "very-light": {
         "color": "#FFF1D3"
       },
-      "light": {
-        "color": "#FFF1D3"
-      },
       "bright": {
         "color": "#FFF1D3"
       },
@@ -648,9 +484,6 @@
       "very-light": {
         "color-range": "signal-red"
       },
-      "light": {
-        "color-range": "signal-red"
-      },
       "bright": {
         "color-range": "signal-red"
       },
@@ -661,18 +494,6 @@
     "input-validated-border": {
       "ultra-light": {
         "color-range": "signal-orange"
-      },
-      "very-light": {
-        "reference": "no-color"
-      },
-      "light": {
-        "reference": "no-color"
-      },
-      "bright": {
-        "reference": "no-color"
-      },
-      "very-dark": {
-        "reference": "no-color"
       }
     },
     "tooltip-validated": {
@@ -680,9 +501,6 @@
         "color-range": "signal-orange"
       },
       "very-light": {
-        "color-range": "signal-orange"
-      },
-      "light": {
         "color-range": "signal-orange"
       },
       "bright": {
@@ -699,9 +517,6 @@
       "very-light": {
         "color-range": "signal-orange"
       },
-      "light": {
-        "color-range": "signal-orange"
-      },
       "bright": {
         "color-range": "signal-orange"
       },
@@ -714,9 +529,6 @@
         "color-range": "signal-orange"
       },
       "very-light": {
-        "color-range": "signal-red"
-      },
-      "light": {
         "color-range": "signal-red"
       },
       "bright": {
@@ -735,9 +547,6 @@
       "very-light": {
         "color": "#FFF1D3"
       },
-      "light": {
-        "color": "#FFF1D3"
-      },
       "bright": {
         "color": "#FFF1D3"
       },
@@ -752,9 +561,6 @@
       "very-light": {
         "color-range": "signal-red"
       },
-      "light": {
-        "color-range": "signal-red"
-      },
       "bright": {
         "color-range": "signal-red"
       },
@@ -765,18 +571,6 @@
     "input-validated-border": {
       "ultra-light": {
         "color-range": "signal-orange"
-      },
-      "very-light": {
-        "reference": "no-color"
-      },
-      "light": {
-        "reference": "no-color"
-      },
-      "bright": {
-        "reference": "no-color"
-      },
-      "very-dark": {
-        "reference": "no-color"
       }
     },
     "tooltip-validated": {
@@ -784,9 +578,6 @@
         "color-range": "signal-orange"
       },
       "very-light": {
-        "color-range": "signal-orange"
-      },
-      "light": {
         "color-range": "signal-orange"
       },
       "bright": {
@@ -803,9 +594,6 @@
       "very-light": {
         "color-range": "signal-orange"
       },
-      "light": {
-        "color-range": "signal-orange"
-      },
       "bright": {
         "color-range": "signal-orange"
       },
@@ -818,9 +606,6 @@
         "color-range": "signal-orange"
       },
       "very-light": {
-        "color-range": "signal-red"
-      },
-      "light": {
         "color-range": "signal-red"
       },
       "bright": {

@@ -21,33 +21,17 @@ import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.philips.platform.catalogapp.events.AccentColorChangedEvent;
-import com.philips.platform.catalogapp.events.ColorRangeChangedEvent;
-import com.philips.platform.catalogapp.events.ContentTonalRangeChangedEvent;
-import com.philips.platform.catalogapp.events.NavigationColorChangedEvent;
-import com.philips.platform.catalogapp.events.OptionMenuClickedEvent;
+import com.philips.platform.catalogapp.events.*;
 import com.philips.platform.catalogapp.themesettings.ThemeHelper;
-import com.philips.platform.uid.thememanager.AccentRange;
-import com.philips.platform.uid.thememanager.ColorRange;
-import com.philips.platform.uid.thememanager.ContentColor;
-import com.philips.platform.uid.thememanager.NavigationColor;
-import com.philips.platform.uid.thememanager.ThemeConfiguration;
-import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.thememanager.*;
 import com.philips.platform.uid.utils.UIDActivity;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
+import java.io.*;
 
 public class MainActivity extends UIDActivity {
 

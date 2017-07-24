@@ -175,7 +175,7 @@
     "property": {
       "item": "icon",
       "type": "color",
-      "value": "input-text"
+      "value": "input-text-primary"
     },
     "component": "button"
   },
@@ -1573,6 +1573,58 @@
       "item": "value-text",
       "type": "color",
       "value": "text-primary"
+    },
+    "component": "data-visualization"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "data-color-1-outline",
+      "type": "color",
+      "value": "data-color-1-outline"
+    },
+    "component": "data-visualization"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "data-color-2-outline",
+      "type": "color",
+      "value": "data-color-2-outline"
+    },
+    "component": "data-visualization"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "data-color-3-outline",
+      "type": "color",
+      "value": "data-color-3-outline"
+    },
+    "component": "data-visualization"
+  },
+  {
+    "state": [
+      "hover"
+    ],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "data-color-4-outline",
+      "type": "color",
+      "value": "data-color-4-outline"
     },
     "component": "data-visualization"
   },
@@ -3026,7 +3078,7 @@
     "property": {
       "item": "clear-icon",
       "type": "color",
-      "value": "neutral-text-tertiary"
+      "value": "input-text-tertiary"
     },
     "component": "search-box"
   },
@@ -3052,7 +3104,7 @@
     "property": {
       "item": "input-background",
       "type": "color",
-      "value": "input"
+      "value": "input-text-primary"
     },
     "component": "search-box"
   },
@@ -3078,7 +3130,7 @@
     "property": {
       "item": "input-text",
       "type": "color",
-      "value": "input-text"
+      "value": "input-text-primary"
     },
     "component": "search-box"
   },
@@ -3169,7 +3221,7 @@
     "property": {
       "item": "clear-icon",
       "type": "color",
-      "value": "neutral-text-tertiary"
+      "value": "input-text-tertiary"
     },
     "component": "search-box"
   },
@@ -3221,7 +3273,7 @@
     "property": {
       "item": "input-text",
       "type": "color",
-      "value": "input-text"
+      "value": "input-text-primary"
     },
     "component": "search-box"
   },
@@ -3393,6 +3445,72 @@
       "value": "shadow-level-two"
     },
     "component": "shadow"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "background",
+      "type": "color",
+      "value": "splash-screen"
+    },
+    "component": "splash-screen"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "icon",
+      "type": "color",
+      "value": "splash-screen-text"
+    },
+    "component": "splash-screen"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "light-center",
+      "type": "color",
+      "value": "splash-screen-light"
+    },
+    "component": "splash-screen"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "light-edge",
+      "type": "color",
+      "value": "no-color"
+    },
+    "component": "splash-screen"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "shield",
+      "type": "color",
+      "value": "splash-screen-text"
+    },
+    "component": "splash-screen"
+  },
+  {
+    "state": [],
+    "parent": [],
+    "context": "default",
+    "property": {
+      "item": "text",
+      "type": "color",
+      "value": "splash-screen-text"
+    },
+    "component": "splash-screen"
   },
   {
     "state": [
@@ -4068,7 +4186,7 @@
     "property": {
       "item": "clear-icon",
       "type": "color",
-      "value": "text-tertiary"
+      "value": "input-text-tertiary"
     },
     "component": "text-box"
   },
@@ -4094,7 +4212,7 @@
     "property": {
       "item": "icon",
       "type": "color",
-      "value": "input-text"
+      "value": "input-text-primary"
     },
     "component": "text-box"
   },
@@ -4120,7 +4238,7 @@
     "property": {
       "item": "show-hide-icon",
       "type": "color",
-      "value": "text-secondary"
+      "value": "input-text-secondary"
     },
     "component": "text-box"
   },
@@ -4133,7 +4251,7 @@
     "property": {
       "item": "text",
       "type": "color",
-      "value": "text-primary-vdg"
+      "value": "input-text-primary"
     },
     "component": "text-box"
   },
@@ -4250,7 +4368,7 @@
     "property": {
       "item": "selection-text",
       "type": "color",
-      "value": "text-primary-vdg"
+      "value": "input-text-primary"
     },
     "component": "text-box"
   },
@@ -4458,7 +4576,7 @@
     "property": {
       "item": "show-hide-icon",
       "type": "color",
-      "value": "text-disabled"
+      "value": "input-text-disabled"
     },
     "component": "text-box"
   },
@@ -4484,7 +4602,7 @@
     "property": {
       "item": "bullet",
       "type": "color",
-      "value": "input-text"
+      "value": "input-text-primary"
     },
     "component": "text-box"
   },
@@ -4614,7 +4732,7 @@
     "property": {
       "item": "icon",
       "type": "color",
-      "value": "input-text"
+      "value": "input-text-primary"
     },
     "component": "text-box"
   },

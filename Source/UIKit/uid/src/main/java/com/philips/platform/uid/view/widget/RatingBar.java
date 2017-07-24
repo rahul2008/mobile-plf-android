@@ -2,22 +2,13 @@ package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
+import android.graphics.*;
+import android.graphics.drawable.*;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatRatingBar;
 import android.util.AttributeSet;
-
 import com.philips.platform.uid.R;
-
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
 /**

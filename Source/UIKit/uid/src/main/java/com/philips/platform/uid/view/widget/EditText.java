@@ -20,14 +20,9 @@ import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.inputmethod.EditorInfo;
-
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
-import com.philips.platform.uid.utils.ClearEditTextIconHandler;
-import com.philips.platform.uid.utils.EditTextIconHandler;
-import com.philips.platform.uid.utils.PasswordEditTextIconHandler;
-import com.philips.platform.uid.utils.UIDInputTextUtils;
-import com.philips.platform.uid.utils.UIDLocaleHelper;
+import com.philips.platform.uid.utils.*;
 
 public class EditText extends AppCompatEditText {
     private boolean passwordVisible = false;
@@ -48,39 +43,40 @@ public class EditText extends AppCompatEditText {
         processAttributes(context, attrs, defStyleAttr);
     }
 
-    private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs,int defStyleAttr) {
+    private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs, int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDTextEditBox, defStyleAttr, R.style.UIDEditTextBox);
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
+        Context themedContext = UIDContextWrapper.getThemedContext(context, theme);
 
         UIDLocaleHelper.setTextFromResourceID(context, this, attrs);
 
         Rect paddingRect = new Rect(getPaddingLeft(), getPaddingTop(), getPaddingRight(), getPaddingBottom());
-        Drawable backgroundDrawable = UIDInputTextUtils.getLayeredBackgroundDrawable(typedArray, theme, context);
+        Drawable backgroundDrawable = UIDInputTextUtils.getLayeredBackgroundDrawable(themedContext, typedArray);
         if (backgroundDrawable != null) {
             setBackground(backgroundDrawable);
         }
 
         isClearIconSupported = typedArray.getBoolean(R.styleable.UIDTextEditBox_uidInputTextWithClearButton, false);
-        setHintTextColors(typedArray, theme);
-        setTextColors(typedArray, theme);
+        setHintTextColors(themedContext, typedArray);
+        setTextColors(themedContext, typedArray);
         restorePadding(paddingRect);
 
         typedArray.recycle();
         initIconHandler();
     }
 
-    private void setHintTextColors(final TypedArray typedArray, final Resources.Theme theme) {
+    private void setHintTextColors(final Context themedContext, final TypedArray typedArray) {
         int hintSelectorID = typedArray.getResourceId(R.styleable.UIDTextEditBox_uidInputTextHintTextSelector, -1);
         if (hintSelectorID != -1) {
-            ColorStateList selector = ThemeUtils.buildColorStateList(getContext().getResources(), theme, hintSelectorID);
+            ColorStateList selector = ThemeUtils.buildColorStateList(themedContext, hintSelectorID);
             setHintTextColor(selector);
         }
     }
 
-    private void setTextColors(final TypedArray typedArray, final Resources.Theme theme) {
+    private void setTextColors(final Context themedContext, final TypedArray typedArray) {
         int textSelectorID = typedArray.getResourceId(R.styleable.UIDTextEditBox_uidInputTextTextSelector, -1);
         if (textSelectorID != -1) {
-            ColorStateList selector = ThemeUtils.buildColorStateList(getContext().getResources(), theme, textSelectorID);
+            ColorStateList selector = ThemeUtils.buildColorStateList(themedContext, textSelectorID);
             setTextColor(selector);
         }
     }

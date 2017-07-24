@@ -17,9 +17,9 @@ import android.graphics.drawable.RotateDrawable;
 import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;
-
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.utils.UIDContextWrapper;
 import com.philips.platform.uid.utils.UIDUtils;
 
 public class ProgressBar extends android.widget.ProgressBar {
@@ -44,7 +44,9 @@ public class ProgressBar extends android.widget.ProgressBar {
         obtainStyleAttributes(context, attrs, defStyleAttr);
 
         Theme theme = ThemeUtils.getTheme(context, attrs);
-        initProgressBar(theme);
+        Context themedContext = UIDContextWrapper.getThemedContext(context, theme);
+
+        initProgressBar(themedContext);
     }
 
     private void obtainStyleAttributes(final Context context, final AttributeSet attrs, final int defStyleAttr) {
@@ -55,28 +57,28 @@ public class ProgressBar extends android.widget.ProgressBar {
         obtainStyledAttributes.recycle();
     }
 
-    private void initProgressBar(final Theme theme) {
+    private void initProgressBar(Context themedContext) {
         if (isLinearProgressBarEnabled) {
-            initLinearProgressBar(theme);
+            initLinearProgressBar(themedContext);
         } else {
             if (isIndeterminate()) {
                 initIndeterminateCircularProgressBar();
             } else {
-                initCircularProgressBar(theme);
+                initCircularProgressBar(themedContext);
             }
         }
     }
 
-    private void initLinearProgressBar(final Theme theme) {
+    private void initLinearProgressBar(final Context themedContext) {
         final LayerDrawable progressBarDrawable = (LayerDrawable) getProgressDrawable();
 
         final Drawable background = progressBarDrawable.findDrawableByLayerId(android.R.id.background);
         final Drawable progress = progressBarDrawable.findDrawableByLayerId(android.R.id.progress);
         final Drawable secondaryProgress = progressBarDrawable.findDrawableByLayerId(android.R.id.secondaryProgress);
 
-        final Drawable backgroundDrawable = UIDUtils.setTintOnDrawable(background, R.color.uid_progress_bar_background_selector, theme, getContext());
-        final Drawable progressDrawable = UIDUtils.setTintOnDrawable(progress, R.color.uid_progress_bar_progress_selector, theme, getContext());
-        final Drawable secondaryProgressDrawable = UIDUtils.setTintOnDrawable(secondaryProgress, R.color.uid_progress_bar_secondary_progress_selector, theme, getContext());
+        final Drawable backgroundDrawable = UIDUtils.setTintOnDrawable(background, R.color.uid_progress_bar_background_selector, themedContext);
+        final Drawable progressDrawable = UIDUtils.setTintOnDrawable(progress, R.color.uid_progress_bar_progress_selector, themedContext);
+        final Drawable secondaryProgressDrawable = UIDUtils.setTintOnDrawable(secondaryProgress, R.color.uid_progress_bar_secondary_progress_selector, themedContext);
 
         final LayerDrawable layer = new LayerDrawable(new Drawable[]{backgroundDrawable, secondaryProgressDrawable, progressDrawable});
         layer.setId(0, android.R.id.background);
@@ -90,13 +92,13 @@ public class ProgressBar extends android.widget.ProgressBar {
         }
     }
 
-    private void initCircularProgressBar(final Theme theme) {
+    private void initCircularProgressBar(final Context themedContext) {
         final LayerDrawable progressBarDrawable = (LayerDrawable) getProgressDrawable();
         final Drawable background = progressBarDrawable.findDrawableByLayerId(android.R.id.background);
         final Drawable progress = progressBarDrawable.findDrawableByLayerId(android.R.id.progress);
 
-        final Drawable backgroundDrawable = UIDUtils.setTintOnDrawable(background, R.color.uid_progress_bar_background_selector, theme, getContext());
-        final Drawable progressDrawable = UIDUtils.setTintOnDrawable(progress, determinateCircularProgressColorList, theme, getContext());
+        final Drawable backgroundDrawable = UIDUtils.setTintOnDrawable(background, R.color.uid_progress_bar_background_selector, themedContext);
+        final Drawable progressDrawable = UIDUtils.setTintOnDrawable(progress, determinateCircularProgressColorList, themedContext);
 
         final LayerDrawable layer = createCircularProgressBarLayerDrawable(progressDrawable, backgroundDrawable);
 

@@ -24,7 +24,6 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
-
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
 
@@ -324,7 +323,7 @@ public class DotNavigationIndicator extends LinearLayout implements PageIndicato
     }
 
     protected ColorStateList getIndicatorTintList() {
-        return ThemeUtils.buildColorStateList(getResources(), getContext().getTheme(),
+        return ThemeUtils.buildColorStateList(getContext(),
                 dotNavigationIconColorListID != -1 ? dotNavigationIconColorListID : R.color.uid_dot_navigation_icon_color);
     }
 

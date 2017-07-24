@@ -6,8 +6,8 @@
 
 package com.philips.platform.uid.thememanager;
 
+import android.content.Context;
 import android.content.res.Resources;
-
 import com.philips.platform.uid.R;
 
 /**
@@ -65,4 +65,7 @@ public enum AccentRange implements ThemeConfig {
 
     public abstract void injectStyle(Resources.Theme theme);
 
+    void injectAllAccentAttributes(Context context, Resources.Theme theme) {
+        theme.applyStyle(ThemeUtils.getAccentResourceID(context), true);
+    }
 }

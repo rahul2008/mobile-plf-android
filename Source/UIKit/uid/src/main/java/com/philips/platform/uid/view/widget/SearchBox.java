@@ -26,13 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Adapter;
-import android.widget.Filter;
-import android.widget.Filterable;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
+import android.widget.*;
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
 import com.philips.platform.uid.utils.UIDInputTextUtils;
@@ -132,7 +126,7 @@ public class SearchBox extends LinearLayout {
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDTextEditBox, defStyleAttr, R.style.UIDEditTextBox);
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
-        Drawable backgroundDrawable = UIDInputTextUtils.getLayeredBackgroundDrawable(typedArray, theme, context);
+        Drawable backgroundDrawable = UIDInputTextUtils.getLayeredBackgroundDrawable(context, typedArray);
         if (backgroundDrawable != null) {
             decoySearchView.setBackground(backgroundDrawable);
         }

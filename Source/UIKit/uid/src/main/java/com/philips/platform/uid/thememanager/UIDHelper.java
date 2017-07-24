@@ -6,6 +6,7 @@
 
 package com.philips.platform.uid.thememanager;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
@@ -14,9 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
 import com.philips.platform.uid.R;
-
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class UIDHelper {
@@ -36,10 +35,19 @@ public class UIDHelper {
     public static void init(@NonNull ThemeConfiguration themeConfiguration) {
         Resources.Theme theme = themeConfiguration.getContext().getTheme();
         Log.d(UIDHelper.class.getName(), " init ");
+        AccentRange accentConfig = null;
 
         for (ThemeConfig config : themeConfiguration.getConfigurations()) {
             Log.d(UIDHelper.class.getName(), " config " + config);
             config.injectStyle(theme);
+            if (config instanceof AccentRange) {
+                accentConfig = (AccentRange) config;
+            }
+        }
+
+        accentConfig.injectAllAccentAttributes(themeConfiguration.getContext(), theme);
+        if (!AccentValidator.isValidAccent(ThemeUtils.getColorRangeName(themeConfiguration.getContext()).toUpperCase(), accentConfig.name())) {
+            throw new RuntimeException("Invalid accent range.");
         }
     }
 
@@ -84,5 +92,18 @@ public class UIDHelper {
             return;
         }
         throw new RuntimeException("Please include a uid_toolbar_layout in your main activity layout xml");
+    }
+
+    /**
+     * Provides a themed context which suits best for controls always having white background irrespective of content range.<br>
+     * The returned context must be used while creating dynamic UI or drawables to match the correct theme.
+     * <br> Use the inflater returned from {@link android.view.LayoutInflater#cloneInContext(Context)} method to inflate any view/drawable.
+     * <br>Examples are Dialogs, UIPicker and popups.
+     *
+     * @param context Original context
+     * @return Context which provides UI background comptability across different content color ranges.
+     */
+    public static Context getPopupThemedContext(Context context) {
+      return ThemeUtils.getPopupThemedContext(context);
     }
 }

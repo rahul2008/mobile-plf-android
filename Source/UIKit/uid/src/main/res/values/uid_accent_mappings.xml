@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BaseAccent">
+        <item name="uidButtonPrimaryNormalBackgroundColor">?attr/uidButtonAccentNormalBackgroundColor</item>
+        <item name="uidButtonPrimaryNormalIconColor">?attr/uidButtonAccentNormalIconColor</item>
+        <item name="uidButtonPrimaryNormalTextColor">?attr/uidButtonAccentNormalTextColor</item>
+        <item name="uidButtonPrimaryFocusBackgroundColor">?attr/uidButtonAccentFocusBackgroundColor</item>
+        <item name="uidButtonPrimaryPressedBackgroundColor">?attr/uidButtonAccentPressedBackgroundColor</item>
+        <item name="uidButtonPrimaryDisabledBackgroundColor">?attr/uidButtonAccentDisabledBackgroundColor</item>
+        <item name="uidButtonPrimaryDisabledIconColor">?attr/uidButtonAccentDisabledBackgroundColor</item>
+        <item name="uidButtonPrimaryDisabledTextColor">?attr/uidButtonAccentDisabledTextColor</item>
+
+        <!--Notification badge-->
+        <item name="uidNotificationBadgeDefaultBackgroundColor">?attr/uidNotificationBadgeAccentBackgroundColor</item>
+        <item name="uidNotificationBadgeDefaultTextColor">?attr/uidNotificationBadgeAccentTextColor</item>
+    </style>
+</resources>

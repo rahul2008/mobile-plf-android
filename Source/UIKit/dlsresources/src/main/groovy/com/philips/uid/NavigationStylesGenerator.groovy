@@ -9,7 +9,7 @@ class NavigationStylesGenerator {
     List<NavigationAttribute> navigationList = new ArrayList<>()
 
     def addNavigationAttribute(navAttribute) {
-        if(!navigationList.contains(navAttribute)) {
+        if (!navigationList.contains(navAttribute)) {
             navigationList.add(navAttribute)
         }
     }

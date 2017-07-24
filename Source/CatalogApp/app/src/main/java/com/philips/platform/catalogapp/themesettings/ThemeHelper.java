@@ -8,12 +8,7 @@ package com.philips.platform.catalogapp.themesettings;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.support.annotation.StyleRes;
-
-import com.philips.platform.uid.thememanager.AccentRange;
-import com.philips.platform.uid.thememanager.ColorRange;
-import com.philips.platform.uid.thememanager.ContentColor;
-import com.philips.platform.uid.thememanager.NavigationColor;
-import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.thememanager.*;
 
 public class ThemeHelper {
     final SharedPreferences sharedPreferences;
@@ -41,7 +36,7 @@ public class ThemeHelper {
     }
 
     public AccentRange initAccentRange() {
-        String accentRangeString = sharedPreferences.getString(UIDHelper.ACCENT_RANGE, AccentRange.GROUP_BLUE.name());
+        String accentRangeString = sharedPreferences.getString(UIDHelper.ACCENT_RANGE, AccentRange.ORANGE.name());
         final AccentRange accentRange = AccentRange.valueOf(accentRangeString);
         return accentRange;
     }

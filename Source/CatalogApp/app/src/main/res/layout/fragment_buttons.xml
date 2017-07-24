@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+        >
 
     <data>
 
@@ -137,17 +137,16 @@
                     android:text="@string/buttons_text_quiet"/>
 
                 <com.philips.platform.uid.view.widget.Button
-                    style="@style/UIDImageTextButton.Center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/layout_margin_left_right"
-                    android:layout_marginLeft="@dimen/layout_margin_left_right"
-                    android:layout_marginRight="@dimen/layout_margin_left_right"
-                    android:layout_marginTop="@dimen/button_gap"
-                    android:enabled="@{frag.isButtonsEnabled}"
-                    android:text="@string/accent_button_label"
-                    android:visibility="gone"
-                    app:uidComponentType="Accent"/>
+                        style="@style/UIDImageTextButton.Center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/layout_margin_left_right"
+                        android:layout_marginLeft="@dimen/layout_margin_left_right"
+                        android:layout_marginRight="@dimen/layout_margin_left_right"
+                        android:layout_marginTop="@dimen/button_gap"
+                        android:enabled="@{frag.isButtonsEnabled}"
+                        android:text="@string/accent_button_label"
+                        app:uidAccent="true"/>
             </LinearLayout>
 
             <!--Left aligned extra wide buttons[start]-->
@@ -216,15 +215,14 @@
                     android:text="@string/buttons_text_quiet"/>
 
                 <com.philips.platform.uid.view.widget.Button
-                    style="@style/UIDDefaultButton.UIDImageTextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/layout_margin_left_right"
-                    android:layout_marginTop="@dimen/button_gap"
-                    android:enabled="@{frag.isButtonsEnabled}"
-                    android:text="@string/accent_button_label"
-                    android:visibility="gone"
-                    app:uidComponentType="Accent"/>
+                        style="@style/UIDDefaultButton.UIDImageTextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/layout_margin_left_right"
+                        android:layout_marginTop="@dimen/button_gap"
+                        android:enabled="@{frag.isButtonsEnabled}"
+                        android:text="@string/accent_button_label"
+                        app:uidAccent="true"/>
             </LinearLayout>
 
             <com.philips.platform.uid.view.widget.Label

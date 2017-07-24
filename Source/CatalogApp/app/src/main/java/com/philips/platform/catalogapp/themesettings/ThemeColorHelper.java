@@ -8,15 +8,29 @@ package com.philips.platform.catalogapp.themesettings;
 
 import android.content.Context;
 import android.content.res.Resources;
-
 import com.philips.platform.catalogapp.R;
+import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ColorRange;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 public class ThemeColorHelper {
+    private static HashMap<String, ArrayList<AccentRange>> accentMap = new HashMap<>();
+
+    static {
+        accentMap.put(ColorRange.GROUP_BLUE.name(), AccentOptions.getGroupBlueAccentList());
+        accentMap.put(ColorRange.BLUE.name(), AccentOptions.getGroupBlueAccentList());
+        accentMap.put(ColorRange.AQUA.name(), AccentOptions.getAquaAccentList());
+        accentMap.put(ColorRange.GREEN.name(), AccentOptions.getGreenAccentList());
+        accentMap.put(ColorRange.ORANGE.name(), AccentOptions.getOrangeAccentList());
+        accentMap.put(ColorRange.PINK.name(), AccentOptions.getPinkAccentList());
+        accentMap.put(ColorRange.PURPLE.name(), AccentOptions.getPurpleAccentList());
+        accentMap.put(ColorRange.GRAY.name(), AccentOptions.getGrayAccentList());
+    }
+
 
     public int getColorResourceId(final Resources resources, final String basecolor, final String level, final String packageName) {
         return resources.getIdentifier(String.format(Locale.getDefault(), "uid_%s_level_%s", basecolor, level), "color", packageName);
@@ -74,15 +88,11 @@ public class ThemeColorHelper {
 
     public List<ColorModel> getAccentColorsList(final ColorRange colorRange, final Resources resources, final String packageName) {
         final List<ColorModel> colorRangeModelsList = new ArrayList<>();
-        final String colorName = colorRange.name().toLowerCase();
-        for (ColorRange name : ColorRange.values()) {
-            if (name != colorRange) {
-                final String shortName = getShortName(name.name());
-                int id = getColorResourceId(resources, name.name().toLowerCase(), "45", packageName);
-                colorRangeModelsList.add(new ColorModel(shortName, name.name(), id, getUidColorWhite()));
-            }
+        for (AccentRange accentRange : accentMap.get(colorRange.name())) {
+            final String shortName = getShortName(accentRange.name());
+            int id = getColorResourceId(resources, accentRange.name().toLowerCase(), "45", packageName);
+            colorRangeModelsList.add(new ColorModel(shortName, accentRange.name(), id, getUidColorWhite()));
         }
-
         return colorRangeModelsList;
     }
 

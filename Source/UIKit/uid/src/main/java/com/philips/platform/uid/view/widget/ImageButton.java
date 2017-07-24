@@ -8,6 +8,7 @@ package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -17,9 +18,9 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
-
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.utils.UIDContextWrapper;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
 
 public class ImageButton extends AppCompatButton {
@@ -42,8 +43,11 @@ public class ImageButton extends AppCompatButton {
 
     private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs, int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDImageButton, defStyleAttr, R.style.UIDImageButton);
-        assignDrawableProperties(typedArray);
-        applyBackgroundTinting(typedArray);
+        final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
+        Context themedContext = UIDContextWrapper.getThemedContext(context, theme);
+
+        assignDrawableProperties(themedContext, typedArray);
+        applyBackgroundTinting(themedContext, typedArray);
 
         UIDLocaleHelper.setTextFromResourceID(context, this, attrs);
 
@@ -52,21 +56,21 @@ public class ImageButton extends AppCompatButton {
         typedArray.recycle();
     }
 
-    private void assignDrawableProperties(@NonNull TypedArray typedArray) {
+    private void assignDrawableProperties(Context themedContext, @NonNull TypedArray typedArray) {
         drawableWidth = (int) typedArray.getDimension(R.styleable.UIDImageButton_uidImageButtonDrawableWidth, 0.0f);
         drawableHeight = (int) typedArray.getDimension(R.styleable.UIDImageButton_uidImageButtonDrawableHeight, 0.0f);
 
         //Store the color state list
         int resourceId = typedArray.getResourceId(R.styleable.UIDImageButton_uidImageButtonDrawableColorList, -1);
         if (resourceId != -1) {
-            drawableColorlist = ThemeUtils.buildColorStateList(getContext().getResources(), getContext().getTheme(), resourceId);
+            drawableColorlist = ThemeUtils.buildColorStateList(themedContext, resourceId);
         }
     }
 
-    private void applyBackgroundTinting(@NonNull TypedArray typedArray) {
+    private void applyBackgroundTinting(Context themedContext, @NonNull TypedArray typedArray) {
         int backGroundListID = typedArray.getResourceId(R.styleable.UIDImageButton_uidImageButtonColorList, -1);
         if (backGroundListID != -1 && getBackground() != null) {
-            ViewCompat.setBackgroundTintList(this, ThemeUtils.buildColorStateList(getContext().getResources(), getContext().getTheme(), backGroundListID));
+            ViewCompat.setBackgroundTintList(this, ThemeUtils.buildColorStateList(themedContext, backGroundListID));
         }
     }
 
@@ -100,7 +104,7 @@ public class ImageButton extends AppCompatButton {
      */
     public void setVectorResource(int resourceId) {
         Drawable drawable = VectorDrawableCompat.create(getResources(), resourceId, getContext().getTheme());
-        if(drawable != null)
+        if (drawable != null)
             setImageDrawable(drawable);
     }
 

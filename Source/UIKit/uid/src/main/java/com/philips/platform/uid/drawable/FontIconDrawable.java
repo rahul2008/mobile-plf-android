@@ -9,13 +9,7 @@ package com.philips.platform.uid.drawable;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.Paint;
-import android.graphics.PixelFormat;
-import android.graphics.Rect;
-import android.graphics.Typeface;
+import android.graphics.*;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -189,7 +183,7 @@ public class FontIconDrawable extends Drawable {
      * @return The current IconDrawable for chaining.
      */
     public FontIconDrawable colorRes(@ColorRes int colorRes) {
-        colorStateList = ColorStateList.valueOf(ContextCompat.getColor(context,colorRes));
+        colorStateList = ColorStateList.valueOf(ContextCompat.getColor(context, colorRes));
         paint.setColor(colorStateList.getColorForState(getState(), colorStateList.getDefaultColor()));
         invalidateSelf();
         return this;
@@ -360,7 +354,9 @@ public class FontIconDrawable extends Drawable {
     }
 
     @Override
-    public @NonNull Drawable mutate() {
+    public
+    @NonNull
+    Drawable mutate() {
         if (!mMutated && super.mutate() == this) {
             mState = new FontIconState(mState);
             mMutated = true;
@@ -388,7 +384,9 @@ public class FontIconDrawable extends Drawable {
         }
 
         @Override
-        public @NonNull Drawable newDrawable() {
+        public
+        @NonNull
+        Drawable newDrawable() {
             return new FontIconDrawable(this);
         }
 

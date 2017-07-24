@@ -17,9 +17,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.SwitchCompat;
 import android.util.AttributeSet;
-
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.ThemeUtils;
+import com.philips.platform.uid.utils.UIDContextWrapper;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
 import com.philips.platform.uid.utils.UIDUtils;
 
@@ -40,37 +40,38 @@ public class Switch extends SwitchCompat {
     private void processAttributes(@NonNull Context context, @NonNull AttributeSet attrs, int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.UIDSwitch, defStyleAttr, R.style.UIDSwitchStyle);
         final Resources.Theme theme = ThemeUtils.getTheme(context, attrs);
+        Context themedContext = UIDContextWrapper.getThemedContext(context, theme);
 
         UIDLocaleHelper.setTextFromResourceID(context, this, attrs);
 
-        applyThumbTint(typedArray, theme);
-        applyTrackTint(typedArray, theme);
-        applyRippleTint(typedArray, theme);
+        applyThumbTint(themedContext, typedArray);
+        applyTrackTint(themedContext, typedArray);
+        applyRippleTint(themedContext, typedArray);
         typedArray.recycle();
     }
 
-    private void applyTrackTint(final TypedArray typedArray, final Resources.Theme theme) {
+    private void applyTrackTint(final Context themedContext, final TypedArray typedArray) {
         int textColorStateID = typedArray.getResourceId(R.styleable.UIDSwitch_uidSwitchTrackColorList, -1);
         if (textColorStateID != -1) {
-            ColorStateList trackTintList = ThemeUtils.buildColorStateList(getResources(), theme, textColorStateID);
+            ColorStateList trackTintList = ThemeUtils.buildColorStateList(themedContext, textColorStateID);
             setTrackDrawable(DrawableCompat.wrap(getTrackDrawable()));
             setTrackTintList(trackTintList);
         }
     }
 
-    private void applyThumbTint(final TypedArray typedArray, final Resources.Theme theme) {
+    private void applyThumbTint(final Context themedContext, final TypedArray typedArray) {
         int textColorStateID = typedArray.getResourceId(R.styleable.UIDSwitch_uidSwitchThumbColorList, -1);
         if (textColorStateID != -1) {
             setThumbDrawable(DrawableCompat.wrap(getThumbDrawable()));
-            setThumbTintList(ThemeUtils.buildColorStateList(getResources(), theme, textColorStateID));
+            setThumbTintList(ThemeUtils.buildColorStateList(themedContext, textColorStateID));
         }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void applyRippleTint(final TypedArray typedArray, final Resources.Theme theme) {
+    private void applyRippleTint(final Context themedContext, final TypedArray typedArray) {
         int borderColorStateID = typedArray.getResourceId(R.styleable.UIDSwitch_uidSwitchBorderColorList, -1);
         if (UIDUtils.isMinLollipop() && (borderColorStateID > -1) && (getBackground() instanceof RippleDrawable)) {
-            ((RippleDrawable) getBackground()).setColor(ThemeUtils.buildColorStateList(getResources(), theme, borderColorStateID));
+            ((RippleDrawable) getBackground()).setColor(ThemeUtils.buildColorStateList(themedContext, borderColorStateID));
             int radius = getResources().getDimensionPixelSize(R.dimen.uid_switch_border_ripple_radius);
             UIDUtils.setRippleMaxRadius(getBackground(), radius);
         }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        >
 
     <data>
 
@@ -42,21 +42,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="@string/label_item_text_one"
-                    app:uidCheckBoxPaddingStart="0dp"/>
+                    android:text="@string/label_item_text_one"/>
 
                 <com.philips.platform.uid.view.widget.CheckBox
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="@string/label_item_text_two"
-                    app:uidCheckBoxPaddingStart="0dp"/>
+                    android:text="@string/label_item_text_two"/>
 
                 <com.philips.platform.uid.view.widget.CheckBox
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/label_item_text_three"
-                    app:uidCheckBoxPaddingStart="0dp"/>
+                    android:text="@string/label_item_text_three"/>
             </LinearLayout>
 
             <!--Label text top [START]-->
