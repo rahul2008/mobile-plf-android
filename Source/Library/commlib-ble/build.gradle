@@ -4,8 +4,8 @@
  */
 
 buildscript { bs ->
-    apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
-    apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
+    apply from: rootDir.absolutePath + '/common/gradle/project-build.gradle', to: bs
+    apply from: rootDir.absolutePath + '/common/gradle/module.gradle'
 
     repositories {
         maven {
@@ -35,7 +35,7 @@ apply plugin: 'pl.droidsonroids.pitest'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
-apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
+apply from: rootDir.absolutePath + '/common/gradle/module-tasks.gradle'
 
 def environment = 'production'
 if (project.hasProperty('envCode')) {
