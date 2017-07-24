@@ -14,9 +14,6 @@ Version 3.1.0
 ### Features not covered
 * NA
 
-### Breaking Changes
-See backwards compatibility
-
 ### Defects solved
 * \#56444 Fix firmware upgrade maxchunksize.
 * \#52917 Fixed ConcurrentModificationException in logger
