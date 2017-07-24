@@ -11,16 +11,7 @@ local.properties
 # ======================= #
 # Intellij/Android Studio #
 # ======================= #
-**/.idea/.name
-**/.idea/compiler.xml
-**/.idea/copyright/profiles_settings.xml
-**/.idea/encodings.xml
-**/.idea/gradle.xml
-**/.idea/misc.xml
-**/.idea/modules.xml
-**/.idea/vcs.xml
-**/.idea/scopes/scope_settings.xml
-**/.idea/markdown-navigator/*
+**/.idea/*
 **/*.iml
  
 # ===== #
