@@ -164,7 +164,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
         DigitalCareConfigManager.getInstance().setConsumerProductInfo(mProductInfo);
         prefs = getActivity().getSharedPreferences(
                 USER_PREFERENCE, Context.MODE_PRIVATE);
-
+        initializeCountry();
         updateConsumerProductInfo();
         if (mIsFirstScreenLaunch || DigitalCareConfigManager.getInstance().
                 getProductModelSelectionType().getHardCodedProductList().length < 2) {
@@ -1122,7 +1122,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
 
     private void initialiseServiceDiscoveryRequests(){
 
-        initializeCountry();
+        //initializeCountry();
         ArrayList<String> var1 = new ArrayList<>();
         var1.add(DigitalCareConstants.SERVICE_ID_CC_CDLS);
         var1.add(DigitalCareConstants.SERVICE_ID_CC_EMAILFROMURL);
