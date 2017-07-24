@@ -226,7 +226,7 @@ dependencies {
                 transitive = true
             }
 
-    compile(group: 'com.philips.cdp', name: 'productselection_DLS', version: '1.10.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    compile(group: 'com.philips.cdp', name: 'productselection', version: '2.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
             {
                 transitive = true
             }

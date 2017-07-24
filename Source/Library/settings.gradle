@@ -1,2 +1,2 @@
-rootProject.setName 'digitalCare_DLS'
+rootProject.setName 'digitalCare'
 include ':digitalCare'
