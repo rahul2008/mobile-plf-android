@@ -1,8 +1,15 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingLeft="16dp"
     android:paddingRight="16dp">
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_above="@+id/continue_btn"
+    >
 
 <RelativeLayout
     android:id="@+id/symptoms_container"
@@ -73,25 +80,34 @@
         android:enabled="true"
         android:hint="@string/write_here" />
 
+    <com.philips.platform.uid.view.widget.ImageButton
+        android:id="@+id/camera_click_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/reg_circle"
+        app:uidImageButtonDrawableSrc="@mipmap/camera_icon"
+        android:layout_marginBottom="18dp"
+        android:layout_alignBottom="@+id/edit_farenheit"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="12dp">
+    </com.philips.platform.uid.view.widget.ImageButton>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/imagelist"
+        android:layout_below="@+id/edit_farenheit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>
+</ScrollView>
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/continue_btn"
         style="@style/UIDImageTextButton.Center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edit_farenheit"
         android:enabled="false"
         android:text="Continue"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="16dp"
+        android:layout_alignParentBottom="true"
         />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floating_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_above="@id/continue_btn"
-        >
-    </android.support.design.widget.FloatingActionButton>
-
 </RelativeLayout>
-</ScrollView>

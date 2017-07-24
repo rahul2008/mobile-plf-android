@@ -30,4 +30,14 @@
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
+    <style name="DialogFragmentTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@drawable/uid_dialog_shadow_background</item>
+        <item name="colorPrimaryDark">@drawable/uid_dialog_shadow_background</item>
+        <item name="colorAccent">@drawable/uid_dialog_shadow_background</item>
+
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 </resources>

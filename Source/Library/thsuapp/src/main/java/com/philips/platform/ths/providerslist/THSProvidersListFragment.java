@@ -14,8 +14,10 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.intake.THSSymptomsFragment;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
+import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
@@ -117,19 +119,19 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     @Override
     public void onClick(View view) {
         int i = view.getId();
-        if (i == R.id.getStartedButton) {
+        /*if (i == R.id.getStartedButton) {
             createCustomProgressBar(mRelativeLayoutContainer, BIG);
             THSProviderListPresenter.onEvent(R.id.getStartedButton);
         }else if(i==R.id.getScheduleAppointmentButton){
             createCustomProgressBar(mRelativeLayoutContainer, BIG);
             THSProviderListPresenter.onEvent(R.id.getScheduleAppointmentButton);
-        }
+        }*/
 
-        /*THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();
+        THSSymptomsFragment thsPharmacyAndShippingFragment = new THSSymptomsFragment();
         THSConsumer thsConsumer = new THSConsumer();
         thsConsumer.setConsumer(consumer);
-        thsPharmacyAndShippingFragment.setConsumer(thsConsumer);
-        getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(),thsPharmacyAndShippingFragment,"Pharmacy").addToBackStack(null).commit();*/
+        thsPharmacyAndShippingFragment.setConsumerObject(thsConsumer);
+        addFragment(thsPharmacyAndShippingFragment,THSSymptomsFragment.TAG,null);
     }
 
     public Practice getPractice() {
