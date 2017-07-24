@@ -26,8 +26,8 @@ import com.philips.platform.uid.R;
  */
 public class SeparatorDrawable extends Drawable {
 
-    public static final int HEIGHT_ATTR_INDEX = 0;
-    public static final int SEPARATOR_ATT_INDEX = 1;
+    private static final int HEIGHT_ATTR_INDEX = 0;
+    private static final int SEPARATOR_ATT_INDEX = 1;
     private static final int[] ATTRS = new int[]{android.R.attr.dividerHeight, R.attr.uidSeparatorContentNormalBackgroundColor};
     private final Paint paint;
     private int height;
@@ -57,7 +57,7 @@ public class SeparatorDrawable extends Drawable {
     /**
      * This API can be used to set color for separator
      *
-     * @param color
+     * @param color Color to be set to drawable
      */
     public void setColor(@ColorInt int color) {
         paint.setColor(color);
@@ -65,7 +65,7 @@ public class SeparatorDrawable extends Drawable {
     }
 
     @Override
-    public void draw(final Canvas canvas) {
+    public void draw(@NonNull final Canvas canvas) {
         canvas.drawRect(getBounds(), paint);
     }
 

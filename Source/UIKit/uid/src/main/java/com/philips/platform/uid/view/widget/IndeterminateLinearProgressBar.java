@@ -163,7 +163,7 @@ public class IndeterminateLinearProgressBar extends View {
      *
      * @return The drawable used as the leading drawable.
      */
-    @NonNull
+    @Nullable
     protected Drawable getLeadingDrawable() {
         return ContextCompat.getDrawable(getContext(), R.drawable.uid_progess_bar_linear_transition).getConstantState().newDrawable();
     }
@@ -460,7 +460,7 @@ public class IndeterminateLinearProgressBar extends View {
      * {@inheritDoc}
      */
     @Override
-    protected boolean verifyDrawable(final Drawable who) {
+    protected boolean verifyDrawable(@NonNull final Drawable who) {
         return who == leadingAnim || who == trailingAnim || super.verifyDrawable(who);
     }
 }

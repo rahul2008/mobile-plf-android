@@ -72,6 +72,7 @@
     <attr name="uidButtonQuietDefaultPressedTextColor" format="reference|color" />
     <attr name="uidButtonQuietDefaultDisabledIconColor" format="reference|color" />
     <attr name="uidButtonQuietDefaultDisabledTextColor" format="reference|color" />
+    <attr name="uidButtonQuietEmphasisNormalBackgroundColor" format="reference|color" />
     <attr name="uidButtonQuietEmphasisNormalIconColor" format="reference|color" />
     <attr name="uidButtonQuietEmphasisNormalTextColor" format="reference|color" />
     <attr name="uidButtonQuietEmphasisFocusBackgroundColor" format="reference|color" />
@@ -99,7 +100,6 @@
     <attr name="uidCarouselDefaultNormalIconColor" format="reference|color" />
     <attr name="uidCarouselDefaultPressedIconColor" format="reference|color" />
     <attr name="uidCarouselDefaultDisabledIconColor" format="reference|color" />
-    <attr name="uidCarouselDefaultTitleTextColor" format="reference|color" />
     <attr name="uidCheckBoxDefaultNormalOnBackgroundColor" format="reference|color" />
     <attr name="uidCheckBoxDefaultNormalOnIconColor" format="reference|color" />
     <attr name="uidCheckBoxDefaultNormalOffBackgroundColor" format="reference|color" />
@@ -207,8 +207,20 @@
     <attr name="uidListItemDefaultNormalOffTextColor" format="reference|color" />
     <attr name="uidListItemDefaultFocusBackgroundColor" format="reference|color" />
     <attr name="uidListItemDefaultPressedBackgroundColor" format="reference|color" />
+    <attr name="uidListItemDefaultDisabledIconColor" format="reference|color" />
+    <attr name="uidListItemDefaultDisabledTextColor" format="reference|color" />
     <attr name="uidMenuItemDefaultNormalOnBackgroundColor" format="reference|color" />
+    <attr name="uidMenuItemDefaultNormalOnIconColor" format="reference|color" />
+    <attr name="uidMenuItemDefaultNormalOnTextColor" format="reference|color" />
     <attr name="uidMenuItemDefaultNormalOffBackgroundColor" format="reference|color" />
+    <attr name="uidMenuItemDefaultNormalOffIconColor" format="reference|color" />
+    <attr name="uidMenuItemDefaultNormalOffTextColor" format="reference|color" />
+    <attr name="uidMenuItemDefaultFocusIconColor" format="reference|color" />
+    <attr name="uidMenuItemDefaultFocusTextColor" format="reference|color" />
+    <attr name="uidMenuItemDefaultPressedIconColor" format="reference|color" />
+    <attr name="uidMenuItemDefaultPressedTextColor" format="reference|color" />
+    <attr name="uidMenuItemDefaultDisabledIconColor" format="reference|color" />
+    <attr name="uidMenuItemDefaultDisabledTextColor" format="reference|color" />
     <attr name="uidMovieBarClinicalBackgroundColor" format="reference|color" />
     <attr name="uidNavigationPrimaryBackgroundColor" format="reference|color" />
     <attr name="uidNavigationPrimaryIconColor" format="reference|color" />
@@ -216,11 +228,10 @@
     <attr name="uidNavigationSecondaryBackgroundColor" format="reference|color" />
     <attr name="uidNavigationSecondaryIconColor" format="reference|color" />
     <attr name="uidNavigationSecondaryTextColor" format="reference|color" />
-    <attr name="uidNotificationBadgeDefaultAccentBackgroundColor" format="reference|color" />
+    <attr name="uidNotificationBadgeAccentBackgroundColor" format="reference|color" />
+    <attr name="uidNotificationBadgeAccentTextColor" format="reference|color" />
     <attr name="uidNotificationBadgeDefaultBackgroundColor" format="reference|color" />
     <attr name="uidNotificationBadgeDefaultTextColor" format="reference|color" />
-    <attr name="uidNotificationBadgeOptionBackgroundColor" format="reference|color" />
-    <attr name="uidNotificationBadgeOptionTextColor" format="reference|color" />
     <attr name="uidNotificationBarAccentNormalBackgroundColor" format="reference|color" />
     <attr name="uidNotificationBarAccentNormalButtonTextColor" format="reference|color" />
     <attr name="uidNotificationBarAccentNormalPrimaryTextColor" format="reference|color" />
@@ -255,6 +266,7 @@
     <attr name="uidSearchBoxAndroidDefaultFocusInputBackgroundColor" format="reference|color" />
     <attr name="uidSearchBoxDefaultNormalIconButtonColor" format="reference|color" />
     <attr name="uidSearchBoxDefaultDisabledIconButtonColor" format="reference|color" />
+    <attr name="uidSearchBoxIosDefaultNormalCancelTextColor" format="reference|color" />
     <attr name="uidSearchBoxIosDefaultNormalClearIconColor" format="reference|color" />
     <attr name="uidSearchBoxIosDefaultNormalHintTextColor" format="reference|color" />
     <attr name="uidSearchBoxIosDefaultNormalInputBackgroundColor" format="reference|color" />
@@ -262,11 +274,8 @@
     <attr name="uidSearchBoxIosDefaultNormalInputTextColor" format="reference|color" />
     <attr name="uidSearchBoxIosDefaultNormalSearchIconColor" format="reference|color" />
     <attr name="uidSearchBoxIosDefaultFocusInputBackgroundColor" format="reference|color" />
-    <attr name="uidSearchBoxIosMinimalNormalCancelTextColor" format="reference|color" />
-    <attr name="uidSearchBoxIosMinimalPressedCancelTextColor" format="reference|color" />
-    <attr name="uidSearchBoxIosProminentNormalCancelTextColor" format="reference|color" />
+    <attr name="uidSearchBoxIosDefaultPressedCancelTextColor" format="reference|color" />
     <attr name="uidSearchBoxIosProminentNormalSearchbarBackgroundColor" format="reference|color" />
-    <attr name="uidSearchBoxIosProminentPressedCancelTextColor" format="reference|color" />
     <attr name="uidSeparatorButtonNormalBackgroundColor" format="reference|color" />
     <attr name="uidSeparatorButtonDisabledBackgroundColor" format="reference|color" />
     <attr name="uidSeparatorContentNormalBackgroundColor" format="reference|color" />
@@ -291,7 +300,7 @@
     <attr name="uidSpringBoardDefaultDisabledBackgroundColor" format="reference|color" />
     <attr name="uidSpringBoardDefaultDisabledIconColor" format="reference|color" />
     <attr name="uidSpringBoardDefaultDisabledTextColor" format="reference|color" />
-    <attr name="uidSpringBoardQuietNormalContentBackgroundColor" format="reference|color" />
+    <attr name="uidSpringBoardQuietNormalBackgroundColor" format="reference|color" />
     <attr name="uidSpringBoardQuietNormalIconColor" format="reference|color" />
     <attr name="uidSpringBoardQuietNormalTextColor" format="reference|color" />
     <attr name="uidSpringBoardQuietFocusBackgroundColor" format="reference|color" />
@@ -319,13 +328,19 @@
     <attr name="uidTextTertiaryTextColor" format="reference|color" />
     <attr name="uidTextValidationIconColor" format="reference|color" />
     <attr name="uidTextValidationTextColor" format="reference|color" />
+    <attr name="uidTextBoxDefaultNormalArrowIconColor" format="reference|color" />
     <attr name="uidTextBoxDefaultNormalBackgroundColor" format="reference|color" />
     <attr name="uidTextBoxDefaultNormalBorderColor" format="reference|color" />
+    <attr name="uidTextBoxDefaultNormalButtonBackgroundColor" format="reference|color" />
     <attr name="uidTextBoxDefaultNormalClearIconColor" format="reference|color" />
     <attr name="uidTextBoxDefaultNormalHintTextColor" format="reference|color" />
+    <attr name="uidTextBoxDefaultNormalIconColor" format="reference|color" />
+    <attr name="uidTextBoxDefaultNormalSeparatorColor" format="reference|color" />
+    <attr name="uidTextBoxDefaultNormalShowHideIconColor" format="reference|color" />
     <attr name="uidTextBoxDefaultNormalTextColor" format="reference|color" />
     <attr name="uidTextBoxDefaultFocusBackgroundColor" format="reference|color" />
     <attr name="uidTextBoxDefaultFocusBorderColor" format="reference|color" />
+    <attr name="uidTextBoxDefaultFocusButtonBackgroundColor" format="reference|color" />
     <attr name="uidTextBoxDefaultFocusOutlineColor" format="reference|color" />
     <attr name="uidTextBoxDefaultFocusSelectionBackgroundColor" format="reference|color" />
     <attr name="uidTextBoxDefaultFocusSelectionTextColor" format="reference|color" />
@@ -334,17 +349,44 @@
     <attr name="uidTextBoxDefaultValidatedTextColor" format="reference|color" />
     <attr name="uidTextBoxDefaultPressedBackgroundColor" format="reference|color" />
     <attr name="uidTextBoxDefaultPressedBorderColor" format="reference|color" />
+    <attr name="uidTextBoxDefaultPressedButtonBackgroundColor" format="reference|color" />
     <attr name="uidTextBoxDefaultPressedOutlineColor" format="reference|color" />
+    <attr name="uidTextBoxDefaultDisabledArrowIconColor" format="reference|color" />
     <attr name="uidTextBoxDefaultDisabledBackgroundColor" format="reference|color" />
     <attr name="uidTextBoxDefaultDisabledBorderColor" format="reference|color" />
+    <attr name="uidTextBoxDefaultDisabledButtonBackgroundColor" format="reference|color" />
     <attr name="uidTextBoxDefaultDisabledClearIconColor" format="reference|color" />
     <attr name="uidTextBoxDefaultDisabledHintTextColor" format="reference|color" />
+    <attr name="uidTextBoxDefaultDisabledIconColor" format="reference|color" />
+    <attr name="uidTextBoxDefaultDisabledSeparatorColor" format="reference|color" />
+    <attr name="uidTextBoxDefaultDisabledShowHideIconColor" format="reference|color" />
     <attr name="uidTextBoxDefaultDisabledTextColor" format="reference|color" />
     <attr name="uidTextBoxDigitTextBoxNormalBulletColor" format="reference|color" />
     <attr name="uidTextBoxDigitTextBoxDisabledBulletColor" format="reference|color" />
     <attr name="uidTextBoxInlineNormalLabelColor" format="reference|color" />
     <attr name="uidTextBoxInlineNormalTextColor" format="reference|color" />
     <attr name="uidTextBoxInlineFocusTextColor" format="reference|color" />
+    <attr name="uidTextBoxInlineDisabledTextColor" format="reference|color" />
+    <attr name="uidTextBoxQuietNormalArrowIconColor" format="reference|color" />
+    <attr name="uidTextBoxQuietNormalBackgroundColor" format="reference|color" />
+    <attr name="uidTextBoxQuietNormalBorderColor" format="reference|color" />
+    <attr name="uidTextBoxQuietNormalButtonBackgroundColor" format="reference|color" />
+    <attr name="uidTextBoxQuietNormalIconColor" format="reference|color" />
+    <attr name="uidTextBoxQuietNormalSeparatorColor" format="reference|color" />
+    <attr name="uidTextBoxQuietNormalTextColor" format="reference|color" />
+    <attr name="uidTextBoxQuietFocusBackgroundColor" format="reference|color" />
+    <attr name="uidTextBoxQuietFocusBorderColor" format="reference|color" />
+    <attr name="uidTextBoxQuietFocusButtonBackgroundColor" format="reference|color" />
+    <attr name="uidTextBoxQuietPressedBackgroundColor" format="reference|color" />
+    <attr name="uidTextBoxQuietPressedBorderColor" format="reference|color" />
+    <attr name="uidTextBoxQuietPressedButtonBackgroundColor" format="reference|color" />
+    <attr name="uidTextBoxQuietDisabledArrowIconColor" format="reference|color" />
+    <attr name="uidTextBoxQuietDisabledBackgroundColor" format="reference|color" />
+    <attr name="uidTextBoxQuietDisabledBorderColor" format="reference|color" />
+    <attr name="uidTextBoxQuietDisabledButtonBackgroundColor" format="reference|color" />
+    <attr name="uidTextBoxQuietDisabledIconColor" format="reference|color" />
+    <attr name="uidTextBoxQuietDisabledSeparatorColor" format="reference|color" />
+    <attr name="uidTextBoxQuietDisabledTextColor" format="reference|color" />
     <attr name="uidThumbDefaultNormalBackgroundColor" format="reference|color" />
     <attr name="uidThumbDefaultFocusBorderColor" format="reference|color" />
     <attr name="uidThumbDefaultPressedBorderColor" format="reference|color" />
@@ -405,6 +447,10 @@
     <attr name="uidTrackScrollbarNormalBackgroundColor" format="reference|color" />
     <attr name="uidTrackScrollbarDisabledBackgroundColor" format="reference|color" />
     <attr name="uidTrackWarningNormalOnBackgroundColor" format="reference|color" />
+    <attr name="uidViewContainerDefaultNormalViewportBackgroundColor" format="reference|color" />
+    <attr name="uidViewContainerDefaultNormalOnTabBackgroundColor" format="reference|color" />
+    <attr name="uidViewContainerDefaultNormalOffTabBackgroundColor" format="reference|color" />
+    <attr name="uidViewContainerDefaultFocusBorderColor" format="reference|color" />
     <attr name="uidWizardDefaultNormalOnCircleBackgroundColor" format="reference|color" />
     <attr name="uidWizardDefaultNormalOnCircleIconColor" format="reference|color" />
     <attr name="uidWizardDefaultNormalOnCircleTextColor" format="reference|color" />

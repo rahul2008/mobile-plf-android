@@ -11,15 +11,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.os.Build;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatRatingBar;
 import android.util.AttributeSet;
 
 import com.philips.platform.uid.R;
-
-import java.lang.reflect.Method;
 
 import uk.co.chrisjenx.calligraphy.TypefaceUtils;
 
@@ -144,7 +141,7 @@ public class RatingBar extends AppCompatRatingBar {
     }
 
     private Bitmap drawableToBitmap(Drawable drawable) {
-        Bitmap bitmap = null;
+        Bitmap bitmap;
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
             if (bitmapDrawable.getBitmap() != null) {

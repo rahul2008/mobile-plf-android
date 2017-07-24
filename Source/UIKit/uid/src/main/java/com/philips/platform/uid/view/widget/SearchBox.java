@@ -125,7 +125,7 @@ public class SearchBox extends LinearLayout {
         setSaveEnabled(true);
     }
 
-    private void initDecoySearchView(final Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    private void initDecoySearchView(final Context context, AttributeSet attrs, int defStyleAttr) {
         decoySearchView = (ViewGroup) findViewById(R.id.uid_search_decoy_view);
         decoySearchIcon = (ImageView) findViewById(R.id.uid_search_decoy_hint_icon);
         decoyHintView = (Label) findViewById(R.id.uid_search_decoy_hint_text);

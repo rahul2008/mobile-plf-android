@@ -40,11 +40,7 @@ public final class UIDUtils {
             Method setMaxRadius = drawable.getClass().getDeclaredMethod("setMaxRadius", Integer.TYPE);
             setMaxRadius.setAccessible(true);
             setMaxRadius.invoke(drawable, radius);
-        } catch (NoSuchMethodException e) {
-            Log.e(TAG, e.getMessage());
-        } catch (IllegalAccessException e) {
-            Log.e(TAG, e.getMessage());
-        } catch (InvocationTargetException e) {
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             Log.e(TAG, e.getMessage());
         }
     }

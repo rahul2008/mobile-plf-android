@@ -31,7 +31,7 @@ import java.lang.reflect.Array;
 // TODO: 14/09/16 API needs refractoring as some code is copied from AOSP
 public final class ThemeUtils {
 
-    public static final String TAG = "ThemeUtils";
+    private static final String TAG = "ThemeUtils";
 
     private ThemeUtils() {
     }
@@ -68,10 +68,10 @@ public final class ThemeUtils {
     }
 
     /**
-     * @param resources
-     * @param theme
-     * @param resId
-     * @return
+     * @param resources Resources
+     * @param theme Theme
+     * @param resId Resource id
+     * @return ColorStateList
      */
     @Nullable
     public static ColorStateList buildColorStateList(Resources resources, Resources.Theme theme, int resId) {
@@ -79,9 +79,7 @@ public final class ThemeUtils {
         final XmlPullParser xml = resources.getXml(resId);
         try {
             return createFromXml(resources, xml, theme);
-        } catch (XmlPullParserException e) {
-            Log.e(TAG, e.getMessage());
-        } catch (IOException e) {
+        } catch (XmlPullParserException | IOException e) {
             Log.e(TAG, e.getMessage());
         }
         return null;
@@ -89,7 +87,7 @@ public final class ThemeUtils {
 
     /**
      * Creates a ColorStateList from an XML document using given a set of
-     * {@link Resources} and a {@link Theme}.
+     * {@link Resources} and a {@link android.content.res.Resources.Theme}.
      *
      * @param resources Resources against which the ColorStateList should be inflated.
      * @param parser    Parser for the XML document defining the ColorStateList.

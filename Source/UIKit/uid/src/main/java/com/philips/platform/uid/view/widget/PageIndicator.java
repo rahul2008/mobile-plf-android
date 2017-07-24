@@ -33,14 +33,14 @@ public interface PageIndicator extends ViewPager.OnPageChangeListener {
     /**
      * sets the viewPager to indicator.
      *
-     * @param view
+     * @param view ViewPager to be set
      */
     void setViewPager(ViewPager view);
 
     /**
      * sets the indicator to a ViewPager.
      *
-     * @param viewPager
+     * @param viewPager ViewPager to be set
      * @param initialPosition with initialPosition selected/highlited
      */
     void setViewPager(ViewPager viewPager, int initialPosition);
@@ -58,7 +58,7 @@ public interface PageIndicator extends ViewPager.OnPageChangeListener {
     /**
      * Set a page change listener which will receive callback when page changed.
      *
-     * @param listener
+     * @param listener ViewPager.OnPageChangeListener to be set
      */
     void setOnPageChangeListener(ViewPager.OnPageChangeListener listener);
 }

@@ -23,6 +23,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
 import android.util.TypedValue;
 import android.view.AbsSavedState;
@@ -40,8 +41,6 @@ import android.view.View;
  */
 
 public class FontIconDrawable extends Drawable {
-
-    public static int ANDROID_ACTIONBAR_ICON_SIZE_DP = 24;
 
     private Context context;
 
@@ -86,6 +85,7 @@ public class FontIconDrawable extends Drawable {
      * @return The current IconDrawable for chaining.
      */
     public FontIconDrawable actionBarSize() {
+        int ANDROID_ACTIONBAR_ICON_SIZE_DP = 24;
         return sizeDp(ANDROID_ACTIONBAR_ICON_SIZE_DP);
     }
 
@@ -189,7 +189,7 @@ public class FontIconDrawable extends Drawable {
      * @return The current IconDrawable for chaining.
      */
     public FontIconDrawable colorRes(@ColorRes int colorRes) {
-        colorStateList = ColorStateList.valueOf(context.getResources().getColor(colorRes));
+        colorStateList = ColorStateList.valueOf(ContextCompat.getColor(context,colorRes));
         paint.setColor(colorStateList.getColorForState(getState(), colorStateList.getDefaultColor()));
         invalidateSelf();
         return this;
@@ -326,7 +326,7 @@ public class FontIconDrawable extends Drawable {
         }
     }
 
-    static class SavedState extends View.BaseSavedState {
+    private static class SavedState extends View.BaseSavedState {
         private String text;
         private TextPaint paint;
         private int textSize;
@@ -334,7 +334,6 @@ public class FontIconDrawable extends Drawable {
         private Rect mRect;
 
         public SavedState(Parcelable superState) {
-
             super(superState);
         }
 
@@ -361,7 +360,7 @@ public class FontIconDrawable extends Drawable {
     }
 
     @Override
-    public Drawable mutate() {
+    public @NonNull Drawable mutate() {
         if (!mMutated && super.mutate() == this) {
             mState = new FontIconState(mState);
             mMutated = true;
@@ -389,7 +388,7 @@ public class FontIconDrawable extends Drawable {
         }
 
         @Override
-        public Drawable newDrawable() {
+        public @NonNull Drawable newDrawable() {
             return new FontIconDrawable(this);
         }
 

@@ -26,7 +26,7 @@ import com.philips.platform.uid.drawable.SeparatorDrawable;
  */
 public class RecyclerViewSeparatorItemDecoration extends RecyclerView.ItemDecoration {
 
-    final SeparatorDrawable divider;
+    private final SeparatorDrawable divider;
 
     /**
      * Instantiates a new Recycler view divider item decoration.
@@ -42,9 +42,7 @@ public class RecyclerViewSeparatorItemDecoration extends RecyclerView.ItemDecora
 
     @Override
     public void onDraw(@NonNull Canvas canvas, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-        if (divider != null) {
-            drawHorizontalDivider(canvas, parent);
-        }
+        drawHorizontalDivider(canvas, parent);
         super.onDraw(canvas, parent, state);
     }
 
