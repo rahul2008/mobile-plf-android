@@ -5,7 +5,6 @@
  */
 package com.philips.platform.uid.view.widget;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.support.annotation.AttrRes;
@@ -59,7 +58,7 @@ public class UIPicker extends ListPopupWindow{
         }
     }
 
-    private Context activity;
+    private Context context;
     private ListAdapter adapter;
     private boolean shouldSetGravity = true;
     private boolean shouldSetHeight = true;
@@ -70,7 +69,7 @@ public class UIPicker extends ListPopupWindow{
 
     public UIPicker(@NonNull Context context) {
         this(context, null, android.support.v7.appcompat.R.attr.listPopupWindowStyle);
-        activity = (Activity) context;
+        this.context = context;
     }
 
     public UIPicker(@NonNull Context context, @Nullable AttributeSet attrs) {
@@ -158,10 +157,6 @@ public class UIPicker extends ListPopupWindow{
             method.setAccessible(true);
             method.invoke(listPopupWindow, max);
 
-            /*Method m2 = ListPopupWindow.class.getDeclaredMethod("getMaxAvailableHeight", Boolean.TYPE);
-            m2.setAccessible(true);
-            method.invoke(listPopupWindow, anchorView, - anchorHeight, false);*/
-
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -202,12 +197,12 @@ public class UIPicker extends ListPopupWindow{
 
     private void setContentHeight(View anchorView, int anchorHeight){
         int maxHeight = getMaxAvailableHeight(anchorView, anchorHeight);
-        int contentHeight = adapterCount * activity.getResources().getDimensionPixelSize(R.dimen.uid_uipicker_item_height);//Math.round(UIDUtils.pxFromDp(activity, 48));
+        int contentHeight = adapterCount * context.getResources().getDimensionPixelSize(R.dimen.uid_uipicker_item_height);
         if(contentHeight < maxHeight){
             setHeight(contentHeight);
         }
         else {
-            int temp = maxHeight % activity.getResources().getDimensionPixelSize(R.dimen.uid_uipicker_item_height);//Math.round(UIDUtils.pxFromDp(activity, 48));
+            int temp = maxHeight % context.getResources().getDimensionPixelSize(R.dimen.uid_uipicker_item_height);
             if(temp != 0){
                 maxHeight = maxHeight - temp;
             }
@@ -224,11 +219,11 @@ public class UIPicker extends ListPopupWindow{
     private int measureContentWidth(ListAdapter adapter) {
 
         DisplayMetrics metrics = new DisplayMetrics();
-        ((WindowManager)activity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(metrics);
+        ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(metrics);
         int widthPixels = metrics.widthPixels;
 
         ViewGroup mMeasureParent = null;
-        float minWidth = UIDUtils.pxFromDp(activity, 56);
+        float minWidth = context.getResources().getDimensionPixelSize(R.dimen.uid_uipicker_incremental_width);
         int maxWidth = 0;
         View itemView = null;
         int itemType = 0;
@@ -245,7 +240,7 @@ public class UIPicker extends ListPopupWindow{
             }
 
             if (mMeasureParent == null) {
-                mMeasureParent = new FrameLayout(activity);
+                mMeasureParent = new FrameLayout(context);
             }
 
             itemView = adapter.getView(i, itemView, mMeasureParent);
@@ -269,7 +264,7 @@ public class UIPicker extends ListPopupWindow{
         } else if(maxWidth < widthPixels){
             return maxWidth;
         } else{
-            return widthPixels - Math.round(UIDUtils.pxFromDp(activity, 32));
+            return widthPixels - context.getResources().getDimensionPixelSize(R.dimen.uid_uipicker_less_left_right_padding);
         }
     }
 }
