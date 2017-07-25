@@ -113,17 +113,24 @@ public class UIDLocaleHelper {
 
     private String getJSONStringFromPath(String pathInput) {
         String jsonString = null;
-
+        FileInputStream fis = null;
         try {
             File file = new File(pathInput);
             int length = (int) file.length();
             byte[] bytes = new byte[length];
-            FileInputStream in = new FileInputStream(file);
-            in.read(bytes);
-            in.close();
+            fis = new FileInputStream(file);
+            fis.read(bytes);
             jsonString = new String(bytes, "UTF-8");
         } catch (IOException e) {
             UIDLog.e(TAG, e.getMessage());
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    UIDLog.e(TAG, e.getMessage());
+                }
+            }
         }
         return jsonString;
     }
