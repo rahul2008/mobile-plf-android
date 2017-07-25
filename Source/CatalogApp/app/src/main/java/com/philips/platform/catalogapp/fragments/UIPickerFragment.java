@@ -64,7 +64,7 @@ public class UIPickerFragment extends BaseFragment {
         fragmentUiPickerBinding.setFrag(this);
 
         listPopupWindow = new UIPicker(popupThemedContext);
-        ArrayAdapter adapter = new ArrayAdapter(popupThemedContext, R.layout.uipicker_item_text, STATES);
+        ArrayAdapter adapter = new PickerAdapter(popupThemedContext, R.layout.uipicker_item_text, STATES);
         listPopupWindow.setAdapter(adapter);
         listPopupWindow.setAnchorView(fragmentUiPickerBinding.selectedLocationLabel);
         listPopupWindow.setModal(true);
