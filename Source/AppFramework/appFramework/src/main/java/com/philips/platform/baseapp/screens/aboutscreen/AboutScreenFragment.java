@@ -56,7 +56,7 @@ public class AboutScreenFragment extends AbstractAppFrameworkBaseFragment implem
 
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.about_screen_fragment, container, false);
+        View view = inflater.inflate(R.layout.uikit_about_screen, container, false);
         TextView version = (TextView) view.findViewById(R.id.about_version);
         version.setText(getResources().getString(R.string.RA_About_App_Version) + BuildConfig.VERSION_NAME);
         TextView content = (TextView) view.findViewById(R.id.about_content);
