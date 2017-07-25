@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import com.philips.platform.uid.view.widget.EditText;
@@ -107,7 +106,7 @@ public class UIDLocaleHelper {
                 parseSuccess = true;
             }
         } catch (JSONException e) {
-            Log.e(TAG, e.getMessage());
+            UIDLog.e(TAG, e.getMessage());
         }
         return parseSuccess;
     }
@@ -124,7 +123,7 @@ public class UIDLocaleHelper {
             in.close();
             jsonString = new String(bytes, "UTF-8");
         } catch (IOException e) {
-            Log.e(TAG, e.getMessage());
+            UIDLog.e(TAG, e.getMessage());
         }
         return jsonString;
     }
