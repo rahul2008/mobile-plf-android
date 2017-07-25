@@ -20,12 +20,12 @@ public interface MobileVerifyResendCodeContract {
 
     void updateResendTime(long timeRemaining);
 
-    void hideErrorMessage();
+    void netWorkStateOnlineUiHandle();
     void hideProgressSpinner();
 
     void disableResendButton();
 
-    void showNoNetworkErrorMessage();
+    void netWorkStateOfflineUiHandle();
 
     void showSmsSendFailedError();
 

@@ -80,7 +80,7 @@ public class MobileVerifyCodePresenterTest {
         when(mockNetworkUtility.isNetworkAvailable()).thenReturn(true);
         presenter.onNetWorkStateReceived(true);
         verify(mockContract).enableVerifyButton();
-        verify(mockContract).hideErrorMessage();
+
     }
 
     @Test
@@ -88,7 +88,6 @@ public class MobileVerifyCodePresenterTest {
         when(mockNetworkUtility.isNetworkAvailable()).thenReturn(false);
         presenter.onNetWorkStateReceived(false);
         verify(mockContract).disableVerifyButton();
-        verify(mockContract).showNoNetworkErrorMessage();
     }
 
     @Test

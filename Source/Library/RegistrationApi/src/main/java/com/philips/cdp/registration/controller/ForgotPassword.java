@@ -56,8 +56,7 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler , JumpFl
 
 	private void handleAccountExistance(CaptureApiError error,
 	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
-		if (null != error && null != error.error
-		        && error.error.equals(RegConstants.NO_SUCH_ACCOUNT)) {
+		if (null != error && null != error.error) {
 			try {
 				JSONObject object = error.raw_response;
 				JSONObject jsonObject = (JSONObject) object.get(RegConstants.INVALID_FIELDS);
