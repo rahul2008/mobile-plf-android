@@ -9,9 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
@@ -51,7 +49,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         UserRegistrationUIEventListener, UserRegistrationListener {
 
     private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
-   // private DemoApplication mApplicationContext;
+    // private DemoApplication mApplicationContext;
 
     private LinearLayout mAddCTNLl;
 
@@ -116,7 +114,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
         mCategorizedProductList = new ArrayList<>();
 
-       // mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:");
+        // mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:");
         mUser = new User(this);
         mUser.registerUserRegistrationListener(this);
         //Integration interface
@@ -274,7 +272,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mEtCTN.setText("");
             hideKeypad(this);
         } else if (view == mRegister) {
-           // mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
+            // mApplicationContext.getAppInfra().getTagging().setPreviousPage("demoapp:home");
             //RegistrationHelper.getInstance().getAppTaggingInterface().setPreviousPage("demoapp:home");
             URLaunchInput urLaunchInput = new URLaunchInput();
             urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
@@ -287,7 +285,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         } /*else if (view == mLaunchFragment) {
             Intent intent = new Intent(this, LauncherFragmentActivity.class);
             this.startActivity(intent);
-        } */else if (view == mAddCtn) {
+        } */ else if (view == mAddCtn) {
             String str = mEtCTN.getText().toString().toUpperCase().replaceAll("\\s+", "");
             if (!mCategorizedProductList.contains(str)) {
                 mCategorizedProductList.add(str);
@@ -305,6 +303,17 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         }
     }
 
+    private void displayViews() {
+        mAddCTNLl.setVisibility(View.VISIBLE);
+        mShopNowCategorized.setVisibility(View.VISIBLE);
+        mShopNow.setVisibility(View.VISIBLE);
+        mShopNow.setEnabled(true);
+        mLaunchProductDetail.setVisibility(View.VISIBLE);
+        mLaunchProductDetail.setEnabled(true);
+
+
+
+    }
 //    private void displayViews() {
 //        mAddCTNLl.setVisibility(View.VISIBLE);
 //        mShopNowCategorized.setVisibility(View.VISIBLE);
@@ -335,7 +344,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 //            mShoppingCart.setVisibility(View.GONE);
 //        }
 //    }
-
 
 
     private void hideViews() {
