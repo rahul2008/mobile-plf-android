@@ -176,6 +176,8 @@ dependencies {
     provided deps.support.annotations
 
     compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.5.0' + objcdp.getVersionSuffix())
+
+    /*
     def commlib = findProject(':commlib') ? ':commlib' : ':dicommClientLib'
 
     if (findProject(commlib)) {
@@ -184,6 +186,11 @@ dependencies {
     } else {
         compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: versions.commlib + objcdp.getVersionSuffix())
     }
+    */
+
+    debugCompile project(path: ':commlib-all', configuration: 'debug')
+    releaseCompile project(path: ':commlib-all', configuration: 'release')
+    testCompile project(path: ':commlib-all', configuration: 'debug')
 
     if (findProject(':cloudcontroller')) {
         debugCompile project(path: ':cloudcontroller', configuration: 'debug')
