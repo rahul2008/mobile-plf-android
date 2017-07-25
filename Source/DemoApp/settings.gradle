@@ -1,4 +1,4 @@
-rootProject.setName 'iap_DLS'
+rootProject.setName 'iap'
 include ':app', ':DemoUApp'
 project(':DemoUApp').projectDir = new File('../DemoUApp')
 include ':iap'
