@@ -1,8 +1,8 @@
 package com.philips.platform.baseapp.screens.termsandconditions;
 
 import android.content.Context;
+import android.content.Intent;
 
-import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -21,7 +21,9 @@ public class TermsAndConditionsState extends BaseState {
     @Override
     public void navigate(UiLauncher uiLauncher) {
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
-        WebViewActivity.show(fragmentLauncher.getFragmentActivity(), R.string.global_terms_link,R.string.terms_and_conditions_url_about);
+        Intent intent=new Intent(fragmentLauncher.getFragmentActivity(),WebViewActivity.class);
+        fragmentLauncher.getFragmentActivity().startActivity(intent);
+//        WebViewActivity.show(fragmentLauncher.getFragmentActivity());
     }
 
     @Override

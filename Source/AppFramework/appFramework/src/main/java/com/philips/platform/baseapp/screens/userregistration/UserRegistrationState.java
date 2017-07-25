@@ -77,7 +77,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
     private static final String DEVELOPMENT_SECRET_KEY_DEFAULT = TEST_SECRET_KEY_DEFAULT;
     private static final String DEVELOPMENT_SHARED_KEY_DEFAULT = TEST_SHARED_KEY_DEFAULT;
     private static final String UR_COMPLETE = "URComplete";
-    private static final String TERMS_CONSITIONS_CLICK = "TermsAndConditions";
+    private static final String TERMS_CONDITIONS_CLICK = "TermsAndConditions";
     private static final String HSDP_CONFIGURATION_APPLICATION_NAME = "HSDPConfiguration.ApplicationName";
     private static final String HSDP_CONFIGURATION_SECRET = "HSDPConfiguration.Secret";
     private static final String HSDP_CONFIGURATION_SHARED = "HSDPConfiguration.Shared";
@@ -299,7 +299,7 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
         BaseState baseState = null;
         try {
-            baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), TERMS_CONSITIONS_CLICK);
+            baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), TERMS_CONDITIONS_CLICK);
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {
             RALog.d(TAG, e.getMessage());

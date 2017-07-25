@@ -26,4 +26,5 @@ public class AppStates {
     public static final String COCO_VERSION_INFO="coco_version_info";
     public static final String TEST_MICROAPP="testmicroapp";
     public static final String DEVICE_PAIRING = "device_pairing";
+    public static final String TERMSANDCONITIONSSTATE="terms_and_conditions";
 }

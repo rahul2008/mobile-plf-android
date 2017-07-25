@@ -399,20 +399,6 @@
             ]
           }
         ]
-      },
-      {
-        "state": "terms_and_conditions",
-        "events": [
-          {
-            "eventId": "back",
-            "nextStates": [
-              {
-                "condition": [],
-                "nextState": "onBoarding_registration"
-              }
-            ]
-          }
-        ]
       }
     ]
   }
