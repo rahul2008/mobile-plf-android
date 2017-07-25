@@ -308,7 +308,6 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
         if (null != baseState) {
             baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
         }
-//        WebViewActivity.show(activity,R.string.global_terms_link,R.string.terms_and_conditions_url_about);
     }
 
     @Override

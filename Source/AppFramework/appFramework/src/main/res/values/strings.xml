@@ -248,9 +248,8 @@ Receive free product accessories</string>
 
     <string name="chapters" translatable="false">Chapters</string>
     <string name="common_components" translatable="false">Common Components</string>
-    <string name="global_terms_link">Terms and conditions</string>
-    <string name="global_privacy_link">Privacy notice</string>
-    <string name="description_close">Close</string>
-    <string name="terms_and_conditions_url_about">https://www.usa.philips.com/c-w/terms/terms-and-conditions-philips-ps-app.html</string>
+    <string name="global_terms_link" translatable="false">Terms and conditions</string>
+    <string name="global_privacy_link" translatable="false">Privacy notice</string>
+    <string name="description_close" translatable="false">Close</string>
 
 </resources>

@@ -39,7 +39,7 @@ public class AboutScreenPresenter implements AboutScreenContract.Action {
 
     private AboutScreenContract.View view;
 
-    private static final String TERMS_CONSITIONS_CLICK = "TermsAndConditions";
+    private static final String TERMS_CONDITIONS_CLICK = "TermsAndConditions";
 
 
     public AboutScreenPresenter(Context context, AboutScreenContract.View view) {
@@ -53,7 +53,7 @@ public class AboutScreenPresenter implements AboutScreenContract.Action {
         BaseFlowManager targetFlowManager = ((AppFrameworkApplication) context.getApplicationContext()).getTargetFlowManager();
         BaseState baseState = null;
         try {
-            baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), TERMS_CONSITIONS_CLICK);
+            baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), TERMS_CONDITIONS_CLICK);
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {
             RALog.d(TAG, e.getMessage());
