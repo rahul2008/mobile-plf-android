@@ -6,9 +6,7 @@ package com.philips.platform.uid.matcher;
 
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-
 import com.philips.platform.uid.drawableutils.GradientDrawableUtils;
-
 import org.hamcrest.Matcher;
 
 public class DrawableMatcher {
@@ -89,7 +87,7 @@ public class DrawableMatcher {
                 } else {
                     color = stateColors.getStateColor(state);
                 }
-                setValues(color, expectedValue);
+                setValues(Integer.toHexString(color), Integer.toHexString(expectedValue));
                 return areEqual();
             }
         };

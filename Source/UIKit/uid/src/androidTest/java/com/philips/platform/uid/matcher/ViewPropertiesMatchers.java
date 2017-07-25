@@ -11,7 +11,6 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
-
 import org.hamcrest.Matcher;
 
 @SuppressWarnings("ReturnOfInnerClass")
@@ -229,11 +228,12 @@ public class ViewPropertiesMatchers {
         };
     }
 
-    /*public static Matcher<? super View> hasSameStateListDrawableNormalBackgroundColor(final int color) {
+    public static Matcher<? super View> hasSameStateListBackgroundDrawableStateColor(final int[]attrs, final int color) {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
             protected boolean matchesSafely(final View view) {
                 StateListDrawable background = (StateListDrawable) view.getBackground();
+                background.setState(attrs);
                 Drawable normalBackground = background.getCurrent();
                 BaseTypeSafteyMatcher<Drawable> d = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameColor(new int[]{android.R.attr.state_enabled}, color, false);
                 d.matches(normalBackground);
@@ -241,7 +241,7 @@ public class ViewPropertiesMatchers {
                 return areEqual();
             }
         };
-    }*/
+    }
 
     public static Matcher<? super View> hasChildrensWithSameTextColor(final int color) {
         return new BaseTypeSafteyMatcher<View>() {

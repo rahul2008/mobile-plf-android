@@ -11,4 +11,9 @@
             <solid android:color="?attr/uidListItemDefaultPressedBackgroundColor" />
         </shape>
     </item>
+    <item android:state_enabled="true">
+        <shape>
+            <solid android:color="?attr/uidPopupDefaultNormalBackgroundColor"/>
+        </shape>
+    </item>
 </selector>

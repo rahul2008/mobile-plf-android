@@ -8,12 +8,10 @@ package com.philips.platform.uid.components.uipicker;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.test.espresso.ViewInteraction;
-import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 import android.widget.TextView;
-
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.activity.BaseTestActivity;
 import com.philips.platform.uid.components.BaseTest;
@@ -22,7 +20,6 @@ import com.philips.platform.uid.matcher.ViewPropertiesMatchers;
 import com.philips.platform.uid.thememanager.ColorRange;
 import com.philips.platform.uid.utils.TestConstants;
 import com.philips.platform.uid.utils.UIDTestUtils;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -95,17 +92,23 @@ public class UIPickerTest extends BaseTest {
         getUIPickerItemTextView().check(matches(TextViewPropertiesMatchers.isSameTextColor(color)));
     }
 
-    /*@Test
+    @Test
     public void verifyItemTextNormalBackgroundColor(){
         final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidPopupDefaultNormalBackgroundColor);
-        getUIPickerItemTextView().check(matches(ViewPropertiesMatchers.hasSameStateListDrawableNormalBackgroundColor(color)));
+        getUIPickerItemTextView().check(matches(ViewPropertiesMatchers.hasSameStateListBackgroundDrawableStateColor(new int[]{android.R.attr.state_enabled},color)));
     }
 
     @Test
     public void verifyItemTextPressedBackgroundColor(){
         final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidListItemDefaultPressedBackgroundColor);
-        getUIPickerItemTextView().check(matches(ViewPropertiesMatchers.hasSameColorDrawableBackgroundColor(color)));
-    }*/
+        getUIPickerItemTextView().check(matches(ViewPropertiesMatchers.hasSameStateListBackgroundDrawableStateColor(new int[]{android.R.attr.state_pressed},color)));
+    }
+
+    @Test
+    public void verifyItemTextActivatedBackgroundColor() {
+        final int color = UIDTestUtils.getAttributeColor(activity, R.attr.uidListItemDefaultPressedBackgroundColor);
+        getUIPickerItemTextView().check(matches(ViewPropertiesMatchers.hasSameStateListBackgroundDrawableStateColor(new int[]{android.R.attr.state_activated}, color)));
+    }
 
     @Test
     public void verifyItemTextSupportsSingleLine() {
