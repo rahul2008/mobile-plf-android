@@ -73,7 +73,8 @@ android {
         applicationId 'com.americanwell.sdksample.android.philips'
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 1
+        versionCode 6
+        versionName "0.1.10"
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 25
         renderscriptSupportModeEnabled true

@@ -32,6 +32,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.ValidationReason;
+import com.philips.cdp.registration.User;
 import com.philips.platform.ths.appointment.THSAvailableProviderCallback;
 import com.philips.platform.ths.appointment.THSAvailableProviderList;
 import com.philips.platform.ths.appointment.THSAvailableProvidersBasedOnDateCallback;
@@ -137,13 +138,29 @@ public class THSManager {
         });
     }
 
+    public void authenticateMutualAuthToken(Context context) throws AWSDKInstantiationException {
+        User user = new User(context);
+        String token = user.getHsdpUUID()+":" + user.getHsdpAccessToken();
+        getAwsdk(context).authenticateMutual(token, new SDKCallback<Authentication, SDKError>() {
+            @Override
+            public void onResponse(Authentication authentication, SDKError sdkError) {
+
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+
+            }
+        });
+    }
+
     public void initializeTeleHealth(Context context, final THSInitializeCallBack THSInitializeCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
         final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
-       initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
-        initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key
+      /* initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
+        initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key*/
 
-         /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
-        initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key*/
+         initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
+        initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key
 
         AmwellLog.i(AmwellLog.LOG,"Initialize - SDK API Called");
         getAwsdk(context).initialize(
@@ -626,7 +643,7 @@ public class THSManager {
                                                  Integer maxresults,
                                                  final THSAvailableProvidersBasedOnDateCallback thsAvailableProviderCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getPracticeProvidersManager().findFutureAvailableProviders(getPTHConsumer().getConsumer(), thsPractice,
-                searchItem, languageSpoken, appointmentDate, maxresults, new SDKCallback<AvailableProviders, SDKError>() {
+                searchItem, languageSpoken, appointmentDate, maxresults,null, new SDKCallback<AvailableProviders, SDKError>() {
                     @Override
                     public void onResponse(AvailableProviders availableProviders, SDKError sdkError) {
                         THSAvailableProviderList thsAvailableProviderList = new THSAvailableProviderList();
@@ -649,7 +666,7 @@ public class THSManager {
     public void getProviderAvailability(Context context, Provider provider, Date date, final THSAvailableProviderCallback<List,THSSDKError> thsAvailableProviderCallback) throws AWSDKInstantiationException {
         try {
             getAwsdk(context).getPracticeProvidersManager().getProviderAvailability(getPTHConsumer().getConsumer(), provider,
-                    date, new SDKCallback<List<Date>, SDKError>() {
+                    date, null,new SDKCallback<List<Date>, SDKError>() {
                         @Override
                         public void onResponse(List<Date> dates, SDKError sdkError) {
                             THSSDKError thssdkError = new THSSDKError();

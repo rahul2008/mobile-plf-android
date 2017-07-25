@@ -63,6 +63,7 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
         try {
             AmwellLog.i(AmwellLog.LOG,"Login - call initialted from client");
             THSManager.getInstance().authenticate(uiBaseView.getFragmentActivity(),"spoorti.h86@gmail.com","sujata123*",null,this);
+          //  THSManager.getInstance().authenticateMutualAuthToken(uiBaseView.getContext());
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

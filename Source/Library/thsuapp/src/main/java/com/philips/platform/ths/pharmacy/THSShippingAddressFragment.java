@@ -1,6 +1,8 @@
 package com.philips.platform.ths.pharmacy;
 
 import android.os.Bundle;
+import android.os.Parcel;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatSpinner;
 import android.view.LayoutInflater;
@@ -8,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.americanwell.sdk.entity.Address;
+import com.americanwell.sdk.entity.Country;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.americanwell.sdk.internal.entity.CountryImpl;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.pojo.ShippingAddressPojo;
@@ -39,7 +43,37 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
         spinner = (AppCompatSpinner) view.findViewById(R.id.sa_state_spinner);
 
         try {
-            stateList = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getConsumerManager().getValidPaymentMethodStates();
+            //TODO: Spoorti - Review Comment - move this API call to THSMAnager
+            Country country  = new Country() {
+                @NonNull
+                @Override
+                public String getName() {
+                    return null;
+                }
+
+                @NonNull
+                @Override
+                public String getCode() {
+                    return null;
+                }
+
+                @Nullable
+                @Override
+                public List<State> getStates() {
+                    return null;
+                }
+
+                @Override
+                public int describeContents() {
+                    return 0;
+                }
+
+                @Override
+                public void writeToParcel(Parcel parcel, int i) {
+
+                }
+            };
+            stateList = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getConsumerManager().getValidPaymentMethodStates(country);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
