@@ -5,6 +5,7 @@
 
 package com.philips.cdp.dicommclient.port.common;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.cloudcontroller.CloudController;
@@ -12,7 +13,6 @@ import com.philips.cdp.cloudcontroller.pairing.PairingController;
 import com.philips.cdp.cloudcontroller.pairing.PairingEntity;
 import com.philips.cdp.cloudcontroller.pairing.PairingRelation;
 import com.philips.cdp.cloudcontroller.pairing.PermissionListener;
-import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -94,8 +94,8 @@ public class PairingHandler<T extends Appliance> {
      *
      * @param appliance T
      */
-    public PairingHandler(T appliance) {
-        this(appliance, null);
+    public PairingHandler(T appliance, @NonNull final CloudController cloudController) {
+        this(appliance, null, cloudController);
     }
 
     /**
@@ -104,22 +104,23 @@ public class PairingHandler<T extends Appliance> {
      * @param appliance       T
      * @param pairingListener PairingListener
      */
-    public PairingHandler(T appliance, PairingListener<T> pairingListener) {
+    public PairingHandler(T appliance, PairingListener<T> pairingListener, @NonNull final CloudController cloudController) {
         if (appliance == null) return;
         this.mAppliance = appliance;
         this.pairingListener = pairingListener;
-        cloudController = DICommClientWrapper.getCloudController();
-        cloudController.getPairingController().setPairingCallback(mPairingCallback);
+        this.cloudController = cloudController;
+
+        this.cloudController.getPairingController().setPairingCallback(mPairingCallback);
     }
 
     /**
      * Constructor for PairingHandler.
      *
-     * @param iPairingListener PairingListener
+     * @param pairingListener PairingListener
      * @param appliance        T
      */
-    public PairingHandler(PairingListener<T> iPairingListener, T appliance) {
-        this(appliance, iPairingListener);
+    public PairingHandler(PairingListener<T> pairingListener, T appliance, @NonNull final CloudController cloudController) {
+        this(appliance, pairingListener, cloudController);
     }
 
     /**

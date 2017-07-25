@@ -7,7 +7,6 @@ package com.philips.cdp.dicommclient.discovery;
 import android.content.Context;
 import android.os.Handler;
 
-import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
@@ -49,7 +48,6 @@ public class DiscoveryManagerTest extends RobolectricTest {
     private DiscoveryManager<TestAppliance> mDiscoveryManager;
     private DiscoveryEventListener mListener;
     private NetworkMonitor mMockedNetworkMonitor;
-    private CloudController mMockedCloudController;
     private TestApplianceFactory mTestApplianceFactory;
     private DICommApplianceDatabase<TestAppliance> mMockedApplianceDatabase;
 
@@ -59,7 +57,6 @@ public class DiscoveryManagerTest extends RobolectricTest {
         super.setUp();
 
         mMockedContext = mock(Context.class);
-        mMockedCloudController = mock(CloudController.class);
         mTestApplianceFactory = new TestApplianceFactory();
         mMockedApplianceDatabase = mock(DICommApplianceDatabase.class);
         mMockedNetworkMonitor = mock(NetworkMonitor.class);

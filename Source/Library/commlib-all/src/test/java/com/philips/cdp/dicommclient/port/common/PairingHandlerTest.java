@@ -11,7 +11,6 @@ import com.philips.cdp.cloudcontroller.pairing.PairingController;
 import com.philips.cdp.cloudcontroller.pairing.PairingEntity;
 import com.philips.cdp.cloudcontroller.pairing.PairingRelation;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
@@ -48,7 +47,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Log.class, DICommClientWrapper.class, DiscoveryManager.class})
+@PrepareForTest({Log.class, DiscoveryManager.class})
 public class PairingHandlerTest {
 
     private static final String USER_PROVIDER_TYPE = "user";
@@ -111,9 +110,6 @@ public class PairingHandlerTest {
 
         when(networkNodeMock.getCppId()).thenReturn(DEVICE_CPP_ID);
 
-        mockStatic(DICommClientWrapper.class);
-        when(DICommClientWrapper.getCloudController()).thenReturn(cloudControllerMock);
-
         when(discoveryManagerMock.getApplianceByCppId(anyString())).thenReturn(applianceMock);
         mockStatic(DiscoveryManager.class);
         when(DiscoveryManager.getInstance()).thenReturn(discoveryManagerMock);
@@ -123,14 +119,14 @@ public class PairingHandlerTest {
 
     @Test
     public void testGenerateRandomSecretKeyNotNull() {
-        PairingHandler manager = new PairingHandler<>(null, (PairingListener<Appliance>) null);
+        PairingHandler manager = new PairingHandler<>(null, (PairingListener<Appliance>) null, cloudControllerMock);
         String randomKey = manager.generateRandomSecretKey();
         assertNotNull(randomKey);
     }
 
     @Test
     public void testGenerateRandomSecretKeyNotEqual() {
-        PairingHandler manager = new PairingHandler<>(null, (PairingListener<Appliance>) null);
+        PairingHandler manager = new PairingHandler<>(null, (PairingListener<Appliance>) null, cloudControllerMock);
         String randomKey = manager.generateRandomSecretKey();
         String randomKey1 = manager.generateRandomSecretKey();
         assertFalse(randomKey.equals(randomKey1));
@@ -403,7 +399,7 @@ public class PairingHandlerTest {
     class PairingHandlerForTest extends PairingHandler<Appliance> {
 
         PairingHandlerForTest(Appliance appliance, PairingListener<Appliance> pairingListener) {
-            super(appliance, pairingListener);
+            super(appliance, pairingListener, cloudControllerMock);
         }
     }
 }

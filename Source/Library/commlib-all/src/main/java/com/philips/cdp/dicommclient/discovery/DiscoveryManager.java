@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 
-import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
@@ -99,15 +98,14 @@ public class DiscoveryManager<T extends Appliance> {
 
     private static DiscoveryTimeoutHandler sDiscoveryTimeoutHandler = new DiscoveryTimeoutHandler<>(sInstance);
 
-    static synchronized <U extends Appliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CloudController cloudController, @NonNull DICommApplianceFactory<U> applianceFactory) {
-        return createSharedInstance(applicationContext, cloudController, applianceFactory, new NullApplianceDatabase<U>());
+    public static <U extends Appliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, @NonNull DICommApplianceFactory<U> applianceFactory) {
+        return createSharedInstance(applicationContext, applianceFactory, new NullApplianceDatabase<U>());
     }
 
-    static synchronized <U extends Appliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CloudController cloudController, @NonNull DICommApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase) {
+    public static <U extends Appliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, @NonNull DICommApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase) {
         if (sInstance != null) {
             throw new RuntimeException("DiscoveryManager can only be initialized once");
         }
-
         NetworkMonitor networkMonitor = new NetworkMonitor(applicationContext, new ScheduledThreadPoolExecutor(1));
 
         DiscoveryManager<U> discoveryManager = new DiscoveryManager<>(applicationContext, applianceFactory, applianceDatabase, networkMonitor);
