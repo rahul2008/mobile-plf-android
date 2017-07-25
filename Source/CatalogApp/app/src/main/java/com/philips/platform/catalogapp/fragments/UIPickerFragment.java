@@ -126,13 +126,13 @@ public class UIPickerFragment extends BaseFragment {
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            Label view = null;
+            Label view;
             if (convertView == null) {
                 view = (Label) inflater.inflate(resID, parent, false);
             } else {
                 view = (Label) convertView;
             }
-            view.setText((CharSequence) getItem(position));
+            view.setText(getItem(position));
             return view;
         }
     }
