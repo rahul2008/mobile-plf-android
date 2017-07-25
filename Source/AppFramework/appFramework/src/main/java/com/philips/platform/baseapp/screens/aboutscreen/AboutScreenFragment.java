@@ -61,8 +61,8 @@ public class AboutScreenFragment extends AbstractAppFrameworkBaseFragment implem
         version.setText(getResources().getString(R.string.RA_About_App_Version) + BuildConfig.VERSION_NAME);
         TextView content = (TextView) view.findViewById(R.id.about_content);
         content.setText(R.string.RA_About_Description);
-        TextView termaAndConditionsTextView = (TextView) view.findViewById(R.id.about_terms);
-        termaAndConditionsTextView.setOnClickListener(new View.OnClickListener() {
+        TextView termsAndConditionsTextView = (TextView) view.findViewById(R.id.about_terms);
+        termsAndConditionsTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 aboutScreenActionListener.loadTermsAndConditions();
