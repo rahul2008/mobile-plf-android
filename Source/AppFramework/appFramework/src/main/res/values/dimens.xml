@@ -17,6 +17,5 @@
 
     <dimen name="pop_up_image_margin_top">20dp</dimen>
     <dimen name="pop_up_dots_margin_left">12dp</dimen>
-
-
+    <dimen name="control_icon_medium_size">24dp</dimen>
 </resources>
