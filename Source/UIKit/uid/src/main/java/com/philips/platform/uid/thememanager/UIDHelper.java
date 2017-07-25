@@ -45,6 +45,10 @@ public class UIDHelper {
             }
         }
 
+        if (accentConfig == null) {
+            throw new RuntimeException("Accent Range must be provided");
+        }
+
         accentConfig.injectAllAccentAttributes(themeConfiguration.getContext(), theme);
         if (!AccentValidator.isValidAccent(ThemeUtils.getColorRangeName(themeConfiguration.getContext()).toUpperCase(), accentConfig.name())) {
             throw new RuntimeException("Invalid accent range.");
