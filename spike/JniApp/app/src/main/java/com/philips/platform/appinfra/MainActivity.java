@@ -34,11 +34,11 @@ public class MainActivity extends AppCompatActivity {
 
 
             String testString = " Testing bulk data ";
-            char[] temp = keyBagLib.ConvertString(testString.toCharArray(), 0xACE1);
+            char[] temp = keyBagLib.obfuscateDeObfuscate(testString.toCharArray(), 0xACE1);
             String s = new String(temp);
             Log.d(getClass() + " converted string ", s);
 
-            temp = keyBagLib.ConvertString(s.toCharArray(), 0xACE1);
+            temp = keyBagLib.obfuscateDeObfuscate(s.toCharArray(), 0xACE1);
             String s2 = new String(temp);
             Log.d(getClass() +"", " again converted string "+ s2);
         } catch (Exception e) {

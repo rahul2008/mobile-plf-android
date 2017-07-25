@@ -2,7 +2,7 @@
 #include <jni.h>
 /* In-place string obfuscation */
 
-JNIEXPORT jcharArray JNICALL Java_com_philips_platform_appinfra_keybag_KeyBagLib_ConvertString(
+JNIEXPORT jcharArray JNICALL Java_com_philips_platform_appinfra_keybag_KeyBagLib_obfuscateDeObfuscate(
         JNIEnv *env, jobject obj,
         jcharArray data, jint seed) {
     // Array to fill with data
