@@ -9,7 +9,6 @@
 package com.philips.cdp.registration.ui.traditional;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -53,9 +52,6 @@ import com.philips.platform.uappframework.listener.BackEventListener;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
-
-import static android.content.Context.ACTIVITY_SERVICE;
-import static android.content.Context.CONNECTIVITY_SERVICE;
 
 
 public class RegistrationFragment extends Fragment implements NetworStateListener,
@@ -290,7 +286,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     private void handleUserLoginStateFragments() {
         User mUser = new User(mActivity.getApplicationContext());
         boolean isUserSignIn = mUser.isUserSignIn();
-        boolean isEmailVerified = mUser.getEmailVerificationStatus();
+        boolean isEmailVerified = (mUser.isEmailVerified() || mUser.isMobileVerified());
         boolean isEmailVerificationRequired = RegistrationConfiguration.
                 getInstance().isEmailVerificationRequired();
 
@@ -515,6 +511,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         accountActivationFragment.setArguments(bundle);
         addFragment(accountActivationFragment);
     }
+
 
     public void addResetPasswordFragment() {
         ForgotPasswordFragment resetPasswordFragment = new ForgotPasswordFragment();

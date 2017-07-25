@@ -39,12 +39,13 @@ public class HttpClientService extends IntentService{
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
 
         RequestBody body = RequestBody.create(mediaType,bodyContent);
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                .addHeader("cache-control", "no-cache")
-                .addHeader("content-type", "application/x-www-form-urlencoded")
-                .build();
+        Request request = null;
+            request = new Request.Builder()
+                    .url(url)
+                    .post(body)
+                    .addHeader("cache-control", "no-cache")
+                    .addHeader("content-type", "application/x-www-form-urlencoded")
+                    .build();
         String responseStr;
         Response response;
         Bundle responseBundle = new Bundle();

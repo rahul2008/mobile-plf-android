@@ -178,9 +178,9 @@
 <string name="reg_Opt_In_No_Thanks">Non merci</string>
 <string name="reg_Resend_SMS_title">Renvoyer un message texte</string>
 <string name="reg_Resend_SMS_Success_Content">Le message texte a bien été envoyé à votre numéro de téléphone mobile.</string>
-<string name="reg_Reg_merge_validate_password_mismatch_errortxt">Le mot de passe n\'est pas valide.</string>
-<string name="reg_Reg_Country">Pays</string>
-<string name="reg_Reg_Provider_Not_Supported">Le fournisseur n\'est pas pris en charge.</string>
+<string name="reg_Merge_validate_password_mismatch_errortxt">Le mot de passe n\'est pas valide.</string>
+<string name="reg_Country">Pays</string>
+<string name="reg_Provider_Not_Supported">Le fournisseur n\'est pas pris en charge.</string>
 <string name="reg_CreateAccount_PhoneNumber">Votre numéro de téléphone</string>
 <string name="reg_Invalid_PhoneNumber_ErrorMsg">Je ne reconnais pas le numéro de téléphone que vous avez entré. Veuillez vérifier.</string>
 <string name="reg_Country_AR">Argentine</string>
@@ -237,7 +237,7 @@
 <string name="reg_Country_TR">Turquie</string>
 <string name="reg_Country_UA">Ukraine</string>
 <string name="reg_Country_GB">Royaume-Uni</string>
-<string name="reg_Country_US">Canada</string>
+<string name="reg_Country_US">États-Unis</string>
 <string name="reg_Country_VN">Vietnam</string>
 <string name="reg_Country_Search_Text">Recherche..</string>
 <string name="reg_AppNotInstalled_Alert_Title">Application non installée</string>
@@ -246,4 +246,25 @@
 <string name="reg_Phonenumbernotfound">Numéro de téléphone introuvable</string>
 <string name="reg_InvalidMobilenumber">Numéro de téléphone mobile non valide</string>
 <string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Nous allons vous envoyer un courriel ou message texte pour réinitialiser votre mot de passe.</string>
+<string name="reg_Loading_Text">Téléchargement en cours...</string>
+<string name="reg_Update_MobileNumber_Title">Vous n’avez pas reçu de message texte?</string>
+<string name="reg_Update_MobileNumber_Description_One">La réception du message texte peut prendre un certain temps.</string>
+<string name="reg_Update_MobileNumber_Description_Two">Vérifiez si votre numéro de téléphone a été bien entré et appuyez sur le bouton pour demander un autre message texte.</string>
+<string name="reg_Update_MobileNumber_Thanks_Got_It">Merci, c’est bien reçu.</string>
+<string name="reg_Update_MobileNumber_Verification_SMS_Sent">Message texte de vérification envoyé</string>
+<string name="reg_Update_MobileNumber_Verification_SMS_Description">La réception du message texte de vérification peut prendre un certain temps.</string>
+<string name="reg_Update_MobileNumber_Button_Text">Mettre à jour le numéro de téléphone</string>
+<string name="reg_Verify_SMS_Title">Veuillez entrer votre code</string>
+<string name="reg_Verify_SMS_Reset_Password_Description">Nous avons envoyé un message texte contenant un code au numéro %s, veuillez saisir ce code pour réinitialiser votre mot de passe.</string>
+<string name="reg_Verify_SMS_Did_Not_Receive_SMS">Je n’ai pas reçu de message texte</string>
+<string name="reg_Update_MobileNumber_Alert_Title">Numéro de téléphone mis à jour</string>
+<string name="reg_SecureData_Title">Accès sécurisé à vos données</string>
+<string name="reg_SecureData_Description_Text">Aidez-nous à vous contacter s’il y a de l’activité inhabituelle sur votre compte ou si vous n’arrivez plus à ouvrir une session. Ne vous en faites pas, nous vous contacterons seulement au sujet de l’accès à votre compte.</string>
+<string name="reg_SecureData_Add_Recovery_Email">Ajoutez une adresse courriel de vérification maintenant</string>
+<string name="reg_SecureData_Maybe_Later">Peut-être plus tard</string>
+<string name="reg_We_Are_Sorry_Text">Nous sommes désolés</string>
+<string name="reg_Forgot_Password_Alert_Description_One">Vous n’avez jamais tenté d’ouvrir une session sur cet appareil avec le numéro de téléphone mobile %s. Vous ne pouvez donc pas réinitialiser votre mot de passe pour l’instant.</string>
+<string name="reg_Forgot_Password_Alert_Description_Two">Veuillez ouvrir une autre session et réinitialiser votre mot de passe avec votre ancien numéro de téléphone, ou contactez le service à la clientèle pour de l’aide supplémentaire.</string>
+<string name="reg_Try_To_Login_Button_Text">Essayez d’ouvrir une autre session</string>
+<string name="reg_Contact_Customer_Care_Text">Contactez le service à la clientèle</string>
 </resources>

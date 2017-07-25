@@ -63,25 +63,14 @@ import java.util.GregorianCalendar;
 public class URStandardDemoActivity extends Activity implements OnClickListener,
         UserRegistrationUIEventListener, UserRegistrationListener, RefreshLoginSessionHandler {
 
-    private Button mBtnRegistrationWithAccountSettings;
-    private Button mBtnRegistrationMarketingOptIn;
-    private Button mBtnRegistrationWithOutAccountSettings;
-    private Button mBtnHsdpRefreshAccessToken;
-    private Button mBtnRefresh;
     private Context mContext;
     private ProgressDialog mProgressDialog;
-    String restoredText;
-    private Button mBtnChangeConfiguaration;
-    private Button mBtnApply;
-    private Button mBtnCancel;
-    private Button mBtnUpdateDOB;
-    private Button mBtnUpdateGender;
+    private String restoredText;
     private RadioGroup mRadioGender;
     private LinearLayout mLlConfiguration;
     private RadioGroup mRadioGroup;
     private CheckBox mCheckBox;
     private User mUser;
-    private Switch mCountrySelectionSwitch;
     private boolean isCountrySelection;
 
 
@@ -90,21 +79,18 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         mContext = getApplicationContext();
-        RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onCreate");
-        RLog.i(RLog.EVENT_LISTENERS, "RegistrationSampleActivity register: UserRegistrationListener");
         setContentView(R.layout.usr_demoactivity);
 
-
-        mBtnRegistrationWithAccountSettings = (Button) findViewById(R.id.btn_registration_with_account);
+        Button mBtnRegistrationWithAccountSettings = (Button) findViewById(R.id.btn_registration_with_account);
         mBtnRegistrationWithAccountSettings.setOnClickListener(this);
 
-        mBtnRegistrationMarketingOptIn = (Button) findViewById(R.id.btn_marketing_opt_in);
+        Button mBtnRegistrationMarketingOptIn = (Button) findViewById(R.id.btn_marketing_opt_in);
         mBtnRegistrationMarketingOptIn.setOnClickListener(this);
 
-        mBtnRegistrationWithOutAccountSettings = (Button) findViewById(R.id.btn_registration_without_account);
+        Button mBtnRegistrationWithOutAccountSettings = (Button) findViewById(R.id.btn_registration_without_account);
         mBtnRegistrationWithOutAccountSettings.setOnClickListener(this);
 
-        mBtnHsdpRefreshAccessToken = (Button) findViewById(R.id.btn_refresh_token);
+        Button mBtnHsdpRefreshAccessToken = (Button) findViewById(R.id.btn_refresh_token);
         mBtnHsdpRefreshAccessToken.setOnClickListener(this);
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setCancelable(false);
@@ -114,15 +100,15 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
             mBtnHsdpRefreshAccessToken.setVisibility(View.GONE);
         }
 
-        mCountrySelectionSwitch = (Switch) findViewById(R.id.county_selection_switch);
+        Switch mCountrySelectionSwitch = (Switch) findViewById(R.id.county_selection_switch);
         mUser = new User(mContext);
         mUser.registerUserRegistrationListener(this);
-        mBtnRefresh = (Button) findViewById(R.id.btn_refresh_user);
+        Button mBtnRefresh = (Button) findViewById(R.id.btn_refresh_user);
         mBtnRefresh.setOnClickListener(this);
 
-        mBtnUpdateDOB = (Button) findViewById(R.id.btn_update_date_of_birth);
+        Button mBtnUpdateDOB = (Button) findViewById(R.id.btn_update_date_of_birth);
         mBtnUpdateDOB.setOnClickListener(this);
-        mBtnUpdateGender = (Button) findViewById(R.id.btn_update_gender);
+        Button mBtnUpdateGender = (Button) findViewById(R.id.btn_update_gender);
         mBtnUpdateGender.setOnClickListener(this);
         mRadioGender = (RadioGroup) findViewById(R.id.genderRadio);
         mRadioGender.check(R.id.Male);
@@ -156,7 +142,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
         }
 
         mLlConfiguration.setVisibility(View.GONE);
-        mBtnChangeConfiguaration = (Button) findViewById(R.id.btn_change_configuration);
+        Button mBtnChangeConfiguaration = (Button) findViewById(R.id.btn_change_configuration);
         mBtnChangeConfiguaration.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,7 +158,13 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
             }
         });
 
-        mBtnApply = (Button) findViewById(R.id.Apply);
+
+        mCheckBox = (CheckBox) findViewById(R.id.cd_hsdp);
+        if (restoredHSDPText != null) {
+            mCheckBox.setChecked(true);
+        }
+
+        Button mBtnApply = (Button) findViewById(R.id.Apply);
         mBtnApply.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,36 +202,25 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
                 }
 
                 if (restoredText != null) {
+                    SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
+                    editor.putString("reg_environment", restoredText);
                     if (mCheckBox.isChecked()) {
-                        SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
                         editor.putString("reg_hsdp_environment", restoredText);
-                        editor.commit();
-                        //  RegistrationSampleApplication.getInstance().initHSDP(RegUtility.getConfiguration(restoredText));
                     } else {
-                        SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
-                        prefs.edit().remove("reg_hsdp_environment").commit();
+                        editor.remove("reg_hsdp_environment");
                     }
-
-                    // RegistrationSampleApplication.getInstance().initRegistration(RegUtility.getConfiguration(restoredText));
+                    editor.commit();
                 }
 
             }
         });
-        mBtnCancel = (Button) findViewById(R.id.Cancel);
+        Button mBtnCancel = (Button) findViewById(R.id.Cancel);
         mBtnCancel.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 mLlConfiguration.setVisibility(View.GONE);
             }
         });
-
-
-        mCheckBox = (CheckBox) findViewById(R.id.cd_hsdp);
-        if (restoredHSDPText != null) {
-            mCheckBox.setChecked(true);
-        }
-
-
     }
 
     private void clearData() {
@@ -332,7 +313,6 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
         } else if (i == R.id.btn_marketing_opt_in) {
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
-            // RegistrationSampleApplication.getInstance().getAppInfra().getTagging().setPreviousPage("demoapp:home");
             urLaunchInput = new URLaunchInput();
             urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
             urLaunchInput.setAccountSettings(false);
@@ -367,7 +347,6 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
         } else if (i == R.id.btn_registration_without_account) {
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
-            // RegistrationSampleApplication.getInstance().getAppInfra().getTagging().setPreviousPage("demoapp:home");
             urLaunchInput = new URLaunchInput();
             urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
             urLaunchInput.setUserRegistrationUIEventListener(this);
@@ -397,23 +376,16 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
         } else if (i == R.id.btn_update_gender) {
             User user1 = new User(mContext);
-            System.out.println("before login" + user1.getGender());
-
             if (!user1.isUserSignIn()) {
                 Toast.makeText(this, "Please login before refreshing access token", Toast.LENGTH_LONG).show();
             } else {
-                System.out.println("preset login" + user1.getGender());
                 handleGender();
             }
-
-
         } else if (i == R.id.btn_update_date_of_birth) {
             User user = new User(mContext);
-            System.out.println("before login" + user.getDateOfBirth());
             if (!user.isUserSignIn()) {
                 Toast.makeText(this, "Please login before updating user", Toast.LENGTH_LONG).show();
             } else {
-                System.out.println("pre  login" + user.getDateOfBirth());
                 handleDoBUpdate(user.getDateOfBirth());
             }
 
@@ -436,19 +408,14 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
         user1.updateGender(new UpdateUserDetailsHandler() {
             @Override
             public void onUpdateSuccess() {
-                System.out.println("onUpdateSuccess");
                 mProgressDialog.hide();
                 showToast("onUpdateSuccess");
-                System.out.println("post login" + user1.getGender());
             }
 
             @Override
             public void onUpdateFailedWithError(int error) {
-                System.out.println("onUpdateFailedWithError");
                 mProgressDialog.hide();
                 showToast("onUpdateFailedWithError" + error);
-                System.out.println("post login" + user1.getGender());
-
             }
         }, gender);
 
@@ -477,26 +444,19 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
                         Calendar c = Calendar.getInstance();
                         c.set(year, monthOfYear, dayOfMonth, 0, 0);
-                        System.out.println("date" + c.getTime());
 
-                        System.out.println("onDateSet" + year + monthOfYear + dayOfMonth);
                         final User user1 = new User(mContext);
                         user1.updateDateOfBirth(new UpdateUserDetailsHandler() {
                             @Override
                             public void onUpdateSuccess() {
-                                System.out.println("onUpdateSuccess");
                                 mProgressDialog.hide();
                                 showToast("onUpdateSuccess");
-                                System.out.println("post  login" + user1.getDateOfBirth());
                             }
 
                             @Override
                             public void onUpdateFailedWithError(int error) {
-                                System.out.println("onUpdateFailedWithError");
                                 mProgressDialog.hide();
                                 showToast("onUpdateFailedWithError" + error);
-                                System.out.println("post  login" + user1.getDateOfBirth());
-
                             }
                         }, c.getTime());
                     }
@@ -621,7 +581,6 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
         showToast(message);
     }
 
-    RegistrationContentConfiguration registrationContentConfiguration;
 
     public RegistrationContentConfiguration getRegistrationContentConfiguration() {
         String valueForRegistration = "sample";
@@ -631,7 +590,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
         String optInDetailDescription = getResources().getString(R.string.reg_Opt_In_Special_Offers);
         String optInBannerText = getResources().getString(R.string.reg_Opt_In_Join_Now);
         String optInTitleBarText = getResources().getString(R.string.reg_RegCreateAccount_NavTitle);
-        registrationContentConfiguration = new RegistrationContentConfiguration();
+        RegistrationContentConfiguration registrationContentConfiguration = new RegistrationContentConfiguration();
         registrationContentConfiguration.setValueForRegistration(valueForRegistration);
         registrationContentConfiguration.setValueForEmailVerification(valueForEmailVerification);
         registrationContentConfiguration.setOptInTitleText(optInTitleText);
@@ -642,6 +601,4 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
         return registrationContentConfiguration;
 
     }
-
-
 }

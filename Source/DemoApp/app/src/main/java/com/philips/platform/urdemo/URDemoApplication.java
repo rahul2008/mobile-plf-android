@@ -8,7 +8,6 @@ import android.support.multidex.MultiDex;
 
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -53,18 +52,13 @@ public class URDemoApplication extends Application {
         super.onCreate();
         mRegistrationSampleApplication = this;
         mAppInfraInterface = new AppInfra.Builder().build(this);
-        SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
-        String restoredText = prefs.getString("reg_environment", null);
-        if (restoredText != null) {
-            String restoredHSDPText = prefs.getString("reg_hsdp_environment", null);
-            if (restoredHSDPText != null && restoredHSDPText.equals(restoredText)) {
-                initHSDP(RegUtility.getConfiguration(restoredText));
-            }
-            initRegistration(RegUtility.getConfiguration(restoredText));
-        } else {
-            initRegistration(Configuration.STAGING);
-        }
+
+        initHSDP(Configuration.STAGING);
+        initRegistration(Configuration.STAGING);
+        RLog.enableLogging();
     }
+
+
 
     public void initRegistration(Configuration configuration) {
         AppConfigurationInterface.AppConfigurationError configError = new

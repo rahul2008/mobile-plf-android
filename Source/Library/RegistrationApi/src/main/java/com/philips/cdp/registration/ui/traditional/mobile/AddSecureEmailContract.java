@@ -22,5 +22,7 @@ public interface AddSecureEmailContract {
     void showProgress();
 
     void hideProgress();
+
+    void storePreference(String emailOrMobileNumber);
 }
 

@@ -363,7 +363,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private void lauchAccountActivationFragment() {
         getRegistrationFragment().launchAccountActivationFragmentForLogin();
-        trackPage(AppTaggingPages.ACCOUNT_ACTIVATION);
     }
 
     private void initUI(View view) {
@@ -441,7 +440,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onLoginSuccess() {
-                handleLoginSuccess();
+        handleLoginSuccess();
     }
 
     private void launchWelcomeFragment() {
@@ -452,7 +451,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     @Override
     public void onLoginFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
 
-                handleLogInFailed(userRegistrationFailureInfo);
+        handleLogInFailed(userRegistrationFailureInfo);
     }
 
     private void handleLogInFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
@@ -489,7 +488,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onSendForgotPasswordSuccess() {
-                handleSendForgotSuccess();
+        handleSendForgotSuccess();
     }
 
     private void handleSendForgotSuccess() {
@@ -507,7 +506,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     @Override
     public void onSendForgotPasswordFailedWithError(final
                                                     UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                handleSendForgetPasswordFailure(userRegistrationFailureInfo);
+        handleSendForgetPasswordFailure(userRegistrationFailureInfo);
     }
 
     private void handleSendForgetPasswordFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
@@ -635,7 +634,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onUpdate() {
-                updateUiStatus();
+        updateUiStatus();
     }
 
     @Override
@@ -656,7 +655,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onResendVerificationEmailSuccess() {
-                handleResendVerificationEmailSuccess();
+        handleResendVerificationEmailSuccess();
     }
 
     private void handleResendVerificationEmailSuccess() {
@@ -675,7 +674,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     @Override
     public void onResendVerificationEmailFailedWithError(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                handleResendVerificationEmailFailed(userRegistrationFailureInfo);
+        handleResendVerificationEmailFailed(userRegistrationFailureInfo);
 
     }
 
@@ -701,7 +700,15 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mBtnForgot.setEnabled(true);
         mBtnResend.setEnabled(true);
         mRegError.hideError();
-        if (mUser.getEmailVerificationStatus() || !RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
+
+        boolean isEmailAvailable = mUser.getEmail() != null && FieldsValidator.isValidEmail(mUser.getEmail());
+        boolean isMobileNoAvailable = mUser.getMobile() != null && FieldsValidator.isValidMobileNumber(mUser.getMobile());
+        if (isEmailAvailable && isMobileNoAvailable && !mUser.isEmailVerified()) {
+            lauchAccountActivationFragment();
+            return;
+        }
+
+        if ((mUser.isEmailVerified() || mUser.isMobileVerified()) || !RegistrationConfiguration.getInstance().isEmailVerificationRequired()) {
             if (RegPreferenceUtility.getStoredState(mContext, mEmail) && mUser.getReceiveMarketingEmail()) {
                 launchWelcomeFragment();
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
@@ -951,11 +958,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_Invalid_PhoneNumber_ErrorMsg));
             mEtEmail.showErrPopUp();
             updateResendUIState();
-            return;
         } else {
             handleResendSMSRespone(response);
-
         }
     }
-
 }
