@@ -4,8 +4,10 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.intake.THSSDKValidatedCallback;
 import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
 import com.philips.platform.ths.login.THSLoginCallBack;
@@ -18,10 +20,12 @@ import com.philips.platform.ths.R;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.util.Map;
 
 //TODO: Review Comment - Spoorti - Do not implement THSGetConsumerObjectCallBack in WelcomePresenter
 //TODO: Review Comment - Spoorti - Can we rename THSGetConsumerObjectCallBack to PTHGetConsumerCallBack?
-public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallBack<Void,THSSDKError>, THSLoginCallBack<THSAuthentication,THSSDKError>,THSGetConsumerObjectCallBack {
+public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallBack<Void,THSSDKError>,
+        THSLoginCallBack<THSAuthentication,THSSDKError>,THSGetConsumerObjectCallBack,THSSDKValidatedCallback<THSConsumer,SDKError> {
     THSBaseFragment uiBaseView;
     private Consumer consumer;
 
@@ -62,8 +66,9 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     private void loginUserSilently() {
         try {
             AmwellLog.i(AmwellLog.LOG,"Login - call initialted from client");
-            THSManager.getInstance().authenticate(uiBaseView.getFragmentActivity(),"spoorti.h86@gmail.com","sujata123*",null,this);
-          //  THSManager.getInstance().authenticateMutualAuthToken(uiBaseView.getContext());
+          //  THSManager.getInstance().authenticate(uiBaseView.getFragmentActivity(),"spoorti.h86@gmail.com","sujata123*",null,this);
+           // THSManager.getInstance().authenticateMutualAuthToken(uiBaseView.getContext(),this);
+            THSManager.getInstance().checkConsumerExists(uiBaseView.getContext(),this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -116,6 +121,11 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     @Override
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
 
+        launchPractice(consumer);
+
+    }
+
+    private void launchPractice(Consumer consumer) {
         this.consumer = consumer;
         //setting PTHconsumer  in THSManager so any presenter/fragment can access it
         THSConsumer THSConsumer = new THSConsumer();
@@ -128,12 +138,26 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
        /* THSPracticeFragment.setActionBarListener(((THSWelcomeFragment) uiBaseView).getActionBarListener());
         uiBaseView.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(uiBaseView.getContainerID(), THSPracticeFragment,"THSPracticeList List").addToBackStack(null).commit();*/
 
-       uiBaseView.addFragment(PTHPracticeFragment,PTHPracticeFragment.TAG,null);
-
+        uiBaseView.addFragment(PTHPracticeFragment,PTHPracticeFragment.TAG,null);
     }
 
     @Override
     public void onError(Throwable throwable) {
         uiBaseView.hideProgressBar();
+    }
+
+    @Override
+    public void onValidationFailure(Map<String, ValidationReason> var1) {
+
+    }
+
+    @Override
+    public void onResponse(THSConsumer thsConsumer, SDKError thssdkError) {
+        launchPractice(thsConsumer.getConsumer());
+    }
+
+    @Override
+    public void onFailure(Throwable throwable) {
+
     }
 }

@@ -249,28 +249,28 @@ public class THSDemoApplication extends Application {
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.ApplicationName",
                 "UserRegistration",
-                "OneBackend",
+                "DataCore",
                 configError);
 
         appInfra.
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.Secret",
                 "UserRegistration",
-                "ad3d0618-be4d-4958-adc9-f6bcd01fde16",
+                "5d5476eb-1259-467f-95e7-b7294cd60eac",
                 configError);
 
         appInfra.
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.Shared",
                 "UserRegistration",
-                "ba404af2-ee41-4e7c-9157-fd20663f2a6c",
+                "6x8e7f15-993b-499c-8d7a-ae986eg2a4c2",
                 configError);
 
         appInfra.
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.BaseURL",
                 "UserRegistration",
-                "https://platforminfra-ds-platforminfrastaging.cloud.pcftest.com",
+                "https://user-registration-assembly-testing.us-east.philips-healthsuite.com",
                 configError);
     }
 }

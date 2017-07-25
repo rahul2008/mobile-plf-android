@@ -29,7 +29,8 @@ public class SegmentControl extends LinearLayout {
 
     public SegmentControl(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        colorStateList = ThemeUtils.buildColorStateList(getResources(), getContext().getTheme(), R.color.segment_text_color);
+       // colorStateList = ThemeUtils.buildColorStateList(getResources(), getContext().getTheme(), R.color.segment_text_color);
+        colorStateList = ThemeUtils.buildColorStateList(getContext(), R.color.segment_text_color);
     }
 
     @Override

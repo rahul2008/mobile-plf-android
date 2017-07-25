@@ -1,19 +1,26 @@
 package com.philips.platform.ths.utility;
 
 import android.content.Context;
+import android.net.sip.SipSession;
+import android.os.Parcel;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.AWSDKFactory;
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.Authentication;
+import com.americanwell.sdk.entity.Country;
 import com.americanwell.sdk.entity.Language;
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.SDKLocalDate;
 import com.americanwell.sdk.entity.SDKPasswordError;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.consumer.ConsumerUpdate;
+import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.entity.consumer.RemindOptions;
+import com.americanwell.sdk.entity.enrollment.ConsumerEnrollment;
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.insurance.HealthPlan;
@@ -73,6 +80,7 @@ import com.philips.platform.ths.welcome.THSInitializeCallBack;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -138,13 +146,47 @@ public class THSManager {
         });
     }
 
-    public void authenticateMutualAuthToken(Context context) throws AWSDKInstantiationException {
+    public void authenticateMutualAuthToken(Context context,final THSLoginCallBack THSLoginCallBack) throws AWSDKInstantiationException {
         User user = new User(context);
-        String token = user.getHsdpUUID()+":" + user.getHsdpAccessToken();
+        String token = user.getHsdpUUID()+":" + "DataCore:" + user.getHsdpAccessToken();
         getAwsdk(context).authenticateMutual(token, new SDKCallback<Authentication, SDKError>() {
             @Override
             public void onResponse(Authentication authentication, SDKError sdkError) {
+                AmwellLog.i(AmwellLog.LOG,"Login - On Response");
+                THSAuthentication THSAuthentication = new THSAuthentication();
+                THSAuthentication.setAuthentication(authentication);
 
+                THSSDKError THSSDKError = new THSSDKError();
+                THSSDKError.setSdkError(sdkError);
+                THSLoginCallBack.onLoginResponse(THSAuthentication, THSSDKError);
+
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                THSLoginCallBack.onLoginFailure(throwable);
+            }
+        });
+    }
+
+    public void isCompleteEnrollmentRequired(Context context,THSLoginCallBack thsLoginCallBack){
+
+    }
+
+    public void checkConsumerExists(final Context context, final THSSDKValidatedCallback thssdkValidatedCallback) throws AWSDKInstantiationException {
+
+        getAwsdk(context).getConsumerManager().checkConsumerExists(new User(context).getHsdpUUID(), new SDKCallback<Boolean, SDKError>() {
+            @Override
+            public void onResponse(Boolean aBoolean, SDKError sdkError) {
+                if(aBoolean){
+
+                }else {
+                    try {
+                        enrollConsumer(context,thssdkValidatedCallback);
+                    } catch (AWSDKInstantiationException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
 
             @Override
@@ -153,6 +195,59 @@ public class THSManager {
             }
         });
     }
+
+    public void enrollConsumer(final Context context, final THSSDKValidatedCallback thssdkValidatedCallback) throws AWSDKInstantiationException {
+        final ConsumerEnrollment newConsumerEnrollment = getAwsdk(context).getConsumerManager().getNewConsumerEnrollment();
+        newConsumerEnrollment.setAcceptedDisclaimer(true);
+        final User user = new User(context);
+        newConsumerEnrollment.setSourceId(user.getHsdpAccessToken());
+
+        newConsumerEnrollment.setEmail(user.getEmail());
+        newConsumerEnrollment.setPassword("Philips@123");
+       // newConsumerEnrollment.setPhone("123456789");
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(1986,06,07);
+        final Date time = calendar.getTime();
+
+        newConsumerEnrollment.setDob(SDKLocalDate.valueOf(time));
+        newConsumerEnrollment.setFirstName("Sumit");
+        newConsumerEnrollment.setGender(Gender.MALE);
+        newConsumerEnrollment.setLastName("Prasad");
+
+        final List<Country> supportedCountries = getAwsdk(context).getSupportedCountries();
+        final List<State> validShippingStates = getAwsdk(context).getConsumerManager().getValidShippingStates(supportedCountries.get(0));
+
+        newConsumerEnrollment.setLegalResidence(validShippingStates.get(0));
+
+
+        getAwsdk(context).getConsumerManager().enrollConsumer(newConsumerEnrollment,
+                new SDKValidatedCallback<Consumer, SDKPasswordError>() {
+            @Override
+            public void onValidationFailure(Map<String, ValidationReason> map) {
+                AmwellLog.i(AmwellLog.LOG,"validationFail");
+            }
+
+            @Override
+            public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
+
+                THSConsumer thsConsumer = new THSConsumer();
+                thsConsumer.setConsumer(consumer);
+                AmwellLog.i(AmwellLog.LOG,"onResponse");
+                thssdkValidatedCallback.onResponse(thsConsumer,sdkPasswordError);
+
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                AmwellLog.i(AmwellLog.LOG,"onFail");
+            }
+        });
+    }
+
+
+
+
 
     public void initializeTeleHealth(Context context, final THSInitializeCallBack THSInitializeCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
         final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
