@@ -12,13 +12,11 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-
 import com.philips.platform.catalogapp.R;
 import com.philips.platform.catalogapp.databinding.FragmentUiPickerBinding;
 import com.philips.platform.uid.thememanager.UIDHelper;
@@ -57,12 +55,12 @@ public class UIPickerFragment extends BaseFragment {
         return R.string.page_title_uipicker;
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FragmentUiPickerBinding fragmentUiPickerBinding;
         Context popupThemedContext = UIDHelper.getPopupThemedContext(getContext());
-        LayoutInflater layoutInflater = inflater.cloneInContext(popupThemedContext);
-        fragmentUiPickerBinding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_ui_picker, container, false);
+        fragmentUiPickerBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_ui_picker, container, false);
         fragmentUiPickerBinding.setFrag(this);
 
         listPopupWindow = new UIPicker(popupThemedContext);
@@ -115,14 +113,14 @@ public class UIPickerFragment extends BaseFragment {
     }
 
 
-    /*class PickerAdapter<String> extends ArrayAdapter<String> {
+    class PickerAdapter extends ArrayAdapter<String> {
         LayoutInflater inflater;
         int resID;
         public PickerAdapter(@NonNull Context context, @LayoutRes int resource, String[] states) {
             super(context, resource, states);
             resID = resource;
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            inflater = inflater.cloneInContext(UIPickerFragment.this.getContext());
+            inflater = inflater.cloneInContext(UIDHelper.getPopupThemedContext(UIPickerFragment.this.getContext()));
         }
 
         @NonNull
@@ -137,5 +135,5 @@ public class UIPickerFragment extends BaseFragment {
             view.setText((CharSequence) getItem(position));
             return view;
         }
-    }*/
+    }
 }
