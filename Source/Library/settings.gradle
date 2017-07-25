@@ -1,2 +1,2 @@
-rootProject.setName 'dataServices_DLS'
+rootProject.setName 'dataServices'
 include ':dataServices'
