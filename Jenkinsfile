@@ -8,7 +8,8 @@ properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$cl
 
 node('Android') {
     stage('Checkout') {
-        sh 'rm -rf *'
+        sh 'rm -rf ./bluelib'
+        sh 'find . -path "**build/test-results" -exec rm -r "{}" \\;'
         checkout([$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'commlib'], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false], [$class: 'WipeWorkspace'], [$class: 'PruneStaleBranch'], [$class: 'LocalBranch']], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://git@bitbucket.atlas.philips.com:7999/com/dicomm-android.git']]])
     }
 
@@ -29,8 +30,13 @@ node('Android') {
             }
         }
 
-        stage('Build javadoc') {
-            sh "$gradle --refresh-dependencies generateJavadocPublicApi"
+        stage('Build') {
+            sh "$gradle --refresh-dependencies generateJavadocPublicApi assemble saveResDep testDebug"
+        }
+
+        stage('Archive results') {
+
+            archiveArtifacts '**/dependencies.lock'
         }
     }
 }
