@@ -56,8 +56,8 @@ public class CreateAccountPresenter implements NetworStateListener,EventListener
                 this);
     }
 
-    public void registerUserInfo(User user, String name, String email, String password, boolean olderThanAgeLimit, boolean isReceiveMarketingEmail){
-        user.registerUserInfoForTraditional(name, email
+    public void registerUserInfo(User user, String firstName, String lastName, String email, String password, boolean olderThanAgeLimit, boolean isReceiveMarketingEmail){
+        user.registerUserInfoForTraditional(firstName,lastName, email
                 , password.toString(), olderThanAgeLimit, isReceiveMarketingEmail,this);
     }
 

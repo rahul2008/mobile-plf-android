@@ -19,13 +19,13 @@
 <string name="reg_JanRain_Server_Connection_Failed">Failed to connect to the server, Please try again after some time.</string>
 <string name="reg_SigIn_TitleTxt">Log In</string>
 <string name="reg_RegBaseViewNav_TitleTxt">Account</string>
-<string name="reg_RegCreateAccount_NavTitle">Create Account</string>
+<string name="reg_RegCreateAccount_NavTitle">Create account</string>
 <string name="reg_NameField_ErrorText">Please enter your first name.</string>
 <string name="reg_kemailFieldErrorText">Please enter a valid email address.</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">This email address is already in use. Please enter a different one, or go back and log in with this email address.</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">This email address is already in use with a Philips account or a social media account.\nPlease go back to the \'Log in\' step, or use another email address.</string>
 <string name="reg_PrivacyNoticeText">Privacy Notice</string>
-<string name="reg_TermsAndConditionsText">Terms and Conditions</string>
+<string name="reg_TermsAndConditionsText">Terms &amp; Conditions</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">Please verify your email address through the activation link sent to your email account</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">We have sent an email to: %s. It may take some time for the email to arrive.</string>
 <string name="reg_RegSignWith_Lbltxt">Log in with</string>
@@ -44,7 +44,7 @@
 <string name="reg_Welcome_Alternate_SignInAccount_lbltxt">Or log in with</string>
 <string name="reg_Welcome_Welcome_lbltxt">Welcome!</string>
 <string name="reg_Create_Account_ChoosePwd_PlaceHolder_txtField">Choose a password</string>
-<string name="reg_Create_Account_CreateMyPhilips_btntxt">Create Philips account</string>
+<string name="reg_Create_Account_CreateMyPhilips_btntxt">Create my Philips account</string>
 <string name="reg_Create_Account_FirstName__Placeholder_txtFiled">Enter first name</string>
 <string name="reg_Create_Account_Hint_Password_lbltxt">Protect your privacy by choosing a strong password.</string>
 <string name="reg_ReciveMarketing_PeridicOffers_lbltxt">I would like to receive periodic offers and updates from Philips</string>
@@ -102,7 +102,7 @@
 <string name="reg_LegalNoticeText_With_Terms_And_Conditions" formatted="false">Please read our %s and %s.</string>
 <string name="reg_LegalNoticeText">Please read our %s</string>
 <string name="reg_AgeLimitText">By creating an account or signing in you certify that you are %s years or older.\n</string>
-<string name="reg_TermsAndConditionsAcceptanceText">I accept the app\'s %s</string>
+<string name="reg_TermsAndConditionsAcceptanceText">Sure, I accept the app\'s %s</string>
 <string name="reg_TermsAndConditionsAcceptanceText_Error">Please accept the Terms and Conditions</string>
 <string name="reg_Verification_email_Title">Verification email sent</string>
 <string name="reg_Verification_email_Message">We have sent you an email to verify your email address. It may take some time for the email to arrive.</string>
@@ -122,7 +122,7 @@
 <string name="reg_Signin_Success_Hello_lbltxt">Hello</string>
 <string name="reg_Access_More_Account_Setting_lbltxt">Do you want to access more account settings?\nVisit %s via your browser.</string>
 <string name="reg_Philips_URL_txt">www.philips.com</string>
-<string name="reg_Receive_Philips_News_lbltxt">Receive Philips\' promotional communications based on my preferences and online behaviour\n%s</string>
+<string name="reg_Receive_Philips_News_lbltxt">Receive promotional communications of Philips based on my preferences and online behaviour.\n%s</string>
 <string name="reg_Receive_Philips_News_Meaning_lbltxt">What does this mean?</string>
 <string name="reg_Philips_News_Title">Philips announcements</string>
 <string name="reg_Philips_News_Back_btntxt">Back</string>

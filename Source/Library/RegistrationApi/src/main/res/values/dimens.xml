@@ -5,6 +5,14 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!-- DEFAULT screen margins, per the Android Design guidelines. -->
+
+    <dimen name="reg_layout_padding_left_16dp">16dp</dimen>
+    <dimen name="reg_layout_padding_right_16dp">16dp</dimen>
+    <dimen name="reg_layout_padding_top_16dp">16dp</dimen>
+    <dimen name="reg_layout_padding_bottom_16dp">16dp</dimen>
+    <dimen name="reg_layout_top">12dp</dimen>
+
+
     <bool name="isTablet">false</bool>
     <dimen name="reg_layout_margin">30dp</dimen>
     <dimen name="reg_layout_margin_port">0dp</dimen>
@@ -156,5 +164,10 @@
     <dimen name="cp_dialog_height">300dp</dimen>
     <dimen name="reg_first_to_know_know">72dip</dimen>
     <dimen name="reg_text_padding_bottom">5dp</dimen>
+
+    <dimen name="reg_margin_top_24">24dp</dimen>
+    <dimen name="reg_margin_bottom_24">24dp</dimen>
+
+
 
 </resources>

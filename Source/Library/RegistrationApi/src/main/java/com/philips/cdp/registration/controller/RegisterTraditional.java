@@ -126,12 +126,13 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
     // moved app logic to set user info (traditional login) in diuserprofile to
     // framework.
-    public void registerUserInfoForTraditional(String mGivenName, String mUserEmailorMobile,
+    public void registerUserInfoForTraditional(String firstName, String lastName, String mUserEmailorMobile,
                                                String password, boolean olderThanAgeLimit, boolean isReceiveMarketingEmail
     ) {
 
         mProfile = new DIUserProfile();
-        mProfile.setGivenName(mGivenName);
+        mProfile.setGivenName(firstName);
+        mProfile.setFamilyName(lastName);
         if (FieldsValidator.isValidEmail(mUserEmailorMobile)){
             mProfile.setEmail(mUserEmailorMobile);
         }else {

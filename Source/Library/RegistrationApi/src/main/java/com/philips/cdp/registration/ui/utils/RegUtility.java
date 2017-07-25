@@ -25,6 +25,7 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.events.SocialProvider;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
+import com.philips.platform.uid.view.widget.CheckBox;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,8 +54,33 @@ public class RegUtility {
     }
 
 
+    //Temp: Code (For the existing usage on other fragments)
     public static void linkifyTermsandCondition(
             TextView termsAndConditionsAcceptance,
+            final Activity activity, ClickableSpan termsAndConditionClickListener) {
+
+        String termsAndCondition = activity.getString(R.string.reg_TermsAndConditionsAcceptanceText);
+        String acceptTermsAndCondition = activity.getString(R.string.reg_TermsAndConditionsText);
+        termsAndCondition = String.format(termsAndCondition, acceptTermsAndCondition);
+        termsAndConditionsAcceptance.setText(termsAndCondition);
+        String terms = activity.getString(R.string.reg_TermsAndConditionsText);
+        SpannableString spanableString = new SpannableString(termsAndCondition);
+
+        int termStartIndex = termsAndCondition.toLowerCase().indexOf(
+                terms.toLowerCase());
+        spanableString.setSpan(termsAndConditionClickListener, termStartIndex,
+                termStartIndex + terms.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        removeUnderlineFromLink(spanableString);
+        termsAndConditionsAcceptance.setText(spanableString);
+        termsAndConditionsAcceptance.setMovementMethod(LinkMovementMethod.getInstance());
+        termsAndConditionsAcceptance.setLinkTextColor(ContextCompat.
+                getColor(activity, R.color.reg_hyperlink_highlight_color));
+        termsAndConditionsAcceptance.setHighlightColor(ContextCompat.getColor
+                (activity, android.R.color.transparent));
+    }
+
+    public static void linkifyTermsandCondition(
+            CheckBox termsAndConditionsAcceptance,
             final Activity activity, ClickableSpan termsAndConditionClickListener) {
 
         String termsAndCondition = activity.getString(R.string.reg_TermsAndConditionsAcceptanceText);
