@@ -11,10 +11,4 @@
             <solid android:color="?attr/uidListItemDefaultPressedBackgroundColor" />
         </shape>
     </item>
-
-    <item android:state_selected="true">
-        <shape>
-            <solid android:color="?attr/uidListItemDefaultPressedBackgroundColor" />
-        </shape>
-    </item>
 </selector>

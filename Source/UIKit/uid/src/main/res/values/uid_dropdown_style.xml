@@ -5,7 +5,10 @@
         <item name="android:divider">@null</item>
         <item name="android:choiceMode">singleChoice</item>
         <item name="android:dividerHeight">@dimen/uid_uipicker_divider_height</item>
-        <item name="android:listSelector">@drawable/uid_ui_picker_item_selector</item>
+
+        <!--We need transparent selector to avoid any overlaying double color effect-->
+        <item name="android:listSelector">@drawable/uid_ui_picker_row_selector</item
+                >
         <item name="android:background">?attr/uidPopupDefaultNormalBackgroundColor</item>
         <item name="android:paddingTop">@dimen/uid_uipicker_top_bottom_padding</item>
         <item name="android:paddingBottom">@dimen/uid_uipicker_top_bottom_padding</item>
@@ -16,7 +19,5 @@
 
     <style name="UIDListPopupWindow" parent="android:Widget.Material.ListPopupWindow">
         <item name="android:popupElevation">2dp</item>
-        <item name="android:background">?attr/uidPopupDefaultNormalBackgroundColor</item>
-        <!--<item name="dropDownSelector">@drawable/uid_ui_picker_item_selector</item>-->
     </style>
 </resources>
