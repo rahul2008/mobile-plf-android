@@ -21,40 +21,24 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick(View view) {
 
-        /*String testing = "testing";
-        testing = keyBagLib.passingDataToJni(testing, testing.length(), 0xACE1);
-
-        Log.d(getClass() + "", String.valueOf(testing));*/
-
         SendBuffer();
-//        testGettingMessage();
-
-//        char[] temp = keyBagLib.passingCharDataToJni();
-//        for (char c : temp){
-//            Log.d(getClass() +" "," converted string in char "+ String.valueOf(c));
-//        }
     }
-
-   /* public void testGettingMessage() {
-        String testString = "Raja Ram Mohan Roy";
-        byte[] msgFromJni = keyBagLib.ConvertString(testString, testString.length(), 0xACE1);
-        String s = new String(msgFromJni);
-        Log.d(getClass() + "", " message from JNI " + s);
-
-        byte[] newByte = keyBagLib.ConvertString(s, s.length(), 0xACE1);
-        Log.d(getClass() + "", " message back from JNI " + new String(newByte));
-    }*/
 
     public void SendBuffer() {
 
         try {
             // Convert char to string to byte
+
+
+            char[] array = hexStringToByteArray("b3a5085a2de916729f8e55955ba482656cfceb10fe79");
+
+
             String testString = " Testing bulk data ";
-            char[] temp = keyBagLib.ConvertString(testString, testString.length(), 0xACE1);
+            char[] temp = keyBagLib.ConvertString(testString.toCharArray(), 0xACE1);
             String s = new String(temp);
             Log.d(getClass() + " converted string ", s);
 
-            temp = keyBagLib.ConvertString(s, s.length(), 0xACE1);
+            temp = keyBagLib.ConvertString(s.toCharArray(), 0xACE1);
             String s2 = new String(temp);
             Log.d(getClass() +"", " again converted string "+ s2);
         } catch (Exception e) {
@@ -62,12 +46,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    byte[] getJniBytes(final String source) {
-        try {
-            return source.getBytes("UTF-16LE");
-        } catch (Exception e) {
-            e.printStackTrace();
+    private static char[] hexStringToByteArray(String hex) {
+        int l = hex.length();
+        char[] data = new char[l / 2];
+        for (int i = 0; i < l; i += 2) {
+            data[i / 2] = (char) ((Character.digit(hex.charAt(i), 16) << 4)
+                    + Character.digit(hex.charAt(i + 1), 16));
         }
-        return null;
+        return data;
     }
 }
