@@ -107,7 +107,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             }
             mIgnoreTextChangeListener = false;
             mEtPhone1.setText(mBillingAddressFields.getPhone1());
-            mEtPhone2.setText(mBillingAddressFields.getPhone2());
+           // mEtPhone2.setText(mBillingAddressFields.getPhone2());
         }
         setTextColor();
     }
@@ -130,7 +130,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
                 mTvCountry.setTextColor(mDisabledColor);
                 mTvEmail.setTextColor(mDisabledColor);
                 mTvPhone1.setTextColor(mDisabledColor);
-                mTvPhone2.setTextColor(mDisabledColor);
+                //mTvPhone2.setTextColor(mDisabledColor);
 
                 mEtSalutation.setTextColor(mDisabledColor);
                 mEtFirstName.setTextColor(mDisabledColor);
@@ -145,7 +145,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
                 mEtCountry.setTextColor(mDisabledColor);
                 mEtEmail.setTextColor(mDisabledColor);
                 mEtPhone1.setTextColor(mDisabledColor);
-                mEtPhone2.setTextColor(mDisabledColor);
+               // mEtPhone2.setTextColor(mDisabledColor);
             }
         });
     }
@@ -160,7 +160,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
         mEtTown.setText("");
         mEtPostalCode.setText("");
         mEtPhone1.setText("");
-        mEtPhone2.setText("");
+//        mEtPhone2.setText("");
         mEtState.setText("");
         if (HybrisDelegate.getInstance().getStore().getCountry().equalsIgnoreCase("US")) {
             mlLState.setVisibility(View.VISIBLE);
@@ -202,7 +202,6 @@ public class BillingAddressFragment extends ShippingAddressFragment {
                 mInlineFormsParent.removeError(mEtTown);
                 mInlineFormsParent.removeError(mEtPostalCode);
                 mInlineFormsParent.removeError(mEtPhone1);
-                mInlineFormsParent.removeError(mEtPhone2);
             }
         });
     }
@@ -251,7 +250,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             mEtState.setEnabled(enable);
         }
         mEtPhone1.setEnabled(enable);
-        mEtPhone2.setEnabled(enable);
+        //mEtPhone2.setEnabled(enable);
     }
 
     private void setFieldsFocusable(boolean focusable) {
@@ -266,7 +265,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
             mEtState.setFocusable(focusable);
         }
         mEtPhone1.setFocusable(focusable);
-        mEtPhone2.setFocusable(focusable);
+      //  mEtPhone2.setFocusable(focusable);
 
         if (focusable) {
             mEtFirstName.setFocusableInTouchMode(true);
@@ -280,7 +279,7 @@ public class BillingAddressFragment extends ShippingAddressFragment {
                 mEtState.setFocusableInTouchMode(true);
             }
             mEtPhone1.setFocusableInTouchMode(true);
-            mEtPhone2.setFocusableInTouchMode(true);
+           // mEtPhone2.setFocusableInTouchMode(true);
         }
 
         mEtCountry.setFocusable(false);

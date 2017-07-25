@@ -22,8 +22,8 @@
     <string name="iap_enter_promo_code">Enter promo or gift code</string>
 
     <!-- Shipping address layout -->
-    <string name="iap_mr">Mr</string>
-    <string name="iap_mrs">Ms</string>
+    <string name="iap_mr">mr</string>
+    <string name="iap_mrs">ms</string>
     <string name="iap_shipping_address">Shipping address</string>
     <string name="iap_billing_address">Billing address</string>
     <string name="iap_salutation">Salutation</string>
@@ -176,6 +176,7 @@
     <string name="iap_order_completed">Completed</string>
     <string name="iap_not_shipped_msg">Your order is not yet shipped. It is expected to be handed over to the courier within 24 hours after your order was confirmed</string>
     <string name="iap_order_completed_text">Your order will be delivered by \nFedEx(parcel postage) \nTracking number %1$s</string>
+    <string name="iap_order_completed_text_default">Your product has been shipped .Please login to check the status at www.shop.philips.com .</string>
     <string name="iap_order_completed_text_without_track_id">Your order will be delivered by \nFedEx(parcel postage)</string>
     <string name="iap_view_invoice">View invoice</string>
     <string name="iap_invoice">Invoice</string>

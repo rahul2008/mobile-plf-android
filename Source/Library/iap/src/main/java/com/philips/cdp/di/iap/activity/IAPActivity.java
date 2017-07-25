@@ -22,7 +22,6 @@ import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.cart.IAPCartListener;
-import com.philips.cdp.di.iap.cart.ShoppingCartPresenter;
 import com.philips.cdp.di.iap.container.CartModelContainer;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPListener;
@@ -202,13 +201,13 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
                     getSupportFragmentManager(), getString(R.string.iap_ok),
                     getString(R.string.iap_you_are_offline), getString(R.string.iap_no_internet));
         } else {
-            Fragment fragment = getSupportFragmentManager().findFragmentByTag(fragmentTag);
-            if (fragment == null) {
+//            Fragment fragment = getSupportFragmentManager().findFragmentByTag(fragmentTag);
+//            if (fragment == null) {
                 addFragment(ShoppingCartFragment.createInstance(new Bundle(),
                         InAppBaseFragment.AnimationType.NONE), fragmentTag);
-            } else {
-                getFragmentManager().popBackStack(ProductCatalogFragment.TAG, 0);
-            }
+//            } else {
+//                getFragmentManager().popBackStack(ProductCatalogFragment.TAG, 0);
+//            }
         }
     }
 
@@ -285,8 +284,8 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
 
     @Override
     public void onUpdateCartCount() {
-        ShoppingCartPresenter shoppingCartAPI = new ShoppingCartPresenter();
-        shoppingCartAPI.getProductCartCount(getApplicationContext(), mProductCountListener);
+        //ShoppingCartPresenter shoppingCartAPI = new ShoppingCartPresenter();
+//        shoppingCartAPI.getProductCartCount(getApplicationContext(), mProductCountListener);
     }
 
     @Override

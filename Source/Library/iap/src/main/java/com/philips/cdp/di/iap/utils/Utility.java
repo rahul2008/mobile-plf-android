@@ -92,8 +92,8 @@ public class Utility {
         StringBuilder sb = new StringBuilder();
         appendAddressWithNewLineIfNotNull(sb, address.getLine1());
         appendAddressWithNewLineIfNotNull(sb, address.getLine2());
-        appendAddressWithNewLineIfNotNull(sb, address.getRegionName());
         appendAddressWithNewLineIfNotNull(sb, address.getTown());
+        appendAddressWithNewLineIfNotNull(sb, address.getRegionName());
         appendAddressWithNewLineIfNotNull(sb, address.getPostalCode());
         return sb.toString();
     }
@@ -150,13 +150,9 @@ public class Utility {
             fields.setPhone1(addresses.getPhone1());
         }
 
-        if (isNotNullNorEmpty(addresses.getPhone2())) {
-            fields.setPhone2(addresses.getPhone2());
-        }
-
         if (addresses.getRegion() != null) {
-            fields.setRegionName(addresses.getRegion().getName());
-            CartModelContainer.getInstance().setRegionIsoCode(addresses.getRegion().getIsocode());
+            fields.setRegionName(addresses.getRegion().getIsocodeShort());
+            CartModelContainer.getInstance().setRegionIsoCode(addresses.getRegion().getIsocodeShort());
         }
         return fields;
     }

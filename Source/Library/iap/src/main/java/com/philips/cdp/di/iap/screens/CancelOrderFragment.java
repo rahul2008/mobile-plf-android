@@ -76,7 +76,7 @@ public class CancelOrderFragment extends InAppBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        setTitleAndBackButtonVisibility(R.string.iap_track_order, true);
+        setTitleAndBackButtonVisibility(R.string.iap_cancel_order_title, true);
     }
 
     @Override

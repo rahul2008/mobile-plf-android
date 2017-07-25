@@ -54,8 +54,10 @@ public class StateDropDown {
         @Override
         public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
             String state = ((RowItem) parent.getItemAtPosition(position)).getDesc();
-            mStateListener.onStateSelect(state);
-            mStateListener.stateRegionCode(mRegionList.getRegions().get(position).getIsocode());
+            String isocode = mRegionList.getRegions().get(position).getIsocode();
+            String stateCode = isocode.substring(isocode.length()-2);
+            mStateListener.stateRegionCode(isocode);
+            mStateListener.onStateSelect(stateCode);
             dismiss();
         }
     };

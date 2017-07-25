@@ -92,7 +92,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
     protected TextView mTvState;
     protected TextView mTvEmail;
     protected TextView mTvPhone1;
-    protected TextView mTvPhone2;
+
 
     protected EditText mEtFirstName;
     protected EditText mEtLastName;
@@ -156,7 +156,6 @@ public class ShippingAddressFragment extends InAppBaseFragment
         mlLState = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_state);
         mLlEmail = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_email);
         mLlPhone1 = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_phone1);
-        mLlPhone2 = (LinearLayout) mInlineFormsParent.findViewById(R.id.ll_phone2);
 
         mTvSalutation = (TextView) mInlineFormsParent.findViewById(R.id.tv_salutation);
         mTvFirstName = (TextView) mInlineFormsParent.findViewById(R.id.tv_first_name);
@@ -169,7 +168,6 @@ public class ShippingAddressFragment extends InAppBaseFragment
         mTvState = (TextView) mInlineFormsParent.findViewById(R.id.tv_state);
         mTvEmail = (TextView) mInlineFormsParent.findViewById(R.id.tv_email);
         mTvPhone1 = (TextView) mInlineFormsParent.findViewById(R.id.tv_phone1);
-        mTvPhone2 = (TextView) mInlineFormsParent.findViewById(R.id.tv_phone2);
 
         mEtFirstName = (EditText) mInlineFormsParent.findViewById(R.id.et_first_name);
         mEtLastName = (EditText) mInlineFormsParent.findViewById(R.id.et_last_name);
@@ -182,7 +180,6 @@ public class ShippingAddressFragment extends InAppBaseFragment
         mEtState = (EditText) mInlineFormsParent.findViewById(R.id.et_state);
         mEtEmail = (EditText) mInlineFormsParent.findViewById(R.id.et_email);
         mEtPhone1 = (EditText) mInlineFormsParent.findViewById(R.id.et_phone1);
-        mEtPhone2 = (EditText) mInlineFormsParent.findViewById(R.id.et_phone2);
 
         mEtPostalCode.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         mEtSalutation.setKeyListener(null);
@@ -217,7 +214,6 @@ public class ShippingAddressFragment extends InAppBaseFragment
         mEtCountry.addTextChangedListener(new IAPTextWatcher(mEtCountry));
         mEtEmail.addTextChangedListener(new IAPTextWatcher(mEtEmail));
         mEtPhone1.addTextChangedListener(new IAPTextWatcher(mEtPhone1));
-        mEtPhone2.addTextChangedListener(new IAPTextWatcher(mEtPhone2));
 
         mEtState.addTextChangedListener(new IAPTextWatcher(mEtState));
         mEtSalutation.addTextChangedListener(new IAPTextWatcher(mEtSalutation));
@@ -387,10 +383,6 @@ public class ShippingAddressFragment extends InAppBaseFragment
                     errorMessage = getResources().getString(R.string.iap_phone_error);
                     mInlineFormsParent.setErrorMessage(errorMessage);
                     mInlineFormsParent.showError(mEtPhone1);
-                } else if (error.getSubject().equalsIgnoreCase(ModelConstants.PHONE_2)) {
-                    errorMessage = getResources().getString(R.string.iap_phone_error);
-                    mInlineFormsParent.setErrorMessage(errorMessage);
-                    mInlineFormsParent.showError(mEtPhone2);
                 } else if (error.getSubject().equalsIgnoreCase(ModelConstants.LINE_2)) {
                     errorMessage = getResources().getString(R.string.iap_address_error);
                     mInlineFormsParent.setErrorMessage(errorMessage);
@@ -415,7 +407,6 @@ public class ShippingAddressFragment extends InAppBaseFragment
         String addressLineTwo = mEtAddressLineTwo.getText().toString();
         String postalCode = mEtPostalCode.getText().toString().replaceAll(" ", "");
         String phone1 = mEtPhone1.getText().toString().replaceAll(" ", "");
-        String phone2 = mEtPhone2.getText().toString().replaceAll(" ", "");
         String town = mEtTown.getText().toString();
         String country = mEtCountry.getText().toString();
         String email = mEtEmail.getText().toString();
@@ -423,7 +414,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         if (mValidator.isValidName(firstName) && mValidator.isValidName(lastName)
                 && mValidator.isValidAddress(addressLineOne) && (addressLineTwo.trim().equals("") || mValidator.isValidAddress(addressLineTwo))
                 && mValidator.isValidPostalCode(postalCode)
-                && mValidator.isValidEmail(email) && mValidator.isValidPhoneNumber(phone1) && mValidator.isValidPhoneNumber(phone2)
+                && mValidator.isValidEmail(email) && mValidator.isValidPhoneNumber(phone1)
                 && mValidator.isValidTown(town) && mValidator.isValidCountry(country)
                 && (!mEtSalutation.getText().toString().trim().equalsIgnoreCase(""))
                 && (mlLState.getVisibility() == View.GONE || (mlLState.getVisibility() == View.VISIBLE && !mEtState.getText().toString().trim().equalsIgnoreCase("")))) {
@@ -456,11 +447,6 @@ public class ShippingAddressFragment extends InAppBaseFragment
         if (editText.getId() == R.id.et_phone1 && !hasFocus) {
             result = validatePhoneNumber(mEtPhone1, HybrisDelegate.getInstance().getStore().getCountry()
                     , mEtPhone1.getText().toString());
-            errorMessage = getResources().getString(R.string.iap_phone_error);
-        }
-        if (editText.getId() == R.id.et_phone2 && !hasFocus) {
-            result = validatePhoneNumber(mEtPhone2, HybrisDelegate.getInstance().getStore().getCountry()
-                    , mEtPhone2.getText().toString());
             errorMessage = getResources().getString(R.string.iap_phone_error);
         }
         if (editText.getId() == R.id.et_country && !hasFocus) {
@@ -608,7 +594,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         }
 
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (mEditText != mEtPhone1 && mEditText != mEtPhone2 && !mIgnoreTextChangeListener) {
+            if (mEditText != mEtPhone1 && !mIgnoreTextChangeListener) {
                 validate(mEditText, false);
             }
         }
@@ -616,7 +602,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         private boolean isInAfterTextChanged;
 
         public synchronized void afterTextChanged(Editable text) {
-            if (mEditText == mEtPhone1 && mEditText == mEtPhone2 && !isInAfterTextChanged && !mIgnoreTextChangeListener) {
+            if (mEditText == mEtPhone1  && !isInAfterTextChanged && !mIgnoreTextChangeListener) {
                 isInAfterTextChanged = true;
                 validate(mEditText, false);
                 isInAfterTextChanged = false;
@@ -650,7 +636,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         if (mAddressFieldsHashmap != null)
             addressHashMap.put(ModelConstants.ADDRESS_ID, mAddressFieldsHashmap.get(ModelConstants.ADDRESS_ID));
         addressHashMap.put(ModelConstants.PHONE_1, mEtPhone1.getText().toString().replaceAll(" ", ""));
-        addressHashMap.put(ModelConstants.PHONE_2, mEtPhone2.getText().toString().replaceAll(" ", ""));
+        addressHashMap.put(ModelConstants.PHONE_2, mEtPhone1.getText().toString().replaceAll(" ", ""));
         addressHashMap.put(ModelConstants.EMAIL_ADDRESS, mEtEmail.getText().toString());
 
         if (mlLState.getVisibility() == View.GONE) {
@@ -678,12 +664,13 @@ public class ShippingAddressFragment extends InAppBaseFragment
         mEtPostalCode.setText(mAddressFieldsHashmap.get(ModelConstants.POSTAL_CODE));
         mEtCountry.setText(mAddressFieldsHashmap.get(ModelConstants.COUNTRY_ISOCODE));
         mEtPhone1.setText(mAddressFieldsHashmap.get(ModelConstants.PHONE_1));
-        mEtPhone2.setText(mAddressFieldsHashmap.get(ModelConstants.PHONE_2));
         mEtEmail.setText(mAddressFieldsHashmap.get(ModelConstants.EMAIL_ADDRESS));
 
-        if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_ISOCODE) &&
-                mAddressFieldsHashmap.get(ModelConstants.REGION_ISOCODE) != null) {
-            mEtState.setText(mAddressFieldsHashmap.get(ModelConstants.REGION_ISOCODE));
+        if (mAddressFieldsHashmap.containsKey(ModelConstants.REGION_CODE) &&
+                mAddressFieldsHashmap.get(ModelConstants.REGION_CODE) != null) {
+            String code = mAddressFieldsHashmap.get(ModelConstants.REGION_CODE);
+            String stateCode = code.substring(code.length()-2);
+            mEtState.setText(stateCode);
             mlLState.setVisibility(View.VISIBLE);
         } else {
             mlLState.setVisibility(View.GONE);
@@ -706,7 +693,7 @@ public class ShippingAddressFragment extends InAppBaseFragment
         addressFields.setPostalCode(mEtPostalCode.getText().toString().replaceAll(" ", ""));
         addressFields.setTown(mEtTown.getText().toString());
         addressFields.setPhone1(mEtPhone1.getText().toString().replaceAll(" ", ""));
-        addressFields.setPhone2(mEtPhone2.getText().toString().replaceAll(" ", ""));
+        addressFields.setPhone2(mEtPhone1.getText().toString().replaceAll(" ", ""));
         addressFields.setEmail(mEtEmail.getText().toString());
 
 

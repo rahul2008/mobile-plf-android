@@ -41,9 +41,9 @@ public class SalutationDropDown {
         List<RowItem> rowItems = new ArrayList<>();
         String mr = context.getResources().getString(R.string.iap_mr);
         String ms = context.getResources().getString(R.string.iap_mrs);
-        String[] desc = {mr, ms};
-        rowItems.add(new RowItem(desc[0]));
-        rowItems.add(new RowItem(desc[1]));
+        // String[] desc = context.getResources().getStringArray(R.array.iap_salutation);
+        rowItems.add(new RowItem(mr + "."));
+        rowItems.add(new RowItem(ms + "."));
         return rowItems;
     }
 
