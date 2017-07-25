@@ -1,0 +1,4 @@
+[submodule "Source/common"]
+	path = Source/common
+	url = ssh://git@bitbucket.atlas.philips.com:7999/con/project-common.git
+	branch = develop
