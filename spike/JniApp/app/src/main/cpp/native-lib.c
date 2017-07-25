@@ -11,7 +11,6 @@ JNIEXPORT jcharArray JNICALL Java_com_philips_platform_appinfra_keybag_KeyBagLib
     // Init  java byte array
 
     jint length = (*env)->GetArrayLength(env, data);
-//    jint length = (jint)strlen(data);
     array = (*env)->NewCharArray(env, length);
     jchar *charArrayElements = (*env)->GetCharArrayElements(env, data, 0);
 
