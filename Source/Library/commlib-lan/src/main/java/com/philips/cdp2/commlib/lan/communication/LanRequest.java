@@ -25,6 +25,7 @@ import com.philips.cdp.dicommclient.util.DICommLog.Verbosity;
 import com.philips.cdp.dicommclient.util.GsonProvider;
 import com.philips.cdp.dicommclient.util.WifiNetworkProvider;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
+import com.philips.cdp2.commlib.core.util.ContextProvider;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -242,7 +243,7 @@ public class LanRequest extends Request {
     }
 
     private Network getWifiNetwork() {
-        final Context context = null;//DICommClientWrapper.getContext(); TODO FIXME
+        final Context context = ContextProvider.get();
 
         if (context == null) {
             throw new IllegalStateException("Context is null.");

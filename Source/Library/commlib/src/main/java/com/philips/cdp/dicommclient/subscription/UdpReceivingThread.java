@@ -10,6 +10,7 @@ import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.util.ContextProvider;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -91,8 +92,7 @@ public class UdpReceivingThread extends Thread {
     }
 
     private void acquireMulticastLock() {
-        //TODO FIXME
-        final Context context = null;//DICommClientWrapper.getContext();
+        final Context context = ContextProvider.get();
         if (context == null) {
             return;
         }
