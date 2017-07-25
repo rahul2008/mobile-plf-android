@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/provider_not_available"
+    >
+
+    <include
+        android:id="@+id/provider_detail_container_view"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        layout="@layout/ths_provider_list" />
+
+    <View android:background="@color/uid_gray_level_5"
+        android:layout_below="@+id/provider_detail_container_view"
+        android:layout_width = "match_parent"
+        android:layout_height="10dp"
+        android:id="@+id/separator"
+        />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/calendar_view"
+        style="@style/ths_calendar"
+        android:layout_below="@id/separator"
+        />
+
+    <View android:background="@color/uid_gray_level_5"
+        android:layout_below="@+id/calendar_view"
+        android:layout_width = "match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/below_calendar_view"
+        />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/no_available_providers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/ths_with"
+        android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+        style="@style/amwellCentralesansBoldFont"
+        android:textSize="16dp"
+        android:layout_alignParentStart = "true"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="@dimen/ths_body_text_padding"
+        android:paddingBottom="@dimen/ths_body_text_padding"
+        android:layout_below="@id/below_calendar_view"
+        />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:layout_below="@+id/no_available_providers"
+        android:id="@+id/selectanother"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/uid_grid_descrption_size"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="@dimen/ths_body_text_padding"
+        android:paddingTop="@dimen/ths_body_text_padding"
+        android:textColor="?attr/uidContentItemDefaultNormalSubtleBodyTextColor"
+        android:layout_marginBottom="10dp"
+        style="@style/amwellCentralesansBookFont"
+        android:text="@string/ths_select_other_provider"/>
+
+    <View android:background="@color/uid_gray_level_5"
+        android:layout_below="@+id/selectanother"
+        android:layout_width = "match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/below_select_other"
+        />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/below_providers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Or pick on these doctors to schedule an appointment"
+        android:layout_below="@id/below_select_other"
+        style="@style/ths_list_header"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/providerListRecyclerView"
+        android:layout_below="@id/below_providers"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:scrollbars="vertical">
+    </android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>

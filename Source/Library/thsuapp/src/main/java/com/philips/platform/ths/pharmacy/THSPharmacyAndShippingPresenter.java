@@ -4,7 +4,9 @@ import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -20,6 +22,9 @@ public class THSPharmacyAndShippingPresenter implements THSBasePresenter,THSPref
 
     @Override
     public void onEvent(int componentID) {
+        if(componentID== R.id.ths_ps_continue_button){
+            thsBaseView.addFragment(new THSInsuranceConfirmationFragment(),THSInsuranceConfirmationFragment.TAG,null);
+        }
 
     }
 
@@ -43,7 +48,7 @@ public class THSPharmacyAndShippingPresenter implements THSBasePresenter,THSPref
     @Override
     public void onPharmacyReceived(Pharmacy pharmacy, SDKError sdkError) {
         this.pharmacy = pharmacy;
-            getConsumerShippingAddress(thsConsumer);
+        getConsumerShippingAddress(thsConsumer);
 
     }
 

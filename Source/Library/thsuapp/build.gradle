@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply from: 'build-awsdk-dependencies.gradle'
+apply plugin: 'de.mobilej.unmock'
 
 buildscript {
     repositories {
@@ -30,6 +31,7 @@ buildscript {
         classpath group: 'com.philips.cdp', name: 'cdpSCM', version: '2.1.0', changing: true
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
+        classpath 'de.mobilej.unmock:UnMockPlugin:0.6.2'
     }
 }
 
@@ -106,7 +108,14 @@ android {
         }
     }
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 
+}
+
+unMock {
+    keep "android.os.Bundle"
 }
 
 dependencies {
@@ -154,5 +163,7 @@ dependencies {
     testCompile "org.robolectric:shadows-support-v4:3.3.2"
     testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
     compile 'com.google.android.gms:play-services-maps:10.2.4'
+    compile 'com.google.android.gms:play-services-location:10.2.4'
     compile 'com.google.guava:guava:20.0'
+    unmock 'org.robolectric:android-all:4.3_r2-robolectric-0'
 }

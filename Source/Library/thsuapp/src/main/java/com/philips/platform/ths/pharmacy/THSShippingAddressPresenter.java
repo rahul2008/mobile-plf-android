@@ -7,6 +7,7 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.base.THSBaseView;
+import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -35,7 +36,8 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
 
     @Override
     public void onUpdateSuccess(Address address, SDKError sdkErro) {
-        Toast.makeText(thsBaseView.getFragmentActivity(),"Update address success",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(thsBaseView.getFragmentActivity(),"Update address success",Toast.LENGTH_SHORT).show();
+        thsBaseView.addFragment(new THSInsuranceConfirmationFragment(),THSInsuranceConfirmationFragment.TAG,null);
     }
 
     @Override

@@ -18,8 +18,8 @@ import com.philips.platform.uid.view.widget.Button;
 
 public class THSWelcomeFragment extends THSBaseFragment implements BackEventListener, View.OnClickListener {
     public static final String TAG = THSWelcomeFragment.class.getSimpleName();
-    private THSBasePresenter presenter;
-    private Button mInitButton;
+    THSBasePresenter presenter;
+    Button mInitButton;
 
     public FragmentLauncher getFragmentLauncher() {
         return mFragmentLauncher;

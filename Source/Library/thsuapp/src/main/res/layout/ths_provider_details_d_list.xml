@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/providerListItemLayout"
-    >
+    android:id="@+id/providerListItemLayout">
     <ImageView
         android:id="@+id/details_providerImage"
         android:layout_marginStart="@dimen/uid_label_margin_start"
@@ -20,6 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_marginStart="@dimen/uid_label_margin_start"
         android:layout_marginLeft="@dimen/uid_label_margin_start"
+        android:layout_centerVertical="true"
         android:layout_height="wrap_content">
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/details_providerNameLabel"
@@ -49,7 +51,19 @@
                 android:layout_marginTop="@dimen/uid_label_margin_start"
                 android:layout_marginStart="@dimen/uid_alert_dialog_message_line_spacing"
                 android:textColor="?attr/uidLabelValueNormalTextColor"
+                android:text="@string/ths_available_time_slots"
                 android:textSize="@dimen/uid_grid_descrption_size" />
+
+            <com.philips.platform.uid.view.widget.NotificationBadge
+                android:id="@+id/notification_badge"
+                android:layout_marginTop="@dimen/uid_alert_dialog_title_icon_padding"
+                style="@style/NotificationBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:backgroundTint="?attr/uidColorLevel45"
+                android:text="2"/>
+
             <ImageView
                 android:id="@+id/details_isAvailableImage"
                 android:layout_marginTop="@dimen/uid_alert_dialog_title_icon_padding"

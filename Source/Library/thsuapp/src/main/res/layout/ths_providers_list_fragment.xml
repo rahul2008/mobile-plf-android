@@ -35,6 +35,19 @@
             android:id="@+id/getStartedButton"
             android:layout_width="match_parent"
             android:text="Get started"
+            android:visibility="gone"
+            android:background="@color/uid_blue_level_55"
+            android:layout_height="wrap_content" />
+        <com.philips.platform.uid.view.widget.Button
+            android:layout_below="@id/dummyDoctorImage"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:id="@+id/getScheduleAppointmentButton"
+            android:layout_width="match_parent"
+            android:text="Get started"
+            android:visibility="gone"
             android:background="@color/uid_blue_level_55"
             android:layout_height="wrap_content" />
     </RelativeLayout>

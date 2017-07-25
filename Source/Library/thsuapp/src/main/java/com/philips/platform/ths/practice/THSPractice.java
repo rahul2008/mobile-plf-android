@@ -1,21 +1,77 @@
 package com.philips.platform.ths.practice;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.practice.Practice;
 
-import java.util.List;
+public class THSPractice implements Parcelable{
+    Practice practice;
 
-//TODO: Review Comment - Spoorti - add other getter and setter that SDk is providing
-//TODO: Review Comment - Spoorti - There is no wrapper provided for Practise
-public class THSPractice {
-    List<Practice> practices;
+    public THSPractice(){
 
-    public List<Practice> getPractices() {
-        return practices;
     }
 
-    public void setPractices(List<Practice> practice) {
-        this.practices = practice;
+    protected THSPractice(Parcel in) {
+        practice = in.readParcelable(Practice.class.getClassLoader());
     }
 
+    public static final Creator<THSPractice> CREATOR = new Creator<THSPractice>() {
+        @Override
+        public THSPractice createFromParcel(Parcel in) {
+            return new THSPractice(in);
+        }
 
+        @Override
+        public THSPractice[] newArray(int size) {
+            return new THSPractice[size];
+        }
+    };
+
+    public Practice getPractice() {
+        return practice;
+    }
+
+    public void setPractice(Practice practice) {
+        this.practice = practice;
+    }
+
+    Address getAddress(){
+        return practice.getAddress();
+    }
+
+    String getPhone(){
+        return practice.getPhone();
+    }
+
+    String getFax(){
+        return practice.getFax();
+    }
+
+    String getHours(){
+        return practice.getHours();
+    }
+
+    String getWelcomeMessage(){
+        return practice.getWelcomeMessage();
+    }
+
+    boolean isShowScheduling(){
+        return practice.isShowScheduling();
+    }
+
+    boolean isShowAvailableNow(){
+        return practice.isShowAvailableNow();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeParcelable(practice, i);
+    }
 }

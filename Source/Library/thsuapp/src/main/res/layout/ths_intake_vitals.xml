@@ -2,14 +2,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+       >
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/wizard_button"
@@ -28,6 +26,8 @@
             android:text="@string/vitals_want"
             android:textColor="?attr/uidLabelRegularNormalTextColor"
             style="@style/UIDAlertDialogTitleTextStyle"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:textSize="16dp"
             />
 
@@ -40,10 +40,14 @@
             android:text="@string/vitals_blood_pressure"
             android:textColor="?attr/uidLabelRegularNormalTextColor"
             style="@style/UIDAlertDialogTitleTextStyle"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:textSize="16dp"
             />
 
         <com.philips.platform.uid.view.widget.InputValidationLayout
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:id="@+id/intake_systolic_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,6 +69,8 @@
 
 
         <com.philips.platform.uid.view.widget.InputValidationLayout
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:id="@+id/intake_diastolic_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -94,10 +100,14 @@
             android:layout_marginBottom="16dp"
             android:textColor="?attr/uidLabelRegularNormalTextColor"
             style="@style/UIDLabelDescription"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             />
 
 
         <com.philips.platform.uid.view.widget.InputValidationLayout
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:id="@+id/intake_farenheit_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -136,9 +146,13 @@
             android:layout_marginBottom="16dp"
             android:textColor="?attr/uidLabelRegularNormalTextColor"
             style="@style/UIDLabelDescription"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             />
 
         <com.philips.platform.uid.view.widget.InputValidationLayout
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:id="@+id/ponds_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -160,6 +174,8 @@
 
 
         <com.philips.platform.uid.view.widget.Button
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:id="@+id/vitals_continue_btn"
             style="@style/UIDImageTextButton.Center"
             android:layout_width="match_parent"
@@ -170,6 +186,8 @@
             android:text="Continue" />
 
         <com.philips.platform.uid.view.widget.Label
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:id="@+id/vitals_skip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

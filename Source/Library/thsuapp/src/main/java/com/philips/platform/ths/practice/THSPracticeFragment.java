@@ -89,7 +89,7 @@ public class THSPracticeFragment extends THSBaseFragment implements BackEventLis
 
 
 
-    public void showPracticeList(THSPractice practices){
+    public void showPracticeList(THSPracticeList practices){
         hideProgressBar();
         mPracticeRecyclerViewAdapter = new PracticeRecyclerViewAdapter(getActivity(), practices);
         mPracticeRecyclerView.setAdapter(mPracticeRecyclerViewAdapter);

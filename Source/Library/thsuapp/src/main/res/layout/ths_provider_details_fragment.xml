@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/available_provider_details_container"
+    >
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeProviderLayout"
         android:layout_above="@+id/bottomLayout"
@@ -59,8 +61,16 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="22dp" />
     </RelativeLayout>
+
+        <include
+            android:id="@+id/calendar_container_view"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_below="@id/visitCostLayout"
+            layout="@layout/ths_time_slot_container" />
+
     <View android:background="@color/uid_gray_level_5"
-        android:layout_below="@+id/visitCostLayout"
+        android:layout_below="@+id/calendar_container_view"
         android:id="@+id/horizontalLineOne"
         android:layout_width = "match_parent"
         android:layout_height="1dp"
@@ -244,12 +254,22 @@
             android:layout_marginBottom="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             />
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/detailsButtonTwo"
             android:layout_below="@+id/detailsButtonOne"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content"
+            />
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/detailsButtonContinue"
+            android:layout_below="@+id/detailsButtonTwo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="@string/ths_continue"
             />
     </RelativeLayout>
 </RelativeLayout>

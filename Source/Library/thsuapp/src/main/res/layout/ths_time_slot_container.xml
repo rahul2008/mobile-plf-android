@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ths_time_slot_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <View android:background="@color/uid_gray_level_5"
+        android:id="@+id/line_separator"
+        android:layout_width = "match_parent"
+        android:layout_height="1dp"
+        />
+    <com.philips.platform.uid.view.widget.Label
+        android:layout_below="@+id/line_separator"
+        android:id="@+id/select_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ths_select_time"
+        style="@style/ths_list_header"
+        android:padding="@dimen/pth_fab_margin"
+        />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/calendar_container"
+        style="@style/ths_calendar"
+        android:layout_below="@id/select_time"
+        />
+
+    <View android:background="@color/uid_gray_level_5"
+        android:id="@+id/line_separator_2"
+        android:layout_width = "match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/calendar_container"
+        android:layout_marginBottom="20dp"
+        />
+
+    <com.philips.platform.ths.providerdetails.THSExpandableHeightGridView
+        android:id="@+id/grid"
+        android:layout_below="@id/line_separator_2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:columnWidth="90dp"
+        android:numColumns="3"
+        android:verticalSpacing="8dp"
+        android:horizontalSpacing="8dp"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
+        android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
+        />
+</RelativeLayout>

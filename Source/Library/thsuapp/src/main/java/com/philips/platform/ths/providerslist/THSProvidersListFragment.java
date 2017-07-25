@@ -16,6 +16,8 @@ import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
+import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -29,7 +31,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     public static final String TAG = THSProvidersListFragment.class.getSimpleName();
     private FragmentLauncher fragmentLauncher;
     private RecyclerView recyclerView;
-    private List<ProviderInfo> providerInfoList;
+    private List<THSProviderInfo> thsProviderInfos;
     private THSProviderListPresenter THSProviderListPresenter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -39,6 +41,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     private THSProvidersListAdapter THSProvidersListAdapter;
     private ActionBarListener actionBarListener;
     Button btn_get_started;
+    Button btn_schedule_appointment;
     private RelativeLayout mRelativeLayoutContainer;
 
 
@@ -55,6 +58,8 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
         swipeRefreshLayout.setOnRefreshListener(this);
         btn_get_started = (Button) view.findViewById(R.id.getStartedButton);
         btn_get_started.setOnClickListener(this);
+        btn_schedule_appointment = (Button) view.findViewById(R.id.getScheduleAppointmentButton);
+        btn_schedule_appointment.setOnClickListener(this);
         mRelativeLayoutContainer = (RelativeLayout) view.findViewById(R.id.provider_list_container);
         return view;
     }
@@ -86,17 +91,19 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     }
 
     @Override
-    public void updateProviderAdapterList(final List<ProviderInfo> providerInfos) {
+    public void updateProviderAdapterList(final List<THSProviderInfo> thsProviderInfos) {
         swipeRefreshLayout.setRefreshing(false);
-        THSProvidersListAdapter = new THSProvidersListAdapter(providerInfos, THSProviderListPresenter);
+        THSProvidersListAdapter = new THSProvidersListAdapter(thsProviderInfos);
         THSProvidersListAdapter.setOnProviderItemClickListener(new OnProviderListItemClickListener() {
             @Override
-            public void onItemClick(ProviderInfo item) {
+            public void onItemClick(THSProviderEntity item) {
 
                 THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
                 pthProviderDetailsFragment.setActionBarListener(getActionBarListener());
-                pthProviderDetailsFragment.setProviderAndConsumerAndPractice(item, consumer, mPractice);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), pthProviderDetailsFragment, "Provider Details").addToBackStack(null).commit();
+                pthProviderDetailsFragment.setTHSProviderEntity(item);
+                pthProviderDetailsFragment.setConsumerAndPractice(consumer, mPractice);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(),
+                        pthProviderDetailsFragment, "Provider Details").addToBackStack(null).commit();
             }
         });
         recyclerView.setAdapter(THSProvidersListAdapter);
@@ -114,14 +121,23 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
         if (i == R.id.getStartedButton) {
             createCustomProgressBar(mRelativeLayoutContainer, BIG);
             THSProviderListPresenter.onEvent(R.id.getStartedButton);
+        }else if(i==R.id.getScheduleAppointmentButton){
+            createCustomProgressBar(mRelativeLayoutContainer, BIG);
+            THSProviderListPresenter.onEvent(R.id.getScheduleAppointmentButton);
         }
+
+        /*THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();
+        THSConsumer thsConsumer = new THSConsumer();
+        thsConsumer.setConsumer(consumer);
+        thsPharmacyAndShippingFragment.setConsumer(thsConsumer);
+        getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(),thsPharmacyAndShippingFragment,"Pharmacy").addToBackStack(null).commit();*/
     }
 
-    public Practice getmPractice() {
+    public Practice getPractice() {
         return mPractice;
     }
 
-    public void setmPractice(Practice mPractice) {
-        this.mPractice = mPractice;
+    public void setPractice(Practice practice) {
+        this.mPractice = practice;
     }
 }
