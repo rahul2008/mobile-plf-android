@@ -222,7 +222,7 @@ public class SecureStorageTest extends AppInfraInstrumentation {
     }
 
     public void testDeviceHasPassCode() {
-        assertTrue(mSecureStorage.deviceHasPasscode());
+        assertFalse(mSecureStorage.deviceHasPasscode());
     }
 
     public void testByteDataEncryptionAndDecryption() throws Exception {
