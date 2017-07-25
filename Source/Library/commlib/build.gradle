@@ -139,6 +139,11 @@ android {
         release {
             consumerProguardFiles 'proguard-rules.pro'
         }
+
+        all {
+            buildConfigField "int", "minsdk", Integer.toString(versions.minsdk)
+            buildConfigField "int", "maxsdk", Integer.toString(versions.target)
+        }
     }
     publishNonDefault true
 }

@@ -16,7 +16,7 @@ import org.robolectric.annotation.Config;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)//, sdk = BuildConfig.minsdk) // FIXME TODO
+@Config(constants = BuildConfig.class, sdk = BuildConfig.minsdk)
 public abstract class RobolectricTest {
 
     @Before
