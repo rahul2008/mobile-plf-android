@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -15,8 +14,19 @@ import com.philips.platform.uappframework.uappinput.UappSettings;
 
 public class AILDemouAppInterface implements UappInterface {
 
+    private static AILDemouAppInterface aILDemouAppInterface;
     private Context mContext;
-    public static AppInfraInterface mAppInfra;
+    private AppInfraInterface mAppInfra;
+
+    private AILDemouAppInterface() {
+    }
+
+    public static AILDemouAppInterface getInstance() {
+        if (null == aILDemouAppInterface) {
+            aILDemouAppInterface = new AILDemouAppInterface();
+        }
+        return aILDemouAppInterface;
+    }
 
     /**
      * @param uappDependencies - App dependencies
@@ -25,11 +35,7 @@ public class AILDemouAppInterface implements UappInterface {
     @Override
     public void init(final UappDependencies uappDependencies, final UappSettings uappSettings) {
         this.mContext = uappSettings.getContext();
-        AILDemouAppInterface.mAppInfra = uappDependencies.getAppInfra();
-//        AppTaggingInterface mAIAppTaggingInterface = mAppInfra.getTagging().createInstanceForComponent("Component name", "Component ID");
-//        mAIAppTaggingInterface.setPreviousPage("SomePreviousPage");
-
-
+        this.mAppInfra = uappDependencies.getAppInfra();
     }
 
     /**
@@ -42,5 +48,9 @@ public class AILDemouAppInterface implements UappInterface {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
         }
+    }
+
+    public AppInfraInterface getAppInfra() {
+        return mAppInfra;
     }
 }

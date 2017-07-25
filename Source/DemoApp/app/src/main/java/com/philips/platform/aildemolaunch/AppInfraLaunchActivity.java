@@ -20,7 +20,7 @@ public class AppInfraLaunchActivity extends AppCompatActivity {
 
 
     private void invokeMicroApp() {
-        AILDemouAppInterface uAppInterface = new AILDemouAppInterface();
+        AILDemouAppInterface uAppInterface = AILDemouAppInterface.getInstance();
         AppInfraApplication appInfraApplication = (AppInfraApplication)getApplication();
         uAppInterface.init(new AILDemouAppDependencies(appInfraApplication.getAppInfra()), new AILDemouAppSettings(getApplicationContext()));// pass App-infra instance instead of null
         uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);// pass launch input if required

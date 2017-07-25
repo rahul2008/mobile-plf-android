@@ -23,8 +23,7 @@ import java.util.Arrays;
  */
 
 public class SecureStorageTest extends AppInfraInstrumentation {
-    SecureStorageInterface mSecureStorage=null;
-   // Context context = Mockito.mock(Context.class);
+    SecureStorageInterface mSecureStorage = null;
 
     @Override
     protected void setUp() throws Exception {
@@ -39,109 +38,149 @@ public class SecureStorageTest extends AppInfraInstrumentation {
     }
 
 
-
-
     public void testStoreValueForKey() throws Exception {
-
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+        assertFalse(mSecureStorage.storeValueForKey("", "", sse));
+        assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
+        assertFalse(mSecureStorage.storeValueForKey("key", null, sse));
+        assertFalse(mSecureStorage.storeValueForKey(null, "value", sse));
+        assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
 
-        assertFalse(mSecureStorage.storeValueForKey("", "value",sse));
-        assertFalse(mSecureStorage.storeValueForKey("", "",sse));
-        assertFalse(mSecureStorage.storeValueForKey("key", null,sse));
-        assertFalse(mSecureStorage.storeValueForKey(null, "value",sse));
-        assertFalse(mSecureStorage.storeValueForKey(null, null,sse));
-        assertTrue(mSecureStorage.storeValueForKey("key", "",sse)); // value can be empty
-        assertFalse(mSecureStorage.storeValueForKey(" ", "val",sse)); // value can be empty
-        assertFalse(mSecureStorage.storeValueForKey("   ", "val",sse)); // value can be empty
-        assertTrue(mSecureStorage.storeValueForKey("key", "value",sse)); // true condition
+    }
 
-        }
-
-    public void testFetchValueForKey() throws Exception {
+    public void testForEmptyKey() {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        assertNull(mSecureStorage.fetchValueForKey(null,sse));
-        assertNull(mSecureStorage.fetchValueForKey("",sse));
-        assertNull(mSecureStorage.fetchValueForKey("NotSavedKey",sse));
+        assertFalse(mSecureStorage.storeValueForKey("", "value", sse));
+        assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
+    }
 
+    public void testForNullKey() {
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+        assertFalse(mSecureStorage.storeValueForKey(null, null, sse));
+        assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
+    }
+
+    public void testStoringTrueCondition() {
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+        assertTrue(mSecureStorage.storeValueForKey("key", "value", sse)); // true condition
+        sse = new SecureStorageInterface.SecureStorageError();
+        assertEquals(mSecureStorage.fetchValueForKey("key", sse), "value");
+        assertNull(sse.getErrorCode());
+    }
+
+    public void testForSpaceKey() {
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+        assertFalse(mSecureStorage.storeValueForKey(" ", "val", sse)); // value can be empty
+        assertFalse(mSecureStorage.storeValueForKey("   ", "val", sse)); // value can be empty
+    }
+
+    public void testStoringEmptyValue() {
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+        assertTrue(mSecureStorage.storeValueForKey("key", "", sse)); // value can be empty
+        sse = new SecureStorageInterface.SecureStorageError();
+        assertEquals(mSecureStorage.fetchValueForKey("key", sse), "");
+        assertNull(sse.getErrorCode());
+    }
+
+    public void testFetchValueForNullKey() throws Exception {
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+        assertNull(mSecureStorage.fetchValueForKey(null, sse));
+        assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
+        assertNull(mSecureStorage.fetchValueForKey("NotSavedKey", sse));
+    }
+
+    public void testFetchValueTrueCondition() {
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+        mSecureStorage.storeValueForKey("key", "valueForKey", sse);
+        assertEquals(mSecureStorage.fetchValueForKey("key", sse), "valueForKey");
+    }
+
+    public void testFetchValueForEmptyKey() {
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+        assertNull(mSecureStorage.fetchValueForKey("", sse));
+        assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
     }
 
 
     public void testCreateKey() throws Exception {
-
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        assertFalse(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, "", sse));
-        assertFalse(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, null, sse));
         assertTrue(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, "KeyName", sse));
+        assertNull(sse.getErrorCode());
         assertTrue(mSecureStorage.createKey(null, "KeyName", sse));
         assertFalse(mSecureStorage.createKey(null, " ", sse));
         assertFalse(mSecureStorage.createKey(null, null, sse));
+        assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
+    }
 
+    public void testCreatingNullKey() {
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+        assertFalse(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, null, sse));
+        assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
+    }
+
+    public void testCreatingEmptyKey() {
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+        assertFalse(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, "", sse));
+        assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
     }
 
     public void testGetKey() throws Exception {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         assertTrue(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, "KeyName", sse));
-        assertNotNull(mSecureStorage.getKey("KeyName", sse));
-      /*  Key key =mSecureStorage.getKey("KeyName", sse);
-        String keyString = Base64.encodeToString(key.getEncoded(), Base64.DEFAULT);
-        Log.v("SqlCipher Data Key" , keyString );*/
+        assertNull(sse.getErrorCode());
+        assertNull(mSecureStorage.getKey("", sse));
+        assertNull(mSecureStorage.getKey(null, sse));
+        assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
     }
 
     public void testClearKey() {
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-
         assertFalse(mSecureStorage.clearKey(" ", sse));
         assertFalse(mSecureStorage.clearKey(null, sse));
         assertTrue(mSecureStorage.createKey(SecureStorageInterface.KeyTypes.AES, "KeyName", sse));
         assertTrue(mSecureStorage.clearKey("KeyName", sse));
-
+        assertFalse(mSecureStorage.clearKey("KeyNameData", sse));
+        assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.DeleteError);
     }
 
     public void testRemoveValueForKey() throws Exception {
-
         assertFalse(mSecureStorage.removeValueForKey(""));
         assertFalse(mSecureStorage.removeValueForKey(null));
-
-        //assertEquals(mSecureStorage.RemoveValueForKey("key"),mSecureStorage.deleteEncryptedData("key"));
-
-
-    }
-    public void testHappyPath()throws Exception {
-        String valueStored= "value";
-        String keyStored= "key";
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored,sse));
-//        assertEquals(valueStored, mSecureStorage.fetchValueForKey(keyStored));
-        assertTrue(mSecureStorage.removeValueForKey(keyStored));
-        assertNull(mSecureStorage.fetchValueForKey(keyStored,sse));
+        mSecureStorage.storeValueForKey("someKey", "someValue", sse);
+        assertTrue(mSecureStorage.removeValueForKey("someKey"));
     }
 
-    public void testMultipleCallIndependentMethods()throws Exception {
-        String valueStored= "value";
-        String keyStored= "key";
+    public void testHappyPath() throws Exception {
+        String valueStored = "value";
+        String keyStored = "key";
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+        assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored, sse));
+        assertTrue(mSecureStorage.removeValueForKey(keyStored));
+        assertNull(mSecureStorage.fetchValueForKey(keyStored, sse));
+    }
+
+    public void testMultipleCallIndependentMethods() throws Exception {
+        String valueStored = "value";
+        String keyStored = "key";
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         int iCount;
-        for(iCount=0;iCount<10;iCount++){
-            assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored,sse));
+        for (iCount = 0; iCount < 10; iCount++) {
+            assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored, sse));
         }
-        /*for(iCount=0;iCount<10;iCount++) {
-//            assertEquals(valueStored, mSecureStorage.fetchValueForKey(keyStored));
-        }*/
-
         assertTrue(mSecureStorage.removeValueForKey(keyStored));
-        for(iCount=0;iCount<10;iCount++) {
+        for (iCount = 0; iCount < 10; iCount++) {
             assertFalse(mSecureStorage.removeValueForKey(keyStored));
         }
     }
 
-    public void testMultipleCallSequentialMethods()throws Exception {
-        String valueStored= "value";
-        String keyStored= "key";
+    public void testMultipleCallSequentialMethods() throws Exception {
+        String valueStored = "value";
+        String keyStored = "key";
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
         int iCount;
-        for(iCount=0;iCount<10;iCount++){
-            assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored,sse));
-//            assertEquals(valueStored, mSecureStorage.fetchValueForKey(keyStored));
+        for (iCount = 0; iCount < 10; iCount++) {
+            assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored, sse));
         }
 
 
@@ -149,10 +188,10 @@ public class SecureStorageTest extends AppInfraInstrumentation {
 
     public void testLargeValue() throws Exception {
         String valueStored = getLargeString();
-        String keyStored= "keyLarge";
+        String keyStored = "keyLarge";
         SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
-        assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored,sse));
-        assertNotNull(mSecureStorage.fetchValueForKey(keyStored,sse));
+        assertTrue(mSecureStorage.storeValueForKey(keyStored, valueStored, sse));
+        assertNotNull(mSecureStorage.fetchValueForKey(keyStored, sse));
         String actual = mSecureStorage.fetchValueForKey(keyStored, sse);
         assertEquals(valueStored, actual);
     }
@@ -178,11 +217,11 @@ public class SecureStorageTest extends AppInfraInstrumentation {
         return text.toString();
     }
 
-    public void testgetDeviceCapability() {
+    public void testGetDeviceCapability() {
         assertNotNull(mSecureStorage.getDeviceCapability());
     }
 
-    public void testdevicehaspasscode() {
+    public void testDeviceHasPassCode() {
         assertNotNull(mSecureStorage.deviceHasPasscode());
     }
 
