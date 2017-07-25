@@ -13,6 +13,7 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.ImageButton;
 import com.philips.platform.uid.view.widget.Label;
 
@@ -26,6 +27,7 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
     private RelativeLayout ths_shipping_pharmacy_layout;
     private Address address;
     private Pharmacy pharmacy;
+    private Button continueButton;
 
     @Nullable
     @Override
@@ -54,7 +56,8 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         pharmacyName = (Label) view.findViewById(R.id.ps_pharmacy_name);
         pharmacyState = (Label) view.findViewById(R.id.ps_pharmacy_state);
         pharmacyZip = (Label) view.findViewById(R.id.ps_pharmacy_zip_code);
-
+        continueButton =(Button)view.findViewById(R.id.ths_ps_continue_button);
+        continueButton.setOnClickListener(this);
     }
 
     public void setConsumer(THSConsumer thsConsumer) {
@@ -125,6 +128,9 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         }
         if (v.getId() == R.id.ps_edit_consumer_shipping_address) {
             startEditShippingAddress();
+        }
+        if(v.getId() == R.id.ths_ps_continue_button){
+            thsPharmacyAndShippingPresenter.onEvent(R.id.ths_ps_continue_button);
         }
     }
 

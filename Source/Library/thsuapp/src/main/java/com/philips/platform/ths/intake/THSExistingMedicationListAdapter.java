@@ -92,7 +92,7 @@ public class THSExistingMedicationListAdapter extends BaseAdapter {
         if(null==rowView){
 
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-            rowView = inflater.inflate(R.layout.existing_medication_list_row, null);
+            rowView = inflater.inflate(R.layout.ths_existing_medication_list_row, null);
             // configure view holder
             ViewHolder viewHolder = new ViewHolder();
             viewHolder.MedicineName=(TextView) rowView.findViewById(R.id.pth_existing_medication_list_row_label);

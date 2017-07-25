@@ -181,8 +181,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/ponds_container"
+            android:layout_marginBottom="@dimen/pth_margin_between_buttons"
             android:enabled="true"
-            android:layout_marginBottom="12dp"
             android:text="Continue" />
 
         <com.philips.platform.uid.view.widget.Label
@@ -193,7 +193,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/vitals_continue_btn"
             android:text="@string/vitals_skip"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="@dimen/pth_margin_bottom"
             android:textColor="?attr/uidLabelRegularNormalTextColor"
             style="@style/UIDLabelDescription"
             android:layout_centerHorizontal="true"

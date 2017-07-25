@@ -1,6 +1,7 @@
 package com.philips.platform.ths.providerslist;
 
 
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.americanwell.sdk.AWSDK;
@@ -69,7 +70,10 @@ public class THSProvidersListFragmentTest {
         Mockito.when(THSBaseView.getFragmentActivity()).thenReturn(mActivity);
         Mockito.when(THSManager.getInstance().getAwsdk(mActivity).getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
         pthProvidersListFragment = new THSProvidersListFragment();
-        pthProvidersListFragment.setPracticeAndConsumer(practice,consumer);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("Practice Fragment",practice);
+        pthProvidersListFragment.setArguments(bundle);
+
     }
 
     @Test

@@ -1,7 +1,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   >
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
 
     <RelativeLayout
         android:id="@+id/conditions_container"
@@ -27,8 +28,6 @@
             android:textColor="?attr/uidLabelRegularNormalTextColor"
             style="@style/UIDLabelDescription"
             android:textSize="16dp"
-            android:layout_marginLeft="@dimen/pth_fab_margin"
-            android:layout_marginRight="@dimen/pth_fab_margin"
             />
 
 
@@ -37,8 +36,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/help_visit"
-            android:layout_marginLeft="@dimen/pth_fab_margin"
-            android:layout_marginRight="@dimen/pth_fab_margin"
             android:orientation="vertical">
 
         </LinearLayout>
@@ -50,9 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/checkbox_container"
             android:enabled="false"
-            android:layout_marginBottom="12dip"
-            android:layout_marginLeft="@dimen/pth_fab_margin"
-            android:layout_marginRight="@dimen/pth_fab_margin"
+            android:layout_marginBottom="@dimen/pth_margin_between_buttons"
             android:text="Continue" />
 
         <com.philips.platform.uid.view.widget.Label
@@ -61,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/continue_btn"
             android:text="@string/vitals_skip"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="@dimen/pth_margin_bottom"
             android:textColor="?attr/uidLabelRegularNormalTextColor"
             style="@style/UIDLabelDescription"
             android:layout_centerHorizontal="true"

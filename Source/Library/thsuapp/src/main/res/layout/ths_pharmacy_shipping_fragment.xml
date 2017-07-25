@@ -186,6 +186,7 @@
         android:padding="16dp">
 
         <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/ths_ps_continue_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Continue" />

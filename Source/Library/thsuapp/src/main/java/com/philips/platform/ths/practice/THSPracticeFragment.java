@@ -23,9 +23,8 @@ import com.philips.platform.uid.view.widget.Label;
 public class THSPracticeFragment extends THSBaseFragment implements BackEventListener {
 
     public static final String TAG = THSPracticeFragment.class.getSimpleName();
-    //TODO: Review Comment - Spoorti - Can we make mConsumer as local variable instead of global?
-    private Consumer mConsumer;
-    private THSBasePresenter mPresenter;
+
+    private THSPracticePresenter mPresenter;
     private Label mTitle;
     private RecyclerView mPracticeRecyclerView;
     private PracticeRecyclerViewAdapter mPracticeRecyclerViewAdapter;
@@ -36,7 +35,7 @@ public class THSPracticeFragment extends THSBaseFragment implements BackEventLis
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.practice, container, false);
+        View view = inflater.inflate(R.layout.ths_practice, container, false);
         mTitle = (Label) view.findViewById(R.id.pth_id_practice_label);
         mPracticeRecyclerView = (RecyclerView)view.findViewById(R.id.pth_recycler_view_practice);
         //mPTHBaseFragmentProgressBar = (ProgressBar)view.findViewById(R.id.pth_id_practice_progress_bar);
@@ -51,12 +50,12 @@ public class THSPracticeFragment extends THSBaseFragment implements BackEventLis
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //TODO: Review Comment - Spoorti - Do not hard code the String. Take it from Strings.xml
-        mTitle.setText("To start a consult, pick a subject");
+        mPresenter = new THSPracticePresenter(this);
+        mTitle.setText(getFragmentActivity().getResources().getString(R.string.ths_practice_pick_subject));
         mPracticeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        if(null!=((THSPracticePresenter)mPresenter)) {
+        if(null!=(mPresenter)) {
             showProgressBar();
-            ((THSPracticePresenter) mPresenter).fetchPractices();
+            ( mPresenter).fetchPractices();
         }
     }
 
@@ -74,11 +73,8 @@ public class THSPracticeFragment extends THSBaseFragment implements BackEventLis
         return false;
     }
 
-    //TODO: Review Comment - Spoorti - finish the activity here
-    @Override
-    public void finishActivityAffinity() {
 
-    }
+
 
     @Override
     public FragmentActivity getFragmentActivity() {
@@ -90,11 +86,8 @@ public class THSPracticeFragment extends THSBaseFragment implements BackEventLis
         return ((ViewGroup)getView().getParent()).getId();
     }
 
-    //TODO: Review Comment - Spoorti - Not sure why Presenter is created inside setConsumer
-    public void setConsumer(Consumer consumer){
-        mConsumer=consumer;
-        mPresenter = new THSPracticePresenter(this,consumer);
-    }
+
+
 
     public void showPracticeList(THSPracticeList practices){
         hideProgressBar();
@@ -103,13 +96,8 @@ public class THSPracticeFragment extends THSBaseFragment implements BackEventLis
         mPracticeRecyclerViewAdapter.setmOnPracticeItemClickListener(new OnPracticeItemClickListener() {
             @Override
             public void onItemClick(Practice practice) {
-                THSProvidersListFragment providerListFragment = new THSProvidersListFragment();
-                providerListFragment.setPracticeAndConsumer(practice,mConsumer);
-                providerListFragment.setActionBarListener(getActionBarListener());
-                //TODO: Review Comment - Spoorti - Use THSBaseView.addFragment for doing the below operation
-                //TODO: Review comment - Rakesh - Please move the action to presenter and the addition of fragment will be called from presenter with a hook(base view)
-                getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), providerListFragment,"ProviderListFragment").addToBackStack(null).commit();
-            }
+               mPresenter.showProviderList(practice);
+               }
         });
 
 

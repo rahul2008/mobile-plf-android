@@ -28,12 +28,12 @@
         android:gravity="center_vertical"
         android:layout_alignBottom="@+id/ths_existing_medicine_list_footer_alabel"
         android:layout_alignParentRight="true"
-        android:src="@android:drawable/ic_input_get"></ImageView>
+        android:src="@mipmap/right_arrow_icon"></ImageView>
     <LinearLayout
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/uid_gray_level_15"
+        android:background="@color/uid_gray_level_10"
         >
 
     </LinearLayout>
