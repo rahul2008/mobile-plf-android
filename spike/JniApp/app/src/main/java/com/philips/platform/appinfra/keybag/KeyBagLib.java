@@ -15,7 +15,7 @@ public class KeyBagLib {
 
     public native String getMsgFromJni();
 
-    public native byte[] ConvertString(String testString,int length,int seed);
+    public native char[] ConvertString(String testString,int length,int seed);
 
     public native String passingDataToJni(String stringValue_, int length, int seed);
 }

@@ -11,6 +11,7 @@ public class MainActivity extends AppCompatActivity {
 
     private KeyBagLib keyBagLib;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,14 +27,30 @@ public class MainActivity extends AppCompatActivity {
         Log.d(getClass() + "", String.valueOf(testing));*/
 
         SendBuffer();
+//        testGettingMessage();
+
+//        char[] temp = keyBagLib.passingCharDataToJni();
+//        for (char c : temp){
+//            Log.d(getClass() +" "," converted string in char "+ String.valueOf(c));
+//        }
     }
+
+   /* public void testGettingMessage() {
+        String testString = "Raja Ram Mohan Roy";
+        byte[] msgFromJni = keyBagLib.ConvertString(testString, testString.length(), 0xACE1);
+        String s = new String(msgFromJni);
+        Log.d(getClass() + "", " message from JNI " + s);
+
+        byte[] newByte = keyBagLib.ConvertString(s, s.length(), 0xACE1);
+        Log.d(getClass() + "", " message back from JNI " + new String(newByte));
+    }*/
 
     public void SendBuffer() {
 
         try {
             // Convert char to string to byte
             String testString = " Testing bulk data ";
-            byte[] temp = keyBagLib.ConvertString(testString, testString.length(), 0xACE1);
+            char[] temp = keyBagLib.ConvertString(testString, testString.length(), 0xACE1);
             String s = new String(temp);
             Log.d(getClass() + " converted string ", s);
 

@@ -1,13 +1,19 @@
 #include <stdio.h>
 #include <jni.h>
 #include <string.h>
-
+#include <stdlib.h> 
 /* In-place string obfuscation */
 
-void print_hex_bytes(unsigned char *s, int length) {
+void print_hex_bytes(char *s, int length) {
     printf("%s", s);
-    for (int i = 0; i < length; i++) printf(" %02hhx", s[i]);
-    printf("\n");
+    for (int i = 0; i < length; i++) {
+        printf(" %02hhx", s[i]);
+
+        printf("\n");
+        char string = s[i];
+
+        printf("%c", string);
+    }
 }
 
 
@@ -40,18 +46,28 @@ Java_com_philips_platform_appinfra_keybag_KeyBagLib_passingDataToJni(JNIEnv *env
 
 JNIEXPORT jstring JNICALL
 Java_com_philips_platform_appinfra_keybag_KeyBagLib_getMsgFromJni(JNIEnv *env, jobject obj) {
-    return (*env)->NewStringUTF(env, "Hello World NDK");
+    return (*env)->NewStringUTF(env, "b3a5085a2de916729f8e55955ba482656cfc");
 }
 
-JNIEXPORT jbyteArray JNICALL Java_com_philips_platform_appinfra_keybag_KeyBagLib_ConvertString(
+JNIEXPORT jcharArray JNICALL
+Java_com_philips_platform_appinfra_keybag_KeyBagLib_passingCharDataToJni(JNIEnv *env, jobject obj) {
+    jcharArray message = "Hello world";
+    jint length = (jint)strlen(message);
+    char NewBuffer = 'a';
+     (*env)->SetCharArrayRegion(env, message, 0, length, (jchar *) NewBuffer);
+    return message;
+//    return (*env)->NewStringUTF(env, "b3a5085a2de916729f8e55955ba482656cfc");
+}
+
+JNIEXPORT jcharArray JNICALL Java_com_philips_platform_appinfra_keybag_KeyBagLib_ConvertString(
         JNIEnv *env, jobject obj,
-        jstring Buffer, int length, int lfsr) {
+        jstring Buffer, int length, jint lfsr) {
     // Array to fill with data
-    jbyteArray Array;
+    jcharArray Array;
 
     // Init  java byte array
-    Array = (*env)->NewByteArray(env, length);
-    char *NewBuffer = (char *) (*env)->GetStringUTFChars(env, Buffer, 0);
+    Array = (*env)->NewCharArray(env, length);
+    jchar *NewBuffer = (jchar *) (*env)->GetStringUTFChars(env, Buffer, 0);
 
 
     // Set byte array region with the size of the SendData CommStruct.
@@ -68,9 +84,8 @@ JNIEXPORT jbyteArray JNICALL Java_com_philips_platform_appinfra_keybag_KeyBagLib
         }
     }
 
-    (*env)->SetByteArrayRegion(env, Array, 0, length, (jbyte *) NewBuffer);
+    (*env)->SetCharArrayRegion(env, Array, 0, length, NewBuffer);
 
-    (*env)->ReleaseStringUTFChars(env, Buffer, NewBuffer);
     // Return java array
     return Array;
 }
