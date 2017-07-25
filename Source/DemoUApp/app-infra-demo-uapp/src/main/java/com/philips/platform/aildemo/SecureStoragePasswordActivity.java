@@ -28,7 +28,7 @@ public class SecureStoragePasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.secure_storage_password);
-        AppInfraInterface appInfra = AILDemouAppInterface.mAppInfra;
+        AppInfraInterface appInfra = AILDemouAppInterface.getInstance().getAppInfra();
         mSecureStorage = appInfra.getSecureStorage();
 
         final EditText userKey = (EditText) findViewById(R.id.Key_editText);

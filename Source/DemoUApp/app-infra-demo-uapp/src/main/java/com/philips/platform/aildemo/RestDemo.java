@@ -57,7 +57,7 @@ public class RestDemo extends AppCompatActivity {
             Log.i("LOG", "" + e.toString());
         }
 
-        AILDemouAppInterface.mAppInfra.getRestClient().getRequestQueue().add(mStringRequest);
+        AILDemouAppInterface.getInstance().getAppInfra().getRestClient().getRequestQueue().add(mStringRequest);
 
     }
 }

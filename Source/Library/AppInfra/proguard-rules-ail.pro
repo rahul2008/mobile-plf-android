@@ -86,6 +86,11 @@
 -keep class com.android.volley.** { *; }
 -keep interface com.android.volley.** { *; }
 
+
 #appinfra
--keep public class com.philips.platform.appinfra.**{*;}
--keep interface com.philips.platform.appinfra.**{*;}
+-keep public class com.philips.platform.appinfra.AppInfra.** { *; }
+-keep public interface com.philips.platform.appinfra.AppInfraInterface.** { *; }
+-keep public interface com.philips.platform.appinfra.logging.LoggingInterface.** { *; }
+-keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
+-keep public interface com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.** { *; }
+-keep public interface com.philips.platform.appinfra.securestorage.SecureStorageInterface.** { *; }

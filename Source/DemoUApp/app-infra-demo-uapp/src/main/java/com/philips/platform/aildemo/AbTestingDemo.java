@@ -21,8 +21,9 @@ import com.philips.platform.appinfra.demo.R;
 
 public class AbTestingDemo extends Activity {
 
+    String[] valueTypes = {"App Update", "App Restart"};
+    ABTestClientInterface.UPDATETYPES valueType;
     private ABTestClientInterface abTestingInterface;
-
     private TextView value;
     private Button btValue;
     private Button btCacheStatus;
@@ -32,9 +33,6 @@ public class AbTestingDemo extends Activity {
     private Spinner requestType;
     private EditText testName;
     private EditText defaultValue;
-    String[] valueTypes = {"App Update", "App Restart"};
-    ABTestClientInterface.UPDATETYPES valueType;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +52,7 @@ public class AbTestingDemo extends Activity {
 
 
         //abTestingInterface = AILDemouAppInterface.mAppInfra.getAbTesting();
-        abTestingInterface =  new ABTestClientManager((AppInfra) AILDemouAppInterface.mAppInfra);
+        abTestingInterface = new ABTestClientManager((AppInfra) AILDemouAppInterface.getInstance().getAppInfra());
 
        // testName.setText("DOT-ReceiveMarketingOptIn");
         defaultValue.setText("Experience K");

@@ -59,7 +59,7 @@ public class AppUpdateActivity extends AppCompatActivity {
 		tvMinimumOSverion = (TextView) findViewById(R.id.tvMinimumOSverion);
 
 
-		appupdateInterface = AILDemouAppInterface.mAppInfra.getAppUpdate();
+		appupdateInterface = AILDemouAppInterface.getInstance().getAppInfra().getAppUpdate();
 
 		appUpdateRefresh.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -81,7 +81,7 @@ public class AppUpdateActivity extends AppCompatActivity {
 		fetchappupdateValues.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				tvappversionval.setText(AILDemouAppInterface.mAppInfra.getAppIdentity().getAppVersion());
+				tvappversionval.setText(AILDemouAppInterface.getInstance().getAppInfra().getAppIdentity().getAppVersion());
 				tvminversionval.setText(appupdateInterface.getMinimumVersion());
 				tvisDeprecated.setText(String.valueOf(appupdateInterface.isDeprecated()));
 				tvisToBeDeprecated.setText(String.valueOf(appupdateInterface.isToBeDeprecated()));
