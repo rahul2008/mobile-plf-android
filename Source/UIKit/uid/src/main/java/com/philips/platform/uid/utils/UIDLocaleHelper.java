@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import com.philips.platform.uid.view.widget.EditText;
@@ -107,24 +106,31 @@ public class UIDLocaleHelper {
                 parseSuccess = true;
             }
         } catch (JSONException e) {
-            Log.e(TAG, e.getMessage());
+            UIDLog.e(TAG, e.getMessage());
         }
         return parseSuccess;
     }
 
     private String getJSONStringFromPath(String pathInput) {
         String jsonString = null;
-
+        FileInputStream fis = null;
         try {
             File file = new File(pathInput);
             int length = (int) file.length();
             byte[] bytes = new byte[length];
-            FileInputStream in = new FileInputStream(file);
-            in.read(bytes);
-            in.close();
+            fis = new FileInputStream(file);
+            fis.read(bytes);
             jsonString = new String(bytes, "UTF-8");
         } catch (IOException e) {
-            Log.e(TAG, e.getMessage());
+            UIDLog.e(TAG, e.getMessage());
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    UIDLog.e(TAG, e.getMessage());
+                }
+            }
         }
         return jsonString;
     }

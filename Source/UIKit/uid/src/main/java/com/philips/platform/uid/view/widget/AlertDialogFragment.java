@@ -15,7 +15,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.*;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +25,7 @@ import android.widget.TextView;
 import com.philips.platform.uid.R;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.utils.MaxHeightScrollView;
+import com.philips.platform.uid.utils.UIDLog;
 import com.philips.platform.uid.utils.UIDUtils;
 
 public class AlertDialogFragment extends DialogFragment {
@@ -109,7 +109,7 @@ public class AlertDialogFragment extends DialogFragment {
             getDialog().getWindow().setWindowAnimations(R.style.UIDAlertAnimation);
             setAlertWidth();
         } catch (NullPointerException e) {
-            Log.e(e.toString(), e.getMessage());
+            UIDLog.e(e.toString(), e.getMessage());
         }
     }
 
@@ -120,7 +120,7 @@ public class AlertDialogFragment extends DialogFragment {
             lp.width = (int) getResources().getDimension(R.dimen.uid_alert_dialog_width);
             getView().setLayoutParams(lp);
         } catch (NullPointerException e) {
-            Log.e(e.toString(), e.getMessage());
+            UIDLog.e(e.toString(), e.getMessage());
         }
     }
 

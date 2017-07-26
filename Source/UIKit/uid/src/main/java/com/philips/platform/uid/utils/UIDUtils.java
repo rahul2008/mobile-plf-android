@@ -13,7 +13,6 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
 import com.philips.platform.uid.thememanager.ThemeUtils;
@@ -21,9 +20,9 @@ import com.philips.platform.uid.thememanager.ThemeUtils;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import static android.content.ContentValues.TAG;
-
 public final class UIDUtils {
+
+    private static final String TAG = "UIDUtils";
 
     public static boolean isMinLollipop() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
@@ -37,7 +36,7 @@ public final class UIDUtils {
             setMaxRadius.setAccessible(true);
             setMaxRadius.invoke(drawable, radius);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            Log.e(TAG, e.getMessage());
+            UIDLog.e(TAG, e.getMessage());
         }
     }
 
