@@ -252,5 +252,5 @@ Receive free product accessories</string>
     <string name="chapters" translatable="false">Chapters</string>
     <string name="common_components" translatable="false">Common Components</string>
 
-
+    <string name="RA_DLS_splash_title">&lt;b>CDP&lt;/b>&lt;sup>&lt;small>2&lt;/small>&lt;/sup> Reference App\t</string>
 </resources>
