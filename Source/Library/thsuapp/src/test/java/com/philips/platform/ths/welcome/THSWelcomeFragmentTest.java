@@ -59,7 +59,7 @@ public class THSWelcomeFragmentTest {
         MockitoAnnotations.initMocks(this);
         ShadowLog.stream = System.out;
         THSManager.getInstance().setAwsdk(awsdkMock);
-        mActivity = Robolectric.buildActivity(THSLaunchActivity.class).create().get();
+        mActivity = Robolectric.buildActivity(THSLaunchActivityTestMock.class).create().get();
         mWelcomeFragment = new WelcomeFragmentMock();
         mWelcomeFragment.setActionBarListener(actionBarListenerMock);
       //  ProgressBarMock progressBar = new ProgressBarMock(mActivity.getApplicationContext());
