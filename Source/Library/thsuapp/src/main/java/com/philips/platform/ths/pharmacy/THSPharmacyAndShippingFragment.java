@@ -99,6 +99,7 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         THSConsumer pthConsumer = new THSConsumer();
         pthConsumer.setConsumer(thsConsumer.getConsumer());
         thsPharmacyFragment.setConsumerAndAddress(pthConsumer, null);
+        thsPharmacyFragment.setUpdateCallback(this);
         thsPharmacyFragment.setActionBarListener(getActionBarListener());
         getFragmentActivity().getSupportFragmentManager().
                 beginTransaction().replace(getContainerID(),
@@ -119,15 +120,6 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
     @Override
     public void onClick(View v) {
         thsPharmacyAndShippingPresenter.onEvent(v.getId());
-        if (v.getId() == R.id.ps_edit_pharmacy) {
-            startSearchPharmacy();
-        }
-        if (v.getId() == R.id.ps_edit_consumer_shipping_address) {
-            startEditShippingAddress();
-        }
-        if(v.getId() == R.id.ths_ps_continue_button){
-            thsPharmacyAndShippingPresenter.onEvent(R.id.ths_ps_continue_button);
-        }
     }
 
     @Override

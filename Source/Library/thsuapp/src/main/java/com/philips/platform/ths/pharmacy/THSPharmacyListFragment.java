@@ -54,7 +54,7 @@ import java.util.List;
 public class THSPharmacyListFragment extends THSBaseFragment implements OnMapReadyCallback, View.OnClickListener,
         SearchBox.ExpandListener, SearchBox.QuerySubmitListener,
         THSPharmacyListViewListener,
-        BackEventListener{
+        BackEventListener, THSUpdatePreferredPharmacy {
 
     private UIDNavigationIconToggler navIconToggler;
     private GoogleMap map;
@@ -242,6 +242,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         map = googleMap;
     }
 
+
     @Override
     public void onClick(View v) {
         thsPharmacyListPresenter.onEvent(v.getId());
@@ -354,9 +355,11 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
      */
     @Override
     public void validateForMailOrder(Pharmacy pharmacy) {
+        this.pharmacy = pharmacy;
         if (pharmacy.getType() == PharmacyType.MailOrder) {
             THSShippingAddressFragment thsShippingAddressFragment = new THSShippingAddressFragment();
             thsShippingAddressFragment.setActionBarListener(getActionBarListener());
+            thsShippingAddressFragment.setUpdateShippingAddressCallback(this);
             thsShippingAddressFragment.setConsumerAndAddress(thsConsumer, address);
             getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), thsShippingAddressFragment, "ShippingAddressFragment").addToBackStack(null).commit();
         }
@@ -398,7 +401,13 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         /**create the camera with bounds and padding to set into map*/
         cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
 
-        map.animateCamera(cu);
+        map.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
+                map.animateCamera(cu);
+            }
+        });
+
     }
 
     private List<LatLng> addMarkerOptions(List<Pharmacy> pharmacies, Pharmacy pharmacy, boolean shouldReset) {
@@ -498,5 +507,16 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
             return false;
         }
 
+    }
+
+    @Override
+    public void updatePharmacy(Pharmacy pharmacy) {
+    }
+
+    @Override
+    public void updateShippingAddress(Address address) {
+        updatePreferredPharmacy.updatePharmacy(pharmacy);
+        updatePreferredPharmacy.updateShippingAddress(address);
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 }

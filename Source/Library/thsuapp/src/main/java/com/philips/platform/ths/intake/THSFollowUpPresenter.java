@@ -2,6 +2,7 @@ package com.philips.platform.ths.intake;
 
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.legal.LegalText;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
@@ -14,6 +15,7 @@ import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
 import com.philips.platform.ths.utility.THSManager;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,14 +34,22 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.pth_intake_follow_up_continue_button) {
-            if (null != ((THSFollowUpFragment) uiBaseView).mPhoneNumberEditText.getText() && !((THSFollowUpFragment) uiBaseView).mPhoneNumberEditText.getText().toString().isEmpty()) {
 
+            if (null != ((THSFollowUpFragment) uiBaseView).mPhoneNumberEditText.getText() && !((THSFollowUpFragment) uiBaseView).mPhoneNumberEditText.getText().toString().isEmpty()) {
+                acceptLegalText();
                 updateConsumer(((THSFollowUpFragment) uiBaseView).mPhoneNumberEditText.getText().toString().trim());
             }
             // uiBaseView.addFragment(new THSInsuranceConfirmationFragment(), THSInsuranceConfirmationFragment.TAG, null);
         } else if (componentID == R.id.pth_intake_follow_up_i_agree_link_text) {
 
             uiBaseView.addFragment(new THSNoppFragment(), THSNoppFragment.TAG, null);
+        }
+    }
+
+    private void acceptLegalText() {
+        List<LegalText> legalTextList = THSManager.getInstance().getPthVisitContext().getLegalTexts();
+        for (LegalText legalText : legalTextList) {
+            legalText.setAccepted(true);
         }
     }
 

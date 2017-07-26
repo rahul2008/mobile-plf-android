@@ -102,11 +102,11 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // mTHSSymptomsPresenter = new THSSymptomsPresenter(this, mThsProviderInfo);
+         mTHSSymptomsPresenter = new THSSymptomsPresenter(this, mThsProviderInfo);
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.pth_prepare_your_visit), true);
         }
-        // getVisistContext();
+         getVisistContext();
     }
 
     @Override
