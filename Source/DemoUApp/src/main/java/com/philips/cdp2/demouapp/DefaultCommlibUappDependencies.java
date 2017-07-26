@@ -42,7 +42,7 @@ public class DefaultCommlibUappDependencies extends CommlibUappDependencies {
     @NonNull
     private CloudController setupCloudController(Context context) {
         final CloudController cloudController = new DefaultCloudController(context, new CommlibUappKpsConfigurationInfo());
-        CloudControllerProvider.initialize(cloudController);
+        CloudControllerProvider.setCloudController(cloudController);
 
         String ICPClientVersion = cloudController.getICPClientVersion();
         DICommLog.i(DICommLog.ICPCLIENT, "ICPClientVersion :" + ICPClientVersion);

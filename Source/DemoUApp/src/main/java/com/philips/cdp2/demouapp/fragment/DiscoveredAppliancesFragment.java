@@ -24,6 +24,7 @@ import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.util.AppIdProvider;
 import com.philips.cdp2.commlib.core.util.CloudControllerProvider;
 import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.CommlibUapp;
@@ -91,7 +92,7 @@ public class DiscoveredAppliancesFragment extends Fragment {
             }
         });
 
-        ((TextView) rootview.findViewById(R.id.cml_textViewAppId)).setText(CloudControllerProvider.getAppId());
+        ((TextView) rootview.findViewById(R.id.cml_textViewAppId)).setText(AppIdProvider.getAppId());
 
         return rootview;
     }

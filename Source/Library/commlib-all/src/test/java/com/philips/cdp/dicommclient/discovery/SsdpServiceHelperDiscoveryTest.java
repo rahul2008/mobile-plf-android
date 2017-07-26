@@ -7,7 +7,6 @@ package com.philips.cdp.dicommclient.discovery;
 
 import android.os.Handler.Callback;
 
-import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.dicommclient.MockitoTestCase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -16,6 +15,8 @@ import com.philips.cdp2.commlib.core.communication.NullCommunicationStrategy;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
+
+import junit.framework.Assert;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -44,7 +45,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        DiscoveryManager.createSharedInstance(getInstrumentation().getContext(), mock(CloudController.class), new TestApplianceFactory());
+        DiscoveryManager.createSharedInstance(getInstrumentation().getContext(), new TestApplianceFactory());
 
         mService = mock(SsdpService.class);
         mHelper = new SsdpServiceHelper(mService, null);
@@ -372,7 +373,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
         verify(discMan, never()).cancelSyncLocalAppliancesWithSsdpStack();
 
         DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-        DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(CloudController.class), mock(DICommApplianceFactory.class));
+        DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(DICommApplianceFactory.class));
     }
 
     @SuppressWarnings("unchecked")
@@ -391,7 +392,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
         verify(discMan).cancelSyncLocalAppliancesWithSsdpStack();
 
         DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-        DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(CloudController.class), mock(DICommApplianceFactory.class));
+        DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(DICommApplianceFactory.class));
     }
 
     // ***** STOP TESTS TO START STOP DISCOVERY WHEN METHODS ARE CALLED *****
@@ -400,16 +401,16 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
         when(mService.getAliveDeviceList()).thenReturn(null);
         ArrayList<String> onlineCppIds = mHelper.getOnlineDevicesCppId();
 
-        assertNotNull(onlineCppIds);
-        assertEquals(0, onlineCppIds.size());
+        Assert.assertNotNull(onlineCppIds);
+        Assert.assertEquals(0, onlineCppIds.size());
     }
 
     public void testOnlineDevicesEmpty() {
         when(mService.getAliveDeviceList()).thenReturn(new HashSet<DeviceModel>());
         ArrayList<String> onlineCppIds = mHelper.getOnlineDevicesCppId();
 
-        assertNotNull(onlineCppIds);
-        assertEquals(0, onlineCppIds.size());
+        Assert.assertNotNull(onlineCppIds);
+        Assert.assertEquals(0, onlineCppIds.size());
     }
 
     public void testOnlineDevicesOneDevice() {
@@ -419,9 +420,9 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
         when(mService.getAliveDeviceList()).thenReturn(aliveDevices);
         ArrayList<String> onlineCppIds = mHelper.getOnlineDevicesCppId();
 
-        assertNotNull(onlineCppIds);
-        assertEquals(1, onlineCppIds.size());
-        assertEquals("cppId_1", onlineCppIds.get(0));
+        Assert.assertNotNull(onlineCppIds);
+        Assert.assertEquals(1, onlineCppIds.size());
+        Assert.assertEquals("cppId_1", onlineCppIds.get(0));
     }
 
     public void testOnlineDevicesTwoDevices() {
@@ -433,10 +434,10 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
         when(mService.getAliveDeviceList()).thenReturn(aliveDevices);
         ArrayList<String> onlineCppIds = mHelper.getOnlineDevicesCppId();
 
-        assertNotNull(onlineCppIds);
-        assertEquals(2, onlineCppIds.size());
-        assertEquals("cppId_1", onlineCppIds.get(0));
-        assertEquals("cppId_2", onlineCppIds.get(1));
+        Assert.assertNotNull(onlineCppIds);
+        Assert.assertEquals(2, onlineCppIds.size());
+        Assert.assertEquals("cppId_1", onlineCppIds.get(0));
+        Assert.assertEquals("cppId_2", onlineCppIds.get(1));
     }
 
     private static class TestApplianceFactory implements DICommApplianceFactory<TestAppliance> {

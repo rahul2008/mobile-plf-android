@@ -82,10 +82,10 @@ dependencies {
 
     testCompile deps.junit
     testCompile deps.mockito
-    testCompile(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cloudcontroller+"-SNAPSHOT.+", changing: true){
+    testCompile(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cloudcontroller + "-SNAPSHOT.+", changing: true) {
         exclude module: 'cloudcontroller-api'
     }
-    testCompile(group: 'com.philips.cdp', name: 'cloudcontroller-api', version: versions.cloudcontroller_api+"-SNAPSHOT.+", changing: true)
+    testCompile(group: 'com.philips.cdp', name: 'cloudcontroller-api', version: versions.cloudcontroller_api + "-SNAPSHOT.+", changing: true)
     testCompile 'info.cukes:cucumber-android:1.2.2'
     testCompile 'info.cukes:cucumber-junit:1.2.2'
 
@@ -98,4 +98,7 @@ dependencies {
     }
     androidTestCompile 'info.cukes:cucumber-android:1.2.2'
     androidTestCompile 'info.cukes:cucumber-junit:1.2.2'
+    androidTestCompile project(':commlib-testutils')
+    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
 }

@@ -4,6 +4,7 @@ import android.test.InstrumentationTestCase;
 
 import org.mockito.MockitoAnnotations;
 
+@Deprecated
 public class MockitoTestCase extends InstrumentationTestCase {
 
     @Override
