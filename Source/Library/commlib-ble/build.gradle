@@ -185,10 +185,8 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: versions.commlib + objcdp.getVersionSuffix())
     }
 
+    testCompile deps.junit
     testCompile deps.mockito
-
-    testCompile 'info.cukes:cucumber-java:1.2.2'
-    testCompile 'info.cukes:cucumber-junit:1.2.2'
 }
 
 pitest {

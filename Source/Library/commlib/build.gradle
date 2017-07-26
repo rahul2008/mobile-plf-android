@@ -175,8 +175,8 @@ dependencies {
         releaseCompile project(path: ':cloudcontroller-api', configuration: 'release')
         testCompile project(path: ':cloudcontroller', configuration: 'debug')
     } else {
-        compile(group: 'com.philips.cdp', name: 'cloudcontroller-api', version: versions.cloudcontroller_api + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
-        testCompile(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cloudcontroller + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+        compile(group: 'com.philips.cdp', name: 'cloudcontroller-api', version: versions.cloudcontroller_api + objcdp.getVersionSuffix(), changing: true)
+        testCompile(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cloudcontroller + objcdp.getVersionSuffix(), changing: true)
     }
 
     compile deps.gson

@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp2.commlib.ble.discovery;
+package com.philips.cdp2.commlib.ble.communication;
 
 import android.content.Context;
 import android.os.Handler;
@@ -16,6 +16,7 @@ import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.BleDeviceCache.CacheData;
 import com.philips.cdp2.commlib.ble.communication.BleCommunicationStrategy;
 import com.philips.cdp2.commlib.ble.context.BleTransportContext;
+import com.philips.cdp2.commlib.ble.discovery.BleDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
@@ -96,7 +97,7 @@ public class BleDiscoveryStrategyTestSteps {
 
         bleDiscoveryStrategy = new BleDiscoveryStrategy(mockContext, bleDeviceCache, deviceScanner) {
             @Override
-            int checkAndroidPermission(Context context, String permission) {
+            public int checkAndroidPermission(Context context, String permission) {
                 return PERMISSION_GRANTED;
             }
         };

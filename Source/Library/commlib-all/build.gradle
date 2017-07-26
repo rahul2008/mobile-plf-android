@@ -150,5 +150,10 @@ dependencies {
         releaseCompile project(path: dep, configuration: 'release')
         testCompile project(path: dep, configuration: 'debug')
     }
+
     testCompile project(':commlib-testutils')
+    testCompile deps.powermock_mockito
+    testCompile deps.powermock_junit
+
+    testCompile(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cloudcontroller + objcdp.getVersionSuffix(), changing: true)
 }

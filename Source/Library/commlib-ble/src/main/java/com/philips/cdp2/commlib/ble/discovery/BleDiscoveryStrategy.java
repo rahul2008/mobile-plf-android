@@ -110,7 +110,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
     }
 
     @VisibleForTesting
-    int checkAndroidPermission(Context context, String permission) {
+    public int checkAndroidPermission(Context context, String permission) {
         return ContextCompat.checkSelfPermission(context, permission);
     }
 

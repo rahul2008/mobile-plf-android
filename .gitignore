@@ -20,3 +20,5 @@ local.properties
 # ===== #
 **/.DS_Store
 **/.DS_Store?
+Documents/External/*-api
+dependencies.lock

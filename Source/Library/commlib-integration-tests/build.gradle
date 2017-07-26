@@ -77,8 +77,17 @@ android {
 dependencies {
     provided deps.support.annotations
 
-    debugCompile project(path: ':commlib-ble', configuration: 'debug')
-    releaseCompile project(path: ':commlib-ble', configuration: 'release')
+    debugCompile project(path: ':commlib-all', configuration: 'debug')
+    releaseCompile project(path: ':commlib-all', configuration: 'release')
+
+    testCompile deps.junit
+    testCompile deps.mockito
+    testCompile(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cloudcontroller+"-SNAPSHOT.+", changing: true){
+        exclude module: 'cloudcontroller-api'
+    }
+    testCompile(group: 'com.philips.cdp', name: 'cloudcontroller-api', version: versions.cloudcontroller_api+"-SNAPSHOT.+", changing: true)
+    testCompile 'info.cukes:cucumber-android:1.2.2'
+    testCompile 'info.cukes:cucumber-junit:1.2.2'
 
     androidTestCompile deps.junit
     androidTestCompile('com.android.support.test:runner:0.5') {
