@@ -22,12 +22,21 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 import android.widget.PopupWindow;
-
 import com.philips.platform.uid.R;
-import com.philips.platform.uid.utils.UIDUtils;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+/**
+ * UID UI Picker
+ * <p>
+ * <P>UID UI Picker is custom ListPopupWindow as per DLS design.
+ * <p>
+ * <P> For usage of UI Picker please refer to the DLS Catalog app or the confluence page below
+ * <p>
+ *
+ * @see <a href="https://confluence.atlas.philips.com/display/MU/How+to+integrate+Android+UI+Picker">https://confluence.atlas.philips.com/display/MU/How+to+integrate+Android+UI+Picker</a>
+ */
+
 
 public class UIPicker extends ListPopupWindow{
 
@@ -63,7 +72,7 @@ public class UIPicker extends ListPopupWindow{
     private boolean shouldSetGravity = true;
     private boolean shouldSetHeight = true;
     private boolean shouldSetWidth = true;
-    private boolean isBelowAnchorView = false;
+    private boolean shouldNotOverlapAnchorView = false;
     private int adapterCount;
     private boolean isDistanceToTopLarger;
 
@@ -113,8 +122,14 @@ public class UIPicker extends ListPopupWindow{
         shouldSetHeight = false;
     }
 
-    public void shouldNotOverlapAnchorView(boolean isBelowAnchorView){
-        this.isBelowAnchorView = isBelowAnchorView;
+    /**
+     * By default ListPopupWindow will overlap anchor view
+     * This API will allow you to display ListPopupWindow without overlapping anchor view.
+     *
+     * @param shouldNotOverlapAnchorView Boolean to set if the ListPopupWindow should not overlap anchor view
+     */
+    public void setShouldNotOverlapAnchorView(boolean shouldNotOverlapAnchorView){
+        this.shouldNotOverlapAnchorView = shouldNotOverlapAnchorView;
     }
 
     @Override
@@ -127,36 +142,36 @@ public class UIPicker extends ListPopupWindow{
         }
         final int LIST_EXPAND_MAX = 1;
 
+        //By default setting Dropdown Gravity to End, if user has set some dropdown gravity then we will not set
         if(shouldSetGravity){
             setDropDownGravity(Gravity.END);
         }
 
+        //By default setting Dropdown width according to DLS incremental width design spec, if user has set some width then we will not set
         if(shouldSetWidth){
             setContentWidth(measureContentWidth(adapter));
         }
 
+        //By default setting Dropdown height according to DLS incremental height design spec, if user has set some height then we will not set
         if(shouldSetHeight){
             setContentHeight(anchorView, anchorHeight);
         }
 
-        if(!isBelowAnchorView){
+        if(!shouldNotOverlapAnchorView){
             setVerticalOffset(- anchorHeight);
         }
 
-        setListItemExpandMax(this, LIST_EXPAND_MAX, anchorView, anchorHeight);
-
-        //popup.showAtLocation(rootView, Gravity.BOTTOM, 0, winHeight-rect.bottom);
+        setListItemExpandMax(this, LIST_EXPAND_MAX);
 
         super.show();
     }
 
-    private void setListItemExpandMax(ListPopupWindow listPopupWindow, int max, View anchorView, int anchorHeight) {
-
+    //Reflection hack to fix Pop Window height change on scroll
+    private void setListItemExpandMax(ListPopupWindow listPopupWindow, int max) {
         try {
             Method method = ListPopupWindow.class.getDeclaredMethod("setListItemExpandMax", Integer.TYPE);
             method.setAccessible(true);
             method.invoke(listPopupWindow, max);
-
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -166,7 +181,7 @@ public class UIPicker extends ListPopupWindow{
         }
     }
 
-
+    //Getting max available height of device screen to display ListPopupWindow
     private int getMaxAvailableHeight(@NonNull View anchor, int yOffset) {
 
         final Rect displayFrame = new Rect();
@@ -177,11 +192,11 @@ public class UIPicker extends ListPopupWindow{
 
         final int bottomEdge = displayFrame.bottom;
 
+        // anchorPos[1] is distance from anchor to top of screen
         final int distanceToBottom = bottomEdge - anchorPos[1] - yOffset;
 
         final int distanceToTop = anchorPos[1] - displayFrame.top + yOffset;
 
-        // anchorPos[1] is distance from anchor to top of screen
         if(distanceToTop > distanceToBottom){
             isDistanceToTopLarger = true;
         }
@@ -197,27 +212,28 @@ public class UIPicker extends ListPopupWindow{
 
     private void setContentHeight(View anchorView, int anchorHeight){
         int maxHeight = getMaxAvailableHeight(anchorView, anchorHeight);
+        //incremental height calculation
         int contentHeight = adapterCount * context.getResources().getDimensionPixelSize(R.dimen.uid_uipicker_item_height);
         if(contentHeight < maxHeight){
             setHeight(contentHeight);
-        }
-        else {
+        } else {
             int temp = maxHeight % context.getResources().getDimensionPixelSize(R.dimen.uid_uipicker_item_height);
             if(temp != 0){
                 maxHeight = maxHeight - temp;
             }
 
-            if(isBelowAnchorView || isDistanceToTopLarger)
+            //Fix to avoid ListPopupWindow to display outside the display bounds
+            if(shouldNotOverlapAnchorView || isDistanceToTopLarger)
                 setHeight(maxHeight - anchorHeight);
             else
                 setHeight(maxHeight);
-            //setHeight(maxHeight - anchorHeight);
         }
     }
 
 
     private int measureContentWidth(ListAdapter adapter) {
 
+        //Getting max available width of device screen to display ListPopupWindow
         DisplayMetrics metrics = new DisplayMetrics();
         ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(metrics);
         int widthPixels = metrics.widthPixels;
@@ -232,6 +248,7 @@ public class UIPicker extends ListPopupWindow{
         final int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         final int count = adapter.getCount();
 
+        //Getting max width of content item
         for (int i = 0; i < count; i++) {
             final int positionType = adapter.getItemViewType(i);
             if (positionType != itemType) {
@@ -253,6 +270,7 @@ public class UIPicker extends ListPopupWindow{
             }
         }
 
+        //incremental width calculation
         if(maxWidth > minWidth && maxWidth < 2 * minWidth){
             return Math.round(2 * minWidth);
         } else if(maxWidth > 2 * minWidth && maxWidth < 3 * minWidth){
