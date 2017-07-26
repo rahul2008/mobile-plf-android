@@ -2,8 +2,7 @@
  * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
-
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 buildscript { bs ->
     apply from: rootDir.absolutePath + '/common/gradle/project-build.gradle', to: bs
@@ -50,43 +49,31 @@ android {
     defaultConfig {
         minSdkVersion versions.minsdk
         targetSdkVersion versions.target
-
-        applicationId "com.philips.cdp2.commlib.devicetest"
         versionCode 1
         versionName "0.0.1"
 
-        testInstrumentationRunner "com.philips.cdp2.commlib.devicetest.runner.CucumberRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        all {
+            buildConfigField "int", "minsdk", Integer.toString(versions.minsdk)
+            buildConfigField "int", "maxsdk", Integer.toString(versions.target)
         }
-    }
-
-    lintOptions {
-        abortOnError false
-    }
-
-    sourceSets {
-        androidTest.assets.srcDirs += '../commlib-all/src/test/features'
     }
 }
 
 dependencies {
-    provided deps.support.annotations
+    compile deps.junit
+    compile deps.mockito
 
-    debugCompile project(path: ':commlib-ble', configuration: 'debug')
-    releaseCompile project(path: ':commlib-ble', configuration: 'release')
+    compile('org.robolectric:robolectric:3.2') {
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
 
-    androidTestCompile deps.junit
-    androidTestCompile('com.android.support.test:runner:0.5') {
-        exclude module: 'support-annotations'
+    compile('org.robolectric:shadows-support-v4:3.0') {
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
-    androidTestCompile('com.android.support.test:rules:0.5') {
-        exclude module: 'support-annotations'
-    }
-    androidTestCompile 'info.cukes:cucumber-android:1.2.2'
-    androidTestCompile 'info.cukes:cucumber-junit:1.2.2'
 }

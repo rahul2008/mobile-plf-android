@@ -5,7 +5,7 @@
 
 package com.philips.cdp.dicommclient.testutil;
 
-import com.philips.cdp2.commlib.BuildConfig;
+import com.philips.cdp2.commlib_testutils.BuildConfig;
 
 import org.junit.After;
 import org.junit.Before;
@@ -35,7 +35,5 @@ public abstract class RobolectricTest {
     }
 
     protected void tearDown() throws Exception {
-
     }
-
 }

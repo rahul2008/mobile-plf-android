@@ -139,11 +139,6 @@ android {
         release {
             consumerProguardFiles 'proguard-rules.pro'
         }
-
-        all {
-            buildConfigField "int", "minsdk", Integer.toString(versions.minsdk)
-            buildConfigField "int", "maxsdk", Integer.toString(versions.target)
-        }
     }
     publishNonDefault true
 }
@@ -186,18 +181,11 @@ dependencies {
 
     compile deps.gson
 
+    testCompile project(':commlib-testutils')
     testCompile deps.powermock_mockito
     testCompile deps.powermock_junit
 
     testCompile 'com.squareup.assertj:assertj-android:1.1.1'
-    testCompile('org.robolectric:robolectric:3.2') {
-        exclude group: 'commons-logging', module: 'commons-logging'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-    }
-    testCompile('org.robolectric:shadows-support-v4:3.0') {
-        exclude group: 'commons-logging', module: 'commons-logging'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-    }
 
     testCompile deps.junit
     testCompile deps.mockito

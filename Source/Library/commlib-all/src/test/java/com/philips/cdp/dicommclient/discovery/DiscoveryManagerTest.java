@@ -12,8 +12,9 @@ import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.networknode.NetworkNode.PairingState;
-import com.philips.cdp.dicommclient.testutil.TestAppliance;
-import com.philips.cdp2.commlib.all.testutil.RobolectricTest;
+import com.philips.cdp.dicommclient.testutil.RobolectricTest;
+import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.communication.NullCommunicationStrategy;
 import com.philips.cdp2.commlib.lan.NetworkMonitor;
 import com.philips.cdp2.commlib.lan.NetworkMonitor.NetworkChangedListener;
 import com.philips.cdp2.commlib.lan.NetworkMonitor.NetworkState;
@@ -38,6 +39,18 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class DiscoveryManagerTest extends RobolectricTest {
+
+    class TestAppliance extends Appliance {
+
+        TestAppliance(NetworkNode networkNode) {
+            super(networkNode, new NullCommunicationStrategy());
+        }
+
+        @Override
+        public String getDeviceType() {
+            return null;
+        }
+    }
 
     private static final String APPLIANCE_IP_1 = "198.168.1.145";
     private static final String APPLIANCE_IP_2 = "198.168.1.120";

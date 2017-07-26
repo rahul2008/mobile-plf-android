@@ -150,7 +150,5 @@ dependencies {
         releaseCompile project(path: dep, configuration: 'release')
         testCompile project(path: dep, configuration: 'debug')
     }
-
-    testCompile deps.junit
-    testCompile deps.mockito
+    testCompile project(':commlib-testutils')
 }

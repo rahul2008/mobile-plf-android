@@ -7,8 +7,8 @@ package com.philips.cdp.dicommclient.appliance;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.testutil.RobolectricTest;
-import com.philips.cdp.dicommclient.testutil.TestAppliance;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
+import com.philips.cdp2.commlib.core.communication.NullCommunicationStrategy;
 
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -735,6 +735,11 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         networkNode.setName(name);
         networkNode.setConnectionState(connectionState);
 
-        return new TestAppliance(networkNode);
+        return new Appliance(networkNode, new NullCommunicationStrategy()) {
+            @Override
+            public String getDeviceType() {
+                return null;
+            }
+        };
     }
 }
