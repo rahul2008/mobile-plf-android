@@ -10,8 +10,6 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 import org.mockito.Mockito;
 
-import static junit.framework.Assert.assertEquals;
-
 public class DISecurityTest extends MockitoTestCase {
 
     public final static String DEVICE_ID = "deviceId";
