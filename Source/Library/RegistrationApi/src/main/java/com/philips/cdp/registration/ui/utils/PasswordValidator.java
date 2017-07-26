@@ -1,16 +1,15 @@
 package com.philips.cdp.registration.ui.utils;
 
-import com.philips.cdp.registration.ui.traditional.CreateAccountFragment;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 
 
 public class PasswordValidator implements InputValidationLayout.Validator {
 
 
-    CreateAccountFragment.PasswordStrength passwordStrength;
+    ValidPassword passwordStrength;
 
 
-    public PasswordValidator(CreateAccountFragment.PasswordStrength passwordStrength) {
+    public PasswordValidator(ValidPassword passwordStrength) {
         this.passwordStrength = passwordStrength;
     }
 

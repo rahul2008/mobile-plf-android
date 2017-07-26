@@ -262,14 +262,14 @@ public class User {
      * {@code registerUserInfoForTraditional} method creates a user account.
      *
      * @param firstName
-     * @param mGivenName
-     * @param mUserEmail
+     * @param givenName
+     * @param userEmail
      * @param password
      * @param olderThanAgeLimit
      * @param isReceiveMarketingEmail
      * @param traditionalRegisterHandler
      */
-    public void registerUserInfoForTraditional(String firstName, final String mGivenName, final String mUserEmail,
+    public void registerUserInfoForTraditional(String firstName, final String givenName, final String userEmail,
                                                final String password,
                                                final boolean olderThanAgeLimit,
                                                final boolean isReceiveMarketingEmail,
@@ -277,7 +277,7 @@ public class User {
         new Thread(() -> {
             RegisterTraditional registerTraditional = new RegisterTraditional(traditionalRegisterHandler, mContext, mUpdateUserRecordHandler);
             ABCD.getInstance().setmP(password);
-            registerTraditional.registerUserInfoForTraditional(firstName,mGivenName, mUserEmail,
+            registerTraditional.registerUserInfoForTraditional(firstName,givenName, userEmail,
                     password, olderThanAgeLimit, isReceiveMarketingEmail);
         }).start();
     }

@@ -1,9 +1,9 @@
 package com.philips.cdp.registration.ui.utils;
 
-import com.philips.platform.uid.view.widget.InputValidationLayout;
+import static com.philips.platform.uid.view.widget.InputValidationLayout.Validator;
 
 
-public class NameValidator implements InputValidationLayout.Validator {
+public class NameValidator implements Validator {
 
     @Override
     public boolean validate(CharSequence msg) {

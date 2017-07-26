@@ -1,20 +1,19 @@
 package com.philips.cdp.registration.ui.utils;
 
-import com.philips.cdp.registration.ui.traditional.CreateAccountFragment;
-import com.philips.platform.uid.view.widget.InputValidationLayout;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.philips.platform.uid.view.widget.InputValidationLayout.Validator;
 
-public class EmailValidator implements InputValidationLayout.Validator {
+
+public class EmailValidator implements Validator {
      private final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
-    CreateAccountFragment.ValidEmail isValidEmail;
+    ValidEmail validEmail;
 
-    public EmailValidator(CreateAccountFragment.ValidEmail isValidEmail) {
-        this.isValidEmail = isValidEmail;
+    public EmailValidator(ValidEmail validEmail) {
+        this.validEmail = validEmail;
     }
 
     @Override
@@ -23,10 +22,10 @@ public class EmailValidator implements InputValidationLayout.Validator {
         boolean validMail = matcher.find();
 
         if (msg.length() == 0) {
-            isValidEmail.isEmpty(true);
+            validEmail.isEmpty(true);
         } else if (!validMail) {
-            isValidEmail.isEmpty(false);
-            isValidEmail.isValid(validMail);
+            validEmail.isEmpty(false);
+            validEmail.isValid(validMail);
         }
         return validMail;
     }
