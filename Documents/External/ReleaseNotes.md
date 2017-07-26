@@ -1,5 +1,8 @@
 # Release Notes MobileUitoolkit Android
 
+SPRINT - MUITK.PI17.4.Sprint1
+Story 58209: Android UI Picker
+
 SPRINT - MUITK.PI17.3.Sprint4
 Story 53272: Android Radio Button
 
@@ -174,3 +177,4 @@ SPRINT - PI16.4.Sprint2
 EHUFA-887 - UIKIT Crash in ProductSelection Component (prio 2)
 EHUFA-888 - Vector Drawable Crash in KitKat Device (prio 2)
 EHUFA-905 - Android: Software Requirements Specification
+
