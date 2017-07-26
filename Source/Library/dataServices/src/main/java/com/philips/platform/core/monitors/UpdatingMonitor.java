@@ -125,7 +125,6 @@ public class UpdatingMonitor extends EventMonitor {
     public void onEventBackGround(final BackendMomentListSaveRequest momentSaveRequest) {
         List<? extends Moment> moments = momentSaveRequest.getList();
         if (moments == null || moments.isEmpty()) {
-            notifyDBChangeSuccess(SyncType.MOMENT);
             return;
         }
         try {

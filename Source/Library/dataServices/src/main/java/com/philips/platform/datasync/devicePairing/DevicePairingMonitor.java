@@ -35,6 +35,7 @@ public class DevicePairingMonitor extends EventMonitor {
         uCoreDevicePair.setDeviceType(pairDevicesRequestEvent.getDeviceType());
         uCoreDevicePair.setStandardObservationNames(pairDevicesRequestEvent.getStandardObservationNames());
         uCoreDevicePair.setSubjectIds(pairDevicesRequestEvent.getSubjectIds());
+        uCoreDevicePair.setRelationshipType(pairDevicesRequestEvent.getRelationshipType());
         mDevicePairingController.pairDevices(uCoreDevicePair);
     }
 

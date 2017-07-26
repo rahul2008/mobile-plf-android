@@ -76,7 +76,7 @@ public class UserCharacteristicsConverter {
             List<Characteristics> parentCharacteristicsList = new ArrayList<>();
             for (int i = 0; i < mCharacteristicsList.size(); i++) {
                 if (mCharacteristicsList.get(i).getParent() == 0) {
-                    parentCharacteristicsList.add(mCharacteristicsList.get(i));
+                    parentCharacteristicsList.add(mCharacteristicsList.get(i)); 
                 }
             }
             for (int i = 0; i < parentCharacteristicsList.size(); i++) {

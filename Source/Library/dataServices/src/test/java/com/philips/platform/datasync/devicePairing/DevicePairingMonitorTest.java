@@ -82,7 +82,7 @@ public class DevicePairingMonitorTest {
     public void devicePairingResponseEventTest() throws Exception {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(true);
         when(mUCoreAccessProvider.getAccessToken()).thenReturn("676786768898");
-        PairDevicesRequestEvent pairDevicesRequestEvent = new PairDevicesRequestEvent("", "", null, null, new DevicePairingListener() {
+        PairDevicesRequestEvent pairDevicesRequestEvent = new PairDevicesRequestEvent("", "", null, null, "", new DevicePairingListener() {
             @Override
             public void onResponse(boolean status) {
 
@@ -106,7 +106,7 @@ public class DevicePairingMonitorTest {
     public void devicePairingErrorResponseEventTest() throws Exception {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(true);
         when(mUCoreAccessProvider.getAccessToken()).thenReturn("676786768898");
-        PairDevicesRequestEvent pairDevicesRequestEvent = new PairDevicesRequestEvent("", "", null, null, new DevicePairingListener() {
+        PairDevicesRequestEvent pairDevicesRequestEvent = new PairDevicesRequestEvent("", "", null, null, "", new DevicePairingListener() {
             @Override
             public void onResponse(boolean status) {
 

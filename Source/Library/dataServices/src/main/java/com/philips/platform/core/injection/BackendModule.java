@@ -39,6 +39,7 @@ import com.philips.platform.datasync.consent.ConsentDataSender;
 import com.philips.platform.datasync.consent.ConsentsDataFetcher;
 import com.philips.platform.datasync.consent.ConsentsMonitor;
 import com.philips.platform.datasync.consent.ConsentsSegregator;
+import com.philips.platform.datasync.devicePairing.DevicePairingMonitor;
 import com.philips.platform.datasync.insights.InsightDataFetcher;
 import com.philips.platform.datasync.insights.InsightDataSender;
 import com.philips.platform.datasync.insights.InsightMonitor;
@@ -50,6 +51,7 @@ import com.philips.platform.datasync.settings.SettingsDataFetcher;
 import com.philips.platform.datasync.settings.SettingsDataSender;
 import com.philips.platform.datasync.settings.SettingsMonitor;
 import com.philips.platform.datasync.settings.SettingsSegregator;
+import com.philips.platform.datasync.subjectProfile.SubjectProfileMonitor;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataPullSynchronise;
 import com.philips.platform.datasync.synchronisation.DataPushSynchronise;
@@ -143,8 +145,8 @@ public class BackendModule {
     Backend providesBackend(
             @NonNull final ConsentsMonitor consentsMonitor,
             @NonNull final UserCharacteristicsMonitor userCharacteristicsMonitor,
-            @NonNull final SettingsMonitor settingsMonitor ,@NonNull final InsightMonitor insightMonitor, @NonNull final PushNotificationMonitor pushNotificationMonitor) {
-        return new Backend(consentsMonitor, userCharacteristicsMonitor,settingsMonitor,insightMonitor,pushNotificationMonitor);
+            @NonNull final SettingsMonitor settingsMonitor , @NonNull final InsightMonitor insightMonitor, @NonNull final PushNotificationMonitor pushNotificationMonitor, @NonNull final DevicePairingMonitor devicePairingMonitor , @NonNull final SubjectProfileMonitor subjectProfileMonitor) {
+        return new Backend(consentsMonitor, userCharacteristicsMonitor,settingsMonitor,insightMonitor,pushNotificationMonitor,devicePairingMonitor,subjectProfileMonitor);
     }
 
     @Provides

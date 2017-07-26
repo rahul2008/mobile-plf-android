@@ -6,8 +6,7 @@ import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendSaveRequest;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
 import com.philips.platform.core.events.Event;
-import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
-import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
+import com.philips.platform.core.events.GetNonSynchronizedConsentssResponse;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.UuidGenerator;
@@ -27,11 +26,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.isA;
@@ -96,7 +93,7 @@ public class ConsentsDataFetcherTest {
     private ConsentBackendSaveRequest consentSaveListRequestMock;
 
     @Mock
-    private GetNonSynchronizedMomentsResponse getNonSynchronizedMomentsResponseMock;
+    private GetNonSynchronizedConsentssResponse getNonSynchronizedConsentssResponseMock;
 
     @Captor
     private ArgumentCaptor<BackendResponse> errorCaptor;
@@ -339,11 +336,11 @@ public class ConsentsDataFetcherTest {
         when(uCoreConsentDetailMock.get(0)).thenReturn(new UCoreConsentDetail("dfs", "dfs", "dsfs", "dfs"));
         List<ConsentDetail> consentDetails=new ArrayList<>();
         consentDetails.add(mock((ConsentDetail.class)));
-        getNonSynchronizedMomentsResponseMock=new GetNonSynchronizedMomentsResponse(null,consentDetails);
+        getNonSynchronizedConsentssResponseMock =new GetNonSynchronizedConsentssResponse(consentDetails);
 
-       // when(getNonSynchronizedMomentsResponseMock.getConsentDetails()).thenReturn(consentDetails);
+       // when(getNonSynchronizedConsentssResponseMock.getConsentDetails()).thenReturn(consentDetails);
 
-        consentDataFetcher.onEventAsync(getNonSynchronizedMomentsResponseMock);
+        consentDataFetcher.onEventAsync(getNonSynchronizedConsentssResponseMock);
 
         verify(eventingMock).post(isA(ConsentBackendSaveResponse.class));
     }
@@ -357,9 +354,9 @@ public class ConsentsDataFetcherTest {
         when(consentsClientMock.getConsent(anyString(), anyListOf(String.class), anyListOf(String.class), anyListOf(String.class))).thenReturn(uCoreConsentDetailMock);
         List<ConsentDetail> consentDetails=new ArrayList<>();
         //consentDetails.add(mock((ConsentDetail.class)));
-        getNonSynchronizedMomentsResponseMock=new GetNonSynchronizedMomentsResponse(null,consentDetails);
-        //when(getNonSynchronizedMomentsResponseMock.getConsentDetails()).thenReturn(null);
-        consentDataFetcher.onEventAsync(getNonSynchronizedMomentsResponseMock);
+        getNonSynchronizedConsentssResponseMock =new GetNonSynchronizedConsentssResponse(consentDetails);
+        //when(getNonSynchronizedConsentssResponseMock.getConsentDetails()).thenReturn(null);
+        consentDataFetcher.onEventAsync(getNonSynchronizedConsentssResponseMock);
         verifyNoMoreInteractions(uCoreAdapterMock);
     }
 

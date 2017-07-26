@@ -8,12 +8,11 @@ import android.support.annotation.NonNull;
 
 import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.datatypes.ConsentDetail;
-import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.dbinterfaces.DBFetchingInterface;
 import com.philips.platform.core.events.GetNonSynchronizedDataRequest;
 import com.philips.platform.core.events.GetNonSynchronizedDataResponse;
-import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
-import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
+import com.philips.platform.core.events.GetNonSynchronizedConsentsRequest;
+import com.philips.platform.core.events.GetNonSynchronizedConsentssResponse;
 import com.philips.platform.core.events.LoadConsentsRequest;
 import com.philips.platform.core.events.FetchInsightsFromDB;
 import com.philips.platform.core.events.LoadLastMomentRequest;
@@ -129,24 +128,16 @@ public class FetchingMonitor extends EventMonitor {
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.ASYNC)
-    public void onEventAsync(GetNonSynchronizedMomentsRequest event) {
-        DSLog.i(DSLog.LOG, "in Fetching Monitor GetNonSynchronizedMomentsRequest");
-
-        List<Moment> ormMomentList = null;
+    public void onEventAsync(GetNonSynchronizedConsentsRequest event) {
+        DSLog.i(DSLog.LOG, "in Fetching Monitor GetNonSynchronizedConsentsRequest");
         List<ConsentDetail> consentDetails = null;
-        try {
-            ormMomentList = (List<Moment>) dbInterface.fetchNonSynchronizedMoments();
-        } catch (SQLException e) {
-            //dbInterface.postError(e, event.getDbFetchRequestListener());
-        }
-
         try {
             consentDetails = (List<ConsentDetail>) dbInterface.fetchConsentDetails();
         } catch (SQLException e) {
             //dbInterface.postError(e, event.getDbFetchRequestListener());
         }
 
-        eventing.post(new GetNonSynchronizedMomentsResponse(ormMomentList, consentDetails));
+        eventing.post(new GetNonSynchronizedConsentssResponse(consentDetails));
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)

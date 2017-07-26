@@ -12,8 +12,8 @@ import com.philips.platform.core.datatypes.ConsentDetail;
 import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.BackendResponse;
 import com.philips.platform.core.events.ConsentBackendSaveResponse;
-import com.philips.platform.core.events.GetNonSynchronizedMomentsRequest;
-import com.philips.platform.core.events.GetNonSynchronizedMomentsResponse;
+import com.philips.platform.core.events.GetNonSynchronizedConsentsRequest;
+import com.philips.platform.core.events.GetNonSynchronizedConsentssResponse;
 import com.philips.platform.core.trackers.DataServicesManager;
 import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
@@ -74,7 +74,7 @@ public class ConsentsDataFetcher extends DataFetcher {
     @Override
     public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
         registerEvent();
-        eventing.post(new GetNonSynchronizedMomentsRequest(null));
+        eventing.post(new GetNonSynchronizedConsentsRequest(null));
         /*if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
             eventing.post(new ConsentBackendGetRequest(1, consentDetails));
         }*/
@@ -96,8 +96,9 @@ public class ConsentsDataFetcher extends DataFetcher {
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onEventAsync(GetNonSynchronizedMomentsResponse response) {
+    public void onEventAsync(GetNonSynchronizedConsentssResponse response) {
         List<? extends ConsentDetail> nonSynchronizedConsent = response.getConsentDetails();
+        if(nonSynchronizedConsent== null || nonSynchronizedConsent.size()==0) return;
         if (synchronizationState.get() != DataSender.State.BUSY.getCode()) {
             getConsent(new ArrayList<>(nonSynchronizedConsent));
         }

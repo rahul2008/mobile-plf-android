@@ -107,7 +107,7 @@ public class SubjectProfileControllerTest {
         uCoreCreateSubjectProfileResponse.setSubjectID("guid");
         assertTrue(uCoreCreateSubjectProfileResponse.getSubjectID() != null);
 
-        when(mSubjectProfileClient.createSubjectProfile(any(UCoreCreateSubjectProfileRequest.class))).thenReturn(mResponse);
+        when(mSubjectProfileClient.createSubjectProfile(eq(TEST_USER_ID), any(UCoreCreateSubjectProfileRequest.class))).thenReturn(mResponse);
         mSubjectProfileController.createSubjectProfile(uCoreCreateSubjectProfileRequest);
     }
 
@@ -185,7 +185,7 @@ public class SubjectProfileControllerTest {
         final RetrofitError retrofitError = mock(RetrofitError.class);
         mResponse = new Response("", 403, "Test error", new ArrayList<Header>(), new TypedString("ERROR"));
         when(retrofitError.getResponse()).thenReturn(mResponse);
-        when(mSubjectProfileClient.createSubjectProfile(uCoreCreateSubjectProfileRequest)).thenThrow(retrofitError);
+        when(mSubjectProfileClient.createSubjectProfile(TEST_USER_ID, uCoreCreateSubjectProfileRequest)).thenThrow(retrofitError);
         mSubjectProfileController.createSubjectProfile(uCoreCreateSubjectProfileRequest);
     }
 
@@ -199,7 +199,7 @@ public class SubjectProfileControllerTest {
         final RetrofitError retrofitError = mock(RetrofitError.class);
         mResponse = new Response("", 403, "Test error", new ArrayList<Header>(), new TypedString("ERROR"));
         when(retrofitError.getResponse()).thenReturn(mResponse);
-        when(mSubjectProfileClient.getSubjectProfile("subjectID")).thenThrow(retrofitError);
+        when(mSubjectProfileClient.getSubjectProfile(TEST_USER_ID, "subjectID")).thenThrow(retrofitError);
         mSubjectProfileController.getSubjectProfile("subjectID");
     }
 
@@ -213,7 +213,7 @@ public class SubjectProfileControllerTest {
         final RetrofitError retrofitError = mock(RetrofitError.class);
         mResponse = new Response("", 403, "Test error", new ArrayList<Header>(), new TypedString("ERROR"));
         when(retrofitError.getResponse()).thenReturn(mResponse);
-        when(mSubjectProfileClient.getSubjectProfiles()).thenThrow(retrofitError);
+        when(mSubjectProfileClient.getSubjectProfiles(TEST_USER_ID)).thenThrow(retrofitError);
         mSubjectProfileController.getSubjectProfileList();
     }
 
@@ -227,7 +227,7 @@ public class SubjectProfileControllerTest {
         final RetrofitError retrofitError = mock(RetrofitError.class);
         mResponse = new Response("", 403, "Test error", new ArrayList<Header>(), new TypedString("ERROR"));
         when(retrofitError.getResponse()).thenReturn(mResponse);
-        when(mSubjectProfileClient.deleteSubjectProfile("subjectID")).thenThrow(retrofitError);
+        when(mSubjectProfileClient.deleteSubjectProfile(TEST_USER_ID, "subjectID")).thenThrow(retrofitError);
         mSubjectProfileController.deleteSubjectProfile("subjectID");
     }
 
