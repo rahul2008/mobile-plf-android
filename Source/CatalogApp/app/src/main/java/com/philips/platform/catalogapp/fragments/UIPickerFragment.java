@@ -23,7 +23,7 @@ import com.philips.platform.uid.view.widget.UIPicker;
 
 public class UIPickerFragment extends BaseFragment {
 
-    private UIPicker listPopupWindow;
+    private UIPicker uiPicker;
     public static final String SELECTED_LOCATION = "SELECTED_LOCATION";
     public static final String SELECTED_POSITION = "SELECTED_POSITION";
     public final ObservableField<String> selectedLocation = new ObservableField<>("Alabama");
@@ -61,24 +61,20 @@ public class UIPickerFragment extends BaseFragment {
         fragmentUiPickerBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_ui_picker, container, false);
         fragmentUiPickerBinding.setFrag(this);
 
-        listPopupWindow = new UIPicker(popupThemedContext);
+        uiPicker = new UIPicker(popupThemedContext);
         ArrayAdapter adapter = new UIPickerAdapter(popupThemedContext, R.layout.uipicker_item_text, STATES);
-        listPopupWindow.setAdapter(adapter);
-        listPopupWindow.setAnchorView(fragmentUiPickerBinding.selectedLocationLabel);
-        listPopupWindow.setModal(true);
-        //listPopupWindow.setHeight(600);
-        //listPopupWindow.setWidth(300);
-        //listPopupWindow.setDropDownGravity(Gravity.START);
-        //listPopupWindow.shouldNotOverlapAnchorView(true);
+        uiPicker.setAdapter(adapter);
+        uiPicker.setAnchorView(fragmentUiPickerBinding.selectedLocationLabel);
+        uiPicker.setModal(true);
 
-        listPopupWindow.setOnItemClickListener(
+        uiPicker.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         selectedLocation.set(STATES[position]);
                         selectedPosition = position;
-                        listPopupWindow.setSelection(position);
-                        listPopupWindow.dismiss();
+                        uiPicker.setSelection(position);
+                        uiPicker.dismiss();
                     }
                 }
         );
@@ -106,7 +102,7 @@ public class UIPickerFragment extends BaseFragment {
     }
 
     public void showListPopupWindow(){
-        listPopupWindow.show();
-        listPopupWindow.setSelection(selectedPosition);
+        uiPicker.show();
+        uiPicker.setSelection(selectedPosition);
     }
 }
