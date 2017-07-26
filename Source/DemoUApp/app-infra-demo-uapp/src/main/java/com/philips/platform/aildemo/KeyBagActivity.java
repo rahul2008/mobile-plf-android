@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.philips.platform.appinfra.demo.R;
-import com.philips.platform.appinfra.keybag.KeyBagImpl;
+import com.philips.platform.appinfra.keybag.KeyBagManager;
 
 public class KeyBagActivity extends AppCompatActivity {
 
@@ -17,12 +17,12 @@ public class KeyBagActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_keybag);
 
-		KeyBagImpl keyBag = new KeyBagImpl();
-		String obfuscate = keyBag.obfuscate("Test data", 0XAE47);
+		KeyBagManager keyBagManager = new KeyBagManager();
+		String obfuscate = keyBagManager.obfuscate("Test data", 0XAE47);
 
 		Log.d(getClass()+"","obfuscated data "+obfuscate);
 
-		obfuscate = keyBag.obfuscate(obfuscate,0XAE47);
+		obfuscate = keyBagManager.obfuscate(obfuscate,0XAE47);
 		Log.d(getClass()+"","deobfuscated data "+obfuscate);
 
 	}

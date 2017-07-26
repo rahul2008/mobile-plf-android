@@ -5,7 +5,7 @@
  */
 package com.philips.platform.appinfra.keybag;
 
-public class KeyBagImpl implements KeyBagInterface {
+public class KeyBagManager implements KeyBagInterface {
 
 
     @Override
