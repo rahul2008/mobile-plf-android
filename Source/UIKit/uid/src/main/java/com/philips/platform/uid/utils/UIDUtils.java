@@ -20,9 +20,9 @@ import com.philips.platform.uid.thememanager.ThemeUtils;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import static android.content.ContentValues.TAG;
-
 public final class UIDUtils {
+
+    private static final String TAG = "UIDUtils";
 
     public static boolean isMinLollipop() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
