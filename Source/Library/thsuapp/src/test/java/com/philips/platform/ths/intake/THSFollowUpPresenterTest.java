@@ -75,33 +75,33 @@ public class THSFollowUpPresenterTest {
         when(awsdkMock.getConsumerManager()).thenReturn(consumerManagerMock);
     }
 
-    @Test
+ /*   @Test
     public void onEventContinueBtn() throws Exception {
         tHSFollowUpPresenter.onEvent(R.id.pth_intake_follow_up_continue_button);
         verify(consumerManagerMock).updateConditions(any(Consumer.class),anyList(),any(SDKCallback.class));
         //verify(tHSFollowUpFragmentMock).addFragment(any(THSFollowUpFragment.class),anyString(),any(Bundle.class));
         // TODO here next fragment name to be assigned ie Pharmacy
-    }
+    }*/
 
-    @Test
+ /*   @Test
     public void onUpdateConsumerResponse() throws Exception {
 
 
         when(pthConsumerMock.getConsumer()).thenReturn(consumerMock);
 
         tHSFollowUpPresenter.onUpdateConsumerResponse(pthConsumerMock,tHSSDKPasswordError);
-    }
+    }*/
 
-    @Test
+ /*   @Test
     public void onUpdateConsumerValidationFailure() {
         tHSFollowUpPresenter.onUpdateConsumerValidationFailure(any(Map.class));
-    }
+    }*/
 
-    @Test
+  /*  @Test
     public void onUpdateConsumerFailure() throws Exception{
         tHSFollowUpPresenter.onUpdateConsumerFailure(throwableMock);
-    }
-
+    }*/
+/*
     @Test
     public void updateConsumer()  {
         try {
@@ -111,5 +111,5 @@ public class THSFollowUpPresenterTest {
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException  e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

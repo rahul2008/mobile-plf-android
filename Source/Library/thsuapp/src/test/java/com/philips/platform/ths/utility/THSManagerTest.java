@@ -409,7 +409,7 @@ public class THSManagerTest {
     @Test
     public void getProviderDetailsTest() throws AWSDKInstantiationException {
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
-        THSManager.getProviderDetails(contextMock, mConsumer, providerInfo, THSProviderDetailsCallback);
+        THSManager.getProviderDetails(contextMock, providerInfo, THSProviderDetailsCallback);
         verify(practiseprovidermanagerMock).getProvider(any(ProviderInfo.class), any(Consumer.class), providerDetailsCaptor.capture());
         SDKCallback value = providerDetailsCaptor.getValue();
         value.onResponse(any(Provider.class), any(SDKError.class));
