@@ -14,5 +14,5 @@ public class KeyBagLib {
         System.loadLibrary("native-lib");
     }
 
-    public native void lfsrMain();
+    public native char[] obfuscateDeObfuscate(char[] testString, int seed);
 }

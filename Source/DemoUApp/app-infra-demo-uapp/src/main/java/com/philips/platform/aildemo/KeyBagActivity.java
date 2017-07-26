@@ -4,6 +4,7 @@ package com.philips.platform.aildemo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.keybag.KeyBagImpl;
@@ -16,6 +17,13 @@ public class KeyBagActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_keybag);
 
-		new KeyBagImpl().obfuscate();
+		KeyBagImpl keyBag = new KeyBagImpl();
+		String obfuscate = keyBag.obfuscate("Test data", 0XAE47);
+
+		Log.d(getClass()+"","obfuscated data "+obfuscate);
+
+		obfuscate = keyBag.obfuscate(obfuscate,0XAE47);
+		Log.d(getClass()+"","deobfuscated data "+obfuscate);
+
 	}
 }
