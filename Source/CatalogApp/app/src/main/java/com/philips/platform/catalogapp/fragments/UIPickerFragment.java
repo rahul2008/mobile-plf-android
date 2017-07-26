@@ -9,8 +9,6 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableField;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +16,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import com.philips.platform.catalogapp.R;
+import com.philips.platform.catalogapp.dataUtils.UIPickerAdapter;
 import com.philips.platform.catalogapp.databinding.FragmentUiPickerBinding;
 import com.philips.platform.uid.thememanager.UIDHelper;
-import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.UIPicker;
 
 public class UIPickerFragment extends BaseFragment {
@@ -64,7 +62,7 @@ public class UIPickerFragment extends BaseFragment {
         fragmentUiPickerBinding.setFrag(this);
 
         listPopupWindow = new UIPicker(popupThemedContext);
-        ArrayAdapter adapter = new PickerAdapter(popupThemedContext, R.layout.uipicker_item_text, STATES);
+        ArrayAdapter adapter = new UIPickerAdapter(popupThemedContext, R.layout.uipicker_item_text, STATES);
         listPopupWindow.setAdapter(adapter);
         listPopupWindow.setAnchorView(fragmentUiPickerBinding.selectedLocationLabel);
         listPopupWindow.setModal(true);
@@ -110,30 +108,5 @@ public class UIPickerFragment extends BaseFragment {
     public void showListPopupWindow(){
         listPopupWindow.show();
         listPopupWindow.setSelection(selectedPosition);
-    }
-
-
-    class PickerAdapter extends ArrayAdapter<String> {
-        LayoutInflater inflater;
-        int resID;
-        public PickerAdapter(@NonNull Context context, @LayoutRes int resource, String[] states) {
-            super(context, resource, states);
-            resID = resource;
-            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            inflater = inflater.cloneInContext(UIDHelper.getPopupThemedContext(UIPickerFragment.this.getContext()));
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            Label view;
-            if (convertView == null) {
-                view = (Label) inflater.inflate(resID, parent, false);
-            } else {
-                view = (Label) convertView;
-            }
-            view.setText(getItem(position));
-            return view;
-        }
     }
 }
