@@ -36,18 +36,17 @@ import static java.util.logging.LogManager.getLogManager;
 
 class LoggingConfiguration {
 
+    private static final String COMPONENT_IDS_KEY = "componentIds";
+    private static final String PROPERTIES_FILE_NAME = "logging.properties";
+    private static final String DIRECTORY_FILE_NAME = "AppInfraLogs";
     final String LOG_LEVEL_KEY = "logLevel";
     final String CONSOLE_LOG_ENABLED_KEY = "consoleLogEnabled";
     final String FILE_LOG_ENABLED_KEY = "fileLogEnabled";
     final String COMPONENT_LEVEL_LOG_ENABLED_KEY = "componentLevelLogEnabled";
-    private static final String COMPONENT_IDS_KEY = "componentIds";
     private HashMap<String, Object> mLoggingProperties;
     private FileHandler mFileHandler;
     private AppInfra mAppInfra;
     private Logger mJavaLogger;
-    private static final String PROPERTIES_FILE_NAME = "logging.properties";
-
-    private static final String DIRECTORY_FILE_NAME = "AppInfraLogs";
     private String mComponentID;
     private String mComponentVersion;
 
@@ -223,7 +222,7 @@ class LoggingConfiguration {
             final FileHandler fileHandler = getCurrentLogFileHandler(getJavaLogger());
             if (null == fileHandler) {// add file log
                 mFileHandler = getFileHandler();
-                if (null != mJavaLogger && null != mJavaLogger.getLevel()) {
+                if (null != mJavaLogger && null != mJavaLogger.getLevel() && mFileHandler != null) {
                     mFileHandler.setLevel(getJavaLogger().getLevel());
                 } else if (mFileHandler != null) {
                     // for appinfra internal log mJavaLogger will be null

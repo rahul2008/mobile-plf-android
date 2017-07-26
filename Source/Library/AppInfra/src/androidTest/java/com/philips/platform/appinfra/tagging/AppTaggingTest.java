@@ -15,14 +15,10 @@ import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -43,6 +39,7 @@ public class AppTaggingTest extends AppInfraInstrumentation {
     private Context context;
     private AppInfra mAppInfra;
     private AppConfigurationInterface.AppConfigurationError configError;
+    AppTaggingHandler  appTaggingHandler;
     private BroadcastReceiver rec = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -63,7 +60,7 @@ public class AppTaggingTest extends AppInfraInstrumentation {
 
         assertNotNull(context);
         mAppInfra = new AppInfra.Builder().build(context);
-        assertNotNull(mAppInfra);
+
 
         testConfig("Staging");
         testAdobeJsonConfig(true);
@@ -87,66 +84,46 @@ public class AppTaggingTest extends AppInfraInstrumentation {
         configError = new AppConfigurationInterface
                 .AppConfigurationError();
 
-        assertNotNull(configError);
 
         Object dynAppState = mAppInfra.getConfigInterface().getPropertyForKey("appidentity.appState", "appinfra", configError);
         assertNotNull(dynAppState.toString());
 
-        mAIAppTaggingInterface = mAppInfra.getTagging().createInstanceForComponent
-                ("Component name", "Component ID");
+        mAIAppTaggingInterface = mAppInfra.getTagging().createInstanceForComponent("Component name", "Component ID");
         assertNotNull(mAIAppTaggingInterface);
+
+        appTaggingHandler=new AppTaggingHandler(mAppInfra);
 
         mockAppTaggingInterface = mock(AppTaggingInterface.class);
     }
 
     public void testCheckForSslConnection() {
-        JSONObject jSONObject = testGetMasterADBMobileConfig();
-        if (jSONObject != null) {
-            assertNotNull(jSONObject);
-            try {
-                final boolean sslValue = jSONObject.getJSONObject("analytics").optBoolean("ssl");
+        final boolean sslValue =appTaggingHandler.checkForSslConnection();
                 if (sslValue) {
                     assertTrue(sslValue);
                 } else {
                     assertFalse(sslValue);
                 }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else {
-            assertNull(jSONObject);
-        }
-
     }
 
-    public JSONObject testGetMasterADBMobileConfig() {
-        JSONObject result = null;
-        try {
-            final InputStream mInputStream = context.getAssets().open("ADBMobileConfig.json");
-            final BufferedReader mBufferedReader = new BufferedReader(new InputStreamReader(mInputStream));
-            final StringBuilder mStringBuilder = new StringBuilder();
-            String line;
-            while ((line = mBufferedReader.readLine()) != null) {
-                mStringBuilder.append(line).append('\n');
-            }
-            result = new JSONObject(mStringBuilder.toString());
-            if (result != null) {
-                assertNotNull(result);
-            } else {
-                assertNull(result);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-
-    }
 
     public void testSetPreviousPage() {
         mAIAppTaggingInterface.setPreviousPage("SomePreviousPage");
-
+        assertEquals("SomePreviousPage",mAppTagging.getPreviousPage());
     }
+    public void testSetPreviousPageNegativeScenario(){
+        mAIAppTaggingInterface.setPreviousPage("SomePreviousPage");
+        assertNotSame("SomePage",mAppTagging.getPreviousPage());
+        assertNotNull(mAppTagging.getPreviousPage());
+    }
+
+    public void testSetPreviousPageNull() {
+        mAIAppTaggingInterface.setPreviousPage(null);
+        assertNull(mAppTagging.getPreviousPage());
+    }
+
+
+
+
 
     public void testConfig(final String value) {
 
@@ -193,43 +170,23 @@ public class AppTaggingTest extends AppInfraInstrumentation {
 
     public void testAdobeJsonConfig(final boolean value) {
 
-        mAppTagging = new AppTagging(mAppInfra) {
-            @Override
-            protected JSONObject getMasterADBMobileConfig() {
-                JSONObject result = null;
-
-                JSONObject obj = new JSONObject();
-
-                try {
-                    obj.put("ssl", Boolean.valueOf(true));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    result = new JSONObject();
-                    result.put("analytics", obj);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return result;
-            }
-
-        };
+        mAppTagging = new AppTagging(mAppInfra);
         mAppTagging.mComponentID = "mComponentID";
         mAppTagging.mComponentVersion = "mComponentVersion";
         mAppInfra = new AppInfra.Builder().setTagging(mAppTagging).build(context);
         mAppInfra.setConfigInterface(mConfigInterface);
     }
-
-    public void testPrivacyConsent() {
+    public void testPrivacyConsentOPTIN() {
         mAppTagging.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
         assertEquals(AppTaggingInterface.PrivacyStatus.OPTIN, mAppTagging.getPrivacyConsent());
+    }
+
+    public void testPrivacyConsentOPTOUT() {
         mAppTagging.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
         assertEquals(AppTaggingInterface.PrivacyStatus.OPTOUT, mAppTagging.getPrivacyConsent());
-        mAppTagging.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.UNKNOWN);
-//        assertEquals(AppTaggingInterface.PrivacyStatus.UNKNOWN, mAppTagging.getPrivacyConsent());
     }
+
+
 
     public void testTrackPageWithInfo_WithoutDictionary() {
         mAppInfra.getConfigInterface().setPropertyForKey("appidentity.appState", "appinfra",
@@ -546,7 +503,7 @@ public class AppTaggingTest extends AppInfraInstrumentation {
         }
     }
 
-    public void testTrackActionMethods() {
+  /*  public void testTrackActionMethods() {
         try {
 
             testConfig("Staging");
@@ -611,7 +568,7 @@ public class AppTaggingTest extends AppInfraInstrumentation {
             e.printStackTrace();
         }
     }
-
+*/
     public void testgetTrackingIdentifier() {
         assertNotNull(mAppTagging.getTrackingIdentifier());
     }

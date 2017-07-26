@@ -17,5 +17,6 @@ public class AppTaggingWrapper extends AppTagging {
 		super(aAppInfra);
 		mComponentID = componentId;
 		mComponentVersion = componentVersion;
+		setComponentIdAndVersion(mComponentID,mComponentVersion);
 	}
 }

@@ -29,7 +29,7 @@ public class TimeSyncDemo extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.timesync_demopage);
-        AILDemouAppInterface.mAppInfra.getTime().refreshTime();
+        AILDemouAppInterface.getInstance().getAppInfra().getTime().refreshTime();
         TextView localTimeTextView = (TextView) findViewById(R.id.localtime);
         final TextView localTimeTextvalue = (TextView) findViewById(R.id.localtimevalue);
 
@@ -40,12 +40,12 @@ public class TimeSyncDemo extends AppCompatActivity {
         refreshButton = (Button) findViewById(R.id.refreshbutton);
         Button syncButton = (Button) findViewById(R.id.syncbutton);
 
-        mTimeSyncInterface = AILDemouAppInterface.mAppInfra.getTime();
+        mTimeSyncInterface = AILDemouAppInterface.getInstance().getAppInfra().getTime();
 
         //  AppInfraApplication.gAppInfra.getTagging().createInstanceForComponent("TimeSyncComponentID", "TimeSyncComponentVersion");
         //    AppInfraApplication.gAppInfra.getTagging().trackVideoStart("Time Synce");
 
-        AILDemouAppInterface.mAppInfra.getTagging().trackPageWithInfo("TimeSyncDemo", "TimeSyncDemoKey", "TimeSyncDemoVersion");
+        AILDemouAppInterface.getInstance().getAppInfra().getTagging().trackPageWithInfo("TimeSyncDemo", "TimeSyncDemoKey", "TimeSyncDemoVersion");
 
         localTimeTextvalue.setText(getDeviceTime());
 //        utcTimeTextvalue.setText(mTimeSyncInterface.getUTCTime());
