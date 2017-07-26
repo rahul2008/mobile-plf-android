@@ -1,0 +1,3 @@
+rootProject.setName 'IconFont'
+include ':icf'
+project(':icf').projectDir = new File('../Library/IconFont')
