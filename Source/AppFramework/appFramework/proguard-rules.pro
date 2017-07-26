@@ -37,10 +37,6 @@
 -keep class com.philips.cdp.prxclient.** {*;}
 -keep interface com.philips.cdp.prxclient.** { *; }
 
-#LocaleMatch
--keep class com.philips.cdp.localematch.** {*;}
--keep interface com.philips.cdp.localematch.** {*;}
-
 #Tagging
 -keep class com.adobe.mobile.** {*;}
 -keep class com.philips.cdp.tagging.** {*;}
@@ -302,11 +298,6 @@ public static <fields>;
 -keep public class com.philips.cdp.tagging.** {*;}
 
 
-#LocaleMatch
-
--keep public class com.philips.cdp.localematch.** {*;}
-
-
 #Network
 -keep class org.apache.http.** { *; }
 -keep class android.net.http.** { *; }
@@ -426,7 +417,6 @@ public static <fields>;
 -keepclassmembers public class javax.net.ssl.** {*;}
 -keepclassmembers public class org.apache.http.** {*;}
 -keepattributes InnerClasses,Exceptions
--dontwarn com.philips.platform.appinfra.**
 
 -dontwarn org.apache.**
 -keep class org.apache.http.** { *; }
@@ -436,46 +426,15 @@ public static <fields>;
 
 #Tagging lib and jar
 -keep public class com.adobe.mobile.** {*;}
--keep public class com.philips.platform.appinfra.tagging.** {*;}
 -keep class com.android.volley.** { *; }
 -keep interface com.android.volley.** { *; }
 -keep class org.apache.commons.logging.**
 
-
--keep public class com.philips.platform.appinfra.AppInfra { *; }
--keep public class com.philips.platform.appinfra.AppInfra.Builder { *; }
--keepnames public class com.philips.platform.appinfra.AppInfra.Builder
--keep public class com.philips.platform.appinfra.AppInfraSingleton { *; }
--keep public class com.philips.platform.appinfra.GlobalStore { *; }
-
--keepnames public class com.philips.platform.appinfra.AppInfra
--keep public class  com.philips.platform.appinfra.AppInfra$* {
-        *;
- }
--keepclassmembers  public class com.philips.platform.appinfra.AppInfra
--keep public class com.philips.platform.appinfra.AppInfraLibraryApplication.**
-
-
--keep public class com.philips.platform.appinfra.appidentity.** {
-  public protected *;
-}
--keep public class com.philips.platform.appinfra.securestorage.** {
-  public protected *;
-}
--keep public class com.philips.platform.appinfra.logging.** {
-   public protected *;
- }
- -keep public class com.philips.platform.appinfra.servicediscovery.** {
-    public protected *;
-  }
--keep public class com.philips.platform.appinfra.timesync.** {
-    public protected *;
-  }
-
-
-
--keep public interface com.philips.platform.appinfra.appidentity.AppIdentityInterface {*;}
-
--keep public interface com.philips.platform.appinfra.AppInfraInterface {*;}
+-keep public interface com.philips.platform.appinfra.AppInfraInterface.** { *; }
+-keep public interface com.philips.platform.appinfra.logging.LoggingInterface.** { *; }
+-keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
+-keep public class com.philips.platform.appinfra.languagepack.model.** { *; }
+-keep public interface com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.** { *; }
+-keep public interface com.philips.platform.appinfra.securestorage.SecureStorageInterface.** { *; }
 
 #-----------------------------app infra ends here-----------------------------------
