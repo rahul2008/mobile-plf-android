@@ -67,7 +67,12 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     }
 
     public THSProviderInfo getProviderEntity() {
-        ProviderInfo providerInfo = ((THSAvailableProvider) thsProviderEntity).getProviderInfo();
+        ProviderInfo providerInfo = null;
+        if(thsProviderEntity instanceof THSAvailableProvider) {
+            providerInfo = ((THSAvailableProvider) thsProviderEntity).getProviderInfo();
+        }else {
+            providerInfo = ((THSProviderInfo)thsProviderEntity).getProviderInfo();
+        }
 
         THSProviderInfo thsProviderInfo = new THSProviderInfo();
         thsProviderInfo.setTHSProviderInfo(providerInfo);

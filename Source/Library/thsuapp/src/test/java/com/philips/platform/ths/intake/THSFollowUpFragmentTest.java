@@ -67,4 +67,8 @@ public class THSFollowUpFragmentTest {
     }
 
 
+    @Test
+    public void test(){
+
+    }
 }

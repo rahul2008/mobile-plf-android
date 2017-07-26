@@ -1,26 +1,31 @@
 package com.philips.platform.ths.providerdetails;
 
 import android.app.DatePickerDialog;
-import android.os.Build;
 import android.os.Bundle;
 import android.widget.DatePicker;
 
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.appointment.THSAvailableProviderCallback;
 import com.philips.platform.ths.appointment.THSAvailableProviderDetailFragment;
 import com.philips.platform.ths.appointment.THSAvailableProviderListBasedOnDateFragment;
 import com.philips.platform.ths.appointment.THSDatePickerFragmentUtility;
+import com.philips.platform.ths.appointment.THSProviderNotAvailableFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.base.THSBasePresenterHelper;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
 import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class THSProviderDetailsPresenter implements THSBasePresenter,THSProviderDetailsCallback{
 
@@ -67,7 +72,9 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
             THSConsumer.setConsumer(viewInterface.getConsumerInfo());
             Bundle bundle = new Bundle();
             bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, viewInterface.getTHSProviderInfo());
-            mThsBaseFragment.addFragment(new THSSymptomsFragment(), THSSymptomsFragment.TAG, bundle);
+            THSSymptomsFragment thsSymptomsFragment = new THSSymptomsFragment();
+            thsSymptomsFragment.setConsumerObject(THSConsumer);
+            mThsBaseFragment.addFragment(thsSymptomsFragment, THSSymptomsFragment.TAG, bundle);
 
         } else if (componentID == R.id.detailsButtonTwo) {
             final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment);
@@ -80,10 +87,9 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
                     calendar.set(year, month, day);
                     Date date = new Date();
                     date.setTime(calendar.getTimeInMillis());
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(THSConstants.THS_DATE, date);
-                    bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, viewInterface.getPracticeInfo());
-                    mThsBaseFragment.addFragment(new THSAvailableProviderListBasedOnDateFragment(), THSAvailableProviderListBasedOnDateFragment.TAG, bundle);
+
+                    launchAvailableProviderDetailBasedOnAvailibity(date);
+
                 }
             };
 
@@ -115,6 +121,54 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
                 }
             };
             thsDatePickerFragmentUtility.showDatePicker(onDateSetListener);
+        }
+    }
+
+    private void launchAvailableProviderDetailBasedOnAvailibity(final Date date) {
+        try {
+            THSManager.getInstance().getProviderDetails(mThsBaseFragment.getContext(),
+                    viewInterface.getTHSProviderInfo(), new THSProviderDetailsCallback() {
+                        @Override
+                        public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
+                            ((THSProviderDetailsFragment) mThsBaseFragment).setProvider(provider);
+                            try {
+                                THSManager.getInstance().getProviderAvailability(mThsBaseFragment.getContext(), provider,
+                                        date, new THSAvailableProviderCallback<List, THSSDKError>() {
+                                            @Override
+                                            public void onResponse(List dates, THSSDKError sdkError) {
+                                                if(dates == null || dates.size()==0){
+                                                    Bundle bundle = new Bundle();
+                                                    bundle.putSerializable(THSConstants.THS_DATE, date);
+                                                    bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, ((THSProviderDetailsFragment) mThsBaseFragment).getPracticeInfo());
+                                                    bundle.putParcelable(THSConstants.THS_PROVIDER, ((THSProviderDetailsFragment) mThsBaseFragment).getProvider());
+                                                    bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY, ((THSProviderDetailsFragment) mThsBaseFragment).getProviderEntitiy());
+                                                    mThsBaseFragment.addFragment(new THSProviderNotAvailableFragment(), THSProviderNotAvailableFragment.TAG, bundle);
+                                                    mThsBaseFragment.hideProgressBar();
+                                                }else {
+                                                    new THSBasePresenterHelper().launchAvailableProviderDetailFragment(mThsBaseFragment,viewInterface.getTHSProviderInfo(),
+                                                            date, viewInterface.getPracticeInfo());
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(Throwable throwable) {
+                                                mThsBaseFragment.hideProgressBar();
+                                            }
+                                        });
+                            } catch (AWSDKInstantiationException e) {
+                                e.printStackTrace();
+                                mThsBaseFragment.hideProgressBar();
+                            }
+                        }
+
+                        @Override
+                        public void onProviderDetailsFetchError(Throwable throwable) {
+                            mThsBaseFragment.hideProgressBar();
+                        }
+                    });
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+            mThsBaseFragment.hideProgressBar();
         }
     }
 }

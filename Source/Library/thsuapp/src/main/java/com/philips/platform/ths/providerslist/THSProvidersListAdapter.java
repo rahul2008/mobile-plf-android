@@ -8,10 +8,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.americanwell.sdk.entity.provider.AvailableProvider;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
-import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.utility.THSManager;
@@ -87,7 +86,7 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
 
 
         holder.providerRating.setRating(thsProviderInfo.getRating());
-        holder.name.setText("Dr. " + thsProviderInfo.getProviderInfo().getFullName());
+        holder.name.setText(thsProviderInfo.getProviderInfo().getFullName());
         holder.practice.setText(thsProviderInfo.getSpecialty().getName());
 
         if(thsProviderInfo.hasImage()) {

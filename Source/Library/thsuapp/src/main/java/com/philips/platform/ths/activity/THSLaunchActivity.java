@@ -123,7 +123,7 @@ public class THSLaunchActivity extends AppCompatActivity {
         return R.id.parent_layout;
     }
 
-    private void initTheme() {
+     public void initTheme() {
         int themeIndex = getIntent().getIntExtra(KEY_ACTIVITY_THEME, DEFAULT_THEME);
         if (themeIndex <= 0) {
             themeIndex = DEFAULT_THEME;

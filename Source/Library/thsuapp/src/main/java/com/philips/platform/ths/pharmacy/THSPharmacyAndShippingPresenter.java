@@ -1,20 +1,12 @@
 package com.philips.platform.ths.pharmacy;
 
-import com.americanwell.sdk.entity.Address;
-import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.pharmacy.Pharmacy;
-import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
-import com.philips.platform.ths.registration.THSConsumer;
-import com.philips.platform.ths.utility.THSManager;
 
-public class THSPharmacyAndShippingPresenter implements THSBasePresenter,THSPreferredPharmacyCallback, THSConsumerShippingAddressCallback {
+public class THSPharmacyAndShippingPresenter implements THSBasePresenter{
 
     private THSPharmacyShippingViewInterface thsBaseView;
-    private THSConsumer thsConsumer;
-    private Pharmacy pharmacy;
 
     public THSPharmacyAndShippingPresenter(THSPharmacyShippingViewInterface thsBaseView){
         this.thsBaseView = thsBaseView;
@@ -22,47 +14,14 @@ public class THSPharmacyAndShippingPresenter implements THSBasePresenter,THSPref
 
     @Override
     public void onEvent(int componentID) {
+        if (componentID == R.id.ps_edit_pharmacy) {
+            thsBaseView.startSearchPharmacy();
+        }
+        if (componentID == R.id.ps_edit_consumer_shipping_address) {
+            thsBaseView.startEditShippingAddress();
+        }
         if(componentID== R.id.ths_ps_continue_button){
             thsBaseView.addFragment(new THSInsuranceConfirmationFragment(),THSInsuranceConfirmationFragment.TAG,null);
         }
-
-    }
-
-    public void fetchConsumerPreferredPharmacy(THSConsumer thsConsumer){
-        this.thsConsumer = thsConsumer;
-        try {
-            THSManager.getInstance().getConsumerPreferredPharmacy(thsBaseView.getFragmentActivity(),thsConsumer,this);
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void getConsumerShippingAddress(THSConsumer thsConsumer){
-        try {
-            THSManager.getInstance().getConsumerShippingAddress(thsBaseView.getFragmentActivity(),thsConsumer,this);
-        } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onPharmacyReceived(Pharmacy pharmacy, SDKError sdkError) {
-        this.pharmacy = pharmacy;
-        getConsumerShippingAddress(thsConsumer);
-
-    }
-
-    @Override
-    public void onSuccessfulFetch(Address address, SDKError sdkError) {
-        if(null != address) {
-            thsBaseView.onSuccessUpdateFragmentView(pharmacy, address);
-        }
-        else {
-            thsBaseView.onFailureCallSearchPharmacy(address);
-        }
-    }
-
-    @Override
-    public void onFailure(Throwable throwable) {
     }
 }

@@ -30,6 +30,12 @@
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
+    <style name="DialogFragmentTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
     <style name="amwellCentralesansBoldFont">
         <item name="fontPath">fonts/centralesansbold.ttf</item>
     </style>

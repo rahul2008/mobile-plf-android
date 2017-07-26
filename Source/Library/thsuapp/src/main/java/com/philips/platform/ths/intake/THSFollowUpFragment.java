@@ -203,7 +203,9 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
         public void onLocationChanged(Location location) {
             Log.v("Location", "Lon : " + location.getLongitude() + "::::Lat : " + location.getLatitude());
             updatedLocation = location;
+            mLocationManager = null;
             callPharmacyListFragment(location);
+
 
         }
 

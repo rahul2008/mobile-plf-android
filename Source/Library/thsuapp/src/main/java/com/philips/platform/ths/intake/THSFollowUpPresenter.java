@@ -15,7 +15,6 @@ import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
 import com.philips.platform.ths.utility.THSManager;
 
-
 import java.util.List;
 import java.util.Map;
 
@@ -35,8 +34,9 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.pth_intake_follow_up_continue_button) {
+
             if (null != ((THSFollowUpFragment) uiBaseView).mPhoneNumberEditText.getText() && !((THSFollowUpFragment) uiBaseView).mPhoneNumberEditText.getText().toString().isEmpty()) {
-                acceptLegalText();// required for visit context
+                acceptLegalText();
                 updateConsumer(((THSFollowUpFragment) uiBaseView).mPhoneNumberEditText.getText().toString().trim());
             }
             // uiBaseView.addFragment(new THSInsuranceConfirmationFragment(), THSInsuranceConfirmationFragment.TAG, null);
@@ -52,6 +52,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
             legalText.setAccepted(true);
         }
     }
+
 
     protected void updateConsumer(String updatedPhoner) {
 

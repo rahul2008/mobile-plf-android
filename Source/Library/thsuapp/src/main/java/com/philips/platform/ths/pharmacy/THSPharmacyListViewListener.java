@@ -9,7 +9,7 @@ import java.util.List;
 public interface THSPharmacyListViewListener extends THSBaseView{
 
     void updatePharmacyListView(List<Pharmacy> pharmacies);
-    void validateForMailOrder();
+    void validateForMailOrder(Pharmacy pharmacy);
     void switchView();
     void showRetailView();
     void showMailOrderView();
