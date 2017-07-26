@@ -16,6 +16,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Random;
 
 
 /**
@@ -46,6 +47,30 @@ public class SecureStorageTest extends AppInfraInstrumentation {
         assertFalse(mSecureStorage.storeValueForKey(null, "value", sse));
         assertEquals(sse.getErrorCode(), SecureStorageInterface.SecureStorageError.secureStorageError.UnknownKey);
 
+    }
+
+    public void testStoringFetchingRandomValue() {
+        SecureStorageInterface.SecureStorageError sse = new SecureStorageInterface.SecureStorageError();
+        String s = generateRandomNumber(3000);
+        int randomInt = Integer.parseInt(s);
+        String random_key = mSecureStorage.fetchValueForKey("random_key", sse);
+        if (random_key != null) {
+            Integer data = Integer.parseInt(random_key);
+            assertNotNull(data);
+        } else {
+            boolean isStored = mSecureStorage.storeValueForKey("random_key", String.valueOf(randomInt), sse);
+            assertTrue(isStored);
+            random_key = mSecureStorage.fetchValueForKey("random_key", sse);
+            Integer data = Integer.parseInt(random_key);
+            assertNotNull(data);
+            assertEquals(randomInt, data.intValue());
+        }
+    }
+
+    private String generateRandomNumber(int charLength) {
+        return String.valueOf(charLength < 1 ? 0 : new Random()
+                .nextInt((9 * (int) Math.pow(10, charLength - 1)) - 1)
+                + (int) Math.pow(10, charLength - 1));
     }
 
     public void testForEmptyKey() {
