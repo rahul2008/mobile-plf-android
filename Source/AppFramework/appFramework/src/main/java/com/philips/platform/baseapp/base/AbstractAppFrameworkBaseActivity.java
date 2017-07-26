@@ -21,6 +21,7 @@ import com.philips.platform.baseapp.screens.utility.Constants;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.referenceapp.PushNotificationManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
@@ -43,7 +44,9 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        UIDHelper.init(new ThemeConfiguration(this,ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT));
+       // UIDHelper.init(new ThemeConfiguration(this,ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT));
+        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
+
         getTheme().applyStyle(R.style.Theme_Philips_DarkBlue_NoActionBar, true);
         super.onCreate(savedInstanceState);
     }

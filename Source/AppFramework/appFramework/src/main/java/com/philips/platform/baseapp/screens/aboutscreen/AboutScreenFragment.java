@@ -26,9 +26,11 @@ import com.philips.platform.baseapp.screens.utility.RALog;
  * Latest version
  */
 
-public class AboutScreenFragment extends AbstractAppFrameworkBaseFragment
-{
-    public static final String TAG =AboutScreenFragment.class.getSimpleName();
+public class AboutScreenFragment extends AbstractAppFrameworkBaseFragment implements AboutScreenContract.View {
+
+    public static final String TAG = AboutScreenFragment.class.getSimpleName();
+
+    private AboutScreenContract.Action aboutScreenActionListener;
 
     @Override
     public void onResume() {
@@ -38,24 +40,36 @@ public class AboutScreenFragment extends AbstractAppFrameworkBaseFragment
     }
 
     protected void updateActionBar() {
-        ((AbstractAppFrameworkBaseActivity)getActivity()).updateActionBarIcon(false);
+        ((AbstractAppFrameworkBaseActivity) getActivity()).updateActionBarIcon(false);
     }
 
     @Override
     public String getActionbarTitle() {
         return getResources().getString(R.string.RA_AboutScreen_Title);
     }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        aboutScreenActionListener=new AboutScreenPresenter(getActivity(),this);
+    }
+
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.uikit_about_screen, container, false);
-        TextView  version =(TextView)view.findViewById(R.id.about_version);
-        version.setText(getResources().getString(R.string.RA_About_App_Version) +BuildConfig.VERSION_NAME);
-        TextView  content =(TextView)view.findViewById(R.id.about_content);
+        TextView version = (TextView) view.findViewById(R.id.about_version);
+        version.setText(getResources().getString(R.string.RA_About_App_Version) + BuildConfig.VERSION_NAME);
+        TextView content = (TextView) view.findViewById(R.id.about_content);
         content.setText(R.string.RA_About_Description);
+        TextView termsAndConditionsTextView = (TextView) view.findViewById(R.id.about_terms);
+        termsAndConditionsTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                aboutScreenActionListener.loadTermsAndConditions();
+            }
+        });
         startAppTagging(TAG);
         return view;
 
     }
-
 }

@@ -65,9 +65,9 @@
     <string name="RA_location">Notes</string>
     <string name="RA_location_hint">Location Name</string>
     <string name="RA_save">Save</string>
-    <string name="RA_synced" >Not Synced</string>
+    <string name="RA_synced">Not Synced</string>
     <string name="RA_create_moment">Create moment</string>
-    <string name="RA_invalid_temperature" >Invalid temperature entry</string>
+    <string name="RA_invalid_temperature">Invalid temperature entry</string>
     <string name="RA_consent">User Consents</string>
     <string name="RA_set_characteristics">User Characteristics</string>
     <string name="RA_view_characteristics">View Characteristics</string>
@@ -77,9 +77,6 @@
     <string name="RA_something_wrong">Something went wrong</string>
     <string name="RA_DebugAndTestScreen_Title">Debug and Test</string>
     <string name="RA_Debug_and_Test_Menu_Title">Debug and Test</string>
-
-
-
 
 
     <string-array name="metrics" translatable="false">
@@ -213,7 +210,7 @@
     <string name="RA_Empty_Invalid_Data">Data field is empty or invalid</string>
     <string name="RA_Invalid_Param_Msg">You have entered or selected invalid parameter values. Please select appropiate parameter values  and launch again</string>
     <string name="RA_NO_Order_History">Order History Not Available</string>
-<string name="RA_PR_Benefit_Text">Extend your warranty for 24 months.
+    <string name="RA_PR_Benefit_Text">Extend your warranty for 24 months.
 Receive 10% discount in the Philips.
 Receive free product accessories</string>
     <string name="RA_PR_Extentende_Warranty">Your warranty period has been extended until next year</string>
@@ -251,6 +248,10 @@ Receive free product accessories</string>
 
     <string name="chapters" translatable="false">Chapters</string>
     <string name="common_components" translatable="false">Common Components</string>
+    <string name="global_terms_link" translatable="false">Terms and conditions</string>
+    <string name="global_privacy_link" translatable="false">Privacy notice</string>
+    <string name="description_close" translatable="false">Close</string>
 
-    <string name="RA_DLS_splash_title">&lt;b>CDP&lt;/b>&lt;sup>&lt;small>2&lt;/small>&lt;/sup> Reference App\t</string>
+
+    <string name="RA_DLS_splash_title" translatable="false">&lt;b>CDP&lt;/b>&lt;sup>&lt;small>2&lt;/small>&lt;/sup> Reference App\t</string>
 </resources>
