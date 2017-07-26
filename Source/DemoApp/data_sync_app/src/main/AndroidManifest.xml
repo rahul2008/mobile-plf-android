@@ -12,8 +12,7 @@
         android:resizeableActivity="true"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        tools:replace="android:label">
+        android:theme="@style/AppTheme">
 
         <activity
             android:name=".LauncherActivity"
