@@ -2,12 +2,18 @@ package com.philips.platform.prdemoapp;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
 
 
 public class PRDemoActivity extends AppCompatActivity {
@@ -22,11 +28,16 @@ public class PRDemoActivity extends AppCompatActivity {
 
                 PRDemoAppuAppInterface uAppInterface = new PRDemoAppuAppInterface();
                 uAppInterface.init(new PRDemoAppuAppDependencies(PRUiHelper.getInstance().getAppInfraInstance()), new PRDemoAppuAppSettings(PRDemoActivity.this));// pass App-infra instance instead of null
-                uAppInterface.launch(new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, 0), null);// pass launch input if required
+                ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, getDlsThemeConfiguration(),R.style.Theme_DLS_Aqua_VeryDark, null);
+                uAppInterface.launch(uiLauncher, null);// pass launch input if required
 
             }
         });
+    }
 
+    @NonNull
+    private ThemeConfiguration getDlsThemeConfiguration() {
+        return new ThemeConfiguration(this, ColorRange.GROUP_BLUE, NavigationColor.BRIGHT, ContentColor.VERY_DARK, AccentRange.GROUP_BLUE);
     }
 
 }

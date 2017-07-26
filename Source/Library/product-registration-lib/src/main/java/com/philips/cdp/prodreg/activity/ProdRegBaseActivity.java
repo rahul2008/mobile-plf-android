@@ -77,7 +77,8 @@ public class ProdRegBaseActivity extends UiKitActivity {
         if (theme <= 0)
             theme = DEFAULT_THEME;
 
-        setTheme(theme);
+// UITHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT));
+          setTheme(theme);
     }
 
     @Override

@@ -16,15 +16,22 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.uikit.UiKitActivity;
+import com.philips.platform.prdemoapp.PRDemoAppuAppInterface;
 import com.philips.platform.prdemoapp.fragment.LaunchFragment;
+import com.philips.platform.prdemoapp.utils.ThemeHelper;
 import com.philips.platform.prdemoapplibrary.R;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.utils.UIDActivity;
+import com.shamanland.fonticon.FontIconTypefaceHolder;
 
-public class MainActivity extends UiKitActivity {
+public class MainActivity extends UIDActivity {
 
     private FragmentManager fragmentManager;
     private TextView mTitleTextView;
     private Handler mSiteCatListHandler = new Handler();
+    private ThemeHelper themeHelper;
 
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
 
@@ -44,6 +51,9 @@ public class MainActivity extends UiKitActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+       // initTheme();
+        setTheme(PRDemoAppuAppInterface.DLS_THEME);
+        UIDHelper.init(PRDemoAppuAppInterface.THEME_CONFIGURATION);
         super.onCreate(savedInstanceState);
         initCustomActionBar();
         setContentView(R.layout.activity_test_ur);
@@ -131,5 +141,18 @@ public class MainActivity extends UiKitActivity {
             mTitleTextView.setText(titleId);
         else
             super.setTitle(titleId);
+    }
+
+    protected  void initTheme(){
+        UIDHelper.injectCalligraphyFonts();
+        themeHelper = new ThemeHelper(this);
+        ThemeConfiguration config = themeHelper.getThemeConfig();
+        setTheme(themeHelper.getThemeResourceId());
+        UIDHelper.init(config);
+        FontIconTypefaceHolder.init(getAssets(),"digitalcarefonts/CCIcon.ttf");
+    }
+
+    protected void changeTheme(){
+        themeHelper.changeTheme();
     }
 }
