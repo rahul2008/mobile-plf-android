@@ -1,3 +1,6 @@
 [submodule "Source/common"]
 	path = Source/common
 	url = ssh://git@bitbucket.atlas.philips.com:7999/con/project-common.git
+[submodule "Source/Library/commlib-integration-tests/src/test/features"]
+	path = Source/Library/commlib-integration-tests/src/test/features
+	url = ssh://git@bitbucket.atlas.philips.com:7999/com/commlib-bdd.git
