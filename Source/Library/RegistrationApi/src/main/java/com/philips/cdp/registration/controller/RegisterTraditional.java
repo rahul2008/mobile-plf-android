@@ -26,10 +26,13 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import javax.inject.Inject;
 
 public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler, JumpFlowDownloadStatusListener, TraditionalRegistrationHandler {
 
@@ -43,6 +46,9 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
     private DIUserProfile mProfile;
 
+    @Inject
+    ServiceDiscoveryInterface serviceDiscoveryInterface;
+
     public RegisterTraditional(TraditionalRegistrationHandler traditionalRegisterHandler,
                                Context context, UpdateUserRecordHandler updateUserRecordHandler) {
         mTraditionalRegisterHandler = traditionalRegisterHandler;
@@ -54,8 +60,8 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
     public void onSuccess() {
         Jump.saveToDisk(mContext);
         mUpdateUserRecordHandler.updateUserRecordRegister();
-        ThreadUtils.postInMainThread(mContext,()->
-        mTraditionalRegisterHandler.onRegisterSuccess());
+        ThreadUtils.postInMainThread(mContext, () ->
+                mTraditionalRegisterHandler.onRegisterSuccess());
     }
 
     @Override
@@ -65,7 +71,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
     @Override
     public void onFailure(SignInError error) {
-        try{
+        try {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setError(error.captureApiError);
             if (error.captureApiError.code == -1) {
@@ -73,10 +79,10 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
             }
             handleInvalidInputs(error.captureApiError, userRegistrationFailureInfo);
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
-            ThreadUtils.postInMainThread(mContext,()->
-            mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo));
-        }catch (Exception e){
-            Log.e("Exception :","SignInError :"+e.getMessage());
+            ThreadUtils.postInMainThread(mContext, () ->
+                    mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo));
+        } catch (Exception e) {
+            Log.e("Exception :", "SignInError :" + e.getMessage());
         }
 
     }
@@ -132,9 +138,9 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
         mProfile = new DIUserProfile();
         mProfile.setGivenName(mGivenName);
-        if (FieldsValidator.isValidEmail(mUserEmailorMobile)){
+        if (FieldsValidator.isValidEmail(mUserEmailorMobile)) {
             mProfile.setEmail(mUserEmailorMobile);
-        }else {
+        } else {
             mProfile.setMobile(mUserEmailorMobile);
         }
         mProfile.setPassword(password);
@@ -174,6 +180,11 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
                         .put("password", mProfile.getPassword())
                         .put("olderThanAgeLimit", mProfile.getOlderThanAgeLimit())
                         .put("receiveMarketingEmail", mProfile.getReceiveMarketingEmail());
+
+
+                addifRussia(newUser);
+
+
             } catch (JSONException e) {
                 Log.e(LOG_TAG, "On registerNewUserUsingTraditional,Caught JSON Exception");
             }
@@ -183,8 +194,22 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
             userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
-            ThreadUtils.postInMainThread(mContext,()->
-            mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo));
+            ThreadUtils.postInMainThread(mContext, () ->
+                    mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo));
+        }
+    }
+
+    private void addifRussia(JSONObject newUser) {
+        String currentCountry = serviceDiscoveryInterface.getHomeCountry();
+        if (currentCountry.equalsIgnoreCase("RU")) {
+            try {
+                JSONObject one = new JSONObject();
+                one.put("one", "true");
+                JSONObject control = new JSONObject();
+                control.put("controlFields", one);
+                newUser.put("janrain", control);
+            } catch (Exception e) {
+            }
         }
     }
 
@@ -205,8 +230,8 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
             userRegistrationFailureInfo.setErrorCode(RegConstants.REGISTER_TRADITIONAL_FAILED_SERVER_ERROR);
-            ThreadUtils.postInMainThread(mContext,()->
-            mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo));
+            ThreadUtils.postInMainThread(mContext, () ->
+                    mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo));
         }
 
     }
@@ -214,13 +239,13 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
     @Override
     public void onRegisterSuccess() {
-        ThreadUtils.postInMainThread(mContext,()->
-        mTraditionalRegisterHandler.onRegisterSuccess());
+        ThreadUtils.postInMainThread(mContext, () ->
+                mTraditionalRegisterHandler.onRegisterSuccess());
     }
 
     @Override
     public void onRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        ThreadUtils.postInMainThread(mContext,()->
-        mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo));
+        ThreadUtils.postInMainThread(mContext, () ->
+                mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo));
     }
 }
