@@ -62,7 +62,6 @@ public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragme
     public void onClick(View view) {
         int viewId = view.getId();
         if(viewId == R.id.calendar_container){
-            createCustomProgressBar(mRelativelayout,BIG);
            thsAvailableDetailProviderPresenter.onEvent(R.id.calendar_container);
         }
     }

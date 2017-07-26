@@ -14,6 +14,8 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.R;
+import com.philips.platform.uid.view.widget.NotificationBadge;
 import com.philips.platform.uid.view.widget.RatingBar;
 
 import java.util.List;
@@ -38,6 +40,8 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
         public RatingBar providerRating;
         public ImageView providerImage;
         public RelativeLayout relativeLayout;
+        public NotificationBadge notificationBadge;
+        public ImageView greenTick;
 
         public MyViewHolder(View view) {
             super(view);
@@ -47,6 +51,8 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
             providerRating = (RatingBar) view.findViewById(R.id.providerRating);
             providerImage = (ImageView) view.findViewById(R.id.providerImage);
             relativeLayout = (RelativeLayout) view.findViewById(R.id.providerListItemLayout);
+            notificationBadge = (NotificationBadge) view.findViewById(R.id.notification_badge);
+            greenTick = (ImageView) view.findViewById(R.id.isAvailableImage);
 
         }
     }
@@ -69,7 +75,13 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
             THSAvailableProvider thsAvailableProvider = (THSAvailableProvider) thsProviderInfos.get(position);
             thsProviderInfo = new THSProviderInfo();
             thsProviderInfo.setTHSProviderInfo(thsAvailableProvider.getProviderInfo());
-            holder.isAvailble.setText(""+thsAvailableProvider.getAvailableAppointmentTimeSlots().size() + " Available timeslots");
+            holder.isAvailble.setText("Available timeslots");
+            holder.greenTick.setVisibility(View.GONE);
+            holder.notificationBadge.setVisibility(View.VISIBLE);
+            holder.notificationBadge.setText(""+thsAvailableProvider.getAvailableAppointmentTimeSlots().size());
+
+            RelativeLayout.LayoutParams layoutParams=(RelativeLayout.LayoutParams)holder.isAvailble.getLayoutParams();
+            layoutParams.addRule(RelativeLayout.RIGHT_OF,R.id.notification_badge);
         }
 
 

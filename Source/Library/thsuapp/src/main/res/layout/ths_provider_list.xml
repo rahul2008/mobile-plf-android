@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/providerListItemLayout"
-    >
+    android:id="@+id/providerListItemLayout">
 <ImageView
     android:id="@+id/providerImage"
     android:layout_marginStart="@dimen/uid_label_margin_start"
@@ -53,6 +54,17 @@
                 android:textColor="?attr/uidLabelValueNormalTextColor"
                 android:textSize="@dimen/uid_grid_descrption_size"
                 android:text="Available Now"/>
+
+            <com.philips.platform.uid.view.widget.NotificationBadge
+                android:id="@+id/notification_badge"
+                android:layout_marginTop="@dimen/uid_alert_dialog_title_icon_padding"
+                style="@style/NotificationBadge"
+                app:backgroundTint="?attr/uidColorLevel45"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="2"/>
+
             <ImageView
                 android:id="@+id/isAvailableImage"
                 android:layout_marginTop="@dimen/uid_alert_dialog_title_icon_padding"
@@ -80,6 +92,7 @@
         android:src="@mipmap/right_arrow_icon"
         android:layout_alignParentEnd="true" />
     <View android:background="@color/uid_gray_level_5"
+        android:id="@+id/end_layer"
         android:layout_below="@+id/providerDetailLayout"
         android:layout_width = "match_parent"
         android:layout_height="1dp"

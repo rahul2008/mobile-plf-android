@@ -19,8 +19,8 @@ import com.philips.platform.ths.R;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
-//TODO: Review Comment - Spoorti - Do not implement THSGetConsumerObjectCallBack in WelcomePresenter
-//TODO: Review Comment - Spoorti - Can we rename THSGetConsumerObjectCallBack to PTHGetConsumerCallBack?
+
+
 public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallBack<Void,THSSDKError>, THSLoginCallBack<THSAuthentication,THSSDKError>,THSGetConsumerObjectCallBack {
     THSBaseFragment uiBaseView;
     private Consumer consumer;
@@ -110,24 +110,17 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
         uiBaseView.hideProgressBar();
     }
 
-    //TODO: Review Comment - Spoorti - move to the relevant presenter
-    //TODO: Review Comment - Spoorti - use bundle to pass arguments to fragment instead od setter. Use THSBaseView.addFragment for replacing the fragment
     @Override
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
 
         this.consumer = consumer;
-        //setting PTHconsumer  in THSManager so any presenter/fragment can access it
+        //setting PTHconsumer  in singleton THSManager so any presenter/fragment can access it
         THSConsumer THSConsumer = new THSConsumer();
         THSConsumer.setConsumer(consumer);
         THSManager.getInstance().setPTHConsumer(THSConsumer);
         uiBaseView.hideProgressBar();
         AmwellLog.d("Login","Consumer object received");
-        THSPracticeFragment PTHPracticeFragment = new THSPracticeFragment();
-        PTHPracticeFragment.setConsumer(consumer);
-       /* THSPracticeFragment.setActionBarListener(((THSWelcomeFragment) uiBaseView).getActionBarListener());
-        uiBaseView.getFragmentActivity().getSupportFragmentManager().beginTransaction().replace(uiBaseView.getContainerID(), THSPracticeFragment,"THSPracticeList List").addToBackStack(null).commit();*/
-
-       uiBaseView.addFragment(PTHPracticeFragment,PTHPracticeFragment.TAG,null);
+         uiBaseView.addFragment(new THSPracticeFragment(),THSPracticeFragment.TAG,null);
 
     }
 

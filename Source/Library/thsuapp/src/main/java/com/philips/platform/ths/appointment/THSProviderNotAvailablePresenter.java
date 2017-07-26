@@ -5,13 +5,16 @@ import android.os.Bundle;
 import android.widget.DatePicker;
 
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.base.THSBasePresenterHelper;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsCallback;
+import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSConstants;
@@ -46,12 +49,36 @@ public class THSProviderNotAvailablePresenter implements THSBasePresenter{
 
                     ((THSProviderNotAvailableFragment)mThsBaseFragment).setDate(date);
 
-                   //TODO: Take decision and Launch the Fragment
-                    mThsBaseFragment.showToast("Not yet Implemented - Coming Soon!");
+                   launchProviderDetailsBasedOnAvailibilty(((THSProviderNotAvailableFragment)mThsBaseFragment).getPractice(),
+                           ((THSProviderNotAvailableFragment)mThsBaseFragment).mDate,((THSProviderNotAvailableFragment)mThsBaseFragment).getThsProviderEntity());
 
                 }
             };
             thsDatePickerFragmentUtility.showDatePicker(onDateSetListener);
         }
     }
+
+    private void launchProviderDetailsBasedOnAvailibilty(final Practice practice, final Date date, final THSProviderEntity thsProviderEntity) {
+        try {
+            THSManager.getInstance().getAvailableProvidersBasedOnDate(mThsBaseFragment.getContext(), practice, null, null, date, null, new THSAvailableProvidersBasedOnDateCallback<THSAvailableProviderList, THSSDKError>() {
+                @Override
+                public void onResponse(THSAvailableProviderList availableProviders, THSSDKError sdkError) {
+                    if(availableProviders.getAvailableProvidersList()==null || availableProviders.getAvailableProvidersList().size()==0){
+                        ((THSProviderNotAvailableFragment)mThsBaseFragment).updateProviderDetails(availableProviders);
+                    }else {
+                        final THSBasePresenterHelper thsBasePresenterHelper = new THSBasePresenterHelper();
+                        thsBasePresenterHelper.launchAvailableProviderDetailFragment(mThsBaseFragment,thsProviderEntity,date,practice);
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+
+                }
+            });
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

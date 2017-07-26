@@ -17,12 +17,15 @@ import com.americanwell.sdk.entity.consumer.Gender;
 import com.americanwell.sdk.entity.insurance.Subscription;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBaseView;
+import com.philips.platform.ths.intake.THSFollowUpFragment;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -34,7 +37,7 @@ import static org.junit.Assert.assertNotNull;
 public class THSPracticePresenterTest {
 
     Method mMethod;
-    THSBaseView mUIBaseView;
+    THSPracticeFragment mUIBaseView;
     THSPracticePresenter mTHSPracticePresenter;
     Consumer mConsumer;
 
@@ -168,8 +171,8 @@ public class THSPracticePresenterTest {
             }
         };
 
-        mUIBaseView = new THSBaseFragment();
-        mTHSPracticePresenter = new THSPracticePresenter(mUIBaseView, mConsumer);
+        mUIBaseView = new THSPracticeFragment();
+        mTHSPracticePresenter = new THSPracticePresenter(mUIBaseView);
         assertNotNull(mTHSPracticePresenter);
 
 
@@ -177,7 +180,7 @@ public class THSPracticePresenterTest {
 
 
 
-   /* @Test
+    @Test
     public void fetchPracticeTestForNull()  {
         try {
             mMethod = THSPracticePresenter.class.getDeclaredMethod("fetchPractices");
@@ -187,7 +190,7 @@ public class THSPracticePresenterTest {
             e.printStackTrace();
         }
     }
-*/
+
 
 
 }

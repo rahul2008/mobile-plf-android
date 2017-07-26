@@ -2,6 +2,7 @@ package com.philips.platform.ths.pharmacy;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
 
 public class THSPharmacyAndShippingPresenter implements THSBasePresenter{
 
@@ -18,6 +19,9 @@ public class THSPharmacyAndShippingPresenter implements THSBasePresenter{
         }
         if (componentID == R.id.ps_edit_consumer_shipping_address) {
             thsBaseView.startEditShippingAddress();
+        }
+        if(componentID== R.id.ths_ps_continue_button){
+            thsBaseView.addFragment(new THSInsuranceConfirmationFragment(),THSInsuranceConfirmationFragment.TAG,null);
         }
     }
 }

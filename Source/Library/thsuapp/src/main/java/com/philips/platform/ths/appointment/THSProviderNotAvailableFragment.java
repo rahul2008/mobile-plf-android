@@ -17,9 +17,12 @@ import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.NotificationBadge;
 import com.philips.platform.uid.view.widget.RatingBar;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class THSProviderNotAvailableFragment extends THSAvailableProviderListBasedOnDateFragment implements View.OnClickListener{
     public static final String TAG = THSProviderNotAvailableFragment.class.getSimpleName();
@@ -27,7 +30,7 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
     private Provider mProvider;
     private THSProviderEntity mThsProviderEntity;
     private THSProviderNotAvailablePresenter mThsProviderNotAvailablePresenter;
-    View mChangeAppointDateView;
+    Label mChangeAppointDateView;
 
     @Nullable
     @Override
@@ -37,7 +40,7 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
             getActionBarListener().updateActionBar(getString(R.string.ths_select_date_and_time), true);
         }
 
-        mChangeAppointDateView = view.findViewById(R.id.calendar_view);
+        mChangeAppointDateView = (Label) view.findViewById(R.id.calendar_view);
         mChangeAppointDateView.setOnClickListener(this);
 
         Bundle bundle = getArguments();
@@ -56,13 +59,34 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
         this.mProvider = mProvider;
     }
 
-    public void updateProviderDetails(View view) {
+    public void updateProviderDetails(THSAvailableProviderList availableProviders) {
+        View view = getView();
         if(view == null)
             return;
         Label label = (Label) view.findViewById(R.id.schedule_appointment);
         label.setVisibility(View.GONE);
         RelativeLayout detailsContainer = (RelativeLayout) view.findViewById(R.id.details_container);
         detailsContainer.setVisibility(View.VISIBLE);
+
+        mChangeAppointDateView.setText(new SimpleDateFormat(THSConstants.DATE_FORMATTER, Locale.getDefault()).format(mDate));
+
+        View viewEndLayer = view.findViewById(R.id.end_layer);
+        viewEndLayer.setVisibility(View.GONE);
+
+        Label labelAvailableDocs = (Label) view.findViewById(R.id.isAvailableLabel);
+
+        RelativeLayout.LayoutParams layoutParams=(RelativeLayout.LayoutParams)labelAvailableDocs.getLayoutParams();
+        layoutParams.addRule(RelativeLayout.RIGHT_OF,R.id.notification_badge);
+
+        labelAvailableDocs.setText("Available time slots");
+
+        ImageView greenTick = (ImageView)view.findViewById(R.id.isAvailableImage);
+        greenTick.setVisibility(View.GONE);
+
+        NotificationBadge notificationBadge = (NotificationBadge) view.findViewById(R.id.notification_badge);
+        notificationBadge.setVisibility(View.VISIBLE);
+
+        notificationBadge.setText("" + availableProviders.getAvailableProvidersList().size());
 
         ImageView imageView = (ImageView) view.findViewById(R.id.providerImage);
 

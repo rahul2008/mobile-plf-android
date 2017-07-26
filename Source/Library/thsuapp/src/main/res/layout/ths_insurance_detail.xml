@@ -1,0 +1,190 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:fillViewport="true">
+
+    <RelativeLayout
+        android:id="@+id/ths_insurance_detail_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:layout_marginLeft="@dimen/pth_fab_margin"
+        android:layout_marginRight="@dimen/pth_fab_margin">
+
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_insurance_detail_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/pth_margin_top"
+            android:text="Please fill your insurance details"
+            android:textColor="?attr/uidLabelRegularNormalTextColor"
+            android:textSize="@dimen/pth_title_text"
+            android:textStyle="bold" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_insurance_detail_search_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ths_insurance_detail_label"
+            android:layout_marginTop="@dimen/pth_margin_top_large"
+            android:text="Insurance Provider"
+            android:textColor="?attr/uidLabelRegularNormalTextColor"
+            android:textSize="@dimen/pth_body_text" />
+
+        <com.philips.platform.uid.view.widget.EditText
+            android:id="@+id/ths_insurance_detail_provider_select_insurance_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ths_insurance_detail_search_label"
+            android:drawableRight="@mipmap/right_arrow_icon"
+            android:focusable="false"
+            android:hint="Please select"
+            android:textColor="@color/awsdk_color_black"
+
+            >
+
+        </com.philips.platform.uid.view.widget.EditText>
+
+
+       <!-- <ListView
+            android:id="@+id/pth_insurance_detail_provider_list"
+            android:layout_below="@+id/ths_insurance_detail_provider_select_insurance_edit_text"
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:visibility="gone">
+
+        </ListView>-->
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_insurance_detail_edit_text_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ths_insurance_detail_provider_select_insurance_edit_text"
+            android:layout_marginTop="40dp"
+            android:text="Subscription ID"
+            android:textColor="?attr/uidLabelRegularNormalTextColor"
+            android:textSize="@dimen/pth_body_text" />
+
+        <com.philips.platform.uid.view.widget.EditText
+            android:id="@+id/ths_insurance_detail_subscription_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ths_insurance_detail_edit_text_label" />
+
+        <com.philips.platform.uid.view.widget.CheckBox
+            android:id="@+id/ths_insurance_detail_is_primary_subscriber_checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ths_insurance_detail_subscription_edit_text"
+
+            android:layout_marginTop="@dimen/pth_margin_top"
+            android:checked="false"
+            android:text="I'm not the primary subscriber" />
+
+        <RelativeLayout
+            android:id="@+id/ths_insurance_detail_relationship_relative_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ths_insurance_detail_is_primary_subscriber_checkbox"
+            android:layout_marginTop="@dimen/pth_margin_top"
+            android:visibility="gone">
+
+            <com.philips.platform.uid.view.widget.EditText
+                android:id="@+id/ths_insurance_detail_provider_select_relation_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="@dimen/pth_margin_between_ui_control"
+                android:drawableRight="@mipmap/right_arrow_icon"
+                android:focusable="false"
+                android:hint="Choose Relationship"
+                android:textColor="@color/awsdk_color_black"></com.philips.platform.uid.view.widget.EditText>
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ths_insurance_detail_provider_relation_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ths_insurance_detail_provider_select_relation_edit_text"
+                android:layout_marginBottom="@dimen/pth_margin_between_ui_control"
+                android:text="Primary subscriber details"
+                android:textSize="@dimen/pth_body_text"
+                android:textStyle="bold" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ths_insurance_detail_provider_relation_firstname_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ths_insurance_detail_provider_relation_label"
+
+                android:text="First Name" />
+
+            <com.philips.platform.uid.view.widget.EditText
+                android:id="@+id/ths_insurance_detail_provider_relation_firstname_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ths_insurance_detail_provider_relation_firstname_label"
+                android:layout_marginBottom="@dimen/pth_margin_between_ui_control" />
+
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ths_insurance_detail_provider_relation_lastname_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ths_insurance_detail_provider_relation_firstname_edittext"
+                android:text="Last Name" />
+
+            <com.philips.platform.uid.view.widget.EditText
+                android:id="@+id/ths_insurance_detail_provider_relation_lastname_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ths_insurance_detail_provider_relation_lastname_label"
+                android:layout_marginBottom="@dimen/pth_margin_between_ui_control" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/ths_insurance_detail_provider_relation_dob_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ths_insurance_detail_provider_relation_lastname_edittext"
+
+                android:text="Date of Birth" />
+
+            <com.philips.platform.uid.view.widget.EditText
+                android:id="@+id/ths_insurance_detail_provider_relation_dob_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ths_insurance_detail_provider_relation_dob_label"
+                android:layout_marginBottom="@dimen/pth_margin_between_ui_control"
+                android:focusable="false"
+                android:hint="DD/MM/YYYY"
+                android:drawableRight="@mipmap/calendar_icon" />
+
+        </RelativeLayout>
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/ths_insurance_detail_continue_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ths_insurance_detail_relationship_relative_layout"
+
+            android:layout_marginBottom="@dimen/pth_margin_between_buttons"
+
+            android:text="Continue" />
+
+        <com.philips.platform.uid.view.widget.Button
+            android:id="@+id/ths_insurance_detail_skip_button"
+            style="@style/UIDImageTextButton.Center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ths_insurance_detail_continue_button"
+            android:layout_marginBottom="@dimen/pth_margin_bottom"
+            android:text="Skip this"
+
+            />
+
+    </RelativeLayout>
+</ScrollView>

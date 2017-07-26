@@ -13,7 +13,14 @@
     <dimen name="pth_image_height">84dp</dimen>
     <dimen name="pth_image_width">84dp</dimen>
     <dimen name="pth_margin_top">10dp</dimen>
+    <dimen name="pth_margin_bottom">12dp</dimen>
     <dimen name="pth_margin_top_large">25dp</dimen>
+    <dimen name="pth_margin_between_buttons">16dp</dimen>
+    <dimen name="pth_margin_between_ui_control">10dp</dimen>
 
+    <dimen name="ths_list_item_height">48dp</dimen>
+    <dimen name="ths_list_height_height">40dp</dimen>
+    <dimen name="ths_body_text_padding">3dp</dimen>
+    <dimen name="ths_title_padding">4dp</dimen>
 
 </resources>

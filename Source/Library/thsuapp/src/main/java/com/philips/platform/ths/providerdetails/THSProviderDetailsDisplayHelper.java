@@ -12,13 +12,13 @@ import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.appointment.THSAvailableProviderDetailFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.NotificationBadge;
 import com.philips.platform.uid.view.widget.RatingBar;
 
 import java.text.SimpleDateFormat;
@@ -39,8 +39,8 @@ public class THSProviderDetailsDisplayHelper {
     RelativeLayout mTimeSlotContainer;
     THSExpandableHeightGridView gridView;
     protected SwipeRefreshLayout swipeRefreshLayout;
-    View calendarView;
     THSBaseFragment thsBaseFragment;
+    NotificationBadge notificationBadge;
 
     public THSProviderDetailsDisplayHelper(Context context, View.OnClickListener onClickListener,
                                     SwipeRefreshLayout.OnRefreshListener onRefreshListener,
@@ -62,6 +62,7 @@ public class THSProviderDetailsDisplayHelper {
         practiceName = (Label) view.findViewById(R.id.details_practiceNameLabel);
         isAvailable = (Label) view.findViewById(R.id.details_isAvailableLabel);
         isAvailableImage = (ImageView) view.findViewById(R.id.details_isAvailableImage);
+        notificationBadge = (NotificationBadge)view.findViewById(R.id.notification_badge);
         providerRating = (RatingBar) view.findViewById(R.id.providerRatingValue);
         spokenLanguageValueLabel = (Label) view.findViewById(R.id.spokenLanguageValueLabel);
         yearsOfExpValueLabel = (Label) view.findViewById(R.id.yearsOfExpValueLabel);
@@ -76,10 +77,9 @@ public class THSProviderDetailsDisplayHelper {
         detailsButtonOne.setOnClickListener(mOnClickListener);
         detailsButtonTwo.setOnClickListener(mOnClickListener);
         detailsButtonContinue.setOnClickListener(mOnClickListener);
-        mLabelDate = (Label) view.findViewById(R.id.date);
+        mLabelDate = (Label) view.findViewById(R.id.calendar_container);
+        mLabelDate.setOnClickListener(mOnClickListener);
         mTimeSlotContainer = (RelativeLayout) view.findViewById(R.id.calendar_container_view);
-        calendarView = view.findViewById(R.id.calendar_container);
-        calendarView.setOnClickListener(mOnClickListener);
     }
 
     public void updateView(Provider provider,List<Date> dates){
@@ -111,10 +111,17 @@ public class THSProviderDetailsDisplayHelper {
 
         if(dates!=null){
             mTimeSlotContainer.setVisibility(View.VISIBLE);
-            isAvailable.setText(""+dates.size() + " " + "Available time slots");
+            isAvailable.setText("Available time slots");
             mLabelDate.setText(new SimpleDateFormat(THSConstants.DATE_FORMATTER, Locale.getDefault()).
                     format(((THSAvailableProviderDetailFragment)thsBaseFragment).getDate()));
             setAppointmentsToView(dates);
+            isAvailableImage.setVisibility(View.GONE);
+            notificationBadge.setVisibility(View.VISIBLE);
+            notificationBadge.setText(String.valueOf(dates.size()));
+
+            RelativeLayout.LayoutParams layoutParams=(RelativeLayout.LayoutParams)isAvailableImage.getLayoutParams();
+            layoutParams.addRule(RelativeLayout.RIGHT_OF,R.id.notification_badge);
+
         }else {
             detailsButtonContinue.setVisibility(View.GONE);
             mTimeSlotContainer.setVisibility(View.GONE);

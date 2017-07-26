@@ -34,7 +34,6 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
     private Practice mPractice;
     private RecyclerView recyclerView;
     THSAvailableProviderList mTHSAvailableProviderList;
-    View mChangeAppointDateView;
     Label mLabelNumberOfAvailableDoctors;
     Label mLabelDate;
 
@@ -57,11 +56,9 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         mPractice = bundle.getParcelable(THSConstants.THS_PRACTICE_INFO);
         mTHSAvailableProviderListBasedOnDatePresenter = new THSAvailableProviderListBasedOnDatePresenter(this,this);
         recyclerView = (RecyclerView) view.findViewById(R.id.providerListRecyclerView);
-        mChangeAppointDateView = view.findViewById(R.id.calendar_view);
-        mChangeAppointDateView.setOnClickListener(this);
         mLabelNumberOfAvailableDoctors = (Label)view.findViewById(R.id.number_of_available_doctors);
-        mLabelDate = (Label) view.findViewById(R.id.date);
-
+        mLabelDate = (Label) view.findViewById(R.id.calendar_view);
+        mLabelDate.setOnClickListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         refreshView();

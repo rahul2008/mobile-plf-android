@@ -15,8 +15,7 @@
     android:id="@+id/symptoms_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    >
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/wizard_button"
@@ -33,9 +32,7 @@
         android:layout_marginBottom="20dp"
         android:layout_marginTop="16dp"
         android:text="@string/help_visit"
-        android:textColor="?attr/uidLabelRegularNormalTextColor"
-        style="@style/UIDLabelDescription"
-        android:textSize="16dp"
+        style="@style/ths_body_text"
         />
 
     <com.philips.platform.uid.view.widget.Label
@@ -45,9 +42,9 @@
         android:layout_below="@id/help_visit"
         android:layout_marginBottom="8dp"
         android:text="@string/visit_reason"
-        android:textColor="?attr/uidLabelRegularNormalTextColor"
-        style="@style/UIDAlertDialogTitleTextStyle"
-        android:textSize="16dp"
+        style="@style/ths_title_text"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         />
 
     <LinearLayout
@@ -55,6 +52,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/visit_reason"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:orientation="vertical">
 
     </LinearLayout>
@@ -66,18 +65,21 @@
         android:layout_below="@id/checkbox_container"
         android:text="@string/additional_reason"
         android:layout_marginBottom="16dp"
-        android:textColor="?attr/uidLabelRegularNormalTextColor"
-        style="@style/UIDLabelDescription"
+        style="@style/ths_list_item"
         />
 
+    <!-- TODO: Spoorti - Need to check what is text box filled style and change it-->
     <com.philips.platform.uid.view.widget.EditText
         android:id="@+id/edit_farenheit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:layout_below="@id/additional_comment"
         android:layout_marginBottom="24dp"
-        android:height="200dp"
         android:enabled="true"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:hint="@string/write_here" />
 
     <com.philips.platform.uid.view.widget.ImageButton
@@ -107,6 +109,11 @@
         android:layout_height="wrap_content"
         android:enabled="false"
         android:text="Continue"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="12dp"
         android:layout_marginBottom="16dp"
         android:layout_alignParentBottom="true"
         />

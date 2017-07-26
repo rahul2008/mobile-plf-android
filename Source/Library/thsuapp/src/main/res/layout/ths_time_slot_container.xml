@@ -11,18 +11,16 @@
     <com.philips.platform.uid.view.widget.Label
         android:layout_below="@+id/line_separator"
         android:id="@+id/select_time"
-        android:background="@color/uid_gray_level_5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/ths_select_time"
-        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
-        android:padding="@dimen/uid_grid_title_padding"
-        android:textColor="?attr/uidLabelValueNormalTextColor"
+        style="@style/ths_list_header"
+        android:padding="@dimen/pth_fab_margin"
         />
 
-    <include layout="@layout/calender_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/calendar_container"
+        style="@style/ths_calendar"
         android:layout_below="@id/select_time"
         />
 
@@ -31,6 +29,7 @@
         android:layout_width = "match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/calendar_container"
+        android:layout_marginBottom="20dp"
         />
 
     <com.philips.platform.ths.providerdetails.THSExpandableHeightGridView
@@ -39,11 +38,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:columnWidth="90dp"
-        android:numColumns="auto_fit"
-        android:verticalSpacing="10dp"
-        android:horizontalSpacing="5dp"
+        android:numColumns="3"
+        android:verticalSpacing="8dp"
+        android:horizontalSpacing="8dp"
         android:stretchMode="columnWidth"
         android:gravity="center"
         android:layout_marginBottom="20dp"
+        android:layout_marginEnd="@dimen/uid_recyclerview_margin_left_right"
+        android:layout_marginStart="@dimen/uid_recyclerview_margin_left_right"
         />
 </RelativeLayout>

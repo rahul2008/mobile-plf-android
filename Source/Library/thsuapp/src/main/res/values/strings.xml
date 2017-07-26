@@ -30,6 +30,8 @@
     <string name="inline_error_message_weight_value">Please Enter values between 0 and 500</string>
     <string name="ths_available_provider">Available Provider</string>
     <string name="ths_scedule_appointment">Schedule an appointment for</string>
+    <string name="ths_practice_pick_subject">"To start a consult, pick a subject"</string>
+
     <string name="ths_pick_time">Pick a time</string>
     <string name="ths_available_time_slots">Available time slots</string>
     <string name="ths_schedule_appointment_for">You have sceduled an appointment for</string>
@@ -40,8 +42,9 @@
     <string name="ths_no_available_appointments">No available appointments</string>h
     <string name="ths_select_date_and_time">Select date and time</string>
     <string name="ths_provider_details">Provider details</string>
+    <string name="ths_with">With:</string>
     <string name="ths_select_other_provider">Your selected provider has no appointments on this date. Please pick another date or choose from the available provider</string>
-h
+
     <string name="pth_webview_test"><html><p>The US and South Korea have held a ballistic missile drill, after North Korea tested a long-range missile experts believe may reach Alaska.
 Self-restraint was all that separated armistice and war and could be changed at any time, the two allies said.
 It would be a "grave mistake" for the North to think otherwise, they said.</p><p>China and Russia have urged the North to suspend its weapons programme in exchange for a halt to US-South Korean military exercises.

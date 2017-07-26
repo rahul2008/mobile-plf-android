@@ -52,7 +52,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.intake_follow_up, container, false);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_follow_up, container, false);
         mTHSFollowUpPresenter = new THSFollowUpPresenter(this);
         mPhoneNumberEditText = (EditText) view.findViewById(R.id.pth_intake_follow_up_phone_number);
         mFollowUpContiueButton = (ProgressBarButton) view.findViewById(R.id.pth_intake_follow_up_continue_button);
