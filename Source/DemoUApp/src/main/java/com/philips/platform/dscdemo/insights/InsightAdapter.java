@@ -37,7 +37,7 @@ public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightH
     }
 
     @Override
-    public void onBindViewHolder(InsightHolder holder, final int position) {
+    public void onBindViewHolder(final InsightHolder holder, int position) {
         final Insight insight = mInsightList.get(position);
         holder.mInsightID.setText(insight.getGUId());
         holder.mMomentID.setText(insight.getMomentId());
@@ -49,9 +49,10 @@ public class InsightAdapter extends RecyclerView.Adapter<InsightAdapter.InsightH
                 List<Insight> insightsToDelete = new ArrayList();
                 insightsToDelete.add(insight);
                 DataServicesManager.getInstance().deleteInsights(insightsToDelete, dbRequestListener);
-                mInsightList.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, getItemCount());
+                mInsightList.remove(holder.getAdapterPosition());
+                notifyItemRemoved(holder.getAdapterPosition());
+                notifyItemRangeChanged(holder.getAdapterPosition(), getItemCount());
+                notifyDataSetChanged();
                 notifyDataSetChanged();
             }
         });
