@@ -1,7 +1,6 @@
 package com.philips.platform.ths.providerdetails;
 
 import android.app.DatePickerDialog;
-import android.os.Build;
 import android.os.Bundle;
 import android.widget.DatePicker;
 
@@ -67,7 +66,9 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
             THSConsumer.setConsumer(viewInterface.getConsumerInfo());
             Bundle bundle = new Bundle();
             bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, viewInterface.getTHSProviderInfo());
-            mThsBaseFragment.addFragment(new THSSymptomsFragment(), THSSymptomsFragment.TAG, bundle);
+            THSSymptomsFragment thsSymptomsFragment = new THSSymptomsFragment();
+            thsSymptomsFragment.setConsumerObject(THSConsumer);
+            mThsBaseFragment.addFragment(thsSymptomsFragment, THSSymptomsFragment.TAG, bundle);
 
         } else if (componentID == R.id.detailsButtonTwo) {
             final THSDatePickerFragmentUtility thsDatePickerFragmentUtility = new THSDatePickerFragmentUtility(mThsBaseFragment);

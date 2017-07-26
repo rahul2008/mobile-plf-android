@@ -85,11 +85,11 @@
 
     </RelativeLayout>
 
-    <com.philips.platform.uid.view.widget.Label
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_greaterthan"
         android:layout_centerVertical="true"
+        android:src="@mipmap/right_arrow_icon"
         android:layout_alignParentEnd="true" />
     <View android:background="@color/uid_gray_level_5"
         android:id="@+id/end_layer"

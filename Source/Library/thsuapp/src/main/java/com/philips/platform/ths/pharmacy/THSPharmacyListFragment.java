@@ -54,7 +54,7 @@ import java.util.List;
 public class THSPharmacyListFragment extends THSBaseFragment implements OnMapReadyCallback, View.OnClickListener,
         SearchBox.ExpandListener, SearchBox.QuerySubmitListener,
         THSPharmacyListViewListener,
-        BackEventListener{
+        BackEventListener, THSUpdatePreferredPharmacy {
 
     private UIDNavigationIconToggler navIconToggler;
     private GoogleMap map;
@@ -79,6 +79,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     protected THSConsumer thsConsumer;
     protected Address address;
     private Location location;
+    private THSUpdatePreferredPharmacy updatePreferredPharmacy;
 
     @Nullable
     @Override
@@ -140,6 +141,10 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     public void setConsumerAndAddress(THSConsumer thsConsumer, Address address) {
         this.thsConsumer = thsConsumer;
         this.address = address;
+    }
+
+    public void setUpdateCallback(THSUpdatePreferredPharmacy updatePreferredPharmacy){
+        this.updatePreferredPharmacy = updatePreferredPharmacy;
     }
 
     public void setLocation(Location location){
@@ -236,6 +241,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
     }
+
 
     @Override
     public void onClick(View v) {
@@ -348,13 +354,20 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
      * If so then Shipping address screen should be shown compulsarily
      */
     @Override
-    public void validateForMailOrder() {
+    public void validateForMailOrder(Pharmacy pharmacy) {
+        this.pharmacy = pharmacy;
         if (pharmacy.getType() == PharmacyType.MailOrder) {
             THSShippingAddressFragment thsShippingAddressFragment = new THSShippingAddressFragment();
             thsShippingAddressFragment.setActionBarListener(getActionBarListener());
+            thsShippingAddressFragment.setUpdateShippingAddressCallback(this);
             thsShippingAddressFragment.setConsumerAndAddress(thsConsumer, address);
             getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), thsShippingAddressFragment, "ShippingAddressFragment").addToBackStack(null).commit();
         }
+        else {
+            updatePreferredPharmacy.updatePharmacy(pharmacy);
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
+
     }
 
     @Override
@@ -388,7 +401,13 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         /**create the camera with bounds and padding to set into map*/
         cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
 
-        map.animateCamera(cu);
+        map.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
+                map.animateCamera(cu);
+            }
+        });
+
     }
 
     private List<LatLng> addMarkerOptions(List<Pharmacy> pharmacies, Pharmacy pharmacy, boolean shouldReset) {
@@ -488,5 +507,16 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
             return false;
         }
 
+    }
+
+    @Override
+    public void updatePharmacy(Pharmacy pharmacy) {
+    }
+
+    @Override
+    public void updateShippingAddress(Address address) {
+        updatePreferredPharmacy.updatePharmacy(pharmacy);
+        updatePreferredPharmacy.updateShippingAddress(address);
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 }

@@ -5,6 +5,7 @@ apply plugin: 'de.mobilej.unmock'
 
 buildscript {
     repositories {
+
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/jcenter' }
         maven { url 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory/libs-snapshot-local-android'}
 
