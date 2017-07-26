@@ -28,6 +28,20 @@
         ]
       },
       {
+        "state": "about",
+        "events": [
+          {
+            "eventId": "TermsAndConditions",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "terms_and_conditions"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "state": "onBoarding_registration",
         "events": [
           {
@@ -36,6 +50,15 @@
               {
                 "condition": [],
                 "nextState": "home"
+              }
+            ]
+          },
+          {
+            "eventId": "TermsAndConditions",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "terms_and_conditions"
               }
             ]
           },
@@ -206,6 +229,15 @@
                 "nextState": "home_fragment"
               }
             ]
+          },
+          {
+            "eventId": "TermsAndConditions",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "terms_and_conditions"
+              }
+            ]
           }
         ]
       },
@@ -252,9 +284,19 @@
                 "nextState": "settings_registration"
               }
             ]
+          },
+          {
+            "eventId": "TermsAndConditions",
+            "nextStates": [
+              {
+                "condition": [],
+                "nextState": "terms_and_conditions"
+              }
+            ]
           }
         ]
-      },{
+      },
+      {
         "state": "testmicroapp",
         "events": [
           {
@@ -284,7 +326,6 @@
               }
             ]
           },
-
           {
             "eventId": "TestDLSEvent",
             "nextStates": [
@@ -294,7 +335,6 @@
               }
             ]
           },
-
           {
             "eventId": "TestAppInfraEvent",
             "nextStates": [
@@ -313,7 +353,6 @@
               }
             ]
           },
-
           {
             "eventId": "TestProductRegistrationEvent",
             "nextStates": [
@@ -359,11 +398,7 @@
               }
             ]
           }
-
-
-
         ]
-
       }
     ]
   }
