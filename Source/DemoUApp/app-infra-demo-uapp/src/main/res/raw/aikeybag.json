@@ -1,0 +1,29 @@
+{
+  "appinfra.languagePack2" : [
+    {"ClientId": "b3a5085a2de916729f8e55955ba482656cfceb10fe79","secret_key": "8kaxdrpvkwyr7pnp987amu4aqb4wmnte"},
+    {"ClientId": "8kaxdrpvkwyr7pnp987amu4aqb4wmnte","secret_key": "8kaxdrpvkwyr7pnp987amu4aqb4wmnte"},
+    "0d89a90580339ea0633a4be0f6567a",
+    "59d023176daf32ec14f3cc18918e",
+    "22aea42367f9370f272f0449943190d4dbcf50ff",
+    "1738eb2fd06f4e03c4985c00fb39aacf914133ff",
+    "d678deb40fe5d777ab841e2b463081",
+    "80e7f685c1efa52e603f48582038",
+    "213ad128faf99a83f160a306537e2003cca9308f",
+    "1a96a5e7c67a17bd92eee71eccbb47f1ed16c42d",
+    {"ClientId": "0d89a90580339ea0633a4be0f6567a","secret_key": "1a96a5e7c67a17bd92eee71eccbb47f1ed16c42d"},
+    "b68afd4e318900963db6eb5a7ff8fc",
+    "bcf9f4942b6877cc4a6e84f548e2"
+  ],
+  "appinfra.languagePack" : [
+    "1f8b202caf7104046e63340f",
+    "87cde1ccf97f150c3fc89123aac5",
+    "f011e21e32851f2059bfe963c875725b42de10e8",
+    "16106539983ef7e689d751df2c54dc47b78e414c",
+    "67c2c1215c7b280183a248f11db9ed",
+    "62d5bb2744bc2d21872ac5c28b6b",
+    "cea0ead2d99d14c199781f7bda38ee6ea6410ef7",
+    "51311dda4aae8d50b19ae94ae0124c9a1de9c97d",
+    "fba8118f94ae85753536e01697ec14",
+    "8ffa0c1055697205666a0748f7ba"
+  ]
+}
