@@ -18,7 +18,7 @@ import com.philips.platform.ths.providerslist.THSOnDemandSpeciality;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
-import com.philips.platform.ths.utility.FileUtils;
+import com.philips.platform.ths.utility.THSFileUtils;
 import com.philips.platform.ths.utility.THSManager;
 
 import java.io.FileNotFoundException;
@@ -32,19 +32,19 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     THSBaseFragment thsBaseView;
     THSProviderInfo THSProviderInfo;
     THSVisitContext THSVisitContext;
-    private FileUtils fileUtils;
+    private THSFileUtils fileUtils;
     private UploadAttachment uploadAttachment;
 
 
     THSSymptomsPresenter(THSBaseFragment uiBaseView, THSProviderInfo THSProviderInfo) {
         this.thsBaseView = uiBaseView;
         this.THSProviderInfo = THSProviderInfo;
-        fileUtils = new FileUtils();
+        fileUtils = new THSFileUtils();
     }
 
     THSSymptomsPresenter(THSBaseFragment uiBaseView) {
         this.thsBaseView = uiBaseView;
-        fileUtils = new FileUtils();
+        fileUtils = new THSFileUtils();
     }
 
 
@@ -52,7 +52,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
         try {
 
             uploadAttachment = fileUtils.getUploadAttachment(thsBaseView.getFragmentActivity(), THSManager.getInstance().getAwsdk(thsBaseView.getFragmentActivity().getApplicationContext()), uri);
-            THSManager.getInstance().uploadHealthDocument(thsBaseView.getFragmentActivity(),thsConsumer,uploadAttachment,this);
+            THSManager.getInstance().uploadHealthDocument(thsBaseView.getFragmentActivity(), thsConsumer, uploadAttachment, this);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -112,7 +112,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
         }
     }
 
-    public void getfirstavailableprovider(THSOnDemandSpeciality onDemandSpecialties) throws AWSDKInstantiationException {
+    public void getfirstAvailableProvider(THSOnDemandSpeciality onDemandSpecialties) throws AWSDKInstantiationException {
         THSManager.getInstance().getVisitContextWithOnDemandSpeciality(thsBaseView.getContext(), onDemandSpecialties, new THSVisitContextCallBack<THSVisitContext, THSSDKError>() {
             @Override
             public void onResponse(THSVisitContext pthVisitContext, THSSDKError thssdkError) {
@@ -145,10 +145,9 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
 
     @Override
     public void onUploadDocumentSuccess(DocumentRecord documentRecord, SDKError sdkError) {
-        if(null !=documentRecord && null == sdkError ){
-            Toast.makeText(thsBaseView.getFragmentActivity(), "success with Document name"+documentRecord.getName(), Toast.LENGTH_SHORT).show();
-        }
-        else {
+        if (null != documentRecord && null == sdkError) {
+            Toast.makeText(thsBaseView.getFragmentActivity(), "success with Document name" + documentRecord.getName(), Toast.LENGTH_SHORT).show();
+        } else {
             Toast.makeText(thsBaseView.getFragmentActivity(), "upload failed with sdk error", Toast.LENGTH_SHORT).show();
         }
 
@@ -156,6 +155,6 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
 
     @Override
     public void onError(Throwable throwable) {
-        Toast.makeText(thsBaseView.getFragmentActivity(), "failure", Toast.LENGTH_SHORT).show();
+        Toast.makeText(thsBaseView.getFragmentActivity(), "failure : "+throwable.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
     }
 }

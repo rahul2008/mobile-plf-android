@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.OpenableColumns;
 import android.webkit.MimeTypeMap;
+import android.widget.Toast;
 
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.FileAttachment;
@@ -26,7 +27,7 @@ import okhttp3.MediaType;
 /**
  * Utilities for File handling
  */
-public class FileUtils {
+public class THSFileUtils {
 
 
     /**
@@ -54,27 +55,34 @@ public class FileUtils {
         final int dotIndex = fileName.lastIndexOf(".");
         final String fileNamePrefix = fileName.substring(0, dotIndex);
         final String fileNameExtension = fileName.substring(dotIndex + 1, fileName.length());
-        while (file.exists()) {
+        /*while (file.exists()) {
             fileName = fileNamePrefix + " (" + index++ + ")." + fileNameExtension;
             file = new File(path, fileName);
+        }*/
+
+        if (file.exists()) {
+            Toast.makeText(context, "File with name \"" + fileName + "\" already exists", Toast.LENGTH_SHORT).show();
+            return null;
+        } else {
+            FileOutputStream fos = new FileOutputStream(file);
+            final OutputStream stream = new BufferedOutputStream(fos);
+            int bufferSize = 1024;
+            byte[] buffer = new byte[bufferSize];
+            int len;
+            while ((len = fileAttachment.getInputStream().read(buffer)) != -1) {
+                stream.write(buffer, 0, len);
+            }
+            stream.close();
+            return file;
         }
 
-        FileOutputStream fos = new FileOutputStream(file);
-        final OutputStream stream = new BufferedOutputStream(fos);
-        int bufferSize = 1024;
-        byte[] buffer = new byte[bufferSize];
-        int len;
-        while ((len = fileAttachment.getInputStream().read(buffer)) != -1) {
-            stream.write(buffer, 0, len);
-        }
-        stream.close();
 
 /*        Intent intent =
                 new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         intent.setData(Uri.fromFile(file));
         context.sendBroadcast(intent);*/
 
-        return file;
+
     }
 
     /**
@@ -157,11 +165,9 @@ public class FileUtils {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             try {
                 context.startActivity(intent);
+            } catch (ActivityNotFoundException e) {
             }
-            catch (ActivityNotFoundException e) {
-            }
-        }
-        catch (IOException ioe) {
+        } catch (IOException ioe) {
         }
     }
 

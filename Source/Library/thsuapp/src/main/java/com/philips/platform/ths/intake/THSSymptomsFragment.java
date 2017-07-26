@@ -6,7 +6,6 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -26,6 +25,7 @@ import com.americanwell.sdk.entity.visit.Topic;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.intake.selectimage.THSOnDismissSelectedImageFragmentCallback;
 import com.philips.platform.ths.intake.selectimage.THSImageRecyclerViewAdapter;
 import com.philips.platform.ths.intake.selectimage.THSSelectedImageCallback;
 import com.philips.platform.ths.intake.selectimage.THSSelectedImageFragment;
@@ -45,7 +45,8 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
-public class THSSymptomsFragment extends THSBaseFragment implements BackEventListener, View.OnClickListener, THSSelectedImageCallback {
+public class THSSymptomsFragment extends THSBaseFragment implements BackEventListener, View.OnClickListener,
+        THSSelectedImageCallback,THSOnDismissSelectedImageFragmentCallback {
     public static final String TAG = THSSymptomsFragment.class.getSimpleName();
     private THSSymptomsPresenter mTHSSymptomsPresenter;
     private THSProviderInfo mThsProviderInfo;
@@ -55,15 +56,12 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
     private Button mContinue;
     private RelativeLayout mRelativeLayout;
     private THSVisitContext mThsVisitContext;
-    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private String userChoosenTask;
     private RecyclerView imageListView;
     private THSImageRecyclerViewAdapter thsImageRecyclerViewAdapter;
-    private List<Bitmap> bitmapList;
     private List<THSSelectedImagePojo> selectedImagePojosList;
     public static final int REQUEST_READ_EXTERNAL_STORAGE_AN_CAMERA = 123;
     public static final int REQUEST_WRITE_EXTERNAL_STORAGE = 124;
-    public final CharSequence[] items = {"Take Photo", "Choose from Library", "Cancel"};
     private Dialog dialog;
     private Uri mCapturedImageURI;
     private static final int RESULT_LOAD_IMAGE = 1;
@@ -81,8 +79,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
             thsOnDemandSpeciality = bundle.getParcelable(THSConstants.THS_ON_DEMAND);
         }
         imageListView = (RecyclerView) view.findViewById(R.id.imagelist);
-        bitmapList = new ArrayList<>();
-        imageListView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, true));
+        imageListView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         selectedImagePojosList = new ArrayList<>();
         thsImageRecyclerViewAdapter = new THSImageRecyclerViewAdapter(selectedImagePojosList, this);
         topicLayout = (LinearLayout) view.findViewById(R.id.checkbox_container);
@@ -91,14 +88,16 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
         mContinue = (Button) view.findViewById(R.id.continue_btn);
         mContinue.setOnClickListener(this);
         mRelativeLayout = (RelativeLayout) view.findViewById(R.id.symptoms_container);
-
+        mTHSSymptomsPresenter = new THSSymptomsPresenter(this);
+        requestWritePermission();
         return view;
     }
 
 
-    public void setConsumerObject(THSConsumer thsConsumer){
+    public void setConsumerObject(THSConsumer thsConsumer) {
         this.thsConsumer = thsConsumer;
     }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -121,13 +120,6 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
         return false;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mTHSSymptomsPresenter = new THSSymptomsPresenter(this);
-        requestWritePermission();
-    }
-
     private void getVisistContext() {
         if (mThsVisitContext == null) {
             createCustomProgressBar(mRelativeLayout, MEDIUM);
@@ -136,7 +128,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
                 mTHSSymptomsPresenter.getVisitContext();
             } else {
                 try {
-                    mTHSSymptomsPresenter.getfirstavailableprovider(thsOnDemandSpeciality);
+                    mTHSSymptomsPresenter.getfirstAvailableProvider(thsOnDemandSpeciality);
                 } catch (AWSDKInstantiationException e) {
                     e.printStackTrace();
                 }
@@ -222,7 +214,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
 
     private void requestPermission() {
         if (ActivityCompat.checkSelfPermission(getContext(),
-                android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED &&
+                android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(getContext(),
                         Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -237,15 +229,14 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
         }
     }
 
-    private void requestWritePermission(){
-        if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
-        != PackageManager.PERMISSION_GRANTED){
+    private void requestWritePermission() {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                             Manifest.permission.READ_EXTERNAL_STORAGE},
                     REQUEST_WRITE_EXTERNAL_STORAGE);
-        }
-        else {
+        } else {
             mTHSSymptomsPresenter.fetchHealthDocuments(thsConsumer);
         }
     }
@@ -274,6 +265,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        String picturePath = null;
         switch (requestCode) {
             case RESULT_LOAD_IMAGE:
                 if (requestCode == RESULT_LOAD_IMAGE &&
@@ -285,17 +277,12 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
                                     null);
                     cursor.moveToFirst();
                     int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String picturePath = cursor.getString(columnIndex);
+                    picturePath = cursor.getString(columnIndex);
+                    mCapturedImageURI = data.getData();
                     cursor.close();
-                    THSSelectedImagePojo image = new THSSelectedImagePojo();
-                    image.setTitle("SelectedImage");
-                    image.setDatetime(System.currentTimeMillis());
-                    image.setPath(picturePath);
-                    selectedImagePojosList.add(image);
-                    thsImageRecyclerViewAdapter.notifyDataSetChanged();
-                    imageListView.setAdapter(thsImageRecyclerViewAdapter);
-                    mTHSSymptomsPresenter.uploadDocuments(thsConsumer,data.getData());
+
                 }
+                break;
             case REQUEST_IMAGE_CAPTURE:
                 if (requestCode == REQUEST_IMAGE_CAPTURE &&
                         resultCode == RESULT_OK) {
@@ -306,16 +293,21 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
                     int column_index_data = cursor.getColumnIndexOrThrow(
                             MediaStore.Images.Media.DATA);
                     cursor.moveToFirst();
-                    String picturePath = cursor.getString(column_index_data);
-                    THSSelectedImagePojo image = new THSSelectedImagePojo();
-                    image.setTitle("SelectedImage");
-                    image.setDatetime(System.currentTimeMillis());
-                    image.setPath(picturePath);
-                    selectedImagePojosList.add(image);
-                    thsImageRecyclerViewAdapter.notifyDataSetChanged();
-                    imageListView.setAdapter(thsImageRecyclerViewAdapter);
+                    picturePath = cursor.getString(column_index_data);
+                    cursor.close();
                 }
+                break;
         }
+
+        THSSelectedImagePojo image = new THSSelectedImagePojo();
+        image.setTitle("SelectedImage");
+        image.setDatetime(System.currentTimeMillis());
+        image.setPath(picturePath);
+        selectedImagePojosList.add(image);
+        thsImageRecyclerViewAdapter.notifyDataSetChanged();
+        imageListView.setAdapter(thsImageRecyclerViewAdapter);
+        mTHSSymptomsPresenter.uploadDocuments(thsConsumer, mCapturedImageURI);
+
     }
 
     @Override
@@ -332,22 +324,32 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
                 }
                 break;
             case REQUEST_WRITE_EXTERNAL_STORAGE:
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mTHSSymptomsPresenter.fetchHealthDocuments(thsConsumer);
-                }else {
+                } else {
                     Toast.makeText(getActivity(), "Permission to select image denied", Toast.LENGTH_SHORT).show();
                 }
         }
 
     }
 
+    THSSelectedImageFragment thsSelectedImageFragment;
+
     @Override
     public void onImageClicked(int position) {
-        launchImageDialogFragment();
-    }
-
-    private void launchImageDialogFragment() {
-        THSSelectedImageFragment thsSelectedImageFragment = new THSSelectedImageFragment();
+        thsSelectedImageFragment = new THSSelectedImageFragment();
+        thsSelectedImageFragment.setSelectedImage(position, selectedImagePojosList);
+        thsSelectedImageFragment.setSelectedImageFragmentCallback(this);
         thsSelectedImageFragment.show(getActivity().getSupportFragmentManager(), "");
     }
+
+    @Override
+    public void dismissSelectedImageFragment(List<THSSelectedImagePojo> selectedImagePojoList){
+        this.selectedImagePojosList = selectedImagePojoList;
+        thsImageRecyclerViewAdapter.notifyDataSetChanged();
+        imageListView.setAdapter(thsImageRecyclerViewAdapter);
+        thsSelectedImageFragment.dismiss();
+
+    }
+
 }
