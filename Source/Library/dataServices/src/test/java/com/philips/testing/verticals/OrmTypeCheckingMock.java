@@ -1,9 +1,5 @@
 package com.philips.testing.verticals;
 
-/**
- * Created by indrajitkumar on 2/9/17.
- */
-
 public class OrmTypeCheckingMock {
     public static class OrmTypeException extends Exception {
         static final long serialVersionUID = 12L;

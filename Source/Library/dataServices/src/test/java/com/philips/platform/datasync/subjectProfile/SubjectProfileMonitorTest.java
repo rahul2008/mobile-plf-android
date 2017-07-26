@@ -96,7 +96,7 @@ public class SubjectProfileMonitorTest {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(true);
         when(mUCoreAccessProvider.getAccessToken()).thenReturn("676786768898");
         CreateSubjectProfileRequestEvent createSubjectProfileRequestEvent =
-                new CreateSubjectProfileRequestEvent("firstName", "dateOfBirth", "gender", 10.0, "creationDate", new SubjectProfileListener() {
+                new CreateSubjectProfileRequestEvent(null, new SubjectProfileListener() {
                     @Override
                     public void onResponse(boolean status) {
 
@@ -121,7 +121,7 @@ public class SubjectProfileMonitorTest {
         when(mUCoreAccessProvider.isLoggedIn()).thenReturn(true);
         when(mUCoreAccessProvider.getAccessToken()).thenReturn("676786768898");
         CreateSubjectProfileRequestEvent createSubjectProfileRequestEvent =
-                new CreateSubjectProfileRequestEvent("firstName", "dateOfBirth", "gender", 10.0, "creationDate", new SubjectProfileListener() {
+                new CreateSubjectProfileRequestEvent(null, new SubjectProfileListener() {
                     @Override
                     public void onResponse(boolean status) {
 

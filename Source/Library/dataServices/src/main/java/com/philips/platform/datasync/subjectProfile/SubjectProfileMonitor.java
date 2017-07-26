@@ -36,13 +36,7 @@ public class SubjectProfileMonitor extends EventMonitor {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventAsync(CreateSubjectProfileRequestEvent createSubjectProfileRequestEvent) {
         mSubjectProfileListener = createSubjectProfileRequestEvent.getSubjectProfileListener();
-        UCoreCreateSubjectProfileRequest uCoreCreateSubjectProfileRequest = new UCoreCreateSubjectProfileRequest();
-        uCoreCreateSubjectProfileRequest.setFirstName(createSubjectProfileRequestEvent.getFirstName());
-        uCoreCreateSubjectProfileRequest.setDateOfBirth(createSubjectProfileRequestEvent.getDateOfBirth());
-        uCoreCreateSubjectProfileRequest.setGender(createSubjectProfileRequestEvent.getGender());
-        uCoreCreateSubjectProfileRequest.setWeight(createSubjectProfileRequestEvent.getWeight());
-        uCoreCreateSubjectProfileRequest.setCreationDate(createSubjectProfileRequestEvent.getCreationDate());
-        mSubjectProfileController.createSubjectProfile(uCoreCreateSubjectProfileRequest);
+        mSubjectProfileController.createSubjectProfile(createSubjectProfileRequestEvent.getUCoreCreateSubjectProfileRequest());
     }
 
     @Subscribe(threadMode = ThreadMode.ASYNC)

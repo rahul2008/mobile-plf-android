@@ -76,6 +76,7 @@ import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.core.utils.DataServicesConstants;
 import com.philips.platform.core.utils.EventingImpl;
 import com.philips.platform.datasync.UCoreAccessProvider;
+import com.philips.platform.datasync.subjectProfile.UCoreCreateSubjectProfileRequest;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
 import com.philips.platform.datasync.synchronisation.DataSender;
 import com.philips.platform.datasync.synchronisation.SynchronisationManager;
@@ -738,7 +739,13 @@ public class DataServicesManager {
     //Create Subject Profile
     public void createSubjectProfile(String firstName, String dateOfBirth, String gender,
                                      double weight, String creationDate, SubjectProfileListener subjectProfileListener) {
-        mEventing.post(new CreateSubjectProfileRequestEvent(firstName, dateOfBirth, gender, weight, creationDate, subjectProfileListener));
+        UCoreCreateSubjectProfileRequest uCoreCreateSubjectProfileRequest = new UCoreCreateSubjectProfileRequest();
+        uCoreCreateSubjectProfileRequest.setFirstName(firstName);
+        uCoreCreateSubjectProfileRequest.setDateOfBirth(dateOfBirth);
+        uCoreCreateSubjectProfileRequest.setGender(gender);
+        uCoreCreateSubjectProfileRequest.setWeight(weight);
+        uCoreCreateSubjectProfileRequest.setCreationDate(creationDate);
+        mEventing.post(new CreateSubjectProfileRequestEvent(uCoreCreateSubjectProfileRequest, subjectProfileListener));
     }
 
     public void getSubjectProfiles(SubjectProfileListener subjectProfileListener) {
