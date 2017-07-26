@@ -1,6 +1,8 @@
 package com.philips.platform.ths.utility;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.americanwell.sdk.AWSDK;
@@ -30,13 +32,16 @@ import com.americanwell.sdk.entity.practice.PracticeInfo;
 import com.americanwell.sdk.entity.provider.AvailableProviders;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
+import com.americanwell.sdk.entity.visit.ChatReport;
 import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.entity.visit.VisitContext;
+import com.americanwell.sdk.entity.visit.VisitEndReason;
 import com.americanwell.sdk.entity.visit.Vitals;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.americanwell.sdk.manager.SDKValidatedCallback;
+import com.americanwell.sdk.manager.StartVisitCallback;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.appointment.THSAvailableProviderCallback;
 import com.philips.platform.ths.appointment.THSAvailableProviderList;
@@ -82,6 +87,7 @@ import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
 import com.philips.platform.ths.cost.THSVisit;
+import com.philips.platform.ths.visit.THSStartVisitCallback;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
 
 import java.net.MalformedURLException;
@@ -97,6 +103,16 @@ public class THSManager {
     private AWSDK mAwsdk = null;
     private THSConsumer mTHSConsumer = null;
     private THSVisitContext mVisitContext = null;
+    private THSVisit  mTHSVisit;
+
+
+    public THSVisit getTHSVisit() {
+        return mTHSVisit;
+    }
+
+    public void setTHSVisit(THSVisit mTHSVisit) {
+        this.mTHSVisit = mTHSVisit;
+    }
 
     public THSVisitContext getPthVisitContext() {
         return mVisitContext;
@@ -875,6 +891,55 @@ public class THSManager {
                     }
                 });
 
+    }
+
+    public void startVisit(Context context , final THSStartVisitCallback thsStartVisitCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getVisitManager().startVisit(getTHSVisit().getVisit(), getTHSVisit().getVisit().getConsumer().getAddress(), new StartVisitCallback() {
+            @Override
+            public void onProviderEntered(@NonNull Intent intent) {
+                thsStartVisitCallback.onProviderEntered(intent);
+            }
+
+            @Override
+            public void onStartVisitEnded(@NonNull VisitEndReason visitEndReason) {
+                thsStartVisitCallback.onStartVisitEnded(visitEndReason);
+            }
+
+            @Override
+            public void onPatientsAheadOfYouCountChanged(int i) {
+                thsStartVisitCallback.onPatientsAheadOfYouCountChanged(i);
+            }
+
+            @Override
+            public void onSuggestedTransfer() {
+                thsStartVisitCallback.onSuggestedTransfer();
+            }
+
+            @Override
+            public void onChat(@NonNull ChatReport chatReport) {
+                thsStartVisitCallback.onChat(chatReport);
+            }
+
+            @Override
+            public void onPollFailure(@NonNull Throwable throwable) {
+                thsStartVisitCallback.onPollFailure(throwable);
+            }
+
+            @Override
+            public void onValidationFailure(Map<String, ValidationReason> map) {
+                thsStartVisitCallback.onValidationFailure(map);
+            }
+
+            @Override
+            public void onResponse(Void aVoid, SDKError sdkError) {
+                thsStartVisitCallback.onResponse(aVoid,sdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                thsStartVisitCallback.onFailure(throwable);
+            }
+        });
     }
 
 
