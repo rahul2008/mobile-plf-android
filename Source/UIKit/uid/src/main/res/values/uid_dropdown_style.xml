@@ -9,14 +9,12 @@
         <!--We need transparent selector to avoid any overlaying double color effect-->
         <item name="android:listSelector">@drawable/uid_ui_picker_row_selector</item>
         <item name="android:background">?attr/uidPopupDefaultNormalBackgroundColor</item>
-        <item name="android:paddingTop">@dimen/uid_uipicker_top_bottom_padding</item>
-        <item name="android:paddingBottom">@dimen/uid_uipicker_top_bottom_padding</item>
-        <item name="android:scrollbarThumbVertical">@drawable/uid_uipicker_scroll_selector</item>
-        <item name="android:scrollbarSize">5dp</item>
+        <item name="android:scrollbarThumbVertical">?attr/uidThumbScrollbarNormalBackgroundColor</item>
+        <item name="android:scrollbarSize">@dimen/uid_uipicker_scrollbar_width</item>
         <item name="android:fadeScrollbars">false</item>
     </style>
 
     <style name="UIDListPopupWindow" parent="android:Widget.Material.ListPopupWindow">
-        <item name="android:popupElevation">2dp</item>
+        <item name="android:popupElevation">@dimen/uid_uipicker_popup_elevation</item>
     </style>
 </resources>
