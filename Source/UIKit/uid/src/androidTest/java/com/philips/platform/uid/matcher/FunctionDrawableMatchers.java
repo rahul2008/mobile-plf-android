@@ -151,7 +151,7 @@ public class FunctionDrawableMatchers {
                 Drawable drawable = getDrawable(view, funcName, drawableID);
                 BaseTypeSafteyMatcher<Drawable> colorMatcher = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameColor(state, expectedValue, isDefaultColor);
                 boolean matches = colorMatcher.matches(drawable);
-                setValues(Integer.toHexString((Integer) colorMatcher.actual), Integer.toHexString((Integer) colorMatcher.expected));
+                setValues(colorMatcher.actual, colorMatcher.expected);
                 return matches;
             }
         };
@@ -312,7 +312,6 @@ public class FunctionDrawableMatchers {
      * @param funcName      Its menthod name to be invoked on drawable
      * @param index         index in selector to which you want expected color to be compared
      * @param expectedValue
-     * @param flag
      * @return
      */
     public static Matcher<View> isSameColorFromColorListWithReflection(final String funcName, final int index, final int expectedValue) {
