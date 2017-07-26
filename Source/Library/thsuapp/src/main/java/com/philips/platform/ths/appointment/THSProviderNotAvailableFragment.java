@@ -14,6 +14,7 @@ import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
+import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Label;
@@ -92,10 +93,17 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
 
         if(mProvider.hasImage()) {
             try {
-                THSManager.getInstance().getAwsdk(getContext()).getPracticeProvidersManager().
-                        newImageLoader(((THSAvailableProvider) mThsProviderEntity).getProviderInfo(), imageView,
-                                ProviderImageSize.SMALL).placeholder(imageView.getResources().
-                        getDrawable(R.drawable.doctor_placeholder)).build().load();
+                if(mThsProviderEntity instanceof THSAvailableProvider) {
+                    THSManager.getInstance().getAwsdk(getContext()).getPracticeProvidersManager().
+                            newImageLoader(((THSAvailableProvider) mThsProviderEntity).getProviderInfo(), imageView,
+                                    ProviderImageSize.SMALL).placeholder(imageView.getResources().
+                            getDrawable(R.drawable.doctor_placeholder)).build().load();
+                }else {
+                    THSManager.getInstance().getAwsdk(getContext()).getPracticeProvidersManager().
+                            newImageLoader(((THSProviderInfo) mThsProviderEntity).getProviderInfo(), imageView,
+                                    ProviderImageSize.SMALL).placeholder(imageView.getResources().
+                            getDrawable(R.drawable.doctor_placeholder)).build().load();
+                }
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }
