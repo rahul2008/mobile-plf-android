@@ -68,7 +68,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
     THSRelationship mTHSRelationshipList;
     HealthPlan mHealthPlan;
     Relationship mInsuranceRelationship;
-
+    RelativeLayout mRelativeLayoutInsuranceContainer;
 
 
 
@@ -83,7 +83,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
         View convertView = (View) inflater.inflate(R.layout.ths_list, null);
 
         mHealPlanListView = (ListView) convertView.findViewById(R.id.ths_listView);
-
+        mRelativeLayoutInsuranceContainer = (RelativeLayout) view.findViewById(R.id.ths_insurance_detail_container);
         insuranceEditBox = (com.philips.platform.uid.view.widget.EditText) view.findViewById(R.id.ths_insurance_detail_provider_select_insurance_edit_text);
         insuranceEditBox.setOnClickListener(this);
         relationshipEditBox = (com.philips.platform.uid.view.widget.EditText) view.findViewById(R.id.ths_insurance_detail_provider_select_relation_edit_text);
@@ -126,11 +126,12 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         actionBarListener = getActionBarListener();
-        createCustomProgressBar(mProgressbarContainer, MEDIUM);
+        createCustomProgressBar(mProgressbarContainer, BIG);
         mTHSHealthPlanList = ((THSInsuranceDetailPresenter) mPresenter).fetchHealthPlanList();
         mTHSRelationshipList = ((THSInsuranceDetailPresenter) mPresenter).fetchSubscriberRelationList();
         mTHSHealthPlanListAdapter = new THSHealthPlanListAdapter(getActivity(), mTHSHealthPlanList);
         mTHSSubscriberRelationshipListAdapter = new THSSubscriberRelationshipListAdapter(getActivity(), mTHSRelationshipList);
+        createCustomProgressBar(mProgressbarContainer,BIG);
         mPresenter.fetchExistingSubscription();
     }
 
@@ -138,12 +139,6 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
     @Override
     public boolean handleBackEvent() {
         return false;
-    }
-
-
-    @Override
-    public int getContainerID() {
-        return ((ViewGroup) getView().getParent()).getId();
     }
 
     /**
@@ -164,6 +159,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
         } else if (view.getId() == R.id.ths_insurance_detail_skip_button) {
             mPresenter.onEvent(R.id.ths_insurance_detail_skip_button);
         } else if (view.getId() == R.id.ths_insurance_detail_continue_button){
+            createCustomProgressBar(mRelativeLayoutInsuranceContainer,BIG);
             mPresenter.onEvent(R.id.ths_insurance_detail_continue_button);
 
         }else if (view.getId() == R.id.ths_insurance_detail_provider_relation_dob_edittext){

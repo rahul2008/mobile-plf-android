@@ -19,14 +19,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.americanwell.sdk.entity.visit.Topic;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.intake.selectimage.THSOnDismissSelectedImageFragmentCallback;
 import com.philips.platform.ths.intake.selectimage.THSImageRecyclerViewAdapter;
+import com.philips.platform.ths.intake.selectimage.THSOnDismissSelectedImageFragmentCallback;
 import com.philips.platform.ths.intake.selectimage.THSSelectedImageCallback;
 import com.philips.platform.ths.intake.selectimage.THSSelectedImageFragment;
 import com.philips.platform.ths.intake.selectimage.THSSelectedImagePojo;
@@ -110,11 +109,6 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
     }
 
     @Override
-    public int getContainerID() {
-        return ((ViewGroup) getView().getParent()).getId();
-    }
-
-    @Override
     public boolean handleBackEvent() {
         THSManager.getInstance().setVisitContext(null);
         return false;
@@ -122,7 +116,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
 
     private void getVisistContext() {
         if (mThsVisitContext == null) {
-            createCustomProgressBar(mRelativeLayout, MEDIUM);
+            createCustomProgressBar(mRelativeLayout, BIG);
             mContinue.setEnabled(false);
             if (mThsProviderInfo != null) {
                 mTHSSymptomsPresenter.getVisitContext();
@@ -320,14 +314,14 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
                     else if (userChoosenTask.equals("Choose from Library"))
                         galleryIntent();
                 } else {
-                    Toast.makeText(getActivity(), "Permission to select image denied", Toast.LENGTH_SHORT).show();
+                    showToast("Permission to select image denied");
                 }
                 break;
             case REQUEST_WRITE_EXTERNAL_STORAGE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mTHSSymptomsPresenter.fetchHealthDocuments(thsConsumer);
                 } else {
-                    Toast.makeText(getActivity(), "Permission to select image denied", Toast.LENGTH_SHORT).show();
+                    showToast("Permission to select image denied");
                 }
         }
 

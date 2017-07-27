@@ -89,11 +89,6 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
     }
 
     @Override
-    public int getContainerID() {
-        return ((ViewGroup) getView().getParent()).getId();
-    }
-
-    @Override
     public void startSearchPharmacy() {
         THSPharmacyListFragment thsPharmacyFragment = new THSPharmacyListFragment();
         THSConsumer pthConsumer = new THSConsumer();
@@ -101,6 +96,7 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         thsPharmacyFragment.setConsumerAndAddress(pthConsumer, null);
         thsPharmacyFragment.setUpdateCallback(this);
         thsPharmacyFragment.setActionBarListener(getActionBarListener());
+        thsPharmacyFragment.setFragmentLauncher(getFragmentLauncher());
         getFragmentActivity().getSupportFragmentManager().
                 beginTransaction().replace(getContainerID(),
                 thsPharmacyFragment, "Pharmacy List").addToBackStack(null).commit();
@@ -112,6 +108,7 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         thsShippingAddressFragment.setActionBarListener(getActionBarListener());
         thsShippingAddressFragment.setConsumerAndAddress(thsConsumer, null);
         thsShippingAddressFragment.setUpdateShippingAddressCallback(this);
+        thsShippingAddressFragment.setFragmentLauncher(getFragmentLauncher());
         getActivity().getSupportFragmentManager().
                 beginTransaction().replace(getContainerID(),
                 thsShippingAddressFragment, "ShippingAddressFragment").addToBackStack(null).commit();

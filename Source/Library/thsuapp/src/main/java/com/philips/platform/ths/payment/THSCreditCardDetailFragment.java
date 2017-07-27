@@ -54,7 +54,7 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         actionBarListener = getActionBarListener();
-        createCustomProgressBar(mProgressbarContainer, MEDIUM);
+        createCustomProgressBar(mProgressbarContainer, BIG);
         mTHSCreditCardDetailPresenter.getPaymentMethod();
     }
 
@@ -66,13 +66,6 @@ public class THSCreditCardDetailFragment extends THSBaseFragment implements View
         }
 
     }
-
-
-    @Override
-    public int getContainerID() {
-        return ((ViewGroup) getView().getParent()).getId();
-    }
-
 
     /**
      * Called when a view has been clicked.

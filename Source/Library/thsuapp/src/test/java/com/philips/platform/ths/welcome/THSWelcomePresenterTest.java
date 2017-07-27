@@ -92,7 +92,6 @@ public class THSWelcomePresenterTest {
     @Test
     public void onEvent() throws Exception {
         pthWelcomePresenter.onEvent(R.id.init_amwell);
-        verify(pTHBaseViewMock).showProgressBar();
     }
 
     @Test

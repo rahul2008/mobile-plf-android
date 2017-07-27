@@ -95,9 +95,4 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
     public Date getAppointmentDate() {
         return mAppointmentDate;
     }
-
-    @Override
-    public int getContainerID() {
-        return ((ViewGroup)getView().getParent()).getId();
-    }
 }

@@ -80,13 +80,11 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
     }
 
     @Override
-    public int getContainerID() {
-        return ((ViewGroup)getView().getParent()).getId();
-    }
-    @Override
     public void onClick(View v) {
         if(v.getId() == R.id.launch_your_pharmacy){
-            getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(),new THSPharmacyListFragment(),"Your Pharmace").addToBackStack(null).commit();
+            final THSPharmacyListFragment fragment = new THSPharmacyListFragment();
+            fragment.setFragmentLauncher(getFragmentLauncher());
+            getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), fragment,"Your Pharmace").addToBackStack(null).commit();
         }
     }
 

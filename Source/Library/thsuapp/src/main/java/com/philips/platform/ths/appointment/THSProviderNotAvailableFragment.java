@@ -128,11 +128,6 @@ public class THSProviderNotAvailableFragment extends THSAvailableProviderListBas
     }
 
     @Override
-    public int getContainerID() {
-        return ((ViewGroup)getView().getParent()).getId();
-    }
-
-    @Override
     public void onClick(View view) {
         int viewId = view.getId();
         if(viewId == R.id.calendar_view){

@@ -64,11 +64,6 @@ public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment
         refreshView();
     }
 
-    @Override
-    public int getContainerID() {
-        return ((ViewGroup)getView().getParent()).getId();
-    }
-
     public Practice getPractice() {
         return mPractice;
     }

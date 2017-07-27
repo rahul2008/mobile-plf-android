@@ -17,6 +17,7 @@ import com.philips.platform.ths.appointment.THSDatePickerFragmentUtility;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
+import com.philips.platform.ths.practice.THSPracticeFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
@@ -132,7 +133,9 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(THSConstants.THS_DATE, date);
                     bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, practice);
-                    mThsBaseFragment.addFragment(new THSAvailableProviderListBasedOnDateFragment(), THSAvailableProviderListBasedOnDateFragment.TAG, bundle);
+                    final THSAvailableProviderListBasedOnDateFragment fragment = new THSAvailableProviderListBasedOnDateFragment();
+                    fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
+                    mThsBaseFragment.addFragment(fragment, THSAvailableProviderListBasedOnDateFragment.TAG, bundle);
                     mThsBaseFragment.hideProgressBar();
                 }
             };
@@ -150,7 +153,9 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         mThsOnDemandSpeciality = onDemandSpecialties;
         Bundle bundle = new Bundle();
         bundle.putParcelable(THSConstants.THS_ON_DEMAND,onDemandSpecialties.get(0));
-        mThsBaseFragment.addFragment(new THSSymptomsFragment(),THSSymptomsFragment.TAG,bundle);
+        final THSSymptomsFragment fragment = new THSSymptomsFragment();
+        fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
+        ((THSProvidersListFragment)mThsBaseFragment).addFragment(fragment,THSSymptomsFragment.TAG,bundle);
         mThsBaseFragment.hideProgressBar();
     }
 

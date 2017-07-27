@@ -33,7 +33,9 @@ public class THSConditionsPresenter implements THSBasePresenter, THSConditionsCa
     }
 
     private void launchFollowUpFragment() {
-        mTHSBaseFragment.addFragment(new THSFollowUpFragment(),THSFollowUpFragment.TAG,null);
+        final THSFollowUpFragment fragment = new THSFollowUpFragment();
+        fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
+        mTHSBaseFragment.addFragment(fragment,THSFollowUpFragment.TAG,null);
     }
 
     public void getConditions() throws AWSDKInstantiationException {

@@ -106,9 +106,5 @@ public class THSInsuranceConfirmationFragment extends THSBaseFragment implements
         }
 
     }
-    @Override
-    public int getContainerID() {
-        return ((ViewGroup)getView().getParent()).getId();
-    }
 
 }

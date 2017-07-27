@@ -39,7 +39,10 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
     }
 
     private void launchMedicationFragment() {
-        mPthBaseFragment.addFragment(new THSMedicationFragment(),THSMedicationFragment.TAG,null);
+
+        final THSMedicationFragment fragment = new THSMedicationFragment();
+        fragment.setFragmentLauncher(mPthBaseFragment.getFragmentLauncher());
+        mPthBaseFragment.addFragment(fragment,THSMedicationFragment.TAG,null);
     }
 
     public void getVitals() throws AWSDKInstantiationException {

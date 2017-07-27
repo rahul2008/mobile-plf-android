@@ -17,6 +17,7 @@ public class THSBasePresenterHelper {
         bundle.putSerializable(THSConstants.THS_DATE,date);
         bundle.putParcelable(THSConstants.THS_PRACTICE_INFO,practice);
         THSAvailableProviderDetailFragment fragment = new THSAvailableProviderDetailFragment();
+        fragment.setFragmentLauncher(thsBaseFragment.getFragmentLauncher());
         fragment.setTHSProviderEntity(thsProviderInfo);
         thsBaseFragment.addFragment(fragment, THSAvailableProviderDetailFragment.TAG,bundle);
     }
