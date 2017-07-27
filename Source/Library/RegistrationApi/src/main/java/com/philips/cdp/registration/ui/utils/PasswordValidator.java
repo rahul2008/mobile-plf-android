@@ -27,8 +27,7 @@ public class PasswordValidator implements InputValidationLayout.Validator {
             return false;
         }
 
-        if (FieldsValidator.isAlphabetUpperCasePresent(password) &&
-                FieldsValidator.isAlphabetLowerCasePresent(password)) {
+        if (FieldsValidator.isAlphabetPresent(password)) {
             passwordValidatorCheckCount++;
         }
 
