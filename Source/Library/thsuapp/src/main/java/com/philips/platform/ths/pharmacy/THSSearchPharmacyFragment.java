@@ -10,15 +10,18 @@ import android.view.ViewGroup;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.SearchBox;
 
 public class THSSearchPharmacyFragment extends THSBaseFragment implements SearchBox.ExpandListener, SearchBox.QuerySubmitListener,View.OnClickListener {
 
+    public static String TAG = THSSearchPharmacyFragment.class.getSimpleName();
     private UIDNavigationIconToggler navIconToggler;
     private SearchBox searchBox;
     private Button button;
+    private ActionBarListener actionBarListener;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,6 +36,10 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
         button = (Button) view.findViewById(R.id.launch_your_pharmacy);
         button.setOnClickListener(this);
         navIconToggler = new UIDNavigationIconToggler(getActivity());
+        actionBarListener = getActionBarListener();
+        if(null != actionBarListener){
+            actionBarListener.updateActionBar(R.string.search_pharmacy_fragment_name,true);
+        }
         return view;
     }
 

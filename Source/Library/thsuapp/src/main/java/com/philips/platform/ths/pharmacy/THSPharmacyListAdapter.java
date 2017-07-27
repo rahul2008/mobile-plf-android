@@ -74,6 +74,12 @@ public class THSPharmacyListAdapter extends RecyclerView.Adapter<THSPharmacyList
 
     @Override
     public int getItemCount() {
-        return pharmacyList.size();
+        if(null != pharmacyList){
+            return pharmacyList.size();
+        }
+        else {
+            return 0;
+        }
+
     }
 }

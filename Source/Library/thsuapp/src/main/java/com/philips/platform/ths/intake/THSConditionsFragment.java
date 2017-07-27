@@ -56,7 +56,7 @@ public class THSConditionsFragment extends THSBaseFragment implements BackEventL
 
         mThsConditionsPresenter = new THSConditionsPresenter(this);
         if (null != getActionBarListener()) {
-            getActionBarListener().updateActionBar(getString(R.string.pth_prepare_your_visit), true);
+            getActionBarListener().updateActionBar(getString(R.string.ths_prepare_your_visit), true);
         }
 
 

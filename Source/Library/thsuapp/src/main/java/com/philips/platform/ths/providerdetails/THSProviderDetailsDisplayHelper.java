@@ -41,6 +41,8 @@ public class THSProviderDetailsDisplayHelper {
     protected SwipeRefreshLayout swipeRefreshLayout;
     THSBaseFragment thsBaseFragment;
     NotificationBadge notificationBadge;
+    private RelativeLayout available_provider_details_container;
+
 
     public THSProviderDetailsDisplayHelper(Context context, View.OnClickListener onClickListener,
                                     SwipeRefreshLayout.OnRefreshListener onRefreshListener,
@@ -55,6 +57,8 @@ public class THSProviderDetailsDisplayHelper {
     }
 
     void setViews(View view) {
+        available_provider_details_container = (RelativeLayout) view.findViewById(R.id.available_provider_details_container);
+        available_provider_details_container.setVisibility(View.INVISIBLE);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeProviderLayout);
         swipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
         providerImage = (ImageView) view.findViewById(R.id.details_providerImage);
@@ -83,6 +87,7 @@ public class THSProviderDetailsDisplayHelper {
     }
 
     public void updateView(Provider provider,List<Date> dates){
+        available_provider_details_container.setVisibility(View.VISIBLE);
         providerName.setText(provider.getFullName());
         swipeRefreshLayout.setRefreshing(false);
         providerRating.setRating(provider.getRating());
