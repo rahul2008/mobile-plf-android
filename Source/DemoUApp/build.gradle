@@ -188,9 +188,9 @@ dependencies {
     }
     */
 
-    debugCompile project(path: ':commlib-all', configuration: 'debug')
-    releaseCompile project(path: ':commlib-all', configuration: 'release')
-    testCompile project(path: ':commlib-all', configuration: 'debug')
+    debugCompile project(path: ':commlib', configuration: 'debug')
+    releaseCompile project(path: ':commlib', configuration: 'release')
+    testCompile project(path: ':commlib', configuration: 'debug')
 
     if (findProject(':cloudcontroller')) {
         debugCompile project(path: ':cloudcontroller', configuration: 'debug')

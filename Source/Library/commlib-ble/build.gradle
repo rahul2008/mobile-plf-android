@@ -180,9 +180,9 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'shinelib', version: versions.bluelib + objcdp.getVersionSuffix())
     }
 
-    if (findProject(':commlib')) {
-        debugCompile project(path: ':commlib', configuration: 'debug')
-        releaseCompile project(path: ':commlib', configuration: 'release')
+    if (findProject(':commlib-api')) {
+        debugCompile project(path: ':commlib-api', configuration: 'debug')
+        releaseCompile project(path: ':commlib-api', configuration: 'release')
     } else {
         compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: versions.commlib + objcdp.getVersionSuffix())
     }

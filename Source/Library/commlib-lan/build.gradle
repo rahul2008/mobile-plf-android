@@ -172,9 +172,9 @@ task generateJavadocPublicApi(type: Javadoc) {
 dependencies {
     provided deps.support.annotations
 
-    debugCompile project(path: ':commlib', configuration: 'debug')
-    releaseCompile project(path: ':commlib', configuration: 'release')
-    testCompile project(path: ':commlib', configuration: 'debug')
+    debugCompile project(path: ':commlib-api', configuration: 'debug')
+    releaseCompile project(path: ':commlib-api', configuration: 'release')
+    testCompile project(path: ':commlib-api', configuration: 'debug')
 
     compile deps.gson
 

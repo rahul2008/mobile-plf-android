@@ -92,8 +92,8 @@ dependencies {
 
     compile 'com.android.support:multidex:1.0.1'
 
-    debugCompile project(path: ':commlib-all', configuration: 'debug')
-    releaseCompile project(path: ':commlib-all', configuration: 'release')
+    debugCompile project(path: ':commlib', configuration: 'debug')
+    releaseCompile project(path: ':commlib', configuration: 'release')
 
     testCompile deps.junit
     testCompile deps.mockito
