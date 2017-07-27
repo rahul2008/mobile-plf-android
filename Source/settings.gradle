@@ -1,3 +1,5 @@
+rootProject.name = "CommLib"
+
 include ':commlib',
         ':commlib-all',
         ':commlib-ble',
