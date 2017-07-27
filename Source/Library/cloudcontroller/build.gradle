@@ -4,8 +4,10 @@
  */
 
 buildscript { bs ->
-    apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
-    apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
+    project.ext.common = projectDir.absolutePath + '/../../common/gradle'
+
+    apply from: "$project.common/project-build.gradle", to: bs
+    apply from: "$project.common/module.gradle"
 
     repositories {
         maven {
@@ -34,7 +36,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
-apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
+apply from: "$project.common/module-tasks.gradle"
 
 task wrapper(type: Wrapper) {
     distributionUrl = "https://services.gradle.org/distributions/gradle-3.3-all.zip"

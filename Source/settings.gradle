@@ -16,6 +16,12 @@ project(':commlib-integration-tests').projectDir = new File('Library/commlib-int
 project(':commlib-lan').projectDir = new File('Library/commlib-lan')
 project(':commlib-testutils').projectDir = new File('Library/commlib-testutils')
 
+include ':cloudcontroller',
+        ':cloudcontroller-api'
+
+project(':cloudcontroller').projectDir = new File('Library/cloudcontroller')
+project(':cloudcontroller-api').projectDir = new File('Library/cloudcontroller-api')
+
 include ':commlib-demoapp',
         ':commlib-demouapp'
 
