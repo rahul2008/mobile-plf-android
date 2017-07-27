@@ -23,6 +23,8 @@ import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 import android.widget.PopupWindow;
 import com.philips.platform.uid.R;
+import com.philips.platform.uid.utils.UIDLog;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -49,21 +51,12 @@ public class UIPicker extends ListPopupWindow{
         try {
             sClipToWindowEnabledMethod = PopupWindow.class.getDeclaredMethod(
                     "setClipToScreenEnabled", boolean.class);
-        } catch (NoSuchMethodException e) {
-            Log.i(TAG, "Could not find method setClipToScreenEnabled() on PopupWindow. Oh well.");
-        }
-        try {
             sGetMaxAvailableHeightMethod = PopupWindow.class.getDeclaredMethod(
                     "getMaxAvailableHeight", View.class, int.class, boolean.class);
-        } catch (NoSuchMethodException e) {
-            Log.i(TAG, "Could not find method getMaxAvailableHeight(View, int, boolean)"
-                    + " on PopupWindow. Oh well.");
-        }
-        try {
             sSetEpicenterBoundsMethod = PopupWindow.class.getDeclaredMethod(
                     "setEpicenterBounds", Rect.class);
         } catch (NoSuchMethodException e) {
-            Log.i(TAG, "Could not find method setEpicenterBounds(Rect) on PopupWindow. Oh well.");
+            UIDLog.e(TAG, e.getMessage());
         }
     }
 
@@ -172,12 +165,8 @@ public class UIPicker extends ListPopupWindow{
             Method method = ListPopupWindow.class.getDeclaredMethod("setListItemExpandMax", Integer.TYPE);
             method.setAccessible(true);
             method.invoke(listPopupWindow, max);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (NoSuchMethodException| InvocationTargetException|  IllegalAccessException e) {
+            UIDLog.e(TAG, e.getMessage());
         }
     }
 
