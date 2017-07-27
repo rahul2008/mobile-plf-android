@@ -24,7 +24,7 @@ node ('android&&device') {
                     chmod -R 775 .
                     cd ./Source/AppFramework 
                     ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleDebug lint assembleLeakCanary
-                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease test assembleLeakCanary zipDoc appFramework:aP
+                    ./gradlew -PenvCode=${JENKINS_ENV} assembleRelease assembleLeakCanary zipDoc appFramework:aP
                 '''
                 }
                 stage('HockeyApp upload') {
