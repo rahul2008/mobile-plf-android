@@ -45,7 +45,7 @@
                     <com.philips.platform.uid.view.widget.ActionBarTextView
                         android:id="@+id/iap_header_title"
                         style="@style/UIDToolbarBarTitleText"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textIsSelectable="true" />
 
