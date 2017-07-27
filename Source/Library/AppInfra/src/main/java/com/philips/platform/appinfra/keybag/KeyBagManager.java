@@ -12,7 +12,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -37,11 +36,10 @@ public class KeyBagManager implements KeyBagInterface {
         try {
             if (!TextUtils.isEmpty(rawData)) {
                 JSONObject keyBagModel = new JSONObject(rawData);
-                Iterator<String> keys = keyBagModel.keys();
                 Map<String, Object> map = keyBagHelper.jsonToMap(keyBagModel);
-                while (keys.hasNext()) {
-                    String key = keys.next();
-                    ArrayList arrayList = (ArrayList) map.get(key);
+                for (Map.Entry<String, Object> entry : map.entrySet()) {
+                    String key = entry.getKey();
+                    ArrayList arrayList = (ArrayList) entry.getValue();
                     iterateArrayList(arrayList, key);
                 }
             }
@@ -51,20 +49,24 @@ public class KeyBagManager implements KeyBagInterface {
     }
 
     private void iterateArrayList(ArrayList arrayList, String groupId) {
-        for (int i = 0; i < arrayList.size(); i++) {
-            iterateHashMap((HashMap) arrayList.get(i), groupId, i);
+        for (int index = 0; index < arrayList.size(); index++) {
+            iterateHashMap(arrayList.get(index).toString(), groupId, index);
         }
     }
 
-    private void iterateHashMap(HashMap<String,Object> hashMap, String groupId, int index) {
-        for (Map.Entry<String,Object> entry : hashMap.entrySet()) {
-            String key = entry.getKey();
-            String value = (String) entry.getValue();
-            String seed = keyBagHelper.getSeed(groupId, key, index);
-            String deObfuscatedData = obfuscate(keyBagHelper.convertHexDataToString(value), Integer.parseInt(seed, 16));
-            Log.d("Testing deObfuscation -", "for key-" + key + "=" + deObfuscatedData);
+    private void iterateHashMap(String hashMap, String groupId, int index) {
+        try {
+            JSONObject jsonObject = new JSONObject(hashMap);
+            Iterator<String> keys = jsonObject.keys();
+            while (keys.hasNext()) {
+                String key = keys.next();
+                String value = (String) jsonObject.get(key);
+                String seed = keyBagHelper.getSeed(groupId, key, index);
+                String deObfuscatedData = obfuscate(keyBagHelper.convertHexDataToString(value), Integer.parseInt(seed, 16));
+                Log.d("Testing deObfuscation -", "for key-" + key + "=" + deObfuscatedData);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
-
-
 }

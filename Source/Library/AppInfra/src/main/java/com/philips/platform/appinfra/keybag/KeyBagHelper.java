@@ -22,7 +22,7 @@ import java.util.Map;
 
 class KeyBagHelper {
 
-    private String getMd5Value(String data) {
+    private String getMd5ValueInHex(String data) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(data.getBytes());
@@ -43,11 +43,10 @@ class KeyBagHelper {
     String getSeed(String groupId, String key, int index) {
         if (!TextUtils.isEmpty(groupId) && !TextUtils.isEmpty(key)) {
             String concatData = groupId.trim().concat(String.valueOf(index).concat(key.trim()));
-            String md5Value = getMd5Value(concatData);
+            String md5Value = getMd5ValueInHex(concatData);
             if (md5Value != null && md5Value.length() > 4)
                 return md5Value.substring(0, 4).toUpperCase();
         }
-
         return null;
     }
 
