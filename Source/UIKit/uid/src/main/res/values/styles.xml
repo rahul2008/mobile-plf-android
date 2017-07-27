@@ -62,6 +62,8 @@
         <item name="uidIndeterminateLinearPBStyle">@style/UIDIndeterminateLinearProgress</item>
 
         <item name="uidRadioButtonStyle">@style/UIDRadioButton</item>
+        <item name="android:dropDownListViewStyle">@style/UIDDropDownStyle</item>
+        <item name="listPopupWindowStyle">@style/UIDListPopupWindow</item>
         <!-- Moved to based temporarily to avoid crash-->
         <!--<item name="uidInputTextTextDisabledAlpha">@dimen/uid_alpha_per_35</item>
         <item name="uidInputTextHintTextDisabledAlpha">@dimen/uid_alpha_per_35</item>

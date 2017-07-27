@@ -5,11 +5,12 @@
 package com.philips.platform.uid.matcher;
 
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
-
 import org.hamcrest.Matcher;
 
 @SuppressWarnings("ReturnOfInnerClass")
@@ -223,6 +224,21 @@ public class ViewPropertiesMatchers {
                     return areEqual();
                 }
                 return false;
+            }
+        };
+    }
+
+    public static Matcher<? super View> hasSameStateListBackgroundDrawableStateColor(final int[]attrs, final int color) {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(final View view) {
+                StateListDrawable background = (StateListDrawable) view.getBackground();
+                background.setState(attrs);
+                Drawable normalBackground = background.getCurrent();
+                BaseTypeSafteyMatcher<Drawable> d = (BaseTypeSafteyMatcher<Drawable>) DrawableMatcher.isSameColor(new int[]{android.R.attr.state_enabled}, color, false);
+                d.matches(normalBackground);
+                setValues(d.actual, d.expected);
+                return areEqual();
             }
         };
     }

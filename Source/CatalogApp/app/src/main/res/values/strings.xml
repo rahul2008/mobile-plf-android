@@ -258,4 +258,10 @@
     <string name="radiobutton_selection_item_2">Selection item 2</string>
     <string name="radiobutton_selection_item_3">Selection item 3</string>
     <string name="radiobutton_selection_item_4">Multi-line label Lorem ipsum dolor sit amet consectetur adipiscing elit duis a feugiat tortor</string>
+
+    <!--UI Picker-->
+    <string name="page_title_uipicker">UI Picker</string>
+    <string name="menu_uipicker">Menu UI picker</string>
+    <string name="add_location">Add Location</string>
+
 </resources>

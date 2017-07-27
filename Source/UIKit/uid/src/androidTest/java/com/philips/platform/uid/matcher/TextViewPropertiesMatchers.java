@@ -372,6 +372,18 @@ public class TextViewPropertiesMatchers {
         };
     }
 
+    public static Matcher<View> isSingleline() {
+        return new BaseTypeSafteyMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                if (view instanceof TextView) {
+                    return (((TextView) view).getLineCount() > 1 ? false : true);
+                }
+                throw new RuntimeException("expected TextView got " + view.getClass().getName());
+            }
+        };
+    }
+
     public static Matcher<View> isMultiline() {
         return new BaseTypeSafteyMatcher<View>() {
             @Override
