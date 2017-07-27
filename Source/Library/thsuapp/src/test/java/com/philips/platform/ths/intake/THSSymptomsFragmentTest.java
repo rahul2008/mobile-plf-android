@@ -96,7 +96,6 @@ public class THSSymptomsFragmentTest {
 
         pthSymptomsFragment = new THSSymptomsFragmentMock();
         pthSymptomsFragment.setActionBarListener(actionBarListenerMock);
-        pthSymptomsFragment.face = typefaceMock;
 
         Bundle bundle = new Bundle();
         bundle.putParcelable(THSConstants.THS_PROVIDER_INFO,pthProviderInfoMock);

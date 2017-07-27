@@ -47,14 +47,14 @@ import static android.app.Activity.RESULT_OK;
 public class THSSymptomsFragment extends THSBaseFragment implements BackEventListener, View.OnClickListener,
         THSSelectedImageCallback,THSOnDismissSelectedImageFragmentCallback {
     public static final String TAG = THSSymptomsFragment.class.getSimpleName();
-    private THSSymptomsPresenter mTHSSymptomsPresenter;
+    THSSymptomsPresenter mTHSSymptomsPresenter;
     private THSProviderInfo mThsProviderInfo;
     private THSOnDemandSpeciality thsOnDemandSpeciality;
-    private LinearLayout topicLayout;
+    LinearLayout topicLayout;
     private ImageButton camera_button;
     private Button mContinue;
     private RelativeLayout mRelativeLayout;
-    private THSVisitContext mThsVisitContext;
+    THSVisitContext mThsVisitContext;
     private String userChoosenTask;
     private RecyclerView imageListView;
     private THSImageRecyclerViewAdapter thsImageRecyclerViewAdapter;
