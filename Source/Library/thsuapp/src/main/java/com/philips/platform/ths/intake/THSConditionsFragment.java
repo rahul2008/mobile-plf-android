@@ -61,7 +61,7 @@ public class THSConditionsFragment extends THSBaseFragment implements BackEventL
 
 
         if (getTHSConditions() == null) {
-            createCustomProgressBar(mRelativeLayout, MEDIUM);
+            createCustomProgressBar(mRelativeLayout, BIG);
             getConditionsFromServer();
         } else {
             setConditions(getTHSConditions());
@@ -86,11 +86,6 @@ public class THSConditionsFragment extends THSBaseFragment implements BackEventL
         }else if(i == R.id.conditions_skip){
             mThsConditionsPresenter.onEvent(R.id.conditions_skip);
         }
-    }
-
-    @Override
-    public int getContainerID() {
-        return ((ViewGroup) getView().getParent()).getId();
     }
 
     @Override
@@ -129,6 +124,7 @@ public class THSConditionsFragment extends THSBaseFragment implements BackEventL
             }
             mContinueButton.setEnabled(true);
         }
+        hideProgressBar();
     }
 
     public List<THSConditions> getTHSConditions() {

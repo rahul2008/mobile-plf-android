@@ -74,6 +74,7 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
             bundle.putParcelable(THSConstants.THS_PROVIDER_INFO, viewInterface.getTHSProviderInfo());
             THSSymptomsFragment thsSymptomsFragment = new THSSymptomsFragment();
             thsSymptomsFragment.setConsumerObject(THSConsumer);
+            thsSymptomsFragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
             mThsBaseFragment.addFragment(thsSymptomsFragment, THSSymptomsFragment.TAG, bundle);
 
         } else if (componentID == R.id.detailsButtonTwo) {
@@ -117,6 +118,7 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
                     bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, viewInterface.getPracticeInfo());
                     bundle.putParcelable(THSConstants.THS_PROVIDER, viewInterface.getProvider());
                     bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY, viewInterface.getTHSProviderInfo());
+                    thsAvailableProviderDetailFragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
                     mThsBaseFragment.addFragment(thsAvailableProviderDetailFragment, THSAvailableProviderDetailFragment.TAG, bundle);
                 }
             };
@@ -142,7 +144,9 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
                                                     bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, ((THSProviderDetailsFragment) mThsBaseFragment).getPracticeInfo());
                                                     bundle.putParcelable(THSConstants.THS_PROVIDER, ((THSProviderDetailsFragment) mThsBaseFragment).getProvider());
                                                     bundle.putParcelable(THSConstants.THS_PROVIDER_ENTITY, ((THSProviderDetailsFragment) mThsBaseFragment).getProviderEntitiy());
-                                                    mThsBaseFragment.addFragment(new THSProviderNotAvailableFragment(), THSProviderNotAvailableFragment.TAG, bundle);
+                                                    final THSProviderNotAvailableFragment fragment = new THSProviderNotAvailableFragment();
+                                                    fragment.setFragmentLauncher(mThsBaseFragment.getFragmentLauncher());
+                                                    mThsBaseFragment.addFragment(fragment, THSProviderNotAvailableFragment.TAG, bundle);
                                                     mThsBaseFragment.hideProgressBar();
                                                 }else {
                                                     new THSBasePresenterHelper().launchAvailableProviderDetailFragment(mThsBaseFragment,viewInterface.getTHSProviderInfo(),

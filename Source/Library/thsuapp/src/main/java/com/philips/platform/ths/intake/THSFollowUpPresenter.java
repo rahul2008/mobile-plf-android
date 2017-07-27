@@ -7,6 +7,7 @@ import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.pharmacy.THSConsumerShippingAddressCallback;
@@ -42,7 +43,9 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
             // uiBaseView.addFragment(new THSInsuranceConfirmationFragment(), THSInsuranceConfirmationFragment.TAG, null);
         } else if (componentID == R.id.pth_intake_follow_up_i_agree_link_text) {
 
-            uiBaseView.addFragment(new THSNoppFragment(), THSNoppFragment.TAG, null);
+            final THSNoppFragment fragment = new THSNoppFragment();
+            fragment.setFragmentLauncher(((THSBaseFragment)uiBaseView).getFragmentLauncher());
+            uiBaseView.addFragment(fragment, THSNoppFragment.TAG, null);
         }
     }
 

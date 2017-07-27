@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
@@ -135,7 +134,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         if(TextUtils.isDigitsOnly(charSequence)){
             thsPharmacyListPresenter.fetchPharmacyList(thsConsumer,null,null,charSequence.toString());
         }else {
-            Toast.makeText(getActivity(), "Please enter zip code only", Toast.LENGTH_SHORT).show();
+            showToast("Please enter zip code only");
         }
     }
     public void setConsumerAndAddress(THSConsumer thsConsumer, Address address) {
@@ -361,6 +360,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
             thsShippingAddressFragment.setActionBarListener(getActionBarListener());
             thsShippingAddressFragment.setUpdateShippingAddressCallback(this);
             thsShippingAddressFragment.setConsumerAndAddress(thsConsumer, address);
+            thsShippingAddressFragment.setFragmentLauncher(getFragmentLauncher());
             getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), thsShippingAddressFragment, "ShippingAddressFragment").addToBackStack(null).commit();
         }
         else {
@@ -368,11 +368,6 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
             getActivity().getSupportFragmentManager().popBackStack();
         }
 
-    }
-
-    @Override
-    public int getContainerID() {
-        return ((ViewGroup) getView().getParent()).getId();
     }
 
     private void setMarkerOnMap(final List<Pharmacy> pharmacies) {

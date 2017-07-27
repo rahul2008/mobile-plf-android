@@ -22,7 +22,7 @@ public class THSConditionsPresenter implements THSBasePresenter, THSConditionsCa
     public void onEvent(int componentID) {
         if (componentID == R.id.continue_btn) {
             try {
-                THSManager.getInstance().updateConditions(mTHSBaseFragment.getContext(), THSManager.getInstance().getPTHConsumer(),((THSConditionsFragment) mTHSBaseFragment).getTHSConditions(),this);
+                THSManager.getInstance().updateConditions(mTHSBaseFragment.getContext(), ((THSConditionsFragment) mTHSBaseFragment).getTHSConditions(),this);
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }
@@ -33,7 +33,9 @@ public class THSConditionsPresenter implements THSBasePresenter, THSConditionsCa
     }
 
     private void launchFollowUpFragment() {
-        mTHSBaseFragment.addFragment(new THSFollowUpFragment(),THSFollowUpFragment.TAG,null);
+        final THSFollowUpFragment fragment = new THSFollowUpFragment();
+        fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
+        mTHSBaseFragment.addFragment(fragment,THSFollowUpFragment.TAG,null);
     }
 
     public void getConditions() throws AWSDKInstantiationException {

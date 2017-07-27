@@ -56,11 +56,6 @@ public class THSBaseFragment extends Fragment implements THSBaseView {
     public ActionBarListener getActionBarListener(){
         return actionBarListener;
     }
-    public void showProgressBar() {
-        if (mPTHBaseFragmentProgressBar != null) {
-            mPTHBaseFragmentProgressBar.setVisibility(View.VISIBLE);
-        }
-    }
 
     public void hideProgressBar() {
         if (mPTHBaseFragmentProgressBar != null) {
@@ -100,6 +95,10 @@ public class THSBaseFragment extends Fragment implements THSBaseView {
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         mPTHBaseFragmentProgressBar.setLayoutParams(params);
         group.addView(mPTHBaseFragmentProgressBar);
+
+        if (mPTHBaseFragmentProgressBar != null) {
+            mPTHBaseFragmentProgressBar.setVisibility(View.VISIBLE);
+        }
     }
 
     public void showToast(String message){

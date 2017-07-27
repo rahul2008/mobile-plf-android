@@ -26,21 +26,22 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
     @Override
     public void onEvent(int componentID) {
         if(componentID == pth_intake_medication_continue_button){
-            mTHSBaseFragment.showProgressBar();
             updateMedication( ((THSMedicationFragment )mTHSBaseFragment).mExistingMedication);
         } else if (componentID == ths_existing_medicine_footer_relative_layout){
             THSMedicationSearchFragment tHSMedicationSearchFragment= new THSMedicationSearchFragment();
             tHSMedicationSearchFragment.setTargetFragment(((THSMedicationFragment )mTHSBaseFragment), MEDICATION_ON_ACTIVITY_RESULT);
+            tHSMedicationSearchFragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
             ((THSMedicationFragment )mTHSBaseFragment).addFragment(tHSMedicationSearchFragment, THSMedicationSearchFragment.TAG, null);
         }else if (componentID == pth_intake_medication_skip_step_label){
-            mTHSBaseFragment.addFragment(new THSConditionsFragment(),THSConditionsFragment.TAG,null);
+            final THSConditionsFragment fragment = new THSConditionsFragment();
+            fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
+            mTHSBaseFragment.addFragment(fragment,THSConditionsFragment.TAG,null);
         }
 
     }
 
 
     protected void fetchMedication() {
-        mTHSBaseFragment.showProgressBar();
         try {
             THSManager.getInstance().getMedication(mTHSBaseFragment.getFragmentActivity(), this);
 
@@ -95,7 +96,9 @@ public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCa
 
         AmwellLog.i("onUpdateMedication","success");
         // addF
-        ((THSMedicationFragment )mTHSBaseFragment).addFragment(new THSConditionsFragment(), THSConditionsFragment.TAG, null);
+        final THSConditionsFragment fragment = new THSConditionsFragment();
+        fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
+        ((THSMedicationFragment )mTHSBaseFragment).addFragment(fragment, THSConditionsFragment.TAG, null);
 
     }
     //////////////// end of call backs for update medicines//////////////
