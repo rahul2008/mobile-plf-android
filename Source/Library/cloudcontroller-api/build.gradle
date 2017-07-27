@@ -149,7 +149,6 @@ configurations {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile deps.support.annotations
     javadocDeps deps.support.annotations
     testCompile deps.junit

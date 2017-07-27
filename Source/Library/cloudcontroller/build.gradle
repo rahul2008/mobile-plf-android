@@ -159,19 +159,19 @@ dependencies {
     }
 
     testCompile deps.junit
-    testCompile 'org.mockito:mockito-core:1.9.5'
-    testCompile 'com.squareup.assertj:assertj-android:1.1.1'
+    testCompile deps.mockito
+    testCompile deps.assertj
 
-    testCompile('org.robolectric:robolectric:3.0') {
+    testCompile(deps.robolectric) {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
-    testCompile('org.robolectric:shadows-support-v4:3.0') {
+    testCompile(deps.robolectric_shadows) {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
-    testCompile 'org.powermock:powermock-api-mockito:1.6.4'
-    testCompile 'org.powermock:powermock-module-junit4:1.6.4'
+    testCompile deps.powermock_junit
+    testCompile deps.powermock_mockito
 }
 
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')

@@ -70,12 +70,12 @@ dependencies {
     compile deps.junit
     compile deps.mockito
 
-    compile('org.robolectric:robolectric:3.2') {
+    compile(deps.robolectric) {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
         exclude group: 'com.thoughtworks.xstream', module: 'xstream' // version 1.4.8 (Java 8)
     }
-    compile('org.robolectric:shadows-support-v4:3.2') {
+    compile(deps.robolectric_shadows) {
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
         exclude group: 'com.thoughtworks.xstream', module: 'xstream' // version 1.4.8 (Java 8)

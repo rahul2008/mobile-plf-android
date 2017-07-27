@@ -90,7 +90,7 @@ android {
 dependencies {
     provided deps.support.annotations
 
-    compile 'com.android.support:multidex:1.0.1'
+    compile deps.multidex
 
     debugCompile project(path: ':commlib', configuration: 'debug')
     releaseCompile project(path: ':commlib', configuration: 'release')
@@ -101,18 +101,18 @@ dependencies {
         exclude module: 'cloudcontroller-api'
     }
     testCompile(group: 'com.philips.cdp', name: 'cloudcontroller-api', version: versions.cloudcontroller_api + "-SNAPSHOT.+", changing: true)
-    testCompile 'info.cukes:cucumber-android:1.2.2'
-    testCompile 'info.cukes:cucumber-junit:1.2.2'
+    testCompile deps.cucumber
+    testCompile deps.cucumber_junit
 
     androidTestCompile deps.junit
-    androidTestCompile('com.android.support.test:runner:0.5') {
+    androidTestCompile(deps.android_testrunner) {
         exclude module: 'support-annotations'
     }
-    androidTestCompile('com.android.support.test:rules:0.5') {
+    androidTestCompile(deps.android_testrunner) {
         exclude module: 'support-annotations'
     }
     androidTestCompile project(':commlib-testutils')
-    androidTestCompile 'info.cukes:cucumber-android:1.2.2'
-    androidTestCompile 'info.cukes:cucumber-junit:1.2.2'
-    androidTestCompile 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
+    androidTestCompile deps.cucumber
+    androidTestCompile deps.cucumber_junit
+    androidTestCompile deps.dexmaker
 }
