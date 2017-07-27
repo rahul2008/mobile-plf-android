@@ -14,7 +14,6 @@ import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
-import com.philips.cdp2.commlib.core.util.CloudControllerProvider;
 import com.philips.cdp2.commlib.lan.context.LanTransportContext;
 
 public class DefaultCommlibUappDependencies extends CommlibUappDependencies {
@@ -42,7 +41,6 @@ public class DefaultCommlibUappDependencies extends CommlibUappDependencies {
     @NonNull
     private CloudController setupCloudController(Context context) {
         final CloudController cloudController = new DefaultCloudController(context, new CommlibUappKpsConfigurationInfo());
-        CloudControllerProvider.setCloudController(cloudController);
 
         String ICPClientVersion = cloudController.getICPClientVersion();
         DICommLog.i(DICommLog.ICPCLIENT, "ICPClientVersion :" + ICPClientVersion);
