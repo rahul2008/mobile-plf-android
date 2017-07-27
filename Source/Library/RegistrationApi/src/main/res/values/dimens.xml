@@ -167,7 +167,8 @@
 
     <dimen name="reg_margin_top_24">24dp</dimen>
     <dimen name="reg_margin_bottom_24">24dp</dimen>
-
+    <dimen name="reg_layout_margin_16dp">16dp</dimen>
+    <dimen name="reg_layout_margin_10dp">10dp</dimen>
 
 
 </resources>

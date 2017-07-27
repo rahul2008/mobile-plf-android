@@ -23,7 +23,7 @@ public class EmailValidator implements Validator {
 
         if (msg.length() == 0) {
             validEmail.isEmpty(true);
-        } else if (!validMail) {
+        } else {
             validEmail.isEmpty(false);
             validEmail.isValid(validMail);
         }
