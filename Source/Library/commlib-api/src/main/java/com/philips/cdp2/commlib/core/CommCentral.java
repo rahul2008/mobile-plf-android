@@ -15,17 +15,21 @@ import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 
 import java.util.Collections;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 public final class CommCentral {
     private static final String TAG = "CommCentral";
 
+    private static String APP_ID;
+
     private ApplianceManager applianceManager;
     private final DICommApplianceFactory<?> applianceFactory;
     private final Set<DiscoveryStrategy> discoveryStrategies = new CopyOnWriteArraySet<>();
 
     public CommCentral(@NonNull DICommApplianceFactory applianceFactory, @NonNull final TransportContext... transportContexts) {
+        generateTemporaryAppId();
         // Setup transport contexts
         if (transportContexts.length == 0) {
             throw new IllegalArgumentException("This class needs to be constructed with at least one transport context.");
@@ -69,5 +73,18 @@ public final class CommCentral {
 
     public ApplianceManager getApplianceManager() {
         return applianceManager;
+    }
+
+    public static void setAppId(@NonNull final String appId) {
+        APP_ID = appId;
+    }
+
+    @NonNull
+    public static String getAppId() {
+        return APP_ID;
+    }
+
+    private void generateTemporaryAppId() {
+        APP_ID = String.format("deadbeef%08x", new Random().nextInt());
     }
 }

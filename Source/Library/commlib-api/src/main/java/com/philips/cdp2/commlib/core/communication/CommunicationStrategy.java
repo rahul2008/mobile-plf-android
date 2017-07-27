@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
-import com.philips.cdp2.commlib.core.util.AppIdProvider;
+import com.philips.cdp2.commlib.core.CommCentral;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,7 +63,7 @@ public abstract class CommunicationStrategy {
 
     protected Map<String, Object> getUnsubscriptionData() {
         return new HashMap<String, Object>() {{
-            put(SUBSCRIBER_KEY, AppIdProvider.getAppId());
+            put(SUBSCRIBER_KEY, CommCentral.getAppId());
         }};
     }
 }

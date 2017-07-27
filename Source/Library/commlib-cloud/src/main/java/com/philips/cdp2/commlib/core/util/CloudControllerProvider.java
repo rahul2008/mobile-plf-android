@@ -8,6 +8,7 @@ package com.philips.cdp2.commlib.core.util;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.cloudcontroller.CloudController;
+import com.philips.cdp2.commlib.core.CommCentral;
 
 @Deprecated
 public class CloudControllerProvider {
@@ -28,7 +29,7 @@ public class CloudControllerProvider {
             String appCppId = cloudController.getAppCppId();
 
             if (appCppId != null) {
-                AppIdProvider.setAppId(appCppId);
+                CommCentral.setAppId(appCppId);
             }
         }
     }
