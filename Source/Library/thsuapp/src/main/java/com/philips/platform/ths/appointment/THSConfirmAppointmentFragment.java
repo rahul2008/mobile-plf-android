@@ -2,7 +2,6 @@ package com.philips.platform.ths.appointment;
 
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,7 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uid.view.widget.ImageButton;
 import com.philips.platform.uid.view.widget.Label;
 
 import java.text.SimpleDateFormat;
@@ -33,7 +33,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
     Label mLabelDate;
     ImageView mImageProviderImage;
     Label mLabelIsAvailable;
-    ImageView mImageIsAvailable;
+    ImageButton mImageIsAvailable;
 
     @Nullable
     @Override
@@ -51,7 +51,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
 
         mLabelIsAvailable = (Label)view.findViewById(R.id.details_isAvailableLabel);
         mLabelIsAvailable.setVisibility(View.GONE);
-        mImageIsAvailable = (ImageView)view.findViewById(R.id.details_isAvailableImage);
+        mImageIsAvailable = (ImageButton)view.findViewById(R.id.details_isAvailableImage);
         mImageIsAvailable.setVisibility(View.GONE);
         
         mProviderFullName.setText(mThsProviderInfo.getProviderInfo().getFullName());

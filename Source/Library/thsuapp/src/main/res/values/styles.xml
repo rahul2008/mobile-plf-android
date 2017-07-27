@@ -114,4 +114,10 @@
         <item name="android:drawableLeft">@drawable/ic_calender</item>
     </style>
 
+    <style name="ths_list_item_header">
+        <item name="android:padding">@dimen/pth_fab_margin</item>
+        <item name="android:textSize">@dimen/pth_body_text</item>
+        <item name="android:textColor">?attr/uidContentItemDefaultNormalSubtitleTextColor</item>
+        <item name="android:background">?attr/uidContentSecondaryBackgroundColor</item>
+    </style>
 </resources>

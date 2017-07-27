@@ -17,6 +17,7 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.ImageButton;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.NotificationBadge;
 import com.philips.platform.uid.view.widget.RatingBar;
@@ -32,7 +33,8 @@ public class THSProviderDetailsDisplayHelper {
     SwipeRefreshLayout.OnRefreshListener mOnRefreshListener;
     Context mContext;
     THSPRoviderDetailsViewInterface mThsPRoviderDetailsViewInterface;
-    protected ImageView providerImage,isAvailableImage;
+    protected ImageView providerImage;
+    protected ImageButton isAvailableImage;
     protected Label providerName,practiceName,isAvailable,spokenLanguageValueLabel,yearsOfExpValueLabel,graduatedValueLabel,aboutMeValueLabel,mLabelDate;
     protected RatingBar providerRating;
     protected Button detailsButtonOne,detailsButtonTwo,detailsButtonContinue;
@@ -65,7 +67,7 @@ public class THSProviderDetailsDisplayHelper {
         providerName = (Label) view.findViewById(R.id.details_providerNameLabel);
         practiceName = (Label) view.findViewById(R.id.details_practiceNameLabel);
         isAvailable = (Label) view.findViewById(R.id.details_isAvailableLabel);
-        isAvailableImage = (ImageView) view.findViewById(R.id.details_isAvailableImage);
+        isAvailableImage = (ImageButton) view.findViewById(R.id.details_isAvailableImage);
         notificationBadge = (NotificationBadge)view.findViewById(R.id.notification_badge);
         providerRating = (RatingBar) view.findViewById(R.id.providerRatingValue);
         spokenLanguageValueLabel = (Label) view.findViewById(R.id.spokenLanguageValueLabel);

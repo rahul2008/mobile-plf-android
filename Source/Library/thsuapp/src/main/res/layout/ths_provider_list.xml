@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/uid_dot_navigation_icon_margin"
             android:text="Dr. Eylin White"
-            android:textColor="?attr/uidLabelValueNormalTextColor"
+            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
             android:textSize="@dimen/uid_recyclerview_item_title_text_size" />
 
         <com.philips.platform.uid.view.widget.Label
@@ -39,7 +39,7 @@
             android:layout_below="@+id/providerNameLabel"
             android:layout_marginBottom="@dimen/uid_dot_navigation_icon_margin"
             android:text="Pediatrician"
-            android:textColor="?attr/uidLabelValueNormalTextColor"
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
             android:textSize="@dimen/uid_grid_descrption_size" />
 
         <RelativeLayout
