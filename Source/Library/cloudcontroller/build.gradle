@@ -53,7 +53,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = rootProject.name
+archivesBaseName = project.name
 
 version = objcdp.getVersion()
 
