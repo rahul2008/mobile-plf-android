@@ -1,4 +1,4 @@
-rootProject.name = "CommLib"
+rootProject.name = "commlib-project"
 
 include ':commlib',
         ':commlib-api',
