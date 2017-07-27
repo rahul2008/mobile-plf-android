@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.philips.platform.appinfra.demo.R;
+import com.philips.platform.appinfra.keybag.KeyBagInterface;
 import com.philips.platform.appinfra.keybag.KeyBagManager;
 
 import java.io.InputStream;
@@ -25,29 +26,19 @@ public class KeyBagActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_keybag);
 
-		KeyBagManager keyBagManager = new KeyBagManager();
-		keyBagManager.init(getRawData());
-		String obfuscate = keyBagManager.obfuscate("Test data", 0XAE47);
-
-		Log.d(getClass()+"","obfuscated data "+obfuscate);
-
-		obfuscate = keyBagManager.obfuscate(obfuscate,0XAE47);
-		Log.d(getClass()+"","deobfuscated data "+obfuscate);
-
+		KeyBagInterface keyBagInterface = new KeyBagManager();
+		keyBagInterface.init(getRawData());
 	}
 
 	String getRawData() {
 		try {
 			Resources res = getResources();
-			InputStream in_s = res.openRawResource(R.raw.aikeybag);
-
-			byte[] b = new byte[in_s.available()];
-			int read = in_s.read(b);
+			InputStream in_s = res.openRawResource(R.raw.keybag2);
+			byte[] bytes = new byte[in_s.available()];
+			int read = in_s.read(bytes);
 			Log.d(getClass()+"",String.valueOf(read));
-			String s = new String(b);
-			return s;
+			return new String(bytes);
 		} catch (Exception e) {
-			// e.printStackTrace();
 			e.printStackTrace();
 		}
 		return "";

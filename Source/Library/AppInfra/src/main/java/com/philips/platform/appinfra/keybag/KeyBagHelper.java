@@ -8,9 +8,17 @@ package com.philips.platform.appinfra.keybag;
 
 import android.text.TextUtils;
 
-import java.io.UnsupportedEncodingException;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 class KeyBagHelper {
 
@@ -18,17 +26,15 @@ class KeyBagHelper {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(data.getBytes());
-
-            byte byteData[] = md.digest();
-
+            byte byteArray[] = md.digest();
             StringBuilder hexString = new StringBuilder();
-            for (int i=0;i<byteData.length;i++) {
-                String hex=Integer.toHexString(0xff & byteData[i]);
-                if(hex.length()==1) hexString.append('0');
+            for (byte byteData : byteArray) {
+                String hex = Integer.toHexString(0xff & byteData);
+                if (hex.length() == 1) hexString.append('0');
                 hexString.append(hex);
             }
             return hexString.toString();
-        } catch (NoSuchAlgorithmException e){
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
         return null;
@@ -36,8 +42,7 @@ class KeyBagHelper {
 
     String getSeed(String groupId, String key, int index) {
         if (!TextUtils.isEmpty(groupId) && !TextUtils.isEmpty(key)) {
-            String concatData = groupId.trim().concat(String.valueOf(index));
-//            String concatData = groupId.trim().concat(key.trim()).concat(String.valueOf(index));
+            String concatData = groupId.trim().concat(String.valueOf(index).concat(key.trim()));
             String md5Value = getMd5Value(concatData);
             if (md5Value != null && md5Value.length() > 4)
                 return md5Value.substring(0, 4).toUpperCase();
@@ -46,7 +51,7 @@ class KeyBagHelper {
         return null;
     }
 
-    String getHexStringToString(String hex) {
+    String convertHexDataToString(String hex) {
         int l = hex.length();
         char[] data = new char[l / 2];
         for (int i = 0; i < l; i += 2) {
@@ -56,23 +61,44 @@ class KeyBagHelper {
         return new String(data);
     }
 
-    private String convertToHexaDecimal(String input, String charsetName) throws UnsupportedEncodingException {
-        if (input == null) throw new NullPointerException();
-        return asHex(input.getBytes(charsetName));
-    }
-
-    private final char[] HEX_CHARS = "0123456789abcdef".toCharArray();
-
-    private String asHex(byte[] buf)
-    {
-        char[] chars = new char[2 * buf.length];
-        for (int i = 0; i < buf.length; ++i)
-        {
-            chars[2 * i] = HEX_CHARS[(buf[i] & 0xF0) >>> 4];
-            chars[2 * i + 1] = HEX_CHARS[buf[i] & 0x0F];
+    Map<String, Object> jsonToMap(JSONObject json) throws JSONException {
+        Map<String, Object> retMap = new HashMap<>();
+        if(json != JSONObject.NULL) {
+            retMap = toMap(json);
         }
-        return new String(chars);
+        return retMap;
     }
 
+    private Map<String, Object> toMap(JSONObject object) throws JSONException {
+        Map<String, Object> map = new HashMap<>();
+        Iterator<String> keysItr = object.keys();
+        while(keysItr.hasNext()) {
+            String key = keysItr.next();
+            Object value = object.get(key);
+            if(value instanceof JSONArray) {
+                value = toList((JSONArray) value);
+            }
+            else if(value instanceof JSONObject) {
+                value = toMap((JSONObject) value);
+            }
+            map.put(key, value);
+        }
+        return map;
+    }
 
+    private List<Object> toList(JSONArray array) throws JSONException {
+        List<Object> list = new ArrayList<>();
+        for(int i = 0; i < array.length(); i++) {
+            Object value = array.get(i);
+            if(value instanceof JSONArray) {
+                value = toList((JSONArray) value);
+            }
+
+            else if(value instanceof JSONObject) {
+                value = toMap((JSONObject) value);
+            }
+            list.add(value);
+        }
+        return list;
+    }
 }
