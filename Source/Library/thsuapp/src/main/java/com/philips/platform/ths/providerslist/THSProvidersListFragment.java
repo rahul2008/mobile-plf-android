@@ -39,7 +39,6 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
 
     private Practice mPractice;
     private Consumer consumer;
-    private ProgressBar progressBar;
     private THSProvidersListAdapter THSProvidersListAdapter;
     private ActionBarListener actionBarListener;
     Button btn_get_started;
@@ -127,12 +126,6 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
             createCustomProgressBar(mRelativeLayoutContainer, BIG);
             THSProviderListPresenter.onEvent(R.id.getScheduleAppointmentButton);
         }
-
-        /*THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();
-        THSConsumer thsConsumer = new THSConsumer();
-        thsConsumer.setConsumer(consumer);
-        thsPharmacyAndShippingFragment.setConsumer(thsConsumer);
-        getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(),thsPharmacyAndShippingFragment,"Pharmacy").addToBackStack(null).commit();*/
     }
 
     public Practice getPractice() {

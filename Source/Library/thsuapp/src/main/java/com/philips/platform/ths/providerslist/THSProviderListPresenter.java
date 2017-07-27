@@ -133,6 +133,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
                     bundle.putSerializable(THSConstants.THS_DATE, date);
                     bundle.putParcelable(THSConstants.THS_PRACTICE_INFO, practice);
                     mThsBaseFragment.addFragment(new THSAvailableProviderListBasedOnDateFragment(), THSAvailableProviderListBasedOnDateFragment.TAG, bundle);
+                    mThsBaseFragment.hideProgressBar();
                 }
             };
             thsDatePickerFragmentUtility.showDatePicker(onDateSetListener);
@@ -150,6 +151,7 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         Bundle bundle = new Bundle();
         bundle.putParcelable(THSConstants.THS_ON_DEMAND,onDemandSpecialties.get(0));
         mThsBaseFragment.addFragment(new THSSymptomsFragment(),THSSymptomsFragment.TAG,bundle);
+        mThsBaseFragment.hideProgressBar();
     }
 
     @Override

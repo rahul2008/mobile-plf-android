@@ -129,6 +129,7 @@ public class THSConditionsFragment extends THSBaseFragment implements BackEventL
             }
             mContinueButton.setEnabled(true);
         }
+        hideProgressBar();
     }
 
     public List<THSConditions> getTHSConditions() {

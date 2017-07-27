@@ -52,7 +52,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
         try {
 
             uploadAttachment = fileUtils.getUploadAttachment(thsBaseView.getFragmentActivity(), THSManager.getInstance().getAwsdk(thsBaseView.getFragmentActivity().getApplicationContext()), uri);
-            THSManager.getInstance().uploadHealthDocument(thsBaseView.getFragmentActivity(), thsConsumer, uploadAttachment, this);
+            THSManager.getInstance().uploadHealthDocument(thsBaseView.getFragmentActivity(), uploadAttachment, this);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -66,7 +66,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
 
     public void fetchHealthDocuments(THSConsumer thsConsumer) {
         try {
-            THSManager.getInstance().fetchHealthDocumentRecordList(thsBaseView.getFragmentActivity(), thsConsumer, this);
+            THSManager.getInstance().fetchHealthDocumentRecordList(thsBaseView.getFragmentActivity(), this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

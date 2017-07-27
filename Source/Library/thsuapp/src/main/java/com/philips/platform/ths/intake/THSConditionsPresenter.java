@@ -22,7 +22,7 @@ public class THSConditionsPresenter implements THSBasePresenter, THSConditionsCa
     public void onEvent(int componentID) {
         if (componentID == R.id.continue_btn) {
             try {
-                THSManager.getInstance().updateConditions(mTHSBaseFragment.getContext(), THSManager.getInstance().getPTHConsumer(),((THSConditionsFragment) mTHSBaseFragment).getTHSConditions(),this);
+                THSManager.getInstance().updateConditions(mTHSBaseFragment.getContext(), ((THSConditionsFragment) mTHSBaseFragment).getTHSConditions(),this);
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }
