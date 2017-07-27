@@ -5,8 +5,11 @@
 apply plugin: 'com.android.library'
 
 buildscript { bs ->
-    apply from: rootDir.absolutePath + '/common/gradle/project-build.gradle', to: bs
-    apply from: rootDir.absolutePath + '/common/gradle/module.gradle'
+    project.ext.common = projectDir.absolutePath + '/../../common/gradle'
+
+    apply from: "$project.common/project-build.gradle", to: bs
+    apply from: "$project.common/module.gradle"
+    
     repositories {
         maven {
             url repos.jcenter
