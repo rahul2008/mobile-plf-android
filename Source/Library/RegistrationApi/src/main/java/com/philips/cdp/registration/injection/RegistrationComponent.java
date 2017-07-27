@@ -1,10 +1,11 @@
 package com.philips.cdp.registration.injection;
 
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.BaseConfiguration;
 import com.philips.cdp.registration.configuration.AppConfiguration;
+import com.philips.cdp.registration.configuration.BaseConfiguration;
 import com.philips.cdp.registration.configuration.HSDPConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.controller.RegisterTraditional;
 import com.philips.cdp.registration.controller.UpdateUserRecord;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -43,7 +44,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {NetworkModule.class, AppInfraModule.class, ConfigurationModule.class, UserModule.class})
+@Component(modules = {NetworkModule.class, AppInfraModule.class, ConfigurationModule.class, RegistrationModule.class})
 public interface RegistrationComponent {
 
     NetworkUtility getNetworkUtility();
@@ -120,4 +121,6 @@ public interface RegistrationComponent {
     void inject(AlmostDonePresenter almostDonePresenter);
 
     void inject(CreateAccountPresenter createAccountPresenter);
+
+    void inject(RegisterTraditional registerTraditional);
 }

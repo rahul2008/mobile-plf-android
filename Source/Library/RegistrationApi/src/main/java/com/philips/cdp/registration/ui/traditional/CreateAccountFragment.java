@@ -38,7 +38,6 @@ import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.EmailValidator;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.NameValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.PasswordValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -544,8 +543,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
 
     private void usernameUihandle() {
-        usr_createScreen_firstName_inputValidation.setValidator(new NameValidator());
-        usr_createScreen_lastName_inputValidation.setValidator(new NameValidator());
+        usr_createScreen_firstName_inputValidation.setValidator(firstName -> firstName.length() > 0);
+        usr_createScreen_lastName_inputValidation.setValidator(lastName -> lastName.length() > 0);
         usr_createScreen_firstName_inputValidation.setErrorMessage((R.string.reg_EmptyField_ErrorMsg));
         usr_createScreen_lastName_inputValidation.setErrorMessage((R.string.reg_EmptyField_ErrorMsg));
         usr_createScreen_firstName_textField.requestFocus();

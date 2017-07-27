@@ -1,8 +1,13 @@
 package com.philips.cdp.registration.ui.traditional;
 
 import com.philips.cdp.registration.BuildConfig;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.AppConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.injection.RegistrationComponent;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.update.UpdateUserProfile;
 
@@ -14,6 +19,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
+
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
@@ -31,6 +39,22 @@ public class CreateAccountPresenterTest {
     @Mock
     CreateAccountContract contractMock;
 
+    @Mock
+    private NetworkUtility mockNetworkUtility;
+
+    @Mock
+    RegistrationHelper registrationHelper;
+
+    @Mock
+    EventHelper eventHelper;
+
+    @Mock
+    User user;
+
+    @Mock
+    AppConfiguration appConfiguration;
+
+
     private CreateAccountPresenter presenter;
 
     @Before
@@ -47,6 +71,7 @@ public class CreateAccountPresenterTest {
         updateUserProfileMock = null;
         registrationComponentMock = null;
         registrationConfiguration = null;
+        appConfiguration = null;
 
     }
 
@@ -57,13 +82,17 @@ public class CreateAccountPresenterTest {
 //
     }
 
-//    @Test
-//    public void testOnRegisterSuccess(){
-//        when(registrationConfiguration.isTermsAndConditionsAcceptanceRequired()).thenReturn(false);
-//        presenter.onRegisterSuccess();
-//        verify(contractMock).hideSpinner();
-//        verify(contractMock).trackCheckMarketing();
-//    }
+    @Test
+    public void networkUtility(){
+        when(mockNetworkUtility.isNetworkAvailable()).thenReturn(true);
+        presenter.onNetWorkStateReceived(true);
+        verify(contractMock).handleUiState();
+        verify(contractMock).updateUiStatus();
+    }
 
-
+    @Test
+    public void registerUser() {
+        presenter.registerUserInfo(user, "firstName", "lastName", "email@kdk.com", "password123", true, true);
+    }
+    
 }

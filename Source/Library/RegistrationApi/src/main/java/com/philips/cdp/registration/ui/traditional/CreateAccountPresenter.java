@@ -18,6 +18,8 @@ import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.URInterface;
 
+import javax.inject.Inject;
+
 /**
  * Created by philips on 22/06/17.
  */
@@ -30,6 +32,14 @@ public class CreateAccountPresenter implements NetworStateListener,EventListener
 
     private final CreateAccountContract createAccountContract;
 
+    @Inject
+    User user;
+
+    @Inject
+    RegistrationHelper registrationHelper;
+
+    @Inject
+    EventHelper eventHelper;
 
     public CreateAccountPresenter(CreateAccountContract createAccountContract) {
         URInterface.getComponent().inject(this);
@@ -43,17 +53,14 @@ public class CreateAccountPresenter implements NetworStateListener,EventListener
     }
 
     public void registerListener() {
-        RegistrationHelper.getInstance().registerNetworkStateListener(this);
-        EventHelper.getInstance()
-                .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
+        registrationHelper.registerNetworkStateListener(this);
+        eventHelper.registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
     }
 
     public void unRegisterListener() {
-        RegistrationHelper.getInstance().unRegisterNetworkListener(this);
-        EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
-                this);
-        EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
-                this);
+        registrationHelper.unRegisterNetworkListener(this);
+        eventHelper.unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
+        eventHelper.unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
     }
 
     public void registerUserInfo(User user, String firstName, String lastName, String email, String password, boolean olderThanAgeLimit, boolean isReceiveMarketingEmail){
