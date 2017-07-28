@@ -58,15 +58,15 @@ public class TestAppFrameworkApplication extends AppFrameworkApplication {
         initializeAppInfra(new AppInitializationCallback.AppInfraInitializationCallback() {
             @Override
             public void onAppInfraInitialization() {
+                initialize(new AppInitializationCallback.AppStatesInitializationCallback() {
+                    @Override
+                    public void onAppStatesInitialization() {
 
+                    }
+                });
             }
         });
-        initialize(new AppInitializationCallback.AppStatesInitializationCallback() {
-            @Override
-            public void onAppStatesInitialization() {
 
-            }
-        });
         appInfra = Mockito.mock(AppInfra.class);
 
         userRegistrationOnBoardingState = new UserRegistrationOnBoardingState();
