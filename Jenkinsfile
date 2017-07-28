@@ -30,7 +30,7 @@ node('Android') {
         }*/
 
         stage('Build') {
-            //sh "$gradle generateJavadocPublicApi assemble saveResDep testDebug"
+            sh "$gradle generateJavadocPublicApi assemble saveResDep testDebug"
         }
 
         if (true) {
