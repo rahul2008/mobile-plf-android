@@ -134,6 +134,13 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
         mPresenter.fetchExistingSubscription();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (null != actionBarListener) {
+            actionBarListener.updateActionBar("Insurance", true);
+        }
+    }
 
     @Override
     public boolean handleBackEvent() {
