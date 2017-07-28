@@ -56,7 +56,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ProductCatalogViewHolder productHolder = (ProductCatalogViewHolder) holder;
 
         String imageURL = productCatalogData.getImageURL();
-        if(imageURL==null){
+        if (imageURL == null) {
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.PRX + productCatalogData.getCtnNumber() + "_" + IAPAnalyticsConstant.NO_THUMB_NAIL_IMAGE);
         }
@@ -64,13 +64,17 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         String formattedPrice = productCatalogData.getFormattedPrice();
 
         productHolder.mProductName.setText(productCatalogData.getProductTitle());
-        if(imageURL==null){
+        if (imageURL == null) {
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
-                    IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.PRX + productCatalogData.getCtnNumber() + "_" +IAPAnalyticsConstant.PRODUCT_TITLE_MISSING);
+                    IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.PRX + productCatalogData.getCtnNumber() + "_" + IAPAnalyticsConstant.PRODUCT_TITLE_MISSING);
         }
         productHolder.mProductImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
         productHolder.mPrice.setText(formattedPrice);
-       // productHolder.mCTN.setText(productCatalogData.getCtnNumber());
+
+        if (productCatalogData.getStockLevel().equalsIgnoreCase("outOfStock")) {
+            productHolder.mProductOutOfStock.setText(mContext.getString(R.string.iap_out_of_stock));
+            productHolder.mProductOutOfStock.setTextColor(ContextCompat.getColor(mContext, R.color.uid_signal_red_level_60));
+        }
 
         if (discountedPrice == null || discountedPrice.equalsIgnoreCase("")) {
             productHolder.mDiscountedPrice.setVisibility(View.GONE);
@@ -142,7 +146,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private class ProductCatalogViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         NetworkImageView mProductImage;
         TextView mProductName;
-      //  TextView mCTN;
+        TextView mProductOutOfStock;
         TextView mPrice;
         FontIconTextView mArrow;
         TextView mDiscountedPrice;
@@ -151,7 +155,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             super(itemView);
             mProductImage = (NetworkImageView) itemView.findViewById(R.id.image);
             mProductName = (TextView) itemView.findViewById(R.id.iap_retailerItem_productName_lebel);
-           // mCTN = (TextView) itemView.findViewById(R.id.iap_retailerItem_ctn_lebel);
+            mProductOutOfStock = (TextView) itemView.findViewById(R.id.iap_retaileritem_product_outOfStock_label);
             mPrice = (TextView) itemView.findViewById(R.id.iap_retailerItem_price_lebel);
             mArrow = (FontIconTextView) itemView.findViewById(R.id.arrow);
             mDiscountedPrice = (TextView) itemView.findViewById(R.id.iap_productCatalogItem_discountedPrice_lebel);

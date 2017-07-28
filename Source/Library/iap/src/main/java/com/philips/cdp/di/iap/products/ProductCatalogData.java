@@ -6,7 +6,7 @@ package com.philips.cdp.di.iap.products;
 
 public class ProductCatalogData {
     private int mTotalItems;
-    private int mStockLevel;
+    private String mStockLevel;
 
     private String mCtnNumber;
     private String mProductTitle;
@@ -77,11 +77,11 @@ public class ProductCatalogData {
         return mTotalItems;
     }
 
-    public void setStockLevel(final int stockLevel) {
+    public void setStockLevel(final String stockLevel) {
         mStockLevel = stockLevel;
     }
 
-    public int getStockLevel() {
+    public String getStockLevel() {
         return mStockLevel;
     }
 
