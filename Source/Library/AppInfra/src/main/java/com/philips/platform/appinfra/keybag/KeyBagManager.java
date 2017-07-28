@@ -40,7 +40,7 @@ public class KeyBagManager implements KeyBagInterface {
                 for (Map.Entry<String, Object> entry : map.entrySet()) {
                     String key = entry.getKey();
                     ArrayList arrayList = (ArrayList) entry.getValue();
-                    iterateArrayList(arrayList, key);
+                    iterateArray(arrayList, key);
                 }
             }
         } catch (JSONException e) {
@@ -48,15 +48,15 @@ public class KeyBagManager implements KeyBagInterface {
         }
     }
 
-    private void iterateArrayList(ArrayList arrayList, String groupId) {
+    private void iterateArray(ArrayList arrayList, String groupId) {
         for (int index = 0; index < arrayList.size(); index++) {
-            iterateHashMap(arrayList.get(index).toString(), groupId, index);
+            iterateJson(arrayList.get(index).toString(), groupId, index);
         }
     }
 
-    private void iterateHashMap(String hashMap, String groupId, int index) {
+    private void iterateJson(String jsonData, String groupId, int index) {
         try {
-            JSONObject jsonObject = new JSONObject(hashMap);
+            JSONObject jsonObject = new JSONObject(jsonData);
             Iterator<String> keys = jsonObject.keys();
             while (keys.hasNext()) {
                 String key = keys.next();
