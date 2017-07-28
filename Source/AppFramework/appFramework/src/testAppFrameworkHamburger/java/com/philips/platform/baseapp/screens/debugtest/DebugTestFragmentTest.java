@@ -3,6 +3,7 @@ package com.philips.platform.baseapp.screens.debugtest;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
+import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
@@ -16,9 +17,7 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 
@@ -34,7 +33,7 @@ public class DebugTestFragmentTest extends TestCase {
     public void setUp() throws Exception {
         initMocks(this);
         super.setUp();
-        hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().visible().get();
+        hamburgerActivity = Robolectric.buildActivity(TestActivity.class).create().start().visible().get();
         debugFragment = new DebugTestFragment();
         hamburgerActivity.getSupportFragmentManager().beginTransaction().add(debugFragment,"DebugFragmentTest").commit();
         fragmentActivityMock = mock(FragmentActivity.class);

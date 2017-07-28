@@ -44,21 +44,25 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-       // UIDHelper.init(new ThemeConfiguration(this,ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT));
-        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
-
-        getTheme().applyStyle(R.style.Theme_Philips_DarkBlue_NoActionBar, true);
+        // UIDHelper.init(new ThemeConfiguration(this,ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT));
+        initDLS();
         super.onCreate(savedInstanceState);
+
+    }
+
+    public void initDLS() {
+        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
+        getTheme().applyStyle(R.style.Theme_Philips_DarkBlue_NoActionBar, true);
     }
 
     public void handleFragmentBackStack(Fragment fragment, String fragmentTag, int fragmentAddState) {
-        RALog.d(TAG," handleFragmentBackStack called");
+        RALog.d(TAG, " handleFragmentBackStack called");
         containerId = getContainerId();
         try {
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             switch (fragmentAddState) {
                 case Constants.ADD_HOME_FRAGMENT:
-                    RALog.d(TAG," Added as ADD_HOME_FRAGMENT");
+                    RALog.d(TAG, " Added as ADD_HOME_FRAGMENT");
                     if (null == getSupportFragmentManager().findFragmentByTag(HomeFragment.TAG)) {
                         addToBackStack(containerId, fragment, fragmentTag);
                     } else {
@@ -67,7 +71,7 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
 
                     break;
                 case Constants.ADD_FROM_HAMBURGER:
-                    RALog.d(TAG," Added as ADD_FROM_HAMBURGER");
+                    RALog.d(TAG, " Added as ADD_FROM_HAMBURGER");
 
                     getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     addToBackStack(containerId, new HomeFragment(), HomeFragment.TAG);
@@ -76,7 +80,7 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
 
                     break;
                 case Constants.CLEAR_TILL_HOME:
-                    RALog.d(TAG," Added as CLEAR_TILL_HOME");
+                    RALog.d(TAG, " Added as CLEAR_TILL_HOME");
 
                     getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     addToBackStack(containerId, new HomeFragment(), HomeFragment.TAG);
@@ -84,12 +88,12 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
                     break;
             }
         } catch (Exception e) {
-            RALog.e(TAG,e.getMessage());
+            RALog.e(TAG, e.getMessage());
         }
     }
 
     public void addFragment(Fragment fragment, String fragmentTag) {
-        RALog.d(TAG," addFragment called");
+        RALog.d(TAG, " addFragment called");
 
         containerId = getContainerId();
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -99,7 +103,7 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
     }
 
     private void addToBackStack(int containerID, Fragment fragment, String fragmentTag) {
-        RALog.d(TAG," addToBackStack called");
+        RALog.d(TAG, " addToBackStack called");
 
         fragmentTransaction.replace(containerID, fragment, fragmentTag);
         fragmentTransaction.addToBackStack(fragmentTag);
@@ -135,7 +139,7 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
         */
         ArrayList<Fragment> fragmentList = new ArrayList<>();
 
-        for(int i = getSupportFragmentManager().getBackStackEntryCount() - 1; i >= 0; i--) {
+        for (int i = getSupportFragmentManager().getBackStackEntryCount() - 1; i >= 0; i--) {
             FragmentManager.BackStackEntry backEntry = getSupportFragmentManager().getBackStackEntryAt(i);
             String tag = backEntry.getName();
             Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
@@ -155,7 +159,7 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
     protected void onResume() {
 
         super.onResume();
-        RALog.d(TAG," onResume called");
+        RALog.d(TAG, " onResume called");
 
         if (((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
             startCollectingLifecycleData();
@@ -182,8 +186,8 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
     @Override
     protected void onPause() {
         super.onPause();
-        RALog.d(TAG," onPause called");
-        if(((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
+        RALog.d(TAG, " onPause called");
+        if (((AppFrameworkApplication) getApplicationContext()).getAppInfra() != null) {
             AppFrameworkTagging.getInstance().pauseCollectingLifecycleData();
         }
     }
