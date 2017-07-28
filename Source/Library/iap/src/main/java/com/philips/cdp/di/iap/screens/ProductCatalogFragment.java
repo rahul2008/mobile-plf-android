@@ -61,7 +61,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private int mCurrentPage = 0;
     private int mRemainingProducts = 0;
     private int mTotalPages = -1;
-
+    private Bundle mBundle;
     private boolean mIsLoading = false;
     private boolean mIsProductsAvailable = true;
 
@@ -80,22 +80,24 @@ public class ProductCatalogFragment extends InAppBaseFragment
                 .getProductCatalogPresenter(mContext, this);
         mAdapter = new ProductCatalogAdapter(mContext, mProductCatalog);
 
-        Bundle mBundle = getArguments();
+        mBundle = getArguments();
         String currentCountryCode = HybrisDelegate.getInstance(mContext).getStore().getCountry();
         String countrySelectedByVertical = Utility.getCountryFromPreferenceForKey
                 (mContext, IAPConstant.IAP_COUNTRY_KEY);
         boolean isLocalData = ControllerFactory.getInstance().isPlanB();
 
         if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
-            displayCategorisedProductList(mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS));
+           return;
+            //returning because in Hybris, If CTN not present in Hybris, we need to return a from onCreate to onCreateView to show UI
+            // displayCategorisedProductList(mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS));
         } else {
-            if (!isLocalData && currentCountryCode != null && currentCountryCode.equalsIgnoreCase(countrySelectedByVertical) &&
-                    CartModelContainer.getInstance().getProductList() != null
-                    && CartModelContainer.getInstance().getProductList().size() != 0) {
-                onLoadFinished(getCachedProductList(), null);
-            } else {
-                fetchProductList();
-            }
+        if (!isLocalData && currentCountryCode != null && currentCountryCode.equalsIgnoreCase(countrySelectedByVertical) &&
+                CartModelContainer.getInstance().getProductList() != null
+                && CartModelContainer.getInstance().getProductList().size() != 0) {
+            onLoadFinished(getCachedProductList(), null);
+        } else {
+            fetchProductList();
+        }
         }
     }
 
@@ -144,7 +146,9 @@ public class ProductCatalogFragment extends InAppBaseFragment
             mRecyclerView.setVisibility(View.GONE);
             mEmptyCatalogText.setVisibility(View.VISIBLE);
         }
-
+        if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
+            displayCategorisedProductList(mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS));
+        }
         return rootView;
     }
 
@@ -230,23 +234,28 @@ public class ProductCatalogFragment extends InAppBaseFragment
     @Override
     public void onLoadFinished(final ArrayList<ProductCatalogData> dataFetched,
                                PaginationEntity paginationEntity) {
-        updateProductCatalogList(dataFetched);
-        mAdapter.notifyDataSetChanged();
-        mAdapter.tagProducts();
+        if (dataFetched.size() > 0) {
+            updateProductCatalogList(dataFetched);
+            mAdapter.notifyDataSetChanged();
+            mAdapter.tagProducts();
 
-        mIapListener.onSuccess();
-        dismissProgressDialog();
+            mIapListener.onSuccess();
+            dismissProgressDialog();
 
-        if (paginationEntity == null)
-            return;
+            if (paginationEntity == null)
+                return;
 
-        if (mTotalResults == 0)
-            mRemainingProducts = paginationEntity.getTotalResults();
+            if (mTotalResults == 0)
+                mRemainingProducts = paginationEntity.getTotalResults();
 
-        mTotalResults = paginationEntity.getTotalResults();
-        mCurrentPage = paginationEntity.getCurrentPage();
-        mTotalPages = paginationEntity.getTotalPages();
-        mIsLoading = false;
+            mTotalResults = paginationEntity.getTotalResults();
+            mCurrentPage = paginationEntity.getCurrentPage();
+            mTotalPages = paginationEntity.getTotalPages();
+            mIsLoading = false;
+        } else {
+            onLoadError(NetworkUtility.getInstance().createIAPErrorMessage
+                    ("", mContext.getString(R.string.iap_no_product_available)));
+        }
     }
 
     @Override
