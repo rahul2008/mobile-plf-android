@@ -12,14 +12,10 @@ import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
-import com.americanwell.sdk.entity.provider.ProviderInfo;
-import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.ths.intake.THSSymptomsFragment;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
-import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -104,8 +100,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
                 pthProviderDetailsFragment.setTHSProviderEntity(item);
                 pthProviderDetailsFragment.setConsumerAndPractice(consumer, mPractice);
                 pthProviderDetailsFragment.setFragmentLauncher(getFragmentLauncher());
-                getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(),
-                        pthProviderDetailsFragment, "Provider Details").addToBackStack(null).commit();
+                addFragment(pthProviderDetailsFragment,THSProviderDetailsFragment.TAG,null);
             }
         });
         recyclerView.setAdapter(THSProvidersListAdapter);

@@ -5,13 +5,12 @@ import android.os.Bundle;
 import android.widget.DatePicker;
 
 import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.practice.Practice;
+import com.americanwell.sdk.entity.provider.EstimatedVisitCost;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProviderCallback;
 import com.philips.platform.ths.appointment.THSAvailableProviderDetailFragment;
-import com.philips.platform.ths.appointment.THSAvailableProviderListBasedOnDateFragment;
 import com.philips.platform.ths.appointment.THSDatePickerFragmentUtility;
 import com.philips.platform.ths.appointment.THSProviderNotAvailableFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -27,7 +26,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class THSProviderDetailsPresenter implements THSBasePresenter,THSProviderDetailsCallback{
+public class THSProviderDetailsPresenter implements THSBasePresenter,THSProviderDetailsCallback, THSFetchEstimatedCostCallback {
 
     THSPRoviderDetailsViewInterface viewInterface;
 
@@ -57,6 +56,13 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
 
     @Override
     public void onProviderDetailsReceived(Provider provider, SDKError sdkError) {
+        THSConsumer thsConsumer = new THSConsumer();
+        thsConsumer.setConsumer(viewInterface.getConsumerInfo());
+        try {
+            THSManager.getInstance().fetchEstimatedVisitCost(viewInterface.getContext(),thsConsumer,provider,this);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
         viewInterface.updateView(provider);
     }
 
@@ -174,5 +180,15 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
             e.printStackTrace();
             mThsBaseFragment.hideProgressBar();
         }
+    }
+
+    @Override
+    public void onEstimatedCostFetchSuccess(EstimatedVisitCost estimatedVisitCost, SDKError sdkError) {
+        viewInterface.updateEstimatedCost(estimatedVisitCost);
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+
     }
 }

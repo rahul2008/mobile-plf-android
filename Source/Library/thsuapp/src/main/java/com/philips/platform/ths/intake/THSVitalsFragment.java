@@ -63,7 +63,7 @@ public class THSVitalsFragment extends THSBaseFragment implements BackEventListe
 
         mThsVitalsPresenter = new THSVitalsPresenter(this);
         if (null != getActionBarListener()) {
-            getActionBarListener().updateActionBar(getString(R.string.pth_prepare_your_visit), true);
+            getActionBarListener().updateActionBar(getString(R.string.ths_prepare_your_visit), true);
         }
         try {
             mThsVitalsPresenter.getVitals();

@@ -10,7 +10,7 @@
     <string name="visit_reason">What is the reason for your visit?</string>
     <string name="additional_reason">Additional Reason</string>
     <string name="write_here">write here</string>
-    <string name="pth_prepare_your_visit">prepare your visit</string>
+    <string name="ths_prepare_your_visit">Prepare for your visit</string>
     <string name="button_greaterthan"> &gt;</string>
     <string name="vitals_want">What do you want from vitals?</string>
     <string name="vitals_blood_pressure">Blood Pressure</string>
@@ -59,4 +59,17 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_continue">Continue</string>
     <string name="ths_select_time">Select a timeslot</string>
     <string name="cancel">CANCEL</string>
+
+
+    //Pharmacy strings
+    <string name="pharmacy_shipping_fragment_name">Pharmacy and Shipping</string>
+    <string name="pharmacy_list_fragment_name">Pharmacy List</string>
+    <string name="search_pharmacy_fragment_name">Your pharmacy</string>
+    <string name="shipping_address_fragment_name">Ship prescriptions to</string>
+
+    //Provider list screens strings
+    <string name="provider_available">Available now</string>
+    <string name="provider_offline">Schedule appointment</string>
+    <string name="provider_available_timeslots">Available timeslots</string>
+    <string name="provider_busy">Patient waiting</string>
 </resources>

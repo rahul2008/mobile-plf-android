@@ -17,7 +17,7 @@
         android:layout_height="match_parent">
     <include
         android:id="@+id/providerDetailDListLayout"
-        layout="@layout/ths_provider_details_d_list" />
+        layout="@layout/ths_provider_details_c_list" />
     <View android:background="@color/uid_gray_level_5"
         android:layout_below="@+id/providerDetailDListLayout"
         android:id="@+id/horizontalLine"
@@ -37,9 +37,10 @@
             android:id="@+id/visitCostLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:textSize="16dp"
             android:text="Visit cost"
-            style="@style/UIDLabel.RecyclerViewItemDescriptionText"
-            android:textColor="?attr/uidLabelValueNormalTextColor"
+            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
             />
         <com.philips.platform.uid.view.widget.Label
             android:layout_below="@+id/visitCostLabel"
@@ -47,14 +48,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Price before insurance"
-            android:textSize="@dimen/uid_grid_descrption_size"
-            android:textColor="?attr/uidLabelValueNormalTextColor"
+            android:textSize="14dp"
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
             />
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/visitCostValueLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="$59"
             android:textSize="30sp"
             android:textColor="?attr/uidLabelValueNormalTextColor"
             android:layout_centerVertical="true"
@@ -78,23 +78,23 @@
     <com.philips.platform.uid.view.widget.Label
         android:layout_below="@+id/horizontalLineOne"
         android:id="@+id/profileLabel"
-        android:background="@color/uid_gray_level_5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Profile"
-        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
-        android:padding="@dimen/uid_grid_title_padding"
-        android:textColor="?attr/uidLabelValueNormalTextColor"
+        style="@style/ths_list_item_header"
         />
     <com.philips.platform.uid.view.widget.Label
         android:layout_below="@+id/profileLabel"
         android:id="@+id/ratingLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="16sp"
         android:text="Rating"
-        android:padding="@dimen/uid_grid_title_padding"
-        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
-        android:textColor="?attr/uidLabelValueNormalTextColor"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp"
+        android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
         />
     <com.philips.platform.uid.view.widget.RatingBar
         android:layout_below="@+id/ratingLabel"
@@ -122,22 +122,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Spoken Language"
+        android:textSize="16sp"
+        android:layout_marginBottom="4dp"
         style="@style/UIDLabel.RecyclerViewItemDescriptionText"
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingTop="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
-        android:textColor="?attr/uidLabelValueNormalTextColor"
+        android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
         />
     <com.philips.platform.uid.view.widget.Label
         android:layout_below="@+id/spokenLanguageLabel"
         android:id="@+id/spokenLanguageValueLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="14sp"
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
         android:paddingBottom="@dimen/uid_grid_title_padding"
-        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
-        android:textColor="?attr/uidLabelValueNormalTextColor"
+        android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
         />
     <View android:background="@color/uid_gray_level_5"
         android:layout_below="@+id/spokenLanguageValueLabel"
@@ -151,11 +153,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Years of experience"
+        android:textSize="16sp"
+        android:layout_marginBottom="4dp"
         android:paddingTop="@dimen/uid_grid_title_padding"
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
-        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
-        android:textColor="?attr/uidLabelValueNormalTextColor"
+        android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
         />
     <com.philips.platform.uid.view.widget.Label
         android:layout_below="@+id/yearsOfExpLabel"
@@ -165,8 +168,8 @@
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
         android:paddingBottom="@dimen/uid_grid_title_padding"
-        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
-        android:textColor="?attr/uidLabelValueNormalTextColor"
+        android:textSize="14sp"
+        android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
         />
     <View android:background="@color/uid_gray_level_5"
         android:layout_below="@+id/yearsOfExpValueLabel"
@@ -183,8 +186,9 @@
         android:paddingTop="@dimen/uid_grid_title_padding"
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
-        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
-        android:textColor="?attr/uidLabelValueNormalTextColor"
+        android:layout_marginBottom="4dp"
+        android:textSize="16sp"
+        android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
         />
     <com.philips.platform.uid.view.widget.Label
         android:layout_below="@+id/graduatedLabel"
@@ -194,8 +198,8 @@
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
         android:paddingBottom="@dimen/uid_grid_title_padding"
-        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
-        android:textColor="?attr/uidLabelValueNormalTextColor"
+        android:textSize="14sp"
+        android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
         />
     <View android:background="@color/uid_gray_level_5"
         android:layout_below="@+id/graduatedValueLabel"
@@ -209,13 +213,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="About Me"
-        android:background="@color/uid_gray_level_5"
-        android:paddingStart="@dimen/uid_grid_title_padding"
-        android:paddingEnd="@dimen/uid_grid_title_padding"
-        android:paddingTop="@dimen/uid_grid_title_padding"
-        android:paddingBottom="@dimen/uid_grid_title_padding"
-        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
-        android:textColor="?attr/uidLabelValueNormalTextColor"
+        style="@style/ths_list_item_header"
         />
     <com.philips.platform.uid.view.widget.Label
         android:layout_below="@+id/aboutMeLabel"
@@ -226,8 +224,8 @@
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
         android:paddingBottom="@dimen/uid_grid_title_padding"
-        style="@style/UIDLabel.RecyclerViewItemDescriptionText"
-        android:textColor="?attr/uidLabelValueNormalTextColor"
+        android:textSize="16sp"
+        android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
         />
     <View android:background="@color/uid_gray_level_5"
         android:layout_below="@+id/aboutMeValueLabel"

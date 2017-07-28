@@ -53,6 +53,11 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_follow_up, container, false);
+
+        actionBarListener = getActionBarListener();
+        if(null != actionBarListener){
+            actionBarListener.updateActionBar(R.string.ths_prepare_your_visit,true);
+        }
         mTHSFollowUpPresenter = new THSFollowUpPresenter(this);
         mPhoneNumberEditText = (EditText) view.findViewById(R.id.pth_intake_follow_up_phone_number);
         mFollowUpContiueButton = (ProgressBarButton) view.findViewById(R.id.pth_intake_follow_up_continue_button);
@@ -76,7 +81,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        actionBarListener = getActionBarListener();
+
         THSConsumer THSConsumer = THSManager.getInstance().getPTHConsumer();
         if (null != THSConsumer && null != THSConsumer.getConsumer() && null != THSConsumer.getConsumer().getPhone() && !THSConsumer.getConsumer().getPhone().isEmpty()) {
             mPhoneNumberEditText.setText(THSConsumer.getConsumer().getPhone());
@@ -108,8 +113,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
         thsPharmacyAndShippingFragment.setConsumer(THSManager.getInstance().getPTHConsumer());
         thsPharmacyAndShippingFragment.setPharmacyAndAddress(address,pharmacy);
         thsPharmacyAndShippingFragment.setFragmentLauncher(getFragmentLauncher());
-        getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), thsPharmacyAndShippingFragment, "").addToBackStack(null).commit();
-    }
+        addFragment(thsPharmacyAndShippingFragment,THSPharmacyAndShippingFragment.TAG,null);    }
 
     public void displaySearchPharmacy() {
         mFollowUpContiueButton.hideProgressIndicator();
@@ -276,6 +280,6 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
 
         THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
         thsSearchPharmacyFragment.setFragmentLauncher(getFragmentLauncher());
-        getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(),thsSearchPharmacyFragment,"").addToBackStack(null).commit();
+        addFragment(thsSearchPharmacyFragment,THSSearchPharmacyFragment.TAG,null);
     }
 }

@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.Language;
+import com.americanwell.sdk.entity.provider.EstimatedVisitCost;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
@@ -32,8 +33,10 @@ public class THSProviderDetailsDisplayHelper {
     SwipeRefreshLayout.OnRefreshListener mOnRefreshListener;
     Context mContext;
     THSPRoviderDetailsViewInterface mThsPRoviderDetailsViewInterface;
-    protected ImageView providerImage,isAvailableImage;
-    protected Label providerName,practiceName,isAvailable,spokenLanguageValueLabel,yearsOfExpValueLabel,graduatedValueLabel,aboutMeValueLabel,mLabelDate;
+    protected ImageView providerImage;
+    protected ImageView isAvailableImage;
+    protected Label providerName,practiceName,isAvailable,spokenLanguageValueLabel,yearsOfExpValueLabel,
+            graduatedValueLabel,aboutMeValueLabel,mLabelDate,visitCostValueLabel;
     protected RatingBar providerRating;
     protected Button detailsButtonOne,detailsButtonTwo,detailsButtonContinue;
     RelativeLayout mTimeSlotContainer;
@@ -41,6 +44,8 @@ public class THSProviderDetailsDisplayHelper {
     protected SwipeRefreshLayout swipeRefreshLayout;
     THSBaseFragment thsBaseFragment;
     NotificationBadge notificationBadge;
+    private RelativeLayout available_provider_details_container;
+
 
     public THSProviderDetailsDisplayHelper(Context context, View.OnClickListener onClickListener,
                                     SwipeRefreshLayout.OnRefreshListener onRefreshListener,
@@ -55,8 +60,11 @@ public class THSProviderDetailsDisplayHelper {
     }
 
     void setViews(View view) {
+        available_provider_details_container = (RelativeLayout) view.findViewById(R.id.available_provider_details_container);
+        available_provider_details_container.setVisibility(View.INVISIBLE);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeProviderLayout);
         swipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
+        visitCostValueLabel = (Label) view.findViewById(R.id.visitCostValueLabel);
         providerImage = (ImageView) view.findViewById(R.id.details_providerImage);
         providerName = (Label) view.findViewById(R.id.details_providerNameLabel);
         practiceName = (Label) view.findViewById(R.id.details_practiceNameLabel);
@@ -83,6 +91,7 @@ public class THSProviderDetailsDisplayHelper {
     }
 
     public void updateView(Provider provider,List<Date> dates){
+        available_provider_details_container.setVisibility(View.VISIBLE);
         providerName.setText(provider.getFullName());
         swipeRefreshLayout.setRefreshing(false);
         providerRating.setRating(provider.getRating());
@@ -108,6 +117,19 @@ public class THSProviderDetailsDisplayHelper {
     }
 
     public void updateViewBasedOnType(Provider provider,List<Date> dates) {
+        String providerAvailabilityString = null;
+        String providerVisibility =provider.getVisibility().toString();
+        Context context = isAvailable.getContext();
+        if (providerVisibility.equals(THSConstants.WEB_AVAILABLE)) {
+            providerAvailabilityString = context.getResources().getString(R.string.provider_available);
+            isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.green_available_icon,context.getTheme()));
+        } else if (providerVisibility.equals(THSConstants.PROVIDER_OFFLINE)) {
+            providerAvailabilityString = context.getResources().getString(R.string.provider_offline);
+            isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.provider_offline_icon,context.getTheme()));
+        } else if (providerVisibility.equals(THSConstants.PROVIDER_WEB_BUSY)) {
+            providerAvailabilityString = context.getResources().getString(R.string.provider_busy);
+            isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.waiting_patient_icon,context.getTheme()));
+        }
 
         if(dates!=null){
             mTimeSlotContainer.setVisibility(View.VISIBLE);
@@ -125,7 +147,7 @@ public class THSProviderDetailsDisplayHelper {
         }else {
             detailsButtonContinue.setVisibility(View.GONE);
             mTimeSlotContainer.setVisibility(View.GONE);
-            isAvailable.setText(""+provider.getVisibility());
+            isAvailable.setText(providerAvailabilityString);
         }
     }
 
@@ -142,6 +164,7 @@ public class THSProviderDetailsDisplayHelper {
             if(isAvailableProviderData()){
                 setButtonVisibilityForAvailableProvider();
             }else {
+                isAvailableImage.setVisibility(ImageView.VISIBLE);
                 detailsButtonOne.setVisibility(Button.VISIBLE);
                 detailsButtonOne.setEnabled(true);
                 detailsButtonOne.setText("I'll wait in line");
@@ -165,6 +188,7 @@ public class THSProviderDetailsDisplayHelper {
             if(mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG)){
                 setButtonVisibilityForAvailableProvider();
             }else {
+                isAvailableImage.setVisibility(ImageView.VISIBLE);
                 detailsButtonOne.setVisibility(Button.GONE);
                 detailsButtonTwo.setVisibility(View.VISIBLE);
                 detailsButtonTwo.setText("Schedule an appointment");
@@ -218,4 +242,7 @@ public class THSProviderDetailsDisplayHelper {
         }
     }
 
+    public void updateEstimateCost(EstimatedVisitCost estimatedVisitCost) {
+        visitCostValueLabel.setText("$"+estimatedVisitCost.getCost());
+    }
 }

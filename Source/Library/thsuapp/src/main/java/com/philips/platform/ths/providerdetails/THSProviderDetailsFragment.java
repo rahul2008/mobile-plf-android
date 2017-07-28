@@ -10,15 +10,12 @@ import android.view.ViewGroup;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
+import com.americanwell.sdk.entity.provider.EstimatedVisitCost;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
-import com.philips.platform.ths.utility.THSManager;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * This class is used to display the provider details selected by the user.
@@ -140,6 +137,11 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     @Override
     public Provider getProvider() {
         return mProvider;
+    }
+
+    @Override
+    public void updateEstimatedCost(EstimatedVisitCost estimatedVisitCost) {
+        mThsProviderDetailsDisplayHelper.updateEstimateCost(estimatedVisitCost);
     }
 
     public void setProvider(Provider mProvider) {

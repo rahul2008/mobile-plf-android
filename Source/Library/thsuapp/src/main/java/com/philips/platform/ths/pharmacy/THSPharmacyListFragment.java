@@ -55,13 +55,13 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         THSPharmacyListViewListener,
         BackEventListener, THSUpdatePreferredPharmacy {
 
+    public static String TAG = THSPharmacyListFragment.class.getSimpleName();
     private UIDNavigationIconToggler navIconToggler;
     private GoogleMap map;
     private ImageButton switchViewImageButton;
     private SupportMapFragment mapFragment;
     private RecyclerView pharmacyListRecyclerView;
     private THSPharmacyListAdapter thsPharmacyListAdapter;
-    private ActionBarListener actionBarListener;
     protected THSPharmacyListPresenter thsPharmacyListPresenter;
     private LatLngBounds.Builder builder;
     private CameraUpdate cu;
@@ -79,6 +79,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     protected Address address;
     private Location location;
     private THSUpdatePreferredPharmacy updatePreferredPharmacy;
+    private ActionBarListener actionBarListener;
 
     @Nullable
     @Override
@@ -89,7 +90,10 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         setOnClickListeners();
         findViewByIDs();
         setUpAnimations();
-
+        actionBarListener = getActionBarListener();
+        if(null != actionBarListener){
+            actionBarListener.updateActionBar(R.string.pharmacy_list_fragment_name,true);
+        }
         return view;
     }
 
@@ -361,7 +365,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
             thsShippingAddressFragment.setUpdateShippingAddressCallback(this);
             thsShippingAddressFragment.setConsumerAndAddress(thsConsumer, address);
             thsShippingAddressFragment.setFragmentLauncher(getFragmentLauncher());
-            getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), thsShippingAddressFragment, "ShippingAddressFragment").addToBackStack(null).commit();
+            addFragment(thsShippingAddressFragment,THSShippingAddressFragment.TAG,null);
         }
         else {
             updatePreferredPharmacy.updatePharmacy(pharmacy);
@@ -432,6 +436,9 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     private void showSelectedPharmacyDetails(Pharmacy pharmacy) {
         this.pharmacy = pharmacy;
         handleBack = true;
+        if(null != actionBarListener){
+            actionBarListener.updateActionBar(pharmacy.getName(),true);
+        }
         if (selectedPharmacyLayout.getVisibility() == View.GONE) {
             selectedPharmacyLayout.setVisibility(View.VISIBLE);
             selectedPharmacyLayout.startAnimation(slideUpFromBottomAnimation);
@@ -464,6 +471,9 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
 
     @Override
     public boolean handleBackEvent() {
+        if(null != actionBarListener){
+            actionBarListener.updateActionBar(R.string.pharmacy_list_fragment_name,true);
+        }
         if (pharmacy_segment_control_one.isSelected()) {
             if(null != pharmacyRetailList && pharmacyRetailList.size() > 0) {
                 addMarkerOptions(pharmacyRetailList, null, false);
