@@ -94,13 +94,11 @@ dependencies {
 
     debugCompile project(path: ':commlib', configuration: 'debug')
     releaseCompile project(path: ':commlib', configuration: 'release')
+    debugCompile project(path: ':cloudcontroller', configuration: 'debug')
+    releaseCompile project(path: ':cloudcontroller', configuration: 'release')
 
     testCompile deps.junit
     testCompile deps.mockito
-    testCompile(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cloudcontroller + "-SNAPSHOT.+", changing: true) {
-        exclude module: 'cloudcontroller-api'
-    }
-    testCompile(group: 'com.philips.cdp', name: 'cloudcontroller-api', version: versions.cloudcontroller_api + "-SNAPSHOT.+", changing: true)
     testCompile deps.cucumber
     testCompile deps.cucumber_junit
 
@@ -111,7 +109,7 @@ dependencies {
     androidTestCompile(deps.android_testrunner) {
         exclude module: 'support-annotations'
     }
-    androidTestCompile project(':commlib-testutils')
+    androidTestCompile project(path: ':commlib-testutils', configuration: 'debug')
     androidTestCompile deps.cucumber
     androidTestCompile deps.cucumber_junit
     androidTestCompile deps.dexmaker

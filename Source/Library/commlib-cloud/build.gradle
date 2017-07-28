@@ -186,7 +186,7 @@ dependencies {
 
     for (dep in [':cloudcontroller', ':commlib-testutils']) {
         if (findProject(dep)) {
-            testCompile project(dep, configuration: 'debug')
+            testCompile project(path: dep, configuration: 'debug')
         } else {
             testCompile("$group$dep:$shortversion$suffix") { changing = true }
         }

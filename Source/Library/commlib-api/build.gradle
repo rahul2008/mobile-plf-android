@@ -178,7 +178,7 @@ dependencies {
     def suffix = objcdp.getVersionSuffix()
 
     if (findProject(":commlib-testutils")) {
-        testCompile project(':commlib-testutils')
+        testCompile project(path: ':commlib-testutils', configuration: 'debug')
     } else {
         testCompile("$group:commlib-testutils:$shortversion$suffix") { changing = true }
     }
