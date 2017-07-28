@@ -21,4 +21,6 @@ public class THSConstants {
     public static final String WEB_AVAILABLE = "WEB_AVAILABLE";
     public static final String PROVIDER_OFFLINE = "OFFLINE";
     public static final String PROVIDER_WEB_BUSY = "WEB_BUSY";
+    public static final int REQUEST_VIDEO_VISIT = 6060;
+
 }

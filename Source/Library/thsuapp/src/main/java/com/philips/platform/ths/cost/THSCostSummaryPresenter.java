@@ -54,6 +54,7 @@ public class THSCostSummaryPresenter implements THSBasePresenter, THSSDKValidate
     public void onResponse(THSVisit thsVisit, SDKError sdkError) {
         ((THSCostSummaryFragment) mTHSBaseFragment).hideProgressBar();
         if (null != thsVisit) {
+            THSManager.getInstance().setTHSVisit(thsVisit);
            double costDouble= thsVisit.getVisit().getVisitCost().getExpectedConsumerCopayCost();
             String costString = String.valueOf(costDouble);
             String[] costStringArray = costString.split("\\.");// seperate the decimal value

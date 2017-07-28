@@ -10,6 +10,7 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.AmwellLog;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.ths.visit.THSWaitingRoomFragment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -80,6 +81,7 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
     public void onResponse(THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError) {
         if (null == tHSSDKError.getSdkError()) {
             AmwellLog.i("updatePayment", "success");
+            mTHSBillingAddressFragment.addFragment(new THSWaitingRoomFragment(),THSWaitingRoomFragment.TAG,null);
         } else {
             AmwellLog.i("updatePayment", "failed");
         }

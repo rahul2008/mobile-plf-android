@@ -75,7 +75,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        createCustomProgressBar(mProgressbarContainer, BIG);
+
         actionBarListener = getActionBarListener();
 
         if (existingMedicineFetched) {
