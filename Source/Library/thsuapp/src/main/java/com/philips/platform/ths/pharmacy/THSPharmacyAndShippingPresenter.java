@@ -1,6 +1,7 @@
 package com.philips.platform.ths.pharmacy;
 
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
 
@@ -21,7 +22,9 @@ public class THSPharmacyAndShippingPresenter implements THSBasePresenter{
             thsBaseView.startEditShippingAddress();
         }
         if(componentID== R.id.ths_ps_continue_button){
-            thsBaseView.addFragment(new THSInsuranceConfirmationFragment(),THSInsuranceConfirmationFragment.TAG,null);
+            final THSInsuranceConfirmationFragment fragment = new THSInsuranceConfirmationFragment();
+            fragment.setFragmentLauncher(((THSBaseFragment)thsBaseView).getFragmentLauncher());
+            thsBaseView.addFragment(fragment,THSInsuranceConfirmationFragment.TAG,null);
         }
     }
 }

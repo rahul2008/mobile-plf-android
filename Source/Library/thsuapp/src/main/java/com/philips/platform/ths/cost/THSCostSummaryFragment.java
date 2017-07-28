@@ -25,17 +25,20 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     private Button mCostSummaryContinueButton;
     Label costBigLabel;
     Label costSmallLabel;
+    private RelativeLayout mRelativeLayoutCostContainer;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_cost_detail, container, false);
         mPresenter = new THSCostSummaryPresenter(this);
+        mRelativeLayoutCostContainer = (RelativeLayout) view.findViewById(R.id.cost_container);
         costBigLabel = (Label) view.findViewById(R.id.ths_cost_summary_cost_big_label);
         costSmallLabel = (Label) view.findViewById(R.id.ths_cost_summary_cost_small_label);
         mProgressbarContainer=(RelativeLayout) view.findViewById(R.id.ths_cost_summary_relativelayout);
         mCostSummaryContinueButton =(Button) view.findViewById(R.id.ths_cost_summary_continue_button);
         mCostSummaryContinueButton.setOnClickListener(this);
+        createCustomProgressBar(mRelativeLayoutCostContainer,BIG);
         mPresenter.createVisit();
         return view;
     }
@@ -43,7 +46,7 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        createCustomProgressBar(mProgressbarContainer, MEDIUM);
+        createCustomProgressBar(mProgressbarContainer, BIG);
         actionBarListener = getActionBarListener();
     }
 
@@ -53,11 +56,6 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Cost", true);
         }
-    }
-
-    @Override
-    public int getContainerID() {
-        return ((ViewGroup) getView().getParent()).getId();
     }
 
     /**

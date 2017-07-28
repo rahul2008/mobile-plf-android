@@ -30,7 +30,6 @@ public class THSNoppPresenter implements THSBasePresenter, THSNoppCallBack {
 
 
     public void showLegalTextForNOPP() {
-        ((THSNoppFragment) uiBaseView).showProgressBar();
         legalTextList = mTHSVisitContext.getLegalTexts();
         for (LegalText legalText : legalTextList) {
             try{

@@ -6,6 +6,7 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.providerslist.THSProvidersListFragment;
@@ -55,6 +56,7 @@ public class THSPracticePresenter implements THSBasePresenter, THSPracticesListC
 
 
        // providerListFragment.setPracticeAndConsumer(practice,mConsumer);
+        providerListFragment.setFragmentLauncher(((THSBaseFragment)uiBaseView).getFragmentLauncher());
         ((THSPracticeFragment)uiBaseView).addFragment(providerListFragment,THSProvidersListFragment.TAG,bundle);
        /* providerListFragment.setActionBarListener(getActionBarListener());
 

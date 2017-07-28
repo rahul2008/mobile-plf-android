@@ -1,11 +1,10 @@
 package com.philips.platform.ths.pharmacy;
 
-import android.widget.Toast;
-
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
+import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBaseView;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
@@ -30,7 +29,7 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
 
     @Override
     public void onAddressValidationFailure(Map<String, ValidationReason> map) {
-        Toast.makeText(thsBaseView.getFragmentActivity(),"Shipping Address validation failure",Toast.LENGTH_SHORT).show();
+        ((THSBaseFragment)thsBaseView).showToast("Shipping Address validation failure");
     }
 
     @Override
@@ -39,11 +38,11 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
         //Toast.makeText(thsBaseView.getFragmentActivity(),"Update address success",Toast.LENGTH_SHORT).show();
         //thsBaseView.addFragment(new THSInsuranceConfirmationFragment(),THSInsuranceConfirmationFragment.TAG,null);
         ((THSShippingAddressFragment) thsBaseView).updateShippingAddressView(address);
-        Toast.makeText(thsBaseView.getFragmentActivity(),"Update Shipping address success",Toast.LENGTH_SHORT).show();
+        ((THSShippingAddressFragment) thsBaseView).showToast("Update Shipping address success");
     }
 
     @Override
     public void onUpdateFailure(Throwable throwable) {
-        Toast.makeText(thsBaseView.getFragmentActivity(),"Update Shipping address Failed",Toast.LENGTH_SHORT).show();
+        ((THSShippingAddressFragment) thsBaseView).showToast("Update Shipping address Failed");
     }
 }

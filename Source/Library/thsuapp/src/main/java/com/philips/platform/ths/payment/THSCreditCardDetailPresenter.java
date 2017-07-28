@@ -31,7 +31,6 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
 
 
     void getPaymentMethod() {
-        mTHSCreditCardDetailFragment.showProgressBar();
         try {
             THSManager.getInstance().getPaymentMethod(mTHSCreditCardDetailFragment.getFragmentActivity(), this);
         } catch (Exception e) {
@@ -101,7 +100,9 @@ public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymen
             bundle.putInt("expirationYear", Integer.parseInt(expirationYear));
             bundle.putString("CVVcode", CVVcode);
 
-            mTHSCreditCardDetailFragment.addFragment(new THSCreditCardBillingAddressFragment(), THSCreditCardBillingAddressFragment.TAG, bundle);
+            final THSCreditCardBillingAddressFragment fragment = new THSCreditCardBillingAddressFragment();
+            fragment.setFragmentLauncher(mTHSCreditCardDetailFragment.getFragmentLauncher());
+            mTHSCreditCardDetailFragment.addFragment(fragment, THSCreditCardBillingAddressFragment.TAG, bundle);
 
         }
 

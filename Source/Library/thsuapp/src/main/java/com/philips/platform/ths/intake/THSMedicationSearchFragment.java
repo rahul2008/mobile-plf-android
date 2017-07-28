@@ -65,12 +65,6 @@ public class THSMedicationSearchFragment extends THSBaseFragment implements Sear
     }
 
     @Override
-    public int getContainerID() {
-        return ((ViewGroup)getView().getParent()).getId();
-    }
-
-
-    @Override
     public void onResume() {
         super.onResume();
         navIconToggler.hideNavigationIcon();
@@ -127,7 +121,6 @@ public class THSMedicationSearchFragment extends THSBaseFragment implements Sear
         if (null != charSequence && charSequence.length() > 2) {
             InputMethodManager imm = (InputMethodManager)THSMedicationSearchFragment.this.getFragmentActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(searchBox.getWindowToken(), 0);
-            showProgressBar();
             ((THSMedicationSearchPresenter) mPresenter).searchMedication(charSequence.toString());
         }
     }

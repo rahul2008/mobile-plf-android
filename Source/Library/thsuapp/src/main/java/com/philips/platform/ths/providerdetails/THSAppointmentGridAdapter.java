@@ -83,7 +83,9 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable(THSConstants.THS_PROVIDER_INFO,thsProviderInfo);
                     bundle.putSerializable(THSConstants.THS_DATE,gridData);
-                    thsBaseFragment.addFragment(new THSConfirmAppointmentFragment(), THSConfirmAppointmentFragment.TAG,bundle);
+                    final THSConfirmAppointmentFragment fragment = new THSConfirmAppointmentFragment();
+                    fragment.setFragmentLauncher(thsBaseFragment.getFragmentLauncher());
+                    thsBaseFragment.addFragment(fragment, THSConfirmAppointmentFragment.TAG,bundle);
                 }
             });
 

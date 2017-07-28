@@ -92,11 +92,6 @@ public class THSWelcomeFragmentTest {
     }
 
     @Test
-    public void showProgressBar() throws Exception {
-        mWelcomeFragment.showProgressBar();
-    }
-
-    @Test
     public void hideProgressBar() throws Exception {
         mWelcomeFragment.hideProgressBar();
     }

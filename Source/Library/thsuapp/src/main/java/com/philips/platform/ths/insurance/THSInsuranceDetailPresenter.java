@@ -67,7 +67,6 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
 
     void fetchExistingSubscription() {
         try {
-            ((THSInsuranceDetailFragment) mTHSBaseFragment).showProgressBar();
             THSManager.getInstance().getExistingSubscription(mTHSBaseFragment.getFragmentActivity(), this);
         } catch (Exception e) {
 
@@ -75,7 +74,6 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
     }
 
     void updateTHSInsuranceSubscription(){
-        ((THSInsuranceDetailFragment) mTHSBaseFragment).showProgressBar();
         try {
             THSSubscriptionUpdateRequest thsSubscriptionUpdateRequest = getSubscriptionUpdateRequestWithoutVistContext();
             final Subscription subscription = thsSubscriptionUpdateRequest.getSubscriptionUpdateRequest().getSubscription();
@@ -123,7 +121,9 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
     public void onEvent(int componentID) {
         if(componentID == R.id.ths_insurance_detail_skip_button){
             // skip insurance update
-            mTHSBaseFragment.addFragment(new THSCostSummaryFragment(),THSCostSummaryFragment.TAG,null);
+            final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
+            fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
+            mTHSBaseFragment.addFragment(fragment,THSCostSummaryFragment.TAG,null);
         } else if (componentID == R.id.ths_insurance_detail_continue_button){
             updateTHSInsuranceSubscription();
         }
@@ -186,7 +186,9 @@ public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuran
     public void onResponse(Void aVoid, SDKError sdkError) {
         ((THSInsuranceDetailFragment) mTHSBaseFragment).hideProgressBar();
         AmwellLog.i("updateInsurance","success");
-        mTHSBaseFragment.addFragment(new THSCostSummaryFragment(),THSCostSummaryFragment.TAG,null);
+        final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
+        fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
+        mTHSBaseFragment.addFragment(fragment,THSCostSummaryFragment.TAG,null);
     }
     ///////// start update suscription call back
 

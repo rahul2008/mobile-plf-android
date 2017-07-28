@@ -61,7 +61,8 @@ public class THSFileUtils {
         }*/
 
         if (file.exists()) {
-            Toast.makeText(context, "File with name \"" + fileName + "\" already exists", Toast.LENGTH_SHORT).show();
+            if (context != null)
+                Toast.makeText(context, "File with name \"" + fileName + "\" already exists", Toast.LENGTH_SHORT).show();
             return null;
         } else {
             FileOutputStream fos = new FileOutputStream(file);

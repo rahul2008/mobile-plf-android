@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.base.THSBasePresenter;
@@ -20,6 +21,7 @@ public class THSWelcomeFragment extends THSBaseFragment implements BackEventList
     public static final String TAG = THSWelcomeFragment.class.getSimpleName();
     THSBasePresenter presenter;
     Button mInitButton;
+    RelativeLayout mRelativeLayoutInitContainer;
 
     public FragmentLauncher getFragmentLauncher() {
         return mFragmentLauncher;
@@ -40,6 +42,7 @@ public class THSWelcomeFragment extends THSBaseFragment implements BackEventList
         ((THSWelcomePresenter) presenter).initializeAwsdk();
         getActionBarListener().updateActionBar("", false);
         mInitButton = (Button) view.findViewById(R.id.init_amwell);
+        mRelativeLayoutInitContainer = (RelativeLayout) view.findViewById(R.id.init_container);
         mInitButton.setOnClickListener(this);
         return view;
     }
@@ -65,6 +68,7 @@ public class THSWelcomeFragment extends THSBaseFragment implements BackEventList
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.init_amwell) {
+            createCustomProgressBar(mRelativeLayoutInitContainer,BIG);
             presenter.onEvent(R.id.init_amwell);
         }
     }

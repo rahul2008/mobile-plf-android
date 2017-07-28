@@ -73,11 +73,6 @@ public class THSVitalsFragment extends THSBaseFragment implements BackEventListe
     }
 
     @Override
-    public int getContainerID() {
-        return ((ViewGroup) getView().getParent()).getId();
-    }
-
-    @Override
     public boolean handleBackEvent() {
         return false;
     }

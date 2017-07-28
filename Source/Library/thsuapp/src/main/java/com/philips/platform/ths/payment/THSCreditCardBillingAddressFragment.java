@@ -93,12 +93,6 @@ public class THSCreditCardBillingAddressFragment extends THSBaseFragment impleme
 
     }
 
-    @Override
-    public int getContainerID() {
-        return ((ViewGroup) getView().getParent()).getId();
-    }
-
-
     /**
      * Called when a view has been clicked.
      *

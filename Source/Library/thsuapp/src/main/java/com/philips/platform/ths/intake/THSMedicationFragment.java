@@ -75,7 +75,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        createCustomProgressBar(mProgressbarContainer, MEDIUM);
+        createCustomProgressBar(mProgressbarContainer, BIG);
         actionBarListener = getActionBarListener();
 
         if (existingMedicineFetched) {
@@ -84,6 +84,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
 
         } else {
             // fetch existing medicines
+            createCustomProgressBar(mProgressbarContainer,BIG);
             ((THSMedicationPresenter) mPresenter).fetchMedication();
         }
 
@@ -132,17 +133,13 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.pth_intake_medication_continue_button) {
+            createCustomProgressBar(mProgressbarContainer,BIG);
             mPresenter.onEvent(R.id.pth_intake_medication_continue_button);
         } else if (id == R.id.ths_existing_medicine_footer_relative_layout) {
             mPresenter.onEvent(R.id.ths_existing_medicine_footer_relative_layout);
         }else if (id == R.id.pth_intake_medication_skip_step_label) {
             mPresenter.onEvent(R.id.pth_intake_medication_skip_step_label);
         }
-    }
-
-    @Override
-    public int getContainerID() {
-        return ((ViewGroup) getView().getParent()).getId();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

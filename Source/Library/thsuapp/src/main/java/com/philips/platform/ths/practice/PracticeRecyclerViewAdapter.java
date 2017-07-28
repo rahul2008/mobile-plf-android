@@ -73,7 +73,7 @@ public class PracticeRecyclerViewAdapter extends RecyclerView.Adapter<PracticeRe
 
     @Override
     public int getItemCount() {
-        return (null != mTHSPractice ? mTHSPractice.getPractices().size() : 0);
+        return (null != mTHSPractice && mTHSPractice.getPractices()!=null ? mTHSPractice.getPractices().size() : 0);
     }
 
     class CustomViewHolder extends RecyclerView.ViewHolder {

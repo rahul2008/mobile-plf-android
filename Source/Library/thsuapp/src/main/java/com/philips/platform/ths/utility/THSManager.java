@@ -161,11 +161,11 @@ public class THSManager {
 
     public void initializeTeleHealth(Context context, final THSInitializeCallBack THSInitializeCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
         final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
-       initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
-        initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key
+      /* initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
+        initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key*/
 
-         /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
-        initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key*/
+         initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
+        initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key
 
         AmwellLog.i(AmwellLog.LOG,"Initialize - SDK API Called");
         getAwsdk(context).initialize(
@@ -494,7 +494,7 @@ public class THSManager {
         });
     }
 
-    public void updateConditions(Context context, THSConsumer THSConsumer, List<THSConditions> pthConditionList, final THSUpdateConditionsCallback thsUpdateConditionsCallback) throws AWSDKInstantiationException {
+    public void updateConditions(Context context, List<THSConditions> pthConditionList, final THSUpdateConditionsCallback thsUpdateConditionsCallback) throws AWSDKInstantiationException {
 
         List<Condition> conditionList = new ArrayList<>();
         for (THSConditions pthcondition:pthConditionList
@@ -502,7 +502,7 @@ public class THSManager {
             conditionList.add(pthcondition.getCondition());
         }
         
-        getAwsdk(context).getConsumerManager().updateConditions(THSConsumer.getConsumer(), conditionList, new SDKCallback<Void, SDKError>() {
+        getAwsdk(context).getConsumerManager().updateConditions(getPTHConsumer().getConsumer(), conditionList, new SDKCallback<Void, SDKError>() {
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
                 THSSDKError pthSDKError = new THSSDKError();
@@ -884,8 +884,8 @@ public class THSManager {
 
     }
 
-    public void fetchHealthDocumentRecordList(Context context,final THSConsumer thsConsumer,final THSDocumentRecordCallback thsDocumentRecordCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getHealthDocumentRecords(thsConsumer.getConsumer(), null, new SDKCallback<List<DocumentRecord>, SDKError>() {
+    public void fetchHealthDocumentRecordList(Context context, final THSDocumentRecordCallback thsDocumentRecordCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getHealthDocumentRecords(getPTHConsumer().getConsumer(), null, new SDKCallback<List<DocumentRecord>, SDKError>() {
             @Override
             public void onResponse(List<DocumentRecord> documentRecordList, SDKError sdkError) {
                 thsDocumentRecordCallback.onDocumentRecordFetchSuccess(documentRecordList,sdkError);
@@ -899,8 +899,8 @@ public class THSManager {
 
     }
 
-    public void downloadHealthDocuments(Context context, final THSConsumer thsConsumer, DocumentRecord documentRecord, final THSFileDownloadCallback thsFileDownloadCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().getHealthDocumentRecordAttachment(thsConsumer.getConsumer(), documentRecord, new SDKCallback<FileAttachment, SDKError>() {
+    public void downloadHealthDocuments(Context context, DocumentRecord documentRecord, final THSFileDownloadCallback thsFileDownloadCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().getHealthDocumentRecordAttachment(getPTHConsumer().getConsumer(), documentRecord, new SDKCallback<FileAttachment, SDKError>() {
             @Override
             public void onResponse(FileAttachment fileAttachment, SDKError sdkError) {
                 thsFileDownloadCallback.onDocumentDownloadSuccess(fileAttachment,sdkError);
@@ -913,9 +913,9 @@ public class THSManager {
         });
     }
 
-    public void uploadHealthDocument(Context context, THSConsumer thsConsumer, UploadAttachment uploadAttachment, final THSUploadDocumentCallback thsUploadDocumentCallback) throws AWSDKInstantiationException, IOException {
+    public void uploadHealthDocument(Context context, UploadAttachment uploadAttachment, final THSUploadDocumentCallback thsUploadDocumentCallback) throws AWSDKInstantiationException, IOException {
 
-        getAwsdk(context).getConsumerManager().addHealthDocument(thsConsumer.getConsumer(), uploadAttachment, new SDKValidatedCallback<DocumentRecord, SDKError>() {
+        getAwsdk(context).getConsumerManager().addHealthDocument(getPTHConsumer().getConsumer(), uploadAttachment, new SDKValidatedCallback<DocumentRecord, SDKError>() {
             @Override
             public void onValidationFailure(Map<String, ValidationReason> map) {
                 thsUploadDocumentCallback.onUploadValidationFailure(map);
@@ -933,8 +933,8 @@ public class THSManager {
         });
     }
 
-    public void deletedHealthDocument(Context context, THSConsumer thsConsumer, DocumentRecord documentRecord, final THSDeleteDocumentCallback thsDeleteDocumentCallback) throws AWSDKInstantiationException {
-        getAwsdk(context).getConsumerManager().removeHealthDocumentRecord(thsConsumer.getConsumer(), documentRecord, new SDKCallback<Void, SDKError>() {
+    public void deletedHealthDocument(Context context, DocumentRecord documentRecord, final THSDeleteDocumentCallback thsDeleteDocumentCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().removeHealthDocumentRecord(getPTHConsumer().getConsumer(), documentRecord, new SDKCallback<Void, SDKError>() {
             @Override
             public void onResponse(Void aVoid, SDKError sdkError) {
                 thsDeleteDocumentCallback.onDeleteSuccess(sdkError);

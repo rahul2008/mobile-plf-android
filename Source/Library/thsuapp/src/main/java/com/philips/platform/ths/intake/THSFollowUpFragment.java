@@ -107,18 +107,13 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
 
     }
 
-    @Override
-    public int getContainerID() {
-        return ((ViewGroup) getView().getParent()).getId();
-    }
-
     public void displayPharmacyAndShippingPreferenceFragment(Pharmacy pharmacy, Address address) {
         mFollowUpContiueButton.hideProgressIndicator();
         THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();
         thsPharmacyAndShippingFragment.setConsumer(THSManager.getInstance().getPTHConsumer());
         thsPharmacyAndShippingFragment.setPharmacyAndAddress(address,pharmacy);
-        addFragment(thsPharmacyAndShippingFragment,THSPharmacyAndShippingFragment.TAG,null);
-    }
+        thsPharmacyAndShippingFragment.setFragmentLauncher(getFragmentLauncher());
+        addFragment(thsPharmacyAndShippingFragment,THSPharmacyAndShippingFragment.TAG,null);    }
 
     public void displaySearchPharmacy() {
         mFollowUpContiueButton.hideProgressIndicator();
@@ -234,6 +229,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
         THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
         thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(),null);
         thsPharmacyListFragment.setLocation(location);
+        thsPharmacyListFragment.setFragmentLauncher(getFragmentLauncher());
         getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(),thsPharmacyListFragment,"").addToBackStack(null).commit();
 
     }
@@ -275,7 +271,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
                 getLocation();
             } else {
                 showPharmacySearch();
-                Toast.makeText(getActivity(), "Permission denied : Going to search", Toast.LENGTH_SHORT).show();
+                showToast("Permission denied : Going to search");
             }
         }
     }
@@ -283,6 +279,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     private void showPharmacySearch() {
 
         THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
+        thsSearchPharmacyFragment.setFragmentLauncher(getFragmentLauncher());
         addFragment(thsSearchPharmacyFragment,THSSearchPharmacyFragment.TAG,null);
     }
 }

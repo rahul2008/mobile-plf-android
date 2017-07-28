@@ -37,7 +37,6 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     }
 
     protected void initializeAwsdk() {
-        uiBaseView.showProgressBar();
         ((THSWelcomeFragment) uiBaseView).enableInitButton(false);
         try {
             AmwellLog.i(AmwellLog.LOG,"Initialize - Call initiated from Client");
@@ -80,9 +79,7 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     @Override
     public void onLoginResponse(THSAuthentication THSAuthentication, THSSDKError sdkError) {
         AmwellLog.i(AmwellLog.LOG,"Login - UI updated");
-        uiBaseView.hideProgressBar();
         AmwellLog.d("Login","Login success");
-        uiBaseView.showProgressBar();
         try {
             THSManager.getInstance().getConsumerObject(uiBaseView.getFragmentActivity(), THSAuthentication.getAuthentication(),this);
         } catch (AWSDKInstantiationException e) {
@@ -120,7 +117,9 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
         THSManager.getInstance().setPTHConsumer(THSConsumer);
         uiBaseView.hideProgressBar();
         AmwellLog.d("Login","Consumer object received");
-         uiBaseView.addFragment(new THSPracticeFragment(),THSPracticeFragment.TAG,null);
+        final THSPracticeFragment fragment = new THSPracticeFragment();
+        fragment.setFragmentLauncher(uiBaseView.getFragmentLauncher());
+        uiBaseView.addFragment(fragment,THSPracticeFragment.TAG,null);
 
     }
 
