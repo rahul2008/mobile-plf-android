@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -18,7 +19,6 @@ import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
 import com.philips.platform.appframework.testmicroappfw.ui.COCOListFragment;
 import com.philips.platform.appframework.testmicroappfw.ui.COCOListPresenter;
 import com.philips.platform.appframework.testmicroappfw.ui.CoCoAdapter;
-import com.philips.platform.testmicroappfw.ui.TestFragmentTest;
 
 import junit.framework.TestCase;
 
@@ -44,7 +44,7 @@ public class COCOListFragmentTest extends TestCase {
     @Before
     public void setUp() throws Exception{
         super.setUp();
-        hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
+        hamburgerActivity = Robolectric.buildActivity(TestActivity.class).create().start().get();
         cocoListFragment = setUpCoCoListFragmentBundle();
         hamburgerActivity.getSupportFragmentManager().beginTransaction().add(cocoListFragment,"CoCoListFragmentMock").commit();
     }

@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -41,7 +42,7 @@ public class AboutScreenFragmentTest {
 
     @Before
     public void setUp(){
-        hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
+        hamburgerActivity = Robolectric.buildActivity(TestActivity.class).create().start().get();
         View customView = LayoutInflater.from(hamburgerActivity).
                 inflate(R.layout.af_action_bar_shopping_cart, null);
         hamburgerClick = (FrameLayout) customView.findViewById(R.id.af_hamburger_frame_layout);

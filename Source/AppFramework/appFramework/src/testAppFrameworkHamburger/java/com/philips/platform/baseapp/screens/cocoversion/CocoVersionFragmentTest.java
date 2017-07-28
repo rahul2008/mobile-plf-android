@@ -3,12 +3,14 @@ package com.philips.platform.baseapp.screens.cocoversion;
 import android.support.v7.widget.RecyclerView;
 import android.widget.FrameLayout;
 
+import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 
 import junit.framework.TestCase;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +37,7 @@ public class CocoVersionFragmentTest extends TestCase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
+        hamburgerActivity = Robolectric.buildActivity(TestActivity.class).create().start().get();
         cocoVersionFragment = new CocoVersionFragment();
         hamburgerActivity.getSupportFragmentManager().beginTransaction().add(cocoVersionFragment, "CoCoVersion").commit();
         RecyclerView recyclerView = (RecyclerView) cocoVersionFragment.getView().findViewById(R.id.coco_version_view);

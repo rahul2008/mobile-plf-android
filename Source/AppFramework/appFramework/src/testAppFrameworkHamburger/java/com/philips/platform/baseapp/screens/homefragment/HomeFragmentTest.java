@@ -5,6 +5,7 @@
 */
 package com.philips.platform.baseapp.screens.homefragment;
 
+import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -20,8 +21,6 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static org.mockito.Mockito.mock;
-
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 public class HomeFragmentTest extends TestCase{
@@ -34,7 +33,7 @@ public class HomeFragmentTest extends TestCase{
     @Before
     public void setUp() throws Exception{
         super.setUp();
-        hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
+        hamburgerActivity = Robolectric.buildActivity(TestActivity.class).create().start().get();
         homeFragment = new HomeFragment();
         hamburgerActivity.getSupportFragmentManager().beginTransaction().add(homeFragment,"HomeFragmentTest").commit();
     }
