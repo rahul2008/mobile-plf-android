@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
+import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -51,7 +52,7 @@ public class HamburgerActivityTest {
     public void setup() {
 //        application = new TestAppFrameworkApplication();
 //        application.setTargetFlowManager();
-        hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
+        hamburgerActivity = Robolectric.buildActivity(TestActivity.class).create().start().get();
         actionBarTitle = (TextView) hamburgerActivity.findViewById(R.id.af_actionbar_title);
         navigationView = (NavigationView) hamburgerActivity.findViewById(R.id.navigation_view);
         philipsDrawerLayout = (DrawerLayout) hamburgerActivity.findViewById(R.id.philips_drawer_layout);

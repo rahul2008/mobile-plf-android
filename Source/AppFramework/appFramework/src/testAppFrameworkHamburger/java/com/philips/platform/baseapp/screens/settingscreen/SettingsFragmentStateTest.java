@@ -7,6 +7,7 @@ package com.philips.platform.baseapp.screens.settingscreen;
 
 import android.support.v4.app.FragmentManager;
 
+import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -39,7 +40,7 @@ public class SettingsFragmentStateTest extends TestCase {
         settingsFragmentStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
         settingsFragmentState.setUiStateData(settingsFragmentStateData);
 
-        hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
+        hamburgerActivity = Robolectric.buildActivity(TestActivity.class).create().start().get();
         fragmentLauncher = new FragmentLauncher(hamburgerActivity, R.id.frame_container, hamburgerActivity);
     }
 

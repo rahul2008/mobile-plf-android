@@ -7,6 +7,7 @@ package com.philips.platform.baseapp.screens.settingscreen;
 
 import android.support.v4.app.Fragment;
 
+import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
@@ -18,7 +19,6 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 
 @RunWith(RobolectricTestRunner.class)
@@ -29,7 +29,7 @@ public class SettingsFragmentTest {
 
     @Before
     public void setUp() throws Exception{
-        hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
+        hamburgerActivity = Robolectric.buildActivity(TestActivity.class).create().start().get();
         settingsFragment = new SettingsFragment();
         hamburgerActivity.getSupportFragmentManager().beginTransaction().add(settingsFragment,"SettingsTestTag").commit();
 

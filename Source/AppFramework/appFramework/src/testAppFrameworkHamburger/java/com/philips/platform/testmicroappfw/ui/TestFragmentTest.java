@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.FrameLayout;
 
+import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -48,7 +49,7 @@ public class TestFragmentTest extends TestCase implements TestConfigManager.Test
 
     protected void setUpChapterList() {
         testConfigManager = TestConfigManager.getInstance();
-        hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
+        hamburgerActivity = Robolectric.buildActivity(TestActivity.class).create().start().get();
         testFragment = new TestFragment();
 
 

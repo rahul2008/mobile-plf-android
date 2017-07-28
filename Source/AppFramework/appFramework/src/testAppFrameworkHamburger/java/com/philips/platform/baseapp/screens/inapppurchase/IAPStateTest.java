@@ -7,6 +7,7 @@ package com.philips.platform.baseapp.screens.inapppurchase;
 
 import android.support.v4.app.FragmentManager;
 
+import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -42,7 +43,7 @@ public class IAPStateTest extends TestCase {
         iapStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
         iapRetailerFlowState.setUiStateData(iapStateData);
 
-        launchActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
+        launchActivity = Robolectric.buildActivity(TestActivity.class).create().start().get();
         fragmentLauncher = new FragmentLauncher(launchActivity, R.id.frame_container, launchActivity);
     }
     public TestAppFrameworkApplication getApplicationContext(){
