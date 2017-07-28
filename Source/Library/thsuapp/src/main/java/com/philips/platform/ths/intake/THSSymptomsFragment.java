@@ -83,12 +83,13 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
         thsImageRecyclerViewAdapter = new THSImageRecyclerViewAdapter(selectedImagePojosList, this);
         topicLayout = (LinearLayout) view.findViewById(R.id.checkbox_container);
         camera_button = (ImageButton) view.findViewById(R.id.camera_click_button);
+        camera_button.setVisibility(View.GONE);
         camera_button.setOnClickListener(this);
         mContinue = (Button) view.findViewById(R.id.continue_btn);
         mContinue.setOnClickListener(this);
         mRelativeLayout = (RelativeLayout) view.findViewById(R.id.symptoms_container);
         mTHSSymptomsPresenter = new THSSymptomsPresenter(this);
-        requestWritePermission();
+        //requestWritePermission();
         return view;
     }
 

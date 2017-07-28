@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
+import com.americanwell.sdk.entity.provider.EstimatedVisitCost;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProvider;
@@ -136,6 +137,11 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     @Override
     public Provider getProvider() {
         return mProvider;
+    }
+
+    @Override
+    public void updateEstimatedCost(EstimatedVisitCost estimatedVisitCost) {
+        mThsProviderDetailsDisplayHelper.updateEstimateCost(estimatedVisitCost);
     }
 
     public void setProvider(Provider mProvider) {
