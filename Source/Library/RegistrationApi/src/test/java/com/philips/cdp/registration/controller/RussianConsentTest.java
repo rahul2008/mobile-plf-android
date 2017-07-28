@@ -56,5 +56,4 @@ public class RussianConsentTest {
                 new JSONObject().put("one", "true")));
         Assert.assertEquals(actual.toString(), expected.toString());
     }
-
 }

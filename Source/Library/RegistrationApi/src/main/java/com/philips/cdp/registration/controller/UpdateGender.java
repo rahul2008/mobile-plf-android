@@ -49,31 +49,6 @@ public class UpdateGender extends UpdateUserDetailsBase {
         try {
             if (null != mUpdatedUserdata) {
                 mUpdatedUserdata.put(USER_GENDER, mGender.toString());
-
-                JSONObject russianConsent = (JSONObject) mUpdatedUserdata.get("janrain");
-                if(russianConsent!=null ){
-                System.out.println("data"+ mUpdatedUserdata.get("janrain"));
-                    JSONObject controlFields = (JSONObject)   russianConsent.get("controlFields");
-                    System.out.println("data"+ controlFields);
-                    if(controlFields!=null){
-                        System.out.println("data"+ controlFields.get("one"));
-                        controlFields.put("one","true222222");
-                    }
-                    russianConsent.put("controlFields",controlFields);
-                    mUpdatedUserdata.put("janrain",russianConsent);
-                    System.out.println("data"+ mUpdatedUserdata.get("janrain"));
-                }
-
-                JSONObject  one = new JSONObject();
-                one.put("one","true");
-
-                JSONObject  control = new JSONObject();
-                control.put("controlFields",one);
-
-                JSONObject  janrain = new JSONObject();
-                janrain.put("janrain",control);
-                System.out.println("data"+ janrain);
-                mUpdatedUserdata.put("janrain",new JSONObject(mUpdatedUserdata.get("janrain").toString()));
                 UpdateUser updateUser = new UpdateUser();
                 updateUser.update(mUpdatedUserdata, userData, this);
             }

@@ -170,7 +170,6 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                 ServiceDiscoveryService serviceDiscoveyService = resultMap.get("userreg.janrain.api");
                 if (serviceDiscoveyService != null && serviceDiscoveyService.getConfigUrls()!=null) {
                     String urlLocal = serviceDiscoveyService.getConfigUrls();
-                    urlLocal = "https://dev.philips.ru/localstorage";
                     String janrainURL = urlLocal.substring(8);//Please don't remove this line.\
 
                     ClientIDConfiguration clientIDConfiguration = new ClientIDConfiguration();
