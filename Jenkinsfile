@@ -20,14 +20,23 @@ node('Android') {
         boolean publishing = (env.BRANCH_NAME.startsWith("develop") || env.BRANCH_NAME.startsWith("release") || env.BRANCH_NAME == "master")
 
         stage('Build') {
-            sh "$gradle generateJavadocPublicApi assemble saveResDep testDebug"
+            sh "$gradle generateJavadocPublicApi assemble testDebug"
+        }
+
+        stage("Gather reports") {
+            step([$class: 'JUnitResultArchiver', testResults: '**/testDebugUnitTest/*.xml'])
+            step([$class: 'LintPublisher', healthy: '0', unHealthy: '50', unstableTotalAll: '50'])
+            step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class,**/R$*.class,**/BuildConfig.class,**/Manifest*.*,**/*Activity*.*,**/*Fragment*.*'])
+            for (lib in ["commlib-api", "commlib-ble", "commlib-lan", "commlib-cloud"]) {
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Documents/External/$lib-api", reportFiles: 'index.html', reportName: "$lib API documentation"])
+            }
         }
 
         if (publishing) {
             for (lib in ["commlib-testutils", "cloudcontroller-api", "cloudcontroller", "commlib-api", "commlib-ble", "commlib-lan", "commlib-cloud", "commlib"]) {
                 def libgradle = "cd Source/Library/$lib && ./gradlew -u -PenvCode=\${JENKINS_ENV}"
                 stage("Publish $lib") {
-                    sh "$libgradle assembleRelease zipDocuments artifactoryPublish"
+                    sh "$libgradle assembleRelease saveResDep zipDocuments artifactoryPublish"
                 }
             }
         }
