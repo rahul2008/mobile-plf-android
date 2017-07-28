@@ -147,20 +147,24 @@ android {
 dependencies {
     provided deps.support.annotations
 
+    def shortversion = version.replaceAll(/-SNAPSHOT.*/, "")
+
     for (dep in [':commlib-ble', ':commlib-cloud', ':commlib-lan']) {
         if (findProject(dep)) {
             debugCompile project(path: dep, configuration: 'debug')
             releaseCompile project(path: dep, configuration: 'release')
         } else {
-            compile("$group$dep:$version" + objcdp.getVersionSuffix()) { changing = true }
+            compile("$group$dep:$shortversion" + objcdp.getVersionSuffix()) { changing = true }
         }
     }
 
-    testCompile project(':commlib-testutils')
+    if(findProject(":commlib-testutils")) {
+        testCompile project(':commlib-testutils')
+    }
     testCompile deps.powermock_mockito
     testCompile deps.powermock_junit
 
-    testCompile("$group:cloudcontroller:$versions.cloudcontroller" + objcdp.getVersionSuffix()) {
+    testCompile("$group:cloudcontroller:$shortversion" + objcdp.getVersionSuffix()) {
         changing = true
     }
 }
