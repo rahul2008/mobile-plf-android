@@ -1,94 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/uidContentSecondaryBackgroundColor"
     xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
     tools:ignore="MissingPrefix">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/welcome_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 
 
-    <LinearLayout
-        android:id="@+id/welcome_skip_button_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/skip_layout_margin_top"
-        android:orientation="horizontal"
-        android:paddingBottom="@dimen/skip_layout_padding_bottom"
-        >
-
-        <TextView
-            android:id="@+id/welcome_skip_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/RA_Skip_Button_Text"
-            android:textColor="@color/white"
-            android:textSize="@dimen/welcome_button_text_size"
-            fontPath="fonts/centralesansbook.ttf"
-            />
-
-        <TextView
-            android:id="@+id/welcome_placeholder_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="@color/white"
-            android:textSize="@dimen/welcome_button_text_size"
-            android:visibility="invisible"
-            />
-    </LinearLayout>
+    <View
+        android:id="@+id/indicator_seperator"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:layout_above="@+id/welcome_indicator_layout"
+        android:alpha="0.1"
+        android:background="@color/colorPrimary" />
 
     <RelativeLayout
         android:id="@+id/welcome_indicator_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/welcome_skip_button_layout"
+        android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:layout_marginEnd="@dimen/intro_margin_right"
-        android:layout_marginStart="@dimen/intro_margin_left"
-        >
+        android:background="@null">
 
-        <com.shamanland.fonticon.FontIconView
-            android:id="@+id/welcome_leftarrow"
-            android:layout_alignParentStart="true"
-            android:text="@string/uikit_fonticon_arrow_left"
-            style="@style/FontIcon.WelcomeArrow"
-            />
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/welcome_skip_button"
+            fontPath="fonts/centralesansbook.ttf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignTop="@+id/welcome_indicator"
+            android:layout_alignBottom="@+id/welcome_indicator"
+            android:paddingLeft="@dimen/margin_sixteen"
+            android:paddingRight="5dip"
+            android:gravity="center_vertical"
+            android:text="@string/RA_DLS_onboarding_skip"
+            android:textSize="@dimen/on_boarding_description_text_size" />
 
-        <com.philips.cdp.uikit.customviews.CircleIndicator
+        <com.philips.platform.uid.view.widget.DotNavigationIndicator
             android:id="@+id/welcome_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            />
+            android:paddingBottom="@dimen/margin_twelve"
+            android:paddingTop="@dimen/margin_twelve" />
 
-        <com.shamanland.fonticon.FontIconView
+        <ImageView
             android:id="@+id/welcome_rightarrow"
-            android:layout_alignParentEnd="true"
-            android:text="@string/uikit_fonticon_arrow_right"
             style="@style/FontIcon.WelcomeArrow"
-            />
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="@dimen/margin_twelve"
+            android:paddingTop="@dimen/margin_twelve"
+            android:paddingRight="@dimen/margin_sixteen"
+            android:src="@drawable/ic_right_arrow"/>
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/welcome_start_registration_button"
+            fontPath="fonts/centralesansbook.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:text="@string/RA_Done_Button_Text"
-            android:textColor="@color/white"
-            android:textSize="@dimen/welcome_button_text_size"
+            android:layout_centerVertical="true"
+            android:paddingRight="@dimen/margin_sixteen"
+            android:layout_alignTop="@+id/welcome_indicator"
+            android:layout_alignBottom="@+id/welcome_indicator"
+            android:gravity="center_vertical"
+            android:text="@string/RA_DLS_onboarding_done"
             android:visibility="gone"
-            fontPath="fonts/centralesansbook.ttf"
-            />
+            android:textSize="@dimen/on_boarding_description_text_size"/>
     </RelativeLayout>
 
 

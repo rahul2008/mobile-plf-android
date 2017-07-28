@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +55,7 @@ public class WelcomePagerFragment extends Fragment {
         super.onCreate(savedInstanceState);
         titleId = getArguments().getInt(ARG_PAGE_TITLE, 0);
         subtitleId = getArguments().getInt(ARG_PAGE_SUBTITLE, 0);
-        backgroundId = getArguments().getInt(ARG_PAGE_BG_ID, R.drawable.af_welcome_start_page_bg);
+        backgroundId = getArguments().getInt(ARG_PAGE_BG_ID, R.mipmap.onboarding_screen_2);
     }
 
     @Nullable
@@ -68,7 +69,12 @@ public class WelcomePagerFragment extends Fragment {
         View background = view.findViewById(R.id.welcome_slide_fragment_layout);
 
         largeText.setText(titleId);
-        smallText.setText(subtitleId);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            smallText.setText(Html.fromHtml(getString(subtitleId), Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            smallText.setText(Html.fromHtml(getString(subtitleId)));
+        }
         background.setBackground(ContextCompat.getDrawable(getActivity(), backgroundId));
 
         return view;

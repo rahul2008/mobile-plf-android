@@ -6,17 +6,16 @@
 
 package com.philips.platform.baseapp.screens.introscreen.welcomefragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.uikit.customviews.CircleIndicator;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.flowmanager.base.BaseFlowManager;
 import com.philips.platform.appframework.flowmanager.exceptions.ConditionIdNotSetException;
@@ -25,13 +24,14 @@ import com.philips.platform.appframework.flowmanager.exceptions.NoEventFoundExce
 import com.philips.platform.appframework.flowmanager.exceptions.NoStateException;
 import com.philips.platform.appframework.flowmanager.exceptions.StateIdNotSetException;
 import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.baseapp.base.AbstractOnboardingBaseFragment;
 import com.philips.platform.baseapp.base.AbstractUIBasePresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.AppFrameworkTagging;
-import com.philips.platform.baseapp.base.AbstractOnboardingBaseFragment;
 import com.philips.platform.baseapp.screens.introscreen.pager.WelcomePagerAdapter;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.view.widget.DotNavigationIndicator;
 import com.shamanland.fonticon.FontIconView;
 
 /**
@@ -45,11 +45,10 @@ public class WelcomeFragment extends AbstractOnboardingBaseFragment implements V
 
     public static String TAG = WelcomeFragment.class.getSimpleName();
 
-    private FontIconView leftArrow;
-    private FontIconView rightArrow;
+    private ImageView rightArrow;
     private TextView doneButton;
     private TextView skipButton;
-    private CircleIndicator indicator;
+    private DotNavigationIndicator indicator;
     private AbstractUIBasePresenter presenter;
     private ViewPager pager;
 
@@ -86,18 +85,14 @@ public class WelcomeFragment extends AbstractOnboardingBaseFragment implements V
 
         pager = (ViewPager) view.findViewById(R.id.welcome_pager);
         pager.setAdapter(new WelcomePagerAdapter(getActivity().getSupportFragmentManager()));
-        leftArrow = (FontIconView) view.findViewById(R.id.welcome_leftarrow);
-        rightArrow = (FontIconView) view.findViewById(R.id.welcome_rightarrow);
+        rightArrow = (ImageView) view.findViewById(R.id.welcome_rightarrow);
         doneButton = (TextView) view.findViewById(R.id.welcome_start_registration_button);
         skipButton = (TextView) view.findViewById(R.id.welcome_skip_button);
         doneButton.setOnClickListener(this);
         skipButton.setOnClickListener(this);
 
-        indicator = (CircleIndicator) view.findViewById(R.id.welcome_indicator);
+        indicator = (DotNavigationIndicator) view.findViewById(R.id.welcome_indicator);
         indicator.setViewPager(pager);
-        indicator.setFillColor(Color.WHITE);
-        indicator.setStrokeColor(Color.WHITE);
-        leftArrow.setVisibility(FontIconView.GONE);
 
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -106,14 +101,9 @@ public class WelcomeFragment extends AbstractOnboardingBaseFragment implements V
 
             @Override
             public void onPageSelected(int position) {
-                if (position == 0) {
-                    leftArrow.setVisibility(FontIconView.GONE);
-                } else {
-                    leftArrow.setVisibility(FontIconView.VISIBLE);
-                }
 
-                if (position == 2) {
-                    rightArrow.setVisibility(FontIconView.GONE);
+                if (position == (pager.getAdapter().getCount() -1)) {
+                    rightArrow.setVisibility(FontIconView.INVISIBLE);
                     skipButton.setVisibility(TextView.GONE);
                     doneButton.setVisibility(TextView.VISIBLE);
                 } else {
@@ -134,12 +124,6 @@ public class WelcomeFragment extends AbstractOnboardingBaseFragment implements V
             }
         });
 
-        leftArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pager.arrowScroll(View.FOCUS_LEFT);
-            }
-        });
         startAppTagging();
         return view;
     }
@@ -165,5 +149,10 @@ public class WelcomeFragment extends AbstractOnboardingBaseFragment implements V
     public boolean handleBackEvent() {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public void clearAdapter() {
+        pager.setAdapter(null);
     }
 }

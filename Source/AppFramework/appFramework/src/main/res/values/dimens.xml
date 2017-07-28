@@ -14,8 +14,17 @@
     <dimen name="welcome_skip_button_layout_margin">20dp</dimen>
     <dimen name="welcome_button_text_size">14sp</dimen>
     <dimen name="welcome_arrow_size">18sp</dimen>
+    <dimen name="on_boarding_description_text_size">16sp</dimen>
+    <dimen name="on_boarding_title_text_size">24sp</dimen>
 
     <dimen name="pop_up_image_margin_top">20dp</dimen>
     <dimen name="pop_up_dots_margin_left">12dp</dimen>
     <dimen name="control_icon_medium_size">24dp</dimen>
+
+    <dimen name="margin_sixteen">16dip</dimen>
+    <dimen name="margin_ninty_six">96dip</dimen>
+    <dimen name="margin_twelve">12dip</dimen>
+    <dimen name="margin_twenty_four">24dip</dimen>
+    <dimen name="margin_forty_eight">48dip</dimen>
+    <dimen name="welcome_video_height">204dip</dimen>
 </resources>

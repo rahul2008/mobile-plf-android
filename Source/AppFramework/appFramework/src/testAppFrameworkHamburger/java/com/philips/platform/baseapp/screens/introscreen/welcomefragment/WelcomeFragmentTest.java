@@ -36,7 +36,7 @@ public class WelcomeFragmentTest {
     private ImageView logo;
     private WelcomeFragmentMockAbstract welcomeFragment;
     private ViewPager pager;
-    private FontIconView leftArrow,rightArrow;
+    private ImageView rightArrow;
 
     @Before
     public void setUp(){
@@ -69,9 +69,7 @@ public class WelcomeFragmentTest {
     public void testViewPager(){
         setAdapterForPager();
         pager.setCurrentItem(0);
-        leftArrow = (FontIconView) welcomeFragment.getView().findViewById(R.id.welcome_leftarrow);
-        rightArrow = (FontIconView) welcomeFragment.getView().findViewById(R.id.welcome_rightarrow);
-        assertEquals(FontIconView.GONE,leftArrow.getVisibility());
+        rightArrow = (ImageView) welcomeFragment.getView().findViewById(R.id.welcome_rightarrow);
         assertEquals(FontIconView.VISIBLE,rightArrow.getVisibility());
     }
 
@@ -79,10 +77,8 @@ public class WelcomeFragmentTest {
     public void testArrowClicks(){
         setAdapterForPager();
         pager.setCurrentItem(1);
-        leftArrow = (FontIconView) welcomeFragment.getView().findViewById(R.id.welcome_leftarrow);
-        rightArrow = (FontIconView) welcomeFragment.getView().findViewById(R.id.welcome_rightarrow);
+        rightArrow = (ImageView) welcomeFragment.getView().findViewById(R.id.welcome_rightarrow);
         welcomeFragment.onClick(rightArrow);
-        assertEquals(FontIconView.VISIBLE,leftArrow.getVisibility());
         assertEquals(FontIconView.VISIBLE,rightArrow.getVisibility());
 
     }

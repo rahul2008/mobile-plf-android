@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/welcome_slide_fragment_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/af_welcome_center_page_bg"
-                tools:ignore="MissingPrefix">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true"
+    tools:ignore="MissingPrefix">
 
-    <TextView
-        android:id="@+id/welcome_slide_small_text"
+    <LinearLayout
+        android:id="@+id/welcome_slide_fragment_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/intro_small_text_margin_bottom"
-        android:layout_marginEnd="@dimen/intro_margin_left"
-        android:layout_marginStart="@dimen/intro_margin_left"
-        android:layout_marginTop="@dimen/intro_small_text_margin_top"
-        android:text="@string/RA_WelcomeScreen_First_Text"
-        android:textColor="@color/white"
-        android:textSize="@dimen/intro_small_text_font"
-        fontPath="fonts/centralesansbook.ttf"
-        />
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_vertical_margin">
 
-    <TextView
-        android:id="@+id/welcome_slide_large_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/welcome_slide_small_text"
-        android:layout_marginEnd="@dimen/intro_margin_left"
-        android:layout_marginStart="@dimen/intro_margin_left"
-        android:text="@string/RA_WelcomeScreen_Title"
-        android:textColor="@color/white"
-        android:textSize="@dimen/intro_large_textfont"
-        fontPath="fonts/centralesansxbold.ttf"
-        />
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/welcome_slide_large_text"
+            style="@style/OnBoarding.Title"
+            android:layout_above="@+id/welcome_slide_small_text"
+            android:textColor="@color/white"
+            android:layout_marginBottom="@dimen/margin_twenty_four"
+            android:gravity="left" />
 
-</RelativeLayout>
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/welcome_slide_small_text"
+            style="@style/OnBoarding.Description"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/white"
+            android:minLines="4"
+            android:layout_marginBottom="@dimen/margin_ninty_six"
+            android:gravity="left" />
+
+
+
+    </LinearLayout>
+</ScrollView>
