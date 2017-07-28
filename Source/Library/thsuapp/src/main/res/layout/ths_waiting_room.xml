@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -54,21 +55,32 @@
                 android:id="@+id/details_practiceNameLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
                 android:layout_below="@+id/details_providerNameLabel"
-                android:textColor="?attr/uidLabelValueNormalTextColor"
-                android:textSize="@dimen/uid_grid_descrption_size" />
+
+                android:textSize="14sp" />
         </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/ths_waiting_room_progressbar_container"
-        android:layout_below="@+id/ths_waiting_room_provider_detail_relativelayout"
-        android:layout_above="@+id/ths_insurance_detail_continue_button"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
-</RelativeLayout>
+        android:gravity="center"
+        android:layout_above="@+id/ths_insurance_detail_continue_button"
+        android:layout_below="@+id/ths_waiting_room_provider_detail_relativelayout">
+
+        <com.philips.platform.uid.view.widget.ProgressBarWithLabel
+            android:id="@+id/ths_waiting_room_ProgressBarWithLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:visibility="visible"
+            app:uidCircularProgressBarSize="big"
+            app:uidIsIndeterminateProgressIndicator="true"
+            app:uidLabelPosition="bottom_center" />
+    </RelativeLayout>
+
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/ths_waiting_room_cancel_button"
         android:layout_width="match_parent"

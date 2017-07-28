@@ -11,8 +11,10 @@ import android.widget.RelativeLayout;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.ProgressBarWithLabel;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
@@ -23,10 +25,12 @@ import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
 
 public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSWaitingRoomFragment.class.getSimpleName();
+    public static final String CANCEL_VISIT_ALERT_DIALOG_TAG = "ALERT_DIALOG_TAG";
 
     private ActionBarListener actionBarListener;
-    private RelativeLayout mProgressbarContainer;
+     ProgressBarWithLabel mProgressBarWithLabel;
     THSWaitingRoomPresenter mTHSWaitingRoomPresenter;
+     AlertDialogFragment alertDialogFragment;
 
     Label mProviderNameLabel;
     Label mProviderPracticeLabel;
@@ -39,8 +43,9 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         mTHSWaitingRoomPresenter = new THSWaitingRoomPresenter(this);
         mProviderNameLabel = (Label) view.findViewById(R.id.details_providerNameLabel);
         mProviderPracticeLabel = (Label) view.findViewById(R.id.details_practiceNameLabel);
-        mProgressbarContainer = (RelativeLayout) view.findViewById(R.id.ths_waiting_room_progressbar_container);
+        mProgressBarWithLabel = (ProgressBarWithLabel) view.findViewById(R.id.ths_waiting_room_ProgressBarWithLabel);
         mCancelVisitButton = (Button) view.findViewById(R.id.ths_waiting_room_cancel_button);
+        mCancelVisitButton.setOnClickListener(this);
         return  view;
     }
 
@@ -52,6 +57,17 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         mTHSWaitingRoomPresenter.startVisit();
     }
 
+    @Override
+    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //This needs to be taken care by proposition to avoid losing listener on rotation
+        final AlertDialogFragment alertDialogFragment = (AlertDialogFragment) getFragmentManager().findFragmentByTag(CANCEL_VISIT_ALERT_DIALOG_TAG);
+        if (alertDialogFragment != null) {
+            alertDialogFragment.setPositiveButtonListener(this);
+            alertDialogFragment.setNegativeButtonListener(this);
+        }
+    }
 
     @Override
     public void onResume() {
@@ -82,6 +98,27 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         return ((ViewGroup) getView().getParent()).getId();
     }
 
+
+     void showCancelDialog(final boolean showLargeContent, final boolean isWithTitle, final boolean showIcon) {
+        final AlertDialogFragment.Builder builder = new AlertDialogFragment.Builder(getFragmentActivity())
+                .setMessage(showLargeContent ? "Your visit shall be cancelled" : "Your visit shall be cancelled").
+                        setPositiveButton(" Yes ", this).
+                        setNegativeButton(" No  ", this);
+        if (isWithTitle) {
+            builder.setTitle("Do you really want to cancel your visit");
+            if (showIcon) {
+                builder.setIcon(R.drawable.uid_ic_cross_icon);
+
+            }
+        }
+        alertDialogFragment = builder.setCancelable(false).create();
+        alertDialogFragment.show(getFragmentManager(), CANCEL_VISIT_ALERT_DIALOG_TAG);
+    }
+
+
+
+
+
     /**
      * Called when a view has been clicked.
      *
@@ -90,8 +127,17 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.ths_waiting_room_cancel_button);{
-            mTHSWaitingRoomPresenter.onEvent(R.id.ths_waiting_room_cancel_button);
+           // mTHSWaitingRoomPresenter.onEvent(R.id.ths_waiting_room_cancel_button);
+            if (v.getId() == R.id.uid_alert_negative_button) {
+                alertDialogFragment.dismiss();
+            }else if (v.getId() == R.id.uid_alert_positive_button) {
+                mTHSWaitingRoomPresenter.onEvent(R.id.uid_alert_positive_button);
+
+            }else {
+                showCancelDialog(true, true, true);
+            }
         }
+
 
     }
 }

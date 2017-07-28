@@ -14,7 +14,9 @@ import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.intake.THSSDKCallback;
 import com.philips.platform.ths.utility.THSManager;
+
 
 import java.util.Map;
 
@@ -24,9 +26,9 @@ import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
  * Created by philips on 7/26/17.
  */
 
-public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitCallback {
+public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitCallback, THSCancelVisitCallBack.SDKCallback<Void, SDKError> {
 
-THSWaitingRoomFragment mTHSWaitingRoomFragment;
+    THSWaitingRoomFragment mTHSWaitingRoomFragment;
 
     public THSWaitingRoomPresenter(THSWaitingRoomFragment mTHSWaitingRoomFragment) {
         this.mTHSWaitingRoomFragment = mTHSWaitingRoomFragment;
@@ -34,17 +36,55 @@ THSWaitingRoomFragment mTHSWaitingRoomFragment;
 
     @Override
     public void onEvent(int componentID) {
+        if (componentID == R.id.uid_alert_positive_button) {
+            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText("Cancelling Visit");
+            cancelVisit();
+            mTHSWaitingRoomFragment.alertDialogFragment.dismiss();
+        }
+    }
+
+    void startVisit() {
+        try {
+            if(null!=THSManager.getInstance().getTHSVisit().getVisit().getAssignedProvider()) {
+                mTHSWaitingRoomFragment.mProviderNameLabel.setText(THSManager.getInstance().getTHSVisit().getVisit().getAssignedProvider().getFullName());
+                mTHSWaitingRoomFragment.mProviderPracticeLabel.setText(THSManager.getInstance().getTHSVisit().getVisit().getAssignedProvider().getPracticeInfo().getName());
+            }
+            Integer patientWaitingCount = THSManager.getInstance().getTHSVisit().getVisit().getPatientsAheadOfYou();
+            if(null!=patientWaitingCount && patientWaitingCount>0 ){
+
+                mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(patientWaitingCount + " patients waiting");
+            }
+            THSManager.getInstance().startVisit(mTHSWaitingRoomFragment.getFragmentActivity(), this);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
 
     }
 
-   void  startVisit(){
-       try {
-           THSManager.getInstance().startVisit(mTHSWaitingRoomFragment.getFragmentActivity(),this);
-       } catch (AWSDKInstantiationException e) {
-           e.printStackTrace();
-       }
+    void cancelVisit() {
+        try {
+            THSManager.getInstance().cancelVisit(mTHSWaitingRoomFragment.getFragmentActivity(), this);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
+    }
 
-   }
+    void abondonCurrentVisit() {
+        try {
+            THSManager.getInstance().abondonCurrentVisit(mTHSWaitingRoomFragment.getFragmentActivity());
+            mTHSWaitingRoomFragment.getFragmentActivity().getSupportFragmentManager().popBackStack();
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    void updatePatientAheadCount(int count) {
+        if (count > 0) {
+            mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(count + " patients waiting");
+        }
+
+    }
 
     @Override
     public void onProviderEntered(@NonNull Intent intent) {
@@ -59,7 +99,7 @@ THSWaitingRoomFragment mTHSWaitingRoomFragment;
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentIntent(pendingIntent);
         builder.build();*/
-       // notificationManager.notify(ONGOING_NOTIFICATION_ID, builder.build());
+        // notificationManager.notify(ONGOING_NOTIFICATION_ID, builder.build());
         // start activity
         mTHSWaitingRoomFragment.startActivityForResult(intent, REQUEST_VIDEO_VISIT);
     }
@@ -71,7 +111,7 @@ THSWaitingRoomFragment mTHSWaitingRoomFragment;
 
     @Override
     public void onPatientsAheadOfYouCountChanged(int i) {
-
+        updatePatientAheadCount(i);
     }
 
     @Override
@@ -96,12 +136,13 @@ THSWaitingRoomFragment mTHSWaitingRoomFragment;
 
     @Override
     public void onResponse(Void aVoid, SDKError sdkError) {
-
+        // must  be cancel visit call back
+        abondonCurrentVisit();
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-
+        abondonCurrentVisit();
     }
 
 
