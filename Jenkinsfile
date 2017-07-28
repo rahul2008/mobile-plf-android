@@ -44,7 +44,7 @@ node('Android') {
             archiveArtifacts '**/*dependencies*.lock'
         }
 
-        if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME =~ "master") {
+        if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME == "develop_real" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME =~ "master") {
             stage('Publish') {
                 sh "$gradle zipDocuments artifactoryPublish"
             }
