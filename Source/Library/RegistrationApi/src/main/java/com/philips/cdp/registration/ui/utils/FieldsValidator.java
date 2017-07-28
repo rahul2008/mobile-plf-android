@@ -110,6 +110,30 @@ public class FieldsValidator {
 
         return matcher.find();
     }
+    public static boolean isAlphabetUpperCasePresent(String string) {
+        if (string == null)
+            return false;
+
+        if (string.length() == 0)
+            return false;
+
+        Pattern pattern = Pattern.compile("[A-Z]");
+        Matcher matcher = pattern.matcher(string);
+
+        return matcher.find();
+    }
+    public static boolean isAlphabetLowerCasePresent(String string) {
+        if (string == null)
+            return false;
+
+        if (string.length() == 0)
+            return false;
+
+        Pattern pattern = Pattern.compile("[a-z]");
+        Matcher matcher = pattern.matcher(string);
+
+        return matcher.find();
+    }
 
     public static boolean isNumberPresent(String string) {
         if (string == null)
