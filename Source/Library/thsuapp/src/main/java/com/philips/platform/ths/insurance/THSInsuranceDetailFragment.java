@@ -126,7 +126,6 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         actionBarListener = getActionBarListener();
-        createCustomProgressBar(mProgressbarContainer, BIG);
         mTHSHealthPlanList = ((THSInsuranceDetailPresenter) mPresenter).fetchHealthPlanList();
         mTHSRelationshipList = ((THSInsuranceDetailPresenter) mPresenter).fetchSubscriberRelationList();
         mTHSHealthPlanListAdapter = new THSHealthPlanListAdapter(getActivity(), mTHSHealthPlanList);
