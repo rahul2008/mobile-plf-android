@@ -9,7 +9,7 @@ import com.philips.platform.appinfra.AppInfraInstrumentation;
 
 public class KeyBagHelperTest extends AppInfraInstrumentation {
 
-    KeyBagHelper keyBagHelper;
+    private KeyBagHelper keyBagHelper;
 
     @Override
     protected void setUp() throws Exception {
@@ -26,7 +26,7 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
         assertNull(keyBagHelper.getSeed(null, "", 0));
         assertNull(keyBagHelper.getSeed("test", null, 0));
         String seed = keyBagHelper.getSeed(groupId, key, index);
-//        assertEquals(seed,"appinfra.languagePack2client_id1");
+        assertTrue(seed.length() == 4);
     }
 
     public void testGettingIndex() {
@@ -36,11 +36,15 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
         assertEquals(keyBagHelper.getIndex(indexData), "22");
         indexData = "";
         assertNull(keyBagHelper.getIndex(indexData));
+        assertNull(keyBagHelper.getIndex(null));
     }
 
-//    public void testGettingMd5ValueInHex() {
-//        String hexData = "b3a5085a2de916729f8e55955ba482656cfc";
-//        String md5ValueInHex = keyBagHelper.convertHexDataToString(hexData);
-//        assertEquals("Raja Ram Mohan Roy",md5ValueInHex);
-//    }
+    public void testGettingMd5ValueInHex() {
+       assertNull(keyBagHelper.getMd5ValueInHex(null));
+    }
+
+    public void testConvertingToHex() {
+        String hexString = "52616a612052616d204d6f68616e20526f79";
+        assertEquals(keyBagHelper.convertHexDataToString(hexString),"Raja Ram Mohan Roy");
+    }
 }

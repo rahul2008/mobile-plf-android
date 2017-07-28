@@ -23,19 +23,21 @@ import java.util.Map;
 class KeyBagHelper {
 
     String getMd5ValueInHex(String data) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(data.getBytes());
-            byte byteArray[] = md.digest();
-            StringBuilder hexString = new StringBuilder();
-            for (byte byteData : byteArray) {
-                String hex = Integer.toHexString(0xff & byteData);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
+        if (!TextUtils.isEmpty(data)) {
+            try {
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                md.update(data.getBytes());
+                byte byteArray[] = md.digest();
+                StringBuilder hexString = new StringBuilder();
+                for (byte byteData : byteArray) {
+                    String hex = Integer.toHexString(0xff & byteData);
+                    if (hex.length() == 1) hexString.append('0');
+                    hexString.append(hex);
+                }
+                return hexString.toString();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
             }
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
         }
         return null;
     }
