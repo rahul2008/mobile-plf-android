@@ -33,7 +33,7 @@ public class THSNoppFragment extends THSBaseFragment {
         mRelativeLayoutNopContainer = (RelativeLayout) view.findViewById(R.id.nop_container);
         mTHSNoppPresenter = new THSNoppPresenter(this);
 
-        createCustomProgressBar(view, BIG);
+       
 
         return view;
     }
