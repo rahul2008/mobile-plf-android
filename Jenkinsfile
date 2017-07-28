@@ -20,7 +20,7 @@ node('Android') {
         boolean publishing = (env.BRANCH_NAME.startsWith("develop") || env.BRANCH_NAME.startsWith("release") || env.BRANCH_NAME == "master")
 
         stage('Build') {
-            sh "$gradle generateJavadocPublicApi assemble testDebug"
+            sh "$gradle generateJavadocPublicApi saveResDep assemble testDebug"
         }
 
         stage("Gather reports") {
