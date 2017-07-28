@@ -12,9 +12,9 @@ node('Android') {
         checkout scm
     }
 
-    Slack = load 'commlib/Source/common/jenkins/Slack.groovy'
-    Pipeline = load 'commlib/Source/common/jenkins/Pipeline.groovy'
-    def gradle = 'cd commlib/Source && ./gradlew -PenvCode=${JENKINS_ENV}'
+    Slack = load 'Source/common/jenkins/Slack.groovy'
+    Pipeline = load 'Source/common/jenkins/Pipeline.groovy'
+    def gradle = 'cd Source && ./gradlew -PenvCode=${JENKINS_ENV}'
 
     Slack.notify('#conartists') {
         boolean publishing = (env.BRANCH_NAME.startsWith("develop") || env.BRANCH_NAME.startsWith("release") || env.BRANCH_NAME == "master")
@@ -25,7 +25,7 @@ node('Android') {
 
         if (publishing) {
             for (lib in ["commlib-testutils", "cloudcontroller-api", "cloudcontroller", "commlib-api", "commlib-ble", "commlib-lan", "commlib-cloud", "commlib"]) {
-                def libgradle = "cd commlib/Source/Library/$lib && ./gradlew -u -PenvCode=\${JENKINS_ENV}"
+                def libgradle = "cd Source/Library/$lib && ./gradlew -u -PenvCode=\${JENKINS_ENV}"
                 stage("Publish $lib") {
                     sh "$libgradle assembleRelease zipDocuments artifactoryPublish"
                 }
