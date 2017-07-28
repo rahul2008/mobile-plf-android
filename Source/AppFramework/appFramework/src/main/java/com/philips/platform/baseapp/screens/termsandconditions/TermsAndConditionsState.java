@@ -29,7 +29,6 @@ public class TermsAndConditionsState extends BaseState {
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
         Intent intent=new Intent(fragmentLauncher.getFragmentActivity(),WebViewActivity.class);
         fragmentLauncher.getFragmentActivity().startActivity(intent);
-//        WebViewActivity.show(fragmentLauncher.getFragmentActivity());
     }
 
     @Override

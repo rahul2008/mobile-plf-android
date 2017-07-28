@@ -76,11 +76,11 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
         try {
             BaseFlowManager targetFlowManager = appFrameworkApplication.getTargetFlowManager();
             targetFlowManager.getBackState(targetFlowManager.getCurrentState());
-            finish();
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {
             RALog.d(TAG, e.getMessage());
         }
+        finish();
     }
 
     @Override
