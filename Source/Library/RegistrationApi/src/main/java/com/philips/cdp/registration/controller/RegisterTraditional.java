@@ -26,13 +26,10 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import javax.inject.Inject;
 
 public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler, JumpFlowDownloadStatusListener, TraditionalRegistrationHandler {
 
@@ -46,8 +43,6 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
     private DIUserProfile mProfile;
 
-    @Inject
-    ServiceDiscoveryInterface serviceDiscoveryInterface;
 
     public RegisterTraditional(TraditionalRegistrationHandler traditionalRegisterHandler,
                                Context context, UpdateUserRecordHandler updateUserRecordHandler) {
@@ -180,11 +175,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
                         .put("password", mProfile.getPassword())
                         .put("olderThanAgeLimit", mProfile.getOlderThanAgeLimit())
                         .put("receiveMarketingEmail", mProfile.getReceiveMarketingEmail());
-
-
-                addifRussia(newUser);
-
-
+                new RussianConsent().addRussianConsent(newUser);
             } catch (JSONException e) {
                 Log.e(LOG_TAG, "On registerNewUserUsingTraditional,Caught JSON Exception");
             }
@@ -199,19 +190,6 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
         }
     }
 
-    private void addifRussia(JSONObject newUser) {
-        String currentCountry = serviceDiscoveryInterface.getHomeCountry();
-        if (currentCountry.equalsIgnoreCase("RU")) {
-            try {
-                JSONObject one = new JSONObject();
-                one.put("one", "true");
-                JSONObject control = new JSONObject();
-                control.put("controlFields", one);
-                newUser.put("janrain", control);
-            } catch (Exception e) {
-            }
-        }
-    }
 
 
     @Override
