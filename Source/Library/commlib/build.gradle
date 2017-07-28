@@ -159,13 +159,14 @@ dependencies {
         }
     }
 
-    if (findProject(":commlib-testutils")) {
-        testCompile project(path: ':commlib-testutils', configuration: 'debug')
-    } else {
-        testCompile("$group:commlib-testutils:$shortversion$suffix") { changing = true }
+    for (dep in [':cloudcontroller', ':commlib-testutils']) {
+        if (findProject(dep)) {
+            testCompile project(path: dep, configuration: 'debug')
+        } else {
+            testCompile("$group$dep:$shortversion$suffix") { changing = true }
+        }
     }
+
     testCompile deps.powermock_mockito
     testCompile deps.powermock_junit
-
-    testCompile("$group:cloudcontroller:$shortversion$suffix") { changing = true }
 }
