@@ -88,7 +88,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
         mContinue.setOnClickListener(this);
         mRelativeLayout = (RelativeLayout) view.findViewById(R.id.symptoms_container);
         mTHSSymptomsPresenter = new THSSymptomsPresenter(this);
-        requestWritePermission();
+        //requestWritePermission();
         return view;
     }
 
