@@ -7,6 +7,7 @@ package com.philips.platform.appinfra.keybag;
 
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +22,12 @@ import java.util.List;
 import java.util.Map;
 
 class KeyBagHelper {
+
+    private final KeyBagLib keyBagLib;
+
+    KeyBagHelper() {
+        keyBagLib = new KeyBagLib();
+    }
 
     String getMd5ValueInHex(String data) {
         if (!TextUtils.isEmpty(data)) {
@@ -110,6 +117,37 @@ class KeyBagHelper {
             String[] split = indexData.split(data);
             if (split.length > 1 && split[1] != null)
                 return split[1];
+        }
+        return null;
+    }
+
+
+    void iterateArray(ArrayList arrayList, String groupId) {
+        for (int index = 0; index < arrayList.size(); index++) {
+            iterateJson(arrayList.get(index).toString(), groupId, index);
+        }
+    }
+
+    private void iterateJson(String jsonData, String groupId, int index) {
+        try {
+            JSONObject jsonObject = new JSONObject(jsonData);
+            Iterator<String> keys = jsonObject.keys();
+            while (keys.hasNext()) {
+                String key = keys.next();
+                String value = (String) jsonObject.get(key);
+                String seed = getSeed(groupId, key, index);
+                String deObfuscatedData = obfuscate(convertHexDataToString(value), Integer.parseInt(seed, 16));
+                Log.d("Testing deObfuscation -", "for key-" + key + "=" + deObfuscatedData);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    String obfuscate(String data, int seed) {
+        char[] chars = keyBagLib.obfuscateDeObfuscate(data.toCharArray(), seed);
+        if (chars != null && chars.length > 0) {
+            return new String(chars);
         }
         return null;
     }
