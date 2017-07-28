@@ -175,7 +175,7 @@ dependencies {
     def shortversion = version.replaceAll(/-SNAPSHOT.*/, "")
     def suffix = objcdp.getVersionSuffix()
 
-    for (dep in [':commlib-api', 'cloudcontroller-api']) {
+    for (dep in [':commlib-api', ':cloudcontroller-api']) {
         if (findProject(dep)) {
             debugCompile project(path: dep, configuration: 'debug')
             releaseCompile project(path: dep, configuration: 'release')
