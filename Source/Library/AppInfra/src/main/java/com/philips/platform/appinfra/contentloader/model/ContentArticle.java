@@ -77,7 +77,6 @@ public class ContentArticle implements ContentInterface {
 
     @Override
     public boolean parseInput(String json) {
-        System.out.println("JSONELEMENT" + "" + json);
         final JsonElement response = new JsonParser().parse(json);
         this.title = String.valueOf(response.getAsJsonObject().get("title"));
         this.link = String.valueOf(response.getAsJsonObject().get("link"));
