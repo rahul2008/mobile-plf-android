@@ -15,6 +15,7 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.pojo.ShippingAddressPojo;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
@@ -23,6 +24,7 @@ import java.util.List;
 
 public class THSShippingAddressFragment extends THSBaseFragment implements View.OnClickListener, BackEventListener {
 
+    public static String TAG = THSShippingAddressFragment.class.getSimpleName();
     private THSConsumer thsConsumer;
     private Address address;
     private EditText addressLineOne, addressLineTwo, postalCode, town;
@@ -32,11 +34,16 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
     private THSSpinnerAdapter spinnerAdapter;
     private List<State> stateList = null;
     private THSUpdatePreferredPharmacy updatePreferredPharmacy;
+    private ActionBarListener actionBarListener;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.ths_shipping_address_fragment, container, false);
+        actionBarListener = getActionBarListener();
+        if(null != actionBarListener){
+            actionBarListener.updateActionBar(R.string.shipping_address_fragment_name,true);
+        }
         spinner = (AppCompatSpinner) view.findViewById(R.id.sa_state_spinner);
 
         try {

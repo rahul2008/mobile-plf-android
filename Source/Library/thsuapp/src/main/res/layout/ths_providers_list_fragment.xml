@@ -10,38 +10,36 @@
         android:layout_height="wrap_content">
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/seeFirstDoctorLabel"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="?attr/uidLabelValueNormalTextColor"
+            android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
             android:text="See the first available doctor"/>
         <ImageView
-            android:layout_below="@+id/seeFirstDoctorLabel"
             android:id="@+id/dummyDoctorImage"
-            android:layout_width="70dp"
+            android:layout_below="@+id/seeFirstDoctorLabel"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
             android:layout_centerInParent="true"
             android:src="@drawable/doctor_placeholder"
-            android:layout_height="70dp" />
+             />
         <com.philips.platform.uid.view.widget.Button
             android:layout_below="@id/dummyDoctorImage"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="12dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:id="@+id/getStartedButton"
             android:layout_width="match_parent"
             android:text="Get started"
-            android:visibility="gone"
             android:background="@color/uid_blue_level_55"
             android:layout_height="wrap_content" />
         <com.philips.platform.uid.view.widget.Button
             android:layout_below="@id/dummyDoctorImage"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="12dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:id="@+id/getScheduleAppointmentButton"
@@ -55,19 +53,19 @@
         android:layout_below="@+id/firstDoctorLayout"
         android:id="@+id/searchDoctorLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/uid_gray_level_5"
-        android:layout_marginBottom="16dp">
+        android:layout_height="40dp"
+        android:background="?attr/uidContentSecondaryBackgroundColor"
+        >
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/searchBarLabel"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_width="wrap_content"
+            android:gravity="center_vertical"
             android:layout_height="wrap_content"
-            android:textColor="?attr/uidLabelValueNormalTextColor"
-            android:text="Or pick on these doctors to schedule an appointment"
-            />
+            android:layout_width="wrap_content"
+            style="@style/ths_list_header"
+            android:text="Or pick one of these providers"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true" />
     </RelativeLayout>
         <android.support.v4.widget.SwipeRefreshLayout
             android:layout_below="@+id/searchDoctorLayout"

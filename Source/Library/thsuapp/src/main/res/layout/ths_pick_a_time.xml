@@ -15,7 +15,7 @@
                 android:layout_height="match_parent">
                 <include
                     android:id="@+id/providerDetailDListLayout"
-                    layout="@layout/ths_provider_details_d_list" />
+                    layout="@layout/ths_provider_details_c_list" />
                 <View android:background="@color/uid_gray_level_5"
                     android:layout_below="@+id/providerDetailDListLayout"
                     android:id="@+id/horizontalLine"

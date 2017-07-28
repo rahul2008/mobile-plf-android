@@ -12,6 +12,7 @@ import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.registration.THSConsumer;
+import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.ImageButton;
@@ -19,6 +20,7 @@ import com.philips.platform.uid.view.widget.Label;
 
 public class THSPharmacyAndShippingFragment extends THSBaseFragment implements THSPharmacyShippingViewInterface, View.OnClickListener, BackEventListener,THSUpdatePreferredPharmacy {
 
+    public static String TAG = THSPharmacyAndShippingFragment.class.getSimpleName();
     private THSPharmacyAndShippingPresenter thsPharmacyAndShippingPresenter;
     private Label pharmacyName, pharmacyZip, pharmacyState, pharmacyAddressLineOne, pharmacyAddressLIneTwo,
             consumerName, consumerCity, consumerShippingAddress, consumerState, consumerShippingZip;
@@ -28,6 +30,7 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
     private Address address;
     private Pharmacy pharmacy;
     private Button continueButton;
+    private ActionBarListener actionBarListener;
 
     @Nullable
     @Override
@@ -39,6 +42,10 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         thsPharmacyAndShippingPresenter = new THSPharmacyAndShippingPresenter(this);
         updateShippingAddressView(address);
         updatePharmacyDetailsView(pharmacy);
+        actionBarListener = getActionBarListener();
+        if(null != actionBarListener){
+            actionBarListener.updateActionBar(R.string.pharmacy_shipping_fragment_name,true);
+        }
         return view;
     }
 
@@ -97,9 +104,7 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         thsPharmacyFragment.setUpdateCallback(this);
         thsPharmacyFragment.setActionBarListener(getActionBarListener());
         thsPharmacyFragment.setFragmentLauncher(getFragmentLauncher());
-        getFragmentActivity().getSupportFragmentManager().
-                beginTransaction().replace(getContainerID(),
-                thsPharmacyFragment, "Pharmacy List").addToBackStack(null).commit();
+        addFragment(thsPharmacyFragment,THSPharmacyListFragment.TAG,null);
     }
 
     @Override
@@ -109,9 +114,7 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         thsShippingAddressFragment.setConsumerAndAddress(thsConsumer, null);
         thsShippingAddressFragment.setUpdateShippingAddressCallback(this);
         thsShippingAddressFragment.setFragmentLauncher(getFragmentLauncher());
-        getActivity().getSupportFragmentManager().
-                beginTransaction().replace(getContainerID(),
-                thsShippingAddressFragment, "ShippingAddressFragment").addToBackStack(null).commit();
+        addFragment(thsShippingAddressFragment,THSShippingAddressFragment.TAG,null);
     }
 
     @Override

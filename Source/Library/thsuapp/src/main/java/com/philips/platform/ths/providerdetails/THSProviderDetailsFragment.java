@@ -15,10 +15,6 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
-import com.philips.platform.ths.utility.THSManager;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * This class is used to display the provider details selected by the user.
