@@ -105,7 +105,6 @@ public class SntpClient
             mNtpTimeReference = responseTicks;
             mRoundTripTime = roundTripTime;
         } catch (Exception e) {
-            System.out.println("EXCEPTION"+" "+e);
             return false;
         } finally {
             if (socket != null) {

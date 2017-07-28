@@ -156,7 +156,6 @@ public class RequestManagerTestCase extends AppInfraInstrumentation {
 
         String jsonStr = MainObj.toString();
 
-        System.out.println("jsonString: " + jsonStr);
 
         return MainObj;
     }
