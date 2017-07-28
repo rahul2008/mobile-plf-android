@@ -141,6 +141,10 @@ android {
             buildConfigField "int", "maxsdk", Integer.toString(versions.target)
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
     publishNonDefault true
 }
 
