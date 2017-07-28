@@ -10,6 +10,7 @@
     <dimen name="reg_layout_padding_right_16dp">16dp</dimen>
     <dimen name="reg_layout_padding_top_16dp">16dp</dimen>
     <dimen name="reg_layout_padding_bottom_16dp">16dp</dimen>
+    <dimen name="reg_layout_padding_16dp">16dp</dimen>
     <dimen name="reg_layout_top">12dp</dimen>
 
 
@@ -169,6 +170,12 @@
     <dimen name="reg_margin_bottom_24">24dp</dimen>
     <dimen name="reg_layout_margin_16dp">16dp</dimen>
     <dimen name="reg_layout_margin_10dp">10dp</dimen>
+    <dimen name="reg_layout_margin_20dp">20dp</dimen>
+    <dimen name="reg_layout_margin_14dp">14dp</dimen>
+    <dimen name="reg_layout_margin_12dp">12dp</dimen>
+
+
+
 
 
 </resources>

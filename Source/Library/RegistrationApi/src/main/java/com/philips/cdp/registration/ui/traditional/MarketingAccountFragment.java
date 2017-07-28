@@ -19,11 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
 import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
@@ -38,37 +37,47 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.ProgressBarButton;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MarketingAccountFragment extends RegistrationBaseFragment implements
         View.OnClickListener, NetworStateListener, UpdateUserDetailsHandler {
 
-    private LinearLayout mLlCreateAccountFields;
 
-    private LinearLayout mLlCreateAccountContainer;
+    @BindView(R2.id.ll_reg_create_account_container)
+    LinearLayout mLlCreateAccountContainer;
 
-    private RelativeLayout mRlCountBtnContainer;
+    @BindView(R2.id.btn_reg_count_me)
+    ProgressBarButton mBtnCountMe;
 
-    private RelativeLayout mRlNoThanksBtnContainer;
+    @BindView(R2.id.btn_reg_no_thanks)
+    Button mBtnNoThanks;
 
-    private Button mBtnCountMe;
+    @BindView(R2.id.sv_root_layout)
+    ScrollView mSvRootLayout;
 
-    private Button mBtnNoThanks;
+    @BindView(R2.id.tv_reg_Join_now)
+    Label mTvJoinNow;
+
+    @BindView(R2.id.reg_error_msg)
+    XRegError mRegError;
+
+    @BindView(R2.id.tv_reg_philips_news_link)
+    Label receivePhilipsNewsView;
 
     private User mUser;
 
-    private View mViewLine;
-
     private Context mContext;
 
-    private ScrollView mSvRootLayout;
-
-    private TextView mTvJoinNow;
+    private Bundle mBundle;
 
     private long mTrackCreateAccountTime;
 
     private ProgressDialog mProgressDialog;
-
-    private XRegError mRegError;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,19 +87,16 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        URInterface.getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onCreateView");
         RLog.d(RLog.EVENT_LISTENERS,
                 "CreateAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
-
         RegistrationHelper.getInstance().registerNetworkStateListener(this);
         View view = inflater.inflate(R.layout.reg_fragment_marketing_opt, container, false);
+        ButterKnife.bind(this, view);
         initUI(view);
-
         setContentConfig(view);
-
-        mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
-
         handleOrientation(view);
         mTrackCreateAccountTime = System.currentTimeMillis();
         return view;
@@ -98,8 +104,6 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     private void setContentConfig(View view) {
         if (getRegistrationFragment().getContentConfiguration() != null) {
-            updateText(view, R.id.reg_be_the_first_txt,
-                    getRegistrationFragment().getContentConfiguration().getOptInTitleText());
             updateText(view, R.id.reg_what_are_you_txt,
                     getRegistrationFragment().getContentConfiguration().getOptInQuessionaryText());
             updateText(view, R.id.reg_special_officer_txt,
@@ -135,36 +139,6 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onStart");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onResume");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onPause");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onStop");
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDestroyView");
-    }
-
-    @Override
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDestroy");
         RegistrationHelper.getInstance().unRegisterNetworkListener(this);
@@ -173,13 +147,6 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         super.onDestroy();
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDetach");
-    }
-
-    private Bundle mBundle;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -202,10 +169,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, mLlCreateAccountFields, width);
         applyParams(config, mLlCreateAccountContainer, width);
-        applyParams(config, mRlCountBtnContainer, width);
-        applyParams(config, mRlNoThanksBtnContainer, width);
         applyParams(config, mTvJoinNow, width);
     }
 
@@ -227,24 +191,10 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     private void initUI(View view) {
         consumeTouch(view);
-        mLlCreateAccountFields = (LinearLayout) view
-                .findViewById(R.id.ll_reg_create_account_fields);
-        mLlCreateAccountContainer = (LinearLayout) view
-                .findViewById(R.id.ll_reg_create_account_container);
-        mRlCountBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_count_options);
-        mRlNoThanksBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_nothanks_options);
-        mBtnCountMe = (Button) view.findViewById(R.id.btn_reg_count_me);
-        mBtnNoThanks = (Button) view.findViewById(R.id.btn_reg_no_thanks);
-        mTvJoinNow = (TextView) view.findViewById(R.id.tv_reg_Join_now);
-        mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
-        TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
         RegUtility.linkifyPhilipsNewsMarketing(receivePhilipsNewsView,
                 getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
         mBtnCountMe.setOnClickListener(this);
         mBtnNoThanks.setOnClickListener(this);
-        mViewLine = view.findViewById(R.id.reg_accept_terms_line);
-;
-        handleUiAcceptTerms();
         handleUiState();
         mUser = new User(mContext);
     }
@@ -256,14 +206,6 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
             trackPage(AppTaggingPages.PHILIPS_ANNOUNCEMENT);
         }
     };
-
-    private void handleUiAcceptTerms() {
-        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-            mViewLine.setVisibility(View.VISIBLE);
-        } else {
-            mViewLine.setVisibility(View.GONE);
-        }
-    }
 
     private void handleRegistrationSuccess() {
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");

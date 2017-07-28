@@ -131,19 +131,19 @@ public class RegUtility {
     public static void linkifyPhilipsNewsMarketing(TextView receivePhilipsNewsView,
                                                    final Activity activity, ClickableSpan
                                                            receivePhilipsNewsClickListener) {
-        String receivePhilipsNews = activity.getString(R.string.reg_Opt_In_Receive_Promotional);
+       // String receivePhilipsNews = activity.getString(R.string.reg_Opt_In_Receive_Promotional);
         String doesThisMeanStr = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
-        receivePhilipsNews = String.format(receivePhilipsNews, doesThisMeanStr);
-        receivePhilipsNewsView.setText(receivePhilipsNews);
+     //   receivePhilipsNews = String.format(receivePhilipsNews, doesThisMeanStr);
+        receivePhilipsNewsView.setText(doesThisMeanStr);
         String link = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
-        SpannableString spanableString = new SpannableString(receivePhilipsNews);
+        SpannableString spanableString = new SpannableString(doesThisMeanStr);
 
-        int termStartIndex = receivePhilipsNews.toLowerCase().indexOf(
+        int termStartIndex = doesThisMeanStr.toLowerCase().indexOf(
                 link.toLowerCase());
         spanableString.setSpan(receivePhilipsNewsClickListener, termStartIndex, termStartIndex
                 + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         removeUnderlineFromLink(spanableString);
-
+        RLog.i("fkdkkd","ddddd"+spanableString);
         receivePhilipsNewsView.setText(spanableString);
         receivePhilipsNewsView.setMovementMethod(LinkMovementMethod.getInstance());
         receivePhilipsNewsView.setLinkTextColor(ContextCompat.getColor(activity,

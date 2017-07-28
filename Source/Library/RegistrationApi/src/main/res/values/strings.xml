@@ -122,7 +122,8 @@
     <string name="reg_Signin_Success_Hello_lbltxt">Hello</string>
     <string name="reg_Access_More_Account_Setting_lbltxt">Do you want to access more account settings?\nVisit %s via your browser.</string>
     <string name="reg_Philips_URL_txt">www.philips.com</string>
-    <string name="reg_Receive_Philips_News_lbltxt">Receive promotional communications of Philips based on my preferences and online behaviour.\n%s</string>
+    <string name="reg_Receive_Philips_News_lbltxt">Receive promotional communications of Philips based on my preferences and online behaviour.</string>
+    <!--<string name="reg_Receive_Philips_News_link_lbltxt">%s</string>-->
     <string name="reg_Receive_Philips_News_Meaning_lbltxt">What does this mean?</string>
     <string name="reg_Philips_News_Title">Philips announcements</string>
     <string name="reg_Philips_News_Back_btntxt">Back</string>
@@ -169,9 +170,9 @@
     <string name="reg_Mobile_TraditionalSignIn_Instruction_lbltxt">Having Problems?\n-  It may take some time for the SMS with the code to arrive\n-  If you did not receive an SMS press the \'Resend\' button</string>
     <string name="reg_Mobile_Verification_Invalid_Code">This is not a verification code I can recognize. Please try again.</string>
     <string name="reg_Opt_In_Be_The_First">Be the first to know!</string>
-    <string name="reg_Opt_In_What_Are_You_Going_To_Get">What are you going to get?</string>
+    <string name="reg_Opt_In_What_Are_You_Going_To_Get">What do we have to offer?</string>
     <string name="reg_Opt_In_Special_Offers">Special offers, promotions and first hand information about new product releases. Tailored for you!</string>
-    <string name="reg_Opt_In_Join_Now">Join now %s</string>
+    <string name="reg_Opt_In_Join_Now">Join %s of your peers now!</string>
     <string name="reg_Opt_In_Over_Peers">over 140,000 of your peers!</string>
     <string name="reg_Opt_In_Receive_Promotional">Receive promotional communications of Philips based on my preferences and online behavior\n%s</string>
     <string name="reg_Opt_In_Count_Me_In">Ok, count me in</string>
