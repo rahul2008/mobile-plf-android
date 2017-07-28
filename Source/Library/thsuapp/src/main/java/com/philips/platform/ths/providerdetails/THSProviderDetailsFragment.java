@@ -120,11 +120,6 @@ public class THSProviderDetailsFragment extends THSBaseFragment implements View.
     }
 
     @Override
-    public int getContainerID() {
-        return ((ViewGroup)getView().getParent()).getId();
-    }
-
-    @Override
     public void onRefresh() {
         if(mThsProviderDetailsDisplayHelper == null)
             return;

@@ -1,7 +1,6 @@
 package com.philips.platform.ths.intake;
 
 import android.net.Uri;
-import android.widget.Toast;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.UploadAttachment;
@@ -52,7 +51,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
         try {
 
             uploadAttachment = fileUtils.getUploadAttachment(thsBaseView.getFragmentActivity(), THSManager.getInstance().getAwsdk(thsBaseView.getFragmentActivity().getApplicationContext()), uri);
-            THSManager.getInstance().uploadHealthDocument(thsBaseView.getFragmentActivity(), thsConsumer, uploadAttachment, this);
+            THSManager.getInstance().uploadHealthDocument(thsBaseView.getFragmentActivity(), uploadAttachment, this);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -66,7 +65,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
 
     public void fetchHealthDocuments(THSConsumer thsConsumer) {
         try {
-            THSManager.getInstance().fetchHealthDocumentRecordList(thsBaseView.getFragmentActivity(), thsConsumer, this);
+            THSManager.getInstance().fetchHealthDocumentRecordList(thsBaseView.getFragmentActivity(), this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -75,7 +74,9 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.continue_btn) {
-            thsBaseView.addFragment(new THSVitalsFragment(), THSVitalsFragment.TAG, null);
+            final THSVitalsFragment fragment = new THSVitalsFragment();
+            fragment.setFragmentLauncher(thsBaseView.getFragmentLauncher());
+            thsBaseView.addFragment(fragment, THSVitalsFragment.TAG, null);
         }
     }
 
@@ -95,6 +96,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
 
     @Override
     public void onFailure(Throwable throwable) {
+        thsBaseView.hideProgressBar();
     }
 
     void getVisitContext() {
@@ -128,33 +130,33 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
 
     @Override
     public void onDocumentRecordFetchSuccess(List<DocumentRecord> documentRecordList, SDKError sdkError) {
-
         if (documentRecordList.size() > 0) {
-            Toast.makeText(thsBaseView.getFragmentActivity(), "list size" + documentRecordList.size(), Toast.LENGTH_SHORT).show();
+            thsBaseView.showToast("list size" + documentRecordList.size());
         } else if (null != sdkError) {
-            Toast.makeText(thsBaseView.getFragmentActivity(), "list is zero sdk error", Toast.LENGTH_SHORT).show();
+            thsBaseView.showToast("list is zero sdk error");
         } else {
-            Toast.makeText(thsBaseView.getFragmentActivity(), "list is zero", Toast.LENGTH_SHORT).show();
+            thsBaseView.showToast("list is zero");
         }
     }
 
     @Override
     public void onUploadValidationFailure(Map<String, ValidationReason> map) {
-        Toast.makeText(thsBaseView.getFragmentActivity(), "validation failure", Toast.LENGTH_SHORT).show();
+        thsBaseView.showToast("validation failure");
     }
 
     @Override
     public void onUploadDocumentSuccess(DocumentRecord documentRecord, SDKError sdkError) {
         if (null != documentRecord && null == sdkError) {
-            Toast.makeText(thsBaseView.getFragmentActivity(), "success with Document name" + documentRecord.getName(), Toast.LENGTH_SHORT).show();
+            thsBaseView.showToast("success with Document name");
         } else {
-            Toast.makeText(thsBaseView.getFragmentActivity(), "upload failed with sdk error", Toast.LENGTH_SHORT).show();
+            thsBaseView.showToast("upload failed with sdk error");
         }
 
     }
 
     @Override
     public void onError(Throwable throwable) {
-        Toast.makeText(thsBaseView.getFragmentActivity(), "failure : "+throwable.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+        thsBaseView.showToast("failure : "+throwable.getLocalizedMessage());
+        thsBaseView.hideProgressBar();
     }
 }

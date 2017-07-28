@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
@@ -29,6 +30,7 @@ public class THSPracticeFragment extends THSBaseFragment implements BackEventLis
     private RecyclerView mPracticeRecyclerView;
     private PracticeRecyclerViewAdapter mPracticeRecyclerViewAdapter;
     private ActionBarListener actionBarListener;
+    private RelativeLayout mRealtiveLayoutPracticeContainer;
 
 
     @Nullable
@@ -38,7 +40,7 @@ public class THSPracticeFragment extends THSBaseFragment implements BackEventLis
         View view = inflater.inflate(R.layout.ths_practice, container, false);
         mTitle = (Label) view.findViewById(R.id.pth_id_practice_label);
         mPracticeRecyclerView = (RecyclerView)view.findViewById(R.id.pth_recycler_view_practice);
-        //mPTHBaseFragmentProgressBar = (ProgressBar)view.findViewById(R.id.pth_id_practice_progress_bar);
+        mRealtiveLayoutPracticeContainer = (RelativeLayout)view.findViewById(R.id.activity_main);
         return view;
     }
 
@@ -54,7 +56,7 @@ public class THSPracticeFragment extends THSBaseFragment implements BackEventLis
         mTitle.setText(getFragmentActivity().getResources().getString(R.string.ths_practice_pick_subject));
         mPracticeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         if(null!=(mPresenter)) {
-            showProgressBar();
+            createCustomProgressBar(mRealtiveLayoutPracticeContainer,BIG);
             ( mPresenter).fetchPractices();
         }
     }
@@ -80,14 +82,6 @@ public class THSPracticeFragment extends THSBaseFragment implements BackEventLis
     public FragmentActivity getFragmentActivity() {
         return getActivity();
     }
-
-    @Override
-    public int getContainerID() {
-        return ((ViewGroup)getView().getParent()).getId();
-    }
-
-
-
 
     public void showPracticeList(THSPracticeList practices){
         hideProgressBar();

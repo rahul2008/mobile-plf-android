@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -21,6 +22,7 @@ public class THSNoppFragment extends THSBaseFragment {
     private ActionBarListener actionBarListener;
     Label legalTextsLabel;
     THSBasePresenter mTHSNoppPresenter;
+    private RelativeLayout mRelativeLayoutNopContainer;
 
 
     @Nullable
@@ -28,6 +30,7 @@ public class THSNoppFragment extends THSBaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_nopp_fragment, container, false);
         legalTextsLabel = (Label) view.findViewById(R.id.ths_intake_nopp_agreement_text);
+        mRelativeLayoutNopContainer = (RelativeLayout) view.findViewById(R.id.nop_container);
         mTHSNoppPresenter = new THSNoppPresenter(this);
 
         createCustomProgressBar(view, BIG);
@@ -39,6 +42,7 @@ public class THSNoppFragment extends THSBaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         actionBarListener = getActionBarListener();
+        createCustomProgressBar(mRelativeLayoutNopContainer,BIG);
         ((THSNoppPresenter) mTHSNoppPresenter).showLegalTextForNOPP();
     }
 

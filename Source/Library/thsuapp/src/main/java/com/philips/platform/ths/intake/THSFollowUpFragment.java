@@ -102,16 +102,12 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
 
     }
 
-    @Override
-    public int getContainerID() {
-        return ((ViewGroup) getView().getParent()).getId();
-    }
-
     public void displayPharmacyAndShippingPreferenceFragment(Pharmacy pharmacy, Address address) {
         mFollowUpContiueButton.hideProgressIndicator();
         THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();
         thsPharmacyAndShippingFragment.setConsumer(THSManager.getInstance().getPTHConsumer());
         thsPharmacyAndShippingFragment.setPharmacyAndAddress(address,pharmacy);
+        thsPharmacyAndShippingFragment.setFragmentLauncher(getFragmentLauncher());
         getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), thsPharmacyAndShippingFragment, "").addToBackStack(null).commit();
     }
 
@@ -229,6 +225,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
         THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
         thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(),null);
         thsPharmacyListFragment.setLocation(location);
+        thsPharmacyListFragment.setFragmentLauncher(getFragmentLauncher());
         getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(),thsPharmacyListFragment,"").addToBackStack(null).commit();
 
     }
@@ -270,7 +267,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
                 getLocation();
             } else {
                 showPharmacySearch();
-                Toast.makeText(getActivity(), "Permission denied : Going to search", Toast.LENGTH_SHORT).show();
+                showToast("Permission denied : Going to search");
             }
         }
     }
@@ -278,6 +275,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     private void showPharmacySearch() {
 
         THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
+        thsSearchPharmacyFragment.setFragmentLauncher(getFragmentLauncher());
         getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(),thsSearchPharmacyFragment,"").addToBackStack(null).commit();
     }
 }

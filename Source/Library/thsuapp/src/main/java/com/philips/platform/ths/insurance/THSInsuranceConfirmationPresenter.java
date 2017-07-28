@@ -21,10 +21,14 @@ public class THSInsuranceConfirmationPresenter implements THSBasePresenter {
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.pth_insurance_confirmation_radio_option_yes) {
-            mTHSBaseFragment.addFragment(new THSInsuranceDetailFragment(), THSInsuranceDetailFragment.TAG,null);
+            final THSInsuranceDetailFragment fragment = new THSInsuranceDetailFragment();
+            fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
+            mTHSBaseFragment.addFragment(fragment, THSInsuranceDetailFragment.TAG,null);
 
         } else if (componentID == R.id.pth_insurance_confirmation_radio_option_no) {
-            mTHSBaseFragment.addFragment(new THSCostSummaryFragment(), THSCostSummaryFragment.TAG,null);
+            final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
+            fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
+            mTHSBaseFragment.addFragment(fragment, THSCostSummaryFragment.TAG,null);
         }
 
     }

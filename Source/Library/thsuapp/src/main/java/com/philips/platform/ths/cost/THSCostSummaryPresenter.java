@@ -27,7 +27,9 @@ public class THSCostSummaryPresenter implements THSBasePresenter, THSSDKValidate
     public void onEvent(int componentID) {
         if(componentID== R.id.ths_cost_summary_continue_button){
             // calling payment detail
-            ((THSCostSummaryFragment) mTHSBaseFragment).addFragment( new THSCreditCardDetailFragment(),THSCreditCardDetailFragment.TAG,null);
+            final THSCreditCardDetailFragment fragment = new THSCreditCardDetailFragment();
+            fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
+            ((THSCostSummaryFragment) mTHSBaseFragment).addFragment(fragment,THSCreditCardDetailFragment.TAG,null);
         }
 
     }
@@ -35,7 +37,6 @@ public class THSCostSummaryPresenter implements THSBasePresenter, THSSDKValidate
 
     void createVisit() {
         try {
-            ((THSCostSummaryFragment) mTHSBaseFragment).showProgressBar();
             THSManager.getInstance().createVisit(mTHSBaseFragment.getFragmentActivity(), THSManager.getInstance().getPthVisitContext(), this);
         } catch (Exception e) {
 
