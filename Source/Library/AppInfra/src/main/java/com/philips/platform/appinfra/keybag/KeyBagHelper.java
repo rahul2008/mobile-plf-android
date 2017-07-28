@@ -22,7 +22,7 @@ import java.util.Map;
 
 class KeyBagHelper {
 
-    private String getMd5ValueInHex(String data) {
+    String getMd5ValueInHex(String data) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(data.getBytes());
@@ -99,5 +99,16 @@ class KeyBagHelper {
             list.add(value);
         }
         return list;
+    }
+
+    private String data = "https://www.philips.com/";
+
+    String getIndex(String indexData) {
+        if (!TextUtils.isEmpty(indexData)) {
+            String[] split = indexData.split(data);
+            if (split.length > 1 && split[1] != null)
+                return split[1];
+        }
+        return null;
     }
 }

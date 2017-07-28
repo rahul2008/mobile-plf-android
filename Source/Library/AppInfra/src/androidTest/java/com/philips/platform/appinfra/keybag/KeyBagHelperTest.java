@@ -28,4 +28,19 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
         String seed = keyBagHelper.getSeed(groupId, key, index);
 //        assertEquals(seed,"appinfra.languagePack2client_id1");
     }
+
+    public void testGettingIndex() {
+        String indexData = "https://www.philips.com/0";
+        assertEquals(keyBagHelper.getIndex(indexData), "0");
+        indexData = "https://www.philips.com/22";
+        assertEquals(keyBagHelper.getIndex(indexData), "22");
+        indexData = "";
+        assertNull(keyBagHelper.getIndex(indexData));
+    }
+
+//    public void testGettingMd5ValueInHex() {
+//        String hexData = "b3a5085a2de916729f8e55955ba482656cfc";
+//        String md5ValueInHex = keyBagHelper.convertHexDataToString(hexData);
+//        assertEquals("Raja Ram Mohan Roy",md5ValueInHex);
+//    }
 }
