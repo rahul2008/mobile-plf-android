@@ -19,7 +19,7 @@
     <dimen name="ths_body_text_padding">3dp</dimen>
     <dimen name="ths_title_padding">4dp</dimen>
     <!-- Registration dimens-->
-    <dimen name="ths_margin_top_registration_detail_title">4dp</dimen>
+    <dimen name="ths_margin_top_registration_detail_title">24dp</dimen>
     <dimen name="ths_margin_bottom_more_details">12dp</dimen>
 
 </resources>

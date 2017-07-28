@@ -58,7 +58,7 @@ public class THSWelcomeFragment extends THSBaseFragment implements BackEventList
 
     @Override
     public boolean handleBackEvent() {
-        return true;
+        return false;
     }
 
     @Override

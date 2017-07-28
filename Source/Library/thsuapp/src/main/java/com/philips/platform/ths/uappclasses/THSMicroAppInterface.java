@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.philips.platform.ths.activity.THSLaunchActivity;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.welcome.THSWelcomeFragment;
 import com.philips.platform.uappframework.UappInterface;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;

@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/registration_container_layout"
+<ScrollView android:id="@+id/registration_container_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:padding="@dimen/pth_fab_margin"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <RelativeLayout
+        android:id="@+id/registration_form_container"
+        android:paddingLeft="@dimen/pth_fab_margin"
+        android:paddingRight="@dimen/pth_fab_margin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
     <com.philips.platform.uid.view.widget.Label
+        android:layout_alignParentTop="true"
         android:id="@+id/ths_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,7 +53,7 @@
             android:id="@+id/ths_edit_first_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"
+            android:enabled="true"
             android:inputType="textEmailAddress"
             android:maxLines="1"
             app:uidInputTextWithClearButton="true" />
@@ -72,7 +80,7 @@
             android:id="@+id/ths_edit_last_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"
+            android:enabled="true"
             android:inputType="textEmailAddress"
             android:maxLines="1"
             app:uidInputTextWithClearButton="true" />
@@ -86,6 +94,7 @@
         android:text="@string/ths_dob"
         />
 
+<!--
     <com.philips.platform.uid.view.widget.InputValidationLayout
         android:id="@+id/ths_edit_dob_container"
         android:layout_width="match_parent"
@@ -98,11 +107,85 @@
             android:id="@+id/ths_edit_dob"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="@{texteditBoxfragment.disableEditBoxes? false: true}"
+            android:enabled="true"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:drawableRight="@drawable/ic_calender"
+            app:uidInputTextWithClearButton="true" />
+    </com.philips.platform.uid.view.widget.InputValidationLayout>
+-->
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_edit_dob"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ths_dob"
+            style="@style/ths_calendar_right"
+            android:text="@string/ths_gender"
+            />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_gender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ths_edit_dob"
+        android:text="@string/ths_gender"
+        />
+
+    <com.philips.platform.uid.view.widget.CheckBox
+        android:id="@+id/ths_checkbox_female"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ths_gender"
+        android:enabled="true"
+        android:text="@string/ths_female"/>
+
+    <com.philips.platform.uid.view.widget.CheckBox
+        android:id="@+id/ths_checkbox_male"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ths_checkbox_female"
+        android:enabled="true"
+        android:text="@string/ths_male"/>
+
+    <!--<com.philips.platform.uid.view.widget.InputValidationLayout
+        android:id="@+id/ths_edit_location_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
+        android:layout_below="@id/ths_checkbox_male"
+        android:layout_marginBottom="@dimen/ths_margin_top_registration_detail_title"
+        app:uidTextBoxValidationErrorText="@string/ths_inline_error_message">
+
+        <com.philips.platform.uid.view.widget.ValidationEditText
+            android:id="@+id/ths_edit_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
             android:inputType="textEmailAddress"
             android:maxLines="1"
             android:drawableEnd="@drawable/ic_calender"
+            android:hint="@string/ths_state"
             app:uidInputTextWithClearButton="true" />
-    </com.philips.platform.uid.view.widget.InputValidationLayout>
+    </com.philips.platform.uid.view.widget.InputValidationLayout>-->
 
-</RelativeLayout>
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/ths_edit_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/ths_list_item"
+            android:layout_below="@id/ths_checkbox_male">
+
+        </android.support.v7.widget.AppCompatSpinner>
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/ths_continue"
+        android:layout_below="@id/ths_edit_location"
+        android:text="@string/ths_continue"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/pth_fab_margin"
+        android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+</ScrollView>

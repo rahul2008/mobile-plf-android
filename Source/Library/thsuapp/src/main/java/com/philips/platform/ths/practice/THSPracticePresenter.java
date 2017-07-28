@@ -26,7 +26,7 @@ public class THSPracticePresenter implements THSBasePresenter, THSPracticesListC
 
     protected void fetchPractices(){
         try {
-            THSManager.getInstance().getPractices(uiBaseView.getFragmentActivity(),mConsumer,this);
+            THSManager.getInstance().getPractices(uiBaseView.getFragmentActivity(), this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

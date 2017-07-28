@@ -43,37 +43,9 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
         spinner = (AppCompatSpinner) view.findViewById(R.id.sa_state_spinner);
 
         try {
-            //TODO: Spoorti - Review Comment - move this API call to THSMAnager
-            Country country  = new Country() {
-                @NonNull
-                @Override
-                public String getName() {
-                    return null;
-                }
-
-                @NonNull
-                @Override
-                public String getCode() {
-                    return null;
-                }
-
-                @Nullable
-                @Override
-                public List<State> getStates() {
-                    return null;
-                }
-
-                @Override
-                public int describeContents() {
-                    return 0;
-                }
-
-                @Override
-                public void writeToParcel(Parcel parcel, int i) {
-
-                }
-            };
-            stateList = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getConsumerManager().getValidPaymentMethodStates(country);
+            final List<Country> supportedCountries = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getSupportedCountries();
+            stateList = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getConsumerManager().getValidPaymentMethodStates(supportedCountries.get(0));
+            //stateList = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getConsumerManager().getValidPaymentMethodStates(country);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
