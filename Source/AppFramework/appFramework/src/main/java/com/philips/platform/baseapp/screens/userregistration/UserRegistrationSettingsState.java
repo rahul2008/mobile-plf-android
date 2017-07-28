@@ -39,7 +39,7 @@ public class UserRegistrationSettingsState extends UserRegistrationState {
         try {
             BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
             targetFlowManager.getBackState();
-            BaseState baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), SETTINGS_LOGOUT);
+            BaseState baseState = targetFlowManager.getNextState(targetFlowManager.getState(AppStates.SETTINGS_REGISTRATION), SETTINGS_LOGOUT);
             if (baseState != null)
                 baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
