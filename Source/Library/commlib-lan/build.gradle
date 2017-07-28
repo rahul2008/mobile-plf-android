@@ -172,13 +172,26 @@ task generateJavadocPublicApi(type: Javadoc) {
 dependencies {
     provided deps.support.annotations
 
-    debugCompile project(path: ':commlib-api', configuration: 'debug')
-    releaseCompile project(path: ':commlib-api', configuration: 'release')
-    testCompile project(path: ':commlib-api', configuration: 'debug')
-
     compile deps.gson
 
-    testCompile project(':commlib-testutils')
+    def shortversion = version.replaceAll(/-SNAPSHOT.*/, "")
+    def suffix = objcdp.getVersionSuffix()
+
+    for (dep in [':commlib-api']) {
+        if (findProject(dep)) {
+            debugCompile project(path: dep, configuration: 'debug')
+            releaseCompile project(path: dep, configuration: 'release')
+        } else {
+            compile("$group$dep:$shortversion$suffix") { changing = true }
+        }
+    }
+
+    if (findProject(":commlib-testutils")) {
+        testCompile project(':commlib-testutils')
+    } else {
+        testCompile("$group:commlib-testutils:$shortversion$suffix") { changing = true }
+    }
+
     testCompile deps.junit
     testCompile deps.mockito
     testCompile deps.powermock_mockito

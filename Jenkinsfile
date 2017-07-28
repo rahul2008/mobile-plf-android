@@ -19,7 +19,7 @@ node('Android') {
     Slack.notify('#conartists') {
         boolean publishing = (env.BRANCH_NAME == "develop" || env.BRANCH_NAME.startsWith("release") || env.BRANCH_NAME == "master")
 
-        if (!publishing) {
+        /*if (!publishing) {
             stage('Checkout local BlueLib') {
                 try {
                     checkout([$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'bluelib'], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://git@bitbucket.atlas.philips.com:7999/ehshn/android-shinelib.git']]])
@@ -27,10 +27,19 @@ node('Android') {
                     checkout([$class: 'GitSCM', branches: [[name: 'develop']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'bluelib'], [$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'd866c69b-16f0-4fce-823a-2a42bbf90a3d', url: 'ssh://git@bitbucket.atlas.philips.com:7999/ehshn/android-shinelib.git']]])
                 }
             }
-        }
+        }*/
 
         stage('Build') {
-            sh "$gradle --refresh-dependencies generateJavadocPublicApi assemble saveResDep testDebug"
+            //sh "$gradle generateJavadocPublicApi assemble saveResDep testDebug"
+        }
+
+        if (true) {
+            for (lib in ["commlib-testutils", "cloudcontroller-api", "cloudcontroller", "commlib-api", "commlib-ble", "commlib-lan", "commlib-cloud", "commlib"]) {
+                def libgradle = "cd commlib/Source/Library/$lib && ./gradlew -u -PenvCode=\${JENKINS_ENV}"
+                stage("Publish $lib") {
+                    sh "$libgradle assembleRelease zipDocuments artifactoryPublish"
+                }
+            }
         }
 
         stage('Archive results') {

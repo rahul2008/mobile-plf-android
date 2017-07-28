@@ -172,24 +172,28 @@ task generateJavadocPublicApi(type: Javadoc) {
 dependencies {
     provided deps.support.annotations
 
-    for (dep in [':commlib-api', ':cloudcontroller-api']) {
+    def shortversion = version.replaceAll(/-SNAPSHOT.*/, "")
+    def suffix = objcdp.getVersionSuffix()
+
+    for (dep in [':commlib-api', 'cloudcontroller-api']) {
         if (findProject(dep)) {
             debugCompile project(path: dep, configuration: 'debug')
             releaseCompile project(path: dep, configuration: 'release')
         } else {
-            compile("$group$dep:$version" + objcdp.getVersionSuffix()) { changing = true }
+            compile("$group$dep:$shortversion$suffix") { changing = true }
         }
     }
 
-    if (findProject(':cloudcontroller')) {
-        testCompile project(path: ':cloudcontroller', configuration: 'debug')
-    } else {
-        testCompile(group: 'com.philips.cdp', name: 'cloudcontroller', version: versions.cloudcontroller + objcdp.getVersionSuffix(), changing: true)
+    for (dep in [':cloudcontroller', ':commlib-testutils']) {
+        if (findProject(dep)) {
+            testCompile project(dep, configuration: 'debug')
+        } else {
+            testCompile("$group$dep:$shortversion$suffix") { changing = true }
+        }
     }
 
     compile deps.gson
 
-    testCompile project(':commlib-testutils')
     testCompile deps.junit
     testCompile deps.mockito
     testCompile deps.powermock_mockito
