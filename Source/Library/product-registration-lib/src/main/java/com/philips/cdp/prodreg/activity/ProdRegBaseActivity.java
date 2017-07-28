@@ -34,6 +34,12 @@ import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
+import com.philips.platform.uid.thememanager.AccentRange;
+import com.philips.platform.uid.thememanager.ColorRange;
+import com.philips.platform.uid.thememanager.ContentColor;
+import com.philips.platform.uid.thememanager.NavigationColor;
+import com.philips.platform.uid.thememanager.ThemeConfiguration;
+import com.philips.platform.uid.thememanager.UIDHelper;
 
 import java.util.ArrayList;
 
@@ -64,6 +70,8 @@ public class ProdRegBaseActivity extends UiKitActivity {
         super.onCreate(savedInstanceState);
         setUiKitThemeIfRequired();
         initCustomActionBar();
+        UIDHelper.injectCalligraphyFonts();
+        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.BRIGHT, NavigationColor.ULTRA_LIGHT, AccentRange.ORANGE));
         setContentView(R.layout.prodreg_activity);
         animateThisScreen();
         if (savedInstanceState == null) {
@@ -77,8 +85,12 @@ public class ProdRegBaseActivity extends UiKitActivity {
         if (theme <= 0)
             theme = DEFAULT_THEME;
 
-// UITHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT));
-          setTheme(theme);
+//        getTheme().applyStyle(theme ,true);
+//
+//        UIDHelper.init(new ThemeConfiguration(this, ColorRange.BLUE, NavigationColor.VERY_DARK, ContentColor.VERY_DARK, AccentRange.ORANGE));
+         // setTheme(theme);
+        setTheme(theme);
+       // UIDHelper.init((ThemeConfiguration) extras.getSerializable(ProdRegConstants.UI_KIT_THEME));
     }
 
     @Override

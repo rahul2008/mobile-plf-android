@@ -42,6 +42,7 @@ import com.philips.platform.uappframework.uappinput.UappDependencies;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -108,7 +109,8 @@ public class PRUiHelper {
         intent.putExtra(ProdRegConstants.STOP_ANIMATION_ID, activityLauncher.getExitAnimation());
         intent.putExtra(ProdRegConstants.PROD_REG_IS_FIRST_LAUNCH, prLaunchInput.isAppLaunchFlow());
         intent.putExtra(ProdRegConstants.SCREEN_ORIENTATION, activityLauncher.getScreenOrientation());
-        intent.putExtra(ProdRegConstants.UI_KIT_THEME, activityLauncher.getUiKitTheme());
+        intent.putExtra(ProdRegConstants.UI_KIT_THEME,  activityLauncher.getUiKitTheme());
+
         intent.putExtra(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID, prLaunchInput.getBackgroundImageResourceId());
         context.startActivity(intent);
     }

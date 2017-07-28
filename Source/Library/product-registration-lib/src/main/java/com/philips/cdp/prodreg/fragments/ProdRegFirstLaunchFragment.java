@@ -13,8 +13,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
+
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
 import com.philips.cdp.prodreg.constants.AnalyticsConstants;
@@ -28,6 +27,9 @@ import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.User;
 
+import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.Label;
+
 import java.util.List;
 
 public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
@@ -35,7 +37,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
     private List<RegisteredProduct> registeredProducts;
     private int resId = 0;
     private Bundle dependencies;
-    private TextView titleTextView, subTitle1, subTitle2;
+    private Label titleTextView, subTitle1, subTitle2;
     private Button registerLater;
 
     @Override
@@ -61,7 +63,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
     private void setImageBackground() {
         if (getView() != null && resId != 0) {
             getView().setBackgroundResource(resId);
-            registerLater.setBackgroundResource(R.drawable.uikit_white_transparent_selector);
+           // registerLater.setBackgroundResource(R.drawable.uikit_white_transparent_selector);
             setWhiteTextColors();
         }
     }
@@ -76,12 +78,13 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.prodreg_first_launch, container, false);
         final Button registerButton = (Button) view.findViewById(R.id.yes_register_button);
         registerLater = (Button) view.findViewById(R.id.no_thanks_button);
-        titleTextView = (TextView) view.findViewById(R.id.conf_action_textview);
-        subTitle1 = (TextView) view.findViewById(R.id.conf_subtext_textview);
-        subTitle2 = (TextView) view.findViewById(R.id.conf_subtext_two_textview);
+        titleTextView = (Label) view.findViewById(R.id.conf_action_textview);
+        subTitle1 = (Label) view.findViewById(R.id.conf_subtext_textview);
+        subTitle2 = (Label) view.findViewById(R.id.conf_subtext_two_textview);
 
         registerButton.setOnClickListener(onClickRegister());
         registerLater.setOnClickListener(onClickNoThanks());

@@ -28,7 +28,7 @@ public class PRDemoActivity extends AppCompatActivity {
 
                 PRDemoAppuAppInterface uAppInterface = new PRDemoAppuAppInterface();
                 uAppInterface.init(new PRDemoAppuAppDependencies(PRUiHelper.getInstance().getAppInfraInstance()), new PRDemoAppuAppSettings(PRDemoActivity.this));// pass App-infra instance instead of null
-                ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, getDlsThemeConfiguration(),R.style.Theme_DLS_Aqua_VeryDark, null);
+                ActivityLauncher uiLauncher = new ActivityLauncher(ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED, getDlsThemeConfiguration(),R.style.Theme_DLS_Green_VeryDark, null);
                 uAppInterface.launch(uiLauncher, null);// pass launch input if required
 
             }
@@ -37,7 +37,7 @@ public class PRDemoActivity extends AppCompatActivity {
 
     @NonNull
     private ThemeConfiguration getDlsThemeConfiguration() {
-        return new ThemeConfiguration(this, ColorRange.GROUP_BLUE, NavigationColor.BRIGHT, ContentColor.VERY_DARK, AccentRange.GROUP_BLUE);
+        return new ThemeConfiguration(this, ColorRange.BLUE, NavigationColor.VERY_DARK, ContentColor.VERY_DARK, AccentRange.ORANGE);
     }
 
 }

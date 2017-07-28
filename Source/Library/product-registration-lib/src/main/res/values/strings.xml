@@ -2,8 +2,8 @@
 
 <resources>
 <string name="PPR_NavBar_Title">Register your product</string>
-<string name="PPR_RegYourProduct_Lbltxt">Register your product and:</string>
-<string name="PPR_ReceiveUpdates_Lbltxt">- Receive important updates about your products</string>
+<string name="PPR_RegYourProduct_Lbltxt">Register your product to:</string>
+<string name="PPR_ReceiveUpdates_Lbltxt">-Receive important updates about your products</string>
 <string name="PPR_Yes_Btntxt">Yes</string>
 <string name="PPR_RegLater_Btntxt">No thanks, register later</string>
 <string name="PPR_AllProducts_Registered_Lbltxt">All the products that are currently connected to this app have been registered successfully!</string>

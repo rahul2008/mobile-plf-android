@@ -80,8 +80,10 @@ public class MainActivity extends UIDActivity {
 
     private void initCustomActionBar() {
         ActionBar mActionBar = this.getSupportActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
+        if(mActionBar != null) {
+            mActionBar.setDisplayShowHomeEnabled(false);
+            mActionBar.setDisplayShowTitleEnabled(false);
+        }
 
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the text view in the ActionBar !
                 ActionBar.LayoutParams.MATCH_PARENT,
@@ -102,10 +104,12 @@ public class MainActivity extends UIDActivity {
         ImageView arrowImage = (ImageView) mCustomView
                 .findViewById(R.id.arrow);
         arrowImage.setBackground(getResources().getDrawable(R.drawable.prodreg_left_arrow));
-
-        mActionBar.setCustomView(mCustomView, params);
         setTitle(getString(R.string.app_name));
-        mActionBar.setDisplayShowCustomEnabled(true);
+
+        if(mActionBar != null) {
+            mActionBar.setCustomView(mCustomView, params);
+            mActionBar.setDisplayShowCustomEnabled(true);
+        }
     }
 
     @Override
@@ -143,7 +147,7 @@ public class MainActivity extends UIDActivity {
             super.setTitle(titleId);
     }
 
-    protected  void initTheme(){
+    protected  void initTheme() {
         UIDHelper.injectCalligraphyFonts();
         themeHelper = new ThemeHelper(this);
         ThemeConfiguration config = themeHelper.getThemeConfig();
@@ -152,7 +156,7 @@ public class MainActivity extends UIDActivity {
         FontIconTypefaceHolder.init(getAssets(),"digitalcarefonts/CCIcon.ttf");
     }
 
-    protected void changeTheme(){
+    protected void changeTheme() {
         themeHelper.changeTheme();
     }
 }
