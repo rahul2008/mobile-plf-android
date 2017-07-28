@@ -117,8 +117,8 @@
         android:layout_below="@+id/iap_productDetailsScreen_separator"
         android:layout_marginLeft="@dimen/border16_margin_left_right"
         android:layout_marginRight="@dimen/border16_margin_left_right"
-        android:layout_marginTop="@dimen/border16_margin_left_right"
-        android:layout_marginBottom="@dimen/border16_margin_left_right"
+        android:layout_marginTop="@dimen/border12_margin"
+        android:layout_marginBottom="@dimen/border12_margin"
         android:orientation="vertical">
 
 
@@ -140,6 +140,7 @@
             android:layout_height="wrap_content"
             android:enabled="true"
             android:visibility="visible"
+            android:layout_marginTop="@dimen/border12_margin"
             app:uidComponentType="Primary"
             style="@style/iapCentralesansBookFont"
             app:uidIsIndeterminateProgressIndicator="true"

@@ -70,7 +70,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
         productHolder.mProductImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
         productHolder.mPrice.setText(formattedPrice);
-        productHolder.mCTN.setText(productCatalogData.getCtnNumber());
+       // productHolder.mCTN.setText(productCatalogData.getCtnNumber());
 
         if (discountedPrice == null || discountedPrice.equalsIgnoreCase("")) {
             productHolder.mDiscountedPrice.setVisibility(View.GONE);
@@ -142,7 +142,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private class ProductCatalogViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         NetworkImageView mProductImage;
         TextView mProductName;
-        TextView mCTN;
+      //  TextView mCTN;
         TextView mPrice;
         FontIconTextView mArrow;
         TextView mDiscountedPrice;
@@ -151,7 +151,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             super(itemView);
             mProductImage = (NetworkImageView) itemView.findViewById(R.id.image);
             mProductName = (TextView) itemView.findViewById(R.id.iap_retailerItem_productName_lebel);
-            mCTN = (TextView) itemView.findViewById(R.id.iap_retailerItem_ctn_lebel);
+           // mCTN = (TextView) itemView.findViewById(R.id.iap_retailerItem_ctn_lebel);
             mPrice = (TextView) itemView.findViewById(R.id.iap_retailerItem_price_lebel);
             mArrow = (FontIconTextView) itemView.findViewById(R.id.arrow);
             mDiscountedPrice = (TextView) itemView.findViewById(R.id.iap_productCatalogItem_discountedPrice_lebel);

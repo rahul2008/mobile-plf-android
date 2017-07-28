@@ -63,8 +63,8 @@
     </style>
 
     <style name="networkImage">
-        <item name="android:layout_width">@dimen/network_image_width</item>
-        <item name="android:layout_height">@dimen/network_image_height</item>
+        <item name="android:layout_width">@dimen/iap_network_image_width_height</item>
+        <item name="android:layout_height">@dimen/iap_network_image_width_height</item>
         <item name="android:layout_marginBottom">@dimen/network_margin_top_bottom</item>
         <item name="android:layout_marginLeft">@dimen/network_margin_left_right</item>
         <item name="android:layout_marginTop">@dimen/iap_shopping_cart_image_margin_top</item>
@@ -267,8 +267,8 @@
     </style>
 
     <style name="orderNetworkImage">
-        <item name="android:layout_width">@dimen/network_image_width</item>
-        <item name="android:layout_height">@dimen/network_image_height</item>
+        <item name="android:layout_width">@dimen/iap_network_image_width_height</item>
+        <item name="android:layout_height">@dimen/iap_network_image_width_height</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:src">@drawable/no_icon</item>
         <item name="android:includeFontPadding">false</item>
