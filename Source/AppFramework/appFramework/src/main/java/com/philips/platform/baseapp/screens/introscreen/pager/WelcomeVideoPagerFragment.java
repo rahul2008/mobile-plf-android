@@ -20,18 +20,14 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.philips.platform.appframework.R;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.dataservices.utility.Utility;
-import com.philips.platform.baseapp.screens.utility.Constants;
-
-import java.net.URL;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WelcomeVideoPagerFragment extends Fragment implements TextureVideoView.MediaPlayerListener, View.OnClickListener {
+public class WelcomeVideoPagerFragment extends Fragment implements WelcomeVideoFragmentContract.View,
+        TextureVideoView.MediaPlayerListener, View.OnClickListener {
 
     private TextureVideoView videoView;
 
@@ -42,6 +38,8 @@ public class WelcomeVideoPagerFragment extends Fragment implements TextureVideoV
     private boolean isDataSourceSet = false;
 
     private ImageView onboarding_play_button, thumbNail;
+
+    private WelcomeVideoFragmentContract.Presenter presenter;
 
     public WelcomeVideoPagerFragment() {
         // Required empty public constructor
@@ -63,6 +61,7 @@ public class WelcomeVideoPagerFragment extends Fragment implements TextureVideoV
         videoView.setOnClickListener(this);
         progressBar = (ProgressBar) rootView.findViewById(R.id.onboarding_video_progress_bar);
 
+        presenter = new WelcomeVideoPresenter(this, getActivity());
         return rootView;
     }
 
@@ -80,29 +79,14 @@ public class WelcomeVideoPagerFragment extends Fragment implements TextureVideoV
         videoView.setListener(this);
     }
 
-    private void setVideoDataSource() {
+    public void fetchVideoDataSource() {
 
         if (!new Utility().isOnline(getActivity())) {
             loadInitialState();
             Toast.makeText(getActivity(), "Internet connection is not available", Toast.LENGTH_LONG).show();
             return;
         }
-        ServiceDiscoveryInterface serviceDiscoveryInterface = getApplicationContext().getAppInfra().getServiceDiscovery();
-
-        serviceDiscoveryInterface.getServiceUrlWithLanguagePreference(Constants.SERVICE_DISCOVERY_SPLASH_VIDEO,
-                new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-                    @Override
-                    public void onSuccess(URL url) {
-                        videoView.setDataSource(url.toString()+"_iPad_640x480_1000K");
-                        isDataSourceSet = true;
-                    }
-
-                    @Override
-                    public void onError(ERRORVALUES errorvalues, String s) {
-                        Toast.makeText(getActivity(), "Check Internet Connectivity", Toast.LENGTH_LONG).show();
-                        loadInitialState();
-                    }
-                });
+        presenter.fetchVideoDataSource();
     }
 
     private void loadInitialState() {
@@ -113,9 +97,6 @@ public class WelcomeVideoPagerFragment extends Fragment implements TextureVideoV
         isVideoPlaying = false;
     }
 
-    public AppFrameworkApplication getApplicationContext(){
-        return (AppFrameworkApplication) getActivity().getApplicationContext();
-    }
     @Override
     public void onVideoPrepared() {
         playVideo();
@@ -189,7 +170,7 @@ public class WelcomeVideoPagerFragment extends Fragment implements TextureVideoV
                 if (isDataSourceSet) {
                     videoView.play();
                 } else {
-                    setVideoDataSource();
+                    fetchVideoDataSource();
                 }
             break;
             case R.id.onboarding_video:
@@ -202,5 +183,17 @@ public class WelcomeVideoPagerFragment extends Fragment implements TextureVideoV
                 }
                 break;
         }
+    }
+
+    @Override
+    public void setVideoDataSource(String videoUrl) {
+        videoView.setDataSource(videoUrl);
+        isDataSourceSet = true;
+    }
+
+    @Override
+    public void onFetchError() {
+        Toast.makeText(getActivity(), "Check Internet Connectivity", Toast.LENGTH_LONG).show();
+        loadInitialState();
     }
 }
