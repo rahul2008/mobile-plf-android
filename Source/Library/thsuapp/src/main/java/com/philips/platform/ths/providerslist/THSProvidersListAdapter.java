@@ -16,7 +16,6 @@ import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.uid.view.widget.ImageButton;
 import com.philips.platform.uid.view.widget.NotificationBadge;
 import com.philips.platform.uid.view.widget.RatingBar;
 
@@ -44,7 +43,7 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
         public ImageView providerImage;
         public RelativeLayout relativeLayout;
         public NotificationBadge notificationBadge;
-        public ImageButton isAvailableStatus;
+        public ImageView isAvailableStatus;
 
         public MyViewHolder(View view) {
             super(view);
@@ -55,7 +54,7 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
             providerImage = (ImageView) view.findViewById(R.id.providerImage);
             relativeLayout = (RelativeLayout) view.findViewById(R.id.providerListItemLayout);
             notificationBadge = (NotificationBadge) view.findViewById(R.id.notification_badge);
-            isAvailableStatus = (ImageButton) view.findViewById(R.id.isAvailableImage);
+            isAvailableStatus = (ImageView) view.findViewById(R.id.isAvailableImage);
 
         }
     }
@@ -80,11 +79,13 @@ public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersLi
             context = holder.isAvailableStatus.getContext();
             if (providerVisibility.equals(THSConstants.WEB_AVAILABLE)) {
                 providerAvailabilityString = context.getResources().getString(R.string.provider_available);
-                holder.isAvailableStatus.setImageResource(R.mipmap.available_tick_icon);
+                holder.isAvailableStatus.setImageResource(R.mipmap.green_available_icon);
             } else if (providerVisibility.equals(THSConstants.PROVIDER_OFFLINE)) {
                 providerAvailabilityString = context.getResources().getString(R.string.provider_offline);
+                holder.isAvailableStatus.setImageResource(R.mipmap.provider_offline_icon);
             } else if (providerVisibility.equals(THSConstants.PROVIDER_WEB_BUSY)) {
                 providerAvailabilityString = context.getResources().getString(R.string.provider_busy);
+                holder.isAvailableStatus.setImageResource(R.mipmap.waiting_patient_icon);
             }
 
             holder.isAvailble.setText(providerAvailabilityString);

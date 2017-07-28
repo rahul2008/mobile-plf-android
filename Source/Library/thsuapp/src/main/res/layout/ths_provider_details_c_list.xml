@@ -67,7 +67,7 @@
                 android:visibility="gone"
                 app:backgroundTint="?attr/uidColorLevel45"
                 android:text="2"/>
-            <com.philips.platform.uid.view.widget.ImageButton
+            <ImageView
                 android:id="@+id/details_isAvailableImage"
                 android:enabled="false"
                 android:layout_width="22dp"

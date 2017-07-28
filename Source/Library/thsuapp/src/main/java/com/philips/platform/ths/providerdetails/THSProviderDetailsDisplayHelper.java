@@ -17,7 +17,6 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Button;
-import com.philips.platform.uid.view.widget.ImageButton;
 import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.NotificationBadge;
 import com.philips.platform.uid.view.widget.RatingBar;
@@ -34,7 +33,7 @@ public class THSProviderDetailsDisplayHelper {
     Context mContext;
     THSPRoviderDetailsViewInterface mThsPRoviderDetailsViewInterface;
     protected ImageView providerImage;
-    protected ImageButton isAvailableImage;
+    protected ImageView isAvailableImage;
     protected Label providerName,practiceName,isAvailable,spokenLanguageValueLabel,yearsOfExpValueLabel,graduatedValueLabel,aboutMeValueLabel,mLabelDate;
     protected RatingBar providerRating;
     protected Button detailsButtonOne,detailsButtonTwo,detailsButtonContinue;
@@ -67,7 +66,7 @@ public class THSProviderDetailsDisplayHelper {
         providerName = (Label) view.findViewById(R.id.details_providerNameLabel);
         practiceName = (Label) view.findViewById(R.id.details_practiceNameLabel);
         isAvailable = (Label) view.findViewById(R.id.details_isAvailableLabel);
-        isAvailableImage = (ImageButton) view.findViewById(R.id.details_isAvailableImage);
+        isAvailableImage = (ImageView) view.findViewById(R.id.details_isAvailableImage);
         notificationBadge = (NotificationBadge)view.findViewById(R.id.notification_badge);
         providerRating = (RatingBar) view.findViewById(R.id.providerRatingValue);
         spokenLanguageValueLabel = (Label) view.findViewById(R.id.spokenLanguageValueLabel);
@@ -115,6 +114,19 @@ public class THSProviderDetailsDisplayHelper {
     }
 
     public void updateViewBasedOnType(Provider provider,List<Date> dates) {
+        String providerAvailabilityString = null;
+        String providerVisibility =provider.getVisibility().toString();
+        Context context = isAvailable.getContext();
+        if (providerVisibility.equals(THSConstants.WEB_AVAILABLE)) {
+            providerAvailabilityString = context.getResources().getString(R.string.provider_available);
+            isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.green_available_icon,context.getTheme()));
+        } else if (providerVisibility.equals(THSConstants.PROVIDER_OFFLINE)) {
+            providerAvailabilityString = context.getResources().getString(R.string.provider_offline);
+            isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.provider_offline_icon,context.getTheme()));
+        } else if (providerVisibility.equals(THSConstants.PROVIDER_WEB_BUSY)) {
+            providerAvailabilityString = context.getResources().getString(R.string.provider_busy);
+            isAvailableImage.setImageDrawable(context.getResources().getDrawable(R.mipmap.waiting_patient_icon,context.getTheme()));
+        }
 
         if(dates!=null){
             mTimeSlotContainer.setVisibility(View.VISIBLE);
@@ -132,7 +144,7 @@ public class THSProviderDetailsDisplayHelper {
         }else {
             detailsButtonContinue.setVisibility(View.GONE);
             mTimeSlotContainer.setVisibility(View.GONE);
-            isAvailable.setText(""+provider.getVisibility());
+            isAvailable.setText(providerAvailabilityString);
         }
     }
 
@@ -149,6 +161,7 @@ public class THSProviderDetailsDisplayHelper {
             if(isAvailableProviderData()){
                 setButtonVisibilityForAvailableProvider();
             }else {
+                isAvailableImage.setVisibility(ImageView.VISIBLE);
                 detailsButtonOne.setVisibility(Button.VISIBLE);
                 detailsButtonOne.setEnabled(true);
                 detailsButtonOne.setText("I'll wait in line");
@@ -172,6 +185,7 @@ public class THSProviderDetailsDisplayHelper {
             if(mThsPRoviderDetailsViewInterface.getFragmentTag().equalsIgnoreCase(THSAvailableProviderDetailFragment.TAG)){
                 setButtonVisibilityForAvailableProvider();
             }else {
+                isAvailableImage.setVisibility(ImageView.VISIBLE);
                 detailsButtonOne.setVisibility(Button.GONE);
                 detailsButtonTwo.setVisibility(View.VISIBLE);
                 detailsButtonTwo.setText("Schedule an appointment");
