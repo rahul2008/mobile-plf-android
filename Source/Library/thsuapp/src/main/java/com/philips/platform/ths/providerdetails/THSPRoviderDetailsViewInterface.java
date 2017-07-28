@@ -5,12 +5,9 @@ import android.content.Context;
 
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
+import com.americanwell.sdk.entity.provider.EstimatedVisitCost;
 import com.americanwell.sdk.entity.provider.Provider;
-import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
-
-import java.util.Date;
-import java.util.List;
 
 public interface THSPRoviderDetailsViewInterface {
 
@@ -22,4 +19,5 @@ public interface THSPRoviderDetailsViewInterface {
     void dismissRefreshLayout();
     String getFragmentTag();
     Provider getProvider();
+    void updateEstimatedCost(EstimatedVisitCost estimatedVisitCost);
 }

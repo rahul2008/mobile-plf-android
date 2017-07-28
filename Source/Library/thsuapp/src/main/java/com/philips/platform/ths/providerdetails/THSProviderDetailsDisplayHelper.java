@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.Language;
+import com.americanwell.sdk.entity.provider.EstimatedVisitCost;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
 import com.americanwell.sdk.entity.provider.ProviderVisibility;
@@ -34,7 +35,8 @@ public class THSProviderDetailsDisplayHelper {
     THSPRoviderDetailsViewInterface mThsPRoviderDetailsViewInterface;
     protected ImageView providerImage;
     protected ImageView isAvailableImage;
-    protected Label providerName,practiceName,isAvailable,spokenLanguageValueLabel,yearsOfExpValueLabel,graduatedValueLabel,aboutMeValueLabel,mLabelDate;
+    protected Label providerName,practiceName,isAvailable,spokenLanguageValueLabel,yearsOfExpValueLabel,
+            graduatedValueLabel,aboutMeValueLabel,mLabelDate,visitCostValueLabel;
     protected RatingBar providerRating;
     protected Button detailsButtonOne,detailsButtonTwo,detailsButtonContinue;
     RelativeLayout mTimeSlotContainer;
@@ -62,6 +64,7 @@ public class THSProviderDetailsDisplayHelper {
         available_provider_details_container.setVisibility(View.INVISIBLE);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeProviderLayout);
         swipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
+        visitCostValueLabel = (Label) view.findViewById(R.id.visitCostValueLabel);
         providerImage = (ImageView) view.findViewById(R.id.details_providerImage);
         providerName = (Label) view.findViewById(R.id.details_providerNameLabel);
         practiceName = (Label) view.findViewById(R.id.details_practiceNameLabel);
@@ -239,4 +242,7 @@ public class THSProviderDetailsDisplayHelper {
         }
     }
 
+    public void updateEstimateCost(EstimatedVisitCost estimatedVisitCost) {
+        visitCostValueLabel.setText("$"+estimatedVisitCost.getCost());
+    }
 }
