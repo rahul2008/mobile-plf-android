@@ -148,23 +148,24 @@ dependencies {
     provided deps.support.annotations
 
     def shortversion = version.replaceAll(/-SNAPSHOT.*/, "")
+    def suffix = objcdp.getVersionSuffix()
 
     for (dep in [':commlib-ble', ':commlib-cloud', ':commlib-lan']) {
         if (findProject(dep)) {
             debugCompile project(path: dep, configuration: 'debug')
             releaseCompile project(path: dep, configuration: 'release')
         } else {
-            compile("$group$dep:$shortversion" + objcdp.getVersionSuffix()) { changing = true }
+            compile("$group$dep:$shortversion$suffix") { changing = true }
         }
     }
 
-    if(findProject(":commlib-testutils")) {
+    if (findProject(":commlib-testutils")) {
         testCompile project(':commlib-testutils')
+    } else {
+        testCompile("$group:commlib-testutils:$shortversion$suffix") { changing = true }
     }
     testCompile deps.powermock_mockito
     testCompile deps.powermock_junit
 
-    testCompile("$group:cloudcontroller:$shortversion" + objcdp.getVersionSuffix()) {
-        changing = true
-    }
+    testCompile("$group:cloudcontroller:$shortversion$suffix") { changing = true }
 }

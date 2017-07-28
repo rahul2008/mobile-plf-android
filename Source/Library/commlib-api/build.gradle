@@ -174,7 +174,14 @@ dependencies {
 
     compile deps.gson
 
-    testCompile project(':commlib-testutils')
+    def shortversion = version.replaceAll(/-SNAPSHOT.*/, "")
+    def suffix = objcdp.getVersionSuffix()
+
+    if (findProject(":commlib-testutils")) {
+        testCompile project(':commlib-testutils')
+    } else {
+        testCompile("$group:commlib-testutils:$shortversion$suffix") { changing = true }
+    }
     testCompile deps.assertj
     testCompile deps.junit
     testCompile deps.mockito
