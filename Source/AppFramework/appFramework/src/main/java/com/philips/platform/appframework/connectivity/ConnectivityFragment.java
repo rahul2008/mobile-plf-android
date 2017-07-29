@@ -51,7 +51,6 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
     private EditText editText = null;
     private EditText momentValueEditText = null;
     private ProgressDialog dialog = null;
-    private CommCentral commCentral;
     private DICommApplianceFactory<BleReferenceAppliance> applianceFactory;
     private TextView connectionState;
     private BluetoothAdapter mBluetoothAdapter;
@@ -62,6 +61,8 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1002;
     private WeakReference<ConnectivityFragment> connectivityFragmentWeakReference;
     private Context mContext;
+
+    private CommCentral commCentral;
 
     /**
      * Presenter object for Connectivity
@@ -125,11 +126,16 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
     private void setUpCommCentral() {
         // Setup CommCentral
         RALog.i(TAG, "Setup CommCentral ");
-        final BleTransportContext bleTransportContext = new BleTransportContext(getActivity());
-        this.applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
+        try {
+            final BleTransportContext bleTransportContext = new BleTransportContext(getActivity());
+            this.applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
 
-        this.commCentral = new CommCentral(this.applianceFactory, bleTransportContext);
-        this.commCentral.getApplianceManager().addApplianceListener(this.applianceListener);
+            this.commCentral = new CommCentral(this.applianceFactory, bleTransportContext);
+            this.commCentral.getApplianceManager().addApplianceListener(this.applianceListener);
+        }
+        catch(Exception e){
+
+        }
     }
 
     private final ApplianceManager.ApplianceListener<BleReferenceAppliance> applianceListener = new ApplianceManager.ApplianceListener<BleReferenceAppliance>() {
@@ -175,7 +181,7 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
     /**
      * Start scanning nearby devices using given strategy
      */
-    private void startDiscovery() {
+    public void startDiscovery() {
         RALog.i(TAG, "Ble device discovery started ");
         handler.postDelayed(new Runnable() {
             @Override
@@ -215,7 +221,7 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
      *
      * @return
      */
-    private boolean isFragmentLive() {
+    public boolean isFragmentLive() {
         return connectivityFragmentWeakReference != null && isAdded();
     }
 
@@ -290,7 +296,7 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(mContext, "Error while reading measurement from reference board" + error.getErrorMessage(), Toast.LENGTH_SHORT);
+                Toast.makeText(mContext, "Error while reading measurement from reference board" + error.getErrorMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
