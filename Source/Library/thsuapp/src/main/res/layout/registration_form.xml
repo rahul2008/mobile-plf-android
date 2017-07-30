@@ -121,7 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ths_dob"
             style="@style/ths_calendar_right"
-            android:text="@string/ths_gender"
+            android:text="@string/ths_dob_format"
             />
 
     <com.philips.platform.uid.view.widget.Label
@@ -169,18 +169,35 @@
             app:uidInputTextWithClearButton="true" />
     </com.philips.platform.uid.view.widget.InputValidationLayout>-->
 
+        <RelativeLayout
+            android:id="@+id/ths_spinner_container"
+            android:layout_width="wrap_content"
+            android:padding="@dimen/pth_fab_margin"
+            android:background="?attr/uidListItemDefaultNormalOnBackgroundColor"
+            android:layout_below="@id/ths_checkbox_male"
+            android:layout_height="wrap_content">
+
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/ths_edit_location"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/ths_list_item"
-            android:layout_below="@id/ths_checkbox_male">
+           >
 
         </android.support.v7.widget.AppCompatSpinner>
 
+            <ImageView
+                android:id="@+id/ths_state_selector"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/gps_icon"
+                android:layout_alignParentRight="true"
+                android:foregroundGravity="center"
+                />
+        </RelativeLayout>
+
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/ths_continue"
-        android:layout_below="@id/ths_edit_location"
+        android:layout_below="@id/ths_spinner_container"
         android:text="@string/ths_continue"
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"

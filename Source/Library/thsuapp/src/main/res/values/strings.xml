@@ -69,4 +69,5 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_state">State</string>
     <string name="ths_female">Female</string>
     <string name="ths_male">Male</string>
+    <string name="ths_dob_format">"DD / MM / YYYY"</string>
 </resources>
