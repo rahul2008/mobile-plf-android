@@ -61,6 +61,7 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     }
 
     @Override
+
     public void onInitializationResponse(Void aVoid, THSSDKError sdkError) {
         AmwellLog.i(AmwellLog.LOG,"Initialize - UI updated");
         try {
@@ -92,15 +93,20 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     }
 
     @Override
-    public void onLoginResponse(THSAuthentication THSAuthentication, THSSDKError sdkError) {
-        AmwellLog.i(AmwellLog.LOG,"Login - UI updated");
+    public void onLoginResponse(THSAuthentication thsAuthentication, THSSDKError sdkError) {
+        AmwellLog.i(AmwellLog.LOG, "Login - UI updated");
         uiBaseView.hideProgressBar();
-        AmwellLog.d("Login","Login success");
-        uiBaseView.showProgressBar();
+        AmwellLog.d("Login", "Login success");
+
         try {
-            THSManager.getInstance().getConsumerObject(uiBaseView.getFragmentActivity(), THSAuthentication.getAuthentication(),this);
+            if (thsAuthentication.getAuthentication().needsToCompleteEnrollment()) {
+                THSManager.getInstance().completeEnrollment(uiBaseView.getContext(), thsAuthentication, this);
+            } else {
+                uiBaseView.showProgressBar();
+                THSManager.getInstance().getConsumerObject(uiBaseView.getFragmentActivity(), thsAuthentication.getAuthentication(), this);
+            }
         } catch (AWSDKInstantiationException e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -162,7 +168,11 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     public void onResponse(Boolean aBoolean, THSSDKError sdkError) {
         uiBaseView.hideProgressBar();
         if(aBoolean){
-
+            try {
+                THSManager.getInstance().authenticateMutualAuthToken(uiBaseView.getContext(),this);
+            } catch (AWSDKInstantiationException e) {
+                e.printStackTrace();
+            }
         }else {
             lauchRegistrationFragment();
         }

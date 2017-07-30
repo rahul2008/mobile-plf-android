@@ -171,8 +171,18 @@ public class THSManager {
         });
     }
 
-    public void isCompleteEnrollmentRequired(Context context,THSLoginCallBack thsLoginCallBack){
+    public void completeEnrollment(Context context, THSAuthentication thsAuthentication, final THSGetConsumerObjectCallBack thsGetConsumerObjectCallBack) throws AWSDKInstantiationException {
+        getAwsdk(context).getConsumerManager().completeEnrollment(thsAuthentication.getAuthentication(),null,null,null, new SDKCallback<Consumer, SDKPasswordError>() {
+            @Override
+            public void onResponse(Consumer consumer, SDKPasswordError sdkPasswordError) {
+                thsGetConsumerObjectCallBack.onReceiveConsumerObject(consumer,sdkPasswordError);
+            }
 
+            @Override
+            public void onFailure(Throwable throwable) {
+                thsGetConsumerObjectCallBack.onError(throwable);
+            }
+        });
     }
 
     public void checkConsumerExists(final Context context, final THSCheckConsumerExistsCallback thsCheckConsumerExistsCallback) throws AWSDKInstantiationException {

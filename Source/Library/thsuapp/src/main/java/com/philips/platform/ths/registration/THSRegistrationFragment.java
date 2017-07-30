@@ -16,6 +16,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.pharmacy.THSSpinnerAdapter;
+import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
@@ -23,8 +24,10 @@ import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.Label;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class THSRegistrationFragment extends THSBaseFragment implements BackEventListener,View.OnClickListener {
     public static final String TAG = THSRegistrationFragment.class.getSimpleName();
@@ -39,6 +42,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements BackEven
     AppCompatSpinner mEditTextState;
     private THSSpinnerAdapter spinnerAdapter;
     List<State> mValidStates = null;
+    private Date mDob;
 
     @Nullable
     @Override
@@ -57,6 +61,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements BackEven
         mEditTextFirstName = (EditText) view.findViewById(R.id.ths_edit_first_name);
         mEditTextLastName = (EditText) view.findViewById(R.id.ths_edit_last_name);
         mDateOfBirth = (Label) view.findViewById(R.id.ths_edit_dob);
+        mDateOfBirth.setOnClickListener(this);
         mCheckBoxMale = (CheckBox) view.findViewById(R.id.ths_checkbox_male);
         mCheckBoxFemale = (CheckBox) view.findViewById(R.id.ths_checkbox_female);
         mEditTextState = (AppCompatSpinner) view.findViewById(R.id.ths_edit_location);
@@ -94,8 +99,16 @@ public class THSRegistrationFragment extends THSBaseFragment implements BackEven
     public void onClick(View view) {
         int id = view.getId();
         if(id == R.id.ths_continue){
-            mThsRegistrationPresenter.enrollUser(new Date(),mEditTextFirstName.getText().toString(),
+            mThsRegistrationPresenter.enrollUser(mDob,mEditTextFirstName.getText().toString(),
                     mEditTextLastName.getText().toString(), Gender.MALE,mValidStates.get(mEditTextState.getSelectedItemPosition()));
+        }if(id == R.id.ths_edit_dob){
+            mThsRegistrationPresenter.onEvent(R.id.ths_edit_dob);
         }
+    }
+
+    public void updateDobView(Date date) {
+        mDob = date;
+        mDateOfBirth.setText(new SimpleDateFormat(THSConstants.DATE_FORMATTER, Locale.getDefault()).
+                format(date));
     }
 }
