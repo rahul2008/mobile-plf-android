@@ -37,6 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/ths_more_detail"
+            android:layout_marginBottom="@dimen/pth_fab_margin"
             android:text="@string/ths_first_name" />
 
         <com.philips.platform.uid.view.widget.InputValidationLayout
