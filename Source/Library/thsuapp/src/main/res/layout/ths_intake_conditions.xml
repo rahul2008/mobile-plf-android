@@ -38,11 +38,12 @@
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/help_visit"
-                style="@style/ths_body_text"
+                style="@style/ths_title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/ths_conditions_margin_top"
-                android:layout_marginTop="@dimen/pth_fab_margin"
+                android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
+                android:layout_marginTop="@dimen/ths_conditions_margin_top"
+                android:textSize="@dimen/pth_body_text"
                 android:text="@string/ths_medical_conditions" />
 
             <LinearLayout

@@ -23,5 +23,6 @@
     <dimen name="ths_body_text_padding">3dp</dimen>
     <dimen name="ths_title_padding">4dp</dimen>
     <dimen name="ths_conditions_margin_top">20dp</dimen>
+    <dimen name="ths_checkbox_bottom_margin">8dp</dimen>
 
 </resources>
