@@ -36,6 +36,7 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
 import com.philips.platform.ths.pharmacy.customtoggle.SegmentControl;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.uappframework.listener.ActionBarListener;
@@ -53,7 +54,7 @@ import java.util.List;
 public class THSPharmacyListFragment extends THSBaseFragment implements OnMapReadyCallback, View.OnClickListener,
         SearchBox.ExpandListener, SearchBox.QuerySubmitListener,
         THSPharmacyListViewListener,
-        BackEventListener, THSUpdatePreferredPharmacy {
+        BackEventListener {
 
     public static String TAG = THSPharmacyListFragment.class.getSimpleName();
     private UIDNavigationIconToggler navIconToggler;
@@ -78,7 +79,6 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     protected THSConsumer thsConsumer;
     protected Address address;
     private Location location;
-    private THSUpdatePreferredPharmacy updatePreferredPharmacy;
     private ActionBarListener actionBarListener;
 
     @Nullable
@@ -144,10 +144,6 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     public void setConsumerAndAddress(THSConsumer thsConsumer, Address address) {
         this.thsConsumer = thsConsumer;
         this.address = address;
-    }
-
-    public void setUpdateCallback(THSUpdatePreferredPharmacy updatePreferredPharmacy){
-        this.updatePreferredPharmacy = updatePreferredPharmacy;
     }
 
     public void setLocation(Location location){
@@ -362,14 +358,14 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         if (pharmacy.getType() == PharmacyType.MailOrder) {
             THSShippingAddressFragment thsShippingAddressFragment = new THSShippingAddressFragment();
             thsShippingAddressFragment.setActionBarListener(getActionBarListener());
-            thsShippingAddressFragment.setUpdateShippingAddressCallback(this);
             thsShippingAddressFragment.setConsumerAndAddress(thsConsumer, address);
             thsShippingAddressFragment.setFragmentLauncher(getFragmentLauncher());
             addFragment(thsShippingAddressFragment,THSShippingAddressFragment.TAG,null);
         }
         else {
-            updatePreferredPharmacy.updatePharmacy(pharmacy);
-            getActivity().getSupportFragmentManager().popBackStack();
+            THSInsuranceConfirmationFragment thsInsuranceConfirmationFragment = new THSInsuranceConfirmationFragment();
+            thsInsuranceConfirmationFragment.setFragmentLauncher(getFragmentLauncher());
+            addFragment(thsInsuranceConfirmationFragment,THSInsuranceConfirmationFragment.TAG,null);
         }
 
     }
@@ -512,16 +508,5 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
             return false;
         }
 
-    }
-
-    @Override
-    public void updatePharmacy(Pharmacy pharmacy) {
-    }
-
-    @Override
-    public void updateShippingAddress(Address address) {
-        updatePreferredPharmacy.updatePharmacy(pharmacy);
-        updatePreferredPharmacy.updateShippingAddress(address);
-        getActivity().getSupportFragmentManager().popBackStack();
     }
 }

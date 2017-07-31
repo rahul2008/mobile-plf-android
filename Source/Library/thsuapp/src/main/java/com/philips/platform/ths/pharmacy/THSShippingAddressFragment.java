@@ -33,7 +33,6 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
     private AppCompatSpinner spinner;
     private THSSpinnerAdapter spinnerAdapter;
     private List<State> stateList = null;
-    private THSUpdatePreferredPharmacy updatePreferredPharmacy;
     private ActionBarListener actionBarListener;
 
     @Nullable
@@ -70,10 +69,6 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
         this.address = address;
     }
 
-    public void setUpdateShippingAddressCallback(THSUpdatePreferredPharmacy updatePreferredPharmacy){
-        this.updatePreferredPharmacy = updatePreferredPharmacy;
-    }
-
     @Override
     public void onClick(View v) {
         ShippingAddressPojo shippingAddressPojo = new ShippingAddressPojo();
@@ -91,11 +86,6 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
             }
 
         }
-    }
-
-    public void updateShippingAddressView(Address address){
-        updatePreferredPharmacy.updateShippingAddress(address);
-        getActivity().getSupportFragmentManager().popBackStack();
     }
     @Override
     public boolean handleBackEvent() {

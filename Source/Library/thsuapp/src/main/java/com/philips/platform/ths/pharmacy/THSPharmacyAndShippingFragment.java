@@ -18,7 +18,7 @@ import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.ImageButton;
 import com.philips.platform.uid.view.widget.Label;
 
-public class THSPharmacyAndShippingFragment extends THSBaseFragment implements THSPharmacyShippingViewInterface, View.OnClickListener, BackEventListener,THSUpdatePreferredPharmacy {
+public class THSPharmacyAndShippingFragment extends THSBaseFragment implements THSPharmacyShippingViewInterface, View.OnClickListener, BackEventListener {
 
     public static String TAG = THSPharmacyAndShippingFragment.class.getSimpleName();
     private THSPharmacyAndShippingPresenter thsPharmacyAndShippingPresenter;
@@ -101,7 +101,6 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         THSConsumer pthConsumer = new THSConsumer();
         pthConsumer.setConsumer(thsConsumer.getConsumer());
         thsPharmacyFragment.setConsumerAndAddress(pthConsumer, null);
-        thsPharmacyFragment.setUpdateCallback(this);
         thsPharmacyFragment.setActionBarListener(getActionBarListener());
         thsPharmacyFragment.setFragmentLauncher(getFragmentLauncher());
         addFragment(thsPharmacyFragment,THSPharmacyListFragment.TAG,null);
@@ -112,7 +111,6 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         THSShippingAddressFragment thsShippingAddressFragment = new THSShippingAddressFragment();
         thsShippingAddressFragment.setActionBarListener(getActionBarListener());
         thsShippingAddressFragment.setConsumerAndAddress(thsConsumer, null);
-        thsShippingAddressFragment.setUpdateShippingAddressCallback(this);
         thsShippingAddressFragment.setFragmentLauncher(getFragmentLauncher());
         addFragment(thsShippingAddressFragment,THSShippingAddressFragment.TAG,null);
     }
@@ -127,14 +125,4 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         return false;
     }
 
-    @Override
-    public void updatePharmacy(Pharmacy pharmacy) {
-       this.pharmacy = pharmacy;
-    }
-
-    @Override
-    public void updateShippingAddress(Address address) {
-        this.address = address;
-
-    }
 }
