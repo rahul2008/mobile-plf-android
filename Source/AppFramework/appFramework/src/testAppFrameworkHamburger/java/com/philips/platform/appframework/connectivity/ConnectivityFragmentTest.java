@@ -1,6 +1,5 @@
 package com.philips.platform.appframework.connectivity;
 
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -42,46 +41,24 @@ public class ConnectivityFragmentTest {
 
     private EditText momentValueEditText;
     private EditText editText;
-    private Button btnGetMoment;
-
-//    @Mock
-//    CommCentral commCentral;
-//
-//    @Mock
-//    ApplianceManager applianceManager;
-//
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
 
     @Before
     public void setUp() {
-//        Shadows.shadowOf(RuntimeEnvironment.application).grantPermissions(Manifest.permission.ACCESS_FINE_LOCATION);
-//        Shadows.shadowOf(RuntimeEnvironment.application).grantPermissions(Manifest.permission.ACCESS_COARSE_LOCATION);
-//        Shadows.shadowOf(RuntimeEnvironment.application).grantPermissions(Manifest.permission.BLUETOOTH);
-//        Shadows.shadowOf(RuntimeEnvironment.application).grantPermissions(Manifest.permission.BLUETOOTH_ADMIN);
         MockitoAnnotations.initMocks(this);
         testActivity = Robolectric.buildActivity(TestActivity.class).create().start().get();
         connectivityFragment = new ConnectivityFragment();
-//        when(connectivityFragment.getCommCentral(testActivity)).thenReturn(commCentral);
-//        when(commCentral.getApplianceManager()).thenReturn(applianceManager);
         startFragment(connectivityFragment, TestActivity.class);
-//        testActivity.getSupportFragmentManager().beginTransaction().add(connectivityFragment,null).commit();
         connectionState = (TextView) connectivityFragment.getView().findViewById(R.id.connectionState);
         momentValueEditText = (EditText) connectivityFragment.getView().findViewById(R.id.moment_value_editbox);
         editText = (EditText) connectivityFragment.getView().findViewById(R.id.measurement_value_editbox);
-        btnGetMoment = (Button) connectivityFragment.getView().findViewById(R.id.get_momentumvalue_button);
     }
-//
-//    @Test
-//    public void actionBarTitle(){
-//        Assert.assertEquals(testActivity.getResources().getString(R.string.RA_ConnectivityScreen_Menu_Title),connectivityFragment.getActionbarTitle());
-//    }
 
-//    @Test
-//    public void startDiscoverytest() {
-//        connectivityFragment.startDiscovery();
-//        Assert.assertEquals(testActivity.getResources().getString(R.string.RA_Connectivity_Connection_Status_Disconnected), connectionState.getText().toString());
-//    }
+    @Test
+    public void actionBarTitle() {
+        Assert.assertEquals(testActivity.getResources().getString(R.string.RA_ConnectivityScreen_Menu_Title), connectivityFragment.getActionbarTitle());
+    }
 
 
     @Test
@@ -111,13 +88,7 @@ public class ConnectivityFragmentTest {
     @Test
     public void onDeviceMeasurementErrorTest() {
         connectivityFragment.onDeviceMeasurementError(Error.NO_REQUEST_DATA, "No request data");
-        Assert.assertEquals("Error while reading measurement from reference board"+Error.NO_REQUEST_DATA.getErrorMessage(),ShadowToast.getTextOfLatestToast());
+        Assert.assertEquals("Error while reading measurement from reference board" + Error.NO_REQUEST_DATA.getErrorMessage(), ShadowToast.getTextOfLatestToast());
     }
 
-
-//    @Test
-//    public void onClickTest(){
-//        connectivityFragment.onClick(btnGetMoment);
-//        verify(connectivityFragment).check
-//    }
 }

@@ -36,6 +36,7 @@ import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
+import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceApplianceFactory;
@@ -132,9 +133,8 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
 
             this.commCentral = new CommCentral(this.applianceFactory, bleTransportContext);
             this.commCentral.getApplianceManager().addApplianceListener(this.applianceListener);
-        }
-        catch(Exception e){
-
+        } catch (TransportUnavailableException e) {
+            RALog.d(TAG,"Blutooth hardware unavailable");
         }
     }
 

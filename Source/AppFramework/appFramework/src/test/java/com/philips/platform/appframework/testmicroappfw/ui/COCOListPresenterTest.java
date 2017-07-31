@@ -102,7 +102,6 @@ public class COCOListPresenterTest {
 
     @Test
     public void onEvent() throws Exception {
-//        when(cocoListPresenter.getApplicationContext()).thenReturn(appFrameworkApplication);
         when(appFrameworkApplication.getTargetFlowManager()).thenReturn(flowManager);
         when(flowManager.getState(AppStates.TEST_MICROAPP)).thenReturn(baseState);
         when(flowManager.getNextState(baseState,"TestInAppPurhcaseEvent")).thenReturn(newBaseState);
@@ -121,26 +120,6 @@ public class COCOListPresenterTest {
         Assert.assertEquals(COCOListPresenter.TEST_DICOMM_EVENT,cocoListPresenter.getEventState(COCOListPresenter.DICOMM_APP));
         Assert.assertEquals(COCOListPresenter.TEST_UR_EVENT,cocoListPresenter.getEventState(COCOListPresenter.USER_REGISTRATION_STANDARD));
         Assert.assertEquals(COCOListPresenter.TEST_UAPP_EVENT,cocoListPresenter.getEventState(COCOListPresenter.UAPP_FRAMEWORK_DEMO));
-    }
-
-    @Test
-    public void onStateComplete() throws Exception {
-
-    }
-
-    @Test
-    public void onEvent1() throws Exception {
-
-    }
-
-    @Test
-    public void getApplicationContext() throws Exception {
-
-    }
-
-    @Test
-    public void getFragmentLauncher() throws Exception {
-
     }
 
 }
