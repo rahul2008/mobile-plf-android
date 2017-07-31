@@ -15,15 +15,16 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.utility.THSConstants;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.SearchBox;
 
@@ -165,11 +166,20 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
                         callMedicationFragment(position);
                         break;
             case THSConstants.PROVIDER_SEARCH_CONSTANT:
-                Toast.makeText(getActivity(),""+providerInfoList.get(position).getProviderInfo().getFullName(),Toast.LENGTH_SHORT).show();
+                        callProviderDetailsFragment(position);
                         break;
         }
 
 
+    }
+
+    private void callProviderDetailsFragment(int position) {
+        THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
+        pthProviderDetailsFragment.setActionBarListener(getActionBarListener());
+        pthProviderDetailsFragment.setTHSProviderEntity(providerInfoList.get(position));
+        pthProviderDetailsFragment.setConsumerAndPractice(THSManager.getInstance().getPTHConsumer().getConsumer(), practice);
+        pthProviderDetailsFragment.setFragmentLauncher(getFragmentLauncher());
+        addFragment(pthProviderDetailsFragment,THSProviderDetailsFragment.TAG,null);
     }
 
     public void callMedicationFragment(int position) {
