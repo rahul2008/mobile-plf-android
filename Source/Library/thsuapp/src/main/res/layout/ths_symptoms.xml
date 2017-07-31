@@ -1,11 +1,5 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
-
-<RelativeLayout
-    android:id="@+id/symptoms_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="12dp"
@@ -21,11 +15,37 @@
         android:gravity="center"
         android:text="@string/symptoms" />
 
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/continue_btn"
+        style="@style/UIDImageTextButton.Center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="Continue"
+        android:layout_marginLeft="@dimen/pth_fab_margin"
+        android:layout_marginRight="@dimen/pth_fab_margin"
+        android:layout_alignParentBottom="true"
+        />
+
+<ScrollView
+    android:id="@+id/scroll_view_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/wizard_button"
+    android:layout_above="@id/continue_btn"
+    android:layout_marginBottom="24dp"
+    >
+
+<RelativeLayout
+    android:id="@+id/symptoms_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/help_visit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/wizard_button"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="@dimen/pth_fab_margin"
@@ -44,6 +64,7 @@
         android:layout_marginRight="@dimen/pth_fab_margin"
         android:text="@string/visit_reason"
         style="@style/ths_title_text"
+        android:textSize="@dimen/pth_body_text"
         />
 
     <LinearLayout
@@ -75,7 +96,6 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_below="@id/additional_comment"
-        android:layout_marginBottom="24dp"
         android:enabled="true"
         android:layout_marginLeft="@dimen/pth_fab_margin"
         android:layout_marginRight="@dimen/pth_fab_margin"
@@ -103,19 +123,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/continue_btn"
-        style="@style/UIDImageTextButton.Center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:text="Continue"
-        android:layout_marginLeft="@dimen/pth_fab_margin"
-        android:layout_marginRight="@dimen/pth_fab_margin"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@id/imagelist"
-        />
-
 </RelativeLayout>
 
 </ScrollView>
+
+</RelativeLayout>
