@@ -38,7 +38,7 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
         mProgressbarContainer=(RelativeLayout) view.findViewById(R.id.ths_cost_summary_relativelayout);
         mCostSummaryContinueButton =(Button) view.findViewById(R.id.ths_cost_summary_continue_button);
         mCostSummaryContinueButton.setOnClickListener(this);
-        createCustomProgressBar(mRelativeLayoutCostContainer,BIG);
+        
         mPresenter.createVisit();
         return view;
     }
