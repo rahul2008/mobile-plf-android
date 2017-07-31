@@ -80,6 +80,20 @@
         <item name="android:textColor">?attr/uidContentItemDefaultNormalBodyTextColor</item>
     </style>
 
+    <style name="ths_skip_text">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:background">?attr/uidContentPrimaryBackgroundColor</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/pth_body_text</item>
+        <item name="android:paddingBottom">@dimen/ths_body_text_padding</item>
+        <item name="android:paddingTop">@dimen/ths_body_text_padding</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:text">@string/vitals_skip</item>
+    </style>
+
     <style name="ths_title_text">
         <item name="fontPath">fonts/centralesansbold.ttf</item>
         <item name="android:background">?attr/uidContentPrimaryBackgroundColor</item>
