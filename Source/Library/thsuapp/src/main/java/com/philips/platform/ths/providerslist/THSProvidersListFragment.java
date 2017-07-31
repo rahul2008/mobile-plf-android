@@ -6,6 +6,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -14,14 +17,16 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.intake.THSSearchFragment;
 import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.Button;
-import com.philips.platform.uid.view.widget.ProgressBar;
+import com.philips.platform.uid.view.widget.SearchBox;
 
 import java.util.List;
 
@@ -32,8 +37,9 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     private List<THSProviderInfo> thsProviderInfos;
     private THSProviderListPresenter THSProviderListPresenter;
     private SwipeRefreshLayout swipeRefreshLayout;
-
-    private Practice mPractice;
+    private UIDNavigationIconToggler navIconToggler;
+    private SearchBox searchBox;
+    private Practice practice;
     private Consumer consumer;
     private THSProvidersListAdapter THSProvidersListAdapter;
     private ActionBarListener actionBarListener;
@@ -46,7 +52,8 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Bundle bundle=getArguments();
-        mPractice=bundle.getParcelable(THSConstants.PRACTICE_FRAGMENT);
+        setHasOptionsMenu(true);
+        practice =bundle.getParcelable(THSConstants.PRACTICE_FRAGMENT);
         consumer= THSManager.getInstance().getPTHConsumer().getConsumer();
         View view = inflater.inflate(R.layout.ths_providers_list_fragment, container, false);
         THSProviderListPresenter = new THSProviderListPresenter(this, this);
@@ -59,6 +66,31 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
         btn_schedule_appointment.setOnClickListener(this);
         mRelativeLayoutContainer = (RelativeLayout) view.findViewById(R.id.provider_list_container);
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.ths_provider_search_menu,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() ==  R.id.ths_provider_search ) {
+            THSSearchFragment thsSearchFragment = new THSSearchFragment();
+            thsSearchFragment.setFragmentLauncher(getFragmentLauncher());
+            thsSearchFragment.setPractice(practice);
+            thsSearchFragment.setActionBarListener(getActionBarListener());
+            Bundle bundle = new Bundle();
+            bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING,THSConstants.PROVIDER_SEARCH_CONSTANT);
+            addFragment(thsSearchFragment,THSSearchFragment.TAG,bundle);
+            }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -84,7 +116,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
         if (!swipeRefreshLayout.isRefreshing()) {
             swipeRefreshLayout.setRefreshing(true);
         }
-        THSProviderListPresenter.fetchProviderList(consumer, mPractice);
+        THSProviderListPresenter.fetchProviderList(consumer, practice);
     }
 
     @Override
@@ -98,7 +130,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
                 THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
                 pthProviderDetailsFragment.setActionBarListener(getActionBarListener());
                 pthProviderDetailsFragment.setTHSProviderEntity(item);
-                pthProviderDetailsFragment.setConsumerAndPractice(consumer, mPractice);
+                pthProviderDetailsFragment.setConsumerAndPractice(consumer, practice);
                 pthProviderDetailsFragment.setFragmentLauncher(getFragmentLauncher());
                 addFragment(pthProviderDetailsFragment,THSProviderDetailsFragment.TAG,null);
             }
@@ -116,14 +148,22 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
         }else if(i==R.id.getScheduleAppointmentButton){
             createCustomProgressBar(mRelativeLayoutContainer, BIG);
             THSProviderListPresenter.onEvent(R.id.getScheduleAppointmentButton);
+        }else if(i == R.id.ths_provider_search){
+            THSSearchFragment thsSearchFragment = new THSSearchFragment();
+            thsSearchFragment.setFragmentLauncher(getFragmentLauncher());
+            thsSearchFragment.setPractice(practice);
+            thsSearchFragment.setActionBarListener(getActionBarListener());
+            Bundle bundle = new Bundle();
+            bundle.putInt(THSConstants.SEARCH_CONSTANT_STRING,THSConstants.PROVIDER_SEARCH_CONSTANT);
+            addFragment(thsSearchFragment,THSSearchFragment.TAG,bundle);
         }
     }
 
     public Practice getPractice() {
-        return mPractice;
+        return practice;
     }
 
     public void setPractice(Practice practice) {
-        this.mPractice = practice;
+        this.practice = practice;
     }
 }
