@@ -93,6 +93,29 @@ artifactory {
     // Artifactory connection timeout (in seconds). The default timeout is 300 seconds.
 }
 
+publishing {
+    publications {
+        aar(MavenPublication) {
+            groupId group
+            version = version
+            artifactId archivesBaseName
+
+            artifact("$buildDir/outputs/aar/${archivesBaseName}-release.aar")
+
+            pom.withXml{
+                def dependenciesNode = asNode().appendNode('dependencies')
+                def resolvedArtifacts = configurations.compile.getResolvedConfiguration().getResolvedArtifacts()
+                resolvedArtifacts.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.moduleVersion.id.group)
+                    dependencyNode.appendNode('artifactId', it.moduleVersion.id.name)
+                    dependencyNode.appendNode('version', it.moduleVersion.id.version)
+                }
+            }
+        }
+    }
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -101,13 +124,16 @@ android {
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
+        versionName objcdp.getVersionWithHash()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         manifestPlaceholders = [
                 'appAuthRedirectScheme': 'com.googleusercontent.apps.346000571262-m5u27lu130n1h1i2vbsggo34ae6nr1hp'
         ]
 
+    }
+    lintOptions {
+        abortOnError false
     }
     buildTypes {
         release {
@@ -121,24 +147,22 @@ android {
             testCoverageEnabled false
         }
     }
-    lintOptions {
-        abortOnError false
-    }
+
 }
 
 dependencies {
 
     //Coco
-    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.7.0' + objcdp.getVersionSuffix(), ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'AppInfra', version: '1.8.0' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'dataServices', version: '1.2.0' + objcdp.getVersionSuffix(), ext: 'aar') {
+    compile(group: 'com.philips.cdp', name: 'dataServices', version: '2.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
         exclude group: 'com.android.support'
         exclude group: 'joda-time', module: 'joda-time'
         transitive = true
     }
-    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '2.5.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
+    compile(group: 'com.philips.cdp', name: 'product-registration-lib', version: '3.0.0' + objcdp.getVersionSuffix(), ext: 'aar', changing: true) {
         transitive = true
     }
     compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.4.1' + objcdp.getVersionSuffix(), ext: 'aar') {
@@ -158,7 +182,6 @@ dependencies {
     compile 'com.android.support:multidex:1.0.0'
     compile 'com.j256.ormlite:ormlite-core:5.0'
     compile 'com.j256.ormlite:ormlite-android:5.0'
-    compile fileTree(include: ['*.jar'], dir: 'libs')
 
     //test
     testCompile 'junit:junit:4.12'

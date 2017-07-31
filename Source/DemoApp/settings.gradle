@@ -1,2 +1,3 @@
+rootProject.setName 'devicepairing'
 include ':app', ':DemoUApp'
 project(':DemoUApp').projectDir = new File('../DemoUApp')
