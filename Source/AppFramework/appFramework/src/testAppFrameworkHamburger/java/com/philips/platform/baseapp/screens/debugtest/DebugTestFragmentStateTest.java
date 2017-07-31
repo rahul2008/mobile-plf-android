@@ -2,6 +2,7 @@ package com.philips.platform.baseapp.screens.debugtest;
 
 import android.support.v4.app.FragmentManager;
 
+import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -35,7 +36,7 @@ public class DebugTestFragmentStateTest extends TestCase {
         debugFragmentStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
         debugTestFragmentStateTest.setUiStateData(debugFragmentStateData);
 
-        hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
+        hamburgerActivity = Robolectric.buildActivity(TestActivity.class).create().start().get();
         fragmentLauncher = new FragmentLauncher(hamburgerActivity, R.id.frame_container, hamburgerActivity);
     }
 

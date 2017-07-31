@@ -24,7 +24,7 @@ public class TermsAndConditionsPresenter implements TermsAndConditionsContract.A
 
     private Context context;
 
-    private static final String TERMS_AND_CONDITIONS_KEY = "app.termsandconditions";
+    public static final String TERMS_AND_CONDITIONS_KEY = "app.termsandconditions";
 
     public TermsAndConditionsPresenter(TermsAndConditionsContract.View viewListener, Context context) {
         this.viewListener = viewListener;
@@ -45,7 +45,7 @@ public class TermsAndConditionsPresenter implements TermsAndConditionsContract.A
 
                     @Override
                     public void onSuccess(URL url) {
-                        if (url.toString().isEmpty()) {
+                        if (url == null) {
                             viewListener.onUrlLoadError("Empty Url from Service discovery");
                         } else {
                             viewListener.updateUiOnUrlLoaded(url.toString());

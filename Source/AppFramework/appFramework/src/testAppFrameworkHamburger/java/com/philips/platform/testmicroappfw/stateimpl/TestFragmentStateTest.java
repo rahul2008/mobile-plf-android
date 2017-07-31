@@ -2,6 +2,7 @@ package com.philips.platform.testmicroappfw.stateimpl;
 
 import android.support.v4.app.FragmentManager;
 
+import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -36,7 +37,7 @@ public class TestFragmentStateTest extends TestCase{
         UIStateData testStateData=new UIStateData();
         testStateData.setFragmentLaunchType(Constants.ADD_FROM_HAMBURGER);
         testFragmentState.setUiStateData(testStateData);
-        launchActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
+        launchActivity = Robolectric.buildActivity(TestActivity.class).create().start().get();
         fragmentLauncher = new FragmentLauncher(launchActivity, R.id.frame_container, launchActivity);
     }
 

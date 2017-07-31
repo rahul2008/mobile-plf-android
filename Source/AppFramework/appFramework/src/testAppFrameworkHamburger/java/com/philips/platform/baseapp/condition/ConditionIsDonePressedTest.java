@@ -7,9 +7,9 @@ package com.philips.platform.baseapp.condition;
 
 import android.content.Context;
 
+import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
-import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.utility.SharedPreferenceUtility;
 
@@ -33,7 +33,7 @@ public class ConditionIsDonePressedTest extends TestCase {
     @Before
     public void setUp() throws Exception{
         super.setUp();
-        context = Robolectric.buildActivity(HamburgerActivity.class).create().start().get().getApplicationContext();
+        context = Robolectric.buildActivity(TestActivity.class).create().start().get().getApplicationContext();
         sharedPreferenceUtility = new SharedPreferenceUtility(context);
         conditionIsDonePressed = new ConditionIsDonePressed();
         //appFrameworkApplication = mock(AppFrameworkApplication.class);
