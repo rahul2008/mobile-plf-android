@@ -38,6 +38,7 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.ccdemouapplibrary.R;
+import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
@@ -376,6 +377,7 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
         UIDHelper.injectCalligraphyFonts();
         themeHelper = new ThemeHelper(this);
         ThemeConfiguration config = themeHelper.getThemeConfig();
+        config.add(AccentRange.ORANGE);
         setTheme(themeHelper.getThemeResourceId());
         UIDHelper.init(config);
         FontIconTypefaceHolder.init(getAssets(),"digitalcarefonts/CCIcon.ttf");

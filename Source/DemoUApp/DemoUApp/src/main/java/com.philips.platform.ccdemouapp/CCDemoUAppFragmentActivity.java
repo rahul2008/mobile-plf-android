@@ -31,6 +31,7 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.ccdemouapp.util.ThemeUtil;
 import com.philips.platform.ccdemouapplibrary.R;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 
@@ -253,6 +254,7 @@ public class CCDemoUAppFragmentActivity extends UiKitActivity implements View.On
         UIDHelper.injectCalligraphyFonts();
         themeHelper = new ThemeHelper(this);
         ThemeConfiguration config = themeHelper.getThemeConfig();
+        config.add(AccentRange.ORANGE);
         setTheme(themeHelper.getThemeResourceId());
         UIDHelper.init(config);
     }
