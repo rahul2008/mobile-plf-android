@@ -16,7 +16,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.net.URL;
 
-import static com.philips.platform.baseapp.screens.termsandconditions.TermsAndConditionsPresenter.TERMS_AND_CONDITIONS_KEY;
+import static com.philips.platform.baseapp.screens.termsandconditions.TermsAndConditionsPresenter.PRIVACY_KEY;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -53,8 +53,8 @@ public class TermsAndConditionsPresenterTest {
         when(appInfraInterfaceMock.getServiceDiscovery()).thenReturn(serviceDiscoveryInterfaceMock);
         when(appFrameworkApplicationMock.getAppInfra()).thenReturn(appInfraInterfaceMock);
         when(context.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
-        termsAndConditionsPresenter.loadTermsAndConditionsUrl();
-        verify(serviceDiscoveryInterfaceMock).getServiceUrlWithCountryPreference(eq(TERMS_AND_CONDITIONS_KEY), captor.capture());
+        termsAndConditionsPresenter.loadTermsAndConditionsUrl(WebViewActivity.PRIVACY);
+        verify(serviceDiscoveryInterfaceMock).getServiceUrlWithCountryPreference(eq(PRIVACY_KEY), captor.capture());
         value= captor.getValue();
 
 

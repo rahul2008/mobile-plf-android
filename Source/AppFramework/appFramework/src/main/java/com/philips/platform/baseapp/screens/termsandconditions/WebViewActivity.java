@@ -27,21 +27,27 @@ import com.philips.platform.baseapp.screens.utility.RALog;
 public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements TermsAndConditionsContract.View {
 
     private static final String TAG = WebViewActivity.class.getSimpleName();
+    public static final String PRIVACY = "privacy";
+    public static String STATE="state";
+    public static String TERMS_AND_CONDITIONS="terms and conditions";
 
     private WebView webView;
 
     private TermsAndConditionsContract.Action termsAndConditionsAction;
 
+    private String state;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
+        state=getIntent().getStringExtra(STATE);
         webView = (WebView) findViewById(R.id.web_view);
         termsAndConditionsAction = new TermsAndConditionsPresenter(this, this);
         setTitle(R.string.global_terms_link);
         //This code will enable web view to load https url with http url inside it.
 //        webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        termsAndConditionsAction.loadTermsAndConditionsUrl();
+        termsAndConditionsAction.loadTermsAndConditionsUrl(state);
 
     }
 

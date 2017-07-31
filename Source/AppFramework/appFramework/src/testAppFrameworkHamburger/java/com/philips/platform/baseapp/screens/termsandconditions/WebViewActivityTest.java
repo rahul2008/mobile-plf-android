@@ -38,6 +38,7 @@ public class WebViewActivityTest {
         webViewActivity.updateActionBar(0,false);
         webViewActivity.updateActionBarIcon(false);
         webViewActivity.updateActionBar("",false);
+        webViewActivity.initDLS();
         resource=webViewActivity.getResources();
     }
 

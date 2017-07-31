@@ -1,7 +1,5 @@
 package com.philips.platform.baseapp.screens.termsandconditions;
 
-import android.content.Intent;
-
 import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
@@ -42,9 +40,10 @@ public class TermsAndConditionsStateTest extends TestCase{
 
     @Test
     public void navigateTest(){
+        TermsAndPrivacyStateData termsAndPrivacyStateData=new TermsAndPrivacyStateData();
+        termsAndPrivacyStateData.setTermsAndPrivacyEnum(TermsAndPrivacyStateData.TermsAndPrivacyEnum.TERMS_CLICKED);
+        termsAndConditionsState.setUiStateData(termsAndPrivacyStateData);
         termsAndConditionsState.navigate(fragmentLauncher);
-        Intent expectedIntent = new Intent(launchActivity, WebViewActivity.class);
         assertNotNull(shadowOf(launchActivity).getNextStartedActivity());
-//        assertThat(shadowOf(launchActivity).getNextStartedActivity().getComponent().getClass().getSimpleName()).isEqualTo(WebViewActivity.class.getSimpleName());
     }
 }

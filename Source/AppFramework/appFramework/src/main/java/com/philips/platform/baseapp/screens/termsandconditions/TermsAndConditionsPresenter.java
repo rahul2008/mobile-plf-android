@@ -26,17 +26,25 @@ public class TermsAndConditionsPresenter implements TermsAndConditionsContract.A
 
     public static final String TERMS_AND_CONDITIONS_KEY = "app.termsandconditions";
 
+    public static final String PRIVACY_KEY = "app.privacynotice";
+
     public TermsAndConditionsPresenter(TermsAndConditionsContract.View viewListener, Context context) {
         this.viewListener = viewListener;
         this.context = context;
     }
 
     @Override
-    public void loadTermsAndConditionsUrl() {
+    public void loadTermsAndConditionsUrl(String state) {
         AppInfraInterface appInfra = ((AppFrameworkApplication) context.getApplicationContext()).getAppInfra();
         ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+        String key = null;
+        if (state!=null && state.equalsIgnoreCase(WebViewActivity.PRIVACY)) {
+            key = PRIVACY_KEY;
+        } else {
+            key = TERMS_AND_CONDITIONS_KEY;
+        }
 
-        serviceDiscoveryInterface.getServiceUrlWithCountryPreference(TERMS_AND_CONDITIONS_KEY, new
+        serviceDiscoveryInterface.getServiceUrlWithCountryPreference(key, new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
                     @Override
                     public void onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalues, String errorText) {

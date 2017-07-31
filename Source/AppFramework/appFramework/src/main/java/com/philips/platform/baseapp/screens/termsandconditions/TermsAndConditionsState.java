@@ -28,6 +28,11 @@ public class TermsAndConditionsState extends BaseState {
     public void navigate(UiLauncher uiLauncher) {
         final FragmentLauncher fragmentLauncher = (FragmentLauncher) uiLauncher;
         Intent intent=new Intent(fragmentLauncher.getFragmentActivity(),WebViewActivity.class);
+        if(((TermsAndPrivacyStateData)getUiStateData()).getTermsAndPrivacyEnum()== TermsAndPrivacyStateData.TermsAndPrivacyEnum.PRIVACY_CLICKED){
+            intent.putExtra(WebViewActivity.STATE,WebViewActivity.PRIVACY);
+        }else{
+            intent.putExtra(WebViewActivity.STATE,WebViewActivity.TERMS_AND_CONDITIONS);
+        }
         fragmentLauncher.getFragmentActivity().startActivity(intent);
     }
 
