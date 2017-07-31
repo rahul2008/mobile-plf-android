@@ -10,7 +10,9 @@ import android.text.TextUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class KeyBagManager implements KeyBagInterface {
@@ -37,5 +39,12 @@ public class KeyBagManager implements KeyBagInterface {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public HashMap<String, String> getMapForServiceId(String serviceId,URL url) {
+        String seed = keyBagHelper.getSeed(serviceId, "", Integer.parseInt(keyBagHelper.getIndex(url.toString())));
+        String deObfuscatedData = obfuscate("",Integer.parseInt(seed));
+        return null;
     }
 }
