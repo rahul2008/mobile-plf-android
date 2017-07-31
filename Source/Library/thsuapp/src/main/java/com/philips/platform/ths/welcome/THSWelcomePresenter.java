@@ -4,17 +4,14 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.intake.THSSDKValidatedCallback;
 import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.login.THSGetConsumerObjectCallBack;
 import com.philips.platform.ths.login.THSLoginCallBack;
 import com.philips.platform.ths.practice.THSPracticeFragment;
 import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
 import com.philips.platform.ths.registration.THSConsumer;
-import com.philips.platform.ths.registration.THSRegistrationDetailCallback;
 import com.philips.platform.ths.registration.THSRegistrationFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.AmwellLog;
@@ -23,7 +20,6 @@ import com.philips.platform.ths.R;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
-import java.util.Map;
 
 //TODO: Review Comment - Spoorti - Do not implement THSGetConsumerObjectCallBack in WelcomePresenter
 //TODO: Review Comment - Spoorti - Can we rename THSGetConsumerObjectCallBack to PTHGetConsumerCallBack?
@@ -97,6 +93,15 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
         AmwellLog.i(AmwellLog.LOG, "Login - UI updated");
         uiBaseView.hideProgressBar();
         AmwellLog.d("Login", "Login success");
+
+        if(thsAuthentication.getAuthentication() == null){
+            if(sdkError!=null && sdkError.getSDKErrorReason()!=null){
+                uiBaseView.showToast(sdkError.getSDKErrorReason().name());
+            }else {
+                uiBaseView.showToast("Something went wrong!!");
+            }
+            return;
+        }
 
         try {
             if (thsAuthentication.getAuthentication().needsToCompleteEnrollment()) {
@@ -174,11 +179,11 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
                 e.printStackTrace();
             }
         }else {
-            lauchRegistrationFragment();
+            launchAmwellRegistrationFragment();
         }
     }
 
-    private void lauchRegistrationFragment() {
+    private void launchAmwellRegistrationFragment() {
         THSRegistrationFragment thsRegistrationFragment = new THSRegistrationFragment();
         thsRegistrationFragment.setFragmentLauncher(uiBaseView.getFragmentLauncher());
         uiBaseView.addFragment(thsRegistrationFragment,THSRegistrationFragment.TAG,null);
