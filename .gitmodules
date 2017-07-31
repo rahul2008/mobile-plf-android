@@ -5,5 +5,5 @@
 	path = Source/Library/commlib-integration-tests/src/test/features
 	url = ssh://git@bitbucket.atlas.philips.com:7999/com/commlib-bdd.git
 [submodule "Source/Library/bluelib"]
-	path = Source/Library/bluelib
+	path = Source/bluelib
 	url = ssh://git@bitbucket.atlas.philips.com:7999/ehshn/android-shinelib.git
