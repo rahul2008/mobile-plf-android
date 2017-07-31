@@ -72,10 +72,6 @@ android {
         abortOnError false
     }
 
-    sourceSets {
-        androidTest.assets.srcDirs += '../commlib-all/src/test/features'
-    }
-
     packagingOptions {
         exclude '**/LICENSE'
         exclude 'META-INF/*'

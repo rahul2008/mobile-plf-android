@@ -18,7 +18,7 @@ import cucumber.api.junit.Cucumber;
                 "json:/data/data/com.philips.cdp2.commlib.devicetest/report.json",
                 "html:/data/data/com.philips.cdp2.commlib.devicetest/cucumber-reports/html"
         },
-        features = "src/test/features",
+        features = "features",
         tags = {"@automated", "@android", "~@not_android", "@target"}
 )
 public class OnDeviceTests {
