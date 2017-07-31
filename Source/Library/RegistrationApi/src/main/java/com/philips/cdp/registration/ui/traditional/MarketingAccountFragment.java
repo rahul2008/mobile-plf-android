@@ -21,15 +21,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R2;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingPages;
 import com.philips.cdp.registration.app.tagging.AppTagingConstants;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.events.NetworStateListener;
-import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
-import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
@@ -45,7 +43,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MarketingAccountFragment extends RegistrationBaseFragment implements
-        View.OnClickListener, NetworStateListener, UpdateUserDetailsHandler {
+        View.OnClickListener, MarketingAccountContract {
 
 
     @BindView(R2.id.ll_reg_create_account_container)
@@ -69,6 +67,8 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     @BindView(R2.id.tv_reg_philips_news_link)
     Label receivePhilipsNewsView;
 
+    private ProgressDialog mProgressDialog;
+
     private User mUser;
 
     private Context mContext;
@@ -77,7 +77,8 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     private long mTrackCreateAccountTime;
 
-    private ProgressDialog mProgressDialog;
+
+    MarketingAccountPresenter marketingAccountPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,7 +93,8 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         RLog.d(RLog.EVENT_LISTENERS,
                 "CreateAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
-        RegistrationHelper.getInstance().registerNetworkStateListener(this);
+        marketingAccountPresenter = new MarketingAccountPresenter(this);
+        marketingAccountPresenter.register();
         View view = inflater.inflate(R.layout.reg_fragment_marketing_opt, container, false);
         ButterKnife.bind(this, view);
         initUI(view);
@@ -118,16 +120,17 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
             defalutBannerText(view);
         }
     }
-   void defalutBannerText(View view){
+
+    void defalutBannerText(View view) {
         String joinNow = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now);
-        String updateJoinNowText =  " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
+        String updateJoinNowText = " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
         joinNow = String.format(joinNow, updateJoinNowText);
-        updateText(view, R.id.tv_reg_Join_now,joinNow);
+        updateText(view, R.id.tv_reg_Join_now, joinNow);
     }
 
     private void updateText(View view, int textViewId, String text) {
         TextView marketBeTheFirstTextView = (TextView) view.findViewById(textViewId);
-        if(text!=null && text.length()>0){
+        if (text != null && text.length() > 0) {
             marketBeTheFirstTextView.setText(Html.fromHtml(text));
         }
     }
@@ -141,7 +144,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     @Override
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDestroy");
-        RegistrationHelper.getInstance().unRegisterNetworkListener(this);
+        marketingAccountPresenter.unRegister();
         RLog.d(RLog.EVENT_LISTENERS,
                 "CreateAccountFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
         super.onDestroy();
@@ -182,10 +185,10 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     public void onClick(View v) {
         if (v.getId() == R.id.btn_reg_count_me) {
             showRefreshProgress();
-            mUser.updateReceiveMarketingEmail(this, true);
+            marketingAccountPresenter.updateMarketingEmail(mUser, true);
         } else if (v.getId() == R.id.btn_reg_no_thanks) {
             showRefreshProgress();
-            mUser.updateReceiveMarketingEmail(this, false);
+            marketingAccountPresenter.updateMarketingEmail(mUser, false);
         }
     }
 
@@ -207,13 +210,14 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         }
     };
 
-    private void handleRegistrationSuccess() {
+    @Override
+    public void handleRegistrationSuccess() {
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
         hideRefreshProgress();
         if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && !(mUser.isEmailVerified() || mUser.isMobileVerified())) {
-            if (FieldsValidator.isValidEmail(mUser.getEmail().toString())){
+            if (FieldsValidator.isValidEmail(mUser.getEmail().toString())) {
                 launchAccountActivateFragment();
-            }else {
+            } else {
                 launchMobileVerifyCodeFragment();
             }
         } else if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && (mUser.isEmailVerified() || mUser.isMobileVerified())) {
@@ -260,33 +264,13 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         return titleResourceText;
     }
 
-
     @Override
-    public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.i(RLog.NETWORK_STATE, "CreateAccoutFragment :onNetWorkStateReceived : " + isOnline);
-        handleUiState();
-    }
-
-    @Override
-    public void onUpdateSuccess() {
-        trackRemarketing();
-        RLog.i("MarketingAccountFragment", "onUpdateSuccess ");
-        hideRefreshProgress();
-        handleRegistrationSuccess();
-    }
-
-    private void trackRemarketing() {
-        if(mUser.getReceiveMarketingEmail()){
+    public void trackRemarketing() {
+        if (mUser.getReceiveMarketingEmail()) {
             trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
-        }else{
+        } else {
             trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
         }
-    }
-
-    @Override
-    public void onUpdateFailedWithError(final int error) {
-        RLog.i("MarketingAccountFragment", "onUpdateFailedWithError ");
-        hideRefreshProgress();
     }
 
     private void showRefreshProgress() {
@@ -300,14 +284,16 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         }
     }
 
-    private void hideRefreshProgress() {
+    @Override
+    public void hideRefreshProgress() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
             mProgressDialog = null;
         }
     }
 
-    private void handleUiState() {
+    @Override
+    public void handleUiState() {
         if (new NetworkUtility(mContext).isNetworkAvailable()) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
                 mRegError.hideError();

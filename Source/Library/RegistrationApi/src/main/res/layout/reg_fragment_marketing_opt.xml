@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/reg_layout_margin_16dp"
                     android:layout_marginBottom="@dimen/reg_layout_margin_12dp"
-                    android:text="@string/reg_Receive_Philips_News_lbltxt"
+                    android:text="@string/reg_Receive_Philips_News_link_lbltxt"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <com.philips.platform.uid.view.widget.Label
