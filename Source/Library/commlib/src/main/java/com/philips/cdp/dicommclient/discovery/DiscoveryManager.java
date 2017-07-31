@@ -103,16 +103,17 @@ public class DiscoveryManager<T extends Appliance> {
     }
 
     public static <U extends Appliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, @NonNull DICommApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase) {
-        if (sInstance != null) {
-            throw new RuntimeException("DiscoveryManager can only be initialized once");
+        if (sInstance == null) {
+            NetworkMonitor networkMonitor = new NetworkMonitor(applicationContext, new ScheduledThreadPoolExecutor(1));
+
+            DiscoveryManager<U> discoveryManager = new DiscoveryManager<>(applicationContext, applianceFactory, applianceDatabase, networkMonitor);
+            discoveryManager.mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), discoveryManager.mHandlerCallback);
+            sInstance = discoveryManager;
+
+            return discoveryManager;
+        } else {
+            return (DiscoveryManager<U>) sInstance;
         }
-        NetworkMonitor networkMonitor = new NetworkMonitor(applicationContext, new ScheduledThreadPoolExecutor(1));
-
-        DiscoveryManager<U> discoveryManager = new DiscoveryManager<>(applicationContext, applianceFactory, applianceDatabase, networkMonitor);
-        discoveryManager.mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), discoveryManager.mHandlerCallback);
-        sInstance = discoveryManager;
-
-        return discoveryManager;
     }
 
     public static synchronized DiscoveryManager<? extends Appliance> getInstance() {
