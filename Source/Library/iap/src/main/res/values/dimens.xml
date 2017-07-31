@@ -46,8 +46,7 @@
     <dimen name="header_title">19sp</dimen>
     <dimen name="quantity">14sp</dimen>
     <dimen name="header">20sp</dimen>
-    <dimen name="network_image_width">88dp</dimen>
-    <dimen name="network_image_height">88dp</dimen>
+    <dimen name="iap_network_image_width_height">88dp</dimen>
     <dimen name="network_margin_top_bottom">5dp</dimen>
     <dimen name="network_margin_left_right">12dp</dimen>
 
@@ -107,11 +106,12 @@
     //DLS Compliance
     <dimen name="border16_margin_left_right">16dp</dimen>
     <dimen name="border12_margin">12dp</dimen>
-    <dimen name="border4_margin">4dp</dimen>
     <dimen name="border24_margin">24dp</dimen>
     <dimen name="border8_margin">8dp</dimen>
     <dimen name="text_specing">2dp</dimen>
     <dimen name="iap_retailers_store_name_size_12sp">12sp</dimen>
+    <dimen name="iap_margin_4dp">4dp</dimen>
+    <dimen name="iap_text_size_16sp">16sp</dimen>
 
     <dimen name="max_width">648dp</dimen>
 

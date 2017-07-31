@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/iap_tv_redeem_vochur"
         style="@style/iap_redeem_voucher"
         android:visibility="gone" />
 
     <com.shamanland.fonticon.FontIconTextView
         android:id="@+id/arrow"
-        style="@style/iap_right_arrow"
+        style="@style/iap_right_arrow_product_catalog"
         android:visibility="gone" />
 
     <View
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
         android:layout_below="@id/iap_tv_redeem_vochur"
-        android:background="?attr/uikit_listDividerColor"
+        android:background="@drawable/uid_shadow_level_two"
         android:visibility="gone" />
 
     <RelativeLayout
@@ -42,12 +42,12 @@
                 android:layout_height="@dimen/iap_edit_icon_width" />
         </RelativeLayout>
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/iap_tv_delivery_price"
             style="@style/iap_delivery_price"
             android:layout_toStartOf="@id/edit_icon_layout" />
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/iap_tv_delivery_via_ups"
             style="@style/iap_delivery_via"
             android:layout_alignBaseline="@id/iap_tv_delivery_price"
@@ -61,40 +61,40 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/iap_divider_height"
         android:layout_below="@id/delivery_mode_layout"
-        android:background="?attr/uikit_listDividerColor" />
+        android:background="@drawable/uid_shadow_level_two" />
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/iap_tv_vat"
         style="@style/iap_vat"
         android:layout_below="@id/iap_divider_bottom_delivery"
         android:text="@string/iap_vat"
         android:visibility="gone" />
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/iap_tv_totalItems"
         style="@style/iap_total_items"
         android:layout_below="@id/iap_tv_vat" />
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/iap_tv_vat_inclusive"
         style="@style/iap_vat_uk"
         android:layout_below="@id/iap_tv_totalItems"
         android:text="@string/iap_including_vat"
         android:visibility="gone" />
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/iap_tv_vat_value"
         style="@style/iap_vat_value"
         android:layout_alignBaseline="@id/iap_tv_vat"
         android:visibility="gone" />
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/iap_tv_vat_value_uk_shopping_cart"
         style="@style/iap_vat_value"
         android:layout_alignBaseline="@id/iap_tv_vat_inclusive"
         android:visibility="gone" />
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/iap_tv_totalcost"
         style="@style/iap_total_cost"
         android:layout_alignBaseline="@id/iap_tv_totalItems"

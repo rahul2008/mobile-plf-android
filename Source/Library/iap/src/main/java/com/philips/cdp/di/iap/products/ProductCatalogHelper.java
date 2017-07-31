@@ -109,6 +109,7 @@ public class ProductCatalogHelper {
         if (entry.getDiscountPrice() != null && entry.getDiscountPrice().getFormattedValue() != null
                 && !entry.getDiscountPrice().getFormattedValue().isEmpty()) {
             productItem.setDiscountedPrice(entry.getDiscountPrice().getFormattedValue());
+            productItem.setStockLevel(entry.getStock().getStockLevelStatus());
         }
     }
 

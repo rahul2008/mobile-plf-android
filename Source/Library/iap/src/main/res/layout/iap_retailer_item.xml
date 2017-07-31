@@ -1,41 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/border16_margin_left_right">
 
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/iap_retailer_image"
-        android:layout_width="@dimen/network_image_height"
-        android:layout_height="@dimen/network_image_width"
+        android:layout_width="@dimen/iap_network_image_width_height"
+        android:layout_height="@dimen/iap_network_image_width_height"
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/border12_margin" />
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/iap_retailer_image"
         android:id="@+id/iap_retailerItem_description_layout"
-        android:orientation="vertical"
-        android:layout_centerVertical="true">
-
-    <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/iap_retailerItem_onlineStoreName_lebel"
-        style="@style/iapCentralesansBookFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:includeFontPadding="false"
-        android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
-        android:textSize="@dimen/iap_retailers_store_name_size" />
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/iap_retailer_image"
+        android:orientation="vertical">
 
-    <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/iap_retailerItem_onlineStoreAvailability_lebel"
-        style="@style/iapCentralesansBookFont"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/iap_retailerItem_onlineStoreName_lebel"
+            style="@style/iapCentralesansBookFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+            android:textSize="@dimen/iap_retailers_store_name_size" />
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/iap_retailerItem_onlineStoreAvailability_lebel"
+            style="@style/iapCentralesansBookFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/iap_retailers_store_name_size_12sp" />
     </LinearLayout>
 
     <com.shamanland.fonticon.FontIconTextView

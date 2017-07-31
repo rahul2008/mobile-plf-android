@@ -34,7 +34,7 @@
                 android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top" />
         </FrameLayout>
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/price"
             style="@style/iapCentralesansBoldFont"
             android:layout_width="wrap_content"
@@ -43,11 +43,11 @@
             android:layout_marginTop="@dimen/iap_shopping_cart_image_margin_top"
             android:layout_toStartOf="@id/frame"
             android:includeFontPadding="false"
-            android:textColor="?attr/uikit_baseColor"
+            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
             android:textSize="16sp" />
 
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/text1Name"
             style="@style/iapCentralesansBoldFont"
             android:layout_width="wrap_content"
@@ -60,7 +60,7 @@
             android:layout_toStartOf="@id/price"
             android:includeFontPadding="false"
             android:scrollHorizontally="false"
-            android:textColor="?attr/uikit_baseColor"
+            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
             android:textSize="@dimen/title" />
 
         <RelativeLayout
@@ -72,7 +72,7 @@
             android:orientation="horizontal">
 
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/from"
                 style="@style/iapCentralesansBookFont"
                 android:layout_width="wrap_content"
@@ -80,20 +80,20 @@
                 android:layout_marginEnd="@dimen/iap_shopping_cart_image_right"
                 android:includeFontPadding="false"
                 android:text="@string/iap_product_item_quantity"
-                android:textColor="?attr/uikit_baseColor"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="@dimen/quantity" />
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/text2value"
                 style="@style/tvTitle"
                 android:layout_alignBaseline="@id/from"
                 android:layout_toEndOf="@id/from"
                 android:drawablePadding="@dimen/iap_count_drop_down_icon_padding"
-                android:textColor="?attr/uikit_baseColor"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="14sp" />
         </RelativeLayout>
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/out_of_stock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -106,12 +106,12 @@
 
     </RelativeLayout>
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@id/image"
-        android:background="?attr/uikit_listDividerColor" />
+    <!--<View-->
+        <!--android:id="@+id/divider"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_below="@id/image"-->
+        <!--android:background="?attr/uikit_listDividerColor" />-->
 
 </RelativeLayout>
