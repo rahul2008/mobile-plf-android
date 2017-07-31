@@ -1,19 +1,14 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
-
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_above="@+id/continue_btn"
     >
 
 <RelativeLayout
     android:id="@+id/symptoms_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="12dp"
     >
 
     <com.philips.platform.uid.view.widget.Label
@@ -108,8 +103,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-</RelativeLayout>
-</ScrollView>
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/continue_btn"
         style="@style/UIDImageTextButton.Center"
@@ -117,11 +110,12 @@
         android:layout_height="wrap_content"
         android:enabled="false"
         android:text="Continue"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
         android:layout_marginLeft="@dimen/pth_fab_margin"
         android:layout_marginRight="@dimen/pth_fab_margin"
-        android:layout_marginBottom="12dp"
         android:layout_alignParentBottom="true"
+        android:layout_below="@id/imagelist"
         />
+
 </RelativeLayout>
+
+</ScrollView>
