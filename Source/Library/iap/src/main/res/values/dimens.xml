@@ -113,5 +113,7 @@
     <dimen name="text_specing">2dp</dimen>
     <dimen name="iap_retailers_store_name_size_12sp">12sp</dimen>
 
+    <dimen name="max_width">648dp</dimen>
+
 
 </resources>
