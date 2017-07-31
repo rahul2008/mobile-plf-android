@@ -7,13 +7,9 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/wizard_button"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_alignParentTop="true"
-        android:background="?attr/uidButtonPrimaryFocusBackgroundColor"
-        android:textColor="?attr/uidContentPrimaryBackgroundColor"
-        android:gravity="center"
-        android:text="@string/symptoms" />
+        android:text="@string/symptoms"
+        style="@style/ths_mobile_wizard"
+        />
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/continue_btn"

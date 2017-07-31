@@ -115,4 +115,14 @@
         <item name="android:textColor">?attr/uidContentItemDefaultNormalSubtitleTextColor</item>
         <item name="android:background">?attr/uidContentSecondaryBackgroundColor</item>
     </style>
+
+    <style name="ths_mobile_wizard">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/ths_list_item_height</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:background">?attr/uidButtonPrimaryFocusBackgroundColor</item>
+        <item name="android:textColor">?attr/uidContentPrimaryBackgroundColor</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>
