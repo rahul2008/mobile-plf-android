@@ -5,35 +5,57 @@
  */
 package com.philips.platform.appinfra.keybag;
 
-import android.text.TextUtils;
+import com.philips.platform.appinfra.AppInfra;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Iterator;
 
 public class KeyBagManager implements KeyBagInterface {
 
-    private KeyBagHelper keyBagHelper = new KeyBagHelper();
+    private KeyBagHelper keyBagHelper;
+    private AppInfra mAppInfra;
 
-    @Override
-    public String obfuscate(final String data, final int seed) {
-        return keyBagHelper.obfuscate(data,seed);
+    public KeyBagManager(AppInfra ai) {
+        mAppInfra = ai;
     }
 
     @Override
-    public void init(String rawData) {
+    public String obfuscate(final String data, final int seed) {
+        return keyBagHelper.obfuscate(data, seed);
+    }
+
+    @Override
+    public void init() throws FileNotFoundException {
+        keyBagHelper = new KeyBagHelper();
+        keyBagHelper.init(mAppInfra.getAppInfraContext());
+    }
+
+    @Override
+    public ArrayList<HashMap> getMapForServiceId(String serviceId, URL url) {
+        ArrayList<HashMap> hashMaps = new ArrayList<>();
+        Object propertiesForKey = keyBagHelper.getPropertiesForKey(serviceId);
+
+        if (propertiesForKey instanceof JSONArray) {
+            addToHashMapArray((JSONArray) propertiesForKey, hashMaps);
+        } else if (propertiesForKey instanceof JSONObject) {
+            addToHashMapData((JSONObject) propertiesForKey, hashMaps, 0);
+        }
+        return hashMaps;
+    }
+
+    private void addToHashMapArray(JSONArray jsonArray, ArrayList<HashMap> hashMapData) {
         try {
-            if (!TextUtils.isEmpty(rawData)) {
-                JSONObject keyBagModel = new JSONObject(rawData);
-                Map<String, Object> map = keyBagHelper.jsonToMap(keyBagModel);
-                for (Map.Entry<String, Object> entry : map.entrySet()) {
-                    String key = entry.getKey();
-                    ArrayList arrayList = (ArrayList) entry.getValue();
-                    keyBagHelper.iterateArray(arrayList, key);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                Object value = jsonArray.get(i);
+                if (value instanceof JSONObject) {
+                    addToHashMapData((JSONObject) value, hashMapData, i);
                 }
             }
         } catch (JSONException e) {
@@ -41,10 +63,19 @@ public class KeyBagManager implements KeyBagInterface {
         }
     }
 
-    @Override
-    public HashMap<String, String> getMapForServiceId(String serviceId,URL url) {
-        String seed = keyBagHelper.getSeed(serviceId, "", Integer.parseInt(keyBagHelper.getIndex(url.toString())));
-        String deObfuscatedData = obfuscate("",Integer.parseInt(seed));
-        return null;
+    private void addToHashMapData(JSONObject jsonObject, ArrayList<HashMap> hashMaps, int index) {
+        try {
+            Iterator<String> keys = jsonObject.keys();
+            HashMap<String, String> hashMap = new HashMap<>();
+            while (keys.hasNext()) {
+                String key = keys.next();
+                String value = (String) jsonObject.get(key);
+                String seed = keyBagHelper.getSeed("appinfra.localtesting", key, index);
+                hashMap.put(key, obfuscate(keyBagHelper.convertHexDataToString(value), Integer.parseInt(seed, 16)));
+            }
+            hashMaps.add(hashMap);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

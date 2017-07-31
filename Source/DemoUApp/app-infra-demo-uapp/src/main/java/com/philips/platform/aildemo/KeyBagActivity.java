@@ -6,7 +6,6 @@
 package com.philips.platform.aildemo;
 
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -14,44 +13,36 @@ import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.demo.R;
-import com.philips.platform.appinfra.keybag.KeyBagManager;
+import com.philips.platform.appinfra.keybag.KeyBagInterface;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.philipsdevtools.ServiceDiscoveryManagerCSV;
 
-import java.io.InputStream;
+import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class KeyBagActivity extends AppCompatActivity {
 
 	private String TAG =getClass().getSimpleName();
-	private KeyBagManager keyBagInterface;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_keybag);
 
-		keyBagInterface = new KeyBagManager();
-		keyBagInterface.init(getRawData());
-		testServiceDiscovery();
-	}
-
-	String getRawData() {
 		try {
-			Resources res = getResources();
-			InputStream in_s = res.openRawResource(R.raw.AIKeyBag);
-			byte[] bytes = new byte[in_s.available()];
-			int read = in_s.read(bytes);
-			Log.d(getClass()+"",String.valueOf(read));
-			return new String(bytes);
-		} catch (Exception e) {
+			initServiceDiscovery();
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		return "";
+
 	}
 
-	private void testServiceDiscovery() {
-		final ServiceDiscoveryManagerCSV sdmCSV =  new ServiceDiscoveryManagerCSV();
+	private void initServiceDiscovery() throws FileNotFoundException {
+		final ServiceDiscoveryManagerCSV sdmCSV = new ServiceDiscoveryManagerCSV();
+		final KeyBagInterface keyBagInterface = AILDemouAppInterface.getInstance().getAppInfra().getKeyBagInterface();
+		keyBagInterface.init();
 		AppInfra.Builder builder = new AppInfra.Builder();
 		AppInfra mAppInfra = builder.build(this);
 		builder.setServiceDiscovery(sdmCSV);
@@ -67,7 +58,8 @@ public class KeyBagActivity extends AppCompatActivity {
 					public void onSuccess(URL url) {
 						System.out.println("************ SUCCESS URL : "+url);
 						Log.d(TAG, "Response from Service Discovery : Service ID : 'appinfra.localtesting.kindex' - " + url);
-						keyBagInterface.getMapForServiceId("appinfra.localtesting", "clientId", url);
+						ArrayList<HashMap> mapForServiceId = keyBagInterface.getMapForServiceId("appinfra.localtesting", url);
+						Log.d(TAG, "Response from Service Discovery : Service ID : 'appinfra.localtesting.kindex' - " + url);
 
 					}
 

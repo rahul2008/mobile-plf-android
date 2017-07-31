@@ -19,6 +19,8 @@ import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateManager;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationManager;
+import com.philips.platform.appinfra.keybag.KeyBagInterface;
+import com.philips.platform.appinfra.keybag.KeyBagManager;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackManager;
 import com.philips.platform.appinfra.logging.AppInfraLogging;
@@ -61,6 +63,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
      */
     private Context appInfraContext;
     private LanguagePackInterface mLanguagePackInterface;
+    private KeyBagInterface keyBagInterface;
 
 
     private AppInfra(Context pContext) {
@@ -207,6 +210,15 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         return BuildConfig.VERSION_NAME;
     }
 
+    public void setKeyBagInterface(KeyBagInterface keyBagInterface) {
+        this.keyBagInterface = keyBagInterface;
+    }
+
+    @Override
+    public KeyBagInterface getKeyBagInterface() {
+        return keyBagInterface;
+    }
+
     /**
      * The type Builder.
      */
@@ -227,6 +239,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         private RestInterface mRestInterface;
         private LanguagePackInterface languagePack;
         private AppUpdateInterface appupdateInterface;
+        private KeyBagInterface keyBagInterface;
 
 
         /**
@@ -245,7 +258,7 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             configInterface = null;
             mRestInterface = null;
             languagePack = null;
-            appupdateInterface = null;
+            keyBagInterface = null;
         }
 
 
@@ -424,6 +437,13 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
                 }
             }).start();
 
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    final KeyBagManager keyBagManager = new KeyBagManager(ai);
+                    ai.setKeyBagInterface(keyBagInterface == null ? keyBagManager : keyBagInterface);
+                }
+            }).start();
 
             Log.v(AppInfraLogEventID.AI_APPINFRA, "AppInfra Initialization ENDS");
             postLog(ai,startTime, "App-infra initialization ends with ");

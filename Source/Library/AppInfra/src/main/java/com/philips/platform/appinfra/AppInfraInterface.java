@@ -5,6 +5,7 @@ import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
 import com.philips.platform.appinfra.appupdate.AppUpdateInterface;
 import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
+import com.philips.platform.appinfra.keybag.KeyBagInterface;
 import com.philips.platform.appinfra.languagepack.LanguagePackInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
 import com.philips.platform.appinfra.rest.RestInterface;
@@ -97,4 +98,6 @@ public interface AppInfraInterface {
      * @return appupdate interface
      */
     AppUpdateInterface getAppUpdate();
+
+    KeyBagInterface getKeyBagInterface();
 }

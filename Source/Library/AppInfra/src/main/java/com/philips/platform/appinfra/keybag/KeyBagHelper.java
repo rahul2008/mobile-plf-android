@@ -6,13 +6,21 @@
 package com.philips.platform.appinfra.keybag;
 
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.philips.platform.appinfra.AppInfraLogEventID;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -24,7 +32,8 @@ import java.util.Map;
 class KeyBagHelper {
 
     private final KeyBagLib keyBagLib;
-
+    private Map<String, Object> keyBagProperties;
+    private JSONObject rootJsonObject;
     KeyBagHelper() {
         keyBagLib = new KeyBagLib();
     }
@@ -69,7 +78,7 @@ class KeyBagHelper {
         return new String(data);
     }
 
-    Map<String, Object> jsonToMap(JSONObject json) throws JSONException {
+    private Map<String, Object> jsonToMap(JSONObject json) throws JSONException {
         Map<String, Object> retMap = new HashMap<>();
         if(json != JSONObject.NULL) {
             retMap = toMap(json);
@@ -148,6 +157,42 @@ class KeyBagHelper {
         char[] chars = keyBagLib.obfuscateDeObfuscate(data.toCharArray(), seed);
         if (chars != null && chars.length > 0) {
             return new String(chars);
+        }
+        return null;
+    }
+
+    private Map<String, Object> initKeyBagProperties(Context mContext) throws FileNotFoundException {
+        JSONObject jsonObject;
+        Log.d(AppInfraLogEventID.AI_KEY_BAG, "Reading keybag Config from app");
+        StringBuilder total;
+        try {
+            final InputStream mInputStream = mContext.getAssets().open("AIKeyBag.json");
+            final BufferedReader r = new BufferedReader(new InputStreamReader(mInputStream));
+            total = new StringBuilder();
+            String line;
+            while ((line = r.readLine()) != null) {
+                total.append(line).append('\n');
+            }
+            rootJsonObject = new JSONObject(total.toString());
+            keyBagProperties = jsonToMap(rootJsonObject);
+        } catch (JSONException | IOException e) {
+            if (e instanceof IOException)
+                throw new FileNotFoundException();
+            else
+                e.printStackTrace();
+        }
+        return keyBagProperties;
+    }
+
+    void init(Context mContext) throws FileNotFoundException {
+        initKeyBagProperties(mContext);
+    }
+
+    Object getPropertiesForKey(String serviceId) {
+        try {
+            return rootJsonObject.get(serviceId);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return null;
     }

@@ -1,14 +1,16 @@
 package com.philips.platform.appinfra.keybag;
 
 
+import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface KeyBagInterface {
 
     String obfuscate(String data, int seed);
 
-    void init(String rawData);
+    void init() throws FileNotFoundException;
 
-    HashMap<String, String> getMapForServiceId(String serviceId, URL url);
+    ArrayList<HashMap> getMapForServiceId(String serviceId, URL url);
 }
