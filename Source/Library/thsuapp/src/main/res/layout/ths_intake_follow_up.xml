@@ -3,73 +3,71 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginBottom="@dimen/pth_fab_margin"
-    android:layout_marginLeft="@dimen/pth_fab_margin"
-    android:layout_marginRight="@dimen/pth_fab_margin"
-    android:orientation="vertical">
+    android:layout_marginBottom="@dimen/pth_fab_margin">
 
-    <!--
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/pth_intake_follow_up_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
 
-            android:text="Step 5 of 5: Medicines"
-            android:textSize="@dimen/pth_body_text" />-->
-    <com.philips.platform.uid.view.widget.Button
+    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_intake_follow_up_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        style="@style/ths_mobile_wizard"
         android:text="Step 5 of 5: Medicines" />
 
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_intake_follow_up_question"
-        android:layout_width="match_parent"
+        style="@style/ths_title_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/pth_fab_margin"
+        android:textSize="@dimen/pth_body_text"
         android:layout_below="@+id/pth_intake_follow_up_label"
-
-        android:layout_marginTop="@dimen/pth_margin_top"
-        android:text="When can the provider call you, for a follow up, if needed ?"
-        android:textColor="@color/awsdk_color_black"
-        android:textSize="@dimen/pth_title_text"
-        android:textStyle="bold" />
+        android:text="When can the provider call you, for a follow up, if needed ?" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_intake_follow_up_phone_number_label"
+        style="@style/ths_body_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pth_intake_follow_up_question"
         android:layout_marginTop="@dimen/pth_margin_top"
-        android:text="Phone number"
-
-        android:textColor="@color/awsdk_color_black" />
+        android:layout_marginBottom="@dimen/pth_margin_top"
+        android:text="Phone number" />
 
     <com.philips.platform.uid.view.widget.EditText
         android:id="@+id/pth_intake_follow_up_phone_number"
+        android:layout_marginLeft="@dimen/pth_fab_margin"
+        android:layout_marginRight="@dimen/pth_fab_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pth_intake_follow_up_phone_number_label"
         android:hint="Phone Number"></com.philips.platform.uid.view.widget.EditText>
 
+    <View
+        android:id="@+id/end_layer"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/pth_intake_follow_up_phone_number"
+        android:layout_marginBottom="@dimen/pth_margin_top"
+        android:layout_marginTop="@dimen/pth_margin_top"
+        android:background="@color/uid_gray_level_5" />
+
 
     <com.philips.platform.uid.view.widget.CheckBox
         android:id="@+id/pth_intake_follow_up_nopp_agree_check_box"
+        android:layout_marginLeft="@dimen/pth_fab_margin"
+        android:layout_marginRight="@dimen/pth_fab_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/pth_intake_follow_up_phone_number"
-        android:layout_marginTop="@dimen/pth_margin_top"
+        android:layout_below="@+id/end_layer"
         android:checked="false"
         android:text="I have read and agree to the" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_intake_follow_up_i_agree_link_text"
+        android:layout_marginLeft="@dimen/pth_fab_margin"
+        android:layout_marginRight="@dimen/pth_fab_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pth_intake_follow_up_nopp_agree_check_box"
-
         android:autoLink="web"
         android:text="@string/ths_nopp"
         android:textColor="@color/uid_group_blue_level_25" />
@@ -77,6 +75,8 @@
 
     <com.philips.platform.uid.view.widget.ProgressBarButton
         android:id="@+id/pth_intake_follow_up_continue_button"
+        android:layout_marginLeft="@dimen/pth_fab_margin"
+        android:layout_marginRight="@dimen/pth_fab_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
