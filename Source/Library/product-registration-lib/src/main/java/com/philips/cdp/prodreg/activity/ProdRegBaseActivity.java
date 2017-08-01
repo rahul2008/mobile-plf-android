@@ -8,6 +8,7 @@
  */
 package com.philips.cdp.prodreg.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
@@ -15,6 +16,7 @@ import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,15 +42,18 @@ import com.philips.platform.uid.thememanager.ContentColor;
 import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uid.utils.UIDActivity;
+import com.philips.platform.uid.view.widget.ActionBarTextView;
 
 import java.util.ArrayList;
 
-public class ProdRegBaseActivity extends UiKitActivity {
+public class ProdRegBaseActivity extends UIDActivity {
     private static final String TAG = ProdRegBaseActivity.class.getSimpleName();
-    private TextView mTitleTextView;
+   // private TextView mTitleTextView;
     private Handler mSiteCatListHandler = new Handler();
     private int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
-
+    private Toolbar mToolbar;
+    private ActionBarTextView mActionBarTextView;
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
 
         @Override
@@ -68,11 +73,13 @@ public class ProdRegBaseActivity extends UiKitActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setUiKitThemeIfRequired();
-        initCustomActionBar();
+      //  setUiKitThemeIfRequired();
         UIDHelper.injectCalligraphyFonts();
-        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.BRIGHT, NavigationColor.ULTRA_LIGHT, AccentRange.ORANGE));
+        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.BRIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
         setContentView(R.layout.prodreg_activity);
+        mToolbar = (Toolbar) findViewById(R.id.uid_toolbar);
+        mActionBarTextView = (ActionBarTextView) findViewById(R.id.uid_toolbar_title);
+        initCustomActionBar();
         animateThisScreen();
         if (savedInstanceState == null) {
             showFragment();
@@ -164,31 +171,43 @@ public class ProdRegBaseActivity extends UiKitActivity {
     }
 
     private void initCustomActionBar() {
-        ActionBar mActionBar = this.getSupportActionBar();
+        setSupportActionBar(mToolbar);
+       ActionBar mActionBar = this.getSupportActionBar();
         if (mActionBar != null) {
-            mActionBar.setDisplayShowHomeEnabled(false);
+          //  mActionBar.setDisplayShowHomeEnabled(false);
             mActionBar.setDisplayShowTitleEnabled(false);
             mActionBar.setDisplayShowCustomEnabled(true);
-            ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the text view in the ActionBar !
-                    ActionBar.LayoutParams.MATCH_PARENT,
-                    ActionBar.LayoutParams.WRAP_CONTENT,
-                    Gravity.CENTER);
-            View mCustomView = LayoutInflater.from(this).inflate(R.layout.prodreg_home_action_bar, null); // layout which contains your button.
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-            mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
+//            ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the text view in the ActionBar !
+//                    ActionBar.LayoutParams.MATCH_PARENT,
+//                    ActionBar.LayoutParams.WRAP_CONTENT,
+//                    Gravity.CENTER);
+           // mToolbar.setBackgroundColor(Color.parseColor("#80000000"));
 
-            final FrameLayout frameLayout = (FrameLayout) mCustomView.findViewById(R.id.UpButton);
-            frameLayout.setOnClickListener(new View.OnClickListener() {
+           // mToolbar.setNavigationIcon(R.drawable.prodreg_left_arrow);
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(final View v) {
+                public void onClick(View v) {
                     onBackPressed();
                 }
             });
-            ImageView arrowImage = (ImageView) mCustomView
-                    .findViewById(R.id.arrow);
-            //noinspection deprecation
-            arrowImage.setBackground(getResources().getDrawable(R.drawable.prodreg_left_arrow));
-            mActionBar.setCustomView(mCustomView, params);
+         //  View mCustomView = LayoutInflater.from(this).inflate(R.layout.prodreg_home_action_bar, null); // layout which contains your button.
+
+            //mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
+//            mToolbar.setBackgroundColor(Color.parseColor("#80000000"));
+//            final FrameLayout frameLayout = (FrameLayout) findViewById(R.id.UpButton);
+//            frameLayout.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(final View v) {
+//                    onBackPressed();
+//                }
+//            });
+//            ImageView arrowImage = (ImageView) findViewById(R.id.arrow);
+//            //noinspection deprecation
+//            arrowImage.setBackground(getResources().getDrawable(R.drawable.prodreg_left_arrow));
+           // mActionBar.setCustomView(mCustomView, params);
             setTitle(getString(R.string.app_name));
         }
     }
@@ -213,8 +232,8 @@ public class ProdRegBaseActivity extends UiKitActivity {
 
     @Override
     public void setTitle(int titleId) {
-        if (mTitleTextView != null)
-            mTitleTextView.setText(titleId);
+        if (mActionBarTextView != null)
+            mActionBarTextView.setText(titleId);
         else
             super.setTitle(titleId);
     }

@@ -10,9 +10,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 
 import com.philips.cdp.prodreg.activity.ProdRegBaseActivity;
@@ -21,6 +23,7 @@ import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.constants.ProdRegError;
 import com.philips.cdp.prodreg.launcher.PRUiHelper;
 import com.philips.cdp.prodreg.localcache.ProdRegCache;
+import com.philips.cdp.prodreg.model.summary.Price;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
@@ -39,6 +42,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
     private Bundle dependencies;
     private Label titleTextView, subTitle1, subTitle2;
     private Button registerLater;
+    private ImageView  productImage;
 
     @Override
     public int getActionbarTitleResId() {
@@ -64,7 +68,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
         if (getView() != null && resId != 0) {
             getView().setBackgroundResource(resId);
            // registerLater.setBackgroundResource(R.drawable.uikit_white_transparent_selector);
-            setWhiteTextColors();
+           // setWhiteTextColors();
         }
     }
 
@@ -85,7 +89,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
         titleTextView = (Label) view.findViewById(R.id.conf_action_textview);
         subTitle1 = (Label) view.findViewById(R.id.conf_subtext_textview);
         subTitle2 = (Label) view.findViewById(R.id.conf_subtext_two_textview);
-
+        productImage = (ImageView) view.findViewById(R.id.prodimage);
         registerButton.setOnClickListener(onClickRegister());
         registerLater.setOnClickListener(onClickNoThanks());
         ProdRegTagging.getInstance().trackPage("ProductRegistrationOfferScreen", "trackPage", "ProductRegistrationOfferScreen");
@@ -100,7 +104,15 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
         if (dependencies != null) {
             registeredProducts = (List<RegisteredProduct>) dependencies.getSerializable(ProdRegConstants.MUL_PROD_REG_CONSTANT);
             resId = dependencies.getInt(ProdRegConstants.PROD_REG_FIRST_IMAGE_ID);
-            setImageBackground();
+          // setImageBackground();
+            if(resId != 0) {
+                productImage.setVisibility(View.VISIBLE);
+                Display display = getActivity().getWindowManager().getDefaultDisplay();
+                int width = display.getWidth();
+                productImage.getLayoutParams().height = (width*9)/16;
+                productImage.setBackground(getResources().getDrawable(resId));
+                productImage.requestLayout();
+            }
         }
     }
 
