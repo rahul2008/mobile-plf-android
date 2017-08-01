@@ -181,7 +181,7 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
     /**
      * Start scanning nearby devices using given strategy
      */
-    public void startDiscovery() {
+    private void startDiscovery() {
         RALog.i(TAG, "Ble device discovery started ");
         handler.postDelayed(new Runnable() {
             @Override
