@@ -83,7 +83,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private User mUser;
 
     private ArrayList<String> listOfServiceId;
-    protected ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,12 +128,27 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mUser.registerUserRegistrationListener(this);
         //Integration interface
 
+
         mIAPSettings = new IAPSettings(this);
 
+    }
+
+    private void initIAP() {
+        IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
+        mIapInterface = new IAPInterface();
+        mIapInterface.init(mIapDependencies, mIAPSettings);
+        mIapLaunchInput = new IAPLaunchInput();
+        mIapLaunchInput.setIapListener(this);
+    }
+
+    private void setLocalFromServiceDiscovery() {
+
+        showProgressDialog();
         ServiceDiscoveryInterface serviceDiscovery = IapDemoUAppInterface.mAppInfra.getServiceDiscovery();
         listOfServiceId = new ArrayList<>();
         listOfServiceId.add("iap.baseurl");
-        serviceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+
+        serviceDiscovery.getServicesWithCountryPreference(listOfServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
             public void onSuccess(Map<String, ServiceDiscoveryService> map) {
                 IAPLog.i(IAPLog.LOG, " DemoActivity getServicesWithCountryPreference Map" + map.toString());
@@ -147,23 +161,21 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
                 String locale = serviceDiscoveryService.getLocale();
                 if (locale.equalsIgnoreCase("en_US")) {
                     mIAPSettings.setUseLocalData(false);
-                } else
+                } else{
                     mIAPSettings.setUseLocalData(true);
+                }
+                initIAP();
+                enableViews();
+                dismissProgressDialog();
+
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
                 IAPLog.i(IAPLog.LOG, "DemoActivity ServiceDiscoveryInterface ==errorvalues " + errorvalues.name() + "String= " + s);
+                dismissProgressDialog();
             }
-        };
-        serviceDiscovery.getServicesWithCountryPreference(listOfServiceId, serviceUrlMapListener);
-
-
-        IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
-        mIapInterface = new IAPInterface();
-        mIapInterface.init(mIapDependencies, mIAPSettings);
-        mIapLaunchInput = new IAPLaunchInput();
-        mIapLaunchInput.setIapListener(this);
+        });
     }
 
     private void initTheme() {
@@ -188,7 +200,13 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     * */
     @Override
     protected void onResume() {
-         super.onResume();
+        if(mUser.isUserSignIn()){
+            setLocalFromServiceDiscovery();
+        }
+        super.onResume();
+    }
+
+    private void enableViews() {
         if (!mUser.isUserSignIn()) {
             hideViews();
             return;
@@ -263,10 +281,11 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         if (isNetworkAvailable(this)) {
             mIapLaunchInput.setIAPFlow(pLandingViews, pIapFlowInput);
             try {
-                showProgressDialog();
+               // showProgressDialog();
                 mIapInterface.launch(new ActivityLauncher
                                 (ActivityLauncher.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT, DEFAULT_THEME),
                         mIapLaunchInput);
+
             } catch (RuntimeException exception) {
                 dismissProgressDialog();
                 Toast.makeText(DemoAppActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
