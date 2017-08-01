@@ -315,19 +315,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         try {
             String providerName = "reg_" + provider;
             String providerDrawable = "reg_" + provider + "_ic";
-
-            System.out.println("provider " + providerName + " " + providerDrawable);
-
             int resourceId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerName, "string",
                     getRegistrationFragment().getParentActivity().getPackageName());
 
             int drawableId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerDrawable, "string",
                     getRegistrationFragment().getParentActivity().getPackageName());
-
-            System.out.println("provider id " + resourceId + "" + drawableId);
-
             mLlSocialProviderBtnContainer.addView(getProviderBtn(provider, resourceId, drawableId));
-
         } catch (Exception e) {
             RLog.e("HomeFragment", "Inflate Buttons exception :" + e.getMessage());
         }

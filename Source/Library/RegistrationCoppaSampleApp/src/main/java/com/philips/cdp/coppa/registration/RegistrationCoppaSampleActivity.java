@@ -356,7 +356,6 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
 
                 @Override
                 public void onRefreshLoginSessionInProgress(String message) {
-                    System.out.println("Message " + message);
                     showToast(message);
                 }
             });

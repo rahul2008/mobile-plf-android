@@ -36,7 +36,7 @@ public class ForgotPasswordFragmentTest extends RegistrationApiInstrumentationBa
 
                 try{
                     RLog.init();
-                }catch(Exception e){System.out.println(e);}
+                }catch(Exception ignored){}
             }
             method =ForgotPasswordFragment.class.getDeclaredMethod("handleSendForgotPasswordSuccess");;
             method.setAccessible(true);

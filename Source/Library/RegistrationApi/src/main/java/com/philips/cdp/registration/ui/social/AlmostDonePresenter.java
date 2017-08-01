@@ -150,19 +150,14 @@ public class AlmostDonePresenter implements NetworStateListener, SocialProviderL
 
     @Override
     public void onContinueSocialProviderLoginFailure(final UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        System.out.println("sss 5"+userRegistrationFailureInfo.getErrorDescription());
         handleContinueSocialProviderFailed(userRegistrationFailureInfo);
     }
 
     private void handleContinueSocialProviderFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        System.out.println("sss 6"+userRegistrationFailureInfo.getErrorDescription());
         almostDoneContract.hideMarketingOptSpinner();
-
         if (null != userRegistrationFailureInfo.getErrorDescription()) {
-            System.out.println("sss 7"+userRegistrationFailureInfo.getErrorDescription());
             almostDoneContract.emailErrorMessage(userRegistrationFailureInfo);
         } else {
-            System.out.println("sss 8"+userRegistrationFailureInfo.getErrorDescription());
             emailAlreadyInUse(userRegistrationFailureInfo);
         }
     }

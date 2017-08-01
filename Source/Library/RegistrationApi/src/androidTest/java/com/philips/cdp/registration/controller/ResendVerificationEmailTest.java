@@ -60,7 +60,7 @@ public class ResendVerificationEmailTest extends RegistrationApiInstrumentationB
             try{
                 mResendVerificationEmail.resendVerificationMail("emailAddress@sample.com");
 
-            }catch(Exception e){System.out.println(e);}
+            }catch(Exception ignored){}
         }
 
         Method method = null;

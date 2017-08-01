@@ -64,14 +64,7 @@ public class RegistrationApplication extends Application {
                 "9z23k3q8bhqyfwx78aru6bz8zksga54u",
                 configError);
 
-      /*  System.out.println("Test : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.DEVELOPMENT));
-        System.out.println("Test : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.TESTING));
-        System.out.println("Evaluation : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.EVALUATION));
-        System.out.println("Staging : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.STAGING));
-        System.out.println("prod : "+RegistrationConfiguration.getInstance().getRegistrationClientId(Configuration.PRODUCTION));
-
-*/
-        mAppInfraInterface.getConfigInterface().setPropertyForKey("PILConfiguration." +
+            mAppInfraInterface.getConfigInterface().setPropertyForKey("PILConfiguration." +
                         "MicrositeID",
                 "UserRegistration",
                 "77000",
@@ -81,9 +74,7 @@ public class RegistrationApplication extends Application {
                 "UserRegistration",
                 configuration.getValue(),
                 configError);
-       /* System.out.println("Microsite Id : " + RegistrationConfiguration.getInstance().getMicrositeId());
-        System.out.println("Environment : " + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
-*/
+
         mAppInfraInterface.
                 getConfigInterface().setPropertyForKey("Flow." +
                         "EmailVerificationRequired",
@@ -96,9 +87,7 @@ public class RegistrationApplication extends Application {
                 "UserRegistration",
                 "" + true,
                 configError);
-       /* System.out.println("Email verification : " + RegistrationConfiguration.getInstance().isEmailVerificationRequired());
-        System.out.println("Terms : " + RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired());
-*/
+
         String minAge = "{ \"NL\":12 ,\"GB\":0,\"default\": 16}";
         mAppInfraInterface.
                 getConfigInterface().setPropertyForKey("Flow." +
@@ -106,11 +95,7 @@ public class RegistrationApplication extends Application {
                 "UserRegistration",
                 minAge,
                 configError);
-      /*  System.out.println("NL age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("NL"));
-        System.out.println("GB age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("GB"));
-        System.out.println("default age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("default"));
-        System.out.println("unknown age: " + RegistrationConfiguration.getInstance().getMinAgeLimitByCountry("unknown"));
-*/
+
         ArrayList<String> providers = new ArrayList<String>();
         providers.add("facebook");
         providers.add("googleplus");
@@ -135,12 +120,6 @@ public class RegistrationApplication extends Application {
                 providers,
                 configError);
 
-       /* System.out.println("sss NL providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("hh"));
-        System.out.println("GB providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("US"));
-        System.out.println("default providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("NL"));
-        System.out.println("unknown providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("unknown"));
-        System.out.println("unknown providers: " + RegistrationConfiguration.getInstance().getProvidersForCountry("default"));
-*/
 
 
         //HSDP configuration
@@ -261,13 +240,7 @@ public class RegistrationApplication extends Application {
                 break;
         }
 
-        HSDPInfo hsdpInfo1 = RegistrationConfiguration.getInstance().getHSDPInfo();
-        if(hsdpInfo1!=null) {
-            System.out.println("HSDP: " + hsdpInfo1.getApplicationName());
-            System.out.println("HSDP: " + hsdpInfo1.getSecreteId());
-            System.out.println("HSDP: " + hsdpInfo1.getSharedId());
-            System.out.println("HSDP: " + hsdpInfo1.getBaseURL());
-        }
+
 
 
     }

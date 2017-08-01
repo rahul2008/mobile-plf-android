@@ -42,8 +42,6 @@ public class XRegError extends RelativeLayout {
 
 
     private void initUi(int resourceId) {
-
-        /** inflate amount layout */
         LayoutInflater li = LayoutInflater.from(mContext);
         li.inflate(resourceId, this, true);
         mTvError = (XTextView) findViewById(R.id.tv_reg_error_message);
@@ -64,26 +62,7 @@ public class XRegError extends RelativeLayout {
         return mSigninErrMsg;
     }
 
-/*
-    public String getSigninErrorMsg() {
-        System.out.println("*************** GET mErrMsg : "+mErrMsg);
-        return mErrMsg;
-    }
-
-
-    public void setSavedErrMsg(String errorMsg){
-        System.out.println("*************** SET mErrMsg : "+mErrMsg);
-        mErrMsg = errorMsg;
-    }
-
-    public String getErrorMsg() {
-        System.out.println("*************** GET mErrMsg : "+mErrMsg);
-       return mErrMsg;
-    }
-*/
-
     public void hideError() {
         setVisibility(GONE);
     }
-
 }
