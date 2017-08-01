@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.NotificationCompat;
 
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.provider.ProviderImageSize;
+import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.entity.visit.ChatReport;
 import com.americanwell.sdk.entity.visit.VisitEndReason;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
@@ -45,12 +47,28 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
     void startVisit() {
         try {
-            if(null!=THSManager.getInstance().getTHSVisit().getVisit() && null!=THSManager.getInstance().getTHSVisit().getVisit().getAssignedProvider()) {
+            if (null != THSManager.getInstance().getTHSVisit().getVisit() && null != THSManager.getInstance().getTHSVisit().getVisit().getAssignedProvider()) {
                 mTHSWaitingRoomFragment.mProviderNameLabel.setText(THSManager.getInstance().getTHSVisit().getVisit().getAssignedProvider().getFullName());
                 mTHSWaitingRoomFragment.mProviderPracticeLabel.setText(THSManager.getInstance().getTHSVisit().getVisit().getAssignedProvider().getPracticeInfo().getName());
+
+                ///////////
+                ProviderInfo providerInfo = THSManager.getInstance().getTHSVisit().getVisit().getAssignedProvider();
+                if (providerInfo.hasImage()) {
+                    try {
+                        THSManager.getInstance().getAwsdk(mTHSWaitingRoomFragment.getFragmentActivity()).
+                                getPracticeProvidersManager().
+                                newImageLoader(providerInfo,
+                                        mTHSWaitingRoomFragment.mProviderImageView, ProviderImageSize.SMALL).placeholder
+                                (mTHSWaitingRoomFragment.mProviderImageView.getResources().getDrawable(R.drawable.doctor_placeholder)).
+                                build().load();
+                    } catch (AWSDKInstantiationException e) {
+                        e.printStackTrace();
+                    }
+                }
+                ////////////
             }
             Integer patientWaitingCount = THSManager.getInstance().getTHSVisit().getVisit().getPatientsAheadOfYou();
-            if(null!=patientWaitingCount && patientWaitingCount>0 ){
+            if (null != patientWaitingCount && patientWaitingCount > 0) {
 
                 mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(patientWaitingCount + " patients waiting");
             }

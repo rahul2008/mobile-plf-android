@@ -152,8 +152,8 @@ dependencies {
 //        transitive = true
 //    }
     compile(group: 'com.philips.cdp', name: 'registrationApi', version: '10.1.0' + objcdp.getVersionSuffix(), ext: 'aar') {
-            exclude group: 'com.android.support'
-            transitive = true
+        exclude group: 'com.android.support'
+        transitive = true
     }
 
     compile 'com.android.support:support-fragment:25.3.1'
@@ -164,7 +164,7 @@ dependencies {
     testCompile ('org.robolectric:robolectric:3.4-rc2'){
         exclude module: 'commons-logging'
         exclude module: 'support-v4'
-        }
+    }
     testCompile "org.robolectric:shadows-support-v4:3.3.2"
     testCompile 'org.apache.maven:maven-ant-tasks:2.1.3'
     compile 'com.google.android.gms:play-services-maps:10.2.4'

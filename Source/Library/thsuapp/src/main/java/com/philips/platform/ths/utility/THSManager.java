@@ -291,7 +291,7 @@ public class THSManager {
        /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
         initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key*/
 
-        initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
+         initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
         initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key
 
         AmwellLog.i(AmwellLog.LOG,"Initialize - SDK API Called");
@@ -485,9 +485,8 @@ public class THSManager {
     }
 
 
-    public void getProviderList(Context context, Consumer consumer, Practice practice,final THSProvidersListCallback THSProvidersListCallback) throws AWSDKInstantiationException {
-
-        getAwsdk(context).getPracticeProvidersManager().findProviders(consumer, practice, null, null, null, null, null, null, null, new SDKCallback<List<ProviderInfo>, SDKError>() {
+    public void getProviderList(Context context, Consumer consumer, Practice practice,String searchTerm,final THSProvidersListCallback THSProvidersListCallback) throws AWSDKInstantiationException{
+        getAwsdk(context).getPracticeProvidersManager().findProviders(consumer, practice, null, searchTerm, null, null, null, null, null, new SDKCallback<List<ProviderInfo>, SDKError>() {
             @Override
             public void onResponse(List<ProviderInfo> providerInfos, SDKError sdkError) {
                 List thsProvidersList = new ArrayList();
@@ -504,7 +503,9 @@ public class THSManager {
                 THSProvidersListCallback.onProvidersListFetchError(throwable);
             }
         });
-
+    }
+    public void getProviderList(Context context, Consumer consumer, Practice practice,final THSProvidersListCallback THSProvidersListCallback) throws AWSDKInstantiationException {
+        getProviderList(context,consumer,practice,null,THSProvidersListCallback);
     }
 
     public void getProviderDetails(Context context, THSProviderInfo thsProviderInfo, final THSProviderDetailsCallback THSProviderDetailsCallback) throws AWSDKInstantiationException {
