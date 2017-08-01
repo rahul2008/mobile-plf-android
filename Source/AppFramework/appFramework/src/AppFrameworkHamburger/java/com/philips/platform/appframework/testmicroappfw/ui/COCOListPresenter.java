@@ -113,7 +113,7 @@ public class COCOListPresenter extends AbstractUIBasePresenter implements COCOLi
             RALog.d(getClass() + "", e.getMessage());
         }
     }
-    public String getEventState(String cocoName) {
+    protected String getEventState(String cocoName) {
         switch (cocoName) {
             case IAP_DEMO_APP:
                 return TEST_IAP_EVENT;

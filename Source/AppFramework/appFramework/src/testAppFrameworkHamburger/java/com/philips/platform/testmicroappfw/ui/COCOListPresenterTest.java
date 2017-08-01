@@ -1,4 +1,4 @@
-package com.philips.platform.appframework.testmicroappfw.ui;
+package com.philips.platform.testmicroappfw.ui;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
@@ -9,11 +9,11 @@ import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.testmicroappfw.data.TestConfigManager;
 import com.philips.platform.appframework.testmicroappfw.models.Chapter;
 import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
+import com.philips.platform.appframework.testmicroappfw.ui.COCOListContract;
+import com.philips.platform.appframework.testmicroappfw.ui.COCOListPresenter;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.base.FragmentView;
 import com.philips.platform.uappframework.launcher.UiLauncher;
-
-import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +43,7 @@ public class COCOListPresenterTest {
     COCOListContract.View view;
 
 
-    COCOListPresenter cocoListPresenter;
+    COCOListPresenterMock cocoListPresenter;
 
     @Mock
     FragmentView fragmentView;
@@ -78,12 +78,7 @@ public class COCOListPresenterTest {
     @Before
     public void setUp(){
         when(fragmentView.getFragmentActivity()).thenReturn(fragmentActivity);
-        cocoListPresenter=new COCOListPresenter(fragmentView,testConfigManager,context,view){
-            @Override
-            protected AppFrameworkApplication getApplicationContext() {
-                return appFrameworkApplication;
-            }
-        };
+        cocoListPresenter=new COCOListPresenterMock(fragmentView,testConfigManager,context,view);
         cocoListPresenter.onStateComplete(baseState);
         cocoListPresenter.onEvent(0);
     }
@@ -109,17 +104,16 @@ public class COCOListPresenterTest {
         verify(newBaseState).navigate(any(UiLauncher.class));
     }
 
-    @Test
-    public void getEventState() throws Exception {
-        Assert.assertEquals(COCOListPresenter.TEST_IAP_EVENT,cocoListPresenter.getEventState(COCOListPresenter.IAP_DEMO_APP));
-        Assert.assertEquals(COCOListPresenter.TEST_APP_INFRA_EVENT,cocoListPresenter.getEventState(COCOListPresenter.APP_INFRA_DEMO_APP));
-        Assert.assertEquals(COCOListPresenter.TEST_CC_EVENT,cocoListPresenter.getEventState(COCOListPresenter.CC_DEMO_APP));
-        Assert.assertEquals(COCOListPresenter.TEST_DS_EVENT,cocoListPresenter.getEventState(COCOListPresenter.DS_DEMO_APP));
-        Assert.assertEquals(COCOListPresenter.TEST_PR_EVENT,cocoListPresenter.getEventState(COCOListPresenter.PRODUCT_REGISTRATION));
-        Assert.assertEquals(COCOListPresenter.TEST_BLUE_LIB_DEMO_APP_EVENT,cocoListPresenter.getEventState(COCOListPresenter.BLUE_LIB_DEMO_APP));
-        Assert.assertEquals(COCOListPresenter.TEST_DICOMM_EVENT,cocoListPresenter.getEventState(COCOListPresenter.DICOMM_APP));
-        Assert.assertEquals(COCOListPresenter.TEST_UR_EVENT,cocoListPresenter.getEventState(COCOListPresenter.USER_REGISTRATION_STANDARD));
-        Assert.assertEquals(COCOListPresenter.TEST_UAPP_EVENT,cocoListPresenter.getEventState(COCOListPresenter.UAPP_FRAMEWORK_DEMO));
+
+    class COCOListPresenterMock extends COCOListPresenter{
+
+        public COCOListPresenterMock(FragmentView view, TestConfigManager testConfigManager, Context context, COCOListContract.View cocoListContractView) {
+            super(view, testConfigManager, context, cocoListContractView);
+        }
+
+        protected AppFrameworkApplication getApplicationContext() {
+            return appFrameworkApplication;
+        }
     }
 
 }
