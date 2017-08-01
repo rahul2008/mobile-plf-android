@@ -235,7 +235,7 @@ public class THSManager {
         newConsumerEnrollment.setAcceptedDisclaimer(true);
         final User user = new User(context);
         newConsumerEnrollment.setSourceId(user.getHsdpUUID());
-        newConsumerEnrollment.setConsumerAuthKey(user.getJanrainUUID());
+        newConsumerEnrollment.setConsumerAuthKey(user.getHsdpUUID());
 
         newConsumerEnrollment.setEmail(user.getEmail());
         newConsumerEnrollment.setPassword("sujata123*");
