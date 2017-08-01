@@ -32,6 +32,7 @@ import com.philips.platform.baseapp.screens.introscreen.pager.WelcomePagerAdapte
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.DotNavigationIndicator;
+import com.philips.platform.uid.view.widget.Label;
 import com.shamanland.fonticon.FontIconView;
 
 /**
@@ -46,8 +47,8 @@ public class WelcomeFragment extends AbstractOnboardingBaseFragment implements V
     public static String TAG = WelcomeFragment.class.getSimpleName();
 
     private ImageView rightArrow;
-    private TextView doneButton;
-    private TextView skipButton;
+    private Label doneButton;
+    private Label skipButton;
     private DotNavigationIndicator indicator;
     private AbstractUIBasePresenter presenter;
     private ViewPager pager;
@@ -86,8 +87,8 @@ public class WelcomeFragment extends AbstractOnboardingBaseFragment implements V
         pager = (ViewPager) view.findViewById(R.id.welcome_pager);
         pager.setAdapter(new WelcomePagerAdapter(getActivity().getSupportFragmentManager()));
         rightArrow = (ImageView) view.findViewById(R.id.welcome_rightarrow);
-        doneButton = (TextView) view.findViewById(R.id.welcome_start_registration_button);
-        skipButton = (TextView) view.findViewById(R.id.welcome_skip_button);
+        doneButton = (Label) view.findViewById(R.id.welcome_start_registration_button);
+        skipButton = (Label) view.findViewById(R.id.welcome_skip_button);
         doneButton.setOnClickListener(this);
         skipButton.setOnClickListener(this);
 

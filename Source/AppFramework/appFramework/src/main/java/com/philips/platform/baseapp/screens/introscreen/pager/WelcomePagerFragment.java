@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.screens.utility.RALog;
+import com.philips.platform.uid.view.widget.Label;
 
 /**
  * Welcome fragment contains the screens for onboarding , as of now it supports 3 screens
@@ -64,8 +65,8 @@ public class WelcomePagerFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.af_welcome_slide_fragment, null);
 
-        TextView largeText = (TextView) view.findViewById(R.id.welcome_slide_large_text);
-        TextView smallText = (TextView) view.findViewById(R.id.welcome_slide_small_text);
+        Label largeText = (Label) view.findViewById(R.id.welcome_slide_large_text);
+        Label smallText = (Label) view.findViewById(R.id.welcome_slide_small_text);
         View background = view.findViewById(R.id.welcome_slide_fragment_layout);
 
         largeText.setText(titleId);
