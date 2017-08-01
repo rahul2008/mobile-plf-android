@@ -60,6 +60,7 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
+        maven {url "https://clojars.org/repo/"}
         group = 'com.philips.cdp'
     }
 }
