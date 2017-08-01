@@ -1,36 +1,49 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:layout_marginBottom="12dp"
+    >
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/wizard_button"
+        android:text="@string/symptoms"
+        style="@style/ths_mobile_wizard"
+        />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/continue_btn"
+        style="@style/UIDImageTextButton.Center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="Continue"
+        android:layout_marginLeft="@dimen/pth_fab_margin"
+        android:layout_marginRight="@dimen/pth_fab_margin"
+        android:layout_alignParentBottom="true"
+        />
 
 <ScrollView
+    android:id="@+id/scroll_view_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_above="@+id/continue_btn"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/wizard_button"
+    android:layout_above="@id/continue_btn"
+    android:layout_marginBottom="24dp"
     >
 
 <RelativeLayout
     android:id="@+id/symptoms_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     >
-
-    <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/wizard_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:text="@string/symptoms" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/help_visit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/wizard_button"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="@dimen/ths_conditions_margin_top"
+        android:layout_marginTop="@dimen/pth_fab_margin"
         android:text="@string/help_visit"
         style="@style/ths_body_text"
         />
@@ -40,20 +53,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/help_visit"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
+        android:layout_marginLeft="@dimen/pth_fab_margin"
+        android:layout_marginRight="@dimen/pth_fab_margin"
         android:text="@string/visit_reason"
         style="@style/ths_title_text"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        android:textSize="@dimen/pth_body_text"
         />
 
     <LinearLayout
         android:id="@+id/checkbox_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/pth_fab_margin"
+        android:layout_marginRight="@dimen/pth_fab_margin"
         android:layout_below="@id/visit_reason"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
         android:orientation="vertical">
 
     </LinearLayout>
@@ -65,6 +79,8 @@
         android:layout_below="@id/checkbox_container"
         android:text="@string/additional_reason"
         android:layout_marginBottom="16dp"
+        android:layout_marginLeft="@dimen/pth_fab_margin"
+        android:layout_marginRight="@dimen/pth_fab_margin"
         style="@style/ths_list_item"
         />
 
@@ -74,12 +90,9 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_below="@id/additional_comment"
-        android:layout_marginBottom="24dp"
         android:enabled="true"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="@dimen/pth_fab_margin"
+        android:layout_marginRight="@dimen/pth_fab_margin"
         android:hint="@string/write_here" />
 
     <com.philips.platform.uid.view.widget.ImageButton
@@ -90,30 +103,22 @@
         app:uidImageButtonDrawableSrc="@mipmap/camera_icon"
         android:layout_marginBottom="12dp"
         android:layout_marginStart="12dp"
+        android:layout_marginLeft="@dimen/pth_fab_margin"
+        android:layout_marginRight="@dimen/pth_fab_margin"
         android:layout_alignBottom="@+id/edit_farenheit"
         android:layout_alignStart="@+id/edit_farenheit">
     </com.philips.platform.uid.view.widget.ImageButton>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/imagelist"
+        android:layout_marginLeft="@dimen/pth_fab_margin"
+        android:layout_marginRight="@dimen/pth_fab_margin"
         android:layout_below="@+id/edit_farenheit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
 </RelativeLayout>
+
 </ScrollView>
-    <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/continue_btn"
-        style="@style/UIDImageTextButton.Center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:text="Continue"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="12dp"
-        android:layout_alignParentBottom="true"
-        />
+
 </RelativeLayout>

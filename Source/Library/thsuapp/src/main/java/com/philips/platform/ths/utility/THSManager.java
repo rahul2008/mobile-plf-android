@@ -60,7 +60,6 @@ import com.philips.platform.ths.intake.THSConditionsList;
 import com.philips.platform.ths.intake.THSMedication;
 import com.philips.platform.ths.intake.THSMedicationCallback;
 import com.philips.platform.ths.intake.THSNoppCallBack;
-import com.philips.platform.ths.intake.THSSDKCallback;
 import com.philips.platform.ths.intake.THSSDKValidatedCallback;
 import com.philips.platform.ths.intake.THSUpdateConditionsCallback;
 import com.philips.platform.ths.intake.THSUpdateConsumerCallback;
@@ -96,7 +95,6 @@ import com.philips.platform.ths.providerslist.THSProvidersListCallback;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
-import com.philips.platform.ths.cost.THSVisit;
 import com.philips.platform.ths.visit.THSCancelVisitCallBack;
 import com.philips.platform.ths.visit.THSStartVisitCallback;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
@@ -182,11 +180,11 @@ public class THSManager {
 
     public void initializeTeleHealth(Context context, final THSInitializeCallBack THSInitializeCallBack) throws MalformedURLException, URISyntaxException, AWSDKInstantiationException, AWSDKInitializationException {
         final Map<AWSDK.InitParam, Object> initParams = new HashMap<>();
-       initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
-        initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key
+       /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://sdk.myonlinecare.com");
+        initParams.put(AWSDK.InitParam.ApiKey, "62f5548a"); //client key*/
 
-         /*initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
-        initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key*/
+        initParams.put(AWSDK.InitParam.BaseServiceUrl, "https://ec2-54-172-152-160.compute-1.amazonaws.com");
+        initParams.put(AWSDK.InitParam.ApiKey, "3c0f99bf"); //client key
 
         AmwellLog.i(AmwellLog.LOG,"Initialize - SDK API Called");
         getAwsdk(context).initialize(

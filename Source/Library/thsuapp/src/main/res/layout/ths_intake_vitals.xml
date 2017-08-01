@@ -1,48 +1,67 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="12dp"
+    >
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/wizard_button"
+        android:text="@string/vitals"
+        style="@style/ths_mobile_wizard"
+        />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/vitals_skip"
+        style="@style/ths_skip_text" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/vitals_continue_btn"
+        style="@style/UIDImageTextButton.Center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/vitals_skip"
+        android:layout_marginBottom="@dimen/pth_margin_between_buttons"
+        android:layout_marginLeft="@dimen/pth_fab_margin"
+        android:layout_marginRight="@dimen/pth_fab_margin"
+        android:enabled="true"
+        android:text="Continue" />
+
+
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/wizard_button"
+    android:layout_above="@id/vitals_continue_btn"
+    android:layout_marginBottom="24dp"
     >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-       >
-
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/wizard_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:text="@string/vitals" />
+        android:layout_height="match_parent">
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/help_visit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/wizard_button"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginBottom="@dimen/pth_fab_margin"
+            android:layout_marginTop="@dimen/pth_fab_margin"
+            android:layout_alignParentTop="true"
+            android:textSize="@dimen/pth_body_text"
             android:text="@string/vitals_want"
-            android:textColor="?attr/uidLabelRegularNormalTextColor"
-            style="@style/UIDAlertDialogTitleTextStyle"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:textSize="16dp"
+            style="@style/ths_title_text"
             />
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/visit_reason"
+            style="@style/ths_body_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/help_visit"
             android:layout_marginBottom="16dp"
             android:text="@string/vitals_blood_pressure"
-            android:textColor="?attr/uidLabelRegularNormalTextColor"
-            style="@style/UIDAlertDialogTitleTextStyle"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:textSize="16dp"
             />
 
         <com.philips.platform.uid.view.widget.InputValidationLayout
@@ -53,7 +72,7 @@
             android:layout_height="wrap_content"
             app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
             android:layout_below="@id/visit_reason"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/pth_fab_margin"
             app:uidTextBoxValidationErrorText="@string/inline_error_message_systolic_value">
 
             <com.philips.platform.uid.view.widget.ValidationEditText
@@ -76,7 +95,7 @@
             android:layout_height="wrap_content"
             app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
             android:layout_below="@id/intake_systolic_container"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/pth_fab_margin"
             app:uidTextBoxValidationErrorText="@string/inline_error_message_systolic_value">
 
             <com.philips.platform.uid.view.widget.ValidationEditText
@@ -93,15 +112,12 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/additional_comment"
+            style="@style/ths_body_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/intake_diastolic_container"
             android:text="@string/temperature"
             android:layout_marginBottom="16dp"
-            android:textColor="?attr/uidLabelRegularNormalTextColor"
-            style="@style/UIDLabelDescription"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             />
 
 
@@ -113,7 +129,7 @@
             android:layout_height="wrap_content"
             app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
             android:layout_below="@id/additional_comment"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="@dimen/pth_fab_margin"
             app:uidTextBoxValidationErrorText="@string/inline_error_message_temperature_value">
 
             <com.philips.platform.uid.view.widget.ValidationEditText
@@ -139,15 +155,12 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/weight"
+            style="@style/ths_body_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/intake_farenheit_container"
             android:text="@string/weight"
-            android:layout_marginBottom="16dp"
-            android:textColor="?attr/uidLabelRegularNormalTextColor"
-            style="@style/UIDLabelDescription"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginBottom="@dimen/pth_fab_margin"
             />
 
         <com.philips.platform.uid.view.widget.InputValidationLayout
@@ -158,7 +171,7 @@
             android:layout_height="wrap_content"
             app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
             android:layout_below="@id/weight"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="@dimen/pth_fab_margin"
             app:uidTextBoxValidationErrorText="@string/inline_error_message_weight_value">
 
             <com.philips.platform.uid.view.widget.ValidationEditText
@@ -173,31 +186,6 @@
         </com.philips.platform.uid.view.widget.InputValidationLayout>
 
 
-        <com.philips.platform.uid.view.widget.Button
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:id="@+id/vitals_continue_btn"
-            style="@style/UIDImageTextButton.Center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ponds_container"
-            android:layout_marginBottom="@dimen/pth_margin_between_buttons"
-            android:enabled="true"
-            android:text="Continue" />
-
-        <com.philips.platform.uid.view.widget.Label
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:id="@+id/vitals_skip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/vitals_continue_btn"
-            android:text="@string/vitals_skip"
-            android:layout_marginBottom="@dimen/pth_margin_bottom"
-            android:textColor="?attr/uidLabelRegularNormalTextColor"
-            style="@style/UIDLabelDescription"
-            android:layout_centerHorizontal="true"
-            />
-
     </RelativeLayout>
 </ScrollView>
+</RelativeLayout>
