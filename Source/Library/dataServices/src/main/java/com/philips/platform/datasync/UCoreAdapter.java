@@ -75,7 +75,7 @@ public class UCoreAdapter {
         if (clientClass == InsightClient.class)
             url = DataServicesManager.getInstance().fetchCoachingServiceUrlFromServiceDiscovery();
         else
-            url = "http://localhost:8080";//DataServicesManager.getInstance().fetchBaseUrlFromServiceDiscovery();
+            url = "http://10.0.2.2:8080";//DataServicesManager.getInstance().fetchBaseUrlFromServiceDiscovery();
 
         if (url == null || url.isEmpty()) {
             return null;
@@ -110,12 +110,6 @@ public class UCoreAdapter {
                 request.addHeader("Authorization", "bearer " + accessToken);
                 request.addHeader(API_VERSION_CUSTOM_HEADER, String.valueOf(API_VERSION));
                 request.addHeader(APP_AGENT_HEADER, getAppAgentHeader());
-
-                Field[] fields = request.getClass().getDeclaredFields();
-                System.out.println("Declared fields ");
-                for(Field field : fields) {
-                    System.out.println(field.getName());
-                }
             }
         };
     }
