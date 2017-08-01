@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-<com.philips.platform.uid.view.widget.Button
-    android:id="@+id/launch_your_pharmacy"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Launch Search View"/>
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_pharmacy_search_label"
+        android:layout_width="match_parent"
+        style="@style/UIDLabel.RecyclerViewItemMultipleLinesTitleText"
+        android:layout_margin="16dp"
+        android:layout_height="wrap_content"
+        android:text="@string/pharmacy_search_label" />
+
+    <com.philips.platform.uid.view.widget.EditText
+        android:id="@+id/launch_your_pharmacy"
+        android:layout_width="match_parent"
+        android:layout_margin="16dp"
+        android:hint="@string/pharmacy_search_edittext_hint"
+        android:layout_height="wrap_content"
+        android:drawableRight="@mipmap/search_icon" />
 </LinearLayout>
