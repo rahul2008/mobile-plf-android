@@ -43,19 +43,19 @@ public class KeyBagManager implements KeyBagInterface {
         Object propertiesForKey = keyBagHelper.getPropertiesForKey(serviceId);
 
         if (propertiesForKey instanceof JSONArray) {
-            addToHashMapArray((JSONArray) propertiesForKey, hashMaps);
+            addToHashMapArray((JSONArray) propertiesForKey, hashMaps,serviceId);
         } else if (propertiesForKey instanceof JSONObject) {
-            addToHashMapData((JSONObject) propertiesForKey, hashMaps, 0);
+            addToHashMapData((JSONObject) propertiesForKey, hashMaps, 0,serviceId);
         }
         return hashMaps;
     }
 
-    private void addToHashMapArray(JSONArray jsonArray, ArrayList<HashMap> hashMapData) {
+    private void addToHashMapArray(JSONArray jsonArray, ArrayList<HashMap> hashMapData, String serviceId) {
         try {
             for (int i = 0; i < jsonArray.length(); i++) {
                 Object value = jsonArray.get(i);
                 if (value instanceof JSONObject) {
-                    addToHashMapData((JSONObject) value, hashMapData, i);
+                    addToHashMapData((JSONObject) value, hashMapData, i, serviceId);
                 }
             }
         } catch (JSONException e) {
@@ -63,14 +63,14 @@ public class KeyBagManager implements KeyBagInterface {
         }
     }
 
-    private void addToHashMapData(JSONObject jsonObject, ArrayList<HashMap> hashMaps, int index) {
+    private void addToHashMapData(JSONObject jsonObject, ArrayList<HashMap> hashMaps, int index, String serviceId) {
         try {
             Iterator<String> keys = jsonObject.keys();
             HashMap<String, String> hashMap = new HashMap<>();
             while (keys.hasNext()) {
                 String key = keys.next();
                 String value = (String) jsonObject.get(key);
-                String seed = keyBagHelper.getSeed("appinfra.localtesting", key, index);
+                String seed = keyBagHelper.getSeed(serviceId, key, index);
                 hashMap.put(key, obfuscate(keyBagHelper.convertHexDataToString(value), Integer.parseInt(seed, 16)));
             }
             hashMaps.add(hashMap);
