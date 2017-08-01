@@ -4,8 +4,8 @@ import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.HandlerThread;
 import android.os.Message;
-import android.util.Log;
 
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cl.di.common.ssdp.contants.ConnectionLibContants;
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.BaseUrlParser;
@@ -78,7 +78,7 @@ public class SsdpService extends HandlerThread {
         try {
             System.loadLibrary("ssdpJNI"); // $codepro.audit.disable relativeLibraryPath
         } catch (final UnsatisfiedLinkError e) {
-            Log.e(ConnectionLibContants.LOG_TAG, "failed to load libssdpJNI Interface library" + e.getMessage());
+            DICommLog.e(ConnectionLibContants.LOG_TAG, "failed to load libssdpJNI Interface library" + e.getMessage());
             throw e;
         }
     }
@@ -113,15 +113,15 @@ public class SsdpService extends HandlerThread {
         @Override
         public void run() {
             if (++loopCount == DELAY_LOOP_COUNT) {
-                Log.i(ConnectionLibContants.LOG_TAG, "  :run loop: ");
+                DICommLog.i(ConnectionLibContants.LOG_TAG, "  :run loop: ");
                 loopCount = 0;
                 final Set<String> aliveDevices = mDeviceListModel.getAliveDevicesMap().keySet();
                 for (final String usn : aliveDevices) {
                     if (mDeviceDiscoverdCounterMap.get(usn) != null) {
                         int discoveryCounter = mDeviceDiscoverdCounterMap.get(usn);
-                        Log.i(ConnectionLibContants.LOG_TAG, usn + ", discoveryCounter: " + discoveryCounter);
+                        DICommLog.i(ConnectionLibContants.LOG_TAG, usn + ", discoveryCounter: " + discoveryCounter);
                         if (discoveryCounter > 2) {
-                            Log.i(ConnectionLibContants.LOG_TAG, usn + ", Device not sending notification: " + discoveryCounter);
+                            DICommLog.i(ConnectionLibContants.LOG_TAG, usn + ", Device not sending notification: " + discoveryCounter);
                             mDiscoveredDevicesSet.remove(usn);
                         } else {
                             discoveryCounter++;
@@ -135,7 +135,7 @@ public class SsdpService extends HandlerThread {
                 }
 
                 for (final String usn : lostDevices) {
-                    Log.i(ConnectionLibContants.LOG_TAG, "Device Lost bye bye: " + usn);
+                    DICommLog.i(ConnectionLibContants.LOG_TAG, "Device Lost bye bye: " + usn);
                     mMessageController.sendInternalMessage(DiscoveryMessageID.DEVICE_LOST, mDeviceListModel.getDevice(usn));
                     mDeviceListModel.removeDevice(usn);
                     mDeviceDiscoverdCounterMap.remove(usn);
@@ -165,7 +165,7 @@ public class SsdpService extends HandlerThread {
     }
 
     private void addDevice(DeviceModel device) {
-        Log.i(ConnectionLibContants.LOG_TAG, "addDevice");
+        DICommLog.i(ConnectionLibContants.LOG_TAG, "addDevice");
 
         if (null != device) {
             if ((null == device.getNts())
@@ -179,48 +179,48 @@ public class SsdpService extends HandlerThread {
                 if (disciveredDeviceModel != null) {
                     bootId = disciveredDeviceModel.getBootID();
                 }
-                Log.i(ConnectionLibContants.LOG_TAG, "Old bootId : " + bootId + " New bootId: " + device.getBootID());
+                DICommLog.i(ConnectionLibContants.LOG_TAG, "Old bootId : " + bootId + " New bootId: " + device.getBootID());
 
                 if (!mDeviceListModel.getAliveDevicesMap().containsKey(device.getUsn())
                         || (device.getBootID() != null && !device.getBootID().equals(bootId))) {
-                    Log.i(ConnectionLibContants.LOG_TAG, "Device alive : " + device.getUsn());
+                    DICommLog.i(ConnectionLibContants.LOG_TAG, "Device alive : " + device.getUsn());
                     final String location = device.getLocation();
                     if ((location != null) && !location.isEmpty()) {
                         try {
-                            Log.i(ConnectionLibContants.LOG_TAG, "ssdp decription url: " + location);
+                            DICommLog.i(ConnectionLibContants.LOG_TAG, "ssdp decription url: " + location);
                             final String xmlDescription = SSDPUtils.getHTTP(new URL(location));
-                            Log.i(ConnectionLibContants.LOG_TAG, location + "  xmlDescription:  " + xmlDescription);
+                            DICommLog.i(ConnectionLibContants.LOG_TAG, location + "  xmlDescription:  " + xmlDescription);
                             mBaseParser.parse(xmlDescription);
                             final List<SSDPdevice> deviceList = mBaseParser.getDevicesList();
                             if ((deviceList != null) && (deviceList.size() > 0)) {
                                 device = getRootPhilipsDevice(mBaseParser.getDevicesList(), device);
-                                // Log.v(LOG, "[after device**]%% " + device);
+                                // DICommLog.v(LOG, "[after device**]%% " + device);
                                 if ((null != device) && (null != mMessageController)) {
                                     mMessageController.sendInternalMessage(
                                             DiscoveryMessageID.DEVICE_DISCOVERED, device);
                                     mDeviceListModel.addNewDevice(device.getUsn(), device);
 
                                 } else {
-                                    Log.d(ConnectionLibContants.LOG_TAG,
+                                    DICommLog.d(ConnectionLibContants.LOG_TAG,
                                             "[addDevice]%% device is not philips ");
 
                                 }
                             }
                         } catch (final Exception e) {
-                            Log.e(ConnectionLibContants.LOG_TAG,
+                            DICommLog.e(ConnectionLibContants.LOG_TAG,
                                     "[MalformedURLException] MalformedURLException " + e.getMessage());
                         }
                     } else {
-                        Log.d(ConnectionLibContants.LOG_TAG,
+                        DICommLog.d(ConnectionLibContants.LOG_TAG,
                                 "ssdpPacket.LOCATION " + device.getLocation());
                     }
                 } else {
-                    Log.d(ConnectionLibContants.LOG_TAG,
+                    DICommLog.d(ConnectionLibContants.LOG_TAG,
                             "Handle message DEVICE_DISCOVERED all ready sent USN: " + device.getUsn());
                 }
             } else if ((null != device.getNts())
                     && device.getNts().contains(ConnectionLibContants.SSDP_BYEBYE)) {
-                Log.i(ConnectionLibContants.LOG_TAG, "Device Lost bye bye: " + device.getUsn() + ":" + device.getNts());
+                DICommLog.i(ConnectionLibContants.LOG_TAG, "Device Lost bye bye: " + device.getUsn() + ":" + device.getNts());
                 DeviceModel lostDevice = mDeviceListModel.getDevice(device.getUsn());
                 mDeviceDiscoverdCounterMap.remove(device.getUsn());
                 mDiscoveredDevicesSet.remove(device.getUsn());
@@ -257,7 +257,7 @@ public class SsdpService extends HandlerThread {
                 }
                 if (null != device) {
                     device.setFromSSDP(ssdpDevice);
-                    Log.d(ConnectionLibContants.LOG_TAG, "device is " + device);
+                    DICommLog.d(ConnectionLibContants.LOG_TAG, "device is " + device);
                 }
             }
         }
@@ -291,11 +291,11 @@ public class SsdpService extends HandlerThread {
     protected void ssdpCallback(
             final String pNts, String pUsn, final String pLocation, final String pServer, final String bootId) {
         if (pServer == null) {
-            Log.i(ConnectionLibContants.LOG_TAG, "Not fetching xml - Server name is null");
+            DICommLog.i(ConnectionLibContants.LOG_TAG, "Not fetching xml - Server name is null");
             return;
         }
         synchronized (SsdpService.class) {
-            Log.i(ConnectionLibContants.LOG_TAG, "Fetching xml for device with server name: " + pServer);
+            DICommLog.i(ConnectionLibContants.LOG_TAG, "Fetching xml for device with server name: " + pServer);
 
             if ((pLocation != null) && (!pLocation.isEmpty())) {
                 if ((null != pUsn) && pUsn.isEmpty()) {
@@ -305,14 +305,14 @@ public class SsdpService extends HandlerThread {
                 DeviceModel deviceParam = null;
                 try {
                     url = new URL(pLocation);
-                    Log.i(ConnectionLibContants.LOG_TAG, "pNts: " + pNts);
+                    DICommLog.i(ConnectionLibContants.LOG_TAG, "pNts: " + pNts);
                     final String ipAddress = (InetAddress.getByName(url.getHost()).getHostAddress());
                     final int port = url.getPort();
                     deviceParam = new DeviceModel(pNts, pUsn, pLocation, ipAddress, port, bootId);
                 } catch (final MalformedURLException e) {
-                    Log.e(ConnectionLibContants.LOG_TAG, "MalformedURLException : " + e.getMessage());
+                    DICommLog.e(ConnectionLibContants.LOG_TAG, "MalformedURLException : " + e.getMessage());
                 } catch (final UnknownHostException e) {
-                    Log.e(ConnectionLibContants.LOG_TAG, "UnknownHostException : " + e.getMessage());
+                    DICommLog.e(ConnectionLibContants.LOG_TAG, "UnknownHostException : " + e.getMessage());
                 }
                 if (deviceParam != null) {
                     addDevice(deviceParam);
@@ -359,7 +359,7 @@ public class SsdpService extends HandlerThread {
             }
         }
         if (!mSocketOpen && (openSocket() == 0)) {
-            Log.i(ConnectionLibContants.LOG_TAG, "register listener");
+            DICommLog.i(ConnectionLibContants.LOG_TAG, "register listener");
             mSocketOpen = true;
             registerListener();
             sendBroadcastMX3();

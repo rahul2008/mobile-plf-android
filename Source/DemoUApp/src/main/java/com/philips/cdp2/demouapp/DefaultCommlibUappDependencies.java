@@ -28,7 +28,7 @@ public class DefaultCommlibUappDependencies extends CommlibUappDependencies {
     public DefaultCommlibUappDependencies(final @NonNull Context context) {
 
         final CloudController cloudController = setupCloudController(context);
-        final CloudTransportContext cloudTransportContext = new CloudTransportContext(cloudController);
+        final CloudTransportContext cloudTransportContext = new CloudTransportContext(context, cloudController);
 
         final LanTransportContext lanTransportContext = new LanTransportContext(context);
         final CommlibUappApplianceFactory applianceFactory = new CommlibUappApplianceFactory(lanTransportContext, cloudTransportContext);

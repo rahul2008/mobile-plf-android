@@ -70,6 +70,11 @@ public class BleTransportContext implements TransportContext {
         return new BleCommunicationStrategy(networkNode.getCppId(), this.deviceCache);
     }
 
+    @Override
+    public boolean isAvailable() {
+        return shnCentral.isBluetoothAdapterEnabled();
+    }
+
     private SHNCentral createBlueLib(Context context, boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {
         SHNCentral.Builder builder = new SHNCentral.Builder(context);
         builder.showPopupIfBLEIsTurnedOff(showPopupIfBLEIsTurnedOff);

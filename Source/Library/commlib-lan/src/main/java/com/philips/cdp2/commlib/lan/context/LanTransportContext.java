@@ -21,7 +21,6 @@ import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
-import com.philips.cdp2.commlib.lan.discovery.LanDiscoveryStrategy;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -41,18 +40,22 @@ public class LanTransportContext implements TransportContext {
             ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 
-            isAvailable = networkInfo.getType() == TYPE_WIFI && networkInfo.isConnected();
+            isAvailable = networkInfo != null && networkInfo.getType() == TYPE_WIFI && networkInfo.isConnected();
         }
     };
 
     private boolean isAvailable;
 
     public LanTransportContext(@NonNull final Context context) {
+        setupNetworkChangedReceiver(context);
+
+        this.discoveryStrategy = null; // new LanDiscoveryStrategy(); TODO FIXME
+    }
+
+    private void setupNetworkChangedReceiver(final @NonNull Context context) {
         IntentFilter filter = createIntentFilter();
         filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         context.registerReceiver(networkChangedReceiver, filter);
-
-        this.discoveryStrategy = new LanDiscoveryStrategy();
     }
 
     @VisibleForTesting
@@ -71,6 +74,11 @@ public class LanTransportContext implements TransportContext {
     @NonNull
     public LanCommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {
         return new LanCommunicationStrategy(networkNode);
+    }
+
+    @Override
+    public boolean isAvailable() {
+        return isAvailable;
     }
 
     /**
@@ -126,9 +134,5 @@ public class LanTransportContext implements TransportContext {
             }
         }
         return appliancesWithMismatchedPin;
-    }
-
-    public boolean isAvailable() {
-        return isAvailable;
     }
 }

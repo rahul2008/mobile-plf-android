@@ -14,4 +14,6 @@ public interface TransportContext {
     DiscoveryStrategy getDiscoveryStrategy();
 
     CommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode);
+
+    boolean isAvailable();
 }

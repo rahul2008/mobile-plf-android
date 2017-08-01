@@ -29,8 +29,6 @@ import org.mockito.stubbing.Answer;
 import java.util.HashSet;
 import java.util.Set;
 
-import edu.emory.mathcs.backport.java.util.Collections;
-
 import static android.net.ConnectivityManager.*;
 import static android.net.ConnectivityManager.TYPE_WIFI;
 import static com.philips.cdp2.commlib.lan.context.LanTransportContext.acceptNewPinFor;
@@ -101,14 +99,14 @@ public class LanTransportContextTest {
     }
 
     @Test
-    public void whenFindingAppliancesWithMismatchedPinInEmptySet_ThenEmptySetIsReturned() throws Exception {
-        Set result = findAppliancesWithMismatchedPinIn(Collections.emptySet());
+    public void whenFindingAppliancesWithMismatchedPinInEmptySet_ThenEmptySetIsReturned() {
+        Set result = findAppliancesWithMismatchedPinIn(new HashSet());
 
         assertTrue(result.isEmpty());
     }
 
     @Test
-    public void whenFindingApplianceWithMismatchedPinInSetOfAppliancesWithNoMismatch_ThenEmptySetIsReturned() throws Exception {
+    public void whenFindingApplianceWithMismatchedPinInSetOfAppliancesWithNoMismatch_ThenEmptySetIsReturned() {
         final NetworkNode networkNode = new NetworkNode();
         networkNode.setCppId("cpp");
         networkNode.setPin("1234567890");
@@ -123,7 +121,7 @@ public class LanTransportContextTest {
     }
 
     @Test
-    public void whenFindingApplianceWithMismatchedPinInSetOfAppliancesWithMismatch_ThenSetHasOneAppliance() throws Exception {
+    public void whenFindingApplianceWithMismatchedPinInSetOfAppliancesWithMismatch_ThenSetHasOneAppliance() {
         final NetworkNode networkNode = new NetworkNode();
         networkNode.setCppId("cpp");
         networkNode.setPin("1234567890");
@@ -140,7 +138,7 @@ public class LanTransportContextTest {
     }
 
     @Test
-    public void whenFindingApplianceWithMismatchedPinInSetOfAppliancesWithMismatchAndWithoutMismatch_ThenSetHasOneAppliance() throws Exception {
+    public void whenFindingApplianceWithMismatchedPinInSetOfAppliancesWithMismatchAndWithoutMismatch_ThenSetHasOneAppliance() {
         final NetworkNode mismatchedNetworkNode = new NetworkNode();
         mismatchedNetworkNode.setCppId("cpp");
         mismatchedNetworkNode.setPin("1234567890");
