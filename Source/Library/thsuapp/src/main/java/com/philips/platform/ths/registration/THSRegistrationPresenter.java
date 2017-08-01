@@ -36,7 +36,6 @@ public class THSRegistrationPresenter implements THSBasePresenter, THSSDKValidat
         AmwellLog.d("Login","Consumer object received");
         THSPracticeFragment thsPracticeFragment = new THSPracticeFragment();
         thsPracticeFragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-        thsPracticeFragment.setConsumer(thsConsumer.getConsumer());
         mTHSBaseFragment.addFragment(thsPracticeFragment,THSPracticeFragment.TAG,null);
     }
 

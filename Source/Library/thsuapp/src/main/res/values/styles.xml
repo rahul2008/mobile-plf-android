@@ -108,12 +108,13 @@
         <item name="android:textColor">?attr/uidContentItemDefaultNormalTitleTextColor</item>
     </style>
 
-    <style name="ths_calendar">
+    <style name="ths_calendar_left">
         <item name="fontPath">fonts/centralesansbook.ttf</item>
         <item name="android:background">?attr/uidContentPrimaryBackgroundColor</item>
         <item name="android:layout_height">@dimen/ths_list_item_height</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_centerVertical">true</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_marginLeft">@dimen/pth_fab_margin</item>
         <item name="android:layout_marginRight">@dimen/pth_fab_margin</item>
@@ -121,6 +122,18 @@
         <item name="android:textColor">?attr/uidContentItemDefaultNormalTitleTextColor</item>
         <item name="android:drawablePadding">@dimen/uid_recyclerview_drawable_padding</item>
         <item name="android:drawableLeft">@drawable/ic_calender</item>
+    </style>
+
+    <style name="ths_calendar_right">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:layout_height">@dimen/ths_list_item_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/pth_body_text</item>
+        <item name="android:textColor">?attr/uidContentItemDefaultNormalTitleTextColor</item>
+        <item name="android:drawablePadding">@dimen/uid_recyclerview_drawable_padding</item>
+        <item name="android:drawableRight">@drawable/ic_calender</item>
     </style>
 
     <style name="ths_list_item_header">
