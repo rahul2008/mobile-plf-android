@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
+import com.google.gson.reflect.TypeToken;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.Request;
@@ -33,8 +34,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.net.HttpURLConnection;
+import java.net.Proxy;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -88,7 +91,7 @@ public class LanRequest extends Request {
     private String createDataToSend(Map<String, Object> dataMap) {
         if (dataMap == null || dataMap.size() <= 0) return null;
 
-        String data = GsonProvider.get().toJson(dataMap);
+        String data = GsonProvider.get().toJson(dataMap, Map.class);
         log(INFO, LOCALREQUEST, "Data to send: " + data);
 
         if (!networkNode.isHttps() && diSecurity != null) {
