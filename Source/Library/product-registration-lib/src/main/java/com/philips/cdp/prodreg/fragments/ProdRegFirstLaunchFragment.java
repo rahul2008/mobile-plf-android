@@ -76,7 +76,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
         int whiteColor = Color.WHITE;
         registerLater.setTextColor(whiteColor);
         titleTextView.setTextColor(whiteColor);
-        subTitle1.setTextColor(whiteColor);
+        //subTitle1.setTextColor(whiteColor);
         subTitle2.setTextColor(whiteColor);
     }
 
@@ -87,7 +87,7 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
         final Button registerButton = (Button) view.findViewById(R.id.yes_register_button);
         registerLater = (Button) view.findViewById(R.id.no_thanks_button);
         titleTextView = (Label) view.findViewById(R.id.conf_action_textview);
-        subTitle1 = (Label) view.findViewById(R.id.conf_subtext_textview);
+ //       subTitle1 = (Label) view.findViewById(R.id.conf_subtext_textview);
         subTitle2 = (Label) view.findViewById(R.id.conf_subtext_two_textview);
         productImage = (ImageView) view.findViewById(R.id.prodimage);
         registerButton.setOnClickListener(onClickRegister());

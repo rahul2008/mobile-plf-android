@@ -17,19 +17,11 @@
         />
 
     <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/conf_subtext_textview"
-        android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
-        android:textSize="20sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/PPR_ReceiveUpdates_Lbltxt"/>
-
-    <com.philips.platform.uid.view.widget.Label
         android:id="@+id/conf_subtext_two_textview"
         android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:text="@string/prod_reg_benefits_conf_message"
         />
 
