@@ -40,7 +40,8 @@ public class THSWelcomeFragment extends THSBaseFragment implements BackEventList
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_welcome_fragment, container, false);
         createCustomProgressBar(view, BIG);
         ((THSWelcomePresenter) presenter).initializeAwsdk();
-        getActionBarListener().updateActionBar("", false);
+        if (getActionBarListener() != null)
+            getActionBarListener().updateActionBar("", false);
         mInitButton = (Button) view.findViewById(R.id.init_amwell);
         mRelativeLayoutInitContainer = (RelativeLayout) view.findViewById(R.id.init_container);
         mInitButton.setOnClickListener(this);
@@ -61,7 +62,7 @@ public class THSWelcomeFragment extends THSBaseFragment implements BackEventList
 
     @Override
     public boolean handleBackEvent() {
-        return true;
+        return false;
     }
 
     @Override

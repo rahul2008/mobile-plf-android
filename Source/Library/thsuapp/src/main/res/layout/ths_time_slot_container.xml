@@ -20,7 +20,7 @@
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/calendar_container"
-        style="@style/ths_calendar"
+        style="@style/ths_calendar_left"
         android:layout_below="@id/select_time"
         />
 
