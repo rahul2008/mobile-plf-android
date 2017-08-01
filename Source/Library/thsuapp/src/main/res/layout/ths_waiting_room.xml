@@ -10,18 +10,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_margin="16dp"
-        android:layout_marginTop="@dimen/pth_margin_top"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
         android:text="you are waiting to see"
-        android:textColor="?attr/uidLabelRegularNormalTextColor"
+        android:textColor="?attr/uidLabelValueNormalTextColor"
+
         android:textSize="@dimen/pth_title_text"
+        android:lineSpacingExtra="8sp"
         android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/ths_waiting_room_provider_top_grey_boundary"
+        android:layout_below="@+id/ths_waiting_room_title_label"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:orientation="horizontal"
+        android:background="@color/uid_gray_level_10"
+        >
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/ths_waiting_room_provider_detail_relativelayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ths_waiting_room_title_label">
+        android:layout_below="@+id/ths_waiting_room_provider_top_grey_boundary">
 
         <ImageView
             android:id="@+id/details_providerImage"
@@ -48,8 +62,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/uid_dot_navigation_icon_margin"
                 android:layout_marginTop="@dimen/uid_grid_icon_padding"
-                android:textColor="?attr/uidLabelValueNormalTextColor"
-                android:textSize="30sp" />
+                android:textColor="?attr/uidLabelRegularNormalTextColor"
+                android:textSize="24sp" />
 
             <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/details_practiceNameLabel"
@@ -62,21 +76,31 @@
         </RelativeLayout>
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/ths_waiting_room_provider_bottom_grey_boundary"
+        android:layout_below="@+id/ths_waiting_room_provider_detail_relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:orientation="horizontal"
+        android:background="@color/uid_gray_level_10"
+        >
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/ths_waiting_room_progressbar_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:layout_above="@+id/ths_insurance_detail_continue_button"
-        android:layout_below="@+id/ths_waiting_room_provider_detail_relativelayout">
+        android:layout_above="@+id/ths_waiting_room_cancel_button"
+        android:layout_below="@+id/ths_waiting_room_provider_bottom_grey_boundary">
 
         <com.philips.platform.uid.view.widget.ProgressBarWithLabel
             android:id="@+id/ths_waiting_room_ProgressBarWithLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:visibility="visible"
             app:uidCircularProgressBarSize="big"
+            android:layout_centerVertical="true"
             app:uidIsIndeterminateProgressIndicator="true"
             app:uidLabelPosition="bottom_center" />
     </RelativeLayout>
@@ -86,7 +110,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-
+        android:layout_marginLeft="@dimen/pth_fab_margin"
+        android:layout_marginRight="@dimen/pth_fab_margin"
         android:layout_marginBottom="@dimen/pth_margin_between_buttons"
 
         android:text="Cancel visit" />
