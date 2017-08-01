@@ -16,7 +16,6 @@ import com.j256.ormlite.table.DatabaseTable;
 import com.philips.platform.baseapp.screens.dataservices.database.EmptyForeignCollection;
 import com.philips.platform.baseapp.screens.dataservices.database.annotations.DatabaseConstructor;
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentDetailType;
-import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
@@ -55,9 +54,13 @@ public class OrmMoment implements Moment, Serializable {
     @DatabaseField
     private boolean synced;
 
-
     @DatabaseField(canBeNull = true)
     private DateTime expirationDate;
+
+    @Override
+    public DateTime getExpirationDate(){
+        return expirationDate;
+    }
 
     /*@ForeignCollectionField(eager = true)
     ForeignCollection<OrmMeasurement> ormMeasurements = new EmptyForeignCollection<>();*/
@@ -183,11 +186,9 @@ public class OrmMoment implements Moment, Serializable {
     public void setSynced(boolean synced) {
         this.synced = synced;
     }
-    public void setExpirationDate(DateTime expirationDate){
+
+    public void setExpirationDate(DateTime expirationDate) {
         this.expirationDate = expirationDate;
     }
 
-    public DateTime getExpirationDate(){
-        return expirationDate;
-    }
 }

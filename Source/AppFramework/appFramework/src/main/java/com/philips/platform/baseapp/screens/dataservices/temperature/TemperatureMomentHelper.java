@@ -1,11 +1,14 @@
 package com.philips.platform.baseapp.screens.dataservices.temperature;
 
 import com.philips.platform.baseapp.screens.dataservices.database.datatypes.MomentDetailType;
+import com.philips.platform.baseapp.screens.dataservices.database.table.OrmMoment;
 import com.philips.platform.core.datatypes.Measurement;
 import com.philips.platform.core.datatypes.MeasurementDetail;
 import com.philips.platform.core.datatypes.MeasurementGroup;
 import com.philips.platform.core.datatypes.Moment;
 import com.philips.platform.core.datatypes.MomentDetail;
+
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -50,6 +53,16 @@ public class TemperatureMomentHelper {
             return "default";
         }catch (Exception e){
             return "default";
+        }
+    }
+
+
+    String getExpirationDate(Moment moment) {
+        DateTime expirationDate = ((OrmMoment)moment).getExpirationDate();
+        if(expirationDate != null){
+            return expirationDate.toString();
+        }else{
+            return "never expires";
         }
     }
 
