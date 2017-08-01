@@ -1,66 +1,63 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:layout_marginBottom="@dimen/pth_margin_bottom">
 
-    <RelativeLayout
-        android:id="@+id/conditions_container"
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/wizard_button"
+        style="@style/ths_mobile_wizard"
+        android:text="@string/conditions" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/conditions_skip"
+        style="@style/ths_skip_text" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/continue_btn"
+        style="@style/UIDImageTextButton.Center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="wrap_content"
+        android:layout_above="@id/conditions_skip"
+        android:layout_marginBottom="@dimen/pth_margin_between_buttons"
+        android:layout_marginLeft="@dimen/pth_fab_margin"
+        android:layout_marginRight="@dimen/pth_fab_margin"
+        android:enabled="false"
+        android:text="Continue" />
 
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/wizard_button"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/continue_btn"
+        android:layout_below="@id/wizard_button"
+        android:layout_marginBottom="24dp">
+
+        <RelativeLayout
+            android:id="@+id/conditions_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:text="@string/conditions" />
+            android:layout_height="match_parent">
 
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/help_visit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/wizard_button"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/ths_medical_conditions"
-            android:textColor="?attr/uidLabelRegularNormalTextColor"
-            style="@style/UIDLabelDescription"
-            android:textSize="16dp"
-            />
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/help_visit"
+                style="@style/ths_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
+                android:layout_marginTop="@dimen/pth_fab_margin"
+                android:textSize="@dimen/pth_body_text"
+                android:text="@string/ths_medical_conditions" />
 
+            <LinearLayout
+                android:id="@+id/checkbox_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/help_visit"
+                android:layout_marginLeft="@dimen/pth_fab_margin"
+                android:layout_marginRight="@dimen/pth_fab_margin"
+                android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/checkbox_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/help_visit"
-            android:orientation="vertical">
+            </LinearLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
 
-        <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/continue_btn"
-            style="@style/UIDImageTextButton.Center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/checkbox_container"
-            android:enabled="false"
-            android:layout_marginBottom="@dimen/pth_margin_between_buttons"
-            android:text="Continue" />
-
-        <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/conditions_skip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/continue_btn"
-            android:text="@string/vitals_skip"
-            android:layout_marginBottom="@dimen/pth_margin_bottom"
-            android:textColor="?attr/uidLabelRegularNormalTextColor"
-            style="@style/UIDLabelDescription"
-            android:layout_centerHorizontal="true"
-            />
-
-    </RelativeLayout>
-</ScrollView>
+</RelativeLayout>
