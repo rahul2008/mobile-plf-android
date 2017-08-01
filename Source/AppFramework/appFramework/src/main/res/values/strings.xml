@@ -252,6 +252,8 @@ Receive free product accessories</string>
     <string name="global_privacy_link" translatable="false">Privacy notice</string>
     <string name="description_close" translatable="false">Close</string>
 
+
+    <string name="RA_DLS_splash_title" translatable="false">&lt;b>CDP&lt;/b>&lt;sup>&lt;small>2&lt;/small>&lt;/sup> Reference App\t</string>
     <!-- Onboarding screens -->
     <string name="RA_DLS_onboarding_screen1_title">What is Reference App?</string>
     <string name="RA_DLS_onboarding_screen1_sub_text">This app integrates the common components required to develop new IoT solutions for acceleration across Philips. It is the first reference for the development of all new patient medical or consumer mobile apps.</string>

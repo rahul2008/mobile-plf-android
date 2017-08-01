@@ -12,6 +12,7 @@ import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.text.Html;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,7 @@ public class SplashFragment extends AbstractOnboardingBaseFragment implements Ba
         View view = inflater.inflate(R.layout.uikit_splash_screen_logo_center_tb, container, false);
         logo = (ImageView) view.findViewById(R.id.splash_logo);
         logo.setImageDrawable(VectorDrawableCompat.create(getResources(), R.drawable.uikit_philips_logo, getActivity().getTheme()));
-        String splashScreenTitle = getResources().getString(R.string.RA_SplashScreen_Title);
+        String splashScreenTitle = getResources().getString(R.string.RA_DLS_splash_title);
         CharSequence titleText;
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
@@ -63,7 +64,16 @@ public class SplashFragment extends AbstractOnboardingBaseFragment implements Ba
         }
 
         title = (TextView) view.findViewById(R.id.splash_title);
+        title.setGravity(Gravity.CENTER);
         title.setText(titleText);
+
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.BELOW, logo.getId());
+        params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        final int inPixels= (int) getResources().getDimension(R.dimen.pop_up_image_margin_top);
+        params.setMargins(0, inPixels, 0, 0);
+        title.setLayoutParams(params);
+
         return view;
     }
 
