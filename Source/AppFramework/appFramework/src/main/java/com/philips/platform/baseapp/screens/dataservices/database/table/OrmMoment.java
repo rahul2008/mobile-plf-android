@@ -55,6 +55,10 @@ public class OrmMoment implements Moment, Serializable {
     @DatabaseField
     private boolean synced;
 
+
+    @DatabaseField(canBeNull = true)
+    private DateTime expirationDate;
+
     /*@ForeignCollectionField(eager = true)
     ForeignCollection<OrmMeasurement> ormMeasurements = new EmptyForeignCollection<>();*/
 
@@ -71,10 +75,11 @@ public class OrmMoment implements Moment, Serializable {
     OrmMoment() {
     }
 
-    public OrmMoment(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull final OrmMomentType type) {
+    public OrmMoment(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull final OrmMomentType type, DateTime expirationDate) {
         this.creatorId = creatorId;
         this.subjectId = subjectId;
         this.type = type;
+        this.expirationDate = expirationDate;
         this.id = -1;
     }
 
@@ -177,5 +182,12 @@ public class OrmMoment implements Moment, Serializable {
 
     public void setSynced(boolean synced) {
         this.synced = synced;
+    }
+    public void setExpirationDate(DateTime expirationDate){
+        this.expirationDate = expirationDate;
+    }
+
+    public DateTime getExpirationDate(){
+        return expirationDate;
     }
 }
