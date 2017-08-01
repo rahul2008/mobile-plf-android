@@ -19,6 +19,7 @@ import com.squareup.okhttp.OkHttpClient;
 
 import org.joda.time.DateTime;
 
+import java.lang.reflect.Field;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -74,7 +75,7 @@ public class UCoreAdapter {
         if (clientClass == InsightClient.class)
             url = DataServicesManager.getInstance().fetchCoachingServiceUrlFromServiceDiscovery();
         else
-            url = DataServicesManager.getInstance().fetchBaseUrlFromServiceDiscovery();
+            url = "http://localhost:8080";//DataServicesManager.getInstance().fetchBaseUrlFromServiceDiscovery();
 
         if (url == null || url.isEmpty()) {
             return null;
@@ -109,6 +110,12 @@ public class UCoreAdapter {
                 request.addHeader("Authorization", "bearer " + accessToken);
                 request.addHeader(API_VERSION_CUSTOM_HEADER, String.valueOf(API_VERSION));
                 request.addHeader(APP_AGENT_HEADER, getAppAgentHeader());
+
+                Field[] fields = request.getClass().getDeclaredFields();
+                System.out.println("Declared fields ");
+                for(Field field : fields) {
+                    System.out.println(field.getName());
+                }
             }
         };
     }
