@@ -1,4 +1,4 @@
-package com.philips.platform.testmicroappfw.stateimpl;
+package com.philips.platform.appframework.testmicroappfw.stateimpl;
 
 import android.support.v4.app.FragmentManager;
 

@@ -1,4 +1,4 @@
-package com.philips.platform.testmicroappfw.ui;
+package com.philips.platform.appframework.testmicroappfw.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,9 +16,6 @@ import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
-import com.philips.platform.appframework.testmicroappfw.ui.COCOListFragment;
-import com.philips.platform.appframework.testmicroappfw.ui.COCOListPresenter;
-import com.philips.platform.appframework.testmicroappfw.ui.CoCoAdapter;
 
 import junit.framework.TestCase;
 
