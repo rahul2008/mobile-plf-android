@@ -4,10 +4,7 @@
         android:width="19dp"
         android:height="24dp"
         android:viewportHeight="42.5"
-        android:viewportWidth="32.7"
-
-        app:uikit_vc_viewportHeight="42.5"
-        app:uikit_vc_viewportWidth="32.7">
+        android:viewportWidth="32.7">
 
     <path
         android:fillColor="?attr/uikit_baseColor"
