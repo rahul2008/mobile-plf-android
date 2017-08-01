@@ -6,20 +6,19 @@
     android:layout_marginRight="20dp"
     android:layout_marginTop="54dp">
 
-    <TextView
+    <com.philips.platform.uid.view.widget.Label
+        style="@style/UIDLabel"
         android:id="@+id/empty_cart"
-        style="@style/iapCentralesansBookFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:text="@string/iap_empty_cart"
-        android:textColor="?attr/uikit_baseColor"
         android:textSize="20sp" />
 
-    <Button
+    <com.philips.platform.uid.view.widget.Button
+        style="@style/UIDExtraWideButton.Center"
         android:id="@+id/btn_continue_shopping"
-        style="?attr/uikit_outlinedButtonStyle"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
         android:layout_below="@id/empty_cart"
@@ -30,5 +29,4 @@
         android:layout_marginTop="34dp"
         android:enabled="true"
         android:text="@string/iap_continue_shopping" />
-
 </RelativeLayout>
