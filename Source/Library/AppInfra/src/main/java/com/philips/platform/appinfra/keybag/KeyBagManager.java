@@ -52,10 +52,10 @@ public class KeyBagManager implements KeyBagInterface {
 
     private void addToHashMapArray(JSONArray jsonArray, ArrayList<HashMap> hashMapData, String serviceId) {
         try {
-            for (int i = 0; i < jsonArray.length(); i++) {
-                Object value = jsonArray.get(i);
+            for (int index = 0; index < jsonArray.length(); index++) {
+                Object value = jsonArray.get(index);
                 if (value instanceof JSONObject) {
-                    addToHashMapData((JSONObject) value, hashMapData, i, serviceId);
+                    addToHashMapData((JSONObject) value, hashMapData, index, serviceId);
                 }
             }
         } catch (JSONException e) {

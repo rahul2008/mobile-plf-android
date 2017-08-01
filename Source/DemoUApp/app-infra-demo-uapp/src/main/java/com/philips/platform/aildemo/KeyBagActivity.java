@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.demo.R;
@@ -21,15 +23,21 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class KeyBagActivity extends AppCompatActivity {
 
 	private String TAG =getClass().getSimpleName();
 
+	private EditText serviceIdEditText;
+	private TextView responseTextView;
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_keybag);
+		serviceIdEditText = (EditText) findViewById(R.id.service_id_edt);
+		responseTextView = (TextView) findViewById(R.id.response_view);
 
 		try {
 			initServiceDiscovery();
@@ -51,7 +59,7 @@ public class KeyBagActivity extends AppCompatActivity {
 			@Override
 			public void onSuccess() {
 
-				sdmCSV.getServiceUrlWithCountryPreference("appinfra.localtesting.kindex", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+				sdmCSV.getServiceUrlWithCountryPreference(serviceIdEditText.getText().toString(), new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
 
 					@Override
@@ -59,6 +67,7 @@ public class KeyBagActivity extends AppCompatActivity {
 						System.out.println("************ SUCCESS URL : "+url);
 						Log.d(TAG, "Response from Service Discovery : Service ID : 'appinfra.localtesting.kindex' - " + url);
 						ArrayList<HashMap> mapForServiceId = keyBagInterface.getMapForServiceId("appinfra.localtesting", url);
+						updateView(mapForServiceId);
 						Log.d(TAG, "Response from Service Discovery : Service ID : 'appinfra.localtesting.kindex' - " + url);
 
 					}
@@ -76,5 +85,23 @@ public class KeyBagActivity extends AppCompatActivity {
 				Log.d(TAG, "Error Response from Service Discovery CSV :" + s);
 			}
 		});
+	}
+
+	private void updateView(ArrayList<HashMap> mapForServiceId) {
+		StringBuilder stringBuilder = new StringBuilder();
+		for (HashMap hashMap : mapForServiceId) {
+			Iterator it = hashMap.entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry pair = (Map.Entry) it.next();
+				String key = (String) pair.getKey();
+				String value = (String) pair.getValue();
+				stringBuilder.append(key);
+				stringBuilder.append(":");
+				stringBuilder.append(value);
+				stringBuilder.append("  ");
+			}
+			stringBuilder.append("\n");
+		}
+		responseTextView.setText(stringBuilder.toString());
 	}
 }
