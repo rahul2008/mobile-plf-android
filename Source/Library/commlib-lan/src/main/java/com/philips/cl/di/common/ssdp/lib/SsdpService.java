@@ -31,6 +31,7 @@ import java.util.Set;
  * @author 310151556
  * @version $Revision: 1.0 $
  */
+@Deprecated
 public class SsdpService extends HandlerThread {
 
     private static class MessageHandler extends Handler {

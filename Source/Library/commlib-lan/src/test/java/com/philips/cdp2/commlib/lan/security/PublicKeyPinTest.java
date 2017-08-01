@@ -22,7 +22,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * The test for verifing the PublicKeyPin.
+ * The test for verifying the PublicKeyPin.
  * This is copied from TrustKit (https://github.com/datatheorem/TrustKit-Android/blob/master/trustkit/src/androidTest/java/com/datatheorem/android/trustkit/config/PublicKeyPinTest.java @ bf638e2)
  */
 public class PublicKeyPinTest extends RobolectricTest {

@@ -61,8 +61,8 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
     @Override
     public void start(@NonNull Set<String> deviceTypes, @NonNull Set<String> modelIds) throws MissingPermissionException, TransportUnavailableException {
-            ssdpServiceHelper.startDiscoveryAsync();
-            DICommLog.d(DICommLog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");
+        ssdpServiceHelper.startDiscoveryAsync();
+        DICommLog.d(DICommLog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");
     }
 
     @Override
@@ -106,7 +106,7 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         final String ipAddress = deviceModel.getIpAddress();
         final String name = ssdpDevice.getFriendlyName();
         final String deviceType = ssdpDevice.getModelName();
-        final String networkSsid = ""; // FIXME TODO NEEDED????????
+        final String networkSsid = ""; // FIXME TODO Still needed?
         Long bootId = -1L;
         final String modelNumber = ssdpDevice.getModelNumber();
 

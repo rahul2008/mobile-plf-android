@@ -16,6 +16,7 @@ import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import java.util.ArrayList;
 import java.util.Set;
 
+@Deprecated
 public class SsdpServiceHelper implements StartStopInterface {
 
 	private SsdpService mSsdpService = null;

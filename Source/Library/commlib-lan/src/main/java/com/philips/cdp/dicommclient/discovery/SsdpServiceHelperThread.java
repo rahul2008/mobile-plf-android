@@ -11,6 +11,7 @@ import android.os.Message;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
 
+@Deprecated
 public class SsdpServiceHelperThread extends HandlerThread {
 
 	private Object mStartLock;
