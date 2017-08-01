@@ -9,31 +9,19 @@ package com.philips.platform.appinfra.keybag;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.philips.platform.appinfra.AppInfraLogEventID;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 class KeyBagHelper {
 
     private final KeyBagLib keyBagLib;
-    private Map<String, Object> keyBagProperties;
     private JSONObject rootJsonObject;
+
     KeyBagHelper() {
         keyBagLib = new KeyBagLib();
     }
@@ -78,79 +66,14 @@ class KeyBagHelper {
         return new String(data);
     }
 
-    private Map<String, Object> jsonToMap(JSONObject json) throws JSONException {
-        Map<String, Object> retMap = new HashMap<>();
-        if(json != JSONObject.NULL) {
-            retMap = toMap(json);
-        }
-        return retMap;
-    }
-
-    private Map<String, Object> toMap(JSONObject object) throws JSONException {
-        Map<String, Object> map = new HashMap<>();
-        Iterator<String> keysItr = object.keys();
-        while(keysItr.hasNext()) {
-            String key = keysItr.next();
-            Object value = object.get(key);
-            if(value instanceof JSONArray) {
-                value = toList((JSONArray) value);
-            }
-            else if(value instanceof JSONObject) {
-                value = toMap((JSONObject) value);
-            }
-            map.put(key, value);
-        }
-        return map;
-    }
-
-    private List<Object> toList(JSONArray array) throws JSONException {
-        List<Object> list = new ArrayList<>();
-        for(int i = 0; i < array.length(); i++) {
-            Object value = array.get(i);
-            if(value instanceof JSONArray) {
-                value = toList((JSONArray) value);
-            }
-
-            else if(value instanceof JSONObject) {
-                value = toMap((JSONObject) value);
-            }
-            list.add(value);
-        }
-        return list;
-    }
-
-    private String data = "https://www.philips.com/";
-
     String getIndex(String indexData) {
+        String data = "https://www.philips.com/";
         if (!TextUtils.isEmpty(indexData)) {
             String[] split = indexData.split(data);
             if (split.length > 1 && split[1] != null)
                 return split[1];
         }
         return null;
-    }
-
-
-    void iterateArray(ArrayList arrayList, String groupId) {
-        for (int index = 0; index < arrayList.size(); index++) {
-            iterateJson(arrayList.get(index).toString(), groupId, index);
-        }
-    }
-
-    private void iterateJson(String jsonData, String groupId, int index) {
-        try {
-            JSONObject jsonObject = new JSONObject(jsonData);
-            Iterator<String> keys = jsonObject.keys();
-            while (keys.hasNext()) {
-                String key = keys.next();
-                String value = (String) jsonObject.get(key);
-                String seed = getSeed(groupId, key, index);
-                String deObfuscatedData = obfuscate(convertHexDataToString(value), Integer.parseInt(seed, 16));
-                Log.d("Testing deObfuscation -", "for key-" + key + "=" + deObfuscatedData);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     String obfuscate(String data, int seed) {
@@ -161,8 +84,20 @@ class KeyBagHelper {
         return null;
     }
 
-    private Map<String, Object> initKeyBagProperties(Context mContext) throws FileNotFoundException {
-        JSONObject jsonObject;
+    Object getPropertiesForKey(String serviceId) {
+        try {
+            return rootJsonObject.get(serviceId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void init(Context mContext) throws FileNotFoundException {
+        initKeyBagProperties(mContext);
+    }
+
+    private void initKeyBagProperties(Context mContext) throws FileNotFoundException {
         Log.d(AppInfraLogEventID.AI_KEY_BAG, "Reading keybag Config from app");
         StringBuilder total;
         try {
@@ -174,26 +109,11 @@ class KeyBagHelper {
                 total.append(line).append('\n');
             }
             rootJsonObject = new JSONObject(total.toString());
-            keyBagProperties = jsonToMap(rootJsonObject);
         } catch (JSONException | IOException e) {
             if (e instanceof IOException)
                 throw new FileNotFoundException();
             else
                 e.printStackTrace();
         }
-        return keyBagProperties;
-    }
-
-    void init(Context mContext) throws FileNotFoundException {
-        initKeyBagProperties(mContext);
-    }
-
-    Object getPropertiesForKey(String serviceId) {
-        try {
-            return rootJsonObject.get(serviceId);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

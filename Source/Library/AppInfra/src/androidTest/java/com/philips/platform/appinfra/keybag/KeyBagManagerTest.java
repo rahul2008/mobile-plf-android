@@ -1,6 +1,9 @@
 package com.philips.platform.appinfra.keybag;
 
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
+
+import static org.mockito.Mockito.mock;
 
 public class KeyBagManagerTest extends AppInfraInstrumentation {
 
@@ -27,8 +30,9 @@ public class KeyBagManagerTest extends AppInfraInstrumentation {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        keyBagInterface = new KeyBagManager();
-        keyBagInterface.init(rawData);
+        AppInfra appInfraMock = mock(AppInfra.class);
+        keyBagInterface = new KeyBagManager(appInfraMock);
+        keyBagInterface.init();
     }
 
     public void testObfuscate() {
