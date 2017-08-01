@@ -45,7 +45,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
     void startVisit() {
         try {
-            if(null!=THSManager.getInstance().getTHSVisit().getVisit().getAssignedProvider()) {
+            if(null!=THSManager.getInstance().getTHSVisit().getVisit() && null!=THSManager.getInstance().getTHSVisit().getVisit().getAssignedProvider()) {
                 mTHSWaitingRoomFragment.mProviderNameLabel.setText(THSManager.getInstance().getTHSVisit().getVisit().getAssignedProvider().getFullName());
                 mTHSWaitingRoomFragment.mProviderPracticeLabel.setText(THSManager.getInstance().getTHSVisit().getVisit().getAssignedProvider().getPracticeInfo().getName());
             }
