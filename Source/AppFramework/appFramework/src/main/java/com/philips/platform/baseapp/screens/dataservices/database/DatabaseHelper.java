@@ -254,7 +254,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.createTable(connectionSource, OrmConsentDetail.class);
         TableUtils.createTable(connectionSource, OrmMeasurementGroup.class);
         TableUtils.createTable(connectionSource, OrmMeasurementGroupDetail.class);
-        tableutils.createtable(connectionsource, ormmeasurementgroupdetailtype.class);
+        TableUtils.createTable(connectionSource, OrmMeasurementGroupDetailType.class);
         TableUtils.createTable(connectionSource, OrmCharacteristics.class);
         TableUtils.createTable(connectionSource, OrmSettings.class);
         TableUtils.createTable(connectionSource, OrmDCSync.class);
