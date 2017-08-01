@@ -5,9 +5,6 @@
 
 package com.philips.cdp.dicommclient.discovery;
 
-import java.util.ArrayList;
-import java.util.Set;
-
 import android.os.Handler.Callback;
 import android.os.HandlerThread;
 
@@ -15,6 +12,9 @@ import com.philips.cdp.dicommclient.discovery.SsdpServiceHelperThread.StartStopI
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
+
+import java.util.ArrayList;
+import java.util.Set;
 
 public class SsdpServiceHelper implements StartStopInterface {
 
@@ -110,7 +110,7 @@ public class SsdpServiceHelper implements StartStopInterface {
 	public void startDiscoveryFromHandler() {
 		long startTime = System.currentTimeMillis();
 		mSsdpService.startDeviceDiscovery(mSsdpCallback);
-		DiscoveryManager.getInstance().syncLocalAppliancesWithSsdpStackDelayed();
+		// DiscoveryManager.getInstance().syncLocalAppliancesWithSsdpStackDelayed();
 		DICommLog.i(DICommLog.SSDPHELPER,
 				"Starting SsdpService took - "
 						+ (System.currentTimeMillis() - startTime) + "ms");
@@ -120,7 +120,7 @@ public class SsdpServiceHelper implements StartStopInterface {
 	public void stopDiscoveryFromHandler() {
 		long startTime = System.currentTimeMillis();
 		mSsdpService.stopDeviceDiscovery();
-		DiscoveryManager.getInstance().cancelSyncLocalAppliancesWithSsdpStack();
+		// DiscoveryManager.getInstance().cancelSyncLocalAppliancesWithSsdpStack();
 		DICommLog.i(DICommLog.SSDPHELPER,
 				"Stopping SsdpService took - "
 						+ (System.currentTimeMillis() - startTime) + "ms");

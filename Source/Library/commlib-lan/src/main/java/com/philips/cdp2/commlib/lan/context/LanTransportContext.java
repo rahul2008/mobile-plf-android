@@ -5,8 +5,14 @@
 
 package com.philips.cdp2.commlib.lan.context;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
@@ -14,25 +20,42 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
-import com.philips.cdp2.commlib.lan.NetworkMonitor;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
-import com.philips.cdp2.commlib.lan.discovery.LanDiscoveryStrategy;
 
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
+
+import static android.net.ConnectivityManager.TYPE_WIFI;
 
 public class LanTransportContext implements TransportContext {
     private static final String TAG = "LanTransportContext";
 
     @NonNull
     private final DiscoveryStrategy discoveryStrategy;
+    private final BroadcastReceiver networkChangedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+
+            isAvailable = networkInfo.getType() == TYPE_WIFI && networkInfo.isConnected();
+        }
+    };
+    private boolean isAvailable;
 
     public LanTransportContext(@NonNull final Context context) {
-        final ScheduledThreadPoolExecutor executor = createThreadPoolExecutor();
-        final NetworkMonitor networkMonitor = new NetworkMonitor(context, executor);
-        this.discoveryStrategy = new LanDiscoveryStrategy(networkMonitor);
+        IntentFilter filter = createIntentFilter();
+        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        context.registerReceiver(networkChangedReceiver, filter);
+
+        this.discoveryStrategy = null;///new LanDiscoveryStrategy(); TODO FIXME
+    }
+
+    @VisibleForTesting
+    @NonNull
+    IntentFilter createIntentFilter() {
+        return new IntentFilter();
     }
 
     @Override
@@ -45,10 +68,6 @@ public class LanTransportContext implements TransportContext {
     @NonNull
     public LanCommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {
         return new LanCommunicationStrategy(networkNode);
-    }
-
-    private ScheduledThreadPoolExecutor createThreadPoolExecutor() {
-        return new ScheduledThreadPoolExecutor(2);
     }
 
     /**
@@ -104,5 +123,9 @@ public class LanTransportContext implements TransportContext {
             }
         }
         return appliancesWithMismatchedPin;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
     }
 }

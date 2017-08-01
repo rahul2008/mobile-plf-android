@@ -14,6 +14,7 @@ import android.net.NetworkInfo;
 import android.net.NetworkRequest;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -37,6 +38,7 @@ public final class WifiNetworkProvider {
         this.connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
+    @Nullable
     public final Network getNetwork() {
         final AtomicReference<Network> result = new AtomicReference<>(null);
         final CountDownLatch latch = new CountDownLatch(1);

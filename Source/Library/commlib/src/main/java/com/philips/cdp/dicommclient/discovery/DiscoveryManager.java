@@ -24,7 +24,6 @@ import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.InternalMessage;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
-import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -627,57 +626,10 @@ public class DiscoveryManager<T extends Appliance> {
     }
     // ********** END ASYNC METHODS ************
 
+    @Deprecated
     private NetworkNode createNetworkNode(DeviceModel deviceModel) {
-        SSDPdevice ssdpDevice = deviceModel.getSsdpDevice();
-        if (ssdpDevice == null) return null;
-
-        DICommLog.i(DICommLog.DISCOVERY, "Appliance discovered - name: " + ssdpDevice.getFriendlyName());
-        String cppId = ssdpDevice.getCppId();
-        String ipAddress = deviceModel.getIpAddress();
-        String name = ssdpDevice.getFriendlyName();
-        String deviceType = ssdpDevice.getModelName();
-        String networkSsid = mNetwork.getLastKnownNetworkSsid();
-        Long bootId = -1l;
-        String modelNumber = ssdpDevice.getModelNumber();
-        try {
-            bootId = Long.parseLong(deviceModel.getBootID());
-        } catch (NumberFormatException e) {
-            // NOP
-        }
-
-        NetworkNode networkNode = new NetworkNode();
-        networkNode.setBootId(bootId);
-        networkNode.setCppId(cppId);
-        networkNode.setIpAddress(ipAddress);
-        networkNode.setName(name);
-        networkNode.setModelId(modelNumber);
-        networkNode.setDeviceType(deviceType);
-        networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
-        networkNode.setHomeSsid(networkSsid);
-
-        if (!isValidNetworkNode(networkNode)) return null;
-
-        return networkNode;
-    }
-
-    private boolean isValidNetworkNode(NetworkNode networkNode) {
-        if (networkNode.getCppId() == null || networkNode.getCppId().isEmpty()) {
-            DICommLog.d(DICommLog.DISCOVERY, "Not a valid networkNode - cppId is null");
-            return false;
-        }
-        if (networkNode.getIpAddress() == null || networkNode.getIpAddress().isEmpty()) {
-            DICommLog.d(DICommLog.DISCOVERY, "Not a valid networkNode - ipAddress is null");
-            return false;
-        }
-        if (networkNode.getName() == null || networkNode.getName().isEmpty()) {
-            DICommLog.d(DICommLog.DISCOVERY, "Not a valid networkNode - name is null");
-            return false;
-        }
-        if (networkNode.getDeviceType() == null || networkNode.getDeviceType().isEmpty()) {
-            DICommLog.d(DICommLog.DISCOVERY, "Not a valid networkNode - devicetype is null");
-            return false;
-        }
-        return true;
+        //GONE
+        return null;
     }
 
     private DeviceModel getDeviceModelFromMessage(Message msg) {
