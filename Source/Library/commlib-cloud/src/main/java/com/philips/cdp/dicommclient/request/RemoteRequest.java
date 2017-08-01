@@ -51,7 +51,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
     }
 
     private String createDataToSend(String portName, int productId, Map<String, Object> dataMap) {
-        String data = GsonProvider.get().toJson(dataMap);
+        String data = GsonProvider.get().toJson(dataMap, Map.class);
         String dataToSend = String.format(Locale.US, BASEDATA_PORTS, productId, portName, data);
 
         DICommLog.i(DICommLog.REMOTEREQUEST, "Data to send: " + dataToSend);

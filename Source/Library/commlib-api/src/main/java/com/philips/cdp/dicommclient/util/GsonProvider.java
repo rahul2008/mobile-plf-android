@@ -10,7 +10,7 @@ import com.google.gson.GsonBuilder;
 public final class GsonProvider {
     private final static Gson INSTANCE = new GsonBuilder().serializeNulls().disableHtmlEscaping().create();
 
-    public static final Gson get() {
+    public static Gson get() {
         return INSTANCE;
     }
 

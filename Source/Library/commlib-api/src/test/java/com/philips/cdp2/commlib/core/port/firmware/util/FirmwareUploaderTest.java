@@ -133,6 +133,6 @@ public class FirmwareUploaderTest {
         if (progress == firmwaredata.length) {
             putReplyMap.put(STATE.toString(), CHECKING.toString());
         }
-        return GsonProvider.get().toJson(putReplyMap);
+        return GsonProvider.get().toJson(putReplyMap, Map.class);
     }
 }
