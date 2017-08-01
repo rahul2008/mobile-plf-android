@@ -36,7 +36,7 @@ public interface BaseAppDataCreator {
      * @return returns a moment object created.
      */
     @NonNull
-    Moment createMoment(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull final String type);
+    Moment createMoment(@NonNull final String creatorId, @NonNull final String subjectId, @NonNull final String type, final DateTime expirationDate);
 
 
     /**

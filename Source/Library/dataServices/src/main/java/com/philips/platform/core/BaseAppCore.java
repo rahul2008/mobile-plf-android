@@ -23,13 +23,9 @@ import com.philips.platform.core.datatypes.SynchronisationData;
 import com.philips.platform.core.monitors.DBMonitors;
 import com.philips.platform.core.monitors.ErrorMonitor;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.Backend;
-import com.philips.platform.datasync.insights.UCoreInsight;
 
 import org.joda.time.DateTime;
-
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -71,8 +67,8 @@ public class BaseAppCore implements BaseAppDataCreator {
     }
 
     @NonNull
-    public Moment createMoment(final String creatorId, final String subjectId, String type) {
-        return database.createMoment(creatorId, subjectId, type);
+    public Moment createMoment(final String creatorId, final String subjectId, String type, DateTime expirationDate) {
+        return database.createMoment(creatorId, subjectId, type, expirationDate);
     }
 
 

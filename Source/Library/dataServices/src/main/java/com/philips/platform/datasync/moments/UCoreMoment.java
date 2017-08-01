@@ -24,6 +24,10 @@ public class UCoreMoment {
     private String timestamp;
 
     @Expose
+    private String expirationDate;
+
+
+    @Expose
     private String type;
 
     private String guid;
@@ -109,6 +113,14 @@ public class UCoreMoment {
 
     public void setVersion(final int version) {
         this.version = version;
+    }
+
+    public String getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(String expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
     /*@Nullable

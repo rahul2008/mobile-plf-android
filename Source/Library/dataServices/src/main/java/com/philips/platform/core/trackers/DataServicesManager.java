@@ -397,7 +397,7 @@ public class DataServicesManager {
      */
     @NonNull
     public Moment createMoment(@NonNull final String type) {
-        return mDataCreater.createMoment(mBackendIdProvider.getUserId(), mBackendIdProvider.getSubjectId(), type);
+        return mDataCreater.createMoment(mBackendIdProvider.getUserId(), mBackendIdProvider.getSubjectId(), type, null);
     }
 
     /**

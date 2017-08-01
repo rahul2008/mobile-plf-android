@@ -33,7 +33,7 @@ import retrofit.converter.GsonConverter;
 public class UCoreAdapter {
 
     public static final RestAdapter.LogLevel LOG_LEVEL = RestAdapter.LogLevel.FULL;
-    public static final int API_VERSION = 9;
+    public static final int API_VERSION = 15;
     public static final String API_VERSION_CUSTOM_HEADER = "api-version";
     public static final String APP_AGENT_HEADER = "appAgent";
     public static final String APP_AGENT_HEADER_VALUE = "%s android %s, %s";

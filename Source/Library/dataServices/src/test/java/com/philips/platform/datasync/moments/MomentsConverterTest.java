@@ -35,6 +35,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -113,7 +115,7 @@ public class MomentsConverterTest {
     }
 
     private void initializeMoment() {
-        moment = ormCreatorTest.createMoment(TEST_CREATOR_ID, TEST_SUBJECT_ID, MomentType.TEMPERATURE);
+        moment = ormCreatorTest.createMoment(TEST_CREATOR_ID, TEST_SUBJECT_ID, MomentType.TEMPERATURE, null);
         moment.setDateTime(TEST_TIMESTAMP);
 
         MomentDetail momentDetail = ormCreatorTest.createMomentDetail(MomentDetailType.PHASE,moment);
@@ -443,7 +445,7 @@ public class MomentsConverterTest {
 
         momentsConverter.baseAppDataCreater = dataCreator;
 
-        when(dataCreator.createMoment(anyString(),anyString(),anyString())).thenReturn(null);
+        when(dataCreator.createMoment(anyString(),anyString(),anyString(), null)).thenReturn(null);
 
         List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
         //TODO: Verify nothing after this executed ??

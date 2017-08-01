@@ -54,10 +54,10 @@ public class OrmCreatorTest implements BaseAppDataCreator{
 
     @NonNull
     @Override
-    public Moment createMoment(@NonNull String creatorId, @NonNull String subjectId, @NonNull String type) {
+    public Moment createMoment(@NonNull String creatorId, @NonNull String subjectId, @NonNull String type, DateTime expirationDate) {
         final OrmMomentType ormMomentType = new OrmMomentType(MomentType.getIDFromDescription(type), type);
 
-        return new OrmMoment(creatorId, subjectId, ormMomentType);
+        return new OrmMoment(creatorId, subjectId, ormMomentType, expirationDate);
     }
 
     @NonNull

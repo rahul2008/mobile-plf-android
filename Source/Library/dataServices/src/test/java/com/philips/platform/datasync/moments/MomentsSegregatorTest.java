@@ -77,7 +77,7 @@ public class MomentsSegregatorTest {
     @Test
     public void should_processMoment_when_processMomentsReceivedFromBackend_called() throws SQLException {
         int count = 1;
-        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
+        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE), null);
         momentsSegregator.processMoment(count,moment1,dbRequestListener);
         assertEquals(count, 1);
     }
@@ -89,7 +89,7 @@ public class MomentsSegregatorTest {
 
         when(dbFetchingInterface.fetchMomentByGuid("1234")).thenReturn(ormMomentMock);
 
-        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
+        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE), null);
         SynchronisationData synchronisationData = new OrmSynchronisationData("1234",true,new DateTime().minus(1),1);
         synchronisationData.setInactive(true);
         moment1.setSynchronisationData(synchronisationData);
@@ -100,7 +100,7 @@ public class MomentsSegregatorTest {
     @Test
     public void should_processMoment_when_processMomentsReceivedFromBackend_Moment_deleted_locally() throws SQLException {
         int count = 1;
-        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
+        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE), null);
         SynchronisationData synchronisationData = new OrmSynchronisationData("1234",false,new DateTime().minus(1),1);
         synchronisationData.setVersion(2);
         moment1.setSynchronisationData(synchronisationData);
@@ -115,7 +115,7 @@ public class MomentsSegregatorTest {
 
      @Test
     public void should_processMoment_when_processMomentsReceivedFromBackend_called_withSynData() throws SQLException {
-        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
+        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE), null);
         SynchronisationData synchronisationData = new OrmSynchronisationData("abc",false,new DateTime(),1);
         moment1.setSynchronisationData(synchronisationData);
         int count = momentsSegregator.processMomentsReceivedFromBackend(Arrays.asList(moment1),dbRequestListener);
@@ -124,7 +124,7 @@ public class MomentsSegregatorTest {
 
     @Test
     public void should_processMoment_when_processMomentsReceivedFromBackend_called_whenNotActive() throws SQLException {
-        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
+        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE), null);
         SynchronisationData synchronisationData = new OrmSynchronisationData("abc",false,new DateTime(),1);
         moment1.setSynchronisationData(synchronisationData);
         int count = momentsSegregator.processMomentsReceivedFromBackend(Arrays.asList(moment1),dbRequestListener);
@@ -133,7 +133,7 @@ public class MomentsSegregatorTest {
 
     @Test
     public void should_processCreatedMoment_update_only_sync_data() throws SQLException {
-        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
+        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE), null);
         SynchronisationData synchronisationData = new OrmSynchronisationData("abc",false,new DateTime(),1);
         moment1.setSynchronisationData(synchronisationData);
         momentsSegregator.processCreatedMoment(Arrays.asList(moment1),dbRequestListener);
@@ -142,7 +142,7 @@ public class MomentsSegregatorTest {
 
     @Test
     public void should_processCreatedMoment_save_data_throws_exception() throws SQLException {
-        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
+        Moment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE), null);
         SynchronisationData synchronisationData = new OrmSynchronisationData("abc",false,new DateTime(),1);
         moment1.setSynchronisationData(synchronisationData);
 
@@ -155,7 +155,7 @@ public class MomentsSegregatorTest {
 
     @Test
     public void should_putMomentsForSync_return_data() throws SQLException {
-        OrmMoment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
+        OrmMoment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE), null);
         Map<Class, List<?>> dataToSync = new HashMap<>();
         dataToSync.put(Moment.class,Arrays.asList(moment1));
         momentsSegregator.putMomentsForSync(dataToSync);
@@ -164,7 +164,7 @@ public class MomentsSegregatorTest {
 
     @Test
     public void should_putMomentsForSync_throw_exception() throws SQLException {
-        OrmMoment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
+        OrmMoment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE), null);
         Map<Class, List<?>> dataToSync = new HashMap<>();
         dataToSync.put(Moment.class,Arrays.asList(moment1));
 
@@ -177,7 +177,7 @@ public class MomentsSegregatorTest {
 
     @Test
     public void should_deleteAndSaveMoments_called() throws SQLException {
-        OrmMoment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
+        OrmMoment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE), null);
        List listOfMoments = new ArrayList();
         listOfMoments.add(moment1);
 
@@ -190,7 +190,7 @@ public class MomentsSegregatorTest {
 
     @Test
     public void should_deleteMomentsInDatabaseIfExists_called() throws SQLException {
-        OrmMoment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE));
+        OrmMoment moment1 = new OrmMoment(null, null, new OrmMomentType(-1,MomentType.TEMPERATURE), null);
         List listOfMoments = new ArrayList();
         listOfMoments.add(moment1);
 
