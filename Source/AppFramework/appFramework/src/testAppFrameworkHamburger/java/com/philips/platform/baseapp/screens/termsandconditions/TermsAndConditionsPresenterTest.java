@@ -53,7 +53,7 @@ public class TermsAndConditionsPresenterTest {
         when(appInfraInterfaceMock.getServiceDiscovery()).thenReturn(serviceDiscoveryInterfaceMock);
         when(appFrameworkApplicationMock.getAppInfra()).thenReturn(appInfraInterfaceMock);
         when(context.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
-        termsAndConditionsPresenter.loadTermsAndConditionsUrl(WebViewActivity.PRIVACY);
+        termsAndConditionsPresenter.loadTermsAndConditionsUrl(TermsAndPrivacyStateData.TermsAndPrivacyEnum.PRIVACY_CLICKED);
         verify(serviceDiscoveryInterfaceMock).getServiceUrlWithCountryPreference(eq(PRIVACY_KEY), captor.capture());
         value= captor.getValue();
 

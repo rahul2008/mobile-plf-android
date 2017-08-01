@@ -34,11 +34,11 @@ public class TermsAndConditionsPresenter implements TermsAndConditionsContract.A
     }
 
     @Override
-    public void loadTermsAndConditionsUrl(String state) {
+    public void loadTermsAndConditionsUrl(TermsAndPrivacyStateData.TermsAndPrivacyEnum state) {
         AppInfraInterface appInfra = ((AppFrameworkApplication) context.getApplicationContext()).getAppInfra();
         ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
-        String key = null;
-        if (state!=null && state.equalsIgnoreCase(WebViewActivity.PRIVACY)) {
+        String key;
+        if (state== TermsAndPrivacyStateData.TermsAndPrivacyEnum.PRIVACY_CLICKED) {
             key = PRIVACY_KEY;
         } else {
             key = TERMS_AND_CONDITIONS_KEY;
