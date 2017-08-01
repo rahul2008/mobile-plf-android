@@ -71,9 +71,12 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         productHolder.mProductImage.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.no_icon));
         productHolder.mPrice.setText(formattedPrice);
 
-        if (productCatalogData.getStockLevel().equalsIgnoreCase("outOfStock")) {
+        String stockLevel = productCatalogData.getStockLevel();
+        if (stockLevel != null && stockLevel.equalsIgnoreCase("outOfStock")) {
             productHolder.mProductOutOfStock.setText(mContext.getString(R.string.iap_out_of_stock));
             productHolder.mProductOutOfStock.setTextColor(ContextCompat.getColor(mContext, R.color.uid_signal_red_level_60));
+        } else {
+            productHolder.mProductOutOfStock.setVisibility(View.GONE);
         }
 
         if (discountedPrice == null || discountedPrice.equalsIgnoreCase("")) {

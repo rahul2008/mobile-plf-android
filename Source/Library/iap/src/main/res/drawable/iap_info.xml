@@ -5,13 +5,9 @@
     android:height="17dp"
     android:viewportHeight="425.2"
     android:viewportWidth="115.8"
-
-    app:uikit_vc_viewportHeight="425.2"
-    app:uikit_vc_viewportWidth="115.8">
+>
     <path
-        android:fillColor="?attr/uikit_baseColor"
+        android:fillColor="?attr/uidContentItemDefaultNormalTitleTextColor"
         android:pathData="M115.8,425.2H38V171.6H0v-55.2h115.8V425.2zM114.6,36.8c0,24.9 -16,36.8 -43.4,36.8c-25.5,0 -41.6,-11.9 -41.6,-36.8C29.7,11.9 45.7,0 71.3,0C98.6,0 114.6,11.9 114.6,36.8z"
-
-        app:uikit_vc_fillColor="?attr/uikit_baseColor"
-        app:uikit_vc_pathData="M115.8,425.2H38V171.6H0v-55.2h115.8V425.2zM114.6,36.8c0,24.9 -16,36.8 -43.4,36.8c-25.5,0 -41.6,-11.9 -41.6,-36.8C29.7,11.9 45.7,0 71.3,0C98.6,0 114.6,11.9 114.6,36.8z"/>
+/>
 </vector>
