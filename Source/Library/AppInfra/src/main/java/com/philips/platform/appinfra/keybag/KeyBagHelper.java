@@ -9,13 +9,23 @@ package com.philips.platform.appinfra.keybag;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.philips.platform.appinfra.AppInfraLogEventID;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 class KeyBagHelper {
 
@@ -114,6 +124,36 @@ class KeyBagHelper {
                 throw new FileNotFoundException();
             else
                 e.printStackTrace();
+        }
+    }
+
+
+    void addToHashMapArray(JSONArray jsonArray, ArrayList<HashMap> hashMapData, String serviceId) {
+        try {
+            for (int index = 0; index < jsonArray.length(); index++) {
+                Object value = jsonArray.get(index);
+                if (value instanceof JSONObject) {
+                    addToHashMapData((JSONObject) value, hashMapData, index, serviceId);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    void addToHashMapData(JSONObject jsonObject, ArrayList<HashMap> hashMaps, int index, String serviceId) {
+        try {
+            Iterator<String> keys = jsonObject.keys();
+            HashMap<String, String> hashMap = new HashMap<>();
+            while (keys.hasNext()) {
+                String key = keys.next();
+                String value = (String) jsonObject.get(key);
+                String seed = getSeed(serviceId, key, index);
+                hashMap.put(key, obfuscate(convertHexDataToString(value), Integer.parseInt(seed, 16)));
+            }
+            hashMaps.add(hashMap);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -8,22 +8,20 @@ package com.philips.platform.appinfra.keybag;
 import com.philips.platform.appinfra.AppInfra;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class KeyBagManager implements KeyBagInterface {
 
     private KeyBagHelper keyBagHelper;
     private AppInfra mAppInfra;
 
-    public KeyBagManager(AppInfra ai) {
-        mAppInfra = ai;
+    public KeyBagManager(AppInfra appInfra) {
+        mAppInfra = appInfra;
     }
 
     @Override
@@ -43,39 +41,12 @@ public class KeyBagManager implements KeyBagInterface {
         Object propertiesForKey = keyBagHelper.getPropertiesForKey(serviceId);
 
         if (propertiesForKey instanceof JSONArray) {
-            addToHashMapArray((JSONArray) propertiesForKey, hashMaps,serviceId);
+            keyBagHelper.addToHashMapArray((JSONArray) propertiesForKey, hashMaps, serviceId);
         } else if (propertiesForKey instanceof JSONObject) {
-            addToHashMapData((JSONObject) propertiesForKey, hashMaps, 0,serviceId);
+            int index = Integer.parseInt(keyBagHelper.getIndex(url.toString()));
+            keyBagHelper.addToHashMapData((JSONObject) propertiesForKey, hashMaps, index, serviceId);
         }
         return hashMaps;
     }
 
-    private void addToHashMapArray(JSONArray jsonArray, ArrayList<HashMap> hashMapData, String serviceId) {
-        try {
-            for (int index = 0; index < jsonArray.length(); index++) {
-                Object value = jsonArray.get(index);
-                if (value instanceof JSONObject) {
-                    addToHashMapData((JSONObject) value, hashMapData, index, serviceId);
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void addToHashMapData(JSONObject jsonObject, ArrayList<HashMap> hashMaps, int index, String serviceId) {
-        try {
-            Iterator<String> keys = jsonObject.keys();
-            HashMap<String, String> hashMap = new HashMap<>();
-            while (keys.hasNext()) {
-                String key = keys.next();
-                String value = (String) jsonObject.get(key);
-                String seed = keyBagHelper.getSeed(serviceId, key, index);
-                hashMap.put(key, obfuscate(keyBagHelper.convertHexDataToString(value), Integer.parseInt(seed, 16)));
-            }
-            hashMaps.add(hashMap);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 }
