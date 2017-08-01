@@ -40,7 +40,7 @@
             android:paddingLeft="@dimen/margin_sixteen"
             android:paddingRight="5dip"
             android:gravity="center_vertical"
-            android:text="@string/RA_DLS_onboarding_skip"
+            android:text="@string/RA_Skip_Button_Text"
             android:textSize="@dimen/on_boarding_description_text_size" />
 
         <com.philips.platform.uid.view.widget.DotNavigationIndicator
@@ -73,7 +73,7 @@
             android:layout_alignTop="@+id/welcome_indicator"
             android:layout_alignBottom="@+id/welcome_indicator"
             android:gravity="center_vertical"
-            android:text="@string/RA_DLS_onboarding_done"
+            android:text="@string/RA_Done_Button_Text"
             android:visibility="gone"
             android:textSize="@dimen/on_boarding_description_text_size"/>
     </RelativeLayout>

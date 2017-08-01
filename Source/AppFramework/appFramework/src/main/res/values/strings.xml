@@ -255,34 +255,31 @@ Receive free product accessories</string>
 
     <string name="RA_DLS_splash_title" translatable="false">&lt;b>CDP&lt;/b>&lt;sup>&lt;small>2&lt;/small>&lt;/sup> Reference App\t</string>
     <!-- Onboarding screens -->
-    <string name="RA_DLS_onboarding_screen1_title">What is Reference App?</string>
-    <string name="RA_DLS_onboarding_screen1_sub_text">This app integrates the common components required to develop new IoT solutions for acceleration across Philips. It is the first reference for the development of all new patient medical or consumer mobile apps.</string>
+    <string name="RA_DLS_onboarding_screen1_title" translatable="false">What is Reference App?</string>
+    <string name="RA_DLS_onboarding_screen1_sub_text" translatable="false">This app integrates the common components required to develop new IoT solutions for acceleration across Philips. It is the first reference for the development of all new patient medical or consumer mobile apps.</string>
 
-    <string name="RA_DLS_onboarding_screen2_title">Who is it for?</string>
-    <string name="RA_DLS_onboarding_screen2_sub_text">Designers, developers and business leaders across Philips.</string>
+    <string name="RA_DLS_onboarding_screen2_title" translatable="false">Who is it for?</string>
+    <string name="RA_DLS_onboarding_screen2_sub_text" translatable="false">Designers, developers and business leaders across Philips.</string>
 
-    <string name="RA_DLS_onboarding_screen3_title">What\'s in it?</string>
-    <string name="RA_DLS_onboarding_screen3_sub_text">Reference App comprises all of the configurable common components that are part of the CDP2 platform.</string>
+    <string name="RA_DLS_onboarding_screen3_title" translatable="false">What\'s in it?</string>
+    <string name="RA_DLS_onboarding_screen3_sub_text" translatable="false">Reference App comprises all of the configurable common components that are part of the CDP2 platform.</string>
 
-    <string name="RA_DLS_onboarding_screen4_title">What does it do?</string>
-    <string name="RA_DLS_onboarding_screen4_sub_text">It provides all the reference information and tools needed to accelerate and harmonize UX development and ensure appropriate HSDP integration.</string>
+    <string name="RA_DLS_onboarding_screen4_title" translatable="false">What does it do?</string>
+    <string name="RA_DLS_onboarding_screen4_sub_text" translatable="false">It provides all the reference information and tools needed to accelerate and harmonize UX development and ensure appropriate HSDP integration.</string>
 
-    <string name="RA_DLS_onboarding_screen5_title">Fully DLS compliant</string>
-    <string name="RA_DLS_onboarding_screen5_sub_text">The UX has been fully approved by Philips Design and will soon be in DLS.</string>
+    <string name="RA_DLS_onboarding_screen5_title" translatable="false">Fully DLS compliant</string>
+    <string name="RA_DLS_onboarding_screen5_sub_text" translatable="false">The UX has been fully approved by Philips Design and will soon be in DLS.</string>
 
-    <string name="RA_DLS_onboarding_screen6_title">Analyze to perform</string>
-    <string name="RA_DLS_onboarding_screen6_sub_text">The complete platform is tagged and delivers data to monitor &amp; improve your proposition.</string>
+    <string name="RA_DLS_onboarding_screen6_title" translatable="false">Analyze to perform</string>
+    <string name="RA_DLS_onboarding_screen6_sub_text" translatable="false">The complete platform is tagged and delivers data to monitor &amp; improve your proposition.</string>
 
-    <string name="RA_DLS_onboarding_screen7_title">Secure &amp; personal</string>
-    <string name="RA_DLS_onboarding_screen7_sub_text">The Security &amp; Privacy actions of the complete platform are fully in line with Philips rule.</string>
+    <string name="RA_DLS_onboarding_screen7_title" translatable="false">Secure &amp; personal</string>
+    <string name="RA_DLS_onboarding_screen7_sub_text" translatable="false">The Security &amp; Privacy actions of the complete platform are fully in line with Philips rule.</string>
 
-    <string name="RA_DLS_onboarding_screen8_title">A global platform</string>
-    <string name="RA_DLS_onboarding_screen8_sub_text">Localization of your proposition is enabled by the platform, including China.</string>
+    <string name="RA_DLS_onboarding_screen8_title" translatable="false">A global platform</string>
+    <string name="RA_DLS_onboarding_screen8_sub_text" translatable="false">Localization of your proposition is enabled by the platform, including China.</string>
 
-    <string name="RA_DLS_onboarding_screen9_title">Integrated with HSDP &amp; IT</string>
-    <string name="RA_DLS_onboarding_screen9_sub_text">The CDP&lt;sup>&lt;small>2&lt;/small>&lt;/sup> platform is fully integrated with HSDP and IT to ensure all functionalities are enabled end-2-end within the Philips landscape.</string>
-
-    <string name="RA_DLS_onboarding_skip">Skip</string>
-    <string name="RA_DLS_onboarding_done">Done</string>
+    <string name="RA_DLS_onboarding_screen9_title" translatable="false">Integrated with HSDP &amp; IT</string>
+    <string name="RA_DLS_onboarding_screen9_sub_text" translatable="false">The CDP&lt;sup>&lt;small>2&lt;/small>&lt;/sup> platform is fully integrated with HSDP and IT to ensure all functionalities are enabled end-2-end within the Philips landscape.</string>
 
 </resources>
