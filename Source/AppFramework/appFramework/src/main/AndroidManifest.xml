@@ -38,11 +38,11 @@
         <activity
             android:name=".tabbedscreen.TabbedActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|locale|layoutDirection"
-            android:theme="@style/Theme.DLS.GroupBlue.UltraLight"/>
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
         <activity
             android:name=".homescreen.HamburgerActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|locale|layoutDirection"
-            android:theme="@style/Theme.DLS.GroupBlue.UltraLight"/>
+            android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
 
         <activity
             android:name="com.philips.platform.referenceapp.wxapi.WXEntryActivity"
@@ -118,7 +118,7 @@
             android:label="SimpleDemoApplication"
             android:theme="@style/Theme.Janrain.Dialog.Light"
             android:windowSoftInputMode="stateHidden"></activity>
-        <activity android:name="com.philips.platform.baseapp.screens.termsandconditions.WebViewActivity" />
+        <activity android:name="com.philips.platform.baseapp.screens.termsandconditions.WebViewActivity" android:theme="@style/Theme.Philips.DarkBlue.Gradient"/>
 
     </application>
 
