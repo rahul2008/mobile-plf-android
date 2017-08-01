@@ -252,4 +252,6 @@ Receive free product accessories</string>
     <string name="global_privacy_link" translatable="false">Privacy notice</string>
     <string name="description_close" translatable="false">Close</string>
 
+
+    <string name="RA_DLS_splash_title" translatable="false">&lt;b>CDP&lt;/b>&lt;sup>&lt;small>2&lt;/small>&lt;/sup> Reference App\t</string>
 </resources>
