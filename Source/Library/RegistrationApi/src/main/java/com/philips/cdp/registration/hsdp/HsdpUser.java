@@ -361,6 +361,8 @@ public class HsdpUser {
                                     if(null!= userUID) {
                                         AppTagging.trackAction(AppTagingConstants.SEND_DATA,
                                                 "evar2", userUID);
+                                        RLog.d(RLog.HSDP, "HSDP evar2 " + userUID);
+
                                     }
 
                                     hsdpUser.getHsdpUserRecord().getUserUUID();
