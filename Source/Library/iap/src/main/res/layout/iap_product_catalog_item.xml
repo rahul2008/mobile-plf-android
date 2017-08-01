@@ -51,7 +51,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/iap_retaileritem_product_outOfStock_label"
-            fontPath="fonts/iapCentralesansBookFont.ttf"
+            style="@style/iapCentralesansBookFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/iap_margin_4dp"

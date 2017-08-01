@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.cdp.di.iap.controller.ControllerFactory;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
@@ -36,6 +37,8 @@ import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.uappframework.launcher.ActivityLauncher;
 import com.philips.platform.uid.thememanager.AccentRange;
 import com.philips.platform.uid.thememanager.ContentColor;
@@ -44,6 +47,9 @@ import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 
 public class DemoAppActivity extends UiKitActivity implements View.OnClickListener, IAPListener,
@@ -76,15 +82,18 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     private IAPSettings mIAPSettings;
     private User mUser;
 
+    private ArrayList<String> listOfServiceId;
+    protected ServiceDiscoveryInterface.OnGetServiceUrlMapListener serviceUrlMapListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         initTheme();
         super.onCreate(savedInstanceState);
 
+
         IAPLog.enableLogging(true);
         setContentView(R.layout.demo_app_layout);
-        actionBar();
+
         showAppVersion();
         mEtCTN = (com.philips.platform.uid.view.widget.EditText) findViewById(R.id.et_add_ctn);
         mAddCTNLl = (LinearLayout) findViewById(R.id.ll_ctn);
@@ -121,14 +130,40 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         //Integration interface
 
         mIAPSettings = new IAPSettings(this);
-        mIAPSettings.setUseLocalData(false);
+
+        ServiceDiscoveryInterface serviceDiscovery = IapDemoUAppInterface.mAppInfra.getServiceDiscovery();
+        listOfServiceId = new ArrayList<>();
+        listOfServiceId.add("iap.baseurl");
+        serviceUrlMapListener = new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
+            @Override
+            public void onSuccess(Map<String, ServiceDiscoveryService> map) {
+                IAPLog.i(IAPLog.LOG, " DemoActivity getServicesWithCountryPreference Map" + map.toString());
+                Collection<ServiceDiscoveryService> collection = map.values();
+
+                List<ServiceDiscoveryService> list = new ArrayList<>();
+                list.addAll(collection);
+                ServiceDiscoveryService serviceDiscoveryService = list.get(0);
+                actionBar();
+                String locale = serviceDiscoveryService.getLocale();
+                if (locale.equalsIgnoreCase("en_US")) {
+                    mIAPSettings.setUseLocalData(false);
+                } else
+                    mIAPSettings.setUseLocalData(true);
+            }
+
+            @Override
+            public void onError(ERRORVALUES errorvalues, String s) {
+                IAPLog.i(IAPLog.LOG, "DemoActivity ServiceDiscoveryInterface ==errorvalues " + errorvalues.name() + "String= " + s);
+            }
+        };
+        serviceDiscovery.getServicesWithCountryPreference(listOfServiceId, serviceUrlMapListener);
+
 
         IAPDependencies mIapDependencies = new IAPDependencies(new AppInfra.Builder().build(this));
         mIapInterface = new IAPInterface();
         mIapInterface.init(mIapDependencies, mIAPSettings);
         mIapLaunchInput = new IAPLaunchInput();
         mIapLaunchInput.setIapListener(this);
-        //  init();
     }
 
     private void initTheme() {
@@ -153,7 +188,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     * */
     @Override
     protected void onResume() {
-        super.onResume();
+         super.onResume();
         if (!mUser.isUserSignIn()) {
             hideViews();
             return;
@@ -168,24 +203,12 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
         mCategorizedProductList.clear();
     }
 
     private void actionBar() {
-//        Toolbar mToolbar = (Toolbar) findViewById(R.id.demoScreen_toolbar);
-        //      setSupportActionBar(mToolbar);
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        //      getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(false);
-        //    getSupportActionBar().setDisplayUseLogoEnabled(false);
-        //  getSupportActionBar().setDisplayShowCustomEnabled(false);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.iap_header_back_button);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,17 +225,25 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
         FrameLayout mCartContainer = (FrameLayout) findViewById(R.id.shopping_cart_icon);
         ImageView mCartIcon = (ImageView) findViewById(R.id.cart_iv);
-        Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
-        mCartIcon.setBackground(mCartIconDrawable);
-        mCartContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // showFragment(ShoppingCartFragment.TAG);
-                launchIAP(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null);
-            }
-        });
-
         mCountText = (TextView) findViewById(R.id.item_count);
+        if (!mIAPSettings.isUseLocalData()) {
+            mCartIcon.setVisibility(View.VISIBLE);
+            mCountText.setVisibility(View.VISIBLE);
+            Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
+            mCartIcon.setBackground(mCartIconDrawable);
+            mCartContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // showFragment(ShoppingCartFragment.TAG);
+                    launchIAP(IAPLaunchInput.IAPFlows.IAP_SHOPPING_CART_VIEW, null);
+                }
+            });
+
+
+        } else {
+            mCartIcon.setVisibility(View.GONE);
+            mCountText.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -313,39 +344,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mLaunchProductDetail.setEnabled(true);
 
 
-
     }
-//    private void displayViews() {
-//        mAddCTNLl.setVisibility(View.VISIBLE);
-//        mShopNowCategorized.setVisibility(View.VISIBLE);
-//        mShopNow.setVisibility(View.VISIBLE);
-//        mShopNow.setEnabled(true);
-//        mLaunchProductDetail.setVisibility(View.VISIBLE);
-//        mLaunchProductDetail.setEnabled(true);
-//
-//        if (!mIAPSettings.isUseLocalData()) {
-//            showProgressDialog();
-//            try {
-//                mIapInterface.getProductCartCount(this);
-//            } catch (RuntimeException e) {
-//                Toast.makeText(DemoAppActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//                dismissProgressDialog();
-//            }
-//
-//            updateCartIcon();
-//            mPurchaseHistory.setVisibility(View.VISIBLE);
-//            mPurchaseHistory.setEnabled(true);
-//            mBuyDirect.setVisibility(View.VISIBLE);
-//           // mLaunchFragment.setVisibility(View.VISIBLE);
-//            mShoppingCart.setVisibility(View.VISIBLE);
-//        } else {
-//            mPurchaseHistory.setVisibility(View.GONE);
-//            mBuyDirect.setVisibility(View.GONE);
-//            //mLaunchFragment.setVisibility(View.VISIBLE);
-//            mShoppingCart.setVisibility(View.GONE);
-//        }
-//    }
-
 
     private void hideViews() {
         mCountText.setVisibility(View.GONE);
@@ -393,14 +392,17 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mProgressDialog.setMessage(getString(R.string.iap_please_wait) + "...");
         }
         if ((!mProgressDialog.isShowing()) && !isFinishing()) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    mProgressDialog.show();
-                }
-            });
-
+            mProgressDialog.show();
         }
+//        if ((!mProgressDialog.isShowing()) && !isFinishing()) {
+//            runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    mProgressDialog.show();
+//                }
+//            });
+//
+//        }
     }
 
     public void dismissProgressDialog() {

@@ -12,7 +12,6 @@ import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -23,6 +22,7 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.cart.IAPCartListener;
 import com.philips.cdp.di.iap.container.CartModelContainer;
+import com.philips.cdp.di.iap.controller.ControllerFactory;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.screens.BuyDirectFragment;
@@ -79,12 +79,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
     }
 
     private void actionBar() {
-        //Toolbar mToolbar = (Toolbar) findViewById(R.id.iap_toolbar);
-       // setSupportActionBar(mToolbar);
-       // getSupportActionBar().setDisplayShowTitleEnabled(false);
-        //getSupportActionBar().setDisplayUseLogoEnabled(false);
-        //getSupportActionBar().setDisplayShowCustomEnabled(false);
-       // getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.iap_header_back_button);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,16 +95,22 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
 
         mCartContainer = (FrameLayout) findViewById(R.id.cart_container);
         ImageView mCartIcon = (ImageView) findViewById(R.id.cart_icon);
-        Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
-        mCartIcon.setBackground(mCartIconDrawable);
-        mCartIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFragment(ShoppingCartFragment.TAG);
-            }
-        });
-
         mCountText = (TextView) findViewById(R.id.item_count);
+        if (!ControllerFactory.getInstance().isPlanB()) {
+            Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
+            mCartIcon.setBackground(mCartIconDrawable);
+            mCartIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showFragment(ShoppingCartFragment.TAG);
+                }
+            });
+
+
+        } else {
+            mCartIcon.setVisibility(View.GONE);
+            mCountText.setVisibility(View.GONE);
+        }
     }
 
     private void addLandingViews(Bundle savedInstanceState) {
@@ -204,8 +204,8 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         } else {
 //            Fragment fragment = getSupportFragmentManager().findFragmentByTag(fragmentTag);
 //            if (fragment == null) {
-                addFragment(ShoppingCartFragment.createInstance(new Bundle(),
-                        InAppBaseFragment.AnimationType.NONE), fragmentTag);
+            addFragment(ShoppingCartFragment.createInstance(new Bundle(),
+                    InAppBaseFragment.AnimationType.NONE), fragmentTag);
 //            } else {
 //                getFragmentManager().popBackStack(ProductCatalogFragment.TAG, 0);
 //            }
