@@ -15,6 +15,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProviderDetailFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Button;
@@ -33,7 +34,7 @@ public class THSProviderDetailsDisplayHelper {
     SwipeRefreshLayout.OnRefreshListener mOnRefreshListener;
     Context mContext;
     THSPRoviderDetailsViewInterface mThsPRoviderDetailsViewInterface;
-    protected ImageView providerImage;
+    protected CircularImageView providerImage;
     protected ImageView isAvailableImage;
     protected Label providerName,practiceName,isAvailable,spokenLanguageValueLabel,yearsOfExpValueLabel,
             graduatedValueLabel,aboutMeValueLabel,mLabelDate,visitCostValueLabel;
@@ -65,7 +66,7 @@ public class THSProviderDetailsDisplayHelper {
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeProviderLayout);
         swipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
         visitCostValueLabel = (Label) view.findViewById(R.id.visitCostValueLabel);
-        providerImage = (ImageView) view.findViewById(R.id.details_providerImage);
+        providerImage = (CircularImageView) view.findViewById(R.id.details_providerImage);
         providerName = (Label) view.findViewById(R.id.details_providerNameLabel);
         practiceName = (Label) view.findViewById(R.id.details_practiceNameLabel);
         isAvailable = (Label) view.findViewById(R.id.details_isAvailableLabel);

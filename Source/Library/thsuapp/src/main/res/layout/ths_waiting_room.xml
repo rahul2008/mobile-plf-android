@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ths_waiting_room_provider_top_grey_boundary">
 
-        <ImageView
+        <com.philips.platform.ths.utility.CircularImageView
             android:id="@+id/details_providerImage"
             android:layout_width="84dp"
             android:layout_height="84dp"

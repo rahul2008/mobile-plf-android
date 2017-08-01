@@ -61,8 +61,8 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     private void loginUserSilently() {
         try {
             AmwellLog.i(AmwellLog.LOG,"Login - call initialted from client");
-            //THSManager.getInstance().authenticate(uiBaseView.getFragmentActivity(),"spoorti.h86@gmail.com","sujata123*",null,this);
-            THSManager.getInstance().authenticate(uiBaseView.getFragmentActivity(),"anurag1gautam@yahoo.com","wipro@123",null,this);
+            THSManager.getInstance().authenticate(uiBaseView.getFragmentActivity(),"spoorti.h86@gmail.com","sujata123*",null,this);
+            //THSManager.getInstance().authenticate(uiBaseView.getFragmentActivity(),"anurag1gautam@yahoo.com","wipro@123",null,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
