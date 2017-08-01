@@ -221,7 +221,7 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
      *
      * @return
      */
-    public boolean isFragmentLive() {
+    protected boolean isFragmentLive() {
         return connectivityFragmentWeakReference != null && isAdded();
     }
 
