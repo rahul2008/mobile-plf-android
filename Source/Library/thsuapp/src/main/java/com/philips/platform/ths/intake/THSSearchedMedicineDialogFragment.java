@@ -23,7 +23,7 @@ public class THSSearchedMedicineDialogFragment extends DialogFragment implements
     Context mContext;
     THSMedication searchedMedicines;
     ListView searchedMedicinesListView;
-    THSSearchedMedicationListAdapter THSSearchedMedicationListAdapter;
+    THSSearchListAdapter THSSearchListAdapter;
     private THSBasePresenter mPresenter;
 
     public void setData(Context context, THSMedication pTHMedication, THSBasePresenter presenter) {
@@ -47,9 +47,9 @@ public class THSSearchedMedicineDialogFragment extends DialogFragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        THSSearchedMedicationListAdapter = new THSSearchedMedicationListAdapter(mContext,searchedMedicines);
+        THSSearchListAdapter = new THSSearchListAdapter(mContext,searchedMedicines.getMedicationList());
 
-        searchedMedicinesListView.setAdapter(THSSearchedMedicationListAdapter);
+        searchedMedicinesListView.setAdapter(THSSearchListAdapter);
 
         searchedMedicinesListView.setOnItemClickListener(this);
     }

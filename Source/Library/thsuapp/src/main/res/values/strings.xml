@@ -66,6 +66,8 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="pharmacy_list_fragment_name">Pharmacy List</string>
     <string name="search_pharmacy_fragment_name">Your pharmacy</string>
     <string name="shipping_address_fragment_name">Ship prescriptions to</string>
+    <string name="pharmacy_search_label">Which pharmacy should we send prescriptions to</string>
+    <string name="pharmacy_search_edittext_hint">Type location or zip code</string>
 
     //Provider list screens strings
     <string name="provider_available">Available now</string>

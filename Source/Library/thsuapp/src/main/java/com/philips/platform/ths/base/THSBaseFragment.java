@@ -70,6 +70,7 @@ public class THSBaseFragment extends Fragment implements THSBaseView {
         fragmentTransaction = getFragmentActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(getContainerID(), fragment, fragmentTag);
         fragmentTransaction.addToBackStack(fragmentTag);
+        fragment.setFragmentLauncher(getFragmentLauncher());
         fragment.setActionBarListener(getActionBarListener());
         fragmentTransaction.commit();
     }

@@ -17,51 +17,61 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.americanwell.sdk.entity.health.Medication;
+import com.americanwell.sdk.entity.practice.Practice;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
+import com.philips.platform.ths.providerdetails.THSProviderDetailsFragment;
+import com.philips.platform.ths.providerslist.THSProviderInfo;
+import com.philips.platform.ths.utility.THSConstants;
+import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.SearchBox;
 
+import java.util.List;
+
 import static android.app.Activity.RESULT_OK;
 
-/**
- * Created by philips on 7/11/17.
- */
-
-public class THSMedicationSearchFragment extends THSBaseFragment implements SearchBox.QuerySubmitListener, ListView.OnItemClickListener {
-    public static final String TAG = THSMedicationSearchFragment.class.getSimpleName();
+public class THSSearchFragment extends THSBaseFragment implements SearchBox.QuerySubmitListener, ListView.OnItemClickListener {
+    public static final String TAG = THSSearchFragment.class.getSimpleName();
     private THSBasePresenter mPresenter;
     THSMedication searchedMedicines;
+    List<THSProviderInfo> providerInfoList;
     private ListView searchListView;
-    THSSearchedMedicationListAdapter mTHSSearchedMedicationListAdapter;
+    THSSearchListAdapter mTHSSearchListAdapter;
     private UIDNavigationIconToggler navIconToggler;
      SearchBox searchBox;
-
+    int searchType = 0;
+    private Practice practice;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = this.getArguments();
+        if(null != bundle && bundle.containsKey(THSConstants.SEARCH_CONSTANT_STRING)){
+            searchType = bundle.getInt(THSConstants.SEARCH_CONSTANT_STRING);
+        }
         setHasOptionsMenu(true);
     }
 
+    public void setPractice(Practice practice){
+        this.practice = practice;
+    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_search_layout, container, false);
-        mPresenter = new THSMedicationSearchPresenter(this);
         searchListView = (ListView) view.findViewById(R.id.pth_search_listview);
         navIconToggler = new UIDNavigationIconToggler(getActivity());
+        setUpMedicationSearch();
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mTHSSearchedMedicationListAdapter = new THSSearchedMedicationListAdapter(getFragmentActivity(),searchedMedicines);
-        searchListView.setAdapter(mTHSSearchedMedicationListAdapter);
+    public void setUpMedicationSearch() {
+        mTHSSearchListAdapter = new THSSearchListAdapter(getFragmentActivity(),null);
+        searchListView.setAdapter(mTHSSearchListAdapter);
         searchListView.setOnItemClickListener(this);
-
+        mPresenter = new THSSearchPresenter(this);
     }
 
     @Override
@@ -95,9 +105,9 @@ public class THSMedicationSearchFragment extends THSBaseFragment implements Sear
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(s.length()>2){
-                    ((THSMedicationSearchPresenter) mPresenter).searchMedication(s.toString());
+                    searchFunction(s);
                 } else if(s.length()==2){
-                    mTHSSearchedMedicationListAdapter.setData(null);
+                    mTHSSearchListAdapter.setData(null);
                 }
             }
 
@@ -114,14 +124,25 @@ public class THSMedicationSearchFragment extends THSBaseFragment implements Sear
 
     }
 
+    public void searchFunction(CharSequence s) {
+        switch (searchType){
+            case THSConstants.MEDICATION_SEARCH_CONSTANT:
+                ((THSSearchPresenter) mPresenter).searchMedication(s.toString());
+                break;
+            case THSConstants.PROVIDER_SEARCH_CONSTANT:
+                ((THSSearchPresenter) mPresenter).searchProviders(s.toString(),practice);
+                break;
+        }
+
+    }
 
 
     @Override
     public void onQuerySubmit(CharSequence charSequence) {
         if (null != charSequence && charSequence.length() > 2) {
-            InputMethodManager imm = (InputMethodManager)THSMedicationSearchFragment.this.getFragmentActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager)THSSearchFragment.this.getFragmentActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(searchBox.getWindowToken(), 0);
-            ((THSMedicationSearchPresenter) mPresenter).searchMedication(charSequence.toString());
+            searchFunction(charSequence);
         }
     }
 
@@ -140,15 +161,34 @@ public class THSMedicationSearchFragment extends THSBaseFragment implements Sear
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(getFragmentActivity(), THSMedicationSearchFragment.class);
+        switch (searchType){
+            case THSConstants.MEDICATION_SEARCH_CONSTANT:
+                        callMedicationFragment(position);
+                        break;
+            case THSConstants.PROVIDER_SEARCH_CONSTANT:
+                        callProviderDetailsFragment(position);
+                        break;
+        }
 
+
+    }
+
+    private void callProviderDetailsFragment(int position) {
+        THSProviderDetailsFragment pthProviderDetailsFragment = new THSProviderDetailsFragment();
+        pthProviderDetailsFragment.setActionBarListener(getActionBarListener());
+        pthProviderDetailsFragment.setTHSProviderEntity(providerInfoList.get(position));
+        pthProviderDetailsFragment.setConsumerAndPractice(THSManager.getInstance().getPTHConsumer().getConsumer(), practice);
+        pthProviderDetailsFragment.setFragmentLauncher(getFragmentLauncher());
+        addFragment(pthProviderDetailsFragment,THSProviderDetailsFragment.TAG,null);
+    }
+
+    public void callMedicationFragment(int position) {
+
+        Intent intent = new Intent(getFragmentActivity(), THSSearchFragment.class);
         Medication medication= searchedMedicines.getMedicationList().get(position);
-
         intent.putExtra("selectedMedication", medication);
-
         getTargetFragment().onActivityResult(getTargetRequestCode(), RESULT_OK, intent);
         getFragmentActivity().getSupportFragmentManager().popBackStack();
-
 
     }
 }
