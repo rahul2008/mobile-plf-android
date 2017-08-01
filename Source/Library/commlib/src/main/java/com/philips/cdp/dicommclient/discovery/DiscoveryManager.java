@@ -17,9 +17,6 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.networknode.NetworkNodeDatabase;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
-import com.philips.cdp2.commlib.lan.NetworkMonitor;
-import com.philips.cdp2.commlib.lan.NetworkMonitor.NetworkChangedListener;
-import com.philips.cdp2.commlib.lan.NetworkMonitor.NetworkState;
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.InternalMessage;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
@@ -33,7 +30,6 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY;
 
@@ -46,6 +42,7 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper
  *
  * @publicApi
  */
+@Deprecated
 public class DiscoveryManager<T extends Appliance> {
 
     private static DiscoveryManager<? extends Appliance> sInstance;
@@ -59,7 +56,6 @@ public class DiscoveryManager<T extends Appliance> {
 
     private DICommApplianceDatabase<T> mApplianceDatabase;
     private static final Object mDiscoveryLock = new Object();
-    private NetworkMonitor mNetwork;
 
     private SsdpServiceHelper mSsdpHelper;
 
@@ -103,9 +99,7 @@ public class DiscoveryManager<T extends Appliance> {
 
     public static <U extends Appliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, @NonNull DICommApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase) {
         if (sInstance == null) {
-            NetworkMonitor networkMonitor = new NetworkMonitor(applicationContext, new ScheduledThreadPoolExecutor(1));
-
-            DiscoveryManager<U> discoveryManager = new DiscoveryManager<>(applicationContext, applianceFactory, applianceDatabase, networkMonitor);
+            DiscoveryManager<U> discoveryManager = new DiscoveryManager<>(applicationContext, applianceFactory, applianceDatabase);
             discoveryManager.mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), discoveryManager.mHandlerCallback);
             sInstance = discoveryManager;
 
@@ -119,7 +113,7 @@ public class DiscoveryManager<T extends Appliance> {
         return sInstance;
     }
 
-    /* package, for testing */ DiscoveryManager(@NonNull Context context, DICommApplianceFactory<T> applianceFactory, DICommApplianceDatabase<T> applianceDatabase, NetworkMonitor networkMonitor) {
+    /* package, for testing */ DiscoveryManager(@NonNull Context context, DICommApplianceFactory<T> applianceFactory, DICommApplianceDatabase<T> applianceDatabase) {
         mContext = context;
         mApplianceFactory = applianceFactory;
         mApplianceDatabase = applianceDatabase;
@@ -127,9 +121,7 @@ public class DiscoveryManager<T extends Appliance> {
         mNetworkNodeDatabase = new NetworkNodeDatabase(mContext);
         initializeAppliancesMapFromDataBase();
 
-        mNetwork = networkMonitor;
 
-        mNetwork.addListener(mNetworkChangedCallback);
         if (mDiscoveryEventListenersList == null) {
             mDiscoveryEventListenersList = new ArrayList<>();
         }
@@ -150,17 +142,13 @@ public class DiscoveryManager<T extends Appliance> {
     }
 
     public void start() {
-        if (mNetwork.getLastKnownNetworkState() == NetworkState.WIFI_WITH_INTERNET) {
-            mSsdpHelper.startDiscoveryAsync();
-            DICommLog.d(DICommLog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");
-        }
-        mNetwork.startNetworkChangedReceiver();
+        mSsdpHelper.startDiscoveryAsync();
+        DICommLog.d(DICommLog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");
     }
 
     public void stop() {
         mSsdpHelper.stopDiscoveryAsync();
         DICommLog.d(DICommLog.DISCOVERY, "Stopping SSDP service - Stop called");
-        mNetwork.stopNetworkChangedReceiver();
     }
 
     public ArrayList<T> getAllDiscoveredAppliances() {
@@ -225,7 +213,7 @@ public class DiscoveryManager<T extends Appliance> {
         return mAllAppliancesMap.get(cppId);
     }
 
-    private NetworkChangedListener mNetworkChangedCallback = new NetworkChangedListener() {
+    /*private NetworkChangedListener mNetworkChangedCallback = new NetworkChangedListener() {
 
         @Override
         public void onNetworkChanged(NetworkState networkState, String networkSsid) {
@@ -254,7 +242,7 @@ public class DiscoveryManager<T extends Appliance> {
                 }
             }
         }
-    };
+    };*/
 
     private CppDiscoverEventListener mCppDiscoverEventListener = new CppDiscoverEventListener() {
 
@@ -573,7 +561,7 @@ public class DiscoveryManager<T extends Appliance> {
             return false;
         if (appliance.getNetworkNode().getConnectionState() != ConnectionState.DISCONNECTED)
             return false;
-        if (mNetwork.getLastKnownNetworkState() == NetworkState.NONE) return false;
+        //if (mNetwork.getLastKnownNetworkState() == NetworkState.NONE) return false;
 
         appliance.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
         DICommLog.v(DICommLog.DISCOVERY, "Marked Cpp online REMOTE: " + appliance.getName());
@@ -761,14 +749,6 @@ public class DiscoveryManager<T extends Appliance> {
     // ********** START TEST METHODS ************
     public static void setDummyDiscoveryManagerForTesting(DiscoveryManager<? extends Appliance> dummyManager) {
         sInstance = dummyManager;
-    }
-
-    public void setDummyDiscoveryEventListenerForTesting(DiscoveryEventListener dummyListener) {
-        mDiscoveryEventListenersList.add(dummyListener);
-    }
-
-    public void setDummyNetworkMonitorForTesting(NetworkMonitor dummyMonitor) {
-        mNetwork = dummyMonitor;
     }
 
     public void setDummySsdpServiceHelperForTesting(SsdpServiceHelper dummyHelper) {
