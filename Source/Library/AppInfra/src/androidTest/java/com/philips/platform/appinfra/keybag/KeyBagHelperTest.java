@@ -24,11 +24,11 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
         String groupId = "appinfra.languagePack2";
         int index = 1;
         String key = "client_id";
-        assertNull(keyBagHelper.getSeed("", "test", 0));
-        assertNull(keyBagHelper.getSeed("test", "", 0));
-        assertNull(keyBagHelper.getSeed(null, "", 0));
-        assertNull(keyBagHelper.getSeed("test", null, 0));
-        String seed = keyBagHelper.getSeed(groupId, key, index);
+        assertNull(keyBagHelper.getSeed("", 0, "test"));
+        assertNull(keyBagHelper.getSeed("test", 0, ""));
+        assertNull(keyBagHelper.getSeed(null, 0, ""));
+        assertNull(keyBagHelper.getSeed("test", 0, null));
+        String seed = keyBagHelper.getSeed(groupId, index, key);
         assertTrue(seed.length() == 4);
     }
 
@@ -59,6 +59,8 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
     public void testConvertingToHex() {
         String hexString = "52616a612052616d204d6f68616e20526f79";
         assertEquals(keyBagHelper.convertHexDataToString(hexString),"Raja Ram Mohan Roy");
+        String testString = keyBagHelper.convertHexDataToString("c2b3c2a5085a2dc3a91672c29fc28e55c2955bc2a4c282656cc3bc");
+        assertNotNull(testString);
     }
 
 

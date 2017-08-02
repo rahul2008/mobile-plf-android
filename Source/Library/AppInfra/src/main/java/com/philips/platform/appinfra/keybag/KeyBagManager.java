@@ -78,4 +78,9 @@ public class KeyBagManager implements KeyBagInterface {
         });
     }
 
+    public String test(String data) {
+        String data1 = "¬¥Åf-1gû95Ú";
+        return keyBagHelper.obfuscate(data1, 0xACE1);
+    }
+
 }

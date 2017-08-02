@@ -7,6 +7,8 @@ import android.view.View;
 
 import com.philips.platform.appinfra.keybag.KeyBagLib;
 
+import java.io.UnsupportedEncodingException;
+
 public class MainActivity extends AppCompatActivity {
 
     private KeyBagLib keyBagLib;
@@ -33,10 +35,12 @@ public class MainActivity extends AppCompatActivity {
             char[] array = hexStringToByteArray("b3a5085a2de916729f8e55955ba482656cfceb10fe79");
 
 
-            String testString = " Testing bulk data ";
+            String testString = "Raja Ram Mohan Roy";
+            String hex = convertToHexDecimal(testString,"UTF-8");
             char[] temp = keyBagLib.obfuscateDeObfuscate(testString.toCharArray(), 0xACE1);
             String s = new String(temp);
-            Log.d(getClass() + " converted string ", s);
+            String obfuscatedHex = convertToHexDecimal(s,"UTF-8");
+            Log.d(getClass() + " converted string ", obfuscatedHex);
 
             temp = keyBagLib.obfuscateDeObfuscate(s.toCharArray(), 0xACE1);
             String s2 = new String(temp);
@@ -54,5 +58,23 @@ public class MainActivity extends AppCompatActivity {
                     + Character.digit(hex.charAt(i + 1), 16));
         }
         return data;
+    }
+
+    private static String convertToHexDecimal(String input, String charsetName) throws UnsupportedEncodingException {
+        if (input == null) throw new NullPointerException();
+        return asHex(input.getBytes(charsetName));
+    }
+
+    private static final char[] HEX_CHARS = "0123456789abcdef".toCharArray();
+
+    private static String asHex(byte[] buf)
+    {
+        char[] chars = new char[2 * buf.length];
+        for (int i = 0; i < buf.length; ++i)
+        {
+            chars[2 * i] = HEX_CHARS[(buf[i] & 0xF0) >>> 4];
+            chars[2 * i + 1] = HEX_CHARS[buf[i] & 0x0F];
+        }
+        return new String(chars);
     }
 }
