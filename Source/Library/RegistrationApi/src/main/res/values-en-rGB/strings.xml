@@ -113,7 +113,7 @@
 <string name="reg_Create_Account_PasswordHint_Aplhabets_lbltxt">Upper- or lowercase letters</string>
 <string name="reg_Create_Account_PasswordHint_SpecialCharacters_lbltxt">Symbols (_.@$)</string>
 <string name="reg_Create_Account_PasswordHint_Numbers_lbltxt">Numbers</string>
-<string name="reg_Philips_News_Description_Normal_lbltxt">As a result of your consent, Philips group companies may contact you with promotional communications based on your preferences and behaviour, about Philips products, services, events and promotions. \nWe may contact you via email, SMS and other digital channels, such as mobile apps and social media. In order to be able to tailor the communications for you and provide you with the best, most personalised experience, we may analyse and combine your personal data. \n\nThis data may include:\n</string>
+<string name="reg_Philips_News_Description_Normal_lbltxt">As a result of your consent, Philips group companies may contact you with promotional communications based on your preferences and behavior, about Philips products, services, events and promotions. \nWe may contact you via email, SMS and other digital channels, such as mobile apps and social media. In order to be able to tailor the communications for you and provide you with the best, most personalised experience, we may analyse and combine your personal data. \n\nThis data may include:\n</string>
 <string name="reg_Philips_News_Description_First_Bulleted_Title_lbltxt">Data you gave us:\n</string>
 <string name="reg_Philips_News_Description_First_Bulleted_Description_lbltxt">Data that you want to actively share with us such as: your name, date of birth or age, email address, physical address, country, gender, phone number, social media profile.\n\n</string>
 <string name="reg_Philips_News_Description_Second_Bulleted_Title_lbltxt">Data we get from your interactions with Philips:\n</string>
@@ -122,7 +122,7 @@
 <string name="reg_Signin_Success_Hello_lbltxt">Hello</string>
 <string name="reg_Access_More_Account_Setting_lbltxt">Do you want to access more account settings?\nVisit %s via your browser.</string>
 <string name="reg_Philips_URL_txt">www.philips.com</string>
-<string name="reg_Receive_Philips_News_lbltxt">Receive promotional communications of Philips based on my preferences and online behaviour.\n%s</string>
+<string name="reg_Receive_Philips_News_lbltxt">Receive promotional communications of Philips based on my preferences and online behavior.\n%s</string>
 <string name="reg_Receive_Philips_News_Meaning_lbltxt">What does this mean?</string>
 <string name="reg_Philips_News_Title">Philips announcements</string>
 <string name="reg_Philips_News_Back_btntxt">Back</string>
@@ -170,12 +170,13 @@
 <string name="reg_Mobile_Verification_Invalid_Code">This is not a verification code I can recognise. Please try again.</string>
 <string name="reg_Opt_In_Be_The_First">Be the first to know!</string>
 <string name="reg_Opt_In_What_Are_You_Going_To_Get">What do we have to offer?</string>
-<string name="reg_Opt_In_Special_Offers">Special offers, promotions and first-hand information about new product releases. Tailored for you!</string>
+<string name="reg_Opt_In_Special_Offers">Special offers, promotions and first hand information about new product releases. Tailored for you!</string>
 <string name="reg_Opt_In_Join_Now">Join %s of your peers now!</string>
 <string name="reg_Opt_In_Over_Peers">over 140,000 of your peers!</string>
-<string name="reg_Opt_In_Receive_Promotional">Receive promotional communications from Philips based on my preferences and online behaviour\n%s</string>
+<string name="reg_Opt_In_Receive_Promotional">Receive promotional communications from Philips based on my preferences and online behavior.\n\n%s</string>
 <string name="reg_Opt_In_Count_Me_In">OK, count me in</string>
 <string name="reg_Opt_In_No_Thanks">No thanks</string>
+<string name="reg_Opt_In_May_Be_later">May be later</string>
 <string name="reg_Resend_SMS_title">Resend SMS</string>
 <string name="reg_Resend_SMS_Success_Content">SMS has been successfully resent to your mobile number.</string>
 <string name="reg_Merge_validate_password_mismatch_errortxt">The password is incorrect.</string>

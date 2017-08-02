@@ -64,7 +64,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     @BindView(R2.id.reg_error_msg)
     XRegError mRegError;
 
-    @BindView(R2.id.tv_reg_philips_news_link)
+    @BindView(R2.id.tv_reg_philips_news)
     Label receivePhilipsNewsView;
 
     private ProgressDialog mProgressDialog;
@@ -172,8 +172,6 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, mLlCreateAccountContainer, width);
-        applyParams(config, mTvJoinNow, width);
     }
 
     @Override

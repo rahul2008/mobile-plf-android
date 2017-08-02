@@ -14,6 +14,7 @@
     <dimen name="reg_layout_top">12dp</dimen>
 
 
+
     <bool name="isTablet">false</bool>
     <dimen name="reg_layout_margin">30dp</dimen>
     <dimen name="reg_layout_margin_port">0dp</dimen>
@@ -173,6 +174,15 @@
     <dimen name="reg_layout_margin_20dp">20dp</dimen>
     <dimen name="reg_layout_margin_14dp">14dp</dimen>
     <dimen name="reg_layout_margin_12dp">12dp</dimen>
+    <dimen name="reg_layout_margin_8dp">8dp</dimen>
+    <dimen name="reg_margin_24">24dp</dimen>
+
+    <dimen name="text_size_12">12dip</dimen>
+    <dimen name="text_size_20">20dip</dimen>
+    <dimen name="text_size_16">16dip</dimen>
+
+
+
 
 
 

@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:reglib="http://reg.lib/schema"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/reg_layout_bg"
     android:focusable="true"
@@ -9,78 +9,70 @@
 
     <ScrollView
         android:id="@+id/sv_root_layout"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@android:color/transparent"
         android:fillViewport="false">
 
         <LinearLayout
             android:id="@+id/ll_reg_root_container"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/reg_layout_margin_16dp"
             android:layout_marginStart="@dimen/reg_layout_margin_16dp"
             android:orientation="vertical"
             android:weightSum="1">
 
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/reg_what_are_you_txt"
-                    style="@style/UIDLabel.MarginTop"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
-                    android:layout_marginTop="@dimen/reg_margin_top_24"
-                    android:gravity="left"
-                    android:text="@string/reg_Opt_In_What_Are_You_Going_To_Get"
-                    android:textSize="@dimen/reg_error_alert_size"
-                    android:textStyle="bold"
-                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/reg_what_are_you_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
+                android:layout_marginTop="@dimen/reg_margin_top_24"
+                android:text="@string/reg_Opt_In_What_Are_You_Going_To_Get"
+                android:textSize="@dimen/reg_error_alert_size"
+                android:textStyle="bold"
+                reglib:fontAssetName="CentraleSans-Book.OTF" />
 
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/reg_special_officer_txt"
-                    style="@style/UIDLabel.MarginTop"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
-                    android:gravity="left"
-                    android:text="@string/reg_Opt_In_Special_Offers"
-                    android:textSize="@dimen/reg_button_text_size"
-                    reglib:fontAssetName="CentraleSans-Book.OTF" />
 
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/tv_reg_Join_now"
-                    style="@style/UIDLabel.MarginTop"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/reg_layout_margin_20dp"
-                    android:gravity="left"
-                    android:text="@string/reg_Opt_In_Join_Now"
-                    android:textSize="@dimen/reg_button_text_size"
-                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/reg_special_officer_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
+                android:text="@string/reg_Opt_In_Special_Offers"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textSize="@dimen/reg_button_text_size"
+                reglib:fontAssetName="CentraleSans-Book.OTF" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/tv_reg_Join_now"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
+                android:text="@string/reg_Opt_In_Special_Offers"
+                android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+                android:textSize="@dimen/reg_button_text_size"
+                reglib:fontAssetName="CentraleSans-Book.OTF" />
 
             <LinearLayout
                 android:id="@+id/ll_reg_create_account_container"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/uid_group_blue_level_10"
-                android:paddingLeft="@dimen/reg_layout_padding_16dp"
-                android:paddingRight="@dimen/reg_layout_padding_16dp"
-                android:orientation="vertical">
+                android:background="?attr/uidContentTertiaryBackgroundColor"
+                android:orientation="vertical"
+                android:paddingEnd="@dimen/reg_layout_padding_16dp"
+                android:paddingStart="@dimen/reg_layout_padding_16dp">
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/tv_reg_philips_news"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/reg_layout_margin_16dp"
                     android:layout_marginBottom="@dimen/reg_layout_margin_12dp"
-                    android:text="@string/reg_Receive_Philips_News_link_lbltxt"
-                    reglib:fontAssetName="CentraleSans-Book.OTF" />
-
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/tv_reg_philips_news_link"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/reg_layout_margin_14dp"
+                    android:layout_marginTop="@dimen/text_size_12"
+                    android:text="@string/reg_Receive_Philips_News_lbltxt"
+                    android:textColor="?attr/uidContentItemDefaultNormalSubtleBodyTextColor"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
 
@@ -91,6 +83,7 @@
                 android:layout_marginBottom="@dimen/reg_layout_margin_10dp"
                 android:layout_marginTop="@dimen/reg_margin_top_24"
                 android:enabled="false"
+                android:textStyle="normal"
                 app:uidIsIndeterminateProgressIndicator="true"
                 app:uidProgressIndicatorButtonText="@string/reg_Opt_In_Count_Me_In" />
 
@@ -101,7 +94,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rl_reg_singin_options"
                 android:layout_marginBottom="@dimen/reg_margin_bottom_24"
-                android:text="@string/reg_Opt_In_No_Thanks"
+                android:text="@string/reg_Opt_In_May_Be_later"
+                android:textStyle="normal"
                 app:uidComponentType="Secondary" />
 
             <com.philips.cdp.registration.ui.customviews.XRegError
