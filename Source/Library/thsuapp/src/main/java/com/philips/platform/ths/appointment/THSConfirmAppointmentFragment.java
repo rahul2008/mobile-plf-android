@@ -13,6 +13,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
+import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Label;
@@ -30,7 +31,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
     Label mPracticeNameLabel;
     Label mEmailSentMessage;
     Label mLabelDate;
-    ImageView mImageProviderImage;
+    CircularImageView mImageProviderImage;
     Label mLabelIsAvailable;
     ImageView mImageIsAvailable;
 
@@ -46,7 +47,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
         mPracticeNameLabel = (Label) view.findViewById(R.id.details_practiceNameLabel);
         mEmailSentMessage = (Label) view.findViewById(R.id.email_sent);
         mLabelDate = (Label) view.findViewById(R.id.date);
-        mImageProviderImage = (ImageView)view.findViewById(R.id.details_providerImage);
+        mImageProviderImage = (CircularImageView)view.findViewById(R.id.details_providerImage);
 
         mLabelIsAvailable = (Label)view.findViewById(R.id.details_isAvailableLabel);
         mLabelIsAvailable.setVisibility(View.GONE);

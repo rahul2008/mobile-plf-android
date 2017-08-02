@@ -18,7 +18,8 @@
         android:paddingTop="@dimen/ths_body_text_padding"
         />
 
-    <View android:background="@color/uid_gray_level_5"
+    <View
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor"
         android:id="@+id/line_separator"
         android:layout_width = "match_parent"
         android:layout_height="1dp"
@@ -35,7 +36,8 @@
         android:layout_below="@+id/line_separator"
         />
 
-    <View android:background="@color/uid_gray_level_5"
+    <View
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor"
         android:id="@+id/line_separator_1"
         android:layout_width = "match_parent"
         android:layout_height="1dp"
@@ -60,7 +62,8 @@
         android:layout_below="@+id/with"
         layout="@layout/ths_provider_details_c_list" />
 
-    <View android:background="@color/uid_gray_level_5"
+    <View
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor"
         android:layout_below="@+id/providerDetailDListLayout"
         android:id="@+id/horizontalLine"
         android:layout_width = "match_parent"

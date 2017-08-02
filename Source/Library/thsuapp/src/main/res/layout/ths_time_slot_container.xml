@@ -3,7 +3,8 @@
     android:id="@+id/ths_time_slot_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-    <View android:background="@color/uid_gray_level_5"
+    <View
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor"
         android:id="@+id/line_separator"
         android:layout_width = "match_parent"
         android:layout_height="1dp"
@@ -24,7 +25,8 @@
         android:layout_below="@id/select_time"
         />
 
-    <View android:background="@color/uid_gray_level_5"
+    <View
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor"
         android:id="@+id/line_separator_2"
         android:layout_width = "match_parent"
         android:layout_height="1dp"
