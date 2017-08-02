@@ -914,12 +914,12 @@ public class User {
     }
 
     private void clearData() {
-        Jump.signOutCaptureUser(mContext);
         HsdpUser hsdpUser = new HsdpUser(mContext);
         hsdpUser.deleteFromDisk();
         if (JRSession.getInstance() != null) {
             JRSession.getInstance().signOutAllAuthenticatedUsers();
         }
+        Jump.signOutCaptureUser(mContext);
     }
 
     public void registerUserRegistrationListener(UserRegistrationListener userRegistrationListener) {

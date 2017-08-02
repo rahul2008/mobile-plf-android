@@ -379,7 +379,13 @@ public class CaptureRecord extends JSONObject {
         return JsonUtils.collectionToJson(preregAttributes);
     }
 
-
+    /*   private String getUTCdatetimeAsString() {
+           final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+           sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+           final String utcTime = sdf.format(new Date());
+   System.out.println("UTC time " +utcTime);
+          return utcTime;
+   }*/
     private String getUTCdatetimeAsString() {
        return  ServerTime.getCurrentUTCTimeWithFormat(ServerTimeConstants.DATE_FORMAT_FOR_JUMP);
     }
