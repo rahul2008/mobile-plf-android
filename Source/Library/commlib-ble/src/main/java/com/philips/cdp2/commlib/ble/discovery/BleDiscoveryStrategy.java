@@ -12,10 +12,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
 
-import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.ble.BleCacheData;
+import com.philips.cdp2.commlib.ble.BleDeviceCache;
 import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
 import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
@@ -131,7 +130,6 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
         networkNode.setCppId(device.getAddress()); // TODO cloud identifier; hijacked MAC address for now
         networkNode.setName(device.getName()); // TODO Friendly name, e.g. 'Vacuum cleaner'
         networkNode.setDeviceType(device.getDeviceTypeName()); // TODO model name, e.g. 'Polaris'
-        networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 
         // Model id, e.g. 'FC8932'
         byte[] manufacturerData = shnDeviceFoundInfo.getBleScanRecord().getManufacturerSpecificData();

@@ -17,7 +17,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_BOOT_ID;
-import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_CONNECTION_STATE;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_CPP_ID;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_DEVICE_NAME;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_DEVICE_TYPE;
@@ -45,8 +44,6 @@ public class NetworkNode implements Parcelable {
     public enum PairingState {PAIRED, NOT_PAIRED, UNPAIRED, PAIRING}
 
     private boolean isHttps = true;
-    @Deprecated
-    private volatile ConnectionState connectionState;
     private long bootId;
     private long lastPairedTime;
     private PairingState pairedState = PairingState.NOT_PAIRED;
@@ -92,18 +89,6 @@ public class NetworkNode implements Parcelable {
         final String oldCppId = this.cppId;
         this.cppId = cppId;
         this.pcs.firePropertyChange(KEY_CPP_ID, oldCppId, cppId);
-    }
-
-    @Deprecated
-    public synchronized ConnectionState getConnectionState() {
-        return connectionState;
-    }
-
-    @Deprecated
-    public void setConnectionState(ConnectionState connectionState) {
-        final ConnectionState oldConnectionState = this.connectionState;
-        this.connectionState = connectionState;
-        this.pcs.firePropertyChange(KEY_CONNECTION_STATE, oldConnectionState, connectionState);
     }
 
     public synchronized String getName() {
@@ -245,7 +230,6 @@ public class NetworkNode implements Parcelable {
     protected NetworkNode(Parcel in) {
         ipAddress = in.readString();
         cppId = in.readString();
-        connectionState = ConnectionState.values()[in.readInt()];
         name = in.readString();
         deviceType = in.readString();
         modelId = in.readString();
@@ -267,7 +251,6 @@ public class NetworkNode implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(ipAddress);
         dest.writeString(cppId);
-        dest.writeInt(connectionState.ordinal());
         dest.writeString(name);
         dest.writeString(deviceType);
         dest.writeString(modelId);
@@ -308,7 +291,6 @@ public class NetworkNode implements Parcelable {
                 .append("   deviceType: ").append(getDeviceType())
                 .append("   modelId: ").append(getModelId())
                 .append("   paired: ").append(getPairedState())
-                .append("   connectedState: ").append(getConnectionState())
                 .append("   homeSsid: ").append(getHomeSsid())
                 .append("   pin: ").append(pin)
                 .append("   mismatchedPin: ").append(mismatchedPin);

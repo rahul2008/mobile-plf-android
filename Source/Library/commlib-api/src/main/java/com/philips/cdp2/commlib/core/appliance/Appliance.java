@@ -5,7 +5,8 @@
 
 package com.philips.cdp2.commlib.core.appliance;
 
-import com.philips.cdp.dicommclient.networknode.ConnectionState;
+import android.support.annotation.NonNull;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
@@ -18,32 +19,37 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+/**
+ * The type Appliance.
+ * <p>
+ * Represents a physical appliance/peripheral/product that implements the DiComm communication protocol.
+ *
+ * @publicApi
+ */
 public abstract class Appliance {
 
-    protected final NetworkNode mNetworkNode;
+    protected final NetworkNode networkNode;
 
-    protected final DevicePort mDevicePort;
-    protected final FirmwarePort mFirmwarePort;
-    protected final PairingPort mPairingPort;
-    protected final WifiPort mWifiPort;
-    protected final WifiUIPort mWifiUIPort;
+    private final DevicePort devicePort;
+    private final FirmwarePort firmwarePort;
+    private final PairingPort pairingPort;
+    private final WifiPort wifiPort;
+    private final WifiUIPort wifiUIPort;
 
-    protected final CommunicationStrategy mCommunicationStrategy;
+    protected final CommunicationStrategy communicationStrategy;
 
-    private final List<DICommPort<?>> mPortList = new ArrayList<>();
+    private final Set<DICommPort> ports = new HashSet<>();
 
-    private SubscriptionEventListener mSubscriptionEventListener = new SubscriptionEventListener() {
+    private SubscriptionEventListener subscriptionEventListener = new SubscriptionEventListener() {
 
         @Override
         public void onSubscriptionEventReceived(String data) {
             DICommLog.d(DICommLog.APPLIANCE, "Notify subscription listeners - " + data);
 
-            List<DICommPort<?>> portList = getAllPorts();
-
-            for (DICommPort<?> port : portList) {
+            for (DICommPort port : getAllPorts()) {
                 if (port.isResponseForThisPort(data)) {
                     port.handleResponse(data);
                 }
@@ -51,58 +57,80 @@ public abstract class Appliance {
         }
     };
 
-    public Appliance(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
-        mNetworkNode = networkNode;
-        mCommunicationStrategy = communicationStrategy;
-        mCommunicationStrategy.addSubscriptionEventListener(mSubscriptionEventListener);
+    public Appliance(final @NonNull NetworkNode networkNode, final @NonNull CommunicationStrategy communicationStrategy) {
+        this.networkNode = networkNode;
+        this.communicationStrategy = communicationStrategy;
+        this.communicationStrategy.addSubscriptionEventListener(subscriptionEventListener);
 
-        mDevicePort = new DevicePort(mCommunicationStrategy);
-        mFirmwarePort = new FirmwarePort(mCommunicationStrategy);
-        mPairingPort = new PairingPort(mCommunicationStrategy);
-        mWifiPort = new WifiPort(mCommunicationStrategy);
-        mWifiUIPort = new WifiUIPort(mCommunicationStrategy);
+        devicePort = new DevicePort(this.communicationStrategy);
+        firmwarePort = new FirmwarePort(this.communicationStrategy);
+        pairingPort = new PairingPort(this.communicationStrategy);
+        wifiPort = new WifiPort(this.communicationStrategy);
+        wifiUIPort = new WifiUIPort(this.communicationStrategy);
 
-        addPort(mDevicePort);
-        addPort(mFirmwarePort);
-        addPort(mPairingPort);
-        addPort(mWifiPort);
-        addPort(mWifiUIPort);
+        addPort(devicePort);
+        addPort(firmwarePort);
+        addPort(pairingPort);
+        addPort(wifiPort);
+        addPort(wifiUIPort);
     }
 
     /**
-     * @return DeviceType used by CPP to identify this appliance
+     * @return the device type used by CPP to identify this appliance
      */
     public abstract String getDeviceType();
 
+    /**
+     * Gets network node.
+     *
+     * @return the network node that is associated with this appliance
+     */
     public NetworkNode getNetworkNode() {
-        return mNetworkNode;
+        return networkNode;
     }
 
-    protected void addPort(DICommPort<?> port) {
-        mPortList.add(0, port);
+    protected void addPort(final @NonNull DICommPort port) {
+        ports.add(port);
     }
 
+    /**
+     * Subscribe.
+     * <p>
+     * For this to work, {@link Appliance#enableCommunication()}  has to be called as well to
+     * ensure this Appliance also receives subscription notifications.
+     */
     public void subscribe() {
-        DICommLog.i(DICommLog.APPLIANCE, "Subscribe to all ports for appliance: " + this);
-        for (DICommPort<?> port : mPortList) {
+        DICommLog.i(DICommLog.APPLIANCE, "Subscribe to all ports for appliance: " + toString());
+
+        for (DICommPort port : ports) {
             if (port.supportsSubscription()) {
                 port.subscribe();
             }
         }
     }
 
+    /**
+     * Unsubscribe.
+     */
     public void unsubscribe() {
-        DICommLog.i(DICommLog.APPLIANCE, "Unsubscribe to all ports for appliance: " + this);
-        for (DICommPort<?> port : mPortList) {
+        DICommLog.i(DICommLog.APPLIANCE, "Unsubscribe from all ports for appliance: " + toString());
+
+        for (DICommPort port : ports) {
             if (port.supportsSubscription()) {
                 port.unsubscribe();
             }
         }
     }
 
+    /**
+     * Stop resubscribe.
+     * <p>
+     * Prevents subscriptions to automatically renew after they expire.
+     */
     public void stopResubscribe() {
-        DICommLog.i(DICommLog.APPLIANCE, "Stop resubscribe to all ports for appliance: " + this);
-        for (DICommPort<?> port : mPortList) {
+        DICommLog.i(DICommLog.APPLIANCE, "Stop resubscribing to all ports for appliance: " + toString());
+
+        for (DICommPort port : ports) {
             if (port.supportsSubscription()) {
                 port.stopResubscribe();
             }
@@ -110,73 +138,83 @@ public abstract class Appliance {
     }
 
     public DevicePort getDevicePort() {
-        return mDevicePort;
+        return devicePort;
     }
 
     public FirmwarePort getFirmwarePort() {
-        return mFirmwarePort;
+        return firmwarePort;
     }
 
     public PairingPort getPairingPort() {
-        return mPairingPort;
+        return pairingPort;
     }
 
     public WifiPort getWifiPort() {
-        return mWifiPort;
+        return wifiPort;
     }
 
     public WifiUIPort getWifiUIPort() {
-        return mWifiUIPort;
+        return wifiUIPort;
     }
 
-    protected List<DICommPort<?>> getAllPorts() {
-        return mPortList;
+    Set<DICommPort> getAllPorts() {
+        return ports;
     }
 
     public synchronized String getName() {
         return getNetworkNode().getName();
     }
 
-    public void setConnectionState(ConnectionState connectionState) {
-        mNetworkNode.setConnectionState(connectionState);
-    }
-
-    public void addListenerForAllPorts(DICommPortListener portListener) {
-        for (DICommPort<?> port : getAllPorts()) {
+    public void addListenerForAllPorts(final @NonNull DICommPortListener portListener) {
+        for (DICommPort port : getAllPorts()) {
             port.addPortListener(portListener);
         }
     }
 
-    public void removeListenerForAllPorts(DICommPortListener portListener) {
-        for (DICommPort<?> port : getAllPorts()) {
+    public void removeListenerForAllPorts(final @NonNull DICommPortListener portListener) {
+        for (DICommPort port : getAllPorts()) {
             port.removePortListener(portListener);
         }
     }
 
+    /**
+     * Enable listening for subscription notifications.
+     */
     public void enableCommunication() {
-        mCommunicationStrategy.enableCommunication(mSubscriptionEventListener);
+        communicationStrategy.enableCommunication(subscriptionEventListener);
     }
 
+    /**
+     * Disable communication.
+     * <p>
+     * Disable listening for subscription notifications.
+     */
     public void disableCommunication() {
-        mCommunicationStrategy.disableCommunication();
+        communicationStrategy.disableCommunication();
+    }
+
+    /**
+     * Indicates that this Appliance is available for communication.
+     *
+     * @return true, if communication to this Appliance is possible
+     */
+    public boolean isAvailable() {
+        return communicationStrategy.isAvailable();
     }
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("name: ").append(getName())//
-                .append("   ip: ").append(getNetworkNode().getIpAddress())//
-                .append("   eui64: ").append(getNetworkNode().getCppId())//
-                .append("   bootId: ").append(getNetworkNode().getBootId())//
-                .append("   paired: ").append(getNetworkNode().getPairedState())//
-                .append("   connectedState: ").append(getNetworkNode().getConnectionState())//
-                .append("   homeSsid: ").append(getNetworkNode().getHomeSsid());
-        return builder.toString();
+        return "name: " + getName() +
+                "   ip: " + getNetworkNode().getIpAddress() +
+                "   eui64: " + getNetworkNode().getCppId() +
+                "   bootId: " + getNetworkNode().getBootId() +
+                "   paired: " + getNetworkNode().getPairedState() +
+                "   homeSsid: " + getNetworkNode().getHomeSsid();
     }
 
     @Override
     public int hashCode() {
-        return mNetworkNode.hashCode();
+        return networkNode.hashCode();
     }
 
     @Override
@@ -187,6 +225,6 @@ public abstract class Appliance {
         if (!(other instanceof Appliance)) {
             return false;
         }
-        return mNetworkNode.equals(((Appliance) other).getNetworkNode());
+        return networkNode.equals(((Appliance) other).getNetworkNode());
     }
 }

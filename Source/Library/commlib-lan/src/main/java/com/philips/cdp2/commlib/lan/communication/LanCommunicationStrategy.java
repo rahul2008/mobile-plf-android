@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
-import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.Request;
@@ -21,6 +20,7 @@ import com.philips.cdp.dicommclient.subscription.LocalSubscriptionHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.subscription.UdpEventReceiver;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.security.SslPinTrustManager;
 
 import java.security.KeyManagementException;
@@ -32,15 +32,17 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.X509TrustManager;
 
 public class LanCommunicationStrategy extends CommunicationStrategy {
-    private RequestQueue mRequestQueue;
+    private RequestQueue requestQueue;
     private DISecurity diSecurity;
     private boolean isKeyExchangeOngoing;
-    private LocalSubscriptionHandler mLocalSubscriptionHandler;
+    private LocalSubscriptionHandler localSubscriptionHandler;
     private final NetworkNode networkNode;
+    @NonNull
+    private final LanDeviceCache deviceCache;
     @Nullable
     private SSLContext sslContext;
 
-    private EncryptionDecryptionFailedListener mEncryptionDecryptionFailedListener = new EncryptionDecryptionFailedListener() {
+    private final EncryptionDecryptionFailedListener encryptionDecryptionFailedListener = new EncryptionDecryptionFailedListener() {
 
         @Override
         public void onDecryptionFailed(NetworkNode networkNode) {
@@ -53,8 +55,9 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
         }
     };
 
-    public LanCommunicationStrategy(@NonNull final NetworkNode networkNode) {
+    public LanCommunicationStrategy(final @NonNull NetworkNode networkNode, final @NonNull LanDeviceCache deviceCache) {
         this.networkNode = networkNode;
+        this.deviceCache = deviceCache;
 
         if (networkNode.isHttps()) {
             try {
@@ -65,10 +68,10 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
         }
 
         this.diSecurity = new DISecurity(networkNode);
-        this.diSecurity.setEncryptionDecryptionFailedListener(mEncryptionDecryptionFailedListener);
+        this.diSecurity.setEncryptionDecryptionFailedListener(encryptionDecryptionFailedListener);
 
-        mRequestQueue = createRequestQueue();
-        mLocalSubscriptionHandler = new LocalSubscriptionHandler(diSecurity, UdpEventReceiver.getInstance());
+        requestQueue = createRequestQueue();
+        localSubscriptionHandler = new LocalSubscriptionHandler(diSecurity, UdpEventReceiver.getInstance());
     }
 
     @VisibleForTesting
@@ -80,35 +83,35 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
     public void getProperties(String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
         Request request = new LanRequest(networkNode, sslContext, portName, productId, LanRequestType.GET, null, responseHandler, diSecurity);
-        mRequestQueue.addRequest(request);
+        requestQueue.addRequest(request);
     }
 
     @Override
     public void putProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
         Request request = new LanRequest(networkNode, sslContext, portName, productId, LanRequestType.PUT, dataMap, responseHandler, diSecurity);
-        mRequestQueue.addRequest(request);
+        requestQueue.addRequest(request);
     }
 
     @Override
     public void addProperties(Map<String, Object> dataMap, String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
         Request request = new LanRequest(networkNode, sslContext, portName, productId, LanRequestType.POST, dataMap, responseHandler, diSecurity);
-        mRequestQueue.addRequest(request);
+        requestQueue.addRequest(request);
     }
 
     @Override
     public void deleteProperties(String portName, int productId, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
         Request request = new LanRequest(networkNode, sslContext, portName, productId, LanRequestType.DELETE, null, responseHandler, diSecurity);
-        mRequestQueue.addRequest(request);
+        requestQueue.addRequest(request);
     }
 
     @Override
     public void subscribe(String portName, int productId, int subscriptionTtl, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
         Request request = new LanRequest(networkNode, sslContext, portName, productId, LanRequestType.POST, getSubscriptionData(subscriptionTtl), responseHandler, diSecurity);
-        mRequestQueue.addRequest(request);
+        requestQueue.addRequest(request);
     }
 
     @Override
@@ -116,12 +119,12 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
                             ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
         Request request = new LanRequest(networkNode, sslContext, portName, productId, LanRequestType.DELETE, getUnsubscriptionData(), responseHandler, diSecurity);
-        mRequestQueue.addRequest(request);
+        requestQueue.addRequest(request);
     }
 
     @Override
     public boolean isAvailable() {
-        return networkNode.getConnectionState().equals(ConnectionState.CONNECTED_LOCALLY);
+        return deviceCache.contains(networkNode.getCppId());
     }
 
     @VisibleForTesting
@@ -166,16 +169,16 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
                 new ExchangeKeyRequest(networkNode, responseHandler);
 
         isKeyExchangeOngoing = true;
-        mRequestQueue.addRequestInFrontOfQueue(request);
+        requestQueue.addRequestInFrontOfQueue(request);
     }
 
     @Override
     public void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
-        mLocalSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListener);
+        localSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListener);
     }
 
     @Override
     public void disableCommunication() {
-        mLocalSubscriptionHandler.disableSubscription();
+        localSubscriptionHandler.disableSubscription();
     }
 }

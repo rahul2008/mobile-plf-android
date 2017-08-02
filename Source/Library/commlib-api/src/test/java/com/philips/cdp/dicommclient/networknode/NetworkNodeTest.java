@@ -97,8 +97,7 @@ public class NetworkNodeTest {
         networkNode.setName("Anton");
         networkNode.setPairedState(PAIRED);
         networkNode.setPin("ALL YOUR BASE ARE BELONG TO US");
-        networkNode.setConnectionState(ConnectionState.DISCONNECTED);
 
-        verify(mockPropertyChangeListener, times(12)).propertyChange(any(PropertyChangeEvent.class));
+        verify(mockPropertyChangeListener, times(11)).propertyChange(any(PropertyChangeEvent.class));
     }
 }

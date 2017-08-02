@@ -6,7 +6,6 @@
 package com.philips.cdp2.commlib.cloud.communication;
 
 import com.philips.cdp.cloudcontroller.CloudController;
-import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.RemoteRequest;
@@ -22,21 +21,21 @@ import java.util.Map;
 
 public class CloudCommunicationStrategy extends CommunicationStrategy {
 
-    private final RemoteSubscriptionHandler mRemoteSubscriptionHandler;
-    private final NetworkNode mNetworkNode;
+    private final RemoteSubscriptionHandler remoteSubscriptionHandler;
+    private final NetworkNode networkNode;
     private final CloudController cloudController;
 
     private RequestQueue mRequestQueue;
     private boolean isDSCRequestOnGoing;
 
     public CloudCommunicationStrategy(final NetworkNode networkNode, final CloudController cloudController) {
-        mNetworkNode = networkNode;
+        this.networkNode = networkNode;
         if (cloudController == null) {
             throw new IllegalArgumentException("CloudController is null.");
         }
         this.cloudController = cloudController;
         mRequestQueue = createRequestQueue();
-        mRemoteSubscriptionHandler = createRemoteSubscriptionHandler(cloudController);
+        remoteSubscriptionHandler = createRemoteSubscriptionHandler(cloudController);
     }
 
     @Override
@@ -44,7 +43,7 @@ public class CloudCommunicationStrategy extends CommunicationStrategy {
                               final ResponseHandler responseHandler) {
         startDcsIfNecessary();
 
-        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.GET_PROPS, null, responseHandler, cloudController);
+        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.GET_PROPS, null, responseHandler, cloudController);
         mRequestQueue.addRequest(request);
     }
 
@@ -54,7 +53,7 @@ public class CloudCommunicationStrategy extends CommunicationStrategy {
                               final ResponseHandler responseHandler) {
         startDcsIfNecessary();
 
-        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.PUT_PROPS, dataMap, responseHandler, cloudController);
+        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.PUT_PROPS, dataMap, responseHandler, cloudController);
         mRequestQueue.addRequest(request);
     }
 
@@ -64,7 +63,7 @@ public class CloudCommunicationStrategy extends CommunicationStrategy {
                               final ResponseHandler responseHandler) {
         startDcsIfNecessary();
 
-        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.ADD_PROPS, dataMap, responseHandler, cloudController);
+        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.ADD_PROPS, dataMap, responseHandler, cloudController);
         mRequestQueue.addRequest(request);
     }
 
@@ -72,7 +71,7 @@ public class CloudCommunicationStrategy extends CommunicationStrategy {
     public void deleteProperties(final String portName, final int productId, final ResponseHandler responseHandler) {
         startDcsIfNecessary();
 
-        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.DEL_PROPS, null, responseHandler, cloudController);
+        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.DEL_PROPS, null, responseHandler, cloudController);
         mRequestQueue.addRequest(request);
     }
 
@@ -81,7 +80,7 @@ public class CloudCommunicationStrategy extends CommunicationStrategy {
                           final ResponseHandler responseHandler) {
         startDcsIfNecessary();
 
-        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.SUBSCRIBE, getSubscriptionData(subscriptionTtl), responseHandler, cloudController);
+        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.SUBSCRIBE, getSubscriptionData(subscriptionTtl), responseHandler, cloudController);
         mRequestQueue.addRequest(request);
     }
 
@@ -90,25 +89,25 @@ public class CloudCommunicationStrategy extends CommunicationStrategy {
                             final ResponseHandler responseHandler) {
         startDcsIfNecessary();
 
-        RemoteRequest request = new RemoteRequest(mNetworkNode.getCppId(), portName, productId, RemoteRequestType.UNSUBSCRIBE, getUnsubscriptionData(), responseHandler, cloudController);
+        RemoteRequest request = new RemoteRequest(networkNode.getCppId(), portName, productId, RemoteRequestType.UNSUBSCRIBE, getUnsubscriptionData(), responseHandler, cloudController);
         mRequestQueue.addRequest(request);
     }
 
     @Override
     public boolean isAvailable() {
-        return mNetworkNode.getConnectionState().equals(ConnectionState.CONNECTED_REMOTELY);
+        return true; // TODO actually determine connectivity
     }
 
     @Override
     public void enableCommunication(final SubscriptionEventListener subscriptionEventListener) {
         startDcsIfNecessary();
 
-        mRemoteSubscriptionHandler.enableSubscription(mNetworkNode, subscriptionEventListener);
+        remoteSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListener);
     }
 
     @Override
     public void disableCommunication() {
-        mRemoteSubscriptionHandler.disableSubscription();
+        remoteSubscriptionHandler.disableSubscription();
         cloudController.stopDCSService();
     }
 

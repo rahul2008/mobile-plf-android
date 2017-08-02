@@ -4,713 +4,707 @@
  */
 package com.philips.cdp.dicommclient.appliance;
 
-import com.philips.cdp.dicommclient.networknode.ConnectionState;
+import android.os.Handler;
+
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.testutil.RobolectricTest;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.NullCommunicationStrategy;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import static com.philips.cdp2.commlib.core.util.HandlerProvider.enableMockedHandler;
 import static junit.framework.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
+import static org.mockito.MockitoAnnotations.initMocks;
 
-public class CurrentApplianceManagerTest extends RobolectricTest {
+public class CurrentApplianceManagerTest {
 
-    private CurrentApplianceManager mCurrentApplianceMan;
+    private CurrentApplianceManager currentApplianceManager;
 
     private static final String APPLIANCE_IP = "198.168.1.145";
     private static final String APPLIANCE_CPPID = "1c5a6bfffe634357";
 
+    @Mock
+    private Handler handlerMock;
+
+    @Mock
+    private DICommApplianceListener applianceListener;
+
+    @Before
     public void setUp() throws Exception {
-        super.setUp();
+        initMocks(this);
+
+        DICommLog.disableLogging();
+        enableMockedHandler(handlerMock);
 
         CurrentApplianceManager.setDummyCurrentApplianceManagerForTesting(null);
-        mCurrentApplianceMan = CurrentApplianceManager.getInstance();
+        currentApplianceManager = CurrentApplianceManager.getInstance();
 
-        DICommApplianceListener mApplianceListener = mock(DICommApplianceListener.class);
-        mCurrentApplianceMan.addApplianceListener(mApplianceListener);
+        currentApplianceManager.addApplianceListener(applianceListener);
     }
 
+    @After
     public void tearDown() throws Exception {
-        // Remove mock objects after tests
         CurrentApplianceManager.setDummyCurrentApplianceManagerForTesting(null);
-        super.tearDown();
-    }
-
-    // ***** START TESTS TO TOGGLE SUBSCRIPTION WHEN APPLIANCE CHANGES *****
-    @Test
-    public void testSetFirstDisconnectedPurifier() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.DISCONNECTED);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
-
-        verify(appliance1, never()).enableCommunication();
-        verify(appliance1, never()).subscribe();
-
-        verify(appliance1, never()).disableCommunication();
-        verify(appliance1, never()).stopResubscribe();
     }
 
     @Test
-    public void testSetFirstLocalPurifier() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testSetFirstDisconnectedAppliance() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
-        verifyAddedPurifier(appliance1);
+        verify(appliance, never()).enableCommunication();
+        verify(appliance, never()).subscribe();
+
+        verify(appliance, never()).disableCommunication();
+        verify(appliance, never()).stopResubscribe();
     }
 
     @Test
-    public void testSetFirstRemotePurifierNotPaired() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testSetFirstLocalAppliance() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
-        verifyAddedPurifier(appliance1);
+        verifyAddedAppliance(appliance);
     }
 
     @Test
-    public void testSetFirstRemotePurifierPaired() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-        appliance1 = Mockito.spy(appliance1);
-        appliance1.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testSetFirstRemoteApplianceNotPaired() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
-        verifyAddedPurifier(appliance1);
+        verifyAddedAppliance(appliance);
     }
 
     @Test
-    public void testSetDisconnectedPurifierAfterDisconnected() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.DISCONNECTED);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testSetFirstRemoteAppliancePaired() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        appliance.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
-        reset(appliance1);
+        verifyAddedAppliance(appliance);
+    }
 
-        Appliance appliance2 = createAppliance(null, null, null, -1, ConnectionState.DISCONNECTED);
+    @Test
+    public void testSetDisconnectedApplianceAfterDisconnected() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
+
+        reset(appliance);
+
+        Appliance appliance2 = createAppliance(null, null, null, -1);
         appliance2 = Mockito.spy(appliance2);
-        mCurrentApplianceMan.setCurrentAppliance(appliance2);
+        currentApplianceManager.setCurrentAppliance(appliance2);
 
-        verifyRemovedPurifier(appliance1);
+        verifyRemovedAppliance(appliance);
     }
 
     @Test
-    public void testSetLocalPurifierAfterDisconnected() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.DISCONNECTED);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testSetLocalApplianceAfterDisconnected() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
-        reset(appliance1);
+        reset(appliance);
 
-        Appliance appliance2 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
+        Appliance appliance2 = createAppliance(null, null, null, -1);
         appliance2 = Mockito.spy(appliance2);
-        mCurrentApplianceMan.setCurrentAppliance(appliance2);
+        currentApplianceManager.setCurrentAppliance(appliance2);
 
-        verifyRemovedPurifier(appliance1);
-        verifyAddedPurifier(appliance2);
+        verifyRemovedAppliance(appliance);
+        verifyAddedAppliance(appliance2);
     }
 
     @Test
-    public void testSetRemotePurifierNotPairedAfterDisconnected() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.DISCONNECTED);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testSetRemoteApplianceNotPairedAfterDisconnected() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
-        reset(appliance1);
+        reset(appliance);
 
-        Appliance appliance2 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
+        Appliance appliance2 = createAppliance(null, null, null, -1);
         appliance2 = Mockito.spy(appliance2);
-        mCurrentApplianceMan.setCurrentAppliance(appliance2);
+        currentApplianceManager.setCurrentAppliance(appliance2);
 
-        verifyRemovedPurifier(appliance1);
-        verifyAddedPurifier(appliance2);
+        verifyRemovedAppliance(appliance);
+        verifyAddedAppliance(appliance2);
     }
 
     @Test
-    public void testSetRemotePurifierPairedAfterDisconnected() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.DISCONNECTED);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testSetRemoteAppliancePairedAfterDisconnected() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
-        reset(appliance1);
+        reset(appliance);
 
-        ConnectionState device2ConnectedState = ConnectionState.CONNECTED_REMOTELY;
-        Appliance appliance2 = createAppliance(null, null, null, -1, device2ConnectedState);
+        Appliance appliance2 = createAppliance(null, null, null, -1);
         appliance2 = Mockito.spy(appliance2);
         appliance2.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
-        mCurrentApplianceMan.setCurrentAppliance(appliance2);
+        currentApplianceManager.setCurrentAppliance(appliance2);
 
-        verifyRemovedPurifier(appliance1);
-        verifyAddedPurifier(appliance2);
+        verifyRemovedAppliance(appliance);
+        verifyAddedAppliance(appliance2);
     }
 
     @Test
-    public void testSetDisconnectedPurifierAfterLocally() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testSetDisconnectedApplianceAfterLocally() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
-        reset(appliance1);
+        reset(appliance);
 
-        Appliance appliance2 = createAppliance(null, null, null, -1, ConnectionState.DISCONNECTED);
+        Appliance appliance2 = createAppliance(null, null, null, -1);
         appliance2 = Mockito.spy(appliance2);
-        mCurrentApplianceMan.setCurrentAppliance(appliance2);
+        currentApplianceManager.setCurrentAppliance(appliance2);
 
-        verifyRemovedPurifier(appliance1);
+        verifyRemovedAppliance(appliance);
     }
 
     @Test
-    public void testSetLocalPurifierAfterLocally() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testSetLocalApplianceAfterLocally() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
-        reset(appliance1);
-        Appliance appliance2 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
+        reset(appliance);
+        Appliance appliance2 = createAppliance(null, null, null, -1);
         appliance2 = Mockito.spy(appliance2);
-        mCurrentApplianceMan.setCurrentAppliance(appliance2);
+        currentApplianceManager.setCurrentAppliance(appliance2);
 
-        verifyRemovedPurifier(appliance1);
-        verifyAddedPurifier(appliance2);
+        verifyRemovedAppliance(appliance);
+        verifyAddedAppliance(appliance2);
     }
 
     @Test
-    public void testSetRemotePurifierNotPairedAfterLocally() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testSetRemoteApplianceNotPairedAfterLocally() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
-        reset(appliance1);
+        reset(appliance);
 
-        Appliance appliance2 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
+        Appliance appliance2 = createAppliance(null, null, null, -1);
         appliance2 = Mockito.spy(appliance2);
-        mCurrentApplianceMan.setCurrentAppliance(appliance2);
+        currentApplianceManager.setCurrentAppliance(appliance2);
 
-        verifyRemovedPurifier(appliance1);
-        verifyAddedPurifier(appliance2);
+        verifyRemovedAppliance(appliance);
+        verifyAddedAppliance(appliance2);
     }
 
     @Test
-    public void testSetRemotePurifierPairedAfterLocally() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testSetRemoteAppliancePairedAfterLocally() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
-        reset(appliance1);
+        reset(appliance);
 
-        Appliance appliance2 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-        appliance2 = Mockito.spy(appliance2);
-        appliance2.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
-        mCurrentApplianceMan.setCurrentAppliance(appliance2);
-
-        verifyRemovedPurifier(appliance1);
-        verifyAddedPurifier(appliance2);
-    }
-
-    @Test
-    public void testSetDisconnectedPurifierAfterNotPaired() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
-
-        reset(appliance1);
-
-        Appliance appliance2 = createAppliance(null, null, null, -1, ConnectionState.DISCONNECTED);
-        appliance2 = Mockito.spy(appliance2);
-        mCurrentApplianceMan.setCurrentAppliance(appliance2);
-
-        verifyRemovedPurifier(appliance1);
-    }
-
-    @Test
-    public void testSetLocalPurifierAfterNotPaired() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
-
-        reset(appliance1);
-        Appliance appliance2 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
-        appliance2 = Mockito.spy(appliance2);
-        mCurrentApplianceMan.setCurrentAppliance(appliance2);
-
-        verifyRemovedPurifier(appliance1);
-        verifyAddedPurifier(appliance2);
-    }
-
-    @Test
-    public void testSetRemotePurifierNotPairedAfterNotPaired() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
-
-        reset(appliance1);
-        Appliance appliance2 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-        appliance2 = Mockito.spy(appliance2);
-        mCurrentApplianceMan.setCurrentAppliance(appliance2);
-
-        verifyRemovedPurifier(appliance1);
-        verifyAddedPurifier(appliance2);
-    }
-
-    @Test
-    public void testSetRemotePurifierPairedAfterNotPaired() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
-
-        reset(appliance1);
-        Appliance appliance2 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
+        Appliance appliance2 = createAppliance(null, null, null, -1);
         appliance2 = Mockito.spy(appliance2);
         appliance2.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
-        mCurrentApplianceMan.setCurrentAppliance(appliance2);
+        currentApplianceManager.setCurrentAppliance(appliance2);
 
-        verifyRemovedPurifier(appliance1);
-        verifyAddedPurifier(appliance2);
+        verifyRemovedAppliance(appliance);
+        verifyAddedAppliance(appliance2);
     }
 
     @Test
-    public void testSetDisconnectedPurifierAfterPaired() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-        appliance1 = Mockito.spy(appliance1);
-        appliance1.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testSetDisconnectedApplianceAfterNotPaired() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
-        reset(appliance1);
-        Appliance appliance2 = createAppliance(null, null, null, -1, ConnectionState.DISCONNECTED);
+        reset(appliance);
+
+        Appliance appliance2 = createAppliance(null, null, null, -1);
         appliance2 = Mockito.spy(appliance2);
-        mCurrentApplianceMan.setCurrentAppliance(appliance2);
+        currentApplianceManager.setCurrentAppliance(appliance2);
 
-        verifyRemovedPurifier(appliance1);
+        verifyRemovedAppliance(appliance);
     }
 
     @Test
-    public void testSetLocalPurifierAfterPaired() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-        appliance1 = Mockito.spy(appliance1);
-        appliance1.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testSetLocalApplianceAfterNotPaired() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
-        reset(appliance1);
-        Appliance appliance2 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
+        reset(appliance);
+        Appliance appliance2 = createAppliance(null, null, null, -1);
         appliance2 = Mockito.spy(appliance2);
-        mCurrentApplianceMan.setCurrentAppliance(appliance2);
+        currentApplianceManager.setCurrentAppliance(appliance2);
 
-        verifyRemovedPurifier(appliance1);
-        verifyAddedPurifier(appliance2);
+        verifyRemovedAppliance(appliance);
+        verifyAddedAppliance(appliance2);
     }
 
     @Test
-    public void testSetRemotePurifierNotPairedAfterPaired() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-        appliance1 = Mockito.spy(appliance1);
-        appliance1.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testSetRemoteApplianceNotPairedAfterNotPaired() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
-        reset(appliance1);
-        Appliance appliance2 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
+        reset(appliance);
+        Appliance appliance2 = createAppliance(null, null, null, -1);
         appliance2 = Mockito.spy(appliance2);
-        mCurrentApplianceMan.setCurrentAppliance(appliance2);
+        currentApplianceManager.setCurrentAppliance(appliance2);
 
-        verifyRemovedPurifier(appliance1);
-        verifyAddedPurifier(appliance2);
+        verifyRemovedAppliance(appliance);
+        verifyAddedAppliance(appliance2);
     }
 
     @Test
-    public void testSetRemotePurifierPairedAfterPaired() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-        appliance1 = Mockito.spy(appliance1);
-        appliance1.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testSetRemoteAppliancePairedAfterNotPaired() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
-        reset(appliance1);
-        Appliance appliance2 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
+        reset(appliance);
+        Appliance appliance2 = createAppliance(null, null, null, -1);
         appliance2 = Mockito.spy(appliance2);
         appliance2.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
-        mCurrentApplianceMan.setCurrentAppliance(appliance2);
+        currentApplianceManager.setCurrentAppliance(appliance2);
 
-        verifyRemovedPurifier(appliance1);
-        verifyAddedPurifier(appliance2);
+        verifyRemovedAppliance(appliance);
+        verifyAddedAppliance(appliance2);
     }
 
     @Test
-    public void testRemovePurifierPairedAfterNoPurifier() {
-        mCurrentApplianceMan.removeCurrentAppliance();
+    public void testSetDisconnectedApplianceAfterPaired() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        appliance.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
-        assertNull(mCurrentApplianceMan.getCurrentAppliance());
+        reset(appliance);
+        Appliance appliance2 = createAppliance(null, null, null, -1);
+        appliance2 = Mockito.spy(appliance2);
+        currentApplianceManager.setCurrentAppliance(appliance2);
+
+        verifyRemovedAppliance(appliance);
     }
 
     @Test
-    public void testRemovePurifierPairedAfterDisconnected() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.DISCONNECTED);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testSetLocalApplianceAfterPaired() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        appliance.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
-        reset(appliance1);
-        mCurrentApplianceMan.removeCurrentAppliance();
+        reset(appliance);
+        Appliance appliance2 = createAppliance(null, null, null, -1);
+        appliance2 = Mockito.spy(appliance2);
+        currentApplianceManager.setCurrentAppliance(appliance2);
 
-        verifyRemovedPurifier(appliance1);
-
-        assertNull(mCurrentApplianceMan.getCurrentAppliance());
+        verifyRemovedAppliance(appliance);
+        verifyAddedAppliance(appliance2);
     }
 
     @Test
-    public void testRemovePurifierPairedAfterLocal() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testSetRemoteApplianceNotPairedAfterPaired() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        appliance.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
-        reset(appliance1);
-        mCurrentApplianceMan.removeCurrentAppliance();
+        reset(appliance);
+        Appliance appliance2 = createAppliance(null, null, null, -1);
+        appliance2 = Mockito.spy(appliance2);
+        currentApplianceManager.setCurrentAppliance(appliance2);
 
-        verifyRemovedPurifier(appliance1);
-
-        assertNull(mCurrentApplianceMan.getCurrentAppliance());
+        verifyRemovedAppliance(appliance);
+        verifyAddedAppliance(appliance2);
     }
 
     @Test
-    public void testRemovePurifierPairedAfterRemoteNotPaired() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testSetRemoteAppliancePairedAfterPaired() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        appliance.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
-        reset(appliance1);
-        mCurrentApplianceMan.removeCurrentAppliance();
+        reset(appliance);
+        Appliance appliance2 = createAppliance(null, null, null, -1);
+        appliance2 = Mockito.spy(appliance2);
+        appliance2.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
+        currentApplianceManager.setCurrentAppliance(appliance2);
 
-        verifyRemovedPurifier(appliance1);
-
-        assertNull(mCurrentApplianceMan.getCurrentAppliance());
+        verifyRemovedAppliance(appliance);
+        verifyAddedAppliance(appliance2);
     }
 
     @Test
-    public void testRemovePurifierPairedAfterRemotePaired() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-        appliance1 = Mockito.spy(appliance1);
-        appliance1.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testRemoveAppliancePairedAfterNoAppliance() {
+        currentApplianceManager.removeCurrentAppliance();
 
-        reset(appliance1);
-        mCurrentApplianceMan.removeCurrentAppliance();
-
-        verifyRemovedPurifier(appliance1);
-
-        assertNull(mCurrentApplianceMan.getCurrentAppliance());
+        assertNull(currentApplianceManager.getCurrentAppliance());
     }
 
-    // ***** END TESTS TO TOGGLE SUBSCRIPTION WHEN APPLIANCE CHANGES *****
+    @Test
+    public void testRemoveAppliancePairedAfterDisconnected() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
-    // ***** START TESTS TO TOGGLE SUBSCRIPTION WHEN APPLIANCE CONNECTIONSTATE
-    // CHANGES *****
+        reset(appliance);
+        currentApplianceManager.removeCurrentAppliance();
+
+        verifyRemovedAppliance(appliance);
+
+        assertNull(currentApplianceManager.getCurrentAppliance());
+    }
 
     @Test
-    public void testPurifierDisconnectedAfterLocal() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testRemoveAppliancePairedAfterLocal() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
+
+        reset(appliance);
+        currentApplianceManager.removeCurrentAppliance();
+
+        verifyRemovedAppliance(appliance);
+
+        assertNull(currentApplianceManager.getCurrentAppliance());
+    }
+
+    @Test
+    public void testRemoveAppliancePairedAfterRemoteNotPaired() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
+
+        reset(appliance);
+        currentApplianceManager.removeCurrentAppliance();
+
+        verifyRemovedAppliance(appliance);
+
+        assertNull(currentApplianceManager.getCurrentAppliance());
+    }
+
+    @Test
+    public void testRemoveAppliancePairedAfterRemotePaired() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        appliance.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
+        currentApplianceManager.setCurrentAppliance(appliance);
+
+        reset(appliance);
+        currentApplianceManager.removeCurrentAppliance();
+
+        verifyRemovedAppliance(appliance);
+
+        assertNull(currentApplianceManager.getCurrentAppliance());
+    }
+
+    @Test
+    public void testApplianceDisconnectedAfterLocal() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
         DICommApplianceListener listener = mock(DICommApplianceListener.class);
-        mCurrentApplianceMan.addApplianceListener(listener);
+        currentApplianceManager.addApplianceListener(listener);
         CurrentApplianceChangedListener changedListener = mock(CurrentApplianceChangedListener.class);
-        mCurrentApplianceMan.addCurrentApplianceChangedListener(changedListener);
+        currentApplianceManager.addCurrentApplianceChangedListener(changedListener);
 
-        reset(appliance1);
-        appliance1.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
+        reset(appliance);
+        // TODO FIXME let appliance be available via LAN
 
-        verify(appliance1).disableCommunication();
-        verify(appliance1, never()).enableCommunication();
+        verify(appliance).disableCommunication();
+        verify(appliance, never()).enableCommunication();
 
-        verify(appliance1, never()).subscribe();
-        verify(appliance1).stopResubscribe();
+        verify(appliance, never()).subscribe();
+        verify(appliance).stopResubscribe();
 
         verify(changedListener).onCurrentApplianceChanged();
     }
 
     @Test
-    public void testPurifierRemotedAfterLocal() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
-        appliance1 = Mockito.spy(appliance1);
-        appliance1.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testApplianceRemotedAfterLocal() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        appliance.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
         DICommApplianceListener listener = mock(DICommApplianceListener.class);
-        mCurrentApplianceMan.addApplianceListener(listener);
+        currentApplianceManager.addApplianceListener(listener);
         CurrentApplianceChangedListener changedListener = mock(CurrentApplianceChangedListener.class);
-        mCurrentApplianceMan.addCurrentApplianceChangedListener(changedListener);
+        currentApplianceManager.addCurrentApplianceChangedListener(changedListener);
 
-        reset(appliance1);
-        appliance1.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+        reset(appliance);
+        // TODO FIXME let appliance be available via LAN
 
-        verify(appliance1).disableCommunication();
-        verify(appliance1).enableCommunication();
+        verify(appliance).disableCommunication();
+        verify(appliance).enableCommunication();
 
-        verify(appliance1).subscribe();
-        verify(appliance1).stopResubscribe();
+        verify(appliance).subscribe();
+        verify(appliance).stopResubscribe();
 
         verify(changedListener).onCurrentApplianceChanged();
     }
 
     @Test
-    public void testPurifierLocalAfterDisconnected() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.DISCONNECTED);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testApplianceLocalAfterDisconnected() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
         DICommApplianceListener listener = mock(DICommApplianceListener.class);
-        mCurrentApplianceMan.addApplianceListener(listener);
+        currentApplianceManager.addApplianceListener(listener);
         CurrentApplianceChangedListener changedListener = mock(CurrentApplianceChangedListener.class);
-        mCurrentApplianceMan.addCurrentApplianceChangedListener(changedListener);
+        currentApplianceManager.addCurrentApplianceChangedListener(changedListener);
 
-        reset(appliance1);
-        appliance1.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+        reset(appliance);
+        // TODO FIXME let appliance be disconnected
 
         // dicomm refactor: there is change in the behaviour, on app level it would call disable but internally it does nothing when we switch from disconnected state.
-        verify(appliance1).disableCommunication();
-        verify(appliance1).stopResubscribe();
+        verify(appliance).disableCommunication();
+        verify(appliance).stopResubscribe();
 
-        verify(appliance1).enableCommunication();
-        verify(appliance1).subscribe();
+        verify(appliance).enableCommunication();
+        verify(appliance).subscribe();
 
         verify(changedListener).onCurrentApplianceChanged();
     }
 
     @Test
-    public void testPurifierRemoteAfterDisconnected() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.DISCONNECTED);
-        appliance1 = Mockito.spy(appliance1);
-        appliance1.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testApplianceRemoteAfterDisconnected() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        appliance.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
         DICommApplianceListener listener = mock(DICommApplianceListener.class);
-        mCurrentApplianceMan.addApplianceListener(listener);
+        currentApplianceManager.addApplianceListener(listener);
         CurrentApplianceChangedListener changedListener = mock(CurrentApplianceChangedListener.class);
-        mCurrentApplianceMan.addCurrentApplianceChangedListener(changedListener);
+        currentApplianceManager.addCurrentApplianceChangedListener(changedListener);
 
-        reset(appliance1);
-        appliance1.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+        reset(appliance);
+        // TODO FIXME let appliance be available via cloud
 
         // dicomm refactor: there is change in the behaviour, on app level it would call disable but internally it does nothing when we switch from disconnected state.
-        verify(appliance1).disableCommunication();
-        verify(appliance1).stopResubscribe();
+        verify(appliance).disableCommunication();
+        verify(appliance).stopResubscribe();
 
-        verify(appliance1).enableCommunication();
-        verify(appliance1).subscribe();
+        verify(appliance).enableCommunication();
+        verify(appliance).subscribe();
 
         verify(changedListener).onCurrentApplianceChanged();
     }
 
     @Test
-    public void testPurifierLocalAfterRemote() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testApplianceLocalAfterRemote() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
         DICommApplianceListener listener = mock(DICommApplianceListener.class);
-        mCurrentApplianceMan.addApplianceListener(listener);
+        currentApplianceManager.addApplianceListener(listener);
         CurrentApplianceChangedListener changedListener = mock(CurrentApplianceChangedListener.class);
-        mCurrentApplianceMan.addCurrentApplianceChangedListener(changedListener);
+        currentApplianceManager.addCurrentApplianceChangedListener(changedListener);
 
-        reset(appliance1);
-        appliance1.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+        reset(appliance);
+        // TODO FIXME let appliance be available via cloud
 
         // dicomm refactor: there is change in the behaviour, on app level it would call disable but internally it does nothing when we switch from disconnected state.
-        verify(appliance1).disableCommunication();
-        verify(appliance1).stopResubscribe();
+        verify(appliance).disableCommunication();
+        verify(appliance).stopResubscribe();
 
-        verify(appliance1).enableCommunication();
-        verify(appliance1).subscribe();
+        verify(appliance).enableCommunication();
+        verify(appliance).subscribe();
 
         verify(changedListener).onCurrentApplianceChanged();
     }
 
     @Test
-    public void testPurifierDisconnectedAfterRemote() {
-        Appliance appliance1 = createAppliance(null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-        appliance1 = Mockito.spy(appliance1);
-        appliance1.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+    public void testApplianceDisconnectedAfterRemote() {
+        Appliance appliance = createAppliance(null, null, null, -1);
+        appliance = Mockito.spy(appliance);
+        appliance.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
         DICommApplianceListener listener = mock(DICommApplianceListener.class);
-        mCurrentApplianceMan.addApplianceListener(listener);
+        currentApplianceManager.addApplianceListener(listener);
         CurrentApplianceChangedListener changedListener = mock(CurrentApplianceChangedListener.class);
-        mCurrentApplianceMan.addCurrentApplianceChangedListener(changedListener);
+        currentApplianceManager.addCurrentApplianceChangedListener(changedListener);
 
-        reset(appliance1);
-        appliance1.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
+        reset(appliance);
+        // TODO FIXME let appliance be available via cloud
 
         // dicomm refactor: there is change in the behaviour, on app level it would call disable but internally it does nothing when we switch to disconnected state.
-        verify(appliance1).disableCommunication();
-        verify(appliance1).stopResubscribe();
+        verify(appliance).disableCommunication();
+        verify(appliance).stopResubscribe();
 
-        verify(appliance1, never()).enableCommunication();
-        verify(appliance1, never()).subscribe();
+        verify(appliance, never()).enableCommunication();
+        verify(appliance, never()).subscribe();
 
         verify(changedListener).onCurrentApplianceChanged();
     }
-
-    // ***** END TESTS TO TOGGLE SUBSCRIPTION WHEN APPLIANCE CONNECTIONSTATE
-    // CHANGES *****
-
-    // ***** START TEST TO START/STOP SUBSCRIPTION WHEN ADDING
-    // PURIFIEREVENTLISTENERS *****
 
     @Test
     public void testStartSubscriptionAddFirstEventListener() {
         CurrentApplianceManager.setDummyCurrentApplianceManagerForTesting(null);
-        mCurrentApplianceMan = CurrentApplianceManager.getInstance();
-        Appliance appliance1 = createAppliance(APPLIANCE_CPPID, APPLIANCE_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+        currentApplianceManager = CurrentApplianceManager.getInstance();
+        Appliance appliance = createAppliance(APPLIANCE_CPPID, APPLIANCE_IP, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
-        reset(appliance1);
+        reset(appliance);
 
         DICommApplianceListener listener = mock(DICommApplianceListener.class);
-        mCurrentApplianceMan.addApplianceListener(listener);
+        currentApplianceManager.addApplianceListener(listener);
 
-        verify(appliance1, never()).disableCommunication();
-        verify(appliance1).enableCommunication();
+        verify(appliance, never()).disableCommunication();
+        verify(appliance).enableCommunication();
 
-        verify(appliance1).subscribe();
-        verify(appliance1, never()).stopResubscribe();
+        verify(appliance).subscribe();
+        verify(appliance, never()).stopResubscribe();
     }
 
     @Test
     public void testStartSubscriptionAddSecondEventListener() {
         CurrentApplianceManager.setDummyCurrentApplianceManagerForTesting(null);
-        mCurrentApplianceMan = CurrentApplianceManager.getInstance();
-        Appliance appliance1 = createAppliance(APPLIANCE_CPPID, APPLIANCE_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+        currentApplianceManager = CurrentApplianceManager.getInstance();
+        Appliance appliance = createAppliance(APPLIANCE_CPPID, APPLIANCE_IP, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
         DICommApplianceListener listener = mock(DICommApplianceListener.class);
-        mCurrentApplianceMan.addApplianceListener(listener);
+        currentApplianceManager.addApplianceListener(listener);
 
-        reset(appliance1);
+        reset(appliance);
 
         DICommApplianceListener listener2 = mock(DICommApplianceListener.class);
-        mCurrentApplianceMan.addApplianceListener(listener2);
+        currentApplianceManager.addApplianceListener(listener2);
 
-        verify(appliance1, never()).disableCommunication();
-        verify(appliance1, never()).enableCommunication();
+        verify(appliance, never()).disableCommunication();
+        verify(appliance, never()).enableCommunication();
 
-        verify(appliance1, never()).subscribe();
-        verify(appliance1, never()).stopResubscribe();
+        verify(appliance, never()).subscribe();
+        verify(appliance, never()).stopResubscribe();
     }
 
     @Test
     public void testStopSubscriptionRemoveFirstEventListener() {
         CurrentApplianceManager.setDummyCurrentApplianceManagerForTesting(null);
-        mCurrentApplianceMan = CurrentApplianceManager.getInstance();
-        Appliance appliance1 = createAppliance(APPLIANCE_CPPID, APPLIANCE_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+        currentApplianceManager = CurrentApplianceManager.getInstance();
+        Appliance appliance = createAppliance(APPLIANCE_CPPID, APPLIANCE_IP, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
         DICommApplianceListener listener = mock(DICommApplianceListener.class);
-        mCurrentApplianceMan.addApplianceListener(listener);
+        currentApplianceManager.addApplianceListener(listener);
 
-        reset(appliance1);
+        reset(appliance);
 
-        mCurrentApplianceMan.removeApplianceListener(listener);
+        currentApplianceManager.removeApplianceListener(listener);
 
-        verify(appliance1).disableCommunication();
-        verify(appliance1, never()).enableCommunication();
+        verify(appliance).disableCommunication();
+        verify(appliance, never()).enableCommunication();
 
-        verify(appliance1, never()).subscribe();
-        verify(appliance1).stopResubscribe();
+        verify(appliance, never()).subscribe();
+        verify(appliance).stopResubscribe();
     }
 
     @Test
     public void testStopSubscriptionRemoveSecondEventListener() {
         CurrentApplianceManager.setDummyCurrentApplianceManagerForTesting(null);
-        mCurrentApplianceMan = CurrentApplianceManager.getInstance();
-        Appliance appliance1 = createAppliance(APPLIANCE_CPPID, APPLIANCE_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+        currentApplianceManager = CurrentApplianceManager.getInstance();
+        Appliance appliance = createAppliance(APPLIANCE_CPPID, APPLIANCE_IP, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
         DICommApplianceListener listener = mock(DICommApplianceListener.class);
         DICommApplianceListener listener2 = mock(DICommApplianceListener.class);
-        mCurrentApplianceMan.addApplianceListener(listener);
-        mCurrentApplianceMan.addApplianceListener(listener2);
+        currentApplianceManager.addApplianceListener(listener);
+        currentApplianceManager.addApplianceListener(listener2);
 
-        reset(appliance1);
+        reset(appliance);
 
-        mCurrentApplianceMan.removeApplianceListener(listener);
+        currentApplianceManager.removeApplianceListener(listener);
 
-        verify(appliance1, never()).disableCommunication();
-        verify(appliance1, never()).enableCommunication();
+        verify(appliance, never()).disableCommunication();
+        verify(appliance, never()).enableCommunication();
 
-        verify(appliance1, never()).subscribe();
-        verify(appliance1, never()).stopResubscribe();
+        verify(appliance, never()).subscribe();
+        verify(appliance, never()).stopResubscribe();
     }
 
     @Test
     public void testStopSubscriptionRemoveBothEventListeners() {
         CurrentApplianceManager.setDummyCurrentApplianceManagerForTesting(null);
-        mCurrentApplianceMan = CurrentApplianceManager.getInstance();
-        Appliance appliance1 = createAppliance(APPLIANCE_CPPID, APPLIANCE_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+        currentApplianceManager = CurrentApplianceManager.getInstance();
+        Appliance appliance = createAppliance(APPLIANCE_CPPID, APPLIANCE_IP, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
         DICommApplianceListener listener = mock(DICommApplianceListener.class);
         DICommApplianceListener listener2 = mock(DICommApplianceListener.class);
-        mCurrentApplianceMan.addApplianceListener(listener);
-        mCurrentApplianceMan.addApplianceListener(listener2);
+        currentApplianceManager.addApplianceListener(listener);
+        currentApplianceManager.addApplianceListener(listener2);
 
-        reset(appliance1);
+        reset(appliance);
 
-        mCurrentApplianceMan.removeApplianceListener(listener);
-        mCurrentApplianceMan.removeApplianceListener(listener2);
+        currentApplianceManager.removeApplianceListener(listener);
+        currentApplianceManager.removeApplianceListener(listener2);
 
-        verify(appliance1).disableCommunication();
-        verify(appliance1, never()).enableCommunication();
+        verify(appliance).disableCommunication();
+        verify(appliance, never()).enableCommunication();
 
-        verify(appliance1, never()).subscribe();
-        verify(appliance1).stopResubscribe();
+        verify(appliance, never()).subscribe();
+        verify(appliance).stopResubscribe();
     }
 
     @Test
     public void testStartStopSubscriptionAddRemoveListenersSequence() {
         CurrentApplianceManager.setDummyCurrentApplianceManagerForTesting(null);
-        mCurrentApplianceMan = CurrentApplianceManager.getInstance();
-        Appliance appliance1 = createAppliance(APPLIANCE_CPPID, APPLIANCE_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
-        appliance1 = Mockito.spy(appliance1);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
+        currentApplianceManager = CurrentApplianceManager.getInstance();
+        Appliance appliance = createAppliance(APPLIANCE_CPPID, APPLIANCE_IP, null, -1);
+        appliance = Mockito.spy(appliance);
+        currentApplianceManager.setCurrentAppliance(appliance);
 
-        reset(appliance1);
+        reset(appliance);
 
         DICommApplianceListener listener = mock(DICommApplianceListener.class);
         DICommApplianceListener listener2 = mock(DICommApplianceListener.class);
         DICommApplianceListener listener3 = mock(DICommApplianceListener.class);
-        mCurrentApplianceMan.addApplianceListener(listener);
-        mCurrentApplianceMan.addApplianceListener(listener2);
-        mCurrentApplianceMan.removeApplianceListener(listener);
-        mCurrentApplianceMan.addApplianceListener(listener3);
-        mCurrentApplianceMan.removeApplianceListener(listener2);
-        mCurrentApplianceMan.removeApplianceListener(listener3);
+        currentApplianceManager.addApplianceListener(listener);
+        currentApplianceManager.addApplianceListener(listener2);
+        currentApplianceManager.removeApplianceListener(listener);
+        currentApplianceManager.addApplianceListener(listener3);
+        currentApplianceManager.removeApplianceListener(listener2);
+        currentApplianceManager.removeApplianceListener(listener3);
 
-        verify(appliance1).disableCommunication();
-        verify(appliance1).enableCommunication();
+        verify(appliance).disableCommunication();
+        verify(appliance).enableCommunication();
 
-        verify(appliance1).subscribe();
-        verify(appliance1).stopResubscribe();
+        verify(appliance).subscribe();
+        verify(appliance).stopResubscribe();
     }
-
-    // ***** END TEST TO START/STOP SUBSCRIPTION WHEN ADDING
-    // PURIFIEREVENTLISTENERS *****
 
     @Test
     public void testDeadlock() {
         CurrentApplianceManager.setDummyCurrentApplianceManagerForTesting(null);
-        mCurrentApplianceMan = CurrentApplianceManager.getInstance();
-        Appliance appliance1 = createAppliance(APPLIANCE_CPPID, APPLIANCE_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
-        mCurrentApplianceMan.setCurrentAppliance(appliance1);
-
-        appliance1.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+        currentApplianceManager = CurrentApplianceManager.getInstance();
+        Appliance appliance = createAppliance(APPLIANCE_CPPID, APPLIANCE_IP, null, -1);
+        currentApplianceManager.setCurrentAppliance(appliance);
     }
 
-    // -----------
-
-    private void verifyAddedPurifier(Appliance appliance) {
+    private void verifyAddedAppliance(Appliance appliance) {
         verify(appliance).enableCommunication();
         verify(appliance).subscribe();
 
@@ -718,7 +712,7 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         verify(appliance, never()).stopResubscribe();
     }
 
-    private void verifyRemovedPurifier(Appliance appliance) {
+    private void verifyRemovedAppliance(Appliance appliance) {
         verify(appliance).disableCommunication();
         verify(appliance).stopResubscribe();
 
@@ -726,14 +720,13 @@ public class CurrentApplianceManagerTest extends RobolectricTest {
         verify(appliance, never()).subscribe();
     }
 
-    private Appliance createAppliance(String cppId, String ip, String name, long bootId, ConnectionState connectionState) {
+    private Appliance createAppliance(String cppId, String ip, String name, long bootId) {
 
         NetworkNode networkNode = new NetworkNode();
         networkNode.setBootId(bootId);
         networkNode.setCppId(cppId);
         networkNode.setIpAddress(ip);
         networkNode.setName(name);
-        networkNode.setConnectionState(connectionState);
 
         return new Appliance(networkNode, new NullCommunicationStrategy()) {
             @Override

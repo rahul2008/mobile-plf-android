@@ -8,7 +8,6 @@ package com.philips.cdp.dicommclient.communication;
 import android.util.Log;
 
 import com.philips.cdp.cloudcontroller.CloudController;
-import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.RemoteRequest;
@@ -222,14 +221,14 @@ public class CloudCommunicationStrategyTest {
 
     @Test
     public void isAvailableWhenNetworkNodeIsCONNECTED_REMOTELY() throws Exception {
-        when(networkNodeMock.getConnectionState()).thenReturn(ConnectionState.CONNECTED_REMOTELY);
+        // TODO
 
         assertTrue(cloudCommunicationStrategy.isAvailable());
     }
 
     @Test
     public void isNotAvailableWhenNetworkNodeIsDISCONNECTED() throws Exception {
-        when(networkNodeMock.getConnectionState()).thenReturn(ConnectionState.DISCONNECTED);
+        // TODO
 
         assertFalse(cloudCommunicationStrategy.isAvailable());
     }

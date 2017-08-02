@@ -9,12 +9,13 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 
 import com.philips.cdp.dicommclient.discovery.SsdpServiceHelper;
-import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
 import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
+import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.InternalMessage;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
@@ -25,13 +26,18 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
+
+    private static long NETWORKNODE_TTL_MILLIS = TimeUnit.SECONDS.toMillis(10);
 
     private static final Object LOCK = new Object();
 
     @NonNull
     private final SsdpServiceHelper ssdpServiceHelper;
+    @NonNull
+    private final LanDeviceCache deviceCache;
 
     private Map<String, NetworkNode> networkNodeCache = new HashMap<>();
 
@@ -64,7 +70,15 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         }
     };
 
-    public LanDiscoveryStrategy() {
+    private ExpirationCallback expirationCallback = new ExpirationCallback() {
+        @Override
+        public void onCacheExpired(NetworkNode networkNode) {
+            // TODO Do whatever needed to handle timeout
+        }
+    };
+
+    public LanDiscoveryStrategy(final @NonNull LanDeviceCache deviceCache) {
+        this.deviceCache = deviceCache;
         this.ssdpServiceHelper = new SsdpServiceHelper(SsdpService.getInstance(), ssdpCallback);
     }
 
@@ -92,7 +106,6 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
 
     private void onDeviceDiscovered(@NonNull DeviceModel deviceModel) {
         final NetworkNode networkNode = createNetworkNode(deviceModel);
-
         if (networkNode == null) {
             return;
         }
@@ -103,6 +116,7 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
             notifyNetworkNodeUpdated(networkNode);
         } else {
             this.networkNodeCache.put(networkNode.getCppId(), networkNode);
+            deviceCache.addNetworkNode(networkNode, expirationCallback, NETWORKNODE_TTL_MILLIS);
             notifyNetworkNodeDiscovered(networkNode);
         }
     }
@@ -110,6 +124,7 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
     private void onDeviceLost(@NonNull DeviceModel deviceModel) {
         final NetworkNode networkNode = createNetworkNode(deviceModel);
         if (networkNode != null) {
+            deviceCache.remove(networkNode.getCppId());
             notifyNetworkNodeLost(networkNode);
         }
     }
@@ -143,7 +158,6 @@ public final class LanDiscoveryStrategy extends ObservableDiscoveryStrategy {
         networkNode.setName(name);
         networkNode.setModelId(modelNumber);
         networkNode.setDeviceType(deviceType);
-        networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
         networkNode.setHomeSsid(networkSsid);
 
         if (networkNode.isValid()) {

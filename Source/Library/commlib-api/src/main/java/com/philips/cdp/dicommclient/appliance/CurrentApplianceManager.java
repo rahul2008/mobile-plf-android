@@ -5,7 +5,9 @@
 
 package com.philips.cdp.dicommclient.appliance;
 
-import com.philips.cdp.dicommclient.networknode.ConnectionState;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
@@ -14,165 +16,147 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
+/**
+ * The type Current appliance manager.
+ * <p>
+ * Performs automatic subscription handling for the appliance that this type manages.
+ */
 public class CurrentApplianceManager implements PropertyChangeListener {
 
-    private static CurrentApplianceManager mInstance;
+    private static CurrentApplianceManager instance;
 
-    private Appliance mAppliance = null;
-    private ConnectionState mCurrentSubscriptionState = ConnectionState.DISCONNECTED;
+    private Appliance appliance = null;
 
-    private final List<DICommApplianceListener> mApplianceListenersList;
-    private final List<CurrentApplianceChangedListener> mCurrentApplianceChangedListenerList;
+    private final Set<DICommApplianceListener> applianceListeners = new CopyOnWriteArraySet<>();
+    private final Set<CurrentApplianceChangedListener> currentApplianceChangedListeners = new CopyOnWriteArraySet<>();
 
-    private DICommPortListener mDICommAppliancePortListener = new DICommPortListener<DICommPort<?>>() {
+    private final DICommPortListener diCommAppliancePortListener = new DICommPortListener<DICommPort>() {
 
         @Override
-        public void onPortUpdate(DICommPort<?> port) {
+        public void onPortUpdate(DICommPort port) {
             notifyApplianceListenersOnSuccess(port);
         }
 
         @Override
-        public void onPortError(DICommPort<?> port, Error error, String errorData) {
+        public void onPortError(DICommPort port, Error error, String errorData) {
             notifyApplianceListenersOnErrorOccurred(port, error);
         }
     };
 
     public static synchronized CurrentApplianceManager getInstance() {
-        if (mInstance == null) {
-            mInstance = new CurrentApplianceManager();
+        if (instance == null) {
+            instance = new CurrentApplianceManager();
         }
-        return mInstance;
+        return instance;
     }
 
-    protected CurrentApplianceManager() {
-        mApplianceListenersList = new ArrayList<>();
-        mCurrentApplianceChangedListenerList = new ArrayList<>();
-    }
-
-    public synchronized void setCurrentAppliance(Appliance appliance) {
-        if (appliance == null) throw new RuntimeException("Cannot set null appliance");
-
+    public synchronized void setCurrentAppliance(final @NonNull Appliance appliance) {
+        if (appliance.equals(this.appliance)) {
+            return;
+        }
         stopCurrentSubscription();
-        if (mAppliance != null) {
-            mAppliance.getNetworkNode().removePropertyChangeListener(this);
-            mAppliance.removeListenerForAllPorts(mDICommAppliancePortListener);
-        }
-        mAppliance = appliance;
-        mAppliance.getNetworkNode().addPropertyChangeListener(this);
-        mAppliance.addListenerForAllPorts(mDICommAppliancePortListener);
 
-        DICommLog.d(DICommLog.APPLIANCE_MANAGER, "Current appliance set to: " + appliance);
+        if (this.appliance != null) {
+            this.appliance.getNetworkNode().removePropertyChangeListener(this);
+            this.appliance.removeListenerForAllPorts(diCommAppliancePortListener);
+        }
+        this.appliance = appliance;
+        this.appliance.getNetworkNode().addPropertyChangeListener(this);
+        this.appliance.addListenerForAllPorts(diCommAppliancePortListener);
+
+        DICommLog.d(DICommLog.APPLIANCE_MANAGER, "Current appliance set to: " + appliance.toString());
 
         startSubscription();
         notifyApplianceChanged();
     }
 
     public synchronized void removeCurrentAppliance() {
-        if (mAppliance == null) return;
+        if (appliance == null) return;
 
-        if (mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
-            mAppliance.unsubscribe();
-        }
-        mAppliance.getNetworkNode().removePropertyChangeListener(this);
-        mAppliance.removeListenerForAllPorts(mDICommAppliancePortListener);
+        appliance.unsubscribe();
+        appliance.getNetworkNode().removePropertyChangeListener(this);
+        appliance.removeListenerForAllPorts(diCommAppliancePortListener);
         stopCurrentSubscription();
 
-        mAppliance = null;
+        appliance = null;
         DICommLog.d(DICommLog.APPLIANCE_MANAGER, "Removed current appliance");
         notifyApplianceChanged();
     }
 
-    public synchronized Appliance getCurrentAppliance() {
-        return mAppliance;
+    @Nullable
+    public final Appliance getCurrentAppliance() {
+        return this.appliance;
     }
 
-    public void addApplianceListener(DICommApplianceListener applianceListener) {
-        synchronized (mApplianceListenersList) {
-            if (!mApplianceListenersList.contains(applianceListener)) {
-                mApplianceListenersList.add(applianceListener);
-                if (mApplianceListenersList.size() == 1) {
-                    // TODO optimize not to call start after adding each listener
-                    // TODO: DICOMM REFACTOR, need to check in case of multiple appliances may be for powercube
-                    startSubscription();
-                }
-            }
+    public void addApplianceListener(final @NonNull DICommApplianceListener applianceListener) {
+        applianceListeners.add(applianceListener);
+
+        if (applianceListeners.size() == 1) {
+            startSubscription();
         }
     }
 
-    public void removeApplianceListener(DICommApplianceListener applianceListener) {
-        synchronized (mApplianceListenersList) {
-            mApplianceListenersList.remove(applianceListener);
-            if (mApplianceListenersList.isEmpty()) {
-                stopCurrentSubscription();
-            }
+    public void removeApplianceListener(final @NonNull DICommApplianceListener applianceListener) {
+        applianceListeners.remove(applianceListener);
+
+        if (applianceListeners.isEmpty()) {
+            stopCurrentSubscription();
         }
     }
 
-    public void addCurrentApplianceChangedListener(CurrentApplianceChangedListener currentApplianceChangedListener) {
-        synchronized (mCurrentApplianceChangedListenerList) {
-            if (!mCurrentApplianceChangedListenerList.contains(currentApplianceChangedListener)) {
-                mCurrentApplianceChangedListenerList.add(currentApplianceChangedListener);
-            }
-        }
+    public void addCurrentApplianceChangedListener(final @NonNull CurrentApplianceChangedListener currentApplianceChangedListener) {
+        currentApplianceChangedListeners.add(currentApplianceChangedListener);
     }
 
-    public void removeCurrentApplianceChangedListener(CurrentApplianceChangedListener currentApplianceChangedListener) {
-        synchronized (mCurrentApplianceChangedListenerList) {
-            mCurrentApplianceChangedListenerList.remove(currentApplianceChangedListener);
-        }
+    public void removeCurrentApplianceChangedListener(final @NonNull CurrentApplianceChangedListener currentApplianceChangedListener) {
+        currentApplianceChangedListeners.remove(currentApplianceChangedListener);
     }
 
-    private void notifyApplianceListenersOnSuccess(DICommPort<?> port) {
+    private void notifyApplianceListenersOnSuccess(final @NonNull DICommPort port) {
         DICommLog.d(DICommLog.APPLIANCE_MANAGER, "Notify appliance changed listeners");
 
-        synchronized (mApplianceListenersList) {
-            for (DICommApplianceListener listener : mApplianceListenersList) {
-                listener.onAppliancePortUpdate(mAppliance, port);
-            }
+        for (DICommApplianceListener listener : applianceListeners) {
+            listener.onAppliancePortUpdate(appliance, port);
         }
     }
 
-    private void notifyApplianceListenersOnErrorOccurred(DICommPort<?> port, Error error) {
-        synchronized (mApplianceListenersList) {
-            for (DICommApplianceListener listener : mApplianceListenersList) {
-                listener.onAppliancePortError(mAppliance, port, error);
-            }
+    private void notifyApplianceListenersOnErrorOccurred(final @NonNull DICommPort port, final @NonNull Error error) {
+        for (DICommApplianceListener listener : applianceListeners) {
+            listener.onAppliancePortError(appliance, port, error);
         }
     }
 
     private void notifyApplianceChanged() {
         DICommLog.d(DICommLog.APPLIANCE_MANAGER, "Notify appliance changed");
 
-        synchronized (mCurrentApplianceChangedListenerList) {
-            for (CurrentApplianceChangedListener listener : mCurrentApplianceChangedListenerList) {
-                listener.onCurrentApplianceChanged();
-            }
+        for (CurrentApplianceChangedListener listener : currentApplianceChangedListeners) {
+            listener.onCurrentApplianceChanged();
         }
     }
 
-    public synchronized void startSubscription() {
-        if (mApplianceListenersList.isEmpty()) {
+    private synchronized void startSubscription() {
+        if (applianceListeners.isEmpty()) {
             return;
         }
-
-        Appliance appliance = getCurrentAppliance();
+        final Appliance appliance = getCurrentAppliance();
 
         if (appliance == null) {
             return;
         }
 
-        if (!appliance.getNetworkNode().getConnectionState().equals(ConnectionState.DISCONNECTED)) {
+        if (appliance.isAvailable()) {
             appliance.subscribe();
             appliance.enableCommunication();
         }
     }
 
     private synchronized void stopCurrentSubscription() {
-        DICommLog.i(DICommLog.APPLIANCE_MANAGER, "Stop Subscription: " + mCurrentSubscriptionState);
-        Appliance appliance = getCurrentAppliance();
+        DICommLog.i(DICommLog.APPLIANCE_MANAGER, "Stop current subscription.");
+
+        final Appliance appliance = getCurrentAppliance();
         if (appliance == null) {
             return;
         }
@@ -182,13 +166,17 @@ public class CurrentApplianceManager implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (mAppliance == null) return;
+        if (appliance == null) {
+            return;
+        }
         stopCurrentSubscription();
         startSubscription();
+
         notifyApplianceChanged();
     }
 
-    public static void setDummyCurrentApplianceManagerForTesting(CurrentApplianceManager dummyManager) {
-        mInstance = dummyManager;
+    @Deprecated
+    static void setDummyCurrentApplianceManagerForTesting(final CurrentApplianceManager dummyManager) {
+        instance = dummyManager;
     }
 }

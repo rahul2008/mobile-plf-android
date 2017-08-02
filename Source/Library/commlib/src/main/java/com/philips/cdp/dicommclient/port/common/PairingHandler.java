@@ -14,7 +14,6 @@ import com.philips.cdp.cloudcontroller.pairing.PairingEntity;
 import com.philips.cdp.cloudcontroller.pairing.PairingRelation;
 import com.philips.cdp.cloudcontroller.pairing.PermissionListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
-import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
@@ -117,7 +116,7 @@ public class PairingHandler<T extends Appliance> {
      * Constructor for PairingHandler.
      *
      * @param pairingListener PairingListener
-     * @param appliance        T
+     * @param appliance       T
      */
     public PairingHandler(PairingListener<T> pairingListener, T appliance, @NonNull final CloudController cloudController) {
         this(appliance, pairingListener, cloudController);
@@ -331,20 +330,20 @@ public class PairingHandler<T extends Appliance> {
         if (mAppliance == null) return;
         secretKey = generateRandomSecretKey();
 
-            PairingPort pairingPort = mAppliance.getPairingPort();
-            pairingPort.addPortListener(new DICommPortListener<PairingPort>() {
+        PairingPort pairingPort = mAppliance.getPairingPort();
+        pairingPort.addPortListener(new DICommPortListener<PairingPort>() {
 
-                @Override
-                public void onPortUpdate(PairingPort port) {
-                    DICommLog.i(DICommLog.PAIRING, "PairingPort call-SUCCESS");
+            @Override
+            public void onPortUpdate(PairingPort port) {
+                DICommLog.i(DICommLog.PAIRING, "PairingPort call-SUCCESS");
 
                 cloudController.getPairingController().addRelationship(pairingRelation, mPairingCallback, secretKey);
                 port.removePortListener(this);
             }
 
-                @Override
-                public void onPortError(PairingPort port, Error error, String errorData) {
-                    DICommLog.e(DICommLog.PAIRING, "PairingPort call-FAILED");
+            @Override
+            public void onPortError(PairingPort port, Error error, String errorData) {
+                DICommLog.e(DICommLog.PAIRING, "PairingPort call-FAILED");
 
                 notifyListenerFailed();
                 port.removePortListener(this);
@@ -442,10 +441,11 @@ public class PairingHandler<T extends Appliance> {
         return diffInDays;
     }
 
-    public static boolean pairApplianceIfNecessary(NetworkNode networkNode) {
-        if (networkNode == null || networkNode.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) {
-            return false;
-        }
+    public static boolean pairApplianceIfNecessary(final @NonNull NetworkNode networkNode) {
+        // TODO FIXME
+        //        if (networkNode.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) {
+        //            return false;
+        //        }
         DICommLog.i(DICommLog.PAIRING, "In PairToPurifier: " + networkNode.getPairedState());
 
         // First time pairing or on EWS

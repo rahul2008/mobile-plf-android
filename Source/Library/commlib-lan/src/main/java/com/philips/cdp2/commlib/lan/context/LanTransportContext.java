@@ -20,17 +20,22 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
+import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
 import com.philips.cdp2.commlib.lan.discovery.LanDiscoveryStrategy;
 
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.Executors;
 
 import static android.net.ConnectivityManager.TYPE_WIFI;
 
 public class LanTransportContext implements TransportContext {
+
     private static final String TAG = "LanTransportContext";
+
+    private LanDeviceCache deviceCache;
 
     @NonNull
     private final DiscoveryStrategy discoveryStrategy;
@@ -48,6 +53,7 @@ public class LanTransportContext implements TransportContext {
     private boolean isAvailable;
 
     public LanTransportContext(@NonNull final Context context) {
+        this.deviceCache = new LanDeviceCache(Executors.newSingleThreadScheduledExecutor());
         setupNetworkChangedReceiver(context);
 
         this.discoveryStrategy = createLanDiscoveryStrategy();
@@ -56,7 +62,7 @@ public class LanTransportContext implements TransportContext {
     @VisibleForTesting
     @NonNull
     DiscoveryStrategy createLanDiscoveryStrategy() {
-        return new LanDiscoveryStrategy();
+        return new LanDiscoveryStrategy(this.deviceCache);
     }
 
     private void setupNetworkChangedReceiver(final @NonNull Context context) {
@@ -80,7 +86,7 @@ public class LanTransportContext implements TransportContext {
     @Override
     @NonNull
     public LanCommunicationStrategy createCommunicationStrategyFor(@NonNull NetworkNode networkNode) {
-        return new LanCommunicationStrategy(networkNode);
+        return new LanCommunicationStrategy(networkNode, deviceCache);
     }
 
     @Override
