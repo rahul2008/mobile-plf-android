@@ -26,6 +26,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.StringTokenizer;
 
 class KeyBagHelper {
 
@@ -79,9 +80,9 @@ class KeyBagHelper {
     String getIndex(String indexData) {
         String data = "https://www.philips.com/";
         if (!TextUtils.isEmpty(indexData)) {
-            String[] split = indexData.split(data);
-            if (split.length > 1 && split[1] != null)
-                return split[1];
+            StringTokenizer st = new StringTokenizer(indexData, data);
+            if (st.hasMoreTokens())
+                return st.nextToken();
         }
         return null;
     }

@@ -5,6 +5,8 @@
  */
 package com.philips.platform.appinfra.keybag;
 
+import android.text.TextUtils;
+
 import com.philips.platform.appinfra.AppInfra;
 
 import org.json.JSONArray;
@@ -37,16 +39,27 @@ public class KeyBagManager implements KeyBagInterface {
 
     @Override
     public ArrayList<HashMap> getMapForServiceId(String serviceId, URL url) {
+//        serviceId = getAppendedServiceId(serviceId);
         ArrayList<HashMap> hashMaps = new ArrayList<>();
-        Object propertiesForKey = keyBagHelper.getPropertiesForKey(serviceId);
+        if (serviceId != null) {
+            String keyBagHelperIndex = keyBagHelper.getIndex(url.toString());
+            int index = Integer.parseInt(keyBagHelperIndex);
+            Object propertiesForKey = keyBagHelper.getPropertiesForKey(serviceId);
 
-        if (propertiesForKey instanceof JSONArray) {
-            keyBagHelper.addToHashMapArray((JSONArray) propertiesForKey, hashMaps, serviceId);
-        } else if (propertiesForKey instanceof JSONObject) {
-            int index = Integer.parseInt(keyBagHelper.getIndex(url.toString()));
-            keyBagHelper.addToHashMapData((JSONObject) propertiesForKey, hashMaps, index, serviceId);
+            if (propertiesForKey instanceof JSONArray) {
+                keyBagHelper.addToHashMapArray((JSONArray) propertiesForKey, hashMaps, serviceId);
+            } else if (propertiesForKey instanceof JSONObject) {
+                keyBagHelper.addToHashMapData((JSONObject) propertiesForKey, hashMaps, index, serviceId);
+            }
         }
         return hashMaps;
+    }
+
+    private String getAppendedServiceId(String serviceId) {
+        if (!TextUtils.isEmpty(serviceId))
+            return serviceId.concat(".kindex");
+
+        return null;
     }
 
 }

@@ -59,13 +59,13 @@ public class KeyBagActivity extends AppCompatActivity {
 			@Override
 			public void onSuccess() {
 
-				sdmCSV.getServiceUrlWithCountryPreference(serviceIdEditText.getText().toString(), new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+				sdmCSV.getServiceUrlWithCountryPreference("appinfra.localtesting.kindex", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
 
 
 					@Override
 					public void onSuccess(URL url) {
 						System.out.println("************ SUCCESS URL : "+url);
-						Log.d(TAG, "Response from Service Discovery : Service ID : 'appinfra.localtesting.kindex' - " + url);
+						Log.d(TAG, "Response from Service Discovery : Service ID : 'appinfra.localtesting.kindex' - " + "https://www.philips.com/0");
 						ArrayList<HashMap> mapForServiceId = keyBagInterface.getMapForServiceId("appinfra.localtesting", url);
 						updateView(mapForServiceId);
 						Log.d(TAG, "Response from Service Discovery : Service ID : 'appinfra.localtesting.kindex' - " + url);

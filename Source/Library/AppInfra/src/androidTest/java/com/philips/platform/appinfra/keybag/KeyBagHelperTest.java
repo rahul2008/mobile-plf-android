@@ -7,6 +7,9 @@ package com.philips.platform.appinfra.keybag;
 
 import com.philips.platform.appinfra.AppInfraInstrumentation;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class KeyBagHelperTest extends AppInfraInstrumentation {
 
     private KeyBagHelper keyBagHelper;
@@ -31,9 +34,18 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
 
     public void testGettingIndex() {
         String indexData = "https://www.philips.com/0";
-        assertEquals(keyBagHelper.getIndex(indexData), "0");
+        URL url;
+        try {
+            url = new URL(indexData);
+            assertEquals(keyBagHelper.getIndex(url.toString()), "0");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
         indexData = "https://www.philips.com/22";
         assertEquals(keyBagHelper.getIndex(indexData), "22");
+        indexData = "https://www.philips.com/";
+        assertNull(keyBagHelper.getIndex(indexData));
         indexData = "";
         assertNull(keyBagHelper.getIndex(indexData));
         assertNull(keyBagHelper.getIndex(null));
