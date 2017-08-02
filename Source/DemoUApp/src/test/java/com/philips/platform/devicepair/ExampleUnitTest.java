@@ -1,4 +1,4 @@
-package com.philips.platform.dprdemo;
+package com.philips.platform.devicepair;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.philips.platform.dprdemo;
+package com.philips.platform.devicepair;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
