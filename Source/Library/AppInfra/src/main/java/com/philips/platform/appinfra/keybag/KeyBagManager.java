@@ -12,12 +12,12 @@ import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.philipsdevtools.ServiceDiscoveryManagerCSV;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 
@@ -29,7 +29,6 @@ public class KeyBagManager implements KeyBagInterface {
 
     //TODO - variables below need to be removed
     private ServiceDiscoveryManagerCSV sdmCSV;
-    private boolean isRefreshed = false;
 
     public KeyBagManager(AppInfra appInfra) {
         mAppInfra = appInfra;
@@ -39,20 +38,21 @@ public class KeyBagManager implements KeyBagInterface {
     public void init() throws FileNotFoundException {
         keyBagHelper = new KeyBagHelper();
         keyBagHelper.init(mAppInfra.getAppInfraContext());
+        //TODO - need to remove invoking below api
         initServiceDiscovery();
     }
 
     @Override
-    public ArrayList<HashMap> getMapForServiceId(final String serviceId) {
+    public Map getMapForServiceId(final String serviceId) {
         String appendedServiceId = keyBagHelper.getAppendedServiceId(serviceId);
-        final ArrayList<HashMap> hashMaps = new ArrayList<>();
-        final String[] urlData = new String[1];
+        final Map[] maps = new Map[1];
+//        mAppInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(appendedServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+        //TODO - need to take from app-infra defined service discovery
         sdmCSV.getServiceUrlWithCountryPreference(appendedServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
-                Log.d(getClass().getSimpleName(), "testing keybag index " + url.toString());
-                urlData[0] = url.toString();
-                getDataMap(serviceId, urlData, hashMaps);
+                Log.d(getClass().getSimpleName(), "fetching keybag index " + url.toString());
+                maps[0] = getDataMap(serviceId, url.toString());
             }
 
             @Override
@@ -60,21 +60,26 @@ public class KeyBagManager implements KeyBagInterface {
                 Log.d(getClass().getSimpleName(), "error in getting keybag url " + message);
             }
         });
-        return hashMaps;
+
+        return maps[0];
     }
 
-    private void getDataMap(String serviceId, String[] urlData, ArrayList<HashMap> hashMaps) {
+    private Map getDataMap(String serviceId, String url) {
         if (serviceId != null) {
-            String keyBagHelperIndex = keyBagHelper.getIndex(urlData[0]);
+            String keyBagHelperIndex = keyBagHelper.getIndex(url);
             int index = Integer.parseInt(keyBagHelperIndex);
             Object propertiesForKey = keyBagHelper.getPropertiesForKey(serviceId);
-
             if (propertiesForKey instanceof JSONArray) {
-                keyBagHelper.addToHashMapArray((JSONArray) propertiesForKey, hashMaps, serviceId);
-            } else if (propertiesForKey instanceof JSONObject) {
-                keyBagHelper.addToHashMapData((JSONObject) propertiesForKey, hashMaps, index, serviceId);
+                JSONArray jsonArray = (JSONArray) propertiesForKey;
+                try {
+                    JSONObject jsonObject = (JSONObject) jsonArray.get(index);
+                    return keyBagHelper.addToHashMapData(jsonObject, index, serviceId);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
+        return null;
     }
 
     //TODO - need to remove this once we get keybag url's from DS
@@ -86,13 +91,11 @@ public class KeyBagManager implements KeyBagInterface {
         sdmCSV.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
             @Override
             public void onSuccess() {
-                isRefreshed = true;
             }
 
             @Override
             public void onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalues, String s) {
                 Log.d(TAG, "Error Response from Service Discovery CSV :" + s);
-                isRefreshed = false;
             }
         });
     }

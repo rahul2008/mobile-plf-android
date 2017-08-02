@@ -17,8 +17,6 @@ import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.keybag.KeyBagInterface;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -43,14 +41,13 @@ public class KeyBagActivity extends AppCompatActivity {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		ArrayList<HashMap> mapForServiceId = keyBagInterface.getMapForServiceId(serviceIdEditText.getText().toString());
+		Map mapForServiceId = keyBagInterface.getMapForServiceId(serviceIdEditText.getText().toString());
 		updateView(mapForServiceId);
 	}
 
-	private void updateView(ArrayList<HashMap> mapForServiceId) {
+	private void updateView(Map map) {
 		StringBuilder stringBuilder = new StringBuilder();
-		for (HashMap hashMap : mapForServiceId) {
-			Iterator it = hashMap.entrySet().iterator();
+		Iterator it = map.entrySet().iterator();
 			while (it.hasNext()) {
 				Map.Entry pair = (Map.Entry) it.next();
 				String key = (String) pair.getKey();
@@ -61,7 +58,6 @@ public class KeyBagActivity extends AppCompatActivity {
 				stringBuilder.append("  ");
 			}
 			stringBuilder.append("\n");
-		}
 		responseTextView.setText(stringBuilder.toString());
 	}
 }
