@@ -671,7 +671,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }
         if (!mWeChatApi.isWXAppSupportAPI()) {
             makeProviderButtonsClickable();
-            Toast.makeText(mContext, mContext.getText(R.string.reg_Reg_Provider_Not_Supported)
+            Toast.makeText(mContext, mContext.getText(R.string.reg_Provider_Not_Supported)
                     , Toast.LENGTH_SHORT).show();
             return false;
         }

@@ -262,11 +262,11 @@ public class AlmostDonePresenterTest {
         assertTrue(mockFieldsValidator.isValidEmail("maqsoodkhan@gmail.com"));
     }
 
-    @Test
-    public void testIsEmailVerificationStatus() {
-        presenter.isEmailVerificationStatus();
-        verify(mockUser).getEmailVerificationStatus();
-    }
+//    @Test
+//    public void testIsEmailVerificationStatus() {
+//        presenter.isEmailVerificationStatus();
+//        verify(mockUser).getEmailVerificationStatus();
+//    }
 
     @Test
     public void testHandleClearUserData() {

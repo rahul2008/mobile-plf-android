@@ -5,6 +5,9 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
+/**
+ * This class is used to provide input parameters and customizations for User registration.
+ */
 
 public class URLaunchInput extends UappLaunchInput {
 
@@ -33,10 +36,22 @@ public class URLaunchInput extends UappLaunchInput {
         return registrationFunction;
     }
 
+    /**
+     * RegistrationFunction is used to prioritize  between Create account and Sign in.
+     * RegistrationFunction.Registration - Will display the Create account option on top
+     * RegistrationFunction.SignIn - Will display the Sign in option on top.
+     * @param registrationFunction
+     */
     public void setRegistrationFunction(RegistrationFunction registrationFunction) {
         this.registrationFunction = registrationFunction;
     }
 
+    /**
+     * Set a UserRegistrationUIEventListener to provide custom implementations of
+     * Terms and conditions, Privacy policy and know about user registration completion.
+     *
+     * @param userRegistrationListener
+     */
     public void setUserRegistrationUIEventListener(UserRegistrationUIEventListener
                                                            userRegistrationListener) {
         this.userRegistrationListener = userRegistrationListener;
@@ -54,6 +69,12 @@ public class URLaunchInput extends UappLaunchInput {
         this.registrationLaunchMode = registrationLaunchMode;
     }
 
+    /**
+     * Used to set custom content on the marketing opt in page and home page.
+     * Please see RegistrationContentConfiguration class for more details.
+     *
+     * @param registrationContentConfiguration
+     */
     public void setRegistrationContentConfiguration(RegistrationContentConfiguration registrationContentConfiguration){
         this.registrationContentConfiguration = registrationContentConfiguration;
     }
@@ -64,6 +85,11 @@ public class URLaunchInput extends UappLaunchInput {
 
     UIFlow uiFlow;
 
+    /**
+     * Used to override the UI flow. Setting this will disable any server side A/B testing.
+     * Advised not to use for normal use-cases.
+     * @param uiFlow - Any one of the UIFlow enum values.
+     */
     public void setUIFlow(UIFlow uiFlow){
         this.uiFlow = uiFlow;
     }

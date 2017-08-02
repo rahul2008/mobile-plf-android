@@ -40,6 +40,7 @@ import com.philips.cdp.registration.ui.customviews.XEditText;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
+import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegAlertDialog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
@@ -47,6 +48,8 @@ import com.philips.cdp.registration.ui.utils.URInterface;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -93,9 +96,12 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
 
     private ProgressDialog mProgressDialog;
 
-    private static final String UPDATE_PHONENUMBER = "Update Phonenumber";
+    private static final String UPDATE_PHONENUMBER = "Update PhoneNumber";
 
     private static final String RESEND_SMS = "Resend SMS";
+
+    @Inject
+    NetworkUtility networkUtility;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -200,11 +206,12 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     }
 
     private void updateUiStatus() {
-        if (phoneNumberEditText.getText().length() >= RegConstants.VERIFY_CODE_MINIMUM_LENGTH) {
-            enableResendButton();
+        if (FieldsValidator.isValidMobileNumber(phoneNumberEditText.getText().toString())) {
+            resendSMSButton.setEnabled(true);
         } else {
-            disableResendButton();
+            resendSMSButton.setEnabled(false);
         }
+        phoneNumberEditText.setEnabled(true);
     }
 
     private void handleResendVerificationEmailSuccess() {
@@ -287,7 +294,8 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     @Override
     public void enableResendButton() {
         resendSMSButton.setText(RESEND_SMS);
-        resendSMSButton.setEnabled(true);
+        if(networkUtility.isNetworkAvailable())
+            resendSMSButton.setEnabled(true);
     }
 
     @Override
@@ -307,8 +315,9 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     }
 
     @Override
-    public void hideErrorMessage() {
+    public void netWorkStateOnlineUiHandle() {
         errorMessage.hideError();
+        updateUiStatus();
     }
 
     @Override
@@ -323,9 +332,10 @@ public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment imp
     }
 
     @Override
-    public void showNoNetworkErrorMessage() {
+    public void netWorkStateOfflineUiHandle() {
         errorMessage.setError(context.getResources().getString(R.string.reg_NoNetworkConnection));
-        enableResendButton();
+        phoneNumberEditText.setEnabled(false);
+        resendSMSButton.setEnabled(false);
     }
 
     @Override

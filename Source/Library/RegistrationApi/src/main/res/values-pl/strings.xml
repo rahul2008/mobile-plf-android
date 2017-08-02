@@ -125,7 +125,7 @@
 <string name="reg_Receive_Philips_News_lbltxt">Otrzymuj informacje promocyjne od firmy Philips w oparciu o swoje preferencje i zachowania w Internecie\n%s</string>
 <string name="reg_Receive_Philips_News_Meaning_lbltxt">Co to oznacza?</string>
 <string name="reg_Philips_News_Title">Powiadomienia firmy Philips</string>
-<string name="reg_Philips_News_Back_btntxt">Tył</string>
+<string name="reg_Philips_News_Back_btntxt">Wstecz</string>
 <string name="reg_Account_Setting_Titletxt">Ustawienia konta</string>
 <string name="reg_Create_With_lbltxt">Możesz też utworzyć konto</string>
 <string name="reg_myphilips_CC">Konto MyPhilips</string>
@@ -178,9 +178,9 @@
 <string name="reg_Opt_In_No_Thanks">Nie, dziękuję</string>
 <string name="reg_Resend_SMS_title">Wyślij SMS ponownie</string>
 <string name="reg_Resend_SMS_Success_Content">Wiadomość SMS została ponownie wysłana na Twój numer telefonu.</string>
-<string name="reg_Reg_merge_validate_password_mismatch_errortxt">Hasło jest nieprawidłowe.</string>
-<string name="reg_Reg_Country">Kraj</string>
-<string name="reg_Reg_Provider_Not_Supported">Operator nieobsługiwany.</string>
+<string name="reg_Merge_validate_password_mismatch_errortxt">Hasło jest nieprawidłowe.</string>
+<string name="reg_Country">Kraj</string>
+<string name="reg_Provider_Not_Supported">Operator nieobsługiwany.</string>
 <string name="reg_CreateAccount_PhoneNumber">Twój numer telefonu</string>
 <string name="reg_Invalid_PhoneNumber_ErrorMsg">Nie można rozpoznać wprowadzonego numeru telefonu. Prosimy o sprawdzenie.</string>
 <string name="reg_Country_AR">Argentyna</string>
@@ -246,4 +246,25 @@
 <string name="reg_Phonenumbernotfound">Nie znaleziono numeru telefonu</string>
 <string name="reg_InvalidMobilenumber">Nieprawidłowy numer telefonu komórkowego</string>
 <string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">Wyślemy do Ciebie wiadomość e-mail lub SMS, aby umożliwić zresetowanie hasła.</string>
+<string name="reg_Loading_Text">Ładowanie…</string>
+<string name="reg_Update_MobileNumber_Title">Wiadomość SMS nie dotarła?</string>
+<string name="reg_Update_MobileNumber_Description_One">Dostarczenie wiadomości SMS z kodem weryfikacyjnym może trochę potrwać.</string>
+<string name="reg_Update_MobileNumber_Description_Two">Sprawdź, czy numer telefonu jest poprawny, a następnie naciśnij przycisk ponownego wysyłania.</string>
+<string name="reg_Update_MobileNumber_Thanks_Got_It">Dziękuję, rozumiem.</string>
+<string name="reg_Update_MobileNumber_Verification_SMS_Sent">Wysłano wiadomość SMS z kodem weryfikacyjnym</string>
+<string name="reg_Update_MobileNumber_Verification_SMS_Description">Dostarczenie wiadomości SMS z kodem weryfikacyjnym może trochę potrwać.</string>
+<string name="reg_Update_MobileNumber_Button_Text">Aktualizacja: NumerTelefonu</string>
+<string name="reg_Verify_SMS_Title">Wpisz kod</string>
+<string name="reg_Verify_SMS_Reset_Password_Description">Wysłaliśmy na numer telefonu %s wiadomość SMS z kodem. Wprowadź ten kod, aby zresetować hasło.</string>
+<string name="reg_Verify_SMS_Did_Not_Receive_SMS">Wiadomość SMS nie dotarła</string>
+<string name="reg_Update_MobileNumber_Alert_Title">Zaktualizowano numer telefonu</string>
+<string name="reg_SecureData_Title">Bezpieczny dostęp do danych</string>
+<string name="reg_SecureData_Description_Text">Pomóż nam w skontaktowaniu się z Tobą, jeśli za pośrednictwem Twojego konta wykonano nietypowe działanie lub jeśli konto zostało przypadkowo zablokowane. Bez obaw. Wykorzystamy tę informację wyłącznie w razie konieczności skontaktowania się z Tobą w sprawie Twojego konta.</string>
+<string name="reg_SecureData_Add_Recovery_Email">Dodaj teraz adres e-mail do odzyskiwania hasła</string>
+<string name="reg_SecureData_Maybe_Later">Może później</string>
+<string name="reg_We_Are_Sorry_Text">Przepraszamy</string>
+<string name="reg_Forgot_Password_Alert_Description_One">Na tym urządzeniu nie logowano się wcześniej za pośrednictwem numeru telefonu %s. Z tego względu niemożliwe jest obecnie zresetowanie hasła.</string>
+<string name="reg_Forgot_Password_Alert_Description_Two">Zaloguj się ponownie, zresetuj hasło w swoim poprzednim telefonie lub skontaktuj się z działem obsługi klienta w celu uzyskania dalszej pomocy.</string>
+<string name="reg_Try_To_Login_Button_Text">Spróbuj zalogować się ponownie</string>
+<string name="reg_Contact_Customer_Care_Text">Skontaktuj się z działem obsługi klienta</string>
 </resources>

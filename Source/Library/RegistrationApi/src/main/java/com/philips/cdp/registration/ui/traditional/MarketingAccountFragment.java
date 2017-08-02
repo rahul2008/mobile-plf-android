@@ -275,7 +275,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
                 launchMobileVerifyCodeFragment();
             }
         } else if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && (mUser.isEmailVerified() || mUser.isMobileVerified())) {
-            launchWelcomeFragment();
+            this.getActivity().finish();
         } else {
             launchWelcomeFragment();
         }

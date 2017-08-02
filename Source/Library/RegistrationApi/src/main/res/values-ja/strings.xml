@@ -19,18 +19,18 @@
 <string name="reg_JanRain_Server_Connection_Failed">サーバーへの接続に失敗しました。しばらくしてからやり直してください。</string>
 <string name="reg_SigIn_TitleTxt">ログイン</string>
 <string name="reg_RegBaseViewNav_TitleTxt">アカウント</string>
-<string name="reg_RegCreateAccount_NavTitle">アカウントを作成</string>
+<string name="reg_RegCreateAccount_NavTitle">MyPhilipsアカウントを作成</string>
 <string name="reg_NameField_ErrorText">名前（名）を入力してください</string>
 <string name="reg_kemailFieldErrorText">有効なメールアドレスを入力してください。</string>
 <string name="reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg">入力されたメールアドレスは既に使用されています。別のメールアドレスを入力するか、前に戻ってこのメールアドレスでログインしてください。</string>
 <string name="reg_EmailAlreadyUsedErrorMsg_LabelTxt">このメールアドレスは、フィリップスアカウントまたはソーシャルメディアアカウントで既に使用されています。\n戻って「ログイン」手順を実行するか、別のメールアドレスを使用してください。</string>
 <string name="reg_PrivacyNoticeText">プライバシーに関する通知</string>
-<string name="reg_TermsAndConditionsText">諸条件</string>
+<string name="reg_TermsAndConditionsText">利用規約</string>
 <string name="reg_RegEmailNotVerified_AlertPopupErrorText">お客様のメールアカウントに送信されたアクティベーションリンクを使用して、メールアドレスの照合を行ってください。</string>
 <string name="reg_RegVerifyEmailView_VerificationEmailText">次のアドレスにメールを送信しました：%s。メール受信まで少々時間がかかる場合があります。</string>
 <string name="reg_RegSignWith_Lbltxt">次のアカウントでログイン：</string>
 <string name="reg_RegMerge_MergeLbltxt">アカウントをマージするには、フィリップスパスワードを入力してください。</string>
-<string name="reg_TraditionalSignIn_SignInWithMyPhilips_lbltxt">フィリップスアカウントでログイン</string>
+<string name="reg_TraditionalSignIn_SignInWithMyPhilips_lbltxt">MyPhilipsでログイン</string>
 <string name="reg_EmailAddPlaceHolder_txtField">メールアドレスを入力</string>
 <string name="reg_TraditionalSignIn_PwdPlaceHolder_txtFiled">パスワードを入力</string>
 <string name="reg_TraditionalSignIn_Resend_lbltxt">メールを受信していない場合は［再送］ボタンを押してください。</string>
@@ -44,7 +44,7 @@
 <string name="reg_Welcome_Alternate_SignInAccount_lbltxt">または次のアカウントでログイン：</string>
 <string name="reg_Welcome_Welcome_lbltxt">ようこそ</string>
 <string name="reg_Create_Account_ChoosePwd_PlaceHolder_txtField">パスワードを選択する</string>
-<string name="reg_Create_Account_CreateMyPhilips_btntxt">フィリップスアカウントを作成</string>
+<string name="reg_Create_Account_CreateMyPhilips_btntxt">MyPhilipsアカウントを作成</string>
 <string name="reg_Create_Account_FirstName__Placeholder_txtFiled">名前（名）を入力</string>
 <string name="reg_Create_Account_Hint_Password_lbltxt">お客様のプライバシーを保護するために、強度の高いパスワードを設定してください。</string>
 <string name="reg_ReciveMarketing_PeridicOffers_lbltxt">フィリップスからの特典や最新情報の定期的な受信を希望します</string>
@@ -61,7 +61,7 @@
 <string name="reg_Account_Merge_lbltxt">アカウントをマージ</string>
 <string name="reg_Social_Merge_btntxt">接続</string>
 
-<string name="reg_InitialSignedIn_Welcome_User_lbltxt">%s さん へようこそ</string>
+<string name="reg_InitialSignedIn_Welcome_User_lbltxt">%s さん ようこそ</string>
 <string name="reg_InitialSignedIn_SigninEmailText">次のアカウントでログインしています：%s</string>
 <string name="reg_VerifyEmail_VerifyEmail_lbltxt">メールアドレスの照合を行ってください</string>
 <string name="reg_VerifyEmail_EmailSentto_lbltxt">次のアドレスにメールを送信しています： %s</string>
@@ -70,7 +70,7 @@
 <string name="reg_VerifyEmail_Activated_btntxt">アカウントはアクティベート済みです</string>
 <string name="reg_VerifyEmail_ResendErrorMsg_lbltxt">問題が発生した場合\n-  確認メールが届くまで少々時間がかかることがあります\n-  スパムフォルダーも確認してみてください\n-  確認メールが届かない場合は以下の［再送信］ボタンを押してください</string>
 <string name="reg_InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nメールを送信しました。メール受信まで少々時間がかかる場合があります。\n\nメールを確認してアカウントをアクティベートしてください。\n\nそれまでの間はアプリを使用できます。</string>
-<string name="reg_myphilips">フィリップスアカウント</string>
+<string name="reg_myphilips">MyPhilips</string>
 <string name="reg_facebook">Facebook</string>
 <string name="reg_twitter">Twitter</string>
 <string name="reg_googleplus">Google+</string>
@@ -104,7 +104,7 @@
 <string name="reg_LegalNoticeText">当社の %s をお読みください</string>
 <string name="reg_AgeLimitText">アカウントを作成するかサインインすることにより、%s 歳以上であることを証明することになります。\n</string>
 <string name="reg_TermsAndConditionsAcceptanceText">アプリの %s に同意する</string>
-<string name="reg_TermsAndConditionsAcceptanceText_Error">諸条件に同意してください</string>
+<string name="reg_TermsAndConditionsAcceptanceText_Error">アプリの利用規約に同意する</string>
 <string name="reg_Verification_email_Title">確認メールが送信されました</string>
 <string name="reg_Verification_email_Message">お客様のメールアドレスを確認するためのメールが送信されました。メールが届くまで少々時間がかかることがあります。</string>
 <string name="reg_Forgot_Password_Title">パスワードをお忘れの場合</string>
@@ -179,9 +179,9 @@
 <string name="reg_Opt_In_No_Thanks">いいえ、結構です</string>
 <string name="reg_Resend_SMS_title">SMS を再送</string>
 <string name="reg_Resend_SMS_Success_Content">SMS の再送が完了し、携帯電話番号に送信されました。</string>
-<string name="reg_Reg_merge_validate_password_mismatch_errortxt">パスワードが間違っています。</string>
-<string name="reg_Reg_Country">国</string>
-<string name="reg_Reg_Provider_Not_Supported">サポートされていないプロバイダーです。</string>
+<string name="reg_Merge_validate_password_mismatch_errortxt">パスワードが間違っています。</string>
+<string name="reg_Country">国</string>
+<string name="reg_Provider_Not_Supported">サポートされていないプロバイダーです。</string>
 <string name="reg_CreateAccount_PhoneNumber">電話番号</string>
 <string name="reg_Invalid_PhoneNumber_ErrorMsg">入力された電話番号を認識できません。確認してください。</string>
 <string name="reg_Country_AR">アルゼンチン</string>
@@ -247,4 +247,25 @@
 <string name="reg_Phonenumbernotfound">電話番号が見つかりません</string>
 <string name="reg_InvalidMobilenumber">携帯電話番号が無効です</string>
 <string name="reg_Forgot_Password_Email_Or_PhoneNumber_description">パスワードをリセットするためのメールまたは SMS（ショートメッセージ）を送信します。</string>
+<string name="reg_Loading_Text">ロード中...</string>
+<string name="reg_Update_MobileNumber_Title">SMS を受信していませんか？</string>
+<string name="reg_Update_MobileNumber_Description_One">コードを記載した SMS が届くまで少々時間がかかることがあります。</string>
+<string name="reg_Update_MobileNumber_Description_Two">電話番号が正しいことを確認してから［再送］ボタンを押してください。</string>
+<string name="reg_Update_MobileNumber_Thanks_Got_It">受信しました。</string>
+<string name="reg_Update_MobileNumber_Verification_SMS_Sent">確認 SMS が送信されました</string>
+<string name="reg_Update_MobileNumber_Verification_SMS_Description">確認コードを記載した SMS が届くまで少々時間がかかることがあります。</string>
+<string name="reg_Update_MobileNumber_Button_Text">電話番号を更新</string>
+<string name="reg_Verify_SMS_Title">コードを入力してください</string>
+<string name="reg_Verify_SMS_Reset_Password_Description">コードを記載した SMS を %s に送信しました。パスワードをリセットするにはこのコードを入力してください。</string>
+<string name="reg_Verify_SMS_Did_Not_Receive_SMS">SMS を受信していません</string>
+<string name="reg_Update_MobileNumber_Alert_Title">電話番号が更新されました</string>
+<string name="reg_SecureData_Title">データへの安全なアクセス</string>
+<string name="reg_SecureData_Description_Text">お客様のアカウントで通常と異なるアクティビティが検出された場合や、お客様が誤ってロックアウトされた場合に、お客様にご連絡する方法をお知らせください。この情報を使用するのは、お客様のアカウントに関してお客様にご連絡する場合にのみですのでご安心ください。</string>
+<string name="reg_SecureData_Add_Recovery_Email">リカバリメールを今すぐ追加</string>
+<string name="reg_SecureData_Maybe_Later">後で実行</string>
+<string name="reg_We_Are_Sorry_Text">ご不便をおかけして申し訳ございません</string>
+<string name="reg_Forgot_Password_Alert_Description_One">過去にこのデバイスで携帯電話番号 %s を使用してログインされたことはありません。そのため、パスワードをリセットできません。</string>
+<string name="reg_Forgot_Password_Alert_Description_Two">ログインし直して古い電話番号でパスワードをリセットするか、サポートが必要な場合はカスタマーケアにお問い合わせください。</string>
+<string name="reg_Try_To_Login_Button_Text">ログインし直す</string>
+<string name="reg_Contact_Customer_Care_Text">カスタマーケアに問い合わせる</string>
 </resources>
