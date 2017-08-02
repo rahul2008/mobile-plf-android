@@ -20,6 +20,10 @@ public interface CreateAccountContract {
 
     void emailError(String errorDesc);
 
+    void genericError(String errorDesc);
+
+    void genericError(int errorDescID);
+
     String getEmail();
 
     long getTrackCreateAccountTime();

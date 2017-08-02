@@ -18,15 +18,12 @@ import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.UIFlow;
 import com.philips.cdp.registration.ui.utils.URInterface;
 
-/**
- * Created by philips on 22/06/17.
- */
-
-public class CreateAccountPresenter implements NetworStateListener,EventListener,TraditionalRegistrationHandler {
+public class CreateAccountPresenter implements NetworStateListener, EventListener, TraditionalRegistrationHandler {
 
     private static final int FAILURE_TO_CONNECT = -1;
 
     private final static int EMAIL_ADDRESS_ALREADY_USE_CODE = 390;
+    private final static int TOO_MANY_REGISTARTION_ATTEMPTS = 510;
 
     private final CreateAccountContract createAccountContract;
 
@@ -35,6 +32,7 @@ public class CreateAccountPresenter implements NetworStateListener,EventListener
         URInterface.getComponent().inject(this);
         this.createAccountContract = createAccountContract;
     }
+
     @Override
     public void onNetWorkStateReceived(boolean isOnline) {
         RLog.i(RLog.NETWORK_STATE, "CreateAccoutFragment :onNetWorkStateReceived : " + isOnline);
@@ -56,9 +54,9 @@ public class CreateAccountPresenter implements NetworStateListener,EventListener
                 this);
     }
 
-    public void registerUserInfo(User user, String name, String email, String password, boolean olderThanAgeLimit, boolean isReceiveMarketingEmail){
+    public void registerUserInfo(User user, String name, String email, String password, boolean olderThanAgeLimit, boolean isReceiveMarketingEmail) {
         user.registerUserInfoForTraditional(name, email
-                , password.toString(), olderThanAgeLimit, isReceiveMarketingEmail,this);
+                , password.toString(), olderThanAgeLimit, isReceiveMarketingEmail, this);
     }
 
     @Override
@@ -93,10 +91,10 @@ public class CreateAccountPresenter implements NetworStateListener,EventListener
     }
 
     public void accountCreationTime() {
-        if(createAccountContract.getTrackCreateAccountTime() == 0 && RegUtility.getCreateAccountStartTime() > 0){
-            createAccountContract.setTrackCreateAccountTime((System.currentTimeMillis() - RegUtility.getCreateAccountStartTime())/1000);
-        }else{
-            createAccountContract.setTrackCreateAccountTime((System.currentTimeMillis() - createAccountContract.getTrackCreateAccountTime())/1000);
+        if (createAccountContract.getTrackCreateAccountTime() == 0 && RegUtility.getCreateAccountStartTime() > 0) {
+            createAccountContract.setTrackCreateAccountTime((System.currentTimeMillis() - RegUtility.getCreateAccountStartTime()) / 1000);
+        } else {
+            createAccountContract.setTrackCreateAccountTime((System.currentTimeMillis() - createAccountContract.getTrackCreateAccountTime()) / 1000);
         }
         createAccountContract.tractCreateActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.TOTAL_TIME_CREATE_ACCOUNT, String.valueOf(createAccountContract.getTrackCreateAccountTime()));
 
@@ -104,10 +102,10 @@ public class CreateAccountPresenter implements NetworStateListener,EventListener
     }
 
     private void selectABTestingFlow() {
-        final UIFlow abTestingUIFlow= RegUtility.getUiFlow();
+        final UIFlow abTestingUIFlow = RegUtility.getUiFlow();
         createAccountContract.tractCreateActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SUCCESS_USER_CREATION);
-        switch (abTestingUIFlow){
+        switch (abTestingUIFlow) {
             case FLOW_A:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type A ");
                 setABTestingFlow();
@@ -137,7 +135,7 @@ public class CreateAccountPresenter implements NetworStateListener,EventListener
 
 
     private void handleRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterFailedWithFailure"+userRegistrationFailureInfo.getErrorCode());
+        RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterFailedWithFailure" + userRegistrationFailureInfo.getErrorCode());
         if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
             if (RegistrationHelper.getInstance().isChinaFlow()) {
                 createAccountContract.emailError(R.string.reg_CreateAccount_Using_Phone_Alreadytxt);
@@ -147,12 +145,13 @@ public class CreateAccountPresenter implements NetworStateListener,EventListener
             createAccountContract.scrollViewAutomaticallyToEmail();
             createAccountContract.emailAlreadyUsed();
         } else if (userRegistrationFailureInfo.getErrorCode() == FAILURE_TO_CONNECT) {
-            createAccountContract.emailError(R.string.reg_JanRain_Server_Connection_Failed);
+            createAccountContract.genericError(R.string.reg_JanRain_Server_Connection_Failed);
+        } else if (userRegistrationFailureInfo.getErrorCode() == TOO_MANY_REGISTARTION_ATTEMPTS) {
+            createAccountContract.genericError(R.string.reg_Generic_Network_Error);
         } else {
-            createAccountContract.emailError(userRegistrationFailureInfo.getErrorDescription());
-            createAccountContract.scrollViewAutomaticallyToError();
+            createAccountContract.genericError(userRegistrationFailureInfo.getErrorDescription());
         }
-        AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
+        AppTaggingErrors.trackActionRegisterError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
         createAccountContract.registrtionFail();
     }
 
