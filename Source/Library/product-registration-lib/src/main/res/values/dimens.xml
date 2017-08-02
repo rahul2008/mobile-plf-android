@@ -2,12 +2,14 @@
 <resources>
     <dimen name="actionbar_height">50dp</dimen>
     <dimen name="actionbar_icon_margin">30dp</dimen>
+    <dimen name="pr_margintop">24dp</dimen>
     <dimen name="actionbar_title_text_size">21dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="prodreg_edittext_width">240dp</dimen>
     <dimen name="pr_e_value_sm">33dp</dimen>
     <dimen name="negative_pr_e_value_sm">-33dp</dimen>
     <dimen name="pr_c_value_sm">12dp</dimen>
+    <dimen name="pr_title_textsize">20sp</dimen>
     <dimen name="pr_action_title_textsize">21sp</dimen>
     <dimen name="pr_subtitle_textsize">14dp</dimen>
     <dimen name="pr_e_value_tablet">72dp</dimen>

@@ -6,6 +6,7 @@
 package com.philips.cdp.prodreg.fragments;
 
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -107,10 +108,11 @@ public class ProdRegFirstLaunchFragment extends ProdRegBaseFragment {
           // setImageBackground();
             if(resId != 0) {
                 productImage.setVisibility(View.VISIBLE);
-                Display display = getActivity().getWindowManager().getDefaultDisplay();
-                int width = display.getWidth();
+//                Display display = getActivity().getWindowManager().getDefaultDisplay();
+                int width = getResources().getDisplayMetrics().widthPixels;
+
                 productImage.getLayoutParams().height = (width*9)/16;
-                productImage.setBackground(getResources().getDrawable(resId));
+                productImage.setBackground(getResources().getDrawable(resId, getActivity().getTheme()));
                 productImage.requestLayout();
             }
         }

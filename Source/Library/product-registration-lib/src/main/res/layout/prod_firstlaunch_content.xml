@@ -8,20 +8,20 @@
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/conf_action_textview"
         android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
-        android:textSize="20sp"
+        android:textSize="@dimen/pr_title_textsize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="@dimen/pr_margintop"
+        android:layout_marginBottom="@dimen/fab_margin"
         android:text="@string/PPR_RegYourProduct_Lbltxt"
-        />
+        android:textStyle="bold"/>
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/conf_subtext_two_textview"
         android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="@dimen/pr_subtitle_textsize"
         android:text="@string/prod_reg_benefits_conf_message"
         />
 
@@ -29,7 +29,7 @@
         android:id="@+id/yes_register_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/fab_margin"
         android:text="@string/PPR_Yes_Btntxt"
         android:textAllCaps="false"/>
 
@@ -38,7 +38,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
-        android:layout_marginBottom="30dp"
         android:layout_marginTop="@dimen/pr_c_value_sm"
         android:text="@string/PPR_RegLater_Btntxt"
         android:textAllCaps="false"
