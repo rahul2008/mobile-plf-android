@@ -149,14 +149,13 @@ public class WelcomeVideoPagerFragment extends Fragment implements WelcomeVideoF
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         videoView.release();
+    }
+
+    public boolean isVideoPlaying() {
+        return isVideoPlaying;
     }
 
     @Override
