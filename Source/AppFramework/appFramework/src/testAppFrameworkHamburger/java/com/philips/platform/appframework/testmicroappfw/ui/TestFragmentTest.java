@@ -1,4 +1,4 @@
-package com.philips.platform.testmicroappfw.ui;
+package com.philips.platform.appframework.testmicroappfw.ui;
 
 
 import android.os.Handler;

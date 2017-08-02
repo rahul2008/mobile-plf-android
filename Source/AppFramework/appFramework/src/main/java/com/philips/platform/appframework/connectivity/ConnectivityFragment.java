@@ -36,6 +36,7 @@ import com.philips.cdp2.commlib.ble.context.BleTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
+import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceAppliance;
 import com.philips.platform.appframework.connectivity.appliance.BleReferenceApplianceFactory;
@@ -51,7 +52,6 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
     private EditText editText = null;
     private EditText momentValueEditText = null;
     private ProgressDialog dialog = null;
-    private CommCentral commCentral;
     private DICommApplianceFactory<BleReferenceAppliance> applianceFactory;
     private TextView connectionState;
     private BluetoothAdapter mBluetoothAdapter;
@@ -62,6 +62,8 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1002;
     private WeakReference<ConnectivityFragment> connectivityFragmentWeakReference;
     private Context mContext;
+
+    private CommCentral commCentral;
 
     /**
      * Presenter object for Connectivity
@@ -125,11 +127,15 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
     private void setUpCommCentral() {
         // Setup CommCentral
         RALog.i(TAG, "Setup CommCentral ");
-        final BleTransportContext bleTransportContext = new BleTransportContext(getActivity());
-        this.applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
+        try {
+            final BleTransportContext bleTransportContext = new BleTransportContext(getActivity());
+            this.applianceFactory = new BleReferenceApplianceFactory(bleTransportContext);
 
-        this.commCentral = new CommCentral(this.applianceFactory, bleTransportContext);
-        this.commCentral.getApplianceManager().addApplianceListener(this.applianceListener);
+            this.commCentral = new CommCentral(this.applianceFactory, bleTransportContext);
+            this.commCentral.getApplianceManager().addApplianceListener(this.applianceListener);
+        } catch (TransportUnavailableException e) {
+            RALog.d(TAG,"Blutooth hardware unavailable");
+        }
     }
 
     private final ApplianceManager.ApplianceListener<BleReferenceAppliance> applianceListener = new ApplianceManager.ApplianceListener<BleReferenceAppliance>() {
@@ -215,7 +221,7 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
      *
      * @return
      */
-    private boolean isFragmentLive() {
+    protected boolean isFragmentLive() {
         return connectivityFragmentWeakReference != null && isAdded();
     }
 
@@ -290,7 +296,7 @@ public class ConnectivityFragment extends AbstractAppFrameworkBaseFragment imple
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(mContext, "Error while reading measurement from reference board" + error.getErrorMessage(), Toast.LENGTH_SHORT);
+                Toast.makeText(mContext, "Error while reading measurement from reference board" + error.getErrorMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
