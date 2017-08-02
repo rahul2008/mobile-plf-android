@@ -138,18 +138,22 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
         super.onResume();
 
         final TextView tv = (TextView) findViewById(R.id.textViewCurrentCountry);
-        appInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
-            @Override
-            public void onSuccess(String s, SOURCE source) {
-                tv.setText("Country from Service Discovery : " +s);
-            }
+        if(appInfraInterface == null) {
+            appInfraInterface = CCDemoUAppuAppInterface.mAppInfraInterface;
+        }
+        else {
+            appInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+                @Override
+                public void onSuccess(String s, SOURCE source) {
+                    tv.setText("Country from Service Discovery : " + s);
+                }
 
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
+                @Override
+                public void onError(ERRORVALUES errorvalues, String s) {
 
-            }
-        });
-
+                }
+            });
+        }
 
         mCountry_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -201,20 +205,22 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
         if(appInfraInterface == null) {
             appInfraInterface = CCDemoUAppuAppInterface.mAppInfraInterface;
         }
-        appInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
-            @Override
-            public void onSuccess(String s, SOURCE source) {
-                for (int i=0; i < mcountryCode.length; i++) {
-                    if(s.equalsIgnoreCase(mcountryCode[i])) {
-                        mCountry_spinner.setSelection(i);
+        else {
+            appInfraInterface.getServiceDiscovery().getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
+                @Override
+                public void onSuccess(String s, SOURCE source) {
+                    for (int i = 0; i < mcountryCode.length; i++) {
+                        if (s.equalsIgnoreCase(mcountryCode[i])) {
+                            mCountry_spinner.setSelection(i);
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onError(ERRORVALUES errorvalues, String s) {
-            }
-        });
+                @Override
+                public void onError(ERRORVALUES errorvalues, String s) {
+                }
+            });
+        }
     }
 
     private void initializeDigitalCareLibrary() {
@@ -227,8 +233,12 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
         /*if(appInfraInterface == null) {
             appInfraInterface = new AppInfra.Builder().build(getApplicationContext());
         }*/
-
-        appInfraInterface.getServiceDiscovery().setHomeCountry(mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
+        if(appInfraInterface == null) {
+            appInfraInterface = CCDemoUAppuAppInterface.mAppInfraInterface;
+        }
+        else {
+            appInfraInterface.getServiceDiscovery().setHomeCountry(mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
+        }
     }
 
     @Override

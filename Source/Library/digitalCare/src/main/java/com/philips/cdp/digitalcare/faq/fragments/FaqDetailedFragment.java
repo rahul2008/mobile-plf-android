@@ -176,7 +176,7 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
                     DigiCareLogger.d(TAG, "OnPage Finished invoked with URL " + url);
                     mProgressBar.setVisibility(View.GONE);
                     enableWebView();
-                    setPaddingForWebdata(mWebView);
+                    setPaddingForWebdata();
                     mWebView.loadUrl("javascript:(function(){" + "document.getElementsByClassName('group faqfeedback_group')[0].remove();})()");
                     mWebView.loadUrl("javascript:window.CallToAnAndroidFunction.setVisible()");
                 }
@@ -192,13 +192,13 @@ public class FaqDetailedFragment extends DigitalCareBaseFragment {
             if (mWebView.getVisibility() == View.INVISIBLE) mWebView.setVisibility(View.VISIBLE);
     }
 
-    protected void setPaddingForWebdata(WebView webView) {
-        if (webView == null) initView();
-        webView.loadUrl("javascript:document.body.style.setProperty(\"font-size\", \"100%\");");
-        webView.loadUrl("javascript:document.body.style.setProperty(\"margin-top\", \"2%\");");
-        webView.loadUrl("javascript:document.body.style.setProperty(\"margin-bottom\", \"2%\");");
-        webView.loadUrl("javascript:document.body.style.setProperty(\"margin-left\", \"10%\");");
-        webView.loadUrl("javascript:document.body.style.setProperty(\"margin-right\", \"10%\");");
+    protected void setPaddingForWebdata() {
+        if (mWebView == null) initView();
+        mWebView.loadUrl("javascript:document.body.style.setProperty(\"font-size\", \"100%\");");
+        mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-top\", \"2%\");");
+        mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-bottom\", \"2%\");");
+        mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-left\", \"10%\");");
+        mWebView.loadUrl("javascript:document.body.style.setProperty(\"margin-right\", \"10%\");");
     }
 
     private void initView() {

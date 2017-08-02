@@ -62,7 +62,9 @@ public class FaqListFragment extends DigitalCareBaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.consumercare_fragment_faq_list, container, false);
+        if(view == null)
+            view = inflater.inflate(R.layout.consumercare_fragment_faq_list, container, false);
+
         initView(view);
         return view;
     }
@@ -76,7 +78,6 @@ public class FaqListFragment extends DigitalCareBaseFragment {
     }
 
     private void initView(View view) {
-        mSupportData = new LinkedHashMap();
         mActionBarMenuIcon = (ImageView) view.findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) view.findViewById(R.id.back_to_home_img);
         if (mFaqList != null) {
@@ -204,6 +205,7 @@ public class FaqListFragment extends DigitalCareBaseFragment {
     }
 
     public void setSupportModel(SupportModel supportModel) {
+        mSupportData = new LinkedHashMap<>();
         if (supportModel == null) {
             DigiCareLogger.d(TAG, "Support Model is null");
             return;
@@ -246,10 +248,15 @@ public class FaqListFragment extends DigitalCareBaseFragment {
                     }
                 }
 
-                if (nonEngItems.size() != 0) {
-                    mSupportData.put(questionCategory, nonEngItems);
-                } else {
-                    mSupportData.put(questionCategory, engFaqItems);
+                try{
+                    if (nonEngItems.size() != 0) {
+                        mSupportData.put(questionCategory, nonEngItems);
+                    } else {
+                        mSupportData.put(questionCategory, engFaqItems);
+                    }
+                } catch(Exception e)
+                {
+
                 }
             }
         }
