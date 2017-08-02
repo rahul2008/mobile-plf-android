@@ -5,9 +5,11 @@
  */
 package com.philips.platform.appinfra.keybag;
 
-import android.text.TextUtils;
+import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.philipsdevtools.ServiceDiscoveryManagerCSV;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,32 +19,49 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static android.content.ContentValues.TAG;
+
 public class KeyBagManager implements KeyBagInterface {
 
     private KeyBagHelper keyBagHelper;
     private AppInfra mAppInfra;
+
+
+    //TODO - variables below need to be removed
+    private ServiceDiscoveryManagerCSV sdmCSV;
+    private boolean isRefreshed = false;
 
     public KeyBagManager(AppInfra appInfra) {
         mAppInfra = appInfra;
     }
 
     @Override
-    public String obfuscate(final String data, final int seed) {
-        return keyBagHelper.obfuscate(data, seed);
-    }
-
-    @Override
     public void init() throws FileNotFoundException {
         keyBagHelper = new KeyBagHelper();
         keyBagHelper.init(mAppInfra.getAppInfraContext());
+        initServiceDiscovery();
     }
 
     @Override
-    public ArrayList<HashMap> getMapForServiceId(String serviceId, URL url) {
-//        serviceId = getAppendedServiceId(serviceId);
+    public ArrayList<HashMap> getMapForServiceId(String serviceId) {
+        String appendedServiceId = keyBagHelper.getAppendedServiceId(serviceId);
+        final String[] urlData = new String[1];
+        sdmCSV.getServiceUrlWithCountryPreference(appendedServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            @Override
+            public void onSuccess(URL url) {
+                Log.d(getClass().getSimpleName(), "testing keybag index " + url.toString());
+                urlData[0] = url.toString();
+
+            }
+
+            @Override
+            public void onError(ERRORVALUES error, String message) {
+                Log.d(getClass().getSimpleName(), "error in getting keybag url " + message);
+            }
+        });
         ArrayList<HashMap> hashMaps = new ArrayList<>();
         if (serviceId != null) {
-            String keyBagHelperIndex = keyBagHelper.getIndex(url.toString());
+            String keyBagHelperIndex = keyBagHelper.getIndex(urlData[0]);
             int index = Integer.parseInt(keyBagHelperIndex);
             Object propertiesForKey = keyBagHelper.getPropertiesForKey(serviceId);
 
@@ -55,11 +74,24 @@ public class KeyBagManager implements KeyBagInterface {
         return hashMaps;
     }
 
-    private String getAppendedServiceId(String serviceId) {
-        if (!TextUtils.isEmpty(serviceId))
-            return serviceId.concat(".kindex");
+    //TODO - need to remove this once we get keybag url's from DS
+    private void initServiceDiscovery() throws FileNotFoundException {
+        sdmCSV = new ServiceDiscoveryManagerCSV();
+        AppInfra.Builder builder = new AppInfra.Builder();
+        builder.setServiceDiscovery(sdmCSV);
+        sdmCSV.init(mAppInfra);
+        sdmCSV.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
+            @Override
+            public void onSuccess() {
+                isRefreshed = true;
+            }
 
-        return null;
+            @Override
+            public void onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalues, String s) {
+                Log.d(TAG, "Error Response from Service Discovery CSV :" + s);
+                isRefreshed = false;
+            }
+        });
     }
 
 }

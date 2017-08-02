@@ -239,6 +239,8 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
     compile ('com.android.support:support-annotations:25.3.1')
     androidTestCompile 'junit:junit:4.12'
+    compile project(':PhilipsDevTools')
+
 }
 
 tasks.withType(Test) {

@@ -157,4 +157,12 @@ class KeyBagHelper {
             e.printStackTrace();
         }
     }
+
+
+    String getAppendedServiceId(String serviceId) {
+        if (!TextUtils.isEmpty(serviceId))
+            return serviceId.concat(".kindex");
+
+        return null;
+    }
 }

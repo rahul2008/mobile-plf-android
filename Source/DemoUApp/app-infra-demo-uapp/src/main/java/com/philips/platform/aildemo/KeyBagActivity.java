@@ -9,18 +9,14 @@ package com.philips.platform.aildemo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.keybag.KeyBagInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.philips.platform.philipsdevtools.ServiceDiscoveryManagerCSV;
 
 import java.io.FileNotFoundException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -38,53 +34,17 @@ public class KeyBagActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_keybag);
 		serviceIdEditText = (EditText) findViewById(R.id.service_id_edt);
 		responseTextView = (TextView) findViewById(R.id.response_view);
+	}
 
+	public void onClick(View view) {
+		final KeyBagInterface keyBagInterface = AILDemouAppInterface.getInstance().getAppInfra().getKeyBagInterface();
 		try {
-			initServiceDiscovery();
+			keyBagInterface.init();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-
-	}
-
-	private void initServiceDiscovery() throws FileNotFoundException {
-		final ServiceDiscoveryManagerCSV sdmCSV = new ServiceDiscoveryManagerCSV();
-		final KeyBagInterface keyBagInterface = AILDemouAppInterface.getInstance().getAppInfra().getKeyBagInterface();
-		keyBagInterface.init();
-		AppInfra.Builder builder = new AppInfra.Builder();
-		AppInfra mAppInfra = builder.build(this);
-		builder.setServiceDiscovery(sdmCSV);
-		sdmCSV.init(mAppInfra);
-		sdmCSV.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
-			@Override
-			public void onSuccess() {
-
-				sdmCSV.getServiceUrlWithCountryPreference("appinfra.localtesting.kindex", new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-
-
-					@Override
-					public void onSuccess(URL url) {
-						System.out.println("************ SUCCESS URL : "+url);
-						Log.d(TAG, "Response from Service Discovery : Service ID : 'appinfra.localtesting.kindex' - " + "https://www.philips.com/0");
-						ArrayList<HashMap> mapForServiceId = keyBagInterface.getMapForServiceId("appinfra.localtesting", url);
-						updateView(mapForServiceId);
-						Log.d(TAG, "Response from Service Discovery : Service ID : 'appinfra.localtesting.kindex' - " + url);
-
-					}
-
-					@Override
-					public void onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalues, String s) {
-						System.out.println("************ Failed URL : "+s);
-						Log.d(TAG, "Error Response from Service Discovery :" + s);
-					}
-				});
-			}
-
-			@Override
-			public void onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalues, String s) {
-				Log.d(TAG, "Error Response from Service Discovery CSV :" + s);
-			}
-		});
+		ArrayList<HashMap> mapForServiceId = keyBagInterface.getMapForServiceId(serviceIdEditText.getText().toString());
+		updateView(mapForServiceId);
 	}
 
 	private void updateView(ArrayList<HashMap> mapForServiceId) {
