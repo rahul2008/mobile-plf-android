@@ -12,8 +12,6 @@ import android.support.annotation.VisibleForTesting;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.cdp.dicommclient.request.ExchangeKeyRequest;
-import com.philips.cdp.dicommclient.request.GetKeyRequest;
 import com.philips.cdp.dicommclient.request.Request;
 import com.philips.cdp.dicommclient.request.RequestQueue;
 import com.philips.cdp.dicommclient.request.ResponseHandler;

@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.request;
+package com.philips.cdp2.commlib.lan.communication;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
@@ -11,6 +11,9 @@ import android.support.annotation.VisibleForTesting;
 import com.google.gson.Gson;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.common.SecurityPortProperties;
+import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp.dicommclient.request.Response;
+import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.security.ByteUtil;
 import com.philips.cdp.dicommclient.security.EncryptionUtil;
 import com.philips.cdp.dicommclient.util.DICommLog;

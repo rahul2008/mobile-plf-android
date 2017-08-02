@@ -3,10 +3,13 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.request;
+package com.philips.cdp2.commlib.lan.communication;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.request.Response;
+import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.lan.communication.ExchangeKeyRequest;
 
 import org.junit.Before;
 import org.junit.Test;

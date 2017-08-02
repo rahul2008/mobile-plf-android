@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.request;
+package com.philips.cdp2.commlib.lan.communication;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +13,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.common.SecurityPortProperties;
+import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp.dicommclient.request.Response;
+import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp.dicommclient.util.GsonProvider;
 import com.philips.cdp2.commlib.lan.communication.LanRequest;

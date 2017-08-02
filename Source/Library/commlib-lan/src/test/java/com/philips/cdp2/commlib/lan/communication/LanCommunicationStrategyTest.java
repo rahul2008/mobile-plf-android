@@ -6,8 +6,6 @@
 package com.philips.cdp2.commlib.lan.communication;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.request.ExchangeKeyRequest;
-import com.philips.cdp.dicommclient.request.GetKeyRequest;
 import com.philips.cdp.dicommclient.request.RequestQueue;
 
 import org.junit.Before;

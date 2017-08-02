@@ -3,14 +3,19 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.request;
+package com.philips.cdp2.commlib.lan.communication;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp.dicommclient.request.Response;
+import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.lan.communication.GetKeyRequest;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -71,7 +76,7 @@ public class GetKeyRequestTest {
         Response getKeyRequestResponse = getKeyRequest.execute();
         getKeyRequestResponse.notifyResponseHandler();
 
-        verify(responseHandlerMock).onError(eq(Error.REQUEST_FAILED), anyString());
+        verify(responseHandlerMock).onError(Matchers.eq(Error.REQUEST_FAILED), anyString());
     }
 
     @Test
