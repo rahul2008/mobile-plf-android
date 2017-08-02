@@ -39,6 +39,7 @@ import com.squareup.leakcanary.LeakCanary;
 public class AppFrameworkApplication extends Application {
     private static final String LOG = AppFrameworkApplication.class.getSimpleName();
     private static final String LEAK_CANARY_BUILD_TYPE = "leakCanary";
+    private static final String PSRA_BUILD_TYPE = "psraRelease";
     public AppInfraInterface appInfra;
     public static LoggingInterface loggingInterface;
     protected FlowManager targetFlowManager;
@@ -213,6 +214,10 @@ public class AppFrameworkApplication extends Application {
         loggingInterface = appInfra.getLogging();
         RALog.init(appInfra);
         RALog.enableLogging();
+        if (BuildConfig.BUILD_TYPE.equalsIgnoreCase(PSRA_BUILD_TYPE)) {
+            RALog.disableLogging();
+        }
+
         AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
         appInfraInitializationCallback.onAppInfraInitialization();
         languagePackInterface = appInfra.getLanguagePack();
