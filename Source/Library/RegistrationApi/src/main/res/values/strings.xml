@@ -102,7 +102,7 @@
     <string name="reg_LegalNoticeText_With_Terms_And_Conditions" formatted="false">Please read our %s and %s.</string>
     <string name="reg_LegalNoticeText">Please read our %s</string>
     <string name="reg_AgeLimitText">By creating an account or signing in you certify that you are %s years or older.\n</string>
-    <string name="reg_TermsAndConditionsAcceptanceText">Sure, I accept the app\'s %s</string>
+    <string name="reg_TermsAndConditionsAcceptanceText">Sure, I accept the app\'s \n%s</string>
     <string name="reg_TermsAndConditionsAcceptanceText_Error">Please accept the Terms &amp; Conditions</string>
     <string name="reg_Verification_email_Title">Verification email sent</string>
     <string name="reg_Verification_email_Message">We have sent you an email to verify your email address. It may take some time for the email to arrive.</string>

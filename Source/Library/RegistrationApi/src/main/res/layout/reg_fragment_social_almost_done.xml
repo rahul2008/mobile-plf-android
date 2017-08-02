@@ -6,13 +6,13 @@
     android:background="@drawable/reg_layout_bg">
 
     <ScrollView
-        android:id="@+id/sv_root_layout"
+        android:id="@+id/usr_almostDoneScreen_rootLayout_scrollView"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:background="@android:color/transparent">
 
         <LinearLayout
-            android:id="@+id/ll_reg_root_container"
+            android:id="@+id/usr_almostDoneScreen_rootContainer_linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/reg_layout_padding_left_16dp"
@@ -31,7 +31,7 @@
                 android:textColor="@color/uid_gray_level_90" />
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/rl_reg_email_field_description"
+                android:id="@+id/usr_almostDoneScreen_description_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/reg_almost_description1"
@@ -41,7 +41,7 @@
                 android:textColor="@color/uid_gray_level_90" />
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/rl_almost_email_label"
+                android:id="@+id/usr_almostDoneScreen_email_label"
                 style="@style/UIDLabel.MarginTop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,14 +51,14 @@
                 android:textColor="@color/uid_gray_level_90" />
 
             <com.philips.platform.uid.view.widget.InputValidationLayout
-                android:id="@+id/rl_reg_email_field_inputValidationLayout"
+                android:id="@+id/usr_almostDoneScreen_email_inputValidationLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:uidTextBoxValidationErrorDrawable="@drawable/uid_ic_data_validation"
                 app:uidTextBoxValidationErrorText="inline_error_message">
 
                 <com.philips.platform.uid.view.widget.ValidationEditText
-                    android:id="@+id/rl_reg_email_field"
+                    android:id="@+id/usr_almostDoneScreen_email_EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
@@ -84,7 +84,7 @@
                 android:text="@string/reg_TermsAndConditionsAcceptanceText" />
 
             <com.philips.cdp.registration.ui.customviews.XRegError
-                android:id="@+id/cb_reg_accept_terms_error"
+                android:id="@+id/usr_almostDoneScreen_acceptTerms_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_margin_bottom"
@@ -103,7 +103,7 @@
                 app:uidProgressIndicatorButtonText="@string/reg_Continue_Btntxt" />
 
             <com.philips.cdp.registration.ui.customviews.XRegError
-                android:id="@+id/reg_error_msg"
+                android:id="@+id/usr_almostDoneScreen_error_regError"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/btn_reg_activate_acct"

@@ -8,14 +8,14 @@
     android:focusableInTouchMode="true">
 
     <ScrollView
-        android:id="@+id/sv_root_layout"
+        android:id="@+id/usr_marketingScreen_rootLayout_scrollView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@android:color/transparent"
         android:fillViewport="false">
 
         <LinearLayout
-            android:id="@+id/ll_reg_root_container"
+            android:id="@+id/usr_marketingScreen_rootContainer_linearLayout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/reg_layout_margin_16dp"
@@ -24,7 +24,7 @@
             android:weightSum="1">
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/reg_what_are_you_txt"
+                android:id="@+id/usr_marketingScreen_headTitle_Lable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
@@ -36,7 +36,7 @@
 
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/reg_special_officer_txt"
+                android:id="@+id/usr_marketingScreen_specialOffer_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
@@ -46,18 +46,18 @@
                 reglib:fontAssetName="CentraleSans-Book.OTF" />
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/tv_reg_Join_now"
+                android:id="@+id/usr_marketingScreen_joinNow_Label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_marginBottom="@dimen/reg_layout_margin_16dp"
-                android:text="@string/reg_Opt_In_Special_Offers"
+                android:text="@string/reg_Opt_In_Join_Now"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="@dimen/reg_button_text_size"
                 reglib:fontAssetName="CentraleSans-Book.OTF" />
 
             <LinearLayout
-                android:id="@+id/ll_reg_create_account_container"
+                android:id="@+id/usr_marketingScreen_newsContainer_linearlayout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/uidContentTertiaryBackgroundColor"
@@ -66,7 +66,7 @@
                 android:paddingStart="@dimen/reg_layout_padding_16dp">
 
                 <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/tv_reg_philips_news"
+                    android:id="@+id/usr_marketingScreen_philipsNews_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/reg_layout_margin_12dp"
@@ -77,7 +77,7 @@
             </LinearLayout>
 
             <com.philips.platform.uid.view.widget.ProgressBarButton
-                android:id="@+id/btn_reg_count_me"
+                android:id="@+id/usr_marketingScreen_countMe_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/reg_layout_margin_10dp"
@@ -88,7 +88,7 @@
                 app:uidProgressIndicatorButtonText="@string/reg_Opt_In_Count_Me_In" />
 
             <com.philips.platform.uid.view.widget.Button
-                android:id="@+id/btn_reg_no_thanks"
+                android:id="@+id/usr_marketingScreen_maybeLater_button"
                 style="@style/UIDImageTextButton.Center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
                 app:uidComponentType="Secondary" />
 
             <com.philips.cdp.registration.ui.customviews.XRegError
-                android:id="@+id/reg_error_msg"
+                android:id="@+id/usr_marketingScreen_error_regerror"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/btn_reg_activate_acct"

@@ -45,27 +45,20 @@ import butterknife.ButterKnife;
 public class MarketingAccountFragment extends RegistrationBaseFragment implements
         View.OnClickListener, MarketingAccountContract {
 
+    @BindView(R2.id.usr_marketingScreen_countMe_button)
+    ProgressBarButton countMeButton;
 
-    @BindView(R2.id.ll_reg_create_account_container)
-    LinearLayout mLlCreateAccountContainer;
+    @BindView(R2.id.usr_marketingScreen_maybeLater_button)
+    Button mayBeLaterButton;
 
-    @BindView(R2.id.btn_reg_count_me)
-    ProgressBarButton mBtnCountMe;
+    @BindView(R2.id.usr_marketingScreen_rootLayout_scrollView)
+    ScrollView rootLayoutScrollView;
 
-    @BindView(R2.id.btn_reg_no_thanks)
-    Button mBtnNoThanks;
+    @BindView(R2.id.usr_marketingScreen_error_regerror)
+    XRegError errorRegError;
 
-    @BindView(R2.id.sv_root_layout)
-    ScrollView mSvRootLayout;
-
-    @BindView(R2.id.tv_reg_Join_now)
-    Label mTvJoinNow;
-
-    @BindView(R2.id.reg_error_msg)
-    XRegError mRegError;
-
-    @BindView(R2.id.tv_reg_philips_news)
-    Label receivePhilipsNewsView;
+    @BindView(R2.id.usr_marketingScreen_philipsNews_label)
+    Label receivePhilipsNewsLabel;
 
     private ProgressDialog mProgressDialog;
 
@@ -76,7 +69,6 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     private Bundle mBundle;
 
     private long mTrackCreateAccountTime;
-
 
     MarketingAccountPresenter marketingAccountPresenter;
 
@@ -106,12 +98,12 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     private void setContentConfig(View view) {
         if (getRegistrationFragment().getContentConfiguration() != null) {
-            updateText(view, R.id.reg_what_are_you_txt,
+            updateText(view, R.id.usr_marketingScreen_headTitle_Lable,
                     getRegistrationFragment().getContentConfiguration().getOptInQuessionaryText());
-            updateText(view, R.id.reg_special_officer_txt,
+            updateText(view, R.id.usr_marketingScreen_specialOffer_label,
                     getRegistrationFragment().getContentConfiguration().getOptInDetailDescription());
             if (getRegistrationFragment().getContentConfiguration().getOptInBannerText() != null) {
-                updateText(view, R.id.tv_reg_Join_now,
+                updateText(view, R.id.usr_marketingScreen_joinNow_Label,
                         getRegistrationFragment().getContentConfiguration().getOptInBannerText());
             } else {
                 defalutBannerText(view);
@@ -125,7 +117,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         String joinNow = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now);
         String updateJoinNowText = " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
         joinNow = String.format(joinNow, updateJoinNowText);
-        updateText(view, R.id.tv_reg_Join_now, joinNow);
+        updateText(view, R.id.usr_marketingScreen_joinNow_Label, joinNow);
     }
 
     private void updateText(View view, int textViewId, String text) {
@@ -181,10 +173,10 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_reg_count_me) {
+        if (v.getId() == R.id.usr_marketingScreen_countMe_button) {
             showRefreshProgress();
             marketingAccountPresenter.updateMarketingEmail(mUser, true);
-        } else if (v.getId() == R.id.btn_reg_no_thanks) {
+        } else if (v.getId() == R.id.usr_marketingScreen_maybeLater_button) {
             showRefreshProgress();
             marketingAccountPresenter.updateMarketingEmail(mUser, false);
         }
@@ -192,10 +184,10 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     private void initUI(View view) {
         consumeTouch(view);
-        RegUtility.linkifyPhilipsNewsMarketing(receivePhilipsNewsView,
+        RegUtility.linkifyPhilipsNewsMarketing(receivePhilipsNewsLabel,
                 getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
-        mBtnCountMe.setOnClickListener(this);
-        mBtnNoThanks.setOnClickListener(this);
+        countMeButton.setOnClickListener(this);
+        mayBeLaterButton.setOnClickListener(this);
         handleUiState();
         mUser = new User(mContext);
     }
@@ -294,19 +286,19 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     public void handleUiState() {
         if (new NetworkUtility(mContext).isNetworkAvailable()) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-                mRegError.hideError();
-                mBtnCountMe.setEnabled(true);
-                mBtnNoThanks.setEnabled(true);
+                errorRegError.hideError();
+                countMeButton.setEnabled(true);
+                mayBeLaterButton.setEnabled(true);
             } else {
-                mBtnCountMe.setEnabled(false);
-                mBtnNoThanks.setEnabled(false);
-                mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+                countMeButton.setEnabled(false);
+                mayBeLaterButton.setEnabled(false);
+                errorRegError.setError(getString(R.string.reg_NoNetworkConnection));
             }
         } else {
-            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
-            mBtnCountMe.setEnabled(false);
-            mBtnNoThanks.setEnabled(false);
-            scrollViewAutomatically(mRegError, mSvRootLayout);
+            errorRegError.setError(getString(R.string.reg_NoNetworkConnection));
+            countMeButton.setEnabled(false);
+            mayBeLaterButton.setEnabled(false);
+            scrollViewAutomatically(errorRegError, rootLayoutScrollView);
         }
     }
 }

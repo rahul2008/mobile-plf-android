@@ -64,19 +64,7 @@ public class RegUtility {
         termsAndCondition = String.format(termsAndCondition, acceptTermsAndCondition);
         termsAndConditionsAcceptance.setText(termsAndCondition);
         String terms = activity.getString(R.string.reg_TermsAndConditionsText);
-        SpannableString spanableString = new SpannableString(termsAndCondition);
-
-        int termStartIndex = termsAndCondition.toLowerCase().indexOf(
-                terms.toLowerCase());
-        spanableString.setSpan(termsAndConditionClickListener, termStartIndex,
-                termStartIndex + terms.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        removeUnderlineFromLink(spanableString);
-        termsAndConditionsAcceptance.setText(spanableString);
-        termsAndConditionsAcceptance.setMovementMethod(LinkMovementMethod.getInstance());
-        termsAndConditionsAcceptance.setLinkTextColor(ContextCompat.
-                getColor(activity, R.color.reg_hyperlink_highlight_color));
-        termsAndConditionsAcceptance.setHighlightColor(ContextCompat.getColor
-                (activity, android.R.color.transparent));
+        setupLinkify(termsAndConditionsAcceptance, activity, termsAndConditionClickListener, termsAndCondition, terms);
     }
 
     public static void linkifyTermsandCondition(
@@ -88,19 +76,7 @@ public class RegUtility {
         termsAndCondition = String.format(termsAndCondition, acceptTermsAndCondition);
         termsAndConditionsAcceptance.setText(termsAndCondition);
         String terms = activity.getString(R.string.reg_TermsAndConditionsText);
-        SpannableString spanableString = new SpannableString(termsAndCondition);
-
-        int termStartIndex = termsAndCondition.toLowerCase().indexOf(
-                terms.toLowerCase());
-        spanableString.setSpan(termsAndConditionClickListener, termStartIndex,
-                termStartIndex + terms.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        removeUnderlineFromLink(spanableString);
-        termsAndConditionsAcceptance.setText(spanableString);
-        termsAndConditionsAcceptance.setMovementMethod(LinkMovementMethod.getInstance());
-        termsAndConditionsAcceptance.setLinkTextColor(ContextCompat.
-                getColor(activity, R.color.reg_hyperlink_highlight_color));
-        termsAndConditionsAcceptance.setHighlightColor(ContextCompat.getColor
-                (activity, android.R.color.transparent));
+        setupLinkify(termsAndConditionsAcceptance, activity, termsAndConditionClickListener, termsAndCondition, terms);
     }
 
     public static void linkifyPhilipsNews(TextView receivePhilipsNewsView,
@@ -111,20 +87,7 @@ public class RegUtility {
         receivePhilipsNews = String.format(receivePhilipsNews, doesThisMeanStr);
         receivePhilipsNewsView.setText(receivePhilipsNews);
         String link = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
-        SpannableString spanableString = new SpannableString(receivePhilipsNews);
-
-        int termStartIndex = receivePhilipsNews.toLowerCase().indexOf(
-                link.toLowerCase());
-        spanableString.setSpan(receivePhilipsNewsClickListener, termStartIndex, termStartIndex
-                + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        removeUnderlineFromLink(spanableString);
-
-        receivePhilipsNewsView.setText(spanableString);
-        receivePhilipsNewsView.setMovementMethod(LinkMovementMethod.getInstance());
-        receivePhilipsNewsView.setLinkTextColor(ContextCompat.getColor(activity,
-                R.color.reg_hyperlink_highlight_color));
-        receivePhilipsNewsView.setHighlightColor
-                (ContextCompat.getColor(activity, android.R.color.transparent));
+        setupLinkify(receivePhilipsNewsView, activity, receivePhilipsNewsClickListener, receivePhilipsNews, link);
     }
 
     public static void linkifyPhilipsNewsMarketing(TextView receivePhilipsNewsView,
@@ -135,40 +98,27 @@ public class RegUtility {
         receivePhilipsNews = String.format(receivePhilipsNews, doesThisMeanStr);
         receivePhilipsNewsView.setText(receivePhilipsNews);
         String link = activity.getString(R.string.reg_Receive_Philips_News_Meaning_lbltxt);
-        SpannableString spanableString = new SpannableString(receivePhilipsNews);
-
-        int termStartIndex = receivePhilipsNews.toLowerCase().indexOf(
-                link.toLowerCase());
-        spanableString.setSpan(receivePhilipsNewsClickListener, termStartIndex, termStartIndex
-                + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        removeUnderlineFromLink(spanableString);
-        receivePhilipsNewsView.setText(spanableString);
-        receivePhilipsNewsView.setMovementMethod(LinkMovementMethod.getInstance());
-        receivePhilipsNewsView.setLinkTextColor(ContextCompat.getColor(activity,
-                R.color.reg_hyperlink_highlight_color));
-        receivePhilipsNewsView.setHighlightColor
-                (ContextCompat.getColor(activity, android.R.color.transparent));
+        setupLinkify(receivePhilipsNewsView, activity, receivePhilipsNewsClickListener, receivePhilipsNews, link);
     }
 
     public static void linkifyAccountSettingPhilips(
             TextView accountSettingPhilipsNews, final Activity activity,
             ClickableSpan accountSettingsPhilipsClickListener) {
-
         String moreAccountSettings = activity.getString(R.string.reg_Access_More_Account_Setting_lbltxt);
         String doesThisMeanStr = activity.getString(R.string.reg_Philips_URL_txt);
-
         moreAccountSettings = String.format(moreAccountSettings, doesThisMeanStr);
         accountSettingPhilipsNews.setText(moreAccountSettings);
         String link = activity.getString(R.string.reg_Philips_URL_txt);
-        SpannableString spanableString = new SpannableString(moreAccountSettings);
+        setupLinkify(accountSettingPhilipsNews, activity, accountSettingsPhilipsClickListener, moreAccountSettings, link);
+    }
 
+    private static void setupLinkify(TextView accountSettingPhilipsNews, Activity activity, ClickableSpan accountSettingsPhilipsClickListener, String moreAccountSettings, String link) {
+        SpannableString spanableString = new SpannableString(moreAccountSettings);
         int termStartIndex = moreAccountSettings.toLowerCase().indexOf(
                 link.toLowerCase());
         spanableString.setSpan(accountSettingsPhilipsClickListener, termStartIndex,
                 termStartIndex + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        removeUnderlineFromLink(spanableString);
-
+        //   removeUnderlineFromLink(spanableString);
         accountSettingPhilipsNews.setText(spanableString);
         accountSettingPhilipsNews.setMovementMethod(LinkMovementMethod.getInstance());
         accountSettingPhilipsNews.setLinkTextColor(ContextCompat.getColor

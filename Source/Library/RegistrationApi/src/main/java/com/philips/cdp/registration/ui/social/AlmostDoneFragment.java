@@ -38,7 +38,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @BindView(R2.id.usr_almostDoneScreen_termsAndConditions_checkBox)
     CheckBox acceptTermsCheck;
 
-    @BindView(R2.id.cb_reg_accept_terms_error)
+    @BindView(R2.id.usr_almostDoneScreen_acceptTerms_error)
     XRegError acceptTermserrorMessage;
 
     @BindView(R2.id.usr_almostDoneScreen_marketingMails_checkBox)
@@ -47,14 +47,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @BindView(R2.id.reg_error_msg)
     XRegError errorMessage;
 
-    @BindView(R2.id.rl_reg_email_field_inputValidationLayout)
+    @BindView(R2.id.usr_almostDoneScreen_email_inputValidationLayout)
     InputValidationLayout loginIdEditText;
 
     @BindView(R2.id.rl_reg_email_field)
-    ValidationEditText rl_reg_email_field;
+    ValidationEditText emailEditText;
 
-    @BindView(R2.id.rl_almost_email_label)
-    Label emailTitle;
+    @BindView(R2.id.usr_almostDoneScreen_email_label)
+    Label emailTitleLabel;
 
     @BindView(R2.id.usr_almostDoneScreen_continue_button)
     ProgressBarButton continueButton;
@@ -62,8 +62,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @BindView(R2.id.sv_root_layout)
     ScrollView rootLayout;
 
-    @BindView(R2.id.rl_reg_email_field_description)
-    Label rl_reg_email_field_description;
+    @BindView(R2.id.usr_almostDoneScreen_description_label)
+    Label almostDoneDescriptionLabel;
 
     @Inject
     User mUser;
@@ -179,18 +179,18 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void emailFieldHide() {
-        rl_reg_email_field.setVisibility(View.GONE);
-        emailTitle.setVisibility(View.GONE);
+        emailEditText.setVisibility(View.GONE);
+        emailTitleLabel.setVisibility(View.GONE);
         continueButton.setEnabled(true);
-        rl_reg_email_field_description.setText(mContext.getResources().getString(R.string.reg_almost_description2));
+        almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.reg_almost_description2));
     }
 
     @Override
     public void showEmailField() {
-        rl_reg_email_field.setVisibility(View.VISIBLE);
-        emailTitle.setVisibility(View.VISIBLE);
-        rl_reg_email_field_description.setVisibility(View.VISIBLE);
-        rl_reg_email_field_description.setText(mContext.getResources().getString(R.string.reg_almost_description1));
+        emailEditText.setVisibility(View.VISIBLE);
+        emailTitleLabel.setVisibility(View.VISIBLE);
+        almostDoneDescriptionLabel.setVisibility(View.VISIBLE);
+        almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.reg_almost_description1));
 
     }
 
@@ -228,14 +228,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @Override
     public void showMarketingOptCheck() {
         marketingOptCheck.setVisibility(View.VISIBLE);
-        rl_reg_email_field_description.setVisibility(View.VISIBLE);
+        almostDoneDescriptionLabel.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideMarketingOptCheck() {
         marketingOptCheck.setVisibility(View.GONE);
-        if(rl_reg_email_field.getVisibility() != View.VISIBLE){
-            rl_reg_email_field_description.setVisibility(View.GONE);
+        if(emailEditText.getVisibility() != View.VISIBLE){
+            almostDoneDescriptionLabel.setVisibility(View.GONE);
         }
     }
 
@@ -312,8 +312,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     public void continueButtonClicked() {
         RLog.d(RLog.ONCLICK, "AlmostDoneFragment : Continue");
         loginIdEditText.clearFocus();
-        if (rl_reg_email_field.getVisibility()== View.VISIBLE && !isValidEmail) {
-            if (rl_reg_email_field.getText().length() == 0) {
+        if (emailEditText.getVisibility()== View.VISIBLE && !isValidEmail) {
+            if (emailEditText.getText().length() == 0) {
                 loginIdEditText.setErrorMessage(R.string.reg_EmptyField_ErrorMsg);
             } else {
                 loginIdEditText.setErrorMessage(R.string.reg_InvalidEmailAdddress_ErrorMsg);
@@ -330,7 +330,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public String getMobileNumber() {
-        return FieldsValidator.getMobileNumber(rl_reg_email_field.getText().toString());
+        return FieldsValidator.getMobileNumber(emailEditText.getText().toString());
     }
 
     @Override
