@@ -29,8 +29,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -44,7 +43,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @PrepareForTest({Log.class})
 public class CloudCommunicationStrategyTest {
 
-    public static final int SUBSCRIPTION_TTL = 0;
+    private static final int SUBSCRIPTION_TTL = 0;
     private final Map<String, Object> dataMap = new HashMap<>();
     private final String PORT_NAME = "AirPort";
     private final int PRODUCT_ID = 0;
@@ -222,19 +221,19 @@ public class CloudCommunicationStrategyTest {
     public void isAvailableWhenNetworkNodeIsCONNECTED_REMOTELY() throws Exception {
         // TODO
 
-        assertTrue(cloudCommunicationStrategy.isAvailable());
+        assertThat(cloudCommunicationStrategy.isAvailable()).isTrue();
     }
 
     @Test
     public void isNotAvailableWhenNetworkNodeIsDISCONNECTED() throws Exception {
         // TODO
 
-        assertFalse(cloudCommunicationStrategy.isAvailable());
+        assertThat(cloudCommunicationStrategy.isAvailable()).isFalse();
     }
 
     class CloudCommunicationStrategyForTesting extends CloudCommunicationStrategy {
 
-        public CloudCommunicationStrategyForTesting(NetworkNode networkNode, CloudController cloudController) {
+        CloudCommunicationStrategyForTesting(NetworkNode networkNode, CloudController cloudController) {
             super(networkNode, cloudController);
         }
 

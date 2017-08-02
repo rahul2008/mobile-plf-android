@@ -198,6 +198,7 @@ dependencies {
     testCompile deps.mockito
     testCompile deps.powermock_mockito
     testCompile deps.powermock_junit
+    testCompile deps.assertj
 }
 
 pitest {
