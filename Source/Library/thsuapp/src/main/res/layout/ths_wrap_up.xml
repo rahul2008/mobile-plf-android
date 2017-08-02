@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
+    android:layout_height="match_parent">
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ths_waiting_room_title_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="24dp"
-        android:lineSpacingExtra="8sp"
-        android:text="you are waiting to see"
+        android:layout_marginBottom="16dp"
+        android:text="This concludes your visit with"
         android:textColor="?attr/uidLabelValueNormalTextColor"
+
         android:textSize="@dimen/pth_title_text"
-        android:textStyle="bold" />
+        android:lineSpacingExtra="8sp"
+         />
 
     <LinearLayout
         android:id="@+id/ths_waiting_room_provider_top_grey_boundary"
+        android:layout_below="@+id/ths_waiting_room_title_label"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/ths_waiting_room_title_label"
+        android:orientation="horizontal"
         android:background="@color/uid_gray_level_10"
-        android:orientation="horizontal"></LinearLayout>
+        >
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/ths_waiting_room_provider_detail_relativelayout"
@@ -34,14 +35,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ths_waiting_room_provider_top_grey_boundary">
 
-        <com.philips.platform.ths.utility.CircularImageView
+        <ImageView
             android:id="@+id/details_providerImage"
             android:layout_width="84dp"
             android:layout_height="84dp"
             android:layout_centerVertical="true"
             android:layout_marginBottom="18dp"
             android:layout_marginStart="@dimen/uid_label_margin_start"
-            android:layout_marginTop="18dp" />
+            android:layout_marginTop="18dp"
+            />
 
         <RelativeLayout
             android:id="@+id/details_providerDetailLayout"
@@ -65,48 +67,23 @@
                 android:id="@+id/details_practiceNameLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/details_providerNameLabel"
                 android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+                android:layout_below="@+id/details_providerNameLabel"
 
                 android:textSize="14sp" />
         </RelativeLayout>
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/ths_waiting_room_provider_bottom_grey_boundary"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/ths_waiting_room_provider_detail_relativelayout"
-        android:background="@color/uid_gray_level_10"
-        android:orientation="horizontal"></LinearLayout>
-
     <RelativeLayout
-        android:id="@+id/ths_waiting_room_progressbar_container"
+        android:id="@+id/ths_wrap_up_detail_relativelayout"
+        android:layout_below="@+id/ths_waiting_room_provider_detail_relativelayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/ths_waiting_room_cancel_button"
-        android:layout_below="@+id/ths_waiting_room_provider_bottom_grey_boundary"
-        android:gravity="center">
+        android:layout_marginLeft="@dimen/pth_fab_margin"
+        android:layout_marginRight="@dimen/pth_fab_margin">
 
-        <com.philips.platform.uid.view.widget.ProgressBarWithLabel
-            android:id="@+id/ths_waiting_room_ProgressBarWithLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:visibility="visible"
-            app:uidCircularProgressBarSize="big"
-            app:uidIsIndeterminateProgressIndicator="true"
-            app:uidLabelPosition="bottom_center" />
+
     </RelativeLayout>
 
-    <com.philips.platform.uid.view.widget.Button
-        android:id="@+id/ths_waiting_room_cancel_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/pth_margin_between_buttons"
-        android:layout_marginLeft="@dimen/pth_fab_margin"
-        android:layout_marginRight="@dimen/pth_fab_margin"
 
-        android:text="Cancel visit" />
 </RelativeLayout>

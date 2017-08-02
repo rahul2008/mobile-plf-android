@@ -62,6 +62,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
         mPhoneNumberEditText = (EditText) view.findViewById(R.id.pth_intake_follow_up_phone_number);
         mFollowUpContiueButton = (ProgressBarButton) view.findViewById(R.id.pth_intake_follow_up_continue_button);
         mFollowUpContiueButton.setOnClickListener(this);
+        mFollowUpContiueButton.setEnabled(false);
         mNoppAgreeCheckBox = (CheckBox) view.findViewById(R.id.pth_intake_follow_up_nopp_agree_check_box);
         mNoppAgreeCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

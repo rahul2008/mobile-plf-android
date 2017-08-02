@@ -1,95 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
     android:id="@+id/provider_not_available"
-    >
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/provider_detail_container_view"
-        android:layout_height="wrap_content"
+        layout="@layout/ths_provider_list"
         android:layout_width="match_parent"
-        layout="@layout/ths_provider_list" />
+        android:layout_height="wrap_content" />
 
-    <View android:background="@color/uid_gray_level_5"
-        android:layout_below="@+id/provider_detail_container_view"
-        android:layout_width = "match_parent"
-        android:layout_height="10dp"
+    <View
         android:id="@+id/separator"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@+id/provider_detail_container_view"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/calendar_view"
         style="@style/ths_calendar_left"
-        android:layout_below="@id/separator"
-        />
+        android:layout_below="@id/separator" />
 
-    <View android:background="@color/uid_gray_level_5"
-        android:layout_below="@+id/calendar_view"
-        android:layout_width = "match_parent"
-        android:layout_height="1dp"
+    <View
         android:id="@+id/below_calendar_view"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/calendar_view"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/no_available_providers"
+        style="@style/amwellCentralesansBoldFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/below_calendar_view"
+        android:layout_centerVertical="true"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:paddingBottom="@dimen/ths_body_text_padding"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="@dimen/ths_body_text_padding"
         android:text="@string/ths_with"
         android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
-        style="@style/amwellCentralesansBoldFont"
-        android:textSize="16dp"
-        android:layout_alignParentStart = "true"
-        android:layout_centerVertical="true"
-        android:gravity="center_vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="@dimen/ths_body_text_padding"
-        android:paddingBottom="@dimen/ths_body_text_padding"
-        android:layout_below="@id/below_calendar_view"
-        />
+        android:textSize="16dp" />
 
     <com.philips.platform.uid.view.widget.Label
-        android:layout_below="@+id/no_available_providers"
         android:id="@+id/selectanother"
+        style="@style/amwellCentralesansBookFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/uid_grid_descrption_size"
+        android:layout_below="@+id/no_available_providers"
+        android:layout_marginBottom="10dp"
+        android:paddingBottom="@dimen/ths_body_text_padding"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingBottom="@dimen/ths_body_text_padding"
         android:paddingTop="@dimen/ths_body_text_padding"
+        android:text="@string/ths_select_other_provider"
         android:textColor="?attr/uidContentItemDefaultNormalSubtleBodyTextColor"
-        android:layout_marginBottom="10dp"
-        style="@style/amwellCentralesansBookFont"
-        android:text="@string/ths_select_other_provider"/>
+        android:textSize="@dimen/uid_grid_descrption_size" />
 
-    <View android:background="@color/uid_gray_level_5"
-        android:layout_below="@+id/selectanother"
-        android:layout_width = "match_parent"
-        android:layout_height="1dp"
+    <View
         android:id="@+id/below_select_other"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/selectanother"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/below_providers"
+        style="@style/ths_list_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Or pick on these doctors to schedule an appointment"
         android:layout_below="@id/below_select_other"
-        style="@style/ths_list_header"
-        />
+        android:text="Or pick on these doctors to schedule an appointment" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/providerListRecyclerView"
-        android:layout_below="@id/below_providers"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/below_providers"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:scrollbars="vertical">
-    </android.support.v7.widget.RecyclerView>
+        android:scrollbars="vertical"></android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

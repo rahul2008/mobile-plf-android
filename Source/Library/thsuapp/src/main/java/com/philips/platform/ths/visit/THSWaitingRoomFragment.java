@@ -6,11 +6,10 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -36,7 +35,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     Label mProviderNameLabel;
     Label mProviderPracticeLabel;
     Button mCancelVisitButton;
-    ImageView mProviderImageView;
+    CircularImageView mProviderImageView;
 
     @Nullable
     @Override
@@ -48,7 +47,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         mProgressBarWithLabel = (ProgressBarWithLabel) view.findViewById(R.id.ths_waiting_room_ProgressBarWithLabel);
         mCancelVisitButton = (Button) view.findViewById(R.id.ths_waiting_room_cancel_button);
         mCancelVisitButton.setOnClickListener(this);
-        mProviderImageView = (ImageView)view.findViewById(R.id.details_providerImage);
+        mProviderImageView = (CircularImageView)view.findViewById(R.id.details_providerImage);
         return  view;
     }
 
