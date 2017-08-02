@@ -5,11 +5,10 @@
     android:paddingRight="16dp">
 
     <com.philips.platform.uid.view.widget.CheckBox
-      android:id="@+id/checkbox_topics"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:enabled="true"
-      android:text="test"
-      />
+        android:id="@+id/checkbox_topics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="true"
+        android:text="test" />
 
-    </RelativeLayout>
+</RelativeLayout>

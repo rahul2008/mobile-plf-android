@@ -4,12 +4,12 @@
     android:id="@+id/providerListItemLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingStart="16dp"
+
     android:paddingTop="16dp"
-    android:paddingEnd="16dp"
     android:orientation="vertical">
 
     <com.philips.platform.ths.utility.CircularImageView
+        android:layout_marginStart="16dp"
         android:id="@+id/providerImage"
         android:layout_width="84dp"
         android:layout_height="84dp"
@@ -100,6 +100,7 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:src="@mipmap/right_arrow_icon" />
 
     <View
@@ -107,5 +108,5 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/providerDetailLayout"
-        android:background="@color/uid_gray_level_5" />
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 </RelativeLayout>

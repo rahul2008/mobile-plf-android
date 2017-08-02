@@ -18,7 +18,8 @@
         />
 
 
-    <View android:background="@color/uid_gray_level_5"
+    <View
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor"
         android:layout_below="@+id/schedule_appointment"
         android:layout_width = "match_parent"
         android:layout_height="1dp"
@@ -37,7 +38,8 @@
         android:layout_width="match_parent"
         layout="@layout/ths_provider_list" />
 
-    <View android:background="@color/uid_gray_level_5"
+    <View
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor"
         android:layout_below="@+id/provider_detail_container_view"
         android:layout_width = "match_parent"
         android:layout_height="24dp"
@@ -52,7 +54,8 @@
         />
 
 
-    <View android:background="@color/uid_gray_level_5"
+    <View
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor"
         android:layout_below="@id/calendar_view"
         android:layout_width = "match_parent"
         android:layout_height="1dp"
@@ -90,7 +93,8 @@
         android:layout_marginBottom="12dp"
         android:text="@string/ths_select_other_provider"/>
 
-    <View android:background="@color/uid_gray_level_5"
+    <View
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor"
         android:layout_below="@+id/selectanother"
         android:layout_width = "match_parent"
         android:layout_height="1dp"
@@ -108,7 +112,8 @@
         android:text="@string/ths_scedule_appointment"/>
 
 
-    <View android:background="@color/uid_gray_level_5"
+    <View
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor"
         android:layout_below="@+id/number_of_available_doctors"
         android:layout_width = "match_parent"
         android:layout_height="1dp"
