@@ -42,12 +42,25 @@ public class MainActivity extends AppCompatActivity {
             String obfuscatedHex = convertToHexDecimal(s,"UTF-8");
             Log.d(getClass() + " converted string ", obfuscatedHex);
 
-            temp = keyBagLib.obfuscateDeObfuscate(s.toCharArray(), 0xACE1);
+
+            String raviHexValue = "b3a5085a2de916729f8e55955ba482656cfc";
+
+            temp = keyBagLib.obfuscateDeObfuscate(convertHexDataToString(raviHexValue).toCharArray(), 0xACE1);
             String s2 = new String(temp);
             Log.d(getClass() +"", " again converted string "+ s2);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    static String convertHexDataToString(String hex) {
+        int l = hex.length();
+        char[] data = new char[l / 2];
+        for (int i = 0; i < l; i += 2) {
+            data[i / 2] = (char) ((Character.digit(hex.charAt(i), 16) << 4)
+                    + Character.digit(hex.charAt(i + 1), 16));
+        }
+        return new String(data);
     }
 
     private static char[] hexStringToByteArray(String hex) {
@@ -62,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static String convertToHexDecimal(String input, String charsetName) throws UnsupportedEncodingException {
         if (input == null) throw new NullPointerException();
-        return asHex(input.getBytes(charsetName));
+        return asHex(input.getBytes());
     }
 
     private static final char[] HEX_CHARS = "0123456789abcdef".toCharArray();
