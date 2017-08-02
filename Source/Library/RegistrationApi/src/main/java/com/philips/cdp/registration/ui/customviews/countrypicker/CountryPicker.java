@@ -101,7 +101,7 @@ public class CountryPicker extends DialogFragment implements
         return null;
     }
 
-    private List<String> handleCountryList() {
+    public List<String> handleCountryList() {
         List<String> defaultCountries = Arrays.asList(RegUtility.getDefaultSupportedHomeCountries());
         List<String> supportedHomeCountries = RegistrationConfiguration.getInstance().getSupportedHomeCountry();
         if (null != supportedHomeCountries) {

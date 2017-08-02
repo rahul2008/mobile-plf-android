@@ -442,20 +442,22 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 RLog.d(RLog.SERVICE_DISCOVERY, " Country Sucess :" + s);
                 mCountryDisplay.setText(new Locale("", s.toUpperCase()).getDisplayCountry());
                 handleSocialProviders(s.toUpperCase());
+                CountryPicker countryPicker = new CountryPicker();
+                countryPicker.handleCountryList().contains(s.toUpperCase());
+                //Check provided country is presnt in list or no if yes then only do changes
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
                 RLog.d(RLog.SERVICE_DISCOVERY, " Country Error :" + s);
                 String fallbackCountry = RegistrationConfiguration.getInstance().getFallBackHomeCountry();
-                String selectedCountryCode = null;
+                String selectedCountryCode ;
                 if (null != fallbackCountry) {
-                    serviceDiscoveryInterface.setHomeCountry(fallbackCountry.toUpperCase());
                     selectedCountryCode = fallbackCountry;
                 } else {
-                    serviceDiscoveryInterface.setHomeCountry(RegConstants.COUNTRY_CODE_US);
                     selectedCountryCode = RegConstants.COUNTRY_CODE_US;
                 }
+                serviceDiscoveryInterface.setHomeCountry(selectedCountryCode.toUpperCase());
                 mCountryDisplay.setText(new Locale(Locale.getDefault().getLanguage(),
                         selectedCountryCode).getDisplayCountry());
             }

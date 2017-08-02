@@ -23,6 +23,7 @@ import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
+import com.philips.cdp.registration.ui.customviews.countrypicker.*;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
@@ -176,13 +177,37 @@ public class UserRegistrationInitializer {
         serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
-                RegistrationHelper.getInstance().setCountryCode(s);
+                CountryPicker countryPicker = new CountryPicker();
+                if(countryPicker.handleCountryList().contains(s.toUpperCase())){
+                    RegistrationHelper.getInstance().setCountryCode(s);
+                    return;
+                }
+                //Check provided country is presnt in list or no if yes then only do changes
+
+                String fallbackCountry = RegistrationConfiguration.getInstance().getFallBackHomeCountry();
+                String selectedCountryCode = null;
+                if (null != fallbackCountry) {
+                    selectedCountryCode = fallbackCountry;
+                } else {
+                    selectedCountryCode = RegConstants.COUNTRY_CODE_US;
+                }
+                serviceDiscoveryInterface.setHomeCountry(selectedCountryCode.toUpperCase());
+                RegistrationHelper.getInstance().setCountryCode(selectedCountryCode.toUpperCase());
+
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                serviceDiscoveryInterface.setHomeCountry(RegConstants.COUNTRY_CODE_US);
-                RegistrationHelper.getInstance().setCountryCode(RegConstants.COUNTRY_CODE_US);
+                String fallbackCountry = RegistrationConfiguration.getInstance().getFallBackHomeCountry();
+                String selectedCountryCode = null;
+                if (null != fallbackCountry) {
+                    selectedCountryCode = fallbackCountry;
+                } else {
+                    selectedCountryCode = RegConstants.COUNTRY_CODE_US;
+                }
+                serviceDiscoveryInterface.setHomeCountry(selectedCountryCode.toUpperCase());
+                RegistrationHelper.getInstance().setCountryCode(selectedCountryCode.toUpperCase());
+
             }
         });
 
