@@ -48,7 +48,7 @@
         android:layout_below="@+id/pth_intake_follow_up_phone_number"
         android:layout_marginBottom="@dimen/pth_margin_top"
         android:layout_marginTop="@dimen/pth_margin_top"
-        android:background="@color/uid_gray_level_5" />
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
 
 
     <com.philips.platform.uid.view.widget.CheckBox
