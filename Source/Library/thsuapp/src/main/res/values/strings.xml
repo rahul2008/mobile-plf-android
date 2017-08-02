@@ -60,7 +60,6 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_select_time">Select a timeslot</string>
     <string name="cancel">CANCEL</string>
 
-
     //Pharmacy strings
     <string name="pharmacy_shipping_fragment_name">Pharmacy and Shipping</string>
     <string name="pharmacy_list_fragment_name">Pharmacy List</string>
@@ -74,4 +73,17 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="provider_offline">Schedule appointment</string>
     <string name="provider_available_timeslots">Available timeslots</string>
     <string name="provider_busy">Patient waiting</string>
+
+    <!-- Registration constants-->
+    <string name="ths_detail">Detail</string>
+    <string name="ths_more_details">We need more details to provide the best possible care</string>
+    <string name="ths_first_name">First name</string>
+    <string name="ths_last_name">Last name</string>
+    <string name="ths_dob">Your date of birth</string>
+    <string name="ths_inline_error_message">Error</string>
+    <string name="ths_gender">Gender</string>
+    <string name="ths_state">State</string>
+    <string name="ths_female">Female</string>
+    <string name="ths_male">Male</string>
+    <string name="ths_dob_format">"DD / MM / YYYY"</string>
 </resources>

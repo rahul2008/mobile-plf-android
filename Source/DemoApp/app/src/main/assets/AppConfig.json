@@ -1,7 +1,7 @@
 {
   "UserRegistration": {
-    "JanRainConfiguration.RegistrationClientID.Development": "{\"CN\":\"4rdpm7afu7bny6xnacw32etmt7htfraa\",\"default\":\"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"}",
-    "JanRainConfiguration.RegistrationClientID.Testing": "{\"CN\":\"4rdpm7afu7bny6xnacw32etmt7htfraa\",\"default\":\"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"}",
+    "JanRainConfiguration.RegistrationClientID.Development": "{\"CN\":\"qhq9jvkx35q8duef2fh6wwzceujjs9gs\",\"default\":\"8kaxdrpvkwyr7pnp987amu4aqb4wmnte\"}",
+    "JanRainConfiguration.RegistrationClientID.Testing": "{\"CN\":\"g8r8rbk4n5688xpsxqewmnwuqjb5ugag\",\"default\":\"g52bfma28yjbd24hyjcswudwedcmqy7c\"}",
     "JanRainConfiguration.RegistrationClientID.Evaluation": "{\"CN\":\"4rdpm7afu7bny6xnacw32etmt7htfraa\",\"default\":\"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"}",
     "JanRainConfiguration.RegistrationClientID.Staging": "{\"CN\":\"4rdpm7afu7bny6xnacw32etmt7htfraa\",\"default\":\"f2stykcygm7enbwfw2u9fbg6h6syb8yd\"}",
     "JanRainConfiguration.RegistrationClientID.Production": "{\"CN\":\"brhyp23jh8jrutmghjtht68yv4mvqvhu\",\"default\":\"9z23k3q8bhqyfwx78aru6bz8zksga54u\"}",
@@ -19,73 +19,74 @@
     "SigninProviders.CN": [
       "wechat"
     ],
-    "weChatAppId": "wx5b3bfa4e2970475e",
-    "weChatAppSecret": "b2f6437ea42bacca704493bce8226125",
+    "weChatAppId": "wxbdf2ab8822f6022f",
+    "weChatAppSecret": "df749e21c43c65a042df6f3f4ebe18f1",
     "ShowCountrySelection": "true"
   },
+  "AI": {
+    "MicrositeID": "77000",
+    "RegistrationEnvironment": "STAGING",
+    "NL": [
+      "googleplus",
+      "facebook"
+    ],
+    "US": [
+      "facebook",
+      "googleplus"
+    ],
+    "EE": [
+      123,
+      234
+    ]
+  },
   "IAP": {
+    "hostport": "dev.occ.shop.philips.com",
     "propositionid": "Tuscany2016"
   },
+  "dataservices": {
+    "appname": "OneBackend"
+  },
   "appinfra": {
-    "appidentity.micrositeId": "77000",
-    "appidentity.sector": "b2c",
-    "appidentity.appState": "STAGING",
-    "appidentity.serviceDiscoveryEnvironment": "PRODUCTION",
+    "appidentity.micrositeId" : "77000",
+    "appidentity.sector"  : "b2c",
+    "appidentity.appState"  : "STAGING",
+    "appidentity.serviceDiscoveryEnvironment"  : "PRODUCTION",
     "restclient.cacheSizeInKB": 51200,
-    "tagging.sensitiveData": [
-      "bundleId",
-      "language"
-    ],
-    "abtest.precache": [
-      "philipsmobileappabtest1content",
-      "philipsmobileappabtest1success",
-      "DOT-ReceiveMarketingOptIn"
-    ],
-    "contentLoader.limitSize": 100,
-    "servicediscovery.platformMicrositeId": "70000",
-    "servicediscovery.platformEnvironment": "production",
-    "timesync.ntp.hosts": [
-      "0.pool.ntp.org",
-      "1.pool.ntp.org",
-      "2.pool.ntp.org",
-      "3.pool.ntp.org",
-      "0.cn.pool.ntp.org"
-    ],
-    "LANGUAGEPACK.SERVICEID": "app.languagepack",
-    "servicediscovery.propositionEnabled": true,
-    "logging.releaseConfig": {
-      "fileName": "AppInfraLog",
-      "numberOfFiles": 5,
-      "fileSizeInBytes": 50000,
-      "logLevel": "Off",
-      "fileLogEnabled": false,
-      "consoleLogEnabled": true,
-      "componentLevelLogEnabled": false,
+    "tagging.sensitiveData": ["bundleId", "language"],
+    "abtest.precache": ["philipsmobileappabtest1content","philipsmobileappabtest1success","DOT-ReceiveMarketingOptIn"],
+    "contentLoader.limitSize":100,
+    "servicediscovery.platformMicrositeId":"70000",
+    "servicediscovery.platformEnvironment":"production",
+    "appconfig.cloudServiceId":" appinfra.appconfigdownload",
+    "timesync.ntp.hosts":["0.pool.ntp.org","1.pool.ntp.org","2.pool.ntp.org","3.pool.ntp.org","0.cn.pool.ntp.org"],
+    "LANGUAGEPACK.SERVICEID":"appinfra.languagepack",
+    "servicediscovery.propositionEnabled":true,
+    "logging.releaseConfig":{
+      "fileName":"AppInfraLog",
+      "numberOfFiles":5,
+      "fileSizeInBytes":50000,
+      "logLevel":"Off",
+      "fileLogEnabled":true,
+      "consoleLogEnabled":true,
+      "componentLevelLogEnabled":false,
       "componentIds": [
         "DemoAppInfra",
         "Registration"
       ]
     },
-    "logging.debugConfig": {
-      "fileName": "AppInfraLog",
-      "numberOfFiles": 5,
-      "fileSizeInBytes": 50000,
-      "logLevel": "Info",
-      "fileLogEnabled": false,
-      "consoleLogEnabled": true,
-      "componentLevelLogEnabled": false,
+    "logging.debugConfig":{
+      "fileName":"AppInfraLog",
+      "numberOfFiles":5,
+      "fileSizeInBytes":50000,
+      "logLevel":"Info",
+      "fileLogEnabled":true,
+      "consoleLogEnabled":true,
+      "componentLevelLogEnabled":false,
       "componentIds": [
+
         "DemoAppInfra",
-        "Registration",
-        "component1"
+        "Registration","component1"
       ]
     }
-  },
-  "ReferenceApp": {
-    "PushNotification.autoLogout": "true",
-    "PushNotification.polling": "false"
-  },
-  "ths": {
-    "showPractice": true
   }
 }

@@ -46,6 +46,8 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
             final THSNoppFragment fragment = new THSNoppFragment();
             fragment.setFragmentLauncher(((THSBaseFragment)uiBaseView).getFragmentLauncher());
             uiBaseView.addFragment(fragment, THSNoppFragment.TAG, null);
+        }else {
+            ((THSBaseFragment)uiBaseView).showToast("Please Enter a valid Phone Number");
         }
     }
 

@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.support.annotation.NonNull;
 
 import com.americanwell.sdk.entity.Address;
+import com.americanwell.sdk.entity.Country;
 import com.americanwell.sdk.entity.State;
 
 public class ShippingAddressPojo implements Address {
@@ -54,6 +55,17 @@ public class ShippingAddressPojo implements Address {
 
     @Override
     public void setZipCode(@NonNull String s) {
+
+    }
+
+    @NonNull
+    @Override
+    public Country getCountry() {
+        return null;
+    }
+
+    @Override
+    public void setCountry(@NonNull Country country) {
 
     }
 

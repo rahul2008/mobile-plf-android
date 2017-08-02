@@ -79,6 +79,7 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
+        maven {url "https://clojars.org/repo/"}
     }
 }
 
@@ -93,7 +94,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 25
