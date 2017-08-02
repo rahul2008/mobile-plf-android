@@ -66,9 +66,10 @@
             android:id="@+id/searchBarLabel"
             style="@style/ths_list_header"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/pth_fab_margin"
+            android:paddingRight="@dimen/pth_fab_margin"
             android:gravity="center_vertical"
             android:text="Or pick one of these providers" />
     </RelativeLayout>

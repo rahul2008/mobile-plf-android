@@ -21,6 +21,8 @@
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/calendar_view"
         style="@style/ths_calendar_left"
+        android:paddingLeft="@dimen/pth_fab_margin"
+        android:paddingRight="@dimen/pth_fab_margin"
         android:layout_below="@id/separator" />
 
     <View
@@ -75,8 +77,9 @@
         android:id="@+id/below_providers"
         style="@style/ths_list_header"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_below="@id/below_select_other"
+        android:paddingLeft="@dimen/pth_fab_margin"
+        android:paddingRight="@dimen/pth_fab_margin"
         android:text="Or pick on these doctors to schedule an appointment" />
 
     <android.support.v7.widget.RecyclerView

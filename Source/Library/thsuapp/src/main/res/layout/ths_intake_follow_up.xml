@@ -20,6 +20,8 @@
         android:layout_marginTop="@dimen/pth_fab_margin"
         android:textSize="@dimen/pth_body_text"
         android:layout_below="@+id/pth_intake_follow_up_label"
+        android:paddingLeft="@dimen/pth_fab_margin"
+        android:paddingRight="@dimen/pth_fab_margin"
         android:text="When can the provider call you, for a follow up, if needed ?" />
 
     <com.philips.platform.uid.view.widget.Label
@@ -30,6 +32,8 @@
         android:layout_below="@+id/pth_intake_follow_up_question"
         android:layout_marginTop="@dimen/pth_margin_top"
         android:layout_marginBottom="@dimen/pth_margin_top"
+        android:paddingLeft="@dimen/pth_fab_margin"
+        android:paddingRight="@dimen/pth_fab_margin"
         android:text="Phone number" />
 
     <com.philips.platform.uid.view.widget.EditText

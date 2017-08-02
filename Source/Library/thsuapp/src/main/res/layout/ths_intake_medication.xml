@@ -46,6 +46,8 @@
             android:layout_marginTop="@dimen/pth_fab_margin"
             android:textSize="@dimen/pth_body_text"
             android:layout_below="@+id/pth_intake_medication_label"
+            android:paddingLeft="@dimen/pth_fab_margin"
+            android:paddingRight="@dimen/pth_fab_margin"
             android:text="Do you currently use medication? If so, please add your medication to share with the provider" />
 
 

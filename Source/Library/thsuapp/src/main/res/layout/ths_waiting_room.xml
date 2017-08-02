@@ -17,6 +17,8 @@
         android:lineSpacingExtra="8sp"
         android:text="you are waiting to see"
         android:textColor="?attr/uidLabelValueNormalTextColor"
+        android:paddingLeft="@dimen/pth_fab_margin"
+        android:paddingRight="@dimen/pth_fab_margin"
         android:textSize="@dimen/pth_title_text"
         android:textStyle="bold" />
 

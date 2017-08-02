@@ -87,8 +87,11 @@
                     android:id="@+id/profileLabel"
                     style="@style/ths_list_item_header"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:layout_below="@+id/horizontalLineOne"
+                    android:paddingLeft="@dimen/pth_fab_margin"
+                    android:paddingRight="@dimen/pth_fab_margin"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
                     android:text="Profile" />
 
                 <com.philips.platform.uid.view.widget.Label
@@ -223,8 +226,11 @@
                     android:id="@+id/aboutMeLabel"
                     style="@style/ths_list_item_header"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:layout_below="@+id/horizontalLineFive"
+                    android:paddingLeft="@dimen/pth_fab_margin"
+                    android:paddingRight="@dimen/pth_fab_margin"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
                     android:text="About Me" />
 
                 <com.philips.platform.uid.view.widget.Label
