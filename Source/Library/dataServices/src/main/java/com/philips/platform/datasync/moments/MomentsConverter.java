@@ -187,8 +187,6 @@ public class MomentsConverter {
             uCoreMoment.setTimestamp(moment.getDateTime().toString());
             String momentTypeString = moment.getType();
             uCoreMoment.setType(momentTypeString);
-            DateTime expirationDate = moment.getExpirationDate();
-            uCoreMoment.setExpirationDate(expirationDate == null ? null : expirationDate.toString());
             List<UCoreDetail> uCoreMomentList = new ArrayList<>();
 
             addToUCoreMomentDetails(moment.getMomentDetails(), uCoreMomentList);

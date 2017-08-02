@@ -24,6 +24,7 @@ public class UCoreMoment {
     private String timestamp;
 
     @Expose
+    @Nullable
     private String expirationDate;
 
 
