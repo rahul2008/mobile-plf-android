@@ -40,6 +40,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/ths_conditions_margin_top"
                 android:layout_marginTop="@dimen/pth_fab_margin"
+                android:paddingLeft="@dimen/pth_fab_margin"
+                android:paddingRight="@dimen/pth_fab_margin"
                 android:text="@string/help_visit" />
 
             <com.philips.platform.uid.view.widget.Label

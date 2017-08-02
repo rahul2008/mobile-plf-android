@@ -44,6 +44,8 @@
                 android:layout_marginBottom="@dimen/ths_checkbox_bottom_margin"
                 android:layout_marginTop="@dimen/pth_fab_margin"
                 android:textSize="@dimen/pth_body_text"
+                android:paddingLeft="@dimen/pth_fab_margin"
+                android:paddingRight="@dimen/pth_fab_margin"
                 android:text="@string/ths_medical_conditions" />
 
             <LinearLayout
