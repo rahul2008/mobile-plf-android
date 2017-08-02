@@ -15,8 +15,8 @@ import android.support.v4.content.ContextCompat;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
-import com.philips.cdp2.commlib.ble.BleDeviceCache.CacheData;
-import com.philips.cdp2.commlib.ble.BleDeviceCache.ExpirationCallback;
+import com.philips.cdp2.commlib.ble.BleCacheData;
+import com.philips.cdp2.commlib.core.devicecache.DeviceCache.ExpirationCallback;
 import com.philips.cdp2.commlib.core.discovery.ObservableDiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.MissingPermissionException;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
@@ -59,7 +59,7 @@ public class BleDiscoveryStrategy extends ObservableDiscoveryStrategy implements
     private ExpirationCallback expirationCallback = new ExpirationCallback() {
         @Override
         public void onCacheExpired(NetworkNode networkNode) {
-            final CacheData cacheData = bleDeviceCache.getCacheData(networkNode.getCppId());
+            final BleCacheData cacheData = bleDeviceCache.getCacheData(networkNode.getCppId());
             if (cacheData == null) {
                 return;
             }

@@ -10,6 +10,7 @@ import android.os.Handler;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
+import com.philips.cdp2.commlib.ble.BleCacheData;
 import com.philips.pins.shinelib.SHNCapabilityType;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDevice.SHNDeviceListener;
@@ -51,7 +52,7 @@ public class BleRequestTest {
     private BleDeviceCache mockDeviceCache;
 
     @Mock
-    private BleDeviceCache.CacheData mockCacheData;
+    private BleCacheData mockCacheData;
 
     @Mock
     private ResponseHandler responseHandlerMock;

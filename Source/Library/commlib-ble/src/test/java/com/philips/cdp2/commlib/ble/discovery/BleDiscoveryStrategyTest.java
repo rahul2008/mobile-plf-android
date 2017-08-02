@@ -10,6 +10,7 @@ import android.os.Handler;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.ble.BleDeviceCache;
+import com.philips.cdp2.commlib.ble.BleCacheData;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.pins.shinelib.SHNCentral;
 import com.philips.pins.shinelib.SHNDevice;
@@ -52,7 +53,7 @@ public class BleDiscoveryStrategyTest {
     @Mock
     private SHNDevice mockDevice;
     @Mock
-    BleDeviceCache.CacheData mockCacheData;
+    BleCacheData mockCacheData;
 
     private NetworkNode networkNode;
 
