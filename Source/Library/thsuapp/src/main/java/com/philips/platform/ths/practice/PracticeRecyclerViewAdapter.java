@@ -54,7 +54,7 @@ public class PracticeRecyclerViewAdapter extends RecyclerView.Adapter<PracticeRe
                 THSManager.getInstance().getAwsdk(customViewHolder.logo.getContext()).getPracticeProvidersManager()
                         .newImageLoader(practice, customViewHolder.logo, false)
                         .placeholder(customViewHolder.logo.getResources()
-                                .getDrawable(R.drawable.doctor_placeholder))
+                                .getDrawable(R.mipmap.child_icon))
                         .build().load();
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
