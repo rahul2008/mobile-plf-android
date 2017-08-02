@@ -72,7 +72,7 @@ public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitC
 
                 mTHSWaitingRoomFragment.mProgressBarWithLabel.setText(patientWaitingCount + " patients waiting");
             }
-            THSManager.getInstance().startVisit(mTHSWaitingRoomFragment.getFragmentActivity(), this);
+            THSManager.getInstance().startVisit(mTHSWaitingRoomFragment.getFragmentActivity(), null,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
