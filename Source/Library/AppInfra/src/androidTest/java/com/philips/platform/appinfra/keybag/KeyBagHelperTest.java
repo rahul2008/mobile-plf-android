@@ -53,10 +53,26 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
 
     public void testGettingMd5ValueInHex() {
        assertNull(keyBagHelper.getMd5ValueInHex(null));
+        assertNotNull(keyBagHelper.getMd5ValueInHex("testing"));
     }
 
     public void testConvertingToHex() {
         String hexString = "52616a612052616d204d6f68616e20526f79";
         assertEquals(keyBagHelper.convertHexDataToString(hexString),"Raja Ram Mohan Roy");
+    }
+
+
+    public void testObfuscate() {
+        String obfuscate = keyBagHelper.obfuscate("Raja Ram Mohan Roy", 0XAEF7);
+        assertEquals(keyBagHelper.obfuscate(obfuscate, 0XAEF7), "Raja Ram Mohan Roy");
+        assertFalse(keyBagHelper.obfuscate(obfuscate, 0XAEF7).equals("Raja Ram Mohan Roy xxx"));
+    }
+
+    public void testGetAppendedServiceId() {
+        String testing = keyBagHelper.getAppendedServiceId("testing");
+        assertTrue(testing.contains(".kindex"));
+        assertNotNull(testing);
+        assertNull(keyBagHelper.getAppendedServiceId(""));
+        assertNull(keyBagHelper.getAppendedServiceId(null));
     }
 }

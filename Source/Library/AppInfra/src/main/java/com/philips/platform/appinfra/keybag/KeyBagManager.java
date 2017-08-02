@@ -43,15 +43,16 @@ public class KeyBagManager implements KeyBagInterface {
     }
 
     @Override
-    public ArrayList<HashMap> getMapForServiceId(String serviceId) {
+    public ArrayList<HashMap> getMapForServiceId(final String serviceId) {
         String appendedServiceId = keyBagHelper.getAppendedServiceId(serviceId);
+        final ArrayList<HashMap> hashMaps = new ArrayList<>();
         final String[] urlData = new String[1];
         sdmCSV.getServiceUrlWithCountryPreference(appendedServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
             @Override
             public void onSuccess(URL url) {
                 Log.d(getClass().getSimpleName(), "testing keybag index " + url.toString());
                 urlData[0] = url.toString();
-
+                getDataMap(serviceId, urlData, hashMaps);
             }
 
             @Override
@@ -59,7 +60,10 @@ public class KeyBagManager implements KeyBagInterface {
                 Log.d(getClass().getSimpleName(), "error in getting keybag url " + message);
             }
         });
-        ArrayList<HashMap> hashMaps = new ArrayList<>();
+        return hashMaps;
+    }
+
+    private void getDataMap(String serviceId, String[] urlData, ArrayList<HashMap> hashMaps) {
         if (serviceId != null) {
             String keyBagHelperIndex = keyBagHelper.getIndex(urlData[0]);
             int index = Integer.parseInt(keyBagHelperIndex);
@@ -71,7 +75,6 @@ public class KeyBagManager implements KeyBagInterface {
                 keyBagHelper.addToHashMapData((JSONObject) propertiesForKey, hashMaps, index, serviceId);
             }
         }
-        return hashMaps;
     }
 
     //TODO - need to remove this once we get keybag url's from DS

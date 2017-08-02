@@ -34,11 +34,4 @@ public class KeyBagManagerTest extends AppInfraInstrumentation {
         keyBagInterface = new KeyBagManager(appInfraMock);
         keyBagInterface.init();
     }
-
-    public void testObfuscate() {
-        String obfuscate = keyBagInterface.obfuscate("Raja Ram Mohan Roy", 0XAEF7);
-        assertEquals(keyBagInterface.obfuscate(obfuscate, 0XAEF7), "Raja Ram Mohan Roy");
-        assertFalse(keyBagInterface.obfuscate(obfuscate, 0XAEF7).equals("Raja Ram Mohan Roy xxx"));
-    }
-
 }

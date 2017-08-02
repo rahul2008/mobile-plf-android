@@ -104,7 +104,7 @@ class KeyBagHelper {
         return null;
     }
 
-    public void init(Context mContext) throws FileNotFoundException {
+    void init(Context mContext) throws FileNotFoundException {
         initKeyBagProperties(mContext);
     }
 
