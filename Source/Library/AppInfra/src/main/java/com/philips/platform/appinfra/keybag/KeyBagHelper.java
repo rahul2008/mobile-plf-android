@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfraLogEventID;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -56,7 +57,7 @@ class KeyBagHelper {
         return null;
     }
 
-    String getSeed(String groupId, String key, int index) {
+    String getSeed(String groupId, int index, String key) {
         if (!TextUtils.isEmpty(groupId) && !TextUtils.isEmpty(key)) {
             String concatData = groupId.trim().concat(String.valueOf(index).concat(key.trim()));
             String md5Value = getMd5ValueInHex(concatData);
@@ -76,10 +77,10 @@ class KeyBagHelper {
         return new String(data);
     }
 
-    String getIndex(String indexData) {
+    String getKeyBagIndex(String value) {
         String data = "https://www.philips.com/";
-        if (!TextUtils.isEmpty(indexData)) {
-            StringTokenizer st = new StringTokenizer(indexData, data);
+        if (!TextUtils.isEmpty(value)) {
+            StringTokenizer st = new StringTokenizer(value, data);
             if (st.hasMoreTokens())
                 return st.nextToken();
         }
@@ -94,18 +95,36 @@ class KeyBagHelper {
         return null;
     }
 
-    Object getPropertiesForKey(String serviceId) {
-        try {
-            return rootJsonObject.get(serviceId);
-        } catch (JSONException e) {
-            e.printStackTrace();
+    void init(Context mContext) throws FileNotFoundException {
+        initKeyBagProperties(mContext);
+    }
+
+    String getAppendedServiceId(String serviceId) {
+        if (!TextUtils.isEmpty(serviceId))
+            return serviceId.concat(".kindex");
+
+        return null;
+    }
+
+
+    Map getDeObfuscatedMap(String serviceId, String url) {
+        if (serviceId != null) {
+            String keyBagHelperIndex = getKeyBagIndex(url);
+            int index = Integer.parseInt(keyBagHelperIndex);
+            Object propertiesForKey = getPropertiesForKey(serviceId);
+            if (propertiesForKey instanceof JSONArray) {
+                JSONArray jsonArray = (JSONArray) propertiesForKey;
+                try {
+                    JSONObject jsonObject = (JSONObject) jsonArray.get(index);
+                    return mapData(jsonObject, index, serviceId);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return null;
     }
 
-    void init(Context mContext) throws FileNotFoundException {
-        initKeyBagProperties(mContext);
-    }
 
     private void initKeyBagProperties(Context mContext) throws FileNotFoundException {
         Log.d(AppInfraLogEventID.AI_KEY_BAG, "Reading keybag Config from app");
@@ -127,14 +146,14 @@ class KeyBagHelper {
         }
     }
 
-    Map addToHashMapData(JSONObject jsonObject, int index, String serviceId) {
+    private Map mapData(JSONObject jsonObject, int index, String serviceId) {
         try {
             Iterator<String> keys = jsonObject.keys();
             HashMap<String, String> hashMap = new HashMap<>();
             while (keys.hasNext()) {
                 String key = keys.next();
                 String value = (String) jsonObject.get(key);
-                String seed = getSeed(serviceId, key, index);
+                String seed = getSeed(serviceId, index, key);
                 hashMap.put(key, obfuscate(convertHexDataToString(value), Integer.parseInt(seed, 16)));
             }
             return hashMap;
@@ -144,11 +163,13 @@ class KeyBagHelper {
         return null;
     }
 
-
-    String getAppendedServiceId(String serviceId) {
-        if (!TextUtils.isEmpty(serviceId))
-            return serviceId.concat(".kindex");
-
+    private Object getPropertiesForKey(String serviceId) {
+        try {
+            return rootJsonObject.get(serviceId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return null;
     }
+
 }

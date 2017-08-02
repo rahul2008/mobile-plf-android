@@ -37,18 +37,18 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
         URL url;
         try {
             url = new URL(indexData);
-            assertEquals(keyBagHelper.getIndex(url.toString()), "0");
+            assertEquals(keyBagHelper.getKeyBagIndex(url.toString()), "0");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
         indexData = "https://www.philips.com/22";
-        assertEquals(keyBagHelper.getIndex(indexData), "22");
+        assertEquals(keyBagHelper.getKeyBagIndex(indexData), "22");
         indexData = "https://www.philips.com/";
-        assertNull(keyBagHelper.getIndex(indexData));
+        assertNull(keyBagHelper.getKeyBagIndex(indexData));
         indexData = "";
-        assertNull(keyBagHelper.getIndex(indexData));
-        assertNull(keyBagHelper.getIndex(null));
+        assertNull(keyBagHelper.getKeyBagIndex(indexData));
+        assertNull(keyBagHelper.getKeyBagIndex(null));
     }
 
     public void testGettingMd5ValueInHex() {

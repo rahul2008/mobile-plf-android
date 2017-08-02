@@ -11,10 +11,6 @@ import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.philipsdevtools.ServiceDiscoveryManagerCSV;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Map;
@@ -52,7 +48,7 @@ public class KeyBagManager implements KeyBagInterface {
             @Override
             public void onSuccess(URL url) {
                 Log.d(getClass().getSimpleName(), "fetching keybag index " + url.toString());
-                maps[0] = getDataMap(serviceId, url.toString());
+                maps[0] = keyBagHelper.getDeObfuscatedMap(serviceId, url.toString());
             }
 
             @Override
@@ -62,24 +58,6 @@ public class KeyBagManager implements KeyBagInterface {
         });
 
         return maps[0];
-    }
-
-    private Map getDataMap(String serviceId, String url) {
-        if (serviceId != null) {
-            String keyBagHelperIndex = keyBagHelper.getIndex(url);
-            int index = Integer.parseInt(keyBagHelperIndex);
-            Object propertiesForKey = keyBagHelper.getPropertiesForKey(serviceId);
-            if (propertiesForKey instanceof JSONArray) {
-                JSONArray jsonArray = (JSONArray) propertiesForKey;
-                try {
-                    JSONObject jsonObject = (JSONObject) jsonArray.get(index);
-                    return keyBagHelper.addToHashMapData(jsonObject, index, serviceId);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return null;
     }
 
     //TODO - need to remove this once we get keybag url's from DS
