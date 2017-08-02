@@ -97,7 +97,7 @@ public class CCDemoUAppActivity extends FragmentActivity implements View.OnClick
         mCountry = getResources().getStringArray(R.array.country);
         mcountryCode = getResources().getStringArray(R.array.country_code);
         ArrayAdapter<String> mCountry_adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, mCountry);
+                R.layout.textview, mCountry);
         mCountry_spinner.setAdapter(mCountry_adapter);
         restoreCountryOption();
 
