@@ -38,7 +38,7 @@ class CommlibUappApplianceFactory implements DICommApplianceFactory<Appliance> {
 
     @Override
     public boolean canCreateApplianceForNode(NetworkNode networkNode) {
-        return getSupportedDeviceTypes().contains(networkNode.getDeviceType());
+        return networkNode.isValid();
     }
 
     @Override
@@ -59,6 +59,13 @@ class CommlibUappApplianceFactory implements DICommApplianceFactory<Appliance> {
                     }
                 case WifiReferenceAppliance.DEVICETYPE:
                     return new WifiReferenceAppliance(networkNode, communicationStrategy);
+                default:
+                    return new Appliance(networkNode, communicationStrategy) {
+                        @Override
+                        public String getDeviceType() {
+                            return null;
+                        }
+                    };
             }
         }
         return null;
