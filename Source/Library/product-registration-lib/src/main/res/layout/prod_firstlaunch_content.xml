@@ -41,6 +41,7 @@
         android:layout_marginTop="@dimen/pr_c_value_sm"
         android:text="@string/PPR_RegLater_Btntxt"
         android:textAllCaps="false"
+        android:layout_marginBottom="@dimen/pr_margintop"
         app:uidComponentType="Secondary"
        />
 </LinearLayout>
