@@ -60,6 +60,7 @@ allprojects {
                 password = "123qweasdzxc"
             }
         }
+        maven {url "https://clojars.org/repo/"}
         group = 'com.philips.cdp'
     }
 }
@@ -70,10 +71,11 @@ android {
     buildToolsVersion '25.0.3'
 
     defaultConfig {
-        applicationId 'com.americanwell.sdksample.android.philips'
+        applicationId 'com.philips.platform.thsdemolaunch'
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 1
+        versionCode 6
+        versionName "0.1.10"
         vectorDrawables.useSupportLibrary = true
         renderscriptTargetApi 25
         renderscriptSupportModeEnabled true

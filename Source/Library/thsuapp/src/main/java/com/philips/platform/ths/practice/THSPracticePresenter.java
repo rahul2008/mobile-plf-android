@@ -32,7 +32,7 @@ public class THSPracticePresenter implements THSBasePresenter, THSPracticesListC
 
     protected void fetchPractices(){
         try {
-            THSManager.getInstance().getPractices(uiBaseView.getFragmentActivity(),THSManager.getInstance().getPTHConsumer().getConsumer(),this);
+            THSManager.getInstance().getPractices(uiBaseView.getFragmentActivity(), this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }

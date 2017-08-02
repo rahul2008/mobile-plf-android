@@ -22,11 +22,8 @@ import com.americanwell.sdk.entity.health.Medication;
 import com.americanwell.sdk.entity.insurance.Subscription;
 import com.americanwell.sdk.entity.practice.OnDemandSpecialty;
 import com.americanwell.sdk.entity.practice.Practice;
-import com.americanwell.sdk.entity.practice.PracticeInfo;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderInfo;
-import com.americanwell.sdk.entity.provider.ProviderType;
-import com.americanwell.sdk.entity.provider.ProviderVisibility;
 import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.entity.visit.Vitals;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
@@ -389,7 +386,7 @@ public class THSManagerTest {
     @Test
     public void getPracticesOnResponse() throws AWSDKInstantiationException {
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
-        THSManager.getPractices(contextMock, mConsumer, pTHPracticesListCallback);
+        THSManager.getPractices(contextMock, pTHPracticesListCallback);
         verify(practiseprovidermanagerMock).getPractices(any(Consumer.class), requestPracticeCaptor.capture());
         SDKCallback value = requestPracticeCaptor.getValue();
         value.onResponse(any(List.class), any(SDKError.class));
