@@ -69,7 +69,6 @@
                 android:id="@+id/additional_comment"
                 style="@style/ths_list_item"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_below="@id/checkbox_container"
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="@dimen/pth_fab_margin"
