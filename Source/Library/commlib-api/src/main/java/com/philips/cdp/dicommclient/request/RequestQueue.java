@@ -5,30 +5,31 @@
 
 package com.philips.cdp.dicommclient.request;
 
-import java.util.ArrayList;
-
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.util.HandlerProvider;
+
+import java.util.ArrayList;
 
 public class RequestQueue {
 
     private Handler mRequestHandler;
 
-    private final Handler mResponseHandler;
-    private final ArrayList<Request> mThreadNotYetStartedQueue = new ArrayList<>();
+    private final Handler responseHandler;
+    private final ArrayList<Request> threadNotYetStartedQueue = new ArrayList<>();
 
     public RequestQueue() {
         initializeRequestThread();
-        mResponseHandler = new Handler(Looper.getMainLooper());
+        responseHandler = HandlerProvider.createHandler();
     }
 
     public synchronized void addRequest(Request request) {
         if (mRequestHandler == null) {
         	DICommLog.d(DICommLog.REQUESTQUEUE, "Added new request - Thread not yet started");
-            mThreadNotYetStartedQueue.add(request);
+            threadNotYetStartedQueue.add(request);
             return;
         }
         DICommLog.d(DICommLog.REQUESTQUEUE, "Added new request");
@@ -38,7 +39,7 @@ public class RequestQueue {
     public synchronized void addRequestInFrontOfQueue(Request request) {
         if (mRequestHandler == null) {
             DICommLog.d(DICommLog.REQUESTQUEUE, "Added new request in front of queue - Thread not yet started");
-            mThreadNotYetStartedQueue.add(request);
+            threadNotYetStartedQueue.add(request);
             return;
         }
         DICommLog.d(DICommLog.REQUESTQUEUE, "Added new request in front of queue");
@@ -48,7 +49,7 @@ public class RequestQueue {
     public synchronized void clearAllPendingRequests() {
     	DICommLog.d(DICommLog.REQUESTQUEUE, "Cleared all pending requests");
     	mRequestHandler.removeCallbacksAndMessages(null);
-    	mThreadNotYetStartedQueue.clear();
+    	threadNotYetStartedQueue.clear();
     }
 
     private void postRequestOnBackgroundThread(final Request request) {
@@ -82,7 +83,7 @@ public class RequestQueue {
             	DICommLog.d(DICommLog.REQUESTQUEUE, "Processing response from request");
             	response.notifyResponseHandler();
         }};
-        mResponseHandler.post(responseRunnable);
+        responseHandler.post(responseRunnable);
     }
 
 	private void initializeRequestThread() {
@@ -99,11 +100,11 @@ public class RequestQueue {
     private synchronized void initializeRequestHandler(Looper looper) {
     	DICommLog.d(DICommLog.REQUESTQUEUE, "Initializing requestHandler");
         mRequestHandler = new Handler(looper);
-        for (Request request : mThreadNotYetStartedQueue) {
+        for (Request request : threadNotYetStartedQueue) {
             postRequestOnBackgroundThread(request);
             DICommLog.d(DICommLog.REQUESTQUEUE, "Added new request - pending due to Thread not started");
         }
-        mThreadNotYetStartedQueue.clear();
+        threadNotYetStartedQueue.clear();
     }
 
 }

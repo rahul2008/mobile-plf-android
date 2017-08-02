@@ -5,9 +5,6 @@
 
 package com.philips.cdp.dicommclient.port;
 
-import android.os.Handler;
-import android.os.Looper;
-
 import com.google.gson.Gson;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
@@ -16,6 +13,7 @@ import com.philips.cdp.dicommclient.util.GsonProvider;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.PortProperties;
+import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -115,7 +113,7 @@ public abstract class DICommPort<T extends PortProperties> {
 
     protected WrappedHandler getResubscriptionHandler() {
         if (mResubscriptionHandler == null) {
-            mResubscriptionHandler = new WrappedHandler(new Handler(Looper.getMainLooper()));
+            mResubscriptionHandler = new WrappedHandler(HandlerProvider.createHandler());
         }
         return mResubscriptionHandler;
     }

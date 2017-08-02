@@ -5,12 +5,10 @@
 
 package com.philips.cdp.dicommclient.subscription;
 
-import android.os.Handler;
-import android.os.Looper;
-
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
+import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
 public abstract class SubscriptionHandler {
 
@@ -38,7 +36,7 @@ public abstract class SubscriptionHandler {
 
 	protected WrappedHandler getSubscriptionEventResponseHandler() {
         if(mSubscriptionEventResponseHandler==null){
-        	mSubscriptionEventResponseHandler = new WrappedHandler(new Handler(Looper.getMainLooper()));
+        	mSubscriptionEventResponseHandler = new WrappedHandler(HandlerProvider.createHandler());
         }
         return mSubscriptionEventResponseHandler;
     }
