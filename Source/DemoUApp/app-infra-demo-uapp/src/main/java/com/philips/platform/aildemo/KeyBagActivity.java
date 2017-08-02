@@ -17,12 +17,10 @@ import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.keybag.KeyBagInterface;
 
 import java.io.FileNotFoundException;
-import java.util.Iterator;
 import java.util.Map;
 
 public class KeyBagActivity extends AppCompatActivity {
 
-	private String TAG =getClass().getSimpleName();
 
 	private EditText serviceIdEditText;
 	private TextView responseTextView;
@@ -47,16 +45,15 @@ public class KeyBagActivity extends AppCompatActivity {
 
 	private void updateView(Map map) {
 		StringBuilder stringBuilder = new StringBuilder();
-		Iterator it = map.entrySet().iterator();
-			while (it.hasNext()) {
-				Map.Entry pair = (Map.Entry) it.next();
-				String key = (String) pair.getKey();
-				String value = (String) pair.getValue();
-				stringBuilder.append(key);
-				stringBuilder.append(":");
-				stringBuilder.append(value);
-				stringBuilder.append("  ");
-			}
+		for (Object object : map.entrySet()) {
+			Map.Entry pair = (Map.Entry) object;
+			String key = (String) pair.getKey();
+			String value = (String) pair.getValue();
+			stringBuilder.append(key);
+			stringBuilder.append(":");
+			stringBuilder.append(value);
+			stringBuilder.append("  ");
+		}
 			stringBuilder.append("\n");
 		responseTextView.setText(stringBuilder.toString());
 	}
