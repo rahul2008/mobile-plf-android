@@ -10,9 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
@@ -91,12 +89,12 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         boolean backState;
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.uappFragmentLayout);
-        if (fragmentManager.getBackStackEntryCount() == 2) {
-            finishAffinity();
-        } else if (currentFrag instanceof BackEventListener) {
+        if (currentFrag instanceof BackEventListener) {
             backState = ((BackEventListener) currentFrag).handleBackEvent();
             if (!backState) {
                 super.onBackPressed();
+            }else {
+                finishAffinity();
             }
         } else {
             super.onBackPressed();
