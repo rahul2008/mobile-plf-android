@@ -35,15 +35,8 @@ public class BleDeviceCache extends DeviceCache<BleCacheData> {
      * @param expirationPeriodMillis the expiration period in milliseconds
      */
     public void addDevice(@NonNull SHNDevice device, @NonNull NetworkNode networkNode, @NonNull ExpirationCallback expirationCallback, long expirationPeriodMillis) {
-        if (expirationPeriodMillis <= 0L) {
-            throw new IllegalArgumentException("Expiration period must be a positive non-zero value.");
-        }
-
-        if (deviceMap.containsKey(networkNode.getCppId())) {
-            deviceMap.get(networkNode.getCppId()).resetTimer();
-        } else {
-            deviceMap.put(networkNode.getCppId(), new BleCacheData(executor, expirationCallback, expirationPeriodMillis, networkNode, device));
-        }
+        final BleCacheData cacheData = new BleCacheData(executor, expirationCallback, expirationPeriodMillis, networkNode, device);
+        this.add(cacheData);
     }
 
 }

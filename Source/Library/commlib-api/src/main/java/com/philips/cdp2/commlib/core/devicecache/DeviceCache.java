@@ -23,15 +23,28 @@ public class DeviceCache<T extends CacheData> {
         deviceMap.clear();
     }
 
-    public void pauseTimers() {
+    public void stopTimers() {
         for (T cachedata : deviceMap.values()) {
-            cachedata.pauseTimer();
+            cachedata.stopTimer();
         }
     }
 
-    public void resetTimeres() {
+    public void resetTimers() {
         for (T cachedata : deviceMap.values()) {
             cachedata.resetTimer();
+        }
+    }
+
+    public void add(T cacheData) {
+        if (cacheData.getExpirationPeriodMillis() <= 0L) {
+            throw new IllegalArgumentException("Expiration period must be a positive non-zero value.");
+        }
+
+        final NetworkNode networkNode = cacheData.getNetworkNode();
+        if (deviceMap.containsKey(networkNode.getCppId())) {
+            deviceMap.get(networkNode.getCppId()).resetTimer();
+        } else {
+            deviceMap.put(networkNode.getCppId(), cacheData);
         }
     }
 

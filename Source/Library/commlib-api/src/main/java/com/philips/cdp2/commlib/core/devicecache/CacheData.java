@@ -16,6 +16,7 @@ public class CacheData {
     private final DeviceCache.ExpirationCallback expirationCallback;
     @NonNull
     private final ScheduledExecutorService executor;
+
     private final long expirationPeriodMillis;
     private ScheduledFuture future;
 
@@ -51,7 +52,7 @@ public class CacheData {
         future = executor.schedule(callable, this.expirationPeriodMillis, TimeUnit.MILLISECONDS);
     }
 
-    public void pauseTimer() {
+    public void stopTimer() {
         if (future != null) {
             future.cancel(false);
         }
@@ -60,5 +61,9 @@ public class CacheData {
     @NonNull
     public DeviceCache.ExpirationCallback getExpirationCallback() {
         return this.expirationCallback;
+    }
+
+    public long getExpirationPeriodMillis() {
+        return expirationPeriodMillis;
     }
 }
