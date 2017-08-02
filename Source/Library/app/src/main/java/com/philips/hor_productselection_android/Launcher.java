@@ -213,6 +213,6 @@ public class Launcher extends ProductSelectionBaseActivity implements View.OnCli
     }
 
     protected ThemeConfiguration getDlsThemeConfiguration() {
-        return new ThemeConfiguration(this, ColorRange.GROUP_BLUE, NavigationColor.BRIGHT, ContentColor.VERY_DARK, AccentRange.GROUP_BLUE);
+        return new ThemeConfiguration(this, ColorRange.GROUP_BLUE, NavigationColor.BRIGHT, ContentColor.VERY_DARK, AccentRange.ORANGE);
     }
 }
