@@ -251,6 +251,7 @@ android {
         }
     }
 
+    
     /*
     This defined for signing the apk -- start
      */
@@ -314,9 +315,14 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
-        // set JVM arguments for the test JVM(s)
+
         unitTests.all {
+            // set JVM arguments for the test JVM(s)
             jvmArgs '-noverify'
+            testLogging {
+                events "started", "passed", "skipped", "failed"
+                outputs.upToDateWhen {false}
+            }
         }
     }
 }
