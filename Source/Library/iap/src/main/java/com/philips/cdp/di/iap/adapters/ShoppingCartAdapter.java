@@ -83,7 +83,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private void setCountArrow(final Context context, final boolean isEnable) {
         if (isEnable)
-            countArrow = VectorDrawable.create(context, R.drawable.iap_product_count_drop_down);
+            countArrow = context.getDrawable(R.drawable.iap_product_count_drop_down);
         else
             countArrow = VectorDrawable.create(context, R.drawable.iap_product_disable_count_drop_down);
         int width = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_width);

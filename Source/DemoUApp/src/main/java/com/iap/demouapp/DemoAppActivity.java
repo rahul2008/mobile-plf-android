@@ -5,10 +5,12 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -218,6 +220,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mPurchaseHistory.setEnabled(true);
             mIapInterface.getProductCartCount(this);
         }
+        showScreenSizeInDp();
     }
 
     @Override
@@ -527,5 +530,25 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
 
+    }
+
+   void showScreenSizeInDp(){
+
+       DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+       float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+       float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+       Toast.makeText(this,"Screen width in dp is :"+dpWidth,Toast.LENGTH_LONG).show();
+   }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -11,7 +11,6 @@
 
         <activity android:name=".DemoAppActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.DLS.GroupBlue.UltraLight" />
 
         <!--
