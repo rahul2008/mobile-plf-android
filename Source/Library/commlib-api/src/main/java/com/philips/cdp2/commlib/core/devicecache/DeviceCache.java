@@ -18,7 +18,7 @@ public class DeviceCache<T extends CacheData> {
     @NonNull
     protected final ScheduledExecutorService executor;
     @NonNull
-    protected final Map<String, T> deviceMap = new ConcurrentHashMap<>();
+    private final Map<String, T> deviceMap = new ConcurrentHashMap<>();
 
     public DeviceCache(@NonNull final ScheduledExecutorService executor) {
         this.executor = executor;

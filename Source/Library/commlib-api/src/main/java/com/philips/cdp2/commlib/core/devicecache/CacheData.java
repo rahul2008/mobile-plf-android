@@ -43,9 +43,7 @@ public class CacheData {
     }
 
     public void resetTimer() {
-        if (future != null) {
-            future.cancel(true);
-        }
+        stopTimer();
 
         Callable callable = new Callable<Void>() {
             @Override
