@@ -12,10 +12,10 @@
     <FrameLayout
         android:id="@+id/fl_mainFragmentContainer"
         android:layout_width="@dimen/max_width"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/rl_header"
         android:gravity="bottom"
         android:layout_gravity="center_horizontal"
         android:maxWidth="@dimen/max_width"
-        android:orientation="vertical" />
+         />
 </LinearLayout>
