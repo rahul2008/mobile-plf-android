@@ -3,9 +3,7 @@ package com.philips.cdp.registration.hsdp;
 import com.philips.dhpclient.util.MapUtils;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by 310190722 on 9/21/2015.

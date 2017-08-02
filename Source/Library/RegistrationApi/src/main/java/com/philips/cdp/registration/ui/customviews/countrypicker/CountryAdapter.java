@@ -1,20 +1,15 @@
 package com.philips.cdp.registration.ui.customviews.countrypicker;
 
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.*;
+import android.widget.*;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.R.drawable;
 import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 class CountryAdapter extends BaseAdapter {
     private List<Country> countries;

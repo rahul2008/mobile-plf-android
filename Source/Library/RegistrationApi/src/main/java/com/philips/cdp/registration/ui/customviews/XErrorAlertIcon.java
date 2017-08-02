@@ -13,20 +13,14 @@ package com.philips.cdp.registration.ui.customviews;
  */
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
+import android.content.res.*;
 import android.graphics.Paint;
 import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
-import android.graphics.drawable.shapes.RoundRectShape;
+import android.graphics.drawable.shapes.*;
 import android.support.annotation.NonNull;
-import android.util.AttributeSet;
-import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TabWidget;
-import android.widget.TextView;
+import android.util.*;
+import android.view.*;
+import android.widget.*;
 
 import com.philips.cdp.registration.R;
 

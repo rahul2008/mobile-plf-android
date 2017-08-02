@@ -5,13 +5,11 @@ import android.content.Context;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.update.UpdateJanRainUserProfile;
-import com.philips.cdp.registration.update.UpdateUserProfile;
+import com.philips.cdp.registration.update.*;
 
 import javax.inject.Singleton;
 
-import dagger.Module;
-import dagger.Provides;
+import dagger.*;
 
 @Module
 public class RegistrationModule {

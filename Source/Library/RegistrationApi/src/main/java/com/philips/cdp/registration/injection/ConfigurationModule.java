@@ -8,13 +8,11 @@
 
 package com.philips.cdp.registration.injection;
 
-import com.philips.cdp.registration.configuration.AppConfiguration;
-import com.philips.cdp.registration.configuration.HSDPConfiguration;
+import com.philips.cdp.registration.configuration.*;
 
 import javax.inject.Singleton;
 
-import dagger.Module;
-import dagger.Provides;
+import dagger.*;
 
 @Module
 public class ConfigurationModule {

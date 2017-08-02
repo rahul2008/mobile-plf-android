@@ -9,11 +9,8 @@
 
 package com.philips.cdp.registration.ui.utils;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.content.*;
+import android.net.*;
 
 public class NetworkUtility {
 

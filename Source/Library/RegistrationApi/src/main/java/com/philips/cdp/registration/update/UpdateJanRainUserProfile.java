@@ -1,10 +1,8 @@
 package com.philips.cdp.registration.update;
 
 import com.janrain.android.Jump;
-import com.janrain.android.capture.Capture;
+import com.janrain.android.capture.*;
 import com.janrain.android.capture.Capture.CaptureApiRequestCallback;
-import com.janrain.android.capture.CaptureApiError;
-import com.janrain.android.capture.CaptureRecord;
 
 import org.json.JSONException;
 

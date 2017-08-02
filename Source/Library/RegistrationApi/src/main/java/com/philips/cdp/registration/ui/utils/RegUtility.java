@@ -12,13 +12,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextPaint;
+import android.text.*;
 import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.text.style.URLSpan;
-import android.text.style.UnderlineSpan;
+import android.text.style.*;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
@@ -27,9 +23,7 @@ import com.philips.cdp.registration.events.SocialProvider;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
 import com.philips.platform.uid.view.widget.CheckBox;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 public class RegUtility {

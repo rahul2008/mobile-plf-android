@@ -13,12 +13,10 @@ import android.content.Context;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
 import com.philips.cdp.registration.settings.JanrainInitializer;
-import com.philips.cdp.registration.ui.utils.Gender;
-import com.philips.cdp.registration.ui.utils.ThreadUtils;
+import com.philips.cdp.registration.ui.utils.*;
 import com.philips.cdp.registration.update.UpdateUser;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.*;
 
 public class UpdateGender extends UpdateUserDetailsBase {
 

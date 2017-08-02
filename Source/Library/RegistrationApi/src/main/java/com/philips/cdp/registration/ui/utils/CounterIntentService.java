@@ -6,8 +6,6 @@ import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 
 import com.philips.cdp.registration.events.CounterHelper;
-import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
-import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPasswordVerifyCodeFragment;
 
 /**
  * Created by philips on 15/06/17.

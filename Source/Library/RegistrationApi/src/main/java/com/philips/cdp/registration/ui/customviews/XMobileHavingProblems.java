@@ -11,10 +11,8 @@ package com.philips.cdp.registration.ui.customviews;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.view.*;
+import android.widget.*;
 
 import com.philips.cdp.registration.R;
 

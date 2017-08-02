@@ -9,12 +9,9 @@
 
 package com.philips.cdp.registration.ui.utils;
 
-import com.google.i18n.phonenumbers.NumberParseException;
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import com.google.i18n.phonenumbers.Phonenumber;
+import com.google.i18n.phonenumbers.*;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.regex.*;
 
 public class FieldsValidator {
 

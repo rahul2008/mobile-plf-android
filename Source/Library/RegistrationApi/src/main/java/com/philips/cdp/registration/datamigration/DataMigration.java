@@ -15,9 +15,7 @@ import com.philips.cdp.registration.hsdp.HsdpUserRecord;
 import com.philips.cdp.security.SecureStorage;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 
 import static com.janrain.android.utils.LogUtils.throwDebugException;
 

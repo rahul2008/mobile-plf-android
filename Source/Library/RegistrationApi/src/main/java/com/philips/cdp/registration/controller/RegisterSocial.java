@@ -13,29 +13,18 @@ import android.content.Context;
 import android.util.Log;
 
 import com.janrain.android.Jump;
-import com.janrain.android.capture.CaptureApiError;
-import com.janrain.android.capture.CaptureRecord;
-import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
-import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.janrain.android.capture.*;
+import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.app.tagging.*;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.dao.DIUserProfile;
-import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.dao.*;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
-import com.philips.cdp.registration.handlers.SocialLoginHandler;
-import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
-import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
+import com.philips.cdp.registration.handlers.*;
 import com.philips.cdp.registration.hsdp.HsdpUser;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.ThreadUtils;
+import com.philips.cdp.registration.settings.*;
+import com.philips.cdp.registration.ui.utils.*;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.*;
 
 public class RegisterSocial implements SocialProviderLoginHandler,Jump.SignInResultHandler,
         Jump.SignInCodeHandler,JumpFlowDownloadStatusListener {

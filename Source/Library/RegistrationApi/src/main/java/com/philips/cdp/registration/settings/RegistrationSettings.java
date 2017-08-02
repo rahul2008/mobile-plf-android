@@ -9,12 +9,9 @@
 
 package com.philips.cdp.registration.settings;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
+import android.content.*;
 
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.errormapping.CheckLocale;
 
 public abstract class RegistrationSettings {
 

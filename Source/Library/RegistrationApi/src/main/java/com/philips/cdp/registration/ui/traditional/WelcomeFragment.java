@@ -13,27 +13,17 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
 
-import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.app.tagging.AppTaggingPages;
-import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.app.tagging.*;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.LogoutHandler;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.settings.UserRegistrationInitializer;
+import com.philips.cdp.registration.settings.*;
 import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.NetworkUtility;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.*;
 
 import javax.inject.Inject;
 

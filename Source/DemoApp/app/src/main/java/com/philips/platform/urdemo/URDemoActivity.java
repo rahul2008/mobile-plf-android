@@ -1,13 +1,13 @@
 package com.philips.platform.urdemo;
 
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.TextView;
+import android.os.*;
+import android.support.v7.app.*;
+import android.view.*;
+import android.widget.*;
 
-import com.philips.platform.appinfra.AppInfraInterface;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
+import com.philips.platform.appinfra.*;
+import com.philips.platform.uappframework.launcher.*;
 
 public class URDemoActivity extends AppCompatActivity {
 

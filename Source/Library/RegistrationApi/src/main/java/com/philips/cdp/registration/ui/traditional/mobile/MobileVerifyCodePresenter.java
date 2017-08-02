@@ -1,42 +1,23 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
+import android.support.annotation.*;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.HttpClientServiceReceiver;
 import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
-import com.philips.cdp.registration.events.CounterListener;
 import com.philips.cdp.registration.events.NetworStateListener;
-import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
-import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegChinaConstants;
-import com.philips.cdp.registration.ui.utils.URInterface;
-import com.squareup.okhttp.RequestBody;
+import com.philips.cdp.registration.ui.utils.*;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.*;
 
 import javax.inject.Inject;
 
-import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableSingleObserver;
-import io.reactivex.schedulers.Schedulers;
 
-import static com.philips.cdp.registration.HttpClientService.HTTP_BODY_CONTENT;
-import static com.philips.cdp.registration.HttpClientService.HTTP_RECEIVER;
-import static com.philips.cdp.registration.HttpClientService.HTTP_SERVICE_REQUEST_CODE;
-import static com.philips.cdp.registration.HttpClientService.HTTP_SERVICE_RESPONSE;
-import static com.philips.cdp.registration.HttpClientService.HTTP_URL_TO_BE_CALLED;
-import static com.philips.cdp.registration.ui.utils.RegConstants.SUCCESS_STATE_RESPONSE;
-import static com.philips.cdp.registration.ui.utils.RegConstants.SUCCESS_STATE_RESPONSE_OK;
+import static com.philips.cdp.registration.HttpClientService.*;
+import static com.philips.cdp.registration.ui.utils.RegConstants.*;
 
 public class MobileVerifyCodePresenter implements HttpClientServiceReceiver.Listener, NetworStateListener {
 

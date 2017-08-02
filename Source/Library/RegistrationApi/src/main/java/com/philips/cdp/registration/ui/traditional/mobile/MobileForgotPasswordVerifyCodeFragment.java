@@ -9,49 +9,25 @@
 
 package com.philips.cdp.registration.ui.traditional.mobile;
 
-import android.content.Context;
-import android.content.Intent;
+import android.content.*;
 import android.content.res.Configuration;
-import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
+import android.os.*;
+import android.view.*;
+import android.widget.*;
 
 import com.janrain.android.Jump;
-import com.philips.cdp.registration.HttpClientService;
-import com.philips.cdp.registration.HttpClientServiceReceiver;
-import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.app.tagging.AppTagging;
-import com.philips.cdp.registration.app.tagging.AppTagingConstants;
-import com.philips.cdp.registration.configuration.ClientIDConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.app.tagging.*;
+import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.customviews.OtpEditTextWithResendButton;
-import com.philips.cdp.registration.ui.customviews.XMobileHavingProblems;
-import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
-import com.philips.cdp.registration.ui.traditional.WelcomeFragment;
-import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.NetworkUtility;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegAlertDialog;
-import com.philips.cdp.registration.ui.utils.RegChinaUtil;
-import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.customviews.*;
+import com.philips.cdp.registration.ui.traditional.*;
+import com.philips.cdp.registration.ui.utils.*;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import javax.inject.Inject;
 

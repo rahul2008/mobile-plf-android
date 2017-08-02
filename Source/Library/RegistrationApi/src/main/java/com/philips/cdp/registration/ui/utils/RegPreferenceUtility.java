@@ -8,8 +8,7 @@
 
 package com.philips.cdp.registration.ui.utils;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.*;
 
 import com.philips.cdp.registration.settings.RegistrationSettings;
 

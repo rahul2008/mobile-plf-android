@@ -8,59 +8,30 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.content.Context;
-import android.content.Intent;
+import android.content.*;
 import android.content.res.Configuration;
-import android.os.Bundle;
-import android.os.Handler;
+import android.os.*;
 import android.support.annotation.NonNull;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.view.inputmethod.EditorInfo;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import android.widget.*;
 
 import com.janrain.android.Jump;
-import com.philips.cdp.registration.HttpClientService;
-import com.philips.cdp.registration.HttpClientServiceReceiver;
-import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
-import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
-import com.philips.cdp.registration.app.tagging.AppTaggingPages;
-import com.philips.cdp.registration.app.tagging.AppTagingConstants;
-import com.philips.cdp.registration.configuration.ClientIDConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.app.tagging.*;
+import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.events.EventHelper;
-import com.philips.cdp.registration.events.EventListener;
-import com.philips.cdp.registration.events.NetworStateListener;
+import com.philips.cdp.registration.events.*;
 import com.philips.cdp.registration.handlers.ForgotPasswordHandler;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.settings.RegistrationSettingsURL;
-import com.philips.cdp.registration.ui.customviews.LoginIdEditText;
-import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
-import com.philips.cdp.registration.ui.customviews.XButton;
-import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.customviews.XTextView;
+import com.philips.cdp.registration.settings.*;
+import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPasswordVerifyCodeFragment;
-import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.NetworkUtility;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegAlertDialog;
-import com.philips.cdp.registration.ui.utils.RegChinaUtil;
-import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.*;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.*;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.*;
 
 import javax.inject.Inject;
 

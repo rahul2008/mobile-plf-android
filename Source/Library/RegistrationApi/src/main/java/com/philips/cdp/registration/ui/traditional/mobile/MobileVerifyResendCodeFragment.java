@@ -10,57 +10,27 @@
 package com.philips.cdp.registration.ui.traditional.mobile;
 
 import android.app.ProgressDialog;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
+import android.content.*;
 import android.content.res.Configuration;
-import android.os.Bundle;
-import android.os.Handler;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.os.*;
+import android.text.*;
+import android.view.*;
+import android.widget.*;
 
-import com.philips.cdp.registration.HttpClientService;
-import com.philips.cdp.registration.HttpClientServiceReceiver;
+import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.R2;
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTagging;
-import com.philips.cdp.registration.events.CounterHelper;
-import com.philips.cdp.registration.events.CounterListener;
+import com.philips.cdp.registration.events.*;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
-import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
-import com.philips.cdp.registration.ui.customviews.XEditText;
-import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.traditional.RegistrationBaseFragment;
-import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegAlertDialog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import butterknife.*;
 
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_INAPPNATIFICATION;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_RESEND_EMAIL_VERFICATION;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.REGISTRATION_ACTIVATION_SMS;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SEND_DATA;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SPECIAL_EVENTS;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION;
-import static com.philips.cdp.registration.app.tagging.AppTagingConstants.TECHNICAL_ERROR;
+import static com.philips.cdp.registration.app.tagging.AppTagingConstants.*;
 
 public class MobileVerifyResendCodeFragment extends RegistrationBaseFragment implements
         MobileVerifyResendCodeContract, RefreshUserHandler, OnUpdateListener, CounterListener{

@@ -4,8 +4,7 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.*;
 import com.philips.cdp.registration.update.UpdateUserProfile;
 
 import javax.inject.Inject;

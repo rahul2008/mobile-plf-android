@@ -8,9 +8,7 @@
 
 package com.philips.cdp.registration.ui.utils;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
+import android.content.*;
 
 import com.philips.cdp.registration.settings.RegistrationHelper;
 

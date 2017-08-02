@@ -3,30 +3,17 @@ package com.philips.cdp.registration.ui.utils;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.annotation.*;
+import android.support.v4.app.*;
 
 import com.janrain.android.Jump;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
-import com.philips.cdp.registration.injection.AppInfraModule;
-import com.philips.cdp.registration.injection.DaggerRegistrationComponent;
-import com.philips.cdp.registration.injection.NetworkModule;
-import com.philips.cdp.registration.injection.RegistrationComponent;
-import com.philips.cdp.registration.injection.RegistrationModule;
-import com.philips.cdp.registration.settings.RegistrationFunction;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
-import com.philips.cdp.registration.ui.traditional.RegistrationFragment;
+import com.philips.cdp.registration.configuration.*;
+import com.philips.cdp.registration.injection.*;
+import com.philips.cdp.registration.settings.*;
+import com.philips.cdp.registration.ui.traditional.*;
 import com.philips.platform.uappframework.UappInterface;
-import com.philips.platform.uappframework.launcher.ActivityLauncher;
-import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uappframework.launcher.UiLauncher;
-import com.philips.platform.uappframework.uappinput.UappDependencies;
-import com.philips.platform.uappframework.uappinput.UappLaunchInput;
-import com.philips.platform.uappframework.uappinput.UappSettings;
+import com.philips.platform.uappframework.launcher.*;
+import com.philips.platform.uappframework.uappinput.*;
 
 public class URInterface implements UappInterface {
 

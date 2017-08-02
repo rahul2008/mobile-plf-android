@@ -9,15 +9,11 @@
 package com.philips.cdp.registration.ui.traditional;
 
 import android.content.pm.ActivityInfo;
-import android.os.Bundle;
-import android.os.Handler;
+import android.os.*;
 import android.provider.Settings;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.view.View;
+import android.support.v4.app.*;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
@@ -25,20 +21,10 @@ import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.RegistrationContentConfiguration;
-import com.philips.cdp.registration.ui.utils.UIFlow;
-import com.philips.cdp.registration.ui.utils.URInterface;
-import com.philips.cdp.registration.ui.utils.URLaunchInput;
+import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
-import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uappframework.listener.BackEventListener;
-import com.philips.platform.uid.thememanager.AccentRange;
-import com.philips.platform.uid.thememanager.ContentColor;
-import com.philips.platform.uid.thememanager.NavigationColor;
-import com.philips.platform.uid.thememanager.ThemeConfiguration;
-import com.philips.platform.uid.thememanager.UIDHelper;
+import com.philips.platform.uappframework.listener.*;
+import com.philips.platform.uid.thememanager.*;
 
 public class RegistrationActivity extends FragmentActivity implements OnClickListener,
         ActionBarListener {

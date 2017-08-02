@@ -9,25 +9,15 @@
 
 package com.philips.cdp.registration.settings;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Bundle;
-import android.os.Handler;
+import android.content.*;
+import android.os.*;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
-import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.events.EventHelper;
-import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.registration.ui.utils.ThreadUtils;
-import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.configuration.*;
+import com.philips.cdp.registration.events.*;
+import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 
 import java.util.Locale;

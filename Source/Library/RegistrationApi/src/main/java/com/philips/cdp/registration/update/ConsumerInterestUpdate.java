@@ -15,18 +15,15 @@ import android.support.v4.util.Pair;
 import android.util.Log;
 
 import com.janrain.android.Jump;
-import com.philips.cdp.registration.HttpClient;
-import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.dao.ConsumerInterest;
-import com.philips.cdp.registration.handlers.RefreshUserHandler;
-import com.philips.cdp.registration.handlers.UpdateConsumerInterestHandler;
+import com.philips.cdp.registration.handlers.*;
 import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ConsumerInterestUpdate {
 

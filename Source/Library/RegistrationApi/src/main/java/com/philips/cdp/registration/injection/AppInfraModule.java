@@ -1,8 +1,7 @@
 package com.philips.cdp.registration.injection;
 
 
-import com.philips.cdp.registration.app.infra.AppInfraWrapper;
-import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
+import com.philips.cdp.registration.app.infra.*;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
@@ -13,8 +12,7 @@ import com.philips.platform.appinfra.timesync.TimeInterface;
 
 import javax.inject.Singleton;
 
-import dagger.Module;
-import dagger.Provides;
+import dagger.*;
 
 @Module
 public class AppInfraModule {

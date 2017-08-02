@@ -11,8 +11,7 @@ package com.philips.cdp.registration.ui.utils;
 import android.graphics.Typeface;
 import android.widget.TextView;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Fond loader class for the cutom mFonts.

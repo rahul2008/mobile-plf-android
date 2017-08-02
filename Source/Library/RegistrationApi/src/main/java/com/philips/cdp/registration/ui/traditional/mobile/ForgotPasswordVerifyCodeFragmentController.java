@@ -11,8 +11,7 @@ package com.philips.cdp.registration.ui.traditional.mobile;
 import android.view.View;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.events.EventListener;
-import com.philips.cdp.registration.events.NetworStateListener;
+import com.philips.cdp.registration.events.*;
 import com.philips.cdp.registration.ui.customviews.OnUpdateListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 

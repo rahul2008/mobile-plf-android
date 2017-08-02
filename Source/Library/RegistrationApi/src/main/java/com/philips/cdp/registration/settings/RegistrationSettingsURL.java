@@ -2,22 +2,14 @@ package com.philips.cdp.registration.settings;
 
 import android.util.Log;
 
-import com.janrain.android.Jump;
-import com.janrain.android.JumpConfig;
-import com.philips.cdp.registration.configuration.ClientIDConfiguration;
-import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.HSDPConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.janrain.android.*;
+import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.events.EventHelper;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.ThreadUtils;
-import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 
 import javax.inject.Inject;
 

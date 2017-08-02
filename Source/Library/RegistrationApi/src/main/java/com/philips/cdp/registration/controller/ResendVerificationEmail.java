@@ -18,14 +18,10 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.ThreadUtils;
+import com.philips.cdp.registration.settings.*;
+import com.philips.cdp.registration.ui.utils.*;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.*;
 
 public class ResendVerificationEmail implements CaptureApiRequestCallback,JumpFlowDownloadStatusListener {
 

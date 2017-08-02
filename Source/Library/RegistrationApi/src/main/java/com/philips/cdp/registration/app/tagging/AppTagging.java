@@ -13,8 +13,7 @@ import android.app.Activity;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class AppTagging {
 
