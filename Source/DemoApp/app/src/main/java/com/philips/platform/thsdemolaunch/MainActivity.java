@@ -49,7 +49,6 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         initTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ths_launch_activity);
-        initAppInfra();
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
         toolbar.setNavigationIcon(VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.pth_back_icon, getTheme()));
         setSupportActionBar(toolbar);
@@ -63,16 +62,6 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         }
     }
 
-    private void initAppInfra() {
-        final THSDemoApplication applicationContext = (THSDemoApplication) getApplicationContext();
-        applicationContext.initializeAppInfra(new AppInitializationCallback.AppInfraInitializationCallback() {
-            @Override
-            public void onAppInfraInitialization() {
-                applicationContext.initializeUserRegistrationLibrary(Configuration.STAGING);
-                applicationContext.initHSDP();
-            }
-        });
-    }
 
     private void showBackImage(boolean isVisible) {
         if (isVisible) {
@@ -193,15 +182,12 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
      * Launch registration fragment
      */
     private void launchRegistrationFragment(boolean isAccountSettings) {
-      //  int containerID = R.id.frame_container_user_reg;
         URLaunchInput urLaunchInput = new URLaunchInput();
         urLaunchInput.setUserRegistrationUIEventListener(this);
         urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
         urLaunchInput.setAccountSettings(true);
         urLaunchInput.enableAddtoBackStack(true);
         urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
-       /* FragmentLauncher fragmentLauncher = new FragmentLauncher
-                (MainActivity.this, containerID, action);*/
         URInterface urInterface = new URInterface();
         urInterface.launch(fragmentLauncher, urLaunchInput);
     }

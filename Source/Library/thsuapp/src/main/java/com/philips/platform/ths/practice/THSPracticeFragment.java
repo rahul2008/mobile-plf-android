@@ -72,7 +72,7 @@ public class THSPracticeFragment extends THSBaseFragment implements BackEventLis
 
     @Override
     public boolean handleBackEvent() {
-        return false;
+        return true;
     }
 
 

@@ -41,9 +41,19 @@ public class THSDemoApplication extends Application {
         super.onCreate();
         UIDHelper.injectCalligraphyFonts();
         AmwellLog.enableLogging(true);
-     //   initializeUserRegistrationLibrary(Configuration.STAGING);
-    //    initHSDP();
+        initAppInfra();
     }
+
+    private void initAppInfra() {
+        initializeAppInfra(new AppInitializationCallback.AppInfraInitializationCallback() {
+            @Override
+            public void onAppInfraInitialization() {
+                initializeUserRegistrationLibrary(Configuration.STAGING);
+                initHSDP();
+            }
+        });
+    }
+
     public void initializeAppInfra(AppInitializationCallback.AppInfraInitializationCallback appInfraInitializationCallback) {
         appInfra = new AppInfra.Builder().build(getApplicationContext());
         loggingInterface = appInfra.getLogging();
