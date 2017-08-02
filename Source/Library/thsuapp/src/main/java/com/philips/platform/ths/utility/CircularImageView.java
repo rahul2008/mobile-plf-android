@@ -2,11 +2,9 @@ package com.philips.platform.ths.utility;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Shader;
@@ -44,17 +42,6 @@ public class CircularImageView extends android.support.v7.widget.AppCompatImageV
         mPaintBorder = new Paint();
         mPaintBorder.setAntiAlias(true);
         mPaintBorder.setStyle(Style.STROKE.STROKE);
-
-        // load the styled attributes and set their properties
-        TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.CircularImageView, defStyle, 0);
-        if (attributes.getBoolean(R.styleable.CircularImageView_border, true)) {
-            int defaultBorderSize = (int) (4 * getContext().getResources().getDisplayMetrics().density + 0.5f);
-            setBorderWidth(attributes.getDimensionPixelOffset(R.styleable.CircularImageView_border_width, defaultBorderSize));
-            setBorderColor(attributes.getColor(R.styleable.CircularImageView_border_color, Color.WHITE));
-        }
-
-        if (attributes.getBoolean(R.styleable.CircularImageView_shadow, false))
-            addShadow();
 
     }
 
