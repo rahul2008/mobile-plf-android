@@ -8,41 +8,55 @@ properties([[$class: 'ParametersDefinitionProperty', parameterDefinitions: [[$cl
 
 node('Android') {
     stage('Checkout') {
+        //sh 'find . -path "**/build/test-results" -delete' DOES NOT WORK ON NON-EMPTY FOLDERS
         checkout scm
     }
 
-    Pipeline = load "Source/common/jenkins/Pipeline.groovy"
-    Slack = load "Source/common/jenkins/Slack.groovy"
-    def gradle = 'cd ./Source/DICommClientSample && ./gradlew -PenvCode=${JENKINS_ENV}'
+    Slack = load 'Source/common/jenkins/Slack.groovy'
+    Pipeline = load 'Source/common/jenkins/Pipeline.groovy'
+    def gradle = 'cd Source && ./gradlew -PenvCode=${JENKINS_ENV}'
+
+    def cucumber_path = 'Source/Library/build/cucumber-reports'
+    def cucumber_filename = 'cucumber-report-android-commlib.json'
 
     Slack.notify('#conartists') {
-        stage('Build') {
-            sh "$gradle --refresh-dependencies assembleRelease assembleDebug saveResDep generateJavadocPublicApi"
-        }
+        boolean publishing = (env.BRANCH_NAME.startsWith("develop") || env.BRANCH_NAME.startsWith("release") || env.BRANCH_NAME == "master")
 
-        stage('Unit Test') {
-            sh 'find . -path "**build/test-results" -exec rm -r "{}" \\;'
-            sh "$gradle test lintDebug || true"
+        stage('Build') {
+            sh "$gradle generateJavadocPublicApi saveResDep assemble testDebug"
         }
 
         stage("Gather reports") {
             step([$class: 'JUnitResultArchiver', testResults: '**/testDebugUnitTest/*.xml'])
-            step([$class: 'LintPublisher', healthy: '0', unHealthy: '20', unstableTotalAll: '20'])
+            step([$class: 'LintPublisher', healthy: '0', unHealthy: '50', unstableTotalAll: '50'])
             step([$class: 'JacocoPublisher', execPattern: '**/*.exec', classPattern: '**/classes', sourcePattern: '**/src/main/java', exclusionPattern: '**/R.class,**/R$*.class,**/BuildConfig.class,**/Manifest*.*,**/*Activity*.*,**/*Fragment*.*'])
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'Documents/External/dicommClientLib-api', reportFiles: 'index.html', reportName: 'Commlib API'])
-        }
+            for (lib in ["commlib-api", "commlib-ble", "commlib-lan", "commlib-cloud"]) {
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: "Documents/External/$lib-api", reportFiles: 'index.html', reportName: "$lib API documentation"])
+            }
 
-        stage('Archive artifacts') {
-            archiveArtifacts artifacts: 'Source/DICommClient/dicommClientLib/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
-            archiveArtifacts artifacts: '**/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
-            archiveArtifacts '**/dependencies.lock'
-        }
-
-        if (env.BRANCH_NAME == "develop" || env.BRANCH_NAME =~ "release" || env.BRANCH_NAME == "master") {
-            stage('Publish') {
-                sh "$gradle zipDocuments artifactoryPublish"
+            if (fileExists("$cucumber_path/report.json")) {
+                step([$class: 'CucumberReportPublisher', jsonReportDirectory: cucumber_path, fileIncludePattern: '*.json'])
+            } else {
+                echo 'No Cucumber result found, nothing to publish'
             }
         }
+
+        if (publishing) {
+            for (lib in ["commlib-testutils", "cloudcontroller-api", "cloudcontroller", "commlib-api", "commlib-ble", "commlib-lan", "commlib-cloud", "commlib"]) {
+                def libgradle = "cd Source/Library/$lib && ./gradlew -u -PenvCode=\${JENKINS_ENV}"
+                stage("Publish $lib") {
+                    sh "$libgradle assembleRelease saveResDep zipDocuments artifactoryPublish"
+                }
+            }
+        }
+
+        stage('Archive results') {
+            archiveArtifacts artifacts: '**/build/outputs/aar/*.aar', fingerprint: true, onlyIfSuccessful: true
+            archiveArtifacts artifacts: '**/build/outputs/apk/*.apk', fingerprint: true, onlyIfSuccessful: true
+            archiveArtifacts '**/dependencies.lock'
+
+            sh "mv $cucumber_path/report.json $cucumber_path/$cucumber_filename"
+            archiveArtifacts artifacts: "$cucumber_path/$cucumber_filename", fingerprint: true, onlyIfSuccessful: true
+        }
     }
-    Pipeline.trigger(env.triggerBy, env.BRANCH_NAME, "CommLib", "cml")
 }

@@ -1,68 +1,24 @@
-# =============== #
-# Android generated #
-# =============== #
+# ======= #
+# Android #
+# ======= #
 **/.settings/*
 **/bin/*
 **/gen/*
+**/build/*
+**/.gradle/*
 local.properties
 
 
-**/outputs/*
-**/intermediates/*
-**/taskArtifacts/*
-
-**/.idea/.name
-**/.idea/compiler.xml
-**/.idea/copyright/profiles_settings.xml
-**/.idea/encodings.xml
-**/.idea/gradle.xml
-**/.idea/misc.xml
-**/.idea/modules.xml
-**/.idea/vcs.xml
-**/.idea/scopes/scope_settings.xml
-
-
-# =============== #
-# Unity generated #
-# =============== #
-Temp/
-Obj/
-UnityGenerated/
-Library/
+# ======================= #
+# Intellij/Android Studio #
+# ======================= #
+**/.idea/*
+**/*.iml
  
-# ===================================== #
-# Visual Studio / MonoDevelop generated #
-# ===================================== #
-ExportedObj/
-*.svd
-*.userprefs
-*.csproj
-*.pidb
-*.suo
-*.sln
-*.user
-*.unityproj
-*.booproj
- 
-# ============ #
-# OS generated #
-# ============ #
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-Icon?
-ehthumbs.db
-Thumbs.db
-*.iml
-**/proguard/*
-.recommenders/
-.metadata/
-DIComm/.idea/
-Source/DICommClientSample/gradle.properties
-Source/PurAir/gradle.properties
-Source/pluginreferenceboard/build
-Source/DemoApp/build
-Source/DemoUApp/build
-profiles_settings.xml
+# ===== #
+# macOS #
+# ===== #
+**/.DS_Store
+**/.DS_Store?
+Documents/External/*-api
+dependencies.lock

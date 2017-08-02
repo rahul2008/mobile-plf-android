@@ -4,8 +4,8 @@
  */
 
 buildscript { bs ->
-    apply from: rootDir.absolutePath + '/../common/gradle/project-build.gradle', to: bs
-    apply from: rootDir.absolutePath + '/../common/gradle/module.gradle'
+    apply from: rootDir.absolutePath + '/common/gradle/project-build.gradle', to: bs
+    apply from: rootDir.absolutePath + '/common/gradle/module.gradle'
 
     repositories {
         maven {
@@ -34,7 +34,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
-apply from: rootDir.absolutePath + '/../common/gradle/module-tasks.gradle'
+apply from: rootDir.absolutePath + '/common/gradle/module-tasks.gradle'
 
 def environment = 'production'
 if (project.hasProperty('envCode')) {
@@ -47,7 +47,7 @@ import com.philips.cdp.cdpSCM
 def objcdp = new cdpSCM()
 objcdp.setProjectDir(projectDir)
 objcdp.setEnv(platform: 'android', env: environment)
-archivesBaseName = rootProject.name + "UApp"
+archivesBaseName = "commlib-uapp"
 version = objcdp.getVersion()
 
 def zipDoc = file(buildDir.name + "/distributions/$project.name-$version-docs" + '.zip')
@@ -146,7 +146,7 @@ android {
 task generateJavadocPublicApi(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    destinationDir = file("${project.rootDir}/../../Documents/External/${project.name}-api/")
+    destinationDir = file("${project.rootDir}/../Documents/External/${project.name}-api/")
 
     include {
         if (it.isDirectory) {
@@ -176,6 +176,8 @@ dependencies {
     provided deps.support.annotations
 
     compile(group: 'com.philips.cdp', name: 'uAppFwLib', version: '1.5.0' + objcdp.getVersionSuffix())
+
+    /*
     def commlib = findProject(':commlib') ? ':commlib' : ':dicommClientLib'
 
     if (findProject(commlib)) {
@@ -184,6 +186,11 @@ dependencies {
     } else {
         compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: versions.commlib + objcdp.getVersionSuffix())
     }
+    */
+
+    debugCompile project(path: ':commlib', configuration: 'debug')
+    releaseCompile project(path: ':commlib', configuration: 'release')
+    testCompile project(path: ':commlib', configuration: 'debug')
 
     if (findProject(':cloudcontroller')) {
         debugCompile project(path: ':cloudcontroller', configuration: 'debug')

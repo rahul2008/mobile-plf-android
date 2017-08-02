@@ -1,0 +1,7 @@
+[submodule "Source/commlib-all-parent/commlib-all/src/test/features/commlib-bdd"]
+	path = Source/commlib-all-parent/commlib-all/src/test/features/commlib-bdd
+url=ssh://git@bitbucket.atlas.philips.com:7999/com/commlib-bdd.git
+	branch = develop
+[submodule "Source/common"]
+	path = Source/common
+	url = ssh://git@bitbucket.atlas.philips.com:7999/con/project-common.git

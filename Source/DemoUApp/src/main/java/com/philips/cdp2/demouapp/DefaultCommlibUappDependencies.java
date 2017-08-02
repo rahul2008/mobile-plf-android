@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
-import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
+import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
@@ -25,21 +25,17 @@ public class DefaultCommlibUappDependencies extends CommlibUappDependencies {
         return commCentral;
     }
 
-    public DefaultCommlibUappDependencies(Context context) {
-        // Setup CommCentral
-        final CloudController cloudController = setupCloudController(context);
+    public DefaultCommlibUappDependencies(final @NonNull Context context) {
 
-        final LanTransportContext lanTransportContext = new LanTransportContext(context);
+        final CloudController cloudController = setupCloudController(context);
         final CloudTransportContext cloudTransportContext = new CloudTransportContext(cloudController);
 
+        final LanTransportContext lanTransportContext = new LanTransportContext(context);
         final CommlibUappApplianceFactory applianceFactory = new CommlibUappApplianceFactory(lanTransportContext, cloudTransportContext);
 
         this.commCentral = new CommCentral(applianceFactory, lanTransportContext, cloudTransportContext);
 
-        // FIXME Remove once DiscoveryManager is removed
-        if (DICommClientWrapper.getContext() == null) {
-            DICommClientWrapper.initializeDICommLibrary(context, applianceFactory, null, cloudController);
-        }
+        DiscoveryManager.createSharedInstance(context, applianceFactory);
     }
 
     @NonNull

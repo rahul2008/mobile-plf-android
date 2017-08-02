@@ -22,6 +22,8 @@ import com.philips.cdp.dicommclient.port.common.PairingListener;
 import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.appliance.airpurifier.AirPurifier;
 
+import static com.philips.cdp2.commlib.cloud.context.CloudTransportContext.getCloudController;
+
 public class PairingFragment extends Fragment {
     private static final String TAG = "PairingFragment";
     private EditText editTextUserId;
@@ -73,7 +75,7 @@ public class PairingFragment extends Fragment {
                 Log.d(TAG, "onPairingFailed() called with: " + "appliance = [" + appliance + "]");
                 showToast("Pairing failed");
             }
-        });
+        }, getCloudController());
 
         String id = editTextUserId.getText().toString();
         String token = editTextUserToken.getText().toString();
@@ -102,7 +104,7 @@ public class PairingFragment extends Fragment {
                 Log.d(TAG, "onPairingFailed() called with: " + "appliance = [" + appliance + "]");
                 showToast("Pairing failed");
             }
-        });
+        }, getCloudController());
 
         pairingHandler.initializeRelationshipRemoval();
     }

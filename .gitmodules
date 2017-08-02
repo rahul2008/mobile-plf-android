@@ -1,3 +1,9 @@
 [submodule "Source/common"]
 	path = Source/common
 	url = ssh://git@bitbucket.atlas.philips.com:7999/con/project-common.git
+[submodule "Source/Library/commlib-integration-tests/src/androidTest/assets/features"]
+	path = Source/Library/commlib-integration-tests/src/androidTest/assets/features
+	url = ssh://git@bitbucket.atlas.philips.com:7999/com/commlib-bdd.git
+[submodule "Source/bluelib"]
+	path = Source/bluelib
+	url = ssh://git@bitbucket.atlas.philips.com:7999/ehshn/android-shinelib.git

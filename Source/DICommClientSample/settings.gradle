@@ -1,6 +1,0 @@
-include ':sampleApp', ':common', ':dicommClientLib', ':commlib-demouapp', ':commlib-demoapp'
-
-project(':common').projectDir = new File('../common')
-project(':dicommClientLib').projectDir = new File('../DICommClient/dicommClientLib')
-project(':commlib-demouapp').projectDir = new File('../DemoUApp/')
-project(':commlib-demoapp').projectDir = new File('../DemoApp/')
