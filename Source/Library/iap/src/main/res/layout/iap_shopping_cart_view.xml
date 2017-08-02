@@ -3,9 +3,15 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-    <Button
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/number_of_products"
+        android:layout_alignParentTop="true"
+        style="@style/ButtonsCategoryStyle"
+        android:text="2 products"/>
+
+    <com.philips.platform.uid.view.widget.Button
+        style="@style/UIDExtraWideButton.Center"
         android:id="@+id/continues_btn"
-        style="?attr/uikit_outlinedButtonStyle"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
         android:layout_alignParentBottom="true"
@@ -17,10 +23,9 @@
         android:text="@string/iap_continue_shopping"
         android:visibility="visible" />
 
-
-    <Button
+    <com.philips.platform.uid.view.widget.Button
+        style="@style/UIDExtraWideButton.Center"
         android:id="@+id/checkout_btn"
-        style="@style/Button.Solid.BrightOrange"
         android:layout_width="fill_parent"
         android:layout_height="45dp"
         android:layout_above="@id/continues_btn"
@@ -37,8 +42,7 @@
         android:id="@+id/shopping_cart_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/number_of_products"
         android:layout_above="@id/checkout_btn"
-        android:layout_alignParentTop="true"
         android:listSelector="@android:color/transparent" />
-
 </RelativeLayout>
