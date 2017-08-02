@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 
 import com.philips.cdp.cloudcontroller.CloudController;
 import com.philips.cdp.cloudcontroller.DefaultCloudController;
-import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.cloud.context.CloudTransportContext;
 import com.philips.cdp2.commlib.core.CommCentral;
@@ -34,8 +33,6 @@ public class DefaultCommlibUappDependencies extends CommlibUappDependencies {
         final CommlibUappApplianceFactory applianceFactory = new CommlibUappApplianceFactory(lanTransportContext, cloudTransportContext);
 
         this.commCentral = new CommCentral(applianceFactory, lanTransportContext, cloudTransportContext);
-
-        DiscoveryManager.createSharedInstance(context, applianceFactory);
     }
 
     @NonNull

@@ -12,6 +12,7 @@ import android.os.Handler;
  * @author 310151556
  * @version $Revision: 1.0 $
  */
+@Deprecated
 public interface MessageNotifier {
 
 	/**

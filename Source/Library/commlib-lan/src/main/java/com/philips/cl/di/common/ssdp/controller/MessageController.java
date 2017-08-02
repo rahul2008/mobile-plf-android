@@ -1,8 +1,5 @@
 package com.philips.cl.di.common.ssdp.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Handler.Callback;
@@ -13,10 +10,14 @@ import com.philips.cl.di.common.ssdp.contants.ConnectionLibContants;
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author 310151556
  * @version $Revision: 1.0 $
  */
+@Deprecated
 public class MessageController implements MessageNotifier {
 
 	/**

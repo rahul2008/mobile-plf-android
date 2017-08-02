@@ -174,7 +174,6 @@ public class PairingHandler<T extends Appliance> {
                 mAppliance.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);
                 mAppliance.getNetworkNode().setLastPairedTime(new Date().getTime());
 
-                //TODO see user story COM-89
                 DiscoveryManager<T> discoveryManager = (DiscoveryManager<T>) DiscoveryManager.getInstance();
                 T appliance = discoveryManager.getApplianceByCppId(mAppliance.getNetworkNode().getCppId());
                 appliance.getNetworkNode().setPairedState(NetworkNode.PairingState.PAIRED);

@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author 310151556
  * @version $Revision: 1.0 $
  */
+@Deprecated
 public class DeviceListModel {
 	/**
 	 * Field mAliveDevices.

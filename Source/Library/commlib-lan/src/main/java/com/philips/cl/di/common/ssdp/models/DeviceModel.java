@@ -16,6 +16,7 @@ import java.util.Locale;
 /**
  * Device class which keeps device information and services
  */
+@Deprecated
 public class DeviceModel {
 
     private static final String LOG_TAG = null;

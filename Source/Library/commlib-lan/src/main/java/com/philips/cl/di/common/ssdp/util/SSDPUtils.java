@@ -39,6 +39,7 @@ import javax.net.ssl.X509TrustManager;
  * @author 310151556
  * @version $Revision: 1.0 $
  */
+@Deprecated
 public class SSDPUtils {
     private static HostnameVerifier hostnameVerifier = new HostnameVerifier() {
         @SuppressWarnings("BadHostnameVerifier")

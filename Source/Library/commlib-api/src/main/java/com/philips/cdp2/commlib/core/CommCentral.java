@@ -30,16 +30,13 @@ public final class CommCentral {
 
     public CommCentral(@NonNull DICommApplianceFactory applianceFactory, @NonNull final TransportContext... transportContexts) {
         generateTemporaryAppId();
+
+        this.applianceFactory = applianceFactory;
+
         // Setup transport contexts
         if (transportContexts.length == 0) {
             throw new IllegalArgumentException("This class needs to be constructed with at least one transport context.");
         }
-
-        // Setup ApplianceFactory
-        if (applianceFactory == null) {
-            throw new IllegalArgumentException("This class needs to be constructed with a non-null appliance factory.");
-        }
-        this.applianceFactory = applianceFactory;
 
         // Setup discovery strategies
         for (TransportContext transportContext : transportContexts) {

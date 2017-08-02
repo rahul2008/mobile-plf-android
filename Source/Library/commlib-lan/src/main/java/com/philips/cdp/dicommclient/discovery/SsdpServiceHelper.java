@@ -22,7 +22,7 @@ public class SsdpServiceHelper implements StartStopInterface {
 	private SsdpService mSsdpService = null;
 	private Callback mSsdpCallback = null;
 
-	private Object threadLock = new Object();
+	private final Object threadLock = new Object();
 	private SsdpServiceHelperThread mThread = null;
 
 	private static final int TIMEOUT_STARTTHREAD = 3000;

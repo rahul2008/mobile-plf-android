@@ -18,6 +18,7 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
 import org.junit.Before;
@@ -58,10 +59,13 @@ public class LanTransportContextTest {
     @Mock
     ConnectivityManager connectivityManagerMock;
 
-    private LanTransportContext lanTransportContext;
-
     @Mock
     private NetworkInfo activeNetworkInfoMock;
+
+    @Mock
+    private DiscoveryStrategy lanDiscoveryStrategyMock;
+
+    private LanTransportContext lanTransportContext;
 
     @Before
     public void setUp() throws Exception {
@@ -173,7 +177,13 @@ public class LanTransportContextTest {
         when(activeNetworkInfoMock.getType()).thenReturn(TYPE_WIFI);
         when(activeNetworkInfoMock.isConnected()).thenReturn(true);
 
-        lanTransportContext = new LanTransportContext(contextMock){
+        lanTransportContext = new LanTransportContext(contextMock) {
+            @NonNull
+            @Override
+            DiscoveryStrategy createLanDiscoveryStrategy() {
+                return lanDiscoveryStrategyMock;
+            }
+
             @NonNull
             @Override
             IntentFilter createIntentFilter() {
@@ -198,7 +208,13 @@ public class LanTransportContextTest {
         when(activeNetworkInfoMock.getType()).thenReturn(TYPE_WIMAX);
         when(activeNetworkInfoMock.isConnected()).thenReturn(true);
 
-        lanTransportContext = new LanTransportContext(contextMock){
+        lanTransportContext = new LanTransportContext(contextMock) {
+            @NonNull
+            @Override
+            DiscoveryStrategy createLanDiscoveryStrategy() {
+                return lanDiscoveryStrategyMock;
+            }
+
             @NonNull
             @Override
             IntentFilter createIntentFilter() {
@@ -223,7 +239,13 @@ public class LanTransportContextTest {
         when(activeNetworkInfoMock.getType()).thenReturn(TYPE_WIFI);
         when(activeNetworkInfoMock.isConnected()).thenReturn(false);
 
-        lanTransportContext = new LanTransportContext(contextMock){
+        lanTransportContext = new LanTransportContext(contextMock) {
+            @NonNull
+            @Override
+            DiscoveryStrategy createLanDiscoveryStrategy() {
+                return lanDiscoveryStrategyMock;
+            }
+
             @NonNull
             @Override
             IntentFilter createIntentFilter() {
@@ -235,9 +257,15 @@ public class LanTransportContextTest {
     }
 
     @Test
-    public void whenCreatingTransportContext_thenDiscoveryStrategyIsCreated(){
+    public void whenCreatingTransportContext_thenDiscoveryStrategyIsCreated() {
 
-        lanTransportContext = new LanTransportContext(contextMock){
+        lanTransportContext = new LanTransportContext(contextMock) {
+            @NonNull
+            @Override
+            DiscoveryStrategy createLanDiscoveryStrategy() {
+                return lanDiscoveryStrategyMock;
+            }
+
             @NonNull
             @Override
             IntentFilter createIntentFilter() {

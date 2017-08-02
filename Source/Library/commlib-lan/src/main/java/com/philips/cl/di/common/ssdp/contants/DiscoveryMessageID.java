@@ -4,7 +4,7 @@ package com.philips.cl.di.common.ssdp.contants;
  * @author 310151556
  * @version $Revision: 1.0 $
  */
-
+@Deprecated
 public enum DiscoveryMessageID {
 
 	/**

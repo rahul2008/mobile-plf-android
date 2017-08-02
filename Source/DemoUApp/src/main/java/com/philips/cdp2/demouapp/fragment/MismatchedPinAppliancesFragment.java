@@ -15,19 +15,18 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
-import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
+import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.demouapp.R;
 import com.philips.cdp2.demouapp.CommlibUapp;
 import com.philips.cdp2.demouapp.appliance.ApplianceAdapter;
 
-import java.util.HashSet;
-
 import static com.philips.cdp2.commlib.lan.context.LanTransportContext.findAppliancesWithMismatchedPinIn;
 
 public class MismatchedPinAppliancesFragment extends Fragment {
 
-    private DiscoveryManager<?> discoveryManager;
+    private CommCentral commCentral;
+
     private ApplianceAdapter applianceAdapter;
 
     @Nullable
@@ -35,6 +34,7 @@ public class MismatchedPinAppliancesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.cml_fragment_mismatched_pin_appliances, container, false);
 
+        commCentral = CommlibUapp.get().getDependencies().getCommCentral();
         applianceAdapter = new ApplianceAdapter(getContext());
 
         final ListView listViewAppliances = (ListView) rootview.findViewById(R.id.cml_listViewAppliances);
@@ -48,8 +48,6 @@ public class MismatchedPinAppliancesFragment extends Fragment {
                 CommlibUapp.get().nextFragment(new ApplianceFragment());
             }
         });
-
-        discoveryManager = DiscoveryManager.getInstance();
 
         return rootview;
     }
@@ -67,6 +65,6 @@ public class MismatchedPinAppliancesFragment extends Fragment {
 
     public void refresh() {
         applianceAdapter.clear();
-        applianceAdapter.addAll(findAppliancesWithMismatchedPinIn(new HashSet<Appliance>(discoveryManager.getAllDiscoveredAppliances())));
+        applianceAdapter.addAll(findAppliancesWithMismatchedPinIn(commCentral.getApplianceManager().getAvailableAppliances()));
     }
 }

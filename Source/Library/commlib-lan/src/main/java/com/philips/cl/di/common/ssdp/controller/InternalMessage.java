@@ -1,14 +1,15 @@
 package com.philips.cl.di.common.ssdp.controller;
 
+import android.os.Handler;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import android.os.Handler;
 
 /**
  * @author 310151556
  * @version $Revision: 1.0 $
  */
+@Deprecated
 public class InternalMessage {
 
 	private final List<Handler> handlersList;

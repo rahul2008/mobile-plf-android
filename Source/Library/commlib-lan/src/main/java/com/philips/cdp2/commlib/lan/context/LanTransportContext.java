@@ -21,6 +21,7 @@ import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
+import com.philips.cdp2.commlib.lan.discovery.LanDiscoveryStrategy;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -49,7 +50,13 @@ public class LanTransportContext implements TransportContext {
     public LanTransportContext(@NonNull final Context context) {
         setupNetworkChangedReceiver(context);
 
-        this.discoveryStrategy = null; // new LanDiscoveryStrategy(); TODO FIXME
+        this.discoveryStrategy = createLanDiscoveryStrategy();
+    }
+
+    @VisibleForTesting
+    @NonNull
+    DiscoveryStrategy createLanDiscoveryStrategy() {
+        return new LanDiscoveryStrategy();
     }
 
     private void setupNetworkChangedReceiver(final @NonNull Context context) {

@@ -6,6 +6,7 @@ import java.util.List;
  * @author 310151556
  * @version $Revision: 1.0 $
  */
+@Deprecated
 public class SSDPdevice {
 	/**
 	 * Field baseURL.

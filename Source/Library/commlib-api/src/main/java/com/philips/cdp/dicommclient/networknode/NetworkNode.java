@@ -8,6 +8,8 @@ package com.philips.cdp.dicommclient.networknode;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
+import android.util.Patterns;
 
 import com.philips.cdp2.commlib.core.appliance.Appliance;
 
@@ -307,10 +309,22 @@ public class NetworkNode implements Parcelable {
                 .append("   modelId: ").append(getModelId())
                 .append("   paired: ").append(getPairedState())
                 .append("   connectedState: ").append(getConnectionState())
-                .append("   HomeSsid: ").append(getHomeSsid())
+                .append("   homeSsid: ").append(getHomeSsid())
                 .append("   pin: ").append(pin)
                 .append("   mismatchedPin: ").append(mismatchedPin);
         return builder.toString();
+    }
+
+    /**
+     * Checks if this {@link NetworkNode} has the minimal set of its properties set to a valid value.
+     *
+     * @return true, if this {@link NetworkNode} is valid.
+     */
+    public boolean isValid() {
+        return !TextUtils.isEmpty(getCppId())
+                && !TextUtils.isEmpty(getName())
+                && !TextUtils.isEmpty(getDeviceType())
+                && Patterns.IP_ADDRESS.matcher(getIpAddress()).matches();
     }
 
     @Override

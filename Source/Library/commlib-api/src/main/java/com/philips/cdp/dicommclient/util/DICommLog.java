@@ -31,7 +31,7 @@ public class DICommLog {
     public static final String WIFI = "WifiNetworks ";
     public static final String ICPCLIENT = "IcpClient";
     public static final String SECURITY = "DISecurity";
-    public static final String SSDP = "Ssdp";
+    public static final String SSDP = "SSDP";
     public static final String KPS = "KPS";
     public static final String DATABASE = "DatabaseAir";
     public static final String CPPCONTROLLER = "CppController";
