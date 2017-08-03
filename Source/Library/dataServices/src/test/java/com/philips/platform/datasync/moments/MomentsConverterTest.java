@@ -35,9 +35,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -60,6 +60,7 @@ public class MomentsConverterTest {
     private final String LOCATION = "BANGALORE";
     private MomentsConverter momentsConverter;
     private UCoreMoment uCoreMoment;
+    private UCoreMoment uCoreMomentWithoutExpirationDate;
     private UCoreDetail uCoreMomentDetail;
     private UCoreDetail uCoreMeasurementDetail;
     private UCoreMeasurement uCoreMeasurement;
@@ -115,7 +116,7 @@ public class MomentsConverterTest {
     }
 
     private void initializeMoment() {
-        moment = ormCreatorTest.createMoment(TEST_CREATOR_ID, TEST_SUBJECT_ID, MomentType.TEMPERATURE, null);
+        moment = ormCreatorTest.createMoment(TEST_CREATOR_ID, TEST_SUBJECT_ID, MomentType.TEMPERATURE, TEST_TIMESTAMP.plusWeeks(2));
         moment.setDateTime(TEST_TIMESTAMP);
 
         MomentDetail momentDetail = ormCreatorTest.createMomentDetail(MomentDetailType.PHASE,moment);
@@ -157,12 +158,32 @@ public class MomentsConverterTest {
         uCoreMoment.setSubjectId(TEST_SUBJECT_ID);
         uCoreMoment.setType(MomentType.TEMPERATURE);
         uCoreMoment.setVersion(TEST_VERSION);
+        uCoreMoment.setExpirationDate(TEST_TIMESTAMP.plusWeeks(5).toString());
 
         uCoreMomentDetail = new UCoreDetail();
         uCoreMomentDetail.setType(MomentType.TEMPERATURE);
         uCoreMomentDetail.setValue(TEST_VALUE_STRING);
 
         uCoreMoment.setDetails(Collections.singletonList(uCoreMomentDetail));
+
+        uCoreMomentWithoutExpirationDate = new UCoreMoment();
+        uCoreMomentWithoutExpirationDate.setTimestamp(TEST_TIMESTAMP.toString());
+        uCoreMomentWithoutExpirationDate.setGuid(TEST_GUID);
+        uCoreMomentWithoutExpirationDate.setInactive(TEST_INACTIVE);
+        uCoreMomentWithoutExpirationDate.setLastModified(TEST_LAST_MODIFIED.toString());
+        uCoreMomentWithoutExpirationDate.setCreatorId(TEST_CREATOR_ID);
+        uCoreMomentWithoutExpirationDate.setSubjectId(TEST_SUBJECT_ID);
+        uCoreMomentWithoutExpirationDate.setType(MomentType.TEMPERATURE);
+        uCoreMomentWithoutExpirationDate.setVersion(TEST_VERSION);
+        uCoreMomentWithoutExpirationDate.setExpirationDate(TEST_TIMESTAMP.plusWeeks(5).toString());
+
+        uCoreMomentDetail = new UCoreDetail();
+        uCoreMomentDetail.setType(MomentType.TEMPERATURE);
+        uCoreMomentDetail.setValue(TEST_VALUE_STRING);
+
+        uCoreMomentWithoutExpirationDate.setDetails(Collections.singletonList(uCoreMomentDetail));
+
+
 
         uCoreMeasurement = new UCoreMeasurement();
         uCoreMeasurement.setType(MeasurementDetailType.LOCATION);
@@ -334,99 +355,7 @@ public class MomentsConverterTest {
         MeasurementGroup measurement = measurements.iterator().next();
         assertThat("TEMPERATURE").isEqualTo(TEST_MEASUREMENT_TYPE);
         assertThat("222.333").isEqualTo(TEST_VALUE_DOUBLE);
-        //assertThat(measurement.getDateTime()).isEqualTo(TEST_TIMESTAMP);
-        //assertThat(measurement.getMoments()).isEqualTo(moments.get(0));
     }
-
-//    @Test
-//    public void ShouldAddSingleMeasurementDetail_WhenMomentWithMeasurementDetailsIsProvided() {
-//        uCoreMeasurement.setDetails(Collections.singletonList(uCoreMeasurementDetail));
-//        uCoreMoment.setMeasurementGroups(Collections.singletonList(uCoreMeasurementGroup));
-//
-//        List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
-//
-//        assertThat(moments).hasSize(1);
-////        Moment moment = moments.get(0);
-////        Collection<? extends Measurement> measurements = moment.getMeasurements();
-////        assertThat(measurements).hasSize(1);
-////        Measurement measurement = measurements.iterator().next();
-////        Collection<? extends MeasurementDetail> measurementDetails = measurement.getMeasurementDetails();
-////        assertThat(measurementDetails).hasSize(1);
-////        MeasurementDetail measurementDetail = measurementDetails.iterator().next();
-////
-////        assertThat(measurementDetail.getTableType()).isEqualTo(TEST_MEASUREMENT_DETAIL_TYPE);
-////        assertThat(measurementDetail.getValue()).isEqualTo(TEST_MEASUREMENT_DETAIL_VALUE.name());
-////        assertThat(measurementDetail.getMeasurement()).isEqualTo(measurement);
-//    }
-
-//    @Test
-//    public void ShouldAddMultipleMeasurementsDetail_WhenMomentWithMultipleDetailsAreProvided() {
-//        uCoreMeasurement.setDetails(Arrays.asList(uCoreMeasurementDetail, uCoreMeasurementDetail));
-//        uCoreMoment.setMeasurementGroups((Collections.singletonList(uCoreMeasurementGroup)));
-//
-//        List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
-//
-//        assertThat(moments).hasSize(1);
-////        Moment moment = moments.get(0);
-////        Collection<? extends Measurement> measurements = moment.getMeasurementGroups();
-////        assertThat(measurements).hasSize(1);
-////        Measurement measurement = measurements.iterator().next();
-////        Collection<? extends MeasurementDetail> measurementDetails = measurement.getMeasurementDetails();
-////        assertThat(measurementDetails).hasSize(2);
-//
-////        Iterator<? extends MeasurementDetail> iterator = measurementDetails.iterator();
-////        AssertHelper.assertEquals(iterator.next(), iterator.next());
-//    }
-
-//    @Test
-//    public void ShouldReturnSingleMeasurementDetails_WhenMomentWithMultipleMeasurementDetailsAreProvidedAndTheFirstTypeIsUnknown() {
-//        UCoreDetail uCoreMeasurementDetailUnknownType = new UCoreDetail();
-//        uCoreMeasurementDetailUnknownType.setType("RANDOM_TYPE_kbdsghsdfbvfh");
-//        uCoreMeasurementDetailUnknownType.setValue(uCoreMeasurementDetail.getValue());
-//
-//        uCoreMeasurement.setDetails(Arrays.asList(uCoreMeasurementDetailUnknownType, uCoreMeasurementDetail));
-//        uCoreMoment.setMeasurementGroups(Collections.singletonList(uCoreMeasurementGroup));
-//
-//        List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
-//
-//        assertThat(moments).hasSize(1);
-//        Moment moment = moments.get(0);
-//        Collection<? extends MeasurementGroup> measurements = moment.getMeasurementGroups();
-//        assertThat(measurements).hasSize(1);
-////        Measurement measurement = measurements.iterator().next();
-////        Collection<? extends MeasurementDetail> measurementDetails = measurement.getMeasurementDetails();
-////        assertThat(measurementDetails).hasSize(1);
-////        MeasurementDetail measurementDetail = measurementDetails.iterator().next();
-////
-////        assertThat(measurementDetail.getTableType()).isEqualTo(TEST_MEASUREMENT_DETAIL_TYPE);
-////        assertThat(measurementDetail.getValue()).isEqualTo(TEST_MEASUREMENT_DETAIL_VALUE.name());
-////        assertThat(measurementDetail.getMeasurement()).isEqualTo(measurement);
-//    }
-//
-//    @Test
-//    public void ShouldIgnoreUnknownMeasurementDetailValues_WhenUnkownValuesAreProvided() {
-//        UCoreDetail uCoreMeasurementDetailUnknownType = new UCoreDetail();
-//        uCoreMeasurementDetailUnknownType.setType(uCoreMeasurementDetail.getTableType());
-//        uCoreMeasurementDetailUnknownType.setValue("RANDOM_TYPE_kbdsghsdfbvfh");
-//
-//        uCoreMeasurement.setDetails(Arrays.asList(uCoreMeasurementDetailUnknownType, uCoreMeasurementDetail));
-//        uCoreMoment.setMeasurementGroups(Collections.singletonList(uCoreMeasurementGroup));
-//
-//        List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
-//
-//        assertThat(moments).hasSize(1);
-//        Moment moment = moments.get(0);
-//        Collection<? extends MeasurementGroup> measurements = moment.getMeasurementGroups();
-//        assertThat(measurements).hasSize(1);
-////        Measurement measurement = measurements.iterator().next();
-////        Collection<? extends MeasurementDetail> measurementDetails = measurement.getMeasurementDetails();
-////        assertThat(measurementDetails).hasSize(1);
-////        MeasurementDetail measurementDetail = measurementDetails.iterator().next();
-////
-////        assertThat(measurementDetail.getTableType()).isEqualTo(TEST_MEASUREMENT_DETAIL_TYPE);
-////        assertThat(measurementDetail.getValue()).isEqualTo(TEST_MEASUREMENT_DETAIL_TYPE);
-////        assertThat(measurementDetail.getMeasurement()).isEqualTo(measurement);
-//    }
 
     @Test
     public void ShouldThrowExceptionWhenConvertIsCalled(){
@@ -445,7 +374,7 @@ public class MomentsConverterTest {
 
         momentsConverter.baseAppDataCreater = dataCreator;
 
-        when(dataCreator.createMoment(anyString(),anyString(),anyString(), null)).thenReturn(null);
+        when(dataCreator.createMoment(anyString(),anyString(),anyString(), isA(DateTime.class))).thenReturn(null);
 
         List<Moment> moments = momentsConverter.convert(Collections.singletonList(uCoreMoment));
         //TODO: Verify nothing after this executed ??
@@ -458,6 +387,22 @@ public class MomentsConverterTest {
         DateTime uCoreTimeStamp = new DateTime(uCoreMoment.getTimestamp());
 
         assertThat(uCoreTimeStamp).isEqualTo(TEST_TIMESTAMP);
+    }
+
+    @Test
+    public void ShouldNotSetExpirationDate_WhenTemperatureMomentIsConvertedToUCoreMoment() {
+        UCoreMoment uCoreMoment = momentsConverter.convertToUCoreMoment(moment);
+        assertThat(uCoreMoment.getExpirationDate()).isNull();
+    }
+
+
+    @Test
+    public void ShouldSetExpirationDate_WhenUCoreMomentIsConvertedToMoment() {
+        List<Moment> moments = momentsConverter.convert(Arrays.asList(uCoreMoment, uCoreMomentWithoutExpirationDate));
+        assertThat(moments).isNotNull();
+        assertThat(moments.size()).isEqualTo(2);
+        assertThat(moments.get(0).getExpirationDate().toString()).isEqualTo(uCoreMoment.getExpirationDate());
+        assertThat(moments.get(1).getExpirationDate().toString()).isEqualTo(uCoreMomentWithoutExpirationDate.getExpirationDate());
     }
 
     @Test
