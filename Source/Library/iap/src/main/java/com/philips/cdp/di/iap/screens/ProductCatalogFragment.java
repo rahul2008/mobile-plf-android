@@ -5,12 +5,16 @@
 package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
@@ -36,15 +40,18 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
+import com.philips.platform.uid.view.widget.SearchBox;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class ProductCatalogFragment extends InAppBaseFragment
-        implements EventListener, ProductCatalogPresenter.ProductCatalogListener {
+        implements EventListener, ProductCatalogPresenter.ProductCatalogListener, SearchBox.ExpandListener, SearchBox.QuerySubmitListener {
 
     public static final String TAG = ProductCatalogFragment.class.getName();
+    private static final String SEARCH_TYPE = "search_selection";
 
     private Context mContext;
 
@@ -53,6 +60,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private ProductCatalogAdapter mAdapter;
     private ShoppingCartAPI mShoppingCartAPI;
     private RecyclerView mRecyclerView;
+    private SearchBox mSearchBox;
     private ProductCatalogAPI mPresenter;
     private ArrayList<ProductCatalogData> mProductCatalog = new ArrayList<>();
 
@@ -64,6 +72,13 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private Bundle mBundle;
     private boolean mIsLoading = false;
     private boolean mIsProductsAvailable = true;
+
+
+    private String query;
+    private boolean isExpandableSearch;
+    boolean searchBoxCollpased = true;
+    private SharedPreferences sharedPreferences;
+    private ImageView mCollapseView;
 
     public static ProductCatalogFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
         ProductCatalogFragment fragment = new ProductCatalogFragment();
@@ -87,17 +102,17 @@ public class ProductCatalogFragment extends InAppBaseFragment
         boolean isLocalData = ControllerFactory.getInstance().isPlanB();
 
         if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
-           return;
+            return;
             //returning because in Hybris, If CTN not present in Hybris, we need to return a from onCreate to onCreateView to show UI
             // displayCategorisedProductList(mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS));
         } else {
-        if (!isLocalData && currentCountryCode != null && currentCountryCode.equalsIgnoreCase(countrySelectedByVertical) &&
-                CartModelContainer.getInstance().getProductList() != null
-                && CartModelContainer.getInstance().getProductList().size() != 0) {
-            onLoadFinished(getCachedProductList(), null);
-        } else {
-            fetchProductList();
-        }
+            if (!isLocalData && currentCountryCode != null && currentCountryCode.equalsIgnoreCase(countrySelectedByVertical) &&
+                    CartModelContainer.getInstance().getProductList() != null
+                    && CartModelContainer.getInstance().getProductList().size() != 0) {
+                onLoadFinished(getCachedProductList(), null);
+            } else {
+                fetchProductList();
+            }
         }
     }
 
@@ -131,8 +146,50 @@ public class ProductCatalogFragment extends InAppBaseFragment
         EventHelper.getInstance().registerEventNotification
                 (String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_DETAIL), this);
 
-        View rootView = inflater.inflate(R.layout.iap_product_catalog_view, container, false);
+        final View rootView = inflater.inflate(R.layout.iap_product_catalog_view, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.product_catalog_recycler_view);
+        mSearchBox = (SearchBox) rootView.findViewById(R.id.iap_search_box);
+        mCollapseView = mSearchBox.getCollapseView();
+        mSearchBox.setExpandListener(this);
+        mSearchBox.setQuerySubmitListener(this);
+        mSearchBox.setSearchIconified(isExpandableSearch);
+        mSearchBox.setSearchCollapsed(searchBoxCollpased);
+        mSearchBox.setQuery(query);
+        //mSearchBox.setAdapter(mAdapter);
+        mSearchBox.setSearchBoxHint(R.string.iap_search_box_hint);
+        mSearchBox.setDecoySearchViewHint(R.string.iap_search_box_hint);
+        mSearchBox.getSearchTextView().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String filterText = mSearchBox.getSearchTextView().toString().toLowerCase(Locale.getDefault());
+                mAdapter.filter(filterText);
+            }
+        });
+        mCollapseView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((IAPActivity) getActivity()).showActionBar();
+                if (!mSearchBox.isSearchCollapsed()) {
+                    mSearchBox.setSearchCollapsed(true);
+                }
+            }
+        });
+        if (savedInstanceState != null) {
+            query = savedInstanceState.getString("query");
+            searchBoxCollpased = savedInstanceState.getBoolean("collapsed");
+        }
+
+
         mEmptyCatalogText = (TextView) rootView.findViewById(R.id.iap_productCatalog_emptyProductCatalogText_lebel);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -150,6 +207,14 @@ public class ProductCatalogFragment extends InAppBaseFragment
             displayCategorisedProductList(mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS));
         }
         return rootView;
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean("collapsed", mSearchBox.isSearchCollapsed());
+        outState.putString("query", String.valueOf(mSearchBox.getQuery()));
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -328,9 +393,24 @@ public class ProductCatalogFragment extends InAppBaseFragment
         }
     };
 
-//    private void dismissProgress() {
-//        if (isProgressDialogShowing()) {
-//            dismissProgressDialog();
-//        }
-//    }
+    @Override
+    public void onSearchExpanded() {
+        ((IAPActivity) getActivity()).hideActionBar();
+    }
+
+    @Override
+    public void onSearchCollapsed() {
+
+    }
+
+    @Override
+    public void onQuerySubmit(CharSequence charSequence) {
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        ((IAPActivity) getActivity()).showActionBar();
+    }
 }

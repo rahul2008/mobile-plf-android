@@ -260,5 +260,6 @@
     <string name="iap_user_not_registered">Authentication failure</string>
     <string name="iap_invalid_product_ctn">Please provide a non empty product CTN</string>
     <string name="iap_select_delivery">Please select your delivery method for this order:</string>
+    <string name="iap_search_box_hint">Search</string>
 
 </resources>

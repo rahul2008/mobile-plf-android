@@ -10,9 +10,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -25,17 +28,24 @@ import com.philips.cdp.di.iap.products.ProductCatalogData;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.platform.uid.text.utils.UIDStringUtils;
+import com.philips.platform.uid.view.widget.SearchBox;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
-public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable, SearchBox.FilterQueryChangedListener {
 
     private final ImageLoader mImageLoader;
     private Context mContext;
 
     private ArrayList<ProductCatalogData> mProductCatalogList = new ArrayList<>();
     private ProductCatalogData mSelectedProduct;
+
+    private Filter productFilter = new ProductListFilter();
+    private CharSequence query;
 
     public ProductCatalogAdapter(Context pContext, ArrayList<ProductCatalogData> pArrayList) {
         mContext = pContext;
@@ -146,6 +156,34 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
+    @Override
+    public Filter getFilter() {
+        return productFilter;
+    }
+
+    @Override
+    public void onQueryTextChanged(CharSequence charSequence) {
+
+    }
+
+    // Filter Class
+    public void filter(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        //mProductCatalogList.clear();
+        if (charText.length() == 0) {
+            mProductCatalogList.addAll(mProductCatalogList);
+        } else {
+            mProductCatalogList.clear();
+            for (ProductCatalogData wp : mProductCatalogList) {
+                if (wp.getProductTitle().toLowerCase(Locale.getDefault()).contains(charText)) {
+                    mProductCatalogList.add(wp);
+                }
+            }
+        }
+
+        notifyDataSetChanged();
+    }
+
     private class ProductCatalogViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         NetworkImageView mProductImage;
         TextView mProductName;
@@ -171,6 +209,35 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             this.itemView.setSelected(!isSelected);
             this.itemView.setBackgroundColor(isSelected ? Color.TRANSPARENT : ContextCompat.getColor(this.itemView.getContext(), R.color.uid_recyclerview_background_selector));
             setTheProductDataForDisplayingInProductDetailPage(getAdapterPosition());
+        }
+    }
+
+    private class ProductListFilter extends Filter {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults results = new FilterResults();
+            ArrayList<ProductCatalogData> resultList = new ArrayList<>();
+            if (!TextUtils.isEmpty(constraint)) {
+                for (ProductCatalogData product : mProductCatalogList) {
+                    if (UIDStringUtils.indexOfSubString(true, product.getProductTitle(), constraint) >= 0) {
+                        resultList.add(product);
+                    }
+                }
+            }
+
+            results.values = resultList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            List<ProductCatalogData> filteredList = (List<ProductCatalogData>) results.values;
+            if ((query.length() > 0) && filteredList.size() <= 0) {
+                // filteredList.add();
+                //show default empty text
+            }
+            ProductCatalogAdapter.this.notifyDataSetChanged();
         }
     }
 }
