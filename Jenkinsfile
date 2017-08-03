@@ -25,14 +25,14 @@ node ('android&&docker') {
                 ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease
             '''
             }
-            stage('test') {
-                echo "lint & unit test"
-                sh '''#!/bin/bash -l
-                    chmod -R 755 .
-                    cd ./Source/AppFramework
-                    ./gradlew -PenvCode=${JENKINS_ENV} lintRelease testAppFrameworkHamburgerReleaseUnitTest
-                '''
-            }
+            //stage('test') {
+            //    echo "lint & unit test"
+            //   sh '''#!/bin/bash -l
+            //        chmod -R 755 .
+            //        cd ./Source/AppFramework
+            //        ./gradlew -PenvCode=${JENKINS_ENV} lintRelease testAppFrameworkHamburgerReleaseUnitTest
+            //    '''
+            //}
             
             if (BranchName =~ /master|develop|release.*/) {
                 stage('publish') {
@@ -85,7 +85,7 @@ node ('android&&docker') {
             stage ('reporting and archiving') {
                 androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
                 junit allowEmptyResults: false, testResults: 'Source/AppFramework/*/build/test-results/*/*.xml' 
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/AppFramework/appFramework/build/reports/tests/testAppFrameworkHamburgerReleaseUnitTest', reportFiles: 'index.html', reportName: 'AppFramework Hamburger Release UnitTest'])  
+                //publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/AppFramework/appFramework/build/reports/tests/testAppFrameworkHamburgerReleaseUnitTest', reportFiles: 'index.html', reportName: 'AppFramework Hamburger Release UnitTest'])  
                 archiveArtifacts '**/*dependencies*.lock'
                 archiveArtifacts '**/build/**/*.apk'
             }
