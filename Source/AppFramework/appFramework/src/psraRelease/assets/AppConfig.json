@@ -43,22 +43,17 @@
       "consoleLogEnabled":false,
       "componentLevelLogEnabled":false,
       "componentIds": [
-        "DemoAppInfra",
-        "Registration"
       ]
     },
     "logging.debugConfig":{
       "fileName":"AppInfraLog",
       "numberOfFiles":5,
       "fileSizeInBytes":50000,
-      "logLevel":"Info",
+      "logLevel":"Off",
       "fileLogEnabled":false,
       "consoleLogEnabled":false,
       "componentLevelLogEnabled":false,
       "componentIds": [
-
-        "DemoAppInfra",
-        "Registration","component1"
       ]
     }
   },
