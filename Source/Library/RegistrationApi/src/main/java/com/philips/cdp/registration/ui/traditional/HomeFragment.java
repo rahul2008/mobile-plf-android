@@ -403,7 +403,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             public void onSuccess(String s, SOURCE source) {
                 RLog.d(RLog.SERVICE_DISCOVERY, " Country Sucess :" + s);
                 String selectedCountryCode;
-                if (RegUtility.handleCountryList().contains(s.toUpperCase())) {
+                if (RegUtility.supportedCountryList().contains(s.toUpperCase())) {
                     selectedCountryCode = s.toUpperCase();
                 } else {
                     selectedCountryCode = RegUtility.getFallbackCountryCode();

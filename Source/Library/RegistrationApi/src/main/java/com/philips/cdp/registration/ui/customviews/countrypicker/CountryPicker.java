@@ -61,7 +61,7 @@ public class CountryPicker extends DialogFragment implements
         if (allCountriesList == null) {
             try {
                 allCountriesList = new ArrayList<Country>();
-                String[] recourseList = RegUtility.handleCountryList().toArray(new String[RegUtility.handleCountryList().size()]);
+                String[] recourseList = RegUtility.supportedCountryList().toArray(new String[RegUtility.supportedCountryList().size()]);
                 for (int i = 0; i < recourseList.length; i++) {
                     Country country = new Country();
                     country.setCode(recourseList[i]);
@@ -97,7 +97,7 @@ public class CountryPicker extends DialogFragment implements
         View view = inflater.inflate(R.layout.reg_country_picker, null);
         // Get countries from the json
         getAllCountries();
-        RegUtility.handleCountryList();
+        RegUtility.supportedCountryList();
 
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);

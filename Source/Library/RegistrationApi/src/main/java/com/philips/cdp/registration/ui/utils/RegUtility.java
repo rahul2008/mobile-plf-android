@@ -253,7 +253,7 @@ public class RegUtility {
 
     private static String[] defaultSupportedHomeCountries = new String[]{"RW", "BG", "CZ", "DK", "AT", "CH", "DE", "GR", "AU", "CA", "GB", "HK", "ID", "IE", "IN", "MY", "NZ", "PH", "PK", "SA", "SG", "US", "ZA", "AR", "CL", "CO", "ES", "MX", "PE", "EE", "FI", "BE", "FR", "HR", "HU", "IT", "JP", "KR", "LT", "LV", "NL", "NO", "PL", "BR", "PT", "RO", "RU", "UA", "SI", "SK", "SE", "TH", "TR", "VN", "CN", "TW"};
 
-    public static  List<String> handleCountryList() {
+    public static  List<String> supportedCountryList() {
         List<String> defaultCountries = Arrays.asList(RegUtility.getDefaultSupportedHomeCountries());
         List<String> supportedHomeCountries = RegistrationConfiguration.getInstance().getSupportedHomeCountry();
         if (null != supportedHomeCountries) {

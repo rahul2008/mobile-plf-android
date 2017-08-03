@@ -166,7 +166,7 @@ public class UserRegistrationInitializer {
         serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
-                if (RegUtility.handleCountryList().contains(s.toUpperCase())) {
+                if (RegUtility.supportedCountryList().contains(s.toUpperCase())) {
                     RegistrationHelper.getInstance().setCountryCode(s);
                 } else {
                     String fallbackCountryCode = RegUtility.getFallbackCountryCode();
