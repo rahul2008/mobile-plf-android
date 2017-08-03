@@ -11,7 +11,6 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.google.gson.Gson;
-import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.response.error.ServerError;
@@ -73,7 +72,7 @@ public class IAPNetworkError implements IAPNetworkErrorListener {
             }
             return mServerError.getErrors().get(0).getMessage();
         } else if (mVolleyError != null) {
-            if (getMessage() != null) {
+            if (mVolleyError.getMessage() != null) {
                 IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                         IAPAnalyticsConstant.ERROR, IAPAnalyticsConstant.SERVER + mIAPErrorCode + "_" + mVolleyError.getMessage());
             }
