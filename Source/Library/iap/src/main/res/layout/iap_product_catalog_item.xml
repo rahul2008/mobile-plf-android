@@ -31,7 +31,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/iap_productCatalogItem_discountedPrice_lebel"
-            fontPath="fonts/iapCentralesansBookFont.ttf"
+            style="@style/iapCentralesansBoldFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/iap_margin_4dp"
@@ -41,7 +41,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/iap_retailerItem_price_lebel"
-            fontPath="fonts/iapCentralesansBookFont.ttf"
+            style="@style/iapCentralesansBookFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/iap_margin_4dp"
