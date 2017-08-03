@@ -151,11 +151,16 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     provided deps.support.annotations
 
-    if (findProject(':cloudcontroller-api')) {
-        debugCompile project(path: ':cloudcontroller-api', configuration: 'debug')
-        releaseCompile project(path: ':cloudcontroller-api', configuration: 'release')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'cloudcontroller-api', version: versions.cloudcontroller_api + objcdp.getVersionSuffix(), ext: 'aar', changing: true)
+    def shortversion = version.replaceAll(/-SNAPSHOT.*/, "")
+    def suffix = objcdp.getVersionSuffix()
+
+    for (dep in [':cloudcontroller-api']) {
+        if (findProject(dep)) {
+            debugCompile project(path: dep, configuration: 'debug')
+            releaseCompile project(path: dep, configuration: 'release')
+        } else {
+            compile("$group$dep:$shortversion$suffix") { changing = true }
+        }
     }
 
     testCompile deps.junit
