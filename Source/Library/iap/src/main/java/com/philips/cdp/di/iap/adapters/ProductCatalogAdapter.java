@@ -51,6 +51,16 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private ArrayList<ProductCatalogData> mProductCatalogListToFilter ;
     private String mCharacterText="";
 
+    public boolean isSearchFocused() {
+        return isSearchFocused;
+    }
+
+    public void setSearchFocused(boolean searchFocused) {
+        isSearchFocused = searchFocused;
+    }
+
+    private boolean isSearchFocused = false;
+
     public ProductCatalogAdapter(Context pContext, ArrayList<ProductCatalogData> mProductCatalogList) {
         mContext = pContext;
         this.mProductCatalogList = mProductCatalogList;
@@ -61,7 +71,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
 
-        if (viewType == EMPTY_VIEW) {
+        if (viewType == EMPTY_VIEW && isSearchFocused()) {
            View  v = LayoutInflater.from(parent.getContext()).inflate(R.layout.empty_view, parent, false);
             EmptyViewHolder evh = new EmptyViewHolder(v);
             return evh;
@@ -75,7 +85,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
-        if(holder instanceof EmptyViewHolder){
+        if(holder instanceof EmptyViewHolder && isSearchFocused()){
             CharSequence text = String.format((mContext.getResources().getText(R.string.iap_zero_results)).toString(), mCharacterText);
             ((EmptyViewHolder) holder).tvEmptyMsg.setText(text);
             mCharacterText="";
@@ -191,6 +201,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     // Filter Class
     public void filter(String charText) {
+        setSearchFocused(true);
         mCharacterText=charText;
         charText = charText.toLowerCase(Locale.getDefault());
         ArrayList<ProductCatalogData> lFilteredProductList=new ArrayList<>();
@@ -274,6 +285,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             ProductCatalogAdapter.this.notifyDataSetChanged();
         }
     }
+
 }
 
 

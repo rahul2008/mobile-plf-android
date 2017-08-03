@@ -7,6 +7,7 @@ package com.philips.cdp.di.iap.screens;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -49,7 +50,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class ProductCatalogFragment extends InAppBaseFragment
-        implements EventListener, ProductCatalogPresenter.ProductCatalogListener, SearchBox.ExpandListener, SearchBox.QuerySubmitListener {
+        implements EventListener, ProductCatalogPresenter.ProductCatalogListener, SearchBox.ExpandListener {
 
     public static final String TAG = ProductCatalogFragment.class.getName();
     private static final String SEARCH_TYPE = "search_selection";
@@ -79,7 +80,8 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private boolean isExpandableSearch;
     boolean searchBoxCollpased = true;
     private SharedPreferences sharedPreferences;
-    private ImageView mCollapseView;
+    private ImageView mClearIconView;
+    private AppCompatAutoCompleteTextView mSearchTextView;
 
     public static ProductCatalogFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
         ProductCatalogFragment fragment = new ProductCatalogFragment();
@@ -150,44 +152,9 @@ public class ProductCatalogFragment extends InAppBaseFragment
         final View rootView = inflater.inflate(R.layout.iap_product_catalog_view, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.product_catalog_recycler_view);
         mSearchBox = (SearchBox) rootView.findViewById(R.id.iap_search_box);
-        mCollapseView = mSearchBox.getCollapseView();
-        mSearchBox.setExpandListener(this);
-       // mSearchBox.setQuerySubmitListener(this);
-        mSearchBox.setSearchIconified(isExpandableSearch);
-        mSearchBox.setSearchCollapsed(searchBoxCollpased);
-        mSearchBox.setQuery(query);
-       // mSearchBox.setAdapter((BaseAdapter)mAdapter);
-        mSearchBox.setSearchBoxHint(R.string.iap_search_box_hint);
-        mSearchBox.setDecoySearchViewHint(R.string.iap_search_box_hint);
-        mSearchBox.getSearchTextView().addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
+        setUpSearch();
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(s.length()==0) return;
-                String filterText = s.toString().toLowerCase(Locale.getDefault());
-                mAdapter.filter(filterText);
-            }
-        });
-        mCollapseView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((IAPActivity) getActivity()).showActionBar();
-                if (!mSearchBox.isSearchCollapsed()) {
-                    mSearchBox.setSearchCollapsed(true);
-                }
-                mAdapter.setData(mProductCatalog);
-                mAdapter.notifyDataSetChanged();
-            }
-        });
         if (savedInstanceState != null) {
             query = savedInstanceState.getString("query");
             searchBoxCollpased = savedInstanceState.getBoolean("collapsed");
@@ -211,6 +178,47 @@ public class ProductCatalogFragment extends InAppBaseFragment
             displayCategorisedProductList(mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS));
         }
         return rootView;
+    }
+
+    private void setUpSearch() {
+        mClearIconView = mSearchBox.getClearIconView();
+        mSearchBox.setExpandListener(this);
+        mSearchBox.setSearchIconified(isExpandableSearch);
+        mSearchBox.setSearchCollapsed(searchBoxCollpased);
+        mSearchBox.setQuery(query);
+        mSearchBox.setSearchBoxHint(R.string.iap_search_box_hint);
+        mSearchBox.setDecoySearchViewHint(R.string.iap_search_box_hint);
+        mSearchTextView = mSearchBox.getSearchTextView();
+        mSearchTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() == 0) {
+                    resetAdapter();
+                    return;
+                }
+                String filterText = s.toString().toLowerCase(Locale.getDefault());
+                mAdapter.filter(filterText);
+            }
+        });
+
+        mClearIconView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSearchTextView.getText().clear();
+                mSearchTextView.clearFocus();
+                resetAdapter();
+            }
+        });
     }
 
 
@@ -355,6 +363,9 @@ public class ProductCatalogFragment extends InAppBaseFragment
             if (!checkIfEntryExists(data))
                 mProductCatalog.add(data);
         }
+        if (!mProductCatalog.isEmpty()) {
+
+        }
     }
 
     private boolean checkIfEntryExists(final ProductCatalogData data) {
@@ -404,17 +415,23 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
     @Override
     public void onSearchCollapsed() {
-
+        resetAdapter();
+        showActionBar();
     }
 
-    @Override
-    public void onQuerySubmit(CharSequence charSequence) {
+    void resetAdapter() {
+        mAdapter.setSearchFocused(false);
+        mAdapter.setData(mProductCatalog);
+        mAdapter.notifyDataSetChanged();
+    }
 
+    void showActionBar() {
+        ((IAPActivity) getActivity()).showActionBar();
     }
 
     @Override
     public void onStop() {
+        mSearchBox.setSearchCollapsed(true);
         super.onStop();
-        ((IAPActivity) getActivity()).showActionBar();
     }
 }

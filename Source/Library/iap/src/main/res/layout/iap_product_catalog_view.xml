@@ -7,8 +7,7 @@
         android:id="@+id/iap_ll_search_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/uid_shadow_level_two"
-        android:padding="@dimen/border16_margin_left_right">
+        android:padding="@dimen/border8_margin">
 
         <com.philips.platform.uid.view.widget.SearchBox
             android:id="@+id/iap_search_box"
