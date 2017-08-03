@@ -7,6 +7,7 @@ package com.philips.cdp2.commlib.core.communication;
 
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +35,8 @@ public class CombinedCommunicationStrategyTest {
     CommunicationStrategy unavailableStrategyMock;
     @Mock
     ResponseHandler responseHandlerMock;
+    @Mock
+    SubscriptionEventListener subscriptionEventListenerMock;
 
     @Before
     public void setUp() {
@@ -44,6 +47,11 @@ public class CombinedCommunicationStrategyTest {
         CommunicationStrategy strategy = mock(CommunicationStrategy.class);
         when(strategy.isAvailable()).thenReturn(available);
         return strategy;
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void whenConstructedWithZeroStrategies_ThenThrowsError() {
+        new CombinedCommunicationStrategy();
     }
 
     @Test
@@ -139,5 +147,41 @@ public class CombinedCommunicationStrategyTest {
         strategy.putProperties(null, null, 0, responseHandlerMock);
 
         verify(responseHandlerMock).onError(eq(NOT_CONNECTED), anyString());
+    }
+
+    @Test
+    public void whenEnablingCommunication_ThenCallsOnAllStrategies() {
+        final CommunicationStrategy sub1 = createCommunicationStrategy(AVAILABLE);
+        final CommunicationStrategy sub2 = createCommunicationStrategy(AVAILABLE);
+        final CommunicationStrategy sub3 = createCommunicationStrategy(AVAILABLE);
+        final CombinedCommunicationStrategy strategy = new CombinedCommunicationStrategy(
+                sub1,
+                sub2,
+                sub3
+        );
+
+        strategy.enableCommunication(subscriptionEventListenerMock);
+
+        verify(sub1).enableCommunication(subscriptionEventListenerMock);
+        verify(sub2).enableCommunication(subscriptionEventListenerMock);
+        verify(sub3).enableCommunication(subscriptionEventListenerMock);
+    }
+
+    @Test
+    public void whenDisablingCommunication_ThenCallsOnAllStrategies() {
+        final CommunicationStrategy sub1 = createCommunicationStrategy(AVAILABLE);
+        final CommunicationStrategy sub2 = createCommunicationStrategy(AVAILABLE);
+        final CommunicationStrategy sub3 = createCommunicationStrategy(AVAILABLE);
+        final CombinedCommunicationStrategy strategy = new CombinedCommunicationStrategy(
+                sub1,
+                sub2,
+                sub3
+        );
+
+        strategy.disableCommunication();
+
+        verify(sub1).disableCommunication();
+        verify(sub2).disableCommunication();
+        verify(sub3).disableCommunication();
     }
 }

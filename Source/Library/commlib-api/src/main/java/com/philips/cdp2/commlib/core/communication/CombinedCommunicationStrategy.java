@@ -69,7 +69,9 @@ public class CombinedCommunicationStrategy extends CommunicationStrategy {
 
     @Override
     public void enableCommunication(SubscriptionEventListener subscriptionEventListener) {
-        findStrategy().enableCommunication(subscriptionEventListener);
+        for (CommunicationStrategy strategy : communicationStrategies) {
+            strategy.enableCommunication(subscriptionEventListener);
+        }
     }
 
     @Override
