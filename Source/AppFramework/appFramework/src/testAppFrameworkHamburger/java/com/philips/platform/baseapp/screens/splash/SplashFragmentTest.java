@@ -13,11 +13,13 @@ import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.screens.introscreen.LaunchActivity;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertNotNull;
@@ -28,10 +30,19 @@ public class SplashFragmentTest {
     private LaunchActivityMockAbstract launchActivity;
     private SplashFragment splashFragment;
     private ImageView logo;
+    private ActivityController<LaunchActivityMockAbstract> activityController;
 
+    @After
+    public void tearDown(){
+        activityController.pause().stop().destroy();
+        splashFragment=null;
+        activityController=null;
+        logo=null;
+    }
     @Before
     public void setUp(){
-        launchActivity = Robolectric.buildActivity(LaunchActivityMockAbstract.class).create().start().get();
+        activityController= Robolectric.buildActivity(LaunchActivityMockAbstract.class);
+        launchActivity=activityController.create().start().get();
         splashFragment =  new SplashFragment();
         launchActivity.getSupportFragmentManager().beginTransaction().add(splashFragment,null).commit();
 

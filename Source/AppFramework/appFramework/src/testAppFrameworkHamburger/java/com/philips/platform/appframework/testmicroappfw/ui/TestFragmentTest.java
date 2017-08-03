@@ -15,18 +15,17 @@ import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appframework.testmicroappfw.data.TestConfigManager;
 import com.philips.platform.appframework.testmicroappfw.models.Chapter;
 import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
-import com.philips.platform.appframework.testmicroappfw.ui.COCOListFragment;
-import com.philips.platform.appframework.testmicroappfw.ui.ChapterAdapter;
-import com.philips.platform.appframework.testmicroappfw.ui.TestFragment;
 
 import junit.framework.TestCase;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
+import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
@@ -39,7 +38,12 @@ public class TestFragmentTest extends TestCase implements TestConfigManager.Test
     private TestFragment testFragment;
     private ArrayList<Chapter> chapterArrayList;
     private TestConfigManager testConfigManager;
-
+    private ActivityController<TestActivity> activityController;
+    @After
+    public void tearDown(){
+        testFragment=null;
+        activityController.pause().stop().destroy();
+    }
     @Before
     public void setUp() throws Exception{
         super.setUp();
@@ -49,7 +53,8 @@ public class TestFragmentTest extends TestCase implements TestConfigManager.Test
 
     protected void setUpChapterList() {
         testConfigManager = TestConfigManager.getInstance();
-        hamburgerActivity = Robolectric.buildActivity(TestActivity.class).create().start().get();
+        activityController= Robolectric.buildActivity(TestActivity.class);
+        hamburgerActivity=activityController.create().start().get();
         testFragment = new TestFragment();
 
 

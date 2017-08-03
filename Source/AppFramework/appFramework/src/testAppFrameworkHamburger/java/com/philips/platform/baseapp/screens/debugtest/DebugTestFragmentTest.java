@@ -22,12 +22,12 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
+@Config(manifest = Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 public class DebugTestFragmentTest extends TestCase {
     private HamburgerActivity hamburgerActivity;
     private DebugTestFragment debugFragment;
     private FragmentActivity fragmentActivityMock;
-//    private AppFrameworkApplication appFrameworkApplication;
+    //    private AppFrameworkApplication appFrameworkApplication;
 
     @Before
     public void setUp() throws Exception {
@@ -35,16 +35,16 @@ public class DebugTestFragmentTest extends TestCase {
         super.setUp();
         hamburgerActivity = Robolectric.buildActivity(TestActivity.class).create().start().visible().get();
         debugFragment = new DebugTestFragment();
-        hamburgerActivity.getSupportFragmentManager().beginTransaction().add(debugFragment,"DebugFragmentTest").commit();
+        hamburgerActivity.getSupportFragmentManager().beginTransaction().add(debugFragment, "DebugFragmentTest").commit();
         fragmentActivityMock = mock(FragmentActivity.class);
 //        appFrameworkApplication = mock(AppFrameworkApplication.class);
     }
 
     @Test
-    public void testDebugFragment() throws Exception{
+    public void testDebugFragment() throws Exception {
         FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
         int fragmentCount = fragmentManager.getBackStackEntryCount();
-        assertEquals(1,fragmentCount);
+        assertEquals(1, fragmentCount);
     }
 
 //    @Test

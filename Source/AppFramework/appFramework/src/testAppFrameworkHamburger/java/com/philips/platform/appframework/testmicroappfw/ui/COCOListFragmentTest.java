@@ -19,12 +19,14 @@ import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
 
 import junit.framework.TestCase;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
+import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
@@ -36,12 +38,18 @@ import static org.mockito.Mockito.mock;
 public class COCOListFragmentTest extends TestCase {
     private HamburgerActivity hamburgerActivity = null;
     private COCOListFragmentMock cocoListFragment;
-
+    private ActivityController<TestActivity> activityController;
+    @After
+    public void tearDown(){
+        cocoListFragment=null;
+        activityController.pause().stop().destroy();
+    }
 
     @Before
     public void setUp() throws Exception{
         super.setUp();
-        hamburgerActivity = Robolectric.buildActivity(TestActivity.class).create().start().get();
+        activityController=Robolectric.buildActivity(TestActivity.class);
+        hamburgerActivity=activityController.create().start().get();
         cocoListFragment = setUpCoCoListFragmentBundle();
         hamburgerActivity.getSupportFragmentManager().beginTransaction().add(cocoListFragment,"CoCoListFragmentMock").commit();
     }

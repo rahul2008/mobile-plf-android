@@ -9,11 +9,13 @@ import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 import org.robolectric.fakes.RoboMenu;
 import org.robolectric.fakes.RoboMenuItem;
@@ -31,10 +33,16 @@ public class WebViewActivityTest {
     WebViewActivity webViewActivity;
 
     private Resources resource = null;
+    private ActivityController<WebViewActivityMock> activityController;
 
+    @After
+    public void tearDown(){
+        activityController.pause().stop().destroy();
+    }
     @Before
     public void setup() {
-        webViewActivity = Robolectric.setupActivity(WebViewActivityMock.class);
+        activityController=Robolectric.buildActivity(WebViewActivityMock.class);
+        webViewActivity=activityController.create().start().get();
         webViewActivity.updateActionBar(0,false);
         webViewActivity.updateActionBarIcon(false);
         webViewActivity.updateActionBar("",false);

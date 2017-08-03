@@ -14,11 +14,13 @@ import com.philips.platform.baseapp.screens.utility.Constants;
 
 import junit.framework.TestCase;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
@@ -26,14 +28,20 @@ import org.robolectric.annotation.Config;
 public class HomeFragmentTest extends TestCase{
     private HamburgerActivity hamburgerActivity;
     private HomeFragment homeFragment;
-    private static final String JAIL_BROKEN_ENABLED = "JAIL_BROKEN";
-    private static final String SCREEN_LOCK_DISABLED = "SCREEN_LOCK";
     private static final String JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED = "JAIL_BROKEN_SCREEN_LOCK";
+    private ActivityController<TestActivity> activityController;
 
+    @After
+    public void tearDown(){
+        activityController.pause().stop().destroy();
+        homeFragment=null;
+        hamburgerActivity=null;
+    }
     @Before
     public void setUp() throws Exception{
         super.setUp();
-        hamburgerActivity = Robolectric.buildActivity(TestActivity.class).create().start().get();
+        activityController=Robolectric.buildActivity(TestActivity.class);
+        hamburgerActivity=activityController.create().start().get();
         homeFragment = new HomeFragment();
         hamburgerActivity.getSupportFragmentManager().beginTransaction().add(homeFragment,"HomeFragmentTest").commit();
     }
