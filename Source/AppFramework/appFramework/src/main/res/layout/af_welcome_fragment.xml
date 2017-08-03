@@ -60,8 +60,18 @@
             android:paddingBottom="@dimen/margin_twelve"
             android:paddingTop="@dimen/margin_twelve"
             android:paddingRight="@dimen/margin_sixteen"
+            android:visibility="gone"
             android:src="@drawable/ic_right_arrow"/>
 
+        <ImageView
+            android:id="@+id/welcome_leftarrow"
+            style="@style/FontIcon.WelcomeArrow"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="@dimen/margin_twelve"
+            android:paddingTop="@dimen/margin_twelve"
+            android:paddingRight="@dimen/margin_sixteen"
+            android:src="@drawable/ic_right_arrow"/>
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/welcome_start_registration_button"
             fontPath="fonts/centralesansbook.ttf"
