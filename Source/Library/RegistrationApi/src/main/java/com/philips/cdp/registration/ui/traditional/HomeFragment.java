@@ -8,85 +8,47 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.app.*;
+import android.content.*;
 import android.content.res.Configuration;
-import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextPaint;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.text.style.URLSpan;
-import android.text.style.UnderlineSpan;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.os.*;
+import android.support.v4.content.*;
+import android.text.*;
+import android.text.method.*;
+import android.text.style.*;
+import android.view.*;
+import android.view.View.*;
+import android.widget.*;
 
-import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
-import com.philips.cdp.registration.app.tagging.AppTaggingPages;
-import com.philips.cdp.registration.app.tagging.AppTagingConstants;
-import com.philips.cdp.registration.configuration.AppConfiguration;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
-import com.philips.cdp.registration.events.EventHelper;
+import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.app.infra.*;
+import com.philips.cdp.registration.app.tagging.*;
+import com.philips.cdp.registration.configuration.*;
+import com.philips.cdp.registration.dao.*;
+import com.philips.cdp.registration.events.*;
 import com.philips.cdp.registration.events.EventListener;
-import com.philips.cdp.registration.events.NetworStateListener;
-import com.philips.cdp.registration.events.SocialProvider;
-import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
-import com.philips.cdp.registration.settings.RegistrationFunction;
-import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.settings.UserRegistrationInitializer;
-import com.philips.cdp.registration.ui.customviews.XProviderButton;
-import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.customviews.XTextView;
-import com.philips.cdp.registration.ui.customviews.countrypicker.CountryChangeListener;
-import com.philips.cdp.registration.ui.customviews.countrypicker.CountryPicker;
-import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
-import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.NetworkUtility;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.RegPreferenceUtility;
-import com.philips.cdp.registration.ui.utils.ThreadUtils;
-import com.philips.cdp.registration.ui.utils.URInterface;
-import com.philips.cdp.registration.wechat.WeChatAuthenticationListener;
-import com.philips.cdp.registration.wechat.WeChatAuthenticator;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
-import com.tencent.mm.sdk.modelbase.BaseResp;
-import com.tencent.mm.sdk.modelmsg.SendAuth;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.philips.cdp.registration.handlers.*;
+import com.philips.cdp.registration.settings.*;
+import com.philips.cdp.registration.ui.customviews.*;
+import com.philips.cdp.registration.ui.customviews.countrypicker.*;
+import com.philips.cdp.registration.ui.traditional.mobile.*;
+import com.philips.cdp.registration.ui.utils.*;
+import com.philips.cdp.registration.wechat.*;
+import com.philips.platform.appinfra.servicediscovery.*;
+import com.tencent.mm.sdk.modelbase.*;
+import com.tencent.mm.sdk.modelmsg.*;
+import com.tencent.mm.sdk.openapi.*;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableSingleObserver;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.android.schedulers.*;
+import io.reactivex.disposables.*;
+import io.reactivex.observers.*;
+import io.reactivex.schedulers.*;
 
 
 public class HomeFragment extends RegistrationBaseFragment implements OnClickListener,
@@ -440,28 +402,29 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             @Override
             public void onSuccess(String s, SOURCE source) {
                 RLog.d(RLog.SERVICE_DISCOVERY, " Country Sucess :" + s);
-                mCountryDisplay.setText(new Locale("", s.toUpperCase()).getDisplayCountry());
-                handleSocialProviders(s.toUpperCase());
-                CountryPicker countryPicker = new CountryPicker();
-                countryPicker.handleCountryList().contains(s.toUpperCase());
-                //Check provided country is presnt in list or no if yes then only do changes
+                String selectedCountryCode;
+                if (RegUtility.handleCountryList().contains(s.toUpperCase())) {
+                    selectedCountryCode = s.toUpperCase();
+                } else {
+                    selectedCountryCode = RegUtility.getFallbackCountryCode();
+                }
+                updateHomeCountryandLabel(selectedCountryCode);
+                handleSocialProviders(selectedCountryCode);
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
                 RLog.d(RLog.SERVICE_DISCOVERY, " Country Error :" + s);
-                String fallbackCountry = RegistrationConfiguration.getInstance().getFallBackHomeCountry();
-                String selectedCountryCode ;
-                if (null != fallbackCountry) {
-                    selectedCountryCode = fallbackCountry;
-                } else {
-                    selectedCountryCode = RegConstants.COUNTRY_CODE_US;
-                }
-                serviceDiscoveryInterface.setHomeCountry(selectedCountryCode.toUpperCase());
-                mCountryDisplay.setText(new Locale(Locale.getDefault().getLanguage(),
-                        selectedCountryCode).getDisplayCountry());
+                String selectedCountryCode = RegUtility.getFallbackCountryCode();
+                updateHomeCountryandLabel(selectedCountryCode);
             }
         });
+    }
+
+    private void updateHomeCountryandLabel(String selectedCountryCode) {
+        serviceDiscoveryInterface.setHomeCountry(selectedCountryCode);
+        mCountryDisplay.setText(new Locale("",
+                selectedCountryCode).getDisplayCountry());
     }
 
     private void showCountrySelection() {
@@ -934,8 +897,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         hideProviderProgress();
         enableControls(true);
 
-        boolean isEmailAvailable = mUser.getEmail() != null && FieldsValidator.isValidEmail( mUser.getEmail());
-        boolean isMobileNoAvailable = mUser.getMobile() != null && FieldsValidator.isValidMobileNumber( mUser.getMobile());
+        boolean isEmailAvailable = mUser.getEmail() != null && FieldsValidator.isValidEmail(mUser.getEmail());
+        boolean isMobileNoAvailable = mUser.getMobile() != null && FieldsValidator.isValidMobileNumber(mUser.getMobile());
         if (isEmailAvailable && isMobileNoAvailable && !mUser.isEmailVerified()) {
             launchAccountActivationFragment();
             return;
