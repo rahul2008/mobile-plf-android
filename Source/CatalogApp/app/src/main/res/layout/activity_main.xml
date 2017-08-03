@@ -5,6 +5,12 @@
     <data>
     </data>
 
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/sidebar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
     <com.philips.platform.uid.view.widget.NavigationContainer
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -34,4 +40,28 @@
             </FrameLayout>
         </LinearLayout>
     </com.philips.platform.uid.view.widget.NavigationContainer>
+
+    <!--    <include
+            android:id="@+id/sidebar_recyclerview"
+            layout="@layout/uid_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start" />-->
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/navigation_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:maxWidth="320dp"
+            android:layout_gravity="start"
+            android:background="@color/uidColorWhite">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/sidebar_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </android.support.design.widget.NavigationView>
+
+    </android.support.v4.widget.DrawerLayout>
 </layout>

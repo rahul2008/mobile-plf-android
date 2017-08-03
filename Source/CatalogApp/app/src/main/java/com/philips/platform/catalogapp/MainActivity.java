@@ -10,22 +10,44 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableArrayList;
 import android.databinding.ViewDataBinding;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StyleRes;
 import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.Snackbar;
+import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.philips.platform.catalogapp.events.*;
+import com.philips.platform.catalogapp.fragments.SideBarFragment;
 import com.philips.platform.catalogapp.themesettings.ThemeHelper;
 import com.philips.platform.uid.thememanager.*;
 import com.philips.platform.uid.utils.UIDActivity;
+import com.philips.platform.uid.utils.UIDContextWrapper;
 import com.philips.platform.uid.utils.UIDLocaleHelper;
+import com.philips.platform.uid.view.widget.Label;
+import com.philips.platform.uid.view.widget.SideBar;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -45,6 +67,10 @@ public class MainActivity extends UIDActivity {
     private ViewDataBinding activityMainBinding;
     private SharedPreferences defaultSharedPreferences;
     private AccentRange accentColorRange;
+
+    private DrawerLayout sideBarLayout;
+    private ActionBarDrawerToggle drawerToggle;
+    private RecyclerView recyclerView;
 
     static String toCamelCase(String s) {
         String[] parts = s.split("_");
@@ -75,7 +101,135 @@ public class MainActivity extends UIDActivity {
         EventBus.getDefault().register(this);
         navigationController = new NavigationController(this, getIntent(), activityMainBinding);
         navigationController.init(savedInstanceState);
+
+        sideBarLayout = (DrawerLayout) findViewById(R.id.sidebar_layout);
+        drawerToggle = setupDrawerToggle();
+        recyclerView = ((RecyclerView) findViewById(R.id.sidebar_recyclerview));
+
+        //enableRecyclerViewSeparator(separatorItemDecoration, recyclerView);
+        initializeRecyclerView(this);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        drawerToggle.setHomeAsUpIndicator(VectorDrawableCompat.create(getResources(), R.drawable.ic_hamburger_icon, getTheme()));
+        drawerToggle.setDrawerIndicatorEnabled(false);
+        drawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // event when click home button
+                if (navigationController.hasBackStack()) {
+                    onBackPressed();
+                } else {
+                    //showSnackBar();
+                    sideBarLayout.openDrawer(GravityCompat.START);
+                }
+            }
+        });
     }
+
+    private ActionBarDrawerToggle setupDrawerToggle() {
+        return new ActionBarDrawerToggle(this, sideBarLayout, navigationController.getToolbar(), R.string.sidebar_open,  R.string.sidebar_close){
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
+
+                super.onDrawerOpened(drawerView);
+            }
+        };
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerToggle.syncState();
+    }
+
+    private void initializeRecyclerView(Context context) {
+        DataHolderView dataHolderView = getIconDataHolderView(context);
+        recyclerView.setAdapter(new MainActivity.RecyclerViewAdapter(dataHolderView.dataHolders));
+        //findViewById(R.id.uid_recyclerview_header).setVisibility(View.GONE);
+    }
+
+    @NonNull
+    private DataHolderView getIconDataHolderView(Context context) {
+        DataHolderView dataHolderView = new DataHolderView();
+        dataHolderView.addIconItem(R.drawable.ic_add_folder, R.string.menu1, context);
+        dataHolderView.addIconItem(R.drawable.ic_home, R.string.menu2, context);
+        dataHolderView.addIconItem(R.drawable.ic_lock, R.string.menu3, context);
+        dataHolderView.addIconItem(R.drawable.ic_alarm, R.string.menu4, context);
+        dataHolderView.addIconItem(R.drawable.ic_bottle, R.string.menu5, context);
+        dataHolderView.addIconItem(R.drawable.ic_location, R.string.menu6, context);
+        return dataHolderView;
+    }
+
+    class RecyclerViewAdapter extends RecyclerView.Adapter {
+        private ObservableArrayList<DataHolder> dataHolders;
+
+        public RecyclerViewAdapter(@NonNull final ObservableArrayList<DataHolder> dataHolders) {
+            this.dataHolders = dataHolders;
+        }
+
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_one_line_icon, parent, false);
+            MainActivity.RecyclerViewAdapter.BindingHolder holder = new MainActivity.RecyclerViewAdapter.BindingHolder(v);
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
+            final DataHolder dataHolder = dataHolders.get(position);
+            ((MainActivity.RecyclerViewAdapter.BindingHolder) holder).getBinding().setVariable(1, dataHolder);
+            ((MainActivity.RecyclerViewAdapter.BindingHolder) holder).getBinding().executePendingBindings();
+
+            Resources.Theme theme = ThemeUtils.getTheme(holder.itemView.getContext(), null);
+            Context themedContext = UIDContextWrapper.getThemedContext(holder.itemView.getContext(), theme);
+            ColorStateList colorStateList = ThemeUtils.buildColorStateList(themedContext, R.color.uid_recyclerview_background_selector);
+            final int selectedStateColor = colorStateList.getDefaultColor();
+
+            ((MainActivity.RecyclerViewAdapter.BindingHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    boolean isSelected = holder.itemView.isSelected();
+                    holder.itemView.setSelected(!isSelected);
+                    holder.itemView.setBackgroundColor(isSelected ? Color.TRANSPARENT : selectedStateColor);
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return dataHolders.size();
+        }
+
+        class BindingHolder extends RecyclerView.ViewHolder {
+            private ViewDataBinding binding;
+
+            public BindingHolder(@NonNull View rowView) {
+                super(rowView);
+                binding = DataBindingUtil.bind(rowView);
+            }
+
+            public ViewDataBinding getBinding() {
+                return binding;
+            }
+        }
+    }
+
 
     private void initTheme() {
         final ThemeConfiguration themeConfig = getThemeConfig();
@@ -150,12 +304,13 @@ public class MainActivity extends UIDActivity {
                 saveThemeSettings();
                 restartActivity();
                 break;
-            case android.R.id.home:
+            /*case android.R.id.home:
                 if (navigationController.hasBackStack()) {
                     onBackPressed();
                 } else {
-                    showSnackBar();
-                }
+                    //showSnackBar();
+                    sideBarLayout.openDrawer(GravityCompat.START);
+                }*/
         }
 
         return true;
