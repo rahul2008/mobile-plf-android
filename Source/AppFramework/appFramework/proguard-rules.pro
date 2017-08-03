@@ -430,11 +430,7 @@ public static <fields>;
 -keep interface com.android.volley.** { *; }
 -keep class org.apache.commons.logging.**
 
--keep public interface com.philips.platform.appinfra.AppInfraInterface.** { *; }
--keep public interface com.philips.platform.appinfra.logging.LoggingInterface.** { *; }
 -keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
 -keep public class com.philips.platform.appinfra.languagepack.model.** { *; }
--keep public interface com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.** { *; }
--keep public interface com.philips.platform.appinfra.securestorage.SecureStorageInterface.** { *; }
 
 #-----------------------------app infra ends here-----------------------------------
