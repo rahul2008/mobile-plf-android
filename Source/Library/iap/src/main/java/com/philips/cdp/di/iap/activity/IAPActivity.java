@@ -22,7 +22,6 @@ import com.philips.cdp.di.iap.analytics.IAPAnalytics;
 import com.philips.cdp.di.iap.analytics.IAPAnalyticsConstant;
 import com.philips.cdp.di.iap.cart.IAPCartListener;
 import com.philips.cdp.di.iap.container.CartModelContainer;
-import com.philips.cdp.di.iap.controller.ControllerFactory;
 import com.philips.cdp.di.iap.integration.IAPLaunchInput;
 import com.philips.cdp.di.iap.integration.IAPListener;
 import com.philips.cdp.di.iap.screens.BuyDirectFragment;
@@ -66,6 +65,7 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
             dismissProgressDialog();
         }
     };
+    private View actionBarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +73,23 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.iap_activity);
 
-        actionBar();
+        actionBarView=(View)findViewById(R.id.action_bar_view);
+        createActionBar();
 
         addLandingViews(savedInstanceState);
     }
 
-    private void actionBar() {
+    public void hideActionBar(){
+        actionBarView.animate().alpha(0.0f);
+        actionBarView.setVisibility(View.GONE);
+    }
+
+    public void showActionBar(){
+        actionBarView.animate().alpha(1.0f);
+        actionBarView.setVisibility(View.VISIBLE);
+    }
+
+    private void createActionBar() {
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.iap_header_back_button);
         frameLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +107,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         mCartContainer = (FrameLayout) findViewById(R.id.cart_container);
         ImageView mCartIcon = (ImageView) findViewById(R.id.cart_icon);
         mCountText = (TextView) findViewById(R.id.item_count);
-        if (!ControllerFactory.getInstance().isPlanB()) {
             Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
             mCartIcon.setBackground(mCartIconDrawable);
             mCartIcon.setOnClickListener(new View.OnClickListener() {
@@ -106,11 +116,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
                 }
             });
 
-
-        } else {
-            mCartIcon.setVisibility(View.GONE);
-            mCountText.setVisibility(View.GONE);
-        }
     }
 
     private void addLandingViews(Bundle savedInstanceState) {

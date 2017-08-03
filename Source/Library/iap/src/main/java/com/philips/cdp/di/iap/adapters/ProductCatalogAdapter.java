@@ -10,9 +10,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -25,26 +28,45 @@ import com.philips.cdp.di.iap.products.ProductCatalogData;
 import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
+import com.philips.platform.uid.text.utils.UIDStringUtils;
+import com.philips.platform.uid.view.widget.SearchBox;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final int EMPTY_VIEW = 10;
     private final ImageLoader mImageLoader;
     private Context mContext;
 
-    private ArrayList<ProductCatalogData> mProductCatalogList = new ArrayList<>();
+    private ArrayList<ProductCatalogData> mProductCatalogList ;
     private ProductCatalogData mSelectedProduct;
 
-    public ProductCatalogAdapter(Context pContext, ArrayList<ProductCatalogData> pArrayList) {
+    private Filter productFilter = new ProductListFilter();
+    private CharSequence query;
+
+    private ArrayList<ProductCatalogData> mProductCatalogListToFilter ;
+    private String mCharacterText="";
+
+    public ProductCatalogAdapter(Context pContext, ArrayList<ProductCatalogData> mProductCatalogList) {
         mContext = pContext;
-        mProductCatalogList = pArrayList;
+        this.mProductCatalogList = mProductCatalogList;
+        mProductCatalogListToFilter= mProductCatalogList;
         mImageLoader = NetworkImageLoader.getInstance(mContext).getImageLoader();
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+
+        if (viewType == EMPTY_VIEW) {
+           View  v = LayoutInflater.from(parent.getContext()).inflate(R.layout.empty_view, parent, false);
+            EmptyViewHolder evh = new EmptyViewHolder(v);
+            return evh;
+        }
+
         View v = LayoutInflater.from(parent.getContext()).
                 inflate(R.layout.iap_product_catalog_item, parent, false);
         return new ProductCatalogViewHolder(v);
@@ -52,6 +74,14 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+
+        if(holder instanceof EmptyViewHolder){
+            CharSequence text = String.format((mContext.getResources().getText(R.string.iap_zero_results)).toString(), mCharacterText);
+            ((EmptyViewHolder) holder).tvEmptyMsg.setText(text);
+            mCharacterText="";
+            return;
+        }
+
         ProductCatalogData productCatalogData = mProductCatalogList.get(holder.getAdapterPosition());
         ProductCatalogViewHolder productHolder = (ProductCatalogViewHolder) holder;
 
@@ -121,7 +151,16 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public int getItemCount() {
-        return mProductCatalogList.size();
+        //return mProductCatalogList.size();
+        return mProductCatalogList.size() > 0 ? mProductCatalogList.size() : 1;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mProductCatalogList.size() == 0) {
+            return EMPTY_VIEW;
+        }
+        return super.getItemViewType(position);
     }
 
     public void tagProducts() {
@@ -144,6 +183,29 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.PRODUCTS, products.toString());
         }
+    }
+
+    public void setData(ArrayList<ProductCatalogData> mProductCatalogList){
+     this.mProductCatalogList=mProductCatalogList;
+    }
+
+    // Filter Class
+    public void filter(String charText) {
+        mCharacterText=charText;
+        charText = charText.toLowerCase(Locale.getDefault());
+        ArrayList<ProductCatalogData> lFilteredProductList=new ArrayList<>();
+        if (charText.length() == 0) {
+            // Show no product found view
+        } else {
+            for (ProductCatalogData wp : mProductCatalogListToFilter) {
+                if (wp.getProductTitle().toLowerCase(Locale.getDefault()).contains(charText)) {
+                    lFilteredProductList.add(wp);
+                }
+            }
+        }
+
+        setData(lFilteredProductList);
+        notifyDataSetChanged();
     }
 
     private class ProductCatalogViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -171,6 +233,45 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             this.itemView.setSelected(!isSelected);
             this.itemView.setBackgroundColor(isSelected ? Color.TRANSPARENT : ContextCompat.getColor(this.itemView.getContext(), R.color.uid_recyclerview_background_selector));
             setTheProductDataForDisplayingInProductDetailPage(getAdapterPosition());
+        }
+    }
+
+    public class EmptyViewHolder extends RecyclerView.ViewHolder {
+
+        TextView tvEmptyMsg;
+        public EmptyViewHolder(View itemView) {
+            super(itemView);
+            tvEmptyMsg= (TextView) itemView.findViewById(R.id.tv_empty_list_msg);
+        }
+    }
+
+
+    private class ProductListFilter extends Filter {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults results = new FilterResults();
+            ArrayList<ProductCatalogData> resultList = new ArrayList<>();
+            if (!TextUtils.isEmpty(constraint)) {
+                for (ProductCatalogData product : mProductCatalogList) {
+                    if (UIDStringUtils.indexOfSubString(true, product.getProductTitle(), constraint) >= 0) {
+                        resultList.add(product);
+                    }
+                }
+            }
+
+            results.values = resultList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            List<ProductCatalogData> filteredList = (List<ProductCatalogData>) results.values;
+            if ((query.length() > 0) && filteredList.size() <= 0) {
+                // filteredList.add();
+                //show default empty text
+            }
+            ProductCatalogAdapter.this.notifyDataSetChanged();
         }
     }
 }

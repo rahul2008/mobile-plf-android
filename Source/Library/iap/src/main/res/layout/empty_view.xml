@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/border16_margin_left_right">
+
+    <TextView
+        android:id="@+id/tv_empty_list_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="EMpty View found"
+        android:background="@color/uikit_white"
+        android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+        android:textSize="16sp"
+        android:drawableLeft="@android:drawable/ic_menu_info_details"
+        />
+
+</LinearLayout>
