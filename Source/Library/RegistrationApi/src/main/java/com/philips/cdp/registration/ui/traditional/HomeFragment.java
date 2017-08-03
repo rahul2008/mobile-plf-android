@@ -554,7 +554,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         RLog.d(RLog.SERVICE_DISCOVERY, "Change Country code :" + RegistrationHelper.getInstance().getCountryCode());
         handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
         mCountryDisplay.setText(countryName);
-        hideProgressDialog();
+       // hideProgressDialog();
     }
 
     int mFlowId = 0;//1 for create account 2 :Philips sign in 3 : Social login
@@ -706,6 +706,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                         hideProviderProgress();
                     }
                 } else {
+                    makeProgressVisible();
                     mUser.loginUserUsingSocialProvider(getActivity(), mProvider, this, null);
                 }
 
@@ -1038,9 +1039,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     public void onContinueSocialProviderLoginSuccess() {
 
         RLog.i(RLog.CALLBACK, "HomeFragment : onContinueSocialProviderLoginSuccess");
+        launchWelcomeFragment();
         hideProviderProgress();
         enableControls(true);
-        launchWelcomeFragment();
     }
 
     @Override
