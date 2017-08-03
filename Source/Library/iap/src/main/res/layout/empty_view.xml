@@ -12,7 +12,7 @@
         android:background="@color/uikit_white"
         android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
         android:textSize="16sp"
-        android:drawableLeft="@android:drawable/ic_menu_info_details"
+        android:drawableStart="@android:drawable/ic_menu_info_details"
         />
 
 </LinearLayout>
