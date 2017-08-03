@@ -24,7 +24,7 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
 
     public ApplicationLifeCycleHandler(AppInfra appInfra) {
         mAppInfra = appInfra;
-        mAppTaggingInterface = appInfra.getTagging();
+        mAppTaggingInterface = mAppInfra.getTagging();
     }
 
 
@@ -70,6 +70,8 @@ public class ApplicationLifeCycleHandler implements Application.ActivityLifecycl
 
     @Override
     public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
+        mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.VERBOSE,
+                AppInfraLogEventID.AI_TAGGING, "ApplicationLifeCycleHandler SaveInstanceState");
     }
 
     @Override
