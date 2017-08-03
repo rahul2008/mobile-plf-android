@@ -789,12 +789,9 @@ public class DataServicesManager {
      * @return returns the Base Url
      */
     public String fetchBaseUrlFromServiceDiscovery() {
-
-        return "http://10.0.2.2:8080";
-       /* if (mDataServicesBaseUrl != null) {
+       if (mDataServicesBaseUrl != null) {
             return mDataServicesBaseUrl;
         }
-
 
         mServiceDiscoveryInterface.getServiceUrlWithCountryPreference(DataServicesConstants.BASE_URL_KEY, new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
@@ -812,7 +809,7 @@ public class DataServicesManager {
                         }
                     }
                 });
-        return mDataServicesBaseUrl;*/
+        return mDataServicesBaseUrl;
     }
 
     /**
