@@ -536,5 +536,5 @@ project.afterEvaluate {
 tasks.withType(Test) {
     ignoreFailures = true
     maxParallelForks = Runtime.runtime.availableProcessors()
-    jvmArgs '-Xms3g -Xmx3g -XX:MaxPermSize=3g -XX:+HeapDumpOnOutOfMemoryError'
+    maxHeapSize="2048m"
 }
