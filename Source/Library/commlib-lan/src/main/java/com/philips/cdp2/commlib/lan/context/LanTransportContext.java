@@ -5,12 +5,7 @@
 
 package com.philips.cdp2.commlib.lan.context;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
@@ -20,9 +15,12 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
+import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
+import com.philips.cdp2.commlib.core.util.ConnectivityMonitor.ConnectivityListener;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
 import com.philips.cdp2.commlib.lan.discovery.LanDiscoveryStrategy;
+import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -35,46 +33,35 @@ public class LanTransportContext implements TransportContext {
 
     private static final String TAG = "LanTransportContext";
 
-    private LanDeviceCache deviceCache;
-
+    private final LanDeviceCache deviceCache;
     @NonNull
     private final DiscoveryStrategy discoveryStrategy;
+    private final ConnectivityMonitor connectivityMonitor;
+    private final WifiNetworkProvider wifiNetworkProvider;
 
-    private final BroadcastReceiver networkChangedReceiver = new BroadcastReceiver() {
+    private ConnectivityListener lanConnectivityListener = new ConnectivityListener() {
         @Override
-        public void onReceive(Context context, Intent intent) {
-            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-
-            isAvailable = networkInfo != null && networkInfo.getType() == TYPE_WIFI && networkInfo.isConnected();
+        public void onConnectivityChanged(boolean isConnected) {
+            isAvailable = isConnected;
         }
     };
 
     private boolean isAvailable;
 
     public LanTransportContext(@NonNull final Context context) {
-        this.deviceCache = new LanDeviceCache(Executors.newSingleThreadScheduledExecutor());
-        setupNetworkChangedReceiver(context);
+        this.connectivityMonitor = ConnectivityMonitor.forNetworkTypes(context, TYPE_WIFI);
+        this.connectivityMonitor.addConnectivityListener(lanConnectivityListener);
 
+        this.wifiNetworkProvider = WifiNetworkProvider.get(context);
+
+        this.deviceCache = new LanDeviceCache(Executors.newSingleThreadScheduledExecutor());
         this.discoveryStrategy = createLanDiscoveryStrategy();
     }
 
     @VisibleForTesting
     @NonNull
     DiscoveryStrategy createLanDiscoveryStrategy() {
-        return new LanDiscoveryStrategy(this.deviceCache);
-    }
-
-    private void setupNetworkChangedReceiver(final @NonNull Context context) {
-        IntentFilter filter = createIntentFilter();
-        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        context.registerReceiver(networkChangedReceiver, filter);
-    }
-
-    @VisibleForTesting
-    @NonNull
-    IntentFilter createIntentFilter() {
-        return new IntentFilter();
+        return new LanDiscoveryStrategy(deviceCache, connectivityMonitor, wifiNetworkProvider);
     }
 
     @Override

@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.util;
+package com.philips.cdp2.commlib.lan.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -12,20 +12,25 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.NetworkRequest;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import com.philips.cdp.dicommclient.util.DICommLog;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
-public final class WifiNetworkProvider {
+public class WifiNetworkProvider {
 
     private static final int WIFI_NETWORK_TIMEOUT_SECONDS = 3;
 
     private final ConnectivityManager connectivityManager;
     private static WifiNetworkProvider instance;
+    private final WifiManager wifiManager;
 
     public static WifiNetworkProvider get(final @NonNull Context context) {
         if (instance == null) {
@@ -35,7 +40,8 @@ public final class WifiNetworkProvider {
     }
 
     private WifiNetworkProvider(final @NonNull Context context) {
-        this.connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        this.connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        this.wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
     }
 
     @Nullable
@@ -80,5 +86,9 @@ public final class WifiNetworkProvider {
             connectivityManager.unregisterNetworkCallback(networkCallback);
         }
         return result.get();
+    }
+
+    public WifiInfo getWifiInfo() {
+        return wifiManager.getConnectionInfo();
     }
 }

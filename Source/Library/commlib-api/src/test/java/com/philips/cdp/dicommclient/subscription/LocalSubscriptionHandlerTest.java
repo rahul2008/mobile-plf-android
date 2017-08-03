@@ -128,7 +128,6 @@ public class LocalSubscriptionHandlerTest extends RobolectricTest {
         mLocalSubscriptionHandler.onUDPEventReceived(data, APPLIANCE_IP);
 
         //verify(mSubscriptionEventListener,never()).onSubscriptionEventReceived(VALID_DECRYPTED_LOCALAIRPORTEVENT);
-        // TODO:DICOMM Refactor, we do not check the decrypted data here as before
         verify(mSubscriptionEventResponseHandler, never()).post(any(Runnable.class));
     }
 

@@ -23,7 +23,7 @@ import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp.dicommclient.util.DICommLog.Verbosity;
 import com.philips.cdp.dicommclient.util.GsonProvider;
-import com.philips.cdp.dicommclient.util.WifiNetworkProvider;
+import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.cdp2.commlib.core.util.ContextProvider;
 

@@ -30,8 +30,8 @@ import org.mockito.stubbing.Answer;
 import java.util.HashSet;
 import java.util.Set;
 
-import static android.net.ConnectivityManager.*;
 import static android.net.ConnectivityManager.TYPE_WIFI;
+import static android.net.ConnectivityManager.TYPE_WIMAX;
 import static com.philips.cdp2.commlib.lan.context.LanTransportContext.acceptNewPinFor;
 import static com.philips.cdp2.commlib.lan.context.LanTransportContext.findAppliancesWithMismatchedPinIn;
 import static com.philips.cdp2.commlib.lan.context.LanTransportContext.rejectNewPinFor;
@@ -41,7 +41,6 @@ import static junit.framework.Assert.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -73,6 +72,8 @@ public class LanTransportContextTest {
 
         HandlerProvider.enableMockedHandler(handlerMock);
         DICommLog.disableLogging();
+
+        when(contextMock.getApplicationContext()).thenReturn(contextMock);
     }
 
     @Test
@@ -183,12 +184,6 @@ public class LanTransportContextTest {
             DiscoveryStrategy createLanDiscoveryStrategy() {
                 return lanDiscoveryStrategyMock;
             }
-
-            @NonNull
-            @Override
-            IntentFilter createIntentFilter() {
-                return mock(IntentFilter.class);
-            }
         };
 
         assertThat(lanTransportContext.isAvailable()).isTrue();
@@ -213,12 +208,6 @@ public class LanTransportContextTest {
             @Override
             DiscoveryStrategy createLanDiscoveryStrategy() {
                 return lanDiscoveryStrategyMock;
-            }
-
-            @NonNull
-            @Override
-            IntentFilter createIntentFilter() {
-                return mock(IntentFilter.class);
             }
         };
 
@@ -245,12 +234,6 @@ public class LanTransportContextTest {
             DiscoveryStrategy createLanDiscoveryStrategy() {
                 return lanDiscoveryStrategyMock;
             }
-
-            @NonNull
-            @Override
-            IntentFilter createIntentFilter() {
-                return mock(IntentFilter.class);
-            }
         };
 
         assertThat(lanTransportContext.isAvailable()).isFalse();
@@ -264,12 +247,6 @@ public class LanTransportContextTest {
             @Override
             DiscoveryStrategy createLanDiscoveryStrategy() {
                 return lanDiscoveryStrategyMock;
-            }
-
-            @NonNull
-            @Override
-            IntentFilter createIntentFilter() {
-                return mock(IntentFilter.class);
             }
         };
 

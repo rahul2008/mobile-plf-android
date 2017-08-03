@@ -99,7 +99,7 @@ public class RequestQueue {
 
     private synchronized void initializeRequestHandler(Looper looper) {
     	DICommLog.d(DICommLog.REQUESTQUEUE, "Initializing requestHandler");
-        mRequestHandler = new Handler(looper);
+        mRequestHandler = HandlerProvider.createHandler(looper);
         for (Request request : threadNotYetStartedQueue) {
             postRequestOnBackgroundThread(request);
             DICommLog.d(DICommLog.REQUESTQUEUE, "Added new request - pending due to Thread not started");

@@ -54,7 +54,6 @@ public class ICPCallbackHandler implements CallbackHandler {
                 mListener.onICPCallbackEventOccurred(Commands.KEY_PROVISION, status, obj);
                 break;
             case Commands.FETCH_EVENTS:
-                // TODO Check if this is correct (seems swapped with next case)
                 mListener.onICPCallbackEventOccurred(Commands.EVENT_DISTRIBUTION_LIST, status, obj);
                 break;
             case Commands.CANCEL_EVENT:

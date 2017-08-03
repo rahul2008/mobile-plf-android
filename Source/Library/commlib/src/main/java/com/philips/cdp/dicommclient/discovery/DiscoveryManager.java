@@ -194,7 +194,7 @@ public class DiscoveryManager<T extends Appliance> {
     /*private NetworkChangedListener mNetworkChangedCallback = new NetworkChangedListener() {
 
         @Override
-        public void onNetworkChanged(NetworkState networkState, String networkSsid) {
+        public void onConnectivityChanged(NetworkState networkState, String networkSsid) {
             // REMARK: Wifi switch will go through the none state
             cancelConnectViaCppAfterLocalAttempt();
             synchronized (mDiscoveryLock) {

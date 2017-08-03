@@ -54,7 +54,6 @@ public class WifiUIPort extends DICommPort<WifiUIPortProperties> {
 
 	@Override
 	public boolean supportsSubscription() {
-	    // TODO DIComm Refactor check if subscription to deviceport is necessary
 		return false;
 	}
 
