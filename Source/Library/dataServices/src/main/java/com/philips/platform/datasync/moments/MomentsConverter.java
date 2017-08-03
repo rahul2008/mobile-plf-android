@@ -186,6 +186,7 @@ public class MomentsConverter {
         try {
             uCoreMoment.setTimestamp(moment.getDateTime().toString());
             String momentTypeString = moment.getType();
+
             uCoreMoment.setType(momentTypeString);
             List<UCoreDetail> uCoreMomentList = new ArrayList<>();
 
