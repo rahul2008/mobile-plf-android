@@ -88,9 +88,14 @@
 
 
 #appinfra
--keep public class com.philips.platform.appinfra.AppInfra.** { *; }
--keep public interface com.philips.platform.appinfra.AppInfraInterface.** { *; }
--keep public interface com.philips.platform.appinfra.logging.LoggingInterface.** { *; }
+#-keep public class com.philips.platform.appinfra.AppInfra.** { *; }
+#-keep public interface com.philips.platform.appinfra.AppInfraInterface.** { *; }
+#-keep public interface com.philips.platform.appinfra.logging.LoggingInterface.** { *; }
+#-keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
+#-keep public interface com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.** { *; }
+#-keep public interface com.philips.platform.appinfra.securestorage.SecureStorageInterface.** { *; }
+
+
+#appinfra
 -keep public class com.philips.platform.appinfra.rest.request.GsonCustomRequest.** { *; }
--keep public interface com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface.** { *; }
--keep public interface com.philips.platform.appinfra.securestorage.SecureStorageInterface.** { *; }
+-keep public class com.philips.platform.appinfra.languagepack.model.** { *; }
