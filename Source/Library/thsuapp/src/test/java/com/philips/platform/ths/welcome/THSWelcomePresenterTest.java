@@ -1,6 +1,7 @@
 package com.philips.platform.ths.welcome;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.FragmentActivity;
 
 import com.americanwell.sdk.AWSDK;
@@ -11,6 +12,7 @@ import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.americanwell.sdk.manager.SDKCallback;
+import com.philips.cdp.registration.User;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
@@ -79,6 +81,12 @@ public class THSWelcomePresenterTest {
     @Mock
     Button buttonMock;
 
+    @Mock
+    User userMock;
+
+    @Mock
+    ConsumerManager consumerManagerMock;
+
 
     @Before
     public void setUp() {
@@ -86,6 +94,9 @@ public class THSWelcomePresenterTest {
         pTHBaseViewMock.mInitButton = buttonMock;
         pthWelcomePresenter = new THSWelcomePresenter(pTHBaseViewMock);
         THSManager.getInstance().setAwsdk(awsdk);
+        THSManager.getInstance().setUser(userMock);
+        THSManager.getInstance().TEST_FLAG = true;
+        when(userMock.getHsdpUUID()).thenReturn("abc");
         when(pTHBaseViewMock.getFragmentActivity()).thenReturn(activityMock);
     }
 
@@ -124,8 +135,9 @@ public class THSWelcomePresenterTest {
 
     @Test
     public void onInitializationResponse() throws Exception {
-       pthWelcomePresenter.onInitializationResponse(null, THSSDKError);
-        verify(awsdk).authenticate(anyString(),anyString(),anyString(),any(SDKCallback.class));
+        when(awsdk.getConsumerManager()).thenReturn(consumerManagerMock);
+        pthWelcomePresenter.onInitializationResponse(null, THSSDKError);
+        verify(consumerManagerMock).checkConsumerExists(anyString(), any(SDKCallback.class));
     }
 
     @Test
@@ -144,17 +156,18 @@ public class THSWelcomePresenterTest {
 
     @Test
     public void authenticateThrowsAWSDKInstantiationException() throws Exception {
-        doThrow(AWSDKInstantiationException.class).when(awsdk).authenticate(anyString(),anyString(),anyString(),any(SDKCallback.class));
+        when(awsdk.getConsumerManager()).thenReturn(consumerManagerMock);
+        doThrow(AWSDKInstantiationException.class).when(consumerManagerMock).checkConsumerExists(anyString(),any(SDKCallback.class));
         pthWelcomePresenter.onInitializationResponse(null, THSSDKError);
-        verify(awsdk).authenticate(anyString(),anyString(),anyString(),any(SDKCallback.class));
+        verify(consumerManagerMock).checkConsumerExists(anyString(),any(SDKCallback.class));
     }
 
-   @Test
+    @Test
     public void onLoginResponse() throws Exception {
         when(THSAuthenticationMock.getAuthentication()).thenReturn(authenticationMock);
         when(awsdk.getConsumerManager()).thenReturn(ConsumerManagerMock);
         pthWelcomePresenter.onLoginResponse(THSAuthenticationMock, THSSDKError);
-        verify(ConsumerManagerMock, atLeast(1)).getConsumer(any(Authentication.class),any(SDKCallback.class));
+        verify(ConsumerManagerMock, atLeast(1)).getConsumer(any(Authentication.class), any(SDKCallback.class));
     }
 
      @Test

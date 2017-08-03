@@ -120,6 +120,12 @@ public class THSManager {
     private THSVisitContext mVisitContext = null;
     private THSVisit  mTHSVisit;
 
+    @VisibleForTesting
+    private User mUser;
+
+    @VisibleForTesting
+    public boolean TEST_FLAG = false;
+
 
     public THSVisit getTHSVisit() {
         return mTHSVisit;
@@ -184,7 +190,7 @@ public class THSManager {
     }
 
     public void authenticateMutualAuthToken(Context context,final THSLoginCallBack THSLoginCallBack) throws AWSDKInstantiationException {
-        User user = new User(context);
+        User user = getUser(context);
         String token = user.getHsdpUUID()+":" + "DataCore:" + user.getHsdpAccessToken();
         getAwsdk(context).authenticateMutual(token, new SDKCallback<Authentication, SDKError>() {
             @Override
@@ -222,7 +228,7 @@ public class THSManager {
 
     public void checkConsumerExists(final Context context, final THSCheckConsumerExistsCallback thsCheckConsumerExistsCallback) throws AWSDKInstantiationException {
 
-        getAwsdk(context).getConsumerManager().checkConsumerExists(new User(context).getHsdpUUID(), new SDKCallback<Boolean, SDKError>() {
+        getAwsdk(context).getConsumerManager().checkConsumerExists(getUser(context).getHsdpUUID(), new SDKCallback<Boolean, SDKError>() {
             @Override
             public void onResponse(Boolean aBoolean, SDKError sdkError) {
                 THSSDKError thssdkError = new THSSDKError();
@@ -235,6 +241,14 @@ public class THSManager {
                 thsCheckConsumerExistsCallback.onFailure(throwable);
             }
         });
+    }
+
+    @NonNull
+    public User getUser(Context context) {
+        if(TEST_FLAG){
+            return mUser;
+        }
+        return new User(context);
     }
 
     public void enrollConsumer(final Context context, Date dateOfBirth,String firstName,String lastName,Gender gender,State state,final THSSDKValidatedCallback thssdkValidatedCallback) throws AWSDKInstantiationException {
@@ -268,7 +282,7 @@ public class THSManager {
     private ConsumerEnrollment getConsumerEnrollment(Context context, Date dateOfBirth, String firstName, String lastName, Gender gender, State state) throws AWSDKInstantiationException {
         final ConsumerEnrollment newConsumerEnrollment = getAwsdk(context).getConsumerManager().getNewConsumerEnrollment();
         newConsumerEnrollment.setAcceptedDisclaimer(true);
-        final User user = new User(context);
+        final User user = getUser(context);
         newConsumerEnrollment.setSourceId(user.getHsdpUUID());
         newConsumerEnrollment.setConsumerAuthKey(user.getHsdpUUID());
 
@@ -1158,4 +1172,8 @@ public class THSManager {
         });
     }
 
+    @VisibleForTesting
+    public void setUser(User user){
+        mUser = user;
+    }
 }
