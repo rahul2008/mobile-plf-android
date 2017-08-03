@@ -27,7 +27,7 @@
             android:layout_weight="2"
             android:orientation="vertical">
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 android:id="@+id/title"
                 fontPath="fonts/centralesansbold.ttf"
                 android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
                 android:textColor="@color/black"
                 android:textSize="21sp" />
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
                 fontPath="fonts/centralesansbook.ttf"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
