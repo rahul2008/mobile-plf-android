@@ -14,6 +14,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -151,11 +152,11 @@ public class ProductCatalogFragment extends InAppBaseFragment
         mSearchBox = (SearchBox) rootView.findViewById(R.id.iap_search_box);
         mCollapseView = mSearchBox.getCollapseView();
         mSearchBox.setExpandListener(this);
-        mSearchBox.setQuerySubmitListener(this);
+       // mSearchBox.setQuerySubmitListener(this);
         mSearchBox.setSearchIconified(isExpandableSearch);
         mSearchBox.setSearchCollapsed(searchBoxCollpased);
         mSearchBox.setQuery(query);
-        //mSearchBox.setAdapter(mAdapter);
+       // mSearchBox.setAdapter((BaseAdapter)mAdapter);
         mSearchBox.setSearchBoxHint(R.string.iap_search_box_hint);
         mSearchBox.setDecoySearchViewHint(R.string.iap_search_box_hint);
         mSearchBox.getSearchTextView().addTextChangedListener(new TextWatcher() {
@@ -171,7 +172,8 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
             @Override
             public void afterTextChanged(Editable s) {
-                String filterText = mSearchBox.getSearchTextView().toString().toLowerCase(Locale.getDefault());
+                if(s.length()==0) return;
+                String filterText = s.toString().toLowerCase(Locale.getDefault());
                 mAdapter.filter(filterText);
             }
         });
@@ -182,6 +184,8 @@ public class ProductCatalogFragment extends InAppBaseFragment
                 if (!mSearchBox.isSearchCollapsed()) {
                     mSearchBox.setSearchCollapsed(true);
                 }
+                mAdapter.setData(mProductCatalog);
+                mAdapter.notifyDataSetChanged();
             }
         });
         if (savedInstanceState != null) {

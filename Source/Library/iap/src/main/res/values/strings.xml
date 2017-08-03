@@ -262,4 +262,6 @@
     <string name="iap_select_delivery">Please select your delivery method for this order:</string>
     <string name="iap_search_box_hint">Search</string>
 
+    <string name="iap_zero_results"> <b>0 results found for %s </b>.This filters our product list. Please check that there are no typos in your filter term.</string>
+
 </resources>
