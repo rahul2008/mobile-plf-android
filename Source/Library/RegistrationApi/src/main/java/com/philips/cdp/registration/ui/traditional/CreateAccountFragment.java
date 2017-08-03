@@ -338,12 +338,12 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     }
 
     private void registerUserInfo() {
+        showSpinner();
         usr_createscreen_termsandconditionsalert_view.setVisibility(View.GONE);
         usr_createScreen_firstName_textField.clearFocus();
         usr_createScreen_lastName_textField.clearFocus();
         usr_createscreen_emailormobile_textfield.clearFocus();
         usr_createScreen_password_textField.clearFocus();
-        showSpinner();
         if (FieldsValidator.isValidEmail(usr_createscreen_emailormobile_textfield.getText().toString())) {
             emailString = usr_createscreen_emailormobile_textfield.getText().toString();
         } else {
@@ -397,12 +397,15 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     private void showSpinner() {
         usr_createscreen_create_button.showProgressIndicator();
         disableCreateButton();
+        usr_createscreen_switchtologin_button.setEnabled(false);
     }
 
     @Override
     public void hideSpinner() {
         ThreadUtils.postInMainThread(context, () -> {
             usr_createscreen_create_button.hideProgressIndicator();
+            usr_createscreen_switchtologin_button.setEnabled(true);
+
             enableCreateButton();
         });
     }
@@ -423,6 +426,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     public void registrtionFail() {
         ThreadUtils.postInMainThread(context, () -> {
             usr_createscreen_create_button.hideProgressIndicator();
+            usr_createscreen_switchtologin_button.setEnabled(true);
             disableCreateButton();
         });
     }
