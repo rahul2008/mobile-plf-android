@@ -31,6 +31,7 @@ public class IAPAnalyticsConstant {
     public static final String PRODUCTS = "&&products";
     public static final String ORIGINAL_PRICE = "originalPrice";
     public static final String DISCOUNTED_PRICE = "discountedPrice";
+    public static final String OUT_OF_STOCK = "outOfStock";
     public static final String RETAILER_SELECTED = "retailerSelected";
     public static final String ADD_TO_CART = "scAdd";
     public static final String PRODUCT_REMOVED = "productRemoved";

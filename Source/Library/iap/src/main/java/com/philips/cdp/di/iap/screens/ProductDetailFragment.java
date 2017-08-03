@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,6 +76,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private TextView mProductOverview;
     private ProgressBarButton mAddToCart;
     private ProgressBarButton mBuyFromRetailers;
+    private TextView mProductStockInfo;
     private ScrollView mDetailLayout;
 
     private ArrayList<String> mAsset;
@@ -112,6 +114,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         }
     };
 
+
     public static ProductDetailFragment createInstance(Bundle args, AnimationType animType) {
         ProductDetailFragment fragment = new ProductDetailFragment();
         args.putInt(NetworkConstants.EXTRA_ANIMATIONTYPE, animType.ordinal());
@@ -141,6 +144,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         mAddToCart = (ProgressBarButton) rootView.findViewById(R.id.iap_productDetailsScreen_addToCart_button);
         mBuyFromRetailers = (ProgressBarButton) rootView.findViewById(R.id.iap_productDetailsScreen_buyFromRetailor_button);
         mProductDiscountedPrice = (TextView) rootView.findViewById(R.id.iap_productCatalogItem_discountedPrice_lebel);
+        mProductStockInfo = (TextView) rootView.findViewById(R.id.iap_productDetailsScreen_outOfStock_label);
         mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
         DotNavigationIndicator indicator = (DotNavigationIndicator) rootView.findViewById(R.id.indicator);
         mImageAdapter = new ImageAdapter(mContext, new ArrayList<String>());
@@ -255,6 +259,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                     IAPAnalytics.trackPage(IAPAnalyticsConstant.PRODUCT_DETAIL_PAGE_NAME);
                     handleViews();
                     mProductDiscountedPrice.setVisibility(View.VISIBLE);
+                    mProductStockInfo.setVisibility(View.VISIBLE);
                 } else {
                     IAPAnalytics.trackPage(IAPAnalyticsConstant.SHOPPING_CART_ITEM_DETAIL_PAGE_NAME);
                     setCartIconVisibility(false);
@@ -369,6 +374,8 @@ public class ProductDetailFragment extends InAppBaseFragment implements
         contextData.put(IAPAnalyticsConstant.ORIGINAL_PRICE, mPrice.getText().toString());
         if (mProductDiscountedPrice.getVisibility() == View.VISIBLE)
             contextData.put(IAPAnalyticsConstant.DISCOUNTED_PRICE, mProductDiscountedPrice.getText().toString());
+        if (mProductStockInfo.getVisibility() == View.VISIBLE)
+            contextData.put(IAPAnalyticsConstant.OUT_OF_STOCK, mProductDetail.getStock().getStockLevelStatus());
         contextData.put(IAPAnalyticsConstant.SPECIAL_EVENTS, IAPAnalyticsConstant.ADD_TO_CART);
         IAPAnalytics.trackMultipleActions(IAPAnalyticsConstant.SEND_DATA, contextData);
     }
@@ -441,6 +448,7 @@ public class ProductDetailFragment extends InAppBaseFragment implements
     private void populateData() {
         String actualPrice;
         String discountedPrice;
+        String stockStatus;
         if (mBundle.containsKey(IAPConstant.IAP_PRODUCT_CATALOG_NUMBER_FROM_VERTICAL)) {
             if (mProductSummary != null) {
                 mProductTitle = mProductSummary.getData().getProductTitle();
@@ -455,15 +463,19 @@ public class ProductDetailFragment extends InAppBaseFragment implements
                 if (mProductDetail != null) {
                     actualPrice = mProductDetail.getPrice().getFormattedValue();
                     discountedPrice = mProductDetail.getDiscountPrice().getFormattedValue();
+                    stockStatus = mProductDetail.getStock().getStockLevelStatus();
                     setPrice(actualPrice, discountedPrice);
+                    setStockInfo(stockStatus);
                 } else {
                     mPrice.setVisibility(View.GONE);
                     mProductDiscountedPrice.setVisibility(View.GONE);
+                    mProductStockInfo.setVisibility(View.GONE);
                 }
             }
         } else {
             actualPrice = mBundle.getString(IAPConstant.PRODUCT_PRICE);
             discountedPrice = mBundle.getString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE);
+            stockStatus = mBundle.getString(IAPConstant.STOCK_STATUS);
 
             mProductDescription.setText(mBundle.getString(IAPConstant.PRODUCT_TITLE));
             mCTN.setText(mBundle.getString(IAPConstant.PRODUCT_CTN));
@@ -478,10 +490,21 @@ public class ProductDetailFragment extends InAppBaseFragment implements
 
             if (mLaunchedFromProductCatalog) {
                 setPrice(actualPrice, discountedPrice);
+                setStockInfo(stockStatus);
             } else {
                 mPrice.setVisibility(View.GONE);
                 mProductDiscountedPrice.setText(actualPrice);
             }
+        }
+    }
+
+    private void setStockInfo(String stockInfo) {
+        // String stockLevel = mProductDetail.getStock().getStockLevelStatus();
+        if (stockInfo != null && stockInfo.equalsIgnoreCase("outOfStock")) {
+            mProductStockInfo.setText(mContext.getString(R.string.iap_out_of_stock));
+            mProductStockInfo.setTextColor(ContextCompat.getColor(mContext, R.color.uid_signal_red_level_60));
+        } else {
+            mProductStockInfo.setVisibility(View.GONE);
         }
     }
 

@@ -26,7 +26,6 @@
             style="@style/iapCentralesansBookFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DiamondClean"
             android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
             android:textSize="16sp" />
 
@@ -47,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/iap_margin_4dp"
             android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
-            android:textSize="16sp" />
+            android:textSize="@dimen/iap_product_original_price" />
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/iap_retaileritem_product_outOfStock_label"

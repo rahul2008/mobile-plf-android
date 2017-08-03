@@ -15,7 +15,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -260,6 +259,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, productCatalogData.getPriceValue());
             bundle.putString(IAPConstant.PRODUCT_OVERVIEW, productCatalogData.getMarketingTextHeader());
             bundle.putString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE, productCatalogData.getDiscountedPrice());
+            bundle.putString(IAPConstant.STOCK_STATUS, productCatalogData.getStockLevel());
             bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
             addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
         }

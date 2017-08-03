@@ -25,7 +25,6 @@
                 style="@style/iapCentralesansBoldFont"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:includeFontPadding="false"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="@dimen/iap_product_description" />
 
@@ -38,7 +37,7 @@
                 android:layout_below="@id/iap_productDetailScreen_productDescription_lebel"
                 android:layout_marginTop="@dimen/border8_margin"
                 android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
-                android:textSize="@dimen/iap_product_ctn_16" />
+                android:textSize="@dimen/iap_product_ctn_12" />
 
             <LinearLayout
                 android:id="@+id/price_container"
@@ -56,16 +55,22 @@
                     style="@style/iapCentralesansBoldFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:includeFontPadding="false"
                     android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
-                    android:textSize="@dimen/iap_product_ctn_16" />
+                    android:textSize="@dimen/iap_discount_price" />
 
                 <com.philips.platform.uid.view.widget.Label
                     android:id="@+id/iap_productDetailsScreen_individualPrice_lebel"
-                    style="@style/iapCentralesansBoldFont"
+                    style="@style/iapCentralesansBookFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:includeFontPadding="false"
+                    android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+                    android:textSize="@dimen/iap_product_original_price" />
+
+                <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/iap_productDetailsScreen_outOfStock_label"
+                    style="@style/iapCentralesansBookFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
                     android:textSize="@dimen/iap_product_original_price" />
 
@@ -114,34 +119,34 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/iap_productDetailsScreen_separator"
+        android:layout_marginBottom="@dimen/border8_margin"
         android:layout_marginLeft="@dimen/border16_margin_left_right"
         android:layout_marginRight="@dimen/border16_margin_left_right"
-        android:layout_marginTop="@dimen/border12_margin"
-        android:layout_marginBottom="@dimen/border12_margin"
+        android:layout_marginTop="@dimen/border8_margin"
         android:orientation="vertical">
 
 
         <com.philips.platform.uid.view.widget.ProgressBarButton
             android:id="@+id/iap_productDetailsScreen_addToCart_button"
+            style="@style/iapCentralesansBookFont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:enabled="true"
             android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
             android:visibility="gone"
-            style="@style/iapCentralesansBookFont"
             app:uidIsIndeterminateProgressIndicator="true"
             app:uidProgressIndicatorButtonText="@string/iap_add_to_cart" />
 
         <com.philips.platform.uid.view.widget.ProgressBarButton
             android:id="@+id/iap_productDetailsScreen_buyFromRetailor_button"
+            style="@style/iapCentralesansBookFont"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/border8_margin"
             android:enabled="true"
             android:visibility="visible"
-            android:layout_marginTop="@dimen/border12_margin"
-            app:uidComponentType="Primary"
-            style="@style/iapCentralesansBookFont"
+            app:uidComponentType="Secondary"
             app:uidIsIndeterminateProgressIndicator="true"
             app:uidProgressIndicatorButtonText="@string/iap_buy_from_retailers" />
     </LinearLayout>

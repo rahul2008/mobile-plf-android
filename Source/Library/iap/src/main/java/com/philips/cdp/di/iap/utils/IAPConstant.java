@@ -110,4 +110,5 @@ public class IAPConstant {
     //Service discover key constants
     public static final String IAP_IS_STORE_AVAILABLE = "iap.get.isStoreAvailable";
     public static final String IAP_BASE_URL = "iap.baseUrl";
+    public static final String STOCK_STATUS = "STOCK_STATUS";
 }
