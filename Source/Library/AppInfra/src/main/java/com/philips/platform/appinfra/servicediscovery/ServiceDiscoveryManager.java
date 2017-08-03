@@ -91,61 +91,60 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             serviceDiscovery = null;
         }
         downloadAwaiters.add(listener);
-
-            if (new Date().getTime() > holdbackTime) {// if current time is greater then holdback time
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        boolean forceRefresh = false;
-                        AISDResponse service;
-                        final ArrayList<AbstractDownloadItemListener> stalledAwaiters = new ArrayList<AbstractDownloadItemListener>();
-                        do {
-                            if (forceRefresh) {
-                                downloadLock.unlock();
-                            }
-                            forceRefresh = false;
-                            service = downloadServices();
-                            downloadLock.lock();
-                            AbstractDownloadItemListener d;
-                            while ((d = downloadAwaiters.poll()) != null) {
-                                if (d.forceRefresh()) {
-                                    forceRefresh = true;
-                                }
-                                stalledAwaiters.add(d);
-                            }
+        if (new Date().getTime() > holdbackTime) {// if current time is greater then holdback time
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    boolean forceRefresh = false;
+                    AISDResponse service;
+                    final ArrayList<AbstractDownloadItemListener> stalledAwaiters = new ArrayList<AbstractDownloadItemListener>();
+                    do {
+                        if (forceRefresh) {
+                            downloadLock.unlock();
                         }
-                        while (forceRefresh);
-                        serviceDiscovery = service;
-                        final AISDResponse result = service;
-                        downloadLock.unlock();
-                        for (final AbstractDownloadItemListener d : stalledAwaiters) {
-                            final Thread mThread = new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    d.onDownloadDone(result);
-                                }
-                            });
-                            new Handler(Looper.getMainLooper()).post(mThread);
+                        forceRefresh = false;
+                        service = downloadServices();
+                        downloadLock.lock();
+                        AbstractDownloadItemListener d;
+                        while ((d = downloadAwaiters.poll()) != null) {
+                            if (d.forceRefresh()) {
+                                forceRefresh = true;
+                            }
+                            stalledAwaiters.add(d);
                         }
                     }
-                }).start();
-            } else {
-                final AISDResponse serviceDiscoveryError = new AISDResponse(mAppInfra);
-                if (serviceDiscoveryError.getPlatformURLs() != null) {
-                    final ServiceDiscovery platformError = serviceDiscoveryError.getPlatformURLs();
-                    platformError.setError(new ServiceDiscovery.Error
-                            (OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server is not reachable at the moment,Please try after some time"));
+                    while (forceRefresh);
+                    serviceDiscovery = service;
+                    final AISDResponse result = service;
+                    downloadLock.unlock();
+                    for (final AbstractDownloadItemListener d : stalledAwaiters) {
+                        final Thread mThread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                d.onDownloadDone(result);
+                            }
+                        });
+                        new Handler(Looper.getMainLooper()).post(mThread);
+                    }
                 }
-                if (serviceDiscoveryError.getPropositionURLs() != null) {
-                    serviceDiscoveryError.getPropositionURLs().setError(new ServiceDiscovery.Error
-                            (OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server is not reachable at the moment,Please try after some time"));
-                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Server is not reachable at the moment,Please try after some time");
-
-                }
-
-                if (listener != null)
-                    listener.onDownloadDone(serviceDiscoveryError);
+            }).start();
+        } else {
+            final AISDResponse serviceDiscoveryError = new AISDResponse(mAppInfra);
+            if (serviceDiscoveryError.getPlatformURLs() != null) {
+                final ServiceDiscovery platformError = serviceDiscoveryError.getPlatformURLs();
+                platformError.setError(new ServiceDiscovery.Error
+                        (OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server is not reachable at the moment,Please try after some time"));
             }
+            if (serviceDiscoveryError.getPropositionURLs() != null) {
+                serviceDiscoveryError.getPropositionURLs().setError(new ServiceDiscovery.Error
+                        (OnErrorListener.ERRORVALUES.SERVER_ERROR, "Server is not reachable at the moment,Please try after some time"));
+                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "Server is not reachable at the moment,Please try after some time");
+
+            }
+
+            if (listener != null)
+                listener.onDownloadDone(serviceDiscoveryError);
+        }
         downloadLock.unlock();
     }
 
@@ -170,7 +169,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     }
                     saveToSecureStore(platformService.getCountry(), COUNTRY);
                 }*/
-                fetchCountryAndCountrySource(platformService.getCountry());
+                // fetchCountryAndCountrySource(platformService.getCountry());
                 response.setPlatformURLs(platformService);
             }
         } else {
@@ -186,7 +185,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     }
                     saveToSecureStore(propositionService.getCountry(), COUNTRY);
                 }*/
-                fetchCountryAndCountrySource(propositionService.getCountry());
+                //   fetchCountryAndCountrySource(propositionService.getCountry());
                 platformService = downloadPlatformService();
             }
             if (platformService != null && propositionService != null) {
@@ -207,11 +206,24 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         return response;
     }
 
-    private void fetchCountryAndCountrySource(String platformOrPropositionCountry) {
+    private void fetchCountryAndCountrySource(String platformOrPropositionCountry,
+                                              String url, ServiceDiscovery service, AISDURLType aisdurlType) {
         String country = fetchFromSecureStorage(COUNTRY);
+        boolean shouldRetry = false;
         if (country == null) {
+            country = platformOrPropositionCountry;
             countryCodeSource = OnGetHomeCountryListener.SOURCE.GEOIP;
-           saveToSecureStore(platformOrPropositionCountry, countryCodeSource.toString());
+            saveToSecureStore(platformOrPropositionCountry, countryCodeSource.toString());
+            String countryMapped = getMappedCountry(country);
+            if(countryMapped != null) {
+                shouldRetry = true;
+                url += "&country=" + countryMapped;
+            } else {
+                url += "&country=" + country;
+            }
+            if(shouldRetry) {
+                processRequest(url,service,aisdurlType);
+            }
         }
     }
 
@@ -244,6 +256,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                 service = mRequestItemManager.execute(urlBuild, aisdurlType);
                 if (service.isSuccess()) {
                     holdbackTime = 0;   //remove hold back time
+                    fetchCountryAndCountrySource(service.getCountry(),urlBuild , service ,aisdurlType);
                     mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY, "SD Fetched from server");
                 } else {
                     holdbackTime = new Date().getTime() + 10000; // curent time + 10 Seconds
@@ -321,6 +334,7 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
                     saveToSecureStore(country, countryCodeSource.toString());
                 }
             }
+
             String countryMapped = getMappedCountry(country);
 
             if (countryMapped != null) {
@@ -328,13 +342,20 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
             } else if (country != null) {
                 url += "&country=" + country;
             }
-
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,AppInfraLogEventID.AI_SERVICE_DISCOVERY, "URL " + url);
         } else {
             mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO, AppInfraLogEventID.AI_SERVICE_DISCOVERY,"Build URL in SD"
                     + "Appidentity values are null");
         }
         return url;
+    }
+
+    private String getMappedCountry(String country) {
+        Map<String, String> countryMapping = getServiceDiscoveryCountryMapping();
+        if (countryMapping != null && countryMapping.size() > 0 && country != null) {
+            return countryMapping.get(country);
+        }
+        return null;
     }
 
     private void checkArgumentException(String micrositeid,String environment){
@@ -848,16 +869,6 @@ public class ServiceDiscoveryManager implements ServiceDiscoveryInterface {
         }
     }
 
-    private String getMappedCountry(String country) {
-        Map<String, String> countryMapping = getServiceDiscoveryCountryMapping();
-        if (countryMapping != null && countryMapping.size() > 0 && country != null) {
-            return countryMapping.get(country);
-        }
-        return null;
-    }
-
-
-    // get countrymap from appconfig
     @SuppressWarnings({"unchecked"})
     private Map<String, String> getServiceDiscoveryCountryMapping() {
         final AppConfigurationInterface.AppConfigurationError configError = new AppConfigurationInterface
