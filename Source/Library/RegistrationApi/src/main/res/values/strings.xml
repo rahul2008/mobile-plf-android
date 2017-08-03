@@ -17,7 +17,7 @@
     <string name="reg_JanRain_Error_Check_Internet">There was a problem in the network connection. Please try again.</string>
     <string name="reg_JanRain_LogIn_Failed">Failed to login, Please try again after some time.</string>
     <string name="reg_JanRain_Server_Connection_Failed">Failed to connect to the server, Please try again after some time.</string>
-    <string name="reg_SigIn_TitleTxt">Log In</string>
+    <string name="reg_SigIn_TitleTxt">Log in</string>
     <string name="reg_RegBaseViewNav_TitleTxt">Account</string>
     <string name="reg_RegCreateAccount_NavTitle">Create account</string>
     <string name="reg_NameField_ErrorText">Please enter your first name.</string>

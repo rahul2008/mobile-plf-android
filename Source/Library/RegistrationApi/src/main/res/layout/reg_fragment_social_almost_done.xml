@@ -34,9 +34,8 @@
                 android:id="@+id/usr_almostDoneScreen_description_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/reg_almost_description1"
+                android:text="@string/reg_almost_description2"
                 android:layout_marginBottom="@dimen/reg_layout_margin_12dp"
-                android:visibility="gone"
                 android:textSize="@dimen/text_size_16"
                 android:textColor="@color/uid_gray_level_90" />
 
@@ -46,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Email"
-                android:textSize="@dimen/text_size_12"
+                android:textSize="@dimen/text_size_16"
                 android:visibility="gone"
                 android:textColor="@color/uid_gray_level_90" />
 
@@ -64,7 +63,7 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:visibility="gone"
-                    android:textSize="@dimen/text_size_12"
+                    android:textSize="@dimen/text_size_16"
                     android:layout_marginBottom="@dimen/reg_layout_margin_12dp"
                     app:uidInputTextWithClearButton="true" />
             </com.philips.platform.uid.view.widget.InputValidationLayout>
@@ -74,14 +73,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_layout_margin_12dp"
+                android:layout_marginBottom="5dp"
                 android:text="@string/reg_Receive_Philips_News_lbltxt" />
+
+            <!--temp: Actual value yet to be given by designer-->
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/reg_layout_margin_10dp" />
 
             <com.philips.platform.uid.view.widget.CheckBox
                 android:id="@+id/usr_almostDoneScreen_termsAndConditions_checkBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dip"
+                android:layout_marginTop="@dimen/reg_layout_margin_8dp"
                 android:text="@string/reg_TermsAndConditionsAcceptanceText" />
+
+            <!--temp: Actual value yet to be given by designer-->
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/reg_layout_margin_10dp" />
 
             <com.philips.cdp.registration.ui.customviews.XRegError
                 android:id="@+id/usr_almostDoneScreen_acceptTerms_error"

@@ -33,7 +33,7 @@ import javax.inject.*;
 import butterknife.*;
 
 public class AlmostDoneFragment extends RegistrationBaseFragment implements AlmostDoneContract,
-        OnUpdateListener, XCheckBox.OnCheckedChangeListener {
+        OnUpdateListener {
 
     @BindView(R2.id.usr_almostDoneScreen_termsAndConditions_checkBox)
     CheckBox acceptTermsCheck;
@@ -44,13 +44,13 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @BindView(R2.id.usr_almostDoneScreen_marketingMails_checkBox)
     CheckBox marketingOptCheck;
 
-    @BindView(R2.id.reg_error_msg)
+    @BindView(R2.id.usr_almostDoneScreen_error_regError)
     XRegError errorMessage;
 
     @BindView(R2.id.usr_almostDoneScreen_email_inputValidationLayout)
     InputValidationLayout loginIdEditText;
 
-    @BindView(R2.id.rl_reg_email_field)
+    @BindView(R2.id.usr_almostDoneScreen_email_EditText)
     ValidationEditText emailEditText;
 
     @BindView(R2.id.usr_almostDoneScreen_email_label)
@@ -59,7 +59,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @BindView(R2.id.usr_almostDoneScreen_continue_button)
     ProgressBarButton continueButton;
 
-    @BindView(R2.id.sv_root_layout)
+    @BindView(R2.id.usr_almostDoneScreen_rootLayout_scrollView)
     ScrollView rootLayout;
 
     @BindView(R2.id.usr_almostDoneScreen_description_label)
@@ -81,6 +81,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         @Override
         public int isValid(boolean valid) {
             isValidEmail = valid;
+            continueButton.setEnabled(isValidEmail);
             return 0;
         }
 
@@ -92,6 +93,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
                 loginIdEditText.setErrorMessage(R.string.reg_InvalidEmailAdddress_ErrorMsg);
             }
             isValidEmail = false;
+            continueButton.setEnabled(isValidEmail);
             return 0;
         }
     });
@@ -165,12 +167,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
             }
         });
 
-
         marketingOptCheck.setPadding(RegUtility.getCheckBoxPadding(mContext), marketingOptCheck.getPaddingTop(),
                 marketingOptCheck.getPaddingRight(), marketingOptCheck.getPaddingBottom());
         RegUtility.linkifyTermsandCondition(acceptTermsCheck, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
         updateReceiveMarketingViewStyle();
-
     }
 
     private void updateReceiveMarketingViewStyle() {
@@ -182,7 +182,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         emailEditText.setVisibility(View.GONE);
         emailTitleLabel.setVisibility(View.GONE);
         continueButton.setEnabled(true);
-        almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.reg_almost_description2));
     }
 
     @Override
@@ -191,6 +190,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         emailTitleLabel.setVisibility(View.VISIBLE);
         almostDoneDescriptionLabel.setVisibility(View.VISIBLE);
         almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.reg_almost_description1));
+        continueButton.setEnabled(false);
 
     }
 
@@ -229,6 +229,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     public void showMarketingOptCheck() {
         marketingOptCheck.setVisibility(View.VISIBLE);
         almostDoneDescriptionLabel.setVisibility(View.VISIBLE);
+        almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.reg_almost_description2));
     }
 
     @Override
@@ -276,8 +277,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void validateEmailFieldUI() {
-        if ((loginIdEditText.isShown() && isValidEmail) ||
-                (loginIdEditText.getVisibility() != View.VISIBLE)) {
+        if ((emailEditText.isShown() && isValidEmail) ||
+                (emailEditText.getVisibility() != View.VISIBLE)) {
             continueButton.setEnabled(true);
         }
         errorMessage.hideError();
@@ -312,14 +313,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     public void continueButtonClicked() {
         RLog.d(RLog.ONCLICK, "AlmostDoneFragment : Continue");
         loginIdEditText.clearFocus();
-        if (emailEditText.getVisibility()== View.VISIBLE && !isValidEmail) {
-            if (emailEditText.getText().length() == 0) {
-                loginIdEditText.setErrorMessage(R.string.reg_EmptyField_ErrorMsg);
-            } else {
-                loginIdEditText.setErrorMessage(R.string.reg_InvalidEmailAdddress_ErrorMsg);
-            }
-            loginIdEditText.showError();
-            return;
+
+        if( marketingOptCheck.getVisibility()== View.VISIBLE && isMarketingOptChecked()) {
+            almostDonePresenter.handleUpdateMarketingOpt();
         }
         if (mBundle == null) {
             almostDonePresenter.handleTraditionalTermsAndCondition();
@@ -508,10 +504,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         almostDonePresenter.updateUser(marketingOptCheck.isChecked());
     }
 
-    @Override
-    public void onCheckedChanged(View view, boolean isChecked) {
-        almostDonePresenter.handleUpdateMarketingOpt();
-    }
+
 
     @Override
     public void failedToConnectToServer() {

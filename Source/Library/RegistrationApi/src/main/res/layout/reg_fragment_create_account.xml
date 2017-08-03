@@ -194,17 +194,6 @@
                     android:layout_height="@dimen/reg_margin_bottom"
                     android:layout_marginTop="20dip" />
 
-                <com.philips.cdp.registration.ui.customviews.XTextView
-                    android:id="@+id/usr_createfragment_firstToKnow_textView"
-                    style="@style/reg_textStyle"
-                    android:layout_marginBottom="10dip"
-                    android:layout_marginStart="@dimen/reg_layout_margin_16dp"
-                    android:layout_marginEnd="@dimen/reg_layout_margin_16dp"
-                    android:gravity="center|left"
-                    android:paddingLeft="35dp"
-                    android:visibility="gone"
-                    android:text="@string/reg_Opt_In_Be_The_First"
-                    reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <com.philips.platform.uid.view.widget.CheckBox
                     android:id="@+id/usr_createscreen_marketingmails_checkbox"
