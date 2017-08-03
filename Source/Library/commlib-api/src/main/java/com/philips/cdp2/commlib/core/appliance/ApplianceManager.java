@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, 2017 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp2.commlib.core.appliance;
@@ -12,7 +12,9 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
@@ -38,7 +40,7 @@ public class ApplianceManager {
     private final DICommApplianceFactory applianceFactory;
 
     private final Set<ApplianceListener> applianceListeners = new CopyOnWriteArraySet<>();
-    private Set<Appliance> availableAppliances = new CopyOnWriteArraySet<>();
+    private Map<String, Appliance> availableAppliances = new ConcurrentHashMap<>();
 
     private final Handler handler = HandlerProvider.createHandler();
 
@@ -49,35 +51,27 @@ public class ApplianceManager {
 
         @Override
         public void onNetworkNodeDiscovered(NetworkNode networkNode) {
-            final Appliance appliance = createAppliance(networkNode);
-            if (appliance == null) {
-                return;
-            }
-
-            if (availableAppliances.add(appliance)) {
+            if (availableAppliances.containsKey(networkNode.getCppId())) {
+                onNetworkNodeUpdated(networkNode);
+            } else if (applianceFactory.canCreateApplianceForNode(networkNode)) {
+                final Appliance appliance = (Appliance) applianceFactory.createApplianceForNode(networkNode);
+                availableAppliances.put(networkNode.getCppId(), appliance);
                 notifyApplianceFound(appliance);
             }
         }
 
         @Override
         public void onNetworkNodeLost(NetworkNode networkNode) {
-            final Appliance appliance = createAppliance(networkNode);
+            final Appliance appliance = availableAppliances.get(networkNode.getCppId());
 
-            if (availableAppliances.remove(appliance)) {
-                notifyApplianceLost(appliance);
+            if (appliance != null && !appliance.isAvailable()) {
+                notifyApplianceLost(availableAppliances.remove(networkNode.getCppId()));
             }
         }
 
         @Override
         public void onNetworkNodeUpdated(NetworkNode networkNode) {
-            // TODO find Appliance and update in availableAppliances, notify
-
-            for (Appliance appliance : availableAppliances) {
-                if (networkNode.getCppId().equals(appliance.getNetworkNode().getCppId())) {
-                    // TODO Perform merge/update
-                    break;
-                }
-            }
+            // TODO Perform merge/update
         }
 
         @Override
@@ -113,7 +107,7 @@ public class ApplianceManager {
      * @return The currently available appliances
      */
     public Set<Appliance> getAvailableAppliances() {
-        return availableAppliances;
+        return new CopyOnWriteArraySet<>(availableAppliances.values());
     }
 
     /**
@@ -123,12 +117,7 @@ public class ApplianceManager {
      * @return the appliance
      */
     public Appliance findApplianceByCppId(final String cppId) {
-        for (Appliance appliance : availableAppliances) {
-            if (appliance.getNetworkNode().getCppId().equals(cppId)) {
-                return appliance;
-            }
-        }
-        return null;
+        return availableAppliances.get(cppId);
     }
 
     /**
@@ -164,13 +153,6 @@ public class ApplianceManager {
 
     private void loadAppliancesFromPersistentStorage() {
         // TODO
-    }
-
-    private Appliance createAppliance(NetworkNode networkNode) {
-        if (this.applianceFactory.canCreateApplianceForNode(networkNode)) {
-            return (Appliance) applianceFactory.createApplianceForNode(networkNode);
-        }
-        return null;
     }
 
     private <A extends Appliance> void notifyApplianceFound(final @NonNull A appliance) {
