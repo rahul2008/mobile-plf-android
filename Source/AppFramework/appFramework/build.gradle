@@ -322,7 +322,7 @@ android {
 
 repositories {
     flatDir {
-        dirs 'libs', '/Users/310237243/RefApp/dsc-android-dataservices/Source/Library/dataServices/build/outputs/aar/'
+        dirs 'libs'
     }
 }
 
@@ -339,7 +339,6 @@ dependencies {
     compile('com.android.support:support-annotations:25.3.1') {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
-    compile(name: 'dataServices-release', ext: 'aar')
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
@@ -367,6 +366,13 @@ dependencies {
         transitive=true
     }
 
+    compile(group: 'com.philips.cdp', name: 'dataServices', version: '2.0.0' + objcdp.getVersionSuffix(), ext: 'aar') {
+
+
+        exclude group: 'com.android.support'
+        exclude group: 'joda-time', module: 'joda-time'
+        transitive = true
+    }
 
     compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.4.0' + objcdp.getVersionSuffix(), ext: 'aar'){
         exclude group: 'com.android.support'
