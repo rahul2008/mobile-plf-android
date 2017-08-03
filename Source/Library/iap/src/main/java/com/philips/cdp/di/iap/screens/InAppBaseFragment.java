@@ -176,8 +176,8 @@ public abstract class InAppBaseFragment extends Fragment implements BackEventLis
     protected boolean isNetworkConnected() {
         if (mContext != null && !NetworkUtility.getInstance().isNetworkAvailable(mContext)) {
             NetworkUtility.getInstance().showErrorDialog(mContext,
-                    getFragmentManager(), getString(R.string.iap_ok),
-                    getString(R.string.iap_you_are_offline), getString(R.string.iap_no_internet));
+                    getFragmentManager(), mContext.getString(R.string.iap_ok),
+                    mContext.getString(R.string.iap_you_are_offline), mContext.getString(R.string.iap_no_internet));
             return false;
         } else {
             return true;
