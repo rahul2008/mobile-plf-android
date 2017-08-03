@@ -77,4 +77,8 @@ public interface AlmostDoneContract {
     boolean isMarketingOptChecked();
 
     String getMobileNumber();
+
+    void showTryAgainError();
+
+    void showAnyOtherErrors(String errorDescription);
 }

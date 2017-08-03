@@ -16,6 +16,7 @@ public class RegConstants {
 
     public static final String TRADITIONAL_REGISTRATION_EMAIL_ADDRESS = "traditionalRegistration_emailAddress";
 
+    public static final int HSDP_ADMINISTRATION_ERROR = 3160;
 
 
     public static final String INVALID_FIELDS = "invalid_fields";

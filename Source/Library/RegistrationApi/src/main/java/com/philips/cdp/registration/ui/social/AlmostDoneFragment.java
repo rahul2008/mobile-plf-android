@@ -363,6 +363,18 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     }
 
     @Override
+    public void showTryAgainError() {
+        errorMessage.setError(mContext.getString(R.string.reg_Generic_Network_Error));
+        scrollViewAutomatically(errorMessage, rootLayout);
+    }
+
+    @Override
+    public void showAnyOtherErrors(String errorDescription) {
+        errorMessage.setError(errorDescription);
+        scrollViewAutomatically(errorMessage, rootLayout);
+    }
+
+    @Override
     public boolean isAcceptTermsContainerVisible() {
         return acceptTermsContainer.getVisibility() == View.VISIBLE;
     }
