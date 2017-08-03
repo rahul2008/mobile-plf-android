@@ -265,13 +265,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqliteDatabase, ConnectionSource connectionSource, int oldVer, int newVer) {
         DSLog.i(TAG + "onUpgrade", "olderVer =" + oldVer + " newerVer =" + newVer);
-        if (newVer == 2 && oldVer == 1) {
-            try {
-                this.dropTables(connectionSource);
-                this.createTables(connectionSource);
-            } catch (SQLException e){
-                RALog.e( SQLITE_EXCEPTION,e.getMessage());
-            }
+        try {
+             this.dropTables(connectionSource);
+             this.createTables(connectionSource);
+             insertDictionaries();
+        } catch (SQLException e){
+             RALog.e( SQLITE_EXCEPTION,e.getMessage());
         }
     }
 
