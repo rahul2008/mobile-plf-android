@@ -1,10 +1,11 @@
 package com.philips.cdp.registration.injection;
 
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.BaseConfiguration;
 import com.philips.cdp.registration.configuration.AppConfiguration;
+import com.philips.cdp.registration.configuration.BaseConfiguration;
 import com.philips.cdp.registration.configuration.HSDPConfiguration;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.controller.RussianConsent;
 import com.philips.cdp.registration.controller.UpdateUserRecord;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -113,6 +114,7 @@ public interface RegistrationComponent {
     void inject(MobileVerifyResendCodeFragment mobileVerifyResendCodeFragment);
     void inject(MobileVerifyResendCodePresenter mobileVerifyResendCodePresenter);
 
+    void inject(RussianConsent russianConsent);
 
 
     void inject(AddSecureEmailPresenter addSecureEmailPresenter);

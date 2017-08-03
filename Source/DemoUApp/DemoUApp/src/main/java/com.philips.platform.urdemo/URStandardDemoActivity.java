@@ -323,7 +323,6 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
         } else if (i == R.id.btn_marketing_opt_in) {
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
-            // RegistrationSampleApplication.getInstance().getAppInfra().getTagging().setPreviousPage("demoapp:home");
             urLaunchInput = new URLaunchInput();
             urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
             urLaunchInput.setAccountSettings(false);
@@ -358,7 +357,6 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
         } else if (i == R.id.btn_registration_without_account) {
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
-            // RegistrationSampleApplication.getInstance().getAppInfra().getTagging().setPreviousPage("demoapp:home");
             urLaunchInput = new URLaunchInput();
             urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
             urLaunchInput.setUserRegistrationUIEventListener(this);
@@ -388,23 +386,16 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
         } else if (i == R.id.btn_update_gender) {
             User user1 = new User(mContext);
-            System.out.println("before login" + user1.getGender());
-
             if (!user1.isUserSignIn()) {
                 Toast.makeText(this, "Please login before refreshing access token", Toast.LENGTH_LONG).show();
             } else {
-                System.out.println("preset login" + user1.getGender());
                 handleGender();
             }
-
-
         } else if (i == R.id.btn_update_date_of_birth) {
             User user = new User(mContext);
-            System.out.println("before login" + user.getDateOfBirth());
             if (!user.isUserSignIn()) {
                 Toast.makeText(this, "Please login before updating user", Toast.LENGTH_LONG).show();
             } else {
-                System.out.println("pre  login" + user.getDateOfBirth());
                 handleDoBUpdate(user.getDateOfBirth());
             }
 
@@ -427,19 +418,14 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
         user1.updateGender(new UpdateUserDetailsHandler() {
             @Override
             public void onUpdateSuccess() {
-                System.out.println("onUpdateSuccess");
                 mProgressDialog.hide();
                 showToast("onUpdateSuccess");
-                System.out.println("post login" + user1.getGender());
             }
 
             @Override
             public void onUpdateFailedWithError(int error) {
-                System.out.println("onUpdateFailedWithError");
                 mProgressDialog.hide();
                 showToast("onUpdateFailedWithError" + error);
-                System.out.println("post login" + user1.getGender());
-
             }
         }, gender);
 
@@ -468,26 +454,19 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
                         Calendar c = Calendar.getInstance();
                         c.set(year, monthOfYear, dayOfMonth, 0, 0);
-                        System.out.println("date" + c.getTime());
 
-                        System.out.println("onDateSet" + year + monthOfYear + dayOfMonth);
                         final User user1 = new User(mContext);
                         user1.updateDateOfBirth(new UpdateUserDetailsHandler() {
                             @Override
                             public void onUpdateSuccess() {
-                                System.out.println("onUpdateSuccess");
                                 mProgressDialog.hide();
                                 showToast("onUpdateSuccess");
-                                System.out.println("post  login" + user1.getDateOfBirth());
                             }
 
                             @Override
                             public void onUpdateFailedWithError(int error) {
-                                System.out.println("onUpdateFailedWithError");
                                 mProgressDialog.hide();
                                 showToast("onUpdateFailedWithError" + error);
-                                System.out.println("post  login" + user1.getDateOfBirth());
-
                             }
                         }, c.getTime());
                     }

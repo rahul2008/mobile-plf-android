@@ -233,7 +233,6 @@ if (propFile.canRead()){
 }
 repositories { flatDir { dirs 'libs' } }
 dependencies {
-    compile project(':HockeySDK-3.0.2')
     compile project(':coppa')
     compile 'com.android.support:multidex:1.0.1'
 }
