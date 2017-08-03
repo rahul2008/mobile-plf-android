@@ -10,33 +10,33 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="vertical"
-        android:padding="@dimen/uikit_modal_alert_button_left_margin">
+        android:padding="4dp">
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/dialogTitle"
             style="@style/ProductRegistrationProductHeaderTitleTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="?attr/uikit_baseColor"
-            android:textSize="@dimen/uikit_modal_alert_label_text_size" />
+            android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
+            android:textSize="24sp" />
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/dialogDescription"
             style="@style/ProductRegistrationProductSubTitleTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/pr_registration_margin_top"
-            android:textColor="?attr/uikit_baseColor"
-            android:textSize="@dimen/uikit_modal_alert_message_text_size" />
+            android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
+            android:textSize="16sp" />
 
-        <Button
+        <com.philips.platform.uid.view.widget.Button
             android:id="@+id/dialogButtonOK"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/pr_registration_margin_top"
             android:gravity="center"
             android:text="@string/PPR_OK"
-            android:textSize="@dimen/uikit_modal_alert_message_text_size" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 </FrameLayout>

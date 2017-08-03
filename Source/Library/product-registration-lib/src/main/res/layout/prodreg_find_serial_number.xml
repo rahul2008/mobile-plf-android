@@ -20,36 +20,36 @@
             android:src="@drawable/prodreg_placeholder"
             android:layout_marginTop="@dimen/pr_top_padding_sm"/>
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             fontPath="fonts/centralesansbold.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/pr_top_padding_sm"
             android:text="@string/PPR_Find_Serial_Number"
-            android:textColor="?attr/uikit_verydarkBaseColor"
+            android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
             android:textSize="18sp"/>
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/serial_number_guide_format_text"
             fontPath="fonts/centralesansbook.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/pr_d_value_sm"
             android:text="@string/PPR_find_serial_number_help_message"
-            android:textColor="?attr/uikit_baseColor"
+            android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
             android:textSize="16sp"/>
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/serial_number_guide_text"
             fontPath="fonts/centralesansbook.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/pr_d_value_sm"
-            android:textColor="?attr/uikit_baseColor"
+            android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
             android:textSize="16sp"
             />
 
-        <Button
+        <com.philips.platform.uid.view.widget.Button
             android:id="@+id/ok_found_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

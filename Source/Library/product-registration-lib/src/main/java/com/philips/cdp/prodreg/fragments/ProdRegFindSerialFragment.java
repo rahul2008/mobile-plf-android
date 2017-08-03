@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +22,8 @@ import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.prxclient.request.PrxRequest;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.Label;
 
 import java.net.URL;
 import java.util.List;
@@ -31,8 +32,8 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
 
     public static final String urlBaseSeparator = "://";
     private ImageView serialNumberImageView;
-    private TextView serialNumberTextView;
-    private TextView serialNumberForamtTextView;
+    private Label serialNumberTextView;
+    private Label serialNumberForamtTextView;
 
 
     @Override
@@ -65,8 +66,8 @@ public class ProdRegFindSerialFragment extends ProdRegBaseFragment {
     private void initViews(final View view) {
         serialNumberImageView = (ImageView) view.findViewById(R.id.device_image);
         Button okFoundButton = (Button) view.findViewById(R.id.ok_found_button);
-        serialNumberTextView = (TextView) view.findViewById(R.id.serial_number_guide_text);
-        serialNumberForamtTextView = (TextView) view.findViewById(R.id.serial_number_guide_format_text);
+        serialNumberTextView = (Label) view.findViewById(R.id.serial_number_guide_text);
+        serialNumberForamtTextView = (Label) view.findViewById(R.id.serial_number_guide_format_text);
 
         okFoundButton.setOnClickListener(new View.OnClickListener() {
             @Override

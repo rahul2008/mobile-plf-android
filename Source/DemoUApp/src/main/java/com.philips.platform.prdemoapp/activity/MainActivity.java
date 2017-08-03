@@ -53,7 +53,7 @@ public class MainActivity extends UIDActivity {
     protected void onCreate(Bundle savedInstanceState) {
        // initTheme();
         setTheme(PRDemoAppuAppInterface.DLS_THEME);
-        UIDHelper.init(PRDemoAppuAppInterface.THEME_CONFIGURATION);
+//        UIDHelper.init(PRDemoAppuAppInterface.THEME_CONFIGURATION);
         super.onCreate(savedInstanceState);
         initCustomActionBar();
         setContentView(R.layout.activity_test_ur);

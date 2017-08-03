@@ -43,6 +43,7 @@ import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.cdp.prodreg.tagging.ProdRegTagging;
 import com.philips.cdp.prodreg.util.ProdRegUtil;
 import com.philips.cdp.product_registration_lib.R;
+import com.philips.platform.uid.view.widget.Label;
 
 import org.w3c.dom.Text;
 
@@ -58,7 +59,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     public static final String TAG = ProdRegRegistrationFragment.class.getName();
     private ImageLoader imageLoader;
     private LinearLayout dateParentLayout, dateErrorLayout, serialNumberErrorLayout, findSerialNumberLayout, serialNumberParentLayout, successLayout;
-    private TextView productFriendlyNameTextView, productTitleTextView, productCtnTextView, dateErrorTextView, serialNumberErrorTextView,prSuccessConfigurableTextView,productRegSucess;
+    private Label productFriendlyNameTextView, productTitleTextView, productCtnTextView, dateErrorTextView, serialNumberErrorTextView,prSuccessConfigurableTextView,productRegSucess;
     private ImageView productImageView;
     private EditText serial_number_editText;
     private EditText date_EditText;
@@ -132,22 +133,22 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.prodreg_single_product, container, false);
-        productFriendlyNameTextView = (TextView) view.findViewById(R.id.friendly_name);
+    //    productFriendlyNameTextView = (Label) view.findViewById(R.id.friendly_name);
         dateParentLayout = (LinearLayout) view.findViewById(R.id.date_edit_text_layout);
         serialNumberParentLayout = (LinearLayout) view.findViewById(R.id.serial_edit_text_layout);
         serialNumberErrorLayout = (LinearLayout) view.findViewById(R.id.serial_number_error_layout);
         dateErrorLayout = (LinearLayout) view.findViewById(R.id.date_error_layout);
         findSerialNumberLayout = (LinearLayout) view.findViewById(R.id.find_serial_number_layout);
         successLayout = (LinearLayout) view.findViewById(R.id.successLayout);
-        productTitleTextView = (TextView) view.findViewById(R.id.product_title);
-        productCtnTextView = (TextView) view.findViewById(R.id.product_ctn);
-        productRegSucess = (TextView) view.findViewById(R.id.product_registered) ;
-        dateErrorTextView = (TextView) view.findViewById(R.id.dateErrorTextView);
-        serialNumberErrorTextView = (TextView) view.findViewById(R.id.serialNumberErrorTextView);
+        productTitleTextView = (Label) view.findViewById(R.id.product_title);
+        productCtnTextView = (Label) view.findViewById(R.id.product_ctn);
+        productRegSucess = (Label) view.findViewById(R.id.product_registered) ;
+        dateErrorTextView = (Label) view.findViewById(R.id.dateErrorTextView);
+        serialNumberErrorTextView = (Label) view.findViewById(R.id.serialNumberErrorTextView);
         serial_number_editText = (EditText) view.findViewById(R.id.serial_edit_text);
         date_EditText = (EditText) view.findViewById(R.id.date_edit_text);
         imageLoader = ImageRequestHandler.getInstance(mActivity.getApplicationContext()).getImageLoader();
-        prSuccessConfigurableTextView = (TextView) view.findViewById(R.id.pr_success_configurable_textView);
+        prSuccessConfigurableTextView = (Label) view.findViewById(R.id.pr_success_configurable_textView);
         registerButton = (Button) view.findViewById(R.id.btn_register);
         final Button continueButton = (Button) view.findViewById(R.id.continueButton);
         productImageView = (ImageView) view.findViewById(R.id.product_image);
@@ -405,12 +406,12 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         } else {
             productCtnTextView.setVisibility(View.GONE);
         }
-        if (TextUtils.isEmpty(registeredProduct.getFriendlyName())) {
-            productFriendlyNameTextView.setVisibility(View.GONE);
-        } else {
-            productFriendlyNameTextView.setVisibility(View.VISIBLE);
-            productFriendlyNameTextView.setText(registeredProduct.getFriendlyName());
-        }
+//        if (TextUtils.isEmpty(registeredProduct.getFriendlyName())) {
+//            productFriendlyNameTextView.setVisibility(View.GONE);
+//        } else {
+//            productFriendlyNameTextView.setVisibility(View.VISIBLE);
+//            productFriendlyNameTextView.setText(registeredProduct.getFriendlyName());
+//        }
         handleDateEditTextOnError();
         handleSerialNumberEditTextOnError();
     }

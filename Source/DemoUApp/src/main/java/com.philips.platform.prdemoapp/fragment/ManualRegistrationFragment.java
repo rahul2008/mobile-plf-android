@@ -272,7 +272,8 @@ public class ManualRegistrationFragment extends Fragment implements View.OnClick
             public void onProdRegFailed(final ProdRegError prodRegError) {
                 ProdRegLogger.v(TAG, prodRegError.getDescription() + "");
                 if (prodRegError == ProdRegError.USER_NOT_SIGNED_IN) {
-                    Toast.makeText(getActivity(), prodRegError.getDescription(), Toast.LENGTH_SHORT).show();
+                    if(getActivity() != null)
+                        Toast.makeText(getActivity(), prodRegError.getDescription(), Toast.LENGTH_SHORT).show();
                 }
             }
         };

@@ -16,48 +16,49 @@
 
     <style name="ProductRegistrationHeaderTitleTheme">
         <item name="android:textColor">?attr/uidContentItemDefaultNormalTitleTextColor</item>
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">@dimen/pr_title_textsize</item>
+        <item name="android:textStyle">bold</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
     <style name="ProductRegistrationSubTitleTheme">
-        <item name="android:textColor">?attr/uidContentItemDefaultNormalSubtitleTextColor</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">?attr/uidContentItemDefaultNormalBodyTextColor</item>
+        <item name="android:textSize">@dimen/pr_subtitle_textsize</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
     <style name="ProductRegistrationConnectHeaderTitleTheme">
-        <item name="android:textColor">?attr/uikit_baseColor</item>
+        <item name="android:textColor">?attr/uidContentItemDefaultNormalSubtitleTextColor</item>
         <item name="android:textSize">15sp</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
     <style name="ProductRegistrationConnectSubTitleTheme">
-        <item name="android:textColor">?attr/uikit_baseColor</item>
+        <item name="android:textColor">?attr/uidContentItemDefaultNormalSubtitleTextColor</item>
         <item name="android:textSize">12sp</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
     <style name="ProductRegistrationProductHeaderTitleTheme">
-        <item name="android:textColor">?attr/uikit_baseColor</item>
+        <item name="android:textColor">?attr/uidContentItemDefaultNormalSubtitleTextColor</item>
         <item name="android:textSize">18sp</item>
         <item name="fontPath">fonts/centralesansbold.ttf</item>
     </style>
 
     <style name="ProductRegistrationProductSubTitleTheme">
-        <item name="android:textColor">?attr/uikit_baseColor</item>
+        <item name="android:textColor">?attr/uidContentItemDefaultNormalTitleTextColor</item>
         <item name="android:textSize">15sp</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
     <style name="ProductRegistrationCtnTheme">
-        <item name="android:textColor">@color/uikit_enricher4</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">?attr/uidContentItemDefaultNormalDescriptorTextColor</item>
+        <item name="android:textSize">@dimen/pr_c_value_sm</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
 
     <style name="DateOfPurchaseStyle">
-        <item name="android:textColor">?attr/uikit_baseColor</item>
+        <item name="android:textColor">?attr/uidContentItemDefaultNormalSubtitleTextColor</item>
         <item name="android:textSize">15sp</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
