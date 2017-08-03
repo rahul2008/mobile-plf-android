@@ -6,7 +6,7 @@
 <string name="RA_OK">OK</string>
 <string name="RA_Cancel">Cancel</string>
 <string name="RA_Warning">WARNING</string>
-<string name="RA_HomeScreen_Title">Mobile App home</string>
+<string name="RA_HomeScreen_Title">Reference App home</string>
 <string name="RA_SettingsScreen_Title">Account Settings</string>
 <string name="RA_SupportScreen_Title">Support</string>
 <string name="RA_DataServicesScreen_Title">Data Services</string>
@@ -38,8 +38,8 @@
 <string name="RA_Settings_Login">Log In</string>
 <string name="RA_Skip_Button_Text">Skip</string>
 <string name="RA_Done_Button_Text">Done</string>
-<string name="RA_HomeScreen_Header_Text">Proposition specific Title goes in here </string>
-<string name="RA_HomeScreen_Body_Text">Proposition specific large text goes in the body </string>
+<string name="RA_HomeScreen_Header_Text">Reference App</string>
+<string name="RA_HomeScreen_Body_Text">ReferenceApp is a base platform used by all propositions to develop and maintain features both generic and specific to the propositions. App infra, Data Gateway, App FWK, and UIToolkit allow Apps to be created from uApps and UI-less services/libraries. ReferenceApp acts as a foundation over which CDP2 uApps and proposition specific uApps are integrated to form individual apps.</string>
 <string name="RA_WelcomeScreen_Title">Title bottom aligned</string>
 <string name="RA_WelcomeScreen_First_Text">First benefit text is bottom aligned</string>
 <string name="RA_WelcomeScreen_Second_Text">Second benefit text is bottom aligned</string>
@@ -113,4 +113,7 @@ Receive free product accessories</string>
 <string name="RA_unknown_device">Unknown Device</string>
 <string name="RA_no_device_found">No device found</string>
 <string name="RA_something_wrong">Something went wrong</string>
+    <string name="RA_DLS_home_page_text">Reference App</string>
+    <string name="RA_DLS_home_page_sub_text">ReferenceApp is a base platform used by all propositions to develop and maintain features both generic and specific to the propositions. App infra, Data Gateway, App FWK, and UIToolkit allow Apps to be created from uApps and UI-less services/libraries. ReferenceApp acts as a foundation over which CDP2 uApps and proposition specific uApps are integrated to form individual apps.</string>
+
 </resources>
