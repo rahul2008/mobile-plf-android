@@ -76,6 +76,12 @@ public class THSBaseFragment extends Fragment implements THSBaseView {
     }
 
     public void createCustomProgressBar(ViewGroup group, int size) {
+        ViewGroup parentView = (ViewGroup) getView();
+        ViewGroup layoutViewGroup = group;
+        if(parentView != null){
+            group = parentView;
+        }
+
         switch (size){
             case BIG:
                 getContext().getTheme().applyStyle(R.style.PTHCircularPBBig, true);
@@ -95,7 +101,12 @@ public class THSBaseFragment extends Fragment implements THSBaseView {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         mPTHBaseFragmentProgressBar.setLayoutParams(params);
-        group.addView(mPTHBaseFragmentProgressBar);
+
+        try {
+            group.addView(mPTHBaseFragmentProgressBar);
+        }catch (Exception e){
+            layoutViewGroup.addView(mPTHBaseFragmentProgressBar);
+        }
 
         if (mPTHBaseFragmentProgressBar != null) {
             mPTHBaseFragmentProgressBar.setVisibility(View.VISIBLE);

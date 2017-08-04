@@ -32,8 +32,9 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_below="@+id/line_separator"
+        android:paddingLeft="@dimen/pth_fab_margin"
+        android:paddingRight="@dimen/pth_fab_margin"
         />
 
     <View
@@ -50,8 +51,9 @@
         android:paddingTop="3dp"
         android:paddingBottom="3dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_below="@+id/line_separator_1"
+        android:paddingLeft="@dimen/pth_fab_margin"
+        android:paddingRight="@dimen/pth_fab_margin"
         android:text="@string/ths_with"
         />
 
@@ -79,6 +81,8 @@
         android:text="@string/ths_email_sent"
         style="@style/ths_body_text"
         android:layout_below="@id/horizontalLine"
+        android:paddingLeft="@dimen/pth_fab_margin"
+        android:paddingRight="@dimen/pth_fab_margin"
         />
 
     <RelativeLayout

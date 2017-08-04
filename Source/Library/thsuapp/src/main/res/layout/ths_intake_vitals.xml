@@ -51,6 +51,8 @@
             android:layout_alignParentTop="true"
             android:textSize="@dimen/pth_body_text"
             android:text="@string/vitals_want"
+            android:paddingLeft="@dimen/pth_fab_margin"
+            android:paddingRight="@dimen/pth_fab_margin"
             style="@style/ths_title_text"
             />
 
@@ -62,6 +64,8 @@
             android:layout_below="@id/help_visit"
             android:layout_marginBottom="16dp"
             android:text="@string/vitals_blood_pressure"
+            android:paddingLeft="@dimen/pth_fab_margin"
+            android:paddingRight="@dimen/pth_fab_margin"
             />
 
         <com.philips.platform.uid.view.widget.InputValidationLayout
@@ -118,6 +122,8 @@
             android:layout_below="@id/intake_diastolic_container"
             android:text="@string/temperature"
             android:layout_marginBottom="16dp"
+            android:paddingLeft="@dimen/pth_fab_margin"
+            android:paddingRight="@dimen/pth_fab_margin"
             />
 
 
@@ -161,6 +167,8 @@
             android:layout_below="@id/intake_farenheit_container"
             android:text="@string/weight"
             android:layout_marginBottom="@dimen/pth_fab_margin"
+            android:paddingLeft="@dimen/pth_fab_margin"
+            android:paddingRight="@dimen/pth_fab_margin"
             />
 
         <com.philips.platform.uid.view.widget.InputValidationLayout

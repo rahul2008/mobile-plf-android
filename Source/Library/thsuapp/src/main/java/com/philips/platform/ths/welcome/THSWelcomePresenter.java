@@ -4,6 +4,8 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
@@ -20,6 +22,8 @@ import com.philips.platform.ths.utility.THSManager;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallBack<Void,THSSDKError>,
         THSLoginCallBack<THSAuthentication,THSSDKError>,THSGetConsumerObjectCallBack,THSCheckConsumerExistsCallback<Boolean, THSSDKError>{
@@ -75,16 +79,9 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
 
     @Override
     public void onLoginResponse(THSAuthentication thsAuthentication, THSSDKError sdkError) {
-        AmwellLog.i(AmwellLog.LOG, "Login - UI updated");
-        uiBaseView.hideProgressBar();
-        AmwellLog.d("Login", "Login success");
 
-        if(thsAuthentication.getAuthentication() == null){
-            if(sdkError!=null && sdkError.getSDKErrorReason()!=null){
-                uiBaseView.showToast(sdkError.getSDKErrorReason().name());
-            }else {
-                uiBaseView.showToast("Something went wrong!!");
-            }
+        if (sdkError.getSdkError() != null && sdkError.getHttpResponseCode() == HttpsURLConnection.HTTP_UNAUTHORIZED) {
+            refreshToken();
             return;
         }
 
@@ -99,6 +96,26 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
         }
     }
 
+    private void refreshToken() {
+        new User(uiBaseView.getContext()).refreshLoginSession(new RefreshLoginSessionHandler() {
+            @Override
+            public void onRefreshLoginSessionSuccess() {
+                authenticateUser();
+            }
+
+            @Override
+            public void onRefreshLoginSessionFailedWithError(int i) {
+                uiBaseView.showToast("Refresh Signon failed with the following status code " + i + " please logout and login again");
+                uiBaseView.hideProgressBar();
+            }
+
+            @Override
+            public void onRefreshLoginSessionInProgress(String s) {
+                uiBaseView.showToast(s);
+            }
+        });
+    }
+
     void checkIfUserExisits() throws AWSDKInstantiationException {
         THSManager.getInstance().checkConsumerExists(uiBaseView.getContext(),this);
     }
@@ -110,6 +127,7 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
 
     @Override
     public void onReceiveConsumerObject(Consumer consumer, SDKError sdkError) {
+        uiBaseView.hideProgressBar();
         launchPractice(consumer);
     }
 
@@ -133,15 +151,19 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
 
     @Override
     public void onResponse(Boolean aBoolean, THSSDKError sdkError) {
-        uiBaseView.hideProgressBar();
         if(aBoolean){
-            try {
-                THSManager.getInstance().authenticateMutualAuthToken(uiBaseView.getContext(),this);
-            } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
-            }
+            authenticateUser();
         }else {
+            uiBaseView.hideProgressBar();
             launchAmwellRegistrationFragment();
+        }
+    }
+
+    private void authenticateUser() {
+        try {
+            THSManager.getInstance().authenticateMutualAuthToken(uiBaseView.getContext(),this);
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
         }
     }
 

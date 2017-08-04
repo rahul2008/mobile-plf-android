@@ -6,7 +6,7 @@
     <string name="symptoms">Step 1 of 5: Symptoms</string>
     <string name="vitals">Step 2 of 5: vitals</string>
     <string name="conditions">Step 4 of 5: Conditions</string>
-    <string name="help_visit">please help us make your visit more efficient by sharing some details with us before your visit</string>
+    <string name="help_visit">Please help us make your visit more efficient by sharing some details with us before your visit</string>
     <string name="visit_reason">What is the reason for your visit?</string>
     <string name="additional_reason">Additional Reason</string>
     <string name="write_here">write here</string>
