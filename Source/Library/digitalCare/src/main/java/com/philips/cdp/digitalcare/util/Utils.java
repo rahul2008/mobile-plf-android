@@ -89,8 +89,10 @@ public class Utils {
     public static boolean isCountryChina() {
         if(DigitalCareConfigManager.getInstance().getCountry() != null)
         {
-            if(DigitalCareConfigManager.getInstance().getCountry().equals("CN"))
+            if(DigitalCareConfigManager.getInstance().getCountry().equals("CN")){
                 return true;
+            }
+
         }
 
         return false;

@@ -257,9 +257,10 @@
     <string-array name="productselection_ctnlist">
 
         <item>RQ1250/16</item>
-<!--
-<item>SCD888/26</item>
+        <item>HD9240/90</item>
+        <item>SCD888/26</item>
         <item>RQ1250/17</item>
+        <!--
         <item>HD3197/03</item>
         <item>HX6321_02</item>
         <item>SC2009/00</item>
