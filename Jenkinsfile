@@ -56,8 +56,6 @@ node ('android&&docker') {
                         echo "BranchName changed to ${BranchName}"
                     }
                     build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'ail'],[$class: 'StringParameterValue', name: 'libraryName', value: 'prx']], wait: false
-                    // call dls pipeline as well (temporary)
-                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}_DLS", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'ail'],[$class: 'StringParameterValue', name: 'libraryName', value: 'prx']], wait: false
                 }            
             }
         } catch(err) {
