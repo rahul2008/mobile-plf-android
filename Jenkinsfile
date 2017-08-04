@@ -23,9 +23,17 @@ node ('android&&docker') {
                 chmod -R 775 .
                 cd ./Source/AppFramework 
                 ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease
+            '''
+            }
+			if (BranchName =~ /master|develop|release.*/) {
+			stage ('build PSRA') {
+            sh '''#!/bin/bash -l
+                chmod -R 775 .
+                cd ./Source/AppFramework
 				./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assemblePsraRelease
             '''
             }
+			}
             //stage('test') {
             //    echo "lint & unit test"
             //   sh '''#!/bin/bash -l
