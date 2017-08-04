@@ -29,6 +29,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/iap_no_product_available"
-        android:textSize="@dimen/iap_product_ctn_12"
+        android:textSize="@dimen/iap_discount_price"
         android:visibility="gone" />
 </RelativeLayout>
