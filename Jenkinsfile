@@ -31,7 +31,7 @@ node ('android&&docker') {
                 sh '''#!/bin/bash -l
                     chmod -R 755 . 
                     cd ./Source/DemoApp 
-                    ./gradlew -PenvCode=${JENKINS_ENV} lintRelease testRelease 
+                    ./gradlew -PenvCode=${JENKINS_ENV} lintRelease testReleaseUnitTest 
                 '''
             }
 
@@ -57,9 +57,9 @@ node ('android&&docker') {
 
            stage ('reporting') {
                 androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
-                junit allowEmptyResults: true, testResults: "Source/Library/*/build/test-results/*/*.xml"
+                junit allowEmptyResults: true, testResults: "Source/Library/*/build/test-results/**/*.xml"
                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/dataServices/build/reports/tests/release', reportFiles: 'index.html', reportName: 'unit test release']) 
-                archiveArtifacts '**/dependencies.lock'
+                archiveArtifacts '**/dependencies*.lock'
             }
 
             if (env.triggerBy != "ppc" && (BranchName =~ /master|develop|release.*/)) {
