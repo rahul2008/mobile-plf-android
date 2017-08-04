@@ -17,6 +17,7 @@ import android.text.style.*;
 import android.view.*;
 import android.widget.Button;
 import android.widget.*;
+
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.app.tagging.*;
@@ -26,6 +27,7 @@ import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.traditional.mobile.*;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.uid.view.widget.*;
+
 import butterknife.*;
 
 

@@ -26,8 +26,12 @@ import com.philips.cdp.registration.ui.traditional.*;
 import com.philips.cdp.registration.ui.traditional.mobile.*;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.uid.view.widget.*;
+
+
 import javax.inject.*;
+
 import butterknife.*;
+
 
 public class AlmostDoneFragment extends RegistrationBaseFragment implements AlmostDoneContract,
         OnUpdateListener {

@@ -29,7 +29,11 @@ import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragme
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.*;
-import javax.inject.*;
+
+
+import javax.inject.Inject;
+
+
 import butterknife.*;
 
 public class CreateAccountFragment extends RegistrationBaseFragment implements CreateAccountContract {
