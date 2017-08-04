@@ -79,7 +79,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (holder instanceof EmptyViewHolder) {
 
             if (isSearchFocused()) {
-                CharSequence text = String.format((mContext.getResources().getText(R.string.iap_zero_results)).toString(), mCharacterText);
+                CharSequence text = String.format((mContext.getResources().getText(R.string.iap_zero_results_found)).toString(), mCharacterText);
                 ((EmptyViewHolder) holder).tvEmptyMsg.setText(text);
                 mCharacterText = "";
                 return;
@@ -159,7 +159,16 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public int getItemCount() {
         //return mProductCatalogList.size();
-        return mProductCatalogList.size() > 0 && !isSearchFocused() ? mProductCatalogList.size() : 1;
+        if(mProductCatalogList.size()==0){
+
+            if(isSearchFocused()){
+                return 1;
+            }else{
+                return mProductCatalogList.size();
+            }
+        }else{
+            return mProductCatalogList.size();
+        }
     }
 
     @Override
@@ -250,7 +259,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         public EmptyViewHolder(View itemView) {
             super(itemView);
-            tvEmptyMsg = (TextView) itemView.findViewById(R.id.tv_empty_list_msg);
+            tvEmptyMsg = (TextView) itemView.findViewById(R.id.tv_empty_list_found);
         }
     }
 
