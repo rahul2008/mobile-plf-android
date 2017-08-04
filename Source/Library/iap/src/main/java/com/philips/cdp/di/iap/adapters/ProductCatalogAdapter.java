@@ -164,7 +164,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public int getItemViewType(int position) {
-        if (mProductCatalogList.size() == 0) {
+        if (mProductCatalogList.size() == 0 && isSearchFocused()) {
             return EMPTY_VIEW;
         }
         return super.getItemViewType(position);
