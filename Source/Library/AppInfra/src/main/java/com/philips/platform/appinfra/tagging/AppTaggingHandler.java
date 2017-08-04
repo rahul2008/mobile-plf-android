@@ -53,14 +53,14 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
 /**
  * A Wrapper class for Application Life Cycle.
  */
-public class AppTaggingHandler {
+class AppTaggingHandler {
     private static String prevPage;
     private final AppInfra mAppInfra;
     private String mLanguage;
     private String mComponentID;
     private String mComponentVersion;
 
-    public AppTaggingHandler(AppInfra aAppInfra) {
+    AppTaggingHandler(AppInfra aAppInfra) {
         mAppInfra = aAppInfra;
     }
 
@@ -364,7 +364,7 @@ public class AppTaggingHandler {
     }
 
     void setPrevPage(String prevPage) {
-        this.prevPage = prevPage;
+        AppTaggingHandler.prevPage = prevPage;
     }
 
 }

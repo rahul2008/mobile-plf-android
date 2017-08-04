@@ -14,9 +14,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by Yogesh on 8/2/17.
- */
 public class ApplicationLifeCycleHandlerTest extends AppInfraInstrumentation {
 
     LoggingInterface loggingInterfaceMock;

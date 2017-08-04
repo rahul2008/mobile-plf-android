@@ -36,10 +36,10 @@ public class AppTaggingTest extends AppInfraInstrumentation {
     AppTaggingInterface mockAppTaggingInterface;
     AppConfigurationManager mConfigInterface;
     AppTagging mAppTagging;
+    AppTaggingHandler appTaggingHandler;
     private Context context;
     private AppInfra mAppInfra;
     private AppConfigurationInterface.AppConfigurationError configError;
-    AppTaggingHandler  appTaggingHandler;
     private BroadcastReceiver rec = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -57,8 +57,6 @@ public class AppTaggingTest extends AppInfraInstrumentation {
     protected void setUp() throws Exception {
         super.setUp();
         context = getInstrumentation().getContext();
-
-        assertNotNull(context);
         mAppInfra = new AppInfra.Builder().build(context);
 
 
