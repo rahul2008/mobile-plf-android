@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.datasync.settings;
 
 import android.support.annotation.NonNull;
@@ -22,10 +27,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class SettingsDataSender extends DataSender {
 
@@ -48,7 +49,6 @@ public class SettingsDataSender extends DataSender {
     @NonNull
     private final SettingsConverter settingsConverter;
 
-
     @Inject
     public SettingsDataSender(@NonNull UCoreAdapter uCoreAdapter, @NonNull GsonConverter gsonConverter, @NonNull SettingsConverter settingsConverter) {
         this.uCoreAdapter = uCoreAdapter;
@@ -59,14 +59,11 @@ public class SettingsDataSender extends DataSender {
 
     @Override
     public boolean sendDataToBackend(@NonNull List dataToSend) {
-
         if (dataToSend != null && !dataToSend.isEmpty() && synchronizationState.get() != State.BUSY.getCode()) {
             for (Object settings : dataToSend) {
                 sendSettingsToBackend((Settings) settings);
             }
-
         }
-
         return false;
     }
 
@@ -83,14 +80,11 @@ public class SettingsDataSender extends DataSender {
             postError(1, getNonLoggedInError());
             return;
         }
-//        if (uCoreAccessProvider == null) {
-//            return;
-//        }
 
         try {
             UCoreSettings uCoreSettings = settingsConverter.convertAppToUcoreSettings(settings);
             SettingsClient appFrameworkClient = uCoreAdapter.getAppFrameworkClient(SettingsClient.class, uCoreAccessProvider.getAccessToken(), gsonConverter);
-            if(appFrameworkClient==null) return;
+            if (appFrameworkClient == null) return;
             Response response = appFrameworkClient.updateSettings(uCoreAccessProvider.getUserId(), uCoreAccessProvider.getUserId(), uCoreSettings);
 
             if (isResponseSuccess(response)) {

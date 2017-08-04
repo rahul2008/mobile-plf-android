@@ -68,13 +68,11 @@ public class UserCharacteristicsFetcherTest {
         userCharacteristicsFetcher.synchronisationManager = synchronisationManagerMock;
         userCharacteristicsFetcher.mUCoreAccessProvider = accessProviderMock;
         userCharacteristicsFetcher.mUserCharacteristicsConverter = userCharacteristicsConverterMock;
-
     }
 
     @Test
     public void ShouldNotFetchData_WhenUserIsNotLoggedIn() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
-
         assertThat(userCharacteristicsFetcher.fetchDataSince(null)).isNull();
     }
 
@@ -82,7 +80,6 @@ public class UserCharacteristicsFetcherTest {
     public void ShouldNotFetchData_WhenAccessTokenIsEmpty() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn("");
-
         assertThat(userCharacteristicsFetcher.fetchDataSince(null)).isNull();
     }
 
@@ -90,7 +87,6 @@ public class UserCharacteristicsFetcherTest {
     public void ShouldNotFetchData_WhenAccessTokenIsNull() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(true);
         when(accessProviderMock.getAccessToken()).thenReturn(null);
-
         assertThat(userCharacteristicsFetcher.fetchDataSince(null)).isNull();
     }
 
@@ -103,7 +99,6 @@ public class UserCharacteristicsFetcherTest {
         when(uCoreAdapterMock.getAppFrameworkClient(UserCharacteristicsClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(uCoreClientMock);
         when(userCharacteristicsConverterMock.convertToCharacteristics(null, accessProviderMock.getUserId())).thenReturn(characteristicsMock);
         userCharacteristicsFetcher.fetchDataSince(null);
-
         verify(eventingMock).post(isA(UCDBUpdateFromBackendRequest.class));
     }
 
@@ -116,9 +111,8 @@ public class UserCharacteristicsFetcherTest {
         when(uCoreAdapterMock.getAppFrameworkClient(UserCharacteristicsClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(uCoreClientMock);
         final RetrofitError retrofitErrorMock = mock(RetrofitError.class);
         when(retrofitErrorMock.getMessage()).thenReturn("ERROR");
-        when(uCoreClientMock.getUserCharacteristics(TEST_USER_ID, TEST_USER_ID, 9)).thenThrow(retrofitErrorMock);
+        when(uCoreClientMock.getUserCharacteristics(TEST_USER_ID, TEST_USER_ID, UCoreAdapter.API_VERSION)).thenThrow(retrofitErrorMock);
         RetrofitError retrofitError = userCharacteristicsFetcher.fetchDataSince(null);
-
         assertThat(retrofitError).isNotNull();
     }
 }

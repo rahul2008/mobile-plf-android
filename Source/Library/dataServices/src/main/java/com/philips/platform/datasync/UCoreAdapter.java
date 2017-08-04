@@ -1,9 +1,8 @@
-/*
- * Copyright (c) 2016. Philips Electronics India Ltd
- * All rights reserved. Reproduction in whole or in part is prohibited without
- * the written consent of the copyright holder.
- */
-
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.datasync;
 
 import android.content.Context;
@@ -19,7 +18,6 @@ import com.squareup.okhttp.OkHttpClient;
 
 import org.joda.time.DateTime;
 
-import java.lang.reflect.Field;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -41,13 +39,14 @@ public class UCoreAdapter {
     private static final int RED_TIME_OUT = 1; //1 Minute
     private static final int CONNECTION_TIME_OUT = 1; //1 Minute
 
+    private Context context;
+    private String buildType;
+
     @Inject
     UserRegistrationInterface userRegistrationImpl;
 
     @NonNull
     protected OkHttpClient okHttpClient;
-    private Context context;
-    private String buildType;
 
     @NonNull
     protected OkClientFactory okClientFactory;
@@ -88,7 +87,7 @@ public class UCoreAdapter {
                            @NonNull final String accessToken, @NonNull GsonConverter gsonConverter) {
         OkClient okClient = okClientFactory.create(okHttpClient);
 
-        if(baseUrl==null) return null;
+        if (baseUrl == null) return null;
         RestAdapter restAdapter = restAdapterBuilder
                 .setEndpoint(baseUrl)
                 .setRequestInterceptor(getRequestInterceptor(accessToken))

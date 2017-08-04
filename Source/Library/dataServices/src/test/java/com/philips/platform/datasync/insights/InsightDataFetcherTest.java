@@ -5,7 +5,6 @@ import com.philips.platform.core.datatypes.BaseAppData;
 import com.philips.platform.core.datatypes.Insight;
 import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.FetchInsightRequest;
-import com.philips.platform.core.events.FetchInsightsResponse;
 import com.philips.platform.core.events.ListEvent;
 import com.philips.platform.core.injection.AppComponent;
 import com.philips.platform.core.trackers.DataServicesManager;
@@ -32,9 +31,6 @@ import retrofit.mime.TypedString;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyList;
-import static org.mockito.Matchers.anyListOf;
-import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -121,7 +117,7 @@ public class InsightDataFetcherTest {
         when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
         when(accessProviderMock.getInsightLastSyncTimestamp()).thenReturn("2017-03-21T10:19:51.706Z");
         when(uCoreAdapterMock.getAppFrameworkClient(InsightClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(mInsightClient);
-        when(mInsightClient.fetchInsights(TEST_USER_ID,TEST_USER_ID,9,"2017-03-21T10:19:51.706Z")).thenReturn(uCoreInsightListMock);
+        when(mInsightClient.fetchInsights(TEST_USER_ID, TEST_USER_ID, UCoreAdapter.API_VERSION, "2017-03-21T10:19:51.706Z")).thenReturn(uCoreInsightListMock);
         RetrofitError retrofitError = insightDataFetcher.fetchDataSince(null);
         assertThat(retrofitError).isNull();
         insightDataFetcher.fetchDataSince(new DateTime());
@@ -140,20 +136,20 @@ public class InsightDataFetcherTest {
         when(accessProviderMock.getUserId()).thenReturn(TEST_USER_ID);
         when(accessProviderMock.getInsightLastSyncTimestamp()).thenReturn("2017-03-21T10:19:51.706Z");
         when(uCoreAdapterMock.getAppFrameworkClient(InsightClient.class, TEST_ACCESS_TOKEN, gsonConverterMock)).thenReturn(mInsightClient);
-        when(mInsightClient.fetchInsights(TEST_USER_ID,TEST_USER_ID,9,"2017-03-21T10:19:51.706Z")).thenThrow(retrofitErrorMock);
+        when(mInsightClient.fetchInsights(TEST_USER_ID, TEST_USER_ID, UCoreAdapter.API_VERSION, "2017-03-21T10:19:51.706Z")).thenThrow(retrofitErrorMock);
         insightDataFetcher.fetchDataSince(null);
-        verify(eventingMock).post(new  BackendDataRequestFailed(any(RetrofitError.class)));
+        verify(eventingMock).post(new BackendDataRequestFailed(any(RetrofitError.class)));
     }
 
     @Test
-    public void shouldPostError_WhenUserisInvalid() throws Exception{
+    public void shouldPostError_WhenUserisInvalid() throws Exception {
         when(accessProviderMock.isLoggedIn()).thenReturn(false);
         insightDataFetcher.fetchDataSince(new DateTime());
     }
 
     @Test
     public void returnFalseWhenIsUserInvalidIsCalled_IfAccessProviderIsNull() throws Exception {
-        insightDataFetcher.uCoreAccessProvider=null;
+        insightDataFetcher.uCoreAccessProvider = null;
         assertThat(insightDataFetcher.isUserInvalid()).isFalse();
     }
 

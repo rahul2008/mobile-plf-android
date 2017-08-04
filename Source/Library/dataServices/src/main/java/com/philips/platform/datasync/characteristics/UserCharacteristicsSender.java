@@ -1,7 +1,8 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.datasync.characteristics;
 
 import android.support.annotation.NonNull;
@@ -28,16 +29,15 @@ import retrofit.converter.GsonConverter;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class UserCharacteristicsSender extends DataSender {
-
-    private static final int API_VERSION = 9;
-
     @Inject
     UCoreAdapter mUCoreAdapter;
 
     @NonNull
-    GsonConverter mGsonConverter;
+    private GsonConverter mGsonConverter;
+
     @Inject
     Eventing mEventing;
+
     @Inject
     UserCharacteristicsConverter mUserCharacteristicsConverter;
 
@@ -54,17 +54,15 @@ public class UserCharacteristicsSender extends DataSender {
 
     @Override
     public boolean sendDataToBackend(@NonNull List userCharacteristicsListToSend) {
-        if (!mUCoreAccessProvider.isLoggedIn()) {
+        if (!mUCoreAccessProvider.isLoggedIn() || userCharacteristicsListToSend == null) {
             return false;
         }
 
-        if(userCharacteristicsListToSend == null){
-            return false;
-        }
         List<Characteristics> userUserCharacteristicsList = new ArrayList<>();
         for (Object characteristics : userCharacteristicsListToSend) {
-            userUserCharacteristicsList.add((Characteristics)characteristics);
+            userUserCharacteristicsList.add((Characteristics) characteristics);
         }
+        
         return sendUserCharacteristics(userUserCharacteristicsList);
     }
 
@@ -75,11 +73,11 @@ public class UserCharacteristicsSender extends DataSender {
             UserCharacteristicsClient uClient =
                     mUCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class,
                             mUCoreAccessProvider.getAccessToken(), mGsonConverter);
-            if(uClient == null) return false;
+            if (uClient == null) return false;
             Response response = uClient.createOrUpdateUserCharacteristics(mUCoreAccessProvider.getUserId(),
                     mUCoreAccessProvider.getUserId(),
                     mUserCharacteristicsConverter.convertToUCoreUserCharacteristics(userUserCharacteristicsList),
-                    API_VERSION);
+                    UCoreAdapter.API_VERSION);
 
             if (isResponseSuccess(response)) {
                 mEventing.post(new SyncBitUpdateRequest(SyncType.CHARACTERISTICS, true));

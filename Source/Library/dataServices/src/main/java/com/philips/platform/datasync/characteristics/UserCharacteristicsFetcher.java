@@ -1,7 +1,8 @@
-/**
- * (C) Koninklijke Philips N.V., 2015.
- * All rights reserved.
- */
+/* Copyright (c) Koninklijke Philips N.V., 2016
+* All rights are reserved. Reproduction or dissemination
+* in whole or in part is prohibited without the prior written
+* consent of the copyright holder.
+*/
 package com.philips.platform.datasync.characteristics;
 
 import android.support.annotation.NonNull;
@@ -12,7 +13,6 @@ import com.philips.platform.core.datatypes.Characteristics;
 import com.philips.platform.core.events.BackendDataRequestFailed;
 import com.philips.platform.core.events.UCDBUpdateFromBackendRequest;
 import com.philips.platform.core.trackers.DataServicesManager;
-import com.philips.platform.core.utils.DSLog;
 import com.philips.platform.datasync.UCoreAccessProvider;
 import com.philips.platform.datasync.UCoreAdapter;
 import com.philips.platform.datasync.synchronisation.DataFetcher;
@@ -27,7 +27,6 @@ import retrofit.RetrofitError;
 import retrofit.converter.GsonConverter;
 
 public class UserCharacteristicsFetcher extends DataFetcher {
-    private static final int API_VERSION = 9;
     private GsonConverter mGsonConverter;
     @Inject
     UCoreAccessProvider mUCoreAccessProvider;
@@ -48,13 +47,12 @@ public class UserCharacteristicsFetcher extends DataFetcher {
     @Override
     public RetrofitError fetchDataSince(@Nullable DateTime sinceTimestamp) {
         try {
-            DSLog.d(DSLog.LOG, "Inder = Inside UC Fetcher");
             final UserCharacteristicsClient userCharacteristicsClient = uCoreAdapter.getAppFrameworkClient(UserCharacteristicsClient.class,
                     mUCoreAccessProvider.getAccessToken(), mGsonConverter);
 
             if (userCharacteristicsClient != null) {
                 UCoreUserCharacteristics uCoreUserCharacteristics = userCharacteristicsClient.getUserCharacteristics(mUCoreAccessProvider.getUserId(),
-                        mUCoreAccessProvider.getUserId(), API_VERSION);
+                        mUCoreAccessProvider.getUserId(), UCoreAdapter.API_VERSION);
 
 
                 List<Characteristics> characteristicsList = mUserCharacteristicsConverter.convertToCharacteristics(uCoreUserCharacteristics,
