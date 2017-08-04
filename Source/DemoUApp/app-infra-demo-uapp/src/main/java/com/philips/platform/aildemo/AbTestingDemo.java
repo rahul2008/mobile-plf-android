@@ -84,7 +84,6 @@ public class AbTestingDemo extends Activity {
                 }
                 String test = abTestingInterface.getTestValue(testName.getText().toString(), defaultValue.getText().toString(),
                         valueType, null);
-                System.out.println("TEST" + " " + test);
                 value.setText("Experience" + test);
             }
         });

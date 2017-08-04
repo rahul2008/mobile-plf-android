@@ -42,7 +42,6 @@ public class Asset implements ContentInterface {
 
     @Override
     public boolean parseInput(String json) {
-        System.out.println("JSONELEMENT" + "" + json);
         JsonElement response = new JsonParser().parse(json);
         this.assetURL= String.valueOf(response.getAsJsonObject().get("assetURL"));
 
