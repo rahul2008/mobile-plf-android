@@ -5,7 +5,6 @@
 package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -52,7 +51,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
         implements EventListener, ProductCatalogPresenter.ProductCatalogListener, SearchBox.ExpandListener {
 
     public static final String TAG = ProductCatalogFragment.class.getName();
-    private static final String SEARCH_TYPE = "search_selection";
 
     private Context mContext;
 
@@ -76,9 +74,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
 
     private String query;
-    private boolean isExpandableSearch;
     boolean searchBoxCollpased = true;
-    private SharedPreferences sharedPreferences;
     private ImageView mClearIconView;
     private AppCompatAutoCompleteTextView mSearchTextView;
 
@@ -154,12 +150,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
         setUpSearch();
 
-        if (savedInstanceState != null) {
-            query = savedInstanceState.getString("query");
-            searchBoxCollpased = savedInstanceState.getBoolean("collapsed");
-        }
-
-
         mEmptyCatalogText = (TextView) rootView.findViewById(R.id.iap_productCatalog_emptyProductCatalogText_lebel);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -172,6 +162,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
         if (!mIsProductsAvailable) {
             mRecyclerView.setVisibility(View.GONE);
             mEmptyCatalogText.setVisibility(View.VISIBLE);
+            mSearchBox.setVisibility(rootView.GONE);
         }
         if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
             displayCategorisedProductList(mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS));
@@ -182,9 +173,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private void setUpSearch() {
         mClearIconView = mSearchBox.getClearIconView();
         mSearchBox.setExpandListener(this);
-        mSearchBox.setSearchIconified(isExpandableSearch);
-        mSearchBox.setSearchCollapsed(searchBoxCollpased);
-        mSearchBox.setQuery(query);
         mSearchBox.setSearchBoxHint(R.string.iap_search_box_hint);
         mSearchBox.setDecoySearchViewHint(R.string.iap_search_box_hint);
         mSearchTextView = mSearchBox.getSearchTextView();
@@ -220,13 +208,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
         });
     }
 
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putBoolean("collapsed", mSearchBox.isSearchCollapsed());
-        outState.putString("query", String.valueOf(mSearchBox.getQuery()));
-        super.onSaveInstanceState(outState);
-    }
 
     @Override
     public void onResume() {
@@ -342,6 +323,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             if (mRecyclerView != null && mEmptyCatalogText != null) {
                 mRecyclerView.setVisibility(View.GONE);
                 mEmptyCatalogText.setVisibility(View.VISIBLE);
+                mSearchBox.setVisibility(View.GONE);
             }
         } else {
             if (mRecyclerView != null && mEmptyCatalogText != null) {

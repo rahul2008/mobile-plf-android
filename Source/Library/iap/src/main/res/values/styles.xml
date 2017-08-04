@@ -116,7 +116,7 @@
         <!--<item name="android:textColor">?attr/uikit_listtextselector</item>-->
         <item name="android:textSize">16sp</item>
      <!--   <item name="android:layout_marginLeft">15dp</item>-->
-        <item name="android:textColor">?attr/uidLabelValueNormalTextColor</item>
+        <item name="android:textColor">?attr/uidLabelRegularDisabledTextColor</item>
     </style>
 
     <style name="iap_delivery_via">

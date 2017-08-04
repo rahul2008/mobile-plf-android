@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -29,7 +28,6 @@ import com.philips.cdp.di.iap.session.NetworkImageLoader;
 import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.uid.text.utils.UIDStringUtils;
-import com.philips.platform.uid.view.widget.SearchBox;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
@@ -72,7 +70,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
 
         if (viewType == EMPTY_VIEW && isSearchFocused()) {
-           View  v = LayoutInflater.from(parent.getContext()).inflate(R.layout.empty_view, parent, false);
+            View  v = LayoutInflater.from(parent.getContext()).inflate(R.layout.empty_view, parent, false);
             EmptyViewHolder evh = new EmptyViewHolder(v);
             return evh;
         }
@@ -85,11 +83,18 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
-        if(holder instanceof EmptyViewHolder && isSearchFocused()){
-            CharSequence text = String.format((mContext.getResources().getText(R.string.iap_zero_results)).toString(), mCharacterText);
-            ((EmptyViewHolder) holder).tvEmptyMsg.setText(text);
-            mCharacterText="";
-            return;
+
+        if(holder instanceof EmptyViewHolder){
+
+            if(isSearchFocused()){
+                CharSequence text = String.format((mContext.getResources().getText(R.string.iap_zero_results)).toString(), mCharacterText);
+                ((EmptyViewHolder) holder).tvEmptyMsg.setText(text);
+                mCharacterText="";
+                return;
+            }else{
+                return;
+            }
+
         }
 
         ProductCatalogData productCatalogData = mProductCatalogList.get(holder.getAdapterPosition());
@@ -162,7 +167,7 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public int getItemCount() {
         //return mProductCatalogList.size();
-        return mProductCatalogList.size() > 0 ? mProductCatalogList.size() : 1;
+        return mProductCatalogList.size() > 0 && !isSearchFocused() ? mProductCatalogList.size() : 1;
     }
 
     @Override
