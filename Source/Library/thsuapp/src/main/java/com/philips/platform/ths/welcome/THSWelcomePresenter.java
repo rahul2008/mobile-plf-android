@@ -86,7 +86,7 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
         }
 
         try {
-            if (thsAuthentication.getAuthentication().needsToCompleteEnrollment()) {
+            if (thsAuthentication.needsToCompleteEnrollment()) {
                 THSManager.getInstance().completeEnrollment(uiBaseView.getContext(), thsAuthentication, this);
             } else {
                 THSManager.getInstance().getConsumerObject(uiBaseView.getFragmentActivity(), thsAuthentication.getAuthentication(), this);
@@ -97,7 +97,7 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     }
 
     private void refreshToken() {
-        new User(uiBaseView.getContext()).refreshLoginSession(new RefreshLoginSessionHandler() {
+        THSManager.getInstance().getUser(uiBaseView.getContext()).refreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
                 authenticateUser();

@@ -7,12 +7,14 @@ import android.support.v4.app.FragmentActivity;
 import com.americanwell.sdk.AWSDK;
 import com.americanwell.sdk.entity.Authentication;
 import com.americanwell.sdk.entity.SDKError;
+import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ConsumerManager;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.login.THSAuthentication;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
@@ -168,6 +170,27 @@ public class THSWelcomePresenterTest {
         when(awsdk.getConsumerManager()).thenReturn(ConsumerManagerMock);
         pthWelcomePresenter.onLoginResponse(THSAuthenticationMock, THSSDKError);
         verify(ConsumerManagerMock, atLeast(1)).getConsumer(any(Authentication.class), any(SDKCallback.class));
+    }
+
+    @Test
+    public void onLoginResponseWhenSDKErrorIsNotNull() throws Exception {
+        when(THSAuthenticationMock.getAuthentication()).thenReturn(authenticationMock);
+        when(awsdk.getConsumerManager()).thenReturn(ConsumerManagerMock);
+        when(THSSDKError.getSdkError()).thenReturn(sdkErrorMock);
+        when(sdkErrorMock.getHttpResponseCode()).thenReturn(401);
+        when(THSSDKError.getHttpResponseCode()).thenReturn(401);
+        pthWelcomePresenter.onLoginResponse(THSAuthenticationMock, THSSDKError);
+        verify(userMock, atLeast(1)).refreshLoginSession(any(RefreshLoginSessionHandler.class));
+    }
+
+    @Test
+    public void onLoginResponseWhenNotEnrolledProperly() throws Exception {
+        when(THSAuthenticationMock.getAuthentication()).thenReturn(authenticationMock);
+        when(awsdk.getConsumerManager()).thenReturn(ConsumerManagerMock);
+        when(THSSDKError.getSdkError()).thenReturn(sdkErrorMock);
+        when(THSAuthenticationMock.needsToCompleteEnrollment()).thenReturn(true);
+        pthWelcomePresenter.onLoginResponse(THSAuthenticationMock, THSSDKError);
+        verify(consumerManagerMock, atLeast(1)).completeEnrollment(any(Authentication.class), any(State.class), anyString(), anyString(), any(SDKCallback.class));
     }
 
      @Test
