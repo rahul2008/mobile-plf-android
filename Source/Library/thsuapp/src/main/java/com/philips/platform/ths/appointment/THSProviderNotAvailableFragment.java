@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.appointment;
 
 import android.os.Bundle;
@@ -10,7 +16,6 @@ import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.provider.Provider;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
-import com.americanwell.sdk.entity.provider.ProviderInfo;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.providerdetails.THSProviderEntity;

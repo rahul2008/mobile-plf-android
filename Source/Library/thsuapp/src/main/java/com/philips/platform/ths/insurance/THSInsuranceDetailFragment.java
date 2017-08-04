@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.insurance;
 
 import android.app.DatePickerDialog;
@@ -32,10 +38,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-/**
- * Created by philips on 7/11/17.
- */
 
 public class THSInsuranceDetailFragment extends THSBaseFragment implements BackEventListener, View.OnClickListener {
     public static final String TAG = THSInsuranceDetailFragment.class.getSimpleName();

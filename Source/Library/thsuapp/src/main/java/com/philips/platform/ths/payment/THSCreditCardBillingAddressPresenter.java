@@ -1,7 +1,12 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.payment;
 
 import com.americanwell.sdk.entity.Address;
-import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.entity.billing.CreatePaymentRequest;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
@@ -15,9 +20,6 @@ import com.philips.platform.ths.visit.THSWaitingRoomFragment;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by philips on 7/24/17.
- */
 
 public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, THSPaymentCallback.THSSDKValidatedCallback<THSPaymentMethod, THSSDKError> {
 

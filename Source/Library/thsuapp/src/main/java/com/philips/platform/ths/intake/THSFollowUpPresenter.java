@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.intake;
 
 import com.americanwell.sdk.entity.Address;
@@ -18,10 +24,6 @@ import com.philips.platform.ths.utility.THSManager;
 
 import java.util.List;
 import java.util.Map;
-
-/**
- * Created by philips on 7/4/17.
- */
 
 public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumerCallback<THSConsumer, THSSDKPasswordError>
         , THSPreferredPharmacyCallback, THSConsumerShippingAddressCallback {

@@ -1,25 +1,19 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.insurance;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.americanwell.sdk.entity.insurance.HealthPlan;
 import com.philips.platform.ths.R;
-import com.philips.platform.uid.view.widget.Label;
-
-import java.util.List;
-
-/**
- * Created by philips on 7/12/17.
- */
 
 public class THSHealthPlanListAdapter extends BaseAdapter {
 

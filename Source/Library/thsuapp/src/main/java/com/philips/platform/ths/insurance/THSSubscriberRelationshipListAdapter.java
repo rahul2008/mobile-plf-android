@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.insurance;
 
 import android.content.Context;
@@ -8,10 +14,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.philips.platform.ths.R;
-
-/**
- * Created by philips on 7/17/17.
- */
 
 public class THSSubscriberRelationshipListAdapter extends BaseAdapter {
 

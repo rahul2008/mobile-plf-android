@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.cost;
 
 import android.os.Bundle;
@@ -12,10 +18,6 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
-
-/**
- * Created by philips on 7/19/17.
- */
 
 public class THSCostSummaryFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSCostSummaryFragment.class.getSimpleName();
