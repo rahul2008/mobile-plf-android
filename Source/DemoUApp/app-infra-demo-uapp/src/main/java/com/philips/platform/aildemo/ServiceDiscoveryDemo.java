@@ -293,7 +293,6 @@ public class ServiceDiscoveryDemo extends AppCompatActivity implements ServiceDi
 
             Map dataMap = new HashMap<String, String>();
             Map.Entry pair = (Map.Entry) it.next();
-            System.out.println(pair.getKey() + " = " + pair.getValue());
             key = pair.getKey().toString();
             service = (ServiceDiscoveryService) pair.getValue();
             locale = service.getLocale();
