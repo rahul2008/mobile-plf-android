@@ -481,7 +481,7 @@ public class RegistrationCoppaSampleActivity extends Activity implements OnClick
         String optInQuessionaryText = getResources().getString(R.string.reg_Opt_In_What_Are_You_Going_To_Get);
         String optInDetailDescription = getResources().getString(R.string.reg_Opt_In_Special_Offers);
         String optInBannerText = getResources().getString(R.string.reg_Opt_In_Join_Now);
-        String optInTitleBarText = getResources().getString(R.string.reg_RegCreateAccount_NavTitle);
+        String optInTitleBarText = getResources().getString(R.string.reg_OptIn_NavTitle);
         registrationContentConfiguration = new RegistrationContentConfiguration();
         registrationContentConfiguration.setValueForRegistration(valueForRegistration);
         registrationContentConfiguration.setValueForEmailVerification(valueForEmailVerification);
