@@ -44,7 +44,7 @@ public class DebugTestFragmentTest extends TestCase {
     public void testDebugFragment() throws Exception {
         FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
         int fragmentCount = fragmentManager.getBackStackEntryCount();
-        assertEquals(1, fragmentCount);
+        assertEquals(0, fragmentCount);
     }
 
 //    @Test

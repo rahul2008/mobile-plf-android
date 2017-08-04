@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.philips.cdp.uikit.hamburger.HamburgerAdapter;
 import com.philips.cdp.uikit.hamburger.HamburgerItem;
@@ -44,11 +45,19 @@ public class HamburgerActivityTest {
     private NavigationView navigationView;
     private DrawerLayout philipsDrawerLayout;
     private FrameLayout hamburgerClick = null;
-    private ActivityController<TestActivity> activityController;
+    private ActivityController<HamburgerMock> activityController;
 
+//    private TestAppFrameworkApplication application = null;
+
+    static class HamburgerMock extends HamburgerActivity {
+        @Override
+        public void initDLS() {
+            setTheme(R.style.Theme_Philips_BrightAqua_Gradient_NoActionBar);
+        }
+    }
     @Before
     public void setup() {
-        activityController=Robolectric.buildActivity(TestActivity.class);
+        activityController=Robolectric.buildActivity(HamburgerMock.class);
         hamburgerActivity=activityController.create().start().get();
         navigationView = (NavigationView) hamburgerActivity.findViewById(R.id.navigation_view);
         philipsDrawerLayout = (DrawerLayout) hamburgerActivity.findViewById(R.id.philips_drawer_layout);

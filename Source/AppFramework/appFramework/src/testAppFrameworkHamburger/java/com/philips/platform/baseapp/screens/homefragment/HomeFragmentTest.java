@@ -92,7 +92,7 @@ public class HomeFragmentTest extends TestCase{
     @Test
     public void testWelcomeFragment() throws Exception {
 
-        assertEquals(1,hamburgerActivity.getSupportFragmentManager().getBackStackEntryCount());
+        assertEquals(0, hamburgerActivity.getSupportFragmentManager().getBackStackEntryCount());
 
     }
 

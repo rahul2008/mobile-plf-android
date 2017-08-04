@@ -108,6 +108,10 @@ public class SettingsFragment extends AbstractAppFrameworkBaseFragment implement
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setProgressBarVisibility(true);
+        startThread();
+    }
+
+    protected void startThread() {
         Thread t = new Thread(new BuildModel());
         t.start();
         RALog.d(TAG," BuildModel thread started ");
@@ -127,13 +131,17 @@ public class SettingsFragment extends AbstractAppFrameworkBaseFragment implement
                     public void run() {
                         setProgressBarVisibility(false);
                         if (getActivity() != null && settingsFragmentWeakReference != null && isAdded()) {
-                            adapter = new SettingsAdapter(getActivity(), settingScreenItemList, fragmentPresenter, userRegistrationState, isUserLoggedIn, isMarketingEnabled);
-                            list.setAdapter(adapter);
+                            setAdapterData(isUserLoggedIn, isMarketingEnabled, settingScreenItemList);
                         }
                     }
                 });
             }
         }
+    }
+
+    protected void setAdapterData(boolean isUserLoggedIn, boolean isMarketingEnabled, ArrayList<SettingListItem> settingScreenItemList) {
+        adapter = new SettingsAdapter(getActivity(), settingScreenItemList, fragmentPresenter, userRegistrationState, isUserLoggedIn, isMarketingEnabled);
+        list.setAdapter(adapter);
     }
 
     protected ArrayList<SettingListItem> filterSettingScreenItemList(ArrayList<SettingListItem> settingScreenItemList) {

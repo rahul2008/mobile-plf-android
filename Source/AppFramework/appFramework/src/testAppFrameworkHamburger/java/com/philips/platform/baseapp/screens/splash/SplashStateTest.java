@@ -59,6 +59,6 @@ public class SplashStateTest extends TestCase {
         splashState.navigate(fragmentLauncher);
         FragmentManager fragmentManager = hamburgerActivity.getSupportFragmentManager();
         int fragmentCount = fragmentManager.getBackStackEntryCount();
-        assertEquals(2,fragmentCount);
+        assertEquals(1,fragmentCount);
     }
 }
