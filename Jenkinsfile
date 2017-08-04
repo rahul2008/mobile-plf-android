@@ -23,6 +23,7 @@ node ('android&&docker') {
                 chmod -R 775 .
                 cd ./Source/AppFramework 
                 ./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assembleRelease
+				./gradlew --refresh-dependencies -PenvCode=${JENKINS_ENV} clean assemblePsraRelease
             '''
             }
             //stage('test') {
