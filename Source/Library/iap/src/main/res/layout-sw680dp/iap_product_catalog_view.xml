@@ -3,6 +3,7 @@
     android:layout_gravity="center_horizontal"
     android:maxWidth="@dimen/max_width"
     android:layout_width="@dimen/max_width"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:layout_height="match_parent">
 
     <LinearLayout
