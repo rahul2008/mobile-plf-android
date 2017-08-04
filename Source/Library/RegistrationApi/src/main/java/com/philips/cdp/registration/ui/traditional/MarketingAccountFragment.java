@@ -8,55 +8,59 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.app.ProgressDialog;
-import android.content.Context;
+import android.app.*;
+import android.content.*;
 import android.content.res.Configuration;
-import android.os.Bundle;
-import android.text.Html;
-import android.text.style.ClickableSpan;
+
+import android.os.*;
+import android.text.*;
+import android.text.style.*;
 import android.view.*;
+import android.widget.Button;
 import android.widget.*;
 
+import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.events.NetworStateListener;
-import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
+import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.settings.*;
-import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
+import com.philips.cdp.registration.ui.customviews.*;
+import com.philips.cdp.registration.ui.traditional.mobile.*;
 import com.philips.cdp.registration.ui.utils.*;
+import com.philips.platform.uid.view.widget.*;
+
+import butterknife.*;
+
 
 public class MarketingAccountFragment extends RegistrationBaseFragment implements
-        View.OnClickListener, NetworStateListener, UpdateUserDetailsHandler {
+        View.OnClickListener, MarketingAccountContract {
 
-    private LinearLayout mLlCreateAccountFields;
+    @BindView(R2.id.usr_marketingScreen_countMe_button)
+    ProgressBarButton countMeButton;
 
-    private LinearLayout mLlCreateAccountContainer;
+    @BindView(R2.id.usr_marketingScreen_maybeLater_button)
+    Button mayBeLaterButton;
 
-    private RelativeLayout mRlCountBtnContainer;
+    @BindView(R2.id.usr_marketingScreen_rootLayout_scrollView)
+    ScrollView rootLayoutScrollView;
 
-    private RelativeLayout mRlNoThanksBtnContainer;
+    @BindView(R2.id.usr_marketingScreen_error_regerror)
+    XRegError errorRegError;
 
-    private Button mBtnCountMe;
-
-    private Button mBtnNoThanks;
-
-    private User mUser;
-
-    private View mViewLine;
-
-    private Context mContext;
-
-    private ScrollView mSvRootLayout;
-
-    private TextView mTvJoinNow;
-
-    private long mTrackCreateAccountTime;
+    @BindView(R2.id.usr_marketingScreen_philipsNews_label)
+    Label receivePhilipsNewsLabel;
 
     private ProgressDialog mProgressDialog;
 
-    private XRegError mRegError;
+    private User mUser;
+
+    private Context mContext;
+
+    private Bundle mBundle;
+
+    private long mTrackCreateAccountTime;
+
+    MarketingAccountPresenter marketingAccountPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,19 +70,17 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        URInterface.getComponent().inject(this);
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onCreateView");
         RLog.d(RLog.EVENT_LISTENERS,
                 "CreateAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
         mContext = getRegistrationFragment().getActivity().getApplicationContext();
-
-        RegistrationHelper.getInstance().registerNetworkStateListener(this);
+        marketingAccountPresenter = new MarketingAccountPresenter(this);
+        marketingAccountPresenter.register();
         View view = inflater.inflate(R.layout.reg_fragment_marketing_opt, container, false);
+        ButterKnife.bind(this, view);
         initUI(view);
-
         setContentConfig(view);
-
-        mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
-
         handleOrientation(view);
         mTrackCreateAccountTime = System.currentTimeMillis();
         return view;
@@ -86,14 +88,12 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     private void setContentConfig(View view) {
         if (getRegistrationFragment().getContentConfiguration() != null) {
-            updateText(view, R.id.reg_be_the_first_txt,
-                    getRegistrationFragment().getContentConfiguration().getOptInTitleText());
-            updateText(view, R.id.reg_what_are_you_txt,
+            updateText(view, R.id.usr_marketingScreen_headTitle_Lable,
                     getRegistrationFragment().getContentConfiguration().getOptInQuessionaryText());
-            updateText(view, R.id.reg_special_officer_txt,
+            updateText(view, R.id.usr_marketingScreen_specialOffer_label,
                     getRegistrationFragment().getContentConfiguration().getOptInDetailDescription());
             if (getRegistrationFragment().getContentConfiguration().getOptInBannerText() != null) {
-                updateText(view, R.id.tv_reg_Join_now,
+                updateText(view, R.id.usr_marketingScreen_joinNow_Label,
                         getRegistrationFragment().getContentConfiguration().getOptInBannerText());
             } else {
                 defalutBannerText(view);
@@ -102,16 +102,17 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
             defalutBannerText(view);
         }
     }
-   void defalutBannerText(View view){
+
+    void defalutBannerText(View view) {
         String joinNow = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now);
-        String updateJoinNowText =  " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
+        String updateJoinNowText = " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
         joinNow = String.format(joinNow, updateJoinNowText);
-        updateText(view, R.id.tv_reg_Join_now,joinNow);
+        updateText(view, R.id.usr_marketingScreen_joinNow_Label, joinNow);
     }
 
     private void updateText(View view, int textViewId, String text) {
         TextView marketBeTheFirstTextView = (TextView) view.findViewById(textViewId);
-        if(text!=null && text.length()>0){
+        if (text != null && text.length() > 0) {
             marketBeTheFirstTextView.setText(Html.fromHtml(text));
         }
     }
@@ -123,51 +124,14 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onStart");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onResume");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onPause");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onStop");
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDestroyView");
-    }
-
-    @Override
     public void onDestroy() {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDestroy");
-        RegistrationHelper.getInstance().unRegisterNetworkListener(this);
+        marketingAccountPresenter.unRegister();
         RLog.d(RLog.EVENT_LISTENERS,
                 "CreateAccountFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
         super.onDestroy();
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDetach");
-    }
-
-    private Bundle mBundle;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -190,11 +154,6 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, mLlCreateAccountFields, width);
-        applyParams(config, mLlCreateAccountContainer, width);
-        applyParams(config, mRlCountBtnContainer, width);
-        applyParams(config, mRlNoThanksBtnContainer, width);
-        applyParams(config, mTvJoinNow, width);
     }
 
     @Override
@@ -204,35 +163,21 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_reg_count_me) {
+        if (v.getId() == R.id.usr_marketingScreen_countMe_button) {
             showRefreshProgress();
-            mUser.updateReceiveMarketingEmail(this, true);
-        } else if (v.getId() == R.id.btn_reg_no_thanks) {
+            marketingAccountPresenter.updateMarketingEmail(mUser, true);
+        } else if (v.getId() == R.id.usr_marketingScreen_maybeLater_button) {
             showRefreshProgress();
-            mUser.updateReceiveMarketingEmail(this, false);
+            marketingAccountPresenter.updateMarketingEmail(mUser, false);
         }
     }
 
     private void initUI(View view) {
         consumeTouch(view);
-        mLlCreateAccountFields = (LinearLayout) view
-                .findViewById(R.id.ll_reg_create_account_fields);
-        mLlCreateAccountContainer = (LinearLayout) view
-                .findViewById(R.id.ll_reg_create_account_container);
-        mRlCountBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_count_options);
-        mRlNoThanksBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_nothanks_options);
-        mBtnCountMe = (Button) view.findViewById(R.id.btn_reg_count_me);
-        mBtnNoThanks = (Button) view.findViewById(R.id.btn_reg_no_thanks);
-        mTvJoinNow = (TextView) view.findViewById(R.id.tv_reg_Join_now);
-        mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
-        TextView receivePhilipsNewsView = (TextView) view.findViewById(R.id.tv_reg_philips_news);
-        RegUtility.linkifyPhilipsNewsMarketing(receivePhilipsNewsView,
+        RegUtility.linkifyPhilipsNewsMarketing(receivePhilipsNewsLabel,
                 getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
-        mBtnCountMe.setOnClickListener(this);
-        mBtnNoThanks.setOnClickListener(this);
-        mViewLine = view.findViewById(R.id.reg_accept_terms_line);
-;
-        handleUiAcceptTerms();
+        countMeButton.setOnClickListener(this);
+        mayBeLaterButton.setOnClickListener(this);
         handleUiState();
         mUser = new User(mContext);
     }
@@ -245,21 +190,14 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         }
     };
 
-    private void handleUiAcceptTerms() {
-        if (RegistrationConfiguration.getInstance().isTermsAndConditionsAcceptanceRequired()) {
-            mViewLine.setVisibility(View.VISIBLE);
-        } else {
-            mViewLine.setVisibility(View.GONE);
-        }
-    }
-
-    private void handleRegistrationSuccess() {
+    @Override
+    public void handleRegistrationSuccess() {
         RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
         hideRefreshProgress();
         if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && !(mUser.isEmailVerified() || mUser.isMobileVerified())) {
-            if (FieldsValidator.isValidEmail(mUser.getEmail().toString())){
+            if (FieldsValidator.isValidEmail(mUser.getEmail().toString())) {
                 launchAccountActivateFragment();
-            }else {
+            } else {
                 launchMobileVerifyCodeFragment();
             }
         } else if (RegistrationConfiguration.getInstance().isEmailVerificationRequired() && (mUser.isEmailVerified() || mUser.isMobileVerified())) {
@@ -294,7 +232,7 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
 
     @Override
     public int getTitleResourceId() {
-        return R.string.reg_RegCreateAccount_NavTitle;
+        return R.string.reg_OptIn_NavTitle;
     }
 
     @Override
@@ -306,33 +244,13 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         return titleResourceText;
     }
 
-
     @Override
-    public void onNetWorkStateReceived(boolean isOnline) {
-        RLog.i(RLog.NETWORK_STATE, "CreateAccoutFragment :onNetWorkStateReceived : " + isOnline);
-        handleUiState();
-    }
-
-    @Override
-    public void onUpdateSuccess() {
-        trackRemarketing();
-        RLog.i("MarketingAccountFragment", "onUpdateSuccess ");
-        hideRefreshProgress();
-        handleRegistrationSuccess();
-    }
-
-    private void trackRemarketing() {
-        if(mUser.getReceiveMarketingEmail()){
+    public void trackRemarketing() {
+        if (mUser.getReceiveMarketingEmail()) {
             trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
-        }else{
+        } else {
             trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
         }
-    }
-
-    @Override
-    public void onUpdateFailedWithError(final int error) {
-        RLog.i("MarketingAccountFragment", "onUpdateFailedWithError ");
-        hideRefreshProgress();
     }
 
     private void showRefreshProgress() {
@@ -346,29 +264,31 @@ public class MarketingAccountFragment extends RegistrationBaseFragment implement
         }
     }
 
-    private void hideRefreshProgress() {
+    @Override
+    public void hideRefreshProgress() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
             mProgressDialog = null;
         }
     }
 
-    private void handleUiState() {
+    @Override
+    public void handleUiState() {
         if (new NetworkUtility(mContext).isNetworkAvailable()) {
             if (UserRegistrationInitializer.getInstance().isJanrainIntialized()) {
-                mRegError.hideError();
-                mBtnCountMe.setEnabled(true);
-                mBtnNoThanks.setEnabled(true);
+                errorRegError.hideError();
+                countMeButton.setEnabled(true);
+                mayBeLaterButton.setEnabled(true);
             } else {
-                mBtnCountMe.setEnabled(false);
-                mBtnNoThanks.setEnabled(false);
-                mRegError.setError(getString(R.string.reg_NoNetworkConnection));
+                countMeButton.setEnabled(false);
+                mayBeLaterButton.setEnabled(false);
+                errorRegError.setError(getString(R.string.reg_NoNetworkConnection));
             }
         } else {
-            mRegError.setError(getString(R.string.reg_NoNetworkConnection));
-            mBtnCountMe.setEnabled(false);
-            mBtnNoThanks.setEnabled(false);
-            scrollViewAutomatically(mRegError, mSvRootLayout);
+            errorRegError.setError(getString(R.string.reg_NoNetworkConnection));
+            countMeButton.setEnabled(false);
+            mayBeLaterButton.setEnabled(false);
+            scrollViewAutomatically(errorRegError, rootLayoutScrollView);
         }
     }
 }
