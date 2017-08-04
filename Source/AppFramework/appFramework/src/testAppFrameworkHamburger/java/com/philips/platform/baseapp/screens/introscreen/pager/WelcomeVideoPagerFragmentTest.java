@@ -55,12 +55,6 @@ public class WelcomeVideoPagerFragmentTest {
     }
 
     @Test
-    public void testThumbNailClick(){
-        thumbNail.performClick();
-        assertTrue(thumbNail.getVisibility() != View.VISIBLE);
-    }
-
-    @Test
     public void onFetchErrorTest(){
         welcomeVideoPagerFragment.onFetchError();
         assertTrue(thumbNail.getVisibility() == View.VISIBLE);
