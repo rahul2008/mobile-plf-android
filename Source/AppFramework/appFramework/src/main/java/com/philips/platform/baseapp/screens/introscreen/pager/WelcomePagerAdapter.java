@@ -27,18 +27,18 @@ public class WelcomePagerAdapter extends FragmentStatePagerAdapter {
             R.string.RA_DLS_onboarding_screen2_title, R.string.RA_DLS_onboarding_screen3_title,
             R.string.RA_DLS_onboarding_screen4_title, R.string.RA_DLS_onboarding_screen5_title,
             R.string.RA_DLS_onboarding_screen6_title, R.string.RA_DLS_onboarding_screen7_title,
-            R.string.RA_DLS_onboarding_screen8_title};
+            R.string.RA_DLS_onboarding_screen8_title, R.string.RA_DLS_onboarding_screen9_title};
 
     private final int[] subTitleResIds = new int[]{R.string.RA_DLS_onboarding_screen1_sub_text,
             R.string.RA_DLS_onboarding_screen2_sub_text, R.string.RA_DLS_onboarding_screen3_sub_text,
             R.string.RA_DLS_onboarding_screen4_sub_text, R.string.RA_DLS_onboarding_screen5_sub_text,
             R.string.RA_DLS_onboarding_screen6_sub_text, R.string.RA_DLS_onboarding_screen7_sub_text,
-            R.string.RA_DLS_onboarding_screen8_sub_text};
+            R.string.RA_DLS_onboarding_screen8_sub_text, R.string.RA_DLS_onboarding_screen9_sub_text};
 
-    private final int[] drawableResIds = new int[] {R.mipmap.onboarding_screen_2, R.mipmap.onboarding_screen_2,
-            R.mipmap.onboarding_screen_3, R.mipmap.onboarding_screen_4, R.mipmap.onboarding_screen_5,
-            R.mipmap.onboarding_screen_6, R.mipmap.onboarding_screen_7, R.mipmap.onboarding_screen_8,
-            R.mipmap.onboarding_screen_9};
+    private final int[] drawableResIds = new int[]{R.mipmap.onboarding_screen_2,
+            R.mipmap.onboarding_screen_2, R.mipmap.onboarding_screen_3, R.mipmap.onboarding_screen_4,
+            R.mipmap.onboarding_screen_5, R.mipmap.onboarding_screen_6, R.mipmap.onboarding_screen_7,
+            R.mipmap.onboarding_screen_8, R.mipmap.onboarding_screen_9};
 
     public WelcomePagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
