@@ -11,9 +11,10 @@
         android:id="@+id/pth_id_practice_label"
         style="@style/ths_list_item_header"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/ths_list_item_height"
         android:gravity="center_vertical"
         android:lineSpacingExtra="@dimen/pth_body_text_line_spacing_extra"
+        android:paddingRight="@dimen/pth_fab_margin"
+        android:paddingLeft="@dimen/pth_fab_margin"
         android:textSize="@dimen/pth_body_text" />
 
 
