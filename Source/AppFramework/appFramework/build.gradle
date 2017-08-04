@@ -249,6 +249,14 @@ android {
             proguardFile 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
+        psraRelease {
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
+            proguardFile 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
     }
 
     
@@ -351,6 +359,7 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     leakCanaryCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    psraReleaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.dagger'
