@@ -12,12 +12,16 @@ import android.content.*;
 import android.content.res.Configuration;
 import android.os.*;
 import android.support.annotation.NonNull;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
+import android.widget.ProgressBar;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.*;
 import com.philips.cdp.registration.configuration.*;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
@@ -29,6 +33,7 @@ import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.traditional.mobile.MobileForgotPasswordVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.uid.view.widget.*;
 import com.squareup.okhttp.RequestBody;
 
 import org.json.*;
@@ -37,6 +42,8 @@ import java.net.*;
 import java.util.*;
 
 import javax.inject.Inject;
+
+import butterknife.*;
 
 
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
@@ -57,21 +64,25 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private RelativeLayout mRlSignInBtnContainer;
 
-    private Button mBtnSignInAccount;
+    @BindView(R2.id.btn_reg_sign_in)
+    ProgressBarButton mBtnSignInAccount;
 
-    private Button mBtnForgot;
+    @BindView(R2.id.rl_reg_email_field)
+    InputValidationLayout mEtEmail;
 
-    private XButton mBtnResend;
+    @BindView(R2.id.usr_loginScreen_login_textField)
+    ValidationEditText loginValidationEditText;
 
-    private LoginIdEditText mEtEmail;
+    @BindView(R2.id.rl_reg_password_field)
+    InputValidationLayout mEtPassword;
 
-    private PasswordView mEtPassword;
+    @BindView(R2.id.usr_loginScreen_password_textField)
+    ValidationEditText passwordValidationEditText;
+
+    @BindView(R2.id.reg_forgot_password_text)
+    Label resetPasswordLabel;
 
     private User mUser;
-
-    private ProgressBar mPbSignInSpinner;
-
-    private ProgressBar mPbForgotPasswdSpinner;
 
     private ProgressBar mPbResendSpinner;
 
@@ -80,8 +91,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private Context mContext;
 
     private LinearLayout mLlattentionBox;
-
-    private View mViewAttentionBoxLine;
 
     private TextView mTvResendDetails;
 
@@ -108,15 +117,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private RegistrationSettingsURL registrationSettingsURL;
     String resetPasswordSmsRedirectUri;
 
-
-
-    /*public static final String DEV_VERFICATION_CODE = "http://10.128.30.23:8080/philips-api/api/v1/user/requestVerificationSmsCode";
-    public static final String EVAL_VERFICATION_CODE = "https://acc.philips.com.cn/api/v1/user/requestVerificationSmsCode";
-    public static final String PROD_VERFICATION_CODE = "https://www.philips.com.cn/api/v1/user/requestVerificationSmsCode";
-    public static final String STAGE_VERFICATION_CODE = "https://acc.philips.com.cn/api/v1/user/requestVerificationSmsCode";
-    public static final String TEST_VERFICATION_CODE = "https://tst.philips.com/api/v1/user/requestVerificationSmsCode";
-*/
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onCreate");
@@ -132,48 +132,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         EventHelper.getInstance()
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
         View view = inflater.inflate(R.layout.reg_fragment_sign_in_account, null);
+        ButterKnife.bind(this, view);
         RLog.i(RLog.EVENT_LISTENERS,
                 "SignInAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
         handleOrientation(view);
         return view;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onActivityCreated");
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onStart");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onResume");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onPause");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onStop");
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onDestroyView");
     }
 
     @Override
@@ -185,12 +150,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         RLog.i(RLog.EVENT_LISTENERS,
                 "SignInAccountFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
         super.onDestroy();
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onDetach");
     }
 
     private boolean isLoginBtn;
@@ -206,26 +165,20 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                     mBundle.putString("saveErrText", mRegError.getErrorMsg());
                 }
             }
-            if (mEtEmail != null) {
-                if (mEtEmail.isEmailErrorVisible()) {
-                    isSavedEmailError = true;
-                    mBundle.putBoolean("isSaveEmailErrText", isSavedEmailError);
-                    mBundle.putString("saveEmailErrText", mEtEmail.getSavedEmailErrDescription());
-                }
+            if (loginValidationEditText != null) {
+//                if (mEtEmail.isEmailErrorVisible()) {
+//                    isSavedEmailError = true;
+//                    mBundle.putBoolean("isSaveEmailErrText", isSavedEmailError);
+//                    mBundle.putString("saveEmailErrText", mEtEmail.getSavedEmailErrDescription());
+//                }
             }
+
             if (mEtPassword != null) {
-                if (mEtPassword.isPasswordErrorVisible()) {
-                    isSavedPasswordErr = true;
-                    mBundle.putBoolean("isSavedPasswordErr", isSavedPasswordErr);
-                    mBundle.putString("savedPasswordErr", mEtPassword.getmSavedPasswordErrDescription());
-                }
-            }
-            if (mBtnResend != null) {
-                if (mBtnResend.getVisibility() == View.VISIBLE && mEtEmail.isEmailErrorVisible()) {
-                    isSavedVerifyEmail = true;
-                    mBundle.putBoolean("isSavedVerifyEmail", isSavedVerifyEmail);
-                    mBundle.putString("savedVerifyEmail", mEtEmail.getSavedEmailErrDescription());
-                }
+//                if (mEtPassword.isPasswordErrorVisible()) {
+//                    isSavedPasswordErr = true;
+//                    mBundle.putBoolean("isSavedPasswordErr", isSavedPasswordErr);
+//                    mBundle.putString("savedPasswordErr", mEtPassword.getmSavedPasswordErrDescription());
+//                }
             }
             mBundle.putBoolean("isLoginBton", isLoginBtn);
         }
@@ -238,22 +191,19 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             if (savedInstanceState.getString("saveEmailErrText") != null
                     && savedInstanceState.getBoolean("isSaveEmailErrText")
                     && !savedInstanceState.getBoolean("isLoginBton")) {
-                mEtEmail.setErrDescription(savedInstanceState.getString("saveEmailErrText"));
-                mEtEmail.showInvalidAlert();
-                mEtEmail.showErrPopUp();
+                mEtEmail.setErrorMessage(savedInstanceState.getString("saveEmailErrText"));
+//                mEtEmail.showErrPopUp();
 
             } else if (savedInstanceState.getBoolean("isSavedRegError")) {
                 mRegError.setError(savedInstanceState.getString("saveErrText"));
             }
             if (savedInstanceState.getString("savedPasswordErr") != null && savedInstanceState.getBoolean("isSavedPasswordErr")) {
-                mEtPassword.setErrDescription(savedInstanceState.getString("savedPasswordErr"));
-                mEtPassword.showInvalidPasswordAlert();
+                mEtPassword.setErrorMessage(savedInstanceState.getString("savedPasswordErr"));
+//                mEtPassword.showInvalidPasswordAlert();
             }
             if (savedInstanceState.getString("savedVerifyEmail") != null && savedInstanceState.getBoolean("isSavedVerifyEmail")) {
-                mEtEmail.setErrDescription(savedInstanceState.getString("savedVerifyEmail"));
-                mEtEmail.showInvalidAlert();
-                mEtEmail.showErrPopUp();
-                mBtnResend.setVisibility(View.VISIBLE);
+                mEtEmail.setErrorMessage(savedInstanceState.getString("savedVerifyEmail"));
+//                mEtEmail.showErrPopUp();
             }
         }
         mBundle = null;
@@ -289,15 +239,15 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             isLoginBtn = true;
             RLog.d(RLog.ONCLICK, "SignInAccountFragment : SignIn");
             hideValidations();
+            mBtnSignInAccount.showProgressIndicator();
             signIn();
         } else if (id == R.id.btn_reg_forgot_password) {
             isLoginBtn = false;
             RLog.d(RLog.ONCLICK, "SignInAccountFragment : Forgot Password");
             hideValidations();
-            mEtEmail.clearFocus();
-            mEtPassword.clearFocus();
-            if (mEtEmail.getEmailId().length() == 0) {
-
+            loginValidationEditText.clearFocus();
+            passwordValidationEditText.clearFocus();
+            if (loginValidationEditText.getText().length() == 0) {
                 launchResetPasswordFragment();
             } else {
                 RLog.d(RLog.ONCLICK, "SignInAccountFragment : I am in Other Country");
@@ -305,8 +255,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
             }
         } else if (id == R.id.btn_reg_resend) {
             RLog.d(RLog.ONCLICK, "SignInAccountFragment : Resend");
-            mEtEmail.clearFocus();
-            mEtPassword.clearFocus();
+            loginValidationEditText.clearFocus();
+            passwordValidationEditText.clearFocus();
             RLog.d(RLog.ONCLICK, "AccountActivationFragment : Resend");
             handleResend();
         }
@@ -332,40 +282,38 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private void initUI(View view) {
         consumeTouch(view);
-        mBtnSignInAccount = (Button) view.findViewById(R.id.btn_reg_sign_in);
         mViewHavingProblem = (XHavingProblems) view.findViewById(R.id.view_having_problem);
         mBtnSignInAccount.setOnClickListener(this);
-        mBtnForgot = (Button) view.findViewById(R.id.btn_reg_forgot_password);
-        mBtnForgot.setOnClickListener(this);
-        mBtnResend = (XButton) view.findViewById(R.id.btn_reg_resend);
-        mBtnResend.setOnClickListener(this);
         mLlCreateAccountFields = (LinearLayout) view
                 .findViewById(R.id.ll_reg_create_account_fields);
         mRlSignInBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_welcome_container);
 
-        mEtEmail = (LoginIdEditText) view.findViewById(R.id.rl_reg_email_field);
-        mEtEmail.checkingEmailorMobileSignIn();
         mEtEmail.setOnClickListener(this);
-        mEtEmail.setOnUpdateListener(this);
+        mEtEmail.setValidator(email -> FieldsValidator.isValidEmail(email.toString()));
+        mEtEmail.setErrorMessage("Please enter a valid email address.");
         mEtEmail.setFocusable(true);
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         mEtEmail.requestFocus();
 
-        mEtPassword = (PasswordView) view.findViewById(R.id.rl_reg_password_field);
         mEtPassword.setOnClickListener(this);
-        mEtPassword.setOnUpdateListener(this);
-        mEtPassword.isValidatePassword(false);
+        mEtPassword.setValidator(password -> password.length() > 0);
+        mEtPassword.setErrorMessage("Please enter a valid password");
+        underlineResetPassword();
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mLlattentionBox = (LinearLayout) view.findViewById(R.id.ll_reg_attention_box);
-        mViewAttentionBoxLine = view.findViewById(R.id.view_reg_attention_box_line);
         mTvResendDetails = (TextView) view.findViewById(R.id.tv_reg_resend_details);
         handleUiState();
 
         mUser = new User(mContext);
-        mPbSignInSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_sign_in_spinner);
-        mPbForgotPasswdSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_forgot_spinner);
         mPbResendSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_resend_spinner);
         registrationSettingsURL = new RegistrationSettingsURL();
+    }
+
+    private void underlineResetPassword() {
+        SpannableString content = new SpannableString(resetPasswordLabel.getText());
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        resetPasswordLabel.setText(content);
+        resetPasswordLabel.setOnClickListener(view -> launchResetPasswordFragment());
     }
 
     @Override
@@ -376,20 +324,21 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     private void signIn() {
         ((RegistrationFragment) getParentFragment()).hideKeyBoard();
         mEtEmail.clearFocus();
+        loginValidationEditText.setEnabled(false);
         mEtPassword.clearFocus();
-        mBtnForgot.setEnabled(false);
-        mBtnResend.setEnabled(false);
+        passwordValidationEditText.setEnabled(false);
+        resetPasswordLabel.setClickable(false);
         if (mUser != null) {
             showSignInSpinner();
         }
-        if (FieldsValidator.isValidEmail(mEtEmail.getEmailId())) {
-            mEmail = mEtEmail.getEmailId();
-        } else {
-            mEmail = FieldsValidator.getMobileNumber(mEtEmail.getEmailId());
+        if (FieldsValidator.isValidEmail(loginValidationEditText.getText().toString())) {
+            mEmail = loginValidationEditText.getText().toString();
+        }
+        else {
+            mEmail = FieldsValidator.getMobileNumber(loginValidationEditText.getText().toString());
         }
 
-        mUser.loginUsingTraditional(mEmail, mEtPassword.getPassword()
-                .toString(), this);
+        mUser.loginUsingTraditional(mEmail, passwordValidationEditText.getText().toString(), this);
     }
 
     private String mEmail;
@@ -421,10 +370,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private void handleLogInFailed(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "SignInAccountFragment : onLoginFailedWithError");
-        mBtnForgot.setEnabled(true);
-        mBtnResend.setEnabled(true);
         hideSignInSpinner();
-        mBtnSignInAccount.setEnabled(false);
+        mBtnSignInAccount.hideProgressIndicator();
+        loginValidationEditText.setEnabled(true);
+        passwordValidationEditText.setEnabled(true);
+        resetPasswordLabel.setClickable(true);
 
         if (userRegistrationFailureInfo.getErrorCode() == -1 || userRegistrationFailureInfo.getErrorCode() == BAD_RESPONSE_CODE
                 || userRegistrationFailureInfo.getErrorCode() == UN_EXPECTED_ERROR || userRegistrationFailureInfo.getErrorCode() == INPUTS_INVALID_CODE) {
@@ -464,7 +414,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.reg_ForgotPwdEmailResendMsg_Title),
                 mContext.getResources().getString(R.string.reg_ForgotPwdEmailResendMsg), getRegistrationFragment().getParentActivity(), mContinueBtnClick);
         hideForgotPasswordSpinner();
-        mBtnResend.setEnabled(true);
         mRegError.hideError();
     }
 
@@ -476,21 +425,19 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private void handleSendForgetPasswordFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordFailedWithError ERROR CODE :" + userRegistrationFailureInfo.getErrorCode());
-        mBtnResend.setEnabled(true);
         hideForgotPasswordSpinner();
 
         if (userRegistrationFailureInfo.getErrorCode() == SOCIAL_SIGIN_IN_ONLY_CODE) {
             mLlattentionBox.setVisibility(View.VISIBLE);
-            mEtEmail.showInvalidAlert();
+//            mEtEmail.showInvalidAlert();
             mTvResendDetails.setVisibility(View.VISIBLE);
             mViewHavingProblem.setVisibility(View.GONE);
             mTvResendDetails.setText(getString(R.string.reg_TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt));
-            mEtEmail.setErrDescription(getString(R.string.reg_TraditionalSignIn_ForgotPwdSocialError_lbltxt));
-            mEtEmail.showErrPopUp();
+            mEtEmail.setErrorMessage(getString(R.string.reg_TraditionalSignIn_ForgotPwdSocialError_lbltxt));
+//            mEtEmail.showErrPopUp();
             trackActionStatus(AppTagingConstants.SEND_DATA,
                     AppTagingConstants.USER_ERROR, AppTagingConstants.ALREADY_SIGN_IN_SOCIAL);
             AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
-            mBtnForgot.setEnabled(false);
             return;
         } else {
             mLlattentionBox.setVisibility(View.GONE);
@@ -500,58 +447,57 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         }
 
         if (null != userRegistrationFailureInfo.getSocialOnlyError()) {
-            mEtEmail.showErrPopUp();
-            mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
-            mEtEmail.showInvalidAlert();
+//            mEtEmail.showErrPopUp();
+            mEtEmail.setErrorMessage(userRegistrationFailureInfo.getSocialOnlyError());
+//            mEtEmail.showInvalidAlert();
             AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
             return;
         }
 
         if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
-            mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
-            mEtEmail.showInvalidAlert();
-            mEtEmail.showErrPopUp();
+            mEtEmail.setErrorMessage(userRegistrationFailureInfo.getEmailErrorMessage());
+//            mEtEmail.showInvalidAlert();
+//            mEtEmail.showErrPopUp();
         }
         AppTaggingErrors.trackActionForgotPasswordFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
     }
 
     private void showSignInSpinner() {
         mBtnSignInAccount.setEnabled(false);
-        mPbSignInSpinner.setVisibility(View.VISIBLE);
-        mEtEmail.setClickableTrue(false);
-        mEtPassword.setClicableTrue(false);
-        mEtPassword.showPasswordEtFocusDisable();
-        mEtPassword.disableMaskPassoword();
+        mEtEmail.setClickable(false);
+        mEtPassword.setClickable(false);
+//        mEtPassword.showPasswordEtFocusDisable();
+//        mEtPassword.disableMaskPassoword();
     }
 
     private void hideSignInSpinner() {
-        mPbSignInSpinner.setVisibility(View.INVISIBLE);
+//        mPbSignInSpinner.setVisibility(View.INVISIBLE);
         mBtnSignInAccount.setEnabled(true);
-        mEtEmail.setClickableTrue(true);
-        mEtPassword.setClicableTrue(true);
-        mEtPassword.showEtPasswordFocusEnable();
-        mEtPassword.enableMaskPassword();
+        mEtEmail.setClickable(true);
+        mEtPassword.setClickable(true);
+//        mEtPassword.showEtPasswordFocusEnable();
+//        mEtPassword.enableMaskPassword();
     }
 
     private void showForgotPasswordSpinner() {
-        mPbForgotPasswdSpinner.setVisibility(View.VISIBLE);
-        mBtnForgot.setEnabled(false);
+//        mPbForgotPasswdSpinner.setVisibility(View.VISIBLE);
+//        mBtnForgot.setEnabled(false);
     }
 
     private void hideForgotPasswordSpinner() {
-        mPbForgotPasswdSpinner.setVisibility(View.INVISIBLE);
-        mBtnForgot.setEnabled(true);
+//        mPbForgotPasswdSpinner.setVisibility(View.INVISIBLE);
+//        mBtnForgot.setEnabled(true);
     }
 
     private void resetPassword() {
         boolean validatorResult;
-        if (FieldsValidator.isValidEmail(mEtEmail.getEmailId())) {
+        if (FieldsValidator.isValidEmail(loginValidationEditText.getText().toString())) {
             validatorResult = true;
         } else {
-            validatorResult = FieldsValidator.isValidMobileNumber(mEtEmail.getEmailId());
+            validatorResult = FieldsValidator.isValidMobileNumber(loginValidationEditText.getText().toString());
         }
         if (!validatorResult) {
-            mEtEmail.showInvalidAlert();
+//            mEtEmail.showInvalidAlert();
         } else {
             if (networkUtility.isNetworkAvailable()) {
                 if (mUser != null) {
@@ -559,10 +505,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                     mEtEmail.clearFocus();
                     mEtPassword.clearFocus();
                     mBtnSignInAccount.setEnabled(false);
-                    mBtnResend.setEnabled(false);
-                    //mUser.forgotPassword(mEtEmail.getEmailId(), this);
-                    if (FieldsValidator.isValidEmail(mEtEmail.getEmailId())) {
-                        mUser.forgotPassword(mEtEmail.getEmailId(), this);
+                    mUser.forgotPassword(loginValidationEditText.getText().toString(), this);
+                    if (FieldsValidator.isValidEmail(loginValidationEditText.getText().toString())) {
+                        mUser.forgotPassword(loginValidationEditText.getText().toString(), this);
                     } else {
                         serviceDiscovery();
                     }
@@ -575,24 +520,15 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void updateUiStatus() {
-        if (mEtEmail.isValidEmail() && mEtPassword.isValidPassword()
-                && networkUtility.isNetworkAvailable()) {
+        if (FieldsValidator.isValidEmail(loginValidationEditText.getText().toString()) && networkUtility.isNetworkAvailable()) {
             mLlattentionBox.setVisibility(View.GONE);
             mBtnSignInAccount.setEnabled(true);
-            mBtnForgot.setEnabled(true);
-            mBtnResend.setEnabled(true);
             mRegError.hideError();
-        } else if (mEtEmail.isValidEmail() && networkUtility.isNetworkAvailable()) {
-            mBtnForgot.setEnabled(true);
+        } else if (FieldsValidator.isValidEmail(loginValidationEditText.getText().toString()) && networkUtility.isNetworkAvailable()) {
             mBtnSignInAccount.setEnabled(false);
-            mBtnResend.setEnabled(false);
         } else {
-            if (mEtEmail.getEmailId().length() == 0) {
-                mBtnForgot.setEnabled(true);
-            } else {
-                mBtnForgot.setEnabled(false);
+            if (loginValidationEditText.getText().length() != 0) {
                 mBtnSignInAccount.setEnabled(false);
-                mBtnResend.setEnabled(false);
             }
         }
     }
@@ -650,20 +586,15 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         AppTaggingErrors.trackActionResendNetworkFailure(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
         mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + "\n"
                 + userRegistrationFailureInfo.getEmailErrorMessage());
-        mBtnResend.setEnabled(true);
     }
 
     private void updateResendUIState() {
         mBtnSignInAccount.setEnabled(true);
-        mBtnResend.setEnabled(true);
-        mBtnForgot.setEnabled(true);
         hideResendSpinner();
     }
 
     private void handleLoginSuccess() {
         hideSignInSpinner();
-        mBtnForgot.setEnabled(true);
-        mBtnResend.setEnabled(true);
         mRegError.hideError();
 
         boolean isEmailAvailable = mUser.getEmail() != null && FieldsValidator.isValidEmail(mUser.getEmail());
@@ -688,43 +619,31 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 }
             }
         } else {
-            if (FieldsValidator.isValidEmail(mEtEmail.getEmailId().toString())) {
-                mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_Janrain_Error_Need_Email_Verification));
+            if (FieldsValidator.isValidEmail(loginValidationEditText.getText().toString())) {
+                mEtEmail.setErrorMessage(mContext.getResources().getString(R.string.reg_Janrain_Error_Need_Email_Verification));
                 mTvResendDetails.setText(mContext.getResources().getString(R.string.reg_VerifyEmail_ResendErrorMsg_lbltxt));
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ERROR, AppTagingConstants.EMAIL_NOT_VERIFIED);
             } else {
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.USER_ERROR, AppTagingConstants.MOBILE_NUMBER_NOT_VERIFIED);
-                mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_Janrain_Error_Need_Mobile_Verification));
+                mEtEmail.setErrorMessage(mContext.getResources().getString(R.string.reg_Janrain_Error_Need_Mobile_Verification));
                 mTvResendDetails.setText(mContext.getResources().getString(R.string.reg_Mobile_TraditionalSignIn_Instruction_lbltxt));
             }
             mTvResendDetails.setVisibility(View.VISIBLE);
             mViewHavingProblem.setVisibility(View.GONE);
-            mEtEmail.showInvalidAlert();
-            mEtEmail.showErrPopUp();
+//            mEtEmail.showInvalidAlert();
+//            mEtEmail.showErrPopUp();
             mBtnSignInAccount.setEnabled(false);
-            mBtnResend.setVisibility(View.VISIBLE);
             mLlattentionBox.setVisibility(View.VISIBLE);
-            mViewAttentionBoxLine.setVisibility(View.INVISIBLE);
         }
 
     }
 
-    private OnClickListener mContinueBtnClick = new OnClickListener() {
-
-        @Override
-        public void onClick(View view) {
-            RegAlertDialog.dismissDialog();
-        }
-    };
+    private OnClickListener mContinueBtnClick = view -> RegAlertDialog.dismissDialog();
 
 
-    private OnClickListener mContinueVerifyBtnClick = new OnClickListener() {
-
-        @Override
-        public void onClick(View view) {
-            RegAlertDialog.dismissDialog();
-            updateActivationUIState();
-        }
+    private OnClickListener mContinueVerifyBtnClick = view -> {
+        RegAlertDialog.dismissDialog();
+        updateActivationUIState();
     };
 
     private void hideResendSpinner() {
@@ -746,13 +665,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private void handleResend() {
         showResendSpinner();
-        mBtnResend.setEnabled(false);
         mBtnSignInAccount.setEnabled(false);
-        mBtnForgot.setEnabled(false);
         if (registrationSettingsURL.isChinaFlow()) {
             serviceDiscovery();
         } else {
-            mUser.resendVerificationMail(mEtEmail.getEmailId(), this);
+            mUser.resendVerificationMail(loginValidationEditText.getText().toString(), this);
         }
     }
 
@@ -793,9 +710,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
                 RLog.d(RLog.SERVICE_DISCOVERY, " onError  : userreg.urx.verificationsmscode : " + errorvalues);
                 verificationSmsCodeURL = null;
-                mEtEmail.setErrDescription(getResources().getString(R.string.reg_Generic_Network_Error));
-                mEtEmail.showErrPopUp();
-                mEtEmail.showInvalidAlert();
+                mEtEmail.setErrorMessage(getResources().getString(R.string.reg_Generic_Network_Error));
+//                mEtEmail.showErrPopUp();
+//                mEtEmail.showInvalidAlert();
                 updateResendUIState();
             }
 
@@ -859,7 +776,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 RLog.i("MobileVerifyCodeFragment ", " isAccountActivate is " + token + " -- " + response);
                 MobileForgotPasswordVerifyCodeFragment mobileForgotPasswordVerifyCodeFragment = new MobileForgotPasswordVerifyCodeFragment();
                 Bundle bundle = new Bundle();
-                bundle.putString(mobileNumberKey, mEtEmail.getEmailId());
+                bundle.putString(mobileNumberKey, loginValidationEditText.getText().toString());
                 bundle.putString(tokenKey, token);
                 bundle.putString(redirectUriKey, getRedirectUri());
                 bundle.putString(verificationSmsCodeURLKey, verificationSmsCodeURL);
@@ -867,10 +784,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 getRegistrationFragment().addFragment(mobileForgotPasswordVerifyCodeFragment);
             } else {
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.TECHNICAL_ERROR, AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION_FAILURE);
-                String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode").toString(), mContext);
-                mEtEmail.setErrDescription(errorMsg);
-                mEtEmail.showErrPopUp();
-                mEtEmail.showInvalidAlert();
+                String errorMsg = RegChinaUtil.getErrorMsgDescription(jsonObject.getString("errorCode"), mContext);
+                mEtEmail.setErrorMessage(errorMsg);
+//                mEtEmail.showErrPopUp();
+//                mEtEmail.showInvalidAlert();
                 RLog.i("MobileVerifyCodeFragment ", " SMS Resend failure = " + response);
                 return;
             }
@@ -885,14 +802,14 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         final String bodyContentKey = "bodyContent";
         final String urlKey = "url";
 
-        RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER *** : " + mEtEmail.getEmailId());
+        RLog.d(RLog.EVENT_LISTENERS, "MOBILE NUMBER *** : " + loginValidationEditText.getText().toString());
         RLog.d("Configration : ", " envir :" + RegistrationConfiguration.getInstance().getRegistrationEnvironment());
 
         Intent httpServiceIntent = new Intent(mContext, HttpClientService.class);
         HttpClientServiceReceiver receiver = new HttpClientServiceReceiver(new Handler());
         receiver.setListener(this);
 
-        String bodyContent = "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(mEtEmail.getEmailId()) +
+        String bodyContent = "provider=JANRAIN-CN&phonenumber=" + FieldsValidator.getMobileNumber(loginValidationEditText.getText().toString()) +
                 "&locale=zh_CN&clientId=" + getClientId() + "&code_type=short&" +
                 "redirectUri=" + getRedirectUri();
         RLog.d("Configration : ", " envir :" + getClientId() + getRedirectUri());
@@ -919,9 +836,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         RLog.i("MobileVerifyCodeFragment ", "onReceiveResult Response Val = " + response);
         hideForgotPasswordSpinner();
         if (response == null) {
-            mEtEmail.showInvalidAlert();
-            mEtEmail.setErrDescription(mContext.getResources().getString(R.string.reg_Invalid_PhoneNumber_ErrorMsg));
-            mEtEmail.showErrPopUp();
+//            mEtEmail.showInvalidAlert();
+            mEtEmail.setErrorMessage(mContext.getResources().getString(R.string.reg_Invalid_PhoneNumber_ErrorMsg));
+//            mEtEmail.showErrPopUp();
             updateResendUIState();
         } else {
             handleResendSMSRespone(response);
