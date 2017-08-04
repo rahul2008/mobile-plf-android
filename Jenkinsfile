@@ -59,7 +59,6 @@ node ('android&&docker') {
                 androidLint canComputeNew: false, canRunOnFailed: true, defaultEncoding: '', healthy: '', pattern: '', shouldDetectModules: true, unHealthy: '', unstableTotalHigh: '0'
                 junit allowEmptyResults: true, testResults: 'Source/Library/*/build/test-results/*/*.xml'
                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/dataServices/build/reports/tests/release', reportFiles: 'index.html', reportName: 'unit test release']) 
-                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/dataServices/build/reports/tests/debug', reportFiles: 'index.html', reportName: 'unit test debug']) 
                 archiveArtifacts '**/dependencies.lock'
             }
 
@@ -85,7 +84,6 @@ node ('android&&docker') {
                 }                
             }     
             stage('informing') {
-            	step([$class: 'StashNotifier'])
             	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
             }
             stage('Cleaning workspace') {
