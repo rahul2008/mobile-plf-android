@@ -44,7 +44,6 @@ public class BeardStyle implements ContentInterface {
 
     @Override
     public boolean parseInput(String json) {
-        System.out.println("JSONELEMENT" + "" + json);
         JsonElement response = new JsonParser().parse(json);
         this.uid = String.valueOf(response.getAsJsonObject().get("uid"));
         this.icon = String.valueOf(response.getAsJsonObject().get("icon"));

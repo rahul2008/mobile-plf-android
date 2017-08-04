@@ -7,6 +7,7 @@ package com.philips.platform.aildemo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -113,7 +114,7 @@ public class LoggingActivity extends AppCompatActivity {
                         try {
                             totalLogCount = Integer.parseInt(logCount.getText().toString());
                         } catch (NumberFormatException nfe) {
-                            System.out.println("Could not parse log count" + nfe);
+                            Log.i("LoggingActivity","Could not parse log count"+ nfe);
                         }
 
                         for (int logcount = 1; logcount <= totalLogCount; logcount++) {
