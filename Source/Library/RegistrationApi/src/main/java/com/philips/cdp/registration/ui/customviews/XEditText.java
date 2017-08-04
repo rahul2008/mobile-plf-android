@@ -10,8 +10,7 @@ package com.philips.cdp.registration.ui.customviews;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.*;
 
 import com.philips.cdp.registration.ui.utils.FontLoader;
 

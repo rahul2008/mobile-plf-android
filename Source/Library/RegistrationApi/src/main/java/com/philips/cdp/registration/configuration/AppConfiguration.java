@@ -10,15 +10,7 @@ package com.philips.cdp.registration.configuration;
 
 import java.util.List;
 
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.DEFAULT;
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.FALLBACK_HOME_COUNTRY;
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.FLOW_EMAIL_VERIFICATION_REQUIRED;
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.FLOW_MINIMUM_AGE_LIMIT;
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.FLOW_TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED;
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.PIL_CONFIGURATION_CAMPAIGN_ID;
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.SHOW_COUNTRY_SELECTION;
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.SIGNIN_PROVIDERS;
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.SUPPORTED_HOME_COUNTRIES;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.*;
 
 public class AppConfiguration extends BaseConfiguration {
 

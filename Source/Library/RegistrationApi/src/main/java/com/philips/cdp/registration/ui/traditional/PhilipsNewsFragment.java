@@ -11,13 +11,8 @@ package com.philips.cdp.registration.ui.traditional;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Html;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.view.*;
+import android.widget.*;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.ui.utils.RLog;

@@ -109,6 +109,7 @@
                 android:layout_marginBottom="@dimen/reg_layout_margin_10dp"
                 android:layout_marginTop="@dimen/reg_layout_margin_8dp"
                 android:enabled="false"
+                app:uidProgressIndicatorButtonProgressText="@string/reg_Continue_Btntxt"
                 app:uidIsIndeterminateProgressIndicator="true"
                 app:uidProgressIndicatorButtonText="@string/reg_Continue_Btntxt" />
 

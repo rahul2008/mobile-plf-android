@@ -3,10 +3,7 @@ package com.philips.cdp.registration.configuration;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_APPLICATION_NAME;
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_BASE_URL;
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_SECRET;
-import static com.philips.cdp.registration.configuration.URConfigurationConstants.HSDP_CONFIGURATION_SHARED;
+import static com.philips.cdp.registration.configuration.URConfigurationConstants.*;
 
 public class HSDPConfiguration extends BaseConfiguration {
 

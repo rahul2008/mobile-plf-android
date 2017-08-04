@@ -1,7 +1,6 @@
 package com.philips.cdp.registration.ui.utils;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.regex.*;
 
 import static com.philips.platform.uid.view.widget.InputValidationLayout.Validator;
 

@@ -9,28 +9,18 @@
 package com.philips.cdp.registration.ui.traditional;
 
 import android.content.res.Configuration;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
+import android.os.*;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
+import android.view.*;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.LinearLayout;
+import android.widget.*;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.ScrollView;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.app.tagging.AppTagging;
-import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.app.tagging.*;
 import com.philips.cdp.registration.ui.utils.RLog;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public abstract class RegistrationBaseFragment extends Fragment {
 

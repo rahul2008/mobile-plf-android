@@ -11,28 +11,25 @@ package com.philips.cdp.registration.ui.traditional;
 
 import android.content.*;
 import android.content.res.Configuration;
-import android.os.*;
-import android.support.v4.app.*;
-import android.support.v4.content.*;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.*;
-import android.text.style.*;
+import android.text.style.ClickableSpan;
 import android.view.*;
 import android.widget.Button;
 import android.widget.*;
 import android.widget.ProgressBar;
-
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.ui.customviews.*;
-import com.philips.cdp.registration.ui.traditional.mobile.*;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
+import com.philips.cdp.registration.ui.customviews.XRegError;
+import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.*;
-
 import javax.inject.*;
-
 import butterknife.*;
 
 public class CreateAccountFragment extends RegistrationBaseFragment implements CreateAccountContract {

@@ -11,12 +11,10 @@ package com.philips.cdp.registration.ui.customviews;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.*;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.ui.utils.FontLoader;
-import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.*;
 
 public class XRegError extends RelativeLayout {
 

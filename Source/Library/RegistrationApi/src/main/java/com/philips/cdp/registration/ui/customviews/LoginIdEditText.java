@@ -10,31 +10,19 @@ package com.philips.cdp.registration.ui.customviews;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextWatcher;
+import android.text.*;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.view.*;
+import android.view.View.*;
+import android.widget.*;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.R2;
-import com.philips.cdp.registration.app.tagging.AppTagging;
-import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.app.tagging.*;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.FontLoader;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.*;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import butterknife.*;
 
 public class LoginIdEditText extends RelativeLayout implements TextWatcher, OnClickListener,
         OnFocusChangeListener {

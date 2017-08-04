@@ -41,7 +41,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.janrain.android.capture.Capture;
 import com.janrain.android.capture.CaptureApiError;
@@ -52,29 +51,18 @@ import com.janrain.android.engage.JREngageDelegate;
 import com.janrain.android.engage.JREngageError;
 import com.janrain.android.engage.session.JRProvider;
 import com.janrain.android.engage.types.JRDictionary;
-import com.janrain.android.utils.AndroidUtils;
-import com.janrain.android.utils.ApiConnection;
-import com.janrain.android.utils.JsonUtils;
-import com.janrain.android.utils.LogUtils;
-import com.janrain.android.utils.ThreadUtils;
+import com.janrain.android.utils.*;
 import com.philips.cdp.security.SecureStorage;
-import com.philips.platform.appinfra.BuildConfig;
 import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
-
 import net.openid.appauth.AppAuthConfiguration;
 import net.openid.appauth.AuthorizationService;
 import net.openid.appauth.browser.BrowserBlacklist;
 import net.openid.appauth.browser.Browsers;
 import net.openid.appauth.browser.VersionRange;
 import net.openid.appauth.browser.VersionedBrowserMatcher;
-
 import org.json.JSONObject;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.StreamCorruptedException;
+import java.io.*;
 import java.util.Map;
 
 import static com.janrain.android.Jump.CaptureApiResultHandler.CaptureAPIError;
@@ -82,10 +70,7 @@ import static com.janrain.android.Jump.CaptureApiResultHandler.CaptureAPIError.F
 import static com.janrain.android.Jump.ForgotPasswordResultHandler.ForgetPasswordError;
 import static com.janrain.android.Jump.ForgotPasswordResultHandler.ForgetPasswordError.FailureReason.FORGOTPASSWORD_JUMP_NOT_INITIALIZED;
 import static com.janrain.android.Jump.SignInResultHandler.SignInError;
-import static com.janrain.android.Jump.SignInResultHandler.SignInError.FailureReason.AUTHENTICATION_CANCELED_BY_USER;
-import static com.janrain.android.Jump.SignInResultHandler.SignInError.FailureReason.CAPTURE_API_ERROR;
-import static com.janrain.android.Jump.SignInResultHandler.SignInError.FailureReason.ENGAGE_ERROR;
-import static com.janrain.android.Jump.SignInResultHandler.SignInError.FailureReason.JUMP_NOT_INITIALIZED;
+import static com.janrain.android.Jump.SignInResultHandler.SignInError.FailureReason.*;
 import static com.janrain.android.utils.LogUtils.throwDebugException;
 
 /**

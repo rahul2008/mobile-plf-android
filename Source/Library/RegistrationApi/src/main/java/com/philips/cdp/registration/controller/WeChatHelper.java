@@ -2,15 +2,12 @@ package com.philips.cdp.registration.controller;
 
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
+import android.content.*;
 import android.util.Log;
 
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.tencent.mm.sdk.openapi.*;
 
 public class WeChatHelper {
 

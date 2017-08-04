@@ -1,8 +1,6 @@
 package com.philips.cdp.registration;
 
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.ResultReceiver;
+import android.os.*;
 
 /**
  * Created by 310190722 on 10/19/2016.

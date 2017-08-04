@@ -16,7 +16,6 @@ import android.text.style.*;
 import android.view.*;
 import android.widget.CheckBox;
 import android.widget.*;
-
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.app.tagging.*;
@@ -27,9 +26,7 @@ import com.philips.cdp.registration.ui.traditional.*;
 import com.philips.cdp.registration.ui.traditional.mobile.*;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.uid.view.widget.*;
-
 import javax.inject.*;
-
 import butterknife.*;
 
 public class AlmostDoneFragment extends RegistrationBaseFragment implements AlmostDoneContract,
@@ -301,12 +298,15 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     public void showMarketingOptSpinner() {
         marketingOptCheck.setEnabled(false);
         continueButton.setEnabled(false);
+        continueButton.showProgressIndicator();
     }
 
     @Override
     public void hideMarketingOptSpinner() {
         marketingOptCheck.setEnabled(true);
         continueButton.setEnabled(true);
+        continueButton.hideProgressIndicator();
+
     }
 
     @OnClick(R2.id.usr_almostDoneScreen_continue_button)
@@ -395,11 +395,13 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @Override
     public void phoneNumberAlreadyInuseError() {
         loginIdEditText.setErrorMessage(mContext.getResources().getString(R.string.reg_CreateAccount_Using_Phone_Alreadytxt));
+        loginIdEditText.showError();
     }
 
     @Override
     public void emailAlreadyInuseError() {
         loginIdEditText.setErrorMessage(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
+        loginIdEditText.showError();
     }
 
     @Override
@@ -489,6 +491,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @Override
     public void emailErrorMessage(UserRegistrationFailureInfo userRegistrationFailureInfo) {
         loginIdEditText.setErrorMessage(userRegistrationFailureInfo.getEmailErrorMessage());
+        loginIdEditText.showError();
     }
 
     @Override

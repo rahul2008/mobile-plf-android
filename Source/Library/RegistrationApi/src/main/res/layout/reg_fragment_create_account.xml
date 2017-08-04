@@ -231,6 +231,7 @@
                     android:layout_marginTop="@dimen/reg_margin_top_24"
                     android:enabled="false"
                     app:uidIsIndeterminateProgressIndicator="true"
+                    app:uidProgressIndicatorButtonProgressText="@string/reg_Create_Account_CreateMyPhilips_btntxt"
                     app:uidProgressIndicatorButtonText="@string/reg_Create_Account_CreateMyPhilips_btntxt" />
 
                 <com.philips.platform.uid.view.widget.Button
@@ -242,6 +243,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/rl_reg_singin_options"
                     android:layout_marginBottom="@dimen/reg_margin_bottom_24"
+                    android:visibility="gone"
                     android:text="Switch to login"
                     app:uidComponentType="Secondary" />
 

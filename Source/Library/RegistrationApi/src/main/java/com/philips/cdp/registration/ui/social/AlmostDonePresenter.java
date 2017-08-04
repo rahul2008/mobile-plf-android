@@ -5,21 +5,15 @@ import android.os.Bundle;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.app.tagging.AppTagging;
-import com.philips.cdp.registration.app.tagging.AppTagingConstants;
+import com.philips.cdp.registration.app.tagging.*;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.NetworStateListener;
-import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
-import com.philips.cdp.registration.handlers.UpdateUserDetailsHandler;
+import com.philips.cdp.registration.handlers.*;
 import com.philips.cdp.registration.settings.RegistrationHelper;
-import com.philips.cdp.registration.ui.utils.FieldsValidator;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.*;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.*;
 
 import javax.inject.Inject;
 
@@ -167,6 +161,8 @@ public class AlmostDonePresenter implements NetworStateListener, SocialProviderL
     }
 
     private void emailAlreadyInUse(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        RLog.d(RLog.EXCEPTION, "AlmostDoneFragment getErrorCode: " + userRegistrationFailureInfo.getErrorCode());
+
         if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
             if (RegistrationHelper.getInstance().isChinaFlow()) {
                 almostDoneContract.phoneNumberAlreadyInuseError();
@@ -288,6 +284,7 @@ public class AlmostDonePresenter implements NetworStateListener, SocialProviderL
             almostDoneContract.showMarketingOptSpinner();
             mUser.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName, isEmailExist ? mEmail : email, true,
                     isReMarketingOptCheck, this, mRegistrationToken);
+            setEmail(email);
         }
     }
 

@@ -2,11 +2,7 @@ package com.philips.cdp.registration.wechat;
 
 
 import com.philips.cdp.registration.ui.utils.RLog;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
+import com.squareup.okhttp.*;
 
 import org.json.JSONObject;
 
