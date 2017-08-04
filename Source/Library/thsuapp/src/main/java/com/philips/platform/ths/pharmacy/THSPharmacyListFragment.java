@@ -80,6 +80,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     protected Address address;
     private Location location;
     private ActionBarListener actionBarListener;
+    private List<Pharmacy> pharmaciesList = null;
 
     @Nullable
     @Override
@@ -101,6 +102,10 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    public void setPharmaciesList(List<Pharmacy> pharmaciesList){
+        this.pharmaciesList = pharmaciesList;
     }
 
     @Override
@@ -227,18 +232,19 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Pharmacy list", true);
         }
-        if( null!= location){
+        if( null != location){
             thsPharmacyListPresenter.fetchPharmacyList(thsConsumer,Double.valueOf(location.getLatitude()).floatValue(),Double.valueOf(location.getLongitude()).floatValue(),5);
         }
-        else {
-            thsPharmacyListPresenter.fetchPharmacyList(thsConsumer, null, thsConsumer.getConsumer().getLegalResidence(), null);
-        }
+
 
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+        if(null != pharmaciesList){
+            updatePharmacyListView(pharmaciesList);
+        }
     }
 
 

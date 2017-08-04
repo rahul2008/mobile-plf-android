@@ -12,12 +12,12 @@
         android:layout_height="wrap_content"
         android:text="@string/pharmacy_search_label" />
 
-    <com.philips.platform.uid.view.widget.EditText
-        android:id="@+id/launch_your_pharmacy"
+    <com.philips.platform.uid.view.widget.SearchBox
+        android:id="@+id/ths_search_pharmacy_edittext"
         android:layout_width="match_parent"
         android:inputType="number"
         android:layout_margin="16dp"
         android:hint="@string/pharmacy_search_edittext_hint"
         android:layout_height="wrap_content"
-        android:drawableRight="@mipmap/search_icon" />
+        />
 </LinearLayout>

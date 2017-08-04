@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Paint.Style;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -17,11 +16,10 @@ import com.philips.platform.ths.R;
 @SuppressLint({"NewApi", "DrawAllocation"})
 public class CircularImageView extends android.support.v7.widget.AppCompatImageView {
 
-    private int mBorderWidth;
-    private int mCanvasSize;
-    private Bitmap mBitmap;
-    private Paint mPaint;
-    private Paint mPaintBorder;
+    private int borderWidth;
+    private int canvasSize;
+    private Bitmap bitmap;
+    private Paint paint;
 
     public CircularImageView(final Context context) {
         this(context, null);
@@ -35,55 +33,33 @@ public class CircularImageView extends android.support.v7.widget.AppCompatImageV
     @SuppressWarnings("static-access")
     public CircularImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
-        // init paint
-        mPaint = new Paint();
-        mPaint.setAntiAlias(true);
-        mPaintBorder = new Paint();
-        mPaintBorder.setAntiAlias(true);
-        mPaintBorder.setStyle(Style.STROKE.STROKE);
-
+        paint = new Paint();
+        paint.setAntiAlias(true);
     }
 
     public void setBorderWidth(int borderWidth) {
-        mPaintBorder.setStrokeWidth(borderWidth);
-        this.mBorderWidth = borderWidth;
+        this.borderWidth = borderWidth;
         this.requestLayout();
         this.invalidate();
 
     }
-
-    public void setBorderColor(int borderColor) {
-        if (mPaintBorder != null)
-            mPaintBorder.setColor(borderColor);
-        this.invalidate();
-
-    }
-
-    public void addShadow() {
-        setLayerType(LAYER_TYPE_SOFTWARE, mPaintBorder);
-    }
-
     @SuppressLint("DrawAllocation")
     @Override
     public void onDraw(Canvas canvas) {
-        mBitmap = drawableToBitmap(getDrawable());
-        if (mBitmap != null) {
-            mCanvasSize = canvas.getWidth();
-            if (canvas.getHeight() < mCanvasSize)
-                mCanvasSize = canvas.getHeight();
+        bitmap = drawableToBitmap(getDrawable());
+        if (bitmap != null) {
+            canvasSize = canvas.getWidth();
+            if (canvas.getHeight() < canvasSize)
+                canvasSize = canvas.getHeight();
             BitmapShader shader = new BitmapShader(Bitmap.createScaledBitmap(
-                    mBitmap, mCanvasSize, mCanvasSize, false),
+                    bitmap, canvasSize, canvasSize, false),
                     Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-            mPaint.setShader(shader);
+            paint.setShader(shader);
 
-            int circleCenter = (mCanvasSize - (mBorderWidth * 2)) / 2;
-            canvas.drawCircle(circleCenter + mBorderWidth, circleCenter
-                    + mBorderWidth, ((mCanvasSize - (mBorderWidth * 2)) / 2)
-                    + mBorderWidth - 4.0f, mPaintBorder);
-            canvas.drawCircle(circleCenter + mBorderWidth, circleCenter
-                            + mBorderWidth,
-                    ((mCanvasSize - (mBorderWidth * 2)) / 2) - 4.0f, mPaint);
+            int circleCenter = (canvasSize - (borderWidth * 2)) / 2;
+            canvas.drawCircle(circleCenter + borderWidth, circleCenter
+                            + borderWidth,
+                    ((canvasSize - (borderWidth * 2)) / 2) - 4.0f, paint);
         }
     }
 
@@ -99,14 +75,11 @@ public class CircularImageView extends android.support.v7.widget.AppCompatImageV
         int specMode = MeasureSpec.getMode(measureSpec);
         int specSize = MeasureSpec.getSize(measureSpec);
         if (specMode == MeasureSpec.EXACTLY) {
-            // The parent has determined an exact size for the child.
             result = specSize;
         } else if (specMode == MeasureSpec.AT_MOST) {
-            // The child can be as large as it wants up to the specified size.
             result = specSize;
         } else {
-            // The parent has not imposed any constraint on the child.
-            result = mCanvasSize;
+            result = canvasSize;
         }
         return result;
     }
@@ -116,14 +89,11 @@ public class CircularImageView extends android.support.v7.widget.AppCompatImageV
         int specMode = MeasureSpec.getMode(measureSpecHeight);
         int specSize = MeasureSpec.getSize(measureSpecHeight);
         if (specMode == MeasureSpec.EXACTLY) {
-            // We were told how big to be
             result = specSize;
         } else if (specMode == MeasureSpec.AT_MOST) {
-            // The child can be as large as it wants up to the specified size.
             result = specSize;
         } else {
-            // Measure the text (beware: ascent is a negative number)
-            result = mCanvasSize;
+            result = canvasSize;
         }
         return (result + 2);
     }
