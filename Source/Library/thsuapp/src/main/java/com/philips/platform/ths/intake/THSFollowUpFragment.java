@@ -118,7 +118,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     public void displaySearchPharmacy() {
         mFollowUpContiueButton.hideProgressIndicator();
         if(checkGooglePlayServices()){
-            showPharmacySearch();
+            checkPermission();
         }
     }
 
