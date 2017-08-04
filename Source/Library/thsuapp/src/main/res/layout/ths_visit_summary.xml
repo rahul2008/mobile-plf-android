@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_waiting_room_title_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="24dp"
+        android:lineSpacingExtra="8sp"
+        android:text="This concludes your visit with"
+
+        android:textColor="?attr/uidLabelValueNormalTextColor"
+        android:textSize="@dimen/pth_title_text" />
+
+    <LinearLayout
+        android:id="@+id/ths_waiting_room_provider_top_grey_boundary"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/ths_waiting_room_title_label"
+        android:background="@color/uid_gray_level_10"
+        android:orientation="horizontal"></LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/ths_waiting_room_provider_detail_relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ths_waiting_room_provider_top_grey_boundary">
+
+        <ImageView
+            android:id="@+id/details_providerImage"
+            android:layout_width="84dp"
+            android:layout_height="84dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="18dp"
+            android:layout_marginStart="@dimen/uid_label_margin_start"
+            android:layout_marginTop="18dp" />
+
+        <RelativeLayout
+            android:id="@+id/details_providerDetailLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/uid_label_margin_start"
+            android:layout_marginStart="@dimen/uid_label_margin_start"
+            android:layout_toRightOf="@+id/details_providerImage">
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/details_providerNameLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/uid_dot_navigation_icon_margin"
+                android:layout_marginTop="@dimen/uid_grid_icon_padding"
+                android:textColor="?attr/uidLabelRegularNormalTextColor"
+                android:textSize="24sp" />
+
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/details_practiceNameLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/details_providerNameLabel"
+                android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/ths_wrap_up_provider_detail_seperator_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/ths_waiting_room_provider_detail_relativelayout"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+    <RelativeLayout
+        android:id="@+id/ths_wrap_up_cost_detail_relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ths_wrap_up_provider_detail_seperator_bottom"
+        android:minHeight="@dimen/ths_list_item_height"
+        android:background="@color/uidColorWhite">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_wrap_up_payment_cost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/pth_fab_margin"
+            android:text="$45.9"
+            android:textSize="30sp"
+
+            style="@style/UIDLabel.RecyclerViewItemMultipleLinesTitleText"></com.philips.platform.uid.view.widget.Label>
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_wrap_up_payment_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/pth_fab_margin"
+            android:layout_marginRight="100dp"
+            android:layout_toLeftOf="@+id/ths_wrap_up_payment_cost"
+            android:text="Your credit card was charged"
+
+            style="@style/UIDLabel.RecyclerViewItemMultipleLinesTitleText"></com.philips.platform.uid.view.widget.Label>
+
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/ths_wrap_up_cost_detail_seperator_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/ths_wrap_up_cost_detail_relativelayout"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_wrap_up_visit_report_title_label"
+        style="@style/ths_list_item_header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ths_list_item_height"
+        android:layout_below="@+id/ths_wrap_up_cost_detail_seperator_bottom"
+
+        android:gravity="center_vertical"
+        android:lineSpacingExtra="@dimen/pth_body_text_line_spacing_extra"
+        android:text="Your visit report"
+        android:textSize="@dimen/pth_body_text" />
+
+    <View
+        android:id="@+id/ths_wrap_up_visit_report_title_seperator_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/ths_wrap_up_visit_report_title_label"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+    <RelativeLayout
+        android:id="@+id/ths_wrap_up_visit_report_relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ths_list_item_height"
+        android:background="@color/uidColorWhite"
+        android:layout_below="@+id/ths_wrap_up_visit_report_title_seperator_bottom">
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_wrap_up_visit_report_download_label"
+            style="@style/UIDLabel.RecyclerViewItemOneLineTitleText"
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/pth_fab_margin"
+            android:gravity="center_vertical"
+            android:text="Download Report">
+
+        </com.philips.platform.uid.view.widget.Label>
+
+        <com.philips.platform.uid.view.widget.Label
+            android:id="@+id/ths_wrap_up_visit_report_download_link"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            style="@style/UIDLabel.RecyclerViewItemSubtitleText"
+            android:layout_toRightOf="@+id/ths_wrap_up_visit_report_download_label"
+            android:gravity="center_vertical"
+            android:text="PDF (21MB)">
+
+        </com.philips.platform.uid.view.widget.Label>
+
+        <ImageView
+            android:id="@+id/ths_wrap_up_visit_report_arrow_image"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/pth_fab_margin"
+            android:gravity="center_vertical"
+            android:src="@mipmap/right_arrow_icon"></ImageView>
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/ths_wrap_up_download_report_title_seperator_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/ths_wrap_up_visit_report_relativelayout"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
+
+
+    <RelativeLayout
+        android:id="@+id/ths_wrap_up_pharmacy_relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ths_wrap_up_download_report_title_seperator_bottom">
+        <include
+            android:id="@+id/pharmacy_include"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/ths_pharmacy_shipping_fragment">
+        </include>
+    </RelativeLayout>
+
+
+</RelativeLayout>
+    </ScrollView>

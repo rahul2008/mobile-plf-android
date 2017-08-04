@@ -90,6 +90,8 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != RESULT_CANCELED && requestCode == REQUEST_VIDEO_VISIT) {
             //  todo getPresenter().setResult(resultCode, data);
+            THSVisitSummaryFragment thsVisitSummaryFragment = new THSVisitSummaryFragment();
+            addFragment(thsVisitSummaryFragment,THSVisitSummaryFragment.TAG,null);
         }
     }
 
