@@ -4,13 +4,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,7 +18,6 @@ import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowToast;
@@ -33,7 +32,6 @@ import static org.robolectric.shadows.support.v4.SupportFragmentTestUtil.startFr
 @Config(manifest = Config.NONE, constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 public class ConnectivityFragmentTest {
 
-    private TestActivity testActivity;
 
     private ConnectivityFragment connectivityFragment;
 
@@ -47,9 +45,8 @@ public class ConnectivityFragmentTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        testActivity = Robolectric.buildActivity(TestActivity.class).create().start().get();
         connectivityFragment = new ConnectivityFragment();
-        startFragment(connectivityFragment, TestActivity.class);
+        startFragment(connectivityFragment);
         connectionState = (TextView) connectivityFragment.getView().findViewById(R.id.connectionState);
         momentValueEditText = (EditText) connectivityFragment.getView().findViewById(R.id.moment_value_editbox);
         editText = (EditText) connectivityFragment.getView().findViewById(R.id.measurement_value_editbox);
@@ -57,7 +54,7 @@ public class ConnectivityFragmentTest {
 
     @Test
     public void actionBarTitle() {
-        Assert.assertEquals(testActivity.getResources().getString(R.string.RA_ConnectivityScreen_Menu_Title), connectivityFragment.getActionbarTitle());
+        Assert.assertEquals(connectivityFragment.getResources().getString(R.string.RA_ConnectivityScreen_Menu_Title), connectivityFragment.getActionbarTitle());
     }
 
 
@@ -89,6 +86,11 @@ public class ConnectivityFragmentTest {
     public void onDeviceMeasurementErrorTest() {
         connectivityFragment.onDeviceMeasurementError(Error.NO_REQUEST_DATA, "No request data");
         Assert.assertEquals("Error while reading measurement from reference board" + Error.NO_REQUEST_DATA.getErrorMessage(), ShadowToast.getTextOfLatestToast());
+    }
+
+    @After
+    public void tearDown(){
+        connectivityFragment=null;
     }
 
 }

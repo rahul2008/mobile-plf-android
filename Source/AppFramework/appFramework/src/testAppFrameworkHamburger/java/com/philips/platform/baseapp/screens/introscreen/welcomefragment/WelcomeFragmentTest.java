@@ -17,11 +17,13 @@ import com.philips.platform.baseapp.screens.introscreen.pager.WelcomePagerAdapte
 import com.philips.platform.baseapp.screens.splash.SplashFragmentTest;
 import com.shamanland.fonticon.FontIconView;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowApplication;
 import org.robolectric.shadows.ShadowLooper;
@@ -37,11 +39,20 @@ public class WelcomeFragmentTest {
     private WelcomeFragmentMockAbstract welcomeFragment;
     private ViewPager pager;
     private FontIconView leftArrow,rightArrow;
+    private ActivityController<SplashFragmentTest.LaunchActivityMockAbstract> activityController;
 
+    @After
+    public void tearDown(){
+        activityController.pause().stop().destroy();
+        welcomeFragment=null;
+        pager=null;
+        launchActivity=null;
+    }
     @Before
     public void setUp(){
-
-        launchActivity = Robolectric.buildActivity(SplashFragmentTest.LaunchActivityMockAbstract.class).create().start().get();
+        activityController=Robolectric.buildActivity(SplashFragmentTest.LaunchActivityMockAbstract.class);
+        launchActivity=activityController.create().start().get();
+//        launchActivity = Robolectric.buildActivity(SplashFragmentTest.LaunchActivityMockAbstract.class).create().start().get();
         welcomeFragment =  new WelcomeFragmentMockAbstract();
         launchActivity.getSupportFragmentManager().beginTransaction().add(welcomeFragment,null).commit();
 

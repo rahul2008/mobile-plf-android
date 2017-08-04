@@ -84,18 +84,18 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         presenter = new HamburgerActivityPresenter(this);
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
         setContentView(R.layout.uikit_hamburger_menu);
-        initializeSomething();
-
+        initializeActivityContents();
     }
-    protected void initializeSomething() {
 
-    initViews();
-    setActionBar(getSupportActionBar());
-    philipsDrawerLayout.addDrawerListener(configureDrawer());
+    protected void initializeActivityContents() {
+        initViews();
+        setActionBar(getSupportActionBar());
+        philipsDrawerLayout.addDrawerListener(configureDrawer());
 
-    renderHamburgerMenu();
-    getSupportFragmentManager().addOnBackStackChangedListener(this);
-}
+        renderHamburgerMenu();
+        getSupportFragmentManager().addOnBackStackChangedListener(this);
+    }
+
     /**
      * For updating the hamburger drawer
      */
