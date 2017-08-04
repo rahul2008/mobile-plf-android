@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -45,12 +44,12 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Resources mResources;
     private ArrayList<ShoppingCartData> mData = new ArrayList<>();
     private OutOfStockListener mOutOfStock;
-//    private DeliveryModes mDeliveryMode;
+    //private DeliveryModes mDeliveryMode;
     private UIKitListPopupWindow mPopupWindow;
     private ShoppingCartData shoppingCartDataForProductDetailPage;
 
     private Drawable countArrow;
-    private Drawable mOptionsDrawable;
+   // private Drawable mOptionsDrawable;
     private Drawable mTrashDrawable;
     private Drawable mInfoDrawable;
     private Drawable mEditDrawable;
@@ -75,7 +74,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void initDrawables() {
-        mOptionsDrawable = VectorDrawable.create(mContext, R.drawable.iap_options_icon_5x17);
+      //  mOptionsDrawable = VectorDrawable.create(mContext, R.drawable.iap_options_icon_5x17);
         mTrashDrawable = VectorDrawable.create(mContext, R.drawable.iap_trash_bin);
         mInfoDrawable = VectorDrawable.create(mContext, R.drawable.iap_info);
         mEditDrawable = VectorDrawable.create(mContext, R.drawable.pencil_01);
@@ -202,21 +201,21 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             final ShoppingCartData cartData = mData.get(holder.getAdapterPosition());
             ShoppingCartProductHolder shoppingCartProductHolder = (ShoppingCartProductHolder) holder;
             String imageURL = cartData.getImageURL();
-            shoppingCartProductHolder.mTvProductTitle.setText(cartData.getProductTitle());
-            shoppingCartProductHolder.mIvOptions.setImageDrawable(mOptionsDrawable);
-            shoppingCartProductHolder.mTvPrice.setText(cartData.getFormattedTotalPrice());
+            shoppingCartProductHolder.mTvProductTitle.setText(cartData.getFormattedTotalPrice());
+          //  shoppingCartProductHolder.mIvOptions.setText(mOptionsDrawable);
+            shoppingCartProductHolder.mTvPrice.setText(cartData.getProductTitle());
             shoppingCartProductHolder.mTvQuantity.setText(cartData.getQuantity() + "");
 
             checkForOutOfStock(cartData.getStockLevel(), cartData.getQuantity(), shoppingCartProductHolder);
 
             getNetworkImage(shoppingCartProductHolder, imageURL);
 
-            shoppingCartProductHolder.mDotsLayout.setOnClickListener(new View.OnClickListener() {
+           /* shoppingCartProductHolder.mDotsLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
                     bindDeleteOrInfoPopUP(view, holder.getAdapterPosition());
                 }
-            });
+            });*/
             //Add arrow mark
             shoppingCartProductHolder.mTvQuantity.setCompoundDrawables(null, null, countArrow, null);
             bindCountView(shoppingCartProductHolder.mQuantityLayout, holder.getAdapterPosition());
@@ -249,14 +248,14 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         shoppingCartFooter.mDeliveryVia.setText(R.string.iap_delivery_via);
                     }
 
-                    shoppingCartFooter.mEditIconLayout.setVisibility(View.VISIBLE);
+                    //shoppingCartFooter.mEditIconLayout.setVisibility(View.VISIBLE);
                     shoppingCartFooter.mEditIcon.setImageDrawable(mEditDrawable);
-                    shoppingCartFooter.mEditIconLayout.setOnClickListener(new View.OnClickListener() {
+                    /*shoppingCartFooter.mEditIconLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_EDIT_DELIVERY_MODE);
                         }
-                    });
+                    });*/
                 } else {
                     mIsFreeDelivery = true;
                     shoppingCartFooter.mDeliveryVia.setVisibility(View.GONE);
@@ -349,24 +348,24 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private class ShoppingCartProductHolder extends RecyclerView.ViewHolder {
         NetworkImageView mNetworkImage;
-        FrameLayout mDotsLayout;
+       // FrameLayout mDotsLayout;
         TextView mTvPrice;
         TextView mTvProductTitle;
         RelativeLayout mQuantityLayout;
         TextView mTvStock;
         TextView mTvQuantity;
-        ImageView mIvOptions;
+        TextView mIvOptions;
 
         ShoppingCartProductHolder(final View itemView) {
             super(itemView);
             mNetworkImage = (NetworkImageView) itemView.findViewById(R.id.image);
-            mDotsLayout = (FrameLayout) itemView.findViewById(R.id.frame);
+           // mDotsLayout = (FrameLayout) itemView.findViewById(R.id.frame);
             mTvPrice = (TextView) itemView.findViewById(R.id.price);
             mTvProductTitle = (TextView) itemView.findViewById(R.id.text1Name);
             mQuantityLayout = (RelativeLayout) itemView.findViewById(R.id.quantity_count_layout);
             mTvStock = (TextView) itemView.findViewById(R.id.out_of_stock);
             mTvQuantity = (TextView) itemView.findViewById(R.id.text2value);
-            mIvOptions = (ImageView) itemView.findViewById(R.id.dots);
+            mIvOptions = (TextView) itemView.findViewById(R.id.dots);
         }
     }
 
@@ -381,7 +380,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mVatValueUK;
         TextView mVAT;
         ImageView mEditIcon;
-        RelativeLayout mEditIconLayout;
+       // RelativeLayout mEditIconLayout;
 
         FooterShoppingCartViewHolder(View itemView) {
             super(itemView);
@@ -395,7 +394,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mVatValueUK = (TextView) itemView.findViewById(R.id.iap_tv_vat_value_uk_shopping_cart);
             mVAT = (TextView) itemView.findViewById(R.id.iap_tv_vat);
             mEditIcon = (ImageView) itemView.findViewById(R.id.edit_icon);
-            mEditIconLayout = (RelativeLayout) itemView.findViewById(R.id.edit_icon_layout);
+           // mEditIconLayout = (RelativeLayout) itemView.findViewById(R.id.edit_icon_layout);
         }
     }
 

@@ -261,4 +261,15 @@
     <string name="iap_invalid_product_ctn">Please provide a non empty product CTN</string>
     <string name="iap_select_delivery">Please select your delivery method for this order:</string>
 
+   <!-- Shopping cart-->
+    <string name="iap_extra_option">Extra options</string>
+    <string name="iap_delivery_ups_parcel">Delivery via UPS Parcel</string>
+    <string name="iap_delivery_free_description">Delivery is free when you spend 100 or more </string>
+    <string name="iap_cart_summary">Cart summary</string>
+
+    <string name="iap_1x_daily_collection">1x daily collection Miniblender</string>
+    <string name="iap_1x_advance_collection">1x Advance collection Blender</string>
+    <string name="iap_delivery_via_ups">Delivery via UPS Parcel</string>
+    <string name="iap_including">including 21% VAT</string>
+
 </resources>

@@ -293,4 +293,11 @@
         <item name="android:gravity">start|center_vertical</item>
         <item name="fontPath">fonts/centralesansbook.ttf</item>
     </style>
+
+    <style name="iap_button_border">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dip</item>
+        <item name="android:background">@color/iap_button_border_color</item>
+    </style>
+
 </resources>
