@@ -9,90 +9,61 @@
 
 package com.philips.cdp.registration.ui.social;
 
-import android.content.Context;
+import android.content.*;
 import android.content.res.Configuration;
-import android.os.Bundle;
-import android.text.Html;
-import android.text.style.ClickableSpan;
+import android.os.*;
+import android.text.style.*;
 import android.view.*;
+import android.widget.CheckBox;
 import android.widget.*;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
+import com.philips.cdp.registration.configuration.*;
+import com.philips.cdp.registration.dao.*;
 import com.philips.cdp.registration.ui.customviews.*;
 import com.philips.cdp.registration.ui.traditional.*;
-import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
+import com.philips.cdp.registration.ui.traditional.mobile.*;
 import com.philips.cdp.registration.ui.utils.*;
+import com.philips.platform.uid.view.widget.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
 import butterknife.*;
 
 public class AlmostDoneFragment extends RegistrationBaseFragment implements AlmostDoneContract,
-        OnUpdateListener, XCheckBox.OnCheckedChangeListener {
+        OnUpdateListener {
 
-    @BindView(R2.id.tv_reg_sign_in_with)
-    TextView signInWithTextView;
+    @BindView(R2.id.usr_almostDoneScreen_termsAndConditions_checkBox)
+    CheckBox acceptTermsCheck;
 
-    @BindView(R2.id.ll_reg_almost_done)
-    LinearLayout almostDoneContainer;
-
-    @BindView(R2.id.fl_reg_receive_philips_news)
-    FrameLayout periodicOffersCheck;
-
-    @BindView(R2.id.ll_reg_accept_terms)
-    LinearLayout acceptTermsContainer;
-
-    @BindView(R2.id.cb_reg_accept_terms)
-    XCheckBox acceptTermsCheck;
-
-    @BindView(R2.id.cb_reg_accept_terms_error)
+    @BindView(R2.id.usr_almostDoneScreen_acceptTerms_error)
     XRegError acceptTermserrorMessage;
 
-    @BindView(R2.id.rl_reg_btn_continue_container)
-    RelativeLayout continueBtnContainer;
+    @BindView(R2.id.usr_almostDoneScreen_marketingMails_checkBox)
+    CheckBox marketingOptCheck;
 
-    @BindView(R2.id.cb_reg_receive_philips_news)
-    XCheckBox marketingOptCheck;
-
-    @BindView(R2.id.reg_error_msg)
+    @BindView(R2.id.usr_almostDoneScreen_error_regError)
     XRegError errorMessage;
 
-    @BindView(R2.id.rl_reg_email_field)
-    LoginIdEditText loginIdEditText;
+    @BindView(R2.id.usr_almostDoneScreen_email_inputValidationLayout)
+    InputValidationLayout loginIdEditText;
 
-    @BindView(R2.id.reg_btn_continue)
-    XButton continueButton;
+    @BindView(R2.id.usr_almostDoneScreen_email_EditText)
+    ValidationEditText emailEditText;
 
-    @BindView(R2.id.pb_reg_marketing_opt_spinner)
-    ProgressBar marketingProgressBar;
+    @BindView(R2.id.usr_almostDoneScreen_email_label)
+    Label emailTitleLabel;
 
-    @BindView(R2.id.sv_root_layout)
+    @BindView(R2.id.usr_almostDoneScreen_continue_button)
+    ProgressBarButton continueButton;
+
+    @BindView(R2.id.usr_almostDoneScreen_rootLayout_scrollView)
     ScrollView rootLayout;
 
-    @BindView(R2.id.tv_join_now)
-    TextView joinNowView;
-
-    @BindView(R2.id.reg_view_accep_terms_line)
-    View acceptTermsViewLine;
-
-    @BindView(R2.id.tv_reg_accept_terms)
-    TextView acceptTermsView;
-
-    @BindView(R2.id.tv_reg_first_to_know)
-    TextView firstToKnowView;
-
-    @BindView(R2.id.tv_reg_philips_news)
-    TextView receivePhilipsNewsView;
-
-    @BindView(R2.id.reg_view_line)
-    View fieldViewLine;
-
-    @BindView(R2.id.reg_recieve_email_line)
-    View receivePhilipsNewsLineView;
+    @BindView(R2.id.usr_almostDoneScreen_description_label)
+    Label almostDoneDescriptionLabel;
 
     @Inject
     User mUser;
@@ -102,6 +73,30 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     private Context mContext;
 
     private Bundle mBundle;
+
+    boolean isValidEmail;
+
+
+    public EmailValidator emailValidator = new EmailValidator(new ValidEmail() {
+        @Override
+        public int isValid(boolean valid) {
+            isValidEmail = valid;
+            continueButton.setEnabled(isValidEmail);
+            return 0;
+        }
+
+        @Override
+        public int isEmpty(boolean emptyField) {
+            if (emptyField) {
+                loginIdEditText.setErrorMessage(R.string.reg_EmptyField_ErrorMsg);
+            } else {
+                loginIdEditText.setErrorMessage(R.string.reg_InvalidEmailAdddress_ErrorMsg);
+            }
+            isValidEmail = false;
+            continueButton.setEnabled(isValidEmail);
+            return 0;
+        }
+    });
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -121,6 +116,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         almostDonePresenter = new AlmostDonePresenter(this, mUser);
         View view = inflater.inflate(R.layout.reg_fragment_social_almost_done, container, false);
         ButterKnife.bind(this, view);
+        loginIdEditText.setValidator(emailValidator);
         initUI(view);
         almostDonePresenter.parseRegistrationInfo(mBundle);
         almostDonePresenter.updateUIControls();
@@ -145,14 +141,11 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void setViewParams(Configuration config, int width) {
-        applyParams(config, signInWithTextView, width);
-        applyParams(config, almostDoneContainer, width);
-        applyParams(config, periodicOffersCheck, width);
-        applyParams(config, continueBtnContainer, width);
+
+        applyParams(config, marketingOptCheck, width);
         applyParams(config, errorMessage, width);
         applyParams(config, acceptTermserrorMessage, width);
-        applyParams(config, acceptTermsContainer, width);
-        applyParams(config, firstToKnowView, width);
+
     }
 
     @Override
@@ -162,38 +155,43 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     private void initUI(View view) {
         consumeTouch(view);
+
+        acceptTermsCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isChecked) {
+                    acceptTermserrorMessage.setError(mContext.getResources().getString(R.string.reg_TermsAndConditionsAcceptanceText_Error));
+                } else {
+                    acceptTermserrorMessage.hideError();
+                }
+            }
+        });
+
         marketingOptCheck.setPadding(RegUtility.getCheckBoxPadding(mContext), marketingOptCheck.getPaddingTop(),
                 marketingOptCheck.getPaddingRight(), marketingOptCheck.getPaddingBottom());
-        RegUtility.linkifyTermsandCondition(acceptTermsView, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
+        RegUtility.linkifyTermsandCondition(acceptTermsCheck, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
         updateReceiveMarketingViewStyle();
-        initListener();
-    }
-
-    private void initListener() {
-        marketingOptCheck.setOnCheckedChangeListener(this);
-        loginIdEditText.setOnUpdateListener(this);
-        marketingProgressBar.setClickable(false);
-        marketingProgressBar.setEnabled(true);
     }
 
     private void updateReceiveMarketingViewStyle() {
-        RegUtility.linkifyPhilipsNews(receivePhilipsNewsView, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
-        String sourceString = mContext.getResources().getString(R.string.reg_Opt_In_Join_Now);
-        String updateJoinNowText = " " + "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Over_Peers) + "</b> ";
-        sourceString = String.format(sourceString, updateJoinNowText);
-        joinNowView.setText(Html.fromHtml(sourceString));
+        RegUtility.linkifyPhilipsNews(marketingOptCheck, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
     }
 
     @Override
     public void emailFieldHide() {
-        loginIdEditText.setVisibility(View.GONE);
+        emailEditText.setVisibility(View.GONE);
+        emailTitleLabel.setVisibility(View.GONE);
         continueButton.setEnabled(true);
     }
 
     @Override
     public void showEmailField() {
-        fieldViewLine.setVisibility(View.VISIBLE);
-        loginIdEditText.setVisibility(View.VISIBLE);
+        emailEditText.setVisibility(View.VISIBLE);
+        emailTitleLabel.setVisibility(View.VISIBLE);
+        almostDoneDescriptionLabel.setVisibility(View.VISIBLE);
+        almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.reg_almost_description1));
+        continueButton.setEnabled(false);
+
     }
 
     private ClickableSpan mTermsAndConditionClick = new ClickableSpan() {
@@ -214,14 +212,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void handleUiAcceptTerms() {
-        joinNowView.setVisibility(View.GONE);
         almostDonePresenter.handleAcceptTermsAndReceiveMarketingOpt();
     }
 
     @Override
     public void hideAcceptTermsView() {
-        acceptTermsViewLine.setVisibility(View.GONE);
-        acceptTermsContainer.setVisibility(View.GONE);
+        acceptTermsCheck.setVisibility(View.GONE);
     }
 
     @Override
@@ -231,27 +227,27 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void showMarketingOptCheck() {
-        periodicOffersCheck.setVisibility(View.VISIBLE);
+        marketingOptCheck.setVisibility(View.VISIBLE);
+        almostDoneDescriptionLabel.setVisibility(View.VISIBLE);
+        almostDoneDescriptionLabel.setText(mContext.getResources().getString(R.string.reg_almost_description2));
     }
 
     @Override
     public void hideMarketingOptCheck() {
-        periodicOffersCheck.setVisibility(View.GONE);
+        marketingOptCheck.setVisibility(View.GONE);
+        if(emailEditText.getVisibility() != View.VISIBLE){
+            almostDoneDescriptionLabel.setVisibility(View.GONE);
+        }
     }
 
     private void hideAcceptTermsAndConditionContainer() {
         acceptTermsCheck.setChecked(true);
-        fieldViewLine.setVisibility(View.GONE);
-        joinNowView.setVisibility(View.GONE);
-        acceptTermsContainer.setVisibility(View.GONE);
+        acceptTermsCheck.setVisibility(View.GONE);
     }
 
     @Override
     public void updateReceiveMarketingView() {
-        periodicOffersCheck.setVisibility(View.GONE);
-        fieldViewLine.setVisibility(View.GONE);
-        joinNowView.setVisibility(View.GONE);
-        acceptTermsViewLine.setVisibility(View.GONE);
+        marketingOptCheck.setVisibility(View.GONE);
     }
 
     @Override
@@ -261,25 +257,18 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         switch (abTestingUIFlow) {
             case FLOW_A:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type A");
-                acceptTermsContainer.setVisibility(View.VISIBLE);
-                joinNowView.setVisibility(View.GONE);
+                acceptTermsCheck.setVisibility(View.VISIBLE);
                 break;
 
             case FLOW_B:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type B");
-                acceptTermsContainer.setVisibility(View.VISIBLE);
-                periodicOffersCheck.setVisibility(View.GONE);
-                receivePhilipsNewsLineView.setVisibility(View.GONE);
-                joinNowView.setVisibility(View.GONE);
+                acceptTermsCheck.setVisibility(View.VISIBLE);
+                marketingOptCheck.setVisibility(View.GONE);
                 break;
 
             case FLOW_C:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type C");
-                String firstToKnow = "<b>" + mContext.getResources().getString(R.string.reg_Opt_In_Be_The_First) + "</b> ";
-                firstToKnowView.setText(Html.fromHtml(firstToKnow));
-                firstToKnowView.setVisibility(View.VISIBLE);
-                acceptTermsContainer.setVisibility(View.VISIBLE);
-                joinNowView.setVisibility(View.VISIBLE);
+                acceptTermsCheck.setVisibility(View.VISIBLE);
                 break;
             default:
                 break;
@@ -288,8 +277,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void validateEmailFieldUI() {
-        if ((loginIdEditText.isShown() && loginIdEditText.isValidEmail()) ||
-                (loginIdEditText.getVisibility() != View.VISIBLE)) {
+        if ((emailEditText.isShown() && isValidEmail) ||
+                (emailEditText.getVisibility() != View.VISIBLE)) {
             continueButton.setEnabled(true);
         }
         errorMessage.hideError();
@@ -311,22 +300,26 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     @Override
     public void showMarketingOptSpinner() {
         marketingOptCheck.setEnabled(false);
-        marketingProgressBar.setVisibility(View.VISIBLE);
         continueButton.setEnabled(false);
+        continueButton.showProgressIndicator();
     }
 
     @Override
     public void hideMarketingOptSpinner() {
         marketingOptCheck.setEnabled(true);
-        marketingProgressBar.setVisibility(View.INVISIBLE);
         continueButton.setEnabled(true);
+        continueButton.hideProgressIndicator();
+
     }
 
-    @OnClick(R2.id.reg_btn_continue)
+    @OnClick(R2.id.usr_almostDoneScreen_continue_button)
     public void continueButtonClicked() {
         RLog.d(RLog.ONCLICK, "AlmostDoneFragment : Continue");
         loginIdEditText.clearFocus();
-        if (loginIdEditText.isShown() && !loginIdEditText.isValidEmail()) return;
+
+        if( marketingOptCheck.getVisibility()== View.VISIBLE && isMarketingOptChecked()) {
+            almostDonePresenter.handleUpdateMarketingOpt();
+        }
         if (mBundle == null) {
             almostDonePresenter.handleTraditionalTermsAndCondition();
             return;
@@ -336,12 +329,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public String getMobileNumber() {
-        return FieldsValidator.getMobileNumber(loginIdEditText.getEmailId().trim());
+        return FieldsValidator.getMobileNumber(emailEditText.getText().toString());
     }
 
     @Override
     public boolean isAcceptTermsContainerVisible() {
-        return acceptTermsContainer.getVisibility() == View.VISIBLE;
+        return acceptTermsCheck.getVisibility() == View.VISIBLE;
     }
 
     @Override
@@ -404,22 +397,19 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void phoneNumberAlreadyInuseError() {
-        loginIdEditText.setErrDescription(mContext.getResources().getString(R.string.reg_CreateAccount_Using_Phone_Alreadytxt));
-        loginIdEditText.showInvalidAlert();
-        loginIdEditText.showErrPopUp();
+        loginIdEditText.setErrorMessage(mContext.getResources().getString(R.string.reg_CreateAccount_Using_Phone_Alreadytxt));
+        loginIdEditText.showError();
     }
 
     @Override
     public void emailAlreadyInuseError() {
-        loginIdEditText.setErrDescription(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
-        loginIdEditText.showInvalidAlert();
-        loginIdEditText.showErrPopUp();
+        loginIdEditText.setErrorMessage(mContext.getResources().getString(R.string.reg_EmailAlreadyUsed_TxtFieldErrorAlertMsg));
+        loginIdEditText.showError();
     }
 
     @Override
     public void showLoginFailedError() {
-        loginIdEditText.showInvalidAlert();
-        loginIdEditText.showErrPopUp();
+        loginIdEditText.showError();
         scrollViewAutomatically(loginIdEditText, rootLayout);
     }
 
@@ -495,8 +485,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void displayNameErrorMessage(UserRegistrationFailureInfo userRegistrationFailureInfo, String displayName) {
-        loginIdEditText.setErrDescription(userRegistrationFailureInfo.getDisplayNameErrorMessage());
-        loginIdEditText.showInvalidAlert();
+        loginIdEditText.setErrorMessage(userRegistrationFailureInfo.getDisplayNameErrorMessage());
         errorMessage.setError(userRegistrationFailureInfo.getErrorDescription() + ".\n'"
                 + displayName + "' "
                 + userRegistrationFailureInfo.getDisplayNameErrorMessage());
@@ -504,16 +493,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
 
     @Override
     public void emailErrorMessage(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        loginIdEditText.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
-        loginIdEditText.showInvalidAlert();
-        loginIdEditText.showErrPopUp();
+        loginIdEditText.setErrorMessage(userRegistrationFailureInfo.getEmailErrorMessage());
+        loginIdEditText.showError();
     }
 
     @Override
     public void marketingOptCheckDisable() {
         marketingOptCheck.setOnCheckedChangeListener(null);
         marketingOptCheck.setChecked(!marketingOptCheck.isChecked());
-        marketingOptCheck.setOnCheckedChangeListener(this);
         errorMessage.setError(getString(R.string.reg_NoNetworkConnection));
     }
 
@@ -523,10 +510,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
         almostDonePresenter.updateUser(marketingOptCheck.isChecked());
     }
 
-    @Override
-    public void onCheckedChanged(View view, boolean isChecked) {
-        almostDonePresenter.handleUpdateMarketingOpt();
-    }
+
 
     @Override
     public void failedToConnectToServer() {
@@ -549,7 +533,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Almo
     public void updateMarketingOptFailedError() {
         marketingOptCheck.setOnCheckedChangeListener(null);
         marketingOptCheck.setChecked(!marketingOptCheck.isChecked());
-        marketingOptCheck.setOnCheckedChangeListener(AlmostDoneFragment.this);
     }
 
     @Override

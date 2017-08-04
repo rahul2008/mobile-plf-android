@@ -9,13 +9,13 @@
 
 package com.philips.cdp.registration.ui.traditional;
 
-import android.content.Context;
+import android.content.*;
 import android.content.res.Configuration;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import android.os.*;
+import android.support.v4.app.*;
+import android.support.v4.content.*;
 import android.text.*;
-import android.text.style.ClickableSpan;
+import android.text.style.*;
 import android.view.*;
 import android.widget.Button;
 import android.widget.*;
@@ -24,14 +24,14 @@ import android.widget.ProgressBar;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.app.tagging.*;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.ui.customviews.XRegError;
-import com.philips.cdp.registration.ui.traditional.mobile.MobileVerifyCodeFragment;
+import com.philips.cdp.registration.configuration.*;
+import com.philips.cdp.registration.ui.customviews.*;
+import com.philips.cdp.registration.ui.traditional.mobile.*;
 import com.philips.cdp.registration.ui.utils.*;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
 import butterknife.*;
 
@@ -48,9 +48,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
 
     @BindView(R2.id.usr_createscreen_termsandconditions_checkbox)
     CheckBox usr_createscreen_termsandconditions_checkbox;
-
-    @BindView(R2.id.usr_createfragment_firstToKnow_textView)
-    TextView usr_createfragment_firstToKnow_textView;
 
     @BindView(R2.id.usr_createScreen_firstName_textField)
     ValidationEditText usr_createScreen_firstName_textField;
@@ -264,8 +261,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
         consumeTouch(view);
         RegUtility.linkifyTermsandCondition(usr_createscreen_termsandconditions_checkbox, getRegistrationFragment().getParentActivity(), mTermsAndConditionClick);
         RegUtility.linkifyPhilipsNews(usr_createscreen_marketingmails_checkbox, getRegistrationFragment().getParentActivity(), mPhilipsNewsClick);
-        String firstToKnow = "<b>" + context.getResources().getString(R.string.reg_Opt_In_Be_The_First) + "</b> ";
-        usr_createfragment_firstToKnow_textView.setText(Html.fromHtml(firstToKnow));
         ((RegistrationFragment) getParentFragment()).showKeyBoard();
         usernameUihandle();
         usr_createscreen_create_button.setEnabled(false);
@@ -301,7 +296,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
             case FLOW_C:
                 RLog.d(RLog.AB_TESTING, "UI Flow Type C");
                 usr_createscreen_marketingmails_checkbox.setVisibility(View.VISIBLE);
-                usr_createfragment_firstToKnow_textView.setVisibility(View.VISIBLE);
                 trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.AB_TEST,
                         AppTagingConstants.REGISTRATION_SOCIAL_PROOF);
                 break;
@@ -312,12 +306,12 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     }
 
     private void registerUserInfo() {
+        showSpinner();
         usr_createscreen_termsandconditionsalert_view.setVisibility(View.GONE);
         usr_createScreen_firstName_textField.clearFocus();
         usr_createScreen_lastName_textField.clearFocus();
         usr_createscreen_emailormobile_textfield.clearFocus();
         usr_createScreen_password_textField.clearFocus();
-        showSpinner();
         if (FieldsValidator.isValidEmail(usr_createscreen_emailormobile_textfield.getText().toString())) {
             emailString = usr_createscreen_emailormobile_textfield.getText().toString();
         } else {
@@ -371,12 +365,15 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     private void showSpinner() {
         usr_createscreen_create_button.showProgressIndicator();
         disableCreateButton();
+        usr_createscreen_switchtologin_button.setEnabled(false);
     }
 
     @Override
     public void hideSpinner() {
         ThreadUtils.postInMainThread(context, () -> {
             usr_createscreen_create_button.hideProgressIndicator();
+            usr_createscreen_switchtologin_button.setEnabled(true);
+
             enableCreateButton();
         });
     }
@@ -397,6 +394,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     public void registrtionFail() {
         ThreadUtils.postInMainThread(context, () -> {
             usr_createscreen_create_button.hideProgressIndicator();
+            usr_createscreen_switchtologin_button.setEnabled(true);
             disableCreateButton();
         });
     }
