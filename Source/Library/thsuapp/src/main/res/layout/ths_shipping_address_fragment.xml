@@ -27,6 +27,8 @@
         style="@style/UIDEditTextBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:imeOptions="actionNext"
+        android:inputType="text"
         android:layout_below="@+id/sa_address_line_one_text"
         android:layout_marginBottom="16dp"
         android:hint="Enter first address line" />
@@ -44,6 +46,8 @@
         style="@style/UIDEditTextBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:imeOptions="actionNext"
+        android:inputType="text"
         android:layout_below="@+id/sa_address_line_two_text"
         android:layout_marginBottom="16dp"
         android:hint="(optional)" />
@@ -61,6 +65,8 @@
         style="@style/UIDEditTextBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:imeOptions="actionNext"
+        android:inputType="text"
         android:layout_below="@id/sa_town_text"
         android:layout_marginBottom="16dp"
         android:hint="Enter yout town or city" />
@@ -78,6 +84,7 @@
         style="@style/UIDEditTextBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:imeOptions="actionDone"
         android:layout_below="@id/sa_postal_code_text"
         android:layout_marginBottom="16dp"
         android:hint="Enter ZIP or postal code"
@@ -93,6 +100,7 @@
 
     <android.support.v7.widget.AppCompatSpinner
         android:id="@+id/sa_state_spinner"
+        android:background="?attr/uidTextBoxDefaultDisabledBackgroundColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/sa_state_text">

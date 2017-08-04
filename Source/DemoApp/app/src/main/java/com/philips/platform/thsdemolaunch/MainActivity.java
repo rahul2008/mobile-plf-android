@@ -10,9 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
@@ -38,7 +36,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class MainActivity extends UIDActivity implements ActionBarListener, UserRegistrationListener, UserRegistrationUIEventListener {
 
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
-    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
+    private final int DEFAULT_THEME = R.style.Theme_DLS_Orange_Bright;
     private FragmentLauncher fragmentLauncher;
     private THSMicroAppLaunchInput PTHMicroAppLaunchInput;
     private THSMicroAppInterface PTHMicroAppInterface;
@@ -91,12 +89,12 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
         boolean backState;
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.uappFragmentLayout);
-        if (fragmentManager.getBackStackEntryCount() == 2) {
-            finishAffinity();
-        } else if (currentFrag instanceof BackEventListener) {
+        if (currentFrag instanceof BackEventListener) {
             backState = ((BackEventListener) currentFrag).handleBackEvent();
             if (!backState) {
                 super.onBackPressed();
+            }else {
+                finishAffinity();
             }
         } else {
             super.onBackPressed();
@@ -119,7 +117,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
             themeIndex = DEFAULT_THEME;
         }
         getTheme().applyStyle(themeIndex, true);
-        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
+        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.AQUA));
     }
 
     @Override
