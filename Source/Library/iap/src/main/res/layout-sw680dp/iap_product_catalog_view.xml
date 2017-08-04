@@ -1,10 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout"
-    android:layout_gravity="center_horizontal"
-    android:maxWidth="@dimen/max_width"
     android:layout_width="@dimen/max_width"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
     android:background="?attr/uidContentPrimaryBackgroundColor"
-    android:layout_height="match_parent">
+    android:maxWidth="@dimen/max_width">
 
     <LinearLayout
         android:id="@+id/iap_ll_search_box"
@@ -16,7 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:padding="@dimen/border8_margin" />
+            android:paddingBottom="@dimen/border8_margin"
+            android:paddingTop="@dimen/border8_margin" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
