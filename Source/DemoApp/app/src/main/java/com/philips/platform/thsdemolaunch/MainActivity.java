@@ -36,7 +36,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class MainActivity extends UIDActivity implements ActionBarListener, UserRegistrationListener, UserRegistrationUIEventListener {
 
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
-    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
+    private final int DEFAULT_THEME = R.style.Theme_DLS_Orange_VeryDark;
     private FragmentLauncher fragmentLauncher;
     private THSMicroAppLaunchInput PTHMicroAppLaunchInput;
     private THSMicroAppInterface PTHMicroAppInterface;
@@ -117,7 +117,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
             themeIndex = DEFAULT_THEME;
         }
         getTheme().applyStyle(themeIndex, true);
-        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.ORANGE));
+        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.BRIGHT, AccentRange.AQUA));
     }
 
     @Override

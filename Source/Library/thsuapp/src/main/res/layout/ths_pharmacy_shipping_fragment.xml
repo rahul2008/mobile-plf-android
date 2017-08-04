@@ -26,15 +26,16 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/ps_prescription_sent_label"
         android:orientation="vertical"
+        android:background="?attr/uidContentPrimaryBackgroundColor"
         android:paddingEnd="16dp"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
-        android:background="@color/uidColorWhite"
         android:paddingStart="16dp">
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ps_pharmacy_name"
-            style="@style/UIDLabel.RecyclerViewItemMultipleLinesTitleText"
+            android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+            android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
@@ -42,7 +43,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ps_pharmacy_address_line_one"
-            style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/ps_pharmacy_name"
@@ -51,7 +52,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ps_pharmacy_address_line_two"
-            style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/ps_pharmacy_address_line_one"
@@ -61,7 +62,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ps_pharmacy_state"
-            style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/ps_pharmacy_address_line_one"
@@ -82,9 +83,9 @@
             style="@style/UIDQuietIconButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            app:uidImageButtonDrawableSrc="@android:drawable/ic_menu_edit"
             android:layout_alignParentTop="true"
-            app:uidImageButtonDrawableSrc="@mipmap/search_icon" />
+            android:layout_alignParentEnd="true" />
     </RelativeLayout>
 
     <View
@@ -107,19 +108,20 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/ps_shipping_layout_item"
         android:layout_width="match_parent"
+        android:background="?attr/uidContentPrimaryBackgroundColor"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ps_shipped_to_label"
         android:layout_marginTop="16dp"
         android:paddingTop="12dp"
         android:orientation="vertical"
-        android:background="@color/uidColorWhite"
         android:paddingEnd="16dp"
         android:paddingBottom="12dp"
         android:paddingStart="16dp">
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ps_consumer_name"
-            style="@style/UIDLabel.RecyclerViewItemMultipleLinesTitleText"
+            android:textColor="?attr/uidContentItemDefaultNormalBodyTextColor"
+            android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
@@ -127,7 +129,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ps_consumer_shipping_address"
-            style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -136,7 +138,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ps_consumer_shipping_zip"
-            style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -145,7 +147,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ps_consumer_city"
-            style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -154,7 +156,7 @@
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/ps_consumer_state"
-            style="@style/UIDLabel.RecyclerViewItemDescriptionText"
+            android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/ps_consumer_city"
@@ -169,7 +171,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            app:uidImageButtonDrawableSrc="@mipmap/search_icon" />
+            app:uidImageButtonDrawableSrc="@android:drawable/ic_menu_edit" />
     </RelativeLayout>
 
     <View
@@ -182,7 +184,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/uidColorWhite"
         android:padding="16dp">
 
         <com.philips.platform.uid.view.widget.Button
