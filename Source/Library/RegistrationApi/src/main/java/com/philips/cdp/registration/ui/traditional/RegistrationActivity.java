@@ -15,7 +15,6 @@ import android.support.v4.app.*;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
-
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
@@ -65,7 +64,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        UIDHelper.init(new ThemeConfiguration(this, ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT, AccentRange.AQUA));
+        UIDHelper.init(new ThemeConfiguration(this, ColorRange.GROUP_BLUE, ContentColor.ULTRA_LIGHT, NavigationColor.ULTRA_LIGHT, AccentRange.AQUA));
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();

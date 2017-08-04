@@ -161,6 +161,8 @@ public class AlmostDonePresenter implements NetworStateListener, SocialProviderL
     }
 
     private void emailAlreadyInUse(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+        RLog.d(RLog.EXCEPTION, "AlmostDoneFragment getErrorCode: " + userRegistrationFailureInfo.getErrorCode());
+
         if (userRegistrationFailureInfo.getErrorCode() == EMAIL_ADDRESS_ALREADY_USE_CODE) {
             if (RegistrationHelper.getInstance().isChinaFlow()) {
                 almostDoneContract.phoneNumberAlreadyInuseError();
@@ -282,6 +284,7 @@ public class AlmostDonePresenter implements NetworStateListener, SocialProviderL
             almostDoneContract.showMarketingOptSpinner();
             mUser.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName, isEmailExist ? mEmail : email, true,
                     isReMarketingOptCheck, this, mRegistrationToken);
+            setEmail(email);
         }
     }
 
