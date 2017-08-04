@@ -53,7 +53,7 @@ public class THSRegistrationFragment extends THSBaseFragment implements BackEven
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.registration_form, container, false);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_registration_form, container, false);
         setView(view);
         getActionBarListener().updateActionBar("Registration form", false);
         mThsRegistrationPresenter = new THSRegistrationPresenter(this);

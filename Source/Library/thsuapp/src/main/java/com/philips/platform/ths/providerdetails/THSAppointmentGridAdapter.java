@@ -79,7 +79,7 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
         if (convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
-            convertView = layoutInflater.inflate(R.layout.cell, null);
+            convertView = layoutInflater.inflate(R.layout.ths_cell, null);
 
             Button timeslot = (Button) convertView.findViewById(R.id.date);
 
