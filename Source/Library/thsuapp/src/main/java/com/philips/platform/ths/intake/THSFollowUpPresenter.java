@@ -118,7 +118,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
     @Override
     public void onSuccessfulFetch(Address address, SDKError sdkError) {
         if (null != address) {
-            ((THSFollowUpFragment) uiBaseView).displayPharmacyAndShippingPreferenceFragment(pharmacy, address);
+            ((THSFollowUpFragment) uiBaseView).displayPharmacyAndShippingPreferenceFragment(pharmacy,address);
         } else {
             ((THSFollowUpFragment) uiBaseView).displaySearchPharmacy();
         }
