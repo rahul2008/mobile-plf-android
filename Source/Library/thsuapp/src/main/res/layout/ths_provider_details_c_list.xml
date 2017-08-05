@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/uid_dot_navigation_icon_margin"
             android:lineSpacingExtra="8sp"
-            android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
+            android:textColor="@color/uid_signal_indigo_level_30"
             android:textSize="@dimen/uid_navigation_bar_text_size" />
 
         <com.philips.platform.uid.view.widget.Label
@@ -60,7 +60,7 @@
                 android:layout_toRightOf="@+id/details_isAvailableImage"
                 android:lineSpacingExtra="6sp"
                 android:text="@string/ths_available_time_slots"
-                android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
+                android:textColor="@color/uid_signal_indigo_level_30"
                 android:textSize="@dimen/uid_grid_descrption_size" />
 
             <com.philips.platform.uid.view.widget.NotificationBadge
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:text="2"
                 android:visibility="gone"
-                app:backgroundTint="?attr/uidColorLevel45" />
+                app:backgroundTint="?attr/uidColorLevel60" />
 
             <ImageView
                 android:id="@+id/details_isAvailableImage"
