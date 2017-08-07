@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.keybag.KeyBagInterface;
 
-import java.io.FileNotFoundException;
 import java.util.Map;
 
 public class KeyBagActivity extends AppCompatActivity {
@@ -34,12 +33,7 @@ public class KeyBagActivity extends AppCompatActivity {
 
 	public void onClick(View view) {
 		final KeyBagInterface keyBagInterface = AILDemouAppInterface.getInstance().getAppInfra().getKeyBagInterface();
-		try {
-			keyBagInterface.init();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		Map mapForServiceId = keyBagInterface.getMapForServiceId(serviceIdEditText.getText().toString());
+		Map mapForServiceId = keyBagInterface.getValueForServiceId(serviceIdEditText.getText().toString());
 		updateView(mapForServiceId);
 	}
 

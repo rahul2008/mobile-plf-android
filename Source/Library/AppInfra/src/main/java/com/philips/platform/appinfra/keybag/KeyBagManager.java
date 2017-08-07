@@ -26,12 +26,8 @@ public class KeyBagManager implements KeyBagInterface {
     //TODO - variables below need to be removed
     private ServiceDiscoveryManagerCSV sdmCSV;
 
-    public KeyBagManager(AppInfra appInfra) {
+    public KeyBagManager(AppInfra appInfra) throws FileNotFoundException {
         mAppInfra = appInfra;
-    }
-
-    @Override
-    public void init() throws FileNotFoundException {
         keyBagHelper = new KeyBagHelper();
         keyBagHelper.init(mAppInfra.getAppInfraContext());
         //TODO - need to remove invoking below api
@@ -39,7 +35,7 @@ public class KeyBagManager implements KeyBagInterface {
     }
 
     @Override
-    public Map getMapForServiceId(final String serviceId) {
+    public Map getValueForServiceId(final String serviceId) {
         String appendedServiceId = keyBagHelper.getAppendedServiceId(serviceId);
         final Map[] maps = new Map[1];
 //        mAppInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(appendedServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
@@ -76,11 +72,6 @@ public class KeyBagManager implements KeyBagInterface {
                 Log.d(TAG, "Error Response from Service Discovery CSV :" + s);
             }
         });
-    }
-
-    public String test(String data) {
-        String data1 = "¬¥Åf-1gû95Ú";
-        return keyBagHelper.obfuscate(data1, 0xACE1);
     }
 
 }

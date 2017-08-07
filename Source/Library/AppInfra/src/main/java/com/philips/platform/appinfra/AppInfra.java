@@ -36,6 +36,7 @@ import com.philips.platform.appinfra.tagging.AppTaggingInterface;
 import com.philips.platform.appinfra.timesync.TimeInterface;
 import com.philips.platform.appinfra.timesync.TimeSyncSntpClient;
 
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 
 
@@ -77,6 +78,24 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
                 message + methodDuration);
     }
 
+    private static void initializeLogs(AppInfra ai) {
+        final StringBuilder appInfraLogStatement = new StringBuilder();
+
+        try {
+            appInfraLogStatement.append("AppInfra initialized for application \"");
+            appInfraLogStatement.append(ai.getAppIdentity().getAppName());
+            appInfraLogStatement.append("\" version \"");
+            appInfraLogStatement.append(ai.getAppIdentity().getAppVersion());
+            appInfraLogStatement.append("\" in state \"");
+            appInfraLogStatement.append(ai.getAppIdentity().getAppState());
+
+        } catch (IllegalArgumentException e) {
+            Log.v(AppInfraLogEventID.AI_APPINFRA, e.getMessage());
+        }
+        appInfraLogStatement.append("\"");
+        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
+                AppInfraLogEventID.AI_APPINFRA, "AppInfra initialized " + appInfraLogStatement.toString());
+    }
 
     public Context getAppInfraContext() {
         return appInfraContext;
@@ -185,7 +204,6 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         this.mAppupdateInterface = appupdateInterface;
     }
 
-
     public AppTaggingInterface getTagging() {
         return tagging;
     }
@@ -210,13 +228,13 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
         return BuildConfig.VERSION_NAME;
     }
 
-    public void setKeyBagInterface(KeyBagInterface keyBagInterface) {
-        this.keyBagInterface = keyBagInterface;
-    }
-
     @Override
     public KeyBagInterface getKeyBagInterface() {
         return keyBagInterface;
+    }
+
+    public void setKeyBagInterface(KeyBagInterface keyBagInterface) {
+        this.keyBagInterface = keyBagInterface;
     }
 
     /**
@@ -440,8 +458,13 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    final KeyBagManager keyBagManager = new KeyBagManager(ai);
-                    ai.setKeyBagInterface(keyBagInterface == null ? keyBagManager : keyBagInterface);
+                    final KeyBagManager keyBagManager;
+                    try {
+                        keyBagManager = new KeyBagManager(ai);
+                        ai.setKeyBagInterface(keyBagInterface == null ? keyBagManager : keyBagInterface);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
             }).start();
 
@@ -449,26 +472,6 @@ public class AppInfra implements AppInfraInterface ,ComponentVersionInfo,Seriali
             postLog(ai,startTime, "App-infra initialization ends with ");
             return ai;
         }
-    }
-
-
-    private static void initializeLogs(AppInfra ai) {
-        final StringBuilder appInfraLogStatement = new StringBuilder();
-
-        try {
-            appInfraLogStatement.append("AppInfra initialized for application \"");
-            appInfraLogStatement.append(ai.getAppIdentity().getAppName());
-            appInfraLogStatement.append("\" version \"");
-            appInfraLogStatement.append(ai.getAppIdentity().getAppVersion());
-            appInfraLogStatement.append("\" in state \"");
-            appInfraLogStatement.append(ai.getAppIdentity().getAppState());
-
-        } catch (IllegalArgumentException e) {
-            Log.v(AppInfraLogEventID.AI_APPINFRA, e.getMessage());
-        }
-        appInfraLogStatement.append("\"");
-        ai.getAppInfraLogInstance().log(LoggingInterface.LogLevel.INFO,
-                AppInfraLogEventID.AI_APPINFRA,"AppInfra initialized " +appInfraLogStatement.toString());
     }
 
 }
