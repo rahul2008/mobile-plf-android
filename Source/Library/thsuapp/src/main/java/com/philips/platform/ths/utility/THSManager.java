@@ -63,7 +63,7 @@ import com.philips.platform.ths.intake.THSConditionsCallBack;
 import com.philips.platform.ths.intake.THSConditionsList;
 import com.philips.platform.ths.intake.THSMedication;
 import com.philips.platform.ths.intake.THSMedicationCallback;
-import com.philips.platform.ths.intake.THSNoppCallBack;
+import com.philips.platform.ths.intake.THSNoticeOfPrivacyPracticesCallBack;
 import com.philips.platform.ths.intake.THSSDKValidatedCallback;
 import com.philips.platform.ths.intake.THSUpdateConditionsCallback;
 import com.philips.platform.ths.intake.THSUpdateConsumerCallback;
@@ -677,16 +677,16 @@ public class THSManager {
         });
     }
 
-    public void getLegaltext(Context context, LegalText legalText, final THSNoppCallBack tHSNoppCallBack) throws AWSDKInstantiationException {
+    public void getLegaltext(Context context, LegalText legalText, final THSNoticeOfPrivacyPracticesCallBack thsNoticeOfPrivacyPracticesCallBack) throws AWSDKInstantiationException {
         getAwsdk(context).getLegalText(legalText, new SDKCallback<String, SDKError>() {
             @Override
             public void onResponse(String s, SDKError sdkError) {
-                tHSNoppCallBack.onNoppReceivedSuccess(s, sdkError);
+                thsNoticeOfPrivacyPracticesCallBack.onNoticeOfPrivacyPracticesReceivedSuccess(s, sdkError);
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-                tHSNoppCallBack.onNoppReceivedFailure(throwable);
+                thsNoticeOfPrivacyPracticesCallBack.onNoticeOfPrivacyPracticesReceivedFailure(throwable);
             }
         });
     }

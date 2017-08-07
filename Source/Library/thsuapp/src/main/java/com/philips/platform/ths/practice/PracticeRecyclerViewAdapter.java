@@ -1,6 +1,8 @@
 package com.philips.platform.ths.practice;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,17 +51,17 @@ public class PracticeRecyclerViewAdapter extends RecyclerView.Adapter<PracticeRe
 
 
         customViewHolder.label.setText(practice.getName());
-        if (true) {
-            try {
-                THSManager.getInstance().getAwsdk(customViewHolder.logo.getContext()).getPracticeProvidersManager()
-                        .newImageLoader(practice, customViewHolder.logo, false)
-                        .placeholder(customViewHolder.logo.getResources()
-                                .getDrawable(R.mipmap.child_icon))
-                        .build().load();
-            } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
-            }
+
+        try {
+            final Drawable drawable = ContextCompat.getDrawable(mContext, R.mipmap.child_icon);
+            THSManager.getInstance().getAwsdk(customViewHolder.logo.getContext()).getPracticeProvidersManager()
+                    .newImageLoader(practice, customViewHolder.logo, false)
+                    .placeholder(drawable)
+                    .build().load();
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
         }
+
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +75,7 @@ public class PracticeRecyclerViewAdapter extends RecyclerView.Adapter<PracticeRe
 
     @Override
     public int getItemCount() {
-        return (null != mTHSPractice && mTHSPractice.getPractices()!=null ? mTHSPractice.getPractices().size() : 0);
+        return (null != mTHSPractice && mTHSPractice.getPractices() != null ? mTHSPractice.getPractices().size() : 0);
     }
 
     class CustomViewHolder extends RecyclerView.ViewHolder {

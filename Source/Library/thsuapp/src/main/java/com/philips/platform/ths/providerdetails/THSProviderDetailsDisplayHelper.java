@@ -33,7 +33,7 @@ public class THSProviderDetailsDisplayHelper {
     View.OnClickListener mOnClickListener;
     SwipeRefreshLayout.OnRefreshListener mOnRefreshListener;
     Context mContext;
-    THSPRoviderDetailsViewInterface mThsPRoviderDetailsViewInterface;
+    THSProviderDetailsViewInterface mThsPRoviderDetailsViewInterface;
     protected CircularImageView providerImage;
     protected ImageView isAvailableImage;
     protected Label providerName,practiceName,isAvailable,spokenLanguageValueLabel,yearsOfExpValueLabel,
@@ -50,12 +50,12 @@ public class THSProviderDetailsDisplayHelper {
 
     public THSProviderDetailsDisplayHelper(Context context, View.OnClickListener onClickListener,
                                     SwipeRefreshLayout.OnRefreshListener onRefreshListener,
-                                    THSPRoviderDetailsViewInterface thspRoviderDetailsViewInterface,
+                                    THSProviderDetailsViewInterface thsProviderDetailsViewInterface,
                                     THSBaseFragment thsBaseFragment,View view){
         mOnClickListener = onClickListener;
         mContext = context;
         mOnRefreshListener = onRefreshListener;
-        mThsPRoviderDetailsViewInterface = thspRoviderDetailsViewInterface;
+        mThsPRoviderDetailsViewInterface = thsProviderDetailsViewInterface;
         this.thsBaseFragment = thsBaseFragment;
         setViews(view);
     }

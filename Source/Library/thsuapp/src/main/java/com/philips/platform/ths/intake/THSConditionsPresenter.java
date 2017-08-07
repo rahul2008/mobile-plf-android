@@ -65,7 +65,9 @@ public class THSConditionsPresenter implements THSBasePresenter, THSConditionsCa
 
     @Override
     public void onUpdateConditonResponse(Void aVoid, THSSDKError sdkError) {
-
+        //Spoorti - This has no implementation as the UI would have got updated and we are sending the result to server.
+        //On response, as of now no need to handle
+        //Keeping this for future use
     }
 
     @Override
