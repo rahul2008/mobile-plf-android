@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.philips.cdp.dicommclient.subscription;
+package com.philips.cdp2.commlib.lan.subscription;
 
 import android.content.Context;
 import android.net.wifi.WifiManager;

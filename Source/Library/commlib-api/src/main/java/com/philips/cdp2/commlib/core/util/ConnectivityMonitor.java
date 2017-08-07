@@ -45,7 +45,7 @@ public abstract class ConnectivityMonitor {
         public void onReceive(Context context, Intent intent) {
             activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 
-            boolean isCurrentlyConnected = isConnected();
+            boolean isCurrentlyConnected = calculateIsConnected();
 
             if (isCurrentlyConnected != isConnected) {
                 isConnected = isCurrentlyConnected;
@@ -70,7 +70,7 @@ public abstract class ConnectivityMonitor {
 
         return new ConnectivityMonitor(context) {
             @Override
-            protected boolean isConnected() {
+            protected boolean calculateIsConnected() {
                 Network network = getActiveNetwork();
                 for (int capability : networkCapabilities) {
                     if (connectivityManager.getNetworkCapabilities(network).hasCapability(capability)) {
@@ -96,7 +96,7 @@ public abstract class ConnectivityMonitor {
 
         return new ConnectivityMonitor(context) {
             @Override
-            protected boolean isConnected() {
+            protected boolean calculateIsConnected() {
                 final NetworkInfo activeNetworkInfo = getActiveNetworkInfo();
                 if (activeNetworkInfo == null) {
                     return false;
@@ -118,7 +118,11 @@ public abstract class ConnectivityMonitor {
         context.registerReceiver(connectivityReceiver, createFilter());
     }
 
-    abstract protected boolean isConnected();
+    abstract protected boolean calculateIsConnected();
+
+    public boolean isConnected(){
+        return isConnected;
+    }
 
     @VisibleForTesting
     IntentFilter createFilter() {

@@ -16,12 +16,13 @@ import com.philips.cdp.dicommclient.request.RequestQueue;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.security.DISecurity.EncryptionDecryptionFailedListener;
-import com.philips.cdp.dicommclient.subscription.LocalSubscriptionHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
-import com.philips.cdp.dicommclient.subscription.UdpEventReceiver;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.security.SslPinTrustManager;
+import com.philips.cdp2.commlib.lan.subscription.LocalSubscriptionHandler;
+import com.philips.cdp2.commlib.lan.subscription.UdpEventReceiver;
 
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -39,6 +40,7 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
     private final NetworkNode networkNode;
     @NonNull
     private final LanDeviceCache deviceCache;
+    private final ConnectivityMonitor connectivityMonitor;
     @Nullable
     private SSLContext sslContext;
 
@@ -55,9 +57,17 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
         }
     };
 
-    public LanCommunicationStrategy(final @NonNull NetworkNode networkNode, final @NonNull LanDeviceCache deviceCache) {
+    public LanCommunicationStrategy(final @NonNull NetworkNode networkNode, final @NonNull LanDeviceCache deviceCache, ConnectivityMonitor connectivityMonitor) {
         this.networkNode = networkNode;
         this.deviceCache = deviceCache;
+        this.connectivityMonitor = connectivityMonitor;
+
+        connectivityMonitor.addConnectivityListener(new ConnectivityMonitor.ConnectivityListener() {
+            @Override
+            public void onConnectivityChanged(boolean isConnected) {
+                // TODO FIXME Fix subscriptions on reconnect?
+            }
+        });
 
         if (networkNode.isHttps()) {
             try {
@@ -124,7 +134,7 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
 
     @Override
     public boolean isAvailable() {
-        return deviceCache.contains(networkNode.getCppId());
+        return deviceCache.contains(networkNode.getCppId()) && connectivityMonitor.isConnected();
     }
 
     @VisibleForTesting

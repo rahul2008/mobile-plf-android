@@ -7,6 +7,7 @@ package com.philips.cdp2.commlib.lan.communication;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.RequestQueue;
+import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 
 import org.junit.Before;
@@ -39,13 +40,16 @@ public class LanCommunicationStrategyTest {
     @Mock
     private RequestQueue requestQueueMock;
 
+    @Mock
+    private ConnectivityMonitor connectivityMonitor;
+
     private LanCommunicationStrategy lanCommunicationStrategy;
 
     @Before
     public void setUp() throws Exception {
         initMocks(this);
 
-        lanCommunicationStrategy = new LanCommunicationStrategy(networkNodeMock, lanDeviceCacheMock) {
+        lanCommunicationStrategy = new LanCommunicationStrategy(networkNodeMock, lanDeviceCacheMock, connectivityMonitor) {
             @Override
             RequestQueue createRequestQueue() {
                 return requestQueueMock;
