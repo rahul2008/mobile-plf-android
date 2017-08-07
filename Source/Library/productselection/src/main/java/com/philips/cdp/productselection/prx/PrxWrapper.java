@@ -2,8 +2,8 @@ package com.philips.cdp.productselection.prx;
 
 import android.content.Context;
 
-import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.utils.Constants;
+import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.PRXDependencies;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
@@ -132,6 +132,8 @@ public class PrxWrapper {
 
             RequestManager requestManager = new RequestManager();
             requestManager.init(prxDependencies);
+            //PrxLogger.enablePrxLogger(true);
+
             final String finalI = ctnList[i];
             final int ctnPosition = i;
             final int ctnListLength = ctnList.length;

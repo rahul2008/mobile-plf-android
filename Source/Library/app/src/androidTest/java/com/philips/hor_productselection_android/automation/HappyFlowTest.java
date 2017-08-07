@@ -10,6 +10,7 @@ import android.test.suitebuilder.annotation.LargeTest;
 import com.philips.hor_productselection_android.Launcher;
 import com.philips.hor_productselection_android.R;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,6 +31,7 @@ public class HappyFlowTest extends AutomationTestHelper{
     @Rule
     public ActivityTestRule<Launcher> mActivityTestRule = new ActivityTestRule<>(Launcher.class);
 
+    @Ignore
     @Test
     public void happyFlowTest() {
         ViewInteraction button = onView(

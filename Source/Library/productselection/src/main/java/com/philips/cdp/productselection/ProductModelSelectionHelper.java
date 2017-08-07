@@ -33,6 +33,7 @@ public class ProductModelSelectionHelper {
     private static final String TAG = ProductModelSelectionHelper.class.getSimpleName();
     private static ProductModelSelectionHelper mProductModelSelectionHelper = null;
     private Context mContext = null;
+    //private static Locale mLocale = null;
     private ProductSelectionListener mProductSelectionListener = null;
     private UiLauncher mLauncherType = null;
     private ProductModelSelectionType mProductModelSelectionType = null;
@@ -65,12 +66,6 @@ public class ProductModelSelectionHelper {
     {
         return mProductModelSelectionType;
     }
-
-  /*  public Locale getLocale() {
-        return mLocale;
-    }
-*/
-
     /**
      * Returns the Context used in the product selection Component
      *
@@ -102,7 +97,7 @@ public class ProductModelSelectionHelper {
         AppTaggingInterface taggingInterface =
                 getAPPInfraInstance().getTagging().createInstanceForComponent
                         (Constants.COMPONENT_NAME_PS, com.philips.cdp.productselection.BuildConfig.VERSION_NAME);
-        taggingInterface.setPreviousPage("vertical:productSelection:home");
+        taggingInterface.setPreviousPage(Constants.PAGE_DIGITALCARE_HOME_SCREEN);
         return taggingInterface;
     }
 
@@ -196,7 +191,7 @@ public class ProductModelSelectionHelper {
 
     private void invokeAsActivity(int startAnimation, int endAnimation, ActivityLauncher.ActivityOrientation orientation) {
         if (mContext == null) {
-            throw new RuntimeException("Please initialise context, locale before component invocation");
+            throw new RuntimeException("Please initialise context before component invocation");
         }
         Intent intent = new Intent(this.getContext(), ProductSelectionActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -214,14 +209,6 @@ public class ProductModelSelectionHelper {
         this.mProductSelectionListener = mProductListener;
     }
 
-    public void setLocale(String langCode, String countryCode) {
-
-        if (langCode != null && countryCode != null) {
-            //mLocale = new Locale(langCode, countryCode);
-            //ProductSelectionLogger.i(TAG, "setLocale API of ProductSelection : " + mLocale.toString());
-        }
-    }
-
     public boolean isLaunchedAsActivity() {
         return mLauncherType instanceof ActivityLauncher;
     }
@@ -229,6 +216,7 @@ public class ProductModelSelectionHelper {
     public void setCurrentOrientation(Configuration config) {
         mVerticalOrientation = config;
     }
+
     public String getProductSelectionLibVersion() {
         return BuildConfig.VERSION_NAME;
     }

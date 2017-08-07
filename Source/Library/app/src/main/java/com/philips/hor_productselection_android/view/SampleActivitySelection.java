@@ -63,7 +63,6 @@ public class SampleActivitySelection extends ProductSelectionBaseActivity implem
         mAppInfraInterface = new AppInfra.Builder().build(getApplicationContext());
 
         ProductModelSelectionHelper.getInstance().initialize(this, mAppInfraInterface);
-        ProductModelSelectionHelper.getInstance().setLocale("en", "GB");
         UIDHelper.setupToolbar(this);
         getTheme().applyStyle(com.philips.cdp.uikit.R.style.Theme_Philips_BrightOrange_Gradient, true);
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);

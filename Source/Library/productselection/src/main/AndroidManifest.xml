@@ -10,7 +10,7 @@
         <activity
             android:name=".activity.ProductSelectionActivity"
             android:configChanges="orientation|screenSize|locale|layoutDirection"
-            android:exported="true">
+            android:exported="false">
 
             <intent-filter>
                 <action android:name="android.intent.action.SUPPORT_PRODUCTSELECTION" />
@@ -18,15 +18,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-        <receiver
-            android:name=".utils.NetworkReceiver"
-            android:exported="false">
-            <intent-filter android:priority="999">
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-
 
     </application>
 
