@@ -57,8 +57,9 @@ public abstract class BaseFlowManager {
 
     /**
      * Should be called to initialize flow manager
-     * @param context - context
-     * @param jsonPath - Path of Flow manager JSON file
+     *
+     * @param context             - context
+     * @param jsonPath            - Path of Flow manager JSON file
      * @param flowManagerListener - call back listener on parse success
      * @throws JsonFileNotFoundException
      * @throws JsonStructureException
@@ -70,20 +71,21 @@ public abstract class BaseFlowManager {
             throw new JsonAlreadyParsedException();
         } else {
             flowManagerHandler = getHandler(context);
-            new Thread (new Runnable() {
-                    @Override
-                    public void run() {
-                        parseFlowManagerJson(context, jsonPath, flowManagerListener);
-                    }
-                }).start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    parseFlowManagerJson(context, jsonPath, flowManagerListener);
+                }
+            }).start();
         }
 
     }
 
     /**
      * Should be called to initialize flow manager
-     * @param context - context
-     * @param resId - resId of the json file placed in raw folder
+     *
+     * @param context             - context
+     * @param resId               - resId of the json file placed in raw folder
      * @param flowManagerListener - call back listener on parse success
      * @throws JsonFileNotFoundException
      * @throws JsonStructureException
@@ -94,20 +96,21 @@ public abstract class BaseFlowManager {
             throw new JsonAlreadyParsedException();
         } else {
             flowManagerHandler = getHandler(context);
-            new Thread (new Runnable() {
-                    @Override
-                    public void run() {
-                        parseFlowManagerJson(context, resId, flowManagerListener);
-                    }
-                }).start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    parseFlowManagerJson(context, resId, flowManagerListener);
+                }
+            }).start();
         }
 
     }
 
     /**
      * Should be called to initialize flow manager
-     * @param context - context
-     * @param appFlow - AppFlow object which is mapped to Json response
+     *
+     * @param context             - context
+     * @param appFlow             - AppFlow object which is mapped to Json response
      * @param flowManagerListener - call back listener on parse success
      * @throws AppFlowNullException
      * @throws JsonAlreadyParsedException
@@ -117,11 +120,11 @@ public abstract class BaseFlowManager {
             throw new JsonAlreadyParsedException();
         } else {
             flowManagerHandler = getHandler(context);
-            new Thread (new Runnable() {
+            new Thread(new Runnable() {
                 @Override
                 public void run() {
                     mapAppFlowStates(context, appFlow);
-                    init();
+                    init(context);
                     populateStateMap(stateMap);
                     populateConditionMap(conditionMap);
                     postCallBack(flowManagerListener);
@@ -131,7 +134,8 @@ public abstract class BaseFlowManager {
 
     }
 
-    private void init() {
+    private void init(Context context) {
+        this.context = context;
         flowManagerStack = new FlowManagerStack();
         stateMap = new TreeMap<>();
         conditionMap = new TreeMap<>();
@@ -143,9 +147,8 @@ public abstract class BaseFlowManager {
     }
 
     private void parseFlowManagerJson(final @NonNull Context context, final @NonNull String jsonPath, final @NonNull FlowManagerListener flowManagerListener) {
-        this.context = context;
+        init(context);
         mapAppFlowStates(jsonPath);
-        init();
         populateStateMap(stateMap);
         populateConditionMap(conditionMap);
         postCallBack(flowManagerListener);
@@ -157,9 +160,8 @@ public abstract class BaseFlowManager {
     }
 
     private void parseFlowManagerJson(final @NonNull Context context, final @RawRes int resId, final @NonNull FlowManagerListener flowManagerListener) {
-        this.context = context;
+        init(context);
         mapAppFlowStates(context, resId);
-        init();
         populateStateMap(stateMap);
         populateConditionMap(conditionMap);
         postCallBack(flowManagerListener);
@@ -220,7 +222,8 @@ public abstract class BaseFlowManager {
     }
 
     /**
-     *  Method to get next state for passed event id
+     * Method to get next state for passed event id
+     *
      * @param eventId
      * @return
      * @throws NoEventFoundException
@@ -228,7 +231,6 @@ public abstract class BaseFlowManager {
      * @throws NoConditionFoundException
      * @throws StateIdNotSetException
      * @throws ConditionIdNotSetException
-     *
      */
     @NonNull
     public BaseState getNextState(String eventId) throws NoEventFoundException, NoStateException, NoConditionFoundException, StateIdNotSetException, ConditionIdNotSetException {
@@ -283,8 +285,7 @@ public abstract class BaseFlowManager {
             else
                 postLog(getClass().getSimpleName() + "", " No event Found with current state = null with stack size = " + flowManagerStack.size());
             throw new NoEventFoundException();
-        }
-        else
+        } else
             return null;
     }
 
@@ -294,7 +295,8 @@ public abstract class BaseFlowManager {
     }
 
     /**
-     *  Method to get State while navigating back
+     * Method to get State while navigating back
+     *
      * @param currentState
      * @return returns BaseState
      * @throws NoStateException
@@ -307,7 +309,8 @@ public abstract class BaseFlowManager {
     }
 
     /**
-     *  Method to get State while navigating back
+     * Method to get State while navigating back
+     *
      * @return returns BaseState
      * @throws NoStateException
      * @throws NoConditionFoundException
@@ -339,7 +342,7 @@ public abstract class BaseFlowManager {
                 return null;
             }
         }
-        postLog(getClass().getSimpleName()+""," No State Found while invoking getBackState ");
+        postLog(getClass().getSimpleName() + "", " No State Found while invoking getBackState ");
         throw new NoStateException();
     }
 
@@ -397,7 +400,7 @@ public abstract class BaseFlowManager {
         getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
     }
 
-    private void mapAppFlowStates(Context context, final AppFlowModel appFlowModel) throws AppFlowNullException{
+    private void mapAppFlowStates(Context context, final AppFlowModel appFlowModel) throws AppFlowNullException {
         if (appFlowModel != null) {
             final AppFlowParser appFlowParser = new AppFlowParser(context);
             getFirstStateAndAppFlowMap(appFlowParser, appFlowModel);
@@ -416,7 +419,7 @@ public abstract class BaseFlowManager {
                     postLog(getClass().getSimpleName(), " Flow manager parsed successfully");
                 }
             }
-        } ;
+        };
     }
 
     private void getFirstStateAndAppFlowMap(AppFlowParser appFlowParser, AppFlowModel appFlowModel) {
