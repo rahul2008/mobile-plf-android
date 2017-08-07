@@ -24,7 +24,7 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.ths.uappclasses.THSMicroAppDependencies;
-import com.philips.platform.ths.uappclasses.THSMicroAppInterface;
+import com.philips.platform.ths.uappclasses.THSMicroAppInterfaceImpl;
 import com.philips.platform.ths.uappclasses.THSMicroAppLaunchInput;
 import com.philips.platform.ths.uappclasses.THSMicroAppSettings;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -45,7 +45,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
     private final int DEFAULT_THEME = R.style.Theme_DLS_Orange_Bright;
     private FragmentLauncher fragmentLauncher;
     private THSMicroAppLaunchInput PTHMicroAppLaunchInput;
-    private THSMicroAppInterface PTHMicroAppInterface;
+    private THSMicroAppInterfaceImpl PTHMicroAppInterface;
     private Toolbar toolbar;
 
     @Override
@@ -153,7 +153,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
 
     private void launchAmwell() {
         PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input");
-        PTHMicroAppInterface = new THSMicroAppInterface();
+        PTHMicroAppInterface = new THSMicroAppInterfaceImpl();
         PTHMicroAppInterface.init(new THSMicroAppDependencies(((THSDemoApplication) this.getApplicationContext()).getAppInfra()), new THSMicroAppSettings(this.getApplicationContext()));
         PTHMicroAppInterface.launch(fragmentLauncher, PTHMicroAppLaunchInput);
     }

@@ -39,7 +39,7 @@ public class THSProviderDetailsPresenter implements THSBasePresenter,THSProvider
     private Provider mProvider;
     private THSBaseFragment mThsBaseFragment;
 
-    public THSProviderDetailsPresenter(THSPRoviderDetailsViewInterface viewInterface, THSBaseFragment thsBaseFragment){
+    public THSProviderDetailsPresenter(THSProviderDetailsViewInterface viewInterface, THSBaseFragment thsBaseFragment){
         this.viewInterface = viewInterface;
         mThsBaseFragment = thsBaseFragment;
     }

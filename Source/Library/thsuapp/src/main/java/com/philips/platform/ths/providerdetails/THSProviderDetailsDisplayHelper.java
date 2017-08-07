@@ -56,12 +56,12 @@ public class THSProviderDetailsDisplayHelper {
 
     public THSProviderDetailsDisplayHelper(Context context, View.OnClickListener onClickListener,
                                     SwipeRefreshLayout.OnRefreshListener onRefreshListener,
-                                    THSPRoviderDetailsViewInterface thspRoviderDetailsViewInterface,
+                                    THSProviderDetailsViewInterface thsProviderDetailsViewInterface,
                                     THSBaseFragment thsBaseFragment,View view){
         mOnClickListener = onClickListener;
         mContext = context;
         mOnRefreshListener = onRefreshListener;
-        mThsPRoviderDetailsViewInterface = thspRoviderDetailsViewInterface;
+        mThsPRoviderDetailsViewInterface = thsProviderDetailsViewInterface;
         this.thsBaseFragment = thsBaseFragment;
         setViews(view);
     }

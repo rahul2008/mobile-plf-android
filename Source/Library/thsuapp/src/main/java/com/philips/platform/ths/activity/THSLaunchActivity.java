@@ -22,8 +22,6 @@ import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 
-import static com.philips.platform.ths.uappclasses.THSMicroAppInterface.WELCOME_MESSAGE;
-
 
 public class THSLaunchActivity extends AppCompatActivity {
 
@@ -43,13 +41,7 @@ public class THSLaunchActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             THSWelcomeFragment pthWelcomeFragment = new THSWelcomeFragment
                     ();
-            Bundle extras = getIntent().getExtras();
-            if (extras != null) {
-                String message = extras.getString(WELCOME_MESSAGE);
-                Bundle bundle = new Bundle();
-                bundle.putString(WELCOME_MESSAGE, message);
-                pthWelcomeFragment.setArguments(bundle);
-            }
+
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.parent_layout, pthWelcomeFragment);
             fragmentTransaction.commitAllowingStateLoss();

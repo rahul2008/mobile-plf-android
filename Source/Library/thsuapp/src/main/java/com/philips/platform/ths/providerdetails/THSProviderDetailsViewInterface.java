@@ -15,7 +15,7 @@ import com.americanwell.sdk.entity.provider.EstimatedVisitCost;
 import com.americanwell.sdk.entity.provider.Provider;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 
-public interface THSPRoviderDetailsViewInterface {
+public interface THSProviderDetailsViewInterface {
 
     Context getContext();
     THSProviderInfo getTHSProviderInfo();

@@ -23,6 +23,9 @@ import com.philips.platform.ths.appointment.THSAvailableProvider;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
 
+/**
+ * This class is used to display the provider details selected by the user.
+ */
 public class THSProviderDetailsFragment extends THSBaseFragment implements View.OnClickListener, THSPRoviderDetailsViewInterface,SwipeRefreshLayout.OnRefreshListener{
     public static final String TAG = THSProviderDetailsFragment.class.getSimpleName();
     private Consumer consumer;

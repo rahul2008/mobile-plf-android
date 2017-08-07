@@ -44,7 +44,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     public static final String TAG = THSFollowUpFragment.class.getSimpleName();
     protected EditText mPhoneNumberEditText;
     private CheckBox mNoppAgreeCheckBox;
-    private ProgressBarButton mFollowUpContiueButton;
+    private ProgressBarButton mFollowUpContinueButton;
     private THSFollowUpPresenter mTHSFollowUpPresenter;
     private ActionBarListener actionBarListener;
     protected String updatedPhone;
@@ -65,17 +65,17 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
         }
         mTHSFollowUpPresenter = new THSFollowUpPresenter(this);
         mPhoneNumberEditText = (EditText) view.findViewById(R.id.pth_intake_follow_up_phone_number);
-        mFollowUpContiueButton = (ProgressBarButton) view.findViewById(R.id.pth_intake_follow_up_continue_button);
-        mFollowUpContiueButton.setOnClickListener(this);
-        mFollowUpContiueButton.setEnabled(false);
+        mFollowUpContinueButton = (ProgressBarButton) view.findViewById(R.id.pth_intake_follow_up_continue_button);
+        mFollowUpContinueButton.setOnClickListener(this);
+        mFollowUpContinueButton.setEnabled(false);
         mNoppAgreeCheckBox = (CheckBox) view.findViewById(R.id.pth_intake_follow_up_nopp_agree_check_box);
         mNoppAgreeCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    mFollowUpContiueButton.setEnabled(true);
+                    mFollowUpContinueButton.setEnabled(true);
                 } else {
-                    mFollowUpContiueButton.setEnabled(false);
+                    mFollowUpContinueButton.setEnabled(false);
                 }
             }
         });
@@ -103,7 +103,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.pth_intake_follow_up_continue_button) {
-            mFollowUpContiueButton.showProgressIndicator();
+            mFollowUpContinueButton.showProgressIndicator();
             mTHSFollowUpPresenter.onEvent(R.id.pth_intake_follow_up_continue_button);
 
         } else if (v.getId() == R.id.pth_intake_follow_up_i_agree_link_text) {
@@ -114,7 +114,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     }
 
     public void displayPharmacyAndShippingPreferenceFragment(Pharmacy pharmacy, Address address) {
-        mFollowUpContiueButton.hideProgressIndicator();
+        mFollowUpContinueButton.hideProgressIndicator();
         THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();
         thsPharmacyAndShippingFragment.setConsumer(THSManager.getInstance().getPTHConsumer());
         thsPharmacyAndShippingFragment.setPharmacyAndAddress(address, pharmacy);
@@ -123,8 +123,8 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     }
 
     public void displaySearchPharmacy() {
-        mFollowUpContiueButton.hideProgressIndicator();
-        if (checkGooglePlayServices()) {
+        mFollowUpContinueButton.hideProgressIndicator();
+        if(checkGooglePlayServices()){
             checkPermission();
         }
     }
@@ -132,7 +132,6 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
 
     /**
      * Location services code below. Checking if google play services is installed/latest/supported version?
-     *
      * @return
      */
     private boolean checkGooglePlayServices() {
@@ -244,7 +243,6 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
 
     /**
      * checks is provider is available
-     *
      * @return
      */
     private boolean isProviderAvailable() {
