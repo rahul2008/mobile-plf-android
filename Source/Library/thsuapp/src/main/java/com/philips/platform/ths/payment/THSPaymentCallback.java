@@ -13,13 +13,14 @@ import java.util.Map;
 
 public interface THSPaymentCallback {
 
-    interface THSSDKCallBack <THSPaymentMethod, THSSDKError>{
-        void onResponse (THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError);
+    interface THSSDKCallBack<THSPaymentMethod, THSSDKError> {
+        void onResponse(THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError);
+
         void onFailure(Throwable throwable);
 
     }
 
-    interface THSSDKValidatedCallback <THSPaymentMethod, THSSDKError> extends THSSDKCallBack <THSPaymentMethod, THSSDKError>{
+    interface THSSDKValidatedCallback<THSPaymentMethod, THSSDKError> extends THSSDKCallBack<THSPaymentMethod, THSSDKError> {
         void onValidationFailure(Map<String, ValidationReason> map);
 
     }

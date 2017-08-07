@@ -21,13 +21,11 @@ import com.philips.platform.uid.view.widget.EditText;
 
 
 public class THSCreditCardDetailFragment extends THSBaseFragment implements View.OnClickListener {
+
     public static final String TAG = THSCreditCardDetailFragment.class.getSimpleName();
     private ActionBarListener actionBarListener;
-
-
     THSCreditCardDetailPresenter mTHSCreditCardDetailPresenter;
     private RelativeLayout mProgressbarContainer;
-
     EditText mCardHolderNameEditText;
     EditText mCardNumberEditText;
     EditText mCardExpiryMonthEditText;

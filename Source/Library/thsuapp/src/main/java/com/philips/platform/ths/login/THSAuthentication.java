@@ -12,15 +12,15 @@ import com.americanwell.sdk.entity.consumer.ConsumerInfo;
 public class THSAuthentication {
     private Authentication authentication;
 
-    public boolean needsToCompleteEnrollment(){
+    public boolean needsToCompleteEnrollment() {
         return authentication.needsToCompleteEnrollment();
     }
 
-    public ConsumerInfo getConsumerInfo(){
+    public ConsumerInfo getConsumerInfo() {
         return authentication.getConsumerInfo();
     }
 
-    public boolean isCredentialsSystemGenerated(){
+    public boolean isCredentialsSystemGenerated() {
         return authentication.isCredentialsSystemGenerated();
     }
 

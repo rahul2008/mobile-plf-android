@@ -17,9 +17,9 @@ import com.philips.platform.ths.utility.THSManager;
 
 public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymentCallback.THSSDKCallBack<THSPaymentMethod, THSSDKError> {
 
-    THSCreditCardDetailFragment mTHSCreditCardDetailFragment;
-    THSCreatePaymentRequest mThsCreatePaymentRequest;
-    CreatePaymentRequest mCreatePaymentRequest;
+    private THSCreditCardDetailFragment mTHSCreditCardDetailFragment;
+    private THSCreatePaymentRequest mThsCreatePaymentRequest;
+    private CreatePaymentRequest mCreatePaymentRequest;
 
 
     public THSCreditCardDetailPresenter(THSCreditCardDetailFragment thsCreditCardDetailFragment) {

@@ -13,5 +13,6 @@ import com.americanwell.sdk.entity.consumer.Consumer;
 //TODO: Review Comment - Spoorti - Wrap the SDk objects to PTH Objects
 public interface THSGetConsumerObjectCallBack {
     void onReceiveConsumerObject(Consumer consumer, SDKError sdkError);
+
     void onError(Throwable throwable);
 }

@@ -22,6 +22,7 @@ import com.philips.platform.ths.utility.THSManager;
 
 
 public class PracticeRecyclerViewAdapter extends RecyclerView.Adapter<PracticeRecyclerViewAdapter.CustomViewHolder> {
+
     private THSPracticeList mTHSPractice;
     private Context mContext;
     private OnPracticeItemClickListener mOnPracticeItemClickListener;
@@ -79,7 +80,7 @@ public class PracticeRecyclerViewAdapter extends RecyclerView.Adapter<PracticeRe
 
     @Override
     public int getItemCount() {
-        return (null != mTHSPractice && mTHSPractice.getPractices()!=null ? mTHSPractice.getPractices().size() : 0);
+        return (null != mTHSPractice && mTHSPractice.getPractices() != null ? mTHSPractice.getPractices().size() : 0);
     }
 
     class CustomViewHolder extends RecyclerView.ViewHolder {

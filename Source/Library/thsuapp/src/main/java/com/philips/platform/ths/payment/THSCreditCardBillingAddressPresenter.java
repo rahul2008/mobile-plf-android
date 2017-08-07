@@ -23,8 +23,8 @@ import java.util.Map;
 
 public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, THSPaymentCallback.THSSDKValidatedCallback<THSPaymentMethod, THSSDKError> {
 
-    THSCreditCardBillingAddressFragment mTHSBillingAddressFragment;
-    THSCreatePaymentRequest mTHSCreatePaymentRequest;
+    private THSCreditCardBillingAddressFragment mTHSBillingAddressFragment;
+    private THSCreatePaymentRequest mTHSCreatePaymentRequest;
 
 
     public THSCreditCardBillingAddressPresenter(THSCreditCardBillingAddressFragment thsBillingAddressFragment) {
@@ -83,7 +83,7 @@ public class THSCreditCardBillingAddressPresenter implements THSBasePresenter, T
     public void onResponse(THSPaymentMethod tHSPaymentMethod, THSSDKError tHSSDKError) {
         if (null == tHSSDKError.getSdkError()) {
             AmwellLog.i("updatePayment", "success");
-            mTHSBillingAddressFragment.addFragment(new THSWaitingRoomFragment(),THSWaitingRoomFragment.TAG,null);
+            mTHSBillingAddressFragment.addFragment(new THSWaitingRoomFragment(), THSWaitingRoomFragment.TAG, null);
         } else {
             AmwellLog.i("updatePayment", "failed");
         }
