@@ -2,8 +2,8 @@ package com.philips.cdp.productselection.prx;
 
 import android.content.Context;
 
-import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.productselection.utils.Constants;
+import com.philips.cdp.productselection.utils.ProductSelectionLogger;
 import com.philips.cdp.prxclient.PRXDependencies;
 import com.philips.cdp.prxclient.RequestManager;
 import com.philips.cdp.prxclient.datamodels.assets.AssetModel;
@@ -46,11 +46,6 @@ public class PrxWrapper {
         this.mSectorCode = sectorCode;
         //this.mLocale = locale;
         this.mCatalogCode = catalog;
-
-        //PILLocaleManager localeManager = new PILLocaleManager(mContext);
-        //String[] locales = mLocale.split("_");
-        //localeManager.setInputLocale(locales[0], locales[1]);
-
     }
 
     public void requestPrxSummaryData(final PrxSummaryDataListener listener, final String requestTag) {
@@ -62,7 +57,6 @@ public class PrxWrapper {
         summaryBuilder.setSector(mSectorCode);
         summaryBuilder.setCatalog(mCatalogCode);
         //  summaryBuilder.setLocale(mLocale);
-
 
         PRXDependencies prxDependencies = new PRXDependencies(mContext, mAppInfraInterface, Constants.COMPONENT_NAME_PS);
 
@@ -149,6 +143,8 @@ public class PrxWrapper {
 
             RequestManager requestManager = new RequestManager();
             requestManager.init(prxDependencies);
+            //PrxLogger.enablePrxLogger(true);
+
             final String finalI = ctnList[i];
             final int ctnPosition = i;
             final int ctnListLength = ctnList.length;

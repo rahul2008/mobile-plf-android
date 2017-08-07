@@ -17,7 +17,7 @@ import com.android.volley.toolbox.Volley;
  */
 public class VolleyWrapper {
     private static VolleyWrapper mInstance;
-    private static Context mCtx;
+    private Context mCtx;
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
 

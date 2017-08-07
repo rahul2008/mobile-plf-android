@@ -113,7 +113,7 @@ public class WelcomeScreenFragmentSelection extends ProductSelectionBaseFragment
                     (currPage, getPreviousName(),getPreviousName());
         }*/ else {
             ProductModelSelectionHelper.getInstance().getTaggingInterface().trackPageWithInfo
-                    (currPage, "vertical:productSelection:home", "vertical:productSelection:home");
+                    (currPage, Constants.PAGE_DIGITALCARE_HOME_SCREEN, Constants.PAGE_DIGITALCARE_HOME_SCREEN);
         }
         setPreviousPageName(Constants.PAGE_WELCOME_SCREEN);
     }
