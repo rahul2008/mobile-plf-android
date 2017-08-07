@@ -11,7 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -28,10 +28,8 @@ import com.philips.cdp.di.iap.utils.IAPConstant;
 import com.philips.cdp.di.iap.view.CountDropDown;
 import com.philips.cdp.uikit.customviews.UIKitListPopupWindow;
 import com.philips.cdp.uikit.drawable.VectorDrawable;
-import com.philips.cdp.uikit.utils.RowItem;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -88,6 +86,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         int width = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_width);
         int height = (int) mResources.getDimension(R.dimen.iap_count_drop_down_icon_height);
         countArrow.setBounds(0, 0, width, height);
+
     }
 
     @Override
@@ -115,6 +114,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void bindCountView(final View view, final int position) {
+        mSelectedItemPosition = position;
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -124,7 +124,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         .getQuantity(), new CountDropDown.CountUpdateListener() {
                     @Override
                     public void countUpdate(final int oldCount, final int newCount) {
-                        mSelectedItemPosition = position;
+                        //mSelectedItemPosition = position;
                         mQuantityStatus = getQuantityStatus(newCount, oldCount);
                         mNewCount = newCount;
                         EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_UPDATE_PRODUCT_COUNT);
@@ -154,7 +154,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void bindDeleteOrInfoPopUP(final View view, final int selectedItem) {
-        List<RowItem> rowItems = new ArrayList<>();
+        setTheProductDataForDisplayingInProductDetailPage(selectedItem);
+/*        List<RowItem> rowItems = new ArrayList<>();
 
         mSelectedItemPosition = selectedItem;
         String delete = mResources.getString(R.string.iap_delete);
@@ -180,7 +181,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             }
         });
-        mPopupWindow.show();
+        mPopupWindow.show();*/
     }
 
     public int getSelectedItemPosition() {
@@ -210,15 +211,22 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             getNetworkImage(shoppingCartProductHolder, imageURL);
 
-           /* shoppingCartProductHolder.mDotsLayout.setOnClickListener(new View.OnClickListener() {
+            shoppingCartProductHolder.mIvOptions.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
                     bindDeleteOrInfoPopUP(view, holder.getAdapterPosition());
                 }
-            });*/
+            });
             //Add arrow mark
             shoppingCartProductHolder.mTvQuantity.setCompoundDrawables(null, null, countArrow, null);
             bindCountView(shoppingCartProductHolder.mQuantityLayout, holder.getAdapterPosition());
+
+            shoppingCartProductHolder.deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View view) {
+                    EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_DELETE_PRODUCT);
+                }
+            });
         } else {
             //Footer Layout
             FooterShoppingCartViewHolder shoppingCartFooter = (FooterShoppingCartViewHolder) holder;
@@ -258,9 +266,9 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     });*/
                 } else {
                     mIsFreeDelivery = true;
-                    shoppingCartFooter.mDeliveryVia.setVisibility(View.GONE);
+                   /* shoppingCartFooter.mDeliveryVia.setVisibility(View.GONE);
                     shoppingCartFooter.mDeliveryPrice.setVisibility(View.GONE);
-                    shoppingCartFooter.mDeliveryView.setVisibility(View.GONE);
+                    shoppingCartFooter.mDeliveryView.setVisibility(View.GONE);*/
                 }
             }
         }
@@ -355,9 +363,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mTvStock;
         TextView mTvQuantity;
         TextView mIvOptions;
+        Button deleteBtn;
 
         ShoppingCartProductHolder(final View itemView) {
             super(itemView);
+
             mNetworkImage = (NetworkImageView) itemView.findViewById(R.id.image);
            // mDotsLayout = (FrameLayout) itemView.findViewById(R.id.frame);
             mTvPrice = (TextView) itemView.findViewById(R.id.price);
@@ -366,6 +376,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mTvStock = (TextView) itemView.findViewById(R.id.out_of_stock);
             mTvQuantity = (TextView) itemView.findViewById(R.id.text2value);
             mIvOptions = (TextView) itemView.findViewById(R.id.dots);
+            deleteBtn = (Button) itemView.findViewById(R.id.delete_btn);
         }
     }
 
