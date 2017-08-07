@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/input_field_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
-    android:background="@color/uikit_white"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:orientation="vertical">
 
         <LinearLayout
@@ -16,6 +15,7 @@
                 android:id="@+id/extra_option"
                 style="@style/ButtonsCategoryStyle"
                 android:layout_alignParentTop="true"
+                android:textSize="18sp"
                 android:background="@color/uid_gray_level_10"
                 android:text="@string/iap_extra_option" />
 
@@ -72,6 +72,7 @@
                 style="@style/ButtonsCategoryStyle"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="10dip"
+                android:textSize="18sp"
                 android:background="@color/uid_gray_level_10"
                 android:text="@string/iap_cart_summary" />
 

@@ -270,6 +270,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     shoppingCartFooter.mDeliveryPrice.setVisibility(View.GONE);
                     shoppingCartFooter.mDeliveryView.setVisibility(View.GONE);*/
                 }
+
+                String freeDeliverySpendAmount = "200";
+                String freeDeliverySpendOn = mContext.getResources().getString(R.string.iap_delivery_free_description);
+                freeDeliverySpendOn = String.format(freeDeliverySpendOn, freeDeliverySpendAmount);
+                shoppingCartFooter.mDeliveryFreeSpend.setText(freeDeliverySpendOn);
             }
         }
     }
@@ -391,6 +396,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mVatValueUK;
         TextView mVAT;
         ImageView mEditIcon;
+        TextView mDeliveryFreeSpend;
        // RelativeLayout mEditIconLayout;
 
         FooterShoppingCartViewHolder(View itemView) {
@@ -405,6 +411,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             mVatValueUK = (TextView) itemView.findViewById(R.id.iap_tv_vat_value_uk_shopping_cart);
             mVAT = (TextView) itemView.findViewById(R.id.iap_tv_vat);
             mEditIcon = (ImageView) itemView.findViewById(R.id.edit_icon);
+            mDeliveryFreeSpend = (TextView)itemView.findViewById(R.id.delivery_free_description);
            // mEditIconLayout = (RelativeLayout) itemView.findViewById(R.id.edit_icon_layout);
         }
     }

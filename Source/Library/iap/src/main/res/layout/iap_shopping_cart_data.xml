@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:layout_height="wrap_content">
 
     <GridLayout
@@ -135,7 +136,7 @@
     <View
         android:id="@+id/bottom_space"
         android:layout_width="match_parent"
-        android:layout_height="5dip"
+        android:layout_height="8dip"
         android:background="@color/uid_gray_level_10"
         android:layout_below="@+id/bottom_line"/>
 

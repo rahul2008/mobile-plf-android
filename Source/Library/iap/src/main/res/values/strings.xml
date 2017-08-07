@@ -264,7 +264,7 @@
    <!-- Shopping cart-->
     <string name="iap_extra_option">Extra options</string>
     <string name="iap_delivery_ups_parcel">Delivery via UPS Parcel</string>
-    <string name="iap_delivery_free_description">Delivery is free when you spend 100 or more </string>
+    <string name="iap_delivery_free_description">Delivery is free when you spend %s or more </string>
     <string name="iap_cart_summary">Cart summary</string>
 
     <string name="iap_1x_daily_collection">1x daily collection Miniblender</string>
