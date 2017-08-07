@@ -134,6 +134,7 @@ publishing {
             artifact zipDocuments
 
             artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
+			artifact("$buildDir/outputs/apk/${archivesBaseName}-psraRelease.apk")
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
@@ -544,4 +545,6 @@ project.afterEvaluate {
 
 tasks.withType(Test) {
     ignoreFailures = true
+    maxParallelForks = Runtime.runtime.availableProcessors()
+    maxHeapSize="2048m"
 }
