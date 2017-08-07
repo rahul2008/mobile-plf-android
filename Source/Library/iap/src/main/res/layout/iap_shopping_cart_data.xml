@@ -117,8 +117,8 @@
         </RelativeLayout>
 
         <com.philips.platform.uid.view.widget.Button
-            android:id="@+id/delete_btn"
             style="@style/UIDQuietButton"
+            android:id="@+id/delete_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -131,4 +131,12 @@
         android:id="@+id/bottom_line"
         style="@style/iap_button_border"
         android:layout_below="@+id/buttons_layout"/>
+
+    <View
+        android:id="@+id/bottom_space"
+        android:layout_width="match_parent"
+        android:layout_height="5dip"
+        android:background="@color/uid_gray_level_10"
+        android:layout_below="@+id/bottom_line"/>
+
 </RelativeLayout>

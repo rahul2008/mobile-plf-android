@@ -8,6 +8,7 @@
         android:id="@+id/number_of_products"
         style="@style/ButtonsCategoryStyle"
         android:background="@color/uid_gray_level_10"
+        android:textSize="18sp"
         android:layout_alignParentTop="true"
         android:text="2 products" />
 

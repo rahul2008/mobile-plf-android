@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
-    android:background="@color/uikit_white"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:orientation="vertical">
 
     <LinearLayout
@@ -13,9 +13,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
+            style="@style/UIDLabel"
             android:id="@+id/tv_title"
-            style="@style/iapCentralesansBoldFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/iap_selection_address_layout_margin"
@@ -41,9 +41,9 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
-            <TextView
+            <com.philips.platform.uid.view.widget.Label
+                style="@style/UIDLabel"
                 android:id="@+id/billing_address_tv"
-                style="@style/PhilipsTextInputLayoutTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/iap_billing_toggle_margin_top"
@@ -78,9 +78,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel"
                     android:id="@+id/tv_salutation"
-                    style="@style/PhilipsTextInputLayoutTextViewStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
@@ -107,9 +107,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel"
                     android:id="@+id/tv_first_name"
-                    style="@style/PhilipsTextInputLayoutTextViewStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
@@ -133,9 +133,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel"
                     android:id="@+id/tv_last_name"
-                    style="@style/PhilipsTextInputLayoutTextViewStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
@@ -158,9 +158,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel"
                     android:id="@+id/tv_address_line_one"
-                    style="@style/PhilipsTextInputLayoutTextViewStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
@@ -183,9 +183,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel"
                     android:id="@+id/tv_address_line_two"
-                    style="@style/PhilipsTextInputLayoutTextViewStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
@@ -208,9 +208,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel"
                     android:id="@+id/tv_town"
-                    style="@style/PhilipsTextInputLayoutTextViewStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
@@ -232,9 +232,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel"
                     android:id="@+id/tv_postal_code"
-                    style="@style/PhilipsTextInputLayoutTextViewStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
@@ -308,9 +308,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel"
                     android:id="@+id/tv_email"
-                    style="@style/PhilipsTextInputLayoutTextViewStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
@@ -332,9 +332,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.philips.platform.uid.view.widget.Label
+                    style="@style/UIDLabel"
                     android:id="@+id/tv_phone1"
-                    style="@style/PhilipsTextInputLayoutTextViewStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
@@ -352,14 +352,14 @@
 
         </com.philips.cdp.uikit.customviews.InlineForms>
 
-        <Button
+        <com.philips.platform.uid.view.widget.Button
+            style="@style/UIDQuietButton"
             android:id="@+id/btn_continue"
-            style="@style/iapButtonStyle"
             android:text="@string/iap_continue" />
 
-        <Button
+        <com.philips.platform.uid.view.widget.Button
+            style="@style/UIDQuietButton"
             android:id="@+id/btn_cancel"
-            style="?attr/uikit_outlinedButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/iap_shipping_address_cancel_button_height"
             android:layout_marginBottom="@dimen/iap_shipping_address_cancel_button_margin_bottom"
