@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DLS.GroupBlue.UltraLight"
 
-        tools:replace="android:theme,android:label,android:allowBackup,android:icon,android:name">
+        tools:replace="android:theme,android:label,android:allowBackup,android:icon,android:name,android:supportsRtl">
 
         <activity
             android:name="com.philips.platform.baseapp.screens.introscreen.LaunchActivity"
