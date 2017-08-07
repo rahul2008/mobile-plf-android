@@ -186,11 +186,12 @@ public class THSWelcomePresenterTest {
     @Test
     public void onLoginResponseWhenNotEnrolledProperly() throws Exception {
         when(THSAuthenticationMock.getAuthentication()).thenReturn(authenticationMock);
+        when(awsdk.getConsumerManager()).thenReturn(consumerManagerMock);
         when(awsdk.getConsumerManager()).thenReturn(ConsumerManagerMock);
         when(THSSDKError.getSdkError()).thenReturn(sdkErrorMock);
         when(THSAuthenticationMock.needsToCompleteEnrollment()).thenReturn(true);
         pthWelcomePresenter.onLoginResponse(THSAuthenticationMock, THSSDKError);
-        verify(consumerManagerMock, atLeast(1)).completeEnrollment(any(Authentication.class), any(State.class), anyString(), anyString(), any(SDKCallback.class));
+        verify(awsdk.getConsumerManager(), atLeast(1)).completeEnrollment(any(Authentication.class), any(State.class), anyString(), anyString(), any(SDKCallback.class));
     }
 
      @Test
