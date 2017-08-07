@@ -89,7 +89,7 @@ public class THSPracticeFragment extends THSBaseFragment implements BackEventLis
         hideProgressBar();
         mPracticeRecyclerViewAdapter = new PracticeRecyclerViewAdapter(getActivity(), practices);
         mPracticeRecyclerView.setAdapter(mPracticeRecyclerViewAdapter);
-        mPracticeRecyclerViewAdapter.setmOnPracticeItemClickListener(new OnPracticeItemClickListener() {
+        mPracticeRecyclerViewAdapter.setOnPracticeItemClickListener(new OnPracticeItemClickListener() {
             @Override
             public void onItemClick(Practice practice) {
                mPresenter.showProviderList(practice);

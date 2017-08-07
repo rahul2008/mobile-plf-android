@@ -58,7 +58,12 @@ public class THSNoppPresenter implements THSBasePresenter, THSNoppCallBack {
         if (null != string) {
             mStringBuilder.append(System.getProperty("line.separator"));
             mStringBuilder.append(string);
-            ((THSNoppFragment) uiBaseView).legalTextsLabel.setText(Html.fromHtml(mStringBuilder.toString()));
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                ((THSNoppFragment) uiBaseView).legalTextsLabel.setText(Html.fromHtml(mStringBuilder.toString(),Html.FROM_HTML_MODE_LEGACY));
+            } else {
+                ((THSNoppFragment) uiBaseView).legalTextsLabel.setText(Html.fromHtml(mStringBuilder.toString()));
+            }
+
         }
     }
 

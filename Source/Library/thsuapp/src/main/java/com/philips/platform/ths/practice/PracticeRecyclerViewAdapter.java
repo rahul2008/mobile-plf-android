@@ -29,12 +29,12 @@ public class PracticeRecyclerViewAdapter extends RecyclerView.Adapter<PracticeRe
 
 
     //TODO: Review Comment - Spoorti - rename it to getOnPracticeItemClickListener
-    public OnPracticeItemClickListener getmOnPracticeItemClickListener() {
+    public OnPracticeItemClickListener getOnPracticeItemClickListener() {
         return mOnPracticeItemClickListener;
     }
 
     //TODO: Review Comment - Spoorti - rename it to setOnPracticeItemClickListener
-    public void setmOnPracticeItemClickListener(OnPracticeItemClickListener mOnPracticeItemClickListener) {
+    public void setOnPracticeItemClickListener(OnPracticeItemClickListener mOnPracticeItemClickListener) {
         this.mOnPracticeItemClickListener = mOnPracticeItemClickListener;
     }
 
@@ -56,17 +56,15 @@ public class PracticeRecyclerViewAdapter extends RecyclerView.Adapter<PracticeRe
 
 
         customViewHolder.label.setText(practice.getName());
-        if (true) {
             try {
                 THSManager.getInstance().getAwsdk(customViewHolder.logo.getContext()).getPracticeProvidersManager()
                         .newImageLoader(practice, customViewHolder.logo, false)
                         .placeholder(customViewHolder.logo.getResources()
-                                .getDrawable(R.mipmap.child_icon))
+                                .getDrawable(R.mipmap.child_icon,mContext.getTheme()))
                         .build().load();
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }
-        }
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
