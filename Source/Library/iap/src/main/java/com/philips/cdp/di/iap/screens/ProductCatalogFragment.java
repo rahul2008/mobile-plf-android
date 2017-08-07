@@ -202,7 +202,6 @@ public class ProductCatalogFragment extends InAppBaseFragment
             @Override
             public void onClick(View v) {
                 mSearchTextView.getText().clear();
-                mSearchTextView.clearFocus();
                 resetAdapter();
             }
         });
@@ -392,23 +391,18 @@ public class ProductCatalogFragment extends InAppBaseFragment
 
     @Override
     public void onSearchExpanded() {
-        ((IAPActivity) getActivity()).hideActionBar();
+
     }
 
     @Override
     public void onSearchCollapsed() {
         resetAdapter();
-        showActionBar();
     }
 
     void resetAdapter() {
         mAdapter.setSearchFocused(false);
         mAdapter.setData(mProductCatalog);
         mAdapter.notifyDataSetChanged();
-    }
-
-    void showActionBar() {
-        ((IAPActivity) getActivity()).showActionBar();
     }
 
     @Override

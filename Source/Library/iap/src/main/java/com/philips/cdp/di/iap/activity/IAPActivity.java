@@ -79,16 +79,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         addLandingViews(savedInstanceState);
     }
 
-    public void hideActionBar(){
-        actionBarView.animate().alpha(0.0f);
-        actionBarView.setVisibility(View.GONE);
-    }
-
-    public void showActionBar(){
-        actionBarView.animate().alpha(1.0f);
-        actionBarView.setVisibility(View.VISIBLE);
-    }
-
     private void createActionBar() {
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.iap_header_back_button);
         frameLayout.setOnClickListener(new View.OnClickListener() {
