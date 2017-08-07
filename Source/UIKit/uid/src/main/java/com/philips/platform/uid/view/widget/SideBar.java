@@ -1,14 +1,15 @@
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.text.Layout;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-
 import com.philips.platform.uid.R;
 
 /**
@@ -63,25 +64,49 @@ public class SideBar extends DrawerLayout {
                 break;
         }*/
         // Let super sort out the height
-        //super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
 
-        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-        int width = MeasureSpec.getSize(widthMeasureSpec);
+//        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+//        int width = MeasureSpec.getSize(widthMeasureSpec);
+//
+//        switch (widthMode) {
+//            case MeasureSpec.AT_MOST:
+//            case MeasureSpec.UNSPECIFIED:
+//                width = Math.min(getMaxWidth(), width);
+//                break;
+//        }
+//        widthMode = MeasureSpec.EXACTLY;
 
-        switch (widthMode) {
-            case MeasureSpec.AT_MOST:
-            case MeasureSpec.UNSPECIFIED:
-                width = Math.min(getMaxWidth(), width);
-                break;
+//        super.onMeasure(MeasureSpec.makeMeasureSpec(width, widthMode), heightMeasureSpec);
+        int childCount = getChildCount();
+        for (int index = 0; index < childCount; index++) {
+            View child = getChildAt(index);
+            if (isDrawerView(child)) {
+                int widthMode = MeasureSpec.EXACTLY;
+                int width = Math.min(child.getMeasuredWidth(), getMaxWidth());
+                child.measure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), heightMeasureSpec);
+            }
         }
-        widthMode = MeasureSpec.EXACTLY;
-
-        super.onMeasure(MeasureSpec.makeMeasureSpec(width, widthMode), heightMeasureSpec);
     }
 
     private int getMaxWidth() {
         return getContext().getResources().getDimensionPixelSize(R.dimen.uid_sidebar_max_width);
+    }
+
+    boolean isDrawerView(View child) {
+        final int gravity = ((LayoutParams) child.getLayoutParams()).gravity;
+        final int absGravity = GravityCompat.getAbsoluteGravity(gravity,
+                ViewCompat.getLayoutDirection(child));
+        if ((absGravity & Gravity.LEFT) != 0) {
+            // This child is a left-edge drawer
+            return true;
+        }
+        if ((absGravity & Gravity.RIGHT) != 0) {
+            // This child is a right-edge drawer
+            return true;
+        }
+        return false;
     }
 
     /*public void addHeaderView(View view) {
