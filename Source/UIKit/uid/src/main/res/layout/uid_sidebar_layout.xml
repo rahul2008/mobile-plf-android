@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sidebar_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:maxWidth="@dimen/uid_sidebar_max_width"
+    android:layout_gravity="start"
+    android:background="@color/uidColorWhite">
+
+  <RelativeLayout
+      android:id="@+id/sidebar_header_container_layout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentTop="true"
+      android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/sidebar_header_linear_layout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/sidebar_header_layout"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/uid_sidebar_sublayout_min_height"/>
+
+            <include
+                android:id="@+id/divider_header"
+                layout="@layout/uid_horizontal_separator" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/sidebar_menu_layout"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/uid_sidebar_sublayout_min_height"
+        android:layout_below="@id/sidebar_header_container_layout"/>
+
+    <RelativeLayout
+        android:id="@+id/sidebar_footer_container_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/sidebar_footer_linear_layout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/divider_footer"
+                layout="@layout/uid_horizontal_separator" />
+
+            <LinearLayout
+                android:id="@+id/sidebar_footer_layout"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/uid_sidebar_sublayout_min_height"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

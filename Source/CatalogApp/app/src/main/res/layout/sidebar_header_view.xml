@@ -17,7 +17,7 @@
         <com.philips.platform.uid.view.widget.Label
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Header Footer Item"/>
+            android:text="Header Item"/>
     </LinearLayout>
 
     <!--<com.philips.platform.uid.view.widget.SideBar

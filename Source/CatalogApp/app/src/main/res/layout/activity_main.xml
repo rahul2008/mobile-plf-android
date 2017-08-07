@@ -5,7 +5,7 @@
     <data>
     </data>
 
-    <android.support.v4.widget.DrawerLayout
+    <com.philips.platform.uid.view.widget.SideBar
         android:id="@+id/sidebar_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -41,6 +41,13 @@
         </LinearLayout>
     </com.philips.platform.uid.view.widget.NavigationContainer>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/sidebar_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@color/uidColorWhite"/>
+
     <!--    <include
             android:id="@+id/sidebar_recyclerview"
             layout="@layout/uid_recyclerview"
@@ -48,7 +55,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="start" />-->
 
-        <android.support.design.widget.NavigationView
+        <!--<android.support.design.widget.NavigationView
             android:id="@+id/navigation_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -61,7 +68,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-        </android.support.design.widget.NavigationView>
+        </android.support.design.widget.NavigationView>-->
 
-    </android.support.v4.widget.DrawerLayout>
+        <!--<com.philips.platform.uid.view.widget.Label
+            android:id="@+id/sidebar_label"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Sidebar Label"
+            android:layout_marginLeft="200dp"/>-->
+    </com.philips.platform.uid.view.widget.SideBar>
 </layout>

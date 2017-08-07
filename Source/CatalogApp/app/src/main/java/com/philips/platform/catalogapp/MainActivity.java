@@ -68,7 +68,7 @@ public class MainActivity extends UIDActivity {
     private SharedPreferences defaultSharedPreferences;
     private AccentRange accentColorRange;
 
-    private DrawerLayout sideBarLayout;
+    private SideBar sideBarLayout;
     private ActionBarDrawerToggle drawerToggle;
     private RecyclerView recyclerView;
 
@@ -102,7 +102,11 @@ public class MainActivity extends UIDActivity {
         navigationController = new NavigationController(this, getIntent(), activityMainBinding);
         navigationController.init(savedInstanceState);
 
-        sideBarLayout = (DrawerLayout) findViewById(R.id.sidebar_layout);
+        sideBarLayout = (SideBar) findViewById(R.id.sidebar_layout);
+        /*sideBarLayout.addHeaderView(R.layout.sidebar_header_view);
+        sideBarLayout.addMenuView(R.layout.sidebar_menu_view);
+        sideBarLayout.addFooterView(R.layout.sidebar_footer_view);*/
+
         drawerToggle = setupDrawerToggle();
         recyclerView = ((RecyclerView) findViewById(R.id.sidebar_recyclerview));
 
