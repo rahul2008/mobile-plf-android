@@ -142,6 +142,10 @@ android {
             consumerProguardFiles 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
     publishNonDefault true
 }
 
@@ -173,6 +177,9 @@ dependencies {
     compile deps.support.supportv4
     provided deps.support.annotations
 
+    def shortversion = version.replaceAll(/-SNAPSHOT.*/, "")
+    def suffix = objcdp.getVersionSuffix()
+
     if (findProject(':bluelib')) {
         debugCompile project(path: ':bluelib', configuration: 'debug')
         releaseCompile project(path: ':bluelib', configuration: 'release')
@@ -180,11 +187,13 @@ dependencies {
         compile(group: 'com.philips.cdp', name: 'shinelib', version: versions.bluelib + objcdp.getVersionSuffix())
     }
 
-    if (findProject(':commlib-api')) {
-        debugCompile project(path: ':commlib-api', configuration: 'debug')
-        releaseCompile project(path: ':commlib-api', configuration: 'release')
-    } else {
-        compile(group: 'com.philips.cdp', name: 'dicommClientLib', version: versions.commlib + objcdp.getVersionSuffix())
+    for (dep in [':commlib-api']) {
+        if (findProject(dep)) {
+            debugCompile project(path: dep, configuration: 'debug')
+            releaseCompile project(path: dep, configuration: 'release')
+        } else {
+            compile("$group$dep:$shortversion$suffix") { changing = true }
+        }
     }
 
     testCompile deps.junit

@@ -141,6 +141,10 @@ android {
             consumerProguardFiles 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
     publishNonDefault true
 }
 
