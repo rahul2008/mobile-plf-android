@@ -49,8 +49,8 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     private Consumer consumer;
     private THSProvidersListAdapter THSProvidersListAdapter;
     private ActionBarListener actionBarListener;
-    private Button btn_get_started;
-    private Button btn_schedule_appointment;
+    protected Button btn_get_started;
+    protected Button btn_schedule_appointment;
     private RelativeLayout mRelativeLayoutContainer;
 
 
