@@ -39,7 +39,7 @@ public class THSProviderDetailsDisplayHelper {
     private View.OnClickListener mOnClickListener;
     private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener;
     private Context mContext;
-    private THSPRoviderDetailsViewInterface mThsPRoviderDetailsViewInterface;
+    private THSProviderDetailsViewInterface mThsPRoviderDetailsViewInterface;
     protected CircularImageView providerImage;
     protected ImageView isAvailableImage;
     protected Label providerName,practiceName,isAvailable,spokenLanguageValueLabel,yearsOfExpValueLabel,

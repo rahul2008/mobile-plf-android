@@ -34,7 +34,7 @@ import java.util.List;
 
 public class THSProviderDetailsPresenter implements THSBasePresenter,THSProviderDetailsCallback, THSFetchEstimatedCostCallback {
 
-    private THSPRoviderDetailsViewInterface viewInterface;
+    private THSProviderDetailsViewInterface viewInterface;
 
     private Provider mProvider;
     private THSBaseFragment mThsBaseFragment;
