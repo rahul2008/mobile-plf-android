@@ -1,10 +1,13 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.visit;
 
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.NotificationCompat;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.provider.ProviderImageSize;
@@ -14,11 +17,8 @@ import com.americanwell.sdk.entity.visit.VisitEndReason;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.intake.THSSDKCallback;
 import com.philips.platform.ths.utility.THSManager;
-
 
 import java.util.Map;
 
@@ -30,7 +30,7 @@ import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
 
 public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitCallback, THSCancelVisitCallBack.SDKCallback<Void, SDKError> {
 
-    THSWaitingRoomFragment mTHSWaitingRoomFragment;
+    private THSWaitingRoomFragment mTHSWaitingRoomFragment;
 
     public THSWaitingRoomPresenter(THSWaitingRoomFragment mTHSWaitingRoomFragment) {
         this.mTHSWaitingRoomFragment = mTHSWaitingRoomFragment;

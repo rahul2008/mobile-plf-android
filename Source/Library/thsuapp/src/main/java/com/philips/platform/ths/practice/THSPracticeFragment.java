@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.practice;
 
 import android.os.Bundle;
@@ -10,12 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.base.THSBasePresenter;
-import com.philips.platform.ths.providerslist.THSProvidersListFragment;
-
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -87,7 +89,7 @@ public class THSPracticeFragment extends THSBaseFragment implements BackEventLis
         hideProgressBar();
         mPracticeRecyclerViewAdapter = new PracticeRecyclerViewAdapter(getActivity(), practices);
         mPracticeRecyclerView.setAdapter(mPracticeRecyclerViewAdapter);
-        mPracticeRecyclerViewAdapter.setmOnPracticeItemClickListener(new OnPracticeItemClickListener() {
+        mPracticeRecyclerViewAdapter.setOnPracticeItemClickListener(new OnPracticeItemClickListener() {
             @Override
             public void onItemClick(Practice practice) {
                mPresenter.showProviderList(practice);

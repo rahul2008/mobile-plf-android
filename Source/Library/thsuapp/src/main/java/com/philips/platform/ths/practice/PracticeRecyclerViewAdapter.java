@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.practice;
 
 import android.content.Context;
@@ -18,18 +24,19 @@ import com.philips.platform.ths.utility.THSManager;
 
 
 public class PracticeRecyclerViewAdapter extends RecyclerView.Adapter<PracticeRecyclerViewAdapter.CustomViewHolder> {
+
     private THSPracticeList mTHSPractice;
     private Context mContext;
     private OnPracticeItemClickListener mOnPracticeItemClickListener;
 
 
     //TODO: Review Comment - Spoorti - rename it to getOnPracticeItemClickListener
-    public OnPracticeItemClickListener getmOnPracticeItemClickListener() {
+    public OnPracticeItemClickListener getOnPracticeItemClickListener() {
         return mOnPracticeItemClickListener;
     }
 
     //TODO: Review Comment - Spoorti - rename it to setOnPracticeItemClickListener
-    public void setmOnPracticeItemClickListener(OnPracticeItemClickListener mOnPracticeItemClickListener) {
+    public void setOnPracticeItemClickListener(OnPracticeItemClickListener mOnPracticeItemClickListener) {
         this.mOnPracticeItemClickListener = mOnPracticeItemClickListener;
     }
 

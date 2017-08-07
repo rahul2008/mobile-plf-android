@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.providerdetails;
 
 import android.content.Context;
@@ -23,10 +29,10 @@ import java.util.Locale;
 public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
 
     private ArrayList<Date> cardList = new ArrayList();
-    Context mContext;
+    private Context mContext;
     public final String TIME_FORMATTER = "h:mm a";
-    THSBaseFragment thsBaseFragment;
-    THSProviderInfo thsProviderInfo;
+    private THSBaseFragment thsBaseFragment;
+    private THSProviderInfo thsProviderInfo;
 
     public THSAppointmentGridAdapter(Context context, List<Date> cardList, THSBaseFragment thsBaseFragment, THSProviderInfo thsProviderInfo) {
         super(context, 0, cardList);
@@ -73,7 +79,7 @@ public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
         if (convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(mContext);
 
-            convertView = layoutInflater.inflate(R.layout.cell, null);
+            convertView = layoutInflater.inflate(R.layout.ths_cell, null);
 
             Button timeslot = (Button) convertView.findViewById(R.id.date);
 

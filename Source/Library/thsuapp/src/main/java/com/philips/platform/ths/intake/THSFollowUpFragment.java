@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.intake;
 
 import android.Manifest;
@@ -36,12 +42,12 @@ import com.philips.platform.uid.view.widget.ProgressBarButton;
 
 public class THSFollowUpFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSFollowUpFragment.class.getSimpleName();
-    EditText mPhoneNumberEditText;
+    protected EditText mPhoneNumberEditText;
     private CheckBox mNoppAgreeCheckBox;
     private ProgressBarButton mFollowUpContinueButton;
     private THSFollowUpPresenter mTHSFollowUpPresenter;
     private ActionBarListener actionBarListener;
-    String updatedPhone;
+    protected String updatedPhone;
     private Label nopp_label;
     private int REQUEST_LOCATION = 1001;
     private LocationManager mLocationManager = null;
@@ -54,8 +60,8 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_follow_up, container, false);
 
         actionBarListener = getActionBarListener();
-        if(null != actionBarListener){
-            actionBarListener.updateActionBar(R.string.ths_prepare_your_visit,true);
+        if (null != actionBarListener) {
+            actionBarListener.updateActionBar(R.string.ths_prepare_your_visit, true);
         }
         mTHSFollowUpPresenter = new THSFollowUpPresenter(this);
         mPhoneNumberEditText = (EditText) view.findViewById(R.id.pth_intake_follow_up_phone_number);
@@ -111,9 +117,10 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
         mFollowUpContinueButton.hideProgressIndicator();
         THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();
         thsPharmacyAndShippingFragment.setConsumer(THSManager.getInstance().getPTHConsumer());
-        thsPharmacyAndShippingFragment.setPharmacyAndAddress(address,pharmacy);
+        thsPharmacyAndShippingFragment.setPharmacyAndAddress(address, pharmacy);
         thsPharmacyAndShippingFragment.setFragmentLauncher(getFragmentLauncher());
-        addFragment(thsPharmacyAndShippingFragment,THSPharmacyAndShippingFragment.TAG,null);    }
+        addFragment(thsPharmacyAndShippingFragment, THSPharmacyAndShippingFragment.TAG, null);
+    }
 
     public void displaySearchPharmacy() {
         mFollowUpContinueButton.hideProgressIndicator();
@@ -227,10 +234,10 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
 
     private void callPharmacyListFragment(Location location) {
         THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
-        thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(),null);
+        thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(), null);
         thsPharmacyListFragment.setLocation(location);
         thsPharmacyListFragment.setFragmentLauncher(getFragmentLauncher());
-        getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(),thsPharmacyListFragment,"").addToBackStack(null).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), thsPharmacyListFragment, "").addToBackStack(null).commit();
 
     }
 
@@ -280,6 +287,6 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
 
         THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
         thsSearchPharmacyFragment.setFragmentLauncher(getFragmentLauncher());
-        addFragment(thsSearchPharmacyFragment,THSSearchPharmacyFragment.TAG,null);
+        addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null);
     }
 }

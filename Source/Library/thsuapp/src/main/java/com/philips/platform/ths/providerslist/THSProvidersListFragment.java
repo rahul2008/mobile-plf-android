@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.providerslist;
 
 import android.os.Bundle;
@@ -43,8 +49,8 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     private Consumer consumer;
     private THSProvidersListAdapter THSProvidersListAdapter;
     private ActionBarListener actionBarListener;
-    Button btn_get_started;
-    Button btn_schedule_appointment;
+    protected Button btn_get_started;
+    protected Button btn_schedule_appointment;
     private RelativeLayout mRelativeLayoutContainer;
 
 

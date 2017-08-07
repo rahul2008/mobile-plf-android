@@ -1,9 +1,14 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.practice;
 
 import android.os.Bundle;
 
 import com.americanwell.sdk.entity.SDKError;
-import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.entity.practice.Practice;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -16,7 +21,7 @@ import com.philips.platform.ths.utility.THSManager;
 
 public class THSPracticePresenter implements THSBasePresenter, THSPracticesListCallback {
 
-    THSBaseView uiBaseView;
+    private THSBaseView uiBaseView;
 
 
 
