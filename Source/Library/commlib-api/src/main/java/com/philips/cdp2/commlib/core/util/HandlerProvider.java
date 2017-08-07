@@ -16,7 +16,11 @@ public class HandlerProvider {
     }
 
     public static Handler createHandler() {
-        return createHandler(Looper.getMainLooper());
+        if (mockedHandler == null) {
+            return createHandler(Looper.getMainLooper());
+        } else {
+            return mockedHandler;
+        }
     }
 
     public static Handler createHandler(Looper looper) {
