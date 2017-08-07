@@ -84,6 +84,10 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         presenter = new HamburgerActivityPresenter(this);
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
         setContentView(R.layout.uikit_hamburger_menu);
+        initializeActivityContents();
+    }
+
+    protected void initializeActivityContents() {
         initViews();
         setActionBar(getSupportActionBar());
         philipsDrawerLayout.addDrawerListener(configureDrawer());

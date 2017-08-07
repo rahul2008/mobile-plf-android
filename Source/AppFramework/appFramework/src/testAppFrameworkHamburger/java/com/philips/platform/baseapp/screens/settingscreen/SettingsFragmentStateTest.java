@@ -18,11 +18,13 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 
 import junit.framework.TestCase;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
@@ -31,7 +33,16 @@ public class SettingsFragmentStateTest extends TestCase {
     private SettingsFragmentState settingsFragmentState;
     private FragmentLauncher fragmentLauncher;
     private HamburgerActivity hamburgerActivity;
+    private ActivityController<TestActivity> activityController;
 
+    @After
+    public void tearDown(){
+        activityController.pause().stop().destroy();
+        settingsFragmentState=null;
+        fragmentLauncher=null;
+        hamburgerActivity=null;
+        activityController=null;
+    }
     @Before
     public void setUp() throws Exception{
         super.setUp();
@@ -39,8 +50,8 @@ public class SettingsFragmentStateTest extends TestCase {
         UIStateData settingsFragmentStateData = new UIStateData();
         settingsFragmentStateData.setFragmentLaunchType(Constants.CLEAR_TILL_HOME);
         settingsFragmentState.setUiStateData(settingsFragmentStateData);
-
-        hamburgerActivity = Robolectric.buildActivity(TestActivity.class).create().start().get();
+        activityController=Robolectric.buildActivity(TestActivity.class);
+        hamburgerActivity=activityController.create().start().get();
         fragmentLauncher = new FragmentLauncher(hamburgerActivity, R.id.frame_container, hamburgerActivity);
     }
 

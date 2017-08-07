@@ -544,4 +544,6 @@ project.afterEvaluate {
 
 tasks.withType(Test) {
     ignoreFailures = true
+    maxParallelForks = Runtime.runtime.availableProcessors()
+    maxHeapSize="2048m"
 }
