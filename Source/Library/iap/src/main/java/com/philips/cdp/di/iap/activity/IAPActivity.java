@@ -65,7 +65,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
             dismissProgressDialog();
         }
     };
-    private View actionBarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +72,6 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.iap_activity);
 
-        actionBarView=(View)findViewById(R.id.action_bar_view);
         createActionBar();
 
         addLandingViews(savedInstanceState);
@@ -97,14 +95,14 @@ public class IAPActivity extends UiKitActivity implements ActionBarListener, IAP
         mCartContainer = (FrameLayout) findViewById(R.id.cart_container);
         ImageView mCartIcon = (ImageView) findViewById(R.id.cart_icon);
         mCountText = (TextView) findViewById(R.id.item_count);
-            Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
-            mCartIcon.setBackground(mCartIconDrawable);
-            mCartIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showFragment(ShoppingCartFragment.TAG);
-                }
-            });
+        Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
+        mCartIcon.setBackground(mCartIconDrawable);
+        mCartIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFragment(ShoppingCartFragment.TAG);
+            }
+        });
 
     }
 
