@@ -43,9 +43,9 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
             // uiBaseView.addFragment(new THSInsuranceConfirmationFragment(), THSInsuranceConfirmationFragment.TAG, null);
         } else if (componentID == R.id.pth_intake_follow_up_i_agree_link_text) {
 
-            final THSNoppFragment fragment = new THSNoppFragment();
+            final THSNoticeOfPrivacyPracticesFragment fragment = new THSNoticeOfPrivacyPracticesFragment();
             fragment.setFragmentLauncher(((THSBaseFragment)uiBaseView).getFragmentLauncher());
-            uiBaseView.addFragment(fragment, THSNoppFragment.TAG, null);
+            uiBaseView.addFragment(fragment, THSNoticeOfPrivacyPracticesFragment.TAG, null);
         }else {
             ((THSBaseFragment)uiBaseView).showToast("Please Enter a valid Phone Number");
         }

@@ -12,7 +12,6 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.PracticeProvidersManager;
 import com.americanwell.sdk.manager.SDKCallback;
 import com.philips.platform.ths.R;
-import com.philips.platform.ths.appointment.THSAvailableProviderDetailFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
@@ -41,7 +40,7 @@ public class THSProviderDetailsPresenterTest {
     AWSDK awsdkMock;
 
     @Mock
-    com.philips.platform.ths.providerdetails.THSPRoviderDetailsViewInterface THSPRoviderDetailsViewInterface;
+    THSProviderDetailsViewInterface thsProviderDetailsViewInterface;
 
     @Mock
     THSManager THSManagerMock;
@@ -82,14 +81,14 @@ public class THSProviderDetailsPresenterTest {
         THSManager = THSManager.getInstance();
         THSManager.setAwsdk(awsdkMock);
         when(awsdkMock.getPracticeProvidersManager()).thenReturn(practiseprovidermanagerMock);
-        providerDetailsPresenter = new THSProviderDetailsPresenter(THSPRoviderDetailsViewInterface, thsBaseFragmentMock);
+        providerDetailsPresenter = new THSProviderDetailsPresenter(thsProviderDetailsViewInterface, thsBaseFragmentMock);
     }
 
     @Test
     public void fetchProviderDetails() {
-        when(THSPRoviderDetailsViewInterface.getTHSProviderInfo()).thenReturn(thsProviderInfo);
-        when(THSPRoviderDetailsViewInterface.getContext()).thenReturn(contextMock);
-        when(THSPRoviderDetailsViewInterface.getConsumerInfo()).thenReturn(consumerMock);
+        when(thsProviderDetailsViewInterface.getTHSProviderInfo()).thenReturn(thsProviderInfo);
+        when(thsProviderDetailsViewInterface.getContext()).thenReturn(contextMock);
+        when(thsProviderDetailsViewInterface.getConsumerInfo()).thenReturn(consumerMock);
         when(thsProviderInfo.getProviderInfo()).thenReturn(providerInfo);
         providerDetailsPresenter.fetchProviderDetails();
         verify(practiseprovidermanagerMock).getProvider(any(ProviderInfo.class),any(Consumer.class),any(SDKCallback.class));
@@ -97,9 +96,9 @@ public class THSProviderDetailsPresenterTest {
 
     @Test
     public void fetchProviderDetailsThrowsException() {
-        when(THSPRoviderDetailsViewInterface.getTHSProviderInfo()).thenReturn(thsProviderInfo);
-        when(THSPRoviderDetailsViewInterface.getContext()).thenReturn(contextMock);
-        when(THSPRoviderDetailsViewInterface.getConsumerInfo()).thenReturn(consumerMock);
+        when(thsProviderDetailsViewInterface.getTHSProviderInfo()).thenReturn(thsProviderInfo);
+        when(thsProviderDetailsViewInterface.getContext()).thenReturn(contextMock);
+        when(thsProviderDetailsViewInterface.getConsumerInfo()).thenReturn(consumerMock);
         when(thsProviderInfo.getProviderInfo()).thenReturn(providerInfo);
         doThrow(AWSDKInstantiationException.class).when(practiseprovidermanagerMock).getProvider(any(ProviderInfo.class),
                 any(Consumer.class),any(SDKCallback.class));
@@ -110,13 +109,13 @@ public class THSProviderDetailsPresenterTest {
     @Test
     public void fetchProviderDetailsWhenTHSProviderInfoIsNull() {
         providerDetailsPresenter.fetchProviderDetails();
-        verify(THSPRoviderDetailsViewInterface).dismissRefreshLayout();
+        verify(thsProviderDetailsViewInterface).dismissRefreshLayout();
     }
 
     @Test
     public void onProviderDetailsReceived(){
         providerDetailsPresenter.onProviderDetailsReceived(providerMock,sdkErrorMock);
-        verify(THSPRoviderDetailsViewInterface).updateView(providerMock);
+        verify(thsProviderDetailsViewInterface).updateView(providerMock);
     }
 
     @Test
