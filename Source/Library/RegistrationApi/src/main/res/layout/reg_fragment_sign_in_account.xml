@@ -99,30 +99,6 @@
                 </com.philips.platform.uid.view.widget.InputValidationLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_reg_attention_box"
-                style="@style/reg_text_background"
-                android:layout_marginTop="0dip"
-                android:visibility="gone">
-
-                <com.philips.cdp.registration.ui.customviews.XHavingProblems
-                    android:id="@+id/view_having_problem"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingBottom="@dimen/reg_margin_bottom"
-                    android:paddingLeft="@dimen/reg_layout_margin"
-                    android:paddingRight="@dimen/reg_layout_margin"
-                    android:paddingTop="@dimen/reg_margin_bottom"
-                    android:visibility="gone" />
-
-                <com.philips.cdp.registration.ui.customviews.XTextView
-                    android:id="@+id/tv_reg_resend_details"
-                    style="@style/reg_text_description"
-                    android:text="@string/reg_VerifyEmail_ResendErrorMsg_lbltxt"
-                    reglib:fontAssetName="CentraleSans-Book.OTF" />
-            </LinearLayout>
-
             <com.philips.cdp.registration.ui.customviews.XRegError
                 android:id="@+id/reg_error_msg"
                 android:layout_width="wrap_content"

@@ -53,7 +53,7 @@ public class URDemoApplication extends Application {
         mRegistrationSampleApplication = this;
         mAppInfraInterface = new AppInfra.Builder().build(this);
 
-        initHSDP(Configuration.STAGING);
+//        initHSDP(Configuration.STAGING);
         initRegistration(Configuration.STAGING);
         RLog.enableLogging();
     }
