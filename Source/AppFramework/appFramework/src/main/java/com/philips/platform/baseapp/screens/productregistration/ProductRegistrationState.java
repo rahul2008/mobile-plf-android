@@ -22,6 +22,7 @@ import com.philips.platform.appframework.flowmanager.AppStates;
 import com.philips.platform.appframework.flowmanager.base.BaseState;
 import com.philips.platform.appframework.flowmanager.base.UIStateData;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
+import com.philips.platform.baseapp.screens.utility.CTNUtil;
 import com.philips.platform.baseapp.screens.utility.RALog;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.launcher.UiLauncher;
@@ -93,13 +94,7 @@ public class ProductRegistrationState extends BaseState implements ProdRegUiList
 
     @Override
     public void updateDataModel() {
-        if(getApplicationContext().isChinaFlow()) {
-            setCtnList(new ArrayList<>(Arrays.asList(getApplicationContext().getResources().getStringArray(R.array.productselection_ctnlist_china))));
-            RALog.d(TAG , " updateDataModel china  ");
-        }
-        else {
-            setCtnList(new ArrayList<>(Arrays.asList(getApplicationContext().getResources().getStringArray(R.array.productselection_ctnlist))));
-        }
+        setCtnList(new ArrayList<>(Arrays.asList(CTNUtil.getCtnForCountry(getApplicationContext().getCountry()))));
     }
 
     /**

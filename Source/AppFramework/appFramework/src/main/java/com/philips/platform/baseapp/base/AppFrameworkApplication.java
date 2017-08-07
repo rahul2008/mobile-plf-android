@@ -46,7 +46,7 @@ public class AppFrameworkApplication extends Application {
     private IAPState iapState;
     private DataServicesState dataSyncScreenState;
     private ProductRegistrationState productRegistrationState;
-    private static boolean isChinaCountry = false;
+    private static String country = "US";
     private PushNotificationManager pushNotificationManager;
     private LanguagePackInterface languagePackInterface;
     private ConnectivityChangeReceiver connectivityChangeReceiver;
@@ -76,7 +76,7 @@ public class AppFrameworkApplication extends Application {
         initUserRegistrationState();
         RALog.d(LOG, "UR state end::");
         RALog.d(LOG, "China flow state begin::");
-        determineChinaFlow();
+        determineCountry();
         RALog.d(LOG, "China flow state end::");
         RALog.d(LOG, "PR state begin::");
         productRegistrationState = new ProductRegistrationState();
@@ -150,28 +150,28 @@ public class AppFrameworkApplication extends Application {
     }
 
     public boolean isChinaFlow() {
-        return isChinaCountry;
+        return country.equals("CN");
     }
 
-    public void determineChinaFlow() {
+    public void determineCountry() {
         AppInfraInterface appInfraInterface = getAppInfra();
         ServiceDiscoveryInterface serviceDiscovery = appInfraInterface.getServiceDiscovery();
 
         serviceDiscovery.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
-                if (s.equals("CN")) {
-                    isChinaCountry = true;
-                } else {
-                    isChinaCountry = false;
-                }
+                country = s;
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                isChinaCountry = false;
+                country = "US";
             }
         });
+    }
+
+    public String getCountry() {
+        return country;
     }
 
     public DataServicesState getDataServiceState() {
