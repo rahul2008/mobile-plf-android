@@ -78,13 +78,6 @@ node ('android&&docker') {
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/product-registration-lib/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'unit test debug']) 
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'Source/Library/product-registration-lib/build/reports/tests/testReleaseUnitTest', reportFiles: 'index.html', reportName: 'unit test release']) 
                 archiveArtifacts '**/*dependencies*.lock'
-            }       
-            stage('informing') {
-            	step([$class: 'StashNotifier'])
-            	step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: MailRecipient, sendToIndividuals: true])
-            }
-            stage('Cleaning workspace') {
-                step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true])
             }
             stage('informing') {
             	step([$class: 'StashNotifier'])
