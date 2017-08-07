@@ -21,10 +21,10 @@ public class THSHealthPlanListAdapter extends BaseAdapter {
     private THSHealthPlan mTHSHealthPlan;
 
 
-    public THSHealthPlanListAdapter(Context context, THSHealthPlan  tHSHealthPlan) {
+    public THSHealthPlanListAdapter(Context context, THSHealthPlan tHSHealthPlan) {
 
-        this.mContext=context;
-        mTHSHealthPlan=tHSHealthPlan;
+        this.mContext = context;
+        mTHSHealthPlan = tHSHealthPlan;
 
     }
 
@@ -90,13 +90,13 @@ public class THSHealthPlanListAdapter extends BaseAdapter {
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View rowView=convertView;
+        View rowView = convertView;
 
-        if(null==rowView){
-            LayoutInflater  layoutInflater=(LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rowView=layoutInflater.inflate(R.layout.ths_list_row,null);
-            ViewHolder holder= new ViewHolder();
-            holder.HealthPlan=(TextView)rowView.findViewById(R.id.ths_list_row_label);
+        if (null == rowView) {
+            LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            rowView = layoutInflater.inflate(R.layout.ths_list_row, null);
+            ViewHolder holder = new ViewHolder();
+            holder.HealthPlan = (TextView) rowView.findViewById(R.id.ths_list_row_label);
             rowView.setTag(holder);
         }
         ViewHolder holder = (ViewHolder) rowView.getTag();
@@ -106,7 +106,7 @@ public class THSHealthPlanListAdapter extends BaseAdapter {
     }
 
 
-    private class ViewHolder{
+    private class ViewHolder {
         private TextView HealthPlan;
     }
 

@@ -13,7 +13,7 @@ import com.americanwell.sdk.entity.practice.OnDemandSpecialty;
 
 public class THSOnDemandSpeciality implements Parcelable{
 
-    OnDemandSpecialty onDemandSpecialty;
+    private OnDemandSpecialty onDemandSpecialty;
 
     public THSOnDemandSpeciality(){
 

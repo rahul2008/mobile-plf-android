@@ -12,6 +12,7 @@ import com.americanwell.sdk.entity.SDKError;
 public interface THSFileDownloadCallback {
 
     void onDocumentDownloadSuccess(FileAttachment fileAttachment, SDKError sdkError);
+
     void onError(Throwable throwable);
 
 }

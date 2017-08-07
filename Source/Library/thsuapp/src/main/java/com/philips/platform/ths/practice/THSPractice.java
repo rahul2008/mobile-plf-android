@@ -13,7 +13,7 @@ import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.practice.Practice;
 
 public class THSPractice implements Parcelable{
-    Practice practice;
+    private Practice practice;
 
     public THSPractice(){
 

@@ -11,8 +11,9 @@ import com.americanwell.sdk.entity.health.Medication;
 
 import java.util.List;
 
-public class THSMedication{
+public class THSMedication {
     private List<Medication> medicationList;
+
     public List<Medication> getMedicationList() {
         return medicationList;
     }

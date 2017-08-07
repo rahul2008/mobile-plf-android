@@ -30,7 +30,7 @@ import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
 
 public class THSWaitingRoomPresenter implements THSBasePresenter, THSStartVisitCallback, THSCancelVisitCallBack.SDKCallback<Void, SDKError> {
 
-    THSWaitingRoomFragment mTHSWaitingRoomFragment;
+    private THSWaitingRoomFragment mTHSWaitingRoomFragment;
 
     public THSWaitingRoomPresenter(THSWaitingRoomFragment mTHSWaitingRoomFragment) {
         this.mTHSWaitingRoomFragment = mTHSWaitingRoomFragment;

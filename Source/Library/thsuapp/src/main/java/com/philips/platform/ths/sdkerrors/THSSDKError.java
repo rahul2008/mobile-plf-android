@@ -11,7 +11,7 @@ import com.americanwell.sdk.entity.SDKErrorReason;
 import com.americanwell.sdk.entity.SDKResponseSuggestion;
 
 public class THSSDKError {
-    SDKError sdkError;
+    private SDKError sdkError;
 
     public SDKError getSdkError() {
         return sdkError;

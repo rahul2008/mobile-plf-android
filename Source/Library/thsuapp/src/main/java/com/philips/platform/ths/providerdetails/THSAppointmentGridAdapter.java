@@ -29,10 +29,10 @@ import java.util.Locale;
 public class THSAppointmentGridAdapter extends ArrayAdapter<Date> {
 
     private ArrayList<Date> cardList = new ArrayList();
-    Context mContext;
+    private Context mContext;
     public final String TIME_FORMATTER = "h:mm a";
-    THSBaseFragment thsBaseFragment;
-    THSProviderInfo thsProviderInfo;
+    private THSBaseFragment thsBaseFragment;
+    private THSProviderInfo thsProviderInfo;
 
     public THSAppointmentGridAdapter(Context context, List<Date> cardList, THSBaseFragment thsBaseFragment, THSProviderInfo thsProviderInfo) {
         super(context, 0, cardList);

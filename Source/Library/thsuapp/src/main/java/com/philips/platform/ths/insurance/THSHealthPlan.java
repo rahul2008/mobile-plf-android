@@ -13,6 +13,7 @@ import java.util.List;
 public class THSHealthPlan {
 
     private List<HealthPlan> healthPlanList;
+
     public List<HealthPlan> getHealthPlanList() {
         return healthPlanList;
     }

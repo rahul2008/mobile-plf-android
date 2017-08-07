@@ -31,7 +31,6 @@ import java.util.List;
 public class THSProvidersListAdapter extends RecyclerView.Adapter<THSProvidersListAdapter.MyViewHolder> {
     private List<? extends THSProviderEntity> thsProviderInfos;
     private OnProviderListItemClickListener onProviderItemClickListener;
-    // private List<AvailableProvider> mTHSAvailableProviderList;
 
 
     public void setOnProviderItemClickListener(OnProviderListItemClickListener onProviderItemClickListener) {

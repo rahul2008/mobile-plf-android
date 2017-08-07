@@ -14,5 +14,6 @@ import java.util.List;
 public interface THSDocumentRecordCallback {
 
     void onDocumentRecordFetchSuccess(List<DocumentRecord> documentRecordList, SDKError sdkError);
+
     void onError(Throwable throwable);
 }

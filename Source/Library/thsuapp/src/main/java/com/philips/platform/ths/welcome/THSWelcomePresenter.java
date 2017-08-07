@@ -33,7 +33,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallBack<Void,THSSDKError>,
         THSLoginCallBack<THSAuthentication,THSSDKError>,THSGetConsumerObjectCallBack,THSCheckConsumerExistsCallback<Boolean, THSSDKError>{
-    THSBaseFragment uiBaseView;
+    private THSBaseFragment uiBaseView;
     private Consumer consumer;
 
     THSWelcomePresenter(THSBaseFragment uiBaseView){

@@ -35,7 +35,6 @@ public class THSNoppFragment extends THSBaseFragment {
         mRelativeLayoutNopContainer = (RelativeLayout) view.findViewById(R.id.nop_container);
         mTHSNoppPresenter = new THSNoppPresenter(this);
 
-       
 
         return view;
     }
@@ -44,7 +43,7 @@ public class THSNoppFragment extends THSBaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         actionBarListener = getActionBarListener();
-        createCustomProgressBar(mRelativeLayoutNopContainer,BIG);
+        createCustomProgressBar(mRelativeLayoutNopContainer, BIG);
         ((THSNoppPresenter) mTHSNoppPresenter).showLegalTextForNOPP();
     }
 

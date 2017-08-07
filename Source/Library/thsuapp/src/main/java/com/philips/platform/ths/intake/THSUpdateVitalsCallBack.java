@@ -14,6 +14,8 @@ import java.util.Map;
 public interface THSUpdateVitalsCallBack {
 
     void onUpdateVitalsValidationFailure(Map<String, ValidationReason> map);
+
     void onUpdateVitalsResponse(SDKError sdkError);
+
     void onUpdateVitalsFailure(Throwable throwable);
 }

@@ -11,12 +11,12 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBasePresenter;
 
 
-public class THSSelectedImageFragmentPresenter implements THSBasePresenter,THSDeleteDocumentCallback {
+public class THSSelectedImageFragmentPresenter implements THSBasePresenter, THSDeleteDocumentCallback {
     @Override
     public void onEvent(int componentID) {
 
 
-        if(componentID == R.id.ths_delete_selected_image_button){
+        if (componentID == R.id.ths_delete_selected_image_button) {
             deleteDocument();
         }
     }

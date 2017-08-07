@@ -34,10 +34,10 @@ import java.util.List;
 
 public class THSProviderDetailsPresenter implements THSBasePresenter,THSProviderDetailsCallback, THSFetchEstimatedCostCallback {
 
-    THSPRoviderDetailsViewInterface viewInterface;
+    private THSPRoviderDetailsViewInterface viewInterface;
 
-    Provider mProvider;
-    THSBaseFragment mThsBaseFragment;
+    private Provider mProvider;
+    private THSBaseFragment mThsBaseFragment;
 
     public THSProviderDetailsPresenter(THSPRoviderDetailsViewInterface viewInterface, THSBaseFragment thsBaseFragment){
         this.viewInterface = viewInterface;

@@ -42,7 +42,7 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.ths_selected_image_dialog_fragment,container,false);
+        View view = inflater.inflate(R.layout.ths_selected_image_dialog_fragment, container, false);
         pagerAdapter = new CustomPagerAdapter(getActivity());
         deleteImageButton = (Button) view.findViewById(R.id.ths_delete_selected_image_button);
         deleteImageButton.setOnClickListener(this);
@@ -52,14 +52,14 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
         return view;
     }
 
-    public void setSelectedImage(int selectedPosition ,List<THSSelectedImagePojo> selectedImagePojoList){
+    public void setSelectedImage(int selectedPosition, List<THSSelectedImagePojo> selectedImagePojoList) {
         this.selectedImagePojoList = selectedImagePojoList;
         this.selectedPosition = selectedPosition;
     }
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.ths_delete_selected_image_button){
+        if (v.getId() == R.id.ths_delete_selected_image_button) {
             deletePhoto();
         }
     }
@@ -74,24 +74,25 @@ public class THSSelectedImageFragment extends DialogFragment implements View.OnC
 
         int deletedItemPosition = imageViewPager.getCurrentItem();
 
-        if(deletedItemPosition == selectedImagePojoList.size() - 1){
+        if (deletedItemPosition == selectedImagePojoList.size() - 1) {
             selectedImagePojoList.remove(deletedItemPosition);
             pagerAdapter.notifyDataSetChanged();
-            imageViewPager.setCurrentItem(deletedItemPosition-1);
-        }else {
+            imageViewPager.setCurrentItem(deletedItemPosition - 1);
+        } else {
             selectedImagePojoList.remove(deletedItemPosition);
             pagerAdapter.notifyDataSetChanged();
-            imageViewPager.setCurrentItem(deletedItemPosition+1);
+            imageViewPager.setCurrentItem(deletedItemPosition + 1);
         }
-        if(selectedImagePojoList.size() == 0){
+        if (selectedImagePojoList.size() == 0) {
             onDismissSelectedImageFragmentCallback.dismissSelectedImageFragment(selectedImagePojoList);
         }
 
     }
 
-    public void setSelectedImageFragmentCallback(THSOnDismissSelectedImageFragmentCallback onDismissSelectedImageFragmentCallback){
+    public void setSelectedImageFragmentCallback(THSOnDismissSelectedImageFragmentCallback onDismissSelectedImageFragmentCallback) {
         this.onDismissSelectedImageFragmentCallback = onDismissSelectedImageFragmentCallback;
     }
+
     class CustomPagerAdapter extends PagerAdapter {
 
         Context mContext;

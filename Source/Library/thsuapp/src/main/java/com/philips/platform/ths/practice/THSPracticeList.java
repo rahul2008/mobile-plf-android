@@ -13,7 +13,7 @@ import java.util.List;
 //TODO: Review Comment - Spoorti - add other getter and setter that SDk is providing
 //TODO: Review Comment - Spoorti - There is no wrapper provided for Practise
 public class THSPracticeList {
-    List<Practice> practices;
+    private List<Practice> practices;
 
     public List<Practice> getPractices() {
         return practices;

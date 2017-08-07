@@ -26,13 +26,13 @@ import com.philips.platform.ths.providerslist.THSProviderInfo;
 public class THSProviderDetailsFragment extends THSBaseFragment implements View.OnClickListener, THSPRoviderDetailsViewInterface,SwipeRefreshLayout.OnRefreshListener{
     public static final String TAG = THSProviderDetailsFragment.class.getSimpleName();
     private Consumer consumer;
-    THSProviderInfo mThsProviderInfo;
+    private THSProviderInfo mThsProviderInfo;
     protected THSAvailableProvider mThsAvailableProvider;
-    THSProviderDetailsPresenter providerDetailsPresenter;
+    private THSProviderDetailsPresenter providerDetailsPresenter;
     private Practice mPractice;
-    THSProviderDetailsDisplayHelper mThsProviderDetailsDisplayHelper;
+    private THSProviderDetailsDisplayHelper mThsProviderDetailsDisplayHelper;
 
-    Provider mProvider;
+    private Provider mProvider;
 
     @Nullable
     @Override

@@ -51,7 +51,7 @@ import java.util.List;
 import static android.app.Activity.RESULT_OK;
 
 public class THSSymptomsFragment extends THSBaseFragment implements BackEventListener, View.OnClickListener,
-        THSSelectedImageCallback,THSOnDismissSelectedImageFragmentCallback {
+        THSSelectedImageCallback, THSOnDismissSelectedImageFragmentCallback {
     public static final String TAG = THSSymptomsFragment.class.getSimpleName();
     protected THSSymptomsPresenter mTHSSymptomsPresenter;
     private THSProviderInfo mThsProviderInfo;
@@ -108,11 +108,11 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-         mTHSSymptomsPresenter = new THSSymptomsPresenter(this, mThsProviderInfo);
+        mTHSSymptomsPresenter = new THSSymptomsPresenter(this, mThsProviderInfo);
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_prepare_your_visit), true);
         }
-         getVisistContext();
+        getVisistContext();
     }
 
     @Override
@@ -345,7 +345,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
     }
 
     @Override
-    public void dismissSelectedImageFragment(List<THSSelectedImagePojo> selectedImagePojoList){
+    public void dismissSelectedImageFragment(List<THSSelectedImagePojo> selectedImagePojoList) {
         this.selectedImagePojosList = selectedImagePojoList;
         thsImageRecyclerViewAdapter.notifyDataSetChanged();
         imageListView.setAdapter(thsImageRecyclerViewAdapter);

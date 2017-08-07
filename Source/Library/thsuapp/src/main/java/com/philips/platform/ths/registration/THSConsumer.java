@@ -16,7 +16,7 @@ import com.americanwell.sdk.entity.insurance.Subscription;
 import java.util.List;
 
 public class THSConsumer implements Parcelable{
-    Consumer consumer;
+    private Consumer consumer;
 
     public THSConsumer(){
 

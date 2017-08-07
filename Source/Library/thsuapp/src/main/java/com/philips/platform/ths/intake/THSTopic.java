@@ -22,19 +22,19 @@ public class THSTopic {
         this.topic = topic;
     }
 
-    private String getTitle(){
+    private String getTitle() {
         return topic.getTitle();
     }
 
-    private String getDescription(){
+    private String getDescription() {
         return topic.getDescription();
     }
 
-    void setSelected(@NonNull boolean isSelected){
+    void setSelected(@NonNull boolean isSelected) {
         topic.setSelected(isSelected);
     }
 
-    boolean isSelected(){
+    boolean isSelected() {
         return topic.isSelected();
     }
 

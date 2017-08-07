@@ -14,7 +14,7 @@ import android.widget.GridView;
 public class THSExpandableHeightGridView extends GridView
 {
 
-    boolean expanded = false;
+    private boolean expanded = false;
 
     public THSExpandableHeightGridView(Context context)
     {

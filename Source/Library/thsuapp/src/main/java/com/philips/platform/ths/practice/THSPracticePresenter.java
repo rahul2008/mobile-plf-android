@@ -21,7 +21,7 @@ import com.philips.platform.ths.utility.THSManager;
 
 public class THSPracticePresenter implements THSBasePresenter, THSPracticesListCallback {
 
-    THSBaseView uiBaseView;
+    private THSBaseView uiBaseView;
 
 
 

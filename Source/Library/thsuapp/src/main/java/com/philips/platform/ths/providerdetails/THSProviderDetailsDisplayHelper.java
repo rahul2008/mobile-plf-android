@@ -36,21 +36,21 @@ import java.util.Locale;
 
 public class THSProviderDetailsDisplayHelper {
 
-    View.OnClickListener mOnClickListener;
-    SwipeRefreshLayout.OnRefreshListener mOnRefreshListener;
-    Context mContext;
-    THSPRoviderDetailsViewInterface mThsPRoviderDetailsViewInterface;
+    private View.OnClickListener mOnClickListener;
+    private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener;
+    private Context mContext;
+    private THSPRoviderDetailsViewInterface mThsPRoviderDetailsViewInterface;
     protected CircularImageView providerImage;
     protected ImageView isAvailableImage;
     protected Label providerName,practiceName,isAvailable,spokenLanguageValueLabel,yearsOfExpValueLabel,
             graduatedValueLabel,aboutMeValueLabel,mLabelDate,visitCostValueLabel;
     protected RatingBar providerRating;
     protected Button detailsButtonOne,detailsButtonTwo,detailsButtonContinue;
-    RelativeLayout mTimeSlotContainer;
-    THSExpandableHeightGridView gridView;
+    private RelativeLayout mTimeSlotContainer;
+    private THSExpandableHeightGridView gridView;
     protected SwipeRefreshLayout swipeRefreshLayout;
-    THSBaseFragment thsBaseFragment;
-    NotificationBadge notificationBadge;
+    private THSBaseFragment thsBaseFragment;
+    private NotificationBadge notificationBadge;
     private RelativeLayout available_provider_details_container;
 
 

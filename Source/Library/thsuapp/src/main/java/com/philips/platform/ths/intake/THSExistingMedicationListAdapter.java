@@ -22,8 +22,8 @@ public class THSExistingMedicationListAdapter extends BaseAdapter {
     private Context mContext;
 
 
-    public THSExistingMedicationListAdapter(Context context){
-        this.mContext=context;
+    public THSExistingMedicationListAdapter(Context context) {
+        this.mContext = context;
 
     }
 
@@ -95,19 +95,19 @@ public class THSExistingMedicationListAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
 
         View rowView = convertView;
-        if(null==rowView){
+        if (null == rowView) {
 
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             rowView = inflater.inflate(R.layout.ths_existing_medication_list_row, null);
             // configure view holder
             ViewHolder viewHolder = new ViewHolder();
-            viewHolder.MedicineName=(TextView) rowView.findViewById(R.id.pth_existing_medication_list_row_label);
-            viewHolder.DeleteButton=(ImageView) rowView.findViewById(R.id.pth_existing_medication_list_row_delete);
+            viewHolder.MedicineName = (TextView) rowView.findViewById(R.id.pth_existing_medication_list_row_label);
+            viewHolder.DeleteButton = (ImageView) rowView.findViewById(R.id.pth_existing_medication_list_row_delete);
             rowView.setTag(viewHolder);
         }
 
         ViewHolder holder = (ViewHolder) rowView.getTag();
-        String medicineName= mPTHExistingMedication.getMedicationList().get(position).getName();
+        String medicineName = mPTHExistingMedication.getMedicationList().get(position).getName();
         holder.MedicineName.setText(medicineName);
         holder.DeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,8 +117,6 @@ public class THSExistingMedicationListAdapter extends BaseAdapter {
                 notifyDataSetChanged();
             }
         });
-
-
 
 
         return rowView;

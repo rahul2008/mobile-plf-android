@@ -21,14 +21,18 @@ public class THSSelectedImagePojo {
      *
      * @return Value of title.
      */
-    public String getTitle() { return title; }
+    public String getTitle() {
+        return title;
+    }
 
     /**
      * Gets datetime.
      *
      * @return Value of datetime.
      */
-    public Calendar getDatetime() { return datetime; }
+    public Calendar getDatetime() {
+        return datetime;
+    }
 
     /**
      * Sets new datetimeLong.
@@ -47,28 +51,36 @@ public class THSSelectedImagePojo {
      *
      * @param datetime New value of datetime.
      */
-    public void setDatetime(Calendar datetime) { this.datetime = datetime; }
+    public void setDatetime(Calendar datetime) {
+        this.datetime = datetime;
+    }
 
     /**
      * Gets description.
      *
      * @return Value of description.
      */
-    public String getDescription() { return description; }
+    public String getDescription() {
+        return description;
+    }
 
     /**
      * Sets new title.
      *
      * @param title New value of title.
      */
-    public void setTitle(String title) { this.title = title; }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     /**
      * Gets datetimeLong.
      *
      * @return Value of datetimeLong.
      */
-    public long getDatetimeLong() { return datetimeLong; }
+    public long getDatetimeLong() {
+        return datetimeLong;
+    }
 
     /**
      * Sets new description.
@@ -84,16 +96,21 @@ public class THSSelectedImagePojo {
      *
      * @param path New value of path.
      */
-    public void setPath(String path) { this.path = path; }
+    public void setPath(String path) {
+        this.path = path;
+    }
 
     /**
      * Gets path.
      *
      * @return Value of path.
      */
-    public String getPath() { return path; }
+    public String getPath() {
+        return path;
+    }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return "Title:" + title + "   " + df.format(datetime.getTime()) +
                 "\nDescription:" + description + "\nPath:" + path;
     }

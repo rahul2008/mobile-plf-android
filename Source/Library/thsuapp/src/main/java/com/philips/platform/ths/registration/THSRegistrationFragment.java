@@ -37,17 +37,17 @@ import java.util.Locale;
 
 public class THSRegistrationFragment extends THSBaseFragment implements BackEventListener,View.OnClickListener {
     public static final String TAG = THSRegistrationFragment.class.getSimpleName();
-    THSRegistrationPresenter mThsRegistrationPresenter;
+    private THSRegistrationPresenter mThsRegistrationPresenter;
     private RelativeLayout mRelativeLayout;
     private Button mContinueButton;
-    EditText mEditTextFirstName;
-    EditText mEditTextLastName;
-    Label mDateOfBirth;
-    CheckBox mCheckBoxMale;
-    CheckBox mCheckBoxFemale;
-    AppCompatSpinner mEditTextState;
+    private  EditText mEditTextFirstName;
+    private EditText mEditTextLastName;
+    private Label mDateOfBirth;
+    private CheckBox mCheckBoxMale;
+    private CheckBox mCheckBoxFemale;
+    private AppCompatSpinner mEditTextState;
     private THSSpinnerAdapter spinnerAdapter;
-    List<State> mValidStates = null;
+    private List<State> mValidStates = null;
     private Date mDob;
 
     @Nullable

@@ -51,7 +51,6 @@ public class THSInsuranceConfirmationFragment extends THSBaseFragment implements
     }
 
 
-
     @Override
     public boolean handleBackEvent() {
         return false;
@@ -69,8 +68,8 @@ public class THSInsuranceConfirmationFragment extends THSBaseFragment implements
      * <p>Called when the checked radio button has changed. When the
      * selection is cleared, checkedId is -1.</p>
      *
-     * @param radioGroup     the group in which the checked radio button has changed
-     * @param checkedId the unique identifier of the newly checked radio button
+     * @param radioGroup the group in which the checked radio button has changed
+     * @param checkedId  the unique identifier of the newly checked radio button
      */
     @Override
     public void onCheckedChanged(android.widget.RadioGroup radioGroup, @IdRes int checkedId) {
@@ -78,7 +77,7 @@ public class THSInsuranceConfirmationFragment extends THSBaseFragment implements
         if (null != radioButton && checkedId > -1) {
             if (radioButton.getId() == R.id.pth_insurance_confirmation_radio_option_yes) {
                 mConfirmationRadioButtonSelectedID = R.id.pth_insurance_confirmation_radio_option_yes;
-            }else if (radioButton.getId() == R.id.pth_insurance_confirmation_radio_option_no) {
+            } else if (radioButton.getId() == R.id.pth_insurance_confirmation_radio_option_no) {
                 mConfirmationRadioButtonSelectedID = R.id.pth_insurance_confirmation_radio_option_no;
             }
 
@@ -98,10 +97,10 @@ public class THSInsuranceConfirmationFragment extends THSBaseFragment implements
      */
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.pth_insurance_confirmation_continue_button){
-            if(mConfirmationRadioButtonSelectedID== R.id.pth_insurance_confirmation_radio_option_yes) {
+        if (view.getId() == R.id.pth_insurance_confirmation_continue_button) {
+            if (mConfirmationRadioButtonSelectedID == R.id.pth_insurance_confirmation_radio_option_yes) {
                 mPresenter.onEvent(R.id.pth_insurance_confirmation_radio_option_yes);
-            }else if (mConfirmationRadioButtonSelectedID== R.id.pth_insurance_confirmation_radio_option_no){
+            } else if (mConfirmationRadioButtonSelectedID == R.id.pth_insurance_confirmation_radio_option_no) {
                 mPresenter.onEvent(R.id.pth_insurance_confirmation_radio_option_no);
             }
         }

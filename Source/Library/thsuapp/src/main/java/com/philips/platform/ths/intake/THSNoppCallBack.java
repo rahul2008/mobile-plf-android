@@ -11,8 +11,9 @@ import com.americanwell.sdk.entity.SDKError;
 
 public interface THSNoppCallBack {
 
-    void onNoppReceivedSuccess(String string, SDKError sDKError );
-    void onNoppReceivedFailure(Throwable throwable );
+    void onNoppReceivedSuccess(String string, SDKError sDKError);
+
+    void onNoppReceivedFailure(Throwable throwable);
 
 
 }

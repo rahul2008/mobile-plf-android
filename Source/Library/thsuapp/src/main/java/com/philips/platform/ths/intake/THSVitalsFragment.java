@@ -88,7 +88,7 @@ public class THSVitalsFragment extends THSBaseFragment implements BackEventListe
         int i = view.getId();
         if (i == R.id.vitals_continue_btn) {
             mThsVitalsPresenter.onEvent(R.id.vitals_continue_btn);
-        }else if(i==R.id.vitals_skip){
+        } else if (i == R.id.vitals_skip) {
             mThsVitalsPresenter.onEvent(R.id.vitals_skip);
         }
     }
@@ -131,20 +131,20 @@ public class THSVitalsFragment extends THSBaseFragment implements BackEventListe
         this.mTHSVitals = mTHSVitals;
     }
 
-    public boolean validate(){
+    public boolean validate() {
         String systolic = mThsVitalsPresenter.getTextFromEditText(mSystolic);
         String diastolic = mThsVitalsPresenter.getTextFromEditText(mDiastolic);
 
-        if(!mThsVitalsPresenter.isTextValid(mSystolic)){
+        if (!mThsVitalsPresenter.isTextValid(mSystolic)) {
             showToast("Please Enter Valid Systolic Value");
             return false;
-        }else if(!mThsVitalsPresenter.isTextValid(mDiastolic)){
+        } else if (!mThsVitalsPresenter.isTextValid(mDiastolic)) {
             showToast("Please Enter Valid Systolic Value");
             return false;
-        }else if(mThsVitalsPresenter.stringToInteger(diastolic)>mThsVitalsPresenter.stringToInteger(systolic)){
+        } else if (mThsVitalsPresenter.stringToInteger(diastolic) > mThsVitalsPresenter.stringToInteger(systolic)) {
             showToast("Systolic Value should be higher than daistolic");
             return false;
-        }else {
+        } else {
             return true;
         }
     }

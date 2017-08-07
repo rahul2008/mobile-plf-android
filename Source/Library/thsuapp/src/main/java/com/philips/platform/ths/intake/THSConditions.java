@@ -11,7 +11,7 @@ import com.americanwell.sdk.entity.health.Condition;
 public class THSConditions {
     private Condition condition;
 
-    public THSConditions(){
+    public THSConditions() {
 
     }
 

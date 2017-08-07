@@ -25,12 +25,12 @@ public class THSInsuranceConfirmationPresenter implements THSBasePresenter {
         if (componentID == R.id.pth_insurance_confirmation_radio_option_yes) {
             final THSInsuranceDetailFragment fragment = new THSInsuranceDetailFragment();
             fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-            mTHSBaseFragment.addFragment(fragment, THSInsuranceDetailFragment.TAG,null);
+            mTHSBaseFragment.addFragment(fragment, THSInsuranceDetailFragment.TAG, null);
 
         } else if (componentID == R.id.pth_insurance_confirmation_radio_option_no) {
             final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
             fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-            mTHSBaseFragment.addFragment(fragment, THSCostSummaryFragment.TAG,null);
+            mTHSBaseFragment.addFragment(fragment, THSCostSummaryFragment.TAG, null);
         }
 
     }

@@ -6,7 +6,8 @@
 
 package com.philips.platform.ths.intake;
 
-public interface THSUpdateConditionsCallback<Void,PTHSDKError> {
+public interface THSUpdateConditionsCallback<Void, PTHSDKError> {
     void onUpdateConditonResponse(Void aVoid, PTHSDKError sdkError);
+
     void onUpdateConditionFailure(Throwable throwable);
 }

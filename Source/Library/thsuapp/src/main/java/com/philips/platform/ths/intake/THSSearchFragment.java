@@ -54,15 +54,16 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
-        if(null != bundle && bundle.containsKey(THSConstants.SEARCH_CONSTANT_STRING)){
+        if (null != bundle && bundle.containsKey(THSConstants.SEARCH_CONSTANT_STRING)) {
             searchType = bundle.getInt(THSConstants.SEARCH_CONSTANT_STRING);
         }
         setHasOptionsMenu(true);
     }
 
-    public void setPractice(Practice practice){
+    public void setPractice(Practice practice) {
         this.practice = practice;
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -74,7 +75,7 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
     }
 
     public void setUpMedicationSearch() {
-        mTHSSearchListAdapter = new THSSearchListAdapter(getFragmentActivity(),null);
+        mTHSSearchListAdapter = new THSSearchListAdapter(getFragmentActivity(), null);
         searchListView.setAdapter(mTHSSearchListAdapter);
         searchListView.setOnItemClickListener(this);
         mPresenter = new THSSearchPresenter(this);
@@ -94,7 +95,7 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.search_menu,menu);
+        inflater.inflate(R.menu.search_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -110,9 +111,9 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()>2){
+                if (s.length() > 2) {
                     searchFunction(s);
-                } else if(s.length()==2){
+                } else if (s.length() == 2) {
                     mTHSSearchListAdapter.setData(null);
                 }
             }
@@ -131,12 +132,12 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
     }
 
     public void searchFunction(CharSequence s) {
-        switch (searchType){
+        switch (searchType) {
             case THSConstants.MEDICATION_SEARCH_CONSTANT:
                 ((THSSearchPresenter) mPresenter).searchMedication(s.toString());
                 break;
             case THSConstants.PROVIDER_SEARCH_CONSTANT:
-                ((THSSearchPresenter) mPresenter).searchProviders(s.toString(),practice);
+                ((THSSearchPresenter) mPresenter).searchProviders(s.toString(), practice);
                 break;
         }
 
@@ -146,7 +147,7 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
     @Override
     public void onQuerySubmit(CharSequence charSequence) {
         if (null != charSequence && charSequence.length() > 2) {
-            InputMethodManager imm = (InputMethodManager)THSSearchFragment.this.getFragmentActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) THSSearchFragment.this.getFragmentActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(searchBox.getWindowToken(), 0);
             searchFunction(charSequence);
         }
@@ -167,13 +168,13 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        switch (searchType){
+        switch (searchType) {
             case THSConstants.MEDICATION_SEARCH_CONSTANT:
-                        callMedicationFragment(position);
-                        break;
+                callMedicationFragment(position);
+                break;
             case THSConstants.PROVIDER_SEARCH_CONSTANT:
-                        callProviderDetailsFragment(position);
-                        break;
+                callProviderDetailsFragment(position);
+                break;
         }
 
 
@@ -185,13 +186,13 @@ public class THSSearchFragment extends THSBaseFragment implements SearchBox.Quer
         pthProviderDetailsFragment.setTHSProviderEntity(providerInfoList.get(position));
         pthProviderDetailsFragment.setConsumerAndPractice(THSManager.getInstance().getPTHConsumer().getConsumer(), practice);
         pthProviderDetailsFragment.setFragmentLauncher(getFragmentLauncher());
-        addFragment(pthProviderDetailsFragment,THSProviderDetailsFragment.TAG,null);
+        addFragment(pthProviderDetailsFragment, THSProviderDetailsFragment.TAG, null);
     }
 
     public void callMedicationFragment(int position) {
 
         Intent intent = new Intent(getFragmentActivity(), THSSearchFragment.class);
-        Medication medication= searchedMedicines.getMedicationList().get(position);
+        Medication medication = searchedMedicines.getMedicationList().get(position);
         intent.putExtra("selectedMedication", medication);
         getTargetFragment().onActivityResult(getTargetRequestCode(), RESULT_OK, intent);
         getFragmentActivity().getSupportFragmentManager().popBackStack();

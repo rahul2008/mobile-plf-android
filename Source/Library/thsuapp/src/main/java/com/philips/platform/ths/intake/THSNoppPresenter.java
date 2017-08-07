@@ -35,8 +35,8 @@ public class THSNoppPresenter implements THSBasePresenter, THSNoppCallBack {
     public void showLegalTextForNOPP() {
         legalTextList = mTHSVisitContext.getLegalTexts();
         for (LegalText legalText : legalTextList) {
-            try{
-            THSManager.getInstance().getLegaltext(uiBaseView.getFragmentActivity(), legalText,this);
+            try {
+                THSManager.getInstance().getLegaltext(uiBaseView.getFragmentActivity(), legalText, this);
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }

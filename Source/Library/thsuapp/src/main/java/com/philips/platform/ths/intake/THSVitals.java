@@ -22,39 +22,39 @@ public class THSVitals {
         this.vitals = vitals;
     }
 
-    public Integer getSystolic(){
+    public Integer getSystolic() {
         return vitals.getSystolic();
     }
 
-    public Integer getDiastolic(){
+    public Integer getDiastolic() {
         return vitals.getDiastolic();
     }
 
-    public Double getTemperature(){
+    public Double getTemperature() {
         return vitals.getTemperature();
     }
 
-    public Integer getWeight(){
+    public Integer getWeight() {
         return vitals.getWeight();
     }
 
-    public void setSystolic(@NonNull Integer systolic){
+    public void setSystolic(@NonNull Integer systolic) {
         vitals.setSystolic(systolic);
     }
 
-    public void setDiastolic(@NonNull Integer diastolic){
+    public void setDiastolic(@NonNull Integer diastolic) {
         vitals.setDiastolic(diastolic);
     }
 
-    public void setTemperature(@NonNull Double temperature){
+    public void setTemperature(@NonNull Double temperature) {
         vitals.setTemperature(temperature);
     }
 
-    public void setWeight(@NonNull Integer weight){
+    public void setWeight(@NonNull Integer weight) {
         vitals.setWeight(weight);
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return vitals.isEmpty();
     }
 }

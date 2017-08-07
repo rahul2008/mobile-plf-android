@@ -11,7 +11,7 @@ import com.americanwell.sdk.entity.SDKPasswordError;
 import java.util.List;
 
 public class THSSDKPasswordError {
-    SDKPasswordError sdkPasswordError;
+    private SDKPasswordError sdkPasswordError;
 
     public SDKPasswordError getSdkPasswordError() {
         return sdkPasswordError;

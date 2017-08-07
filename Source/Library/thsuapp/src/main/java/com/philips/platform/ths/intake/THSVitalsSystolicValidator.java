@@ -13,7 +13,7 @@ public class THSVitalsSystolicValidator implements InputValidationLayout.Validat
 
     @Override
     public boolean validate(CharSequence charSequence) {
-        if(charSequence == null || charSequence.toString().isEmpty()){
+        if (charSequence == null || charSequence.toString().isEmpty()) {
             return false;
         }
 

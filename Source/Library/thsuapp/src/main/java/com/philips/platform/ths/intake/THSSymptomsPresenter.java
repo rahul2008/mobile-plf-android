@@ -162,7 +162,7 @@ public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCa
 
     @Override
     public void onError(Throwable throwable) {
-        thsBaseView.showToast("failure : "+throwable.getLocalizedMessage());
+        thsBaseView.showToast("failure : " + throwable.getLocalizedMessage());
         thsBaseView.hideProgressBar();
     }
 }

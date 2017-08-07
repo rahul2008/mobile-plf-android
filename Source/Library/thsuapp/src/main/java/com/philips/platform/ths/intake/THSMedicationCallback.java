@@ -11,10 +11,9 @@ import com.americanwell.sdk.entity.SDKError;
 public interface THSMedicationCallback {
 
     interface PTHGetMedicationCallback {
-        void onGetMedicationReceived(THSMedication pTHMedication, SDKError sDKError );
+        void onGetMedicationReceived(THSMedication pTHMedication, SDKError sDKError);
 
     }
-
 
 
     interface PTHUpdateMedicationCallback {

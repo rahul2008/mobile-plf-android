@@ -46,10 +46,10 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
         } else if (componentID == R.id.pth_intake_follow_up_i_agree_link_text) {
 
             final THSNoppFragment fragment = new THSNoppFragment();
-            fragment.setFragmentLauncher(((THSBaseFragment)uiBaseView).getFragmentLauncher());
+            fragment.setFragmentLauncher(((THSBaseFragment) uiBaseView).getFragmentLauncher());
             uiBaseView.addFragment(fragment, THSNoppFragment.TAG, null);
-        }else {
-            ((THSBaseFragment)uiBaseView).showToast("Please Enter a valid Phone Number");
+        } else {
+            ((THSBaseFragment) uiBaseView).showToast("Please Enter a valid Phone Number");
         }
     }
 
@@ -120,7 +120,7 @@ public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumer
     @Override
     public void onSuccessfulFetch(Address address, SDKError sdkError) {
         if (null != address) {
-            ((THSFollowUpFragment) uiBaseView).displayPharmacyAndShippingPreferenceFragment(pharmacy,address);
+            ((THSFollowUpFragment) uiBaseView).displayPharmacyAndShippingPreferenceFragment(pharmacy, address);
         } else {
             ((THSFollowUpFragment) uiBaseView).displaySearchPharmacy();
         }

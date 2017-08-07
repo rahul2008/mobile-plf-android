@@ -21,10 +21,10 @@ public class THSSubscriberRelationshipListAdapter extends BaseAdapter {
     private THSRelationship mTHSRelationship;
 
 
-    public THSSubscriberRelationshipListAdapter(Context context, THSRelationship  thsRelationship) {
+    public THSSubscriberRelationshipListAdapter(Context context, THSRelationship thsRelationship) {
 
-        this.mContext=context;
-        mTHSRelationship=thsRelationship;
+        this.mContext = context;
+        mTHSRelationship = thsRelationship;
 
     }
 
@@ -90,13 +90,13 @@ public class THSSubscriberRelationshipListAdapter extends BaseAdapter {
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View rowView=convertView;
+        View rowView = convertView;
 
-        if(null==rowView){
-            LayoutInflater layoutInflater=(LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rowView=layoutInflater.inflate(R.layout.ths_list_row,null);
-            ViewHolder holder= new ViewHolder();
-            holder.Relationship =(TextView)rowView.findViewById(R.id.ths_list_row_label);
+        if (null == rowView) {
+            LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            rowView = layoutInflater.inflate(R.layout.ths_list_row, null);
+            ViewHolder holder = new ViewHolder();
+            holder.Relationship = (TextView) rowView.findViewById(R.id.ths_list_row_label);
             rowView.setTag(holder);
         }
         ViewHolder holder = (ViewHolder) rowView.getTag();
@@ -106,7 +106,7 @@ public class THSSubscriberRelationshipListAdapter extends BaseAdapter {
     }
 
 
-    private class ViewHolder{
+    private class ViewHolder {
         private TextView Relationship;
     }
 

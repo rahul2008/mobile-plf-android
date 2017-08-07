@@ -11,9 +11,7 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
 public class THSMicroAppLaunchInput extends UappLaunchInput {
 
-
     private String welcomeMessage;
-
 
     public THSMicroAppLaunchInput(String welcomeMessage) {
         this.welcomeMessage = welcomeMessage;
