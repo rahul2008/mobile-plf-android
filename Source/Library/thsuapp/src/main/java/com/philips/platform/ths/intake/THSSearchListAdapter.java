@@ -22,8 +22,8 @@ import java.util.List;
 
 public class THSSearchListAdapter<T extends SDKEntity> extends BaseAdapter {
 
-    List<T> searchList;
-    Context mContext;
+    private List<T> searchList;
+    private Context mContext;
 
     public THSSearchListAdapter(Context context,  List<T> searchList) {
         this.mContext = context;

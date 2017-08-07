@@ -16,8 +16,8 @@ import com.philips.platform.ths.utility.THSManager;
 import java.util.Map;
 
 public class THSConfirmAppointmentPresenter implements THSBasePresenter, THSSDKValidatedCallback {
-    THSBaseFragment mTHSBaseFragment;
-    THSAppointmentInterface mThsAppointmentInterface;
+    private THSBaseFragment mTHSBaseFragment;
+    private THSAppointmentInterface mThsAppointmentInterface;
 
     THSConfirmAppointmentPresenter(THSBaseFragment thsBaseFragment, THSAppointmentInterface thsAppointmentInterface){
         mTHSBaseFragment = thsBaseFragment;

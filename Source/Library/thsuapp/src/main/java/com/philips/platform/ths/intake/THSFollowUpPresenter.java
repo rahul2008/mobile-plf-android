@@ -27,8 +27,8 @@ import java.util.Map;
 
 public class THSFollowUpPresenter implements THSBasePresenter, THSUpdateConsumerCallback<THSConsumer, THSSDKPasswordError>
         , THSPreferredPharmacyCallback, THSConsumerShippingAddressCallback {
-    THSBaseView uiBaseView;
-    Pharmacy pharmacy;
+    private THSBaseView uiBaseView;
+    private Pharmacy pharmacy;
 
     public THSFollowUpPresenter(THSFollowUpFragment tHSFollowUpFragment) {
         this.uiBaseView = tHSFollowUpFragment;

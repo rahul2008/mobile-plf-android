@@ -6,6 +6,6 @@
 package com.philips.platform.ths.appointment;
 
 public interface THSAvailableProviderCallback<List,THSSDKError> {
-    public void onResponse(List dates, THSSDKError sdkError);
-    public void onFailure(Throwable throwable);
+    void onResponse(List dates, THSSDKError sdkError);
+    void onFailure(Throwable throwable);
 }

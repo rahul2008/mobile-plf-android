@@ -17,6 +17,6 @@ public class THSAddress {
         this.address = address;
     }
 
-    Address address;
+    private Address address;
 
 }

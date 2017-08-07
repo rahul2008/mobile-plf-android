@@ -18,7 +18,7 @@ import com.philips.platform.ths.R;
 public class THSSubscriberRelationshipListAdapter extends BaseAdapter {
 
     private Context mContext;
-    THSRelationship mTHSRelationship;
+    private THSRelationship mTHSRelationship;
 
 
     public THSSubscriberRelationshipListAdapter(Context context, THSRelationship  thsRelationship) {

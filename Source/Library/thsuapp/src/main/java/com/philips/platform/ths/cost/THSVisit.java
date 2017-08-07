@@ -17,5 +17,5 @@ public class THSVisit {
         this.visit = visit;
     }
 
-    Visit visit;
+    private Visit visit;
 }

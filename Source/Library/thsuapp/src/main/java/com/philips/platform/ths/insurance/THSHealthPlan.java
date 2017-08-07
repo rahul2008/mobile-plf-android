@@ -12,7 +12,7 @@ import java.util.List;
 
 public class THSHealthPlan {
 
-    List<HealthPlan> healthPlanList;
+    private List<HealthPlan> healthPlanList;
     public List<HealthPlan> getHealthPlanList() {
         return healthPlanList;
     }

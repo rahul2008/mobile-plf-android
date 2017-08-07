@@ -20,7 +20,7 @@ import java.util.Set;
 
 public class THSVisitContext {
 
-    VisitContext visitContext;
+    private VisitContext visitContext;
 
     public THSVisitContext(){
 

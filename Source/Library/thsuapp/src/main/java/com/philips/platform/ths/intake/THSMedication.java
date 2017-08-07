@@ -12,7 +12,7 @@ import com.americanwell.sdk.entity.health.Medication;
 import java.util.List;
 
 public class THSMedication{
-    List<Medication> medicationList;
+    private List<Medication> medicationList;
     public List<Medication> getMedicationList() {
         return medicationList;
     }

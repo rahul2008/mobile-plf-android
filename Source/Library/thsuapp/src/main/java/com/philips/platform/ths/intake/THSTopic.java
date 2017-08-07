@@ -12,7 +12,7 @@ import com.americanwell.sdk.entity.visit.Topic;
 
 public class THSTopic {
 
-    Topic topic;
+    private Topic topic;
 
     public Topic getTopic() {
         return topic;
@@ -22,11 +22,11 @@ public class THSTopic {
         this.topic = topic;
     }
 
-    String getTitle(){
+    private String getTitle(){
         return topic.getTitle();
     }
 
-    String getDescription(){
+    private String getDescription(){
         return topic.getDescription();
     }
 

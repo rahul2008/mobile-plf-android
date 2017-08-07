@@ -23,7 +23,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class THSProviderNotAvailablePresenter implements THSBasePresenter{
-    THSBaseFragment mThsBaseFragment;
+    private THSBaseFragment mThsBaseFragment;
 
     THSProviderNotAvailablePresenter(THSBaseFragment thsBaseFragment){
         mThsBaseFragment = thsBaseFragment;

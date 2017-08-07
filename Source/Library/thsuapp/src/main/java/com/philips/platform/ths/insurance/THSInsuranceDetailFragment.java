@@ -44,33 +44,33 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
     private ActionBarListener actionBarListener;
     private RelativeLayout mProgressbarContainer;
     private THSInsuranceDetailPresenter mPresenter;
-     EditText insuranceEditBox;
-     EditText subscriptionIDEditBox;
+    protected EditText insuranceEditBox;
+    protected   EditText subscriptionIDEditBox;
 
-     EditText relationshipEditBox;
-     EditText firstNameEditBox;
-     EditText lastNameEditBox;
-     EditText relationDOBEditBox;
-    ListView mHealPlanListView;
-    AlertDialog.Builder mAlertDialog;
-    THSSubscription thsSubscriptionExisting;
+    protected  EditText relationshipEditBox;
+    protected   EditText firstNameEditBox;
+    protected EditText lastNameEditBox;
+    protected  EditText relationDOBEditBox;
+    protected ListView mHealPlanListView;
+    private AlertDialog.Builder mAlertDialog;
+    protected THSSubscription thsSubscriptionExisting;
 
 
     private Button detailContinueButton;
     private Button detailSkipButton;
-    THSHealthPlanListAdapter mTHSHealthPlanListAdapter;
-    THSSubscriberRelationshipListAdapter mTHSSubscriberRelationshipListAdapter;
-    CheckBox mNotPrimarySubscriberCheckBox;
-    RelativeLayout mNotPrimarySubscriberRelativeLayout;
+    private THSHealthPlanListAdapter mTHSHealthPlanListAdapter;
+    private THSSubscriberRelationshipListAdapter mTHSSubscriberRelationshipListAdapter;
+    protected CheckBox mNotPrimarySubscriberCheckBox;
+    private RelativeLayout mNotPrimarySubscriberRelativeLayout;
 
 
 
     /// editable fields
-    THSHealthPlan mTHSHealthPlanList;
-    THSRelationship mTHSRelationshipList;
-    HealthPlan mHealthPlan;
-    Relationship mInsuranceRelationship;
-    RelativeLayout mRelativeLayoutInsuranceContainer;
+    private THSHealthPlan mTHSHealthPlanList;
+    protected THSRelationship mTHSRelationshipList;
+    protected HealthPlan mHealthPlan;
+    protected Relationship mInsuranceRelationship;
+    private RelativeLayout mRelativeLayoutInsuranceContainer;
 
 
 

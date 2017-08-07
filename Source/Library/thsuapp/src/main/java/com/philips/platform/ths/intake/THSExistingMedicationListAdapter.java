@@ -18,8 +18,8 @@ import com.philips.platform.ths.R;
 
 
 public class THSExistingMedicationListAdapter extends BaseAdapter {
-    THSMedication mPTHExistingMedication;
-    Context mContext;
+    private THSMedication mPTHExistingMedication;
+    private Context mContext;
 
 
     public THSExistingMedicationListAdapter(Context context){

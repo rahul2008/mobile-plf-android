@@ -25,8 +25,8 @@ public class THSCostSummaryFragment extends THSBaseFragment implements View.OnCl
     private THSCostSummaryPresenter mPresenter;
     private RelativeLayout mProgressbarContainer;
     private Button mCostSummaryContinueButton;
-    Label costBigLabel;
-    Label costSmallLabel;
+    protected Label costBigLabel;
+    protected Label costSmallLabel;
     private RelativeLayout mRelativeLayoutCostContainer;
 
     @Nullable

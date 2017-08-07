@@ -17,7 +17,7 @@ import java.util.List;
 
 public class THSAvailableProviderList implements Parcelable{
 
-    AvailableProviders availableProviders;
+    private AvailableProviders availableProviders;
 
     public THSAvailableProviderList(){
 

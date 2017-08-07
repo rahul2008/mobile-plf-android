@@ -18,7 +18,7 @@ public class THSSubscription {
         this.subscription = subscription;
     }
 
-    Subscription subscription;
+    private Subscription subscription;
 
 
 }

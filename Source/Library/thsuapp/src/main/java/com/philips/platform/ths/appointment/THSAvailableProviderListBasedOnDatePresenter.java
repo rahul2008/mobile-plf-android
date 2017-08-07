@@ -23,8 +23,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class THSAvailableProviderListBasedOnDatePresenter implements THSBasePresenter, THSAvailableProvidersBasedOnDateCallback<THSAvailableProviderList, THSSDKError> {
-    THSBaseFragment mThsBaseFragment;
-    OnDateSetChangedInterface onDateSetChangedInterface;
+    private THSBaseFragment mThsBaseFragment;
+    private OnDateSetChangedInterface onDateSetChangedInterface;
 
     THSAvailableProviderListBasedOnDatePresenter(THSBaseFragment thsBaseFragment,OnDateSetChangedInterface onDateSetChangedInterface){
         mThsBaseFragment = thsBaseFragment;

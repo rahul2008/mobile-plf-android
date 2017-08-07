@@ -23,7 +23,7 @@ public class THSNoppFragment extends THSBaseFragment {
     public static final String TAG = THSNoppFragment.class.getSimpleName();
     private ActionBarListener actionBarListener;
     Label legalTextsLabel;
-    THSBasePresenter mTHSNoppPresenter;
+    private THSBasePresenter mTHSNoppPresenter;
     private RelativeLayout mRelativeLayoutNopContainer;
 
 

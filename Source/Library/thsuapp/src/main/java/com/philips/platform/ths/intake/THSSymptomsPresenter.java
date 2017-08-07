@@ -34,9 +34,9 @@ import java.util.List;
 import java.util.Map;
 
 public class THSSymptomsPresenter implements THSBasePresenter, THSVisitContextCallBack<THSVisitContext, THSSDKError>, THSDocumentRecordCallback, THSUploadDocumentCallback {
-    THSBaseFragment thsBaseView;
-    THSProviderInfo THSProviderInfo;
-    THSVisitContext THSVisitContext;
+    protected THSBaseFragment thsBaseView;
+    protected THSProviderInfo THSProviderInfo;
+    protected THSVisitContext THSVisitContext;
     private THSFileUtils fileUtils;
     private UploadAttachment uploadAttachment;
 

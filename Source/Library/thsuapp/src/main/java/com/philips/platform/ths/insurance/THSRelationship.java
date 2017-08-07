@@ -19,5 +19,5 @@ public class THSRelationship {
         this.relationShipList = relationShipList;
     }
 
-    List<Relationship> relationShipList;
+    private List<Relationship> relationShipList;
 }

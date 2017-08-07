@@ -14,7 +14,7 @@ import java.util.List;
 
 public class THSAvailableProviders {
 
-    AvailableProvider availableProvider;
+    private AvailableProvider availableProvider;
 
     public AvailableProvider getAvailableProvider() {
         return availableProvider;

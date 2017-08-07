@@ -19,10 +19,10 @@ import java.util.List;
 
 
 public class THSNoppPresenter implements THSBasePresenter, THSNoppCallBack {
-    THSBaseView uiBaseView;
-    THSVisitContext mTHSVisitContext;
-    List<LegalText> legalTextList;
-    StringBuilder mStringBuilder;
+    private THSBaseView uiBaseView;
+    private THSVisitContext mTHSVisitContext;
+    private List<LegalText> legalTextList;
+    private StringBuilder mStringBuilder;
 
     public THSNoppPresenter(THSBaseView uiBaseView) {
 

@@ -42,12 +42,12 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     private ActionBarListener actionBarListener;
     private THSMedicationPresenter mPresenter;
     private RelativeLayout mProgressbarContainer;
-    ListView mExistingMedicationListView;
-    THSExistingMedicationListAdapter mTHSExistingMedicationListAdapter;
-    THSMedication mExistingMedication;
-    Medication mSelectedMedication;
-    Button updateMedicationButton;
-    Label mSkipLabel;
+    private ListView mExistingMedicationListView;
+    private THSExistingMedicationListAdapter mTHSExistingMedicationListAdapter;
+    protected THSMedication mExistingMedication;
+    private Medication mSelectedMedication;
+    private Button updateMedicationButton;
+    private Label mSkipLabel;
     boolean existingMedicineFetched=  false; // flag to know if medication is fetched which can be null also
 
 

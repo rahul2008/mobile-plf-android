@@ -12,7 +12,7 @@ import com.americanwell.sdk.entity.visit.Vitals;
 
 public class THSVitals {
 
-    Vitals vitals;
+    private Vitals vitals;
 
     public Vitals getVitals() {
         return vitals;
@@ -22,39 +22,39 @@ public class THSVitals {
         this.vitals = vitals;
     }
 
-    Integer getSystolic(){
+    public Integer getSystolic(){
         return vitals.getSystolic();
     }
 
-    Integer getDiastolic(){
+    public Integer getDiastolic(){
         return vitals.getDiastolic();
     }
 
-    Double getTemperature(){
+    public Double getTemperature(){
         return vitals.getTemperature();
     }
 
-    Integer getWeight(){
+    public Integer getWeight(){
         return vitals.getWeight();
     }
 
-    void setSystolic(@NonNull Integer systolic){
+    public void setSystolic(@NonNull Integer systolic){
         vitals.setSystolic(systolic);
     }
 
-    void setDiastolic(@NonNull Integer diastolic){
+    public void setDiastolic(@NonNull Integer diastolic){
         vitals.setDiastolic(diastolic);
     }
 
-    void setTemperature(@NonNull Double temperature){
+    public void setTemperature(@NonNull Double temperature){
         vitals.setTemperature(temperature);
     }
 
-    void setWeight(@NonNull Integer weight){
+    public void setWeight(@NonNull Integer weight){
         vitals.setWeight(weight);
     }
 
-    boolean isEmpty(){
+    public boolean isEmpty(){
         return vitals.isEmpty();
     }
 }

@@ -34,14 +34,14 @@ import java.util.Locale;
 public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment implements View.OnClickListener, OnDateSetChangedInterface{
     public static final String TAG = THSAvailableProviderListBasedOnDateFragment.class.getSimpleName();
 
-    Date mDate;
-    THSAvailableProviderListBasedOnDatePresenter mTHSAvailableProviderListBasedOnDatePresenter;
+    protected Date mDate;
+    private THSAvailableProviderListBasedOnDatePresenter mTHSAvailableProviderListBasedOnDatePresenter;
 
     private Practice mPractice;
     private RecyclerView recyclerView;
-    THSAvailableProviderList mTHSAvailableProviderList;
-    Label mLabelNumberOfAvailableDoctors;
-    Label mLabelDate;
+    private THSAvailableProviderList mTHSAvailableProviderList;
+    private Label mLabelNumberOfAvailableDoctors;
+    private Label mLabelDate;
 
     @Nullable
     @Override

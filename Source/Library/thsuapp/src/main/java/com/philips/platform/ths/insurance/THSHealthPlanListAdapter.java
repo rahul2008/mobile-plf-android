@@ -18,7 +18,7 @@ import com.philips.platform.ths.R;
 public class THSHealthPlanListAdapter extends BaseAdapter {
 
     private Context mContext;
-    THSHealthPlan mTHSHealthPlan;
+    private THSHealthPlan mTHSHealthPlan;
 
 
     public THSHealthPlanListAdapter(Context context, THSHealthPlan  tHSHealthPlan) {

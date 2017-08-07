@@ -18,7 +18,7 @@ public class THSDatePickerFragmentUtility{
 
     private Date date;
     private Calendar calendar;
-    THSBaseFragment mThsBaseFragment;
+    private THSBaseFragment mThsBaseFragment;
 
     public THSDatePickerFragmentUtility(THSBaseFragment thsBaseFragment){
         this.mThsBaseFragment = thsBaseFragment;

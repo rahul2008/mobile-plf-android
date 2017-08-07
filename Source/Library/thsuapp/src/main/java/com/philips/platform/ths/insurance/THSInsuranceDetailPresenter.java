@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.Map;
 
 public class THSInsuranceDetailPresenter implements THSBasePresenter, THSInsuranceCallback.THSSDKCallBack<THSSubscription, THSSDKError>, THSSDKValidatedCallback<Void , SDKError> {
-    THSBaseFragment mTHSBaseFragment;
-    boolean hasInsurance;
+    private THSBaseFragment mTHSBaseFragment;
+    private boolean hasInsurance;
 
     public THSInsuranceDetailPresenter(THSInsuranceDetailFragment tHSInsuranceDetailFraagment) {
         this.mTHSBaseFragment = tHSInsuranceDetailFraagment;

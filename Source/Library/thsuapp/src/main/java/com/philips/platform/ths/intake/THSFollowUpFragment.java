@@ -42,12 +42,12 @@ import com.philips.platform.uid.view.widget.ProgressBarButton;
 
 public class THSFollowUpFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSFollowUpFragment.class.getSimpleName();
-    EditText mPhoneNumberEditText;
+    protected EditText mPhoneNumberEditText;
     private CheckBox mNoppAgreeCheckBox;
     private ProgressBarButton mFollowUpContiueButton;
     private THSFollowUpPresenter mTHSFollowUpPresenter;
     private ActionBarListener actionBarListener;
-    String updatedPhone;
+    protected String updatedPhone;
     private Label nopp_label;
     private int REQUEST_LOCATION = 1001;
     private LocationManager mLocationManager = null;

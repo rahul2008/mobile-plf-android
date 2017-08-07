@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class THSCostSummaryPresenter implements THSBasePresenter, THSSDKValidatedCallback<THSVisit, SDKError> {
 
-    THSBaseFragment mTHSBaseFragment;
+    private THSBaseFragment mTHSBaseFragment;
 
     public THSCostSummaryPresenter(THSCostSummaryFragment thsCostSummaryFragment) {
         mTHSBaseFragment = thsCostSummaryFragment;

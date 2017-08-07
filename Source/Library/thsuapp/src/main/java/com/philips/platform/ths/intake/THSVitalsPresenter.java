@@ -19,7 +19,7 @@ import com.philips.platform.uid.view.widget.EditText;
 import java.util.Map;
 
 public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback<THSVitals, THSSDKError>,THSUpdateVitalsCallBack{
-    THSBaseFragment mPthBaseFragment;
+    private THSBaseFragment mPthBaseFragment;
 
     public THSVitalsPresenter(THSVitalsFragment thsVitalsFragment) {
         mPthBaseFragment = thsVitalsFragment;

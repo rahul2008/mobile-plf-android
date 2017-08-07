@@ -16,7 +16,7 @@ import java.util.List;
 
 public class THSAvailableProvider extends THSProviderEntity{
 
-    AvailableProvider availableProvider;
+    private AvailableProvider availableProvider;
 
     public THSAvailableProvider(){
 

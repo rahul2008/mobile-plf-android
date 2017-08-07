@@ -27,12 +27,12 @@ import java.util.Date;
 public class THSAvailableProviderDetailFragment extends THSProviderDetailsFragment implements View.OnClickListener, OnDateSetChangedInterface{
     public static final String TAG = THSAvailableProviderDetailFragment.class.getSimpleName();
 
-    Date mDate;
+    private Date mDate;
 
-    THSProviderEntity thsProviderEntity;
-    THSAvailableProviderDetailPresenter thsAvailableDetailProviderPresenter;
-    Practice mPractice;
-    RelativeLayout mRelativelayout;
+    private THSProviderEntity thsProviderEntity;
+    private THSAvailableProviderDetailPresenter thsAvailableDetailProviderPresenter;
+    private Practice mPractice;
+    private RelativeLayout mRelativelayout;
 
     @Nullable
     @Override

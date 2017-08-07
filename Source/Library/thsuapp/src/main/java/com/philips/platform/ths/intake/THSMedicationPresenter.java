@@ -25,7 +25,7 @@ import static com.philips.platform.ths.utility.THSConstants.MEDICATION_ON_ACTIVI
 
 
 public class THSMedicationPresenter implements THSBasePresenter, THSMedicationCallback.PTHGetMedicationCallback, THSMedicationCallback.PTHUpdateMedicationCallback {
-    THSBaseFragment mTHSBaseFragment;
+    private THSBaseFragment mTHSBaseFragment;
 
 
     public THSMedicationPresenter(THSMedicationFragment tHSMedicationFragment) {

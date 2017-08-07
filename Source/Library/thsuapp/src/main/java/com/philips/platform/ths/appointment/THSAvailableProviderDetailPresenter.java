@@ -29,9 +29,9 @@ import java.util.Date;
 import java.util.List;
 
 public class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProviderDetailsCallback, THSAvailableProviderCallback<List, THSSDKError> {
-    THSBaseFragment mThsBaseFragment;
-    THSProviderDetailsDisplayHelper mthsProviderDetailsDisplayHelper;
-    OnDateSetChangedInterface onDateSetChangedInterface;
+    private THSBaseFragment mThsBaseFragment;
+    private THSProviderDetailsDisplayHelper mthsProviderDetailsDisplayHelper;
+    private OnDateSetChangedInterface onDateSetChangedInterface;
 
     THSAvailableProviderDetailPresenter(THSBaseFragment thsBaseFragment, THSProviderDetailsDisplayHelper thsProviderDetailsDisplayHelper,
                                         OnDateSetChangedInterface onDateSetChangedInterface) {

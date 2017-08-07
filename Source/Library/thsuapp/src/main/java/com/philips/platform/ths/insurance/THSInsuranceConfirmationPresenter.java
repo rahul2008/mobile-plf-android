@@ -12,7 +12,7 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
 
 public class THSInsuranceConfirmationPresenter implements THSBasePresenter {
-    THSBaseFragment mTHSBaseFragment;
+    private THSBaseFragment mTHSBaseFragment;
 
 
     public THSInsuranceConfirmationPresenter(THSInsuranceConfirmationFragment tHSInsuranceConfirmationFragment) {

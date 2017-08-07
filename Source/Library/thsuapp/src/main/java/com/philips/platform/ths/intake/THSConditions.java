@@ -9,7 +9,7 @@ package com.philips.platform.ths.intake;
 import com.americanwell.sdk.entity.health.Condition;
 
 public class THSConditions {
-    Condition condition;
+    private Condition condition;
 
     public THSConditions(){
 

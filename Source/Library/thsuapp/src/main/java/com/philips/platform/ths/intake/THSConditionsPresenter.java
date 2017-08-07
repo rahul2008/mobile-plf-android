@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class THSConditionsPresenter implements THSBasePresenter, THSConditionsCallBack<THSConditionsList,THSSDKError>, THSUpdateConditionsCallback<Void,THSSDKError> {
-    THSBaseFragment mTHSBaseFragment;
+    private THSBaseFragment mTHSBaseFragment;
 
     public THSConditionsPresenter(THSBaseFragment THSBaseFragment) {
         this.mTHSBaseFragment = THSBaseFragment;

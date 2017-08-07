@@ -13,7 +13,7 @@ import java.util.Map;
 
 public interface THSUpdateVitalsCallBack {
 
-    public void onUpdateVitalsValidationFailure(Map<String, ValidationReason> map);
-    public void onUpdateVitalsResponse(SDKError sdkError);
-    public void onUpdateVitalsFailure(Throwable throwable);
+    void onUpdateVitalsValidationFailure(Map<String, ValidationReason> map);
+    void onUpdateVitalsResponse(SDKError sdkError);
+    void onUpdateVitalsFailure(Throwable throwable);
 }

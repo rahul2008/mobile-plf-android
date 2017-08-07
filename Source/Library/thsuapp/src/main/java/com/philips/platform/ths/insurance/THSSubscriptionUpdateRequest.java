@@ -17,5 +17,5 @@ public class THSSubscriptionUpdateRequest {
         this.subscriptionUpdateRequest = subscriptionUpdateRequest;
     }
 
-    SubscriptionUpdateRequest subscriptionUpdateRequest;
+    private SubscriptionUpdateRequest subscriptionUpdateRequest;
 }

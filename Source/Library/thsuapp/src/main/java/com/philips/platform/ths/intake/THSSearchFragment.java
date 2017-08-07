@@ -41,12 +41,12 @@ import static android.app.Activity.RESULT_OK;
 public class THSSearchFragment extends THSBaseFragment implements SearchBox.QuerySubmitListener, ListView.OnItemClickListener {
     public static final String TAG = THSSearchFragment.class.getSimpleName();
     private THSBasePresenter mPresenter;
-    THSMedication searchedMedicines;
-    List<THSProviderInfo> providerInfoList;
+    protected THSMedication searchedMedicines;
+    protected List<THSProviderInfo> providerInfoList;
     private ListView searchListView;
-    THSSearchListAdapter mTHSSearchListAdapter;
+    protected THSSearchListAdapter mTHSSearchListAdapter;
     private UIDNavigationIconToggler navIconToggler;
-     SearchBox searchBox;
+    protected SearchBox searchBox;
     int searchType = 0;
     private Practice practice;
 
