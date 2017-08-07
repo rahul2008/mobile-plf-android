@@ -25,13 +25,15 @@ public interface SocialProviderLoginHandler {
 
     /**
      * {@code userRegistrationFailureInfo} method ton login failed with error
+     *
      * @param userRegistrationFailureInfo user registration failure info
      */
     void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo);
 
     /**
      * {@code onLoginFailedWithTwoStepError} method to on login failed with tow step error
-     * @param prefilledRecord pre-filled record json object
+     *
+     * @param prefilledRecord         pre-filled record json object
      * @param socialRegistrationToken social registration token
      */
     void onLoginFailedWithTwoStepError(JSONObject prefilledRecord,
@@ -39,24 +41,26 @@ public interface SocialProviderLoginHandler {
 
     /**
      * {@code onLoginFailedWithMergeFlowError} method to On login failed with merge flow error
-     * @param mergeToken merge token
-     * @param existingProvider existing provider
+     *
+     * @param mergeToken                  merge token
+     * @param existingProvider            existing provider
      * @param conflictingIdentityProvider conflicting identity provider
      * @param conflictingIdpNameLocalized conflicting idp name localized
-     * @param existingIdpNameLocalized existing idp name localized
-     * @param emailId email id
+     * @param existingIdpNameLocalized    existing idp name localized
+     * @param emailId                     email id
      */
     void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider,
                                          String conflictingIdentityProvider, String conflictingIdpNameLocalized,
                                          String existingIdpNameLocalized, String emailId);
 
     /**
-     *{@code onContinueSocialProviderLoginSuccess} method to on contiues social provider login success
+     * {@code onContinueSocialProviderLoginSuccess} method to on contiues social provider login success
      */
     void onContinueSocialProviderLoginSuccess();
 
     /**
-     *  {@code userRegistrationFailureInfo} method to on continue social provider login failure
+     * {@code userRegistrationFailureInfo} method to on continue social provider login failure
+     *
      * @param userRegistrationFailureInfo user registration failure info
      */
     void onContinueSocialProviderLoginFailure(

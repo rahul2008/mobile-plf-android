@@ -7,7 +7,9 @@ import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
 import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 
-
+/**
+ * USR Demo App Launch input
+ */
 public class URDemouAppLaunchInput extends UappLaunchInput {
 
     private RegistrationLaunchMode registrationLaunchMode;

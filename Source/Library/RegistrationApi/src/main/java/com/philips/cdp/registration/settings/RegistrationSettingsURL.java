@@ -175,8 +175,8 @@ public class RegistrationSettingsURL extends RegistrationSettings {
                     ClientIDConfiguration clientIDConfiguration = new ClientIDConfiguration();
                     if(janrainURL.equalsIgnoreCase("philips.capture.cn.janrain.com")){
                         jumpConfig.captureDomain = "philips-cn.capture.cn.janrain.com";
-                        jumpConfig.engageAppId = clientIDConfiguration.getEngageId(clientIDConfiguration.PROD_CAPTURE_DOMAIN_CHINA);
-                        jumpConfig.captureAppId = clientIDConfiguration.getCaptureId(clientIDConfiguration.PROD_CAPTURE_DOMAIN_CHINA);
+                        jumpConfig.engageAppId = clientIDConfiguration.getEngageId(RegConstants.HTTPS_CONST+ jumpConfig.captureDomain);
+                        jumpConfig.captureAppId = clientIDConfiguration.getCaptureId(RegConstants.HTTPS_CONST+jumpConfig.captureDomain);
                     }else{
                         jumpConfig.captureDomain = janrainURL;
                         jumpConfig.engageAppId = clientIDConfiguration.getEngageId(urlLocal);

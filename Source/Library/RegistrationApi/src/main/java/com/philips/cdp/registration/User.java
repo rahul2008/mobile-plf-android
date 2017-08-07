@@ -131,6 +131,8 @@ public class User {
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
     /**
+     * Constructor
+     *
      * @param context
      */
     public User(Context context) {
@@ -143,9 +145,9 @@ public class User {
     /**
      * {@code loginUsingTraditional} method logs in a user with a traditional account.
      *
-     * @param emailAddress
-     * @param password
-     * @param traditionalLoginHandler
+     * @param emailAddress            String email id .
+     * @param password                String password
+     * @param traditionalLoginHandler TraditionalLoginHandler listener.
      */
     public void loginUsingTraditional(final String emailAddress, final String password,
                                       final TraditionalLoginHandler traditionalLoginHandler) {
@@ -194,10 +196,10 @@ public class User {
     /**
      * {@code loginUserUsingSocialProvider} logs in a user via a social login provider
      *
-     * @param activity
-     * @param providerName
-     * @param socialLoginHandler
-     * @param mergeToken
+     * @param activity           Activity
+     * @param providerName       String provider name.
+     * @param socialLoginHandler SocialProviderLoginHandler callback.
+     * @param mergeToken         String merge token.
      */
     public void loginUserUsingSocialProvider(final Activity activity, final String providerName,
                                              final SocialProviderLoginHandler socialLoginHandler,
@@ -222,12 +224,14 @@ public class User {
 
 
     /**
-     * {@code loginUserUsingSocialProvider} logs in a user via a social login provider
+     * {@code loginUserUsingSocialNativeProvider} logs in a user via a native social login provider like we chat.
      *
-     * @param activity
-     * @param providerName
-     * @param socialLoginHandler
-     * @param mergeToken
+     * @param activity           Activity .
+     * @param providerName       String  Provider.
+     * @param accessToken        String accesstoken.
+     * @param tokenSecret        String token secrete.
+     * @param socialLoginHandler SocialProviderLoginHandler callback.
+     * @param mergeToken         String merge token .
      */
     public void loginUserUsingSocialNativeProvider(final Activity activity,
                                                    final String providerName,
@@ -257,12 +261,12 @@ public class User {
     /**
      * {@code registerUserInfoForTraditional} method creates a user account.
      *
-     * @param mGivenName
-     * @param mUserEmail
-     * @param password
-     * @param olderThanAgeLimit
-     * @param isReceiveMarketingEmail
-     * @param traditionalRegisterHandler
+     * @param mGivenName                 String given name
+     * @param mUserEmail                 String email id
+     * @param password                   String password
+     * @param olderThanAgeLimit          true if older than age cutoff by each countries
+     * @param isReceiveMarketingEmail    true to enable receive marketing email.
+     * @param traditionalRegisterHandler TraditionalRegistrationHandler callback.
      */
     public void registerUserInfoForTraditional(final String mGivenName, final String mUserEmail,
                                                final String password,
@@ -281,8 +285,8 @@ public class User {
     /**
      * {@code forgotPassword} method retrieves a lost password.
      *
-     * @param emailAddress
-     * @param forgotPasswordHandler
+     * @param emailAddress          String email address
+     * @param forgotPasswordHandler ForgotPasswordHandler callback.
      */
     public void forgotPassword(final String emailAddress, final ForgotPasswordHandler forgotPasswordHandler) {
         if (emailAddress != null) {
@@ -299,7 +303,7 @@ public class User {
     /**
      * {@code refreshLoginSession} method refreshes the session of an already logged in user.
      *
-     * @param refreshLoginSessionHandler
+     * @param refreshLoginSessionHandler RefreshLoginSessionHandler callback
      */
     public void refreshLoginSession(final RefreshLoginSessionHandler refreshLoginSessionHandler) {
         RefreshUserSession refreshUserSession = new RefreshUserSession(refreshLoginSessionHandler, mContext);
@@ -310,8 +314,8 @@ public class User {
     /**
      * {@code resendVerificationEmail} method sends a verification mail in case an already sent mail is not received.
      *
-     * @param emailAddress
-     * @param resendVerificationEmail
+     * @param emailAddress            String email id
+     * @param resendVerificationEmail ResendVerificationEmailHandler callback
      */
     public void resendVerificationMail(final String emailAddress,
                                        final ResendVerificationEmailHandler resendVerificationEmail) {
@@ -379,7 +383,11 @@ public class User {
     }
 
 
-    // For getting values from Captured and Saved Json object
+    /**
+     * Get user instance
+     *
+     * @return DIUserProfile instance or null if not logged in
+     */
     public DIUserProfile getUserInstance() {
         CaptureRecord captureRecord = Jump.getSignedInUser();
 
@@ -435,10 +443,14 @@ public class User {
         return diUserProfile;
     }
 
-
+    /**
+     * Get Email verification status
+     *
+     * @return
+     */
     @Deprecated
     public boolean getEmailVerificationStatus() {
-        return (isEmailVerified()||isMobileVerified());
+        return (isEmailVerified() || isMobileVerified());
     }
 
     private boolean isLoginTypeVerified(String loginType) {
@@ -456,10 +468,20 @@ public class User {
         return false;
     }
 
+    /**
+     * Is email varified
+     *
+     * @return true if verified
+     */
     public boolean isEmailVerified() {
         return isLoginTypeVerified(USER_EMAIL_VERIFIED);
     }
 
+    /**
+     * Is mobile no is verified .
+     *
+     * @return true if mobile no is verified
+     */
     public boolean isMobileVerified() {
         return isLoginTypeVerified(USER_MOBILE_VERIFIED);
     }
@@ -511,6 +533,9 @@ public class User {
         return signedIn;
     }
 
+    /**
+     * {@code isTermsAndConditionAccepted} method checks if a user is accepted terms and condition or no
+     */
     public boolean isTermsAndConditionAccepted() {
         String mobileNo = getMobile();
         String email = getEmail();
@@ -526,7 +551,12 @@ public class User {
         return isValidEmail && getStoredState(mContext, email);
     }
 
-    // check merge flow error for capture
+    /**
+     * Handle merge flow erorr
+     *
+     * @param existingProvider
+     * @return
+     */
     public boolean handleMergeFlowError(String existingProvider) {
         if (existingProvider.equals(USER_CAPTURE)) {
             return true;
@@ -534,7 +564,12 @@ public class User {
         return false;
     }
 
-    // For update receive marketing email
+    /**
+     * Update the recive marketing email.
+     *
+     * @param updateReceiveMarketingEmail UpdateUserDetailsHandler call bacl isntance.
+     * @param receiveMarketingEmail       true to recieve else flase.
+     */
     public void updateReceiveMarketingEmail(
             final UpdateUserDetailsHandler updateReceiveMarketingEmail,
             final boolean receiveMarketingEmail) {
@@ -771,7 +806,11 @@ public class User {
         return diUserProfile.getGivenName();
     }
 
-
+    /**
+     * Get older than age limit.
+     *
+     * @return true if older than age limits as per countries specific .
+     */
     public boolean getOlderThanAgeLimit() {
         DIUserProfile diUserProfile = getUserInstance();
         if (diUserProfile == null) {
@@ -922,10 +961,20 @@ public class User {
         Jump.signOutCaptureUser(mContext);
     }
 
+    /**
+     * register User Registration Listener
+     *
+     * @param userRegistrationListener UserRegistrationListener callback
+     */
     public void registerUserRegistrationListener(UserRegistrationListener userRegistrationListener) {
         RegistrationHelper.getInstance().registerUserRegistrationListener(userRegistrationListener);
     }
 
+    /**
+     * remove  User Registration Listener
+     *
+     * @param userRegistrationListener UserRegistrationListener callback prevoulsy registered.
+     */
     public void unRegisterUserRegistrationListener(UserRegistrationListener
                                                            userRegistrationListener) {
         RegistrationHelper.getInstance().unRegisterUserRegistrationListener(

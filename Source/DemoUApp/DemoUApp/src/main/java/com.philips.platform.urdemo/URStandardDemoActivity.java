@@ -323,7 +323,6 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
         } else if (i == R.id.btn_marketing_opt_in) {
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
-            // RegistrationSampleApplication.getInstance().getAppInfra().getTagging().setPreviousPage("demoapp:home");
             urLaunchInput = new URLaunchInput();
             urLaunchInput.setEndPointScreen(RegistrationLaunchMode.MARKETING_OPT);
             urLaunchInput.setAccountSettings(false);
@@ -358,7 +357,6 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
         } else if (i == R.id.btn_registration_without_account) {
             RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
-            // RegistrationSampleApplication.getInstance().getAppInfra().getTagging().setPreviousPage("demoapp:home");
             urLaunchInput = new URLaunchInput();
             urLaunchInput.setRegistrationFunction(RegistrationFunction.SignIn);
             urLaunchInput.setUserRegistrationUIEventListener(this);
@@ -393,8 +391,6 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
             } else {
                 handleGender();
             }
-
-
         } else if (i == R.id.btn_update_date_of_birth) {
             User user = new User(mContext);
             if (!user.isUserSignIn()) {
@@ -458,6 +454,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
                         Calendar c = Calendar.getInstance();
                         c.set(year, monthOfYear, dayOfMonth, 0, 0);
+
                         final User user1 = new User(mContext);
                         user1.updateDateOfBirth(new UpdateUserDetailsHandler() {
                             @Override
@@ -505,6 +502,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
 
                 @Override
                 public void onRefreshLoginSessionInProgress(String message) {
+                    System.out.println("Message " + message);
                     showToast(message);
                 }
             });

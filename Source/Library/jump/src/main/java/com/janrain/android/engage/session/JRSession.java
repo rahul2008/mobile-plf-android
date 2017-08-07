@@ -500,7 +500,7 @@ public class JRSession implements JRConnectionManagerDelegate {
     }
 
     public void setReturningAuthProvider(String returningAuthProvider) {
-        if (TextUtils.isEmpty(returningAuthProvider)) returningAuthProvider = ""; // nulls -> ""s
+      //  if (TextUtils.isEmpty(returningAuthProvider)) returningAuthProvider = ""; // nulls -> ""s
         if (!getAuthProviders().contains(getProviderByName(returningAuthProvider))) {
             returningAuthProvider = "";
         }
@@ -902,7 +902,9 @@ public class JRSession implements JRConnectionManagerDelegate {
     }
 
     public void saveLastUsedAuthProvider() {
-        setReturningAuthProvider(mCurrentlyAuthenticatingProvider.getName());
+        String currentAutProvider = mCurrentlyAuthenticatingProvider == null ? "" :
+                mCurrentlyAuthenticatingProvider.getName(); // nulls -> ""s
+        setReturningAuthProvider(currentAutProvider);
         setReturningAuthProviderPermissions(mCurrentlyAuthenticatingProviderPermissions);
     }
 

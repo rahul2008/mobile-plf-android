@@ -41,6 +41,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
     private DIUserProfile mProfile;
 
+
     public RegisterTraditional(TraditionalRegistrationHandler traditionalRegisterHandler,
                                Context context, UpdateUserRecordHandler updateUserRecordHandler) {
         mTraditionalRegisterHandler = traditionalRegisterHandler;
@@ -128,6 +129,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
                         .put("password", mProfile.getPassword())
                         .put("olderThanAgeLimit", mProfile.getOlderThanAgeLimit())
                         .put("receiveMarketingEmail", mProfile.getReceiveMarketingEmail());
+                new RussianConsent().addRussianConsent(newUser);
             } catch (JSONException e) {
                 Log.e(LOG_TAG, "On registerNewUserUsingTraditional,Caught JSON Exception");
             }
@@ -141,6 +143,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
                     mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo));
         }
     }
+
 
 
     @Override

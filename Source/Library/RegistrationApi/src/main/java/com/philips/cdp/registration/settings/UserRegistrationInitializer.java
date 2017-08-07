@@ -9,35 +9,25 @@
 
 package com.philips.cdp.registration.settings;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.content.LocalBroadcastManager;
+import android.content.*;
+import android.os.*;
+import android.support.v4.content.*;
 
-import com.janrain.android.Jump;
-import com.philips.cdp.registration.app.infra.ServiceDiscoveryWrapper;
-import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.configuration.RegistrationConfiguration;
-import com.philips.cdp.registration.events.EventHelper;
-import com.philips.cdp.registration.events.JumpFlowDownloadStatusListener;
-import com.philips.cdp.registration.ui.utils.RLog;
-import com.philips.cdp.registration.ui.utils.RegConstants;
-import com.philips.cdp.registration.ui.utils.RegUtility;
-import com.philips.cdp.registration.ui.utils.ThreadUtils;
-import com.philips.cdp.registration.ui.utils.URInterface;
-import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.janrain.android.*;
+import com.philips.cdp.registration.app.infra.*;
+import com.philips.cdp.registration.configuration.*;
+import com.philips.cdp.registration.events.*;
+import com.philips.cdp.registration.ui.utils.*;
+import com.philips.platform.appinfra.servicediscovery.*;
 
-import java.util.Locale;
+import java.util.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableSingleObserver;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.android.schedulers.*;
+import io.reactivex.disposables.*;
+import io.reactivex.observers.*;
+import io.reactivex.schedulers.*;
 
 public class UserRegistrationInitializer {
 
@@ -176,13 +166,20 @@ public class UserRegistrationInitializer {
         serviceDiscoveryInterface.getHomeCountry(new ServiceDiscoveryInterface.OnGetHomeCountryListener() {
             @Override
             public void onSuccess(String s, SOURCE source) {
-                RegistrationHelper.getInstance().setCountryCode(s);
+                if (RegUtility.supportedCountryList().contains(s.toUpperCase())) {
+                    RegistrationHelper.getInstance().setCountryCode(s);
+                } else {
+                    String fallbackCountryCode = RegUtility.getFallbackCountryCode();
+                    serviceDiscoveryInterface.setHomeCountry(fallbackCountryCode.toUpperCase());
+                    RegistrationHelper.getInstance().setCountryCode(fallbackCountryCode.toUpperCase());
+                }
             }
 
             @Override
             public void onError(ERRORVALUES errorvalues, String s) {
-                serviceDiscoveryInterface.setHomeCountry(RegConstants.COUNTRY_CODE_US);
-                RegistrationHelper.getInstance().setCountryCode(RegConstants.COUNTRY_CODE_US);
+                String fallbackCountry = RegUtility.getFallbackCountryCode();
+                serviceDiscoveryInterface.setHomeCountry(fallbackCountry);
+                RegistrationHelper.getInstance().setCountryCode(fallbackCountry);
             }
         });
 

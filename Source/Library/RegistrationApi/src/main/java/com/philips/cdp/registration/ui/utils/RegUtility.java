@@ -8,32 +8,24 @@
 
 package com.philips.cdp.registration.ui.utils;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextPaint;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.text.style.URLSpan;
-import android.text.style.UnderlineSpan;
-import android.widget.TextView;
+import android.app.*;
+import android.content.*;
+import android.os.*;
+import android.support.annotation.*;
+import android.support.v4.content.*;
+import android.text.*;
+import android.text.method.*;
+import android.text.style.*;
+import android.widget.*;
 
-import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.configuration.Configuration;
-import com.philips.cdp.registration.events.SocialProvider;
-import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
+import com.philips.cdp.registration.*;
+import com.philips.cdp.registration.configuration.*;
+import com.philips.cdp.registration.events.*;
+import com.philips.platform.appinfra.abtestclient.*;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.json.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class RegUtility {
@@ -260,7 +252,7 @@ public class RegUtility {
     private static String[] defaultSupportedHomeCountries = new String[]{"RW", "BG", "CZ", "DK", "AT", "CH", "DE", "GR", "AU", "CA", "GB", "HK", "ID", "IE", "IN", "MY", "NZ", "PH", "PK", "SA", "SG", "US", "ZA", "AR", "CL", "CO", "ES", "MX", "PE", "EE", "FI", "BE", "FR", "HR", "HU", "IT", "JP", "KR", "LT", "LV", "NL", "NO", "PL", "BR", "PT", "RO", "RU", "UA", "SI", "SK", "SE", "TH", "TR", "VN", "CN", "TW"};
 
 
-    public static  String getErrorMessageFromInvalidField(JSONObject serverResponse) {
+    public static String getErrorMessageFromInvalidField(JSONObject serverResponse) {
         try {
             JSONObject jsonObject = (JSONObject) serverResponse.get(RegConstants.INVALID_FIELDS);
             if (jsonObject != null) {
@@ -283,6 +275,32 @@ public class RegUtility {
             //NOP
         }
         return null;
+    }
+
+
+    public static List<String> supportedCountryList() {
+        List<String> defaultCountries = Arrays.asList(RegUtility.getDefaultSupportedHomeCountries());
+        List<String> supportedHomeCountries = RegistrationConfiguration.getInstance().getSupportedHomeCountry();
+        if (null != supportedHomeCountries) {
+            List<String> filteredCountryList = new ArrayList<String>(supportedHomeCountries);
+            filteredCountryList.retainAll(defaultCountries);
+            if (filteredCountryList.size() > 0) {
+                return filteredCountryList;
+            }
+        }
+        return defaultCountries;
+    }
+
+    @NonNull
+    public static String getFallbackCountryCode() {
+        String fallbackCountry = RegistrationConfiguration.getInstance().getFallBackHomeCountry();
+        String selectedCountryCode;
+        if (null != fallbackCountry) {
+            selectedCountryCode = fallbackCountry;
+        } else {
+            selectedCountryCode = RegConstants.COUNTRY_CODE_US;
+        }
+        return selectedCountryCode.toUpperCase();
     }
 
 }
