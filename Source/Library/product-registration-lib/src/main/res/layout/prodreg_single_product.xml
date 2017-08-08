@@ -13,22 +13,14 @@
         android:layout_marginLeft="@dimen/fab_margin"
         android:layout_marginRight="@dimen/fab_margin">
 
-        <!--<com.philips.platform.uid.view.widget.Label-->
-            <!--android:id="@+id/friendly_name"-->
-            <!--style="@style/ProductRegistrationProductHeaderTitleTheme"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginEnd="@dimen/pr_right_padding_sm"-->
-            <!--android:layout_marginStart="@dimen/pr_left_padding_sm"-->
-            <!--android:visibility="gone"/>-->
 
         <com.philips.platform.uid.view.widget.Label
             android:id="@+id/product_title"
             style="@style/ProductRegistrationHeaderTitleTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/pr_margintop"
             android:layout_marginBottom="@dimen/pr_a_value_sm"
+            android:layout_marginTop="@dimen/pr_margintop"
             android:visibility="gone"/>
 
         <LinearLayout
@@ -76,11 +68,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/product_ctn_layout"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/pr_c_value_sm"
             android:layout_marginTop="@dimen/pr_margintop"
             android:scaleType="fitCenter"
-            android:src="@drawable/prodreg_placeholder"
-            android:layout_marginBottom="@dimen/pr_c_value_sm"/>
-
+            android:src="@drawable/prodreg_placeholder"/>
 
         <LinearLayout
             android:id="@+id/serial_edit_text_layout"
@@ -102,62 +93,29 @@
                 android:id="@+id/serial_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/pr_b_value_sm"
                 android:ellipsize="end"
                 android:hint="@string/PPR_Please_Enter_SerialNum_Txtfldtxt"
                 android:maxLines="1"
                 android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
                 android:textSize="14sp"/>
 
-            <LinearLayout
-                android:id="@+id/serial_number_error_layout"
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/serialNumberErrorTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone">
+                android:layout_marginBottom="@dimen/pr_b_value_sm"
+                android:drawablePadding="2dp"
+                android:drawableStart="@drawable/uid_ic_data_validation"/>
 
-                <com.shamanland.fonticon.FontIconTextView
-                    fontPath="fonts/puicon.ttf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="19dp"
-                    android:layout_marginEnd="9dp"
-                    android:layout_marginTop="3dp"
-                    android:text="@string/uikit_fonticon_cross"
-                    android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
-                    android:textSize="13sp"
-                    android:textStyle="bold"/>
-
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/serialNumberErrorTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/find_serial_number_layout"
-                android:layout_width="match_parent"
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/findSerialTextView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <com.philips.platform.uid.view.widget.Label
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/prodreg_circle"
-                    android:gravity="center"
-                    android:text="@string/uikit_question_mark"
-                    android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"/>
-
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/findSerialTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/PPR_Find_Serial_Number"
-                    android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"/>
-
-            </LinearLayout>
-
+                android:layout_marginBottom="@dimen/pr_b_value_sm"
+                android:layout_marginStart="5dp"
+                android:text="@string/PPR_Find_Serial_Number"
+                android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"/>
         </LinearLayout>
 
 
@@ -166,9 +124,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/serial_edit_text_layout"
-            android:layout_marginEnd="@dimen/pr_right_padding_sm"
-            android:layout_marginStart="@dimen/pr_left_padding_sm"
-            android:layout_marginTop="@dimen/pr_c_value_sm"
             android:orientation="vertical"
             android:visibility="gone">
 
@@ -180,14 +135,10 @@
                 android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
                 android:textSize="14sp"/>
 
-            <EditText
+            <com.philips.platform.uid.view.widget.EditText
                 android:id="@+id/date_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/pr_registration_margin_bottom"
-                android:layout_marginEnd="@dimen/pr_right_padding_sm"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="@dimen/pr_registration_margin_top"
                 android:drawableEnd="@drawable/prodreg_calendar_inverted"
                 android:ellipsize="end"
                 android:hint="@string/purchase_date_format"
@@ -195,47 +146,25 @@
                 android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
                 android:textSize="14sp"/>
 
-            <LinearLayout
-                android:id="@+id/date_error_layout"
+            <com.philips.platform.uid.view.widget.Label
+                android:id="@+id/dateErrorTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <com.shamanland.fonticon.FontIconTextView
-                    android:id="@+id/inline_error_icon"
-                    fontPath="fonts/puicon.ttf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="19dp"
-                    android:layout_marginEnd="9dp"
-                    android:layout_marginTop="3dp"
-                    android:text="@string/uikit_fonticon_cross"
-                    android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
-                    android:textSize="13sp"
-                    android:textStyle="bold"/>
-
-                <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/dateErrorTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"/>
-            </LinearLayout>
+                android:layout_marginBottom="@dimen/pr_b_value_sm"
+                android:drawablePadding="2dp"
+                android:drawableStart="@drawable/uid_ic_data_validation"
+                android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"/>
 
         </LinearLayout>
 
-        <Button
+        <com.philips.platform.uid.view.widget.Button
             android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/date_edit_text_layout"
-            android:layout_centerHorizontal="true"
-            android:layout_marginEnd="@dimen/pr_right_padding_sm"
-            android:layout_marginStart="@dimen/pr_left_padding_sm"
-            android:layout_marginTop="33dp"
+            android:layout_marginTop="@dimen/pr_margintop"
             android:text="@string/PPR_Register_Btntxt"
             android:textAllCaps="false"/>
-
 
         <LinearLayout
             android:id="@+id/successLayout"
@@ -275,7 +204,7 @@
                     android:layout_marginTop="@dimen/pr_top_padding_sm"
                     android:text="@string/prod_reg_success_conf_text"/>
 
-                <Button
+                <com.philips.platform.uid.view.widget.Button
                     android:id="@+id/continueButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

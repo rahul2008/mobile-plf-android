@@ -13,13 +13,13 @@
         android:layout_gravity="center"
         android:orientation="vertical">
 
-        <TextView
+        <com.philips.platform.uid.view.widget.Label
             android:id="@+id/dialogDescription"
             fontPath="fonts/centralesansbook.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textColor="?attr/uikit_baseColor"
+            android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
             android:textSize="@dimen/uikit_modal_alert_message_text_size"/>
 
 
