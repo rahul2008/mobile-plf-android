@@ -19,10 +19,11 @@ import android.widget.Toast;
 import com.philips.platform.ths.R;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.ProgressBar;
 
 
-public class THSBaseFragment extends Fragment implements THSBaseView {
+public class THSBaseFragment extends Fragment implements THSBaseView,BackEventListener {
 
 
     public FragmentLauncher mFragmentLauncher;
@@ -125,5 +126,10 @@ public class THSBaseFragment extends Fragment implements THSBaseView {
             //TODO: TO be removed
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public boolean handleBackEvent() {
+        return false;
     }
 }

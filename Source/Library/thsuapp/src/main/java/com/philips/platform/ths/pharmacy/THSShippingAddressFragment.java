@@ -23,13 +23,12 @@ import com.philips.platform.ths.pojo.ShippingAddressPojo;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
 
 import java.util.List;
 
-public class THSShippingAddressFragment extends THSBaseFragment implements View.OnClickListener, BackEventListener {
+public class THSShippingAddressFragment extends THSBaseFragment implements View.OnClickListener {
 
     public static String TAG = THSShippingAddressFragment.class.getSimpleName();
     private THSConsumer thsConsumer;
@@ -94,9 +93,5 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
             }
 
         }
-    }
-    @Override
-    public boolean handleBackEvent() {
-        return false;
     }
 }

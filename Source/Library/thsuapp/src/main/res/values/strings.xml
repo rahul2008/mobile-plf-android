@@ -41,7 +41,7 @@
     <string name="ths_confirm">Confirm</string>
     <string name="ths_no_available_appointments">No available appointments</string>h
     <string name="ths_select_date_and_time">Select date and time</string>
-    <string name="ths_provider_details">Provider details</string>
+    <string name="ths_provider_details">Your provider</string>
     <string name="ths_with">With:</string>
     <string name="ths_select_other_provider">Your selected provider has no appointments on this date. Please pick another date or choose from the available provider</string>
 
@@ -73,7 +73,13 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="provider_offline">Schedule appointment</string>
     <string name="provider_available_timeslots">Available timeslots</string>
     <string name="provider_busy">Patient waiting</string>
+    <string name="provider_list_title">See a provider</string>
+    <string name="ths_provider_list_header_text_one">See the first available provider</string>
+    <string name="ths_provider_list_header_text_two">See a provider for an online visit,at your convenience</string>
+    <string name="ths_provider_pick_provider_text">Or pick one of these providers</string>
 
+    <!-- Practice screen strings -->
+    <string name="ths_practice_screen_title">Start</string>
     <!-- Registration constants-->
     <string name="ths_detail">Detail</string>
     <string name="ths_more_details">We need more details to provide the best possible care</string>
