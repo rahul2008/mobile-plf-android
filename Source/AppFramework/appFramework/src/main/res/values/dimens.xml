@@ -27,4 +27,5 @@
     <dimen name="margin_twenty_four">24dip</dimen>
     <dimen name="margin_forty_eight">48dip</dimen>
     <dimen name="welcome_video_height">204dip</dimen>
+    <dimen name="margin_eight">8dp</dimen>
 </resources>

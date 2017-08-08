@@ -1,6 +1,5 @@
 package com.philips.platform.baseapp.screens.utility;
 
-import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.logging.LoggingInterface;
@@ -10,55 +9,34 @@ import com.philips.platform.appinfra.logging.LoggingInterface;
  */
 
 public class RALog {
-    private static boolean isLoggingEnabled;
     private static LoggingInterface mLoggingInterface;
 
     public static void init(AppInfraInterface appInfraInterface) {
         mLoggingInterface = appInfraInterface.getLogging();
     }
 
-    public static void enableLogging() {
-        isLoggingEnabled = true;
-    }
-
-    public static void disableLogging() {
-        isLoggingEnabled = false;
-    }
-
-    public static boolean isLoggingEnabled() {
-        return isLoggingEnabled;
-    }
-
 
     public static void d(String tag, String message) {
-        if(isLoggingEnabled) {
-            Log.d(tag, message);
+        if(mLoggingInterface!=null) {
             mLoggingInterface.log(LoggingInterface.LogLevel.DEBUG, tag, message);
         }
-
     }
 
     public static void e(String tag, String message) {
-        if(isLoggingEnabled) {
-            Log.e(tag, message);
+        if(mLoggingInterface!=null) {
             mLoggingInterface.log(LoggingInterface.LogLevel.ERROR, tag, message);
         }
-
     }
 
     public static void i(String tag, String message) {
-        if(isLoggingEnabled) {
-            Log.i(tag, message);
-            mLoggingInterface.log(LoggingInterface.LogLevel.INFO, tag, message);
-        }
-
+        if(mLoggingInterface!=null)
+        {
+            mLoggingInterface.log(LoggingInterface.LogLevel.INFO, tag, message);}
     }
 
     public static void v(String tag, String message) {
-        if(isLoggingEnabled) {
-            Log.v(tag, message);
+        if(mLoggingInterface!=null) {
             mLoggingInterface.log(LoggingInterface.LogLevel.VERBOSE, tag, message);
         }
-
     }
 }
