@@ -1,16 +1,21 @@
 package com.philips.platform.uid.view.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import com.philips.platform.uid.R;
+import com.philips.platform.uid.utils.UIDUtils;
 
 /**
  * Created by Kunal on 31/07/17.
@@ -38,6 +43,12 @@ public class SideBar extends DrawerLayout {
         super(context, attrs, defStyle);
 
         this.context = context;
+        TypedArray array = context.obtainStyledAttributes(R.styleable.PhilipsUID);
+        int shadowColor = array.getColor(R.styleable.PhilipsUID_uidShadowLevelThreeNormalShadowColor, Color.TRANSPARENT);
+        setScrimColor(shadowColor);
+        //setDrawerElevation(1.0f);
+        //setDrawerShadow(R.drawable.uid_sidebar_shadow, GravityCompat.START);
+        //setBackground(context.getResources().getDrawable(R.drawable.uid_sidebar_shadow));
 
         /*inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.uid_sidebar_layout, this);
@@ -91,7 +102,9 @@ public class SideBar extends DrawerLayout {
     }
 
     private int getMaxWidth() {
-        return getContext().getResources().getDimensionPixelSize(R.dimen.uid_sidebar_max_width);
+        int defaultWidth = UIDUtils.getDeviceWidth(context) - UIDUtils.getActionBarSize(context);
+        int maxWidth = context.getResources().getDimensionPixelSize(R.dimen.uid_sidebar_max_width);
+        return Math.min(defaultWidth, maxWidth);
     }
 
     boolean isDrawerView(View child) {
@@ -108,6 +121,8 @@ public class SideBar extends DrawerLayout {
         }
         return false;
     }
+
+
 
     /*public void addHeaderView(View view) {
         headerContainerLayout.setVisibility(View.VISIBLE);
