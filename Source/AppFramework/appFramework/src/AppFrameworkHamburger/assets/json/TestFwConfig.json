@@ -27,19 +27,11 @@
     {
       "chapterName":"Connectivity",
       "commonComponents":[
-        {
+        /*{
           "coconame":"Blue Lib"
-        },
+        },*/
         {
           "coconame":"Comm Lib"
-        }
-      ]
-    },
-    {
-      "chapterName":"Backend",
-      "commonComponents":[
-        {
-          "coconame":"Data Core"
         }
       ]
     }
