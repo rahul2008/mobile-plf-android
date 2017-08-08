@@ -55,7 +55,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements View.OnClick
     protected THSSymptomsPresenter mTHSSymptomsPresenter;
     private THSProviderInfo mThsProviderInfo;
     private THSOnDemandSpeciality thsOnDemandSpeciality;
-    private LinearLayout topicLayout;
+    protected LinearLayout topicLayout;
     private ImageButton camera_button;
     private Button mContinue;
     private RelativeLayout mRelativeLayout;

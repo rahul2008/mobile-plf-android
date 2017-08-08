@@ -157,7 +157,15 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     }
 
     @Override
-    public void onResponse(Boolean aBoolean, THSSDKError sdkError) {
+    public void onResponse(Boolean aBoolean, THSSDKError thssdkError) {
+        SDKError sdkError = thssdkError.getSdkError();
+        if(sdkError!=null){
+            uiBaseView.hideProgressBar();
+
+            uiBaseView.showToast(sdkError.getSDKErrorReason().name());
+            return;
+        }
+
         if(aBoolean){
             authenticateUser();
         }else {
