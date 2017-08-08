@@ -203,7 +203,7 @@
     <!--Settings Screen ends-->
 
     <string-array name="hamburger_drawer_items">
-        <item>@string/RA_HomeScreen_Title</item>
+        <item>@string/RA_DLS_HomeScreen_Title</item>
         <item>@string/RA_Settings_Menu_Title</item>
         <item>@string/RA_Philips_Shop_Menu_Title</item>
         <item>@string/RA_Support_Menu_Title</item>
@@ -317,4 +317,8 @@ Receive free product accessories</string>
 
 
     <string name="RA_DLS_splash_title" translatable="false">&lt;b>CDP&lt;/b>&lt;sup>&lt;small>2&lt;/small>&lt;/sup> Reference App\t</string>
+    <string name="RA_DLS_HomeScreen_Title">Reference App home</string>
+    <string name="RA_DLS_home_page_text">Reference App</string>
+    <string name="RA_DLS_home_page_sub_text">ReferenceApp is a base platform used by all propositions to develop and maintain features both generic and specific to the propositions. App infra, Data Gateway, App FWK, and UIToolkit allow Apps to be created from uApps and UI-less services/libraries. ReferenceApp acts as a foundation over which CDP2 uApps and proposition specific uApps are integrated to form individual apps.</string>
+
 </resources>
