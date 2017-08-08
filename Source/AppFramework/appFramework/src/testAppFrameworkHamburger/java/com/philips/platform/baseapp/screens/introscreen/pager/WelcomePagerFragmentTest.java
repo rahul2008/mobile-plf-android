@@ -34,7 +34,7 @@ public class WelcomePagerFragmentTest {
     @Before
     public void setUp(){
         launchActivity = Robolectric.buildActivity(SplashFragmentTest.LaunchActivityMockAbstract.class).create().start().resume().visible().get();
-        welcomePagerFragment =  WelcomePagerFragment.newInstance(R.string.RA_DLS_onboarding_screen2_title, R.string.RA_DLS_onboarding_screen2_sub_text, R.mipmap.onboarding_screen_2);
+        welcomePagerFragment =  WelcomePagerFragment.newInstance(R.string.RA_DLS_onboarding_screen2_title, R.string.RA_DLS_onboarding_screen2_sub_text, R.drawable.onboarding_screen_2);
         launchActivity.getSupportFragmentManager().beginTransaction().add(welcomePagerFragment,null).commit();
         title = (Label) welcomePagerFragment.getView().findViewById(R.id.welcome_slide_large_text);
 
