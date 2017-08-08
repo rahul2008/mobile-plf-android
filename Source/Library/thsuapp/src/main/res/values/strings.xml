@@ -86,4 +86,7 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_female">Female</string>
     <string name="ths_male">Male</string>
     <string name="ths_dob_format">"DD / MM / YYYY"</string>
+
+    <!-- Settings Strings -->
+    <string name="ths_number_of_visits_scheduled">"You have ? of visits scheduled"</string>
 </resources>
