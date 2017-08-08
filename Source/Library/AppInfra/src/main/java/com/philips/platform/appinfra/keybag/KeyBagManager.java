@@ -9,10 +9,12 @@ import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.philipsdevtools.ServiceDiscoveryManagerCSV;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Map;
 
 import static android.content.ContentValues.TAG;
@@ -21,7 +23,7 @@ public class KeyBagManager implements KeyBagInterface {
 
     private KeyBagHelper keyBagHelper;
     private AppInfra mAppInfra;
-
+    private Map<String, ServiceDiscoveryService> urlMap;
 
     //TODO - variables below need to be removed
     private ServiceDiscoveryManagerCSV sdmCSV;
@@ -35,25 +37,43 @@ public class KeyBagManager implements KeyBagInterface {
     }
 
     @Override
-    public Map getValueForServiceId(final String serviceId) {
-        String appendedServiceId = keyBagHelper.getAppendedServiceId(serviceId);
-        final Map[] maps = new Map[1];
+    public void getValueForServiceId(final ArrayList<String> serviceIds, ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener) {
+        final ArrayList<Map> keyBags = new ArrayList<>();
+        final boolean[] fetchIndexSuccess = new boolean[1];
+        final boolean[] fetchUrlSuccess = new boolean[1];
+        for (final String serviceId : serviceIds) {
+            String appendedServiceId = keyBagHelper.getAppendedServiceId(serviceId);
 //        mAppInfra.getServiceDiscovery().getServiceUrlWithCountryPreference(appendedServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
-        //TODO - need to take from app-infra defined service discovery
-        sdmCSV.getServiceUrlWithCountryPreference(appendedServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+            //TODO - need to take from app-infra defined service discovery
+            sdmCSV.getServiceUrlWithCountryPreference(appendedServiceId, new ServiceDiscoveryInterface.OnGetServiceUrlListener() {
+                @Override
+                public void onSuccess(URL url) {
+                    Log.d(getClass().getSimpleName(), "fetching keybag index " + url.toString());
+                    keyBags.add(keyBagHelper.getDeObfuscatedMap(serviceId, url.toString()));
+                    fetchIndexSuccess[0] = true;
+                }
+
+                @Override
+                public void onError(ERRORVALUES error, String message) {
+                    Log.d(getClass().getSimpleName(), "error in getting keybag url " + message);
+                    fetchIndexSuccess[0] = false;
+                }
+            });
+        }
+        sdmCSV.getServicesWithCountryPreference(serviceIds, new ServiceDiscoveryInterface.OnGetServiceUrlMapListener() {
             @Override
-            public void onSuccess(URL url) {
-                Log.d(getClass().getSimpleName(), "fetching keybag index " + url.toString());
-                maps[0] = keyBagHelper.getDeObfuscatedMap(serviceId, url.toString());
+            public void onSuccess(Map<String, ServiceDiscoveryService> urlMap) {
+                KeyBagManager.this.urlMap = urlMap;
+                fetchUrlSuccess[0] = true;
             }
 
             @Override
             public void onError(ERRORVALUES error, String message) {
-                Log.d(getClass().getSimpleName(), "error in getting keybag url " + message);
+                fetchUrlSuccess[0] = false;
             }
         });
-
-        return maps[0];
+        if(fetchIndexSuccess[0] && fetchUrlSuccess[0])
+            onGetKeyBagMapListener.onSuccess(KeyBagManager.this.urlMap, keyBags);
     }
 
     //TODO - need to remove this once we get keybag url's from DS

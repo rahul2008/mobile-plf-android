@@ -61,6 +61,11 @@ public interface ServiceDiscoveryInterface {
         void onSuccess(Map<String, ServiceDiscoveryService> urlMap);
     }
 
+    //TODO - to add java document
+    interface OnGetKeyBagMapListener extends OnErrorListener {
+        void onSuccess(Map<String, ServiceDiscoveryService> urlMap, ArrayList<Map> keyBags);
+    }
+
     /**
      * This is the callback method from getServiceLocaleWithLanguagePreference() API.
      * the call back will have success method for actions completed successfully.

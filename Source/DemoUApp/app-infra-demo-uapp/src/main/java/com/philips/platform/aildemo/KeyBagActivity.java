@@ -9,13 +9,17 @@ package com.philips.platform.aildemo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.philips.platform.appinfra.demo.R;
 import com.philips.platform.appinfra.keybag.KeyBagInterface;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class KeyBagActivity extends AppCompatActivity {
@@ -33,8 +37,20 @@ public class KeyBagActivity extends AppCompatActivity {
 
 	public void onClick(View view) {
 		final KeyBagInterface keyBagInterface = AILDemouAppInterface.getInstance().getAppInfra().getKeyBagInterface();
-		Map mapForServiceId = keyBagInterface.getValueForServiceId(serviceIdEditText.getText().toString());
-		updateView(mapForServiceId);
+		ArrayList<String> strings = new ArrayList<>();
+		strings.add(serviceIdEditText.getText().toString());
+		keyBagInterface.getValueForServiceId(strings, new ServiceDiscoveryInterface.OnGetKeyBagMapListener() {
+			@Override
+			public void onSuccess(Map<String, ServiceDiscoveryService> urlMap, ArrayList<Map> keyBag) {
+				updateView(keyBag.get(0));
+			}
+
+			@Override
+			public void onError(ERRORVALUES error, String message) {
+				Log.e(getClass().getSimpleName(), message);
+			}
+		});
+
 	}
 
 	private void updateView(Map map) {

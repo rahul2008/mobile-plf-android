@@ -1,9 +1,11 @@
 package com.philips.platform.appinfra.keybag;
 
 
-import java.util.Map;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+
+import java.util.ArrayList;
 
 public interface KeyBagInterface {
 
-    Map getValueForServiceId(String serviceId);
+    void getValueForServiceId(ArrayList<String> serviceId, ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener);
 }
