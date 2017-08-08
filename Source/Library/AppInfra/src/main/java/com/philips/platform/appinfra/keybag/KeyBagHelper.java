@@ -10,7 +10,10 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
+import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.philipsdevtools.ServiceDiscoveryManagerCSV;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,18 +26,28 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import static android.content.ContentValues.TAG;
+
 class KeyBagHelper {
 
     private final KeyBagLib keyBagLib;
     private JSONObject rootJsonObject;
+    private AppInfra mAppInfra;
 
-    KeyBagHelper() {
+    //TODO - variables below need to be removed
+    private ServiceDiscoveryManagerCSV sdmCSV;
+
+    KeyBagHelper(AppInfra mAppInfra) {
         keyBagLib = new KeyBagLib();
+        this.mAppInfra = mAppInfra;
+        //TODO - need to remove invoking below api
+        initServiceDiscovery();
     }
 
     String getMd5ValueInHex(String data) {
@@ -172,4 +185,37 @@ class KeyBagHelper {
         return null;
     }
 
+    void getIndexFromServiceDiscovery(String appendedServiceId, KeyBagInterface.AIKMServiceDiscoveryPreference aikmServiceDiscoveryPreference, ServiceDiscoveryInterface.OnGetServiceUrlListener onGetServiceUrlListener) {
+        if (aikmServiceDiscoveryPreference == KeyBagInterface.AIKMServiceDiscoveryPreference.COUNTRY_PREFERENCE) {
+            sdmCSV.getServiceUrlWithCountryPreference(appendedServiceId, onGetServiceUrlListener);
+        } else if (aikmServiceDiscoveryPreference == KeyBagInterface.AIKMServiceDiscoveryPreference.LANGUAGE_PREFERENCE) {
+            sdmCSV.getServiceUrlWithLanguagePreference(appendedServiceId, onGetServiceUrlListener);
+        }
+    }
+
+    //TODO - need to remove this once we get keybag url's from DS
+    private void initServiceDiscovery() {
+        sdmCSV = new ServiceDiscoveryManagerCSV();
+        AppInfra.Builder builder = new AppInfra.Builder();
+        builder.setServiceDiscovery(sdmCSV);
+        sdmCSV.init(mAppInfra);
+        sdmCSV.refresh(new ServiceDiscoveryInterface.OnRefreshListener() {
+            @Override
+            public void onSuccess() {
+            }
+
+            @Override
+            public void onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalues, String s) {
+                Log.d(TAG, "Error Response from Service Discovery CSV :" + s);
+            }
+        });
+    }
+
+    void getServiceDiscoveryUrlMap(ArrayList<String> serviceIds, KeyBagInterface.AIKMServiceDiscoveryPreference aikmServiceDiscoveryPreference, ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
+        if (aikmServiceDiscoveryPreference == KeyBagInterface.AIKMServiceDiscoveryPreference.COUNTRY_PREFERENCE) {
+            sdmCSV.getServicesWithCountryPreference(serviceIds, onGetServiceUrlMapListener);
+        } else if (aikmServiceDiscoveryPreference == KeyBagInterface.AIKMServiceDiscoveryPreference.LANGUAGE_PREFERENCE) {
+            sdmCSV.getServicesWithLanguagePreference(serviceIds, onGetServiceUrlMapListener);
+        }
+    }
 }

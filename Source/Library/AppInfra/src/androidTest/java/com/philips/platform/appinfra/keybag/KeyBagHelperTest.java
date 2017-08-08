@@ -17,7 +17,7 @@ public class KeyBagHelperTest extends AppInfraInstrumentation {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        keyBagHelper = new KeyBagHelper();
+        keyBagHelper = new KeyBagHelper(mAppInfra);
     }
 
     public void testGettingSeed() {

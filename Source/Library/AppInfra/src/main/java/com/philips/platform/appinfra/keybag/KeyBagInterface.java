@@ -7,5 +7,9 @@ import java.util.ArrayList;
 
 public interface KeyBagInterface {
 
-    void getValueForServiceId(ArrayList<String> serviceId, ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener);
+    void getValueForServiceId(ArrayList<String> serviceIds, AIKMServiceDiscoveryPreference aikmServiceDiscoveryPreference, ServiceDiscoveryInterface.OnGetKeyBagMapListener onGetKeyBagMapListener);
+
+    enum AIKMServiceDiscoveryPreference {
+        COUNTRY_PREFERENCE, LANGUAGE_PREFERENCE
+    }
 }

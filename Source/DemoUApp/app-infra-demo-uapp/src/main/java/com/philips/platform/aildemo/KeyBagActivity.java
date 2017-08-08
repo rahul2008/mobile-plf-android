@@ -39,7 +39,7 @@ public class KeyBagActivity extends AppCompatActivity {
 		final KeyBagInterface keyBagInterface = AILDemouAppInterface.getInstance().getAppInfra().getKeyBagInterface();
 		ArrayList<String> strings = new ArrayList<>();
 		strings.add(serviceIdEditText.getText().toString());
-		keyBagInterface.getValueForServiceId(strings, new ServiceDiscoveryInterface.OnGetKeyBagMapListener() {
+		keyBagInterface.getValueForServiceId(strings, KeyBagInterface.AIKMServiceDiscoveryPreference.COUNTRY_PREFERENCE, new ServiceDiscoveryInterface.OnGetKeyBagMapListener() {
 			@Override
 			public void onSuccess(Map<String, ServiceDiscoveryService> urlMap, ArrayList<Map> keyBag) {
 				updateView(keyBag.get(0));
