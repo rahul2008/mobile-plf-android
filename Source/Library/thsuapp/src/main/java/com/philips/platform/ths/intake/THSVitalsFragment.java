@@ -24,12 +24,12 @@ import com.philips.platform.uid.view.widget.Label;
 public class THSVitalsFragment extends THSBaseFragment implements BackEventListener, View.OnClickListener {
 
     public static final String TAG = THSVitalsFragment.class.getSimpleName();
-    THSVitalsPresenter mThsVitalsPresenter;
-    EditText mSystolic;
-    EditText mDiastolic;
-    EditText mTemperature;
-    EditText mWeight;
-    Button mContinue;
+    protected THSVitalsPresenter mThsVitalsPresenter;
+    protected EditText mSystolic;
+    protected EditText mDiastolic;
+    protected EditText mTemperature;
+    protected EditText mWeight;
+    protected Button mContinue;
     private THSVitals mTHSVitals;
     private Label mSkipLabel;
     private InputValidationLayout mSystolicInputValidationLayout;
