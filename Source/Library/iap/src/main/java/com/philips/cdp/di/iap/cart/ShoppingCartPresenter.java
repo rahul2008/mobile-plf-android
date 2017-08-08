@@ -382,6 +382,8 @@ public class ShoppingCartPresenter extends AbstractShoppingCartPresenter
             } else {
                 continue;
             }
+            if(entry.getProduct().getDiscountPrice() !=null)
+             cartItem.setDiscountPrice(entry.getProduct().getDiscountPrice().getValue());
             cartItem.setImageUrl(data.getImageURL());
             cartItem.setProductTitle(data.getProductTitle());
             cartItem.setCtnNumber(ctn);

@@ -28,7 +28,7 @@
             android:textSize="16sp" />
 
         <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/text1Name"
+            android:id="@+id/actual_price"
             style="@style/UIDLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,20 +40,20 @@
             android:textSize="16sp" />
 
         <com.philips.platform.uid.view.widget.Label
-            android:id="@+id/price"
+            android:id="@+id/price_label"
             style="@style/UIDLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/product_name"
             android:layout_marginTop="@dimen/reg_layout_margin_10dp"
-            android:layout_toRightOf="@+id/text1Name"
+            android:layout_toRightOf="@+id/actual_price"
             android:text="$777"
             android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
             android:textSize="16sp" />
     </RelativeLayout>
 
     <ImageView
-        android:id="@+id/dots"
+        android:id="@+id/right_arrow"
         android:layout_width="30dip"
         android:layout_height="30dip"
         android:layout_centerInParent="true"
@@ -74,7 +74,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/line"
-        android:background="@drawable/background_boder_rect1"
+        android:background="@drawable/background_boder_rect_buttons"
         android:orientation="horizontal"
         android:weightSum="2">
 
@@ -82,12 +82,12 @@
             android:id="@+id/quantity_count_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/text1Name"
+            android:layout_below="@+id/actual_price"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/from"
+                android:id="@+id/quantity_label"
                 style="@style/iapCentralesansBookFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -99,10 +99,10 @@
                 android:textSize="@dimen/quantity" />
 
             <com.philips.platform.uid.view.widget.Label
-                android:id="@+id/text2value"
+                android:id="@+id/quantity_val"
                 style="@style/tvTitle"
-                android:layout_alignBaseline="@id/from"
-                android:layout_toEndOf="@id/from"
+                android:layout_alignBaseline="@id/quantity_label"
+                android:layout_toEndOf="@id/quantity_label"
                 android:drawablePadding="@dimen/iap_count_drop_down_icon_padding"
                 android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
                 android:textSize="14sp" />

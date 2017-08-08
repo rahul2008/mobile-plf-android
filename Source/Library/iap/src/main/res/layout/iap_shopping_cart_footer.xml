@@ -49,7 +49,7 @@
                     android:text="@string/iap_delivery_free_description" />
 
                 <com.shamanland.fonticon.FontIconTextView
-                    android:id="@+id/dots"
+                    android:id="@+id/right_arrow"
                     style="@style/iap_right_arrow_product_catalog"
                     android:layout_width="15dip"
                     android:layout_height="15dip"
@@ -92,7 +92,7 @@
                     android:text="@string/iap_1x_daily_collection" />
 
                 <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/iap_divider_bottom_delivery"
+                    android:id="@+id/iap_daily_collection_val"
                     style="@style/UIDLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
                     android:text="@string/iap_1x_advance_collection" />
 
                 <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/advance_collection_val"
+                    android:id="@+id/advance_collection_value"
                     style="@style/UIDLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -138,12 +138,12 @@
                     android:text="@string/iap_delivery_via_ups" />
 
                 <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/iap_tv_vat_value_uk_shopping_cart"
+                    android:id="@+id/iap_delivery_ups_val"
                     style="@style/UIDLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:text="$10.00" />
+                    android:text="$0.00" />
             </GridLayout>
 
             <GridLayout
@@ -154,7 +154,7 @@
                 android:paddingRight="@dimen/border16_margin_left_right">
 
                 <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/iap_tv_totalItems"
+                    android:id="@+id/iap_tv_total"
                     style="@style/UIDLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -163,7 +163,7 @@
                     android:textStyle="bold" />
 
                 <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/iap_tv_totalcost"
+                    android:id="@+id/iap_tv_total_cost"
                     style="@style/UIDLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -185,10 +185,10 @@
                     style="@style/UIDLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/iap_including_vat" />
+                    android:text="@string/iap_including_tax" />
 
                 <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/iap_tv_vat_value"
+                    android:id="@+id/iap_tv_including_tax"
                     style="@style/UIDLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

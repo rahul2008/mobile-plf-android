@@ -33,6 +33,7 @@ public class ShoppingCartData {
     private String mCategory;
 
     private boolean mVatInclusive;
+    private double discountPrice;
 
     public ShoppingCartData() {
     }
@@ -200,5 +201,13 @@ public class ShoppingCartData {
                 "Total Item" + mTotalItems +
                 "EntryNumber =" + mEntryNumber +
                 "StockLevel" + mStockLevel;
+    }
+
+    public void setDiscountPrice(double discountPrice) {
+        this.discountPrice = discountPrice;
+    }
+
+    public double getDiscountPrice() {
+        return discountPrice;
     }
 }

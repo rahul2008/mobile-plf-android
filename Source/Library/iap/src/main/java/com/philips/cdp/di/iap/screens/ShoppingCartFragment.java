@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
 import com.philips.cdp.di.iap.activity.IAPActivity;
@@ -60,6 +61,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
     private ArrayList<ShoppingCartData> mData = new ArrayList<>();
     private List<Addresses> mAddresses = new ArrayList<>();
     private DeliveryModes mSelectedDeliveryMode;
+    private TextView mNumberOfProducts;
 
     public static ShoppingCartFragment createInstance(Bundle args, AnimationType animType) {
         ShoppingCartFragment fragment = new ShoppingCartFragment();
@@ -98,6 +100,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
         mShoppingCartAPI = ControllerFactory.getInstance()
                 .getShoppingCartPresenter(mContext, this);
         mAddressController = new AddressController(mContext, this);
+        mNumberOfProducts = (TextView) rootView.findViewById(R.id.number_of_products);
         return rootView;
     }
 
@@ -285,6 +288,11 @@ public class ShoppingCartFragment extends InAppBaseFragment
         }
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.tagProducts();
+
+        String numberOfProducts = mContext.getResources().getString(R.string.iap_number_of_products);
+        numberOfProducts = String.format(numberOfProducts, mData.size());
+        mNumberOfProducts.setText(numberOfProducts);
+        mNumberOfProducts.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -320,7 +328,7 @@ public class ShoppingCartFragment extends InAppBaseFragment
             CartModelContainer.getInstance().setDeliveryModes(deliveryModeList);
             updateCartDetails(mShoppingCartAPI);
         }
-       // dismissProgressDialog();
+        // dismissProgressDialog();
     }
 
     @Override

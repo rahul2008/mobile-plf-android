@@ -10,7 +10,8 @@
         android:background="@color/uid_gray_level_10"
         android:textSize="18sp"
         android:layout_alignParentTop="true"
-        android:text="2 products" />
+        android:visibility="gone"
+        android:text="@string/iap_number_of_products" />
 
     <com.philips.platform.uid.view.widget.Button
         android:id="@+id/continues_btn"

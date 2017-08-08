@@ -6,6 +6,7 @@ package com.philips.cdp.di.iap.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -47,7 +48,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private ShoppingCartData shoppingCartDataForProductDetailPage;
 
     private Drawable countArrow;
-   // private Drawable mOptionsDrawable;
+    // private Drawable mOptionsDrawable;
     private Drawable mTrashDrawable;
     private Drawable mInfoDrawable;
     private Drawable mEditDrawable;
@@ -72,7 +73,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     private void initDrawables() {
-      //  mOptionsDrawable = VectorDrawable.create(mContext, R.drawable.iap_options_icon_5x17);
+        //  mOptionsDrawable = VectorDrawable.create(mContext, R.drawable.iap_options_icon_5x17);
         mTrashDrawable = VectorDrawable.create(mContext, R.drawable.iap_trash_bin);
         mInfoDrawable = VectorDrawable.create(mContext, R.drawable.iap_info);
         mEditDrawable = VectorDrawable.create(mContext, R.drawable.pencil_01);
@@ -197,15 +198,17 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (mData.size() == 0)
             return;
+
         if (holder instanceof ShoppingCartProductHolder) {
-            //Product Layout
             final ShoppingCartData cartData = mData.get(holder.getAdapterPosition());
+            //Product Layout
             ShoppingCartProductHolder shoppingCartProductHolder = (ShoppingCartProductHolder) holder;
             String imageURL = cartData.getImageURL();
-            shoppingCartProductHolder.mTvProductTitle.setText(cartData.getFormattedTotalPrice());
-          //  shoppingCartProductHolder.mIvOptions.setText(mOptionsDrawable);
+            shoppingCartProductHolder.mTvAcualPrice.setText(cartData.getFormattedTotalPrice());
+            shoppingCartProductHolder.mTvAcualPrice.setPaintFlags(shoppingCartProductHolder.mTvAcualPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             shoppingCartProductHolder.mTvPrice.setText(cartData.getProductTitle());
             shoppingCartProductHolder.mTvQuantity.setText(cartData.getQuantity() + "");
+            shoppingCartProductHolder.mTvAfterDiscountPrice.setText(cartData.getFormattedTotalPrice());
 
             checkForOutOfStock(cartData.getStockLevel(), cartData.getQuantity(), shoppingCartProductHolder);
 
@@ -227,6 +230,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     EventHelper.getInstance().notifyEventOccurred(IAPConstant.IAP_DELETE_PRODUCT);
                 }
             });
+
+           /* System.out.println(" 111 getFormattedTotalPriceWithTax : " +cartData.getFormattedTotalPriceWithTax());
+            System.out.println(" 111 getFormattedTotalPrice : " +cartData.getFormattedTotalPrice());
+            System.out.println(" 111 getValuePrice : " +cartData.getValuePrice());
+            System.out.println(" 111 getVatActualValue : " +cartData.getVatActualValue());*/
+            System.out.println(" 111 getDiscountPrice : " +cartData.getDiscountPrice());
+
         } else {
             //Footer Layout
             FooterShoppingCartViewHolder shoppingCartFooter = (FooterShoppingCartViewHolder) holder;
@@ -268,13 +278,23 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     mIsFreeDelivery = true;
                    /* shoppingCartFooter.mDeliveryVia.setVisibility(View.GONE);
                     shoppingCartFooter.mDeliveryPrice.setVisibility(View.GONE);
-                    shoppingCartFooter.mDeliveryView.setVisibility(View.GONE);*/
+                    shoppingCartFooter.mDailyCollectionView.setVisibility(View.GONE);*/
                 }
 
                 String freeDeliverySpendAmount = "200";
                 String freeDeliverySpendOn = mContext.getResources().getString(R.string.iap_delivery_free_description);
                 freeDeliverySpendOn = String.format(freeDeliverySpendOn, freeDeliverySpendAmount);
                 shoppingCartFooter.mDeliveryFreeSpend.setText(freeDeliverySpendOn);
+
+                System.out.println(" 222 getFormattedTotalPriceWithTax : " +data.getFormattedTotalPriceWithTax());
+                System.out.println(" 222 getFormattedTotalPrice : " +data.getFormattedTotalPrice());
+                System.out.println(" 222 getValuePrice : " +data.getValuePrice());
+                System.out.println(" 222 getVatActualValue : " +data.getVatActualValue());
+                System.out.println(" 222 getVatValue : " +data.getVatValue());
+                //System.out.println(" **** getDeliveryCost : " +data.getDeliveryMode().getDeliveryCost().getFormattedValue());
+
+                shoppingCartFooter.mDailyCollectionView.setText(data.getFormattedPrice());
+                shoppingCartFooter.mAdvanceCollectionView.setText(data.getFormattedPrice());
             }
         }
     }
@@ -303,17 +323,18 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private void checkForOutOfStock(int pStockLevel, int pQuantity, ShoppingCartProductHolder pShoppingCartProductHolder) {
         if (pStockLevel == 0) {
-            pShoppingCartProductHolder.mTvStock.setVisibility(View.VISIBLE);
-            pShoppingCartProductHolder.mTvStock.setText(mResources.getString(R.string.iap_out_of_stock));
+            pShoppingCartProductHolder.mTvAfterDiscountPrice.setVisibility(View.VISIBLE);
+            pShoppingCartProductHolder.mTvAfterDiscountPrice.setText(mResources.getString(R.string.iap_out_of_stock));
             pShoppingCartProductHolder.mQuantityLayout.setEnabled(false);
             pShoppingCartProductHolder.mQuantityLayout.setClickable(false);
+            setCountArrow(mContext, false);
             setCountArrow(mContext, false);
             mOutOfStock.onOutOfStock(true);
         } else if (pStockLevel < pQuantity) {
             pShoppingCartProductHolder.mQuantityLayout.setEnabled(false);
             pShoppingCartProductHolder.mQuantityLayout.setClickable(false);
-            pShoppingCartProductHolder.mTvStock.setVisibility(View.VISIBLE);
-            pShoppingCartProductHolder.mTvStock.setText("Only " + pStockLevel + " left");
+            pShoppingCartProductHolder.mTvAfterDiscountPrice.setVisibility(View.VISIBLE);
+            pShoppingCartProductHolder.mTvAfterDiscountPrice.setText("Only " + pStockLevel + " left");
             setCountArrow(mContext, false);
             mOutOfStock.onOutOfStock(true);
         } else {
@@ -361,11 +382,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private class ShoppingCartProductHolder extends RecyclerView.ViewHolder {
         NetworkImageView mNetworkImage;
-       // FrameLayout mDotsLayout;
+        // FrameLayout mDotsLayout;
         TextView mTvPrice;
-        TextView mTvProductTitle;
+        TextView mTvAcualPrice;
         RelativeLayout mQuantityLayout;
-        TextView mTvStock;
+        TextView mTvAfterDiscountPrice;
         TextView mTvQuantity;
         TextView mIvOptions;
         Button deleteBtn;
@@ -374,13 +395,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(itemView);
 
             mNetworkImage = (NetworkImageView) itemView.findViewById(R.id.image);
-           // mDotsLayout = (FrameLayout) itemView.findViewById(R.id.frame);
-            mTvPrice = (TextView) itemView.findViewById(R.id.price);
-            mTvProductTitle = (TextView) itemView.findViewById(R.id.text1Name);
+            // mDotsLayout = (FrameLayout) itemView.findViewById(R.id.frame);
+            mTvPrice = (TextView) itemView.findViewById(R.id.price_label);
+            mTvAcualPrice = (TextView) itemView.findViewById(R.id.actual_price);
             mQuantityLayout = (RelativeLayout) itemView.findViewById(R.id.quantity_count_layout);
-            mTvStock = (TextView) itemView.findViewById(R.id.out_of_stock);
-            mTvQuantity = (TextView) itemView.findViewById(R.id.text2value);
-            mIvOptions = (TextView) itemView.findViewById(R.id.dots);
+            mTvAfterDiscountPrice = (TextView) itemView.findViewById(R.id.after_discount_price);
+            mTvQuantity = (TextView) itemView.findViewById(R.id.quantity_val);
+            mIvOptions = (TextView) itemView.findViewById(R.id.right_arrow);
             deleteBtn = (Button) itemView.findViewById(R.id.delete_btn);
         }
     }
@@ -391,28 +412,30 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView mVatInclusiveValue;
         TextView mTotalItems;
         TextView mTotalCost;
-        View mDeliveryView;
+        TextView mDailyCollectionView;
         TextView mDeliveryVia;
         TextView mVatValueUK;
         TextView mVAT;
         ImageView mEditIcon;
         TextView mDeliveryFreeSpend;
-       // RelativeLayout mEditIconLayout;
+        TextView mAdvanceCollectionView;
+        // RelativeLayout mEditIconLayout;
 
         FooterShoppingCartViewHolder(View itemView) {
             super(itemView);
             mDeliveryPrice = (TextView) itemView.findViewById(R.id.iap_tv_delivery_price);
-            mVatValue = (TextView) itemView.findViewById(R.id.iap_tv_vat_value);
+            mVatValue = (TextView) itemView.findViewById(R.id.iap_tv_including_tax);
             mVatInclusiveValue = (TextView) itemView.findViewById(R.id.iap_tv_vat_inclusive);
-            mTotalItems = (TextView) itemView.findViewById(R.id.iap_tv_totalItems);
-            mTotalCost = (TextView) itemView.findViewById(R.id.iap_tv_totalcost);
-            mDeliveryView = itemView.findViewById(R.id.iap_divider_bottom_delivery);
+            mTotalItems = (TextView) itemView.findViewById(R.id.iap_tv_total);
+            mTotalCost = (TextView) itemView.findViewById(R.id.iap_tv_total_cost);
+            mDailyCollectionView = (TextView) itemView.findViewById(R.id.iap_daily_collection_val);
             mDeliveryVia = (TextView) itemView.findViewById(R.id.iap_tv_delivery_via_ups);
-            mVatValueUK = (TextView) itemView.findViewById(R.id.iap_tv_vat_value_uk_shopping_cart);
+            mVatValueUK = (TextView) itemView.findViewById(R.id.iap_delivery_ups_val);
             mVAT = (TextView) itemView.findViewById(R.id.iap_tv_vat);
             mEditIcon = (ImageView) itemView.findViewById(R.id.edit_icon);
-            mDeliveryFreeSpend = (TextView)itemView.findViewById(R.id.delivery_free_description);
-           // mEditIconLayout = (RelativeLayout) itemView.findViewById(R.id.edit_icon_layout);
+            mDeliveryFreeSpend = (TextView) itemView.findViewById(R.id.delivery_free_description);
+            mAdvanceCollectionView = (TextView) itemView.findViewById(R.id.advance_collection_value);
+            // mEditIconLayout = (RelativeLayout) itemView.findViewById(R.id.edit_icon_layout);
         }
     }
 
