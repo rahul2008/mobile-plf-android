@@ -282,5 +282,12 @@ public class THSDemoApplication extends Application {
                 "f52cd90d-c955-43e1-8380-999e03d0d4c0",
                 configError);
 
+        appInfra.
+                getConfigInterface().setPropertyForKey(
+                "HSDPConfiguration.BaseURL",
+                "UserRegistration",
+                "https://user-registration-assembly-staging.eu-west.philips-healthsuite.com",
+                configError);
+
     }
 }
