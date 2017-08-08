@@ -31,12 +31,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class THSConditionsFragment extends THSBaseFragment implements BackEventListener, View.OnClickListener {
-    private THSConditionsPresenter mThsConditionsPresenter;
+    protected THSConditionsPresenter mThsConditionsPresenter;
     public static final String TAG = THSConditionsFragment.class.getSimpleName();
-    private LinearLayout mLinerLayout;
+    protected LinearLayout mLinerLayout;
     private Button mContinueButton;
     private Label mSkipLabel;
-    private List<THSConditions> mTHSConditions = null;
+    protected List<THSConditions> mTHSConditions = null;
     private RelativeLayout mRelativeLayout;
 
     @Nullable
