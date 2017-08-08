@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.providerslist;
 
 import android.os.Bundle;
@@ -26,6 +32,7 @@ import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.Button;
+import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.SearchBox;
 
 import java.util.List;
@@ -43,9 +50,10 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     private Consumer consumer;
     private THSProvidersListAdapter THSProvidersListAdapter;
     private ActionBarListener actionBarListener;
-    Button btn_get_started;
-    Button btn_schedule_appointment;
+    protected Button btn_get_started;
+    protected Button btn_schedule_appointment;
     private RelativeLayout mRelativeLayoutContainer;
+    private Label seeFirstDoctorLabel;
 
 
     @Nullable
@@ -60,6 +68,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
         recyclerView = (RecyclerView) view.findViewById(R.id.providerListRecyclerView);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
+        seeFirstDoctorLabel = (Label) view.findViewById(R.id.seeFirstDoctorLabel);
         btn_get_started = (Button) view.findViewById(R.id.getStartedButton);
         btn_get_started.setOnClickListener(this);
         btn_schedule_appointment = (Button) view.findViewById(R.id.getScheduleAppointmentButton);
@@ -97,7 +106,7 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
     public void onResume() {
         super.onResume();
         if (null != actionBarListener) {
-            actionBarListener.updateActionBar("Providers screen", true);
+            actionBarListener.updateActionBar(getActivity().getResources().getString(R.string.provider_list_title), true);
         }
     }
 
@@ -137,6 +146,25 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
         });
         recyclerView.setAdapter(THSProvidersListAdapter);
 
+    }
+
+    @Override
+    public void updateMainView(boolean isOnline) {
+        if(isOnline){
+            btn_get_started.setVisibility(View.VISIBLE);
+            btn_schedule_appointment.setVisibility(View.GONE);
+            if (getContext() != null) {
+                btn_get_started.setText(getContext().getString(R.string.get_started));
+                seeFirstDoctorLabel.setText(getString(R.string.ths_provider_list_header_text_one));
+            }
+        }else {
+           btn_schedule_appointment.setVisibility(View.VISIBLE);
+           btn_get_started.setVisibility(View.GONE);
+            if (getContext() != null) {
+                btn_schedule_appointment.setText(getContext().getString(R.string.schedule_appointment));
+                seeFirstDoctorLabel.setText(getString(R.string.ths_provider_list_header_text_two));
+            }
+        }
     }
 
     @Override

@@ -17,9 +17,8 @@ import com.philips.platform.uappframework.uappinput.UappLaunchInput;
 import com.philips.platform.uappframework.uappinput.UappSettings;
 
 
-public class THSMicroAppInterface implements UappInterface {
+public class THSMicroAppInterfaceImpl implements UappInterface {
     private Context context;
-    public static String WELCOME_MESSAGE = "welcome_message";
     /**
      * @param uappDependencies - App dependencies
      * @param uappSettings     - App settings
@@ -37,7 +36,6 @@ public class THSMicroAppInterface implements UappInterface {
         THSMicroAppLaunchInput THSMicroAppLaunchInput = (THSMicroAppLaunchInput) uappLaunchInput;
         if (uiLauncher instanceof ActivityLauncher) {
             Intent intent = new Intent(context, THSLaunchActivity.class);
-            intent.putExtra(WELCOME_MESSAGE, THSMicroAppLaunchInput.getWelcomeMessage());
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } else {
@@ -45,7 +43,6 @@ public class THSMicroAppInterface implements UappInterface {
             FragmentTransaction fragmentTransaction = (fragmentLauncher.getFragmentActivity()).getSupportFragmentManager().beginTransaction();
             THSBaseFragment welcomeFragment = new THSWelcomeFragment();
             Bundle bundle = new Bundle();
-            bundle.putString(WELCOME_MESSAGE, THSMicroAppLaunchInput.getWelcomeMessage());
             welcomeFragment.setArguments(bundle);
             welcomeFragment.setActionBarListener(fragmentLauncher.getActionbarListener());
             welcomeFragment.setFragmentLauncher(fragmentLauncher);

@@ -1,6 +1,14 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.intake;
 
+import android.os.Build;
 import android.text.Html;
+import android.text.Spanned;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.legal.LegalText;
@@ -11,17 +19,15 @@ import com.philips.platform.ths.utility.THSManager;
 
 import java.util.List;
 
-/**
- * Created by philips on 7/6/17.
- */
+import static android.text.Html.FROM_HTML_MODE_LEGACY;
 
-public class THSNoppPresenter implements THSBasePresenter, THSNoppCallBack {
+public class THSNoticeOfPrivacyPracticesPresenter implements THSBasePresenter, THSNoticeOfPrivacyPracticesCallBack {
     THSBaseView uiBaseView;
     THSVisitContext mTHSVisitContext;
     List<LegalText> legalTextList;
     StringBuilder mStringBuilder;
 
-    public THSNoppPresenter(THSBaseView uiBaseView) {
+    public THSNoticeOfPrivacyPracticesPresenter(THSBaseView uiBaseView) {
 
         this.uiBaseView = uiBaseView;
         mTHSVisitContext = THSManager.getInstance().getPthVisitContext();
@@ -50,17 +56,26 @@ public class THSNoppPresenter implements THSBasePresenter, THSNoppCallBack {
 
     //callbacks
     @Override
-    public void onNoppReceivedSuccess(String string, SDKError sDKError) {
-        ((THSNoppFragment) uiBaseView).hideProgressBar();
+    public void onNoticeOfPrivacyPracticesReceivedSuccess(String string, SDKError sDKError) {
+        ((THSNoticeOfPrivacyPracticesFragment) uiBaseView).hideProgressBar();
         if (null != string) {
             mStringBuilder.append(System.getProperty("line.separator"));
             mStringBuilder.append(string);
-            ((THSNoppFragment) uiBaseView).legalTextsLabel.setText(Html.fromHtml(mStringBuilder.toString()));
+            final Spanned text = getSpannedText();
+            ((THSNoticeOfPrivacyPracticesFragment) uiBaseView).legalTextsLabel.setText(text);
+        }
+    }
+
+    private Spanned getSpannedText() {
+        if (Build.VERSION.SDK_INT >= 24) {
+           return Html.fromHtml(mStringBuilder.toString(), FROM_HTML_MODE_LEGACY); // for 24 api and more
+        } else {
+            return Html.fromHtml(mStringBuilder.toString());
         }
     }
 
     @Override
-    public void onNoppReceivedFailure(Throwable throwable) {
-        ((THSNoppFragment) uiBaseView).hideProgressBar();
+    public void onNoticeOfPrivacyPracticesReceivedFailure(Throwable throwable) {
+        ((THSNoticeOfPrivacyPracticesFragment) uiBaseView).hideProgressBar();
     }
 }

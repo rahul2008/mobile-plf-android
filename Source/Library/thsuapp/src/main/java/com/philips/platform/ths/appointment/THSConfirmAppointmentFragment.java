@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.appointment;
 
 
@@ -25,15 +31,15 @@ import java.util.Locale;
 public class THSConfirmAppointmentFragment extends THSBaseFragment implements THSAppointmentInterface{
 
     public static final String TAG = THSConfirmAppointmentFragment.class.getSimpleName();
-    THSProviderInfo mThsProviderInfo;
-    Date mAppointmentDate;
-    Label mProviderFullName;
-    Label mPracticeNameLabel;
-    Label mEmailSentMessage;
-    Label mLabelDate;
-    CircularImageView mImageProviderImage;
-    Label mLabelIsAvailable;
-    ImageView mImageIsAvailable;
+    private THSProviderInfo mThsProviderInfo;
+    private Date mAppointmentDate;
+    private Label mProviderFullName;
+    private Label mPracticeNameLabel;
+    private Label mEmailSentMessage;
+    private Label mLabelDate;
+    private CircularImageView mImageProviderImage;
+    private Label mLabelIsAvailable;
+    private ImageView mImageIsAvailable;
 
     @Nullable
     @Override

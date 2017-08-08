@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.registration;
 
 import android.os.Bundle;
@@ -18,7 +24,6 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.pharmacy.THSSpinnerAdapter;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.EditText;
@@ -29,25 +34,25 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class THSRegistrationFragment extends THSBaseFragment implements BackEventListener,View.OnClickListener {
+public class THSRegistrationFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSRegistrationFragment.class.getSimpleName();
-    THSRegistrationPresenter mThsRegistrationPresenter;
+    private THSRegistrationPresenter mThsRegistrationPresenter;
     private RelativeLayout mRelativeLayout;
     private Button mContinueButton;
-    EditText mEditTextFirstName;
-    EditText mEditTextLastName;
-    Label mDateOfBirth;
-    CheckBox mCheckBoxMale;
-    CheckBox mCheckBoxFemale;
-    AppCompatSpinner mEditTextState;
+    private  EditText mEditTextFirstName;
+    private EditText mEditTextLastName;
+    private Label mDateOfBirth;
+    private CheckBox mCheckBoxMale;
+    private CheckBox mCheckBoxFemale;
+    private AppCompatSpinner mEditTextState;
     private THSSpinnerAdapter spinnerAdapter;
-    List<State> mValidStates = null;
+    private List<State> mValidStates = null;
     private Date mDob;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.registration_form, container, false);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_registration_form, container, false);
         setView(view);
         getActionBarListener().updateActionBar("Registration form", false);
         mThsRegistrationPresenter = new THSRegistrationPresenter(this);

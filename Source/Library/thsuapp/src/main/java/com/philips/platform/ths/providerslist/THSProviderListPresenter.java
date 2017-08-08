@@ -1,9 +1,13 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.providerslist;
 
 import android.app.DatePickerDialog;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.DatePicker;
 
 import com.americanwell.sdk.entity.SDKError;
@@ -17,7 +21,6 @@ import com.philips.platform.ths.appointment.THSDatePickerFragmentUtility;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.intake.THSSymptomsFragment;
-import com.philips.platform.ths.practice.THSPracticeFragment;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
@@ -29,13 +32,13 @@ import java.util.List;
 public class THSProviderListPresenter implements THSProvidersListCallback, THSBasePresenter,THSOnDemandSpecialtyCallback<List<THSOnDemandSpeciality>,THSSDKError> {
 
     private THSBaseFragment mThsBaseFragment;
-    private THSProviderListViewInterface THSProviderListViewInterface;
+    private THSProviderListViewInterface thsProviderListViewInterface;
     private List<THSOnDemandSpeciality> mThsOnDemandSpeciality;
 
 
-    public THSProviderListPresenter(THSBaseFragment uiBaseView, THSProviderListViewInterface THSProviderListViewInterface){
+    public THSProviderListPresenter(THSBaseFragment uiBaseView, THSProviderListViewInterface thsProviderListViewInterface){
         this.mThsBaseFragment = uiBaseView;
-        this.THSProviderListViewInterface = THSProviderListViewInterface;
+        this.thsProviderListViewInterface = thsProviderListViewInterface;
     }
 
     public void fetchProviderList(Consumer consumer, Practice practice){
@@ -55,22 +58,8 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
     @Override
     public void onProvidersListReceived(List<THSProviderInfo> providerInfoList, SDKError sdkError) {
         boolean providerAvailable = isProviderAvailable(providerInfoList);
-        if(providerAvailable){
-            ((THSProvidersListFragment) mThsBaseFragment).btn_get_started.setVisibility(View.VISIBLE);
-            ((THSProvidersListFragment) mThsBaseFragment).btn_schedule_appointment.setVisibility(View.GONE);
-            if (mThsBaseFragment.getContext() != null) {
-                ((THSProvidersListFragment) mThsBaseFragment).btn_get_started.setText((mThsBaseFragment).
-                        getContext().getString(R.string.get_started));
-            }
-        }else {
-            ((THSProvidersListFragment) mThsBaseFragment).btn_schedule_appointment.setVisibility(View.VISIBLE);
-            ((THSProvidersListFragment) mThsBaseFragment).btn_get_started.setVisibility(View.GONE);
-            if (mThsBaseFragment.getContext() != null) {
-                ((THSProvidersListFragment) mThsBaseFragment).btn_schedule_appointment.setText((mThsBaseFragment).
-                        getContext().getString(R.string.schedule_appointment));
-            }
-        }
-        THSProviderListViewInterface.updateProviderAdapterList(providerInfoList);
+        thsProviderListViewInterface.updateMainView(providerAvailable);
+        thsProviderListViewInterface.updateProviderAdapterList(providerInfoList);
     }
 
     boolean isProviderAvailable(List<THSProviderInfo> providerInfoList){
@@ -81,26 +70,6 @@ public class THSProviderListPresenter implements THSProvidersListCallback, THSBa
         }
         return false;
     }
-
-    /*private List<THSProviderInfo> checkForProviderAvailibity(List<THSProviderInfo> providerInfoList) {
-        List<THSProviderInfo> availableProviders = new ArrayList<>();
-        List<THSProviderInfo> offlineProviders = new ArrayList<>();
-        for (THSProviderInfo thsProviderInfo: providerInfoList) {
-            if(ProviderVisibility.isOffline(thsProviderInfo.getVisibility())){
-                ((THSProvidersListFragment) mThsBaseFragment).btn_get_started.setText(((THSProvidersListFragment) mThsBaseFragment).
-                        getContext().getString(R.string.get_started));
-                offlineProviders.add(thsProviderInfo);
-            }else {
-                ((THSProvidersListFragment) mThsBaseFragment).btn_get_started.setText(((THSProvidersListFragment) mThsBaseFragment).
-                        getContext().getString(R.string.schedule_appointment));
-                availableProviders.add(thsProviderInfo);
-            }
-        }
-        if(availableProviders.size() == 0)
-            return offlineProviders;
-        else
-            return availableProviders;
-    }*/
 
     @Override
     public void onProvidersListFetchError(Throwable throwable) {

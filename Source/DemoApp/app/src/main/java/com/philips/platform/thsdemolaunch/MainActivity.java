@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.thsdemolaunch;
 
 import android.app.Activity;
@@ -10,9 +16,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.configuration.Configuration;
 import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
@@ -20,7 +24,7 @@ import com.philips.cdp.registration.settings.RegistrationFunction;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.ths.uappclasses.THSMicroAppDependencies;
-import com.philips.platform.ths.uappclasses.THSMicroAppInterface;
+import com.philips.platform.ths.uappclasses.THSMicroAppInterfaceImpl;
 import com.philips.platform.ths.uappclasses.THSMicroAppLaunchInput;
 import com.philips.platform.ths.uappclasses.THSMicroAppSettings;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -38,10 +42,10 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class MainActivity extends UIDActivity implements ActionBarListener, UserRegistrationListener, UserRegistrationUIEventListener {
 
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
-    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
+    private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     private FragmentLauncher fragmentLauncher;
     private THSMicroAppLaunchInput PTHMicroAppLaunchInput;
-    private THSMicroAppInterface PTHMicroAppInterface;
+    private THSMicroAppInterfaceImpl PTHMicroAppInterface;
     private Toolbar toolbar;
 
     @Override
@@ -88,17 +92,11 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
     @Override
     public void onBackPressed() {
 
-        boolean backState;
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.uappFragmentLayout);
-        if (fragmentManager.getBackStackEntryCount() == 2) {
-            finishAffinity();
-        } else if (currentFrag instanceof BackEventListener) {
-            backState = ((BackEventListener) currentFrag).handleBackEvent();
-            if (!backState) {
-                super.onBackPressed();
-            }
-        } else {
+        if (fragmentManager.getBackStackEntryCount() == 1) {
+            finish();
+        } else if (currentFrag != null && currentFrag instanceof BackEventListener && !((BackEventListener) currentFrag).handleBackEvent()) {
             super.onBackPressed();
         }
     }
@@ -149,7 +147,7 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
 
     private void launchAmwell() {
         PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input");
-        PTHMicroAppInterface = new THSMicroAppInterface();
+        PTHMicroAppInterface = new THSMicroAppInterfaceImpl();
         PTHMicroAppInterface.init(new THSMicroAppDependencies(((THSDemoApplication) this.getApplicationContext()).getAppInfra()), new THSMicroAppSettings(this.getApplicationContext()));
         PTHMicroAppInterface.launch(fragmentLauncher, PTHMicroAppLaunchInput);
     }

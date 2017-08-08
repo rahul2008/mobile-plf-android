@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.providerdetails;
 
 import android.app.DatePickerDialog;
@@ -28,12 +34,12 @@ import java.util.List;
 
 public class THSProviderDetailsPresenter implements THSBasePresenter,THSProviderDetailsCallback, THSFetchEstimatedCostCallback {
 
-    THSPRoviderDetailsViewInterface viewInterface;
+    private THSProviderDetailsViewInterface viewInterface;
 
-    Provider mProvider;
-    THSBaseFragment mThsBaseFragment;
+    private Provider mProvider;
+    private THSBaseFragment mThsBaseFragment;
 
-    public THSProviderDetailsPresenter(THSPRoviderDetailsViewInterface viewInterface, THSBaseFragment thsBaseFragment){
+    public THSProviderDetailsPresenter(THSProviderDetailsViewInterface viewInterface, THSBaseFragment thsBaseFragment){
         this.viewInterface = viewInterface;
         mThsBaseFragment = thsBaseFragment;
     }

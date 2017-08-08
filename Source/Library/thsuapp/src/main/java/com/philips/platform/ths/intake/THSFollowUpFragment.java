@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.intake;
 
 import android.Manifest;
@@ -16,7 +22,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 
 import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.pharmacy.Pharmacy;
@@ -37,12 +42,12 @@ import com.philips.platform.uid.view.widget.ProgressBarButton;
 
 public class THSFollowUpFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSFollowUpFragment.class.getSimpleName();
-    EditText mPhoneNumberEditText;
+    protected EditText mPhoneNumberEditText;
     private CheckBox mNoppAgreeCheckBox;
-    private ProgressBarButton mFollowUpContiueButton;
+    private ProgressBarButton mFollowUpContinueButton;
     private THSFollowUpPresenter mTHSFollowUpPresenter;
     private ActionBarListener actionBarListener;
-    String updatedPhone;
+    protected String updatedPhone;
     private Label nopp_label;
     private int REQUEST_LOCATION = 1001;
     private LocationManager mLocationManager = null;
@@ -55,22 +60,22 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_follow_up, container, false);
 
         actionBarListener = getActionBarListener();
-        if(null != actionBarListener){
-            actionBarListener.updateActionBar(R.string.ths_prepare_your_visit,true);
+        if (null != actionBarListener) {
+            actionBarListener.updateActionBar(R.string.ths_prepare_your_visit, true);
         }
         mTHSFollowUpPresenter = new THSFollowUpPresenter(this);
         mPhoneNumberEditText = (EditText) view.findViewById(R.id.pth_intake_follow_up_phone_number);
-        mFollowUpContiueButton = (ProgressBarButton) view.findViewById(R.id.pth_intake_follow_up_continue_button);
-        mFollowUpContiueButton.setOnClickListener(this);
-        mFollowUpContiueButton.setEnabled(false);
+        mFollowUpContinueButton = (ProgressBarButton) view.findViewById(R.id.pth_intake_follow_up_continue_button);
+        mFollowUpContinueButton.setOnClickListener(this);
+        mFollowUpContinueButton.setEnabled(false);
         mNoppAgreeCheckBox = (CheckBox) view.findViewById(R.id.pth_intake_follow_up_nopp_agree_check_box);
         mNoppAgreeCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    mFollowUpContiueButton.setEnabled(true);
+                    mFollowUpContinueButton.setEnabled(true);
                 } else {
-                    mFollowUpContiueButton.setEnabled(false);
+                    mFollowUpContinueButton.setEnabled(false);
                 }
             }
         });
@@ -98,7 +103,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.pth_intake_follow_up_continue_button) {
-            mFollowUpContiueButton.showProgressIndicator();
+            mFollowUpContinueButton.showProgressIndicator();
             mTHSFollowUpPresenter.onEvent(R.id.pth_intake_follow_up_continue_button);
 
         } else if (v.getId() == R.id.pth_intake_follow_up_i_agree_link_text) {
@@ -109,15 +114,16 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
     }
 
     public void displayPharmacyAndShippingPreferenceFragment(Pharmacy pharmacy, Address address) {
-        mFollowUpContiueButton.hideProgressIndicator();
+        mFollowUpContinueButton.hideProgressIndicator();
         THSPharmacyAndShippingFragment thsPharmacyAndShippingFragment = new THSPharmacyAndShippingFragment();
         thsPharmacyAndShippingFragment.setConsumer(THSManager.getInstance().getPTHConsumer());
-        thsPharmacyAndShippingFragment.setPharmacyAndAddress(address,pharmacy);
+        thsPharmacyAndShippingFragment.setPharmacyAndAddress(address, pharmacy);
         thsPharmacyAndShippingFragment.setFragmentLauncher(getFragmentLauncher());
-        addFragment(thsPharmacyAndShippingFragment,THSPharmacyAndShippingFragment.TAG,null);    }
+        addFragment(thsPharmacyAndShippingFragment, THSPharmacyAndShippingFragment.TAG, null);
+    }
 
     public void displaySearchPharmacy() {
-        mFollowUpContiueButton.hideProgressIndicator();
+        mFollowUpContinueButton.hideProgressIndicator();
         if(checkGooglePlayServices()){
             checkPermission();
         }
@@ -228,10 +234,10 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
 
     private void callPharmacyListFragment(Location location) {
         THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
-        thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(),null);
+        thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(), null);
         thsPharmacyListFragment.setLocation(location);
         thsPharmacyListFragment.setFragmentLauncher(getFragmentLauncher());
-        getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(),thsPharmacyListFragment,"").addToBackStack(null).commit();
+        addFragment(thsPharmacyListFragment,THSPharmacyListFragment.TAG,null);
 
     }
 
@@ -281,6 +287,6 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
 
         THSSearchPharmacyFragment thsSearchPharmacyFragment = new THSSearchPharmacyFragment();
         thsSearchPharmacyFragment.setFragmentLauncher(getFragmentLauncher());
-        addFragment(thsSearchPharmacyFragment,THSSearchPharmacyFragment.TAG,null);
+        addFragment(thsSearchPharmacyFragment, THSSearchPharmacyFragment.TAG, null);
     }
 }

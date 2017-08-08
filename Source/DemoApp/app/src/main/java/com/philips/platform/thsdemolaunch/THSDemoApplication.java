@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.thsdemolaunch;
 
 import android.app.Application;
@@ -259,28 +265,29 @@ public class THSDemoApplication extends Application {
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.ApplicationName",
                 "UserRegistration",
-                "DataCore",
+                "OneBackend",
                 configError);
 
         appInfra.
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.Secret",
                 "UserRegistration",
-                "5d5476eb-1259-467f-95e7-b7294cd60eac",
+                "f5b62a26d680e5ae8001522a8e3268f966545a1a14a47ea2040793ea825484cd12fce9c46b43e2c2604cb836db64362a0c8b39eb7b162b8b3e83740143337eda",
                 configError);
 
         appInfra.
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.Shared",
                 "UserRegistration",
-                "6x8e7f15-993b-499c-8d7a-ae986eg2a4c2",
+                "f52cd90d-c955-43e1-8380-999e03d0d4c0",
                 configError);
 
         appInfra.
                 getConfigInterface().setPropertyForKey(
                 "HSDPConfiguration.BaseURL",
                 "UserRegistration",
-                "https://user-registration-assembly-testing.us-east.philips-healthsuite.com",
+                "https://user-registration-assembly-staging.eu-west.philips-healthsuite.com",
                 configError);
+
     }
 }

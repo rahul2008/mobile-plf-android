@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.intake;
 
 import android.os.Bundle;
@@ -9,27 +15,26 @@ import android.view.ViewGroup;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
 
-public class THSVitalsFragment extends THSBaseFragment implements BackEventListener, View.OnClickListener {
+public class THSVitalsFragment extends THSBaseFragment implements View.OnClickListener {
 
     public static final String TAG = THSVitalsFragment.class.getSimpleName();
-    THSVitalsPresenter mThsVitalsPresenter;
-    EditText mSystolic;
-    EditText mDiastolic;
-    EditText mTemperature;
-    EditText mWeight;
-    Button mContinue;
-    THSVitals mTHSVitals;
-    Label mSkipLabel;
-    InputValidationLayout mSystolicInputValidationLayout;
-    InputValidationLayout mDiastolicInputValidationLayout;
-    InputValidationLayout mFarenheitInputLayoutContainer;
-    InputValidationLayout mWeightInputLayoutContainer;
+    protected THSVitalsPresenter mThsVitalsPresenter;
+    protected EditText mSystolic;
+    protected EditText mDiastolic;
+    protected EditText mTemperature;
+    protected EditText mWeight;
+    protected Button mContinue;
+    private THSVitals mTHSVitals;
+    private Label mSkipLabel;
+    private InputValidationLayout mSystolicInputValidationLayout;
+    private InputValidationLayout mDiastolicInputValidationLayout;
+    private InputValidationLayout mFarenheitInputLayoutContainer;
+    private InputValidationLayout mWeightInputLayoutContainer;
 
     @Nullable
     @Override
@@ -73,16 +78,11 @@ public class THSVitalsFragment extends THSBaseFragment implements BackEventListe
     }
 
     @Override
-    public boolean handleBackEvent() {
-        return false;
-    }
-
-    @Override
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.vitals_continue_btn) {
             mThsVitalsPresenter.onEvent(R.id.vitals_continue_btn);
-        }else if(i==R.id.vitals_skip){
+        } else if (i == R.id.vitals_skip) {
             mThsVitalsPresenter.onEvent(R.id.vitals_skip);
         }
     }
@@ -125,20 +125,20 @@ public class THSVitalsFragment extends THSBaseFragment implements BackEventListe
         this.mTHSVitals = mTHSVitals;
     }
 
-    public boolean validate(){
+    public boolean validate() {
         String systolic = mThsVitalsPresenter.getTextFromEditText(mSystolic);
         String diastolic = mThsVitalsPresenter.getTextFromEditText(mDiastolic);
 
-        if(!mThsVitalsPresenter.isTextValid(mSystolic)){
+        if (!mThsVitalsPresenter.isTextValid(mSystolic)) {
             showToast("Please Enter Valid Systolic Value");
             return false;
-        }else if(!mThsVitalsPresenter.isTextValid(mDiastolic)){
+        } else if (!mThsVitalsPresenter.isTextValid(mDiastolic)) {
             showToast("Please Enter Valid Systolic Value");
             return false;
-        }else if(mThsVitalsPresenter.stringToInteger(diastolic)>mThsVitalsPresenter.stringToInteger(systolic)){
+        } else if (mThsVitalsPresenter.stringToInteger(diastolic) > mThsVitalsPresenter.stringToInteger(systolic)) {
             showToast("Systolic Value should be higher than daistolic");
             return false;
-        }else {
+        } else {
             return true;
         }
     }

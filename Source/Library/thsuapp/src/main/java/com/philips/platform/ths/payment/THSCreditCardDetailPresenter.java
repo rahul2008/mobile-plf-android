@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.payment;
 
 import android.os.Bundle;
@@ -8,15 +14,12 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.utility.THSManager;
 
-/**
- * Created by philips on 7/21/17.
- */
 
 public class THSCreditCardDetailPresenter implements THSBasePresenter, THSPaymentCallback.THSSDKCallBack<THSPaymentMethod, THSSDKError> {
 
-    THSCreditCardDetailFragment mTHSCreditCardDetailFragment;
-    THSCreatePaymentRequest mThsCreatePaymentRequest;
-    CreatePaymentRequest mCreatePaymentRequest;
+    private THSCreditCardDetailFragment mTHSCreditCardDetailFragment;
+    private THSCreatePaymentRequest mThsCreatePaymentRequest;
+    private CreatePaymentRequest mCreatePaymentRequest;
 
 
     public THSCreditCardDetailPresenter(THSCreditCardDetailFragment thsCreditCardDetailFragment) {

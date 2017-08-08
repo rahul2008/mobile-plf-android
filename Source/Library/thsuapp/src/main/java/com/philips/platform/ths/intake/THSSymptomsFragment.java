@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.intake;
 
 import android.Manifest;
@@ -34,7 +40,6 @@ import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.ImageButton;
@@ -44,17 +49,17 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
-public class THSSymptomsFragment extends THSBaseFragment implements BackEventListener, View.OnClickListener,
-        THSSelectedImageCallback,THSOnDismissSelectedImageFragmentCallback {
+public class THSSymptomsFragment extends THSBaseFragment implements View.OnClickListener,
+        THSSelectedImageCallback, THSOnDismissSelectedImageFragmentCallback {
     public static final String TAG = THSSymptomsFragment.class.getSimpleName();
-    THSSymptomsPresenter mTHSSymptomsPresenter;
+    protected THSSymptomsPresenter mTHSSymptomsPresenter;
     private THSProviderInfo mThsProviderInfo;
     private THSOnDemandSpeciality thsOnDemandSpeciality;
-    LinearLayout topicLayout;
+    protected LinearLayout topicLayout;
     private ImageButton camera_button;
     private Button mContinue;
     private RelativeLayout mRelativeLayout;
-    THSVisitContext mThsVisitContext;
+    protected THSVisitContext mThsVisitContext;
     private String userChoosenTask;
     private RecyclerView imageListView;
     private THSImageRecyclerViewAdapter thsImageRecyclerViewAdapter;
@@ -83,7 +88,6 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
         thsImageRecyclerViewAdapter = new THSImageRecyclerViewAdapter(selectedImagePojosList, this);
         topicLayout = (LinearLayout) view.findViewById(R.id.checkbox_container);
         camera_button = (ImageButton) view.findViewById(R.id.camera_click_button);
-        camera_button.setVisibility(View.GONE);
         camera_button.setOnClickListener(this);
         mContinue = (Button) view.findViewById(R.id.continue_btn);
         mContinue.setOnClickListener(this);
@@ -102,11 +106,11 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-         mTHSSymptomsPresenter = new THSSymptomsPresenter(this, mThsProviderInfo);
+        mTHSSymptomsPresenter = new THSSymptomsPresenter(this, mThsProviderInfo);
         if (null != getActionBarListener()) {
             getActionBarListener().updateActionBar(getString(R.string.ths_prepare_your_visit), true);
         }
-         getVisistContext();
+        getVisistContext();
     }
 
     @Override
@@ -339,7 +343,7 @@ public class THSSymptomsFragment extends THSBaseFragment implements BackEventLis
     }
 
     @Override
-    public void dismissSelectedImageFragment(List<THSSelectedImagePojo> selectedImagePojoList){
+    public void dismissSelectedImageFragment(List<THSSelectedImagePojo> selectedImagePojoList) {
         this.selectedImagePojosList = selectedImagePojoList;
         thsImageRecyclerViewAdapter.notifyDataSetChanged();
         imageListView.setAdapter(thsImageRecyclerViewAdapter);

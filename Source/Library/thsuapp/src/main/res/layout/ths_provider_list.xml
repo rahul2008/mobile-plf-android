@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Available Now"
-                android:textColor="?attr/uidLabelValueNormalTextColor"
+                android:textColor="?attr/uidHyperlinkDefaultNormalTextColor"
                 android:textSize="@dimen/uid_grid_descrption_size"
                 android:layout_marginStart="6dp"
                 android:layout_toRightOf="@+id/isAvailableImage"

@@ -1,6 +1,14 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.practice;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,18 +24,19 @@ import com.philips.platform.ths.utility.THSManager;
 
 
 public class PracticeRecyclerViewAdapter extends RecyclerView.Adapter<PracticeRecyclerViewAdapter.CustomViewHolder> {
+
     private THSPracticeList mTHSPractice;
     private Context mContext;
     private OnPracticeItemClickListener mOnPracticeItemClickListener;
 
 
     //TODO: Review Comment - Spoorti - rename it to getOnPracticeItemClickListener
-    public OnPracticeItemClickListener getmOnPracticeItemClickListener() {
+    public OnPracticeItemClickListener getOnPracticeItemClickListener() {
         return mOnPracticeItemClickListener;
     }
 
     //TODO: Review Comment - Spoorti - rename it to setOnPracticeItemClickListener
-    public void setmOnPracticeItemClickListener(OnPracticeItemClickListener mOnPracticeItemClickListener) {
+    public void setOnPracticeItemClickListener(OnPracticeItemClickListener mOnPracticeItemClickListener) {
         this.mOnPracticeItemClickListener = mOnPracticeItemClickListener;
     }
 
@@ -49,17 +58,17 @@ public class PracticeRecyclerViewAdapter extends RecyclerView.Adapter<PracticeRe
 
 
         customViewHolder.label.setText(practice.getName());
-        if (true) {
-            try {
-                THSManager.getInstance().getAwsdk(customViewHolder.logo.getContext()).getPracticeProvidersManager()
-                        .newImageLoader(practice, customViewHolder.logo, false)
-                        .placeholder(customViewHolder.logo.getResources()
-                                .getDrawable(R.mipmap.child_icon))
-                        .build().load();
-            } catch (AWSDKInstantiationException e) {
-                e.printStackTrace();
-            }
+
+        try {
+            final Drawable drawable = ContextCompat.getDrawable(mContext, R.mipmap.child_icon);
+            THSManager.getInstance().getAwsdk(customViewHolder.logo.getContext()).getPracticeProvidersManager()
+                    .newImageLoader(practice, customViewHolder.logo, false)
+                    .placeholder(drawable)
+                    .build().load();
+        } catch (AWSDKInstantiationException e) {
+            e.printStackTrace();
         }
+
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +82,7 @@ public class PracticeRecyclerViewAdapter extends RecyclerView.Adapter<PracticeRe
 
     @Override
     public int getItemCount() {
-        return (null != mTHSPractice && mTHSPractice.getPractices()!=null ? mTHSPractice.getPractices().size() : 0);
+        return (null != mTHSPractice && mTHSPractice.getPractices() != null ? mTHSPractice.getPractices().size() : 0);
     }
 
     class CustomViewHolder extends RecyclerView.ViewHolder {

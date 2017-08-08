@@ -1,8 +1,12 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.pharmacy;
 
 import android.os.Bundle;
-import android.os.Parcel;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatSpinner;
 import android.view.LayoutInflater;
@@ -13,20 +17,18 @@ import com.americanwell.sdk.entity.Address;
 import com.americanwell.sdk.entity.Country;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.americanwell.sdk.internal.entity.CountryImpl;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.pojo.ShippingAddressPojo;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
 
 import java.util.List;
 
-public class THSShippingAddressFragment extends THSBaseFragment implements View.OnClickListener, BackEventListener {
+public class THSShippingAddressFragment extends THSBaseFragment implements View.OnClickListener {
 
     public static String TAG = THSShippingAddressFragment.class.getSimpleName();
     private THSConsumer thsConsumer;
@@ -51,7 +53,7 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
 
         try {
             final List<Country> supportedCountries = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getSupportedCountries();
-            stateList = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getConsumerManager().getValidPaymentMethodStates(supportedCountries.get(0));
+            stateList = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getConsumerManager().getValidShippingStates(supportedCountries.get(0));
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -91,9 +93,5 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
             }
 
         }
-    }
-    @Override
-    public boolean handleBackEvent() {
-        return false;
     }
 }

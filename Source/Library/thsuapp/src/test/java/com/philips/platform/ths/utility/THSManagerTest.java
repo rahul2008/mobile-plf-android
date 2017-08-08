@@ -512,6 +512,11 @@ public class THSManagerTest {
             }
 
             @Override
+            public boolean isAppointmentReminderTextsEnabled() {
+                return false;
+            }
+
+            @Override
             public SDKLocalDate getDob() {
                 return null;
             }

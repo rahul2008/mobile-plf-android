@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.base;
 
 import android.os.Bundle;
@@ -13,10 +19,11 @@ import android.widget.Toast;
 import com.philips.platform.ths.R;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.ProgressBar;
 
 
-public class THSBaseFragment extends Fragment implements THSBaseView {
+public class THSBaseFragment extends Fragment implements THSBaseView,BackEventListener {
 
 
     public FragmentLauncher mFragmentLauncher;
@@ -113,9 +120,16 @@ public class THSBaseFragment extends Fragment implements THSBaseView {
         }
     }
 
+    //TODO: Toast to be removed
     public void showToast(String message){
         if (getContext() != null) {
+            //TODO: TO be removed
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public boolean handleBackEvent() {
+        return false;
     }
 }

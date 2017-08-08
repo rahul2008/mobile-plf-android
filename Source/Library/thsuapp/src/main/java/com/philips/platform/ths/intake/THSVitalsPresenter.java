@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.intake;
 
 import com.americanwell.sdk.entity.SDKError;
@@ -12,8 +18,8 @@ import com.philips.platform.uid.view.widget.EditText;
 
 import java.util.Map;
 
-public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback<THSVitals, THSSDKError>,THSUpdateVitalsCallBack{
-    THSBaseFragment mPthBaseFragment;
+public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback<THSVitals, THSSDKError>, THSUpdateVitalsCallBack {
+    private THSBaseFragment mPthBaseFragment;
 
     public THSVitalsPresenter(THSVitalsFragment thsVitalsFragment) {
         mPthBaseFragment = thsVitalsFragment;
@@ -22,18 +28,18 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
     @Override
     public void onEvent(int componentID) {
         if (componentID == R.id.vitals_continue_btn) {
-            boolean isValidinput = ((THSVitalsFragment)mPthBaseFragment).validate();
-            if(!isValidinput){
+            boolean isValidinput = ((THSVitalsFragment) mPthBaseFragment).validate();
+            if (!isValidinput) {
                 return;
             }
-            ((THSVitalsFragment)mPthBaseFragment).setVitalsValues();
+            ((THSVitalsFragment) mPthBaseFragment).setVitalsValues();
             try {
-                THSManager.getInstance().updateVitals(mPthBaseFragment.getContext(),((THSVitalsFragment) mPthBaseFragment).getTHSVitals(),this);
+                THSManager.getInstance().updateVitals(mPthBaseFragment.getContext(), ((THSVitalsFragment) mPthBaseFragment).getTHSVitals(), this);
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }
             launchMedicationFragment();
-        }else if(componentID == R.id.vitals_skip){
+        } else if (componentID == R.id.vitals_skip) {
             launchMedicationFragment();
         }
     }
@@ -42,16 +48,16 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
 
         final THSMedicationFragment fragment = new THSMedicationFragment();
         fragment.setFragmentLauncher(mPthBaseFragment.getFragmentLauncher());
-        mPthBaseFragment.addFragment(fragment,THSMedicationFragment.TAG,null);
+        mPthBaseFragment.addFragment(fragment, THSMedicationFragment.TAG, null);
     }
 
     public void getVitals() throws AWSDKInstantiationException {
-        THSManager.getInstance().getVitals(mPthBaseFragment.getFragmentActivity(),this);
+        THSManager.getInstance().getVitals(mPthBaseFragment.getFragmentActivity(), this);
     }
 
     @Override
     public void onResponse(THSVitals thsVitals, THSSDKError var2) {
-        ((THSVitalsFragment)mPthBaseFragment).updateUI(thsVitals);
+        ((THSVitalsFragment) mPthBaseFragment).updateUI(thsVitals);
     }
 
     @Override
@@ -77,24 +83,24 @@ public class THSVitalsPresenter implements THSBasePresenter, THSVitalSDKCallback
         mPthBaseFragment.showToast("onUpdateVitalsFailure throwable");
     }
 
-    int stringToInteger(String value){
+    int stringToInteger(String value) {
         return Integer.parseInt(value);
     }
 
-    String integerToString(int value){
+    String integerToString(int value) {
         return String.valueOf(value);
     }
 
-    Double stringToDouble(String value){
+    Double stringToDouble(String value) {
         return Double.parseDouble(value);
     }
 
-    String doubleToString(Double value){
+    String doubleToString(Double value) {
         return String.valueOf(value);
     }
 
-    boolean isTextValid(EditText editText){
-        if(editText.getText().toString()==null || editText.getText().toString().isEmpty()){
+    boolean isTextValid(EditText editText) {
+        if (editText.getText().toString() == null || editText.getText().toString().isEmpty()) {
             return false;
         }
         return true;

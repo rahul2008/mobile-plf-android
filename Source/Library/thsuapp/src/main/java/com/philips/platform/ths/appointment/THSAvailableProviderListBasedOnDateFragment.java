@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.appointment;
 
 import android.os.Bundle;
@@ -28,14 +34,14 @@ import java.util.Locale;
 public class THSAvailableProviderListBasedOnDateFragment extends THSBaseFragment implements View.OnClickListener, OnDateSetChangedInterface{
     public static final String TAG = THSAvailableProviderListBasedOnDateFragment.class.getSimpleName();
 
-    Date mDate;
-    THSAvailableProviderListBasedOnDatePresenter mTHSAvailableProviderListBasedOnDatePresenter;
+    protected Date mDate;
+    private THSAvailableProviderListBasedOnDatePresenter mTHSAvailableProviderListBasedOnDatePresenter;
 
     private Practice mPractice;
     private RecyclerView recyclerView;
-    THSAvailableProviderList mTHSAvailableProviderList;
-    Label mLabelNumberOfAvailableDoctors;
-    Label mLabelDate;
+    private THSAvailableProviderList mTHSAvailableProviderList;
+    private Label mLabelNumberOfAvailableDoctors;
+    private Label mLabelDate;
 
     @Nullable
     @Override

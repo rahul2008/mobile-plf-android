@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.intake;
 
 import android.os.Bundle;
@@ -13,12 +19,8 @@ import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.Label;
 
-/**
- * Created by philips on 7/4/17.
- */
-
-public class THSNoppFragment extends THSBaseFragment {
-    public static final String TAG = THSNoppFragment.class.getSimpleName();
+public class THSNoticeOfPrivacyPracticesFragment extends THSBaseFragment {
+    public static final String TAG = THSNoticeOfPrivacyPracticesFragment.class.getSimpleName();
     private ActionBarListener actionBarListener;
     Label legalTextsLabel;
     THSBasePresenter mTHSNoppPresenter;
@@ -31,7 +33,7 @@ public class THSNoppFragment extends THSBaseFragment {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_nopp_fragment, container, false);
         legalTextsLabel = (Label) view.findViewById(R.id.ths_intake_nopp_agreement_text);
         mRelativeLayoutNopContainer = (RelativeLayout) view.findViewById(R.id.nop_container);
-        mTHSNoppPresenter = new THSNoppPresenter(this);
+        mTHSNoppPresenter = new THSNoticeOfPrivacyPracticesPresenter(this);
 
        
 
@@ -43,7 +45,7 @@ public class THSNoppFragment extends THSBaseFragment {
         super.onActivityCreated(savedInstanceState);
         actionBarListener = getActionBarListener();
         createCustomProgressBar(mRelativeLayoutNopContainer,BIG);
-        ((THSNoppPresenter) mTHSNoppPresenter).showLegalTextForNOPP();
+        ((THSNoticeOfPrivacyPracticesPresenter) mTHSNoppPresenter).showLegalTextForNOPP();
     }
 
     @Override

@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.pharmacy.customtoggle;
 
 
@@ -14,6 +20,7 @@ import com.philips.platform.uid.view.widget.Label;
 
 public class SegmentControl extends LinearLayout {
 
+    private ControlSelectListener controlSelectListener;
     private final ColorStateList colorStateList;
     private int selectedIndex;
 
@@ -21,15 +28,13 @@ public class SegmentControl extends LinearLayout {
         this.controlSelectListener = controlSelectListener;
     }
 
-    ControlSelectListener controlSelectListener;
-
     interface ControlSelectListener {
         public void onControlSelected(int id, boolean isChanged, View view);
     }
 
     public SegmentControl(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        colorStateList = ThemeUtils.buildColorStateList( getContext(), R.color.segment_text_color);
+        colorStateList = ThemeUtils.buildColorStateList(getContext(), R.color.segment_text_color);
     }
 
     @Override

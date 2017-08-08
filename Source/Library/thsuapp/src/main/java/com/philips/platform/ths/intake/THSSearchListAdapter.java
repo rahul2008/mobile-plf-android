@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.intake;
 
 import android.content.Context;
@@ -16,15 +22,15 @@ import java.util.List;
 
 public class THSSearchListAdapter<T extends SDKEntity> extends BaseAdapter {
 
-    List<T> searchList;
-    Context mContext;
+    private List<T> searchList;
+    private Context mContext;
 
-    public THSSearchListAdapter(Context context,  List<T> searchList) {
+    public THSSearchListAdapter(Context context, List<T> searchList) {
         this.mContext = context;
         this.searchList = searchList;
     }
 
-    void setData(List<T> searchList){
+    void setData(List<T> searchList) {
         this.searchList = searchList;
         notifyDataSetChanged();
     }
@@ -36,7 +42,7 @@ public class THSSearchListAdapter<T extends SDKEntity> extends BaseAdapter {
      */
     @Override
     public int getCount() {
-        if(null != searchList && !searchList.isEmpty()){
+        if (null != searchList && !searchList.isEmpty()) {
             return searchList.size();
         } else {
             return 0;
@@ -52,9 +58,9 @@ public class THSSearchListAdapter<T extends SDKEntity> extends BaseAdapter {
      */
     @Override
     public T getItem(int position) {
-        if(null != searchList && !searchList.isEmpty()){
+        if (null != searchList && !searchList.isEmpty()) {
             return searchList.get(position);
-        }else {
+        } else {
             return null;
         }
     }
@@ -104,10 +110,10 @@ public class THSSearchListAdapter<T extends SDKEntity> extends BaseAdapter {
         String searchedItem = null;
 
         ViewHolder holder = (ViewHolder) rowView.getTag();
-        if(searchList.get(position) instanceof NamedSDKEntity){
-            searchedItem =  ((NamedSDKEntity)searchList.get(position)).getName();
-        }else {
-            searchedItem = ((THSProviderInfo)searchList.get(position)).getProviderInfo().getFirstName();
+        if (searchList.get(position) instanceof NamedSDKEntity) {
+            searchedItem = ((NamedSDKEntity) searchList.get(position)).getName();
+        } else {
+            searchedItem = ((THSProviderInfo) searchList.get(position)).getProviderInfo().getFirstName();
         }
 
         holder.searchItemName.setText(searchedItem);

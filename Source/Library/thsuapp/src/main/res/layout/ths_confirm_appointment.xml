@@ -91,10 +91,11 @@
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/uid_grid_title_padding"
         android:paddingEnd="@dimen/uid_grid_title_padding"
-        android:layout_marginTop="@dimen/uid_grid_title_padding"
-        android:layout_marginBottom="@dimen/uid_grid_title_padding"
+        android:paddingTop="@dimen/uid_grid_title_padding"
+        android:paddingBottom="@dimen/uid_grid_title_padding"
         android:orientation="vertical"
         android:gravity="center"
+        android:background="@drawable/ths_shadow_drawable"
         android:layout_alignParentBottom="true">
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/set_remainder"

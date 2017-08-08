@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.pharmacy;
 
 import android.os.Bundle;
@@ -13,12 +19,11 @@ import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.ImageButton;
 import com.philips.platform.uid.view.widget.Label;
 
-public class THSPharmacyAndShippingFragment extends THSBaseFragment implements THSPharmacyShippingViewInterface, View.OnClickListener, BackEventListener {
+public class THSPharmacyAndShippingFragment extends THSBaseFragment implements THSPharmacyShippingViewInterface, View.OnClickListener {
 
     public static String TAG = THSPharmacyAndShippingFragment.class.getSimpleName();
     private THSPharmacyAndShippingPresenter thsPharmacyAndShippingPresenter;
@@ -120,9 +125,5 @@ public class THSPharmacyAndShippingFragment extends THSBaseFragment implements T
         thsPharmacyAndShippingPresenter.onEvent(v.getId());
     }
 
-    @Override
-    public boolean handleBackEvent() {
-        return false;
-    }
 
 }

@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.intake;
 
 import com.americanwell.sdk.entity.health.Condition;
@@ -11,8 +17,8 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class THSConditionsPresenter implements THSBasePresenter, THSConditionsCallBack<THSConditionsList,THSSDKError>, THSUpdateConditionsCallback<Void,THSSDKError> {
-    THSBaseFragment mTHSBaseFragment;
+public class THSConditionsPresenter implements THSBasePresenter, THSConditionsCallBack<THSConditionsList, THSSDKError>, THSUpdateConditionsCallback<Void, THSSDKError> {
+    private THSBaseFragment mTHSBaseFragment;
 
     public THSConditionsPresenter(THSBaseFragment THSBaseFragment) {
         this.mTHSBaseFragment = THSBaseFragment;
@@ -22,12 +28,12 @@ public class THSConditionsPresenter implements THSBasePresenter, THSConditionsCa
     public void onEvent(int componentID) {
         if (componentID == R.id.continue_btn) {
             try {
-                THSManager.getInstance().updateConditions(mTHSBaseFragment.getContext(), ((THSConditionsFragment) mTHSBaseFragment).getTHSConditions(),this);
+                THSManager.getInstance().updateConditions(mTHSBaseFragment.getContext(), ((THSConditionsFragment) mTHSBaseFragment).getTHSConditions(), this);
             } catch (AWSDKInstantiationException e) {
                 e.printStackTrace();
             }
             launchFollowUpFragment();
-        }else if(componentID == R.id.conditions_skip){
+        } else if (componentID == R.id.conditions_skip) {
             launchFollowUpFragment();
         }
     }
@@ -35,11 +41,11 @@ public class THSConditionsPresenter implements THSBasePresenter, THSConditionsCa
     private void launchFollowUpFragment() {
         final THSFollowUpFragment fragment = new THSFollowUpFragment();
         fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-        mTHSBaseFragment.addFragment(fragment,THSFollowUpFragment.TAG,null);
+        mTHSBaseFragment.addFragment(fragment, THSFollowUpFragment.TAG, null);
     }
 
     public void getConditions() throws AWSDKInstantiationException {
-        THSManager.getInstance().getConditions(mTHSBaseFragment.getFragmentActivity(),this);
+        THSManager.getInstance().getConditions(mTHSBaseFragment.getFragmentActivity(), this);
     }
 
     @Override
@@ -65,7 +71,9 @@ public class THSConditionsPresenter implements THSBasePresenter, THSConditionsCa
 
     @Override
     public void onUpdateConditonResponse(Void aVoid, THSSDKError sdkError) {
-
+        //Spoorti - This has no implementation as the UI would have got updated and we are sending the result to server.
+        //On response, as of now no need to handle
+        //Keeping this for future use
     }
 
     @Override

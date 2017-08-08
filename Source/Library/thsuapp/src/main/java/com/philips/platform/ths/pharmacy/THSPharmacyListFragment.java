@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.pharmacy;
 
 import android.location.Location;
@@ -40,7 +46,6 @@ import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
 import com.philips.platform.ths.pharmacy.customtoggle.SegmentControl;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.ImageButton;
@@ -52,9 +57,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class THSPharmacyListFragment extends THSBaseFragment implements OnMapReadyCallback, View.OnClickListener,
-        SearchBox.ExpandListener, SearchBox.QuerySubmitListener,
-        THSPharmacyListViewListener,
-        BackEventListener {
+        SearchBox.ExpandListener, SearchBox.QuerySubmitListener, THSPharmacyListViewListener {
 
     public static String TAG = THSPharmacyListFragment.class.getSimpleName();
     private UIDNavigationIconToggler navIconToggler;
@@ -80,6 +83,7 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     protected Address address;
     private Location location;
     private ActionBarListener actionBarListener;
+    private List<Pharmacy> pharmaciesList = null;
 
     @Nullable
     @Override
@@ -101,6 +105,10 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    public void setPharmaciesList(List<Pharmacy> pharmaciesList){
+        this.pharmaciesList = pharmaciesList;
     }
 
     @Override
@@ -227,18 +235,19 @@ public class THSPharmacyListFragment extends THSBaseFragment implements OnMapRea
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Pharmacy list", true);
         }
-        if( null!= location){
+        if( null != location){
             thsPharmacyListPresenter.fetchPharmacyList(thsConsumer,Double.valueOf(location.getLatitude()).floatValue(),Double.valueOf(location.getLongitude()).floatValue(),5);
         }
-        else {
-            thsPharmacyListPresenter.fetchPharmacyList(thsConsumer, null, thsConsumer.getConsumer().getLegalResidence(), null);
-        }
+
 
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+        if(null != pharmaciesList){
+            updatePharmacyListView(pharmaciesList);
+        }
     }
 
 

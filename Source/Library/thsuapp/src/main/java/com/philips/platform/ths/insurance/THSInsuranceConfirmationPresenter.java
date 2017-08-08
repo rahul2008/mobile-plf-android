@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.insurance;
 
 import com.philips.platform.ths.R;
@@ -5,12 +11,8 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBasePresenter;
 import com.philips.platform.ths.cost.THSCostSummaryFragment;
 
-/**
- * Created by philips on 7/10/17.
- */
-
 public class THSInsuranceConfirmationPresenter implements THSBasePresenter {
-    THSBaseFragment mTHSBaseFragment;
+    private THSBaseFragment mTHSBaseFragment;
 
 
     public THSInsuranceConfirmationPresenter(THSInsuranceConfirmationFragment tHSInsuranceConfirmationFragment) {
@@ -23,12 +25,12 @@ public class THSInsuranceConfirmationPresenter implements THSBasePresenter {
         if (componentID == R.id.pth_insurance_confirmation_radio_option_yes) {
             final THSInsuranceDetailFragment fragment = new THSInsuranceDetailFragment();
             fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-            mTHSBaseFragment.addFragment(fragment, THSInsuranceDetailFragment.TAG,null);
+            mTHSBaseFragment.addFragment(fragment, THSInsuranceDetailFragment.TAG, null);
 
         } else if (componentID == R.id.pth_insurance_confirmation_radio_option_no) {
             final THSCostSummaryFragment fragment = new THSCostSummaryFragment();
             fragment.setFragmentLauncher(mTHSBaseFragment.getFragmentLauncher());
-            mTHSBaseFragment.addFragment(fragment, THSCostSummaryFragment.TAG,null);
+            mTHSBaseFragment.addFragment(fragment, THSCostSummaryFragment.TAG, null);
         }
 
     }

@@ -1,10 +1,15 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.welcome;
 
 import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -27,7 +32,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallBack<Void,THSSDKError>,
         THSLoginCallBack<THSAuthentication,THSSDKError>,THSGetConsumerObjectCallBack,THSCheckConsumerExistsCallback<Boolean, THSSDKError>{
-    THSBaseFragment uiBaseView;
+    private THSBaseFragment uiBaseView;
     private Consumer consumer;
 
     THSWelcomePresenter(THSBaseFragment uiBaseView){
@@ -63,6 +68,7 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
         AmwellLog.i(AmwellLog.LOG,"Initialize - UI updated");
         try {
             checkIfUserExisits();
+            //THSManager.getInstance().authenticate(uiBaseView.getContext(),"spoorti.h86@gmail.com","sujata123*",null,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -86,7 +92,7 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
         }
 
         try {
-            if (thsAuthentication.getAuthentication().needsToCompleteEnrollment()) {
+            if (thsAuthentication.needsToCompleteEnrollment()) {
                 THSManager.getInstance().completeEnrollment(uiBaseView.getContext(), thsAuthentication, this);
             } else {
                 THSManager.getInstance().getConsumerObject(uiBaseView.getFragmentActivity(), thsAuthentication.getAuthentication(), this);
@@ -97,7 +103,7 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     }
 
     private void refreshToken() {
-        new User(uiBaseView.getContext()).refreshLoginSession(new RefreshLoginSessionHandler() {
+        THSManager.getInstance().getUser(uiBaseView.getContext()).refreshLoginSession(new RefreshLoginSessionHandler() {
             @Override
             public void onRefreshLoginSessionSuccess() {
                 authenticateUser();
@@ -141,6 +147,7 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
         AmwellLog.d("Login","Consumer object received");
         final THSPracticeFragment fragment = new THSPracticeFragment();
         fragment.setFragmentLauncher(uiBaseView.getFragmentLauncher());
+        uiBaseView.getActivity().getSupportFragmentManager().popBackStack();
         uiBaseView.addFragment(fragment,THSPracticeFragment.TAG,null);
     }
 
@@ -150,7 +157,15 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     }
 
     @Override
-    public void onResponse(Boolean aBoolean, THSSDKError sdkError) {
+    public void onResponse(Boolean aBoolean, THSSDKError thssdkError) {
+        SDKError sdkError = thssdkError.getSdkError();
+        if(sdkError!=null){
+            uiBaseView.hideProgressBar();
+
+            uiBaseView.showToast(sdkError.getSDKErrorReason().name());
+            return;
+        }
+
         if(aBoolean){
             authenticateUser();
         }else {

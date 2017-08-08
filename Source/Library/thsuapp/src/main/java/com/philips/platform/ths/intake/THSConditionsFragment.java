@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.intake;
 
 
@@ -11,12 +17,9 @@ import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-
-
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.AmwellLog;
-import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.Label;
@@ -24,26 +27,26 @@ import com.philips.platform.uid.view.widget.Label;
 import java.util.ArrayList;
 import java.util.List;
 
-public class THSConditionsFragment extends THSBaseFragment implements BackEventListener, View.OnClickListener {
-    THSConditionsPresenter mThsConditionsPresenter;
+public class THSConditionsFragment extends THSBaseFragment implements View.OnClickListener {
+    protected THSConditionsPresenter mThsConditionsPresenter;
     public static final String TAG = THSConditionsFragment.class.getSimpleName();
-    LinearLayout mLinerLayout;
-    Button mContinueButton;
-    Label mSkipLabel;
-    List<THSConditions> mTHSConditions =null;
-    RelativeLayout mRelativeLayout;
+    protected LinearLayout mLinerLayout;
+    private Button mContinueButton;
+    private Label mSkipLabel;
+    protected List<THSConditions> mTHSConditions = null;
+    private RelativeLayout mRelativeLayout;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_conditions, container, false);
-        mLinerLayout = (LinearLayout)view.findViewById(R.id.checkbox_container);
+        mLinerLayout = (LinearLayout) view.findViewById(R.id.checkbox_container);
         mContinueButton = (Button) view.findViewById(R.id.continue_btn);
         mContinueButton.setOnClickListener(this);
-        mSkipLabel = (Label)view.findViewById(R.id.conditions_skip);
+        mSkipLabel = (Label) view.findViewById(R.id.conditions_skip);
         mSkipLabel.setOnClickListener(this);
         mRelativeLayout = (RelativeLayout) view.findViewById(R.id.conditions_container);
-        AmwellLog.i(AmwellLog.LOG,"onCreateView called");
+        AmwellLog.i(AmwellLog.LOG, "onCreateView called");
         return view;
     }
 
@@ -71,7 +74,7 @@ public class THSConditionsFragment extends THSBaseFragment implements BackEventL
 
     private void getConditionsFromServer() {
         try {
-        mThsConditionsPresenter.getConditions();
+            mThsConditionsPresenter.getConditions();
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -83,27 +86,23 @@ public class THSConditionsFragment extends THSBaseFragment implements BackEventL
         int i = view.getId();
         if (i == R.id.continue_btn) {
             mThsConditionsPresenter.onEvent(R.id.continue_btn);
-        }else if(i == R.id.conditions_skip){
+        } else if (i == R.id.conditions_skip) {
             mThsConditionsPresenter.onEvent(R.id.conditions_skip);
         }
     }
 
-    @Override
-    public boolean handleBackEvent() {
-        return false;
-    }
 
     public void setConditions(List<THSConditions> thsConditionses) {
         setTHSConditions(thsConditionses);
         List<Condition> conditionList = new ArrayList<>();
-        if(thsConditionses == null || thsConditionses.isEmpty()){
+        if (thsConditionses == null || thsConditionses.isEmpty()) {
             return;
         }
-        for (int i=0;i<thsConditionses.size();i++) {
+        for (int i = 0; i < thsConditionses.size(); i++) {
             conditionList.add(thsConditionses.get(i).getCondition());
         }
 
-        if(getContext()!=null) {
+        if (getContext() != null) {
             for (final Condition condition : conditionList
                     ) {
                 CheckBox checkBox = new CheckBox(getContext());
@@ -111,7 +110,7 @@ public class THSConditionsFragment extends THSBaseFragment implements BackEventL
                 checkBox.setLayoutParams(layoutParams);
                 checkBox.setEnabled(true);
                 checkBox.setText(condition.getName());
-                if(condition.isCurrent()){
+                if (condition.isCurrent()) {
                     checkBox.setChecked(true);
                 }
                 mLinerLayout.addView(checkBox);
