@@ -24,7 +24,9 @@ public class TermsAndConditionsPresenter implements TermsAndConditionsContract.A
 
     private Context context;
 
-    private static final String TERMS_AND_CONDITIONS_KEY = "app.termsandconditions";
+    public static final String TERMS_AND_CONDITIONS_KEY = "app.termsandconditions";
+
+    public static final String PRIVACY_KEY = "app.privacynotice";
 
     public TermsAndConditionsPresenter(TermsAndConditionsContract.View viewListener, Context context) {
         this.viewListener = viewListener;
@@ -32,11 +34,17 @@ public class TermsAndConditionsPresenter implements TermsAndConditionsContract.A
     }
 
     @Override
-    public void loadTermsAndConditionsUrl() {
+    public void loadTermsAndConditionsUrl(TermsAndPrivacyStateData.TermsAndPrivacyEnum state) {
         AppInfraInterface appInfra = ((AppFrameworkApplication) context.getApplicationContext()).getAppInfra();
         ServiceDiscoveryInterface serviceDiscoveryInterface = appInfra.getServiceDiscovery();
+        String key;
+        if (state== TermsAndPrivacyStateData.TermsAndPrivacyEnum.PRIVACY_CLICKED) {
+            key = PRIVACY_KEY;
+        } else {
+            key = TERMS_AND_CONDITIONS_KEY;
+        }
 
-        serviceDiscoveryInterface.getServiceUrlWithCountryPreference(TERMS_AND_CONDITIONS_KEY, new
+        serviceDiscoveryInterface.getServiceUrlWithCountryPreference(key, new
                 ServiceDiscoveryInterface.OnGetServiceUrlListener() {
                     @Override
                     public void onError(ServiceDiscoveryInterface.OnErrorListener.ERRORVALUES errorvalues, String errorText) {
@@ -45,7 +53,7 @@ public class TermsAndConditionsPresenter implements TermsAndConditionsContract.A
 
                     @Override
                     public void onSuccess(URL url) {
-                        if (url.toString().isEmpty()) {
+                        if (url == null) {
                             viewListener.onUrlLoadError("Empty Url from Service discovery");
                         } else {
                             viewListener.updateUiOnUrlLoaded(url.toString());

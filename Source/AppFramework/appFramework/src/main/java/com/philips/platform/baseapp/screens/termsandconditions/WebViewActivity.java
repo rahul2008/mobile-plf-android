@@ -27,22 +27,32 @@ import com.philips.platform.baseapp.screens.utility.RALog;
 public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements TermsAndConditionsContract.View {
 
     private static final String TAG = WebViewActivity.class.getSimpleName();
+    public static String STATE="state";
 
     private WebView webView;
 
     private TermsAndConditionsContract.Action termsAndConditionsAction;
 
+    private TermsAndPrivacyStateData.TermsAndPrivacyEnum state;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
+        state=(TermsAndPrivacyStateData.TermsAndPrivacyEnum) getIntent().getSerializableExtra(STATE);
         webView = (WebView) findViewById(R.id.web_view);
         termsAndConditionsAction = new TermsAndConditionsPresenter(this, this);
-        setTitle(R.string.global_terms_link);
-        //This code will enable web view to load https url with http url inside it.
-//        webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        termsAndConditionsAction.loadTermsAndConditionsUrl();
+        if(state== TermsAndPrivacyStateData.TermsAndPrivacyEnum.PRIVACY_CLICKED){
+            setTitle(R.string.global_privacy_link);
+        }else{
+            setTitle(R.string.global_terms_link);
+        }
+        termsAndConditionsAction.loadTermsAndConditionsUrl(state);
 
+    }
+
+    @Override
+    public void initDLS() {
     }
 
     @Override
@@ -76,11 +86,11 @@ public class WebViewActivity extends AbstractAppFrameworkBaseActivity implements
         try {
             BaseFlowManager targetFlowManager = appFrameworkApplication.getTargetFlowManager();
             targetFlowManager.getBackState(targetFlowManager.getCurrentState());
-            finish();
         } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
                 e) {
             RALog.d(TAG, e.getMessage());
         }
+        finish();
     }
 
     @Override

@@ -17,7 +17,7 @@ public class TermsAndConditionsContract {
     }
 
     interface Action {
-        void loadTermsAndConditionsUrl();
+        void loadTermsAndConditionsUrl(TermsAndPrivacyStateData.TermsAndPrivacyEnum state);
     }
 
 }

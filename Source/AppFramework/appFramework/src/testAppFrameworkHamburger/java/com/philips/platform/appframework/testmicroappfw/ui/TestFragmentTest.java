@@ -1,4 +1,4 @@
-package com.philips.platform.testmicroappfw.ui;
+package com.philips.platform.appframework.testmicroappfw.ui;
 
 
 import android.os.Handler;
@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.FrameLayout;
 
+import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -14,18 +15,17 @@ import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appframework.testmicroappfw.data.TestConfigManager;
 import com.philips.platform.appframework.testmicroappfw.models.Chapter;
 import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
-import com.philips.platform.appframework.testmicroappfw.ui.COCOListFragment;
-import com.philips.platform.appframework.testmicroappfw.ui.ChapterAdapter;
-import com.philips.platform.appframework.testmicroappfw.ui.TestFragment;
 
 import junit.framework.TestCase;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
+import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
@@ -38,7 +38,12 @@ public class TestFragmentTest extends TestCase implements TestConfigManager.Test
     private TestFragment testFragment;
     private ArrayList<Chapter> chapterArrayList;
     private TestConfigManager testConfigManager;
-
+    private ActivityController<TestActivity> activityController;
+    @After
+    public void tearDown(){
+        testFragment=null;
+        activityController.pause().stop().destroy();
+    }
     @Before
     public void setUp() throws Exception{
         super.setUp();
@@ -48,7 +53,8 @@ public class TestFragmentTest extends TestCase implements TestConfigManager.Test
 
     protected void setUpChapterList() {
         testConfigManager = TestConfigManager.getInstance();
-        hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
+        activityController= Robolectric.buildActivity(TestActivity.class);
+        hamburgerActivity=activityController.create().start().get();
         testFragment = new TestFragment();
 
 
@@ -67,7 +73,7 @@ public class TestFragmentTest extends TestCase implements TestConfigManager.Test
         testFragment.displayChapterList(chapterArrayList);
         RecyclerView recyclerView = (RecyclerView) testFragment.getView().findViewById(R.id.chapter_recyclerview);
         ChapterAdapter chapterAdapter = (ChapterAdapter) recyclerView.getAdapter();
-        assertEquals(3,chapterAdapter.getItemCount());
+        assertEquals(1,chapterAdapter.getItemCount());
     }
 
     @Test
@@ -89,8 +95,8 @@ public class TestFragmentTest extends TestCase implements TestConfigManager.Test
         RecyclerView recyclerView = (RecyclerView) testFragment.getView().findViewById(R.id.chapter_recyclerview);
         ChapterAdapter chapterAdapter = (ChapterAdapter) recyclerView.getAdapter();
         ChapterAdapter.ChapterViewHolder viewHolder = chapterAdapter.onCreateViewHolder(new FrameLayout(RuntimeEnvironment.application), 0);
-        chapterAdapter.onBindViewHolder(viewHolder,1);
-        assertEquals("Connectivity",viewHolder.chapterTextView.getText().toString());
+        chapterAdapter.onBindViewHolder(viewHolder,0);
+        assertEquals("Mobile Frontend",viewHolder.chapterTextView.getText().toString());
     }
 
     protected static  Chapter createChapterObject() {

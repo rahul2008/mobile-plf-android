@@ -48,7 +48,7 @@ public final class BleReferenceApplianceFactory implements DICommApplianceFactor
     }
 
     @Override
-    public Set<String> getSupportedModelNames() {
+    public Set<String> getSupportedDeviceTypes() {
         return Collections.unmodifiableSet(new HashSet<String>() {{
             add(BleReferenceAppliance.MODELNAME);
         }});

@@ -16,6 +16,7 @@ import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseActivity;
 import com.philips.platform.baseapp.base.AbstractAppFrameworkBaseFragment;
+import com.philips.platform.baseapp.screens.termsandconditions.TermsAndPrivacyStateData;
 import com.philips.platform.baseapp.screens.utility.RALog;
 
 /**
@@ -65,7 +66,14 @@ public class AboutScreenFragment extends AbstractAppFrameworkBaseFragment implem
         termsAndConditionsTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                aboutScreenActionListener.loadTermsAndConditions();
+                aboutScreenActionListener.loadTermsAndPrivacy(TermsAndPrivacyStateData.TermsAndPrivacyEnum.TERMS_CLICKED);
+            }
+        });
+        TextView privacyPolicyTextView=(TextView)view.findViewById(R.id.about_policy);
+        privacyPolicyTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                aboutScreenActionListener.loadTermsAndPrivacy(TermsAndPrivacyStateData.TermsAndPrivacyEnum.PRIVACY_CLICKED);
             }
         });
         startAppTagging(TAG);

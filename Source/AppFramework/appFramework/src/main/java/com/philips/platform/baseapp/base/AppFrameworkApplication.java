@@ -212,7 +212,6 @@ public class AppFrameworkApplication extends Application {
         appInfra = getAppInfraInstance();
         loggingInterface = appInfra.getLogging();
         RALog.init(appInfra);
-        RALog.enableLogging();
         AppFrameworkTagging.getInstance().initAppTaggingInterface(this);
         appInfraInitializationCallback.onAppInfraInitialization();
         languagePackInterface = appInfra.getLanguagePack();

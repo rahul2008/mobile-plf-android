@@ -32,25 +32,25 @@ public class COCOListPresenter extends AbstractUIBasePresenter implements COCOLi
 
     private static final  String TAG=COCOListPresenter.class.getSimpleName();
 
-    private static final String UAPP_FRAMEWORK_DEMO = "Micro App Framework";
-    private static final String USER_REGISTRATION_STANDARD = "User Registration(Standard)";
-    private static final String USER_REGISTRATION_COPPA = "User Registration(Coppa)";
-    private static final String DS_DEMO_APP="Data Services";
-    private static final String CC_DEMO_APP = "Consumer Care";
-    private static final String DLS_DEMO_APP = "DLS";
-    private static final String DICOMM_APP="Comm Lib";
-    private static final String BLUE_LIB_DEMO_APP="Blue Lib";
+    public static final String UAPP_FRAMEWORK_DEMO = "Micro App Framework";
+    public static final String USER_REGISTRATION_STANDARD = "User Registration(Standard)";
+    public static final String USER_REGISTRATION_COPPA = "User Registration(Coppa)";
+    public static final String DS_DEMO_APP="Data Services";
+    public static final String CC_DEMO_APP = "Consumer Care";
+    public static final String DLS_DEMO_APP = "DLS";
+    public static final String DICOMM_APP="Comm Lib";
+    public static final String BLUE_LIB_DEMO_APP="Blue Lib";
 
-    private static final String TEST_DS_EVENT="TestDataServicesEvent";
-    private static final String TEST_IAP_EVENT="TestInAppPurhcaseEvent";
-    private static final String TEST_PR_EVENT="TestProductRegistrationEvent";
-    private static final String TEST_CC_EVENT="TestConsumerCareEvent";
-    private static final String TEST_UAPP_EVENT="TestUAPPFrameworkEvent";
-    private static final String TEST_UR_EVENT="TestUserRegistrationEvent";
-    private static final String TEST_APP_INFRA_EVENT="TestAppInfraEvent";
-    private static final String TEST_DICOMM_EVENT="TestDicommClientEvent";
-    private static final String TEST_BLUE_LIB_DEMO_APP_EVENT="TestBlueLibEvent";
-    private final COCOListContract.View cocoListContractView;
+    public static final String TEST_DS_EVENT="TestDataServicesEvent";
+    public static final String TEST_IAP_EVENT="TestInAppPurhcaseEvent";
+    public static final String TEST_PR_EVENT="TestProductRegistrationEvent";
+    public static final String TEST_CC_EVENT="TestConsumerCareEvent";
+    public static final String TEST_UAPP_EVENT="TestUAPPFrameworkEvent";
+    public static final String TEST_UR_EVENT="TestUserRegistrationEvent";
+    public static final String TEST_APP_INFRA_EVENT="TestAppInfraEvent";
+    public static final String TEST_DICOMM_EVENT="TestDicommClientEvent";
+    public static final String TEST_BLUE_LIB_DEMO_APP_EVENT="TestBlueLibEvent";
+    public final COCOListContract.View cocoListContractView;
 
     private BaseState baseState;
 
@@ -60,11 +60,11 @@ public class COCOListPresenter extends AbstractUIBasePresenter implements COCOLi
 
     private TestConfigManager testConfigManager;
 
-    private static final String IAP_DEMO_APP="In App Purchase";
+    public static final String IAP_DEMO_APP="In App Purchase";
 
-    private static final String APP_INFRA_DEMO_APP="App Infra";
+    public static final String APP_INFRA_DEMO_APP="App Infra";
 
-    private static final String PRODUCT_REGISTRATION="Product Registration";
+    public static final String PRODUCT_REGISTRATION="Product Registration";
 
 
     public COCOListPresenter(FragmentView view, TestConfigManager testConfigManager, Context context,COCOListContract.View cocoListContractView) {

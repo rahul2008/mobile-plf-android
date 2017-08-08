@@ -5,6 +5,7 @@
 */
 package com.philips.platform.baseapp.screens.homefragment;
 
+import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -13,28 +14,34 @@ import com.philips.platform.baseapp.screens.utility.Constants;
 
 import junit.framework.TestCase;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
-
-import static org.mockito.Mockito.mock;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest=Config.NONE,constants = BuildConfig.class, application = TestAppFrameworkApplication.class, sdk = 25)
 public class HomeFragmentTest extends TestCase{
     private HamburgerActivity hamburgerActivity;
     private HomeFragment homeFragment;
-    private static final String JAIL_BROKEN_ENABLED = "JAIL_BROKEN";
-    private static final String SCREEN_LOCK_DISABLED = "SCREEN_LOCK";
     private static final String JAIL_BROKEN_ENABLED_AND_SCREEN_LOCK_DISABLED = "JAIL_BROKEN_SCREEN_LOCK";
+    private ActivityController<TestActivity> activityController;
 
+    @After
+    public void tearDown(){
+        activityController.pause().stop().destroy();
+        homeFragment=null;
+        hamburgerActivity=null;
+    }
     @Before
     public void setUp() throws Exception{
         super.setUp();
-        hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
+        activityController=Robolectric.buildActivity(TestActivity.class);
+        hamburgerActivity=activityController.create().start().get();
         homeFragment = new HomeFragment();
         hamburgerActivity.getSupportFragmentManager().beginTransaction().add(homeFragment,"HomeFragmentTest").commit();
     }
@@ -85,7 +92,7 @@ public class HomeFragmentTest extends TestCase{
     @Test
     public void testWelcomeFragment() throws Exception {
 
-        assertEquals(1,hamburgerActivity.getSupportFragmentManager().getBackStackEntryCount());
+        assertEquals(0, hamburgerActivity.getSupportFragmentManager().getBackStackEntryCount());
 
     }
 

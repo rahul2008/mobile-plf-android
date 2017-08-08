@@ -5,6 +5,8 @@
 */
 package com.philips.platform.baseapp.screens.aboutscreen;
 
+import com.philips.platform.baseapp.screens.termsandconditions.TermsAndPrivacyStateData;
+
 /**
  * Created by philips on 25/07/17.
  */
@@ -14,6 +16,6 @@ public class AboutScreenContract {
     }
 
     interface Action {
-        void loadTermsAndConditions();
+        void loadTermsAndPrivacy(TermsAndPrivacyStateData.TermsAndPrivacyEnum termsAndPrivacyEnum);
     }
 }

@@ -9,6 +9,7 @@ package com.philips.platform.baseapp.screens.settingscreen;
 import android.text.Html;
 
 import com.philips.cdp.uikit.customviews.UIKitButton;
+import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
@@ -51,7 +52,7 @@ public class SettingsAdapterTest {
         initMocks(this);
         SettingsFragment settingsFragment = new SettingsFragment();
 
-        hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().get();
+        hamburgerActivity = Robolectric.buildActivity(TestActivity.class).create().get();
         fragmentPresenter = new SettingsFragmentPresenter(settingsView);
 
         settingScreenItemList = settingsFragment.filterSettingScreenItemList(buildSettingsScreenList());

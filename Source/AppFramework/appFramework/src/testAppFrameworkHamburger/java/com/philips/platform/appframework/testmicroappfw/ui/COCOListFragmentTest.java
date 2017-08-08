@@ -1,4 +1,4 @@
-package com.philips.platform.testmicroappfw.ui;
+package com.philips.platform.appframework.testmicroappfw.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,24 +10,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.philips.platform.TestActivity;
 import com.philips.platform.TestAppFrameworkApplication;
 import com.philips.platform.appframework.BuildConfig;
 import com.philips.platform.appframework.R;
 import com.philips.platform.appframework.homescreen.HamburgerActivity;
 import com.philips.platform.appframework.testmicroappfw.models.CommonComponent;
-import com.philips.platform.appframework.testmicroappfw.ui.COCOListFragment;
-import com.philips.platform.appframework.testmicroappfw.ui.COCOListPresenter;
-import com.philips.platform.appframework.testmicroappfw.ui.CoCoAdapter;
-import com.philips.platform.testmicroappfw.ui.TestFragmentTest;
 
 import junit.framework.TestCase;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
+import org.robolectric.android.controller.ActivityController;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
@@ -39,12 +38,18 @@ import static org.mockito.Mockito.mock;
 public class COCOListFragmentTest extends TestCase {
     private HamburgerActivity hamburgerActivity = null;
     private COCOListFragmentMock cocoListFragment;
-
+    private ActivityController<TestActivity> activityController;
+    @After
+    public void tearDown(){
+        cocoListFragment=null;
+        activityController.pause().stop().destroy();
+    }
 
     @Before
     public void setUp() throws Exception{
         super.setUp();
-        hamburgerActivity = Robolectric.buildActivity(HamburgerActivity.class).create().start().get();
+        activityController=Robolectric.buildActivity(TestActivity.class);
+        hamburgerActivity=activityController.create().start().get();
         cocoListFragment = setUpCoCoListFragmentBundle();
         hamburgerActivity.getSupportFragmentManager().beginTransaction().add(cocoListFragment,"CoCoListFragmentMock").commit();
     }

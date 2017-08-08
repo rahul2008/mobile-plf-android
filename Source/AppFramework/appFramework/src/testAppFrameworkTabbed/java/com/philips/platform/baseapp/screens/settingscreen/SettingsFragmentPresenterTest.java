@@ -72,7 +72,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
         FlowManager uiFlowManagerMock = mock(FlowManager.class);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(appFrameworkApplicationMock.getTargetFlowManager().getCurrentState()).thenReturn(settingsFragmentState);
-        when(uiFlowManagerMock.getNextState(appFrameworkApplicationMock.getTargetFlowManager().getCurrentState(), "logout")).thenReturn(homeFragmentStateMock);
+        when(uiFlowManagerMock.getNextState(uiFlowManagerMock.getState(AppStates.SETTINGS_REGISTRATION),"logout")).thenReturn(homeFragmentStateMock);
         settingsFragmentPresenter.onEvent(Constants.LOGOUT_BUTTON_CLICK_CONSTANT);
         verify(homeFragmentStateMock, atLeastOnce()).navigate(fragmentLauncherMock);
     }
@@ -105,7 +105,7 @@ public class SettingsFragmentPresenterTest extends TestCase {
         when(fragmentActivityMock.getApplicationContext()).thenReturn(appFrameworkApplicationMock);
         when(appFrameworkApplicationMock.getTargetFlowManager()).thenReturn(uiFlowManagerMock);
         when(appFrameworkApplicationMock.getTargetFlowManager().getCurrentState()).thenReturn(settingsFragmentState);
-        when(uiFlowManagerMock.getNextState(appFrameworkApplicationMock.getTargetFlowManager().getCurrentState(), "login")).thenReturn(settingsURStateMock);
+        when(uiFlowManagerMock.getNextState(uiFlowManagerMock.getState(AppStates.SETTINGS),"login")).thenReturn(settingsURStateMock);
         settingsFragmentPresenter.onEvent(1000004);
         verify(settingsURStateMock).navigate(fragmentLauncherMock);
     }

@@ -32,6 +32,7 @@ import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.baseapp.base.AppFrameworkApplication;
 import com.philips.platform.baseapp.screens.dataservices.utility.SyncScheduler;
+import com.philips.platform.baseapp.screens.termsandconditions.TermsAndPrivacyStateData;
 import com.philips.platform.baseapp.screens.utility.AppStateConfiguration;
 import com.philips.platform.baseapp.screens.utility.BaseAppUtil;
 import com.philips.platform.baseapp.screens.utility.Constants;
@@ -291,6 +292,21 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
 
     @Override
     public void onPrivacyPolicyClick(Activity activity) {
+        BaseFlowManager targetFlowManager = getApplicationContext().getTargetFlowManager();
+        BaseState baseState = null;
+        try {
+            baseState = targetFlowManager.getNextState(targetFlowManager.getCurrentState(), TERMS_CONDITIONS_CLICK);
+        } catch (NoEventFoundException | NoStateException | NoConditionFoundException | StateIdNotSetException | ConditionIdNotSetException
+                e) {
+            RALog.d(TAG, e.getMessage());
+            Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
+        }
+        if (null != baseState) {
+            TermsAndPrivacyStateData termsAndPrivacyStateData=new TermsAndPrivacyStateData();
+            termsAndPrivacyStateData.setTermsAndPrivacyEnum(TermsAndPrivacyStateData.TermsAndPrivacyEnum.PRIVACY_CLICKED);
+            baseState.setUiStateData(termsAndPrivacyStateData);
+            baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
+        }
 
     }
 
@@ -306,6 +322,9 @@ public abstract class UserRegistrationState extends BaseState implements UserReg
             Toast.makeText(getFragmentActivity(), getFragmentActivity().getString(R.string.RA_something_wrong), Toast.LENGTH_SHORT).show();
         }
         if (null != baseState) {
+            TermsAndPrivacyStateData termsAndPrivacyStateData=new TermsAndPrivacyStateData();
+            termsAndPrivacyStateData.setTermsAndPrivacyEnum(TermsAndPrivacyStateData.TermsAndPrivacyEnum.TERMS_CLICKED);
+            baseState.setUiStateData(termsAndPrivacyStateData);
             baseState.navigate(new FragmentLauncher(getFragmentActivity(), R.id.frame_container, (ActionBarListener) getFragmentActivity()));
         }
     }

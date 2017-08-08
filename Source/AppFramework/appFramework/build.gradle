@@ -134,6 +134,7 @@ publishing {
             artifact zipDocuments
 
             artifact("$buildDir/outputs/apk/${archivesBaseName}-release.apk")
+			artifact("$buildDir/outputs/apk/${archivesBaseName}-psraRelease.apk")
 
             pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
@@ -193,11 +194,12 @@ android {
             resValue "string", "af_app_name", "ReferenceApp"
 
         }
+        /*
         AppFrameworkTabbed {
             applicationId = "com.philips.platform.referenceapp"
             resValue "string", "af_app_name", "ReferenceApp"
         }
-
+        */
         applicationVariants.all { variant ->
             variant.outputs.each { output ->
                 if (variant.productFlavors[0].name.equals("AppFrameworkHamburger")) {
@@ -248,8 +250,17 @@ android {
             proguardFile 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
+        psraRelease {
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
+            proguardFile 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
     }
 
+    
     /*
     This defined for signing the apk -- start
      */
@@ -313,9 +324,14 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
-        // set JVM arguments for the test JVM(s)
+
         unitTests.all {
+            // set JVM arguments for the test JVM(s)
             jvmArgs '-noverify'
+            testLogging {
+                events "started", "passed", "skipped", "failed"
+                outputs.upToDateWhen {false}
+            }
         }
     }
 }
@@ -344,6 +360,7 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     leakCanaryCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    psraReleaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.dagger'
@@ -374,7 +391,7 @@ dependencies {
         transitive = true
     }
 
-    compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.4.1' + objcdp.getVersionSuffix(), ext: 'aar'){
+    compile(group: 'com.philips.cdp', name: 'commlib-all', version: '1.4.0' + objcdp.getVersionSuffix(), ext: 'aar'){
         exclude group: 'com.android.support'
         transitive = true
     }
@@ -528,4 +545,6 @@ project.afterEvaluate {
 
 tasks.withType(Test) {
     ignoreFailures = true
+    maxParallelForks = Runtime.runtime.availableProcessors()
+    maxHeapSize="2048m"
 }
