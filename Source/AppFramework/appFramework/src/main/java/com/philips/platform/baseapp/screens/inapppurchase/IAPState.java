@@ -28,7 +28,7 @@ import java.util.ArrayList;
 /**
  * This class contains all initialization & Launching details of IAP
  */
-public abstract class IAPState extends BaseState {
+public abstract class IAPState extends BaseState implements IAPListener {
     public static final String TAG =  IAPState.class.getSimpleName();
 
     /**
@@ -58,8 +58,30 @@ public abstract class IAPState extends BaseState {
         fragmentLauncher = (FragmentLauncher) uiLauncher;
         activityContext = fragmentLauncher.getFragmentActivity();
         ((AbstractAppFrameworkBaseActivity)activityContext).handleFragmentBackStack(null,null,getUiStateData().getFragmentLaunchState());
+        iapInterface = getApplicationContext().getIap().getIapInterface();
         updateDataModel();
-        launchIAP();
+        if (isCountryUS(getApplicationContext())){
+            setProductListListener(activityContext);
+        } else {
+            launchIAP();
+        }
+
+    }
+
+    private boolean isCountryUS(Context context) {
+        return ((AppFrameworkApplication) context).getCountry().equals("US");
+    }
+
+    private void setProductListListener(Context activityContext) {
+
+        try {
+            iapInterface.getCompleteProductList(this);
+            ((AbstractAppFrameworkBaseActivity) activityContext).showProgressBar();
+        }catch (RuntimeException e) {
+            RALog.e(TAG,e.getMessage());
+            Toast.makeText(activityContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private int getIAPFlowType(int iapFlowType){
@@ -90,12 +112,13 @@ public abstract class IAPState extends BaseState {
 
     private void launchIAP() {
         RALog.d(TAG," launchIAP ");
-        IAPInterface iapInterface = getApplicationContext().getIap().getIapInterface();
+
         IAPFlowInput iapFlowInput = new IAPFlowInput(getCtnList());
         IAPLaunchInput iapLaunchInput = new IAPLaunchInput();
         iapLaunchInput.setIAPFlow(getLaunchType(), iapFlowInput);
         iapLaunchInput.setIapListener((IAPListener) fragmentLauncher.getFragmentActivity());
         try {
+            ((AbstractAppFrameworkBaseActivity) activityContext).hideProgressBar();
             iapInterface.launch(fragmentLauncher, iapLaunchInput);
 
         } catch (RuntimeException e) {
@@ -119,9 +142,38 @@ public abstract class IAPState extends BaseState {
         iapInterface = new IAPInterface();
         IAPSettings iapSettings = new IAPSettings(applicationContext);
         IAPDependencies iapDependencies = new IAPDependencies(((AppFrameworkApplication)applicationContext).getAppInfra());
-        iapSettings.setUseLocalData(true);
+        iapSettings.setUseLocalData(!isCountryUS(applicationContext));
         iapInterface.init(iapDependencies, iapSettings);
     }
 
 
+    @Override
+    public void onGetCartCount(int i) {
+
+    }
+
+    @Override
+    public void onUpdateCartCount() {
+
+    }
+
+    @Override
+    public void updateCartIconVisibility(boolean b) {
+
+    }
+
+    @Override
+    public void onGetCompleteProductList(ArrayList<String> arrayList) {
+        launchIAP();
+    }
+
+    @Override
+    public void onSuccess() {
+
+    }
+
+    @Override
+    public void onFailure(int i) {
+
+    }
 }

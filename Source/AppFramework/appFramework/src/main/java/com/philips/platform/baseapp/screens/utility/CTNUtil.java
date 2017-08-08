@@ -17,7 +17,7 @@ public class CTNUtil {
             case "IN":
                 return "HX6311/07";
             case "US":
-                return "HX6321/02";
+                return "HD8645/47";
             case "CN":
                 return "HX6721/33";
             default:

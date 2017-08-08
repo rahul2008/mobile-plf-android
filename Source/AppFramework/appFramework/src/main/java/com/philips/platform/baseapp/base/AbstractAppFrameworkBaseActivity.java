@@ -192,4 +192,10 @@ public abstract class AbstractAppFrameworkBaseActivity extends UiKitActivity imp
         }
     }
 
+    public void showProgressBar() {
+    }
+
+    public void hideProgressBar() {
+    }
+
 }

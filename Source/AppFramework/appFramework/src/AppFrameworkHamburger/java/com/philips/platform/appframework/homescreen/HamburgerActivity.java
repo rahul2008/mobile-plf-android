@@ -5,6 +5,7 @@
 */
 package com.philips.platform.appframework.homescreen;
 
+import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -65,6 +66,8 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
     //    private UserRegistrationState userRegistrationState;
     private SharedPreferenceUtility sharedPreferenceUtility;
     Handler handler = new Handler();
+
+    private ProgressDialog progressDialog;
    /* private ImageView cartIcon;
     private TextView cartCount;
     private boolean isCartVisible = true;*/
@@ -197,6 +200,20 @@ public class HamburgerActivity extends AbstractAppFrameworkBaseActivity implemen
         int resID = com.philips.cdp.uikit.R.drawable.uikit_philips_logo;
         footerView.setImageDrawable(VectorDrawable.create(this, resID));
         setSupportActionBar(toolbar);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait...");
+    }
+
+    @Override
+    public void showProgressBar() {
+        progressDialog.show();
+    }
+
+    @Override
+    public void hideProgressBar() {
+        if (progressDialog.isShowing()) {
+            progressDialog.hide();
+        }
     }
 
     private void setDrawerAdapter() {
