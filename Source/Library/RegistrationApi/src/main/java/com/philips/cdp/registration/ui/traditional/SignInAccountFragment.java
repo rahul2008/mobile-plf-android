@@ -11,7 +11,7 @@ package com.philips.cdp.registration.ui.traditional;
 import android.content.*;
 import android.content.res.Configuration;
 import android.os.*;
-import android.support.annotation.NonNull;
+import android.support.annotation.*;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.*;
@@ -19,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.widget.*;
 import android.widget.ProgressBar;
 
+import com.jakewharton.rxbinding2.widget.*;
 import com.janrain.android.Jump;
 import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.R;
@@ -44,6 +45,8 @@ import java.util.*;
 import javax.inject.Inject;
 
 import butterknife.*;
+import io.reactivex.Observable;
+import io.reactivex.disposables.*;
 
 
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
@@ -100,15 +103,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private ScrollView mSvRootLayout;
 
-    private boolean isSavedEmailError;
-
-    private boolean isSavedRegError;
-
-    private boolean isSavedPasswordErr;
-
-    private boolean isSavedVerifyEmail;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private RegistrationSettingsURL registrationSettingsURL;
+
     String resetPasswordSmsRedirectUri;
 
     @Override
@@ -127,12 +125,25 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
         View view = inflater.inflate(R.layout.reg_fragment_sign_in_account, null);
         ButterKnife.bind(this, view);
+        mBtnSignInAccount.setEnabled(false);
         RLog.i(RLog.EVENT_LISTENERS,
                 "SignInAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
         mSvRootLayout = (ScrollView) view.findViewById(R.id.sv_root_layout);
         initUI(view);
         handleOrientation(view);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        compositeDisposable.add(observeLoginButton());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        compositeDisposable.dispose();
     }
 
     @Override
@@ -244,6 +255,22 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
         resetPasswordLabel.setText(content);
         resetPasswordLabel.setOnClickListener(view -> launchResetPasswordFragment());
+    }
+
+    private Disposable observeLoginButton() {
+        return Observable.combineLatest(getLoginIdObservable(), getPasswordObservable(),
+                (loginValid, passwordValid) -> loginValid && passwordValid)
+                .subscribe(enabled -> mBtnSignInAccount.setEnabled(enabled));
+    }
+
+    private Observable<Boolean> getLoginIdObservable() {
+        return RxTextView.textChanges(loginValidationEditText)
+                .map(email -> FieldsValidator.isValidEmail(email.toString()));
+    }
+
+    private Observable<Boolean> getPasswordObservable() {
+        return RxTextView.textChanges(passwordValidationEditText)
+                .map(password -> password.length() >= 8);
     }
 
     @Override
