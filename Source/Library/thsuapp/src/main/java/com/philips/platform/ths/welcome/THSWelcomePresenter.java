@@ -10,7 +10,6 @@ import com.americanwell.sdk.entity.SDKError;
 import com.americanwell.sdk.entity.consumer.Consumer;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.handlers.RefreshLoginSessionHandler;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
@@ -68,7 +67,8 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
     public void onInitializationResponse(Void aVoid, THSSDKError sdkError) {
         AmwellLog.i(AmwellLog.LOG,"Initialize - UI updated");
         try {
-            checkIfUserExisits();
+            //checkIfUserExisits();
+            THSManager.getInstance().authenticate(uiBaseView.getContext(),"spoorti.h86@gmail.com","sujata123*",null,this);
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -147,6 +147,7 @@ public class THSWelcomePresenter implements THSBasePresenter, THSInitializeCallB
         AmwellLog.d("Login","Consumer object received");
         final THSPracticeFragment fragment = new THSPracticeFragment();
         fragment.setFragmentLauncher(uiBaseView.getFragmentLauncher());
+        uiBaseView.getActivity().getSupportFragmentManager().popBackStack();
         uiBaseView.addFragment(fragment,THSPracticeFragment.TAG,null);
     }
 

@@ -30,6 +30,7 @@ import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
+import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.Label;
@@ -37,7 +38,7 @@ import com.philips.platform.uid.view.widget.SearchBox;
 
 import java.util.List;
 
-public class THSProvidersListFragment extends THSBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, THSProviderListViewInterface {
+public class THSProvidersListFragment extends THSBaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, THSProviderListViewInterface,BackEventListener {
     public static final String TAG = THSProvidersListFragment.class.getSimpleName();
     private FragmentLauncher fragmentLauncher;
     private RecyclerView recyclerView;
@@ -193,5 +194,10 @@ public class THSProvidersListFragment extends THSBaseFragment implements View.On
 
     public void setPractice(Practice practice) {
         this.practice = practice;
+    }
+
+    @Override
+    public boolean handleBackEvent() {
+        return false;
     }
 }
