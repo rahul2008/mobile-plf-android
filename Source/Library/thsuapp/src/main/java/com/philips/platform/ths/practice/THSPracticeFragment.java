@@ -20,10 +20,9 @@ import com.americanwell.sdk.entity.practice.Practice;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Label;
 
-public class THSPracticeFragment extends THSBaseFragment implements BackEventListener {
+public class THSPracticeFragment extends THSBaseFragment {
 
     public static final String TAG = THSPracticeFragment.class.getSimpleName();
 

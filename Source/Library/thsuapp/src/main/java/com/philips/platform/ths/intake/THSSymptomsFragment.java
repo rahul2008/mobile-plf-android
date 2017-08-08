@@ -40,7 +40,6 @@ import com.philips.platform.ths.providerslist.THSProviderInfo;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.ImageButton;
@@ -50,7 +49,7 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
-public class THSSymptomsFragment extends THSBaseFragment implements BackEventListener, View.OnClickListener,
+public class THSSymptomsFragment extends THSBaseFragment implements View.OnClickListener,
         THSSelectedImageCallback, THSOnDismissSelectedImageFragmentCallback {
     public static final String TAG = THSSymptomsFragment.class.getSimpleName();
     protected THSSymptomsPresenter mTHSSymptomsPresenter;

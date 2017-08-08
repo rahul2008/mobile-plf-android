@@ -17,12 +17,9 @@ import android.widget.RelativeLayout;
 
 import com.americanwell.sdk.entity.health.Condition;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
-
-
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.AmwellLog;
-import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.Label;
@@ -30,7 +27,7 @@ import com.philips.platform.uid.view.widget.Label;
 import java.util.ArrayList;
 import java.util.List;
 
-public class THSConditionsFragment extends THSBaseFragment implements BackEventListener, View.OnClickListener {
+public class THSConditionsFragment extends THSBaseFragment implements View.OnClickListener {
     private THSConditionsPresenter mThsConditionsPresenter;
     public static final String TAG = THSConditionsFragment.class.getSimpleName();
     private LinearLayout mLinerLayout;
@@ -94,10 +91,6 @@ public class THSConditionsFragment extends THSBaseFragment implements BackEventL
         }
     }
 
-    @Override
-    public boolean handleBackEvent() {
-        return false;
-    }
 
     public void setConditions(List<THSConditions> thsConditionses) {
         setTHSConditions(thsConditionses);
