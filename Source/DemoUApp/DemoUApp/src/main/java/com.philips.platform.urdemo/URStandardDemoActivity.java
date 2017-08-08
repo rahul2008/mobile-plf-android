@@ -208,13 +208,17 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
                     SharedPreferences.Editor editor = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE).edit();
                     editor.putString("reg_environment", restoredText);
                     if (mCheckBox.isChecked()) {
-                        editor.putString("reg_hsdp_environment", restoredText);
+                        editor.putString("reg_hsdp_environment", restoredText).commit();
                         mBtnHsdpRefreshAccessToken.setVisibility(VISIBLE);
                     } else {
-                        editor.remove("reg_hsdp_environment");
+                        editor.remove("reg_hsdp_environment").commit();
                         mBtnHsdpRefreshAccessToken.setVisibility(GONE);
                     }
-                    editor.commit();
+
+                    SharedPreferences prefs = getSharedPreferences("reg_dynamic_config", MODE_PRIVATE);
+                    String restoredText = prefs.getString("reg_hsdp_environment", null);
+                    RLog.i("Restored teest",""+restoredText);
+
                 }
 
             }
@@ -226,6 +230,7 @@ public class URStandardDemoActivity extends Activity implements OnClickListener,
                 mLlConfiguration.setVisibility(GONE);
             }
         });
+
         if (mCheckBox.isChecked()) {
             mBtnHsdpRefreshAccessToken.setVisibility(VISIBLE);
         } else {
