@@ -92,18 +92,18 @@ public class MainActivity extends UIDActivity implements ActionBarListener, User
     @Override
     public void onBackPressed() {
 
-        boolean backState;
+        boolean backState = false;
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.uappFragmentLayout);
         if (currentFrag instanceof BackEventListener) {
             backState = ((BackEventListener) currentFrag).handleBackEvent();
-            if (!backState) {
-                super.onBackPressed();
-            }else {
-                finishAffinity();
-            }
-        } else {
+        }
+
+        if (!backState) {
             super.onBackPressed();
+        }
+        else {
+            finishAffinity();
         }
     }
 

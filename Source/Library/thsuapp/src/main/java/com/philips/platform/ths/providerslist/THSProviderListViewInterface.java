@@ -10,4 +10,5 @@ import java.util.List;
 
 public interface THSProviderListViewInterface {
     void updateProviderAdapterList(List<THSProviderInfo> providerInfos);
+    void updateMainView(boolean isOnline);
 }

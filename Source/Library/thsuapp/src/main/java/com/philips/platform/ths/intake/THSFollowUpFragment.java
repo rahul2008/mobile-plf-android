@@ -237,7 +237,7 @@ public class THSFollowUpFragment extends THSBaseFragment implements View.OnClick
         thsPharmacyListFragment.setConsumerAndAddress(THSManager.getInstance().getPTHConsumer(), null);
         thsPharmacyListFragment.setLocation(location);
         thsPharmacyListFragment.setFragmentLauncher(getFragmentLauncher());
-        getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), thsPharmacyListFragment, "").addToBackStack(null).commit();
+        addFragment(thsPharmacyListFragment,THSPharmacyListFragment.TAG,null);
 
     }
 

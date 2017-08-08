@@ -68,7 +68,7 @@ public class THSPracticeFragment extends THSBaseFragment implements BackEventLis
         super.onResume();
         actionBarListener = getActionBarListener();
         if(null != actionBarListener){
-            actionBarListener.updateActionBar("Practice screen",true);
+            actionBarListener.updateActionBar(getString(R.string.ths_practice_screen_title),true);
         }
     }
 
