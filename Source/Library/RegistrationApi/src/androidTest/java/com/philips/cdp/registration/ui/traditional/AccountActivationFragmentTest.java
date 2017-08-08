@@ -184,7 +184,7 @@ public class AccountActivationFragmentTest extends RegistrationApiInstrumentatio
 
                 try{
                     RLog.init();
-                }catch(Exception e){System.out.println(e);}
+                }catch(Exception ignored ){}
             }
             method =AccountActivationFragment.class.getDeclaredMethod("handleRefreshUserFailed",int.class);;
             method.setAccessible(true);
@@ -207,7 +207,7 @@ public class AccountActivationFragmentTest extends RegistrationApiInstrumentatio
 
                 try{
                     RLog.init();
-                }catch(Exception e){System.out.println(e);}
+                }catch(Exception ignored){}
             }
             method =AccountActivationFragment.class.getDeclaredMethod("handleResendVerificationEmailSuccess");;
             method.setAccessible(true);
@@ -246,7 +246,7 @@ public class AccountActivationFragmentTest extends RegistrationApiInstrumentatio
 
                 try{
                     RLog.init();
-                }catch(Exception e){System.out.println(e);}
+                }catch(Exception ignored){}
             }
             method =AccountActivationFragment.class.getDeclaredMethod("handleResendVerificationEmailFailedWithError",UserRegistrationFailureInfo.class);;
             method.setAccessible(true);

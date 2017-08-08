@@ -8,24 +8,22 @@
 
 package com.philips.cdp.registration.ui.utils;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Build;
+import android.app.*;
+import android.content.*;
+import android.os.*;
 import android.support.annotation.*;
-import android.support.v4.content.ContextCompat;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextPaint;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.text.style.URLSpan;
-import android.text.style.UnderlineSpan;
-import android.widget.TextView;
+import android.support.v4.content.*;
+import android.text.*;
+import android.text.method.*;
+import android.text.style.*;
+import android.widget.*;
 
-import com.philips.cdp.registration.R;
+import com.philips.cdp.registration.*;
 import com.philips.cdp.registration.configuration.*;
-import com.philips.cdp.registration.events.SocialProvider;
-import com.philips.platform.appinfra.abtestclient.ABTestClientInterface;
+import com.philips.cdp.registration.events.*;
+import com.philips.platform.appinfra.abtestclient.*;
+
+import org.json.*;
 
 import java.util.*;
 
@@ -253,7 +251,34 @@ public class RegUtility {
 
     private static String[] defaultSupportedHomeCountries = new String[]{"RW", "BG", "CZ", "DK", "AT", "CH", "DE", "GR", "AU", "CA", "GB", "HK", "ID", "IE", "IN", "MY", "NZ", "PH", "PK", "SA", "SG", "US", "ZA", "AR", "CL", "CO", "ES", "MX", "PE", "EE", "FI", "BE", "FR", "HR", "HU", "IT", "JP", "KR", "LT", "LV", "NL", "NO", "PL", "BR", "PT", "RO", "RU", "UA", "SI", "SK", "SE", "TH", "TR", "VN", "CN", "TW"};
 
-    public static  List<String> supportedCountryList() {
+
+    public static String getErrorMessageFromInvalidField(JSONObject serverResponse) {
+        try {
+            JSONObject jsonObject = (JSONObject) serverResponse.get(RegConstants.INVALID_FIELDS);
+            if (jsonObject != null) {
+                jsonObject.keys();
+                List<String> keys = new ArrayList<String>();
+                Iterator<?> i = jsonObject.keys();
+                do {
+                    String k = i.next().toString();
+                    keys.add(k);
+                } while (i.hasNext());
+
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int j = 0; j < keys.size(); j++) {
+                    JSONArray jsonObject1 = (JSONArray) jsonObject.opt(keys.get(j));
+                    stringBuilder.append(jsonObject1.getString(0)).append("\n");
+                }
+                return stringBuilder.toString();
+            }
+        } catch (Exception e) {
+            //NOP
+        }
+        return null;
+    }
+
+
+    public static List<String> supportedCountryList() {
         List<String> defaultCountries = Arrays.asList(RegUtility.getDefaultSupportedHomeCountries());
         List<String> supportedHomeCountries = RegistrationConfiguration.getInstance().getSupportedHomeCountry();
         if (null != supportedHomeCountries) {
@@ -269,7 +294,7 @@ public class RegUtility {
     @NonNull
     public static String getFallbackCountryCode() {
         String fallbackCountry = RegistrationConfiguration.getInstance().getFallBackHomeCountry();
-        String selectedCountryCode ;
+        String selectedCountryCode;
         if (null != fallbackCountry) {
             selectedCountryCode = fallbackCountry;
         } else {
@@ -277,4 +302,5 @@ public class RegUtility {
         }
         return selectedCountryCode.toUpperCase();
     }
+
 }

@@ -11,7 +11,6 @@ package com.philips.cdp.registration.controller;
 import android.content.Context;
 
 import com.janrain.android.Jump;
-import com.janrain.android.capture.CaptureApiError;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.app.tagging.AppTaggingErrors;
@@ -30,10 +29,6 @@ import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler, JumpFlowDownloadStatusListener {
 
@@ -58,11 +53,10 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
     }
 
 
-
     public void loginTraditionally(final String email, final String password) {
-        if(!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
+        if (!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
-        }else{
+        } else {
             Jump.performTraditionalSignIn(email, password, this, null);
             return;
         }
@@ -74,8 +68,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
     public void mergeTraditionally(final String email, final String password, final String token) {
         if (!UserRegistrationInitializer.getInstance().isJumpInitializated()) {
             UserRegistrationInitializer.getInstance().registerJumpFlowDownloadListener(this);
-        }
-        else {
+        } else {
             Jump.performTraditionalSignIn(email, password, this, token);
             return;
         }
@@ -93,27 +86,27 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 
             HsdpUser hsdpUser = new HsdpUser(mContext);
             String emailorMobile;
-            if (FieldsValidator.isValidEmail(user.getEmail())){
+            if (FieldsValidator.isValidEmail(user.getEmail())) {
                 emailorMobile = user.getEmail();
-            }else {
-                emailorMobile =user.getMobile();
+            } else {
+                emailorMobile = user.getMobile();
             }
-            hsdpUser.socialLogin(emailorMobile, user.getAccessToken(),Jump.getRefreshSecret(), new SocialLoginHandler() {
+            hsdpUser.socialLogin(emailorMobile, user.getAccessToken(), Jump.getRefreshSecret(), new SocialLoginHandler() {
 
                 @Override
                 public void onLoginSuccess() {
-                    ThreadUtils.postInMainThread(mContext,()->
+                    ThreadUtils.postInMainThread(mContext, () ->
                             mTraditionalLoginHandler.onLoginSuccess());
                 }
 
                 @Override
                 public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                    AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo,AppTagingConstants.HSDP);
-                    ThreadUtils.postInMainThread(mContext,()->mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
-                 }
+                    AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
+                    ThreadUtils.postInMainThread(mContext, () -> mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                }
             });
         } else {
-            ThreadUtils.postInMainThread(mContext,()->mTraditionalLoginHandler.onLoginSuccess());
+            ThreadUtils.postInMainThread(mContext, () -> mTraditionalLoginHandler.onLoginSuccess());
         }
     }
 
@@ -124,73 +117,16 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 
     @Override
     public void onFailure(SignInError error) {
-        try{
+        try {
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setError(error.captureApiError);
-            handleInvalidInputs(error.captureApiError, userRegistrationFailureInfo);
-            handleInvalidCredentials(error.captureApiError, userRegistrationFailureInfo);
             userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
-            userRegistrationFailureInfo.setErrorDescription(error.captureApiError.error_description);
-            AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo,AppTagingConstants.JANRAIN);
-            ThreadUtils.postInMainThread(mContext,()->
-            mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
-    }catch (Exception e){
-            RLog.e("Login failed :","exception :"+e.getMessage());
+            AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.JANRAIN);
+            ThreadUtils.postInMainThread(mContext, () ->
+                    mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+        } catch (Exception e) {
+            RLog.e("Login failed :", "exception :" + e.getMessage());
         }
-    }
-
-    private void handleInvalidInputs(CaptureApiError error,
-                                     UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        if (null != error && null != error.error
-                && error.error.equals(RegConstants.INVALID_FORM_FIELDS)) {
-            try {
-                JSONObject object = error.raw_response;
-                JSONObject jsonObject = (JSONObject) object.get(RegConstants.INVALID_FIELDS);
-                if (jsonObject != null) {
-
-                    if (!jsonObject.isNull(RegConstants.TRADITIONAL_SIGN_IN_EMAIL_ADDRESS)) {
-                        userRegistrationFailureInfo.setEmailErrorMessage(getErrorMessage(jsonObject
-                                .getJSONArray(RegConstants.TRADITIONAL_SIGN_IN_EMAIL_ADDRESS)));
-                    }
-
-                    if (!jsonObject.isNull(RegConstants.TRADITIONAL_SIGN_IN_PASSWORD)) {
-                        userRegistrationFailureInfo
-                                .setPasswordErrorMessage(getErrorMessage(jsonObject
-                                        .getJSONArray(RegConstants.TRADITIONAL_SIGN_IN_PASSWORD)));
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void handleInvalidCredentials(CaptureApiError error, UserRegistrationFailureInfo userRegistrationFailureInfo) {
-        if (null != error && null != error.error
-                && error.error.equals(RegConstants.INVALID_CREDENTIALS)) {
-            try {
-                JSONObject object = error.raw_response;
-                JSONObject jsonObject = (JSONObject) object.get(RegConstants.INVALID_FIELDS);
-                if (jsonObject != null) {
-                    if (!jsonObject.isNull(RegConstants.USER_INFORMATION_FORM)) {
-                        userRegistrationFailureInfo.setEmailErrorMessage(mContext.getResources().getString(R.string.reg_JanRain_Invalid_Credentials));
-                    }
-                    if (!jsonObject.isNull(RegConstants.USER_INFORMATION_FORM)) {
-                        userRegistrationFailureInfo.setPasswordErrorMessage(mContext.getResources().getString(R.string.reg_JanRain_Invalid_Credentials));
-                    }
-                }
-            } catch (JSONException e) {
-                //NOP
-            }
-        }
-    }
-
-    private String getErrorMessage(JSONArray jsonArray)
-            throws JSONException {
-        if (null == jsonArray) {
-            return null;
-        }
-        return (String) jsonArray.get(0);
     }
 
     @Override
@@ -205,12 +141,11 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
             UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
             userRegistrationFailureInfo.setErrorDescription(mContext.getString(R.string.reg_JanRain_Server_Connection_Failed));
             userRegistrationFailureInfo.setErrorCode(RegConstants.TRADITIONAL_LOGIN_FAILED_SERVER_ERROR);
-            ThreadUtils.postInMainThread(mContext,()->
-            mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+            ThreadUtils.postInMainThread(mContext, () ->
+                    mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
         }
         UserRegistrationInitializer.getInstance().unregisterJumpFlowDownloadListener();
     }
-
 
     public void loginIntoHsdp() {
         final User user = new User(mContext);
@@ -218,22 +153,23 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
         HsdpUserRecord hsdpUserRecord = hsdpUser.getHsdpUserRecord();
         if (hsdpUserRecord == null) {
             String emailOrMobile;
-            if(RegistrationHelper.getInstance().isChinaFlow()){
-                emailOrMobile= user.getMobile();
-            }else{
-                emailOrMobile= user.getEmail();
+            if (RegistrationHelper.getInstance().isChinaFlow()) {
+                emailOrMobile = user.getMobile();
+            } else {
+                emailOrMobile = user.getEmail();
             }
-            hsdpUser.socialLogin(emailOrMobile, user.getAccessToken(),Jump.getRefreshSecret(), new SocialLoginHandler() {
+            hsdpUser.socialLogin(emailOrMobile, user.getAccessToken(), Jump.getRefreshSecret(), new SocialLoginHandler() {
                 @Override
                 public void onLoginSuccess() {
-                    ThreadUtils.postInMainThread(mContext,()->
-                    mTraditionalLoginHandler.onLoginSuccess());
+                    ThreadUtils.postInMainThread(mContext, () ->
+                            mTraditionalLoginHandler.onLoginSuccess());
                 }
+
                 @Override
                 public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-                    AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo,AppTagingConstants.HSDP);
-                    ThreadUtils.postInMainThread(mContext,()->
-                    mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
+                    AppTaggingErrors.trackActionLoginError(userRegistrationFailureInfo, AppTagingConstants.HSDP);
+                    ThreadUtils.postInMainThread(mContext, () ->
+                            mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo));
                 }
             });
         }
