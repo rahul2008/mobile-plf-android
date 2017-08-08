@@ -64,22 +64,22 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     private RelativeLayout mRlSignInBtnContainer;
 
-    @BindView(R2.id.btn_reg_sign_in)
+    @BindView(R2.id.usr_loginScreen_login_button)
     ProgressBarButton mBtnSignInAccount;
 
-    @BindView(R2.id.rl_reg_email_field)
+    @BindView(R2.id.usr_loginScreen_login_inputLayout)
     InputValidationLayout mEtEmail;
 
     @BindView(R2.id.usr_loginScreen_login_textField)
     ValidationEditText loginValidationEditText;
 
-    @BindView(R2.id.rl_reg_password_field)
+    @BindView(R2.id.usr_loginScreen_password_inputLayout)
     InputValidationLayout mEtPassword;
 
     @BindView(R2.id.usr_loginScreen_password_textField)
     ValidationEditText passwordValidationEditText;
 
-    @BindView(R2.id.reg_forgot_password_text)
+    @BindView(R2.id.usr_loginScreen_forgotPassword_button)
     Label resetPasswordLabel;
 
     private User mUser;
@@ -146,63 +146,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         super.onDestroy();
     }
 
-    private boolean isLoginBtn;
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        mBundle = outState;
-        super.onSaveInstanceState(mBundle);
-        if (mBundle != null) {
-            if (mRegError != null) {
-                if (mRegError.getVisibility() == View.VISIBLE) {
-                    mBundle.putBoolean("isSavedRegError", true);
-                    mBundle.putString("saveErrText", mRegError.getErrorMsg());
-                }
-            }
-            if (loginValidationEditText != null) {
-//                if (mEtEmail.isEmailErrorVisible()) {
-//                    isSavedEmailError = true;
-//                    mBundle.putBoolean("isSaveEmailErrText", isSavedEmailError);
-//                    mBundle.putString("saveEmailErrText", mEtEmail.getSavedEmailErrDescription());
-//                }
-            }
-
-            if (mEtPassword != null) {
-//                if (mEtPassword.isPasswordErrorVisible()) {
-//                    isSavedPasswordErr = true;
-//                    mBundle.putBoolean("isSavedPasswordErr", isSavedPasswordErr);
-//                    mBundle.putString("savedPasswordErr", mEtPassword.getmSavedPasswordErrDescription());
-//                }
-            }
-            mBundle.putBoolean("isLoginBton", isLoginBtn);
-        }
-    }
-
-    @Override
-    public void onViewStateRestored(Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null) {
-            if (savedInstanceState.getString("saveEmailErrText") != null
-                    && savedInstanceState.getBoolean("isSaveEmailErrText")
-                    && !savedInstanceState.getBoolean("isLoginBton")) {
-                mEtEmail.setErrorMessage(savedInstanceState.getString("saveEmailErrText"));
-//                mEtEmail.showErrPopUp();
-
-            } else if (savedInstanceState.getBoolean("isSavedRegError")) {
-                mRegError.setError(savedInstanceState.getString("saveErrText"));
-            }
-            if (savedInstanceState.getString("savedPasswordErr") != null && savedInstanceState.getBoolean("isSavedPasswordErr")) {
-                mEtPassword.setErrorMessage(savedInstanceState.getString("savedPasswordErr"));
-//                mEtPassword.showInvalidPasswordAlert();
-            }
-            if (savedInstanceState.getString("savedVerifyEmail") != null && savedInstanceState.getBoolean("isSavedVerifyEmail")) {
-                mEtEmail.setErrorMessage(savedInstanceState.getString("savedVerifyEmail"));
-//                mEtEmail.showErrPopUp();
-            }
-        }
-        mBundle = null;
-    }
-
     @Override
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
@@ -227,14 +170,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.btn_reg_sign_in) {
-            isLoginBtn = true;
+        if (id == R.id.usr_loginScreen_login_button) {
             RLog.d(RLog.ONCLICK, "SignInAccountFragment : SignIn");
             hideValidations();
             mBtnSignInAccount.showProgressIndicator();
             signIn();
         } else if (id == R.id.btn_reg_forgot_password) {
-            isLoginBtn = false;
             RLog.d(RLog.ONCLICK, "SignInAccountFragment : Forgot Password");
             hideValidations();
             loginValidationEditText.clearFocus();
@@ -290,7 +231,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mEtPassword.setValidator(password -> password.length() > 0);
         mEtPassword.setErrorMessage("Please enter a valid password");
         underlineResetPassword();
-        mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
+        mRegError = (XRegError) view.findViewById(R.id.usr_loginScreen_error_view);
         handleUiState();
 
         mUser = new User(mContext);
@@ -402,7 +343,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
                 AppTagingConstants.RESET_PASSWORD_SUCCESS);
         hideForgotPasswordSpinner();
         RegAlertDialog.showResetPasswordDialog(mContext.getResources().getString(R.string.reg_ForgotPwdEmailResendMsg_Title),
-                mContext.getResources().getString(R.string.reg_ForgotPwdEmailResendMsg), getRegistrationFragment().getParentActivity(), mContinueBtnClick);
+                mContext.getResources().getString(R.string.reg_ForgotPwdEmailResendMsg), getRegistrationFragment().getParentActivity(), view -> RegAlertDialog.dismissDialog());
         hideForgotPasswordSpinner();
         mRegError.hideError();
     }
@@ -618,9 +559,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         }
 
     }
-
-    private OnClickListener mContinueBtnClick = view -> RegAlertDialog.dismissDialog();
-
 
     private OnClickListener mContinueVerifyBtnClick = view -> {
         RegAlertDialog.dismissDialog();

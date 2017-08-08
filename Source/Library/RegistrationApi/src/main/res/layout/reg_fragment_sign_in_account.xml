@@ -30,7 +30,7 @@
                 android:orientation="vertical">
 
                 <com.philips.platform.uid.view.widget.Label
-                    android:id="@+id/reg_welcome_id"
+                    android:id="@+id/usr_loginScreen_loginTitle_label"
                     style="@style/UIDLabel.MarginTop"
                     android:textStyle="bold"
                     android:layout_width="wrap_content"
@@ -42,17 +42,18 @@
                     android:textSize="@dimen/reg_title_text_size" />
 
                 <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/usr_loginScreen_email_label"
                     style="@style/UIDLabel.MarginTop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/reg_layout_margin_16dp"
                     android:paddingLeft="@dimen/reg_layout_padding_left_16dp"
                     android:paddingRight="@dimen/reg_layout_padding_right_16dp"
-                    android:text="Email or phone number"
+                    android:text="Email"
                     android:textColor="@color/uid_gray_level_90" />
 
                 <com.philips.platform.uid.view.widget.InputValidationLayout
-                    android:id="@+id/rl_reg_email_field"
+                    android:id="@+id/usr_loginScreen_login_inputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/reg_layout_padding_left_16dp"
@@ -70,6 +71,7 @@
                 </com.philips.platform.uid.view.widget.InputValidationLayout>
 
                 <com.philips.platform.uid.view.widget.Label
+                    android:id="@+id/usr_loginScreen_password_label"
                     style="@style/UIDLabel.MarginTop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -80,7 +82,7 @@
                     android:textColor="@color/uid_gray_level_90" />
 
                 <com.philips.platform.uid.view.widget.InputValidationLayout
-                    android:id="@+id/rl_reg_password_field"
+                    android:id="@+id/usr_loginScreen_password_inputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
@@ -100,7 +102,7 @@
             </LinearLayout>
 
             <com.philips.cdp.registration.ui.customviews.XRegError
-                android:id="@+id/reg_error_msg"
+                android:id="@+id/usr_loginScreen_error_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_margin_bottom"
@@ -116,7 +118,7 @@
                 android:paddingRight="@dimen/reg_layout_margin_16dp">
 
                 <com.philips.platform.uid.view.widget.ProgressBarButton
-                        android:id="@+id/btn_reg_sign_in"
+                        android:id="@+id/usr_loginScreen_login_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
@@ -130,7 +132,7 @@
     </ScrollView>
 
     <com.philips.platform.uid.view.widget.Label
-        android:id="@+id/reg_forgot_password_text"
+        android:id="@+id/usr_loginScreen_forgotPassword_button"
         style="@style/UIDLabel.MarginTop"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
