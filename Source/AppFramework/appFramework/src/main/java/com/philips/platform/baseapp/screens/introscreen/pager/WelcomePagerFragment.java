@@ -56,7 +56,7 @@ public class WelcomePagerFragment extends Fragment {
         super.onCreate(savedInstanceState);
         titleId = getArguments().getInt(ARG_PAGE_TITLE, 0);
         subtitleId = getArguments().getInt(ARG_PAGE_SUBTITLE, 0);
-        backgroundId = getArguments().getInt(ARG_PAGE_BG_ID, R.mipmap.onboarding_screen_2);
+        backgroundId = getArguments().getInt(ARG_PAGE_BG_ID, R.drawable.onboarding_screen_2);
     }
 
     @Nullable
