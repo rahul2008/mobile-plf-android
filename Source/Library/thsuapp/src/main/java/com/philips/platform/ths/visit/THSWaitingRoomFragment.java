@@ -1,12 +1,17 @@
 package com.philips.platform.ths.visit;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.americanwell.sdk.entity.visit.Visit;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.utility.CircularImageView;
@@ -17,6 +22,12 @@ import com.philips.platform.uid.view.widget.Label;
 import com.philips.platform.uid.view.widget.ProgressBarWithLabel;
 
 import static android.app.Activity.RESULT_CANCELED;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_FINISHED_EXTRAS;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_RESULT_CODE;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_APP_SERVER_DISCONNECTED;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_PROVIDER_CONNECTED;
+import static com.americanwell.sdk.activity.VideoVisitConstants.VISIT_STATUS_VIDEO_DISCONNECTED;
 import static com.philips.platform.ths.utility.THSConstants.REQUEST_VIDEO_VISIT;
 
 /**
@@ -48,14 +59,23 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         mCancelVisitButton = (Button) view.findViewById(R.id.ths_waiting_room_cancel_button);
         mCancelVisitButton.setOnClickListener(this);
         mProviderImageView = (CircularImageView)view.findViewById(R.id.details_providerImage);
+
         return  view;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(mMessageReceiver,
+                new IntentFilter("visitFinishedResult"));
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setRetainInstance(true);
         actionBarListener = getActionBarListener();
+
         mTHSWaitingRoomPresenter.startVisit();
     }
 
@@ -77,25 +97,21 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Waiting", true);
         }
-
+        LocalBroadcastManager.getInstance(getActivity().getApplicationContext()).registerReceiver(mMessageReceiver,
+                new IntentFilter("visitFinishedResult"));
     }
 
-    @Override
-    public void startActivityForResult(Intent intent, int requestCode) {
-        super.startActivityForResult(intent, requestCode);
-    }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_CANCELED && requestCode == REQUEST_VIDEO_VISIT) {
-            //  todo getPresenter().setResult(resultCode, data);
-            THSVisitSummaryFragment thsVisitSummaryFragment = new THSVisitSummaryFragment();
-            addFragment(thsVisitSummaryFragment,THSVisitSummaryFragment.TAG,null);
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            String message = intent.getStringExtra("message");
+            mTHSWaitingRoomPresenter.handleVisitFinish(intent);
+            //Log.d("receiver", "Got message: " + message);
+
         }
-    }
-
-
+    };
 
     @Override
     public int getContainerID() {
@@ -143,5 +159,24 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         }
 
 
+    }
+
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        //LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mMessageReceiver);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        int y=10;
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        int y=15;
     }
 }
