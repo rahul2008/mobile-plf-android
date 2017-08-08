@@ -67,7 +67,7 @@ public class AppTaggingHandler {
     /*
     * Checks for SSL connection value from Adobe json
     * */
-    boolean checkForSslConnection() {
+    protected boolean checkForSslConnection() {
         boolean sslValue = false;
         final JSONObject jSONObject = getMasterADBMobileConfig();
         try {
@@ -91,7 +91,7 @@ public class AppTaggingHandler {
     /**
      * Reading from Adobe json
      */
-    protected JSONObject getMasterADBMobileConfig() {
+     protected JSONObject getMasterADBMobileConfig() {
         JSONObject result = null;
         try {
             final InputStream mInputStream = mAppInfra.getAppInfraContext().getAssets().open("ADBMobileConfig.json");
@@ -213,7 +213,7 @@ public class AppTaggingHandler {
         return mPrivacyStatus;
     }
 
-    void setPrivacyStatus(AppTaggingInterface.PrivacyStatus privacyStatus) {
+     void setPrivacyStatus(AppTaggingInterface.PrivacyStatus privacyStatus) {
         switch (privacyStatus) {
             case OPTIN:
                 Config.setPrivacyStatus(MOBILE_PRIVACY_STATUS_OPT_IN);
@@ -233,16 +233,16 @@ public class AppTaggingHandler {
         }
     }
 
-    boolean checkForProductionState() {
-        if (mAppInfra.getAppIdentity() != null) {
-            try {
-                return !mAppInfra.getAppIdentity().
-                        getAppState().toString().equalsIgnoreCase("Production");
-            } catch (Exception e) {
-                mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
-                        AppInfraLogEventID.AI_TAGGING, "Tagging" + e);
+    protected boolean checkForProductionState() {
+            if (mAppInfra.getAppIdentity() != null) {
+                try {
+                    return !mAppInfra.getAppIdentity().
+                            getAppState().toString().equalsIgnoreCase("Production");
+                } catch (Exception e) {
+                    mAppInfra.getAppInfraLogInstance().log(LoggingInterface.LogLevel.ERROR,
+                            AppInfraLogEventID.AI_TAGGING, "Tagging" + e);
+                }
             }
-        }
         return false;
     }
 

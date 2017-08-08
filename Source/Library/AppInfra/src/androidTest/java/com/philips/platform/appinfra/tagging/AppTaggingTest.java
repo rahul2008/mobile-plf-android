@@ -1,31 +1,28 @@
 package com.philips.platform.appinfra.tagging;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraInstrumentation;
+import com.philips.platform.appinfra.AppInfraLogEventID;
 import com.philips.platform.appinfra.ConfigValues;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationManager;
+import com.philips.platform.appinfra.appidentity.AppIdentityInterface;
+import com.philips.platform.appinfra.internationalization.InternationalizationInterface;
+import com.philips.platform.appinfra.logging.LoggingInterface;
+import com.philips.platform.appinfra.securestorage.SecureStorageInterface;
 
 import org.json.JSONObject;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * AppTagging Test class.
@@ -35,11 +32,18 @@ public class AppTaggingTest extends AppInfraInstrumentation {
     AppTaggingInterface mAIAppTaggingInterface;
     AppTaggingInterface mockAppTaggingInterface;
     AppConfigurationManager mConfigInterface;
-    AppTagging mAppTagging;
+    AppTagging mAppTagging,appTagging;
     private Context context;
     private AppInfra mAppInfra;
     private AppConfigurationInterface.AppConfigurationError configError;
-    AppTaggingHandler  appTaggingHandler;
+    AppTaggingHandler  mAppTaggingHandler;
+    AppTaggingHandler mAppTaggingHandlerMock;
+    private AppInfra appInfraMock;
+    LoggingInterface loggingInterfaceMock;
+    AppIdentityInterface appIdentityInterfaceMock;
+    SecureStorageInterface secureStorageInterfaceMock;
+    InternationalizationInterface internationalizationInterfaceMock;
+
     private BroadcastReceiver rec = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -57,10 +61,9 @@ public class AppTaggingTest extends AppInfraInstrumentation {
     protected void setUp() throws Exception {
         super.setUp();
         context = getInstrumentation().getContext();
-
         assertNotNull(context);
-        mAppInfra = new AppInfra.Builder().build(context);
 
+        mAppInfra = new AppInfra.Builder().build(context);
 
         testConfig("Staging");
         testAdobeJsonConfig(true);
@@ -71,7 +74,6 @@ public class AppTaggingTest extends AppInfraInstrumentation {
                 JSONObject result = null;
                 try {
                     String testJson = ConfigValues.testJson();
-
                     result = new JSONObject(testJson);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -91,42 +93,48 @@ public class AppTaggingTest extends AppInfraInstrumentation {
         mAIAppTaggingInterface = mAppInfra.getTagging().createInstanceForComponent("Component name", "Component ID");
         assertNotNull(mAIAppTaggingInterface);
 
-        appTaggingHandler=new AppTaggingHandler(mAppInfra);
+        mAppTaggingHandler=new AppTaggingHandler(mAppInfra);
 
         mockAppTaggingInterface = mock(AppTaggingInterface.class);
+
+        mAppTaggingHandlerMock = mock(AppTaggingHandler.class);
+        appInfraMock = mock(AppInfra.class);
+        appTagging=new AppTagging(appInfraMock) {
+            @Override
+            AppTaggingHandler getAppTaggingHandler() {
+                return mAppTaggingHandlerMock;
+            }
+        };
+
+        loggingInterfaceMock = mock(LoggingInterface.class);
+        appIdentityInterfaceMock=mock(AppIdentityInterface.class);
+        secureStorageInterfaceMock=mock(SecureStorageInterface.class);
+        internationalizationInterfaceMock=mock(InternationalizationInterface.class);
+        mAppInfra.getConfigInterface().setPropertyForKey("appidentity.appState", "appinfra",
+                "PRODUCTION", configError);
     }
 
     public void testCheckForSslConnection() {
-        final boolean sslValue =appTaggingHandler.checkForSslConnection();
+        final boolean sslValue =mAppTaggingHandler.checkForSslConnection();
                 if (sslValue) {
                     assertTrue(sslValue);
+                    when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+                    verify(loggingInterfaceMock).log(LoggingInterface.LogLevel.VERBOSE, AppInfraLogEventID.AI_TAGGING, "ssl value true");
                 } else {
                     assertFalse(sslValue);
                 }
+
     }
 
-
+/*
     public void testSetPreviousPage() {
-        mAIAppTaggingInterface.setPreviousPage("SomePreviousPage");
-        assertEquals("SomePreviousPage",mAppTagging.getPreviousPage());
-    }
-    public void testSetPreviousPageNegativeScenario(){
-        mAIAppTaggingInterface.setPreviousPage("SomePreviousPage");
-        assertNotSame("SomePage",mAppTagging.getPreviousPage());
-        assertNotNull(mAppTagging.getPreviousPage());
-    }
+        appTagging.setPreviousPage("SomePreviousPage");
+        verify(mAppTaggingHandlerMock).setPrevPage("SomePreviousPage");
 
-    public void testSetPreviousPageNull() {
-        mAIAppTaggingInterface.setPreviousPage(null);
-        assertNull(mAppTagging.getPreviousPage());
-    }
-
-
-
+    }*/
 
 
     public void testConfig(final String value) {
-
         mConfigInterface = new AppConfigurationManager(mAppInfra) {
             @Override
             protected JSONObject getMasterConfigFromApp() {
@@ -169,7 +177,6 @@ public class AppTaggingTest extends AppInfraInstrumentation {
     }
 
     public void testAdobeJsonConfig(final boolean value) {
-
         mAppTagging = new AppTagging(mAppInfra);
         mAppTagging.mComponentID = "mComponentID";
         mAppTagging.mComponentVersion = "mComponentVersion";
@@ -177,28 +184,44 @@ public class AppTaggingTest extends AppInfraInstrumentation {
         mAppInfra.setConfigInterface(mConfigInterface);
     }
     public void testPrivacyConsentOPTIN() {
-        mAppTagging.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
-        assertEquals(AppTaggingInterface.PrivacyStatus.OPTIN, mAppTagging.getPrivacyConsent());
+        appTagging.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTIN);
+        assertEquals(AppTaggingInterface.PrivacyStatus.OPTIN, appTagging.getPrivacyConsent());
     }
 
     public void testPrivacyConsentOPTOUT() {
-        mAppTagging.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
-        assertEquals(AppTaggingInterface.PrivacyStatus.OPTOUT, mAppTagging.getPrivacyConsent());
+        appTagging.setPrivacyConsent(AppTaggingInterface.PrivacyStatus.OPTOUT);
+        assertEquals(AppTaggingInterface.PrivacyStatus.OPTOUT, appTagging.getPrivacyConsent());
     }
 
 
-
     public void testTrackPageWithInfo_WithoutDictionary() {
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        appTagging.trackPageWithInfo("AppTaggingDemoPage", "key1", "value1");
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        verify(mAppTaggingHandlerMock).trackWithInfo("AppTaggingDemoPage", "key1", "value1", true);
+    }
+
+    public void testTrackPageWithInfoNullKey_WithoutDictionary() {
         mAppInfra.getConfigInterface().setPropertyForKey("appidentity.appState", "appinfra",
                 "PRODUCTION", configError);
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        appTagging.trackPageWithInfo("AppTaggingDemoPage", null, "value1");
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        verify(mAppTaggingHandlerMock).trackWithInfo("AppTaggingDemoPage", "key1", null, true);
+    }
 
-        mAppTagging.trackPageWithInfo("AppTaggingDemoPage", "key1", "value1");
+    public void testTrackPageWithInfoNullValue_WithoutDictionary() {
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        appTagging.trackPageWithInfo("AppTaggingDemoPage", "key1", null);
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        verify(mAppTaggingHandlerMock).trackWithInfo("AppTaggingDemoPage", "key1", null,true);
+    }
 
-        mAppTagging.trackPageWithInfo("AppTaggingDemoPage", null, "value1");
-
-        mAppTagging.trackPageWithInfo("AppTaggingDemoPage", "key1", null);
-
-        mAppTagging.trackPageWithInfo("AppTaggingDemoPage", null, null);
+    public void testTrackPageWithInfoNullKeyValue_WithoutDictionary() {
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        appTagging.trackPageWithInfo("AppTaggingDemoPage", null, null);
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        verify(mAppTaggingHandlerMock).trackWithInfo("AppTaggingDemoPage", null, null,true);
     }
 
     public void testTrackPageWithInfo_WithDictionary() {
@@ -210,46 +233,42 @@ public class AppTaggingTest extends AppInfraInstrumentation {
             for (int keyCount = 0; keyCount < keyArray.length; keyCount++) {
                 keyValuePair.put(keyArray[keyCount].trim(), valueArray[keyCount].trim());
             }
-            mAppTagging.trackPageWithInfo("AppTaggingDemoPage", keyValuePair);
+            when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+            appTagging.trackPageWithInfo("AppTaggingDemoPage", keyValuePair);
+            when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+            verify(mAppTaggingHandlerMock).track("AppTaggingDemoPage", keyValuePair,true);
         }
-        mAppTagging.trackPageWithInfo("AppTaggingDemoPage", null);
     }
 
     public void testTrackPageWithInfo_pagename_exceeds_100() {
-        mAppInfra.getConfigInterface().setPropertyForKey("appidentity.appState", "appinfra",
-                "PRODUCTION", configError);
-
-        mAppTagging.trackPageWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", "key1", "value1");
-
-        mAppTagging.trackPageWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", null, "value1");
-
-        mAppTagging.trackPageWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", "key1", null);
-
-        mAppTagging.trackPageWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", null, null);
-
-        HashMap<String, String> keyValuePair;
-        String[] keyArray = {"key1", "key2", "key3"};
-        String[] valueArray = {"value1", "value2", "value3"};
-        if (keyArray.length > 0 && keyArray.length == valueArray.length) { // number of keys should be same as that of values
-            keyValuePair = new HashMap<String, String>();
-            for (int keyCount = 0; keyCount < keyArray.length; keyCount++) {
-                keyValuePair.put(keyArray[keyCount].trim(), valueArray[keyCount].trim());
-            }
-            mAppTagging.trackPageWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", keyValuePair);
-        }
-        mAppTagging.trackPageWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", null);
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        appTagging.trackPageWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", "key1", "value1");
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        verify(mAppTaggingHandlerMock).trackWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", "key1", "value1",true);
     }
 
-    public void testMockTrackActionWithInfo() {
+    public void testTrackPageWithInfoNullKey_pagename_exceeds_100() {
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        appTagging.trackPageWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", null, "value1");
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        verify(mAppTaggingHandlerMock).trackWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", null, "value1",true);
+    }
 
-        mAppTagging.trackActionWithInfo("AppTaggingDemoPage", "key1", "value1");
+    public void testTrackPageWithInfoNullValue_pagename_exceeds_100() {
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        appTagging.trackPageWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", "key1", null);
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        verify(mAppTaggingHandlerMock).trackWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", "key1", null,true);
+    }
 
-        mAppTagging.trackActionWithInfo("AppTaggingDemoPage", null, "value1");
+    public void testTrackPageWithInfoNullValueKey_pagename_exceeds_100() {
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        appTagging.trackPageWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", null, null);
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        verify(mAppTaggingHandlerMock).trackWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", null, null,true);
+    }
 
-        mAppTagging.trackActionWithInfo("AppTaggingDemoPage", "key1", null);
-
-        mAppTagging.trackActionWithInfo("AppTaggingDemoPage", null, null);
-
+    public void testTrackPageWithInfoMapp_pagename_exceeds_100() {
         HashMap<String, String> keyValuePair;
         String[] keyArray = {"key1", "key2", "key3"};
         String[] valueArray = {"value1", "value2", "value3"};
@@ -258,21 +277,82 @@ public class AppTaggingTest extends AppInfraInstrumentation {
             for (int keyCount = 0; keyCount < keyArray.length; keyCount++) {
                 keyValuePair.put(keyArray[keyCount].trim(), valueArray[keyCount].trim());
             }
-            mAppTagging.trackActionWithInfo("AppTaggingDemoPage", keyValuePair);
+            when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+            appTagging.trackPageWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", keyValuePair);
+            when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+            verify(mAppTaggingHandlerMock).track("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/", keyValuePair,true);
         }
-        mAppTagging.trackActionWithInfo("AppTaggingDemoPage", null);
+      }
+
+    public void testMockTrackActionWithInfo() {
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        appTagging.trackActionWithInfo("AppTaggingDemoPage", "key1", "value1");
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        verify(mAppTaggingHandlerMock).trackWithInfo("AppTaggingDemoPage", "key1", "value1",false);
+    }
+
+    public void testMockTrackActionWithInfoNullKey() {
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        appTagging.trackActionWithInfo("AppTaggingDemoPage", null, "value1");
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        verify(mAppTaggingHandlerMock).trackWithInfo("AppTaggingDemoPage", null, "value1",false);
+    }
+
+    public void testMockTrackActionWithInfoNullValue() {
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        appTagging.trackActionWithInfo("AppTaggingDemoPage", null, null);
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        verify(mAppTaggingHandlerMock).trackWithInfo("AppTaggingDemoPage", null, null,false);
+    }
+
+
+
+
+    public void testMockTrackActionWithInfoMapp() {
+        HashMap<String, String> keyValuePair;
+        String[] keyArray = {"key1", "key2", "key3"};
+        String[] valueArray = {"value1", "value2", "value3"};
+        if (keyArray.length > 0 && keyArray.length == valueArray.length) { // number of keys should be same as that of values
+            keyValuePair = new HashMap<String, String>();
+            for (int keyCount = 0; keyCount < keyArray.length; keyCount++) {
+                keyValuePair.put(keyArray[keyCount].trim(), valueArray[keyCount].trim());
+            }
+            when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+            appTagging.trackActionWithInfo("AppTaggingDemoPage", keyValuePair);
+            when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+            verify(mAppTaggingHandlerMock).track("AppTaggingDemoPage", keyValuePair,false);
+        }
     }
 
     public void testMockTrackActionWithInfo_eventname_exceeds_255() {
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        appTagging.trackActionWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", "key1", "value1");
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        verify(mAppTaggingHandlerMock).trackWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", "key1", "value1",false);
+    }
 
-        mAppTagging.trackActionWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", "key1", "value1");
+    public void testMockTrackActionWithInfoNullKey_eventname_exceeds_255() {
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        appTagging.trackActionWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", null, "value1");
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        verify(mAppTaggingHandlerMock).trackWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", null, "value1",false);
+    }
 
-        mAppTagging.trackActionWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", null, "value1");
+    public void testMockTrackActionWithInfoNullValue_eventname_exceeds_255() {
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        appTagging.trackActionWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", "key1", null);
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        verify(mAppTaggingHandlerMock).trackWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", "key1", null,false);
+    }
 
-        mAppTagging.trackActionWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", "key1", null);
+    public void testMockTrackActionWithInfoNullKeyValue_eventname_exceeds_255() {
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        appTagging.trackActionWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", null, null);
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        verify(mAppTaggingHandlerMock).trackWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", null, null,false);
+    }
 
-        mAppTagging.trackActionWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", null, null);
-
+    public void testMockTrackActionWithInfoMapp_eventname_exceeds_255() {
         HashMap<String, String> keyValuePair;
         String[] keyArray = {"key1", "key2", "key3"};
         String[] valueArray = {"value1", "value2", "value3"};
@@ -281,317 +361,114 @@ public class AppTaggingTest extends AppInfraInstrumentation {
             for (int keyCount = 0; keyCount < keyArray.length; keyCount++) {
                 keyValuePair.put(keyArray[keyCount].trim(), valueArray[keyCount].trim());
             }
-            mAppTagging.trackActionWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", keyValuePair);
+            when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+            appTagging.trackActionWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", keyValuePair);
+            when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+            verify(mAppTaggingHandlerMock).track("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789", keyValuePair,false);
         }
-        mAppTagging.trackActionWithInfo("abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789/abcdefghijklmnopqrstuvwxyz0123456789+abcdefghijklmnopqrstuvwxyz0123456789", null);
     }
 
-    public void testLifecycle() {
-        ApplicationLifeCycleHandler handler = new ApplicationLifeCycleHandler(mAppInfra);
-        Application mockApplication = mock(Application.class);
-        mockApplication.registerActivityLifecycleCallbacks(handler);
-        mockApplication.registerComponentCallbacks(handler);
 
-    }
-
-    public void testEmumValues() {
+    public void testEmumValues_facebook() {
         assertEquals("facebook", AppTaggingInterface.SocialMedium.Facebook.toString());
+    }
+    public void testEmumValues_twitter() {
         assertEquals("twitter", AppTaggingInterface.SocialMedium.Twitter.toString());
+    }
+
+    public void testEmumValues_mail() {
         assertEquals("mail", AppTaggingInterface.SocialMedium.Mail.toString());
-       // assertEquals("airdrop", AppTaggingInterface.SocialMedium.AirDrop.toString());
     }
 
     public void testTrackVideoStart() {
-        doAnswer(new Answer<Object>() {
-            public Object answer(InvocationOnMock invocation) {
-                Object[] args = invocation.getArguments();
-                assertEquals(((String) args[0]), "Bindas");
-                return null;
-            }
-        }).when(mockAppTaggingInterface).trackVideoStart("Bindas");
-
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        appTagging.trackVideoStart("Bindas");
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        verify(mAppTaggingHandlerMock).trackWithInfo("videoEnd", "videoName", "Bindas",false);
     }
 
     public void testTrackVideoEnd() {
-        doAnswer(new Answer<Object>() {
-            public Object answer(InvocationOnMock invocation) {
-                Object[] args = invocation.getArguments();
-                assertEquals(((String) args[0]), "Bindas");
-                return null;
-            }
-        }).when(mockAppTaggingInterface).trackVideoEnd("Bindas");
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        appTagging.trackVideoEnd("Bindas");
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        verify(mAppTaggingHandlerMock).trackWithInfo("videoEnd", "videoName", "Bindas",false);
 
     }
 
     public void testTrackSocialSharing() {
-        doAnswer(new Answer<Object>() {
-            public Object answer(InvocationOnMock invocation) {
-                Object[] args = invocation.getArguments();
-                assertEquals(((String) args[1]), "Bindas");
-                return null;
-            }
-        }).when(mockAppTaggingInterface).trackSocialSharing(AppTaggingInterface.SocialMedium.Facebook, "Bindas");
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        appTagging.trackSocialSharing(AppTaggingInterface.SocialMedium.Facebook, "Bindas");
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        final HashMap<String, String> trackMap = new HashMap<>();
+        trackMap.put("socialItem", "Bindas");
+        trackMap.put("socialType", AppTaggingInterface.SocialMedium.Facebook.toString());
+        verify(mAppTaggingHandlerMock).track("socialShare", trackMap,false);
     }
 
     public void testTrackLinkExternal() {
-        doAnswer(new Answer<Object>() {
-            public Object answer(InvocationOnMock invocation) {
-                Object[] args = invocation.getArguments();
-                assertEquals(((String) args[0]), "http://www.philips.co.in/");
-                return null;
-            }
-        }).when(mockAppTaggingInterface).trackLinkExternal("http://www.philips.co.in/");
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        appTagging.trackLinkExternal("http://www.philips.co.in/");
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        verify(mAppTaggingHandlerMock).trackWithInfo("sendData", "exitLinkName","\"http://www.philips.co.in/\"",false);
+
     }
 
     public void testTrackFileDownload() {
-        doAnswer(new Answer<Object>() {
-            public Object answer(InvocationOnMock invocation) {
-                Object[] args = invocation.getArguments();
-                assertEquals(((String) args[0]), "Bindas");
-                return null;
-            }
-        }).when(mockAppTaggingInterface).trackFileDownload("Bindas");
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        appTagging.trackFileDownload("Bindas");
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        verify(mAppTaggingHandlerMock).trackWithInfo("sendData", "fileName","Bindas",false);
+
+
     }
 
     public void testTimedActionStart() {
-        mockAppTaggingInterface.trackTimedActionStart("Tagging_trackTimedAction");
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        appTagging.trackTimedActionStart("Tagging_trackTimedAction");
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        verify(mAppTaggingHandlerMock).timeActionStart("Tagging_trackTimedAction");
+
     }
 
     public void testTrackTimedActionEnd() {
-        mockAppTaggingInterface.trackTimedActionEnd("Tagging_trackTimedAction");
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        appTagging.trackTimedActionEnd("Tagging_trackTimedAction");
+        when(mAppTaggingHandlerMock.checkForSslConnection()).thenReturn(true);
+        verify(mAppTaggingHandlerMock).timeActionEnd("Tagging_trackTimedAction");
     }
 
-    public void testVideostartactions() {
-        try {
-            Method method = AppTagging.class.getDeclaredMethod("trackVideoStart", String.class);
-            method.setAccessible(true);
-            method.invoke(mAppTagging, "Start");
-
-
-            method = AppTagging.class.getDeclaredMethod("trackVideoEnd", String.class);
-            method.setAccessible(true);
-            method.invoke(mAppTagging, "Start");
-
-
-            method = AppTagging.class.getDeclaredMethod("trackLinkExternal", String.class);
-            method.setAccessible(true);
-            method.invoke(mAppTagging, "Start");
-
-
-            method = AppTagging.class.getDeclaredMethod("trackFileDownload", String.class);
-            method.setAccessible(true);
-            method.invoke(mAppTagging, "Start");
-
-            method = AppTagging.class.getDeclaredMethod("setPrivacyConsentForSensitiveData", boolean.class);
-            method.setAccessible(true);
-            method.invoke(mAppTagging, true);
-
-            method = AppTagging.class.getDeclaredMethod("getPrivacyConsentForSensitiveData");
-            method.setAccessible(true);
-            method.invoke(mAppTagging);
-            mAppTagging.setPrivacyConsentForSensitiveData(true);
-            assertTrue(mAppTagging.getPrivacyConsentForSensitiveData());
-            assertNotNull(mAppTagging.getPrivacyConsentForSensitiveData());
-
-            method = AppTagging.class.getDeclaredMethod("trackLinkExternal", String.class);
-            method.setAccessible(true);
-            method.invoke(mAppTagging, "Start");
-
-            method = AppTagging.class.getDeclaredMethod("setPreviousPage", String.class);
-            method.setAccessible(true);
-            method.invoke(mAppTagging, "setPreviousPage");
-
-            method = AppTagging.class.getDeclaredMethod("pauseLifecycleInfo");
-            method.setAccessible(true);
-            method.invoke(mAppTagging);
-
-            method = AppTagging.class.getDeclaredMethod("collectLifecycleInfo", Activity.class);
-            method.setAccessible(true);
-            Testclass tTestclass = new Testclass();
-            method.invoke(mAppTagging, (Activity) tTestclass);
-
-            method = AppTagging.class.getDeclaredMethod("collectLifecycleInfo", Activity.class, Map.class);
-            method.setAccessible(true);
-            Map<String, String> map = new HashMap();
-            map.put("Test1", "Test2");
-            method.invoke(mAppTagging, tTestclass, map);
-        } catch (NoSuchMethodException | InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     public void testPrivacyConsentForSensitiveData() {
-        mAppTagging.setPrivacyConsentForSensitiveData(true);
-        assertTrue(mAppTagging.getPrivacyConsentForSensitiveData());
-        mAppTagging.setPrivacyConsentForSensitiveData(false);
-        assertFalse(mAppTagging.getPrivacyConsentForSensitiveData());
-
+        when(appInfraMock.getAppInfraLogInstance()).thenReturn(loggingInterfaceMock);
+        when(appInfraMock.getSecureStorage()).thenReturn(secureStorageInterfaceMock);
+        AppTagging appTaggingPage=new AppTagging(appInfraMock);
+        appTaggingPage.setPrivacyConsentForSensitiveData(false);
+        assertFalse(appTaggingPage.getPrivacyConsentForSensitiveData());
     }
 
-    public void testgetAppState() {
-        try {
-            testConfig(null);
-            Method method = AppTagging.class.getDeclaredMethod("getAppStateFromConfig");
-            method.setAccessible(true);
-            method.invoke(mAppTagging);
 
-        } catch (NoSuchMethodException | InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+
+
+    public void testCheckForProductionState() {
+        boolean checkProduction=mAppTaggingHandler.checkForProductionState();
+        if(checkProduction){
+            assertTrue(checkProduction);
+        }else {
+            assertFalse(checkProduction);
         }
     }
 
-    public void testApplicationLifeCycle() {
-        ApplicationLifeCycleHandler mApplicationLifeCycleHandler = new ApplicationLifeCycleHandler(mAppInfra);
-        assertNotNull(mApplicationLifeCycleHandler);
-        ApplicationLifeCycleHandler.isInBackground = true;
-        Testclass tTestclass = new Testclass();
-        Bundle bundle = new Bundle();
-        Configuration mConfiguration = new Configuration();
 
-        try {
-
-            Method method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityResumed", Activity.class);
-            method.setAccessible(true);
-            method.invoke(mApplicationLifeCycleHandler, tTestclass);
-
-            method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityPaused", Activity.class);
-            method.setAccessible(true);
-            method.invoke(mApplicationLifeCycleHandler, tTestclass);
-
-            method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityCreated", Activity.class, Bundle.class);
-            method.setAccessible(true);
-            method.invoke(mApplicationLifeCycleHandler, tTestclass, bundle);
-
-            method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityDestroyed", Activity.class);
-            method.setAccessible(true);
-            method.invoke(mApplicationLifeCycleHandler, tTestclass);
-
-            method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivitySaveInstanceState", Activity.class, Bundle.class);
-            method.setAccessible(true);
-            method.invoke(mApplicationLifeCycleHandler, tTestclass, bundle);
-
-            method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityStarted", Activity.class);
-            method.setAccessible(true);
-            method.invoke(mApplicationLifeCycleHandler, tTestclass);
-
-            method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onActivityStopped", Activity.class);
-            method.setAccessible(true);
-            method.invoke(mApplicationLifeCycleHandler, tTestclass);
-
-            method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onConfigurationChanged", Configuration.class);
-            method.setAccessible(true);
-            method.invoke(mApplicationLifeCycleHandler, mConfiguration);
-
-            method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onLowMemory");
-            method.setAccessible(true);
-            method.invoke(mApplicationLifeCycleHandler);
-
-            method = ApplicationLifeCycleHandler.class.getDeclaredMethod("onTrimMemory", int.class);
-            method.setAccessible(true);
-            method.invoke(mApplicationLifeCycleHandler, 20);
-
-
-        } catch (NoSuchMethodException | InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+    public void testGetMasterADBMobileConfig() {
+        final JSONObject jSONObject = mAppTaggingHandler.getMasterADBMobileConfig();
+        if(jSONObject!=null){
+            assertNotNull(jSONObject);
+        }else {
+            assertNull(jSONObject);
         }
     }
-
-  /*  public void testTrackActionMethods() {
-        try {
-
-            testConfig("Staging");
-            testAdobeJsonConfig(false);
-
-            Method method = AppTagging.class.getDeclaredMethod("trackTimedActionStart", String.class);
-            method.setAccessible(true);
-            method.invoke(mAppTagging, "TestTrackAction");
-
-            testAdobeJsonConfig(true);
-            method = AppTagging.class.getDeclaredMethod("trackTimedActionStart", String.class);
-            method.setAccessible(true);
-            method.invoke(mAppTagging, "TestTrackAction");
-
-            testConfig("Staging");
-            testAdobeJsonConfig(false);
-
-            method = AppTagging.class.getDeclaredMethod("trackTimedActionEnd", String.class);
-            method.setAccessible(true);
-            method.invoke(mAppTagging, "TestTrackAction");
-
-            testAdobeJsonConfig(true);
-            method = AppTagging.class.getDeclaredMethod("trackTimedActionEnd", String.class);
-            method.setAccessible(true);
-            method.invoke(mAppTagging, "TestTrackAction");
-        } catch (NoSuchMethodException | InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void testCheckStates() {
-        try {
-
-            testConfig("Staging");
-
-            Method method = AppTagging.class.getDeclaredMethod("checkForProductionState");
-            method.setAccessible(true);
-            method.invoke(mAppTagging);
-
-            testConfig(null);
-
-            method = AppTagging.class.getDeclaredMethod("checkForProductionState");
-            method.setAccessible(true);
-            method.invoke(mAppTagging);
-
-            method = AppTagging.class.getDeclaredMethod("getMasterADBMobileConfig");
-            method.setAccessible(true);
-            method.invoke(mAppTagging);
-
-            testAdobeJsonConfig(false);
-            method = AppTagging.class.getDeclaredMethod("checkForSslConnection");
-            method.setAccessible(true);
-            method.invoke(mAppTagging);
-
-
-        } catch (NoSuchMethodException | InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-*/
-    public void testgetTrackingIdentifier() {
+      public void testgetTrackingIdentifier() {
         assertNotNull(mAppTagging.getTrackingIdentifier());
     }
 
-    public void testTaggingData() {
-        mAIAppTaggingInterface.createInstanceForComponent("Testin Tagging", "Testing Ver");
-        mAIAppTaggingInterface.registerTaggingData(rec);
-        mAIAppTaggingInterface.trackPageWithInfo(AppTagging.PAGE_NAME, "Test Page", "Test Name");
-        mAIAppTaggingInterface.trackActionWithInfo(AppTagging.ACTION_NAME, "Test Action", "Test Action");
-        mAIAppTaggingInterface.unregisterTaggingData(rec);
-    }
-
-    public void testTaggingDataNeagtiveCase() {
-        mAIAppTaggingInterface.createInstanceForComponent("Testin Tagging", "Testing Ver");
-        mAIAppTaggingInterface.registerTaggingData(null);
-        mAIAppTaggingInterface.trackPageWithInfo("ailPageName_second", "Test Page ", "Test Name");
-        mAIAppTaggingInterface.trackActionWithInfo(AppTagging.ACTION_NAME, "Test Action", "Test Action");
-        mAIAppTaggingInterface.unregisterTaggingData(null);
-    }
-
-    public class Testclass extends Activity {
-        Testclass() {
-            Log.i("Example", "Example");
-        }
-    }
 }

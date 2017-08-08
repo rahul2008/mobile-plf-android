@@ -42,8 +42,15 @@ public class AppTagging implements AppTaggingInterface {
     }
 
     private void init(Context context) {
-        appTaggingHandle = new AppTaggingHandler(mAppInfra);
+        getAppTaggingHandler();
         Config.setContext(context);
+    }
+
+    AppTaggingHandler getAppTaggingHandler() {
+        if (appTaggingHandle == null) {
+            return appTaggingHandle = new AppTaggingHandler(mAppInfra);
+        }
+        return appTaggingHandle;
     }
 
 
@@ -61,53 +68,53 @@ public class AppTagging implements AppTaggingInterface {
     @Override
     public PrivacyStatus getPrivacyConsent() {
         final MobilePrivacyStatus mMobilePrivacyStatus = Config.getPrivacyStatus();
-        return appTaggingHandle.getMobilePrivacyStatus(mMobilePrivacyStatus);
+        return getAppTaggingHandler().getMobilePrivacyStatus(mMobilePrivacyStatus);
     }
 
     @Override
     public void setPrivacyConsent(PrivacyStatus privacyStatus) {
-        appTaggingHandle.setPrivacyStatus(privacyStatus);
+        getAppTaggingHandler().setPrivacyStatus(privacyStatus);
     }
 
     @Override
     public void trackTimedActionStart(String actionStart) {
-        appTaggingHandle.timeActionStart(actionStart);
+        getAppTaggingHandler().timeActionStart(actionStart);
     }
 
     @Override
     public void trackTimedActionEnd(String actionEnd) {
-        appTaggingHandle.timeActionEnd(actionEnd);
+        getAppTaggingHandler().timeActionEnd(actionEnd);
     }
 
     @Override
     public boolean getPrivacyConsentForSensitiveData() {
-        return appTaggingHandle.getPrivacyConsentSensitiveData();
+        return getAppTaggingHandler().getPrivacyConsentSensitiveData();
     }
 
     // Sets the value of Privacy Consent For Sensitive Data and stores in preferences
     @Override
     public void setPrivacyConsentForSensitiveData(boolean valueContent) {
-        appTaggingHandle.setPrivacyConsentSensitiveData(valueContent);
+        getAppTaggingHandler().setPrivacyConsentSensitiveData(valueContent);
     }
 
     @Override
     public void trackPageWithInfo(String pageName, String key, String value) {
-        appTaggingHandle.trackWithInfo(pageName, key, value, true);
+        getAppTaggingHandler().trackWithInfo(pageName, key, value, true);
     }
 
     @Override
     public void trackPageWithInfo(String pageName, Map<String, String> paramMap) {
-        appTaggingHandle.track(pageName, paramMap, true);
+        getAppTaggingHandler().track(pageName, paramMap, true);
     }
 
     @Override
     public void trackActionWithInfo(String pageName, String key, String value) {
-        appTaggingHandle.trackWithInfo(pageName, key, value, false);
+        getAppTaggingHandler().trackWithInfo(pageName, key, value, false);
     }
 
     @Override
     public void trackActionWithInfo(String pageName, Map<String, String> paramMap) {
-        appTaggingHandle.track(pageName, paramMap, false);
+        getAppTaggingHandler().track(pageName, paramMap, false);
     }
 
     @Override
@@ -152,12 +159,12 @@ public class AppTagging implements AppTaggingInterface {
 
     @Override
     public void unregisterTaggingData(final BroadcastReceiver receiver) {
-        appTaggingHandle.taggingDataUnregister(receiver);
+        getAppTaggingHandler().taggingDataUnregister(receiver);
     }
 
     @Override
     public void registerTaggingData(final BroadcastReceiver receiver) {
-        appTaggingHandle.taggingDataRegister(receiver);
+        getAppTaggingHandler().taggingDataRegister(receiver);
     }
 
     private void socialSharing(AppTaggingInterface.SocialMedium medium, String sharedItem) {
@@ -168,17 +175,14 @@ public class AppTagging implements AppTaggingInterface {
     }
 
     void setComponentIdAndVersion(String mComponentID, String mComponentVersion) {
-        appTaggingHandle.setComponentIdVersion(mComponentID, mComponentVersion);
+        getAppTaggingHandler().setComponentIdVersion(mComponentID, mComponentVersion);
     }
 
-    String getPreviousPage() {
-        return prevPage;
-    }
 
     @Override
     public void setPreviousPage(String previousPage) {
         prevPage = previousPage;
-        appTaggingHandle.setPrevPage(prevPage);
+        getAppTaggingHandler().setPrevPage(previousPage);
 
     }
 
