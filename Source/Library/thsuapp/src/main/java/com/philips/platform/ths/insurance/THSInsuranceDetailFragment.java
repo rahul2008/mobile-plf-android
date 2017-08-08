@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.insurance;
 
 import android.app.DatePickerDialog;
@@ -33,44 +39,37 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by philips on 7/11/17.
- */
-
 public class THSInsuranceDetailFragment extends THSBaseFragment implements BackEventListener, View.OnClickListener {
     public static final String TAG = THSInsuranceDetailFragment.class.getSimpleName();
     private ActionBarListener actionBarListener;
     private RelativeLayout mProgressbarContainer;
     private THSInsuranceDetailPresenter mPresenter;
-     EditText insuranceEditBox;
-     EditText subscriptionIDEditBox;
+    protected EditText insuranceEditBox;
+    protected EditText subscriptionIDEditBox;
 
-     EditText relationshipEditBox;
-     EditText firstNameEditBox;
-     EditText lastNameEditBox;
-     EditText relationDOBEditBox;
-    ListView mHealPlanListView;
-    AlertDialog.Builder mAlertDialog;
-    THSSubscription thsSubscriptionExisting;
+    protected EditText relationshipEditBox;
+    protected EditText firstNameEditBox;
+    protected EditText lastNameEditBox;
+    protected EditText relationDOBEditBox;
+    protected ListView mHealPlanListView;
+    private AlertDialog.Builder mAlertDialog;
+    protected THSSubscription thsSubscriptionExisting;
 
 
     private Button detailContinueButton;
     private Button detailSkipButton;
-    THSHealthPlanListAdapter mTHSHealthPlanListAdapter;
-    THSSubscriberRelationshipListAdapter mTHSSubscriberRelationshipListAdapter;
-    CheckBox mNotPrimarySubscriberCheckBox;
-    RelativeLayout mNotPrimarySubscriberRelativeLayout;
-
+    private THSHealthPlanListAdapter mTHSHealthPlanListAdapter;
+    private THSSubscriberRelationshipListAdapter mTHSSubscriberRelationshipListAdapter;
+    protected CheckBox mNotPrimarySubscriberCheckBox;
+    private RelativeLayout mNotPrimarySubscriberRelativeLayout;
 
 
     /// editable fields
-    THSHealthPlan mTHSHealthPlanList;
-    THSRelationship mTHSRelationshipList;
-    HealthPlan mHealthPlan;
-    Relationship mInsuranceRelationship;
-    RelativeLayout mRelativeLayoutInsuranceContainer;
-
-
+    private THSHealthPlan mTHSHealthPlanList;
+    protected THSRelationship mTHSRelationshipList;
+    protected HealthPlan mHealthPlan;
+    protected Relationship mInsuranceRelationship;
+    private RelativeLayout mRelativeLayoutInsuranceContainer;
 
 
     @Nullable
@@ -114,12 +113,11 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
             }
         });
         //mPresenter.getCurrentSubscription();
-        mProgressbarContainer=(RelativeLayout) view.findViewById(R.id.ths_insurance_detail_container);
+        mProgressbarContainer = (RelativeLayout) view.findViewById(R.id.ths_insurance_detail_container);
         return view;
 
 
     }
-
 
 
     @Override
@@ -130,7 +128,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
         mTHSRelationshipList = ((THSInsuranceDetailPresenter) mPresenter).fetchSubscriberRelationList();
         mTHSHealthPlanListAdapter = new THSHealthPlanListAdapter(getActivity(), mTHSHealthPlanList);
         mTHSSubscriberRelationshipListAdapter = new THSSubscriberRelationshipListAdapter(getActivity(), mTHSRelationshipList);
-        createCustomProgressBar(mProgressbarContainer,BIG);
+        createCustomProgressBar(mProgressbarContainer, BIG);
         mPresenter.fetchExistingSubscription();
     }
 
@@ -164,13 +162,13 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
 
         } else if (view.getId() == R.id.ths_insurance_detail_skip_button) {
             mPresenter.onEvent(R.id.ths_insurance_detail_skip_button);
-        } else if (view.getId() == R.id.ths_insurance_detail_continue_button){
-            createCustomProgressBar(mRelativeLayoutInsuranceContainer,BIG);
+        } else if (view.getId() == R.id.ths_insurance_detail_continue_button) {
+            createCustomProgressBar(mRelativeLayoutInsuranceContainer, BIG);
             mPresenter.onEvent(R.id.ths_insurance_detail_continue_button);
 
-        }else if (view.getId() == R.id.ths_insurance_detail_provider_relation_dob_edittext){
+        } else if (view.getId() == R.id.ths_insurance_detail_provider_relation_dob_edittext) {
 
-            showDatePicker(relationDOBEditBox,getActivity(),false);
+            showDatePicker(relationDOBEditBox, getActivity(), false);
         }
 
 
@@ -182,7 +180,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
         mAlertDialog.setAdapter(adapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int position) {
-                mHealthPlan= mTHSHealthPlanList.getHealthPlanList().get(position);
+                mHealthPlan = mTHSHealthPlanList.getHealthPlanList().get(position);
                 insuranceEditBox.setText(mHealthPlan.getName());
                 dialog.dismiss();
             }
@@ -190,13 +188,14 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
         AlertDialog alert = mAlertDialog.create();
         alert.show();
     }
+
     private void showRelationshipListDialog(String title, BaseAdapter adapter) {
         mAlertDialog.setTitle(title);
 
         mAlertDialog.setAdapter(adapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int position) {
-                mInsuranceRelationship= mTHSRelationshipList.getRelationShipList().get(position);
+                mInsuranceRelationship = mTHSRelationshipList.getRelationShipList().get(position);
                 relationshipEditBox.setText(mInsuranceRelationship.getName());
                 dialog.dismiss();
             }
@@ -214,8 +213,7 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
             Date date;
             try {
                 date = dateFormat.parse(dateText);
-            }
-            catch (ParseException exception) {
+            } catch (ParseException exception) {
                 throw new RuntimeException(exception);
             }
 

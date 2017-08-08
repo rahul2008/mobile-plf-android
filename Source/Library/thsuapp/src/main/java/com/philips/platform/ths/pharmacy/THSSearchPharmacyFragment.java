@@ -1,31 +1,40 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.pharmacy;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.americanwell.sdk.entity.pharmacy.Pharmacy;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uid.utils.UIDNavigationIconToggler;
-import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.SearchBox;
 
-public class THSSearchPharmacyFragment extends THSBaseFragment implements SearchBox.ExpandListener, SearchBox.QuerySubmitListener,View.OnClickListener {
+import java.util.List;
+
+public class THSSearchPharmacyFragment extends THSBaseFragment implements SearchBox.ExpandListener,SearchBox.QuerySubmitListener,THSSearchFragmentViewInterface{
 
     public static String TAG = THSSearchPharmacyFragment.class.getSimpleName();
-    private UIDNavigationIconToggler navIconToggler;
-    private SearchBox searchBox;
-    private Button button;
+    private SearchBox searchPharmacy;
     private ActionBarListener actionBarListener;
+    private THSSearchPharmacyPresenter thsSearchPharmacyPresenter;
+    public static final int SEARCH_EVENT_ID = 4000;
+    private String zipSearchString = null;
+    private List<Pharmacy> pharmacies;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        thsSearchPharmacyPresenter = new THSSearchPharmacyPresenter(getActivity(),this);
         setHasOptionsMenu(true);
     }
 
@@ -33,9 +42,12 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view  = inflater.inflate(R.layout.ths_pharmacy_search_fragment,container,false);
-        button = (Button) view.findViewById(R.id.launch_your_pharmacy);
-        button.setOnClickListener(this);
-        navIconToggler = new UIDNavigationIconToggler(getActivity());
+        searchPharmacy = (SearchBox) view.findViewById(R.id.ths_search_pharmacy_edittext);
+        searchPharmacy.setExpandListener(this);
+        searchPharmacy.setQuerySubmitListener(this);
+        searchPharmacy.setQuery(searchPharmacy.getQuery());
+        searchPharmacy.setSearchBoxHint("Search for pharmacy");
+        searchPharmacy.setDecoySearchViewHint("Search for pharmacy");
         actionBarListener = getActionBarListener();
         if(null != actionBarListener){
             actionBarListener.updateActionBar(R.string.search_pharmacy_fragment_name,true);
@@ -47,57 +59,49 @@ public class THSSearchPharmacyFragment extends THSBaseFragment implements Search
     @Override
     public void onResume() {
         super.onResume();
-        navIconToggler.hideNavigationIcon();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.ths_pharmacy_search_menu,menu);
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        searchBox = (SearchBox) menu.findItem(R.id.ths_pharmacy_search).getActionView();
-        searchBox.setExpandListener(this);
-        searchBox.setQuerySubmitListener(this);
-        searchBox.setQuery(searchBox.getQuery());
-        searchBox.setSearchBoxHint("Search for pharmacy");
-        searchBox.setDecoySearchViewHint("Search for pharmacy");
-        searchBox.setExpandListener(this);
-        searchBox.setQuerySubmitListener(this);
-        searchBox.setSearchIconified(true);
-        searchBox.setSearchCollapsed(true);
-    }
 
-    @Override
-    public void onSearchExpanded() {
-        navIconToggler.hideNavigationIcon();
-    }
-
-    @Override
-    public void onSearchCollapsed() {
-        navIconToggler.hideNavigationIcon();
     }
 
     @Override
     public void onQuerySubmit(CharSequence charSequence) {
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        if(v.getId() == R.id.launch_your_pharmacy){
-            final THSPharmacyListFragment fragment = new THSPharmacyListFragment();
-            fragment.setFragmentLauncher(getFragmentLauncher());
-            getActivity().getSupportFragmentManager().beginTransaction().replace(getContainerID(), fragment,"Your Pharmace").addToBackStack(null).commit();
-        }
+        zipSearchString = String.valueOf(charSequence);
+        thsSearchPharmacyPresenter.onEvent(SEARCH_EVENT_ID);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        navIconToggler.restoreNavigationIcon();
+    }
+
+    @Override
+    public String getZipCode() {
+        return zipSearchString;
+    }
+
+    @Override
+    public void setPharmacyList(List<Pharmacy> pharmacies) {
+        this.pharmacies = pharmacies;
+        callPharmacyListFragment();
+    }
+
+    private void callPharmacyListFragment() {
+        THSPharmacyListFragment thsPharmacyListFragment = new THSPharmacyListFragment();
+        thsPharmacyListFragment.setPharmaciesList(pharmacies);
+        addFragment(thsPharmacyListFragment,THSPharmacyListFragment.TAG,null);
+    }
+
+    @Override
+    public void onSearchExpanded() {
+        searchPharmacy.getCollapseView().setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onSearchCollapsed() {
+
     }
 }

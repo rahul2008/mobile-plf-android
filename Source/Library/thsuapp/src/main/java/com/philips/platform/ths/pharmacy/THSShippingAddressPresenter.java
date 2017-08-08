@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.pharmacy;
 
 import com.americanwell.sdk.entity.Address;
@@ -6,6 +12,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.base.THSBaseView;
+import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.utility.THSManager;
 
@@ -35,9 +42,7 @@ public class THSShippingAddressPresenter implements THSUpdateShippingAddressCall
     @Override
     public void onUpdateSuccess(Address address, SDKError sdkErro) {
         //TODO: check this immediately
-        //Toast.makeText(thsBaseView.getFragmentActivity(),"Update address success",Toast.LENGTH_SHORT).show();
-        //thsBaseView.addFragment(new THSInsuranceConfirmationFragment(),THSInsuranceConfirmationFragment.TAG,null);
-        ((THSShippingAddressFragment) thsBaseView).updateShippingAddressView(address);
+        thsBaseView.addFragment(new THSInsuranceConfirmationFragment(),THSInsuranceConfirmationFragment.TAG,null);
         ((THSShippingAddressFragment) thsBaseView).showToast("Update Shipping address success");
     }
 

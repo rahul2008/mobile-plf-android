@@ -3,13 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-   <!-- <com.philips.platform.uid.view.widget.ProgressBar
-        android:id="@+id/initialize_progress_bar"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_centerInParent="true"
-        style="@style/UIDProgressBarCircularIndeterminateMiddle"
-    />-->
 
    <com.philips.platform.uid.view.widget.Button
        android:id="@+id/init_amwell"

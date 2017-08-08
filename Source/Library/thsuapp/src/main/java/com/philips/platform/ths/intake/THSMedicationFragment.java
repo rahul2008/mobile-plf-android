@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.intake;
 
 
@@ -36,13 +42,13 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     private ActionBarListener actionBarListener;
     private THSMedicationPresenter mPresenter;
     private RelativeLayout mProgressbarContainer;
-    ListView mExistingMedicationListView;
-    THSExistingMedicationListAdapter mTHSExistingMedicationListAdapter;
-    THSMedication mExistingMedication;
-    Medication mSelectedMedication;
-    Button updateMedicationButton;
-    Label mSkipLabel;
-    boolean existingMedicineFetched=  false; // flag to know if medication is fetched which can be null also
+    private ListView mExistingMedicationListView;
+    private THSExistingMedicationListAdapter mTHSExistingMedicationListAdapter;
+    protected THSMedication mExistingMedication;
+    private Medication mSelectedMedication;
+    private Button updateMedicationButton;
+    private Label mSkipLabel;
+    boolean existingMedicineFetched = false; // flag to know if medication is fetched which can be null also
 
 
     @Nullable
@@ -50,7 +56,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.ths_intake_medication, container, false);
         setRetainInstance(true);
-        mProgressbarContainer=(RelativeLayout) view.findViewById(R.id.ths_medication_container);
+        mProgressbarContainer = (RelativeLayout) view.findViewById(R.id.ths_medication_container);
         mPresenter = new THSMedicationPresenter(this);
         updateMedicationButton = (Button) view.findViewById(R.id.pth_intake_medication_continue_button);
         updateMedicationButton.setOnClickListener(this);
@@ -58,7 +64,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
         mSkipLabel.setOnClickListener(this);
         mExistingMedicationListView = (ListView) view.findViewById(R.id.pth_intake_medication_listview);
         View viewFooter = inflater.inflate(R.layout.ths_existing_medicine_footer, null);
-        RelativeLayout footer=(RelativeLayout) viewFooter.findViewById(R.id.ths_existing_medicine_footer_relative_layout);
+        RelativeLayout footer = (RelativeLayout) viewFooter.findViewById(R.id.ths_existing_medicine_footer_relative_layout);
         footer.setOnClickListener(this);
         mExistingMedicationListView.addFooterView(footer);
         mTHSExistingMedicationListAdapter = new THSExistingMedicationListAdapter(getActivity());
@@ -84,7 +90,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
 
         } else {
             // fetch existing medicines
-            createCustomProgressBar(mProgressbarContainer,BIG);
+            createCustomProgressBar(mProgressbarContainer, BIG);
             ((THSMedicationPresenter) mPresenter).fetchMedication();
         }
 
@@ -105,7 +111,7 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
         if (null != mSelectedMedication) {
             addSearchedMedicineToExistingMedication(mSelectedMedication);
         }
-            mTHSExistingMedicationListAdapter.setData(mExistingMedication);
+        mTHSExistingMedicationListAdapter.setData(mExistingMedication);
     }
 
 
@@ -133,11 +139,11 @@ public class THSMedicationFragment extends THSBaseFragment implements View.OnCli
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.pth_intake_medication_continue_button) {
-            createCustomProgressBar(mProgressbarContainer,BIG);
+            createCustomProgressBar(mProgressbarContainer, BIG);
             mPresenter.onEvent(R.id.pth_intake_medication_continue_button);
         } else if (id == R.id.ths_existing_medicine_footer_relative_layout) {
             mPresenter.onEvent(R.id.ths_existing_medicine_footer_relative_layout);
-        }else if (id == R.id.pth_intake_medication_skip_step_label) {
+        } else if (id == R.id.pth_intake_medication_skip_step_label) {
             mPresenter.onEvent(R.id.pth_intake_medication_skip_step_label);
         }
     }

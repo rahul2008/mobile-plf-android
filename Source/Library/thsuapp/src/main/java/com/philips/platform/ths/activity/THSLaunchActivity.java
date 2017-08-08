@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.ths.activity;
 
 import android.os.Bundle;
@@ -17,17 +22,13 @@ import com.philips.platform.uid.thememanager.NavigationColor;
 import com.philips.platform.uid.thememanager.ThemeConfiguration;
 import com.philips.platform.uid.thememanager.UIDHelper;
 
-import static com.philips.platform.ths.uappclasses.THSMicroAppInterface.WELCOME_MESSAGE;
-
 
 public class THSLaunchActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
     private TextView mTitleTextView;
     private int containerId;
-
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
-
     private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
 
     @Override
@@ -40,13 +41,7 @@ public class THSLaunchActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             THSWelcomeFragment pthWelcomeFragment = new THSWelcomeFragment
                     ();
-            Bundle extras = getIntent().getExtras();
-            if (extras != null) {
-                String message = extras.getString(WELCOME_MESSAGE);
-                Bundle bundle = new Bundle();
-                bundle.putString(WELCOME_MESSAGE, message);
-                pthWelcomeFragment.setArguments(bundle);
-            }
+
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.parent_layout, pthWelcomeFragment);
             fragmentTransaction.commitAllowingStateLoss();

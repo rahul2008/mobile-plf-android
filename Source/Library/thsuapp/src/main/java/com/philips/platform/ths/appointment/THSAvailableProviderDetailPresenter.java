@@ -1,8 +1,13 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.appointment;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.widget.DatePicker;
 
@@ -24,9 +29,9 @@ import java.util.Date;
 import java.util.List;
 
 public class THSAvailableProviderDetailPresenter implements THSBasePresenter, THSProviderDetailsCallback, THSAvailableProviderCallback<List, THSSDKError> {
-    THSBaseFragment mThsBaseFragment;
-    THSProviderDetailsDisplayHelper mthsProviderDetailsDisplayHelper;
-    OnDateSetChangedInterface onDateSetChangedInterface;
+    private THSBaseFragment mThsBaseFragment;
+    private THSProviderDetailsDisplayHelper mthsProviderDetailsDisplayHelper;
+    private OnDateSetChangedInterface onDateSetChangedInterface;
 
     THSAvailableProviderDetailPresenter(THSBaseFragment thsBaseFragment, THSProviderDetailsDisplayHelper thsProviderDetailsDisplayHelper,
                                         OnDateSetChangedInterface onDateSetChangedInterface) {

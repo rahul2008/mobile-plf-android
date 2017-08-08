@@ -1,13 +1,12 @@
-
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/ths_list_row_label"
-style="?android:attr/dropDownItemStyle"
+    android:id="@+id/ths_list_row_label"
+    style="?android:attr/dropDownItemStyle"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
     android:background="@color/uidColorWhite"
-android:layout_width="match_parent"
-android:layout_height="?android:attr/listPreferredItemHeight"
-android:paddingStart="@dimen/uid_recyclerview_margin_left_right"
-android:paddingEnd="@dimen/uid_recyclerview_margin_left_right"
-android:minHeight="@dimen/uid_recyclerview_item_one_line_height"
-android:ellipsize="marquee"
-android:textAppearance="?android:attr/textAppearanceLargePopupMenu"
-android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor" />
+    android:ellipsize="marquee"
+    android:minHeight="@dimen/uid_recyclerview_item_one_line_height"
+    android:paddingEnd="@dimen/uid_recyclerview_margin_left_right"
+    android:paddingStart="@dimen/uid_recyclerview_margin_left_right"
+    android:textAppearance="?android:attr/textAppearanceLargePopupMenu"
+    android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor" />

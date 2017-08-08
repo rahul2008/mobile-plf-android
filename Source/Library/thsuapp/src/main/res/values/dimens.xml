@@ -24,5 +24,8 @@
     <dimen name="ths_title_padding">4dp</dimen>
     <dimen name="ths_conditions_margin_top">20dp</dimen>
     <dimen name="ths_checkbox_bottom_margin">8dp</dimen>
+    <!-- Registration dimens-->
+    <dimen name="ths_margin_top_registration_detail_title">24dp</dimen>
+    <dimen name="ths_margin_bottom_more_details">12dp</dimen>
 
 </resources>

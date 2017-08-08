@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.intake;
 
 import android.content.Context;
@@ -7,23 +13,25 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.americanwell.sdk.entity.NamedSDKEntity;
+import com.americanwell.sdk.entity.SDKEntity;
 import com.philips.platform.ths.R;
+import com.philips.platform.ths.providerslist.THSProviderInfo;
 
-/**
- * Created by philips on 6/30/17.
- */
+import java.util.List;
 
-public class THSSearchedMedicationListAdapter extends BaseAdapter {
-    THSMedication mPTHSearchedMedication;
-    Context mContext;
+public class THSSearchListAdapter<T extends SDKEntity> extends BaseAdapter {
 
-    public THSSearchedMedicationListAdapter(Context context, THSMedication pTHMedication) {
+    private List<T> searchList;
+    private Context mContext;
+
+    public THSSearchListAdapter(Context context, List<T> searchList) {
         this.mContext = context;
-        this.mPTHSearchedMedication = pTHMedication;
+        this.searchList = searchList;
     }
 
-    void setData(THSMedication pTHSearchedMedication){
-        mPTHSearchedMedication=pTHSearchedMedication;
+    void setData(List<T> searchList) {
+        this.searchList = searchList;
         notifyDataSetChanged();
     }
 
@@ -34,8 +42,8 @@ public class THSSearchedMedicationListAdapter extends BaseAdapter {
      */
     @Override
     public int getCount() {
-        if (null != mPTHSearchedMedication && null != mPTHSearchedMedication.getMedicationList() && !mPTHSearchedMedication.getMedicationList().isEmpty()) {
-            return mPTHSearchedMedication.getMedicationList().size();
+        if (null != searchList && !searchList.isEmpty()) {
+            return searchList.size();
         } else {
             return 0;
         }
@@ -49,9 +57,9 @@ public class THSSearchedMedicationListAdapter extends BaseAdapter {
      * @return The data at the specified position.
      */
     @Override
-    public Object getItem(int position) {
-        if (null != mPTHSearchedMedication && null != mPTHSearchedMedication.getMedicationList() && !mPTHSearchedMedication.getMedicationList().isEmpty()) {
-            return mPTHSearchedMedication.getMedicationList().get(position);
+    public T getItem(int position) {
+        if (null != searchList && !searchList.isEmpty()) {
+            return searchList.get(position);
         } else {
             return null;
         }
@@ -95,22 +103,27 @@ public class THSSearchedMedicationListAdapter extends BaseAdapter {
             rowView = inflater.inflate(R.layout.ths_list_row, null);
             // configure view holder
             ViewHolder viewHolder = new ViewHolder();
-            viewHolder.MedicineName = (TextView) rowView.findViewById(R.id.ths_list_row_label);
+            viewHolder.searchItemName = (TextView) rowView.findViewById(R.id.ths_list_row_label);
 
             rowView.setTag(viewHolder);
         }
+        String searchedItem = null;
 
         ViewHolder holder = (ViewHolder) rowView.getTag();
-        String medicineName = mPTHSearchedMedication.getMedicationList().get(position).getName();
-        holder.MedicineName.setText(medicineName);
+        if (searchList.get(position) instanceof NamedSDKEntity) {
+            searchedItem = ((NamedSDKEntity) searchList.get(position)).getName();
+        } else {
+            searchedItem = ((THSProviderInfo) searchList.get(position)).getProviderInfo().getFirstName();
+        }
+
+        holder.searchItemName.setText(searchedItem);
 
         return rowView;
     }
 
 
     private class ViewHolder {
-        private TextView MedicineName;
-
+        private TextView searchItemName;
 
     }
 }

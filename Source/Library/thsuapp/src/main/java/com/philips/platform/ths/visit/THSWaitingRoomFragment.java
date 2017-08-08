@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.visit;
 
 import android.content.Intent;
@@ -6,10 +12,10 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uid.view.widget.AlertDialogFragment;
 import com.philips.platform.uid.view.widget.Button;
@@ -35,6 +41,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
     Label mProviderNameLabel;
     Label mProviderPracticeLabel;
     Button mCancelVisitButton;
+    CircularImageView mProviderImageView;
 
     @Nullable
     @Override
@@ -46,6 +53,7 @@ public class THSWaitingRoomFragment extends THSBaseFragment implements View.OnCl
         mProgressBarWithLabel = (ProgressBarWithLabel) view.findViewById(R.id.ths_waiting_room_ProgressBarWithLabel);
         mCancelVisitButton = (Button) view.findViewById(R.id.ths_waiting_room_cancel_button);
         mCancelVisitButton.setOnClickListener(this);
+        mProviderImageView = (CircularImageView)view.findViewById(R.id.details_providerImage);
         return  view;
     }
 

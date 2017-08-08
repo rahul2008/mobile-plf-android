@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.pharmacy;
 
 import android.os.Bundle;
@@ -8,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.americanwell.sdk.entity.Address;
+import com.americanwell.sdk.entity.Country;
 import com.americanwell.sdk.entity.State;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
@@ -33,7 +40,6 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
     private AppCompatSpinner spinner;
     private THSSpinnerAdapter spinnerAdapter;
     private List<State> stateList = null;
-    private THSUpdatePreferredPharmacy updatePreferredPharmacy;
     private ActionBarListener actionBarListener;
 
     @Nullable
@@ -47,7 +53,8 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
         spinner = (AppCompatSpinner) view.findViewById(R.id.sa_state_spinner);
 
         try {
-            stateList = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getConsumerManager().getValidPaymentMethodStates();
+            final List<Country> supportedCountries = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getSupportedCountries();
+            stateList = THSManager.getInstance().getAwsdk(getActivity().getApplicationContext()).getConsumerManager().getValidShippingStates(supportedCountries.get(0));
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
@@ -70,10 +77,6 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
         this.address = address;
     }
 
-    public void setUpdateShippingAddressCallback(THSUpdatePreferredPharmacy updatePreferredPharmacy){
-        this.updatePreferredPharmacy = updatePreferredPharmacy;
-    }
-
     @Override
     public void onClick(View v) {
         ShippingAddressPojo shippingAddressPojo = new ShippingAddressPojo();
@@ -91,11 +94,6 @@ public class THSShippingAddressFragment extends THSBaseFragment implements View.
             }
 
         }
-    }
-
-    public void updateShippingAddressView(Address address){
-        updatePreferredPharmacy.updateShippingAddress(address);
-        getActivity().getSupportFragmentManager().popBackStack();
     }
     @Override
     public boolean handleBackEvent() {

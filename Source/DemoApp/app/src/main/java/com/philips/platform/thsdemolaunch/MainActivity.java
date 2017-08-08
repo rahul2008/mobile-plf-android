@@ -1,5 +1,12 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.thsdemolaunch;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
@@ -9,9 +16,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.RegistrationLaunchMode;
+import com.philips.cdp.registration.listener.UserRegistrationListener;
+import com.philips.cdp.registration.listener.UserRegistrationUIEventListener;
+import com.philips.cdp.registration.settings.RegistrationFunction;
+import com.philips.cdp.registration.ui.utils.URInterface;
+import com.philips.cdp.registration.ui.utils.URLaunchInput;
 import com.philips.platform.ths.uappclasses.THSMicroAppDependencies;
-import com.philips.platform.ths.uappclasses.THSMicroAppInterface;
+import com.philips.platform.ths.uappclasses.THSMicroAppInterfaceImpl;
 import com.philips.platform.ths.uappclasses.THSMicroAppLaunchInput;
 import com.philips.platform.ths.uappclasses.THSMicroAppSettings;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
@@ -26,13 +39,13 @@ import com.philips.platform.uid.utils.UIDActivity;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends UIDActivity implements ActionBarListener {
+public class MainActivity extends UIDActivity implements ActionBarListener, UserRegistrationListener, UserRegistrationUIEventListener {
 
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
-    private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
+    private final int DEFAULT_THEME = R.style.Theme_DLS_Blue_UltraLight;
     private FragmentLauncher fragmentLauncher;
     private THSMicroAppLaunchInput PTHMicroAppLaunchInput;
-    private THSMicroAppInterface PTHMicroAppInterface;
+    private THSMicroAppInterfaceImpl PTHMicroAppInterface;
     private Toolbar toolbar;
 
     @Override
@@ -40,27 +53,19 @@ public class MainActivity extends UIDActivity implements ActionBarListener {
         initTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ths_launch_activity);
-        initAppInfra();
         toolbar = (Toolbar) findViewById(R.id.uid_toolbar);
         toolbar.setNavigationIcon(VectorDrawableCompat.create(getApplicationContext().getResources(), R.drawable.pth_back_icon, getTheme()));
         setSupportActionBar(toolbar);
         UIDHelper.setTitle(this, "Am well");
         fragmentLauncher = new FragmentLauncher(this, R.id.uappFragmentLayout, this);
-        PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input");
-        PTHMicroAppInterface = new THSMicroAppInterface();
-        PTHMicroAppInterface.init(new THSMicroAppDependencies(((THSDemoApplication) this.getApplicationContext()).getAppInfra()), new THSMicroAppSettings(this.getApplicationContext()));
-        PTHMicroAppInterface.launch(fragmentLauncher, PTHMicroAppLaunchInput);
-
+        User user = new User(this);
+        if(user!=null && !user.isUserSignIn()) {
+            startRegistrationFragment();
+        }else {
+            launchAmwell();
+        }
     }
 
-    private void initAppInfra() {
-        ((THSDemoApplication) getApplicationContext()).initializeAppInfra(new AppInitializationCallback.AppInfraInitializationCallback() {
-            @Override
-            public void onAppInfraInitialization() {
-
-            }
-        });
-    }
 
     private void showBackImage(boolean isVisible) {
         if (isVisible) {
@@ -90,12 +95,12 @@ public class MainActivity extends UIDActivity implements ActionBarListener {
         boolean backState;
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFrag = fragmentManager.findFragmentById(R.id.uappFragmentLayout);
-        if (fragmentManager.getBackStackEntryCount() == 2) {
-            finishAffinity();
-        } else if (currentFrag instanceof BackEventListener) {
+        if (currentFrag instanceof BackEventListener) {
             backState = ((BackEventListener) currentFrag).handleBackEvent();
             if (!backState) {
                 super.onBackPressed();
+            }else {
+                finishAffinity();
             }
         } else {
             super.onBackPressed();
@@ -124,5 +129,70 @@ public class MainActivity extends UIDActivity implements ActionBarListener {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    public void onUserLogoutSuccess() {
+
+    }
+
+    @Override
+    public void onUserLogoutFailure() {
+
+    }
+
+    @Override
+    public void onUserLogoutSuccessWithInvalidAccessToken() {
+
+    }
+
+    @Override
+    public void onUserRegistrationComplete(Activity activity) {
+        launchAmwell();
+    }
+
+    private void launchAmwell() {
+        PTHMicroAppLaunchInput = new THSMicroAppLaunchInput("Launch Uapp Input");
+        PTHMicroAppInterface = new THSMicroAppInterfaceImpl();
+        PTHMicroAppInterface.init(new THSMicroAppDependencies(((THSDemoApplication) this.getApplicationContext()).getAppInfra()), new THSMicroAppSettings(this.getApplicationContext()));
+        PTHMicroAppInterface.launch(fragmentLauncher, PTHMicroAppLaunchInput);
+    }
+
+    @Override
+    public void onPrivacyPolicyClick(Activity activity) {
+
+    }
+
+    @Override
+    public void onTermsAndConditionClick(Activity activity) {
+
+    }
+
+    void startRegistrationFragment() {
+        loadPlugIn();
+        runUserRegistration();
+    }
+
+    private void loadPlugIn() {
+        User userObject = new User(this);
+        userObject.registerUserRegistrationListener(this);
+    }
+
+    private void runUserRegistration() {
+        launchRegistrationFragment(false);
+    }
+
+    /**
+     * Launch registration fragment
+     */
+    private void launchRegistrationFragment(boolean isAccountSettings) {
+        URLaunchInput urLaunchInput = new URLaunchInput();
+        urLaunchInput.setUserRegistrationUIEventListener(this);
+        urLaunchInput.setEndPointScreen(RegistrationLaunchMode.ACCOUNT_SETTINGS);
+        urLaunchInput.setAccountSettings(true);
+        urLaunchInput.enableAddtoBackStack(true);
+        urLaunchInput.setRegistrationFunction(RegistrationFunction.Registration);
+        URInterface urInterface = new URInterface();
+        urInterface.launch(fragmentLauncher, urLaunchInput);
     }
 }

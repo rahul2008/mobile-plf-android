@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.base;
 
 import android.os.Bundle;
@@ -70,11 +76,18 @@ public class THSBaseFragment extends Fragment implements THSBaseView {
         fragmentTransaction = getFragmentActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(getContainerID(), fragment, fragmentTag);
         fragmentTransaction.addToBackStack(fragmentTag);
+        fragment.setFragmentLauncher(getFragmentLauncher());
         fragment.setActionBarListener(getActionBarListener());
         fragmentTransaction.commit();
     }
 
     public void createCustomProgressBar(ViewGroup group, int size) {
+        ViewGroup parentView = (ViewGroup) getView();
+        ViewGroup layoutViewGroup = group;
+        if(parentView != null){
+            group = parentView;
+        }
+
         switch (size){
             case BIG:
                 getContext().getTheme().applyStyle(R.style.PTHCircularPBBig, true);
@@ -94,15 +107,22 @@ public class THSBaseFragment extends Fragment implements THSBaseView {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         mPTHBaseFragmentProgressBar.setLayoutParams(params);
-        group.addView(mPTHBaseFragmentProgressBar);
+
+        try {
+            group.addView(mPTHBaseFragmentProgressBar);
+        }catch (Exception e){
+            layoutViewGroup.addView(mPTHBaseFragmentProgressBar);
+        }
 
         if (mPTHBaseFragmentProgressBar != null) {
             mPTHBaseFragmentProgressBar.setVisibility(View.VISIBLE);
         }
     }
 
+    //TODO: Toast to be removed
     public void showToast(String message){
         if (getContext() != null) {
+            //TODO: TO be removed
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
         }
     }

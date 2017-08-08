@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.cost;
 
 import com.americanwell.sdk.entity.SDKError;
@@ -11,13 +17,10 @@ import com.philips.platform.ths.utility.THSManager;
 
 import java.util.Map;
 
-/**
- * Created by philips on 7/19/17.
- */
 
 public class THSCostSummaryPresenter implements THSBasePresenter, THSSDKValidatedCallback<THSVisit, SDKError> {
 
-    THSBaseFragment mTHSBaseFragment;
+    private THSBaseFragment mTHSBaseFragment;
 
     public THSCostSummaryPresenter(THSCostSummaryFragment thsCostSummaryFragment) {
         mTHSBaseFragment = thsCostSummaryFragment;

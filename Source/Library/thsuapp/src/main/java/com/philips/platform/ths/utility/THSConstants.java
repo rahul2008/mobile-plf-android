@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.utility;
 
 public class THSConstants {
@@ -22,5 +28,9 @@ public class THSConstants {
     public static final String PROVIDER_OFFLINE = "OFFLINE";
     public static final String PROVIDER_WEB_BUSY = "WEB_BUSY";
     public static final int REQUEST_VIDEO_VISIT = 6060;
+
+    public static final int PROVIDER_SEARCH_CONSTANT = 1001;
+    public static final String SEARCH_CONSTANT_STRING = "SEARCH_CONSTANT_STRING";
+    public static final int MEDICATION_SEARCH_CONSTANT = 1002;
 
 }

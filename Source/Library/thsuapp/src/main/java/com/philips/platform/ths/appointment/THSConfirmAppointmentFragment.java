@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.appointment;
 
 
@@ -13,6 +19,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.providerslist.THSProviderInfo;
+import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Label;
@@ -24,15 +31,15 @@ import java.util.Locale;
 public class THSConfirmAppointmentFragment extends THSBaseFragment implements THSAppointmentInterface{
 
     public static final String TAG = THSConfirmAppointmentFragment.class.getSimpleName();
-    THSProviderInfo mThsProviderInfo;
-    Date mAppointmentDate;
-    Label mProviderFullName;
-    Label mPracticeNameLabel;
-    Label mEmailSentMessage;
-    Label mLabelDate;
-    ImageView mImageProviderImage;
-    Label mLabelIsAvailable;
-    ImageView mImageIsAvailable;
+    private THSProviderInfo mThsProviderInfo;
+    private Date mAppointmentDate;
+    private Label mProviderFullName;
+    private Label mPracticeNameLabel;
+    private Label mEmailSentMessage;
+    private Label mLabelDate;
+    private CircularImageView mImageProviderImage;
+    private Label mLabelIsAvailable;
+    private ImageView mImageIsAvailable;
 
     @Nullable
     @Override
@@ -46,7 +53,7 @@ public class THSConfirmAppointmentFragment extends THSBaseFragment implements TH
         mPracticeNameLabel = (Label) view.findViewById(R.id.details_practiceNameLabel);
         mEmailSentMessage = (Label) view.findViewById(R.id.email_sent);
         mLabelDate = (Label) view.findViewById(R.id.date);
-        mImageProviderImage = (ImageView)view.findViewById(R.id.details_providerImage);
+        mImageProviderImage = (CircularImageView)view.findViewById(R.id.details_providerImage);
 
         mLabelIsAvailable = (Label)view.findViewById(R.id.details_isAvailableLabel);
         mLabelIsAvailable.setVisibility(View.GONE);

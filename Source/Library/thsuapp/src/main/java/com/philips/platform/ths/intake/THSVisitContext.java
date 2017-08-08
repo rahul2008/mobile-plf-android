@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.intake;
 
 import android.support.annotation.NonNull;
@@ -14,9 +20,9 @@ import java.util.Set;
 
 public class THSVisitContext {
 
-    VisitContext visitContext;
+    private VisitContext visitContext;
 
-    public THSVisitContext(){
+    public THSVisitContext() {
 
     }
 
@@ -28,91 +34,91 @@ public class THSVisitContext {
         this.visitContext = visitContext;
     }
 
-    boolean isRequireAddress(){
+    boolean isRequireAddress() {
         return visitContext.isRequireAddress();
     }
 
-    boolean isCanPrescribe(){
+    boolean isCanPrescribe() {
         return visitContext.isCanPrescribe();
     }
 
-    boolean showTriageQuestions(){
+    boolean showTriageQuestions() {
         return visitContext.showTriageQuestions();
     }
 
-    boolean showConditionsQuestion(){
+    boolean showConditionsQuestion() {
         return visitContext.showConditionsQuestion();
     }
 
-    boolean showAllergiesQuestion(){
+    boolean showAllergiesQuestion() {
         return visitContext.showAllergiesQuestion();
     }
 
-    boolean showMedicationsQuestion(){
+    boolean showMedicationsQuestion() {
         return visitContext.showMedicationsQuestion();
     }
 
-    boolean showVitalsQuestion(){
+    boolean showVitalsQuestion() {
         return visitContext.showVitalsQuestion();
     }
 
-    boolean isHasHealthHistory(){
+    boolean isHasHealthHistory() {
         return visitContext.isHasHealthHistory();
     }
 
-    List<Topic> getTopics(){
+    List<Topic> getTopics() {
         return visitContext.getTopics();
     }
 
-    List<LegalText> getLegalTexts(){
+    List<LegalText> getLegalTexts() {
         return visitContext.getLegalTexts();
     }
 
-    List<TriageQuestion> getTriageQuestions(){
+    List<TriageQuestion> getTriageQuestions() {
         return visitContext.getTriageQuestions();
     }
 
-    boolean hasProvider(){
+    boolean hasProvider() {
         return visitContext.hasProvider();
     }
 
-    String getProviderName(){
+    String getProviderName() {
         return visitContext.getProviderName();
     }
 
-    boolean hasOnDemandSpecialty(){
+    boolean hasOnDemandSpecialty() {
         return visitContext.hasOnDemandSpecialty();
     }
 
-    boolean hasAppointment(){
+    boolean hasAppointment() {
         return visitContext.hasAppointment();
     }
 
-    void setShareHealthSummary(boolean isShareHealthSummary){
+    void setShareHealthSummary(boolean isShareHealthSummary) {
         visitContext.setShareHealthSummary(isShareHealthSummary);
     }
 
-    void setOtherTopic(@NonNull String otherTopic){
+    void setOtherTopic(@NonNull String otherTopic) {
         visitContext.setOtherTopic(otherTopic);
     }
 
-    void setCallbackNumber(@NonNull String callbackNumber){
+    void setCallbackNumber(@NonNull String callbackNumber) {
         visitContext.setCallbackNumber(callbackNumber);
     }
 
-    String getCallbackNumber(){
+    String getCallbackNumber() {
         return visitContext.getCallbackNumber();
     }
 
-    Consumer getAuthenticatedConsumer(){
+    Consumer getAuthenticatedConsumer() {
         return visitContext.getAuthenticatedConsumer();
     }
 
-    String getProposedCouponCode(){
+    String getProposedCouponCode() {
         return visitContext.getProposedCouponCode();
     }
 
-    void setGuestInvitationEmails(@NonNull Set<String> guestInvitationEmails) throws FeatureNotEnabledException{
+    void setGuestInvitationEmails(@NonNull Set<String> guestInvitationEmails) throws FeatureNotEnabledException {
         visitContext.setGuestInvitationEmails(guestInvitationEmails);
     }
 

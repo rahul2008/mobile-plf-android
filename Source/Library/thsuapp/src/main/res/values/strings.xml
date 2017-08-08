@@ -6,7 +6,7 @@
     <string name="symptoms">Step 1 of 5: Symptoms</string>
     <string name="vitals">Step 2 of 5: vitals</string>
     <string name="conditions">Step 4 of 5: Conditions</string>
-    <string name="help_visit">please help us make your visit more efficient by sharing some details with us before your visit</string>
+    <string name="help_visit">Please help us make your visit more efficient by sharing some details with us before your visit</string>
     <string name="visit_reason">What is the reason for your visit?</string>
     <string name="additional_reason">Additional Reason</string>
     <string name="write_here">write here</string>
@@ -28,7 +28,7 @@
     <string name="inline_error_message_systolic_value">Please Enter values between 0 and 250</string>
     <string name="inline_error_message_temperature_value">Please Enter values between 0 and 120</string>
     <string name="inline_error_message_weight_value">Please Enter values between 0 and 500</string>
-    <string name="ths_available_provider">Available Provider</string>
+    <string name="ths_available_provider">Pick a time</string>
     <string name="ths_scedule_appointment">Schedule an appointment for</string>
     <string name="ths_practice_pick_subject">"To start a consult, pick a subject"</string>
 
@@ -60,16 +60,30 @@ How have the US and South Korea responded?</p>The allies conducted a ballistic m
     <string name="ths_select_time">Select a timeslot</string>
     <string name="cancel">CANCEL</string>
 
-
     //Pharmacy strings
     <string name="pharmacy_shipping_fragment_name">Pharmacy and Shipping</string>
     <string name="pharmacy_list_fragment_name">Pharmacy List</string>
     <string name="search_pharmacy_fragment_name">Your pharmacy</string>
     <string name="shipping_address_fragment_name">Ship prescriptions to</string>
+    <string name="pharmacy_search_label">Which pharmacy should we send prescriptions to</string>
+    <string name="pharmacy_search_edittext_hint">Type location or zip code</string>
 
     //Provider list screens strings
     <string name="provider_available">Available now</string>
     <string name="provider_offline">Schedule appointment</string>
     <string name="provider_available_timeslots">Available timeslots</string>
     <string name="provider_busy">Patient waiting</string>
+
+    <!-- Registration constants-->
+    <string name="ths_detail">Detail</string>
+    <string name="ths_more_details">We need more details to provide the best possible care</string>
+    <string name="ths_first_name">First name</string>
+    <string name="ths_last_name">Last name</string>
+    <string name="ths_dob">Your date of birth</string>
+    <string name="ths_inline_error_message">Error</string>
+    <string name="ths_gender">Gender</string>
+    <string name="ths_state">State</string>
+    <string name="ths_female">Female</string>
+    <string name="ths_male">Male</string>
+    <string name="ths_dob_format">"DD / MM / YYYY"</string>
 </resources>

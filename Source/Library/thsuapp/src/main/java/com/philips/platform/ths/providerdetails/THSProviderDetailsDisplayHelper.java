@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.providerdetails;
 
 import android.content.Context;
@@ -15,6 +21,7 @@ import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.appointment.THSAvailableProviderDetailFragment;
 import com.philips.platform.ths.base.THSBaseFragment;
+import com.philips.platform.ths.utility.CircularImageView;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
 import com.philips.platform.uid.view.widget.Button;
@@ -29,32 +36,32 @@ import java.util.Locale;
 
 public class THSProviderDetailsDisplayHelper {
 
-    View.OnClickListener mOnClickListener;
-    SwipeRefreshLayout.OnRefreshListener mOnRefreshListener;
-    Context mContext;
-    THSPRoviderDetailsViewInterface mThsPRoviderDetailsViewInterface;
-    protected ImageView providerImage;
+    private View.OnClickListener mOnClickListener;
+    private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener;
+    private Context mContext;
+    private THSProviderDetailsViewInterface mThsPRoviderDetailsViewInterface;
+    protected CircularImageView providerImage;
     protected ImageView isAvailableImage;
     protected Label providerName,practiceName,isAvailable,spokenLanguageValueLabel,yearsOfExpValueLabel,
             graduatedValueLabel,aboutMeValueLabel,mLabelDate,visitCostValueLabel;
     protected RatingBar providerRating;
     protected Button detailsButtonOne,detailsButtonTwo,detailsButtonContinue;
-    RelativeLayout mTimeSlotContainer;
-    THSExpandableHeightGridView gridView;
+    private RelativeLayout mTimeSlotContainer;
+    private THSExpandableHeightGridView gridView;
     protected SwipeRefreshLayout swipeRefreshLayout;
-    THSBaseFragment thsBaseFragment;
-    NotificationBadge notificationBadge;
+    private THSBaseFragment thsBaseFragment;
+    private NotificationBadge notificationBadge;
     private RelativeLayout available_provider_details_container;
 
 
     public THSProviderDetailsDisplayHelper(Context context, View.OnClickListener onClickListener,
                                     SwipeRefreshLayout.OnRefreshListener onRefreshListener,
-                                    THSPRoviderDetailsViewInterface thspRoviderDetailsViewInterface,
+                                    THSProviderDetailsViewInterface thsProviderDetailsViewInterface,
                                     THSBaseFragment thsBaseFragment,View view){
         mOnClickListener = onClickListener;
         mContext = context;
         mOnRefreshListener = onRefreshListener;
-        mThsPRoviderDetailsViewInterface = thspRoviderDetailsViewInterface;
+        mThsPRoviderDetailsViewInterface = thsProviderDetailsViewInterface;
         this.thsBaseFragment = thsBaseFragment;
         setViews(view);
     }
@@ -65,7 +72,7 @@ public class THSProviderDetailsDisplayHelper {
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeProviderLayout);
         swipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
         visitCostValueLabel = (Label) view.findViewById(R.id.visitCostValueLabel);
-        providerImage = (ImageView) view.findViewById(R.id.details_providerImage);
+        providerImage = (CircularImageView) view.findViewById(R.id.details_providerImage);
         providerName = (Label) view.findViewById(R.id.details_providerNameLabel);
         practiceName = (Label) view.findViewById(R.id.details_practiceNameLabel);
         isAvailable = (Label) view.findViewById(R.id.details_isAvailableLabel);

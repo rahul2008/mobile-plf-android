@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.providerdetails;
 
 import android.os.Bundle;
@@ -20,16 +26,16 @@ import com.philips.platform.ths.providerslist.THSProviderInfo;
 /**
  * This class is used to display the provider details selected by the user.
  */
-public class THSProviderDetailsFragment extends THSBaseFragment implements View.OnClickListener, THSPRoviderDetailsViewInterface,SwipeRefreshLayout.OnRefreshListener{
+public class THSProviderDetailsFragment extends THSBaseFragment implements View.OnClickListener, THSProviderDetailsViewInterface,SwipeRefreshLayout.OnRefreshListener{
     public static final String TAG = THSProviderDetailsFragment.class.getSimpleName();
     private Consumer consumer;
-    THSProviderInfo mThsProviderInfo;
+    private THSProviderInfo mThsProviderInfo;
     protected THSAvailableProvider mThsAvailableProvider;
-    THSProviderDetailsPresenter providerDetailsPresenter;
+    private THSProviderDetailsPresenter providerDetailsPresenter;
     private Practice mPractice;
-    THSProviderDetailsDisplayHelper mThsProviderDetailsDisplayHelper;
+    private THSProviderDetailsDisplayHelper mThsProviderDetailsDisplayHelper;
 
-    Provider mProvider;
+    private Provider mProvider;
 
     @Nullable
     @Override
