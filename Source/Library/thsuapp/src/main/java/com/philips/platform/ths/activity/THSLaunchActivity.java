@@ -1,3 +1,8 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
 package com.philips.platform.ths.activity;
 
 import android.os.Bundle;
@@ -23,9 +28,7 @@ public class THSLaunchActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private TextView mTitleTextView;
     private int containerId;
-
     private static final String KEY_ACTIVITY_THEME = "KEY_ACTIVITY_THEME";
-
     private final int DEFAULT_THEME = R.style.Theme_DLS_GroupBlue_UltraLight;
 
     @Override

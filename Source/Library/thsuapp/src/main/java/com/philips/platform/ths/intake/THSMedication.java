@@ -1,3 +1,9 @@
+/* Copyright (c) Koninklijke Philips N.V., 2016
+ * All rights are reserved. Reproduction or dissemination
+ * in whole or in part is prohibited without the prior written
+ * consent of the copyright holder.
+ */
+
 package com.philips.platform.ths.intake;
 
 import com.americanwell.sdk.entity.health.Medication;
@@ -5,12 +11,9 @@ import com.americanwell.sdk.entity.health.Medication;
 
 import java.util.List;
 
-/**
- * Created by philips on 6/29/17.
- */
+public class THSMedication {
+    private List<Medication> medicationList;
 
-public class THSMedication{
-    List<Medication> medicationList;
     public List<Medication> getMedicationList() {
         return medicationList;
     }
