@@ -81,7 +81,8 @@
             <com.philips.platform.uid.view.widget.EditText
                 android:id="@+id/edit_farenheit"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
+                android:lines="10"
                 android:layout_below="@id/additional_comment"
                 android:layout_marginLeft="@dimen/pth_fab_margin"
                 android:layout_marginRight="@dimen/pth_fab_margin"
@@ -99,7 +100,7 @@
                 android:layout_marginRight="@dimen/pth_fab_margin"
                 android:layout_marginStart="12dp"
                 android:background="@drawable/reg_circle"
-                app:uidImageButtonDrawableSrc="@mipmap/camera_icon"></com.philips.platform.uid.view.widget.ImageButton>
+                app:uidImageButtonDrawableSrc="@mipmap/camera_icon"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/imagelist"
