@@ -10,16 +10,19 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp2.commlib.core.CommCentral;
+import com.philips.cdp2.commlib.core.util.Availability;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-public abstract class CommunicationStrategy {
+public abstract class CommunicationStrategy implements Availability {
 
     public static final String SUBSCRIBER_KEY = "subscriber";
     public static final String TTL_KEY = "ttl";
+    private boolean cachedAvailability;
+    protected Set<AvailabilityListener> availabilityListeners = new CopyOnWriteArraySet<>();
 
     private final Set<SubscriptionEventListener> subscriptionEventListeners = new CopyOnWriteArraySet<>();
 
@@ -65,5 +68,25 @@ public abstract class CommunicationStrategy {
         return new HashMap<String, Object>() {{
             put(SUBSCRIBER_KEY, CommCentral.getAppId());
         }};
+    }
+
+    @Override
+    public void addAvailabilityListener(@NonNull AvailabilityListener listener) {
+        availabilityListeners.add(listener);
+        listener.onAvailabilityChanged(this);
+    }
+
+    @Override
+    public void removeAvailabilityListener(@NonNull AvailabilityListener listener) {
+        availabilityListeners.remove(listener);
+    }
+
+    protected void notifyAvailabilityChanged() {
+        if (cachedAvailability != isAvailable()) {
+            cachedAvailability = isAvailable();
+            for (AvailabilityListener listener : availabilityListeners) {
+                listener.onAvailabilityChanged(this);
+            }
+        }
     }
 }

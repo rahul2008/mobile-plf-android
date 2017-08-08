@@ -18,9 +18,11 @@ import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.port.firmware.FirmwarePort;
+import com.philips.cdp2.commlib.core.util.Availability;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * The type Appliance.
@@ -29,7 +31,7 @@ import java.util.Set;
  *
  * @publicApi
  */
-public abstract class Appliance {
+public abstract class Appliance implements Availability {
 
     protected final NetworkNode networkNode;
 
@@ -42,6 +44,7 @@ public abstract class Appliance {
     protected final CommunicationStrategy communicationStrategy;
 
     private final Set<DICommPort> ports = new HashSet<>();
+    private final Set<AvailabilityListener> availabilityListeners = new CopyOnWriteArraySet<>();
 
     private SubscriptionEventListener subscriptionEventListener = new SubscriptionEventListener() {
 
@@ -200,6 +203,16 @@ public abstract class Appliance {
      */
     public boolean isAvailable() {
         return communicationStrategy.isAvailable();
+    }
+
+    @Override
+    public void addAvailabilityListener(@NonNull AvailabilityListener listener) {
+        communicationStrategy.addAvailabilityListener(listener);
+    }
+
+    @Override
+    public void removeAvailabilityListener(@NonNull AvailabilityListener listener) {
+        communicationStrategy.removeAvailabilityListener(listener);
     }
 
     @Override

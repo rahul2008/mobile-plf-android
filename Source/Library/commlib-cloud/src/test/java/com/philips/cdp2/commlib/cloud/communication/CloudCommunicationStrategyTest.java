@@ -5,10 +5,7 @@
 
 package com.philips.cdp2.commlib.cloud.communication;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Handler;
@@ -24,6 +21,7 @@ import com.philips.cdp.dicommclient.request.StartDcsRequest;
 import com.philips.cdp.dicommclient.subscription.RemoteSubscriptionHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
+import com.philips.cdp2.commlib.core.util.Availability;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
@@ -40,9 +38,9 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.HashMap;
 import java.util.Map;
 
-import static android.net.ConnectivityManager.TYPE_WIFI;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -107,8 +105,6 @@ public class CloudCommunicationStrategyTest {
         DICommLog.disableLogging();
 
         when(contextMock.getApplicationContext()).thenReturn(contextMock);
-
-//        ConnectivityMonitor connectivityMonitor = ConnectivityMonitor.forNetworkTypes(contextMock, TYPE_MOBILE, TYPE_WIFI);
 
         cloudCommunicationStrategy = new CloudCommunicationStrategyForTesting(networkNodeMock, cloudControllerMock, connectivityMonitorMock);
     }
@@ -252,40 +248,35 @@ public class CloudCommunicationStrategyTest {
 
     @Test
     public void isAvailableWhenWifiConnected() {
-        doAnswer(new Answer<Intent>() {
+        final Availability.AvailabilityListener[] listener = new Availability.AvailabilityListener[1];
+        doAnswer(new Answer() {
             @Override
-            public Intent answer(InvocationOnMock invocation) throws Throwable {
-                invocation.getArgumentAt(0, BroadcastReceiver.class).onReceive(contextMock, null);
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                listener[0] = invocation.getArgumentAt(0, Availability.AvailabilityListener.class);
                 return null;
             }
-        }).when(contextMock).registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));
-
-        when(contextMock.getSystemService(Context.CONNECTIVITY_SERVICE)).thenReturn(connectivityManagerMock);
-        when(connectivityManagerMock.getActiveNetworkInfo()).thenReturn(activeNetworkInfoMock);
-        when(activeNetworkInfoMock.getType()).thenReturn(TYPE_WIFI);
-        when(activeNetworkInfoMock.isConnected()).thenReturn(true);
+        }).when(connectivityMonitorMock).addAvailabilityListener(isA(Availability.AvailabilityListener.class));
 
         cloudCommunicationStrategy = new CloudCommunicationStrategyForTesting(networkNodeMock, cloudControllerMock, connectivityMonitorMock);
+        when(connectivityMonitorMock.isAvailable()).thenReturn(true);
+        listener[0].onAvailabilityChanged(connectivityMonitorMock);
 
         assertThat(cloudCommunicationStrategy.isAvailable()).isTrue();
     }
 
     @Test
     public void isNotAvailableWhenWifiNotConnected() {
-        doAnswer(new Answer<Intent>() {
+        final Availability.AvailabilityListener[] listener = new Availability.AvailabilityListener[1];
+        doAnswer(new Answer() {
             @Override
-            public Intent answer(InvocationOnMock invocation) throws Throwable {
-                invocation.getArgumentAt(0, BroadcastReceiver.class).onReceive(contextMock, null);
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                listener[0] = invocation.getArgumentAt(0, Availability.AvailabilityListener.class);
                 return null;
             }
-        }).when(contextMock).registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));
-
-        when(contextMock.getSystemService(Context.CONNECTIVITY_SERVICE)).thenReturn(connectivityManagerMock);
-        when(connectivityManagerMock.getActiveNetworkInfo()).thenReturn(activeNetworkInfoMock);
-        when(activeNetworkInfoMock.getType()).thenReturn(TYPE_WIFI);
-        when(activeNetworkInfoMock.isConnected()).thenReturn(false);
+        }).when(connectivityMonitorMock).addAvailabilityListener(isA(Availability.AvailabilityListener.class));
 
         cloudCommunicationStrategy = new CloudCommunicationStrategyForTesting(networkNodeMock, cloudControllerMock, connectivityMonitorMock);
+        listener[0].onAvailabilityChanged(connectivityMonitorMock);
 
         assertThat(cloudCommunicationStrategy.isAvailable()).isFalse();
     }

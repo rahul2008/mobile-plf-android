@@ -22,19 +22,15 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-public abstract class ConnectivityMonitor {
+public abstract class ConnectivityMonitor implements Availability {
 
     protected ConnectivityManager connectivityManager;
 
-    private Set<ConnectivityListener> connectivityListeners = new CopyOnWriteArraySet<>();
+    private Set<AvailabilityListener> availabilityListeners = new CopyOnWriteArraySet<>();
 
     @Nullable
     public NetworkInfo getActiveNetworkInfo() {
         return activeNetworkInfo;
-    }
-
-    public interface ConnectivityListener {
-        void onConnectivityChanged(boolean isConnected);
     }
 
     private NetworkInfo activeNetworkInfo;
@@ -51,7 +47,7 @@ public abstract class ConnectivityMonitor {
                 isConnected = isCurrentlyConnected;
                 DICommLog.i(DICommLog.NETWORKMONITOR, "Connected via network: " + getActiveNetworkInfo().getTypeName());
 
-                notifyConnectivityListeners(isConnected);
+                notifyConnectivityListeners();
             }
         }
     };
@@ -120,7 +116,12 @@ public abstract class ConnectivityMonitor {
 
     abstract protected boolean calculateIsConnected();
 
-    public boolean isConnected(){
+    public boolean isConnected() {
+        return isConnected;
+    }
+
+    @Override
+    public boolean isAvailable() {
         return isConnected;
     }
 
@@ -144,28 +145,20 @@ public abstract class ConnectivityMonitor {
         return null;
     }
 
-    /**
-     * Add connectivity listener.
-     *
-     * @param connectivityListener the connectivity listener to add. This listener will be notified immediately when added.
-     */
-    public void addConnectivityListener(final @NonNull ConnectivityListener connectivityListener) {
-        connectivityListeners.add(connectivityListener);
-        connectivityListener.onConnectivityChanged(isConnected);
+    @Override
+    public void addAvailabilityListener(@NonNull AvailabilityListener listener) {
+        availabilityListeners.add(listener);
+        listener.onAvailabilityChanged(this);
     }
 
-    /**
-     * Remove connectivity listener.
-     *
-     * @param connectivityListener the connectivity listener to remove.
-     */
-    public void removeConnectivityListener(final @NonNull ConnectivityListener connectivityListener) {
-        connectivityListeners.remove(connectivityListener);
+    @Override
+    public void removeAvailabilityListener(@NonNull AvailabilityListener listener) {
+        availabilityListeners.remove(listener);
     }
 
-    private void notifyConnectivityListeners(final boolean isConnected) {
-        for (ConnectivityListener listener : connectivityListeners) {
-            listener.onConnectivityChanged(isConnected);
+    private void notifyConnectivityListeners() {
+        for (AvailabilityListener listener : availabilityListeners) {
+            listener.onAvailabilityChanged(this);
         }
     }
 }

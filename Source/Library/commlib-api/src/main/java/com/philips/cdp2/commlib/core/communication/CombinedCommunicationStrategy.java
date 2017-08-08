@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
+import com.philips.cdp2.commlib.core.util.Availability;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -20,6 +21,9 @@ public class CombinedCommunicationStrategy extends CommunicationStrategy {
     @NonNull
     private final LinkedHashSet<CommunicationStrategy> communicationStrategies;
 
+    @Nullable
+    private CommunicationStrategy lastPreferredStrategy;
+
     @NonNull
     private final NullCommunicationStrategy nullStrategy = new NullCommunicationStrategy();
 
@@ -27,6 +31,21 @@ public class CombinedCommunicationStrategy extends CommunicationStrategy {
         this.communicationStrategies = new LinkedHashSet<>(Arrays.asList(communicationStrategies));
         if (this.communicationStrategies.isEmpty()) {
             throw new IllegalArgumentException("CombinedCommunicationStrategy needs to be constructed with at least 1 communication strategy.");
+        }
+
+        lastPreferredStrategy = firstAvailableStrategy();
+        notifyAvailabilityChanged();
+
+        for (CommunicationStrategy c : communicationStrategies) {
+            c.addAvailabilityListener(new AvailabilityListener() {
+                @Override
+                public void onAvailabilityChanged(@NonNull Availability object) {
+                    CommunicationStrategy newStrategy = firstAvailableStrategy();
+                    if (newStrategy != lastPreferredStrategy) {
+                        notifyAvailabilityChanged();
+                    }
+                }
+            });
         }
     }
 

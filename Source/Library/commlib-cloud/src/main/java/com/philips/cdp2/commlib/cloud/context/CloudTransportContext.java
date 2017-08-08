@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Koninklijke Philips N.V.
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
 package com.philips.cdp2.commlib.cloud.context;
@@ -15,8 +15,8 @@ import com.philips.cdp2.commlib.cloud.communication.CloudCommunicationStrategy;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
+import com.philips.cdp2.commlib.core.util.Availability;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
-import com.philips.cdp2.commlib.core.util.ConnectivityMonitor.ConnectivityListener;
 
 import static android.net.ConnectivityManager.TYPE_MOBILE;
 import static android.net.ConnectivityManager.TYPE_WIFI;
@@ -26,10 +26,10 @@ public class CloudTransportContext implements TransportContext {
 
     private final ConnectivityMonitor connectivityMonitor;
 
-    private ConnectivityListener lanConnectivityListener = new ConnectivityListener() {
+    private final Availability.AvailabilityListener availabilityListener = new Availability.AvailabilityListener() {
         @Override
-        public void onConnectivityChanged(boolean isConnected) {
-            isAvailable = isConnected;
+        public void onAvailabilityChanged(@NonNull Availability cloud) {
+            isAvailable = cloud.isAvailable();
         }
     };
 
@@ -37,7 +37,7 @@ public class CloudTransportContext implements TransportContext {
 
     public CloudTransportContext(final @NonNull Context context, @NonNull final CloudController cloudController) {
         this.connectivityMonitor = ConnectivityMonitor.forNetworkTypes(context, TYPE_MOBILE, TYPE_WIFI);
-        this.connectivityMonitor.addConnectivityListener(lanConnectivityListener);
+        this.connectivityMonitor.addAvailabilityListener(availabilityListener);
 
         CloudTransportContext.cloudController = cloudController;
         updateAppId();

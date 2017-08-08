@@ -1,4 +1,9 @@
 /*
+ * Copyright (c) 2015-2017 Koninklijke Philips N.V.
+ * All rights reserved.
+ */
+
+/*
  * © Koninklijke Philips N.V., 2015, 2016.
  *   All rights reserved.
  */
@@ -19,8 +24,8 @@ import com.philips.cdp.dicommclient.request.StartDcsRequest;
 import com.philips.cdp.dicommclient.subscription.RemoteSubscriptionHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.util.Availability;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
-import com.philips.cdp2.commlib.core.util.ConnectivityMonitor.ConnectivityListener;
 
 import java.util.Map;
 
@@ -36,10 +41,11 @@ public class CloudCommunicationStrategy extends CommunicationStrategy {
     private boolean isDSCRequestOnGoing;
     private boolean isAvailable;
 
-    private final ConnectivityListener connectivityListener = new ConnectivityListener() {
+    private final AvailabilityListener availabilityListener = new AvailabilityListener() {
         @Override
-        public void onConnectivityChanged(boolean isConnected) {
-            isAvailable = isConnected;
+        public void onAvailabilityChanged(@NonNull Availability object) {
+            isAvailable = object.isAvailable();
+            notifyAvailabilityChanged();
         }
     };
 
@@ -47,7 +53,7 @@ public class CloudCommunicationStrategy extends CommunicationStrategy {
         this.networkNode = networkNode;
         this.cloudController = cloudController;
         this.connectivityMonitor = connectivityMonitor;
-        this.connectivityMonitor.addConnectivityListener(connectivityListener);
+        this.connectivityMonitor.addAvailabilityListener(availabilityListener);
 
         requestQueue = createRequestQueue();
         remoteSubscriptionHandler = createRemoteSubscriptionHandler(cloudController);

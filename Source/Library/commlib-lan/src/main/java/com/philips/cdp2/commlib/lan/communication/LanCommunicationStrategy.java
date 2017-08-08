@@ -18,6 +18,7 @@ import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.security.DISecurity.EncryptionDecryptionFailedListener;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
+import com.philips.cdp2.commlib.core.util.Availability;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.security.SslPinTrustManager;
@@ -62,9 +63,10 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
         this.deviceCache = deviceCache;
         this.connectivityMonitor = connectivityMonitor;
 
-        connectivityMonitor.addConnectivityListener(new ConnectivityMonitor.ConnectivityListener() {
+        connectivityMonitor.addAvailabilityListener(new AvailabilityListener() {
             @Override
-            public void onConnectivityChanged(boolean isConnected) {
+            public void onAvailabilityChanged(@NonNull Availability ignored) {
+                notifyAvailabilityChanged();
                 // TODO FIXME Fix subscriptions on reconnect?
             }
         });
