@@ -2,7 +2,7 @@
 
 <resources>
 <string name="reg_Continue_Btntxt">続行</string>
-<string name="reg_EmptyField_ErrorMsg">値を入力してください</string>
+<string name="reg_EmptyField_ErrorMsg">入力してください</string>
 <string name="reg_ForgotPwdEmailResendMsg">お客様のパスワードをリセットするためのメールが送信されました。メールが届くまで少々時間がかかることがあります。</string>
 <string name="reg_ForgotPwdEmailResendMsg_Title">パスワードをリセット</string>
 <string name="reg_InValid_PwdErrorMsg">パスワードが以下の条件に合っていません。</string>
@@ -43,7 +43,7 @@
 <string name="reg_SignInSuccess_ResendConsent_btntxt">同意を再送</string>
 <string name="reg_Welcome_Alternate_SignInAccount_lbltxt">または次のアカウントでログイン：</string>
 <string name="reg_Welcome_Welcome_lbltxt">ようこそ</string>
-<string name="reg_Create_Account_ChoosePwd_PlaceHolder_txtField">パスワードを選択する</string>
+<string name="reg_Create_Account_ChoosePwd_PlaceHolder_txtField">パスワードを入力</string>
 <string name="reg_Create_Account_CreateMyPhilips_btntxt">MyPhilipsアカウントを作成</string>
 <string name="reg_Create_Account_FirstName__Placeholder_txtFiled">名前（名）を入力</string>
 <string name="reg_Create_Account_Hint_Password_lbltxt">お客様のプライバシーを保護するために、強度の高いパスワードを設定してください。</string>
