@@ -27,7 +27,7 @@ import android.view.Window;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+
 
 
 import com.android.volley.toolbox.ImageLoader;
@@ -71,7 +71,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
     private boolean textWatcherCalled = false;
     private Button registerButton;
     private FragmentActivity mActivity;
-    private TextView tickIcon;
+    private Label tickIcon;
     private Dialog dialog;
     private DatePickerDialog datePickerDialog;
     private Label dateErrorTextView,serialNumberErrorTextView ,findSerialTextView;
@@ -152,7 +152,7 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
         registerButton = (Button) view.findViewById(R.id.btn_register);
         final Button continueButton = (Button) view.findViewById(R.id.continueButton);
         productImageView = (ImageView) view.findViewById(R.id.product_image);
-        tickIcon = (TextView) view.findViewById(R.id.tick_icon);
+        tickIcon = (Label) view.findViewById(R.id.tick_icon);
         registerButton.setOnClickListener(onClickRegister());
         date_EditText.setKeyListener(null);
         date_EditText.setOnTouchListener(onClickPurchaseDate());
@@ -283,11 +283,11 @@ public class ProdRegRegistrationFragment extends ProdRegBaseFragment implements 
      */
 
 
-    private void makeTextViewHyperlink(TextView tv) {
+    private void makeTextViewHyperlink(Label tv) {
         SpannableStringBuilder ssb = new SpannableStringBuilder();
         ssb.append(tv.getText());
         ssb.setSpan(new URLSpan("#"), 0, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        tv.setText(ssb, TextView.BufferType.SPANNABLE);
+        tv.setText(ssb, Label.BufferType.SPANNABLE);
     }
 
     private View.OnTouchListener onClickPurchaseDate() {
