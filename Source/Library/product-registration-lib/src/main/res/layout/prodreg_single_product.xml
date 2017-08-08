@@ -143,6 +143,7 @@
                 android:ellipsize="end"
                 android:hint="@string/purchase_date_format"
                 android:maxLines="1"
+                android:layout_marginBottom="@dimen/pr_b_value_sm"
                 android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"
                 android:textSize="14sp"/>
 
@@ -153,8 +154,8 @@
                 android:layout_marginBottom="@dimen/pr_b_value_sm"
                 android:drawablePadding="2dp"
                 android:drawableStart="@drawable/uid_ic_data_validation"
+                android:visibility="gone"
                 android:textColor="?attr/uidContentItemDefaultNormalSubtitleTextColor"/>
-
         </LinearLayout>
 
         <com.philips.platform.uid.view.widget.Button
