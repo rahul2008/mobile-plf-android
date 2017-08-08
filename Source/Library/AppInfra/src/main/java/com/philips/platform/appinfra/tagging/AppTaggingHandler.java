@@ -51,9 +51,9 @@ import static com.philips.platform.appinfra.tagging.AppTaggingInterface.PrivacyS
 
 
 /**
- * A Wrapper class for Application Life Cycle.
+ * A Wrapper class forAppTaggingHandler.
  */
-public class AppTaggingHandler {
+ public class AppTaggingHandler {
     private static String prevPage;
     private final AppInfra mAppInfra;
     private String mLanguage;
