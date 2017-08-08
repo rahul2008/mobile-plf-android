@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.philips.cdp.prodreg.listener.RegisteredProductsListener;
@@ -18,6 +17,7 @@ import com.philips.cdp.prodreg.register.ProdRegHelper;
 import com.philips.cdp.prodreg.register.RegisteredProduct;
 import com.philips.platform.prdemoapp.adaptor.ProductAdapter;
 import com.philips.platform.prdemoapplibrary.R;
+import com.philips.platform.uid.view.widget.ProgressBar;
 
 import java.util.List;
 

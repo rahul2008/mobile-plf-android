@@ -8,7 +8,6 @@
  */
 package com.philips.cdp.prodreg.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
@@ -17,12 +16,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
+
 
 import com.philips.cdp.prodreg.constants.ProdRegConstants;
 import com.philips.cdp.prodreg.launcher.PRInterface;
@@ -32,7 +27,6 @@ import com.philips.cdp.prodreg.logging.ProdRegLogger;
 import com.philips.cdp.prodreg.register.Product;
 import com.philips.cdp.product_registration_lib.R;
 import com.philips.cdp.registration.app.tagging.AppTagging;
-import com.philips.cdp.uikit.UiKitActivity;
 import com.philips.platform.uappframework.launcher.FragmentLauncher;
 import com.philips.platform.uappframework.listener.ActionBarListener;
 import com.philips.platform.uappframework.listener.BackEventListener;
@@ -49,7 +43,6 @@ import java.util.ArrayList;
 
 public class ProdRegBaseActivity extends UIDActivity {
     private static final String TAG = ProdRegBaseActivity.class.getSimpleName();
-   // private TextView mTitleTextView;
     private Handler mSiteCatListHandler = new Handler();
     private int DEFAULT_THEME = R.style.Theme_Philips_DarkBlue_WhiteBackground;
     private Toolbar mToolbar;
@@ -179,13 +172,6 @@ public class ProdRegBaseActivity extends UIDActivity {
             mActionBar.setDisplayShowCustomEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-//            ActionBar.LayoutParams params = new ActionBar.LayoutParams(//Center the text view in the ActionBar !
-//                    ActionBar.LayoutParams.MATCH_PARENT,
-//                    ActionBar.LayoutParams.WRAP_CONTENT,
-//                    Gravity.CENTER);
-           // mToolbar.setBackgroundColor(Color.parseColor("#80000000"));
-
            // mToolbar.setNavigationIcon(R.drawable.prodreg_left_arrow);
             mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
@@ -193,21 +179,6 @@ public class ProdRegBaseActivity extends UIDActivity {
                     onBackPressed();
                 }
             });
-         //  View mCustomView = LayoutInflater.from(this).inflate(R.layout.prodreg_home_action_bar, null); // layout which contains your button.
-
-            //mTitleTextView = (TextView) mCustomView.findViewById(R.id.text);
-//            mToolbar.setBackgroundColor(Color.parseColor("#80000000"));
-//            final FrameLayout frameLayout = (FrameLayout) findViewById(R.id.UpButton);
-//            frameLayout.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(final View v) {
-//                    onBackPressed();
-//                }
-//            });
-//            ImageView arrowImage = (ImageView) findViewById(R.id.arrow);
-//            //noinspection deprecation
-//            arrowImage.setBackground(getResources().getDrawable(R.drawable.prodreg_left_arrow));
-           // mActionBar.setCustomView(mCustomView, params);
             setTitle(getString(R.string.app_name));
         }
     }
