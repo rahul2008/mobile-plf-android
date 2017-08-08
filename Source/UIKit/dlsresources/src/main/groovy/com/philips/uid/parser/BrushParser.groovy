@@ -26,7 +26,18 @@ class BrushParser {
                 brush.brushName = it.key
                 //Maps of tonal ranges
                 it.value.each {
-                    brush.brushValueMap.put(it.key.toString(), new Gson().fromJson(it.value.toString(), BrushValue.class))
+                    if(it.value.get("color")?.startsWith("#")) {
+                        BrushValue brushValue = new BrushValue()
+                        brushValue.color = it.value.get("color")
+                        brushValue.colorCode = it.value.get("color-code")
+                        brushValue.colorRange = it.value.get("color-range")
+                        brushValue.opacity = it.value.get("opacity")
+                        brushValue.reference = it.value.get("reference")
+                        brushValue.offset = it.value.get("offset")
+                        brush.brushValueMap.put(it.key.toString(), brushValue)
+                    } else {
+                        brush.brushValueMap.put(it.key.toString(), new Gson().fromJson(it.value.toString(), BrushValue.class))
+                    }
                 }
                 brushes.add(brush)
             }
@@ -38,6 +49,6 @@ class BrushParser {
     }
 
     def getBrushValueFromBrushName(brushName, tonalRange) {
-        brushes.find{it.brushName == brushName}.brushValueMap.get(tonalRange)
+        brushes.find{it.brushName == brushName}?.brushValueMap?.get(tonalRange)
     }
 }

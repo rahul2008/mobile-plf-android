@@ -59,6 +59,7 @@
     <attr name="uidButtonInputDisabledIconColor" format="reference|color" />
     <attr name="uidButtonPrimaryNormalBackgroundColor" format="reference|color" />
     <attr name="uidButtonPrimaryNormalIconColor" format="reference|color" />
+    <attr name="uidButtonPrimaryNormalSeparatorColor" format="reference|color" />
     <attr name="uidButtonPrimaryNormalTextColor" format="reference|color" />
     <attr name="uidButtonPrimaryFocusBackgroundColor" format="reference|color" />
     <attr name="uidButtonPrimaryFocusBorderColor" format="reference|color" />
@@ -87,6 +88,7 @@
     <attr name="uidButtonQuietEmphasisDisabledTextColor" format="reference|color" />
     <attr name="uidButtonSecondaryNormalBackgroundColor" format="reference|color" />
     <attr name="uidButtonSecondaryNormalIconColor" format="reference|color" />
+    <attr name="uidButtonSecondaryNormalSeparatorColor" format="reference|color" />
     <attr name="uidButtonSecondaryNormalTextColor" format="reference|color" />
     <attr name="uidButtonSecondaryFocusBackgroundColor" format="reference|color" />
     <attr name="uidButtonSecondaryFocusBorderColor" format="reference|color" />
@@ -322,6 +324,8 @@
     <attr name="uidStatusBarIosBackgroundColor" format="reference|color" />
     <attr name="uidStatusBarIosIconColor" format="reference|color" />
     <attr name="uidStatusBarIosTextColor" format="reference|color" />
+    <attr name="uidStickyPanelContentBackgroundColor" format="reference|color" />
+    <attr name="uidStickyPanelThemedBackgroundColor" format="reference|color" />
     <attr name="uidTabsDefaultNormalOnIconColor" format="reference|color" />
     <attr name="uidTabsDefaultNormalOnIndicatorColor" format="reference|color" />
     <attr name="uidTabsDefaultNormalOnTextColor" format="reference|color" />
@@ -329,14 +333,6 @@
     <attr name="uidTabsDefaultNormalOffTextColor" format="reference|color" />
     <attr name="uidTabsDefaultPressedOffIconColor" format="reference|color" />
     <attr name="uidTabsDefaultPressedOffTextColor" format="reference|color" />
-    <attr name="uidTextDisabledTextColor" format="reference|color" />
-    <attr name="uidTextEmphasisTextColor" format="reference|color" />
-    <attr name="uidTextEmphasisDisabledTextColor" format="reference|color" />
-    <attr name="uidTextPrimaryTextColor" format="reference|color" />
-    <attr name="uidTextSecondaryTextColor" format="reference|color" />
-    <attr name="uidTextTertiaryTextColor" format="reference|color" />
-    <attr name="uidTextValidationIconColor" format="reference|color" />
-    <attr name="uidTextValidationTextColor" format="reference|color" />
     <attr name="uidTextBoxDefaultNormalArrowIconColor" format="reference|color" />
     <attr name="uidTextBoxDefaultNormalBackgroundColor" format="reference|color" />
     <attr name="uidTextBoxDefaultNormalBorderColor" format="reference|color" />
@@ -456,6 +452,14 @@
     <attr name="uidTrackScrollbarNormalBackgroundColor" format="reference|color" />
     <attr name="uidTrackScrollbarDisabledBackgroundColor" format="reference|color" />
     <attr name="uidTrackWarningNormalOnBackgroundColor" format="reference|color" />
+    <attr name="uidTypographyDisabledTextColor" format="reference|color" />
+    <attr name="uidTypographyEmphasisTextColor" format="reference|color" />
+    <attr name="uidTypographyEmphasisDisabledTextColor" format="reference|color" />
+    <attr name="uidTypographyPrimaryTextColor" format="reference|color" />
+    <attr name="uidTypographySecondaryTextColor" format="reference|color" />
+    <attr name="uidTypographyTertiaryTextColor" format="reference|color" />
+    <attr name="uidTypographyValidationIconColor" format="reference|color" />
+    <attr name="uidTypographyValidationTextColor" format="reference|color" />
     <attr name="uidViewContainerDefaultNormalViewportBackgroundColor" format="reference|color" />
     <attr name="uidViewContainerDefaultNormalOnTabBackgroundColor" format="reference|color" />
     <attr name="uidViewContainerDefaultNormalOffTabBackgroundColor" format="reference|color" />
