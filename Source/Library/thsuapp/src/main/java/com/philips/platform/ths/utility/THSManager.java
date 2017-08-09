@@ -49,6 +49,7 @@ import com.americanwell.sdk.entity.visit.ChatReport;
 import com.americanwell.sdk.entity.visit.Visit;
 import com.americanwell.sdk.entity.visit.VisitContext;
 import com.americanwell.sdk.entity.visit.VisitEndReason;
+import com.americanwell.sdk.entity.visit.VisitSummary;
 import com.americanwell.sdk.entity.visit.Vitals;
 import com.americanwell.sdk.exception.AWSDKInitializationException;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
@@ -70,6 +71,7 @@ import com.philips.platform.ths.intake.THSConditionsList;
 import com.philips.platform.ths.intake.THSMedication;
 import com.philips.platform.ths.intake.THSMedicationCallback;
 import com.philips.platform.ths.intake.THSNoticeOfPrivacyPracticesCallBack;
+import com.philips.platform.ths.intake.THSSDKCallback;
 import com.philips.platform.ths.intake.THSSDKValidatedCallback;
 import com.philips.platform.ths.intake.THSUpdateConditionsCallback;
 import com.philips.platform.ths.intake.THSUpdateConsumerCallback;
@@ -108,6 +110,8 @@ import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
 import com.philips.platform.ths.visit.THSCancelVisitCallBack;
 import com.philips.platform.ths.visit.THSStartVisitCallback;
+import com.philips.platform.ths.visit.THSVisitSummary;
+import com.philips.platform.ths.visit.THSVisitSummaryCallbacks;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
 
 import java.io.IOException;
@@ -1181,5 +1185,38 @@ public class THSManager {
     @VisibleForTesting
     public void setUser(User user){
         mUser = user;
+    }
+
+    public void getVisitSummary(Context context, final THSVisitSummaryCallbacks.THSVisitSummaryCallback<THSVisitSummary, THSSDKError> thsVisitSummaryCallback) throws AWSDKInstantiationException {
+        getAwsdk(context).getVisitManager().getVisitSummary(getTHSVisit().getVisit(), new SDKCallback<VisitSummary, SDKError>() {
+            @Override
+            public void onResponse(VisitSummary visitSummary, SDKError sdkError) {
+                THSVisitSummary thsVisitSummary = new THSVisitSummary();
+                thsVisitSummary.setVisitSummary(visitSummary);
+                THSSDKError thssdkError = new THSSDKError();
+                thssdkError.setSdkError(sdkError);
+                thsVisitSummaryCallback.onResponse(thsVisitSummary,thssdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                thsVisitSummaryCallback.onFailure(throwable);
+            }
+        });
+
+    }
+
+    public void sendRatings(Context context, Integer providerRating, Integer visitRating,final THSSDKCallback<Void, SDKError> thssdkCallback)throws AWSDKInstantiationException{
+        getAwsdk(context).getVisitManager().sendRatings(getTHSVisit().getVisit(), providerRating, visitRating, new SDKCallback<Void, SDKError>() {
+            @Override
+            public void onResponse(Void aVoid, SDKError sdkError) {
+                thssdkCallback.onResponse(aVoid,sdkError);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                thssdkCallback.onFailure(throwable);
+            }
+        });
     }
 }

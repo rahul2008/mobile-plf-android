@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:orientation="vertical">
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_rating_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="32dp"
+
+        android:text="How was your visit"
+        android:textSize="22sp"></com.philips.platform.uid.view.widget.Label>
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_provider_rating_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ths_rating_label"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="32dp"
+        android:text="Rate your provider"
+
+        ></com.philips.platform.uid.view.widget.Label>
+
+    <com.philips.platform.uid.view.widget.RatingBar
+        android:id="@+id/ths_provider_ratingbar"
+        style="@style/UIDRatingBarInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ths_provider_rating_label"
+
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="32dp" />
+
+    <com.philips.platform.uid.view.widget.Label
+        android:id="@+id/ths_visit_rating_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ths_provider_ratingbar"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="32dp"
+        android:text="Rate your provider"
+
+        ></com.philips.platform.uid.view.widget.Label>
+
+        <com.philips.platform.uid.view.widget.RatingBar
+            android:id="@+id/ths_visit_ratingbar"
+            style="@style/UIDRatingBarInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ths_visit_rating_label"
+            android:layout_marginLeft="32dp"
+
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="32dp" />
+
+
+</RelativeLayout>
