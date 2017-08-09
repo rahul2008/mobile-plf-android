@@ -103,7 +103,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment implements PrxS
             if (getActivity() != null) {
                 SubcategoryModel subcategoryModel = new Gson().fromJson(response,
                         SubcategoryModel.class);
-                if (subcategoryModel != null && subcategoryModel.getSuccess()) {
+                if (subcategoryModel != null && subcategoryModel.getSuccess()!= null && subcategoryModel.getSuccess()) {
                     com.philips.cdp.digitalcare.prx.subcategorymodel.Data data =
                             subcategoryModel.getData();
                     if ((data != null) && (data.getParentCode() != null)) {
