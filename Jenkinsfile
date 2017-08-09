@@ -52,7 +52,7 @@ node ('android&&docker') {
                         BranchName = BranchName.replaceAll('/','%2F')
                         echo "BranchName changed to ${BranchName}"
                     }
-                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'dpr'],[$class: 'StringParameterValue', name: 'libraryName', value: 'uAppFwLib']], wait: false
+                    build job: "Platform-Infrastructure/ppc/ppc_android/${BranchName}", parameters: [[$class: 'StringParameterValue', name: 'componentName', value: 'dpr'],[$class: 'StringParameterValue', name: 'libraryName', value: '']], wait: false
                 }            
             }
         } catch(err) {
