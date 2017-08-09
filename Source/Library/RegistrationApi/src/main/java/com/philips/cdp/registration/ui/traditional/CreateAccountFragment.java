@@ -538,6 +538,18 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements C
     }
 
     @Override
+    public void genericError(String errorDesc) {
+        mRegError.setError(errorDesc);
+        scrollViewAutomatically(mRegError, mSvRootLayout);
+    }
+
+    @Override
+    public void genericError(int errorDescID) {
+        mRegError.setError(mContext.getString(errorDescID));
+        scrollViewAutomatically(mRegError, mSvRootLayout);
+    }
+
+    @Override
     public String getEmail() {
         return mUser.getEmail();
     }

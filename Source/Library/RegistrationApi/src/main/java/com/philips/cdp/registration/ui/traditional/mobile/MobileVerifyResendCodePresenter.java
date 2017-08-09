@@ -4,7 +4,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
@@ -19,6 +18,7 @@ import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.FieldsValidator;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 import com.philips.cdp.registration.ui.utils.URInterface;
 import com.squareup.okhttp.RequestBody;
 
@@ -146,8 +146,13 @@ public class MobileVerifyResendCodePresenter implements HttpClientServiceReceive
                 mobileVerifyCodeContract.refreshUser();
                 mobileVerifyCodeContract.enableResendButton();
             } else if (jsonObject.has(ERROR_DESC)) {
-                String errorCodeString = jsonObject.get(ERROR_DESC).toString();
-                mobileVerifyCodeContract.showNumberChangeTechincalError(errorCodeString);
+                String message =  RegUtility.getErrorMessageFromInvalidField(jsonObject);
+                if(message!=null && !message.isEmpty()){
+                    mobileVerifyCodeContract.showNumberChangeTechincalError(message);
+                }else{
+                    String errorCodeString = jsonObject.get(ERROR_DESC).toString();
+                    mobileVerifyCodeContract.showNumberChangeTechincalError(errorCodeString);
+                }
             } else {
                 String errorCodeString = jsonObject.get(ERROR_MSG).toString();
                 mobileVerifyCodeContract.showNumberChangeTechincalError(errorCodeString);

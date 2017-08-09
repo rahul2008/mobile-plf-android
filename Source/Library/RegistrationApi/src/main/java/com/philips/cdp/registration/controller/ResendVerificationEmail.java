@@ -23,10 +23,6 @@ import com.philips.cdp.registration.settings.UserRegistrationInitializer;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.ThreadUtils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class ResendVerificationEmail implements CaptureApiRequestCallback,JumpFlowDownloadStatusListener {
 
 	public ResendVerificationEmailHandler mResendVerificationEmail;
@@ -46,63 +42,15 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback,JumpFl
 	public void onFailure(CaptureApiError error) {
 		UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
 		userRegistrationFailureInfo.setError(error);
-		handleInvalidInputs(error, userRegistrationFailureInfo);
-		handleInvalidCredentials(error, userRegistrationFailureInfo);
 		userRegistrationFailureInfo.setErrorCode(error.code);
 		ThreadUtils.postInMainThread(mContext,()->
 		mResendVerificationEmail
 		        .onResendVerificationEmailFailedWithError(userRegistrationFailureInfo));
 	}
 
-	private void handleInvalidInputs(CaptureApiError error,
-	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
-		if (null != error && null != error.error
-		        && error.error.equals(RegConstants.INVALID_FORM_FIELDS)) {
-			try {
-				JSONObject object = error.raw_response;
-				JSONObject jsonObject = (JSONObject) object.get(RegConstants.INVALID_FIELDS);
-				if (jsonObject != null) {
 
-					if (!jsonObject.isNull(RegConstants.TRADITIONAL_SIGN_IN_EMAIL_ADDRESS)) {
-						userRegistrationFailureInfo.setEmailErrorMessage(getErrorMessage(jsonObject
-						        .getJSONArray(RegConstants.TRADITIONAL_SIGN_IN_EMAIL_ADDRESS)));
-					}
 
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
-	}
 
-	private void handleInvalidCredentials(CaptureApiError error,
-	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
-		if (null != error && null != error.error
-		        && error.error.equals(RegConstants.INVALID_CREDENTIALS)) {
-			try {
-				JSONObject object = error.raw_response;
-				JSONObject jsonObject = (JSONObject) object.get(RegConstants.INVALID_FIELDS);
-				if (jsonObject != null) {
-
-					if (!jsonObject.isNull(RegConstants.RESEND_VERIFICATION_FORM)) {
-						userRegistrationFailureInfo.setEmailErrorMessage(getErrorMessage(jsonObject
-						        .getJSONArray(RegConstants.RESEND_VERIFICATION_FORM)));
-					}
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-
-		}
-	}
-
-	private String getErrorMessage(JSONArray jsonArray)
-	        throws JSONException {
-		if (null == jsonArray) {
-			return null;
-		}
-		return (String) jsonArray.get(0);
-	}
 
 	public void resendVerificationMail(final String emailAddress){
 		mEmailAddress = emailAddress;

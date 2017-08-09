@@ -183,7 +183,6 @@ public class RegistrationCoppaActivity extends FragmentActivity implements OnCli
                 .findFragmentById(R.id.fl_reg_fragment_container);
         if (fragment != null && fragment instanceof BackEventListener) {
             boolean isConsumed = ((BackEventListener) fragment).handleBackEvent();
-            System.out.println("isConsumed :"+isConsumed);
             if (isConsumed)
                 return;
 
