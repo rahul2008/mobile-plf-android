@@ -11,13 +11,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-
-
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -29,7 +26,6 @@ import com.americanwell.sdk.entity.insurance.Relationship;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.EditText;
@@ -39,7 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class THSInsuranceDetailFragment extends THSBaseFragment implements BackEventListener, View.OnClickListener {
+public class THSInsuranceDetailFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSInsuranceDetailFragment.class.getSimpleName();
     private ActionBarListener actionBarListener;
     private RelativeLayout mProgressbarContainer;
@@ -138,11 +134,6 @@ public class THSInsuranceDetailFragment extends THSBaseFragment implements BackE
         if (null != actionBarListener) {
             actionBarListener.updateActionBar("Insurance", true);
         }
-    }
-
-    @Override
-    public boolean handleBackEvent() {
-        return false;
     }
 
     /**

@@ -15,13 +15,12 @@ import android.view.ViewGroup;
 import com.americanwell.sdk.exception.AWSDKInstantiationException;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
-import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.EditText;
 import com.philips.platform.uid.view.widget.InputValidationLayout;
 import com.philips.platform.uid.view.widget.Label;
 
-public class THSVitalsFragment extends THSBaseFragment implements BackEventListener, View.OnClickListener {
+public class THSVitalsFragment extends THSBaseFragment implements View.OnClickListener {
 
     public static final String TAG = THSVitalsFragment.class.getSimpleName();
     protected THSVitalsPresenter mThsVitalsPresenter;
@@ -76,11 +75,6 @@ public class THSVitalsFragment extends THSBaseFragment implements BackEventListe
         } catch (AWSDKInstantiationException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public boolean handleBackEvent() {
-        return false;
     }
 
     @Override

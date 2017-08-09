@@ -16,12 +16,11 @@ import android.view.ViewGroup;
 import com.philips.platform.ths.R;
 import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.RadioButton;
 import com.philips.platform.uid.view.widget.RadioGroup;
 
-public class THSInsuranceConfirmationFragment extends THSBaseFragment implements BackEventListener, View.OnClickListener, RadioGroup.OnCheckedChangeListener {
+public class THSInsuranceConfirmationFragment extends THSBaseFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
     public static final String TAG = THSInsuranceConfirmationFragment.class.getSimpleName();
     private ActionBarListener actionBarListener;
     private THSInsuranceConfirmationPresenter mPresenter;
@@ -48,12 +47,6 @@ public class THSInsuranceConfirmationFragment extends THSBaseFragment implements
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         actionBarListener = getActionBarListener();
-    }
-
-
-    @Override
-    public boolean handleBackEvent() {
-        return false;
     }
 
     @Override

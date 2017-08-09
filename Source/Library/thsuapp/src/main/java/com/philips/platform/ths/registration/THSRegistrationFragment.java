@@ -24,7 +24,6 @@ import com.philips.platform.ths.base.THSBaseFragment;
 import com.philips.platform.ths.pharmacy.THSSpinnerAdapter;
 import com.philips.platform.ths.utility.THSConstants;
 import com.philips.platform.ths.utility.THSManager;
-import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.CheckBox;
 import com.philips.platform.uid.view.widget.EditText;
@@ -35,7 +34,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class THSRegistrationFragment extends THSBaseFragment implements BackEventListener,View.OnClickListener {
+public class THSRegistrationFragment extends THSBaseFragment implements View.OnClickListener {
     public static final String TAG = THSRegistrationFragment.class.getSimpleName();
     private THSRegistrationPresenter mThsRegistrationPresenter;
     private RelativeLayout mRelativeLayout;

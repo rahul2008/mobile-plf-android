@@ -102,6 +102,7 @@ public class THSProviderDetailsDisplayHelper {
         providerName.setText(provider.getFullName());
         swipeRefreshLayout.setRefreshing(false);
         providerRating.setRating(provider.getRating());
+        providerRating.setText(""+provider.getRating());
         spokenLanguageValueLabel.setText(getSpokenLanguages(provider.getSpokenLanguages()));
         yearsOfExpValueLabel.setText(""+provider.getYearsExperience());
         graduatedValueLabel.setText(provider.getSchoolName());

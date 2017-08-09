@@ -3,6 +3,7 @@
     android:id="@+id/available_provider_details_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipToPadding="false"
     android:orientation="vertical">
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -244,24 +245,18 @@
                     android:paddingTop="@dimen/uid_grid_title_padding"
                     android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
                     android:textSize="16sp" />
-
-                <View
-                    android:id="@+id/horizontalLineSix"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@+id/aboutMeValueLabel"
-                    android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
             </RelativeLayout>
         </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <RelativeLayout
         android:id="@+id/bottomLayout"
+        android:background="@drawable/ths_shadow_drawable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/uid_grid_title_padding"
-        android:layout_marginTop="@dimen/uid_grid_title_padding"
+        android:paddingTop="@dimen/uid_grid_title_padding"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingEnd="@dimen/uid_grid_title_padding"

@@ -46,7 +46,6 @@ import com.philips.platform.ths.insurance.THSInsuranceConfirmationFragment;
 import com.philips.platform.ths.pharmacy.customtoggle.SegmentControl;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.uappframework.listener.ActionBarListener;
-import com.philips.platform.uappframework.listener.BackEventListener;
 import com.philips.platform.uid.utils.UIDNavigationIconToggler;
 import com.philips.platform.uid.view.widget.Button;
 import com.philips.platform.uid.view.widget.ImageButton;
@@ -58,9 +57,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class THSPharmacyListFragment extends THSBaseFragment implements OnMapReadyCallback, View.OnClickListener,
-        SearchBox.ExpandListener, SearchBox.QuerySubmitListener,
-        THSPharmacyListViewListener,
-        BackEventListener {
+        SearchBox.ExpandListener, SearchBox.QuerySubmitListener, THSPharmacyListViewListener {
 
     public static String TAG = THSPharmacyListFragment.class.getSimpleName();
     private UIDNavigationIconToggler navIconToggler;
