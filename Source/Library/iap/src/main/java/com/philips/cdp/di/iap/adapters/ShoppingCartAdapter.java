@@ -143,7 +143,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             return -1;
     }
 
-    private void bindDeleteOrInfoPopUP(final View view, final int selectedItem) {
+    private void showProductDetails(final int selectedItem) {
         mSelectedItemPosition = selectedItem;
         setTheProductDataForDisplayingInProductDetailPage(selectedItem);
     }
@@ -175,12 +175,12 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             checkForOutOfStock(cartData.getStockLevel(), cartData.getQuantity(), shoppingCartProductHolder);
             getNetworkImage(shoppingCartProductHolder, imageURL);
 
-            shoppingCartProductHolder.mIvOptions.setOnClickListener(new View.OnClickListener() {
+           /* shoppingCartProductHolder.mIvOptions.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
-                    bindDeleteOrInfoPopUP(view, holder.getAdapterPosition());
+                    showProductDetails(view, holder.getAdapterPosition());
                 }
-            });
+            });*/
 
             shoppingCartProductHolder.mTvQuantity.setCompoundDrawables(null, null, countArrow, null);
             bindCountView(shoppingCartProductHolder.mQuantityLayout, holder.getAdapterPosition());
@@ -241,6 +241,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             }
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showProductDetails(holder.getAdapterPosition());
+            }
+        });
     }
 
     private void handleTax(ShoppingCartData data, FooterShoppingCartViewHolder shoppingCartFooter) {
