@@ -6,11 +6,15 @@ package com.philips.cdp.di.iap.screens;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.di.iap.R;
@@ -36,13 +40,15 @@ import com.philips.cdp.di.iap.utils.IAPLog;
 import com.philips.cdp.di.iap.utils.NetworkUtility;
 import com.philips.cdp.di.iap.utils.Utility;
 import com.philips.platform.uid.view.widget.RecyclerViewSeparatorItemDecoration;
+import com.philips.platform.uid.view.widget.SearchBox;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class ProductCatalogFragment extends InAppBaseFragment
-        implements EventListener, ProductCatalogPresenter.ProductCatalogListener {
+        implements EventListener, ProductCatalogPresenter.ProductCatalogListener, SearchBox.ExpandListener {
 
     public static final String TAG = ProductCatalogFragment.class.getName();
 
@@ -53,6 +59,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private ProductCatalogAdapter mAdapter;
     private ShoppingCartAPI mShoppingCartAPI;
     private RecyclerView mRecyclerView;
+    private SearchBox mSearchBox;
     private ProductCatalogAPI mPresenter;
     private ArrayList<ProductCatalogData> mProductCatalog = new ArrayList<>();
 
@@ -64,6 +71,12 @@ public class ProductCatalogFragment extends InAppBaseFragment
     private Bundle mBundle;
     private boolean mIsLoading = false;
     private boolean mIsProductsAvailable = true;
+
+
+    private String query;
+    boolean searchBoxCollpased = true;
+    private ImageView mClearIconView;
+    private AppCompatAutoCompleteTextView mSearchTextView;
 
     public static ProductCatalogFragment createInstance(Bundle args, InAppBaseFragment.AnimationType animType) {
         ProductCatalogFragment fragment = new ProductCatalogFragment();
@@ -87,17 +100,17 @@ public class ProductCatalogFragment extends InAppBaseFragment
         boolean isLocalData = ControllerFactory.getInstance().isPlanB();
 
         if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
-           return;
+            return;
             //returning because in Hybris, If CTN not present in Hybris, we need to return a from onCreate to onCreateView to show UI
             // displayCategorisedProductList(mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS));
         } else {
-        if (!isLocalData && currentCountryCode != null && currentCountryCode.equalsIgnoreCase(countrySelectedByVertical) &&
-                CartModelContainer.getInstance().getProductList() != null
-                && CartModelContainer.getInstance().getProductList().size() != 0) {
-            onLoadFinished(getCachedProductList(), null);
-        } else {
-            fetchProductList();
-        }
+            if (!isLocalData && currentCountryCode != null && currentCountryCode.equalsIgnoreCase(countrySelectedByVertical) &&
+                    CartModelContainer.getInstance().getProductList() != null
+                    && CartModelContainer.getInstance().getProductList().size() != 0) {
+                onLoadFinished(getCachedProductList(), null);
+            } else {
+                fetchProductList();
+            }
         }
     }
 
@@ -131,8 +144,12 @@ public class ProductCatalogFragment extends InAppBaseFragment
         EventHelper.getInstance().registerEventNotification
                 (String.valueOf(IAPConstant.IAP_LAUNCH_PRODUCT_DETAIL), this);
 
-        View rootView = inflater.inflate(R.layout.iap_product_catalog_view, container, false);
+        final View rootView = inflater.inflate(R.layout.iap_product_catalog_view, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.product_catalog_recycler_view);
+        mSearchBox = (SearchBox) rootView.findViewById(R.id.iap_search_box);
+
+        setUpSearch();
+
         mEmptyCatalogText = (TextView) rootView.findViewById(R.id.iap_productCatalog_emptyProductCatalogText_lebel);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -145,12 +162,51 @@ public class ProductCatalogFragment extends InAppBaseFragment
         if (!mIsProductsAvailable) {
             mRecyclerView.setVisibility(View.GONE);
             mEmptyCatalogText.setVisibility(View.VISIBLE);
+            mSearchBox.setVisibility(rootView.GONE);
         }
         if (mBundle != null && mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS) != null) {
             displayCategorisedProductList(mBundle.getStringArrayList(IAPConstant.CATEGORISED_PRODUCT_CTNS));
         }
         return rootView;
     }
+
+    private void setUpSearch() {
+        mClearIconView = mSearchBox.getClearIconView();
+        mSearchBox.setExpandListener(this);
+        mSearchBox.setSearchBoxHint(R.string.iap_search_box_hint);
+        mSearchBox.setDecoySearchViewHint(R.string.iap_search_box_hint);
+        mSearchTextView = mSearchBox.getSearchTextView();
+        mSearchTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() == 0) {
+                    resetAdapter();
+                    return;
+                }
+                String filterText = s.toString().toLowerCase(Locale.getDefault());
+                mAdapter.filter(filterText);
+            }
+        });
+
+        mClearIconView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSearchTextView.getText().clear();
+                resetAdapter();
+            }
+        });
+    }
+
 
     @Override
     public void onResume() {
@@ -183,6 +239,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             bundle.putString(IAPConstant.PRODUCT_VALUE_PRICE, productCatalogData.getPriceValue());
             bundle.putString(IAPConstant.PRODUCT_OVERVIEW, productCatalogData.getMarketingTextHeader());
             bundle.putString(IAPConstant.IAP_PRODUCT_DISCOUNTED_PRICE, productCatalogData.getDiscountedPrice());
+            bundle.putString(IAPConstant.STOCK_STATUS, productCatalogData.getStockLevel());
             bundle.putBoolean(IAPConstant.IS_PRODUCT_CATALOG, true);
             addFragment(ProductDetailFragment.createInstance(bundle, AnimationType.NONE), ProductDetailFragment.TAG);
         }
@@ -265,6 +322,7 @@ public class ProductCatalogFragment extends InAppBaseFragment
             if (mRecyclerView != null && mEmptyCatalogText != null) {
                 mRecyclerView.setVisibility(View.GONE);
                 mEmptyCatalogText.setVisibility(View.VISIBLE);
+                mSearchBox.setVisibility(View.GONE);
             }
         } else {
             if (mRecyclerView != null && mEmptyCatalogText != null) {
@@ -285,6 +343,9 @@ public class ProductCatalogFragment extends InAppBaseFragment
         for (ProductCatalogData data : dataFetched) {
             if (!checkIfEntryExists(data))
                 mProductCatalog.add(data);
+        }
+        if (!mProductCatalog.isEmpty()) {
+
         }
     }
 
@@ -328,9 +389,25 @@ public class ProductCatalogFragment extends InAppBaseFragment
         }
     };
 
-//    private void dismissProgress() {
-//        if (isProgressDialogShowing()) {
-//            dismissProgressDialog();
-//        }
-//    }
+    @Override
+    public void onSearchExpanded() {
+
+    }
+
+    @Override
+    public void onSearchCollapsed() {
+        resetAdapter();
+    }
+
+    void resetAdapter() {
+        mAdapter.setSearchFocused(false);
+        mAdapter.setData(mProductCatalog);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onStop() {
+        mSearchBox.setSearchCollapsed(true);
+        super.onStop();
+    }
 }

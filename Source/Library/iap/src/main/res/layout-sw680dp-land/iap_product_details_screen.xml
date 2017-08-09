@@ -2,13 +2,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
     android:orientation="vertical">
 
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:maxWidth="@dimen/max_width"
+        android:layout_width="@dimen/max_width"
         android:layout_height="match_parent"
-        android:background="?attr/uidContentPrimaryBackgroundColor"
         android:layout_weight="1"
         android:fillViewport="true"
         android:paddingEnd="@dimen/border16_margin_left_right"
@@ -130,7 +132,9 @@
         <com.philips.platform.uid.view.widget.ProgressBarButton
             android:id="@+id/iap_productDetailsScreen_addToCart_button"
             style="@style/iapCentralesansBookFont"
-            android:layout_width="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:maxWidth="@dimen/max_width"
+            android:layout_width="@dimen/max_width"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:enabled="true"
@@ -142,7 +146,9 @@
         <com.philips.platform.uid.view.widget.ProgressBarButton
             android:id="@+id/iap_productDetailsScreen_buyFromRetailor_button"
             style="@style/iapCentralesansBookFont"
-            android:layout_width="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:maxWidth="@dimen/max_width"
+            android:layout_width="@dimen/max_width"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/border8_margin"
             android:enabled="true"

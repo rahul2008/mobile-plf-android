@@ -28,23 +28,45 @@ import com.philips.cdp.di.iap.utils.Utility;
 import com.shamanland.fonticon.FontIconTextView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final int EMPTY_VIEW = 10;
     private final ImageLoader mImageLoader;
     private Context mContext;
 
-    private ArrayList<ProductCatalogData> mProductCatalogList = new ArrayList<>();
+    private ArrayList<ProductCatalogData> mProductCatalogList;
     private ProductCatalogData mSelectedProduct;
+    private ArrayList<ProductCatalogData> mProductCatalogListToFilter;
+    private String mCharacterText = "";
 
-    public ProductCatalogAdapter(Context pContext, ArrayList<ProductCatalogData> pArrayList) {
+    public boolean isSearchFocused() {
+        return isSearchFocused;
+    }
+
+    public void setSearchFocused(boolean searchFocused) {
+        isSearchFocused = searchFocused;
+    }
+
+    private boolean isSearchFocused = false;
+
+    public ProductCatalogAdapter(Context pContext, ArrayList<ProductCatalogData> mProductCatalogList) {
         mContext = pContext;
-        mProductCatalogList = pArrayList;
+        this.mProductCatalogList = mProductCatalogList;
+        mProductCatalogListToFilter = mProductCatalogList;
         mImageLoader = NetworkImageLoader.getInstance(mContext).getImageLoader();
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+
+        if (viewType == EMPTY_VIEW && isSearchFocused()) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.empty_view, parent, false);
+            EmptyViewHolder evh = new EmptyViewHolder(v);
+            return evh;
+        }
+
         View v = LayoutInflater.from(parent.getContext()).
                 inflate(R.layout.iap_product_catalog_item, parent, false);
         return new ProductCatalogViewHolder(v);
@@ -52,6 +74,21 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+
+
+        if (holder instanceof EmptyViewHolder) {
+
+            if (isSearchFocused()) {
+                CharSequence text = String.format((mContext.getResources().getText(R.string.iap_zero_results_found)).toString(), mCharacterText);
+                ((EmptyViewHolder) holder).tvEmptyMsg.setText(text);
+                mCharacterText = "";
+                return;
+            } else {
+                return;
+            }
+
+        }
+
         ProductCatalogData productCatalogData = mProductCatalogList.get(holder.getAdapterPosition());
         ProductCatalogViewHolder productHolder = (ProductCatalogViewHolder) holder;
 
@@ -121,7 +158,25 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public int getItemCount() {
-        return mProductCatalogList.size();
+        //return mProductCatalogList.size();
+        if(mProductCatalogList.size()==0){
+
+            if(isSearchFocused()){
+                return 1;
+            }else{
+                return mProductCatalogList.size();
+            }
+        }else{
+            return mProductCatalogList.size();
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mProductCatalogList.size() == 0 && isSearchFocused()) {
+            return EMPTY_VIEW;
+        }
+        return super.getItemViewType(position);
     }
 
     public void tagProducts() {
@@ -144,6 +199,30 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             IAPAnalytics.trackAction(IAPAnalyticsConstant.SEND_DATA,
                     IAPAnalyticsConstant.PRODUCTS, products.toString());
         }
+    }
+
+    public void setData(ArrayList<ProductCatalogData> mProductCatalogList) {
+        this.mProductCatalogList = mProductCatalogList;
+    }
+
+    // Filter Class
+    public void filter(String charText) {
+        setSearchFocused(true);
+        mCharacterText = charText;
+        charText = charText.toLowerCase(Locale.getDefault());
+        ArrayList<ProductCatalogData> lFilteredProductList = new ArrayList<>();
+        if (charText.length() == 0) {
+            // Show no product found view
+        } else {
+            for (ProductCatalogData wp : mProductCatalogListToFilter) {
+                if (wp.getProductTitle().toLowerCase(Locale.getDefault()).contains(charText)) {
+                    lFilteredProductList.add(wp);
+                }
+            }
+        }
+
+        setData(lFilteredProductList);
+        notifyDataSetChanged();
     }
 
     private class ProductCatalogViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -173,6 +252,17 @@ public class ProductCatalogAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             setTheProductDataForDisplayingInProductDetailPage(getAdapterPosition());
         }
     }
+
+    public class EmptyViewHolder extends RecyclerView.ViewHolder {
+
+        TextView tvEmptyMsg;
+
+        public EmptyViewHolder(View itemView) {
+            super(itemView);
+            tvEmptyMsg = (TextView) itemView.findViewById(R.id.tv_empty_list_found);
+        }
+    }
+
 }
 
 

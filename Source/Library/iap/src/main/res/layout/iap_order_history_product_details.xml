@@ -38,6 +38,6 @@
         android:layout_height="@dimen/iap_divider_height"
         android:layout_below="@+id/iv_product_image"
         android:layout_marginTop="@dimen/iap_selection_address_layout_margin"
-        android:background="?attr/uikit_listDividerColor" />
+        android:background="@drawable/uid_shadow_level_two" />
 
 </RelativeLayout>

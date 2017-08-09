@@ -5,10 +5,12 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -18,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cdp.di.iap.controller.ControllerFactory;
 import com.philips.cdp.di.iap.integration.IAPDependencies;
 import com.philips.cdp.di.iap.integration.IAPFlowInput;
 import com.philips.cdp.di.iap.integration.IAPInterface;
@@ -218,6 +219,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mPurchaseHistory.setEnabled(true);
             mIapInterface.getProductCartCount(this);
         }
+        showScreenSizeInDp();
     }
 
     @Override
@@ -241,7 +243,6 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
         mTitleTextView = (TextView) findViewById(R.id.iap_header_title);
         setTitle(getString(R.string.iap_app_name));
 
-        FrameLayout mCartContainer = (FrameLayout) findViewById(R.id.shopping_cart_icon);
         ImageView mCartIcon = (ImageView) findViewById(R.id.cart_iv);
         mCountText = (TextView) findViewById(R.id.item_count);
         if (!mIAPSettings.isUseLocalData()) {
@@ -249,7 +250,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mCountText.setVisibility(View.VISIBLE);
             Drawable mCartIconDrawable = VectorDrawable.create(getApplicationContext(), R.drawable.iap_shopping_cart);
             mCartIcon.setBackground(mCartIconDrawable);
-            mCartContainer.setOnClickListener(new View.OnClickListener() {
+            mShoppingCart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // showFragment(ShoppingCartFragment.TAG);
@@ -348,7 +349,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     private void updateCartIcon() {
         if (mIAPSettings.isUseLocalData()) {
-            mShoppingCart.setVisibility(View.INVISIBLE);
+            mShoppingCart.setVisibility(View.GONE);
         } else {
             mShoppingCart.setVisibility(View.VISIBLE);
         }
@@ -367,7 +368,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
 
     private void hideViews() {
         mCountText.setVisibility(View.GONE);
-        mShoppingCart.setVisibility(View.INVISIBLE);
+        mShoppingCart.setVisibility(View.GONE);
         mAddCTNLl.setVisibility(View.GONE);
         mShopNow.setVisibility(View.GONE);
         mBuyDirect.setVisibility(View.GONE);
@@ -475,7 +476,7 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
             mShoppingCart.setVisibility(View.VISIBLE);
             mCountText.setVisibility(View.VISIBLE);
         } else {
-            mShoppingCart.setVisibility(View.INVISIBLE);
+            mShoppingCart.setVisibility(View.GONE);
             mCountText.setVisibility(View.GONE);
         }
     }
@@ -527,5 +528,25 @@ public class DemoAppActivity extends UiKitActivity implements View.OnClickListen
     @Override
     public void onUserLogoutSuccessWithInvalidAccessToken() {
 
+    }
+
+   void showScreenSizeInDp(){
+
+       DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+       float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+       float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+       Toast.makeText(this,"Screen width in dp is :"+dpWidth,Toast.LENGTH_LONG).show();
+   }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -1,29 +1,26 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout"
-    android:layout_width="match_parent"
+    android:layout_width="@dimen/max_width"
     android:layout_height="match_parent"
-    android:background="?attr/uidContentPrimaryBackgroundColor">
+    android:layout_gravity="center_horizontal"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:maxWidth="@dimen/max_width">
 
-    <LinearLayout
-        android:id="@+id/iap_ll_search_box"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <com.philips.platform.uid.view.widget.SearchBox
-            android:id="@+id/iap_search_box"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:paddingBottom="@dimen/border8_margin"
-            android:paddingTop="@dimen/border8_margin" />
-    </LinearLayout>
+    <com.philips.platform.uid.view.widget.SearchBox
+        android:id="@+id/iap_search_box"
+        android:layout_width="@dimen/max_width"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:paddingBottom="@dimen/border8_margin"
+        android:paddingTop="@dimen/border8_margin" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/product_catalog_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_below="@id/iap_ll_search_box" />
+        android:layout_below="@id/iap_search_box" />
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/iap_productCatalog_emptyProductCatalogText_lebel"
@@ -32,6 +29,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/iap_no_product_available"
-        android:textSize="@dimen/iap_product_ctn_12"
+        android:textSize="@dimen/iap_discount_price"
         android:visibility="gone" />
 </RelativeLayout>

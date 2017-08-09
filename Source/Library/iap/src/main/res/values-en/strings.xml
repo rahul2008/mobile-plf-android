@@ -111,14 +111,14 @@
 <string name="iap_no_product_available">No product found in your Store.</string>
 <string name="iap_products_unavailable">No products available</string>
 <string name="iap_something_gone_wrong">Something went wrong. We cannot find any products.</string>
-<string name="iap_buy_from_retailers">Buy From Retailer</string>
+<string name="iap_buy_from_retailers">Buy from retailer</string>
 <string name="iap_add_to_cart">Add to cart</string>
 <string name="iap_buy_now">Buy Now</string>
 <string name="iap_product_added">Product added to your shopping cart</string>
 <string name="iap_go_to_checkout">Go to checkout</string>
 <string name="iap_select_retailer">Select retailer</string>
 <string name="iap_retailer_title">Retailer</string>
-<string name="iap_in_stock">in stock</string>
+<string name="iap_in_stock">In stock</string>
 <string name="iap_retailer_title_for_no_retailers">No Retailers!</string>
 <string name="iap_no_retailer_message">There are no online retailers currently available for this product.</string>
 <string name="iap_order_history">Order history</string>

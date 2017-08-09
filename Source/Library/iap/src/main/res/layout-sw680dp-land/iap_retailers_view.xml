@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ratingtheme"
-    android:layout_width="match_parent"
+    android:layout_width="@dimen/max_width"
     android:layout_height="wrap_content"
-    android:background="?attr/uidContentPrimaryBackgroundColor">
+    android:layout_gravity="center_horizontal"
+    android:background="?attr/uidContentPrimaryBackgroundColor"
+    android:maxWidth="@dimen/max_width">
 
     <!--<FrameLayout
         android:id="@+id/iap_retailer_cross_container"

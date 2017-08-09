@@ -67,7 +67,7 @@ public class ProductDetailFragmentTest extends BaseTest {
 
     @Test
     public void verifyCTNTextFontSize() {
-        float expectedFontSize = resources.getDimensionPixelSize(R.dimen.iap_product_ctn_16);
+        float expectedFontSize = resources.getDimensionPixelSize(R.dimen.iap_product_ctn_12);
         getTextLabelForCTN().check(matches(TextViewPropertiesMatchers.isSameFontSize((int) expectedFontSize)));
     }
 
@@ -79,7 +79,7 @@ public class ProductDetailFragmentTest extends BaseTest {
 
     @Test
     public void verifyDiscountedPriceTextFontSize() {
-        float expectedFontSize = resources.getDimensionPixelSize(R.dimen.iap_product_ctn_16);
+        float expectedFontSize = resources.getDimensionPixelSize(R.dimen.iap_product_ctn_12);
         getTextLabelForDiscountedPrice().check(matches(TextViewPropertiesMatchers.isSameFontSize((int) expectedFontSize)));
     }
 
