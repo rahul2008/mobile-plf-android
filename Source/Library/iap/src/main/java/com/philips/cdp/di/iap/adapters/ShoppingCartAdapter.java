@@ -280,13 +280,12 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 freeDeliverySpendOn = String.format(freeDeliverySpendOn, freeDeliverySpendAmount);
                 shoppingCartFooter.mDeliveryFreeSpend.setText(freeDeliverySpendOn);
 
-                for(ShoppingCartData shoppingCartData:mData){
-
+                for(int i=0; i<mData.size(); i++){
                     View priceInfo = View.inflate(mContext, R.layout.iap_price_item, null);
                     TextView mProductName = (TextView) priceInfo.findViewById(R.id.product_name);
                     TextView mProductPrice = (TextView) priceInfo.findViewById(R.id.product_price);
-                    mProductName.setText(""+data.getQuantity()+"x " +shoppingCartData.getProductTitle().toString());
-                    mProductPrice.setText(shoppingCartData.getFormattedTotalPrice().toString());
+                    mProductName.setText(""+mData.get(i).getQuantity()+"x " +mData.get(i).getProductTitle().toString());
+                    mProductPrice.setText(mData.get(i).getFormattedTotalPrice().toString());
                     shoppingCartFooter.mPriceContainer.addView(priceInfo);
                 }
             }
