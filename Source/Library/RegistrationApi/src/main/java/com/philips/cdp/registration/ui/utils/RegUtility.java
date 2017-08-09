@@ -279,8 +279,20 @@ public class RegUtility {
 
 
     public static List<String> supportedCountryList() {
-        List<String> defaultCountries = Arrays.asList(RegUtility.getDefaultSupportedHomeCountries());
+        ArrayList<String> defaultCountries = new ArrayList<String>(Arrays.asList(RegUtility.getDefaultSupportedHomeCountries()));
         List<String> supportedHomeCountries = RegistrationConfiguration.getInstance().getSupportedHomeCountry();
+        List<String> serviceDiscoveryCountries = RegistrationConfiguration.getInstance().getServiceDiscoveryCountries();
+        if (serviceDiscoveryCountries != null && serviceDiscoveryCountries.size() > 0) {
+            for (String country : serviceDiscoveryCountries) {
+                String countryCode = country.toUpperCase();
+                if (!defaultCountries.contains(countryCode)) {
+                    defaultCountries.add(countryCode);
+                }
+                if (null != supportedHomeCountries && !supportedHomeCountries.contains(countryCode)) {
+                    supportedHomeCountries.add(countryCode);
+                }
+            }
+        }
         if (null != supportedHomeCountries) {
             List<String> filteredCountryList = new ArrayList<String>(supportedHomeCountries);
             filteredCountryList.retainAll(defaultCountries);

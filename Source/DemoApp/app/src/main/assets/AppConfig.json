@@ -33,6 +33,7 @@
     "abtest.precache": ["DOT-ReceiveMarketingOptIn"],
     "servicediscovery.platformMicrositeId":"70000",
     "servicediscovery.platformEnvironment":"production",
+    "servicediscovery.countryMapping": {"LU": "BE", "MO": "HK"},
     "logging.releaseConfig":{
       "fileName":"AppInfraLog",
       "numberOfFiles":5,
