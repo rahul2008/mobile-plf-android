@@ -71,7 +71,8 @@ public class ApplianceManager {
 
         @Override
         public void onNetworkNodeUpdated(NetworkNode networkNode) {
-            // TODO Perform merge/update
+            final Appliance appliance = availableAppliances.get(networkNode.getCppId());
+            appliance.getNetworkNode().updateWithValuesFrom(networkNode);
         }
 
         @Override

@@ -223,6 +223,29 @@ public class NetworkNode implements Parcelable {
         this.pcs.firePropertyChange(KEY_LAST_PAIRED, oldPairedTime, lastPairedTime);
     }
 
+    public void updateWithValuesFrom(NetworkNode mergedInNetworkNode) {
+        if (!mergedInNetworkNode.cppId.equals(cppId)) {
+            return;
+        }
+
+        if (mergedInNetworkNode.homeSsid != null && !mergedInNetworkNode.homeSsid.equals(homeSsid)) {
+            setHomeSsid(mergedInNetworkNode.homeSsid);
+        }
+
+        if (mergedInNetworkNode.ipAddress != null && !mergedInNetworkNode.ipAddress.equals(ipAddress)) {
+            setIpAddress(mergedInNetworkNode.ipAddress);
+        }
+
+        if (mergedInNetworkNode.name != null && !mergedInNetworkNode.name.equals(name)) {
+            setName(mergedInNetworkNode.name);
+        }
+
+        if (bootId != mergedInNetworkNode.bootId || mergedInNetworkNode.encryptionKey == null) {
+            setEncryptionKey(null);
+            setBootId(mergedInNetworkNode.bootId);
+        }
+    }
+
     public int getDICommProtocolVersion() {
         return DICOMM_PROTOCOL_VERSION;
     }

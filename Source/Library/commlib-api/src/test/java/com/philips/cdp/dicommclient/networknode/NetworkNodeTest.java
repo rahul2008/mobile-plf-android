@@ -9,14 +9,25 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import static com.philips.cdp.dicommclient.networknode.NetworkNode.PairingState.PAIRED;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_BOOT_ID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_DEVICE_NAME;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_HOME_SSID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_IP_ADDRESS;
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -27,6 +38,9 @@ public class NetworkNodeTest {
 
     @Mock
     private PropertyChangeListener mockPropertyChangeListener;
+
+    @Captor
+    private ArgumentCaptor<PropertyChangeEvent> propertyChangeEventCaptor;
 
     @Before
     public void setUp() throws Exception {
@@ -99,5 +113,113 @@ public class NetworkNodeTest {
         networkNode.setPin("ALL YOUR BASE ARE BELONG TO US");
 
         verify(mockPropertyChangeListener, times(11)).propertyChange(any(PropertyChangeEvent.class));
+    }
+
+    @Test
+    public void whenUpdatingNetworkNodeWithOtherCppId_ThenOriginalNetworkNodeShouldBeUnchanged() throws Exception {
+        NetworkNode originalNetworkNode = createDummyNetworkNode();
+        originalNetworkNode.setCppId("ABC");
+        NetworkNode networkNodeForUpdate = createDummyNetworkNode();
+        networkNodeForUpdate.setCppId("DEF");
+        networkNodeForUpdate.setIpAddress("123.123.123.123");
+        networkNodeForUpdate.setName("Dummy node");
+        originalNetworkNode.addPropertyChangeListener(mockPropertyChangeListener);
+
+        originalNetworkNode.updateWithValuesFrom(networkNodeForUpdate);
+
+        verify(mockPropertyChangeListener, never()).propertyChange(any(PropertyChangeEvent.class));
+    }
+
+    @Test
+    public void whenUpdatingNetworkNodeWithOtherSsid_ThenSsidShouldBeChanged() throws Exception {
+        NetworkNode originalNetworkNode = createDummyNetworkNode();
+        NetworkNode networkNodeForUpdate = createDummyNetworkNode();
+        networkNodeForUpdate.setHomeSsid("Some other ssid");
+        originalNetworkNode.addPropertyChangeListener(mockPropertyChangeListener);
+
+        originalNetworkNode.updateWithValuesFrom(networkNodeForUpdate);
+
+        verifyPropertyChangeCalled(KEY_HOME_SSID, "Some other ssid");
+    }
+
+    @Test
+    public void whenUpdatingNetworkNodeWithOtherIpAddress_ThenIpAddressShouldBeChanged() throws Exception {
+        NetworkNode originalNetworkNode = createDummyNetworkNode();
+        NetworkNode networkNodeForUpdate = createDummyNetworkNode();
+        networkNodeForUpdate.setIpAddress("10.10.10.10");
+        originalNetworkNode.addPropertyChangeListener(mockPropertyChangeListener);
+
+        originalNetworkNode.updateWithValuesFrom(networkNodeForUpdate);
+
+        verifyPropertyChangeCalled(KEY_IP_ADDRESS, "10.10.10.10");
+    }
+
+    @Test
+    public void whenUpdatingNetworkNodeWithOtherName_ThenNameShouldBeChanged() throws Exception {
+        NetworkNode originalNetworkNode = createDummyNetworkNode();
+        NetworkNode networkNodeForUpdate = createDummyNetworkNode();
+        networkNodeForUpdate.setName("My awesome appliance");
+        originalNetworkNode.addPropertyChangeListener(mockPropertyChangeListener);
+
+        originalNetworkNode.updateWithValuesFrom(networkNodeForUpdate);
+
+        verifyPropertyChangeCalled(KEY_DEVICE_NAME, "My awesome appliance");
+    }
+
+    @Test
+    public void whenUpdatingNetworkNodeWithBootId_ThenBootIdShouldBeChanged() throws Exception {
+        NetworkNode originalNetworkNode = createDummyNetworkNode();
+        NetworkNode networkNodeForUpdate = createDummyNetworkNode();
+        networkNodeForUpdate.setBootId(10L);
+        originalNetworkNode.addPropertyChangeListener(mockPropertyChangeListener);
+
+        originalNetworkNode.updateWithValuesFrom(networkNodeForUpdate);
+
+        verifyPropertyChangeCalled(KEY_BOOT_ID, 10L);
+    }
+
+    @Test
+    public void whenUpdatingNetworkNodeWithNullEncryptionKey_ThenEncryptionKeyShouldBeChanged() throws Exception {
+        NetworkNode originalNetworkNode = createDummyNetworkNode();
+        originalNetworkNode.setEncryptionKey("Some really secret key");
+        NetworkNode networkNodeForUpdate = createDummyNetworkNode();
+        networkNodeForUpdate.setEncryptionKey(null);
+        originalNetworkNode.addPropertyChangeListener(mockPropertyChangeListener);
+
+        originalNetworkNode.updateWithValuesFrom(networkNodeForUpdate);
+
+        verifyPropertyChangeCalled(KEY_ENCRYPTION_KEY, null);
+    }
+
+    @Test
+    public void whenUpdatingNetworkNodeWithEncryptionKey_ThenEncryptionKeyShouldNotBeChanged() throws Exception {
+        NetworkNode originalNetworkNode = createDummyNetworkNode();
+        originalNetworkNode.setEncryptionKey("Some really secret key");
+        NetworkNode networkNodeForUpdate = createDummyNetworkNode();
+        networkNodeForUpdate.setEncryptionKey("Some other secret key");
+        originalNetworkNode.addPropertyChangeListener(mockPropertyChangeListener);
+
+        originalNetworkNode.updateWithValuesFrom(networkNodeForUpdate);
+
+        verify(mockPropertyChangeListener, never()).propertyChange((PropertyChangeEvent) anyObject());
+    }
+
+    private void verifyPropertyChangeCalled(String propertyName, Object value) {
+        verify(mockPropertyChangeListener, atLeastOnce()).propertyChange(propertyChangeEventCaptor.capture());
+        boolean foundProperty = false;
+        for (PropertyChangeEvent propertyChangeEvent : propertyChangeEventCaptor.getAllValues()) {
+            if (propertyChangeEvent.getPropertyName().equals(propertyName)) {
+                assertEquals(value, propertyChangeEvent.getNewValue());
+                foundProperty = true;
+            }
+        }
+        assertTrue("PropertyChange not called for '" + propertyName + "' property.", foundProperty);
+    }
+
+    private NetworkNode createDummyNetworkNode() {
+        NetworkNode networkNode = new NetworkNode();
+        networkNode.setCppId("cpp");
+
+        return networkNode;
     }
 }

@@ -203,6 +203,7 @@ pitest {
             'com.philips.cdp2.commlib.lan.discovery.*',
             'com.philips.cdp2.commlib.lan.security.*',
             'com.philips.cdp.dicommclient.request.*',
+            'com.philips.cdp.dicommclient.networknode.*',
     ]  /* specify target classes to be mutated */
     excludedClasses = [
             'com.philips.cdp2.commlib.core.port.firmware.util.FirmwarePortStateWaiterTest',
