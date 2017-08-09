@@ -19,14 +19,15 @@ import android.support.annotation.VisibleForTesting;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
 
+import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-public abstract class ConnectivityMonitor implements Availability {
+public abstract class ConnectivityMonitor implements Availability<ConnectivityMonitor> {
 
     protected ConnectivityManager connectivityManager;
 
-    private Set<AvailabilityListener> availabilityListeners = new CopyOnWriteArraySet<>();
+    private Set<AvailabilityListener<ConnectivityMonitor>> availabilityListeners = new CopyOnWriteArraySet<>();
 
     @Nullable
     public NetworkInfo getActiveNetworkInfo() {
@@ -41,16 +42,17 @@ public abstract class ConnectivityMonitor implements Availability {
         public void onReceive(Context context, Intent intent) {
             activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 
-            boolean isCurrentlyConnected = calculateIsConnected();
+            boolean isCurrentlyConnected = determineIfConnected();
 
             if (isCurrentlyConnected != isConnected) {
                 isConnected = isCurrentlyConnected;
-                if(isConnected) {
-                    DICommLog.i(DICommLog.NETWORKMONITOR, "Connected to local network: " + getActiveNetworkInfo().getTypeName());
-                }else{
-                    DICommLog.i(DICommLog.NETWORKMONITOR, "Not connected to local network" );
-                }
 
+                if (isConnected) {
+                    final String networkType = activeNetworkInfo == null ? "N/A" : activeNetworkInfo.getTypeName();
+                    DICommLog.i(DICommLog.NETWORKMONITOR, String.format(Locale.US, "Connected to local network [%s]", networkType));
+                } else {
+                    DICommLog.i(DICommLog.NETWORKMONITOR, "Not connected to local network.");
+                }
                 notifyConnectivityListeners();
             }
         }
@@ -70,7 +72,7 @@ public abstract class ConnectivityMonitor implements Availability {
 
         return new ConnectivityMonitor(context) {
             @Override
-            protected boolean calculateIsConnected() {
+            protected boolean determineIfConnected() {
                 Network network = getActiveNetwork();
                 for (int capability : networkCapabilities) {
                     if (connectivityManager.getNetworkCapabilities(network).hasCapability(capability)) {
@@ -96,7 +98,7 @@ public abstract class ConnectivityMonitor implements Availability {
 
         return new ConnectivityMonitor(context) {
             @Override
-            protected boolean calculateIsConnected() {
+            protected boolean determineIfConnected() {
                 final NetworkInfo activeNetworkInfo = getActiveNetworkInfo();
                 if (activeNetworkInfo == null) {
                     return false;
@@ -118,7 +120,7 @@ public abstract class ConnectivityMonitor implements Availability {
         context.registerReceiver(connectivityReceiver, createFilter());
     }
 
-    abstract protected boolean calculateIsConnected();
+    abstract protected boolean determineIfConnected();
 
     public boolean isConnected() {
         return isConnected;
@@ -150,18 +152,18 @@ public abstract class ConnectivityMonitor implements Availability {
     }
 
     @Override
-    public void addAvailabilityListener(@NonNull AvailabilityListener listener) {
+    public void addAvailabilityListener(@NonNull AvailabilityListener<ConnectivityMonitor> listener) {
         availabilityListeners.add(listener);
         listener.onAvailabilityChanged(this);
     }
 
     @Override
-    public void removeAvailabilityListener(@NonNull AvailabilityListener listener) {
+    public void removeAvailabilityListener(@NonNull AvailabilityListener<ConnectivityMonitor> listener) {
         availabilityListeners.remove(listener);
     }
 
     private void notifyConnectivityListeners() {
-        for (AvailabilityListener listener : availabilityListeners) {
+        for (AvailabilityListener<ConnectivityMonitor> listener : availabilityListeners) {
             listener.onAvailabilityChanged(this);
         }
     }

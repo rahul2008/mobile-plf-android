@@ -15,7 +15,6 @@ import com.philips.cdp2.commlib.core.appliance.Appliance;
 import com.philips.cdp2.commlib.core.appliance.ApplianceManager;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
-import com.philips.cdp2.commlib.core.util.Availability;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.communication.LanCommunicationStrategy;
@@ -25,11 +24,12 @@ import com.philips.cdp2.commlib.lan.util.WifiNetworkProvider;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Executors;
 
 import static android.net.ConnectivityManager.TYPE_WIFI;
 
-public class LanTransportContext implements TransportContext {
+public class LanTransportContext implements TransportContext<LanTransportContext> {
 
     private static final String TAG = "LanTransportContext";
 
@@ -39,14 +39,16 @@ public class LanTransportContext implements TransportContext {
     private final ConnectivityMonitor connectivityMonitor;
     private final WifiNetworkProvider wifiNetworkProvider;
 
-    private Availability.AvailabilityListener lanAvailabilityListener = new Availability.AvailabilityListener() {
+    private AvailabilityListener<ConnectivityMonitor> lanAvailabilityListener = new AvailabilityListener<ConnectivityMonitor>() {
         @Override
-        public void onAvailabilityChanged(@NonNull Availability lan) {
-            isAvailable = lan.isAvailable();
+        public void onAvailabilityChanged(@NonNull ConnectivityMonitor connectivityMonitor) {
+            isAvailable = connectivityMonitor.isAvailable();
+            notifyAvailabilityListeners(LanTransportContext.this);
         }
     };
 
     private boolean isAvailable;
+    private Set<AvailabilityListener<LanTransportContext>> availabilityListeners = new CopyOnWriteArraySet<>();
 
     public LanTransportContext(@NonNull final Context context) {
         this.connectivityMonitor = ConnectivityMonitor.forNetworkTypes(context, TYPE_WIFI);
@@ -79,6 +81,23 @@ public class LanTransportContext implements TransportContext {
     @Override
     public boolean isAvailable() {
         return isAvailable;
+    }
+
+    @Override
+    public void addAvailabilityListener(@NonNull AvailabilityListener<LanTransportContext> listener) {
+        availabilityListeners.add(listener);
+        listener.onAvailabilityChanged(this);
+    }
+
+    @Override
+    public void removeAvailabilityListener(@NonNull AvailabilityListener<LanTransportContext> listener) {
+        availabilityListeners.remove(listener);
+    }
+
+    private void notifyAvailabilityListeners(@NonNull LanTransportContext lanTransportContext) {
+        for (AvailabilityListener<LanTransportContext> listener : availabilityListeners) {
+            listener.onAvailabilityChanged(lanTransportContext);
+        }
     }
 
     /**

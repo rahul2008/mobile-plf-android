@@ -207,9 +207,9 @@ public abstract class Appliance implements Availability<Appliance> {
 
     @Override
     public void addAvailabilityListener(@NonNull final AvailabilityListener<Appliance> listener) {
-        communicationStrategy.addAvailabilityListener(new AvailabilityListener() {
+        communicationStrategy.addAvailabilityListener(new AvailabilityListener<CommunicationStrategy>() {
             @Override
-            public void onAvailabilityChanged(@NonNull Availability object) {
+            public void onAvailabilityChanged(@NonNull CommunicationStrategy object) {
                 listener.onAvailabilityChanged(Appliance.this);
             }
         });
@@ -217,9 +217,9 @@ public abstract class Appliance implements Availability<Appliance> {
 
     @Override
     public void removeAvailabilityListener(@NonNull final AvailabilityListener<Appliance> listener) {
-        communicationStrategy.removeAvailabilityListener(new AvailabilityListener() {
+        communicationStrategy.removeAvailabilityListener(new AvailabilityListener<CommunicationStrategy>() {
             @Override
-            public void onAvailabilityChanged(@NonNull Availability object) {
+            public void onAvailabilityChanged(@NonNull CommunicationStrategy object) {
                 listener.onAvailabilityChanged(Appliance.this);
             }
         });

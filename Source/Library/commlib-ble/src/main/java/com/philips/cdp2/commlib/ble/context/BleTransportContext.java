@@ -18,16 +18,30 @@ import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
 import com.philips.cdp2.commlib.core.exception.TransportUnavailableException;
 import com.philips.pins.shinelib.SHNCentral;
+import com.philips.pins.shinelib.SHNCentral.SHNCentralListener;
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.utility.SHNLogger;
 
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Executors;
 
-public class BleTransportContext implements TransportContext {
+public class BleTransportContext implements TransportContext<BleTransportContext> {
 
     private final BleDeviceCache deviceCache;
     private final SHNCentral shnCentral;
     private final DiscoveryStrategy discoveryStrategy;
+    private Set<AvailabilityListener<BleTransportContext>> availabilityListeners = new CopyOnWriteArraySet<>();
+
+    private boolean isAvailable;
+
+    private final SHNCentralListener shnCentralListener = new SHNCentralListener() {
+        @Override
+        public void onStateUpdated(@NonNull SHNCentral shnCentral) {
+            isAvailable = shnCentral.isBluetoothAdapterEnabled();
+            notifyAvailabilityListeners(BleTransportContext.this);
+        }
+    };
 
     /**
      * Instantiates a new BleTransportContext.
@@ -57,7 +71,10 @@ public class BleTransportContext implements TransportContext {
             throw new TransportUnavailableException("Bluetooth hardware unavailable.", e);
         }
         this.shnCentral.registerDeviceDefinition(new ReferenceNodeDeviceDefinitionInfo());
+        this.shnCentral.registerShnCentralListener(shnCentralListener);
+
         this.discoveryStrategy = new BleDiscoveryStrategy(context, deviceCache, shnCentral.getShnDeviceScanner());
+        this.isAvailable = shnCentral.isBluetoothAdapterEnabled();
     }
 
     @Override
@@ -72,7 +89,24 @@ public class BleTransportContext implements TransportContext {
 
     @Override
     public boolean isAvailable() {
-        return shnCentral.isBluetoothAdapterEnabled();
+        return isAvailable;
+    }
+
+    @Override
+    public void addAvailabilityListener(@NonNull AvailabilityListener<BleTransportContext> listener) {
+        availabilityListeners.add(listener);
+        listener.onAvailabilityChanged(this);
+    }
+
+    @Override
+    public void removeAvailabilityListener(@NonNull AvailabilityListener<BleTransportContext> listener) {
+        availabilityListeners.remove(listener);
+    }
+
+    private void notifyAvailabilityListeners(@NonNull BleTransportContext availability) {
+        for (AvailabilityListener<BleTransportContext> listener : availabilityListeners) {
+            listener.onAvailabilityChanged(availability);
+        }
     }
 
     private SHNCentral createBlueLib(Context context, boolean showPopupIfBLEIsTurnedOff) throws SHNBluetoothHardwareUnavailableException {

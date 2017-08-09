@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
-import com.philips.cdp2.commlib.core.util.Availability;
+import com.philips.cdp2.commlib.core.util.Availability.AvailabilityListener;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
 import java.util.Map;
@@ -41,23 +41,23 @@ public class ApplianceManager {
 
     private final DICommApplianceFactory applianceFactory;
 
-    private final Set<ApplianceListener> applianceListeners = new CopyOnWriteArraySet<>();
+    private final Set<ApplianceListener<? extends Appliance>> applianceListeners = new CopyOnWriteArraySet<>();
     private Map<String, Appliance> availableAppliances = new ConcurrentHashMap<>();
 
     private final Handler handler = HandlerProvider.createHandler();
 
-    private final Availability.AvailabilityListener<Appliance> applianceAvailabilityListener = new Availability.AvailabilityListener<Appliance>() {
+    private final AvailabilityListener<Appliance> applianceAvailabilityListener = new AvailabilityListener<Appliance>() {
         @Override
         public void onAvailabilityChanged(@NonNull Appliance appliance) {
             final String cppId = appliance.getNetworkNode().getCppId();
-            if (!appliance.isAvailable()) {
-                if (availableAppliances.remove(cppId) != null) {
-                    notifyApplianceLost(appliance);
-                }
-            } else {
+            if (appliance.isAvailable()) {
                 if (!availableAppliances.containsKey(cppId)) {
                     availableAppliances.put(cppId, appliance);
                     notifyApplianceFound(appliance);
+                }
+            } else {
+                if (availableAppliances.remove(cppId) != null) {
+                    notifyApplianceLost(appliance);
                 }
             }
         }
@@ -112,10 +112,6 @@ public class ApplianceManager {
         }
         for (DiscoveryStrategy strategy : discoveryStrategies) {
             strategy.addDiscoveryListener(discoveryListener);
-        }
-
-        if (applianceFactory == null) {
-            throw new IllegalArgumentException("This class needs to be constructed with a non-null appliance factory.");
         }
         this.applianceFactory = applianceFactory;
 

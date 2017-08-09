@@ -19,10 +19,12 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 public abstract class CommunicationStrategy implements Availability<CommunicationStrategy> {
 
-    public static final String SUBSCRIBER_KEY = "subscriber";
-    public static final String TTL_KEY = "ttl";
+    private static final String SUBSCRIBER_KEY = "subscriber";
+    private static final String TTL_KEY = "ttl";
+
     private boolean cachedAvailability;
-    protected Set<AvailabilityListener<CommunicationStrategy>> availabilityListeners = new CopyOnWriteArraySet<>();
+
+    private Set<AvailabilityListener<CommunicationStrategy>> availabilityListeners = new CopyOnWriteArraySet<>();
 
     private final Set<SubscriptionEventListener> subscriptionEventListeners = new CopyOnWriteArraySet<>();
 

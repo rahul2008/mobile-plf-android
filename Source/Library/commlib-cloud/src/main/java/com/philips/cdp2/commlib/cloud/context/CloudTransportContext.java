@@ -15,25 +15,29 @@ import com.philips.cdp2.commlib.cloud.communication.CloudCommunicationStrategy;
 import com.philips.cdp2.commlib.core.CommCentral;
 import com.philips.cdp2.commlib.core.context.TransportContext;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
-import com.philips.cdp2.commlib.core.util.Availability;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
+
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import static android.net.ConnectivityManager.TYPE_MOBILE;
 import static android.net.ConnectivityManager.TYPE_WIFI;
 
-public class CloudTransportContext implements TransportContext {
+public class CloudTransportContext implements TransportContext<CloudTransportContext> {
     private static CloudController cloudController;
 
     private final ConnectivityMonitor connectivityMonitor;
 
-    private final Availability.AvailabilityListener availabilityListener = new Availability.AvailabilityListener() {
+    private final AvailabilityListener<ConnectivityMonitor> availabilityListener = new AvailabilityListener<ConnectivityMonitor>() {
         @Override
-        public void onAvailabilityChanged(@NonNull Availability cloud) {
-            isAvailable = cloud.isAvailable();
+        public void onAvailabilityChanged(@NonNull ConnectivityMonitor connectivityMonitor) {
+            isAvailable = connectivityMonitor.isAvailable();
+            notifyAvailabilityListeners(CloudTransportContext.this);
         }
     };
 
     private boolean isAvailable;
+    private Set<AvailabilityListener<CloudTransportContext>> availabilityListeners = new CopyOnWriteArraySet<>();
 
     public CloudTransportContext(final @NonNull Context context, @NonNull final CloudController cloudController) {
         this.connectivityMonitor = ConnectivityMonitor.forNetworkTypes(context, TYPE_MOBILE, TYPE_WIFI);
@@ -58,9 +62,26 @@ public class CloudTransportContext implements TransportContext {
         return isAvailable;
     }
 
+    @Override
+    public void addAvailabilityListener(@NonNull AvailabilityListener<CloudTransportContext> listener) {
+        availabilityListeners.add(listener);
+        listener.onAvailabilityChanged(this);
+    }
+
+    @Override
+    public void removeAvailabilityListener(@NonNull AvailabilityListener<CloudTransportContext> listener) {
+        availabilityListeners.remove(listener);
+    }
+
     public static CloudController getCloudController() {
         updateAppId();
         return cloudController;
+    }
+
+    private void notifyAvailabilityListeners(@NonNull CloudTransportContext availability) {
+        for (AvailabilityListener<CloudTransportContext> listener : availabilityListeners) {
+            listener.onAvailabilityChanged(availability);
+        }
     }
 
     private static void updateAppId() {
