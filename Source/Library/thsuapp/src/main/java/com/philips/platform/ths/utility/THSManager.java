@@ -57,6 +57,7 @@ import com.americanwell.sdk.manager.SDKValidatedCallback;
 import com.americanwell.sdk.manager.StartVisitCallback;
 import com.americanwell.sdk.manager.ValidationReason;
 import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.configuration.HSDPConfiguration;
 import com.philips.cdp.registration.configuration.URConfigurationConstants;
 import com.philips.platform.appinfra.AppInfraInterface;
 import com.philips.platform.appinfra.appconfiguration.AppConfigurationInterface;
@@ -1191,7 +1192,8 @@ public class THSManager {
     private String getAppName() {
         AppConfigurationInterface.AppConfigurationError configError = new
                 AppConfigurationInterface.AppConfigurationError();
-        Object propertyForKey = (getAppInfra().getConfigInterface().getPropertyForKey("appname", "telehealthservices", configError));
+        Object propertyForKey = (getAppInfra().getConfigInterface().getPropertyForKey(URConfigurationConstants.HSDP_CONFIGURATION_APPLICATION_NAME,
+                URConfigurationConstants.UR, configError));
         return propertyForKey.toString();
     }
 

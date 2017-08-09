@@ -46,9 +46,6 @@
   "dataservices": {
     "appname": "OneBackend"
   },
-  "telehealthservices": {
-    "appname": "OneBackend"
-  },
   "appinfra": {
     "appidentity.micrositeId" : "77000",
     "appidentity.sector"  : "b2c",
