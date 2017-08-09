@@ -8,24 +8,24 @@ package com.philips.platform.appinfra.tagging;
 /**
  *  The AppTagging Constants Class.
  */
-public class AppTaggingConstants {
+ class AppTaggingConstants {
 
 
-    public static final String BUNDLE_ID = "bundleId";
+    static final String BUNDLE_ID = "bundleId";
 
-    public static final String LANGUAGE_KEY = "language";
+    static final String LANGUAGE_KEY = "language";
 
-    public static final String APPSID_KEY = "appsId";
+    static final String APPSID_KEY = "appsId";
 
-    public static final String LOCAL_TIMESTAMP_KEY = "localTimestamp";
+    static final String LOCAL_TIMESTAMP_KEY = "localTimestamp";
 
-    public static final String UTC_TIMESTAMP_KEY = "UTCTimestamp";
+    static final String UTC_TIMESTAMP_KEY = "UTCTimestamp";
 
-    public static final String PREVIOUS_PAGE_NAME = "previousPageName";
+    static final String PREVIOUS_PAGE_NAME = "previousPageName";
 
-    public static final String COMPONENT_ID = "componentId";
+    static final String COMPONENT_ID = "componentId";
 
-    public static final String COMPONENT_VERSION = "componentVersion";
+    static final String COMPONENT_VERSION = "componentVersion";
 
 
 }
