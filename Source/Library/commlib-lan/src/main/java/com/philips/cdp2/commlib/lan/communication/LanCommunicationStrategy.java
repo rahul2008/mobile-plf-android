@@ -20,6 +20,7 @@ import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp2.commlib.core.communication.CommunicationStrategy;
 import com.philips.cdp2.commlib.core.util.Availability;
 import com.philips.cdp2.commlib.core.util.ConnectivityMonitor;
+import com.philips.cdp2.commlib.core.util.ObservableCollection;
 import com.philips.cdp2.commlib.lan.LanDeviceCache;
 import com.philips.cdp2.commlib.lan.security.SslPinTrustManager;
 import com.philips.cdp2.commlib.lan.subscription.LocalSubscriptionHandler;
@@ -63,14 +64,6 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
         this.deviceCache = deviceCache;
         this.connectivityMonitor = connectivityMonitor;
 
-        connectivityMonitor.addAvailabilityListener(new AvailabilityListener() {
-            @Override
-            public void onAvailabilityChanged(@NonNull Availability ignored) {
-                notifyAvailabilityChanged();
-                // TODO FIXME Fix subscriptions on reconnect?
-            }
-        });
-
         if (networkNode.isHttps()) {
             try {
                 sslContext = createSSLContext();
@@ -84,6 +77,26 @@ public class LanCommunicationStrategy extends CommunicationStrategy {
 
         requestQueue = createRequestQueue();
         localSubscriptionHandler = new LocalSubscriptionHandler(diSecurity, UdpEventReceiver.getInstance());
+
+        connectivityMonitor.addAvailabilityListener(new AvailabilityListener() {
+            @Override
+            public void onAvailabilityChanged(@NonNull Availability ignored) {
+                notifyAvailabilityChanged();
+                // TODO FIXME Fix subscriptions on reconnect?
+            }
+        });
+
+        deviceCache.addModificationListener(networkNode.getCppId(), new ObservableCollection.ModificationListener<String>() {
+            @Override
+            public void onRemoved(String object) {
+                notifyAvailabilityChanged();
+            }
+
+            @Override
+            public void onAdded(String object) {
+                notifyAvailabilityChanged();
+            }
+        });
     }
 
     @VisibleForTesting

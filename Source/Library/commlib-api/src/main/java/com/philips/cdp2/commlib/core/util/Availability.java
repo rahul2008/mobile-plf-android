@@ -7,15 +7,15 @@ package com.philips.cdp2.commlib.core.util;
 
 import android.support.annotation.NonNull;
 
-public interface Availability {
+public interface Availability<T extends Availability> {
 
     boolean isAvailable();
 
-    void addAvailabilityListener(@NonNull AvailabilityListener listener);
+    void addAvailabilityListener(@NonNull AvailabilityListener<T> listener);
 
-    void removeAvailabilityListener(@NonNull AvailabilityListener listener);
+    void removeAvailabilityListener(@NonNull AvailabilityListener<T> listener);
 
-    interface AvailabilityListener {
-        void onAvailabilityChanged(@NonNull Availability object);
+    interface AvailabilityListener<T extends Availability> {
+        void onAvailabilityChanged(@NonNull T object);
     }
 }

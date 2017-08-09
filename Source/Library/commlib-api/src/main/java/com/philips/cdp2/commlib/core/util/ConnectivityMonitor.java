@@ -45,7 +45,11 @@ public abstract class ConnectivityMonitor implements Availability {
 
             if (isCurrentlyConnected != isConnected) {
                 isConnected = isCurrentlyConnected;
-                DICommLog.i(DICommLog.NETWORKMONITOR, "Connected via network: " + getActiveNetworkInfo().getTypeName());
+                if(isConnected) {
+                    DICommLog.i(DICommLog.NETWORKMONITOR, "Connected to local network: " + getActiveNetworkInfo().getTypeName());
+                }else{
+                    DICommLog.i(DICommLog.NETWORKMONITOR, "Not connected to local network" );
+                }
 
                 notifyConnectivityListeners();
             }
