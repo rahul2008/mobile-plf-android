@@ -21,9 +21,15 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/pth_recycler_view_practice"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/pth_id_practice_label"
         android:layout_centerInParent="true" />
+
+    <com.philips.platform.uid.view.widget.Button
+        android:id="@+id/ths_appointment_list"
+        android:layout_width="match_parent"
+        android:text="Appointments"
+        android:layout_height="wrap_content" />
 
 
 </RelativeLayout>

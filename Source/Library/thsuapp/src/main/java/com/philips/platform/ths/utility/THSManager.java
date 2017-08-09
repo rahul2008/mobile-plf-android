@@ -107,6 +107,7 @@ import com.philips.platform.ths.registration.THSCheckConsumerExistsCallback;
 import com.philips.platform.ths.registration.THSConsumer;
 import com.philips.platform.ths.sdkerrors.THSSDKError;
 import com.philips.platform.ths.sdkerrors.THSSDKPasswordError;
+import com.philips.platform.ths.settings.THSGetAppointmentsCallback;
 import com.philips.platform.ths.visit.THSCancelVisitCallBack;
 import com.philips.platform.ths.visit.THSStartVisitCallback;
 import com.philips.platform.ths.welcome.THSInitializeCallBack;
@@ -451,17 +452,17 @@ public class THSManager {
         });
     }*/
 
-    public void getAppointments(Context context, SDKLocalDate sdkLocalDate) throws AWSDKInstantiationException {
+    public void getAppointments(Context context, SDKLocalDate sdkLocalDate, final THSGetAppointmentsCallback thsGetAppointmentsCallback) throws AWSDKInstantiationException {
         getAwsdk(context).getConsumerManager().getAppointments(getPTHConsumer().getConsumer(),sdkLocalDate,new SDKCallback<List< Appointment >, SDKError>(){
 
             @Override
             public void onResponse(List<Appointment> appointments, SDKError sdkError) {
-
+                thsGetAppointmentsCallback.onResponse(appointments,sdkError);
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-
+                thsGetAppointmentsCallback.onFailure(throwable);
             }
         });
 
