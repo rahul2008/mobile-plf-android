@@ -35,6 +35,26 @@
                 android:text="Submit" />
         </RelativeLayout>
 
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/rbtn_country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Country" />
+
+            <RadioButton
+                android:id="@+id/rbtn_language"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Language" />
+
+        </RadioGroup>
+
         <TextView
             android:id="@+id/response_view"
             android:layout_width="match_parent"

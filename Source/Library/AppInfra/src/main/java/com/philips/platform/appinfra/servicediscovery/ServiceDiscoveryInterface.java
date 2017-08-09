@@ -7,6 +7,7 @@ package com.philips.platform.appinfra.servicediscovery;
 
 import android.content.BroadcastReceiver;
 
+import com.philips.platform.appinfra.keybag.model.AIKMService;
 import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 
 import java.net.URL;
@@ -63,7 +64,7 @@ public interface ServiceDiscoveryInterface {
 
     //TODO - to add java document
     interface OnGetKeyBagMapListener extends OnErrorListener {
-        void onSuccess(Map<String, ServiceDiscoveryService> urlMap, ArrayList<Map> keyBags);
+        void onSuccess(ArrayList<AIKMService> aikmServices);
     }
 
     /**

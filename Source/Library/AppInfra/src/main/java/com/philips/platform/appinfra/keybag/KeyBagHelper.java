@@ -12,7 +12,9 @@ import android.util.Log;
 
 import com.philips.platform.appinfra.AppInfra;
 import com.philips.platform.appinfra.AppInfraLogEventID;
+import com.philips.platform.appinfra.keybag.model.AIKMService;
 import com.philips.platform.appinfra.servicediscovery.ServiceDiscoveryInterface;
+import com.philips.platform.appinfra.servicediscovery.model.ServiceDiscoveryService;
 import com.philips.platform.philipsdevtools.ServiceDiscoveryManagerCSV;
 
 import org.json.JSONArray;
@@ -120,22 +122,28 @@ class KeyBagHelper {
     }
 
 
-    Map getDeObfuscatedMap(String serviceId, String url) {
-        if (serviceId != null) {
-            String keyBagHelperIndex = getKeyBagIndex(url);
-            int index = Integer.parseInt(keyBagHelperIndex);
-            Object propertiesForKey = getPropertiesForKey(serviceId);
-            if (propertiesForKey instanceof JSONArray) {
-                JSONArray jsonArray = (JSONArray) propertiesForKey;
-                try {
-                    JSONObject jsonObject = (JSONObject) jsonArray.get(index);
-                    return mapData(jsonObject, index, serviceId);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+    void mapDeObfuscatedValue(Map<String, ServiceDiscoveryService> urlMap, ArrayList<AIKMService> aikmServices) {
+        int i = 0;
+        for (Object object : urlMap.entrySet()) {
+            Map.Entry pair = (Map.Entry) object;
+            ServiceDiscoveryService value = (ServiceDiscoveryService) pair.getValue();
+            String serviceId = aikmServices.get(i).getServiceId();
+            if (serviceId != null) {
+                String keyBagHelperIndex = getKeyBagIndex(value.getConfigUrls());
+                int index = Integer.parseInt(keyBagHelperIndex);
+                Object propertiesForKey = getPropertiesForKey(serviceId);
+                if (propertiesForKey instanceof JSONArray) {
+                    JSONArray jsonArray = (JSONArray) propertiesForKey;
+                    try {
+                        JSONObject jsonObject = (JSONObject) jsonArray.get(index);
+                        aikmServices.get(i).setKeyBag(mapData(jsonObject, index, serviceId));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
+            i = i + 1;
         }
-        return null;
     }
 
 
@@ -184,14 +192,14 @@ class KeyBagHelper {
         }
         return null;
     }
-
+/*
     void getIndexFromServiceDiscovery(String appendedServiceId, KeyBagInterface.AIKMServiceDiscoveryPreference aikmServiceDiscoveryPreference, ServiceDiscoveryInterface.OnGetServiceUrlListener onGetServiceUrlListener) {
         if (aikmServiceDiscoveryPreference == KeyBagInterface.AIKMServiceDiscoveryPreference.COUNTRY_PREFERENCE) {
             sdmCSV.getServiceUrlWithCountryPreference(appendedServiceId, onGetServiceUrlListener);
         } else if (aikmServiceDiscoveryPreference == KeyBagInterface.AIKMServiceDiscoveryPreference.LANGUAGE_PREFERENCE) {
             sdmCSV.getServiceUrlWithLanguagePreference(appendedServiceId, onGetServiceUrlListener);
         }
-    }
+    }*/
 
     //TODO - need to remove this once we get keybag url's from DS
     private void initServiceDiscovery() {
@@ -210,12 +218,21 @@ class KeyBagHelper {
             }
         });
     }
-
+/*
     void getServiceDiscoveryUrlMap(ArrayList<String> serviceIds, KeyBagInterface.AIKMServiceDiscoveryPreference aikmServiceDiscoveryPreference, ServiceDiscoveryInterface.OnGetServiceUrlMapListener onGetServiceUrlMapListener) {
         if (aikmServiceDiscoveryPreference == KeyBagInterface.AIKMServiceDiscoveryPreference.COUNTRY_PREFERENCE) {
             sdmCSV.getServicesWithCountryPreference(serviceIds, onGetServiceUrlMapListener);
         } else if (aikmServiceDiscoveryPreference == KeyBagInterface.AIKMServiceDiscoveryPreference.LANGUAGE_PREFERENCE) {
             sdmCSV.getServicesWithLanguagePreference(serviceIds, onGetServiceUrlMapListener);
         }
+    }*/
+
+    ArrayList<String> getAppendedServiceIds(ArrayList<String> serviceIds) {
+        ArrayList<String> appendedServiceIds = new ArrayList<>();
+        for (String serviceId : serviceIds) {
+            if (!TextUtils.isEmpty(serviceId))
+                appendedServiceIds.add(serviceId.concat(".kindex"));
+        }
+        return appendedServiceIds;
     }
 }
