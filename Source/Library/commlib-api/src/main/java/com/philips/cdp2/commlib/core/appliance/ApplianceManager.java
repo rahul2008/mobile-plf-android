@@ -2,6 +2,7 @@
  * Copyright (c) 2015-2017 Koninklijke Philips N.V.
  * All rights reserved.
  */
+
 package com.philips.cdp2.commlib.core.appliance;
 
 import android.os.Handler;
@@ -10,6 +11,7 @@ import android.support.annotation.NonNull;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp2.commlib.core.discovery.DiscoveryStrategy;
+import com.philips.cdp2.commlib.core.util.Availability;
 import com.philips.cdp2.commlib.core.util.HandlerProvider;
 
 import java.util.Map;
@@ -44,6 +46,23 @@ public class ApplianceManager {
 
     private final Handler handler = HandlerProvider.createHandler();
 
+    private final Availability.AvailabilityListener<Appliance> applianceAvailabilityListener = new Availability.AvailabilityListener<Appliance>() {
+        @Override
+        public void onAvailabilityChanged(@NonNull Appliance appliance) {
+            final String cppId = appliance.getNetworkNode().getCppId();
+            if (!appliance.isAvailable()) {
+                if (availableAppliances.remove(cppId) != null) {
+                    notifyApplianceLost(appliance);
+                }
+            } else {
+                if (!availableAppliances.containsKey(cppId)) {
+                    availableAppliances.put(cppId, appliance);
+                    notifyApplianceFound(appliance);
+                }
+            }
+        }
+    };
+
     private final DiscoveryStrategy.DiscoveryListener discoveryListener = new DiscoveryStrategy.DiscoveryListener() {
         @Override
         public void onDiscoveryStarted() {
@@ -55,6 +74,7 @@ public class ApplianceManager {
                 onNetworkNodeUpdated(networkNode);
             } else if (applianceFactory.canCreateApplianceForNode(networkNode)) {
                 final Appliance appliance = (Appliance) applianceFactory.createApplianceForNode(networkNode);
+                appliance.addAvailabilityListener(applianceAvailabilityListener);
                 availableAppliances.put(networkNode.getCppId(), appliance);
                 notifyApplianceFound(appliance);
             }

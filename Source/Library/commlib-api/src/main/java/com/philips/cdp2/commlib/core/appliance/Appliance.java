@@ -31,7 +31,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
  *
  * @publicApi
  */
-public abstract class Appliance implements Availability {
+public abstract class Appliance implements Availability<Appliance> {
 
     protected final NetworkNode networkNode;
 
@@ -44,7 +44,7 @@ public abstract class Appliance implements Availability {
     protected final CommunicationStrategy communicationStrategy;
 
     private final Set<DICommPort> ports = new HashSet<>();
-    private final Set<AvailabilityListener> availabilityListeners = new CopyOnWriteArraySet<>();
+    private final Set<AvailabilityListener<Appliance>> availabilityListeners = new CopyOnWriteArraySet<>();
 
     private SubscriptionEventListener subscriptionEventListener = new SubscriptionEventListener() {
 
@@ -206,13 +206,23 @@ public abstract class Appliance implements Availability {
     }
 
     @Override
-    public void addAvailabilityListener(@NonNull AvailabilityListener listener) {
-        communicationStrategy.addAvailabilityListener(listener);
+    public void addAvailabilityListener(@NonNull final AvailabilityListener<Appliance> listener) {
+        communicationStrategy.addAvailabilityListener(new AvailabilityListener() {
+            @Override
+            public void onAvailabilityChanged(@NonNull Availability object) {
+                listener.onAvailabilityChanged(Appliance.this);
+            }
+        });
     }
 
     @Override
-    public void removeAvailabilityListener(@NonNull AvailabilityListener listener) {
-        communicationStrategy.removeAvailabilityListener(listener);
+    public void removeAvailabilityListener(@NonNull final AvailabilityListener<Appliance> listener) {
+        communicationStrategy.removeAvailabilityListener(new AvailabilityListener() {
+            @Override
+            public void onAvailabilityChanged(@NonNull Availability object) {
+                listener.onAvailabilityChanged(Appliance.this);
+            }
+        });
     }
 
     @Override

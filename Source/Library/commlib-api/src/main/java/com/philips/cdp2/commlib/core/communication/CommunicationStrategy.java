@@ -17,12 +17,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-public abstract class CommunicationStrategy implements Availability {
+public abstract class CommunicationStrategy implements Availability<CommunicationStrategy> {
 
     public static final String SUBSCRIBER_KEY = "subscriber";
     public static final String TTL_KEY = "ttl";
     private boolean cachedAvailability;
-    protected Set<AvailabilityListener> availabilityListeners = new CopyOnWriteArraySet<>();
+    protected Set<AvailabilityListener<CommunicationStrategy>> availabilityListeners = new CopyOnWriteArraySet<>();
 
     private final Set<SubscriptionEventListener> subscriptionEventListeners = new CopyOnWriteArraySet<>();
 
@@ -71,20 +71,20 @@ public abstract class CommunicationStrategy implements Availability {
     }
 
     @Override
-    public void addAvailabilityListener(@NonNull AvailabilityListener listener) {
+    public void addAvailabilityListener(@NonNull AvailabilityListener<CommunicationStrategy> listener) {
         availabilityListeners.add(listener);
         listener.onAvailabilityChanged(this);
     }
 
     @Override
-    public void removeAvailabilityListener(@NonNull AvailabilityListener listener) {
+    public void removeAvailabilityListener(@NonNull AvailabilityListener<CommunicationStrategy> listener) {
         availabilityListeners.remove(listener);
     }
 
     protected void notifyAvailabilityChanged() {
         if (cachedAvailability != isAvailable()) {
             cachedAvailability = isAvailable();
-            for (AvailabilityListener listener : availabilityListeners) {
+            for (AvailabilityListener<CommunicationStrategy> listener : availabilityListeners) {
                 listener.onAvailabilityChanged(this);
             }
         }
