@@ -36,6 +36,7 @@ public class THSScheduledVisitsPresenter implements THSBasePresenter,THSGetAppoi
     @Override
     public void onResponse(List<Appointment> appointments, SDKError sdkError) {
         AmwellLog.i(AmwellLog.LOG,"appoint response");
+        mThsScheduledVisitsFragment.updateList(appointments);
     }
 
     @Override

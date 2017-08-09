@@ -61,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/ths_cost_summary_initial_visit_cost_label"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/ths_list_space"
         android:background="@color/uid_gray_level_10"
         android:orientation="horizontal"></LinearLayout>
 
@@ -84,7 +84,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="@dimen/ths_list_space" />
 
 
     <com.philips.platform.uid.view.widget.Button

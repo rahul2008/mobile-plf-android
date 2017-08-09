@@ -4,20 +4,22 @@
     android:id="@+id/providerListItemLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingTop="16dp"
     android:orientation="vertical">
 
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/ths_number_of_visits"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="@string/ths_number_of_visits_scheduled"
+        style="@style/ths_list_header"
+        android:layout_height="wrap_content"
+        android:gravity="center"
         />
 
 
    <android.support.v7.widget.RecyclerView
        android:id="@+id/ths_visit_dates_list"
        android:layout_width="match_parent"
+       android:layout_below="@id/ths_number_of_visits"
        android:layout_height="wrap_content">
 
    </android.support.v7.widget.RecyclerView>

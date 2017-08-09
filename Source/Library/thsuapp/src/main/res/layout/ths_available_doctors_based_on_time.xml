@@ -107,6 +107,7 @@
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/number_of_available_doctors"
         android:layout_below="@id/no_available_container"
+        android:layout_height="wrap_content"
         style="@style/ths_list_header"
         android:layout_width="match_parent"
         android:paddingLeft="@dimen/pth_fab_margin"

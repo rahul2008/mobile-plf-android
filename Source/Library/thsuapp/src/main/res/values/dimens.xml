@@ -28,4 +28,6 @@
     <dimen name="ths_margin_top_registration_detail_title">24dp</dimen>
     <dimen name="ths_margin_bottom_more_details">12dp</dimen>
 
+    <!-- Settings -->
+    <dimen name="ths_list_space">8dp</dimen>
 </resources>

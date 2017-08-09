@@ -29,6 +29,7 @@
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/date"
         style="@style/ths_list_item"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
@@ -48,6 +49,7 @@
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/with"
         style="@style/ths_list_header"
+        android:layout_height="wrap_content"
         android:paddingTop="3dp"
         android:paddingBottom="3dp"
         android:layout_width="match_parent"
@@ -99,7 +101,7 @@
         android:layout_alignParentBottom="true">
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/set_remainder"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/ths_list_space"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/ths_set_remainder"

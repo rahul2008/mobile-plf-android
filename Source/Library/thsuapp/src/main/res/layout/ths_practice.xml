@@ -10,6 +10,7 @@
     <com.philips.platform.uid.view.widget.Label
         android:id="@+id/pth_id_practice_label"
         style="@style/ths_list_item_header"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:gravity="center_vertical"
         android:lineSpacingExtra="@dimen/pth_body_text_line_spacing_extra"

@@ -259,7 +259,7 @@
             android:id="@+id/detailsButtonOne"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="@dimen/ths_list_space" />
 
         <com.philips.platform.uid.view.widget.Button
             android:id="@+id/detailsButtonTwo"

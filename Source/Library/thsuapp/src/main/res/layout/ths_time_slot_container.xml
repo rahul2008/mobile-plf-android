@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:text="@string/ths_select_time"
         style="@style/ths_list_header"
+        android:layout_height="wrap_content"
         android:paddingRight="@dimen/pth_fab_margin"
         android:paddingLeft="@dimen/pth_fab_margin"
         />
@@ -43,8 +44,8 @@
         android:layout_height="wrap_content"
         android:columnWidth="100dp"
         android:numColumns="auto_fit"
-        android:verticalSpacing="8dp"
-        android:horizontalSpacing="8dp"
+        android:verticalSpacing="@dimen/ths_list_space"
+        android:horizontalSpacing="@dimen/ths_list_space"
         android:stretchMode="none"
         android:gravity="center"
         android:layout_marginBottom="20dp"
