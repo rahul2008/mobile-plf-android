@@ -24,4 +24,11 @@
 
    </android.support.v7.widget.RecyclerView>
 
+    <View
+        android:id="@+id/ths_scheduled_appintment_separator_below"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ths_list_space"
+        android:layout_below="@+id/ths_visit_dates_list"
+        android:background="?attr/uidSeparatorContentNormalBackgroundColor" />
+
 </RelativeLayout>

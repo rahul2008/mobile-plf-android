@@ -36,6 +36,8 @@
         android:layout_width="84dp"
         android:layout_height="84dp"
         android:src="@drawable/doctor_placeholder"
+        android:layout_marginTop="@dimen/pth_fab_margin"
+        android:layout_marginBottom="@dimen/pth_fab_margin"
         android:layout_alignParentTop="true" />
 
         <RelativeLayout
@@ -51,7 +53,7 @@
             android:layout_marginBottom="@dimen/uid_dot_navigation_icon_margin"
             android:text="Dr. Eylin White"
             android:textColor="?attr/uidContentItemDefaultNormalTitleTextColor"
-            android:textSize="@dimen/uid_recyclerview_item_title_text_size"
+            android:textSize="@dimen/pth_title_text"
 
             android:layout_marginLeft="@dimen/uid_label_margin_start"
             android:layout_marginStart="@dimen/uid_label_margin_start"
@@ -65,10 +67,19 @@
             android:layout_marginBottom="@dimen/uid_dot_navigation_icon_margin"
             android:text="Pediatrician"
             android:textColor="?attr/uidContentItemDefaultNormalDescriptorTextColor"
-            android:textSize="@dimen/uid_grid_descrption_size"
+            android:textSize="@dimen/pth_title_text"
             android:layout_marginLeft="@dimen/uid_label_margin_start"
             android:layout_marginStart="@dimen/uid_label_margin_start"
             />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:src="@mipmap/right_arrow_icon" />
         </RelativeLayout>
 
     </RelativeLayout>
