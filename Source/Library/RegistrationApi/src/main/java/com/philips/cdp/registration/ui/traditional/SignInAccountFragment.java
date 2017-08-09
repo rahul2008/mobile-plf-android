@@ -109,6 +109,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
     String resetPasswordSmsRedirectUri;
 
+    String verificationSmsCodeURL;
+
+    private String mEmail;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onCreate");
@@ -170,8 +174,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         applyParams(config, mRlSignInBtnContainer, width);
         applyParams(config, mRegError, width);
     }
-
-    private Bundle mBundle;
 
     @Override
     protected void handleOrientation(View view) {
@@ -298,8 +300,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
         mUser.loginUsingTraditional(mEmail, passwordValidationEditText.getText().toString(), this);
     }
-
-    private String mEmail;
 
     private void handleUiState() {
         if (networkUtility.isNetworkAvailable()) {
@@ -641,8 +641,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         map.put(AppTagingConstants.MOBILE_INAPPNATIFICATION, AppTagingConstants.MOBILE_RESEND_SMS_VERFICATION);
         AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
     }
-
-    String verificationSmsCodeURL;
 
     private void serviceDiscovery() {
         RLog.d(RLog.SERVICE_DISCOVERY, " Country :" + RegistrationHelper.getInstance().getCountryCode());
